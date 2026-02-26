@@ -14,16 +14,19 @@
     <MinVerMinimumMajorMinor>0.1</MinVerMinimumMajorMinor>
   </PropertyGroup>
 
-  <!-- src/ projects: packable, XML docs -->
+  <!-- src/ projects: packable, XML docs, signed -->
   <PropertyGroup Condition="$(MSBuildProjectDirectory.Contains('/src/'))">
     <IsPackable>true</IsPackable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)build/keys/keypair.snk</AssemblyOriginatorKeyFile>
     <Authors>Nullean and contributors</Authors>
     <Copyright>Nullean</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/nullean/mermaid-dotnet</PackageProjectUrl>
     <RepositoryUrl>https://github.com/nullean/mermaid-dotnet</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <PackageIcon>nuget-icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 

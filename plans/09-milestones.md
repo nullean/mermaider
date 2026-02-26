@@ -1,238 +1,189 @@
 # 09 — Phased Delivery Milestones
 
-Follows the [Elastic .NET Build](https://improved-broccoli-v92811n.pages.github.io) standards for scaffolding, testing, CI, and release.
-
-## Phase 0: Scaffolding (Day 1)
-
-**Goal:** Working solution structure following Elastic .NET conventions. Builds, tests run.
-
-### Tasks
-- [ ] Create `mermaid-dotnet.slnx` (`.slnx` format, not `.sln`)
-- [ ] Create `global.json` — SDK 10.0.100, `rollForward: latestFeature`
-- [ ] Create `Directory.Build.props`:
-  - `TargetFramework: net10.0`
-  - `LangVersion: latest`
-  - `Nullable: enable`, `ImplicitUsings: enable`
-  - `TreatWarningsAsErrors: true`
-  - `EnforceCodeStyleInBuild: true`
-  - `UseArtifactsOutput: true`
-  - `src/` conditional: `IsPackable`, `SignAssembly`, `GenerateDocumentationFile`
-  - `tests/` conditional: relaxed warnings, `IsTestProject: true`
-- [ ] Create `Directory.Packages.props`:
-  - `ManagePackageVersionsCentrally: true`
-  - `GlobalPackageReference: MinVer`
-  - All `PackageVersion` entries (Microsoft.Msagl, TUnit, AwesomeAssertions, Verify.TUnit, BenchmarkDotNet)
-- [ ] Create `.editorconfig` (Elastic standard: tabs, `var` everywhere, Allman braces, `_camelCase`, file-scoped namespaces, Apache 2.0 header template)
-- [ ] Create `src/Mermaid/Mermaid.csproj`
-- [ ] Create `tests/Mermaid.Tests/Mermaid.Tests.csproj` (TUnit + AwesomeAssertions)
-- [ ] Create `tests/Mermaid.Benchmarks/Mermaid.Benchmarks.csproj`
-- [ ] Create `build/` F# build project (Bullseye + Argu + Proc.Fs):
-  - `build.fsproj`, `BuildInformation.fs`, `CommandLine.fs`, `Targets.fs`, `Program.fs`
-- [ ] Create `build.sh` / `build.bat` entry points
-- [ ] Create `build/keys/keypair.snk` (strong name signing key)
-- [ ] Create `LICENSE.txt` (Apache 2.0)
-- [ ] Create `AGENTS.md` and `CLAUDE.md`
-- [ ] Create `.gitignore` and `.gitattributes`
-- [ ] Create `.github/workflows/ci.yml` (ubuntu + windows matrix)
-- [ ] Create `.github/workflows/release-drafter.yml`
-- [ ] Create `.github/workflows/license.yml` + `check-license-headers.sh`
-- [ ] Create stub `MermaidRenderer.cs` with `RenderSvg()` returning `"<svg/>"`
-- [ ] Create first TUnit test that calls `RenderSvg()` and passes
-- [ ] Verify `dotnet build` and `dotnet test` work
-- [ ] Verify `./build.sh build` works
-
-### Deliverable
-Green build with one passing test. Full Elastic .NET compliance from day one.
+Follows the [Nullean](https://github.com/nullean) org conventions as seen in
+[xunit-partitions](https://github.com/nullean/xunit-partitions).
 
 ---
 
-## Phase 1: Text Metrics + Theming (Days 2-3)
+## Phases 0–7: Core Implementation ✅
 
-**Goal:** Character width estimation and CSS theming — zero-risk foundation code.
+All core phases are **complete**:
 
-### Tasks
-- [ ] Port `CharWidths` — character class lookup tables (use `FrozenSet`)
-- [ ] Port `TextMetrics` — `MeasureTextWidth`, `MeasureMultiline`
-- [ ] Port `MultilineUtils` — `<br>` normalization, formatting tag stripping
-- [ ] Port `DiagramColors` record and `ColorMix` constants
-- [ ] Port `Themes` — all 15 built-in palettes (use `FrozenDictionary`)
-- [ ] Port `StyleBlock` — CSS variable derivation builder
-- [ ] Port `FontConstants` — sizes, weights, paddings, stroke widths
-- [ ] Write TUnit tests for text metrics (calibrate against TS reference values)
-- [ ] Write TUnit tests for theming
-
-### Deliverable
-Text measurement and theming are complete and tested. Foundation for node sizing and SVG rendering.
-
----
-
-## Phase 2: Flowchart Parser (Days 4-6)
-
-**Goal:** Parse flowchart Mermaid text into `MermaidGraph`.
-
-### Tasks
-- [ ] Define model records: `MermaidGraph`, `MermaidNode`, `MermaidEdge`, `MermaidSubgraph`
-- [ ] Define enums: `NodeShape`, `EdgeStyle`, `Direction`
-- [ ] Implement `DiagramDetector` — first-line sniffing
-- [ ] Implement `FlowchartParser` (source-generated regexes):
-  - [ ] Header parsing (`graph TD`, `flowchart LR`)
-  - [ ] Node shape detection (all 14 patterns, correct ordering)
-  - [ ] Arrow parsing (all 6 operators + bidirectional)
-  - [ ] Edge labels (`-->|text|`)
-  - [ ] Chained edges (`A --> B --> C`)
-  - [ ] `&` parallel links
-  - [ ] Subgraph start/end with nesting
-  - [ ] `classDef`, `class`, `style` statements
-  - [ ] `direction` override inside subgraphs
-  - [ ] `:::className` shorthand
-- [ ] Implement `StateParser`:
-  - [ ] `stateDiagram-v2` header
-  - [ ] State descriptions, aliases, transitions
-  - [ ] `[*]` pseudostates
-  - [ ] Composite states
-- [ ] Write comprehensive TUnit parser tests
-
-### Deliverable
-Can parse any flowchart/state diagram into a typed graph model. Fully tested.
-
----
-
-## Phase 3: Layout Engine Integration (Days 7-10)
-
-**Goal:** Compute x/y positions for all graph elements.
-
-### Tasks
-- [ ] Define `PositionedGraph`, `PositionedNode`, `PositionedEdge`, `PositionedGroup` records
-- [ ] Define `ILayoutEngine` interface
-- [ ] Implement `NodeSizing` — estimate node width/height from label + shape
-- [ ] Implement `MsaglLayoutEngine`:
-  - [ ] Convert `MermaidGraph` → MSAGL `GeometryGraph`
-  - [ ] Configure `SugiyamaLayoutSettings` (direction, spacing, edge routing)
-  - [ ] Handle subgraphs as MSAGL clusters
-  - [ ] Run layout, convert result → `PositionedGraph`
-- [ ] Implement `LayerAlignment` — snap staggered nodes
-- [ ] Implement `EdgeBundling` — merge fan-out/fan-in paths
-- [ ] Implement `ShapeClipping` — clip edges to diamond boundaries
-- [ ] Write layout tests
-- [ ] **Evaluate MSAGL output quality** — compare with beautiful-mermaid
-  - If insufficient: implement Jint + ELK.js fallback
-
-### Deliverable
-Parsed graphs get positioned with reasonable layouts.
-
-### Risk Mitigation
-Highest-risk phase. If MSAGL doesn't produce good layouts:
-1. Tune MSAGL settings extensively
-2. Add post-processing to improve output
-3. Fall back to Jint + ELK.js (known-good output)
-
----
-
-## Phase 4: SVG Renderer (Days 11-13)
-
-**Goal:** Render positioned graphs to complete SVG strings.
-
-### Tasks
-- [ ] Implement `SvgHelpers` — escape functions, SVG open tag
-- [ ] Implement `MarkerDefs` — arrow head markers
-- [ ] Implement `ShapeRenderer` — all 14 node shapes
-- [ ] Implement `EdgeRenderer` — polyline edges with markers
-- [ ] Implement `TextRenderer` — multi-line text with inline formatting
-- [ ] Implement `SvgRenderer` — orchestrate the full render pipeline
-- [ ] Wire up `MermaidRenderer.RenderSvg()` end-to-end
-- [ ] Create Verify golden file test suite:
-  - [ ] Simple 2-node flow
-  - [ ] All node shapes
-  - [ ] All edge styles
-  - [ ] Subgraph nesting
-  - [ ] State diagram
-  - [ ] Edge labels / multi-line labels / inline formatting
-  - [ ] All 15 themes
-- [ ] Visual review of all golden files
-
-### Deliverable
-**End-to-end flowchart/state SVG rendering works.** This is the MVP.
-
----
-
-## Phase 5: Sequence Diagrams (Days 14-17)
-
-**Goal:** Add sequence diagram support (independent pipeline).
-
-### Tasks
-- [ ] Define `SequenceDiagram` model types
-- [ ] Implement `SequenceParser`
-- [ ] Implement `SequenceLayout` (custom, no MSAGL)
-- [ ] Implement `SequenceRenderer` (custom SVG)
-- [ ] Wire into `MermaidRenderer.RenderSvg()` via diagram type detection
-- [ ] Add Verify golden file tests
-- [ ] Visual review
-
-### Deliverable
-Sequence diagrams render to SVG.
-
----
-
-## Phase 6: Class + ER Diagrams (Days 18-22)
-
-**Goal:** Add remaining diagram types.
-
-### Tasks
-- [ ] Class diagrams: model, parser, layout, renderer, tests
-- [ ] ER diagrams: model, parser, layout, renderer, tests
-
-### Deliverable
-All 5 diagram types render to SVG.
-
----
-
-## Phase 7: Polish & CLI (Days 23-25)
-
-**Goal:** Production readiness.
-
-### Tasks
-- [ ] Performance optimization pass (BenchmarkDotNet, profile, optimize)
-- [ ] API review — ensure public surface is minimal and clean
-- [ ] XML doc comments on all public types
-- [ ] `Mermaid.Cli` tool:
-  - [ ] Read from stdin or file argument
-  - [ ] Write SVG to stdout or file
-  - [ ] `--theme` flag, `--transparent` flag
-- [ ] NuGet package metadata in `Directory.Build.props`:
-  - Authors, Copyright, PackageLicenseExpression, PackageIcon
-- [ ] README.md with usage examples
-- [ ] Ensure `./build.sh release` produces NuGet packages
-
-### Deliverable
-Ship-ready library + CLI tool.
-
----
-
-## Summary Timeline
-
-| Phase | Duration | Deliverable |
-|---|---|---|
-| 0: Scaffolding | 1 day | Green build, full Elastic .NET compliance |
-| 1: Text + Theming | 2 days | Foundation components |
-| 2: Parser | 3 days | Flowchart/state parsing |
-| 3: Layout Engine | 4 days | Graph positioning (highest risk) |
-| 4: SVG Renderer | 3 days | **MVP — end-to-end flowcharts** |
-| 5: Sequence | 4 days | Sequence diagrams |
-| 6: Class + ER | 5 days | All diagram types |
-| 7: Polish + CLI | 3 days | Production ready |
-| **Total** | **~25 days** | |
-
-## Estimated Line Counts
-
-| Component | C# Lines (est.) |
+| Phase | Status |
 |---|---|
-| Models (all records/enums) | ~300 |
-| Parsers (all 5 types) | ~1,200 |
-| Layout (MSAGL integration + post-processing) | ~800 |
-| Rendering (SVG + shapes + text) | ~1,000 |
-| Theming | ~200 |
-| Text metrics | ~200 |
-| CLI tool | ~100 |
-| Tests | ~1,500 |
-| Build scripts (F#) | ~200 |
-| **Total** | **~5,500** |
+| 0: Scaffolding | ✅ `.slnx`, `global.json`, `Directory.Build.props`, `Directory.Packages.props`, `.editorconfig`, `LICENSE.txt` |
+| 1: Text Metrics + Theming | ✅ `CharWidths`, `TextMetrics`, `MultilineUtils`, 15 themes, `StyleBlock` |
+| 2: Flowchart + State Parser | ✅ `FlowchartParser`, `StateParser`, `DiagramDetector`, all node shapes/edge styles |
+| 3: Layout Engine | ✅ `MsaglLayoutEngine`, `NodeSizing`, subgraph positioning |
+| 4: SVG Renderer | ✅ `SvgRenderer`, all 14 node shapes, edge routing, Verify snapshot tests |
+| 5: Sequence Diagrams | ✅ `SequenceParser`, `SequenceLayout`, `SequenceSvgRenderer` |
+| 6: Class + ER Diagrams | ✅ `ClassParser`/`ErParser`, MSAGL layout, SVG renderers |
+| 7: Polish & CLI | ✅ `Mermaid.Cli`, visual styling, strict mode, SVG sanitization |
+
+**Current state:** 134 tests, 5 diagram types, CLI tool, gallery web server.
+
+---
+
+## Phase 8: Nullean Build Infrastructure
+
+**Goal:** Match the nullean org build/release conventions exactly.
+Reference: https://github.com/nullean/xunit-partitions
+
+### 8.1 — dotnet-tools.json
+
+- [ ] Create `.config/dotnet-tools.json` with:
+  - `minver-cli` 6.0.0
+  - `release-notes` 0.10.0
+  - `nupkg-validator` 0.10.1
+  - `assembly-differ` 0.16.0
+
+### 8.2 — Build Scripts (F# + Bullseye)
+
+- [ ] Create `build/scripts/scripts.fsproj`:
+  - `OutputType: Exe`, `TargetFramework: net10.0`, `IsPackable: false`
+  - Dependencies: `Argu 6.0.0`, `Bullseye 6.0.0`, `Proc 0.9.1`, `Fake.Tools.Git 5.15.0`
+  - `<PackageReference Update="MinVer" Version="6.0.0" />`
+- [ ] Create `build/scripts/Paths.fs`:
+  - `ToolName = "Mermaid"`
+  - `Repository = "nullean/mermaid-dotnet"`
+  - `MainTFM = "net10.0"`
+  - `SignKey` = sign key token
+  - Output dir: `build/output`
+- [ ] Create `build/scripts/CommandLine.fs`:
+  - Argu subcommands: `Clean`, `Build`, `Test`, `PristineCheck`,
+    `GeneratePackages`, `ValidatePackages`, `GenerateReleaseNotes`,
+    `GenerateApiChanges`, `Release`, `CreateReleaseOnGithub`, `Publish`
+  - Flags: `SingleTarget`, `Token`, `CleanCheckout`
+- [ ] Create `build/scripts/Targets.fs`:
+  - `clean` → delete `build/output`, `dotnet clean`
+  - `build` → `dotnet build -c Release` (depends on clean)
+  - `test` → `dotnet test -c Release` with loggers (depends on build)
+  - `pristinecheck` → verify clean git working copy
+  - `generatepackages` → `dotnet pack -c Release -o build/output`
+  - `validatepackages` → `nupkg-validator` per .nupkg
+  - `generatereleasenotes` → `release-notes` tool
+  - `generateapichanges` → `assembly-differ` tool
+  - `release` → pristinecheck + test + packages + validation + notes + api changes
+  - `createreleaseongithub` → `release-notes create-release`
+  - `publish` → release + create github release
+- [ ] Create `build/scripts/Program.fs`:
+  - Argu parsing, `Targets.Setup`, `RunTargetsAndExitAsync`
+- [ ] Create `build.sh`:
+  ```bash
+  #!/usr/bin/env bash
+  set -euo pipefail
+  dotnet run --project build/scripts -- "$@"
+  ```
+- [ ] Create `build.bat`:
+  ```bat
+  @echo off
+  dotnet run --project build/scripts -- %*
+  ```
+
+### 8.3 — Strong-Name Signing
+
+- [ ] Generate `build/keys/keypair.snk` (2048-bit RSA)
+- [ ] Extract `build/keys/public.snk`
+- [ ] Add to `Directory.Build.props` (src/ conditional):
+  ```xml
+  <SignAssembly>true</SignAssembly>
+  <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)build/keys/keypair.snk</AssemblyOriginatorKeyFile>
+  ```
+
+### 8.4 — NuGet Package Metadata
+
+- [ ] Create/add `nuget-icon.png` (simple diagram icon)
+- [ ] Update `Directory.Build.props` src/ conditional:
+  - `<PackageIcon>nuget-icon.png</PackageIcon>`
+- [ ] Add to `src/Mermaid/Mermaid.csproj`:
+  ```xml
+  <Content Include="..\..\nuget-icon.png" Pack="true" PackagePath="nuget-icon.png" />
+  <Content Include="..\..\README.md" Pack="true" PackagePath="README.md" />
+  ```
+- [ ] Same for `src/Mermaid.Cli/Mermaid.Cli.csproj`
+
+### 8.5 — Test Infrastructure
+
+- [ ] Create `tests/Directory.Build.props`:
+  - Import parent `Directory.Build.props`
+  - Add `Nullean.VsTest.Pretty.TestLogger` (or TUnit equivalent)
+  - Add `GitHubActionsTestLogger`
+
+### 8.6 — Solution File Update
+
+- [ ] Update `mermaid-dotnet.slnx` to include `/build/` folder:
+  ```xml
+  <Folder Name="/build/">
+    <File Path=".editorconfig" />
+    <File Path=".github/workflows/ci.yml" />
+    <File Path=".gitignore" />
+    <File Path="build.bat" />
+    <File Path="build.sh" />
+    <File Path="Directory.Build.props" />
+    <File Path="dotnet-tools.json" />
+    <File Path="global.json" />
+    <File Path="readme.md" />
+    <Project Path="build/scripts/scripts.fsproj" />
+  </Folder>
+  ```
+
+### 8.7 — CI Workflow
+
+- [ ] Create `.github/workflows/ci.yml`:
+  - Name: "Always be deploying"
+  - Triggers: push to `main` + tags `*.*.*`, pull_request
+  - `paths-ignore`: README.md, .editorconfig
+  - Steps:
+    1. `actions/checkout@v5` (fetch-depth: 1) + `git fetch --prune --unshallow --tags`
+    2. `actions/setup-dotnet@v5` with `10.0.x`, source-url: `https://nuget.pkg.github.com/nullean/index.json`
+    3. `./build.sh build -s true`
+    4. `./build.sh test -s true`
+    5. `./build.sh generatepackages -s true`
+    6. `./build.sh validatepackages -s true`
+    7. `./build.sh generateapichanges -s true`
+    8. On push to branch → publish to GitHub Packages (`dotnet nuget push`)
+    9. On tag push → generate release notes, create GitHub release, push to nuget.org
+
+### Deliverable
+
+`./build.sh build`, `./build.sh test`, `./build.sh release` all work.
+CI produces and validates NuGet packages on every push.
+Tag pushes auto-release to nuget.org.
+
+---
+
+## Phase 9: README & Documentation
+
+- [ ] Create `README.md` with:
+  - Package badges (NuGet, CI, license)
+  - Quick-start code example
+  - Supported diagram types
+  - Theming / custom colors
+  - Strict mode usage
+  - SVG sanitization API
+  - CLI usage
+  - Contributing / build instructions
+
+---
+
+## Phase 10: Optional Quality Improvements
+
+Low-priority items that can be tackled incrementally:
+
+- [ ] Performance profiling pass with BenchmarkDotNet results
+- [ ] Public API review — trim surface to essential types only
+- [ ] Subgraph → MSAGL cluster mapping (true nested layout)
+- [ ] Edge bundling / fan-out merging post-processor
+- [ ] Shape clipping (clip edge endpoints to diamond/hexagon boundaries)
+- [ ] CSS content sanitization inside `<style>` elements (block `url()`, `expression()`)
+
+---
+
+## Summary
+
+| Phase | Status | Description |
+|---|---|---|
+| 0–7 | ✅ | Core library, all diagram types, CLI, strict mode, sanitization |
+| 8 | ⬜ | Nullean build infrastructure (F# scripts, CI, signing, packages) |
+| 9 | ⬜ | README & documentation |
+| 10 | ⬜ | Optional quality improvements |

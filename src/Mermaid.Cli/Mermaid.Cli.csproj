@@ -9,6 +9,10 @@
     <NoWarn>CS1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="..\..\README.md" Pack="true" PackagePath="README.md" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\nuget-icon.png" Pack="true" PackagePath="nuget-icon.png" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="../Mermaid/Mermaid.csproj" />
   </ItemGroup>
 </Project>

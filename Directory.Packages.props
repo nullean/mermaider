@@ -21,4 +21,15 @@
     <!-- Benchmark dependencies -->
     <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
   </ItemGroup>
+  <ItemGroup>
+    <!-- Test infrastructure -->
+    <PackageVersion Include="GitHubActionsTestLogger" Version="2.3.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Build script dependencies -->
+    <PackageVersion Include="Argu" Version="6.0.0" />
+    <PackageVersion Include="Bullseye" Version="6.0.0" />
+    <PackageVersion Include="Proc" Version="0.9.1" />
+    <PackageVersion Include="Fake.Tools.Git" Version="5.15.0" />
+  </ItemGroup>
 </Project>

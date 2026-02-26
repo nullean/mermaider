@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <Nullable>disable</Nullable>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Argu" />
+    <PackageReference Include="Bullseye" />
+    <PackageReference Include="Proc" />
+    <PackageReference Include="Fake.Tools.Git" />
+    <PackageReference Update="MinVer" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Paths.fs" />
+    <Compile Include="CommandLine.fs" />
+    <Compile Include="Targets.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+</Project>
