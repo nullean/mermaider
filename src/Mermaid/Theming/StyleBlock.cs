@@ -48,14 +48,15 @@ internal static class StyleBlock
 		sb.Append("\">");
 	}
 
-	internal static void AppendStyleBlock(StringBuilder sb, string font, bool _hasMonoFont = false, StrictModeOptions? strict = null)
+	internal static void AppendStyleBlock(StringBuilder sb, string? font = null, StrictModeOptions? strict = null)
 	{
-		var encodedFont = Uri.EscapeDataString(font);
 		sb.Append("\n<style>\n");
-		sb.Append("  @import url('https://fonts.googleapis.com/css2?family=")
-			.Append(encodedFont).Append(":wght@400;500;600;700&amp;display=swap');\n");
 
-		sb.Append("  text { font-family: '").Append(font).Append("', system-ui, sans-serif; }\n");
+		if (font is { Length: > 0 })
+			sb.Append("  text { font-family: '").Append(font).Append("', ").Append(Rendering.RenderConstants.SansStack).Append("; }\n");
+		else
+			sb.Append("  text { font-family: ").Append(Rendering.RenderConstants.SansStack).Append("; }\n");
+		sb.Append("  .mono { font-family: ").Append(Rendering.RenderConstants.MonoStack).Append("; }\n");
 
 		sb.Append("  svg {\n");
 		sb.Append("    --_text:          var(--fg);\n");

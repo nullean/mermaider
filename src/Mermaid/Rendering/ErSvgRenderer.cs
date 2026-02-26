@@ -11,10 +11,10 @@ internal static class ErSvgRenderer
 	private static readonly ObjectPool<StringBuilder> s_sbPool =
 		new DefaultObjectPoolProvider().CreateStringBuilderPool(initialCapacity: 4096, maximumRetainedCapacity: 64 * 1024);
 
-	private const int AttrFontSize = 11;
-	private const int AttrFontWeight = 400;
-	private const int KeyFontSize = 9;
-	private const int KeyFontWeight = 600;
+	private static readonly int AttrFontSize = RenderConstants.FontSizes.Member;
+	private static readonly int AttrFontWeight = RenderConstants.FontWeights.Member;
+	private static readonly int KeyFontSize = RenderConstants.FontSizes.KeyBadge;
+	private static readonly int KeyFontWeight = RenderConstants.FontWeights.KeyBadge;
 
 	internal static string Render(PositionedErDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
 	{
@@ -22,7 +22,7 @@ internal static class ErSvgRenderer
 		try
 		{
 			StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, colors, transparent);
-			StyleBlock.AppendStyleBlock(sb, font, strict: strict);
+			StyleBlock.AppendStyleBlock(sb, font, strict);
 			sb.Append("\n<defs>\n</defs>\n");
 
 			foreach (var rel in diagram.Relationships)
@@ -90,7 +90,7 @@ internal static class ErSvgRenderer
 			sb.Append("  <text x=\"").Append(x + width / 2).Append("\" y=\"").Append(attrTop + rowHeight / 2)
 				.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 				.Append("\" font-size=\"").Append(AttrFontSize)
-				.Append("\" fill=\"var(--_text-faint)\" font-style=\"italic\">(no attributes)</text>\n");
+				.Append("\" fill=\"var(--_text-muted)\" font-style=\"italic\">(no attributes)</text>\n");
 		}
 		else
 		{
@@ -131,20 +131,20 @@ internal static class ErSvgRenderer
 		}
 
 		var typeX = boxX + 8 + (keyWidth > 0 ? keyWidth + 6 : 0);
-		sb.Append("<text x=\"").Append(typeX).Append("\" y=\"").Append(y)
+		sb.Append("<text class=\"mono\" x=\"").Append(typeX).Append("\" y=\"").Append(y)
 			.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(AttrFontSize)
 			.Append("\" font-weight=\"").Append(AttrFontWeight)
-			.Append("\"><tspan fill=\"var(--_text-muted)\">");
+			.Append("\"><tspan fill=\"var(--_text-sec)\">");
 		MultilineUtils.AppendEscapedXml(sb, attr.Type.AsSpan());
 		sb.Append("</tspan></text>");
 
 		var nameX = boxX + boxWidth - 8;
-		sb.Append("<text x=\"").Append(nameX).Append("\" y=\"").Append(y)
+		sb.Append("<text class=\"mono\" x=\"").Append(nameX).Append("\" y=\"").Append(y)
 			.Append("\" text-anchor=\"end\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(AttrFontSize)
 			.Append("\" font-weight=\"").Append(AttrFontWeight)
-			.Append("\"><tspan fill=\"var(--_text-sec)\">");
+			.Append("\"><tspan fill=\"var(--_text)\">");
 		MultilineUtils.AppendEscapedXml(sb, attr.Name.AsSpan());
 		sb.Append("</tspan></text>");
 
@@ -201,7 +201,7 @@ internal static class ErSvgRenderer
 		MultilineUtils.AppendMultilineText(
 			sb, rel.Label, mid.X, mid.Y,
 			RenderConstants.FontSizes.EdgeLabel,
-			$"text-anchor=\"middle\" font-size=\"{RenderConstants.FontSizes.EdgeLabel}\" font-weight=\"{RenderConstants.FontWeights.EdgeLabel}\" fill=\"var(--_text-muted)\"");
+			$"text-anchor=\"middle\" font-size=\"{RenderConstants.FontSizes.EdgeLabel}\" font-weight=\"{RenderConstants.FontWeights.EdgeLabel}\" fill=\"var(--_text-sec)\"");
 	}
 
 	private static void AppendCardinality(StringBuilder sb, PositionedErRelationship rel)

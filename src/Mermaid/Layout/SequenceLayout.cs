@@ -20,8 +20,8 @@ internal static class SequenceLayout
 	private const double BlockHeaderExtra = 28;
 	private const double DividerExtra = 24;
 	private const double NoteWidth = 120;
-	private const double NoteVPad = 14;
-	private const double NoteHPad = 16;
+	private const double NoteVPad = 8;
+	private const double NoteHPad = 10;
 	private const double NoteGap = 10;
 	private const double NestingOffset = 4;
 

@@ -74,7 +74,7 @@ public class ClassRendererTests
 		var svg = MermaidRenderer.RenderSvg(SimpleClass);
 
 		svg.Should().Contain("font-family: 'Inter'");
-		svg.Should().NotContain("class=\"mono\"");
+		svg.Should().Contain("class=\"mono\"");
 	}
 
 	[Test]

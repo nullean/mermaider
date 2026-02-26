@@ -17,7 +17,7 @@ internal static class SequenceSvgRenderer
 		try
 		{
 			StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, colors, transparent);
-			StyleBlock.AppendStyleBlock(sb, font, false, strict);
+			StyleBlock.AppendStyleBlock(sb, font, strict);
 			AppendArrowDefs(sb);
 
 			foreach (var block in diagram.Blocks)

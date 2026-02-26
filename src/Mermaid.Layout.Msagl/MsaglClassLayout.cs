@@ -21,8 +21,7 @@ internal static class MsaglClassLayout
 	private const double SectionPadY = 8;
 	private const double EmptySectionHeight = 8;
 	private const double MinWidth = 120;
-	private const double MemberFontSize = 11;
-	private const int MemberFontWeight = 400;
+	private static readonly double MemberFontSize = RenderConstants.FontSizes.Member;
 	private const double NodeSpacing = 40;
 	private const double LayerSpacing = 60;
 

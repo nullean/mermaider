@@ -19,7 +19,7 @@ internal static class LightweightClassLayoutEngine
 	private const double SectionPadY = 8;
 	private const double EmptySectionHeight = 8;
 	private const double MinWidth = 120;
-	private const double MemberFontSize = 11;
+	private static readonly double MemberFontSize = RenderConstants.FontSizes.Member;
 	private const double NodeSpacing = 40;
 	private const double LayerSpacing = 60;
 

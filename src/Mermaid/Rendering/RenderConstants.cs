@@ -7,6 +7,9 @@ internal static class RenderConstants
 		internal const int NodeLabel = 14;
 		internal const int EdgeLabel = 12;
 		internal const int GroupHeader = 12;
+		internal const int Member = 12;
+		internal const int Annotation = 10;
+		internal const int KeyBadge = 10;
 	}
 
 	internal static class FontWeights
@@ -14,6 +17,9 @@ internal static class RenderConstants
 		internal const int NodeLabel = 500;
 		internal const int EdgeLabel = 400;
 		internal const int GroupHeader = 600;
+		internal const int Member = 400;
+		internal const int Annotation = 500;
+		internal const int KeyBadge = 600;
 	}
 
 	internal static class StrokeWidths
@@ -45,6 +51,7 @@ internal static class RenderConstants
 
 	internal const string TextBaselineShift = "0.35em";
 	internal const int GroupHeaderContentPad = 12;
-	internal const string MonoFont = "'JetBrains Mono'";
-	internal const string MonoFontStack = "'JetBrains Mono', 'SF Mono', 'Fira Code', ui-monospace, monospace";
+
+	internal const string SansStack = "system-ui, -apple-system, 'Segoe UI', sans-serif";
+	internal const string MonoStack = "ui-monospace, 'SF Mono', 'Cascadia Code', monospace";
 }

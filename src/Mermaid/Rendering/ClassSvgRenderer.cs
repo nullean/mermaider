@@ -11,10 +11,10 @@ internal static class ClassSvgRenderer
 	private static readonly ObjectPool<StringBuilder> s_sbPool =
 		new DefaultObjectPoolProvider().CreateStringBuilderPool(initialCapacity: 4096, maximumRetainedCapacity: 64 * 1024);
 
-	private const int MemberFontSize = 11;
-	private const int MemberFontWeight = 400;
-	private const int AnnotationFontSize = 10;
-	private const int AnnotationFontWeight = 500;
+	private static readonly int MemberFontSize = RenderConstants.FontSizes.Member;
+	private static readonly int MemberFontWeight = RenderConstants.FontWeights.Member;
+	private static readonly int AnnotationFontSize = RenderConstants.FontSizes.Annotation;
+	private static readonly int AnnotationFontWeight = RenderConstants.FontWeights.Annotation;
 
 	internal static string Render(PositionedClassDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
 	{
@@ -22,7 +22,7 @@ internal static class ClassSvgRenderer
 		try
 		{
 			StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, colors, transparent);
-			StyleBlock.AppendStyleBlock(sb, font, strict: strict);
+			StyleBlock.AppendStyleBlock(sb, font, strict);
 			AppendMarkerDefs(sb);
 
 			foreach (var rel in diagram.Relationships)
@@ -186,7 +186,7 @@ internal static class ClassSvgRenderer
 		var fontStyle = member.IsAbstract ? " font-style=\"italic\"" : "";
 		var decoration = member.IsStatic ? " text-decoration=\"underline\"" : "";
 
-		sb.Append("<text x=\"").Append(x).Append("\" y=\"").Append(y)
+		sb.Append("<text class=\"mono\" x=\"").Append(x).Append("\" y=\"").Append(y)
 			.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(MemberFontSize)
 			.Append("\" font-weight=\"").Append(MemberFontWeight).Append('"')

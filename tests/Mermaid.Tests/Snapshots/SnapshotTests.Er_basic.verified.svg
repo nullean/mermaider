@@ -1,7 +1,7 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 687.928 159" width="687.928" height="159" style="--bg:#FFFFFF;--fg:#27272A;background:var(--bg)">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 698.1279999999999 159" width="698.1279999999999" height="159" style="--bg:#FFFFFF;--fg:#27272A;background:var(--bg)">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
-  text { font-family: 'Inter', system-ui, sans-serif; }
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
     --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
@@ -24,44 +24,44 @@
 <defs>
 </defs>
 
-<path class="er-relationship" data-entity1="CUSTOMER" data-entity2="ORDER" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="places" d="M180.2,79 L274.06399999999996,79" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ORDER" data-entity2="LINE_ITEM" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="contains" d="M414.06399999999996,79 L507.928,79" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="CUSTOMER" data-entity2="ORDER" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="places" d="M190.39999999999998,79 L284.264,79" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="ORDER" data-entity2="LINE_ITEM" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="contains" d="M424.264,79 L518.1279999999999,79" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="entity" data-id="CUSTOMER" data-label="CUSTOMER">
-  <rect x="40" y="40" width="140.2" height="78" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.25" />
-  <rect x="40" y="40" width="140.2" height="34" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.25" />
-  <text x="110.1" y="57" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">CUSTOMER</text>
-  <line x1="40" y1="74" x2="180.2" y2="74" stroke="var(--_node-stroke)" stroke-width="1.5" />
-  <rect x="46" y="78" width="22.31" height="14" rx="7" ry="7" fill="var(--_key-badge)" /><text x="57.155" y="85" text-anchor="middle" dy="0.35em" font-size="9" font-weight="600" fill="var(--_text-sec)">PK</text><text x="76.31" y="85" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-muted)">string</tspan></text><text x="172.2" y="85" text-anchor="end" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-sec)">name</tspan></text>
-  <rect x="46" y="100" width="22.31" height="14" rx="7" ry="7" fill="var(--_key-badge)" /><text x="57.155" y="107" text-anchor="middle" dy="0.35em" font-size="9" font-weight="600" fill="var(--_text-sec)">UK</text><text x="76.31" y="107" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-muted)">string</tspan></text><text x="172.2" y="107" text-anchor="end" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-sec)">email</tspan></text>
+  <rect x="40" y="40" width="150.39999999999998" height="78" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.25" />
+  <rect x="40" y="40" width="150.39999999999998" height="34" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.25" />
+  <text x="115.19999999999999" y="57" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">CUSTOMER</text>
+  <line x1="40" y1="74" x2="190.39999999999998" y2="74" stroke="var(--_node-stroke)" stroke-width="1.5" />
+  <rect x="46" y="78" width="23.9" height="14" rx="7" ry="7" fill="var(--_key-badge)" /><text x="57.95" y="85" text-anchor="middle" dy="0.35em" font-size="10" font-weight="600" fill="var(--_text-sec)">PK</text><text class="mono" x="77.9" y="85" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-sec)">string</tspan></text><text class="mono" x="182.39999999999998" y="85" text-anchor="end" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text)">name</tspan></text>
+  <rect x="46" y="100" width="23.9" height="14" rx="7" ry="7" fill="var(--_key-badge)" /><text x="57.95" y="107" text-anchor="middle" dy="0.35em" font-size="10" font-weight="600" fill="var(--_text-sec)">UK</text><text class="mono" x="77.9" y="107" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-sec)">string</tspan></text><text class="mono" x="182.39999999999998" y="107" text-anchor="end" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text)">email</tspan></text>
 </g>
 <g class="entity" data-id="ORDER" data-label="ORDER">
-  <rect x="274.06399999999996" y="40" width="140" height="78" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.25" />
-  <rect x="274.06399999999996" y="40" width="140" height="34" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.25" />
-  <text x="344.06399999999996" y="57" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">ORDER</text>
-  <line x1="274.06399999999996" y1="74" x2="414.06399999999996" y2="74" stroke="var(--_node-stroke)" stroke-width="1.5" />
-  <rect x="280.06399999999996" y="78" width="22.31" height="14" rx="7" ry="7" fill="var(--_key-badge)" /><text x="291.21899999999994" y="85" text-anchor="middle" dy="0.35em" font-size="9" font-weight="600" fill="var(--_text-sec)">PK</text><text x="310.37399999999997" y="85" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-muted)">int</tspan></text><text x="406.06399999999996" y="85" text-anchor="end" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-sec)">id</tspan></text>
-  <text x="282.06399999999996" y="107" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-muted)">date</tspan></text><text x="406.06399999999996" y="107" text-anchor="end" dy="0.35em" font-size="11" font-weight="400"><tspan fill="var(--_text-sec)">created</tspan></text>
+  <rect x="284.264" y="40" width="140" height="78" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.25" />
+  <rect x="284.264" y="40" width="140" height="34" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.25" />
+  <text x="354.264" y="57" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">ORDER</text>
+  <line x1="284.264" y1="74" x2="424.264" y2="74" stroke="var(--_node-stroke)" stroke-width="1.5" />
+  <rect x="290.264" y="78" width="23.9" height="14" rx="7" ry="7" fill="var(--_key-badge)" /><text x="302.214" y="85" text-anchor="middle" dy="0.35em" font-size="10" font-weight="600" fill="var(--_text-sec)">PK</text><text class="mono" x="322.164" y="85" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="416.264" y="85" text-anchor="end" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text)">id</tspan></text>
+  <text class="mono" x="292.264" y="107" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-sec)">date</tspan></text><text class="mono" x="416.264" y="107" text-anchor="end" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text)">created</tspan></text>
 </g>
 <g class="entity" data-id="LINE_ITEM" data-label="LINE_ITEM">
-  <rect x="507.928" y="51" width="140" height="56" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.25" />
-  <rect x="507.928" y="51" width="140" height="34" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.25" />
-  <text x="577.928" y="68" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">LINE_ITEM</text>
-  <line x1="507.928" y1="85" x2="647.928" y2="85" stroke="var(--_node-stroke)" stroke-width="1.5" />
-  <text x="577.928" y="96" text-anchor="middle" dy="0.35em" font-size="11" fill="var(--_text-faint)" font-style="italic">(no attributes)</text>
+  <rect x="518.1279999999999" y="51" width="140" height="56" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.25" />
+  <rect x="518.1279999999999" y="51" width="140" height="34" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.25" />
+  <text x="588.1279999999999" y="68" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">LINE_ITEM</text>
+  <line x1="518.1279999999999" y1="85" x2="658.1279999999999" y2="85" stroke="var(--_node-stroke)" stroke-width="1.5" />
+  <text x="588.1279999999999" y="96" text-anchor="middle" dy="0.35em" font-size="12" fill="var(--_text-muted)" font-style="italic">(no attributes)</text>
 </g>
-<line x1="184.2" y1="73" x2="184.2" y2="85" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="188.2" y1="73" x2="188.2" y2="85" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="270.06399999999996" y1="86" x2="258.06399999999996" y2="79" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="270.06399999999996" y1="79" x2="258.06399999999996" y2="79" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="270.06399999999996" y1="72" x2="258.06399999999996" y2="79" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="254.06399999999996" cy="79" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="418.06399999999996" y1="73" x2="418.06399999999996" y2="85" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="422.06399999999996" y1="73" x2="422.06399999999996" y2="85" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="503.928" y1="86" x2="491.928" y2="79" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="503.928" y1="79" x2="491.928" y2="79" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="503.928" y1="72" x2="491.928" y2="79" stroke="var(--_line)" stroke-width="2.5" />
-<rect x="204.73599999999996" y="68.2" width="44.79200000000001" height="21.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="227.13199999999998" y="79" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">places</text>
-<rect x="434.06399999999996" y="68.2" width="53.864000000000004" height="21.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="460.996" y="79" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">contains</text>
+<line x1="194.39999999999998" y1="73" x2="194.39999999999998" y2="85" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="198.39999999999998" y1="73" x2="198.39999999999998" y2="85" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="280.264" y1="86" x2="268.264" y2="79" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="280.264" y1="79" x2="268.264" y2="79" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="280.264" y1="72" x2="268.264" y2="79" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="264.264" cy="79" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="428.264" y1="73" x2="428.264" y2="85" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="432.264" y1="73" x2="432.264" y2="85" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="514.1279999999999" y1="86" x2="502.12799999999993" y2="79" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="514.1279999999999" y1="79" x2="502.12799999999993" y2="79" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="514.1279999999999" y1="72" x2="502.12799999999993" y2="79" stroke="var(--_line)" stroke-width="2.5" />
+<rect x="214.93599999999998" y="68.2" width="44.79200000000001" height="21.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="237.332" y="79" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-sec)" dy="4.199999999999999">places</text>
+<rect x="444.26399999999995" y="68.2" width="53.864000000000004" height="21.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="471.19599999999997" y="79" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-sec)" dy="4.199999999999999">contains</text>
 </svg>

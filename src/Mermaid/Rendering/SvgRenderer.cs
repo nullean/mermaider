@@ -21,7 +21,7 @@ internal static class SvgRenderer
 		try
 		{
 			StyleBlock.AppendSvgOpenTag(sb, graph.Width, graph.Height, colors, transparent);
-			StyleBlock.AppendStyleBlock(sb, font, false, strict);
+			StyleBlock.AppendStyleBlock(sb, font, strict);
 			AppendArrowDefs(sb);
 
 		foreach (var group in graph.Groups)
