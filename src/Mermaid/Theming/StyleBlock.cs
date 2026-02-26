@@ -1,4 +1,5 @@
 using System.Text;
+using Mermaid.Models;
 
 namespace Mermaid.Theming;
 
@@ -47,7 +48,7 @@ internal static class StyleBlock
 		sb.Append("\">");
 	}
 
-	internal static void AppendStyleBlock(StringBuilder sb, string font, bool _hasMonoFont = false)
+	internal static void AppendStyleBlock(StringBuilder sb, string font, bool _hasMonoFont = false, StrictModeOptions? strict = null)
 	{
 		var encodedFont = Uri.EscapeDataString(font);
 		sb.Append("\n<style>\n");
@@ -73,6 +74,54 @@ internal static class StyleBlock
 		sb.Append("  }\n");
 		sb.Append("  .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }\n");
 		sb.Append("  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }\n");
+
+		if (strict is not null)
+			AppendStrictModeClasses(sb, strict);
+
 		sb.Append("</style>\n");
+	}
+
+	private static void AppendStrictModeClasses(StringBuilder sb, StrictModeOptions strict)
+	{
+		var lightRules = new List<(string Selector, string Fill, string Stroke, string? Color)>();
+		var darkRules = new List<(string Selector, string Fill, string Stroke, string? Color)>();
+
+		foreach (var cls in strict.AllowedClasses)
+		{
+			if (cls.IsExternal)
+				continue;
+
+			var selector = $".cls-{cls.Name}";
+
+			lightRules.Add((selector, cls.Fill!, cls.Stroke ?? cls.Fill!, cls.Color));
+
+			var darkFill = cls.DarkFill ?? ColorUtils.InvertLightness(cls.Fill!);
+			var darkStroke = cls.DarkStroke ?? (cls.Stroke is not null ? ColorUtils.InvertLightness(cls.Stroke) : darkFill);
+			var darkColor = cls.DarkColor ?? (cls.Color is not null ? ColorUtils.InvertLightness(cls.Color) : null);
+			darkRules.Add((selector, darkFill, darkStroke, darkColor));
+		}
+
+		if (lightRules.Count == 0)
+			return;
+
+		foreach (var (selector, fill, stroke, color) in lightRules)
+		{
+			sb.Append("  ").Append(selector).Append(" rect, ").Append(selector).Append(" polygon, ")
+				.Append(selector).Append(" circle, ").Append(selector).Append(" ellipse { fill: ")
+				.Append(fill).Append("; stroke: ").Append(stroke).Append("; }\n");
+			if (color is not null)
+				sb.Append("  ").Append(selector).Append(" text { fill: ").Append(color).Append("; }\n");
+		}
+
+		sb.Append("  @media (prefers-color-scheme: dark) {\n");
+		foreach (var (selector, fill, stroke, color) in darkRules)
+		{
+			sb.Append("    ").Append(selector).Append(" rect, ").Append(selector).Append(" polygon, ")
+				.Append(selector).Append(" circle, ").Append(selector).Append(" ellipse { fill: ")
+				.Append(fill).Append("; stroke: ").Append(stroke).Append("; }\n");
+			if (color is not null)
+				sb.Append("    ").Append(selector).Append(" text { fill: ").Append(color).Append("; }\n");
+		}
+		sb.Append("  }\n");
 	}
 }

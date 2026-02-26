@@ -18,7 +18,7 @@ namespace Mermaid.Layout;
 /// </summary>
 internal static class MsaglLayoutEngine
 {
-	internal static PositionedGraph Layout(MermaidGraph graph, RenderOptions? options = null)
+	internal static PositionedGraph Layout(MermaidGraph graph, RenderOptions? options = null, StrictModeOptions? strict = null)
 	{
 		var padding = options?.Padding ?? LayoutDefaults.Padding;
 		var nodeSpacing = options?.NodeSpacing ?? LayoutDefaults.NodeSpacing;
@@ -71,7 +71,7 @@ internal static class MsaglLayoutEngine
 		var layout = new LayeredLayout(geometryGraph, settings);
 		layout.Run();
 
-		return ExtractPositioned(geometryGraph, graph, msaglNodes, edgeMap, padding);
+		return ExtractPositioned(geometryGraph, graph, msaglNodes, edgeMap, padding, strict);
 	}
 
 	private static void ConfigureDirection(SugiyamaLayoutSettings settings, Models.Direction direction)
@@ -90,7 +90,8 @@ internal static class MsaglLayoutEngine
 		MermaidGraph graph,
 		Dictionary<string, MsaglNode> msaglNodes,
 		List<(MsaglEdge MsaglEdge, MermaidEdge MermaidEdge)> edgeMap,
-		double padding)
+		double padding,
+		StrictModeOptions? strict = null)
 	{
 		var bb = geometryGraph.BoundingBox;
 		var offsetX = -bb.Left + padding;
@@ -106,7 +107,8 @@ internal static class MsaglLayoutEngine
 			var w = msaglNode.BoundingBox.Width;
 			var h = msaglNode.BoundingBox.Height;
 
-			var inlineStyle = ResolveNodeStyle(id, graph);
+			var inlineStyle = strict is null ? ResolveNodeStyle(id, graph) : null;
+			var cssClass = strict is not null && graph.ClassAssignments.TryGetValue(id, out var cls) ? cls : null;
 
 			positionedNodes.Add(new PositionedNode
 			{
@@ -118,6 +120,7 @@ internal static class MsaglLayoutEngine
 				Width = w,
 				Height = h,
 				InlineStyle = inlineStyle,
+				CssClassName = cssClass,
 			});
 		}
 

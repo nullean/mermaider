@@ -38,4 +38,10 @@ public sealed record RenderOptions
 
 	/// <summary>Render with transparent background. Default: false.</summary>
 	public bool Transparent { get; init; }
+
+	/// <summary>
+	/// Enable strict mode. When set, <c>classDef</c> and <c>style</c> directives
+	/// are rejected, and only pre-approved class names are allowed on nodes.
+	/// </summary>
+	public StrictModeOptions? Strict { get; init; }
 }

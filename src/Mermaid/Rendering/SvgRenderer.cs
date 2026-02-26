@@ -15,13 +15,13 @@ internal static class SvgRenderer
 	private static readonly ObjectPool<StringBuilder> s_sbPool =
 		new DefaultObjectPoolProvider().CreateStringBuilderPool(initialCapacity: 4096, maximumRetainedCapacity: 64 * 1024);
 
-	internal static string Render(PositionedGraph graph, DiagramColors colors, string font, bool transparent)
+	internal static string Render(PositionedGraph graph, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
 	{
 		var sb = s_sbPool.Get();
 		try
 		{
 			StyleBlock.AppendSvgOpenTag(sb, graph.Width, graph.Height, colors, transparent);
-			StyleBlock.AppendStyleBlock(sb, font, false);
+			StyleBlock.AppendStyleBlock(sb, font, false, strict);
 			AppendArrowDefs(sb);
 
 			foreach (var group in graph.Groups)
@@ -36,10 +36,10 @@ internal static class SvgRenderer
 					AppendEdgeLabel(sb, edge, font);
 			}
 
-			foreach (var node in graph.Nodes)
-				AppendNode(sb, node, font);
+		foreach (var node in graph.Nodes)
+			AppendNode(sb, node, font, strict);
 
-			sb.Append("\n</svg>");
+		sb.Append("\n</svg>");
 			return sb.ToString();
 		}
 		finally
@@ -233,9 +233,16 @@ internal static class SvgRenderer
 	// Node rendering
 	// ========================================================================
 
-	private static void AppendNode(StringBuilder sb, PositionedNode node, string font)
+	private static void AppendNode(StringBuilder sb, PositionedNode node, string font, StrictModeOptions? strict = null)
 	{
-		sb.Append("\n<g class=\"node\" data-id=\"");
+		sb.Append("\n<g class=\"node");
+		if (node.CssClassName is not null)
+		{
+			var isExternal = strict?.AllowedClasses
+				.Any(c => c.Name == node.CssClassName && c.IsExternal) ?? false;
+			sb.Append(isExternal ? " " : " cls-").Append(node.CssClassName);
+		}
+		sb.Append("\" data-id=\"");
 		MultilineUtils.AppendEscapedAttr(sb, node.Id.AsSpan());
 		sb.Append("\" data-label=\"");
 		MultilineUtils.AppendEscapedAttr(sb, node.Label.AsSpan());

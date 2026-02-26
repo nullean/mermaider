@@ -11,13 +11,13 @@ internal static class SequenceSvgRenderer
 	private static readonly ObjectPool<StringBuilder> s_sbPool =
 		new DefaultObjectPoolProvider().CreateStringBuilderPool(initialCapacity: 4096, maximumRetainedCapacity: 64 * 1024);
 
-	internal static string Render(PositionedSequenceDiagram diagram, DiagramColors colors, string font, bool transparent)
+	internal static string Render(PositionedSequenceDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
 	{
 		var sb = s_sbPool.Get();
 		try
 		{
 			StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, colors, transparent);
-			StyleBlock.AppendStyleBlock(sb, font, false);
+			StyleBlock.AppendStyleBlock(sb, font, false, strict);
 			AppendArrowDefs(sb);
 
 			foreach (var block in diagram.Blocks)

@@ -16,13 +16,13 @@ internal static class ErSvgRenderer
 	private const int KeyFontSize = 9;
 	private const int KeyFontWeight = 600;
 
-	internal static string Render(PositionedErDiagram diagram, DiagramColors colors, string font, bool transparent)
+	internal static string Render(PositionedErDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
 	{
 		var sb = s_sbPool.Get();
 		try
 		{
 			StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, colors, transparent);
-			StyleBlock.AppendStyleBlock(sb, font);
+			StyleBlock.AppendStyleBlock(sb, font, strict: strict);
 			sb.Append("\n<defs>\n</defs>\n");
 
 			foreach (var rel in diagram.Relationships)

@@ -21,6 +21,9 @@ public sealed record PositionedNode
 	public required double Width { get; init; }
 	public required double Height { get; init; }
 	public IReadOnlyDictionary<string, string>? InlineStyle { get; init; }
+
+	/// <summary>CSS class name applied via <c>:::name</c> or <c>class</c> directive (strict mode).</summary>
+	public string? CssClassName { get; init; }
 }
 
 /// <summary>A positioned edge with a full polyline path.</summary>

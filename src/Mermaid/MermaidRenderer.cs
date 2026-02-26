@@ -24,40 +24,40 @@ public static class MermaidRenderer
 		var colors = BuildColors(options);
 		var font = options?.Font ?? LayoutDefaults.Font;
 		var transparent = options?.Transparent ?? false;
+		var strict = options?.Strict;
 
 		var lines = PreprocessLines(text);
 		if (lines.Length == 0)
 			throw new MermaidParseException("Empty mermaid diagram");
 
+		if (strict is not null)
+			StrictModeValidator.Validate(lines, strict);
+
 		var diagramType = DiagramDetector.Detect(text.AsSpan());
 
-		switch (diagramType)
+		var svg = diagramType switch
 		{
-			case DiagramType.Sequence:
-			{
-				var seqDiagram = SequenceParser.Parse(lines);
-				var positioned = SequenceLayout.Layout(seqDiagram);
-				return SequenceSvgRenderer.Render(positioned, colors, font, transparent);
-			}
-			case DiagramType.Class:
-			{
-				var classDiagram = ClassParser.Parse(lines);
-				var positioned = ClassLayoutEngine.Layout(classDiagram);
-				return ClassSvgRenderer.Render(positioned, colors, font, transparent);
-			}
-			case DiagramType.Er:
-			{
-				var erDiagram = ErParser.Parse(lines);
-				var positioned = ErLayoutEngine.Layout(erDiagram);
-				return ErSvgRenderer.Render(positioned, colors, font, transparent);
-			}
-			default:
-			{
-				var graph = ParseInternal(lines, diagramType);
-				var graphPositioned = MsaglLayoutEngine.Layout(graph, options);
-				return SvgRenderer.Render(graphPositioned, colors, font, transparent);
-			}
-		}
+			DiagramType.Sequence => SequenceSvgRenderer.Render(
+				SequenceLayout.Layout(SequenceParser.Parse(lines)),
+				colors, font, transparent, strict),
+
+			DiagramType.Class => ClassSvgRenderer.Render(
+				ClassLayoutEngine.Layout(ClassParser.Parse(lines)),
+				colors, font, transparent, strict),
+
+			DiagramType.Er => ErSvgRenderer.Render(
+				ErLayoutEngine.Layout(ErParser.Parse(lines)),
+				colors, font, transparent, strict),
+
+			_ => SvgRenderer.Render(
+				MsaglLayoutEngine.Layout(ParseInternal(lines, diagramType), options, strict),
+				colors, font, transparent, strict),
+		};
+
+		if (strict?.Sanitize is { } sanitizeMode)
+			svg = StrictModeSanitizer.Sanitize(svg, sanitizeMode);
+
+		return svg;
 	}
 
 	/// <summary>

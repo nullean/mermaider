@@ -16,13 +16,13 @@ internal static class ClassSvgRenderer
 	private const int AnnotationFontSize = 10;
 	private const int AnnotationFontWeight = 500;
 
-	internal static string Render(PositionedClassDiagram diagram, DiagramColors colors, string font, bool transparent)
+	internal static string Render(PositionedClassDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
 	{
 		var sb = s_sbPool.Get();
 		try
 		{
 			StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, colors, transparent);
-			StyleBlock.AppendStyleBlock(sb, font);
+			StyleBlock.AppendStyleBlock(sb, font, strict: strict);
 			AppendMarkerDefs(sb);
 
 			foreach (var rel in diagram.Relationships)
