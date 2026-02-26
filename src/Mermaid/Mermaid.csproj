@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Mermaid</RootNamespace>
+    <Description>Render Mermaid diagrams to SVG. Pure .NET, no browser, no DOM dependencies.</Description>
+    <NoWarn>CS1591</NoWarn>
+    <PackageTags>mermaid;diagram;svg;flowchart;sequence-diagram;visualization</PackageTags>
+  </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Mermaid.Tests" />
+    <InternalsVisibleTo Include="Mermaid.Benchmarks" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Msagl" />
+    <PackageReference Include="Microsoft.Extensions.ObjectPool" />
+  </ItemGroup>
+</Project>

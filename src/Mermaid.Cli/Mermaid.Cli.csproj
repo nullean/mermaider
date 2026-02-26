@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Mermaid.Cli</RootNamespace>
+    <Description>CLI tool to render Mermaid diagrams to SVG. Reads from stdin or file, writes to stdout or file.</Description>
+    <PackageTags>mermaid;diagram;svg;cli;tool</PackageTags>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>mermaid</ToolCommandName>
+    <NoWarn>CS1591</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Mermaid/Mermaid.csproj" />
+  </ItemGroup>
+</Project>

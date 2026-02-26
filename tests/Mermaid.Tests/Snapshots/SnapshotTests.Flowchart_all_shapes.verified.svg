@@ -1,0 +1,59 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 936.8840000000002 196.338" width="936.8840000000002" height="196.338" style="--bg:#FFFFFF;--fg:#27272A;background:var(--bg)">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  text { font-family: 'Inter', system-ui, sans-serif; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 60%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 40%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 25%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 85%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 3%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 20%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 5%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 10%, var(--bg));
+  }
+</style>
+
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+
+<polyline class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="141.23000000000002,98.169 189.23000000000002,98.169" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="284.53200000000015,98.169 332.53200000000015,98.169" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="C" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="420.4240000000002,98.169 468.4240000000002,98.169" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="D" data-to="E" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="584.7620000000003,98.169 632.7620000000002,98.169" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="E" data-to="F" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="726.7620000000002,98.169 774.7620000000002,98.169" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<g class="node" data-id="D" data-label="Diamond" data-shape="diamond">
+  <polygon points="526.5930000000002,40 584.7620000000002,98.169 526.5930000000002,156.338 468.4240000000002,98.169" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="526.5930000000002" y="98.169" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Diamond</text>
+</g>
+<g class="node" data-id="E" data-label="Circle" data-shape="circle">
+  <circle cx="679.7620000000002" cy="98.169" r="47" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="679.7620000000002" y="98.169" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Circle</text>
+</g>
+<g class="node" data-id="F" data-label="Asymmetric" data-shape="asymmetric">
+  <polygon points="786.7620000000002,79.719 896.8840000000002,79.719 896.8840000000002,116.619 786.7620000000002,116.619 774.7620000000002,98.169" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="835.8230000000002" y="98.169" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Asymmetric</text>
+</g>
+<g class="node" data-id="A" data-label="Rectangle" data-shape="rectangle">
+  <rect x="40" y="79.719" width="101.23000000000002" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="90.61500000000001" y="98.169" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Rectangle</text>
+</g>
+<g class="node" data-id="B" data-label="Rounded" data-shape="rounded">
+  <rect x="189.23000000000002" y="79.719" width="95.30200000000013" height="36.900000000000006" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="236.88100000000009" y="98.169" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Rounded</text>
+</g>
+<g class="node" data-id="C" data-label="Stadium" data-shape="stadium">
+  <rect x="332.53200000000015" y="79.719" width="87.89200000000005" height="36.900000000000006" rx="18.450000000000003" ry="18.450000000000003" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="376.4780000000002" y="98.169" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Stadium</text>
+</g>
+</svg>

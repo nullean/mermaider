@@ -1,0 +1,80 @@
+# Top-most EditorConfig file
+root = true
+
+[*]
+indent_style = tab
+indent_size = 4
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.{json,yml,yaml,xml,csproj,fsproj,props,targets}]
+indent_style = space
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.cs]
+# File header — not required
+file_header_template = unset
+
+# Namespace
+csharp_style_namespace_declarations = file_scoped:error
+
+# var preferences
+csharp_style_var_for_built_in_types = true:error
+csharp_style_var_when_type_is_apparent = true:error
+csharp_style_var_elsewhere = true:error
+
+# Braces
+csharp_new_line_before_open_brace = all
+csharp_prefer_braces = when_multiline:suggestion
+
+# this. qualification
+dotnet_style_qualification_for_field = false:error
+dotnet_style_qualification_for_property = false:error
+dotnet_style_qualification_for_method = false:error
+dotnet_style_qualification_for_event = false:error
+
+# Expression-level preferences
+csharp_prefer_simple_using_statement = true:suggestion
+csharp_style_expression_bodied_methods = when_on_single_line:suggestion
+csharp_style_expression_bodied_constructors = when_on_single_line:suggestion
+csharp_style_expression_bodied_properties = true:suggestion
+csharp_style_expression_bodied_accessors = true:suggestion
+csharp_style_expression_bodied_lambdas = true:suggestion
+csharp_style_expression_bodied_local_functions = when_on_single_line:suggestion
+csharp_style_prefer_switch_expression = true:suggestion
+csharp_style_prefer_pattern_matching = true:suggestion
+csharp_style_prefer_not_pattern = true:suggestion
+dotnet_style_prefer_collection_expression = true:suggestion
+
+# Naming: private fields use _camelCase
+dotnet_naming_rule.private_fields_should_be_camel_case.symbols = private_fields
+dotnet_naming_rule.private_fields_should_be_camel_case.style = camel_case_with_underscore
+dotnet_naming_rule.private_fields_should_be_camel_case.severity = error
+
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private, private_protected
+
+dotnet_naming_style.camel_case_with_underscore.required_prefix = _
+dotnet_naming_style.camel_case_with_underscore.capitalization = camel_case
+
+# Naming: static fields use s_camelCase
+dotnet_naming_rule.static_fields_should_be_s_camel_case.symbols = static_private_fields
+dotnet_naming_rule.static_fields_should_be_s_camel_case.style = s_camel_case
+dotnet_naming_rule.static_fields_should_be_s_camel_case.severity = error
+
+dotnet_naming_symbols.static_private_fields.applicable_kinds = field
+dotnet_naming_symbols.static_private_fields.applicable_accessibilities = private, private_protected
+dotnet_naming_symbols.static_private_fields.required_modifiers = static
+
+dotnet_naming_style.s_camel_case.required_prefix = s_
+dotnet_naming_style.s_camel_case.capitalization = camel_case
+
+# Analyzers
+dotnet_diagnostic.IDE0005.severity = error
+dotnet_diagnostic.IDE0044.severity = warning
+dotnet_diagnostic.CA1822.severity = suggestion

@@ -1,0 +1,24 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <GlobalPackageReference Include="MinVer" Version="7.0.0" PrivateAssets="All" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Runtime dependencies -->
+    <PackageVersion Include="Microsoft.Msagl" Version="1.1.6" />
+    <PackageVersion Include="Microsoft.Extensions.ObjectPool" Version="10.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Test dependencies -->
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageVersion Include="TUnit" Version="1.17.25" />
+    <PackageVersion Include="AwesomeAssertions" Version="9.4.0" />
+    <PackageVersion Include="Verify.TUnit" Version="31.13.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Benchmark dependencies -->
+    <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
+  </ItemGroup>
+</Project>
