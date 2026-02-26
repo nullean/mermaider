@@ -9,9 +9,9 @@ using MsaglEdge = Microsoft.Msagl.Core.Layout.Edge;
 using MsaglNode = Microsoft.Msagl.Core.Layout.Node;
 using MsaglPoint = Microsoft.Msagl.Core.Geometry.Point;
 
-namespace Mermaid.Layout;
+namespace Mermaid.Layout.Msagl;
 
-internal static class ClassLayoutEngine
+internal static class MsaglClassLayout
 {
 	private const double Padding = 40;
 	private const double BoxPadX = 8;

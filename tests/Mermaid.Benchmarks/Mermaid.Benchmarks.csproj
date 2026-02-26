@@ -8,5 +8,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../../src/Mermaid/Mermaid.csproj" />
+    <ProjectReference Include="../../src/Sugiyama/Sugiyama.csproj" />
+    <ProjectReference Include="../../src/Mermaid.Layout.Msagl/Mermaid.Layout.Msagl.csproj" />
   </ItemGroup>
 </Project>

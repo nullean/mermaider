@@ -10,9 +10,9 @@ using MsaglNode = Microsoft.Msagl.Core.Layout.Node;
 using MsaglPoint = Microsoft.Msagl.Core.Geometry.Point;
 using PlaneTransformation = Microsoft.Msagl.Core.Geometry.Curves.PlaneTransformation;
 
-namespace Mermaid.Layout;
+namespace Mermaid.Layout.Msagl;
 
-internal static class ErLayoutEngine
+internal static class MsaglErLayout
 {
 	private const double Padding = 40;
 	private const double BoxPadX = 14;

@@ -14,14 +14,18 @@
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/Mermaid/Mermaid.csproj" />
+    <Project Path="src/Sugiyama/Sugiyama.csproj" />
+    <Project Path="src/Mermaid.Layout.Msagl/Mermaid.Layout.Msagl.csproj" />
     <Project Path="src/Mermaid.Cli/Mermaid.Cli.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <File Path="tests/Directory.Build.props" />
     <Project Path="tests/Mermaid.Tests/Mermaid.Tests.csproj" />
+    <Project Path="tests/Sugiyama.Tests/Sugiyama.Tests.csproj" />
     <Project Path="tests/Mermaid.Benchmarks/Mermaid.Benchmarks.csproj" />
   </Folder>
   <Folder Name="/examples/">
     <Project Path="examples/Mermaid.Gallery/Mermaid.Gallery.csproj" />
+    <Project Path="examples/mermaid-aot-smoketest/mermaid-aot-smoketest.csproj" />
   </Folder>
 </Solution>

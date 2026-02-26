@@ -12,6 +12,18 @@ namespace Mermaid;
 /// </summary>
 public static class MermaidRenderer
 {
+	private static volatile IGraphLayoutProvider _layoutProvider = DefaultLayoutProvider.Instance;
+
+	/// <summary>
+	/// Replace the built-in layout engine with a custom provider (e.g. MSAGL).
+	/// Install the <c>Mermaid.Layout.Msagl</c> NuGet package for the MSAGL provider.
+	/// </summary>
+	public static void SetLayoutProvider(IGraphLayoutProvider provider) =>
+		_layoutProvider = provider ?? throw new ArgumentNullException(nameof(provider));
+
+	/// <summary>Returns the currently active layout provider.</summary>
+	public static IGraphLayoutProvider LayoutProvider => _layoutProvider;
+
 	/// <summary>
 	/// Render Mermaid diagram text to a self-contained SVG string.
 	/// </summary>
@@ -25,6 +37,7 @@ public static class MermaidRenderer
 		var font = options?.Font ?? LayoutDefaults.Font;
 		var transparent = options?.Transparent ?? false;
 		var strict = options?.Strict;
+		var provider = options?.LayoutProvider ?? _layoutProvider;
 
 		var lines = PreprocessLines(text);
 		if (lines.Length == 0)
@@ -42,15 +55,15 @@ public static class MermaidRenderer
 				colors, font, transparent, strict),
 
 			DiagramType.Class => ClassSvgRenderer.Render(
-				ClassLayoutEngine.Layout(ClassParser.Parse(lines)),
+				provider.LayoutClass(ClassParser.Parse(lines)),
 				colors, font, transparent, strict),
 
 			DiagramType.Er => ErSvgRenderer.Render(
-				ErLayoutEngine.Layout(ErParser.Parse(lines)),
+				provider.LayoutEr(ErParser.Parse(lines)),
 				colors, font, transparent, strict),
 
 			_ => SvgRenderer.Render(
-				MsaglLayoutEngine.Layout(ParseInternal(lines, diagramType), options, strict),
+				provider.LayoutFlowchart(ParseInternal(lines, diagramType), options, strict),
 				colors, font, transparent, strict),
 		};
 

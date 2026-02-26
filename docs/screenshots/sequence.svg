@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" width="280" height="280" style="--bg:#FFFFFF;--fg:#27272A;background:var(--bg)">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  text { font-family: 'Inter', system-ui, sans-serif; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 4%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 14%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+  }
+  .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+  <marker id="seq-arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" />
+  </marker>
+  <marker id="seq-arrow-open" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
+    <polyline points="0 0, 12 6, 0 12" fill="none" stroke="var(--_arrow)" stroke-width="1.5" />
+  </marker>
+</defs>
+
+<line class="lifeline" data-actor="A" x1="70" y1="70" x2="70" y2="250" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="B" x1="210" y1="70" x2="210" y2="250" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<g class="message" data-from="A" data-to="B" data-label="Hello Bob!" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="70" y1="90" x2="210" y2="90" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
+  <text x="140" y="84" font-size="12" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">Hello Bob!</text>
+</g>
+<g class="message" data-from="B" data-to="A" data-label="Hi Alice!" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="210" y1="130" x2="70" y2="130" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="140" y="124" font-size="12" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">Hi Alice!</text>
+</g>
+<g class="message" data-from="A" data-to="B" data-label="How are you?" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="70" y1="170" x2="210" y2="170" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
+  <text x="140" y="164" font-size="12" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">How are you?</text>
+</g>
+<g class="message" data-from="B" data-to="A" data-label="Great, thanks!" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="210" y1="210" x2="70" y2="210" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="140" y="204" font-size="12" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">Great, thanks!</text>
+</g>
+<g class="actor" data-id="A" data-label="Alice" data-type="participant">
+  <rect x="30" y="30" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.25" />
+  <text x="70" y="50" font-size="14" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Alice</text>
+</g>
+<g class="actor" data-id="B" data-label="Bob" data-type="participant">
+  <rect x="170" y="30" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.25" />
+  <text x="210" y="50" font-size="14" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Bob</text>
+</g>
+</svg>

@@ -40,6 +40,13 @@ public sealed record RenderOptions
 	public bool Transparent { get; init; }
 
 	/// <summary>
+	/// Override the layout provider for this render call only.
+	/// When <c>null</c>, uses the global provider set via
+	/// <see cref="MermaidRenderer.SetLayoutProvider"/>.
+	/// </summary>
+	public Mermaid.Layout.IGraphLayoutProvider? LayoutProvider { get; init; }
+
+	/// <summary>
 	/// Enable strict mode. When set, <c>classDef</c> and <c>style</c> directives
 	/// are rejected, and only pre-approved class names are allowed on nodes.
 	/// </summary>

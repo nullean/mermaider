@@ -10,13 +10,9 @@ using MsaglNode = Microsoft.Msagl.Core.Layout.Node;
 using MsaglPoint = Microsoft.Msagl.Core.Geometry.Point;
 using PlaneTransformation = Microsoft.Msagl.Core.Geometry.Curves.PlaneTransformation;
 
-namespace Mermaid.Layout;
+namespace Mermaid.Layout.Msagl;
 
-/// <summary>
-/// Lays out a <see cref="MermaidGraph"/> using Microsoft MSAGL (Sugiyama/layered algorithm)
-/// and returns a <see cref="PositionedGraph"/> ready for SVG rendering.
-/// </summary>
-internal static class MsaglLayoutEngine
+internal static class MsaglFlowchartLayout
 {
 	internal static PositionedGraph Layout(MermaidGraph graph, RenderOptions? options = null, StrictModeOptions? strict = null)
 	{
