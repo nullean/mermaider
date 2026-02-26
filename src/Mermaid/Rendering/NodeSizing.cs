@@ -41,8 +41,8 @@ internal static class NodeSizing
 				return (28, 28);
 		}
 
-		width = Math.Max(width, 60);
-		height = Math.Max(height, 36);
+		width = Math.Max(width, 64);
+		height = Math.Max(height, 40);
 
 		return (width, height);
 	}

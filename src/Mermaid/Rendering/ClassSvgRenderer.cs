@@ -22,7 +22,7 @@ internal static class ClassSvgRenderer
 		try
 		{
 			StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, colors, transparent);
-			StyleBlock.AppendStyleBlock(sb, font, true);
+			StyleBlock.AppendStyleBlock(sb, font);
 			AppendMarkerDefs(sb);
 
 			foreach (var rel in diagram.Relationships)
@@ -46,21 +46,50 @@ internal static class ClassSvgRenderer
 
 	private static void AppendMarkerDefs(StringBuilder sb)
 	{
+		var s = RenderConstants.ArrowHead.Size;
+		var w = s;
+		var h = s;
+		var hw = w / 2.0;
+		var hh = h / 2.0;
+
 		sb.Append("\n<defs>\n");
-		sb.Append("  <marker id=\"cls-inherit\" markerWidth=\"12\" markerHeight=\"10\" refX=\"12\" refY=\"5\" orient=\"auto-start-reverse\">\n");
-		sb.Append("    <polygon points=\"0 0, 12 5, 0 10\" fill=\"var(--bg)\" stroke=\"var(--_arrow)\" stroke-width=\"1.5\" />\n");
+
+		sb.Append("  <marker id=\"cls-inherit\" markerUnits=\"userSpaceOnUse\" markerWidth=\"").Append(w)
+			.Append("\" markerHeight=\"").Append(h)
+			.Append("\" refX=\"").Append(w)
+			.Append("\" refY=\"").Append(hh)
+			.Append("\" orient=\"auto-start-reverse\">\n");
+		sb.Append("    <polygon points=\"0 0, ").Append(w).Append(' ').Append(hh)
+			.Append(", 0 ").Append(h)
+			.Append("\" fill=\"var(--bg)\" stroke=\"var(--_arrow)\" stroke-width=\"1.5\" />\n");
 		sb.Append("  </marker>\n");
 
-		sb.Append("  <marker id=\"cls-composition\" markerWidth=\"12\" markerHeight=\"10\" refX=\"0\" refY=\"5\" orient=\"auto-start-reverse\">\n");
-		sb.Append("    <polygon points=\"6 0, 12 5, 6 10, 0 5\" fill=\"var(--_arrow)\" stroke=\"var(--_arrow)\" stroke-width=\"1\" />\n");
+		sb.Append("  <marker id=\"cls-composition\" markerUnits=\"userSpaceOnUse\" markerWidth=\"").Append(w)
+			.Append("\" markerHeight=\"").Append(h)
+			.Append("\" refX=\"0\" refY=\"").Append(hh)
+			.Append("\" orient=\"auto-start-reverse\">\n");
+		sb.Append("    <polygon points=\"").Append(hw).Append(" 0, ").Append(w).Append(' ').Append(hh)
+			.Append(", ").Append(hw).Append(' ').Append(h).Append(", 0 ").Append(hh)
+			.Append("\" fill=\"var(--_arrow)\" stroke=\"var(--_arrow)\" stroke-width=\"1\" />\n");
 		sb.Append("  </marker>\n");
 
-		sb.Append("  <marker id=\"cls-aggregation\" markerWidth=\"12\" markerHeight=\"10\" refX=\"0\" refY=\"5\" orient=\"auto-start-reverse\">\n");
-		sb.Append("    <polygon points=\"6 0, 12 5, 6 10, 0 5\" fill=\"var(--bg)\" stroke=\"var(--_arrow)\" stroke-width=\"1.5\" />\n");
+		sb.Append("  <marker id=\"cls-aggregation\" markerUnits=\"userSpaceOnUse\" markerWidth=\"").Append(w)
+			.Append("\" markerHeight=\"").Append(h)
+			.Append("\" refX=\"0\" refY=\"").Append(hh)
+			.Append("\" orient=\"auto-start-reverse\">\n");
+		sb.Append("    <polygon points=\"").Append(hw).Append(" 0, ").Append(w).Append(' ').Append(hh)
+			.Append(", ").Append(hw).Append(' ').Append(h).Append(", 0 ").Append(hh)
+			.Append("\" fill=\"var(--bg)\" stroke=\"var(--_arrow)\" stroke-width=\"1.5\" />\n");
 		sb.Append("  </marker>\n");
 
-		sb.Append("  <marker id=\"cls-arrow\" markerWidth=\"8\" markerHeight=\"6\" refX=\"8\" refY=\"3\" orient=\"auto-start-reverse\">\n");
-		sb.Append("    <polyline points=\"0 0, 8 3, 0 6\" fill=\"none\" stroke=\"var(--_arrow)\" stroke-width=\"1.5\" />\n");
+		sb.Append("  <marker id=\"cls-arrow\" markerUnits=\"userSpaceOnUse\" markerWidth=\"").Append(w)
+			.Append("\" markerHeight=\"").Append(h)
+			.Append("\" refX=\"").Append(w)
+			.Append("\" refY=\"").Append(hh)
+			.Append("\" orient=\"auto-start-reverse\">\n");
+		sb.Append("    <polyline points=\"0 0, ").Append(w).Append(' ').Append(hh)
+			.Append(", 0 ").Append(h)
+			.Append("\" fill=\"none\" stroke=\"var(--_arrow)\" stroke-width=\"1.5\" />\n");
 		sb.Append("  </marker>\n");
 
 		sb.Append("</defs>\n");
@@ -85,14 +114,17 @@ internal static class ClassSvgRenderer
 		}
 		sb.Append(">\n");
 
+		var r = RenderConstants.Radii.Rectangle;
 		sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
 			.Append("\" width=\"").Append(width).Append("\" height=\"").Append(height)
-			.Append("\" rx=\"0\" ry=\"0\" fill=\"var(--_node-fill)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
+			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
+			.Append("\" fill=\"var(--_node-fill)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
 
 		sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
 			.Append("\" width=\"").Append(width).Append("\" height=\"").Append(headerHeight)
-			.Append("\" rx=\"0\" ry=\"0\" fill=\"var(--_group-hdr)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
+			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
+			.Append("\" fill=\"var(--_group-hdr)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
 
 		var nameY = y + headerHeight / 2;
@@ -155,7 +187,7 @@ internal static class ClassSvgRenderer
 		var decoration = member.IsStatic ? " text-decoration=\"underline\"" : "";
 
 		sb.Append("<text x=\"").Append(x).Append("\" y=\"").Append(y)
-			.Append("\" class=\"mono\" dy=\"").Append(RenderConstants.TextBaselineShift)
+			.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(MemberFontSize)
 			.Append("\" font-weight=\"").Append(MemberFontWeight).Append('"')
 			.Append(fontStyle).Append(decoration).Append('>');

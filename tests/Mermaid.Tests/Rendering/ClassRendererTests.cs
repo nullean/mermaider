@@ -69,11 +69,12 @@ public class ClassRendererTests
 	}
 
 	[Test]
-	public void Contains_mono_font_import()
+	public void Uses_uniform_font()
 	{
 		var svg = MermaidRenderer.RenderSvg(SimpleClass);
 
-		svg.Should().Contain("JetBrains+Mono");
+		svg.Should().Contain("font-family: 'Inter'");
+		svg.Should().NotContain("class=\"mono\"");
 	}
 
 	[Test]

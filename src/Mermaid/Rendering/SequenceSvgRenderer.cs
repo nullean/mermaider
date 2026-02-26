@@ -50,13 +50,14 @@ internal static class SequenceSvgRenderer
 
 	private static void AppendArrowDefs(StringBuilder sb)
 	{
-		var w = RenderConstants.ArrowHead.Width;
-		var h = RenderConstants.ArrowHead.Height;
+		var s = RenderConstants.ArrowHead.Size;
+		var w = s;
+		var h = s;
 		var halfH = h / 2.0;
 
 		sb.Append("\n<defs>\n");
 
-		sb.Append("  <marker id=\"seq-arrow\" markerWidth=\"").Append(w)
+		sb.Append("  <marker id=\"seq-arrow\" markerUnits=\"userSpaceOnUse\" markerWidth=\"").Append(w)
 			.Append("\" markerHeight=\"").Append(h)
 			.Append("\" refX=\"").Append(w)
 			.Append("\" refY=\"").Append(halfH)
@@ -66,14 +67,14 @@ internal static class SequenceSvgRenderer
 			.Append("\" fill=\"var(--_arrow)\" />\n");
 		sb.Append("  </marker>\n");
 
-		sb.Append("  <marker id=\"seq-arrow-open\" markerWidth=\"").Append(w)
+		sb.Append("  <marker id=\"seq-arrow-open\" markerUnits=\"userSpaceOnUse\" markerWidth=\"").Append(w)
 			.Append("\" markerHeight=\"").Append(h)
 			.Append("\" refX=\"").Append(w)
 			.Append("\" refY=\"").Append(halfH)
 			.Append("\" orient=\"auto-start-reverse\">\n");
 		sb.Append("    <polyline points=\"0 0, ").Append(w).Append(' ').Append(halfH)
 			.Append(", 0 ").Append(h)
-			.Append("\" fill=\"none\" stroke=\"var(--_arrow)\" stroke-width=\"1\" />\n");
+			.Append("\" fill=\"none\" stroke=\"var(--_arrow)\" stroke-width=\"1.5\" />\n");
 		sb.Append("  </marker>\n");
 
 		sb.Append("</defs>\n");
@@ -116,7 +117,9 @@ internal static class SequenceSvgRenderer
 			var boxX = actor.X - actor.Width / 2;
 			sb.Append("  <rect x=\"").Append(boxX).Append("\" y=\"").Append(actor.Y)
 				.Append("\" width=\"").Append(actor.Width).Append("\" height=\"").Append(actor.Height)
-				.Append("\" rx=\"4\" ry=\"4\" fill=\"var(--_node-fill)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
+				.Append("\" rx=\"").Append(RenderConstants.Radii.Rectangle)
+				.Append("\" ry=\"").Append(RenderConstants.Radii.Rectangle)
+				.Append("\" fill=\"var(--_node-fill)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
 				.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n  ");
 
 			MultilineUtils.AppendMultilineText(
@@ -148,7 +151,8 @@ internal static class SequenceSvgRenderer
 			.Append("\" y=\"").Append(activation.TopY)
 			.Append("\" width=\"").Append(activation.Width)
 			.Append("\" height=\"").Append(activation.BottomY - activation.TopY)
-			.Append("\" fill=\"var(--_node-fill)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
+			.Append("\" rx=\"4\" ry=\"4\"")
+			.Append(" fill=\"var(--_node-fill)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.InnerBox).Append("\" />");
 	}
 
@@ -221,7 +225,9 @@ internal static class SequenceSvgRenderer
 
 		sb.Append("  <rect x=\"").Append(block.X).Append("\" y=\"").Append(block.Y)
 			.Append("\" width=\"").Append(block.Width).Append("\" height=\"").Append(block.Height)
-			.Append("\" rx=\"0\" ry=\"0\" fill=\"none\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
+			.Append("\" rx=\"").Append(RenderConstants.Radii.Group)
+			.Append("\" ry=\"").Append(RenderConstants.Radii.Group)
+			.Append("\" fill=\"none\" stroke=\"var(--_group-stroke)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
 
 		var labelText = block.Label.Length > 0
@@ -236,7 +242,8 @@ internal static class SequenceSvgRenderer
 
 		sb.Append("  <rect x=\"").Append(block.X).Append("\" y=\"").Append(block.Y)
 			.Append("\" width=\"").Append(tabWidth).Append("\" height=\"").Append(tabHeight)
-			.Append("\" fill=\"var(--_group-hdr)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
+			.Append("\" rx=\"6\" ry=\"6\"")
+			.Append(" fill=\"var(--_group-hdr)\" stroke=\"var(--_group-stroke)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n  ");
 
 		MultilineUtils.AppendMultilineText(
@@ -269,8 +276,6 @@ internal static class SequenceSvgRenderer
 
 	private static void AppendNote(StringBuilder sb, PositionedSequenceNote note)
 	{
-		const int foldSize = 6;
-
 		sb.Append("\n<g class=\"note\"");
 		if (note.Position.HasValue)
 			sb.Append(" data-position=\"").Append(note.Position.Value.ToString().ToLowerInvariant()).Append('"');
@@ -288,14 +293,9 @@ internal static class SequenceSvgRenderer
 
 		sb.Append("  <rect x=\"").Append(note.X).Append("\" y=\"").Append(note.Y)
 			.Append("\" width=\"").Append(note.Width).Append("\" height=\"").Append(note.Height)
-			.Append("\" fill=\"var(--_group-hdr)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
-			.Append(RenderConstants.StrokeWidths.InnerBox).Append("\" />\n");
-
-		sb.Append("  <polygon points=\"")
-			.Append(note.X + note.Width - foldSize).Append(',').Append(note.Y).Append(' ')
-			.Append(note.X + note.Width).Append(',').Append(note.Y + foldSize).Append(' ')
-			.Append(note.X + note.Width - foldSize).Append(',').Append(note.Y + foldSize)
-			.Append("\" fill=\"var(--_inner-stroke)\" />\n  ");
+			.Append("\" rx=\"6\" ry=\"6\"")
+			.Append(" fill=\"var(--_group-hdr)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
+			.Append(RenderConstants.StrokeWidths.InnerBox).Append("\" />\n  ");
 
 		MultilineUtils.AppendMultilineText(
 			sb, note.Text,

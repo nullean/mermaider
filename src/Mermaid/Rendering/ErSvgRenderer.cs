@@ -22,7 +22,7 @@ internal static class ErSvgRenderer
 		try
 		{
 			StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, colors, transparent);
-			StyleBlock.AppendStyleBlock(sb, font, true);
+			StyleBlock.AppendStyleBlock(sb, font);
 			sb.Append("\n<defs>\n</defs>\n");
 
 			foreach (var rel in diagram.Relationships)
@@ -59,14 +59,17 @@ internal static class ErSvgRenderer
 		MultilineUtils.AppendEscapedAttr(sb, entity.Label.AsSpan());
 		sb.Append("\">\n");
 
+		var r = RenderConstants.Radii.Rectangle;
 		sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
 			.Append("\" width=\"").Append(width).Append("\" height=\"").Append(height)
-			.Append("\" rx=\"0\" ry=\"0\" fill=\"var(--_node-fill)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
+			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
+			.Append("\" fill=\"var(--_node-fill)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
 
 		sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
 			.Append("\" width=\"").Append(width).Append("\" height=\"").Append(headerHeight)
-			.Append("\" rx=\"0\" ry=\"0\" fill=\"var(--_group-hdr)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
+			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
+			.Append("\" fill=\"var(--_group-hdr)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
 
 		sb.Append("  ");
@@ -119,7 +122,7 @@ internal static class ErSvgRenderer
 			var keyText = string.Join(",", attr.Keys);
 			keyWidth = TextMetrics.MeasureTextWidth(keyText, KeyFontSize, KeyFontWeight) + 8;
 			sb.Append("<rect x=\"").Append(boxX + 6).Append("\" y=\"").Append(y - 7)
-				.Append("\" width=\"").Append(keyWidth).Append("\" height=\"14\" rx=\"2\" ry=\"2\" fill=\"var(--_key-badge)\" />");
+				.Append("\" width=\"").Append(keyWidth).Append("\" height=\"14\" rx=\"7\" ry=\"7\" fill=\"var(--_key-badge)\" />");
 			sb.Append("<text x=\"").Append(boxX + 6 + keyWidth / 2).Append("\" y=\"").Append(y)
 				.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 				.Append("\" font-size=\"").Append(KeyFontSize)
@@ -129,7 +132,7 @@ internal static class ErSvgRenderer
 
 		var typeX = boxX + 8 + (keyWidth > 0 ? keyWidth + 6 : 0);
 		sb.Append("<text x=\"").Append(typeX).Append("\" y=\"").Append(y)
-			.Append("\" class=\"mono\" dy=\"").Append(RenderConstants.TextBaselineShift)
+			.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(AttrFontSize)
 			.Append("\" font-weight=\"").Append(AttrFontWeight)
 			.Append("\"><tspan fill=\"var(--_text-muted)\">");
@@ -138,7 +141,7 @@ internal static class ErSvgRenderer
 
 		var nameX = boxX + boxWidth - 8;
 		sb.Append("<text x=\"").Append(nameX).Append("\" y=\"").Append(y)
-			.Append("\" class=\"mono\" text-anchor=\"end\" dy=\"").Append(RenderConstants.TextBaselineShift)
+			.Append("\" text-anchor=\"end\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(AttrFontSize)
 			.Append("\" font-weight=\"").Append(AttrFontWeight)
 			.Append("\"><tspan fill=\"var(--_text-sec)\">");
@@ -192,9 +195,11 @@ internal static class ErSvgRenderer
 		var bgW = metrics.Width + 8;
 		var bgH = metrics.Height + 6;
 
+		var lr = RenderConstants.Radii.EdgeLabel;
 		sb.Append("\n<rect x=\"").Append(mid.X - bgW / 2).Append("\" y=\"").Append(mid.Y - bgH / 2)
 			.Append("\" width=\"").Append(bgW).Append("\" height=\"").Append(bgH)
-			.Append("\" rx=\"2\" ry=\"2\" fill=\"var(--bg)\" stroke=\"var(--_inner-stroke)\" stroke-width=\"0.5\" />\n");
+			.Append("\" rx=\"").Append(lr).Append("\" ry=\"").Append(lr)
+			.Append("\" fill=\"var(--bg)\" stroke=\"var(--_inner-stroke)\" stroke-width=\"0.5\" />\n");
 		MultilineUtils.AppendMultilineText(
 			sb, rel.Label, mid.X, mid.Y,
 			RenderConstants.FontSizes.EdgeLabel,

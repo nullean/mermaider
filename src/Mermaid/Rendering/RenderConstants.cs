@@ -4,8 +4,8 @@ internal static class RenderConstants
 {
 	internal static class FontSizes
 	{
-		internal const int NodeLabel = 13;
-		internal const int EdgeLabel = 11;
+		internal const int NodeLabel = 14;
+		internal const int EdgeLabel = 12;
 		internal const int GroupHeader = 12;
 	}
 
@@ -18,22 +18,29 @@ internal static class RenderConstants
 
 	internal static class StrokeWidths
 	{
-		internal const double OuterBox = 1;
-		internal const double InnerBox = 0.75;
-		internal const double Connector = 1;
+		internal const double OuterBox = 1.25;
+		internal const double InnerBox = 1.5;
+		internal const double Connector = 2.25;
 	}
 
 	internal static class ArrowHead
 	{
-		internal const int Width = 8;
-		internal const int Height = 5;
+		internal const int Size = 12;
 	}
 
 	internal static class NodePadding
 	{
-		internal const int Horizontal = 20;
-		internal const int Vertical = 10;
-		internal const int DiamondExtra = 24;
+		internal const int Horizontal = 24;
+		internal const int Vertical = 14;
+		internal const int DiamondExtra = 28;
+	}
+
+	internal static class Radii
+	{
+		internal const int Rectangle = 6;
+		internal const int Rounded = 10;
+		internal const int Group = 8;
+		internal const int EdgeLabel = 10;
 	}
 
 	internal const string TextBaselineShift = "0.35em";

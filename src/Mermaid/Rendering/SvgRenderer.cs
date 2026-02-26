@@ -55,14 +55,14 @@ internal static class SvgRenderer
 
 	private static void AppendArrowDefs(StringBuilder sb)
 	{
-		var w = RenderConstants.ArrowHead.Width;
-		var h = RenderConstants.ArrowHead.Height;
-		var refX = w - 1;
+		var s = RenderConstants.ArrowHead.Size;
+		var w = s;
+		var h = s;
 
 		sb.Append("\n<defs>\n");
-		sb.Append("  <marker id=\"arrowhead\" markerWidth=\"").Append(w)
+		sb.Append("  <marker id=\"arrowhead\" markerUnits=\"userSpaceOnUse\" markerWidth=\"").Append(w)
 			.Append("\" markerHeight=\"").Append(h)
-			.Append("\" refX=\"").Append(refX)
+			.Append("\" refX=\"").Append(w)
 			.Append("\" refY=\"").Append(h / 2.0)
 			.Append("\" orient=\"auto\">\n");
 		sb.Append("    <polygon points=\"0 0, ").Append(w).Append(' ').Append(h / 2.0)
@@ -70,7 +70,7 @@ internal static class SvgRenderer
 			.Append("\" fill=\"var(--_arrow)\" stroke=\"var(--_arrow)\" stroke-width=\"0.75\" stroke-linejoin=\"round\" />\n");
 		sb.Append("  </marker>\n");
 
-		sb.Append("  <marker id=\"arrowhead-start\" markerWidth=\"").Append(w)
+		sb.Append("  <marker id=\"arrowhead-start\" markerUnits=\"userSpaceOnUse\" markerWidth=\"").Append(w)
 			.Append("\" markerHeight=\"").Append(h)
 			.Append("\" refX=\"1\" refY=\"").Append(h / 2.0)
 			.Append("\" orient=\"auto-start-reverse\">\n");
@@ -88,6 +88,7 @@ internal static class SvgRenderer
 	private static void AppendGroup(StringBuilder sb, PositionedGroup group, string font)
 	{
 		var headerHeight = RenderConstants.FontSizes.GroupHeader + 16;
+		var r = RenderConstants.Radii.Group;
 
 		sb.Append("\n<g class=\"subgraph\" data-id=\"");
 		MultilineUtils.AppendEscapedAttr(sb, group.Id.AsSpan());
@@ -97,12 +98,14 @@ internal static class SvgRenderer
 
 		sb.Append("  <rect x=\"").Append(group.X).Append("\" y=\"").Append(group.Y)
 			.Append("\" width=\"").Append(group.Width).Append("\" height=\"").Append(group.Height)
-			.Append("\" rx=\"0\" ry=\"0\" fill=\"var(--_group-fill)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
+			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
+			.Append("\" fill=\"var(--_group-fill)\" stroke=\"var(--_group-stroke)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
 
 		sb.Append("  <rect x=\"").Append(group.X).Append("\" y=\"").Append(group.Y)
 			.Append("\" width=\"").Append(group.Width).Append("\" height=\"").Append(headerHeight)
-			.Append("\" rx=\"0\" ry=\"0\" fill=\"var(--_group-hdr)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
+			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
+			.Append("\" fill=\"var(--_group-hdr)\" stroke=\"var(--_group-stroke)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
 
 		sb.Append("  ");
@@ -130,7 +133,7 @@ internal static class SvgRenderer
 
 		var dashArray = edge.Style == EdgeStyle.Dotted ? " stroke-dasharray=\"4 4\"" : "";
 		var strokeWidth = edge.Style == EdgeStyle.Thick
-			? RenderConstants.StrokeWidths.Connector * 2
+			? RenderConstants.StrokeWidths.Connector + 1
 			: RenderConstants.StrokeWidths.Connector;
 
 		sb.Append("\n<polyline class=\"edge\" data-from=\"");
@@ -185,13 +188,14 @@ internal static class SvgRenderer
 		MultilineUtils.AppendEscapedAttr(sb, label.AsSpan());
 		sb.Append("\">\n  ");
 
+		var lr = RenderConstants.Radii.EdgeLabel;
 		MultilineUtils.AppendMultilineTextWithBackground(
 			sb, label, mid.X, mid.Y,
 			metrics.Width, metrics.Height,
 			RenderConstants.FontSizes.EdgeLabel,
 			padding,
 			$"text-anchor=\"middle\" font-size=\"{RenderConstants.FontSizes.EdgeLabel}\" font-weight=\"{RenderConstants.FontWeights.EdgeLabel}\" fill=\"var(--_text-sec)\"",
-			"rx=\"2\" ry=\"2\" fill=\"var(--bg)\" stroke=\"var(--_inner-stroke)\" stroke-width=\"1\"");
+			$"rx=\"{lr}\" ry=\"{lr}\" fill=\"var(--bg)\" stroke=\"var(--_inner-stroke)\" stroke-width=\"1\"");
 
 		sb.Append("\n</g>");
 	}
@@ -253,10 +257,10 @@ internal static class SvgRenderer
 		switch (node.Shape)
 		{
 			case NodeShape.Rectangle:
-				AppendRect(sb, x, y, w, h, "0", fill, stroke, sw);
+				AppendRect(sb, x, y, w, h, RenderConstants.Radii.Rectangle.ToString(), fill, stroke, sw);
 				break;
 			case NodeShape.Rounded:
-				AppendRect(sb, x, y, w, h, "6", fill, stroke, sw);
+				AppendRect(sb, x, y, w, h, RenderConstants.Radii.Rounded.ToString(), fill, stroke, sw);
 				break;
 			case NodeShape.Stadium:
 				AppendRect(sb, x, y, w, h, (h / 2).ToString(), fill, stroke, sw);
@@ -354,7 +358,7 @@ internal static class SvgRenderer
 	private static void AppendSubroutine(StringBuilder sb, double x, double y, double w, double h, string fill, string stroke, string sw)
 	{
 		const int inset = 8;
-		AppendRect(sb, x, y, w, h, "0", fill, stroke, sw);
+		AppendRect(sb, x, y, w, h, RenderConstants.Radii.Rectangle.ToString(), fill, stroke, sw);
 		sb.Append("\n<line x1=\"").Append(x + inset).Append("\" y1=\"").Append(y)
 			.Append("\" x2=\"").Append(x + inset).Append("\" y2=\"").Append(y + h)
 			.Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"").Append(sw).Append("\" />\n");

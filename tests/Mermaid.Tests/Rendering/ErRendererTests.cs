@@ -73,11 +73,12 @@ public class ErRendererTests
 	}
 
 	[Test]
-	public void Contains_mono_font()
+	public void Uses_uniform_font()
 	{
 		var svg = MermaidRenderer.RenderSvg(SimpleEr);
 
-		svg.Should().Contain("class=\"mono\"");
+		svg.Should().Contain("font-family: 'Inter'");
+		svg.Should().NotContain("class=\"mono\"");
 	}
 
 	[Test]
