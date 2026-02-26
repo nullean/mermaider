@@ -206,6 +206,8 @@ internal static partial class FlowchartParser
 				if (subgraphStack.Count > 0)
 				{
 					var completed = subgraphStack.Pop();
+					if (!completed.NodeIds.Contains(completed.Id))
+						completed.NodeIds.Add(completed.Id);
 					var sg = new MermaidSubgraph
 					{
 						Id = completed.Id,
@@ -372,7 +374,9 @@ internal static partial class FlowchartParser
 			if (bareMatch.Success)
 			{
 				id = bareMatch.Groups[1].Value;
-				if (!nodes.ContainsKey(id))
+				if (nodes.ContainsKey(id))
+					AddToCurrentSubgraph(subgraphStack, id);
+				else
 					RegisterNode(nodes, subgraphStack, new MermaidNode(id, id, NodeShape.Rectangle));
 				remaining = text[bareMatch.Length..];
 			}
@@ -401,11 +405,18 @@ internal static partial class FlowchartParser
 		MermaidNode node)
 	{
 		nodes.TryAdd(node.Id, node);
+		AddToCurrentSubgraph(subgraphStack, node.Id);
+	}
+
+	private static void AddToCurrentSubgraph(
+		Stack<(string Id, string Label, List<string> NodeIds, List<MermaidSubgraph> Children, Direction? Dir)> subgraphStack,
+		string nodeId)
+	{
 		if (subgraphStack.Count > 0)
 		{
 			var current = subgraphStack.Peek();
-			if (!current.NodeIds.Contains(node.Id))
-				current.NodeIds.Add(node.Id);
+			if (!current.NodeIds.Contains(nodeId))
+				current.NodeIds.Add(nodeId);
 		}
 	}
 
@@ -432,4 +443,5 @@ internal static partial class FlowchartParser
 		}
 		return props;
 	}
+
 }

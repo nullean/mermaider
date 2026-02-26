@@ -35,12 +35,12 @@
 <path class="edge" data-from="Processing" data-to="Done" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="complete" d="M102.55599999999998,316.4 L102.55599999999998,388.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Done" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M102.55599999999998,434.59999999999997 L102.55599999999998,506.59999999999997" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="Idle" data-to="Processing" data-label="start">
-  <rect x="81.99199999999999" y="218.39999999999998" width="41.128" height="31.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
-<text x="102.55599999999998" y="234.2" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-sec)" dy="4.199999999999999">start</text>
+  <rect x="81.99199999999999" y="211.2" width="41.128" height="31.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+<text x="102.55599999999998" y="227" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-sec)" dy="4.199999999999999">start</text>
 </g>
 <g class="edge-label" data-from="Processing" data-to="Done" data-label="complete">
-  <rect x="70.97599999999997" y="336.59999999999997" width="63.16000000000001" height="31.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
-<text x="102.55599999999998" y="352.4" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-sec)" dy="4.199999999999999">complete</text>
+  <rect x="70.97599999999997" y="329.4" width="63.16000000000001" height="31.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+<text x="102.55599999999998" y="345.2" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-sec)" dy="4.199999999999999">complete</text>
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
   <circle cx="102.55599999999998" cy="60" r="12" fill="var(--_text)" stroke="none" />

@@ -32,8 +32,8 @@ internal static class EdgeRouter
 		foreach (var (origIdx, reversed, chain) in edgeChains)
 		{
 			List<LayoutPoint> points;
-			if (reversed && chain.Count == 2 && chain[0] < graph.RealNodeCount && chain[1] < graph.RealNodeCount)
-				points = RouteBackEdge(graph, chain[0], chain[1]);
+			if (reversed && chain[0] < graph.RealNodeCount && chain[^1] < graph.RealNodeCount)
+				points = RouteBackEdge(graph, chain[0], chain[^1]);
 			else
 				points = RouteChain(graph, chain, useSideRouting);
 
@@ -200,14 +200,21 @@ internal static class EdgeRouter
 	/// </summary>
 	private static List<LayoutPoint> RouteBackEdge(GraphBuffer graph, int source, int target)
 	{
-		const double detourGap = 20;
+		const double detourGap = 36;
 
-		var srcRight = graph.X[source] + graph.NodeWidths[source];
-		var tgtRight = graph.X[target] + graph.NodeWidths[target];
 		var srcCY = graph.Y[source] + graph.NodeHeights[source] / 2.0;
 		var tgtCY = graph.Y[target] + graph.NodeHeights[target] / 2.0;
 
-		var detourX = Math.Max(srcRight, tgtRight) + detourGap;
+		var maxRight = 0.0;
+		for (var i = 0; i < graph.NodeCount; i++)
+		{
+			var right = graph.X[i] + (i < graph.RealNodeCount ? graph.NodeWidths[i] : 0);
+			if (right > maxRight) maxRight = right;
+		}
+		var detourX = maxRight + detourGap;
+
+		var srcRight = graph.X[source] + graph.NodeWidths[source];
+		var tgtRight = graph.X[target] + graph.NodeWidths[target];
 
 		return
 		[
@@ -218,40 +225,34 @@ internal static class EdgeRouter
 		];
 	}
 
+	/// <summary>
+	/// Place the label at the midpoint of the longest straight segment,
+	/// biased toward the start so it doesn't overlap arrowheads at the end.
+	/// </summary>
 	private static LayoutPoint? ComputeLabelPosition(List<LayoutPoint> points)
 	{
 		if (points.Count < 2) return null;
 
-		var totalLength = 0.0;
-		for (var i = 1; i < points.Count; i++)
-		{
-			var dx = points[i].X - points[i - 1].X;
-			var dy = points[i].Y - points[i - 1].Y;
-			totalLength += Math.Sqrt(dx * dx + dy * dy);
-		}
-
-		var halfLength = totalLength / 2.0;
-		var accumulated = 0.0;
+		var bestIdx = 1;
+		var bestLen = 0.0;
 
 		for (var i = 1; i < points.Count; i++)
 		{
 			var dx = points[i].X - points[i - 1].X;
 			var dy = points[i].Y - points[i - 1].Y;
 			var segLen = Math.Sqrt(dx * dx + dy * dy);
-
-			if (accumulated + segLen >= halfLength)
+			if (segLen > bestLen)
 			{
-				var t = segLen > 0 ? (halfLength - accumulated) / segLen : 0;
-				return new LayoutPoint(
-					points[i - 1].X + dx * t,
-					points[i - 1].Y + dy * t);
+				bestLen = segLen;
+				bestIdx = i;
 			}
-
-			accumulated += segLen;
 		}
 
+		// Bias toward the start of the segment (t=0.4 instead of 0.5)
+		// to keep labels away from arrowheads at the end
+		const double t = 0.4;
 		return new LayoutPoint(
-			(points[0].X + points[^1].X) / 2.0,
-			(points[0].Y + points[^1].Y) / 2.0);
+			points[bestIdx - 1].X + (points[bestIdx].X - points[bestIdx - 1].X) * t,
+			points[bestIdx - 1].Y + (points[bestIdx].Y - points[bestIdx - 1].Y) * t);
 	}
 }

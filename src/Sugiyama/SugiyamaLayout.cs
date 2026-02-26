@@ -41,11 +41,18 @@ public static class SugiyamaLayout
 
 		CycleRemover.Run(buf);
 		LayerAssigner.Run(buf);
+
+		if (input.Subgraphs.Count > 0)
+			PromoteDisconnectedSubgraphNodes(buf, input);
+
 		CrossingMinimizer.Run(buf, options.CrossingIterations);
 		CoordinateAssigner.Run(buf, options.NodeSpacing, options.LayerSpacing);
 
 		if (input.Subgraphs.Count > 0)
+		{
+			CompactDisconnectedSubgraphNodes(buf, input, options.NodeSpacing);
 			FixSubgraphSpacing(buf, input);
+		}
 
 		var useSideRouting = input.Direction is LayoutDirection.LR or LayoutDirection.RL;
 		var routes = EdgeRouter.Run(buf, useSideRouting);
@@ -262,6 +269,145 @@ public static class SugiyamaLayout
 		foreach (var child in g.Children)
 			children.Add(ShiftGroup(child, dx, dy));
 		return new LayoutGroupResult(g.Id, g.Label, g.X + dx, g.Y + dy, g.Width, g.Height, children);
+	}
+
+	// ========================================================================
+	// Disconnected subgraph nodes — move edgeless nodes to their siblings' layer
+	// ========================================================================
+
+	private static void PromoteDisconnectedSubgraphNodes(GraphBuffer buf, LayoutGraph input)
+	{
+		var hasEdge = new bool[buf.RealNodeCount];
+		foreach (var e in buf.Edges)
+		{
+			if (e.From < buf.RealNodeCount) hasEdge[e.From] = true;
+			if (e.To < buf.RealNodeCount) hasEdge[e.To] = true;
+		}
+
+		var nodeIndex = new Dictionary<string, int>(buf.RealNodeCount);
+		for (var i = 0; i < buf.RealNodeCount; i++)
+			nodeIndex[buf.NodeIds[i]] = i;
+
+		var changed = false;
+		foreach (var sg in input.Subgraphs)
+			changed |= PromoteInSubgraph(buf, sg, nodeIndex, hasEdge);
+
+		if (changed)
+			LayerAssigner.BuildLayerArrays(buf);
+	}
+
+	private static bool PromoteInSubgraph(
+		GraphBuffer buf, LayoutSubgraph sg,
+		Dictionary<string, int> nodeIndex, bool[] hasEdge)
+	{
+		var changed = false;
+		foreach (var child in sg.Children)
+			changed |= PromoteInSubgraph(buf, child, nodeIndex, hasEdge);
+
+		var maxSiblingLayer = -1;
+		foreach (var nodeId in sg.NodeIds)
+		{
+			if (!nodeIndex.TryGetValue(nodeId, out var idx)) continue;
+			if (hasEdge[idx] && buf.Layers[idx] > maxSiblingLayer)
+				maxSiblingLayer = buf.Layers[idx];
+		}
+
+		if (maxSiblingLayer < 0) return changed;
+
+		foreach (var nodeId in sg.NodeIds)
+		{
+			if (!nodeIndex.TryGetValue(nodeId, out var idx)) continue;
+			if (!hasEdge[idx] && buf.Layers[idx] != maxSiblingLayer)
+			{
+				buf.Layers[idx] = maxSiblingLayer;
+				changed = true;
+			}
+		}
+
+		return changed;
+	}
+
+	// ========================================================================
+	// Compact disconnected subgraph nodes next to their connected siblings
+	// ========================================================================
+
+	private static void CompactDisconnectedSubgraphNodes(
+		GraphBuffer buf, LayoutGraph input, double nodeSpacing)
+	{
+		var nodeIndex = new Dictionary<string, int>(buf.RealNodeCount);
+		for (var i = 0; i < buf.RealNodeCount; i++)
+			nodeIndex[buf.NodeIds[i]] = i;
+
+		var hasEdge = new bool[buf.RealNodeCount];
+		foreach (var e in buf.Edges)
+		{
+			if (e.From < buf.RealNodeCount) hasEdge[e.From] = true;
+			if (e.To < buf.RealNodeCount) hasEdge[e.To] = true;
+		}
+
+		CompactSiblings(buf, input.Subgraphs, nodeIndex, hasEdge, nodeSpacing);
+	}
+
+	private static void CompactSiblings(
+		GraphBuffer buf, IReadOnlyList<LayoutSubgraph> siblings,
+		Dictionary<string, int> nodeIndex, bool[] hasEdge, double spacing)
+	{
+		foreach (var sg in siblings)
+			CompactSiblings(buf, sg.Children, nodeIndex, hasEdge, spacing);
+
+		if (siblings.Count == 0) return;
+
+		// Build per-subgraph info sorted by connected-node center X
+		var infos = new List<(LayoutSubgraph Sg, double ConnMinX, double ConnMaxX, List<int> Disconnected)>();
+		foreach (var sg in siblings)
+		{
+			var connMinX = double.MaxValue;
+			var connMaxX = double.MinValue;
+			var disconnected = new List<int>();
+			foreach (var nodeId in sg.NodeIds)
+			{
+				if (!nodeIndex.TryGetValue(nodeId, out var idx)) continue;
+				if (hasEdge[idx])
+				{
+					connMinX = Math.Min(connMinX, buf.X[idx]);
+					connMaxX = Math.Max(connMaxX, buf.X[idx] + buf.NodeWidths[idx]);
+				}
+				else
+				{
+					disconnected.Add(idx);
+				}
+			}
+			if (disconnected.Count > 0 && connMaxX > double.MinValue)
+				infos.Add((sg, connMinX, connMaxX, disconnected));
+		}
+
+		if (infos.Count == 0) return;
+		infos.Sort((a, b) => a.ConnMinX.CompareTo(b.ConnMinX));
+
+		for (var i = 0; i < infos.Count; i++)
+		{
+			var (_, connMinX, connMaxX, disconnected) = infos[i];
+
+			// Right boundary: leftmost connected X of the next sibling
+			var rightBound = double.MaxValue;
+			if (i + 1 < infos.Count)
+				rightBound = infos[i + 1].ConnMinX;
+
+			// Measure total width needed for disconnected nodes
+			var totalW = 0.0;
+			foreach (var idx in disconnected)
+				totalW += buf.NodeWidths[idx] + spacing;
+
+			var nextX = connMaxX + spacing;
+			if (nextX + totalW > rightBound)
+				nextX = connMinX - totalW;
+
+			foreach (var idx in disconnected)
+			{
+				buf.X[idx] = nextX;
+				nextX += buf.NodeWidths[idx] + spacing;
+			}
+		}
 	}
 
 	// ========================================================================

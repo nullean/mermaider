@@ -153,14 +153,19 @@ internal static class CoordinateAssigner
 			if (!adjacency.TryGetValue(node, out var neighbors))
 				continue;
 
-			var positions = new List<double>();
+			var realPositions = new List<double>();
+			var allPositions = new List<double>();
 			foreach (var neighbor in neighbors)
 			{
 				if (graph.Layers[neighbor] != targetLayer) continue;
 				var neighborW = neighbor < graph.RealNodeCount ? graph.NodeWidths[neighbor] : 0;
-				positions.Add(graph.X[neighbor] + neighborW / 2.0);
+				var pos = graph.X[neighbor] + neighborW / 2.0;
+				allPositions.Add(pos);
+				if (neighbor < graph.RealNodeCount)
+					realPositions.Add(pos);
 			}
 
+			var positions = realPositions.Count > 0 ? realPositions : allPositions;
 			if (positions.Count == 0) continue;
 
 			positions.Sort();

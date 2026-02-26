@@ -65,18 +65,33 @@ internal static class LightweightLayoutEngine
 
 		var result = SugiyamaLayout.Compute(layoutGraph, layoutOptions);
 
-		return MapResult(result, graph, strict);
+		var subgraphIds = new HashSet<string>();
+		CollectSubgraphIds(graph.Subgraphs, subgraphIds);
+
+		return MapResult(result, graph, subgraphIds, strict);
+	}
+
+	private static void CollectSubgraphIds(IReadOnlyList<MermaidSubgraph> sgs, HashSet<string> ids)
+	{
+		foreach (var sg in sgs)
+		{
+			ids.Add(sg.Id);
+			CollectSubgraphIds(sg.Children, ids);
+		}
 	}
 
 	private static LayoutSubgraph MapSubgraph(MermaidSubgraph sg) =>
 		new(sg.Id, sg.Label, sg.NodeIds, sg.Children.Select(MapSubgraph).ToList());
 
-	private static PositionedGraph MapResult(LayoutResult result, MermaidGraph graph, StrictModeOptions? strict)
+	private static PositionedGraph MapResult(LayoutResult result, MermaidGraph graph, HashSet<string> subgraphIds, StrictModeOptions? strict)
 	{
 		var nodeLookup = graph.Nodes;
 		var positionedNodes = new List<PositionedNode>(result.Nodes.Count);
 		foreach (var n in result.Nodes)
 		{
+			if (subgraphIds.Contains(n.Id))
+				continue;
+
 			var inlineStyle = strict is null ? ResolveNodeStyle(n.Id, graph) : null;
 			var cssClass = strict is not null && graph.ClassAssignments.TryGetValue(n.Id, out var cls) ? cls : null;
 
