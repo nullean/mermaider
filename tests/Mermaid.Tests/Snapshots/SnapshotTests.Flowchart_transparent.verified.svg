@@ -30,7 +30,7 @@
   </marker>
 </defs>
 
-<polyline class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="72,86.2 72,158.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M72,86.2 L72,158.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="A" data-label="A" data-shape="rectangle">
   <rect x="40" y="40" width="64" height="46.2" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.5" />
   <text x="72" y="63.1" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">A</text>

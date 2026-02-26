@@ -1,4 +1,3 @@
-using System.Collections.Frozen;
 using System.Text.RegularExpressions;
 using Mermaid.Models;
 using Mermaid.Text;
@@ -163,7 +162,8 @@ internal static partial class StateParser
 		return new MermaidGraph
 		{
 			Direction = direction,
-			Nodes = nodes.ToFrozenDictionary(),
+			Nodes = nodes,
+			NodeOrder = nodes.Keys.ToList(),
 			Edges = edges,
 			Subgraphs = subgraphs,
 		};

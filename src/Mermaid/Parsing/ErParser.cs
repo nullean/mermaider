@@ -160,13 +160,14 @@ internal static partial class ErParser
 
 	private static ErCardinality? ParseCardinality(string str)
 	{
-		var sorted = new string(str.OrderBy(c => c).ToArray());
+		var normalized = str.Replace('}', '{');
+		var sorted = new string(normalized.OrderBy(c => c).ToArray());
 
 		return sorted switch
 		{
 			"||" => ErCardinality.One,
 			"o|" => ErCardinality.ZeroOne,
-			"|}" or "{|" => ErCardinality.Many,
+			"{|" => ErCardinality.Many,
 			"o{" => ErCardinality.ZeroMany,
 			_ => null,
 		};

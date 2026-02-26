@@ -31,7 +31,12 @@ internal static class EdgeRouter
 
 		foreach (var (origIdx, reversed, chain) in edgeChains)
 		{
-			var points = RouteChain(graph, chain, useSideRouting);
+			List<LayoutPoint> points;
+			if (reversed && chain.Count == 2 && chain[0] < graph.RealNodeCount && chain[1] < graph.RealNodeCount)
+				points = RouteBackEdge(graph, chain[0], chain[1]);
+			else
+				points = RouteChain(graph, chain, useSideRouting);
+
 			var labelPos = ComputeLabelPosition(points);
 
 			if (reversed)
@@ -185,6 +190,32 @@ internal static class EdgeRouter
 			var portY = graph.Y[node] + graph.NodeHeights[node];
 			points.Add(new LayoutPoint(portX, portY));
 		}
+	}
+
+	/// <summary>
+	/// Route a reversed (back) edge with a detour to the right so it doesn't
+	/// overlap with the forward edge on the same path.
+	/// In canonical TD form: exits source right side, jogs right, goes down,
+	/// enters target right side.
+	/// </summary>
+	private static List<LayoutPoint> RouteBackEdge(GraphBuffer graph, int source, int target)
+	{
+		const double detourGap = 20;
+
+		var srcRight = graph.X[source] + graph.NodeWidths[source];
+		var tgtRight = graph.X[target] + graph.NodeWidths[target];
+		var srcCY = graph.Y[source] + graph.NodeHeights[source] / 2.0;
+		var tgtCY = graph.Y[target] + graph.NodeHeights[target] / 2.0;
+
+		var detourX = Math.Max(srcRight, tgtRight) + detourGap;
+
+		return
+		[
+			new(srcRight, srcCY),
+			new(detourX, srcCY),
+			new(detourX, tgtCY),
+			new(tgtRight, tgtCY),
+		];
 	}
 
 	private static LayoutPoint? ComputeLabelPosition(List<LayoutPoint> points)

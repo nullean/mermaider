@@ -46,15 +46,15 @@
 <line class="lifeline" data-actor="B" x1="220" y1="70" x2="220" y2="290" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
 <g class="message" data-from="A" data-to="B" data-label="OK" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="80" y1="118" x2="220" y2="118" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
-  <text x="150" y="112" font-size="12" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">OK</text>
+  <text x="150" y="108" font-size="12" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">OK</text>
 </g>
 <g class="message" data-from="A" data-to="B" data-label="Error" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="80" y1="182" x2="220" y2="182" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
-  <text x="150" y="176" font-size="12" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">Error</text>
+  <text x="150" y="172" font-size="12" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">Error</text>
 </g>
 <g class="message" data-from="A" data-to="B" data-label="Ping" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="80" y1="250" x2="220" y2="250" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
-  <text x="150" y="244" font-size="12" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">Ping</text>
+  <text x="150" y="240" font-size="12" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">Ping</text>
 </g>
 <g class="actor" data-id="A" data-label="A" data-type="participant">
   <rect x="40" y="30" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.25" />

@@ -1,4 +1,3 @@
-using System.Collections.Frozen;
 using System.Text.RegularExpressions;
 using Mermaid.Models;
 using Mermaid.Text;
@@ -34,8 +33,11 @@ internal static partial class FlowchartParser
 	[GeneratedRegex(@"^([\w-]+)\s*\[(.+)\]$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex SubgraphBracketPattern();
 
-	[GeneratedRegex(@"^(<)?(-->|-.->|==>|---|-\.-|===)(?:\|([^|]*)\|)?", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^(<)?(-{2,}>|-{3,}|-\.+->|-\.+-|={2,}>|={3,})(?:\|([^|]*)\|)?", RegexOptions.None, TimeoutMs)]
 	private static partial Regex ArrowPattern();
+
+	[GeneratedRegex(@"^(<)?(-{2}|={2}|-\.)\s+(.+?)\s+(-{2}>|={2}>|\.->)", RegexOptions.None, TimeoutMs)]
+	private static partial Regex InlineTextArrowPattern();
 
 	[GeneratedRegex(@"^:::([\w][\w-]*)", RegexOptions.None, TimeoutMs)]
 	private static partial Regex ClassShorthandPattern();
@@ -76,7 +78,7 @@ internal static partial class FlowchartParser
 	[GeneratedRegex(@"^([\w-]+)\{(.+?)\}", RegexOptions.None, TimeoutMs)]
 	private static partial Regex DiamondPattern();
 
-	[GeneratedRegex(@"^([\w-]+)", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^([\w]+(?:-[\w]+)*)", RegexOptions.None, TimeoutMs)]
 	private static partial Regex BareNodePattern();
 
 	private static readonly (Func<Regex> Pattern, NodeShape Shape)[] s_nodePatterns =
@@ -124,7 +126,7 @@ internal static partial class FlowchartParser
 		var nodes = new Dictionary<string, MermaidNode>();
 		var edges = new List<MermaidEdge>();
 		var subgraphs = new List<MermaidSubgraph>();
-		var classDefs = new Dictionary<string, FrozenDictionary<string, string>>();
+		var classDefs = new Dictionary<string, IReadOnlyDictionary<string, string>>();
 		var classAssignments = new Dictionary<string, string>();
 		var nodeStyles = new Dictionary<string, Dictionary<string, string>>();
 		var subgraphStack = new Stack<(string Id, string Label, List<string> NodeIds, List<MermaidSubgraph> Children, Direction? Dir)>();
@@ -232,14 +234,15 @@ internal static partial class FlowchartParser
 		return new MermaidGraph
 		{
 			Direction = direction,
-			Nodes = nodes.ToFrozenDictionary(),
+			Nodes = nodes,
+			NodeOrder = nodes.Keys.ToList(),
 			Edges = edges,
 			Subgraphs = subgraphs,
-			ClassDefs = classDefs.ToFrozenDictionary(),
-			ClassAssignments = classAssignments.ToFrozenDictionary(),
-			NodeStyles = nodeStyles.ToFrozenDictionary(
+			ClassDefs = classDefs,
+			ClassAssignments = classAssignments,
+			NodeStyles = nodeStyles.ToDictionary(
 				kvp => kvp.Key,
-				kvp => kvp.Value.ToFrozenDictionary())
+				kvp => (IReadOnlyDictionary<string, string>)kvp.Value)
 		};
 	}
 
@@ -265,15 +268,34 @@ internal static partial class FlowchartParser
 
 		while (remaining.Length > 0)
 		{
-			var arrowMatch = ArrowPattern().Match(remaining);
-			if (!arrowMatch.Success)
-				break;
+			bool hasArrowStart;
+			string arrowOp;
+			string? edgeLabel;
+			int consumedLength;
 
-			var hasArrowStart = arrowMatch.Groups[1].Success;
-			var arrowOp = arrowMatch.Groups[2].Value;
-			var rawLabel = arrowMatch.Groups[3].Success ? arrowMatch.Groups[3].Value.Trim() : null;
-			var edgeLabel = rawLabel is { Length: > 0 } ? MultilineUtils.NormalizeBrTags(rawLabel) : null;
-			remaining = remaining[arrowMatch.Length..].Trim();
+			var inlineMatch = InlineTextArrowPattern().Match(remaining);
+			if (inlineMatch.Success)
+			{
+				hasArrowStart = inlineMatch.Groups[1].Success;
+				arrowOp = inlineMatch.Groups[4].Value;
+				var rawLabel = inlineMatch.Groups[3].Value.Trim();
+				edgeLabel = rawLabel.Length > 0 ? MultilineUtils.NormalizeBrTags(rawLabel) : null;
+				consumedLength = inlineMatch.Length;
+			}
+			else
+			{
+				var arrowMatch = ArrowPattern().Match(remaining);
+				if (!arrowMatch.Success)
+					break;
+
+				hasArrowStart = arrowMatch.Groups[1].Success;
+				arrowOp = arrowMatch.Groups[2].Value;
+				var rawLabel = arrowMatch.Groups[3].Success ? arrowMatch.Groups[3].Value.Trim() : null;
+				edgeLabel = rawLabel is { Length: > 0 } ? MultilineUtils.NormalizeBrTags(rawLabel) : null;
+				consumedLength = arrowMatch.Length;
+			}
+
+			remaining = remaining[consumedLength..].Trim();
 
 			var style = ArrowStyleFromOp(arrowOp);
 			var hasArrowEnd = arrowOp.EndsWith('>');
@@ -396,7 +418,7 @@ internal static partial class FlowchartParser
 		return EdgeStyle.Solid;
 	}
 
-	private static FrozenDictionary<string, string> ParseStyleProps(string propsStr)
+	private static IReadOnlyDictionary<string, string> ParseStyleProps(string propsStr)
 	{
 		var props = new Dictionary<string, string>();
 		foreach (var pair in propsStr.Split(','))
@@ -408,6 +430,6 @@ internal static partial class FlowchartParser
 			if (key.Length > 0 && val.Length > 0)
 				props[key] = val;
 		}
-		return props.ToFrozenDictionary();
+		return props;
 	}
 }

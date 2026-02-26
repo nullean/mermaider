@@ -237,5 +237,147 @@ public static class DiagramExamples
 			    string name UK
 			  }
 			"""),
+
+		// ── Additional edge / stress cases ──────────────────────────────
+
+		("flowchart-christmas", "Flowchart — Decision Tree", """
+			flowchart TD
+			  A[Christmas] -->|Get money| B(Go shopping)
+			  B --> C{Let me think}
+			  C -->|One| D[Laptop]
+			  C -->|Two| E[iPhone]
+			  C -->|Three| F[Car]
+			"""),
+
+		("flowchart-network", "Flowchart — Nested Subgraphs", """
+			flowchart TB
+			  internet
+			  nat
+			  router
+			  subgraph project
+			    router
+			    nat
+			    subgraph subnet1
+			      compute1
+			      lb1
+			    end
+			    subgraph subnet2
+			      compute2
+			      lb2
+			    end
+			  end
+			  internet --> router
+			  router --> subnet1 & subnet2
+			  subnet1 & subnet2 --> nat --> internet
+			"""),
+
+		("flowchart-long-edges", "Flowchart — Long & Mixed Edges", """
+			graph TD
+			  A ----> B
+			  A ====> C
+			  A -...-> D
+			  E -->|text| F
+			  E -. dotted text .-> G
+			  E == thick text ==> H
+			"""),
+
+		("flowchart-backlinks", "Flowchart — Styled Subgraphs", """
+			flowchart TB
+			  A
+			  B
+			  subgraph foo[Foo SubGraph]
+			    C
+			    D
+			  end
+			  subgraph bar[Bar SubGraph]
+			    E
+			    F
+			  end
+			  A-->B
+			  B-->C
+			  C-->D
+			  B-->D
+			  D-->E
+			  E-->A
+			"""),
+
+		("state-multi-end", "State — Multiple End States", """
+			stateDiagram-v2
+			  [*] --> Active
+			  Active --> Inactive : disable
+			  Active --> Closed : close
+			  Inactive --> Active : reactivate
+			  Inactive --> Closed : close
+			  Closed --> [*]
+			"""),
+
+		("state-linear", "State — Linear Flow", """
+			stateDiagram-v2
+			  [*] --> Draft
+			  Draft --> Review : submit
+			  Review --> Published : approve
+			  Published --> [*]
+			"""),
+
+		("sequence-par", "Sequence — Par Block", """
+			sequenceDiagram
+			  participant Alice
+			  participant Bob
+			  participant John
+			  par this happens in parallel
+			    Alice -->> Bob: Parallel message 1
+			  and
+			    Alice -->> John: Parallel message 2
+			  end
+			  Bob -->> Alice: Response 1
+			  John -->> Alice: Response 2
+			"""),
+
+		("sequence-full", "Sequence — Kitchen Sink", """
+			sequenceDiagram
+			  actor U as User
+			  participant F as Frontend
+			  participant B as Backend
+			  participant DB as Database
+			  U->>F: Click login
+			  F->>+B: POST /auth
+			  Note right of B: Hash & verify
+			  B->>+DB: SELECT user
+			  DB-->>-B: Row
+			  alt Valid
+			    B-->>F: 200 JWT
+			    Note over F,B: Session established
+			  else Invalid
+			    B-->>F: 401 Unauthorized
+			  end
+			  B-->>-F: Done
+			  F-->>U: Show dashboard
+			  loop Every 30s
+			    F->>B: Heartbeat
+			    B-->>F: OK
+			  end
+			"""),
+
+		("class-visibility", "Class — Visibility Modifiers", """
+			classDiagram
+			  class MyService {
+			    +String publicField
+			    -int privateField
+			    #bool protectedField
+			    ~float packageField
+			    +getStatus() String
+			    -validate() bool
+			    #reset() void
+			    ~notify() void
+			  }
+			"""),
+
+		("er-cardinalities", "ER — All Cardinalities", """
+			erDiagram
+			  A ||--|| B : one-to-one
+			  C ||--o{ D : one-to-zero-or-many
+			  E ||--|{ F : one-to-one-or-many
+			  G }o--o{ H : zero-or-many-to-zero-or-many
+			"""),
 	];
 }

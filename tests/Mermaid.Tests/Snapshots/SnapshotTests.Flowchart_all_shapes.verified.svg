@@ -30,23 +30,11 @@
   </marker>
 </defs>
 
-<polyline class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="153.94,106.182 225.94,106.182" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<polyline class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="333.496,106.182 405.496,106.182" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<polyline class="edge" data-from="C" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="505.072,106.182 577.072,106.182" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<polyline class="edge" data-from="D" data-to="E" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="709.436,106.182 781.436,106.182" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<polyline class="edge" data-from="E" data-to="F" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="889.436,106.182 961.436,106.182" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<g class="node" data-id="D" data-label="Diamond" data-shape="diamond">
-  <polygon points="643.254,40 709.436,106.182 643.254,172.364 577.072,106.182" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.5" />
-  <text x="643.254" y="106.182" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Diamond</text>
-</g>
-<g class="node" data-id="E" data-label="Circle" data-shape="circle">
-  <circle cx="835.436" cy="106.182" r="54" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.5" />
-  <text x="835.436" y="106.182" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Circle</text>
-</g>
-<g class="node" data-id="F" data-label="Asymmetric" data-shape="asymmetric">
-  <polygon points="973.436,83.082 1096.952,83.082 1096.952,129.28199999999998 973.436,129.28199999999998 961.436,106.18199999999999" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.5" />
-  <text x="1029.194" y="106.18199999999999" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Asymmetric</text>
-</g>
+<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M153.94,106.182 L225.94,106.182" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M333.496,106.182 L405.496,106.182" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="C" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M505.072,106.182 L577.072,106.182" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="D" data-to="E" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M709.436,106.182 L781.436,106.182" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="E" data-to="F" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M889.436,106.182 L961.436,106.182" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="A" data-label="Rectangle" data-shape="rectangle">
   <rect x="40" y="83.082" width="113.94" height="46.2" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.5" />
   <text x="96.97" y="106.18199999999999" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Rectangle</text>
@@ -58,5 +46,17 @@
 <g class="node" data-id="C" data-label="Stadium" data-shape="stadium">
   <rect x="405.496" y="83.082" width="99.576" height="46.2" rx="23.1" ry="23.1" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.5" />
   <text x="455.284" y="106.18199999999999" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Stadium</text>
+</g>
+<g class="node" data-id="D" data-label="Diamond" data-shape="diamond">
+  <polygon points="643.254,40 709.436,106.182 643.254,172.364 577.072,106.182" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.5" />
+  <text x="643.254" y="106.182" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Diamond</text>
+</g>
+<g class="node" data-id="E" data-label="Circle" data-shape="circle">
+  <circle cx="835.436" cy="106.182" r="54" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.5" />
+  <text x="835.436" y="106.182" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Circle</text>
+</g>
+<g class="node" data-id="F" data-label="Asymmetric" data-shape="asymmetric">
+  <polygon points="973.436,83.082 1096.952,83.082 1096.952,129.28199999999998 973.436,129.28199999999998 961.436,106.18199999999999" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.5" />
+  <text x="1029.194" y="106.18199999999999" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Asymmetric</text>
 </g>
 </svg>

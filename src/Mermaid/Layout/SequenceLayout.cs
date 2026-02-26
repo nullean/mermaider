@@ -20,7 +20,8 @@ internal static class SequenceLayout
 	private const double BlockHeaderExtra = 28;
 	private const double DividerExtra = 24;
 	private const double NoteWidth = 120;
-	private const double NotePadding = 8;
+	private const double NoteVPad = 14;
+	private const double NoteHPad = 16;
 	private const double NoteGap = 10;
 	private const double NestingOffset = 4;
 
@@ -99,6 +100,18 @@ internal static class SequenceLayout
 			}
 		}
 
+		var notesByAfterIndex = new Dictionary<int, List<int>>();
+		for (var ni = 0; ni < diagram.Notes.Count; ni++)
+		{
+			var afterIdx = diagram.Notes[ni].AfterIndex;
+			if (!notesByAfterIndex.TryGetValue(afterIdx, out var list))
+			{
+				list = [];
+				notesByAfterIndex[afterIdx] = list;
+			}
+			list.Add(ni);
+		}
+
 		var activationStacks = new Dictionary<string, Stack<(double StartY, int Depth)>>();
 		var activations = new List<Activation>();
 
@@ -150,6 +163,17 @@ internal static class SequenceLayout
 			}
 
 			messageY += isSelf ? SelfMessageHeight + MessageRowHeight : MessageRowHeight;
+
+			if (notesByAfterIndex.TryGetValue(msgIdx, out var noteIndices))
+			{
+				foreach (var ni in noteIndices)
+				{
+					var noteH = RenderConstants.FontSizes.EdgeLabel + NoteVPad * 2;
+					var notePosition = diagram.Notes[ni].Position;
+					if (notePosition == SequenceNotePosition.Over)
+						messageY += noteH + 4;
+				}
+			}
 		}
 
 		foreach (var (actorId, stack) in activationStacks)
@@ -252,18 +276,17 @@ internal static class SequenceLayout
 		var notes = new List<PositionedSequenceNote>(diagram.Notes.Count);
 		foreach (var note in diagram.Notes)
 		{
-			var noteW = Math.Max(
-				NoteWidth,
-				TextMetrics.MeasureTextWidth(
-					note.Text,
-					RenderConstants.FontSizes.EdgeLabel,
-					RenderConstants.FontWeights.EdgeLabel) + NotePadding * 2);
-			var noteH = RenderConstants.FontSizes.EdgeLabel + NotePadding * 2;
+			var textW = TextMetrics.MeasureTextWidth(
+				note.Text,
+				RenderConstants.FontSizes.EdgeLabel,
+				RenderConstants.FontWeights.EdgeLabel) + NoteHPad * 2;
+			var noteW = Math.Max(NoteWidth, textW);
+			var noteH = RenderConstants.FontSizes.EdgeLabel + NoteVPad * 2;
 
 			var refMsg = note.AfterIndex >= 0 && note.AfterIndex < messages.Count
 				? messages[note.AfterIndex]
 				: null;
-			var noteY = (refMsg?.Y ?? actorY + ActorHeight) + 4;
+			var noteY = (refMsg?.Y ?? actorY + ActorHeight) + 10;
 
 			actorIndex.TryGetValue(note.ActorIds[0], out var firstActorIdx);
 			double noteX;
@@ -280,7 +303,10 @@ internal static class SequenceLayout
 				if (note.ActorIds.Count > 1)
 				{
 					actorIndex.TryGetValue(note.ActorIds[^1], out var lastActorIdx);
-					noteX = (actorCenterX[firstActorIdx] + actorCenterX[lastActorIdx]) / 2 - noteW / 2;
+					var spanLeft = actorCenterX[firstActorIdx] - actorWidths[firstActorIdx] / 2;
+					var spanRight = actorCenterX[lastActorIdx] + actorWidths[lastActorIdx] / 2;
+					noteW = Math.Max(noteW, spanRight - spanLeft + NoteHPad * 2);
+					noteX = (spanLeft + spanRight) / 2 - noteW / 2;
 				}
 				else
 				{

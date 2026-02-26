@@ -36,12 +36,12 @@
   </marker>
 </defs>
 
-<polyline class="class-relationship" data-from="A" data-to="B" data-type="inheritance" data-marker-at="from" points="500,88 500,118 100,118 100,148" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
-<polyline class="class-relationship" data-from="A" data-to="C" data-type="composition" data-marker-at="from" points="500,88 500,118 260,118 260,148" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-composition)" />
-<polyline class="class-relationship" data-from="A" data-to="D" data-type="aggregation" data-marker-at="from" points="500,88 500,118 420,118 420,148" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-aggregation)" />
-<polyline class="class-relationship" data-from="A" data-to="E" data-type="association" data-marker-at="to" points="500,88 500,118 580,118 580,148" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
-<polyline class="class-relationship" data-from="A" data-to="F" data-type="dependency" data-marker-at="to" points="500,88 500,118 740,118 740,148" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#cls-arrow)" />
-<polyline class="class-relationship" data-from="A" data-to="G" data-type="realization" data-marker-at="to" points="500,88 500,118 900,118 900,148" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#cls-inherit)" />
+<path class="class-relationship" data-from="A" data-to="B" data-type="inheritance" data-marker-at="from" d="M500,88 L500,112 Q500,118 494,118 L106,118 Q100,118 100,124 L100,148" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="A" data-to="C" data-type="composition" data-marker-at="from" d="M500,88 L500,112 Q500,118 494,118 L266,118 Q260,118 260,124 L260,148" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-composition)" />
+<path class="class-relationship" data-from="A" data-to="D" data-type="aggregation" data-marker-at="from" d="M500,88 L500,112 Q500,118 494,118 L426,118 Q420,118 420,124 L420,148" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-aggregation)" />
+<path class="class-relationship" data-from="A" data-to="E" data-type="association" data-marker-at="to" d="M500,88 L500,112 Q500,118 506,118 L574,118 Q580,118 580,124 L580,148" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
+<path class="class-relationship" data-from="A" data-to="F" data-type="dependency" data-marker-at="to" d="M500,88 L500,112 Q500,118 506,118 L734,118 Q740,118 740,124 L740,148" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#cls-arrow)" />
+<path class="class-relationship" data-from="A" data-to="G" data-type="realization" data-marker-at="to" d="M500,88 L500,112 Q500,118 506,118 L894,118 Q900,118 900,124 L900,148" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#cls-inherit)" />
 <g class="class-node" data-id="A" data-label="A">
   <rect x="440" y="40" width="120" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.25" />
   <rect x="440" y="40" width="120" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.25" />

@@ -1,4 +1,4 @@
-using System.Collections.Frozen;
+using System.Collections.ObjectModel;
 
 namespace Mermaid.Models;
 
@@ -7,20 +7,23 @@ public sealed record MermaidGraph
 {
 	public required Direction Direction { get; init; }
 
-	public required FrozenDictionary<string, MermaidNode> Nodes { get; init; }
+	public required IReadOnlyDictionary<string, MermaidNode> Nodes { get; init; }
+
+	/// <summary>Node IDs in the order they were first defined in the source.</summary>
+	public IReadOnlyList<string> NodeOrder { get; init; } = [];
 
 	public required IReadOnlyList<MermaidEdge> Edges { get; init; }
 
 	public required IReadOnlyList<MermaidSubgraph> Subgraphs { get; init; }
 
-	public FrozenDictionary<string, FrozenDictionary<string, string>> ClassDefs { get; init; } =
-		FrozenDictionary<string, FrozenDictionary<string, string>>.Empty;
+	public IReadOnlyDictionary<string, IReadOnlyDictionary<string, string>> ClassDefs { get; init; } =
+		ReadOnlyDictionary<string, IReadOnlyDictionary<string, string>>.Empty;
 
-	public FrozenDictionary<string, string> ClassAssignments { get; init; } =
-		FrozenDictionary<string, string>.Empty;
+	public IReadOnlyDictionary<string, string> ClassAssignments { get; init; } =
+		ReadOnlyDictionary<string, string>.Empty;
 
-	public FrozenDictionary<string, FrozenDictionary<string, string>> NodeStyles { get; init; } =
-		FrozenDictionary<string, FrozenDictionary<string, string>>.Empty;
+	public IReadOnlyDictionary<string, IReadOnlyDictionary<string, string>> NodeStyles { get; init; } =
+		ReadOnlyDictionary<string, IReadOnlyDictionary<string, string>>.Empty;
 }
 
 /// <summary>A single node in the parsed graph.</summary>

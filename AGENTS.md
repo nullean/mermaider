@@ -16,7 +16,7 @@ dotnet run --project tests/Mermaid.Tests/Mermaid.Tests.csproj
 - .NET 10, C# latest, file-scoped namespaces, `var` everywhere
 - Tab indentation, Allman braces, `_camelCase` private fields, `s_camelCase` static private fields
 - `[GeneratedRegex]` with 2s timeout for all regex patterns (ReDoS protection)
-- Minimize allocations: `ReadOnlySpan<char>`, `ObjectPool<StringBuilder>`, `SearchValues<char>`, `FrozenDictionary`
+- Minimize allocations: `ReadOnlySpan<char>`, `ObjectPool<StringBuilder>`, `SearchValues<char>`, `FrozenDictionary` (static/long-lived data only; prefer `IReadOnlyDictionary` for parse results)
 - TUnit for tests, AwesomeAssertions for fluent assertions, Verify.TUnit for golden file snapshots
 - Apache 2.0 license (no per-file headers required)
 

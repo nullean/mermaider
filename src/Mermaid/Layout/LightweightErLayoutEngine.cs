@@ -17,7 +17,7 @@ internal static class LightweightErLayoutEngine
 	private const double RowHeight = 22;
 	private const double MinWidth = 140;
 	private const double AttrFontSize = 11;
-	private const double NodeSpacing = 70;
+	private const double NodeSpacing = 90;
 	private const double LayerSpacing = 90;
 
 	internal static PositionedErDiagram Layout(ErDiagram diagram)
@@ -62,13 +62,17 @@ internal static class LightweightErLayoutEngine
 			layoutEdges.Add(new LayoutEdge(rel.Entity1, rel.Entity2, labelW, labelH));
 		}
 
-		// ER diagrams use LR direction by default
+		var maxLabelW = layoutEdges.Count > 0
+			? layoutEdges.Max(e => e.LabelWidth)
+			: 0;
+		var effectiveLayerSpacing = Math.Max(LayerSpacing, maxLabelW + 40);
+
 		var layoutGraph = new LayoutGraph(LayoutDirection.LR, layoutNodes, layoutEdges, []);
 		var result = SugiyamaLayout.Compute(layoutGraph, new LayoutOptions
 		{
 			Padding = Padding,
 			NodeSpacing = NodeSpacing,
-			LayerSpacing = LayerSpacing,
+			LayerSpacing = effectiveLayerSpacing,
 		});
 
 		return ExtractPositioned(result, diagram, entitySizes);

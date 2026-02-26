@@ -152,13 +152,15 @@ internal static class ErSvgRenderer
 			sb.Append("</g>");
 	}
 
+	private const double CornerRadius = 6;
+
 	private static void AppendRelationshipLine(StringBuilder sb, PositionedErRelationship rel)
 	{
 		if (rel.Points.Count < 2) return;
 
 		var dashArray = !rel.Identifying ? " stroke-dasharray=\"6 4\"" : "";
 
-		sb.Append("\n<polyline class=\"er-relationship\" data-entity1=\"");
+		sb.Append("\n<path class=\"er-relationship\" data-entity1=\"");
 		MultilineUtils.AppendEscapedAttr(sb, rel.Entity1.AsSpan());
 		sb.Append("\" data-entity2=\"");
 		MultilineUtils.AppendEscapedAttr(sb, rel.Entity2.AsSpan());
@@ -172,12 +174,8 @@ internal static class ErSvgRenderer
 			MultilineUtils.AppendEscapedAttr(sb, rel.Label.AsSpan());
 			sb.Append('"');
 		}
-		sb.Append(" points=\"");
-		for (var i = 0; i < rel.Points.Count; i++)
-		{
-			if (i > 0) sb.Append(' ');
-			sb.Append(rel.Points[i].X).Append(',').Append(rel.Points[i].Y);
-		}
+		sb.Append(" d=\"");
+		SvgRenderer.BuildRoundedPath(sb, rel.Points, CornerRadius);
 		sb.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.Connector).Append('"').Append(dashArray).Append(" />");
 	}

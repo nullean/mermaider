@@ -42,8 +42,8 @@ public sealed record LayoutOptions
 	/// <summary>Canvas padding in px. Default: 40.</summary>
 	public double Padding { get; init; } = 40;
 
-	/// <summary>Horizontal spacing between sibling nodes. Default: 28.</summary>
-	public double NodeSpacing { get; init; } = 28;
+	/// <summary>Horizontal spacing between sibling nodes. Default: 36.</summary>
+	public double NodeSpacing { get; init; } = 36;
 
 	/// <summary>Vertical spacing between layers. Default: 72.</summary>
 	public double LayerSpacing { get; init; } = 72;

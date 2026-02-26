@@ -17,9 +17,14 @@ internal static class LightweightLayoutEngine
 		var nodeSpacing = options?.NodeSpacing ?? LayoutDefaults.NodeSpacing;
 		var layerSpacing = options?.LayerSpacing ?? LayoutDefaults.LayerSpacing;
 
+		var nodeOrder = graph.NodeOrder.Count > 0
+			? graph.NodeOrder
+			: graph.Nodes.Keys.ToList();
+
 		var layoutNodes = new List<LayoutNode>(graph.Nodes.Count);
-		foreach (var (id, node) in graph.Nodes)
+		foreach (var id in nodeOrder)
 		{
+			if (!graph.Nodes.TryGetValue(id, out var node)) continue;
 			var (w, h) = NodeSizing.Estimate(node.Label, node.Shape);
 			layoutNodes.Add(new LayoutNode(id, w, h));
 		}

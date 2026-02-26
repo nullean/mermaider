@@ -229,7 +229,7 @@ internal static class ClassSvgRenderer
 		var dashArray = isDashed ? " stroke-dasharray=\"6 4\"" : "";
 		var markers = GetMarkers(rel.Type, rel.MarkerAt);
 
-		sb.Append("\n<polyline class=\"class-relationship\" data-from=\"");
+		sb.Append("\n<path class=\"class-relationship\" data-from=\"");
 		MultilineUtils.AppendEscapedAttr(sb, rel.From.AsSpan());
 		sb.Append("\" data-to=\"");
 		MultilineUtils.AppendEscapedAttr(sb, rel.To.AsSpan());
@@ -241,12 +241,8 @@ internal static class ClassSvgRenderer
 			MultilineUtils.AppendEscapedAttr(sb, rel.Label.AsSpan());
 			sb.Append('"');
 		}
-		sb.Append(" points=\"");
-		for (var i = 0; i < rel.Points.Count; i++)
-		{
-			if (i > 0) sb.Append(' ');
-			sb.Append(rel.Points[i].X).Append(',').Append(rel.Points[i].Y);
-		}
+		sb.Append(" d=\"");
+		SvgRenderer.BuildRoundedPath(sb, rel.Points, 6);
 		sb.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.Connector).Append('"').Append(dashArray).Append(markers).Append(" />");
 	}

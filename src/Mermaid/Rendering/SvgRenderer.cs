@@ -126,6 +126,8 @@ internal static class SvgRenderer
 	// Edge rendering
 	// ========================================================================
 
+	private const double CornerRadius = 6;
+
 	private static void AppendEdge(StringBuilder sb, PositionedEdge edge)
 	{
 		if (edge.Points.Count < 2)
@@ -136,7 +138,7 @@ internal static class SvgRenderer
 			? RenderConstants.StrokeWidths.Connector + 1
 			: RenderConstants.StrokeWidths.Connector;
 
-		sb.Append("\n<polyline class=\"edge\" data-from=\"");
+		sb.Append("\n<path class=\"edge\" data-from=\"");
 		MultilineUtils.AppendEscapedAttr(sb, edge.Source.AsSpan());
 		sb.Append("\" data-to=\"");
 		MultilineUtils.AppendEscapedAttr(sb, edge.Target.AsSpan());
@@ -152,12 +154,8 @@ internal static class SvgRenderer
 			sb.Append('"');
 		}
 
-		sb.Append(" points=\"");
-		for (var i = 0; i < edge.Points.Count; i++)
-		{
-			if (i > 0) sb.Append(' ');
-			sb.Append(edge.Points[i].X).Append(',').Append(edge.Points[i].Y);
-		}
+		sb.Append(" d=\"");
+		BuildRoundedPath(sb, edge.Points, CornerRadius);
 		sb.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"")
 			.Append(strokeWidth).Append('"').Append(dashArray);
 
@@ -167,6 +165,53 @@ internal static class SvgRenderer
 			sb.Append(" marker-start=\"url(#arrowhead-start)\"");
 
 		sb.Append(" />");
+	}
+
+	internal static void BuildRoundedPath(StringBuilder sb, IReadOnlyList<Point> points, double radius)
+	{
+		if (points.Count < 2) return;
+
+		sb.Append('M').Append(points[0].X).Append(',').Append(points[0].Y);
+
+		if (points.Count == 2)
+		{
+			sb.Append(" L").Append(points[1].X).Append(',').Append(points[1].Y);
+			return;
+		}
+
+		for (var i = 1; i < points.Count - 1; i++)
+		{
+			var prev = points[i - 1];
+			var curr = points[i];
+			var next = points[i + 1];
+
+			var dx1 = curr.X - prev.X;
+			var dy1 = curr.Y - prev.Y;
+			var len1 = Math.Sqrt(dx1 * dx1 + dy1 * dy1);
+
+			var dx2 = next.X - curr.X;
+			var dy2 = next.Y - curr.Y;
+			var len2 = Math.Sqrt(dx2 * dx2 + dy2 * dy2);
+
+			if (len1 < 0.1 || len2 < 0.1)
+			{
+				sb.Append(" L").Append(curr.X).Append(',').Append(curr.Y);
+				continue;
+			}
+
+			var r = Math.Min(radius, Math.Min(len1 / 2, len2 / 2));
+
+			var startX = curr.X - dx1 / len1 * r;
+			var startY = curr.Y - dy1 / len1 * r;
+			var endX = curr.X + dx2 / len2 * r;
+			var endY = curr.Y + dy2 / len2 * r;
+
+			sb.Append(" L").Append(startX).Append(',').Append(startY);
+			sb.Append(" Q").Append(curr.X).Append(',').Append(curr.Y)
+				.Append(' ').Append(endX).Append(',').Append(endY);
+		}
+
+		sb.Append(" L").Append(points[^1].X).Append(',').Append(points[^1].Y);
 	}
 
 	private static void AppendEdgeLabel(StringBuilder sb, PositionedEdge edge, string font)

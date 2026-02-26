@@ -203,7 +203,7 @@ internal static class SequenceSvgRenderer
 
 			var midX = (msg.X1 + msg.X2) / 2;
 			MultilineUtils.AppendMultilineText(
-				sb, msg.Label, midX, msg.Y - 6,
+				sb, msg.Label, midX, msg.Y - 10,
 				RenderConstants.FontSizes.EdgeLabel,
 				$"font-size=\"{RenderConstants.FontSizes.EdgeLabel}\" text-anchor=\"middle\" font-weight=\"{RenderConstants.FontWeights.EdgeLabel}\" fill=\"var(--_text-muted)\"");
 			sb.Append('\n');
@@ -297,9 +297,16 @@ internal static class SequenceSvgRenderer
 			.Append(" fill=\"var(--_group-hdr)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.InnerBox).Append("\" />\n  ");
 
+		const double asymmetry = 6.0;
+		var textX = note.X + note.Width / 2;
+		if (note.Position == SequenceNotePosition.Right)
+			textX -= asymmetry;
+		else if (note.Position == SequenceNotePosition.Left)
+			textX += asymmetry;
+
 		MultilineUtils.AppendMultilineText(
 			sb, note.Text,
-			note.X + note.Width / 2, note.Y + note.Height / 2,
+			textX, note.Y + note.Height / 2,
 			RenderConstants.FontSizes.EdgeLabel,
 			$"font-size=\"{RenderConstants.FontSizes.EdgeLabel}\" text-anchor=\"middle\" font-weight=\"{RenderConstants.FontWeights.EdgeLabel}\" fill=\"var(--_text-muted)\"");
 		sb.Append('\n');

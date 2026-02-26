@@ -38,7 +38,7 @@ internal static class NodeSizing
 				height += 14;
 				break;
 			case NodeShape.StateStart or NodeShape.StateEnd:
-				return (28, 28);
+				return (28, 40);
 		}
 
 		width = Math.Max(width, 64);

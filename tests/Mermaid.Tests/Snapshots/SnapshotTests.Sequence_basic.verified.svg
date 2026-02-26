@@ -34,11 +34,11 @@
 <line class="lifeline" data-actor="B" x1="210" y1="70" x2="210" y2="170" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
 <g class="message" data-from="A" data-to="B" data-label="Hello" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="70" y1="90" x2="210" y2="90" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
-  <text x="140" y="84" font-size="12" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">Hello</text>
+  <text x="140" y="80" font-size="12" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">Hello</text>
 </g>
 <g class="message" data-from="B" data-to="A" data-label="Hi" data-line-style="dashed" data-arrow-head="filled" data-self="false">
   <line x1="210" y1="130" x2="70" y2="130" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
-  <text x="140" y="124" font-size="12" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">Hi</text>
+  <text x="140" y="120" font-size="12" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">Hi</text>
 </g>
 <g class="actor" data-id="A" data-label="Alice" data-type="participant">
   <rect x="30" y="30" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.25" />

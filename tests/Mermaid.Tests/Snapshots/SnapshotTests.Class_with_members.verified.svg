@@ -36,7 +36,7 @@
   </marker>
 </defs>
 
-<polyline class="class-relationship" data-from="Animal" data-to="Dog" data-type="inheritance" data-marker-at="from" points="100,184 100,244" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="Animal" data-to="Dog" data-type="inheritance" data-marker-at="from" d="M100,184 L100,244" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
 <g class="class-node" data-id="Animal" data-label="Animal" data-annotation="abstract">
   <rect x="40" y="40" width="120" height="144" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.25" />
   <rect x="40" y="40" width="120" height="48" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.25" />
