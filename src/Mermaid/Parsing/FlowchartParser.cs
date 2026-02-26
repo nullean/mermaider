@@ -206,8 +206,6 @@ internal static partial class FlowchartParser
 				if (subgraphStack.Count > 0)
 				{
 					var completed = subgraphStack.Pop();
-					if (!completed.NodeIds.Contains(completed.Id))
-						completed.NodeIds.Add(completed.Id);
 					var sg = new MermaidSubgraph
 					{
 						Id = completed.Id,
@@ -233,6 +231,30 @@ internal static partial class FlowchartParser
 			ParseEdgeLine(line, nodes, edges, classAssignments, subgraphStack);
 		}
 
+		var subgraphMap = new Dictionary<string, MermaidSubgraph>();
+		CollectSubgraphMap(subgraphs, subgraphMap);
+
+		var redirections = new Dictionary<int, (string? SourceSg, string? TargetSg)>();
+		for (var e = 0; e < edges.Count; e++)
+		{
+			var edge = edges[e];
+			var src = ResolveSubgraphRef(edge.Source, subgraphMap);
+			var tgt = ResolveSubgraphRef(edge.Target, subgraphMap);
+			if (src != edge.Source || tgt != edge.Target)
+			{
+				redirections[e] = (
+					src != edge.Source ? edge.Source : null,
+					tgt != edge.Target ? edge.Target : null);
+				edges[e] = new MermaidEdge(src, tgt, edge.Label, edge.Style, edge.HasArrowStart, edge.HasArrowEnd);
+			}
+		}
+
+		foreach (var sgId in subgraphMap.Keys)
+		{
+			if (nodes.TryGetValue(sgId, out var n) && n.Label == sgId && n.Shape == NodeShape.Rectangle)
+				nodes.Remove(sgId);
+		}
+
 		return new MermaidGraph
 		{
 			Direction = direction,
@@ -244,7 +266,8 @@ internal static partial class FlowchartParser
 			ClassAssignments = classAssignments,
 			NodeStyles = nodeStyles.ToDictionary(
 				kvp => kvp.Key,
-				kvp => (IReadOnlyDictionary<string, string>)kvp.Value)
+				kvp => (IReadOnlyDictionary<string, string>)kvp.Value),
+			SubgraphEdgeRedirections = redirections
 		};
 	}
 
@@ -427,6 +450,31 @@ internal static partial class FlowchartParser
 		if (op.Contains('='))
 			return EdgeStyle.Thick;
 		return EdgeStyle.Solid;
+	}
+
+	private static void CollectSubgraphMap(IReadOnlyList<MermaidSubgraph> sgs, Dictionary<string, MermaidSubgraph> map)
+	{
+		foreach (var sg in sgs)
+		{
+			map[sg.Id] = sg;
+			CollectSubgraphMap(sg.Children, map);
+		}
+	}
+
+	private static string ResolveSubgraphRef(string id, Dictionary<string, MermaidSubgraph> sgMap)
+	{
+		while (sgMap.TryGetValue(id, out var sg))
+		{
+			string? firstNonSg = null;
+			foreach (var child in sg.NodeIds)
+			{
+				if (!sgMap.ContainsKey(child)) { firstNonSg = child; break; }
+			}
+			if (firstNonSg != null) return firstNonSg;
+			if (sg.NodeIds.Count > 0) id = sg.NodeIds[0];
+			else break;
+		}
+		return id;
 	}
 
 	private static IReadOnlyDictionary<string, string> ParseStyleProps(string propsStr)

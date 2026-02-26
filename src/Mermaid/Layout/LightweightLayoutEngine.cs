@@ -64,34 +64,23 @@ internal static class LightweightLayoutEngine
 		};
 
 		var result = SugiyamaLayout.Compute(layoutGraph, layoutOptions);
+		var positioned = MapResult(result, graph, strict);
 
-		var subgraphIds = new HashSet<string>();
-		CollectSubgraphIds(graph.Subgraphs, subgraphIds);
+		if (graph.SubgraphEdgeRedirections.Count > 0)
+			ClipSubgraphEdges(positioned, graph);
 
-		return MapResult(result, graph, subgraphIds, strict);
-	}
-
-	private static void CollectSubgraphIds(IReadOnlyList<MermaidSubgraph> sgs, HashSet<string> ids)
-	{
-		foreach (var sg in sgs)
-		{
-			ids.Add(sg.Id);
-			CollectSubgraphIds(sg.Children, ids);
-		}
+		return positioned;
 	}
 
 	private static LayoutSubgraph MapSubgraph(MermaidSubgraph sg) =>
 		new(sg.Id, sg.Label, sg.NodeIds, sg.Children.Select(MapSubgraph).ToList());
 
-	private static PositionedGraph MapResult(LayoutResult result, MermaidGraph graph, HashSet<string> subgraphIds, StrictModeOptions? strict)
+	private static PositionedGraph MapResult(LayoutResult result, MermaidGraph graph, StrictModeOptions? strict)
 	{
 		var nodeLookup = graph.Nodes;
 		var positionedNodes = new List<PositionedNode>(result.Nodes.Count);
 		foreach (var n in result.Nodes)
 		{
-			if (subgraphIds.Contains(n.Id))
-				continue;
-
 			var inlineStyle = strict is null ? ResolveNodeStyle(n.Id, graph) : null;
 			var cssClass = strict is not null && graph.ClassAssignments.TryGetValue(n.Id, out var cls) ? cls : null;
 
@@ -178,5 +167,147 @@ internal static class LightweightLayoutEngine
 		}
 
 		return result;
+	}
+
+	private static void ClipSubgraphEdges(PositionedGraph positioned, MermaidGraph graph)
+	{
+		var groupLookup = new Dictionary<string, PositionedGroup>();
+		CollectGroups(positioned.Groups, groupLookup);
+
+		var edges = (List<PositionedEdge>)positioned.Edges;
+		for (var i = 0; i < edges.Count; i++)
+		{
+			var e = edges[i];
+			var mIdx = FindOriginalEdgeIndex(e, graph);
+			if (mIdx < 0 || !graph.SubgraphEdgeRedirections.TryGetValue(mIdx, out var redir))
+				continue;
+
+			var pts = new List<Models.Point>(e.Points);
+			var changed = false;
+
+			if (redir.SourceSubgraph is { } srcSg && groupLookup.TryGetValue(srcSg, out var srcGroup))
+				changed |= ClipEndAtBox(pts, srcGroup, clipStart: true);
+
+			if (redir.TargetSubgraph is { } tgtSg && groupLookup.TryGetValue(tgtSg, out var tgtGroup))
+				changed |= ClipEndAtBox(pts, tgtGroup, clipStart: false);
+
+			if (changed)
+				edges[i] = e with { Points = pts };
+		}
+	}
+
+	private static int FindOriginalEdgeIndex(PositionedEdge pe, MermaidGraph graph)
+	{
+		for (var i = 0; i < graph.Edges.Count; i++)
+		{
+			var me = graph.Edges[i];
+			if (me.Source == pe.Source && me.Target == pe.Target && me.Label == pe.Label)
+				return i;
+		}
+		return -1;
+	}
+
+	private static void CollectGroups(IReadOnlyList<PositionedGroup> groups, Dictionary<string, PositionedGroup> lookup)
+	{
+		foreach (var g in groups)
+		{
+			lookup[g.Id] = g;
+			CollectGroups(g.Children, lookup);
+		}
+	}
+
+	private static bool ClipEndAtBox(List<Models.Point> points, PositionedGroup box, bool clipStart)
+	{
+		var bx = box.X; var by = box.Y; var bw = box.Width; var bh = box.Height;
+
+		if (clipStart)
+		{
+			for (var i = 0; i < points.Count - 1; i++)
+			{
+				var p0 = points[i];
+				var p1 = points[i + 1];
+				if (!IsInsideBox(p0, bx, by, bw, bh) && IsInsideBox(p1, bx, by, bw, bh))
+				{
+					var hit = IntersectSegmentRect(p0, p1, bx, by, bw, bh);
+					if (hit != null)
+					{
+						points.RemoveRange(i + 1, points.Count - i - 1);
+						points.Add(hit.Value);
+						return true;
+					}
+				}
+			}
+		}
+		else
+		{
+			for (var i = points.Count - 1; i > 0; i--)
+			{
+				var p0 = points[i - 1];
+				var p1 = points[i];
+				if (IsInsideBox(p0, bx, by, bw, bh) && !IsInsideBox(p1, bx, by, bw, bh))
+				{
+					var hit = IntersectSegmentRect(p0, p1, bx, by, bw, bh);
+					if (hit != null)
+					{
+						points.RemoveRange(0, i);
+						points.Insert(0, hit.Value);
+						return true;
+					}
+				}
+			}
+
+			// Target is inside the box — clip at box border from outside
+			for (var i = points.Count - 1; i > 0; i--)
+			{
+				var p0 = points[i - 1];
+				var p1 = points[i];
+				if (!IsInsideBox(p0, bx, by, bw, bh))
+				{
+					var hit = IntersectSegmentRect(p0, p1, bx, by, bw, bh);
+					if (hit != null)
+					{
+						points.RemoveRange(i, points.Count - i);
+						points.Add(hit.Value);
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
+	private static bool IsInsideBox(Models.Point p, double bx, double by, double bw, double bh)
+		=> p.X >= bx && p.X <= bx + bw && p.Y >= by && p.Y <= by + bh;
+
+	private static Models.Point? IntersectSegmentRect(Models.Point a, Models.Point b, double rx, double ry, double rw, double rh)
+	{
+		Models.Point? best = null;
+		var bestDist = double.MaxValue;
+
+		TryEdge(a, b, rx, ry, rx + rw, ry, ref best, ref bestDist);         // top
+		TryEdge(a, b, rx, ry + rh, rx + rw, ry + rh, ref best, ref bestDist); // bottom
+		TryEdge(a, b, rx, ry, rx, ry + rh, ref best, ref bestDist);           // left
+		TryEdge(a, b, rx + rw, ry, rx + rw, ry + rh, ref best, ref bestDist); // right
+
+		return best;
+	}
+
+	private static void TryEdge(Models.Point a, Models.Point b, double x1, double y1, double x2, double y2, ref Models.Point? best, ref double bestDist)
+	{
+		var dx = b.X - a.X; var dy = b.Y - a.Y;
+		var ex = x2 - x1;   var ey = y2 - y1;
+		var denom = dx * ey - dy * ex;
+		if (Math.Abs(denom) < 1e-10) return;
+
+		var t = ((x1 - a.X) * ey - (y1 - a.Y) * ex) / denom;
+		var u = ((x1 - a.X) * dy - (y1 - a.Y) * dx) / denom;
+
+		if (t < 0 || t > 1 || u < 0 || u > 1) return;
+
+		var px = a.X + dx * t;
+		var py = a.Y + dy * t;
+		var d = t;
+		if (d < bestDist) { bestDist = d; best = new Models.Point(px, py); }
 	}
 }

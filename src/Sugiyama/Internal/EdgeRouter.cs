@@ -206,9 +206,9 @@ internal static class EdgeRouter
 		var tgtCY = graph.Y[target] + graph.NodeHeights[target] / 2.0;
 
 		var maxRight = 0.0;
-		for (var i = 0; i < graph.NodeCount; i++)
+		for (var i = 0; i < graph.RealNodeCount; i++)
 		{
-			var right = graph.X[i] + (i < graph.RealNodeCount ? graph.NodeWidths[i] : 0);
+			var right = graph.X[i] + graph.NodeWidths[i];
 			if (right > maxRight) maxRight = right;
 		}
 		var detourX = maxRight + detourGap;

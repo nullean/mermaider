@@ -24,17 +24,20 @@ internal static class SvgRenderer
 			StyleBlock.AppendStyleBlock(sb, font, false, strict);
 			AppendArrowDefs(sb);
 
-			foreach (var group in graph.Groups)
-				AppendGroup(sb, group, font);
+		foreach (var group in graph.Groups)
+			AppendGroupBody(sb, group);
 
-			foreach (var edge in graph.Edges)
-				AppendEdge(sb, edge);
+		foreach (var edge in graph.Edges)
+			AppendEdge(sb, edge);
 
-			foreach (var edge in graph.Edges)
-			{
-				if (edge.Label is not null)
-					AppendEdgeLabel(sb, edge, font);
-			}
+		foreach (var group in graph.Groups)
+			AppendGroupHeader(sb, group, font);
+
+		foreach (var edge in graph.Edges)
+		{
+			if (edge.Label is not null)
+				AppendEdgeLabel(sb, edge, font);
+		}
 
 		foreach (var node in graph.Nodes)
 			AppendNode(sb, node, font, strict);
@@ -85,9 +88,8 @@ internal static class SvgRenderer
 	// Group rendering
 	// ========================================================================
 
-	private static void AppendGroup(StringBuilder sb, PositionedGroup group, string font)
+	private static void AppendGroupBody(StringBuilder sb, PositionedGroup group)
 	{
-		var headerHeight = RenderConstants.FontSizes.GroupHeader + 16;
 		var r = RenderConstants.Radii.Group;
 
 		sb.Append("\n<g class=\"subgraph\" data-id=\"");
@@ -101,6 +103,17 @@ internal static class SvgRenderer
 			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
 			.Append("\" fill=\"var(--_group-fill)\" stroke=\"var(--_group-stroke)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
+
+		sb.Append("</g>\n");
+
+		foreach (var child in group.Children)
+			AppendGroupBody(sb, child);
+	}
+
+	private static void AppendGroupHeader(StringBuilder sb, PositionedGroup group, string font)
+	{
+		var headerHeight = RenderConstants.FontSizes.GroupHeader + 16;
+		var r = RenderConstants.Radii.Group;
 
 		sb.Append("  <rect x=\"").Append(group.X).Append("\" y=\"").Append(group.Y)
 			.Append("\" width=\"").Append(group.Width).Append("\" height=\"").Append(headerHeight)
@@ -117,9 +130,7 @@ internal static class SvgRenderer
 		sb.Append('\n');
 
 		foreach (var child in group.Children)
-			AppendGroup(sb, child, font);
-
-		sb.Append("</g>\n");
+			AppendGroupHeader(sb, child, font);
 	}
 
 	// ========================================================================

@@ -24,6 +24,13 @@ public sealed record MermaidGraph
 
 	public IReadOnlyDictionary<string, IReadOnlyDictionary<string, string>> NodeStyles { get; init; } =
 		ReadOnlyDictionary<string, IReadOnlyDictionary<string, string>>.Empty;
+
+	/// <summary>
+	/// Tracks edges that were redirected from subgraph IDs to child nodes.
+	/// Key = original edge index; value = (source subgraph ID if redirected, target subgraph ID if redirected).
+	/// </summary>
+	public IReadOnlyDictionary<int, (string? SourceSubgraph, string? TargetSubgraph)> SubgraphEdgeRedirections { get; init; } =
+		ReadOnlyDictionary<int, (string? SourceSubgraph, string? TargetSubgraph)>.Empty;
 }
 
 /// <summary>A single node in the parsed graph.</summary>
