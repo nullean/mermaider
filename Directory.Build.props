@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <!-- src/ projects: packable, XML docs, signed -->
-  <PropertyGroup Condition="$(MSBuildProjectDirectory.Contains('/src/'))">
+  <PropertyGroup Condition="$(MSBuildProjectDirectory.Replace('\','/').Contains('/src/'))">
     <IsPackable>true</IsPackable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <SignAssembly>true</SignAssembly>
@@ -31,14 +31,14 @@
   </PropertyGroup>
 
   <!-- test/ projects: relaxed warnings -->
-  <PropertyGroup Condition="$(MSBuildProjectDirectory.Contains('/tests/'))">
+  <PropertyGroup Condition="$(MSBuildProjectDirectory.Replace('\','/').Contains('/tests/'))">
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <IsTestProject>true</IsTestProject>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <!-- example/ projects: relaxed warnings -->
-  <PropertyGroup Condition="$(MSBuildProjectDirectory.Contains('/examples/'))">
+  <PropertyGroup Condition="$(MSBuildProjectDirectory.Replace('\','/').Contains('/examples/'))">
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
