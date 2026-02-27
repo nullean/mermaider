@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="nuget-icon.png" alt="Mermaid.Native" width="96" />
+  <img src="nuget-icon.png" alt="Mermaider" width="96" />
 </p>
 
-<h1 align="center">Mermaid.Native</h1>
+<h1 align="center">Mermaider</h1>
 
 <p align="center">
   Render <a href="https://mermaid.js.org/">Mermaid</a> diagrams to SVG in pure .NET.<br/>
@@ -10,98 +10,59 @@
 </p>
 
 <p align="center">
-  <a href="https://www.nuget.org/packages/Mermaid.Native"><img src="https://img.shields.io/nuget/v/Mermaid.Native.svg" alt="NuGet" /></a>
-  <a href="https://github.com/nullean/mermaid-native/actions"><img src="https://github.com/nullean/mermaid-native/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://www.nuget.org/packages/Mermaider"><img src="https://img.shields.io/nuget/v/Mermaider.svg" alt="NuGet" /></a>
+  <a href="https://github.com/nullean/mermaider/actions"><img src="https://github.com/nullean/mermaider/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
 </p>
 
 ---
 
-## Attribution
+## Why Mermaider?
 
-This project is a **.NET port** of [**beautiful-mermaid**](https://github.com/lukilabs/beautiful-mermaid) by
-[Craft Docs](https://craft.do) (lukilabs). Their TypeScript library pioneered the idea of rendering Mermaid
-diagrams without a browser or DOM&mdash;fast, themeable, and synchronous.
+Most .NET packages for Mermaid fall into one of two camps: **DSL-only** libraries that help you _build_
+Mermaid markup but can't render it, or **browser wrappers** that shell out to Chrome, Puppeteer, or a
+Node.js process to produce SVGs. Both have trade-offs&mdash;the first gives you a string you still can't
+display, the second drags in a JavaScript runtime with all its latency, memory overhead, and deployment
+complexity.
 
-`beautiful-mermaid` itself credits [**mermaid-ascii**](https://github.com/AlexanderGrooff/mermaid-ascii) by
-Alexander Grooff for its ASCII rendering engine, which was ported from Go to TypeScript and extended.
+Mermaider is neither. It is a **complete parser _and_ renderer** implemented entirely in .NET. Hand it a
+Mermaid string, get an SVG back. No interop, no child processes, no headless browsers.
 
-We owe a huge thank-you to both projects for the excellent foundation.
+### Pure .NET parsing and rendering
 
-### A note on how this was built
+Mermaider parses Mermaid's text DSL and renders SVG output using only managed .NET code. There is no
+dependency on JavaScript, Chromium, or any external process. This means deterministic output, no cold-start
+penalty, and trivial deployment&mdash;just a NuGet reference.
 
-This codebase was written with a coding agent (Claude). That said, care was taken to follow modern .NET 10
-idioms and keep allocations low: `ReadOnlySpan<char>` parsing, `[GeneratedRegex]` with ReDoS timeout guards,
-`FrozenDictionary` / `FrozenSet` for hot-path lookups, `SearchValues<char>` for character classification,
-object pooling, and file-scoped namespaces throughout. The benchmark numbers below reflect the result.
+### Built-in layout engine
 
-## Why Mermaid.Native?
+Graph-based diagrams (flowchart, state, class, ER) need a layout algorithm to position nodes and route
+edges. Rather than depending on an external engine, Mermaider ships its own lightweight
+[Sugiyama layout engine](src/Sugiyama/) with zero dependencies.
 
-**`beautiful-mermaid` is excellent&mdash;but it requires a JavaScript runtime** (Node.js / Bun). If you're
-building in .NET, that means shelling out to a JS process, bundling a V8 engine, or running a headless browser.
-All of these add latency, memory overhead, and deployment complexity.
+During development, [Microsoft MSAGL](https://github.com/microsoft/automatic-graph-layout) (Automatic Graph
+Layout) was evaluated as the layout backend. MSAGL is a capable research-grade library, but it carries
+baggage from a different era of .NET: high allocations (~554 KB for a 6-node flowchart), WPF-era
+`BinaryFormatter` usage, and trim/AOT warnings that make it unsuitable for modern deployment targets.
 
-**Mermaid.Native** is a from-scratch .NET implementation that:
-
-| | beautiful-mermaid (TS) | Mermaid.Native (C#) |
-|---|---|---|
-| Runtime | Node.js / Bun | .NET 10+ |
-| Layout engine | [ELK.js](https://github.com/kieler/elkjs) | Built-in [`Sugiyama`](src/Sugiyama/) (zero deps) |
-| AOT compilation | N/A | Native AOT via `dotnet publish` |
-| Strict mode | &mdash; | Forbid `classDef`/`style`, enforce class allowlist |
-| SVG sanitization | &mdash; | Built-in allowlist-based sanitizer |
-| Deployment | npm package | NuGet package / `dotnet tool` |
-
-### Layout engine
-
-Mermaid.Native ships a **lightweight, allocation-aware [Sugiyama layout engine](src/Sugiyama/)** with zero
-external dependencies. It implements the classic five-phase layered graph drawing algorithm&mdash;cycle
-removal, layer assignment, crossing minimization, coordinate assignment, and edge routing&mdash;all tuned
-for the kind of small-to-medium directed graphs that Mermaid diagrams produce.
-
-The engine replaced [Microsoft MSAGL](https://github.com/microsoft/automatic-graph-layout) (Automatic Graph
-Layout), which was the original engine used during initial development. MSAGL is an excellent piece of
-research-grade software, but it was designed for a different era of .NET:
-
-- **High allocations** &mdash; 554 KB per layout of a simple 6-node flowchart
-- **Not AOT-friendly** &mdash; trim warnings, reflection-based internals
-- **Opaque API** &mdash; limited ability to tune for diagram-specific use cases
-
-The built-in Sugiyama engine is **122&times; faster** and uses **70&times; fewer allocations** for the
-layout phase:
+The built-in engine is purpose-built for the small-to-medium directed graphs Mermaid produces:
 
 | Phase | MSAGL | Built-in Sugiyama | Improvement |
 |---|---:|---:|---|
 | Layout only | 227 &micro;s / 554 KB | 1.9 &micro;s / 8 KB | 122&times; faster, 70&times; less memory |
 | End-to-end render | 356 &micro;s / 582 KB | 21 &micro;s / 38 KB | 17&times; faster, 15&times; less memory |
 
-If you still need MSAGL for its higher-fidelity edge routing on complex graphs, install the optional package:
+If you still want MSAGL for its higher-fidelity edge routing on complex graphs, install the optional
+`Mermaid.Layout.Msagl` package (see [below](#msagl-layout-provider)).
 
-```bash
-dotnet add package Mermaid.Layout.Msagl
-```
+### Native AOT
 
-```csharp
-using Mermaid.Layout.Msagl;
-
-// Global — all subsequent renders use MSAGL:
-MermaidRenderer.SetLayoutProvider(new MsaglLayoutProvider());
-
-// Or per-call:
-var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
-{
-    LayoutProvider = new MsaglLayoutProvider(),
-});
-```
-
-### AOT-ready
-
-Every public API is compatible with Native AOT. The CI pipeline publishes and invokes a native binary on
-Linux, macOS, and Windows to prove it. No reflection, no runtime code generation, no surprises.
+Every public API is compatible with .NET Native AOT. The CI pipeline publishes and invokes a native binary
+on Linux, macOS, and Windows to prove it. No reflection, no runtime code generation, no surprises.
 
 ## Quick Start
 
 ```bash
-dotnet add package Mermaid.Native
+dotnet add package Mermaider
 ```
 
 ```csharp
@@ -244,19 +205,16 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
             {
                 Name = "ok",
                 Fill = "#D4EDDA", Stroke = "#28A745", Color = "#155724",
-                // dark variants auto-derived, or set explicitly:
-                // DarkFill = "#1B4332", DarkStroke = "#2DD55B", DarkColor = "#A7F3D0",
             },
             new DiagramClass
             {
                 Name = "warn",
                 Fill = "#FFF3CD", Stroke = "#FFC107", Color = "#856404",
             },
-            // External class — no colors, styling from your own CSS:
             new DiagramClass { Name = "custom-highlight" },
         ],
         RejectUnknownClasses = true,
-        Sanitize = SvgSanitizeMode.Strip,   // also sanitize the final SVG output
+        Sanitize = SvgSanitizeMode.Strip,
     }
 });
 ```
@@ -284,12 +242,6 @@ if (result.HasViolations)
 var cleanSvg = result.Svg;
 ```
 
-Supply custom allowlists to restrict further:
-
-```csharp
-var result = SvgSanitizer.Sanitize(svg, myAllowedElements, myAllowedAttributes);
-```
-
 ## CLI
 
 ```bash
@@ -302,12 +254,30 @@ mermaid input.mmd -o output.svg --theme github-dark
 mermaid --list-themes
 ```
 
+## <a name="msagl-layout-provider"></a>MSAGL Layout Provider
+
+If you prefer MSAGL for its edge routing fidelity on complex graphs, install the optional package:
+
+```bash
+dotnet add package Mermaid.Layout.Msagl
+```
+
+```csharp
+using Mermaid.Layout.Msagl;
+
+// Global — all subsequent renders use MSAGL:
+MermaidRenderer.SetLayoutProvider(new MsaglLayoutProvider());
+
+// Or per-call:
+var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
+{
+    LayoutProvider = new MsaglLayoutProvider(),
+});
+```
+
 ## AOT Support
 
-Mermaid.Native is fully compatible with .NET Native AOT. The CI pipeline validates this on every commit by
-publishing and invoking a native binary across Linux, macOS, and Windows.
-
-To publish your own AOT app that uses Mermaid.Native:
+Mermaider is fully compatible with .NET Native AOT. To publish your own AOT app:
 
 ```xml
 <PropertyGroup>
@@ -315,7 +285,7 @@ To publish your own AOT app that uses Mermaid.Native:
 </PropertyGroup>
 
 <ItemGroup>
-  <PackageReference Include="Mermaid.Native" />
+  <PackageReference Include="Mermaider" />
 </ItemGroup>
 ```
 
@@ -325,8 +295,8 @@ dotnet publish -c Release
 
 ## Benchmarks
 
-All five diagram types use the built-in lightweight Sugiyama engine (no MSAGL). Measured with
-`[MemoryDiagnoser]` on .NET 10 (Apple M2 Pro):
+All five diagram types use the built-in Sugiyama engine. Measured with `[MemoryDiagnoser]` on .NET 10
+(Apple M2 Pro):
 
 | Method | Mean | Allocated |
 |---|---:|---:|
@@ -337,11 +307,6 @@ All five diagram types use the built-in lightweight Sugiyama engine (no MSAGL). 
 | Class | ~18 &micro;s | ~35 KB |
 | ER | ~20 &micro;s | ~40 KB |
 
-Compared to the previous MSAGL-based layout, graph-based diagrams (flowchart, state, class, ER) are
-**10&ndash;20&times; faster** end-to-end with **10&ndash;15&times; fewer allocations**.
-
-Run the benchmarks yourself:
-
 ```bash
 dotnet run --project tests/Mermaid.Benchmarks -c Release
 ```
@@ -349,11 +314,29 @@ dotnet run --project tests/Mermaid.Benchmarks -c Release
 ## Building from Source
 
 ```bash
-git clone https://github.com/nullean/mermaid-native.git
-cd mermaid-native
+git clone https://github.com/nullean/mermaider.git
+cd mermaider
 ./build.sh build
 ./build.sh test
 ```
+
+## Attribution
+
+This project is a **.NET port** of [**beautiful-mermaid**](https://github.com/lukilabs/beautiful-mermaid) by
+[Craft Docs](https://craft.do) (lukilabs). Their TypeScript library pioneered the idea of rendering Mermaid
+diagrams without a browser or DOM&mdash;fast, themeable, and synchronous.
+
+`beautiful-mermaid` itself credits [**mermaid-ascii**](https://github.com/AlexanderGrooff/mermaid-ascii) by
+Alexander Grooff for its ASCII rendering engine, which was ported from Go to TypeScript and extended.
+
+We owe a huge thank-you to both projects for the excellent foundation.
+
+### A note on how this was built
+
+This codebase was written with a coding agent (Claude). That said, care was taken to follow modern .NET 10
+idioms and keep allocations low: `ReadOnlySpan<char>` parsing, `[GeneratedRegex]` with ReDoS timeout guards,
+`FrozenDictionary` / `FrozenSet` for hot-path lookups, `SearchValues<char>` for character classification,
+object pooling, and file-scoped namespaces throughout. The benchmark numbers above reflect the result.
 
 ## License
 

@@ -4,7 +4,7 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="../../src/Mermaid/Mermaid.Native.csproj" />
+    <ProjectReference Include="../../src/Mermaid/Mermaider.csproj" />
     <ProjectReference Include="../../src/Mermaid.Layout.Msagl/Mermaid.Layout.Msagl.csproj" />
   </ItemGroup>
 </Project>

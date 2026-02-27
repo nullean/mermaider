@@ -7,7 +7,7 @@
     <PackageReference Include="BenchmarkDotNet" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../../src/Mermaid/Mermaid.Native.csproj" />
+    <ProjectReference Include="../../src/Mermaid/Mermaider.csproj" />
     <ProjectReference Include="../../src/Sugiyama/Sugiyama.csproj" />
     <ProjectReference Include="../../src/Mermaid.Layout.Msagl/Mermaid.Layout.Msagl.csproj" />
   </ItemGroup>
