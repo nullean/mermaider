@@ -16,7 +16,6 @@ on:
 
 permissions:
   contents: write
-  packagets: write
 
 env:
   ARTIFACTS: 'build/output/*.nupkg'
