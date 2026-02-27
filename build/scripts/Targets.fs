@@ -73,7 +73,7 @@ let private generateApiChanges (arguments:ParseResults<Arguments>) =
             [
                 "assembly-differ"
                 (sprintf "previous-nuget|%s|%s|%s" p currentVersion Paths.MainTFM);
-                (sprintf "directory|src/%s/bin/Release/%s" p Paths.MainTFM);
+                (sprintf "directory|.artifacts/bin/%s/release" p);
                 "-a"; "true"; "--target"; p; "-f"; "github-comment"; "--output"; outputFile
             ]
 
