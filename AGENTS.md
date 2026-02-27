@@ -18,7 +18,7 @@ dotnet run --project tests/Mermaider.Tests/Mermaider.Tests.csproj
 - `[GeneratedRegex]` with 2s timeout for all regex patterns (ReDoS protection)
 - Minimize allocations: `ReadOnlySpan<char>`, `ObjectPool<StringBuilder>`, `SearchValues<char>`, `FrozenDictionary` (static/long-lived data only; prefer `IReadOnlyDictionary` for parse results)
 - TUnit for tests, AwesomeAssertions for fluent assertions, Verify.TUnit for golden file snapshots
-- Apache 2.0 license (no per-file headers required)
+- MIT license (no per-file headers required)
 
 ## Architecture
 

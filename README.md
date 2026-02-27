@@ -342,4 +342,4 @@ object pooling, and file-scoped namespaces throughout. The benchmark numbers abo
 
 ## License
 
-Apache 2.0 &mdash; see [LICENSE.txt](LICENSE.txt).
+MIT &mdash; see [LICENSE.txt](LICENSE.txt).
