@@ -60,9 +60,6 @@ jobs:
       with:
         dotnet-version: |
           10.0.x
-        source-url: https://nuget.pkg.github.com/nullean/index.json
-      env:
-        NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
     - run: ./build.sh build -s true
       name: Build
@@ -79,7 +76,7 @@ jobs:
       if: github.event_name == 'push' && startswith(github.ref, 'refs/heads')
       shell: bash
       run: |
-         until dotnet nuget push 'build/output/*.nupkg' -k ${{secrets.GITHUB_TOKEN}} --skip-duplicate --no-symbols; do echo "Retrying"; sleep 1; done;
+         until dotnet nuget push 'build/output/*.nupkg' -s https://nuget.pkg.github.com/nullean/index.json -k ${{secrets.GITHUB_TOKEN}} --skip-duplicate --no-symbols; do echo "Retrying"; sleep 1; done;
 
     - run: ./build.sh generatereleasenotes -s true
       name: Generate release notes for tag

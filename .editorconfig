@@ -25,6 +25,7 @@ quote_type = single
 
 # Dotnet code style settings:
 [*.{cs,vb}]
+end_of_line=lf
 trim_trailing_whitespace=true
 insert_final_newline=true
 # ---
