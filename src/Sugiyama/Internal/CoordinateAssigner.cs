@@ -32,7 +32,8 @@ internal static class CoordinateAssigner
 			foreach (var node in nodes)
 			{
 				var h = node < graph.RealNodeCount ? graph.NodeHeights[node] : 0;
-				if (h > maxHeight) maxHeight = h;
+				if (h > maxHeight)
+					maxHeight = h;
 			}
 
 			foreach (var node in nodes)
@@ -69,17 +70,20 @@ internal static class CoordinateAssigner
 		for (var layer = 0; layer < graph.LayerCount; layer++)
 		{
 			var nodes = graph.LayerNodes[layer];
-			if (nodes.Length == 0) continue;
+			if (nodes.Length == 0)
+				continue;
 			var last = nodes[^1];
 			var lastW = last < graph.RealNodeCount ? graph.NodeWidths[last] : 0;
 			var right = graph.X[last] + lastW;
-			if (right > maxRight) maxRight = right;
+			if (right > maxRight)
+				maxRight = right;
 		}
 
 		for (var layer = 0; layer < graph.LayerCount; layer++)
 		{
 			var nodes = graph.LayerNodes[layer];
-			if (nodes.Length == 0) continue;
+			if (nodes.Length == 0)
+				continue;
 
 			var layerLeft = graph.X[nodes[0]];
 			var last = nodes[^1];
@@ -89,7 +93,8 @@ internal static class CoordinateAssigner
 
 			var desiredLeft = (maxRight - layerWidth) / 2.0;
 			var shift = desiredLeft - layerLeft;
-			if (Math.Abs(shift) < 0.5) continue;
+			if (Math.Abs(shift) < 0.5)
+				continue;
 
 			foreach (var node in nodes)
 				graph.X[node] += shift;
@@ -105,9 +110,12 @@ internal static class CoordinateAssigner
 		var minX = double.MaxValue;
 		for (var i = 0; i < graph.NodeCount; i++)
 		{
-			if (graph.X[i] < minX) minX = graph.X[i];
+			if (graph.X[i] < minX)
+				minX = graph.X[i];
 		}
-		if (Math.Abs(minX) < 0.5) return;
+
+		if (Math.Abs(minX) < 0.5)
+			return;
 		for (var i = 0; i < graph.NodeCount; i++)
 			graph.X[i] -= minX;
 	}
@@ -139,11 +147,15 @@ internal static class CoordinateAssigner
 		int start, end, step;
 		if (sweepDown)
 		{
-			start = 0; end = nodes.Length; step = 1;
+			start = 0;
+			end = nodes.Length;
+			step = 1;
 		}
 		else
 		{
-			start = nodes.Length - 1; end = -1; step = -1;
+			start = nodes.Length - 1;
+			end = -1;
+			step = -1;
 		}
 
 		for (var idx = start; idx != end; idx += step)
@@ -157,24 +169,26 @@ internal static class CoordinateAssigner
 			var allPositions = new List<double>();
 			foreach (var neighbor in neighbors)
 			{
-				if (graph.Layers[neighbor] != targetLayer) continue;
+				if (graph.Layers[neighbor] != targetLayer)
+					continue;
 				var neighborW = neighbor < graph.RealNodeCount ? graph.NodeWidths[neighbor] : 0;
-				var pos = graph.X[neighbor] + neighborW / 2.0;
+				var pos = graph.X[neighbor] + (neighborW / 2.0);
 				allPositions.Add(pos);
 				if (neighbor < graph.RealNodeCount)
 					realPositions.Add(pos);
 			}
 
 			var positions = realPositions.Count > 0 ? realPositions : allPositions;
-			if (positions.Count == 0) continue;
+			if (positions.Count == 0)
+				continue;
 
 			positions.Sort();
 			var median = positions.Count % 2 == 1
 				? positions[positions.Count / 2]
-				: (positions[positions.Count / 2 - 1] + positions[positions.Count / 2]) / 2.0;
+				: (positions[(positions.Count / 2) - 1] + positions[positions.Count / 2]) / 2.0;
 
 			var nodeW = node < graph.RealNodeCount ? graph.NodeWidths[node] : 0;
-			var target = median - nodeW / 2.0;
+			var target = median - (nodeW / 2.0);
 
 			var posInLayer = graph.NodePositionInLayer[node];
 
@@ -183,14 +197,16 @@ internal static class CoordinateAssigner
 				var prev = nodes[posInLayer - 1];
 				var prevW = prev < graph.RealNodeCount ? graph.NodeWidths[prev] : 0;
 				var minX = graph.X[prev] + prevW + nodeSpacing;
-				if (target < minX) target = minX;
+				if (target < minX)
+					target = minX;
 			}
 
 			if (posInLayer < nodes.Length - 1)
 			{
 				var next = nodes[posInLayer + 1];
 				var maxX = graph.X[next] - nodeSpacing - nodeW;
-				if (target > maxX) target = maxX;
+				if (target > maxX)
+					target = maxX;
 			}
 
 			graph.X[node] = target;
@@ -208,8 +224,10 @@ internal static class CoordinateAssigner
 				list = [];
 				result[e.From] = list;
 			}
+
 			list.Add(e.To);
 		}
+
 		return result;
 	}
 
@@ -224,8 +242,10 @@ internal static class CoordinateAssigner
 				list = [];
 				result[e.To] = list;
 			}
+
 			list.Add(e.From);
 		}
+
 		return result;
 	}
 }

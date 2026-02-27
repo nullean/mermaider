@@ -59,18 +59,20 @@ internal sealed class GraphBuffer : IDisposable
 
 	private void EnsureCapacity()
 	{
-		if (NodeCount <= X.Length) return;
+		if (NodeCount <= X.Length)
+			return;
 
 		var newSize = Math.Max(NodeCount * 2, X.Length * 2);
 		Layers = Grow(Layers, newSize);
 		NodePositionInLayer = Grow(NodePositionInLayer, newSize);
-		X = Grow(X, newSize, isDouble: true);
-		Y = Grow(Y, newSize, isDouble: true);
+		X = Grow(X, newSize);
+		Y = Grow(Y, newSize);
 	}
 
 	internal int[] RentInt(int size)
 	{
-		if (size <= 0) return [];
+		if (size <= 0)
+			return [];
 		var arr = ArrayPool<int>.Shared.Rent(size);
 		Array.Clear(arr, 0, size);
 		_rentedArrays.Add(arr);
@@ -83,7 +85,8 @@ internal sealed class GraphBuffer : IDisposable
 		var list = new List<GraphEdge>();
 		foreach (var e in Edges)
 		{
-			if (e.From == node) list.Add(e);
+			if (e.From == node)
+				list.Add(e);
 		}
 		return list.ToArray();
 	}
@@ -94,19 +97,20 @@ internal sealed class GraphBuffer : IDisposable
 		var list = new List<GraphEdge>();
 		foreach (var e in Edges)
 		{
-			if (e.To == node) list.Add(e);
+			if (e.To == node)
+				list.Add(e);
 		}
 		return list.ToArray();
 	}
 
-	private int[] Grow(int[] old, int newSize, bool isDouble = false)
+	private int[] Grow(int[] old, int newSize)
 	{
 		var arr = RentInt(newSize);
 		Array.Copy(old, arr, Math.Min(old.Length, newSize));
 		return arr;
 	}
 
-	private double[] Grow(double[] old, int newSize, bool isDouble = false)
+	private double[] Grow(double[] old, int newSize)
 	{
 		var arr = new double[newSize];
 		Array.Copy(old, arr, Math.Min(old.Length, newSize));

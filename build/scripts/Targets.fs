@@ -41,7 +41,7 @@ let private pristineCheck (arguments:ParseResults<Arguments>) =
     | _ -> failwithf "The checkout folder has pending changes, aborting"
 
 let private test (arguments:ParseResults<Arguments>) =
-    exec "dotnet" ["run"; "--project"; "tests/Mermaid.Tests/Mermaid.Tests.csproj"; "-c"; "Release"] |> ignore
+    exec "dotnet" ["run"; "--project"; "tests/Mermaider.Tests/Mermaider.Tests.csproj"; "-c"; "Release"] |> ignore
 
 let private generatePackages (arguments:ParseResults<Arguments>) =
     let output = Paths.RootRelative Paths.Output.FullName

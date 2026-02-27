@@ -1,5 +1,6 @@
 using AwesomeAssertions;
 using Mermaider.Models;
+using Mermaider.Parsing;
 
 namespace Mermaider.Tests.Parsing;
 

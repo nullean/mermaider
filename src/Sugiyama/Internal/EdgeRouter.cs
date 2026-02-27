@@ -31,11 +31,9 @@ internal static class EdgeRouter
 
 		foreach (var (origIdx, reversed, chain) in edgeChains)
 		{
-			List<LayoutPoint> points;
-			if (reversed && chain[0] < graph.RealNodeCount && chain[^1] < graph.RealNodeCount)
-				points = RouteBackEdge(graph, chain[0], chain[^1]);
-			else
-				points = RouteChain(graph, chain, useSideRouting);
+			var points = reversed && chain[0] < graph.RealNodeCount && chain[^1] < graph.RealNodeCount
+				? RouteBackEdge(graph, chain[0], chain[^1])
+				: RouteChain(graph, chain, useSideRouting);
 
 			var labelPos = ComputeLabelPosition(points);
 
@@ -73,7 +71,8 @@ internal static class EdgeRouter
 
 		foreach (var (from, to, origIdx, reversed) in edgeStarts)
 		{
-			if (chains.ContainsKey(origIdx)) continue;
+			if (chains.ContainsKey(origIdx))
+				continue;
 
 			var chain = new List<int> { from, to };
 			var current = to;
@@ -105,8 +104,8 @@ internal static class EdgeRouter
 		{
 			var node = chain[i];
 			var isReal = node < graph.RealNodeCount;
-			var cx = isReal ? graph.X[node] + graph.NodeWidths[node] / 2.0 : graph.X[node];
-			var cy = isReal ? graph.Y[node] + graph.NodeHeights[node] / 2.0 : graph.Y[node];
+			var cx = isReal ? graph.X[node] + (graph.NodeWidths[node] / 2.0) : graph.X[node];
+			var cy = isReal ? graph.Y[node] + (graph.NodeHeights[node] / 2.0) : graph.Y[node];
 
 			if (i == 0)
 			{
@@ -165,7 +164,7 @@ internal static class EdgeRouter
 
 		var target = chain[^1];
 		var tgtCX = target < graph.RealNodeCount
-			? graph.X[target] + graph.NodeWidths[target] / 2.0
+			? graph.X[target] + (graph.NodeWidths[target] / 2.0)
 			: graph.X[target];
 
 		var deltaX = tgtCX - cx;
@@ -202,14 +201,15 @@ internal static class EdgeRouter
 	{
 		const double detourGap = 36;
 
-		var srcCY = graph.Y[source] + graph.NodeHeights[source] / 2.0;
-		var tgtCY = graph.Y[target] + graph.NodeHeights[target] / 2.0;
+		var srcCY = graph.Y[source] + (graph.NodeHeights[source] / 2.0);
+		var tgtCY = graph.Y[target] + (graph.NodeHeights[target] / 2.0);
 
 		var maxRight = 0.0;
 		for (var i = 0; i < graph.RealNodeCount; i++)
 		{
 			var right = graph.X[i] + graph.NodeWidths[i];
-			if (right > maxRight) maxRight = right;
+			if (right > maxRight)
+				maxRight = right;
 		}
 		var detourX = maxRight + detourGap;
 
@@ -231,7 +231,8 @@ internal static class EdgeRouter
 	/// </summary>
 	private static LayoutPoint? ComputeLabelPosition(List<LayoutPoint> points)
 	{
-		if (points.Count < 2) return null;
+		if (points.Count < 2)
+			return null;
 
 		var bestIdx = 1;
 		var bestLen = 0.0;
@@ -240,7 +241,7 @@ internal static class EdgeRouter
 		{
 			var dx = points[i].X - points[i - 1].X;
 			var dy = points[i].Y - points[i - 1].Y;
-			var segLen = Math.Sqrt(dx * dx + dy * dy);
+			var segLen = Math.Sqrt((dx * dx) + (dy * dy));
 			if (segLen > bestLen)
 			{
 				bestLen = segLen;
@@ -252,7 +253,7 @@ internal static class EdgeRouter
 		// to keep labels away from arrowheads at the end
 		const double t = 0.4;
 		return new LayoutPoint(
-			points[bestIdx - 1].X + (points[bestIdx].X - points[bestIdx - 1].X) * t,
-			points[bestIdx - 1].Y + (points[bestIdx].Y - points[bestIdx - 1].Y) * t);
+			points[bestIdx - 1].X + ((points[bestIdx].X - points[bestIdx - 1].X) * t),
+			points[bestIdx - 1].Y + ((points[bestIdx].Y - points[bestIdx - 1].Y) * t));
 	}
 }

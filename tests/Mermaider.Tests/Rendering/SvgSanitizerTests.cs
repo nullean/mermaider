@@ -1,6 +1,7 @@
 using System.Collections.Frozen;
 using AwesomeAssertions;
 using Mermaider.Models;
+using Mermaider.Rendering;
 
 namespace Mermaider.Tests.Rendering;
 
@@ -147,11 +148,15 @@ public class SvgSanitizerTests
 		result.Violations.Should().HaveCountGreaterThanOrEqualTo(3);
 	}
 
+	private static readonly string[] SourceArray = ["svg", "rect"];
+	private static readonly string[] SourceArray0 = ["xmlns", "x", "y", "width", "height"];
+	private static readonly string[] SourceArray1 = ["svg", "rect"];
+
 	[Test]
 	public void Custom_allowlists_restrict_further()
 	{
-		var onlyRect = new[] { "svg", "rect" }.ToFrozenSet(StringComparer.Ordinal);
-		var onlyBasic = new[] { "xmlns", "x", "y", "width", "height" }.ToFrozenSet(StringComparer.Ordinal);
+		var onlyRect = SourceArray.ToFrozenSet(StringComparer.Ordinal);
+		var onlyBasic = SourceArray0.ToFrozenSet(StringComparer.Ordinal);
 
 		var svg = """<svg xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="10" height="10" fill="#f00"/></svg>""";
 		var result = SvgSanitizer.Sanitize(svg, onlyRect, onlyBasic);
@@ -165,7 +170,7 @@ public class SvgSanitizerTests
 	[Test]
 	public void Custom_allowlists_strip_disallowed_elements()
 	{
-		var noText = new[] { "svg", "rect" }.ToFrozenSet(StringComparer.Ordinal);
+		var noText = SourceArray1.ToFrozenSet(StringComparer.Ordinal);
 
 		var svg = """<svg xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="10" height="10"/><text x="5" y="5">no</text></svg>""";
 		var result = SvgSanitizer.Sanitize(svg, noText, SvgSanitizer.DefaultAllowedAttributes);

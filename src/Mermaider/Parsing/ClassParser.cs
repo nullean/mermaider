@@ -184,8 +184,8 @@ internal static partial class ClassParser
 			var rel = ParseRelationship(line);
 			if (rel != null)
 			{
-				EnsureClass(classMap, rel.From);
-				EnsureClass(classMap, rel.To);
+				_ = EnsureClass(classMap, rel.From);
+				_ = EnsureClass(classMap, rel.To);
 				relationships.Add(rel);
 			}
 		}
@@ -214,7 +214,8 @@ internal static partial class ClassParser
 	private static (ClassMember Member, bool IsMethod)? ParseMember(string line)
 	{
 		var trimmed = line.Trim().TrimEnd(';');
-		if (trimmed.Length == 0) return null;
+		if (trimmed.Length == 0)
+			return null;
 
 		var visibility = ClassVisibility.None;
 		var rest = trimmed;
@@ -281,7 +282,8 @@ internal static partial class ClassParser
 	private static ClassRelationship? ParseRelationship(string line)
 	{
 		var match = RelationshipPattern().Match(line);
-		if (!match.Success) return null;
+		if (!match.Success)
+			return null;
 
 		var from = match.Groups[1].Value;
 		var fromCard = match.Groups[2].Success ? MultilineUtils.NormalizeBrTags(match.Groups[2].Value) : null;
@@ -291,7 +293,8 @@ internal static partial class ClassParser
 		var label = match.Groups[6].Success ? MultilineUtils.NormalizeBrTags(match.Groups[6].Value.Trim()) : null;
 
 		var parsed = ParseArrow(arrow);
-		if (parsed == null) return null;
+		if (parsed == null)
+			return null;
 
 		return new ClassRelationship(from, to, parsed.Value.Type, parsed.Value.MarkerAt, label, fromCard, toCard);
 	}

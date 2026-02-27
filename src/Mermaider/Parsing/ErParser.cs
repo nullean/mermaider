@@ -39,10 +39,10 @@ internal static partial class ErParser
 
 	private static ErDiagram ParseCore(string[] lines)
 	{
-		var entityMap = new Dictionary<string, (ErEntity Entity, List<ErAttribute> Attrs)>();
+		var entityMap = new Dictionary<string, (ErEntity Entity, List<ErAttributeInfo> Attrs)>();
 		var relationships = new List<ErRelationship>();
 		ErEntity? currentEntity = null;
-		List<ErAttribute>? currentAttrs = null;
+		List<ErAttributeInfo>? currentAttrs = null;
 
 		for (var i = 1; i < lines.Length; i++)
 		{
@@ -76,8 +76,8 @@ internal static partial class ErParser
 			var rel = ParseRelationshipLine(line);
 			if (rel != null)
 			{
-				EnsureEntity(entityMap, rel.Entity1);
-				EnsureEntity(entityMap, rel.Entity2);
+				_ = EnsureEntity(entityMap, rel.Entity1);
+				_ = EnsureEntity(entityMap, rel.Entity2);
 				relationships.Add(rel);
 			}
 		}
@@ -89,23 +89,24 @@ internal static partial class ErParser
 		return new ErDiagram { Entities = entities, Relationships = relationships };
 	}
 
-	private static (ErEntity Entity, List<ErAttribute> Attrs) EnsureEntity(
-		Dictionary<string, (ErEntity Entity, List<ErAttribute> Attrs)> entityMap,
+	private static (ErEntity Entity, List<ErAttributeInfo> Attrs) EnsureEntity(
+		Dictionary<string, (ErEntity Entity, List<ErAttributeInfo> Attrs)> entityMap,
 		string id)
 	{
 		if (entityMap.TryGetValue(id, out var existing))
 			return existing;
 
 		var entity = new ErEntity { Id = id, Label = id, Attributes = [] };
-		var attrs = new List<ErAttribute>();
+		var attrs = new List<ErAttributeInfo>();
 		entityMap[id] = (entity, attrs);
 		return (entity, attrs);
 	}
 
-	private static ErAttribute? ParseAttribute(string line)
+	private static ErAttributeInfo? ParseAttribute(string line)
 	{
 		var match = AttributePattern().Match(line);
-		if (!match.Success) return null;
+		if (!match.Success)
+			return null;
 
 		var type = match.Groups[1].Value;
 		var name = match.Groups[2].Value;
@@ -130,13 +131,14 @@ internal static partial class ErParser
 				keys.Add(ErKeyType.UK);
 		}
 
-		return new ErAttribute(type, name, keys, comment);
+		return new ErAttributeInfo(type, name, keys, comment);
 	}
 
 	private static ErRelationship? ParseRelationshipLine(string line)
 	{
 		var match = RelationshipPattern().Match(line);
-		if (!match.Success) return null;
+		if (!match.Success)
+			return null;
 
 		var entity1 = match.Groups[1].Value;
 		var cardinalityStr = match.Groups[2].Value;
@@ -145,7 +147,8 @@ internal static partial class ErParser
 		var label = MultilineUtils.NormalizeBrTags(rawLabel);
 
 		var lineMatch = CardinalitySplitPattern().Match(cardinalityStr);
-		if (!lineMatch.Success) return null;
+		if (!lineMatch.Success)
+			return null;
 
 		var leftStr = lineMatch.Groups[1].Value;
 		var lineStyle = lineMatch.Groups[2].Value;
@@ -153,7 +156,8 @@ internal static partial class ErParser
 
 		var cardinality1 = ParseCardinality(leftStr);
 		var cardinality2 = ParseCardinality(rightStr);
-		if (cardinality1 == null || cardinality2 == null) return null;
+		if (cardinality1 == null || cardinality2 == null)
+			return null;
 
 		return new ErRelationship(entity1, entity2, cardinality1.Value, cardinality2.Value, label, lineStyle == "--");
 	}

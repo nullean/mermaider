@@ -37,17 +37,17 @@ internal static class LightweightClassLayoutEngine
 				: HeaderBaseHeight;
 
 			var attrHeight = cls.Attributes.Count > 0
-				? cls.Attributes.Count * MemberRowHeight + SectionPadY
+				? (cls.Attributes.Count * MemberRowHeight) + SectionPadY
 				: EmptySectionHeight;
 
 			var methodHeight = cls.Methods.Count > 0
-				? cls.Methods.Count * MemberRowHeight + SectionPadY
+				? (cls.Methods.Count * MemberRowHeight) + SectionPadY
 				: EmptySectionHeight;
 
 			var headerTextW = TextMetrics.MeasureTextWidth(cls.Label, RenderConstants.FontSizes.NodeLabel, RenderConstants.FontWeights.NodeLabel);
 			var maxAttrW = MaxMemberWidth(cls.Attributes);
 			var maxMethodW = MaxMemberWidth(cls.Methods);
-			var width = Math.Max(MinWidth, Math.Max(headerTextW + BoxPadX * 2, Math.Max(maxAttrW + BoxPadX * 2, maxMethodW + BoxPadX * 2)));
+			var width = Math.Max(MinWidth, Math.Max(headerTextW + (BoxPadX * 2), Math.Max(maxAttrW + (BoxPadX * 2), maxMethodW + (BoxPadX * 2))));
 			var height = headerHeight + attrHeight + methodHeight;
 
 			classSizes[cls.Id] = (width, height, headerHeight, attrHeight, methodHeight);
@@ -89,13 +89,13 @@ internal static class LightweightClassLayoutEngine
 		ClassDiagram diagram,
 		Dictionary<string, (double Width, double Height, double HeaderHeight, double AttrHeight, double MethodHeight)> classSizes)
 	{
-		var classLookup = diagram.Classes.ToDictionary(c => c.Id);
 		var nodeLookup = result.Nodes.ToDictionary(n => n.Id);
 		var positionedClasses = new List<PositionedClassNode>(diagram.Classes.Count);
 
 		foreach (var cls in diagram.Classes)
 		{
-			if (!nodeLookup.TryGetValue(cls.Id, out var n)) continue;
+			if (!nodeLookup.TryGetValue(cls.Id, out var n))
+				continue;
 			var size = classSizes[cls.Id];
 			positionedClasses.Add(new PositionedClassNode
 			{
@@ -119,7 +119,8 @@ internal static class LightweightClassLayoutEngine
 		{
 			var rel = diagram.Relationships[i];
 			var edge = result.Edges.FirstOrDefault(e => e.OriginalIndex == i);
-			if (edge is null) continue;
+			if (edge is null)
+				continue;
 
 			var points = edge.Points.Select(p => new Point(p.X, p.Y)).ToList();
 			Point? labelPos = edge.LabelPosition is { } lp ? new Point(lp.X, lp.Y) : null;
@@ -164,7 +165,8 @@ internal static class LightweightClassLayoutEngine
 			var type = m.Type != null ? $": {m.Type}" : "";
 			var text = $"{vis}{name}{type}";
 			var w = TextMetrics.EstimateMonoTextWidth(text, MemberFontSize);
-			if (w > maxW) maxW = w;
+			if (w > maxW)
+				maxW = w;
 		}
 		return maxW;
 	}

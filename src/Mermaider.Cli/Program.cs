@@ -86,7 +86,7 @@ try
 	{
 		var dir = Path.GetDirectoryName(outputFile);
 		if (!string.IsNullOrEmpty(dir))
-			Directory.CreateDirectory(dir);
+			_ = Directory.CreateDirectory(dir);
 		File.WriteAllText(outputFile, svg);
 		Console.Error.WriteLine($"Written to {outputFile}");
 	}
@@ -134,9 +134,7 @@ static RenderOptions BuildOptions(string? themeName, bool transparent)
 	};
 }
 
-static void PrintHelp()
-{
-	Console.WriteLine("""
+static void PrintHelp() => Console.WriteLine("""
 		mermaid - Render Mermaid diagrams to SVG
 
 		USAGE:
@@ -158,4 +156,3 @@ static void PrintHelp()
 		  echo "graph TD; A-->B" | mermaid > simple.svg
 		  mermaid --list-themes
 		""");
-}

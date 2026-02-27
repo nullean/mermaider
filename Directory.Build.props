@@ -8,6 +8,12 @@
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <IsPackable>false</IsPackable>
     <UseArtifactsOutput>true</UseArtifactsOutput>
+    <SolutionRoot>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), build.sh))</SolutionRoot>
+    <ArtifactsPath>$(MSBuildThisFileDirectory).artifacts</ArtifactsPath>
+
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
     <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
     <MinVerDefaultPreReleaseIdentifiers>canary.0</MinVerDefaultPreReleaseIdentifiers>

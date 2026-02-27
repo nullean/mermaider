@@ -75,8 +75,8 @@ internal static partial class StateParser
 				var label = compositeMatch.Groups[1].Success ? compositeMatch.Groups[1].Value : compositeMatch.Groups[2].Value;
 				var id = compositeMatch.Groups[2].Value;
 				compositeStack.Push((id, label, [], [], null));
-				compositeStateIds.Add(id);
-				nodes.Remove(id);
+				_ = compositeStateIds.Add(id);
+				_ = nodes.Remove(id);
 				continue;
 			}
 
@@ -174,7 +174,7 @@ internal static partial class StateParser
 		Stack<(string Id, string Label, List<string> NodeIds, List<MermaidSubgraph> Children, Direction? Dir)> compositeStack,
 		MermaidNode node)
 	{
-		nodes.TryAdd(node.Id, node);
+		_ = nodes.TryAdd(node.Id, node);
 		if (compositeStack.Count > 0)
 		{
 			var current = compositeStack.Peek();

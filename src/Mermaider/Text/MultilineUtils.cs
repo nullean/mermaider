@@ -1,7 +1,6 @@
 using System.Buffers;
 using System.Text;
 using System.Text.RegularExpressions;
-using Microsoft.Extensions.ObjectPool;
 
 namespace Mermaider.Text;
 
@@ -12,10 +11,7 @@ internal static partial class MultilineUtils
 {
 	private const int TimeoutMs = 2000;
 
-	private static readonly ObjectPool<StringBuilder> s_sbPool =
-		new DefaultObjectPoolProvider().CreateStringBuilderPool();
-
-	private static readonly SearchValues<char> s_xmlSpecial = SearchValues.Create("&<>\"'");
+	private static readonly SearchValues<char> XmlSpecialCharacters = SearchValues.Create("&<>\"'");
 
 	[GeneratedRegex(@"<br\s*/?>", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex BrTagPattern();
@@ -59,44 +55,44 @@ internal static partial class MultilineUtils
 
 	internal static void AppendEscapedXml(StringBuilder sb, ReadOnlySpan<char> value)
 	{
-		if (!value.ContainsAny(s_xmlSpecial))
+		if (!value.ContainsAny(XmlSpecialCharacters))
 		{
-			sb.Append(value);
+			_ = sb.Append(value);
 			return;
 		}
 
 		foreach (var c in value)
 		{
-			switch (c)
+			_ = c switch
 			{
-				case '&': sb.Append("&amp;"); break;
-				case '<': sb.Append("&lt;"); break;
-				case '>': sb.Append("&gt;"); break;
-				case '"': sb.Append("&quot;"); break;
-				case '\'': sb.Append("&#39;"); break;
-				default: sb.Append(c); break;
-			}
+				'&' => sb.Append("&amp;"),
+				'<' => sb.Append("&lt;"),
+				'>' => sb.Append("&gt;"),
+				'"' => sb.Append("&quot;"),
+				'\'' => sb.Append("&#39;"),
+				_ => sb.Append(c)
+			};
 		}
 	}
 
 	internal static void AppendEscapedAttr(StringBuilder sb, ReadOnlySpan<char> value)
 	{
-		if (!value.ContainsAny(s_xmlSpecial))
+		if (!value.ContainsAny(XmlSpecialCharacters))
 		{
-			sb.Append(value);
+			_ = sb.Append(value);
 			return;
 		}
 
 		foreach (var c in value)
 		{
-			switch (c)
+			_ = c switch
 			{
-				case '&': sb.Append("&amp;"); break;
-				case '"': sb.Append("&quot;"); break;
-				case '<': sb.Append("&lt;"); break;
-				case '>': sb.Append("&gt;"); break;
-				default: sb.Append(c); break;
-			}
+				'&' => sb.Append("&amp;"),
+				'"' => sb.Append("&quot;"),
+				'<' => sb.Append("&lt;"),
+				'>' => sb.Append("&gt;"),
+				_ => sb.Append(c)
+			};
 		}
 	}
 
@@ -163,20 +159,25 @@ internal static partial class MultilineUtils
 			return;
 		}
 
-		sb.Append("<tspan");
-		if (bold) sb.Append(" font-weight=\"bold\"");
-		if (italic) sb.Append(" font-style=\"italic\"");
+		_ = sb.Append("<tspan");
+		if (bold)
+			_ = sb.Append(" font-weight=\"bold\"");
+		if (italic)
+			_ = sb.Append(" font-style=\"italic\"");
 		if (underline || strikethrough)
 		{
-			sb.Append(" text-decoration=\"");
-			if (underline) sb.Append("underline");
-			if (underline && strikethrough) sb.Append(' ');
-			if (strikethrough) sb.Append("line-through");
-			sb.Append('"');
+			_ = sb.Append(" text-decoration=\"");
+			if (underline)
+				_ = sb.Append("underline");
+			if (underline && strikethrough)
+				_ = sb.Append(' ');
+			if (strikethrough)
+				_ = sb.Append("line-through");
+			_ = sb.Append('"');
 		}
-		sb.Append('>');
+		_ = sb.Append('>');
 		AppendEscapedXml(sb, text);
-		sb.Append("</tspan>");
+		_ = sb.Append("</tspan>");
 	}
 
 	internal static void AppendMultilineText(
@@ -192,29 +193,29 @@ internal static partial class MultilineUtils
 		if (lines.Length == 1)
 		{
 			var dy = fontSize * baselineShift;
-			sb.Append("<text x=\"").Append(cx).Append("\" y=\"").Append(cy)
+			_ = sb.Append("<text x=\"").Append(cx).Append("\" y=\"").Append(cy)
 				.Append("\" ").Append(attrs)
 				.Append(" dy=\"").Append(dy).Append("\">");
 			AppendLineContent(sb, text.AsSpan());
-			sb.Append("</text>");
+			_ = sb.Append("</text>");
 			return;
 		}
 
 		var lineHeight = fontSize * TextMetrics.LineHeightRatio;
-		var firstDy = -((lines.Length - 1) / 2.0) * lineHeight + fontSize * baselineShift;
+		var firstDy = (-((lines.Length - 1) / 2.0) * lineHeight) + (fontSize * baselineShift);
 
-		sb.Append("<text x=\"").Append(cx).Append("\" y=\"").Append(cy)
+		_ = sb.Append("<text x=\"").Append(cx).Append("\" y=\"").Append(cy)
 			.Append("\" ").Append(attrs).Append('>');
 
 		for (var i = 0; i < lines.Length; i++)
 		{
 			var dy = i == 0 ? firstDy : lineHeight;
-			sb.Append("<tspan x=\"").Append(cx).Append("\" dy=\"").Append(dy).Append("\">");
+			_ = sb.Append("<tspan x=\"").Append(cx).Append("\" dy=\"").Append(dy).Append("\">");
 			AppendLineContent(sb, lines[i].AsSpan());
-			sb.Append("</tspan>");
+			_ = sb.Append("</tspan>");
 		}
 
-		sb.Append("</text>");
+		_ = sb.Append("</text>");
 	}
 
 	internal static void AppendMultilineTextWithBackground(
@@ -227,11 +228,11 @@ internal static partial class MultilineUtils
 		string textAttrs,
 		string bgAttrs)
 	{
-		var bgWidth = textWidth + padding * 2;
-		var bgHeight = textHeight + padding * 2;
+		var bgWidth = textWidth + (padding * 2);
+		var bgHeight = textHeight + (padding * 2);
 
-		sb.Append("<rect x=\"").Append(cx - bgWidth / 2)
-			.Append("\" y=\"").Append(cy - bgHeight / 2)
+		_ = sb.Append("<rect x=\"").Append(cx - (bgWidth / 2))
+			.Append("\" y=\"").Append(cy - (bgHeight / 2))
 			.Append("\" width=\"").Append(bgWidth)
 			.Append("\" height=\"").Append(bgHeight)
 			.Append("\" ").Append(bgAttrs).Append(" />\n");

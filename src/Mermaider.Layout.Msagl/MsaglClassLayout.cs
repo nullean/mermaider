@@ -1,4 +1,8 @@
+using System;
+using System.Collections.Generic;
 using Mermaider.Models;
+using Mermaider.Rendering;
+using Mermaider.Text;
 using Microsoft.Msagl.Core.Geometry.Curves;
 using Microsoft.Msagl.Core.Layout;
 using Microsoft.Msagl.Core.Routing;
@@ -37,17 +41,17 @@ internal static class MsaglClassLayout
 				: HeaderBaseHeight;
 
 			var attrHeight = cls.Attributes.Count > 0
-				? cls.Attributes.Count * MemberRowHeight + SectionPadY
+				? (cls.Attributes.Count * MemberRowHeight) + SectionPadY
 				: EmptySectionHeight;
 
 			var methodHeight = cls.Methods.Count > 0
-				? cls.Methods.Count * MemberRowHeight + SectionPadY
+				? (cls.Methods.Count * MemberRowHeight) + SectionPadY
 				: EmptySectionHeight;
 
 			var headerTextW = TextMetrics.MeasureTextWidth(cls.Label, RenderConstants.FontSizes.NodeLabel, RenderConstants.FontWeights.NodeLabel);
 			var maxAttrW = MaxMemberWidth(cls.Attributes);
 			var maxMethodW = MaxMemberWidth(cls.Methods);
-			var width = Math.Max(MinWidth, Math.Max(headerTextW + BoxPadX * 2, Math.Max(maxAttrW + BoxPadX * 2, maxMethodW + BoxPadX * 2)));
+			var width = Math.Max(MinWidth, Math.Max(headerTextW + (BoxPadX * 2), Math.Max(maxAttrW + (BoxPadX * 2), maxMethodW + (BoxPadX * 2))));
 			var height = headerHeight + attrHeight + methodHeight;
 
 			classSizes[cls.Id] = (width, height, headerHeight, attrHeight, methodHeight);
@@ -110,7 +114,8 @@ internal static class MsaglClassLayout
 
 		foreach (var (id, msaglNode) in msaglNodes)
 		{
-			if (!classLookup.TryGetValue(id, out var cls)) continue;
+			if (!classLookup.TryGetValue(id, out var cls))
+				continue;
 			var size = classSizes[id];
 			var center = msaglNode.Center;
 			var w = msaglNode.BoundingBox.Width;
@@ -123,8 +128,8 @@ internal static class MsaglClassLayout
 				Annotation = cls.Annotation,
 				Attributes = cls.Attributes,
 				Methods = cls.Methods,
-				X = center.X - w / 2 + offsetX,
-				Y = center.Y - h / 2 + offsetY,
+				X = center.X - (w / 2) + offsetX,
+				Y = center.Y - (h / 2) + offsetY,
 				Width = w,
 				Height = h,
 				HeaderHeight = size.HeaderHeight,
@@ -160,8 +165,8 @@ internal static class MsaglClassLayout
 
 		return new PositionedClassDiagram
 		{
-			Width = bb.Width + Padding * 2,
-			Height = bb.Height + Padding * 2,
+			Width = bb.Width + (Padding * 2),
+			Height = bb.Height + (Padding * 2),
 			Classes = positionedClasses,
 			Relationships = positionedRels,
 		};
@@ -171,7 +176,8 @@ internal static class MsaglClassLayout
 	{
 		var points = new List<Point>();
 		var curve = edge.Curve;
-		if (curve is null) return points;
+		if (curve is null)
+			return points;
 
 		if (edge.EdgeGeometry?.SourceArrowhead?.TipPosition is { } srcTip)
 			points.Add(new Point(srcTip.X + offsetX, srcTip.Y + offsetY));
@@ -192,7 +198,7 @@ internal static class MsaglClassLayout
 					{
 						for (var t = 1; t <= 4; t++)
 						{
-							var frac = seg.ParStart + (seg.ParEnd - seg.ParStart) * t / 4.0;
+							var frac = seg.ParStart + ((seg.ParEnd - seg.ParStart) * t / 4.0);
 							var p = seg[frac];
 							points.Add(new Point(p.X + offsetX, p.Y + offsetY));
 						}
@@ -202,7 +208,7 @@ internal static class MsaglClassLayout
 			default:
 				for (var t = 1; t <= 8; t++)
 				{
-					var frac = curve.ParStart + (curve.ParEnd - curve.ParStart) * t / 8.0;
+					var frac = curve.ParStart + ((curve.ParEnd - curve.ParStart) * t / 8.0);
 					var p = curve[frac];
 					points.Add(new Point(p.X + offsetX, p.Y + offsetY));
 				}
@@ -227,7 +233,8 @@ internal static class MsaglClassLayout
 		{
 			var text = MemberToString(m);
 			var w = TextMetrics.EstimateMonoTextWidth(text, MemberFontSize);
-			if (w > maxW) maxW = w;
+			if (w > maxW)
+				maxW = w;
 		}
 		return maxW;
 	}

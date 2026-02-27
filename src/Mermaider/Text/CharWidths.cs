@@ -8,13 +8,13 @@ namespace Mermaider.Text;
 /// </summary>
 internal static class CharWidths
 {
-	private static readonly SearchValues<char> s_narrow =
+	private static readonly SearchValues<char> NarrowCharacters =
 		SearchValues.Create("iltfjI1!|.,:;'");
 
-	private static readonly SearchValues<char> s_wide =
+	private static readonly SearchValues<char> WideCharacters =
 		SearchValues.Create("Wwm@%");
 
-	private static readonly SearchValues<char> s_semiNarrow =
+	private static readonly SearchValues<char> SemiNarrowCharacters =
 		SearchValues.Create("()[]{}\\/-\"`");
 
 	internal static double GetCharWidth(char c)
@@ -33,50 +33,50 @@ internal static class CharWidths
 		if (c is 'W' or 'M')
 			return 1.5;
 
-		if (s_wide.Contains(c))
+		if (WideCharacters.Contains(c))
 			return 1.2;
 
-		if (s_narrow.Contains(c))
+		if (NarrowCharacters.Contains(c))
 			return 0.4;
 
-		if (s_semiNarrow.Contains(c))
+		if (SemiNarrowCharacters.Contains(c))
 			return 0.5;
 
 		if (c == 'r')
 			return 0.8;
 
-		if (code >= 65 && code <= 90)
+		if (code is >= 65 and <= 90)
 			return 1.2;
 
-		if (code >= 48 && code <= 57)
+		if (code is >= 48 and <= 57)
 			return 1.0;
 
 		return 1.0;
 	}
 
 	private static bool IsCombiningMark(int code) =>
-		(code >= 0x0300 && code <= 0x036F) ||
-		(code >= 0x1AB0 && code <= 0x1AFF) ||
-		(code >= 0x1DC0 && code <= 0x1DFF) ||
-		(code >= 0x20D0 && code <= 0x20FF) ||
-		(code >= 0xFE20 && code <= 0xFE2F);
+		code is (>= 0x0300 and <= 0x036F) or
+				(>= 0x1AB0 and <= 0x1AFF) or
+				(>= 0x1DC0 and <= 0x1DFF) or
+				(>= 0x20D0 and <= 0x20FF) or
+				(>= 0xFE20 and <= 0xFE2F);
 
 	private static bool IsFullwidth(int code) =>
-		(code >= 0x1100 && code <= 0x115F) ||
-		(code >= 0x2E80 && code <= 0x2EFF) ||
-		(code >= 0x2F00 && code <= 0x2FDF) ||
-		(code >= 0x3000 && code <= 0x303F) ||
-		(code >= 0x3040 && code <= 0x309F) ||
-		(code >= 0x30A0 && code <= 0x30FF) ||
-		(code >= 0x3100 && code <= 0x312F) ||
-		(code >= 0x3130 && code <= 0x318F) ||
-		(code >= 0x3190 && code <= 0x31FF) ||
-		(code >= 0x3200 && code <= 0x33FF) ||
-		(code >= 0x3400 && code <= 0x4DBF) ||
-		(code >= 0x4E00 && code <= 0x9FFF) ||
-		(code >= 0xAC00 && code <= 0xD7AF) ||
-		(code >= 0xF900 && code <= 0xFAFF) ||
-		(code >= 0xFF00 && code <= 0xFF60) ||
-		(code >= 0xFFE0 && code <= 0xFFE6) ||
-		code >= 0x20000;
+		code is (>= 0x1100 and <= 0x115F) or
+				(>= 0x2E80 and <= 0x2EFF) or
+				(>= 0x2F00 and <= 0x2FDF) or
+				(>= 0x3000 and <= 0x303F) or
+				(>= 0x3040 and <= 0x309F) or
+				(>= 0x30A0 and <= 0x30FF) or
+				(>= 0x3100 and <= 0x312F) or
+				(>= 0x3130 and <= 0x318F) or
+				(>= 0x3190 and <= 0x31FF) or
+				(>= 0x3200 and <= 0x33FF) or
+				(>= 0x3400 and <= 0x4DBF) or
+				(>= 0x4E00 and <= 0x9FFF) or
+				(>= 0xAC00 and <= 0xD7AF) or
+				(>= 0xF900 and <= 0xFAFF) or
+				(>= 0xFF00 and <= 0xFF60) or
+				(>= 0xFFE0 and <= 0xFFE6) or
+				>= 0x20000;
 }

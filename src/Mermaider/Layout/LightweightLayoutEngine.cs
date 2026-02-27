@@ -25,7 +25,8 @@ internal static class LightweightLayoutEngine
 		var layoutNodes = new List<LayoutNode>(graph.Nodes.Count);
 		foreach (var id in nodeOrder)
 		{
-			if (!graph.Nodes.TryGetValue(id, out var node)) continue;
+			if (!graph.Nodes.TryGetValue(id, out var node))
+				continue;
 			var (w, h) = NodeSizing.Estimate(node.Label, node.Shape);
 			layoutNodes.Add(new LayoutNode(id, w, h));
 		}
@@ -102,7 +103,8 @@ internal static class LightweightLayoutEngine
 		var positionedEdges = new List<PositionedEdge>(result.Edges.Count);
 		foreach (var e in result.Edges)
 		{
-			if (e.OriginalIndex >= graph.Edges.Count) continue;
+			if (e.OriginalIndex >= graph.Edges.Count)
+				continue;
 			var mermaidEdge = graph.Edges[e.OriginalIndex];
 
 			var points = new List<Models.Point>(e.Points.Count);
@@ -162,7 +164,7 @@ internal static class LightweightLayoutEngine
 
 		if (graph.NodeStyles.TryGetValue(nodeId, out var nodeStyle))
 		{
-			result ??= new Dictionary<string, string>();
+			result ??= [];
 			foreach (var kvp in nodeStyle)
 				result[kvp.Key] = kvp.Value;
 		}
@@ -219,7 +221,10 @@ internal static class LightweightLayoutEngine
 
 	private static bool ClipEndAtBox(List<Models.Point> points, PositionedGroup box, bool clipStart)
 	{
-		var bx = box.X; var by = box.Y; var bw = box.Width; var bh = box.Height;
+		var bx = box.X;
+		var by = box.Y;
+		var bw = box.Width;
+		var bh = box.Height;
 
 		if (clipStart)
 		{
@@ -296,19 +301,24 @@ internal static class LightweightLayoutEngine
 
 	private static void TryEdge(Models.Point a, Models.Point b, double x1, double y1, double x2, double y2, ref Models.Point? best, ref double bestDist)
 	{
-		var dx = b.X - a.X; var dy = b.Y - a.Y;
-		var ex = x2 - x1;   var ey = y2 - y1;
-		var denom = dx * ey - dy * ex;
-		if (Math.Abs(denom) < 1e-10) return;
+		var dx = b.X - a.X;
+		var dy = b.Y - a.Y;
+		var ex = x2 - x1;
+		var ey = y2 - y1;
+		var denom = (dx * ey) - (dy * ex);
+		if (Math.Abs(denom) < 1e-10)
+			return;
 
-		var t = ((x1 - a.X) * ey - (y1 - a.Y) * ex) / denom;
-		var u = ((x1 - a.X) * dy - (y1 - a.Y) * dx) / denom;
+		var t = (((x1 - a.X) * ey) - ((y1 - a.Y) * ex)) / denom;
+		var u = (((x1 - a.X) * dy) - ((y1 - a.Y) * dx)) / denom;
 
-		if (t < 0 || t > 1 || u < 0 || u > 1) return;
+		if (t < 0 || t > 1 || u < 0 || u > 1)
+			return;
 
-		var px = a.X + dx * t;
-		var py = a.Y + dy * t;
+		var px = a.X + (dx * t);
+		var py = a.Y + (dy * t);
 		var d = t;
-		if (d < bestDist) { bestDist = d; best = new Models.Point(px, py); }
+		if (d < bestDist)
+		{ bestDist = d; best = new Models.Point(px, py); }
 	}
 }

@@ -10,15 +10,10 @@ public sealed record ErEntity
 {
 	public required string Id { get; init; }
 	public required string Label { get; init; }
-	public required IReadOnlyList<ErAttribute> Attributes { get; init; }
+	public required IReadOnlyList<ErAttributeInfo> Attributes { get; init; }
 }
 
-public sealed record ErAttribute(
-	string Type,
-	string Name,
-	IReadOnlyList<ErKeyType> Keys,
-	string? Comment = null
-);
+public sealed record ErAttributeInfo(string Type, string Name, IReadOnlyList<ErKeyType> Keys, string? Comment = null);
 
 public enum ErKeyType { PK, FK, UK }
 

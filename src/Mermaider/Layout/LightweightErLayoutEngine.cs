@@ -35,10 +35,11 @@ internal static class LightweightErLayoutEngine
 			{
 				var attrText = $"{attr.Type}  {attr.Name}{(attr.Keys.Count > 0 ? "  " + string.Join(",", attr.Keys) : "")}";
 				var w = TextMetrics.EstimateMonoTextWidth(attrText, AttrFontSize);
-				if (w > maxAttrW) maxAttrW = w;
+				if (w > maxAttrW)
+					maxAttrW = w;
 			}
-			var width = Math.Max(MinWidth, Math.Max(headerTextW + BoxPadX * 2, maxAttrW + BoxPadX * 2));
-			var height = HeaderHeight + Math.Max(entity.Attributes.Count, 1) * RowHeight;
+			var width = Math.Max(MinWidth, Math.Max(headerTextW + (BoxPadX * 2), maxAttrW + (BoxPadX * 2)));
+			var height = HeaderHeight + (Math.Max(entity.Attributes.Count, 1) * RowHeight);
 			entitySizes[entity.Id] = (width, height);
 		}
 
@@ -72,23 +73,21 @@ internal static class LightweightErLayoutEngine
 		{
 			Padding = Padding,
 			NodeSpacing = NodeSpacing,
-			LayerSpacing = effectiveLayerSpacing,
+			LayerSpacing = effectiveLayerSpacing
 		});
 
-		return ExtractPositioned(result, diagram, entitySizes);
+		return ExtractPositioned(result, diagram);
 	}
 
-	private static PositionedErDiagram ExtractPositioned(
-		LayoutResult result, ErDiagram diagram,
-		Dictionary<string, (double Width, double Height)> entitySizes)
+	private static PositionedErDiagram ExtractPositioned(LayoutResult result, ErDiagram diagram)
 	{
-		var entityLookup = diagram.Entities.ToDictionary(e => e.Id);
 		var nodeLookup = result.Nodes.ToDictionary(n => n.Id);
 		var positionedEntities = new List<PositionedErEntity>(diagram.Entities.Count);
 
 		foreach (var entity in diagram.Entities)
 		{
-			if (!nodeLookup.TryGetValue(entity.Id, out var n)) continue;
+			if (!nodeLookup.TryGetValue(entity.Id, out var n))
+				continue;
 			positionedEntities.Add(new PositionedErEntity
 			{
 				Id = entity.Id,
@@ -108,7 +107,8 @@ internal static class LightweightErLayoutEngine
 		{
 			var rel = diagram.Relationships[i];
 			var edge = result.Edges.FirstOrDefault(e => e.OriginalIndex == i);
-			if (edge is null) continue;
+			if (edge is null)
+				continue;
 
 			var points = edge.Points.Select(p => new Point(p.X, p.Y)).ToList();
 			positionedRels.Add(new PositionedErRelationship

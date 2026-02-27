@@ -27,7 +27,7 @@ internal static partial class TextMetrics
 			totalWidth += CharWidths.GetCharWidth(c);
 
 		var minPadding = fontSize * 0.15;
-		return totalWidth * fontSize * baseRatio + minPadding;
+		return (totalWidth * fontSize * baseRatio) + minPadding;
 	}
 
 	internal static double MeasurePlainWidth(ReadOnlySpan<char> line, double fontSize, int fontWeight)

@@ -46,7 +46,8 @@ internal static class CycleRemover
 			for (var i = edgeIdx; i < graph.Edges.Count; i++)
 			{
 				var e = graph.Edges[i];
-				if (e.From != node) continue;
+				if (e.From != node)
+					continue;
 
 				var target = e.To;
 				if (state[target] == NodeState.InStack)

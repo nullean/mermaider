@@ -1,4 +1,6 @@
 using Mermaider.Models;
+using Mermaider.Rendering;
+using Mermaider.Text;
 using Microsoft.Msagl.Core.Geometry.Curves;
 using Microsoft.Msagl.Core.Layout;
 using Microsoft.Msagl.Core.Routing;
@@ -109,8 +111,8 @@ internal static class MsaglFlowchartLayout
 				Id = id,
 				Label = node.Label,
 				Shape = node.Shape,
-				X = center.X - w / 2 + offsetX,
-				Y = center.Y - h / 2 + offsetY,
+				X = center.X - (w / 2) + offsetX,
+				Y = center.Y - (h / 2) + offsetY,
 				Width = w,
 				Height = h,
 				InlineStyle = inlineStyle,
@@ -142,8 +144,8 @@ internal static class MsaglFlowchartLayout
 			});
 		}
 
-		var width = bb.Width + padding * 2;
-		var height = bb.Height + padding * 2;
+		var width = bb.Width + (padding * 2);
+		var height = bb.Height + (padding * 2);
 
 		return new PositionedGraph
 		{
@@ -184,7 +186,7 @@ internal static class MsaglFlowchartLayout
 						var steps = 4;
 						for (var t = 1; t <= steps; t++)
 						{
-							var frac = seg.ParStart + (seg.ParEnd - seg.ParStart) * t / steps;
+							var frac = seg.ParStart + ((seg.ParEnd - seg.ParStart) * t / steps);
 							var p = seg[frac];
 							points.Add(new Point(p.X + offsetX, p.Y + offsetY));
 						}
@@ -192,16 +194,16 @@ internal static class MsaglFlowchartLayout
 				}
 				break;
 			default:
-			{
-				var steps = 8;
-				for (var t = 1; t <= steps; t++)
 				{
-					var frac = curve.ParStart + (curve.ParEnd - curve.ParStart) * t / steps;
-					var p = curve[frac];
-					points.Add(new Point(p.X + offsetX, p.Y + offsetY));
+					var steps = 8;
+					for (var t = 1; t <= steps; t++)
+					{
+						var frac = curve.ParStart + ((curve.ParEnd - curve.ParStart) * t / steps);
+						var p = curve[frac];
+						points.Add(new Point(p.X + offsetX, p.Y + offsetY));
+					}
+					break;
 				}
-				break;
-			}
 		}
 
 		if (edge.EdgeGeometry?.TargetArrowhead?.TipPosition is { } tgtTip)
@@ -263,7 +265,7 @@ internal static class MsaglFlowchartLayout
 			maxY = Math.Max(maxY, childGroup.Y + childGroup.Height);
 		}
 
-		if (minX == double.MaxValue)
+		if (Math.Abs(minX - double.MaxValue) < double.Epsilon)
 		{
 			minX = 0;
 			minY = 0;
@@ -277,8 +279,8 @@ internal static class MsaglFlowchartLayout
 			Label = sg.Label,
 			X = minX - groupPadding,
 			Y = minY - groupPadding - headerHeight,
-			Width = maxX - minX + groupPadding * 2,
-			Height = maxY - minY + groupPadding * 2 + headerHeight,
+			Width = maxX - minX + (groupPadding * 2),
+			Height = maxY - minY + (groupPadding * 2) + headerHeight,
 			Children = childGroups,
 		};
 	}
@@ -295,7 +297,7 @@ internal static class MsaglFlowchartLayout
 
 		if (graph.NodeStyles.TryGetValue(nodeId, out var nodeStyle))
 		{
-			result ??= new Dictionary<string, string>();
+			result ??= [];
 			foreach (var kvp in nodeStyle)
 				result[kvp.Key] = kvp.Value;
 		}

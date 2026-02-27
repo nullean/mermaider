@@ -1,4 +1,6 @@
 using Mermaider.Models;
+using Mermaider.Rendering;
+using Mermaider.Text;
 using Microsoft.Msagl.Core.Geometry.Curves;
 using Microsoft.Msagl.Core.Layout;
 using Microsoft.Msagl.Core.Routing;
@@ -37,10 +39,11 @@ internal static class MsaglErLayout
 			{
 				var attrText = $"{attr.Type}  {attr.Name}{(attr.Keys.Count > 0 ? "  " + string.Join(",", attr.Keys) : "")}";
 				var w = TextMetrics.EstimateMonoTextWidth(attrText, AttrFontSize);
-				if (w > maxAttrW) maxAttrW = w;
+				if (w > maxAttrW)
+					maxAttrW = w;
 			}
-			var width = Math.Max(MinWidth, Math.Max(headerTextW + BoxPadX * 2, maxAttrW + BoxPadX * 2));
-			var height = HeaderHeight + Math.Max(entity.Attributes.Count, 1) * RowHeight;
+			var width = Math.Max(MinWidth, Math.Max(headerTextW + (BoxPadX * 2), maxAttrW + (BoxPadX * 2)));
+			var height = HeaderHeight + (Math.Max(entity.Attributes.Count, 1) * RowHeight);
 			entitySizes[entity.Id] = (width, height);
 		}
 
@@ -76,20 +79,19 @@ internal static class MsaglErLayout
 		{
 			NodeSeparation = NodeSpacing,
 			LayerSeparation = LayerSpacing,
-			EdgeRoutingSettings = { EdgeRoutingMode = EdgeRoutingMode.Rectilinear, Padding = 4 }
+			EdgeRoutingSettings = { EdgeRoutingMode = EdgeRoutingMode.Rectilinear, Padding = 4 },
+			Transformation = new PlaneTransformation(0, -1, 0, 1, 0, 0)
 		};
-		settings.Transformation = new PlaneTransformation(0, -1, 0, 1, 0, 0);
 
 		var layout = new LayeredLayout(geometryGraph, settings);
 		layout.Run();
 
-		return ExtractPositioned(geometryGraph, diagram, entitySizes, msaglNodes, edgeMap);
+		return ExtractPositioned(geometryGraph, diagram, msaglNodes, edgeMap);
 	}
 
 	private static PositionedErDiagram ExtractPositioned(
 		GeometryGraph geometryGraph,
 		ErDiagram diagram,
-		Dictionary<string, (double Width, double Height)> entitySizes,
 		Dictionary<string, MsaglNode> msaglNodes,
 		List<(MsaglEdge MsaglEdge, ErRelationship Rel)> edgeMap)
 	{
@@ -102,7 +104,8 @@ internal static class MsaglErLayout
 
 		foreach (var (id, msaglNode) in msaglNodes)
 		{
-			if (!entityLookup.TryGetValue(id, out var entity)) continue;
+			if (!entityLookup.TryGetValue(id, out var entity))
+				continue;
 			var center = msaglNode.Center;
 			var w = msaglNode.BoundingBox.Width;
 			var h = msaglNode.BoundingBox.Height;
@@ -112,8 +115,8 @@ internal static class MsaglErLayout
 				Id = entity.Id,
 				Label = entity.Label,
 				Attributes = entity.Attributes,
-				X = center.X - w / 2 + offsetX,
-				Y = center.Y - h / 2 + offsetY,
+				X = center.X - (w / 2) + offsetX,
+				Y = center.Y - (h / 2) + offsetY,
 				Width = w,
 				Height = h,
 				HeaderHeight = HeaderHeight,
@@ -139,8 +142,8 @@ internal static class MsaglErLayout
 
 		return new PositionedErDiagram
 		{
-			Width = bb.Width + Padding * 2,
-			Height = bb.Height + Padding * 2,
+			Width = bb.Width + (Padding * 2),
+			Height = bb.Height + (Padding * 2),
 			Entities = positionedEntities,
 			Relationships = positionedRels,
 		};
@@ -150,7 +153,8 @@ internal static class MsaglErLayout
 	{
 		var points = new List<Point>();
 		var curve = edge.Curve;
-		if (curve is null) return points;
+		if (curve is null)
+			return points;
 
 		if (edge.EdgeGeometry?.SourceArrowhead?.TipPosition is { } srcTip)
 			points.Add(new Point(srcTip.X + offsetX, srcTip.Y + offsetY));
@@ -171,7 +175,7 @@ internal static class MsaglErLayout
 					{
 						for (var t = 1; t <= 4; t++)
 						{
-							var frac = seg.ParStart + (seg.ParEnd - seg.ParStart) * t / 4.0;
+							var frac = seg.ParStart + ((seg.ParEnd - seg.ParStart) * t / 4.0);
 							var p = seg[frac];
 							points.Add(new Point(p.X + offsetX, p.Y + offsetY));
 						}
@@ -181,7 +185,7 @@ internal static class MsaglErLayout
 			default:
 				for (var t = 1; t <= 8; t++)
 				{
-					var frac = curve.ParStart + (curve.ParEnd - curve.ParStart) * t / 8.0;
+					var frac = curve.ParStart + ((curve.ParEnd - curve.ParStart) * t / 8.0);
 					var p = curve[frac];
 					points.Add(new Point(p.X + offsetX, p.Y + offsetY));
 				}

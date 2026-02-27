@@ -81,7 +81,7 @@ internal static partial class FlowchartParser
 	[GeneratedRegex(@"^([\w]+(?:-[\w]+)*)", RegexOptions.None, TimeoutMs)]
 	private static partial Regex BareNodePattern();
 
-	private static readonly (Func<Regex> Pattern, NodeShape Shape)[] s_nodePatterns =
+	private static readonly (Func<Regex> Pattern, NodeShape Shape)[] NodePatterns =
 	[
 		(DoubleCirclePattern, NodeShape.DoubleCircle),
 		(StadiumPattern, NodeShape.Stadium),
@@ -163,7 +163,7 @@ internal static partial class FlowchartParser
 				{
 					if (!nodeStyles.TryGetValue(id, out var existing))
 					{
-						existing = new Dictionary<string, string>();
+						existing = [];
 						nodeStyles[id] = existing;
 					}
 					foreach (var kvp in props)
@@ -252,7 +252,7 @@ internal static partial class FlowchartParser
 		foreach (var sgId in subgraphMap.Keys)
 		{
 			if (nodes.TryGetValue(sgId, out var n) && n.Label == sgId && n.Shape == NodeShape.Rectangle)
-				nodes.Remove(sgId);
+				_ = nodes.Remove(sgId);
 		}
 
 		return new MermaidGraph
@@ -378,7 +378,7 @@ internal static partial class FlowchartParser
 		string? id = null;
 		var remaining = text;
 
-		foreach (var (patternFunc, shape) in s_nodePatterns)
+		foreach (var (patternFunc, shape) in NodePatterns)
 		{
 			var match = patternFunc().Match(text);
 			if (match.Success)
@@ -427,7 +427,7 @@ internal static partial class FlowchartParser
 		Stack<(string Id, string Label, List<string> NodeIds, List<MermaidSubgraph> Children, Direction? Dir)> subgraphStack,
 		MermaidNode node)
 	{
-		nodes.TryAdd(node.Id, node);
+		_ = nodes.TryAdd(node.Id, node);
 		AddToCurrentSubgraph(subgraphStack, node.Id);
 	}
 
@@ -468,11 +468,15 @@ internal static partial class FlowchartParser
 			string? firstNonSg = null;
 			foreach (var child in sg.NodeIds)
 			{
-				if (!sgMap.ContainsKey(child)) { firstNonSg = child; break; }
+				if (!sgMap.ContainsKey(child))
+				{ firstNonSg = child; break; }
 			}
-			if (firstNonSg != null) return firstNonSg;
-			if (sg.NodeIds.Count > 0) id = sg.NodeIds[0];
-			else break;
+			if (firstNonSg != null)
+				return firstNonSg;
+			if (sg.NodeIds.Count > 0)
+				id = sg.NodeIds[0];
+			else
+				break;
 		}
 		return id;
 	}
@@ -483,7 +487,8 @@ internal static partial class FlowchartParser
 		foreach (var pair in propsStr.Split(','))
 		{
 			var colonIdx = pair.IndexOf(':');
-			if (colonIdx <= 0) continue;
+			if (colonIdx <= 0)
+				continue;
 			var key = pair[..colonIdx].Trim();
 			var val = pair[(colonIdx + 1)..].Trim();
 			if (key.Length > 0 && val.Length > 0)

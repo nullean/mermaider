@@ -130,7 +130,7 @@ internal static partial class SequenceParser
 				EnsureActor(actors, actorIds, from);
 				EnsureActor(actors, actorIds, to);
 
-				var lineStyle = arrow.StartsWith("--") ? SequenceLineStyle.Dashed : SequenceLineStyle.Solid;
+				var lineStyle = arrow.StartsWith("--", StringComparison.OrdinalIgnoreCase) ? SequenceLineStyle.Dashed : SequenceLineStyle.Solid;
 				var arrowHead = arrow.Contains(">>") || arrow.Contains('x') ? SequenceArrowHead.Filled : SequenceArrowHead.Open;
 
 				messages.Add(new SequenceMessage(

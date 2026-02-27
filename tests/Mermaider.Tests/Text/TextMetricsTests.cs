@@ -1,4 +1,5 @@
 using AwesomeAssertions;
+using Mermaider.Text;
 
 namespace Mermaider.Tests.Text;
 

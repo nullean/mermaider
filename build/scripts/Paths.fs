@@ -4,7 +4,7 @@ open System
 open System.IO
 
 let ToolName = "Mermaid"
-let Repository = "nullean/mermaid-dotnet"
+let Repository = "nullean/mermaider"
 let MainTFM = "net10.0"
 let SignKey = "84cc9c998b56df09"
 

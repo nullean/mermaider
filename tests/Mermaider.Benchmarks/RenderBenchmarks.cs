@@ -1,8 +1,8 @@
 using BenchmarkDotNet.Attributes;
-using Mermaid;
 using Mermaider.Layout.Msagl;
-using Mermaid.Parsing;
 using Mermaider.Models;
+using Mermaider.Parsing;
+using Mermaider.Rendering;
 using Mermaider.Theming;
 using ML = Sugiyama;
 

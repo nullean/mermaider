@@ -49,16 +49,16 @@ internal static class SequenceLayout
 				diagram.Actors[i].Label,
 				RenderConstants.FontSizes.NodeLabel,
 				RenderConstants.FontWeights.NodeLabel);
-			actorWidths[i] = Math.Max(textW + ActorPadX * 2, 80);
+			actorWidths[i] = Math.Max(textW + (ActorPadX * 2), 80);
 		}
 
 		var actorCenterX = new double[diagram.Actors.Count];
-		var currentX = Padding + actorWidths[0] / 2;
+		var currentX = Padding + (actorWidths[0] / 2);
 		for (var i = 0; i < diagram.Actors.Count; i++)
 		{
 			if (i > 0)
 			{
-				var minGap = Math.Max(ActorGap, (actorWidths[i - 1] + actorWidths[i]) / 2 + 40);
+				var minGap = Math.Max(ActorGap, ((actorWidths[i - 1] + actorWidths[i]) / 2) + 40);
 				currentX += minGap;
 			}
 			actorCenterX[i] = currentX;
@@ -90,12 +90,12 @@ internal static class SequenceLayout
 		var extraSpaceBefore = new Dictionary<int, double>();
 		foreach (var block in diagram.Blocks)
 		{
-			extraSpaceBefore.TryGetValue(block.StartIndex, out var prev);
+			_ = extraSpaceBefore.TryGetValue(block.StartIndex, out var prev);
 			extraSpaceBefore[block.StartIndex] = Math.Max(prev, BlockHeaderExtra);
 
 			foreach (var div in block.Dividers)
 			{
-				extraSpaceBefore.TryGetValue(div.Index, out var prevDiv);
+				_ = extraSpaceBefore.TryGetValue(div.Index, out var prevDiv);
 				extraSpaceBefore[div.Index] = Math.Max(prevDiv, DividerExtra);
 			}
 		}
@@ -118,8 +118,8 @@ internal static class SequenceLayout
 		for (var msgIdx = 0; msgIdx < diagram.Messages.Count; msgIdx++)
 		{
 			var msg = diagram.Messages[msgIdx];
-			actorIndex.TryGetValue(msg.From, out var fromIdx);
-			actorIndex.TryGetValue(msg.To, out var toIdx);
+			_ = actorIndex.TryGetValue(msg.From, out var fromIdx);
+			_ = actorIndex.TryGetValue(msg.To, out var toIdx);
 			var isSelf = msg.From == msg.To;
 
 			if (extraSpaceBefore.TryGetValue(msgIdx, out var extra) && extra > 0)
@@ -151,11 +151,11 @@ internal static class SequenceLayout
 			if (msg.Deactivate && activationStacks.TryGetValue(msg.From, out var deactStack) && deactStack.Count > 0)
 			{
 				var (startY, depth) = deactStack.Pop();
-				actorIndex.TryGetValue(msg.From, out var idx);
+				_ = actorIndex.TryGetValue(msg.From, out var idx);
 				activations.Add(new Activation
 				{
 					ActorId = msg.From,
-					X = actorCenterX[idx] - ActivationWidth / 2 + depth * NestingOffset,
+					X = actorCenterX[idx] - (ActivationWidth / 2) + (depth * NestingOffset),
 					TopY = startY,
 					BottomY = messageY,
 					Width = ActivationWidth,
@@ -168,7 +168,7 @@ internal static class SequenceLayout
 			{
 				foreach (var ni in noteIndices)
 				{
-					var noteH = RenderConstants.FontSizes.EdgeLabel + NoteVPad * 2;
+					var noteH = RenderConstants.FontSizes.EdgeLabel + (NoteVPad * 2);
 					var notePosition = diagram.Notes[ni].Position;
 					if (notePosition == SequenceNotePosition.Over)
 						messageY += noteH + 4;
@@ -181,13 +181,13 @@ internal static class SequenceLayout
 			while (stack.Count > 0)
 			{
 				var (startY, depth) = stack.Pop();
-				actorIndex.TryGetValue(actorId, out var idx);
+				_ = actorIndex.TryGetValue(actorId, out var idx);
 				activations.Add(new Activation
 				{
 					ActorId = actorId,
-					X = actorCenterX[idx] - ActivationWidth / 2 + depth * NestingOffset,
+					X = actorCenterX[idx] - (ActivationWidth / 2) + (depth * NestingOffset),
 					TopY = startY,
-					BottomY = messageY - MessageRowHeight / 2,
+					BottomY = messageY - (MessageRowHeight / 2),
 					Width = ActivationWidth,
 				});
 			}
@@ -206,28 +206,30 @@ internal static class SequenceLayout
 			{
 				if (mi < diagram.Messages.Count)
 				{
-					actorIndex.TryGetValue(diagram.Messages[mi].From, out var fi);
-					actorIndex.TryGetValue(diagram.Messages[mi].To, out var ti);
-					involvedActors.Add(fi);
-					involvedActors.Add(ti);
+					_ = actorIndex.TryGetValue(diagram.Messages[mi].From, out var fi);
+					_ = actorIndex.TryGetValue(diagram.Messages[mi].To, out var ti);
+					_ = involvedActors.Add(fi);
+					_ = involvedActors.Add(ti);
 				}
 			}
 			if (involvedActors.Count == 0)
 			{
 				for (var ai = 0; ai < diagram.Actors.Count; ai++)
-					involvedActors.Add(ai);
+					_ = involvedActors.Add(ai);
 			}
 
 			var minIdx = int.MaxValue;
 			var maxIdx = int.MinValue;
 			foreach (var ai in involvedActors)
 			{
-				if (ai < minIdx) minIdx = ai;
-				if (ai > maxIdx) maxIdx = ai;
+				if (ai < minIdx)
+					minIdx = ai;
+				if (ai > maxIdx)
+					maxIdx = ai;
 			}
 
-			var blockLeft = actorCenterX[minIdx] - actorWidths[minIdx] / 2 - BlockPadX;
-			var blockRight = actorCenterX[maxIdx] + actorWidths[maxIdx] / 2 + BlockPadX;
+			var blockLeft = actorCenterX[minIdx] - (actorWidths[minIdx] / 2) - BlockPadX;
+			var blockRight = actorCenterX[maxIdx] + (actorWidths[maxIdx] / 2) + BlockPadX;
 
 			var dividers = new List<PositionedBlockDivider>(block.Dividers.Count);
 			foreach (var d in block.Dividers)
@@ -251,7 +253,7 @@ internal static class SequenceLayout
 						RenderConstants.FontWeights.EdgeLabel);
 					var msgLabelLeft = dMsg.IsSelf
 						? dMsg.X1 + 36
-						: (dMsg.X1 + dMsg.X2) / 2 - msgLabelW / 2;
+						: ((dMsg.X1 + dMsg.X2) / 2) - (msgLabelW / 2);
 					var msgLabelRight = msgLabelLeft + msgLabelW;
 
 					if (divLabelRight > msgLabelLeft && divLabelLeft < msgLabelRight)
@@ -279,38 +281,38 @@ internal static class SequenceLayout
 			var textW = TextMetrics.MeasureTextWidth(
 				note.Text,
 				RenderConstants.FontSizes.EdgeLabel,
-				RenderConstants.FontWeights.EdgeLabel) + NoteHPad * 2;
+				RenderConstants.FontWeights.EdgeLabel) + (NoteHPad * 2);
 			var noteW = Math.Max(NoteWidth, textW);
-			var noteH = RenderConstants.FontSizes.EdgeLabel + NoteVPad * 2;
+			var noteH = RenderConstants.FontSizes.EdgeLabel + (NoteVPad * 2);
 
 			var refMsg = note.AfterIndex >= 0 && note.AfterIndex < messages.Count
 				? messages[note.AfterIndex]
 				: null;
-			var noteY = (refMsg?.Y ?? actorY + ActorHeight) + 10;
+			var noteY = (refMsg?.Y ?? (actorY + ActorHeight)) + 10;
 
-			actorIndex.TryGetValue(note.ActorIds[0], out var firstActorIdx);
+			_ = actorIndex.TryGetValue(note.ActorIds[0], out var firstActorIdx);
 			double noteX;
 			if (note.Position == SequenceNotePosition.Left)
 			{
-				noteX = actorCenterX[firstActorIdx] - actorWidths[firstActorIdx] / 2 - noteW - NoteGap;
+				noteX = actorCenterX[firstActorIdx] - (actorWidths[firstActorIdx] / 2) - noteW - NoteGap;
 			}
 			else if (note.Position == SequenceNotePosition.Right)
 			{
-				noteX = actorCenterX[firstActorIdx] + actorWidths[firstActorIdx] / 2 + NoteGap;
+				noteX = actorCenterX[firstActorIdx] + (actorWidths[firstActorIdx] / 2) + NoteGap;
 			}
 			else
 			{
 				if (note.ActorIds.Count > 1)
 				{
-					actorIndex.TryGetValue(note.ActorIds[^1], out var lastActorIdx);
-					var spanLeft = actorCenterX[firstActorIdx] - actorWidths[firstActorIdx] / 2;
-					var spanRight = actorCenterX[lastActorIdx] + actorWidths[lastActorIdx] / 2;
-					noteW = Math.Max(noteW, spanRight - spanLeft + NoteHPad * 2);
-					noteX = (spanLeft + spanRight) / 2 - noteW / 2;
+					_ = actorIndex.TryGetValue(note.ActorIds[^1], out var lastActorIdx);
+					var spanLeft = actorCenterX[firstActorIdx] - (actorWidths[firstActorIdx] / 2);
+					var spanRight = actorCenterX[lastActorIdx] + (actorWidths[lastActorIdx] / 2);
+					noteW = Math.Max(noteW, spanRight - spanLeft + (NoteHPad * 2));
+					noteX = ((spanLeft + spanRight) / 2) - (noteW / 2);
 				}
 				else
 				{
-					noteX = actorCenterX[firstActorIdx] - noteW / 2;
+					noteX = actorCenterX[firstActorIdx] - (noteW / 2);
 				}
 			}
 
@@ -332,8 +334,8 @@ internal static class SequenceLayout
 
 		foreach (var a in actors)
 		{
-			globalMinX = Math.Min(globalMinX, a.X - a.Width / 2);
-			globalMaxX = Math.Max(globalMaxX, a.X + a.Width / 2);
+			globalMinX = Math.Min(globalMinX, a.X - (a.Width / 2));
+			globalMaxX = Math.Max(globalMaxX, a.X + (a.Width / 2));
 		}
 		foreach (var b in blocks)
 		{

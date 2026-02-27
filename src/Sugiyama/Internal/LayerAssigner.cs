@@ -39,7 +39,8 @@ internal static class LayerAssigner
 			var node = queue.Dequeue();
 			foreach (var e in graph.Edges)
 			{
-				if (e.From != node) continue;
+				if (e.From != node)
+					continue;
 				var target = e.To;
 				var newLayer = graph.Layers[node] + 1;
 				if (newLayer > graph.Layers[target])
@@ -67,7 +68,8 @@ internal static class LayerAssigner
 			var e = graph.Edges[i];
 			var span = graph.Layers[e.To] - graph.Layers[e.From];
 
-			if (span <= 1) continue;
+			if (span <= 1)
+				continue;
 
 			graph.Edges.RemoveAt(i);
 

@@ -1,11 +1,11 @@
 using System.Net;
 using System.Text.Json;
-using Mermaid;
+using Mermaider;
 using Mermaider.Gallery;
-using Mermaid.Layout;
-using Mermaid.Layout.Msagl;
-using Mermaid.Models;
-using Mermaid.Theming;
+using Mermaider.Layout;
+using Mermaider.Layout.Msagl;
+using Mermaider.Models;
+using Mermaider.Theming;
 
 var msaglProvider = new MsaglLayoutProvider();
 

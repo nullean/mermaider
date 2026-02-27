@@ -4,6 +4,7 @@
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)../build/keys/keypair.snk</AssemblyOriginatorKeyFile>
+    <NoWarn>$(NoWarn);CA1707</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="GitHubActionsTestLogger">

@@ -9,25 +9,25 @@ internal static class NodeSizing
 	{
 		var metrics = TextMetrics.MeasureMultiline(label.AsSpan(), RenderConstants.FontSizes.NodeLabel, RenderConstants.FontWeights.NodeLabel);
 
-		var width = metrics.Width + RenderConstants.NodePadding.Horizontal * 2;
-		var height = metrics.Height + RenderConstants.NodePadding.Vertical * 2;
+		var width = metrics.Width + (RenderConstants.NodePadding.Horizontal * 2);
+		var height = metrics.Height + (RenderConstants.NodePadding.Vertical * 2);
 
 		switch (shape)
 		{
 			case NodeShape.Diamond:
-			{
-				var side = Math.Max(width, height) + RenderConstants.NodePadding.DiamondExtra;
-				width = side;
-				height = side;
-				break;
-			}
+				{
+					var side = Math.Max(width, height) + RenderConstants.NodePadding.DiamondExtra;
+					width = side;
+					height = side;
+					break;
+				}
 			case NodeShape.Circle or NodeShape.DoubleCircle:
-			{
-				var diameter = Math.Ceiling(Math.Sqrt(width * width + height * height)) + 8;
-				width = shape == NodeShape.DoubleCircle ? diameter + 12 : diameter;
-				height = width;
-				break;
-			}
+				{
+					var diameter = Math.Ceiling(Math.Sqrt((width * width) + (height * height))) + 8;
+					width = shape == NodeShape.DoubleCircle ? diameter + 12 : diameter;
+					height = width;
+					break;
+				}
 			case NodeShape.Hexagon or NodeShape.Trapezoid or NodeShape.TrapezoidAlt:
 				width += RenderConstants.NodePadding.Horizontal;
 				break;

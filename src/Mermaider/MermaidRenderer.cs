@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using Mermaider.Layout;
 using Mermaider.Models;
 using Mermaider.Parsing;
@@ -12,7 +14,9 @@ namespace Mermaider;
 /// </summary>
 public static class MermaidRenderer
 {
+#pragma warning disable IDE1006
 	private static volatile IGraphLayoutProvider _layoutProvider = DefaultLayoutProvider.Instance;
+#pragma warning restore IDE1006
 
 	/// <summary>
 	/// Replace the built-in layout engine with a custom provider (e.g. MSAGL).
@@ -113,6 +117,6 @@ public static class MermaidRenderer
 	private static string[] PreprocessLines(string text) =>
 		text.Split('\n')
 			.Select(l => l.Trim())
-			.Where(l => l.Length > 0 && !l.StartsWith("%%"))
+			.Where(l => l.Length > 0 && !l.StartsWith("%%", StringComparison.OrdinalIgnoreCase))
 			.ToArray();
 }

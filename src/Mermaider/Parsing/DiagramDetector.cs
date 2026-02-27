@@ -32,8 +32,8 @@ internal static partial class DiagramDetector
 			return DiagramType.Class;
 		if (ErHeader().IsMatch(firstLineStr))
 			return DiagramType.Er;
-	if (StateHeader().IsMatch(firstLineStr))
-		return DiagramType.State;
+		if (StateHeader().IsMatch(firstLineStr))
+			return DiagramType.State;
 
 		return DiagramType.Flowchart;
 	}

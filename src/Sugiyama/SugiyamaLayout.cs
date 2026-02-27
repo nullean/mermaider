@@ -66,7 +66,7 @@ public static class SugiyamaLayout
 		};
 
 		DirectionTransform.Run(buf, routes, direction);
-		DirectionTransform.Normalize(buf, routes, options.Padding);
+		_ = DirectionTransform.Normalize(buf, routes, options.Padding);
 
 		return ExtractResult(buf, input, routes, options.Padding);
 	}
@@ -83,11 +83,11 @@ public static class SugiyamaLayout
 
 		foreach (var edge in input.Edges)
 		{
-			if (adj.ContainsKey(edge.Source) && adj.ContainsKey(edge.Target))
-			{
-				adj[edge.Source].Add(edge.Target);
-				adj[edge.Target].Add(edge.Source);
-			}
+			if (!adj.TryGetValue(edge.Source, out var value) || !adj.TryGetValue(edge.Target, out var value1))
+				continue;
+
+			_ = value.Add(edge.Target);
+			_ = value1.Add(edge.Source);
 		}
 
 		// Include subgraph membership as connectivity
@@ -99,19 +99,21 @@ public static class SugiyamaLayout
 
 		foreach (var node in input.Nodes)
 		{
-			if (visited.Contains(node.Id)) continue;
+			if (visited.Contains(node.Id))
+				continue;
 
 			var component = new HashSet<string>();
 			var queue = new Queue<string>();
 			queue.Enqueue(node.Id);
-			visited.Add(node.Id);
+			_ = visited.Add(node.Id);
 
 			while (queue.Count > 0)
 			{
 				var current = queue.Dequeue();
-				component.Add(current);
+				_ = component.Add(current);
 
-				if (!adj.TryGetValue(current, out var neighbors)) continue;
+				if (!adj.TryGetValue(current, out var neighbors))
+					continue;
 				foreach (var neighbor in neighbors)
 				{
 					if (visited.Add(neighbor))
@@ -130,11 +132,11 @@ public static class SugiyamaLayout
 		var nodeIds = sg.NodeIds;
 		for (var i = 1; i < nodeIds.Count; i++)
 		{
-			if (adj.ContainsKey(nodeIds[i - 1]) && adj.ContainsKey(nodeIds[i]))
-			{
-				adj[nodeIds[i - 1]].Add(nodeIds[i]);
-				adj[nodeIds[i]].Add(nodeIds[i - 1]);
-			}
+			if (!adj.TryGetValue(nodeIds[i - 1], out var value) || !adj.TryGetValue(nodeIds[i], out var value1))
+				continue;
+
+			_ = value.Add(nodeIds[i]);
+			_ = value1.Add(nodeIds[i - 1]);
 		}
 
 		foreach (var child in sg.Children)
@@ -239,14 +241,15 @@ public static class SugiyamaLayout
 
 			// Advance by content + componentSpacing, collapsing double-padding between adjacent components
 			var size = tileHorizontally ? result.Width : result.Height;
-			offset += size - 2 * padding + options.ComponentSpacing;
+			offset += size - (2 * padding) + options.ComponentSpacing;
 
 			var perpendicular = tileHorizontally ? result.Height : result.Width;
-			if (perpendicular > maxExtent) maxExtent = perpendicular;
+			if (perpendicular > maxExtent)
+				maxExtent = perpendicular;
 		}
 
 		// Undo the last componentSpacing and restore the outer padding
-		var totalTile = offset - options.ComponentSpacing + 2 * padding;
+		var totalTile = offset - options.ComponentSpacing + (2 * padding);
 
 		double totalWidth, totalHeight;
 		if (tileHorizontally)
@@ -280,8 +283,10 @@ public static class SugiyamaLayout
 		var hasEdge = new bool[buf.RealNodeCount];
 		foreach (var e in buf.Edges)
 		{
-			if (e.From < buf.RealNodeCount) hasEdge[e.From] = true;
-			if (e.To < buf.RealNodeCount) hasEdge[e.To] = true;
+			if (e.From < buf.RealNodeCount)
+				hasEdge[e.From] = true;
+			if (e.To < buf.RealNodeCount)
+				hasEdge[e.To] = true;
 		}
 
 		var nodeIndex = new Dictionary<string, int>(buf.RealNodeCount);
@@ -307,16 +312,19 @@ public static class SugiyamaLayout
 		var maxSiblingLayer = -1;
 		foreach (var nodeId in sg.NodeIds)
 		{
-			if (!nodeIndex.TryGetValue(nodeId, out var idx)) continue;
+			if (!nodeIndex.TryGetValue(nodeId, out var idx))
+				continue;
 			if (hasEdge[idx] && buf.Layers[idx] > maxSiblingLayer)
 				maxSiblingLayer = buf.Layers[idx];
 		}
 
-		if (maxSiblingLayer < 0) return changed;
+		if (maxSiblingLayer < 0)
+			return changed;
 
 		foreach (var nodeId in sg.NodeIds)
 		{
-			if (!nodeIndex.TryGetValue(nodeId, out var idx)) continue;
+			if (!nodeIndex.TryGetValue(nodeId, out var idx))
+				continue;
 			if (!hasEdge[idx] && buf.Layers[idx] != maxSiblingLayer)
 			{
 				buf.Layers[idx] = maxSiblingLayer;
@@ -341,8 +349,10 @@ public static class SugiyamaLayout
 		var hasEdge = new bool[buf.RealNodeCount];
 		foreach (var e in buf.Edges)
 		{
-			if (e.From < buf.RealNodeCount) hasEdge[e.From] = true;
-			if (e.To < buf.RealNodeCount) hasEdge[e.To] = true;
+			if (e.From < buf.RealNodeCount)
+				hasEdge[e.From] = true;
+			if (e.To < buf.RealNodeCount)
+				hasEdge[e.To] = true;
 		}
 
 		CompactSiblings(buf, input.Subgraphs, nodeIndex, hasEdge, nodeSpacing);
@@ -355,7 +365,8 @@ public static class SugiyamaLayout
 		foreach (var sg in siblings)
 			CompactSiblings(buf, sg.Children, nodeIndex, hasEdge, spacing);
 
-		if (siblings.Count == 0) return;
+		if (siblings.Count == 0)
+			return;
 
 		// Build per-subgraph info sorted by connected-node center X
 		var infos = new List<(LayoutSubgraph Sg, double ConnMinX, double ConnMaxX, List<int> Disconnected)>();
@@ -366,7 +377,8 @@ public static class SugiyamaLayout
 			var disconnected = new List<int>();
 			foreach (var nodeId in sg.NodeIds)
 			{
-				if (!nodeIndex.TryGetValue(nodeId, out var idx)) continue;
+				if (!nodeIndex.TryGetValue(nodeId, out var idx))
+					continue;
 				if (hasEdge[idx])
 				{
 					connMinX = Math.Min(connMinX, buf.X[idx]);
@@ -381,7 +393,8 @@ public static class SugiyamaLayout
 				infos.Add((sg, connMinX, connMaxX, disconnected));
 		}
 
-		if (infos.Count == 0) return;
+		if (infos.Count == 0)
+			return;
 		infos.Sort((a, b) => a.ConnMinX.CompareTo(b.ConnMinX));
 
 		for (var i = 0; i < infos.Count; i++)
@@ -430,7 +443,8 @@ public static class SugiyamaLayout
 			var minY = double.MaxValue;
 			var maxY = double.MinValue;
 			CollectSubgraphYBounds(sg, nodeIndex, buf, ref minY, ref maxY);
-			if (minY == double.MaxValue) continue;
+			if (minY == double.MaxValue)
+				continue;
 			groupBounds.Add((minY - groupPadding - headerHeight, maxY + groupPadding));
 		}
 
@@ -439,7 +453,8 @@ public static class SugiyamaLayout
 		for (var i = 0; i < groupBounds.Count - 1; i++)
 		{
 			var overlap = groupBounds[i].Bottom + clearance - groupBounds[i + 1].Top;
-			if (overlap <= 0) continue;
+			if (overlap <= 0)
+				continue;
 
 			var threshold = groupBounds[i + 1].Top + groupPadding + headerHeight;
 
@@ -460,7 +475,8 @@ public static class SugiyamaLayout
 	{
 		foreach (var nodeId in sg.NodeIds)
 		{
-			if (!nodeIndex.TryGetValue(nodeId, out var idx)) continue;
+			if (!nodeIndex.TryGetValue(nodeId, out var idx))
+				continue;
 			minY = Math.Min(minY, buf.Y[idx]);
 			maxY = Math.Max(maxY, buf.Y[idx] + buf.NodeHeights[idx]);
 		}
@@ -514,8 +530,10 @@ public static class SugiyamaLayout
 		{
 			var right = buf.X[i] + buf.NodeWidths[i];
 			var bottom = buf.Y[i] + buf.NodeHeights[i];
-			if (right > maxX) maxX = right;
-			if (bottom > maxY) maxY = bottom;
+			if (right > maxX)
+				maxX = right;
+			if (bottom > maxY)
+				maxY = bottom;
 
 			nodes.Add(new LayoutNodeResult(
 				buf.NodeIds[i],
@@ -528,20 +546,23 @@ public static class SugiyamaLayout
 		var edges = new List<LayoutEdgeResult>(routes.Count);
 		foreach (var route in routes)
 		{
-			if (route.OriginalIndex >= input.Edges.Count) continue;
+			if (route.OriginalIndex >= input.Edges.Count)
+				continue;
 
 			var points = new List<LayoutPoint>(route.Points.Count);
 			foreach (var p in route.Points)
 			{
 				points.Add(p);
-				if (p.X + padding > maxX) maxX = p.X + padding;
-				if (p.Y + padding > maxY) maxY = p.Y + padding;
+				if (p.X + padding > maxX)
+					maxX = p.X + padding;
+				if (p.Y + padding > maxY)
+					maxY = p.Y + padding;
 			}
 
 			edges.Add(new LayoutEdgeResult(route.OriginalIndex, points, route.LabelPosition));
 		}
 
-		var groups = ComputeGroups(buf, input, padding);
+		var groups = ComputeGroups(buf, input);
 
 		// Ensure subgroup headers don't extend beyond the canvas
 		var minGroupX = double.MaxValue;
@@ -574,8 +595,10 @@ public static class SugiyamaLayout
 	{
 		foreach (var g in groups)
 		{
-			if (g.X < minX) minX = g.X;
-			if (g.Y < minY) minY = g.Y;
+			if (g.X < minX)
+				minX = g.X;
+			if (g.Y < minY)
+				minY = g.Y;
 			FindMinGroupBounds(g.Children.ToList(), ref minX, ref minY);
 		}
 	}
@@ -586,8 +609,10 @@ public static class SugiyamaLayout
 		{
 			var right = g.X + g.Width;
 			var bottom = g.Y + g.Height;
-			if (right > maxX) maxX = right;
-			if (bottom > maxY) maxY = bottom;
+			if (right > maxX)
+				maxX = right;
+			if (bottom > maxY)
+				maxY = bottom;
 			ExpandBoundsForGroups(g.Children, ref maxX, ref maxY);
 		}
 	}
@@ -632,10 +657,10 @@ public static class SugiyamaLayout
 		}
 	}
 
-	private static List<LayoutGroupResult> ComputeGroups(
-		GraphBuffer buf, LayoutGraph input, double padding)
+	private static List<LayoutGroupResult> ComputeGroups(GraphBuffer buf, LayoutGraph input)
 	{
-		if (input.Subgraphs.Count == 0) return [];
+		if (input.Subgraphs.Count == 0)
+			return [];
 
 		var nodeIndex = new Dictionary<string, int>(buf.RealNodeCount);
 		for (var i = 0; i < buf.RealNodeCount; i++)
@@ -660,7 +685,8 @@ public static class SugiyamaLayout
 
 		foreach (var nodeId in sg.NodeIds)
 		{
-			if (!nodeIndex.TryGetValue(nodeId, out var idx)) continue;
+			if (!nodeIndex.TryGetValue(nodeId, out var idx))
+				continue;
 			var x = buf.X[idx];
 			var y = buf.Y[idx];
 			minX = Math.Min(minX, x);
@@ -682,15 +708,18 @@ public static class SugiyamaLayout
 
 		if (minX == double.MaxValue)
 		{
-			minX = 0; minY = 0; maxX = 100; maxY = 60;
+			minX = 0;
+			minY = 0;
+			maxX = 100;
+			maxY = 60;
 		}
 
 		return new LayoutGroupResult(
 			sg.Id, sg.Label,
 			minX - groupPadding,
 			minY - groupPadding - headerHeight,
-			maxX - minX + groupPadding * 2,
-			maxY - minY + groupPadding * 2 + headerHeight,
+			maxX - minX + (groupPadding * 2),
+			maxY - minY + (groupPadding * 2) + headerHeight,
 			children);
 	}
 }

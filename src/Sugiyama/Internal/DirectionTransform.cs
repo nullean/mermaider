@@ -65,16 +65,20 @@ internal static class DirectionTransform
 
 		for (var i = 0; i < graph.NodeCount; i++)
 		{
-			if (graph.X[i] < minX) minX = graph.X[i];
-			if (graph.Y[i] < minY) minY = graph.Y[i];
+			if (graph.X[i] < minX)
+				minX = graph.X[i];
+			if (graph.Y[i] < minY)
+				minY = graph.Y[i];
 		}
 
 		foreach (var route in routes)
 		{
 			foreach (var p in route.Points)
 			{
-				if (p.X < minX) minX = p.X;
-				if (p.Y < minY) minY = p.Y;
+				if (p.X < minX)
+					minX = p.X;
+				if (p.Y < minY)
+					minY = p.Y;
 			}
 		}
 

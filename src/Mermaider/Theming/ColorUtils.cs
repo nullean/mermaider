@@ -21,17 +21,17 @@ internal static class ColorUtils
 
 		if (span.Length == 3)
 		{
-			var r = byte.Parse(span[..1], NumberStyles.HexNumber);
-			var g = byte.Parse(span[1..2], NumberStyles.HexNumber);
-			var b = byte.Parse(span[2..3], NumberStyles.HexNumber);
+			var r = byte.Parse(span[..1], NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+			var g = byte.Parse(span[1..2], NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+			var b = byte.Parse(span[2..3], NumberStyles.HexNumber, CultureInfo.InvariantCulture);
 			return ((byte)(r * 17), (byte)(g * 17), (byte)(b * 17));
 		}
 
 		if (span.Length >= 6)
 		{
-			var r = byte.Parse(span[..2], NumberStyles.HexNumber);
-			var g = byte.Parse(span[2..4], NumberStyles.HexNumber);
-			var b = byte.Parse(span[4..6], NumberStyles.HexNumber);
+			var r = byte.Parse(span[..2], NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+			var g = byte.Parse(span[2..4], NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+			var b = byte.Parse(span[4..6], NumberStyles.HexNumber, CultureInfo.InvariantCulture);
 			return (r, g, b);
 		}
 
@@ -48,19 +48,17 @@ internal static class ColorUtils
 		var min = Math.Min(rf, Math.Min(gf, bf));
 		var l = (max + min) / 2.0;
 
-		if (max == min)
+		if (Math.Abs(max - min) < double.Epsilon)
 			return (0, 0, l);
 
 		var d = max - min;
 		var s = l > 0.5 ? d / (2.0 - max - min) : d / (max + min);
 
-		double h;
-		if (max == rf)
-			h = ((gf - bf) / d + (gf < bf ? 6 : 0)) / 6.0;
-		else if (max == gf)
-			h = ((bf - rf) / d + 2) / 6.0;
-		else
-			h = ((rf - gf) / d + 4) / 6.0;
+		var h = Math.Abs(max - rf) < double.Epsilon
+			? (((gf - bf) / d) + (gf < bf ? 6 : 0)) / 6.0
+			: Math.Abs(max - gf) < double.Epsilon ?
+				(((bf - rf) / d) + 2) / 6.0
+				: (((rf - gf) / d) + 4) / 6.0;
 
 		return (h, s, l);
 	}
@@ -73,23 +71,28 @@ internal static class ColorUtils
 			return (v, v, v);
 		}
 
-		var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-		var p = 2 * l - q;
+		var q = l < 0.5 ? l * (1 + s) : l + s - (l * s);
+		var p = (2 * l) - q;
 
 		return (
-			(byte)Math.Round(HueToRgb(p, q, h + 1.0 / 3.0) * 255),
+			(byte)Math.Round(HueToRgb(p, q, h + (1.0 / 3.0)) * 255),
 			(byte)Math.Round(HueToRgb(p, q, h) * 255),
-			(byte)Math.Round(HueToRgb(p, q, h - 1.0 / 3.0) * 255)
+			(byte)Math.Round(HueToRgb(p, q, h - (1.0 / 3.0)) * 255)
 		);
 	}
 
 	private static double HueToRgb(double p, double q, double t)
 	{
-		if (t < 0) t += 1;
-		if (t > 1) t -= 1;
-		if (t < 1.0 / 6.0) return p + (q - p) * 6.0 * t;
-		if (t < 1.0 / 2.0) return q;
-		if (t < 2.0 / 3.0) return p + (q - p) * (2.0 / 3.0 - t) * 6.0;
+		if (t < 0)
+			t += 1;
+		if (t > 1)
+			t -= 1;
+		if (t < 1.0 / 6.0)
+			return p + ((q - p) * 6.0 * t);
+		if (t < 1.0 / 2.0)
+			return q;
+		if (t < 2.0 / 3.0)
+			return p + ((q - p) * ((2.0 / 3.0) - t) * 6.0);
 		return p;
 	}
 }

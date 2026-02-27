@@ -10,7 +10,8 @@ internal static class CrossingMinimizer
 {
 	internal static void Run(GraphBuffer graph, int iterations = 4)
 	{
-		if (graph.LayerCount <= 1) return;
+		if (graph.LayerCount <= 1)
+			return;
 
 		var barycenters = new double[graph.NodeCount];
 
@@ -29,7 +30,8 @@ internal static class CrossingMinimizer
 	private static void SweepLayer(GraphBuffer graph, int layer, double[] barycenters, bool useInEdges)
 	{
 		var nodes = graph.LayerNodes[layer];
-		if (nodes.Length <= 1) return;
+		if (nodes.Length <= 1)
+			return;
 
 		foreach (var node in nodes)
 		{
@@ -40,8 +42,10 @@ internal static class CrossingMinimizer
 			{
 				foreach (var e in graph.Edges)
 				{
-					if (e.To != node) continue;
-					if (graph.Layers[e.From] != layer - 1) continue;
+					if (e.To != node)
+						continue;
+					if (graph.Layers[e.From] != layer - 1)
+						continue;
 					sum += graph.NodePositionInLayer[e.From];
 					count++;
 				}
@@ -50,8 +54,10 @@ internal static class CrossingMinimizer
 			{
 				foreach (var e in graph.Edges)
 				{
-					if (e.From != node) continue;
-					if (graph.Layers[e.To] != layer + 1) continue;
+					if (e.From != node)
+						continue;
+					if (graph.Layers[e.To] != layer + 1)
+						continue;
 					sum += graph.NodePositionInLayer[e.To];
 					count++;
 				}
