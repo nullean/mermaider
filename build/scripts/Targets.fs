@@ -53,7 +53,7 @@ let private validatePackages (arguments:ParseResults<Arguments>) =
         Paths.Output.GetFiles("*.nupkg") |> Seq.sortByDescending(fun f -> f.CreationTimeUtc)
         |> Seq.map (fun p -> Paths.RootRelative p.FullName)
 
-    let args = ["-v"; currentVersionInformational.Value; "-k"; Paths.SignKey; "-t"; output]
+    let args = ["-v"; currentVersionInformational.Value; "-k"; Paths.SignKey; "-t"; output; "-d"; "Microsoft.Extensions.ObjectPool.dll"]
     nugetPackages |> Seq.iter (fun p -> exec "dotnet" (["nupkg-validator"; p] @ args) |> ignore)
 
 
