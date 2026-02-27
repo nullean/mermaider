@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="nuget-icon.png" alt="Mermaid.NET" width="96" />
+  <img src="nuget-icon.png" alt="Mermaid.Native" width="96" />
 </p>
 
-<h1 align="center">Mermaid.NET</h1>
+<h1 align="center">Mermaid.Native</h1>
 
 <p align="center">
   Render <a href="https://mermaid.js.org/">Mermaid</a> diagrams to SVG in pure .NET.<br/>
@@ -10,8 +10,8 @@
 </p>
 
 <p align="center">
-  <a href="https://www.nuget.org/packages/Mermaid"><img src="https://img.shields.io/nuget/v/Mermaid.svg" alt="NuGet" /></a>
-  <a href="https://github.com/nullean/mermaid-dotnet/actions"><img src="https://github.com/nullean/mermaid-dotnet/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://www.nuget.org/packages/Mermaid.Native"><img src="https://img.shields.io/nuget/v/Mermaid.Native.svg" alt="NuGet" /></a>
+  <a href="https://github.com/nullean/mermaid-native/actions"><img src="https://github.com/nullean/mermaid-native/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
 </p>
 
 ---
@@ -34,15 +34,15 @@ idioms and keep allocations low: `ReadOnlySpan<char>` parsing, `[GeneratedRegex]
 `FrozenDictionary` / `FrozenSet` for hot-path lookups, `SearchValues<char>` for character classification,
 object pooling, and file-scoped namespaces throughout. The benchmark numbers below reflect the result.
 
-## Why This Fork?
+## Why Mermaid.Native?
 
 **`beautiful-mermaid` is excellent&mdash;but it requires a JavaScript runtime** (Node.js / Bun). If you're
 building in .NET, that means shelling out to a JS process, bundling a V8 engine, or running a headless browser.
 All of these add latency, memory overhead, and deployment complexity.
 
-**Mermaid.NET** is a from-scratch .NET implementation that:
+**Mermaid.Native** is a from-scratch .NET implementation that:
 
-| | beautiful-mermaid (TS) | Mermaid.NET (C#) |
+| | beautiful-mermaid (TS) | Mermaid.Native (C#) |
 |---|---|---|
 | Runtime | Node.js / Bun | .NET 10+ |
 | Layout engine | [ELK.js](https://github.com/kieler/elkjs) | Built-in [`Sugiyama`](src/Sugiyama/) (zero deps) |
@@ -53,11 +53,14 @@ All of these add latency, memory overhead, and deployment complexity.
 
 ### Layout engine
 
-Mermaid.NET ships a **lightweight, allocation-aware Sugiyama layout engine** with zero external dependencies.
-It replaced [Microsoft MSAGL](https://github.com/microsoft/automatic-graph-layout) (Automatic Graph Layout),
-which was the original engine used during initial development.
+Mermaid.Native ships a **lightweight, allocation-aware [Sugiyama layout engine](src/Sugiyama/)** with zero
+external dependencies. It implements the classic five-phase layered graph drawing algorithm&mdash;cycle
+removal, layer assignment, crossing minimization, coordinate assignment, and edge routing&mdash;all tuned
+for the kind of small-to-medium directed graphs that Mermaid diagrams produce.
 
-MSAGL is an excellent piece of research-grade software, but it was designed for a different era of .NET:
+The engine replaced [Microsoft MSAGL](https://github.com/microsoft/automatic-graph-layout) (Automatic Graph
+Layout), which was the original engine used during initial development. MSAGL is an excellent piece of
+research-grade software, but it was designed for a different era of .NET:
 
 - **High allocations** &mdash; 554 KB per layout of a simple 6-node flowchart
 - **Not AOT-friendly** &mdash; trim warnings, reflection-based internals
@@ -66,7 +69,7 @@ MSAGL is an excellent piece of research-grade software, but it was designed for 
 The built-in Sugiyama engine is **122&times; faster** and uses **70&times; fewer allocations** for the
 layout phase:
 
-| Phase | MSAGL | Built-in | Improvement |
+| Phase | MSAGL | Built-in Sugiyama | Improvement |
 |---|---:|---:|---|
 | Layout only | 227 &micro;s / 554 KB | 1.9 &micro;s / 8 KB | 122&times; faster, 70&times; less memory |
 | End-to-end render | 356 &micro;s / 582 KB | 21 &micro;s / 38 KB | 17&times; faster, 15&times; less memory |
@@ -98,7 +101,7 @@ Linux, macOS, and Windows to prove it. No reflection, no runtime code generation
 ## Quick Start
 
 ```bash
-dotnet add package Mermaid
+dotnet add package Mermaid.Native
 ```
 
 ```csharp
@@ -301,10 +304,10 @@ mermaid --list-themes
 
 ## AOT Support
 
-Mermaid.NET is fully compatible with .NET Native AOT. The CI pipeline validates this on every commit by
+Mermaid.Native is fully compatible with .NET Native AOT. The CI pipeline validates this on every commit by
 publishing and invoking a native binary across Linux, macOS, and Windows.
 
-To publish your own AOT app that uses Mermaid.NET:
+To publish your own AOT app that uses Mermaid.Native:
 
 ```xml
 <PropertyGroup>
@@ -312,7 +315,7 @@ To publish your own AOT app that uses Mermaid.NET:
 </PropertyGroup>
 
 <ItemGroup>
-  <PackageReference Include="Mermaid" />
+  <PackageReference Include="Mermaid.Native" />
 </ItemGroup>
 ```
 
@@ -346,8 +349,8 @@ dotnet run --project tests/Mermaid.Benchmarks -c Release
 ## Building from Source
 
 ```bash
-git clone https://github.com/nullean/mermaid-dotnet.git
-cd mermaid-dotnet
+git clone https://github.com/nullean/mermaid-native.git
+cd mermaid-native
 ./build.sh build
 ./build.sh test
 ```

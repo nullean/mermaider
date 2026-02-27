@@ -9,6 +9,6 @@
     <PackageReference Include="Verify.TUnit" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../../src/Mermaid/Mermaid.csproj" />
+    <ProjectReference Include="../../src/Mermaid/Mermaid.Native.csproj" />
   </ItemGroup>
 </Project>

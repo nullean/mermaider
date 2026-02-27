@@ -13,6 +13,6 @@
     <Content Include="..\..\nuget-icon.png" Pack="true" PackagePath="nuget-icon.png" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../Mermaid/Mermaid.csproj" />
+    <ProjectReference Include="../Mermaid/Mermaid.Native.csproj" />
   </ItemGroup>
 </Project>
