@@ -2,50 +2,64 @@ using System.Text;
 using Mermaider.Models;
 using Mermaider.Text;
 using Mermaider.Theming;
-using Microsoft.Extensions.ObjectPool;
 
 namespace Mermaider.Rendering;
 
 internal static class SequenceSvgRenderer
 {
-	private static readonly ObjectPool<StringBuilder> StringBuilderPool =
-		new DefaultObjectPoolProvider().CreateStringBuilderPool(initialCapacity: 4096, maximumRetainedCapacity: 64 * 1024);
+	private static readonly string NodeLabelTextAttrs =
+		RenderConstants.TextAttrs.SeqNodeLabelFill + "var(--_text)\"";
+
+	private static readonly string EdgeLabelStartAttrs =
+		RenderConstants.TextAttrs.SeqEdgeLabelStartFill + "var(--_text-muted)\"";
+
+	private static readonly string EdgeLabelMutedAttrs =
+		RenderConstants.TextAttrs.SeqEdgeLabelCenterFill + "var(--_text-muted)\"";
+
+	private static readonly string BlockTabAttrs =
+		RenderConstants.TextAttrs.SeqBlockTabFill + "var(--_text-sec)\"";
 
 	internal static string Render(PositionedSequenceDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
 	{
-		var sb = StringBuilderPool.Get();
+		var sb = RenderToBuilder(diagram, colors, font, transparent, strict);
 		try
 		{
-			StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, colors, transparent);
-			StyleBlock.AppendStyleBlock(sb, font, strict);
-			AppendArrowDefs(sb);
-
-			foreach (var block in diagram.Blocks)
-				AppendBlock(sb, block);
-
-			foreach (var lifeline in diagram.Lifelines)
-				AppendLifeline(sb, lifeline);
-
-			foreach (var activation in diagram.Activations)
-				AppendActivation(sb, activation);
-
-			foreach (var message in diagram.Messages)
-				AppendMessage(sb, message);
-
-			foreach (var note in diagram.Notes)
-				AppendNote(sb, note);
-
-			foreach (var actor in diagram.Actors)
-				AppendActor(sb, actor);
-
-			_ = sb.Append("\n</svg>");
 			return sb.ToString();
 		}
 		finally
 		{
 			_ = sb.Clear();
-			StringBuilderPool.Return(sb);
+			SharedStringBuilderPool.Instance.Return(sb);
 		}
+	}
+
+	internal static StringBuilder RenderToBuilder(PositionedSequenceDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
+	{
+		var sb = SharedStringBuilderPool.Instance.Get();
+		StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, colors, transparent);
+		StyleBlock.AppendStyleBlock(sb, font, strict);
+		AppendArrowDefs(sb);
+
+		foreach (var block in diagram.Blocks)
+			AppendBlock(sb, block);
+
+		foreach (var lifeline in diagram.Lifelines)
+			AppendLifeline(sb, lifeline);
+
+		foreach (var activation in diagram.Activations)
+			AppendActivation(sb, activation);
+
+		foreach (var message in diagram.Messages)
+			AppendMessage(sb, message);
+
+		foreach (var note in diagram.Notes)
+			AppendNote(sb, note);
+
+		foreach (var actor in diagram.Actors)
+			AppendActor(sb, actor);
+
+		_ = sb.Append("\n</svg>");
+		return sb;
 	}
 
 	private static void AppendArrowDefs(StringBuilder sb)
@@ -109,7 +123,7 @@ internal static class SequenceSvgRenderer
 			MultilineUtils.AppendMultilineText(
 				sb, actor.Label, actor.X, actor.Y + actor.Height + 14,
 				RenderConstants.FontSizes.NodeLabel,
-				$"font-size=\"{RenderConstants.FontSizes.NodeLabel}\" text-anchor=\"middle\" font-weight=\"{RenderConstants.FontWeights.NodeLabel}\" fill=\"var(--_text)\"");
+				NodeLabelTextAttrs);
 			_ = sb.Append('\n');
 		}
 		else
@@ -125,7 +139,7 @@ internal static class SequenceSvgRenderer
 			MultilineUtils.AppendMultilineText(
 				sb, actor.Label, actor.X, actor.Y + (actor.Height / 2),
 				RenderConstants.FontSizes.NodeLabel,
-				$"font-size=\"{RenderConstants.FontSizes.NodeLabel}\" text-anchor=\"middle\" font-weight=\"{RenderConstants.FontWeights.NodeLabel}\" fill=\"var(--_text)\"");
+				NodeLabelTextAttrs);
 			_ = sb.Append('\n');
 		}
 
@@ -190,7 +204,7 @@ internal static class SequenceSvgRenderer
 			MultilineUtils.AppendMultilineText(
 				sb, msg.Label, msg.X1 + loopW + labelPadding, msg.Y + (loopH / 2),
 				RenderConstants.FontSizes.EdgeLabel,
-				$"font-size=\"{RenderConstants.FontSizes.EdgeLabel}\" text-anchor=\"start\" font-weight=\"{RenderConstants.FontWeights.EdgeLabel}\" fill=\"var(--_text-muted)\"");
+				EdgeLabelStartAttrs);
 			_ = sb.Append('\n');
 		}
 		else
@@ -205,7 +219,7 @@ internal static class SequenceSvgRenderer
 			MultilineUtils.AppendMultilineText(
 				sb, msg.Label, midX, msg.Y - 10,
 				RenderConstants.FontSizes.EdgeLabel,
-				$"font-size=\"{RenderConstants.FontSizes.EdgeLabel}\" text-anchor=\"middle\" font-weight=\"{RenderConstants.FontWeights.EdgeLabel}\" fill=\"var(--_text-muted)\"");
+				EdgeLabelMutedAttrs);
 			_ = sb.Append('\n');
 		}
 
@@ -214,7 +228,7 @@ internal static class SequenceSvgRenderer
 
 	private static void AppendBlock(StringBuilder sb, PositionedSequenceBlock block)
 	{
-		_ = sb.Append("\n<g class=\"block\" data-type=\"").Append(block.Type.ToString().ToLowerInvariant()).Append('"');
+		_ = sb.Append("\n<g class=\"block\" data-type=\"").Append(block.Type.ToLower()).Append('"');
 		if (block.Label.Length > 0)
 		{
 			_ = sb.Append(" data-label=\"");
@@ -230,9 +244,10 @@ internal static class SequenceSvgRenderer
 			.Append("\" fill=\"none\" stroke=\"var(--_group-stroke)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
 
+		var typeName = block.Type.ToLower();
 		var labelText = block.Label.Length > 0
-			? $"{block.Type.ToString().ToLowerInvariant()} [{block.Label}]"
-			: block.Type.ToString().ToLowerInvariant();
+			? $"{typeName} [{block.Label}]"
+			: typeName;
 		var firstLine = labelText.Split('\n')[0];
 		var tabWidth = TextMetrics.MeasureTextWidth(
 			firstLine,
@@ -250,7 +265,7 @@ internal static class SequenceSvgRenderer
 			sb, labelText,
 			block.X + 6, block.Y + (tabHeight / 2),
 			RenderConstants.FontSizes.EdgeLabel,
-			$"font-size=\"{RenderConstants.FontSizes.EdgeLabel}\" font-weight=\"{RenderConstants.FontWeights.GroupHeader}\" fill=\"var(--_text-sec)\"");
+			BlockTabAttrs);
 		_ = sb.Append('\n');
 
 		foreach (var divider in block.Dividers)
@@ -266,7 +281,7 @@ internal static class SequenceSvgRenderer
 					sb, $"[{divider.Label}]",
 					block.X + 8, divider.Y + 14,
 					RenderConstants.FontSizes.EdgeLabel,
-					$"font-size=\"{RenderConstants.FontSizes.EdgeLabel}\" text-anchor=\"start\" font-weight=\"{RenderConstants.FontWeights.EdgeLabel}\" fill=\"var(--_text-muted)\"");
+					EdgeLabelStartAttrs);
 				_ = sb.Append('\n');
 			}
 		}
@@ -278,7 +293,7 @@ internal static class SequenceSvgRenderer
 	{
 		_ = sb.Append("\n<g class=\"note\"");
 		if (note.Position.HasValue)
-			_ = sb.Append(" data-position=\"").Append(note.Position.Value.ToString().ToLowerInvariant()).Append('"');
+			_ = sb.Append(" data-position=\"").Append(note.Position.Value.ToLower()).Append('"');
 		if (note.Actors is { Count: > 0 })
 		{
 			_ = sb.Append(" data-actors=\"");
@@ -309,7 +324,7 @@ internal static class SequenceSvgRenderer
 			sb, note.Text,
 			textX, note.Y + (note.Height / 2),
 			RenderConstants.FontSizes.EdgeLabel,
-			$"font-size=\"{RenderConstants.FontSizes.EdgeLabel}\" text-anchor=\"middle\" font-weight=\"{RenderConstants.FontWeights.EdgeLabel}\" fill=\"var(--_text-muted)\"");
+			EdgeLabelMutedAttrs);
 		_ = sb.Append('\n');
 
 		_ = sb.Append("</g>");

@@ -138,7 +138,7 @@ public class PhaseBenchmarks
 	private static readonly MsaglLayoutProvider MsaglProvider = new();
 
 	private static readonly string[] Lines = SimpleFlowchart
-		.Split('\n').Select(l => l.Trim()).Where(l => l.Length > 0 && !l.StartsWith("%%")).ToArray();
+		.Split('\n').Select(l => l.Trim()).Where(l => l.Length > 0 && !l.StartsWith("%%", StringComparison.OrdinalIgnoreCase)).ToArray();
 
 	private static readonly MermaidGraph ParsedGraph = FlowchartParser.Parse(Lines);
 	private static readonly PositionedGraph MsaglLayoutResult = MsaglProvider.LayoutFlowchart(ParsedGraph);

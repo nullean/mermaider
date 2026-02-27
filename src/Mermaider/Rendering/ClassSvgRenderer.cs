@@ -2,14 +2,16 @@ using System.Text;
 using Mermaider.Models;
 using Mermaider.Text;
 using Mermaider.Theming;
-using Microsoft.Extensions.ObjectPool;
 
 namespace Mermaider.Rendering;
 
 internal static class ClassSvgRenderer
 {
-	private static readonly ObjectPool<StringBuilder> StringBuilderPool =
-		new DefaultObjectPoolProvider().CreateStringBuilderPool(initialCapacity: 4096, maximumRetainedCapacity: 64 * 1024);
+	private static readonly string ClassHeaderAttrs =
+		RenderConstants.TextAttrs.NodeLabelBoldCenterFill + "var(--_text)\"";
+
+	private static readonly string RelLabelAttrs =
+		RenderConstants.TextAttrs.ClassRelLabelFill + "var(--_text-muted)\"";
 
 	private static readonly int MemberFontSize = RenderConstants.FontSizes.Member;
 	private static readonly int MemberFontWeight = RenderConstants.FontWeights.Member;
@@ -18,30 +20,36 @@ internal static class ClassSvgRenderer
 
 	internal static string Render(PositionedClassDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
 	{
-		var sb = StringBuilderPool.Get();
+		var sb = RenderToBuilder(diagram, colors, font, transparent, strict);
 		try
 		{
-			StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, colors, transparent);
-			StyleBlock.AppendStyleBlock(sb, font, strict);
-			AppendMarkerDefs(sb);
-
-			foreach (var rel in diagram.Relationships)
-				AppendRelationship(sb, rel);
-
-			foreach (var cls in diagram.Classes)
-				AppendClassBox(sb, cls);
-
-			foreach (var rel in diagram.Relationships)
-				AppendRelationshipLabels(sb, rel);
-
-			_ = sb.Append("\n</svg>");
 			return sb.ToString();
 		}
 		finally
 		{
 			_ = sb.Clear();
-			StringBuilderPool.Return(sb);
+			SharedStringBuilderPool.Instance.Return(sb);
 		}
+	}
+
+	internal static StringBuilder RenderToBuilder(PositionedClassDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
+	{
+		var sb = SharedStringBuilderPool.Instance.Get();
+		StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, colors, transparent);
+		StyleBlock.AppendStyleBlock(sb, font, strict);
+		AppendMarkerDefs(sb);
+
+		foreach (var rel in diagram.Relationships)
+			AppendRelationship(sb, rel);
+
+		foreach (var cls in diagram.Classes)
+			AppendClassBox(sb, cls);
+
+		foreach (var rel in diagram.Relationships)
+			AppendRelationshipLabels(sb, rel);
+
+		_ = sb.Append("\n</svg>");
+		return sb;
 	}
 
 	private static void AppendMarkerDefs(StringBuilder sb)
@@ -145,7 +153,7 @@ internal static class ClassSvgRenderer
 		MultilineUtils.AppendMultilineText(
 			sb, cls.Label, x + (width / 2), nameY,
 			RenderConstants.FontSizes.NodeLabel,
-			$"text-anchor=\"middle\" font-size=\"{RenderConstants.FontSizes.NodeLabel}\" font-weight=\"700\" fill=\"var(--_text)\"");
+			ClassHeaderAttrs);
 		_ = sb.Append('\n');
 
 		var attrTop = y + headerHeight;
@@ -156,11 +164,11 @@ internal static class ClassSvgRenderer
 
 		const double memberRowH = 20;
 		const double boxPadX = 8;
-		foreach (var (member, i) in cls.Attributes.Select((m, i) => (m, i)))
+		for (var i = 0; i < cls.Attributes.Count; i++)
 		{
 			var memberY = attrTop + 4 + (i * memberRowH) + (memberRowH / 2);
 			_ = sb.Append("  ");
-			AppendMember(sb, member, x + boxPadX, memberY);
+			AppendMember(sb, cls.Attributes[i], x + boxPadX, memberY);
 			_ = sb.Append('\n');
 		}
 
@@ -170,11 +178,11 @@ internal static class ClassSvgRenderer
 			.Append("\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.InnerBox).Append("\" />\n");
 
-		foreach (var (member, i) in cls.Methods.Select((m, i) => (m, i)))
+		for (var i = 0; i < cls.Methods.Count; i++)
 		{
 			var memberY = methodTop + 4 + (i * memberRowH) + (memberRowH / 2);
 			_ = sb.Append("  ");
-			AppendMember(sb, member, x + boxPadX, memberY);
+			AppendMember(sb, cls.Methods[i], x + boxPadX, memberY);
 			_ = sb.Append('\n');
 		}
 
@@ -234,7 +242,7 @@ internal static class ClassSvgRenderer
 		MultilineUtils.AppendEscapedAttr(sb, rel.From.AsSpan());
 		_ = sb.Append("\" data-to=\"");
 		MultilineUtils.AppendEscapedAttr(sb, rel.To.AsSpan());
-		_ = sb.Append("\" data-type=\"").Append(rel.Type.ToString().ToLowerInvariant());
+		_ = sb.Append("\" data-type=\"").Append(rel.Type.ToLower());
 		_ = sb.Append("\" data-marker-at=\"").Append(rel.MarkerAt == ClassMarkerAt.From ? "from" : "to").Append('"');
 		if (rel.Label != null)
 		{
@@ -280,7 +288,7 @@ internal static class ClassSvgRenderer
 			MultilineUtils.AppendMultilineText(
 				sb, rel.Label, pos.X, pos.Y - 8,
 				RenderConstants.FontSizes.EdgeLabel,
-				$"font-size=\"{RenderConstants.FontSizes.EdgeLabel}\" text-anchor=\"middle\" font-weight=\"{RenderConstants.FontWeights.EdgeLabel}\" fill=\"var(--_text-muted)\"");
+				RelLabelAttrs);
 		}
 
 		if (rel.FromCardinality != null)
@@ -292,7 +300,7 @@ internal static class ClassSvgRenderer
 			MultilineUtils.AppendMultilineText(
 				sb, rel.FromCardinality, p.X + offset.X, p.Y + offset.Y,
 				RenderConstants.FontSizes.EdgeLabel,
-				$"font-size=\"{RenderConstants.FontSizes.EdgeLabel}\" text-anchor=\"middle\" font-weight=\"{RenderConstants.FontWeights.EdgeLabel}\" fill=\"var(--_text-muted)\"");
+				RelLabelAttrs);
 		}
 
 		if (rel.ToCardinality != null)
@@ -304,7 +312,7 @@ internal static class ClassSvgRenderer
 			MultilineUtils.AppendMultilineText(
 				sb, rel.ToCardinality, p.X + offset.X, p.Y + offset.Y,
 				RenderConstants.FontSizes.EdgeLabel,
-				$"font-size=\"{RenderConstants.FontSizes.EdgeLabel}\" text-anchor=\"middle\" font-weight=\"{RenderConstants.FontWeights.EdgeLabel}\" fill=\"var(--_text-muted)\"");
+				RelLabelAttrs);
 		}
 	}
 

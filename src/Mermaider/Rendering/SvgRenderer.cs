@@ -3,7 +3,6 @@ using System.Text;
 using Mermaider.Models;
 using Mermaider.Text;
 using Mermaider.Theming;
-using Microsoft.Extensions.ObjectPool;
 using static Mermaider.Rendering.RenderConstants;
 
 namespace Mermaider.Rendering;
@@ -14,44 +13,54 @@ namespace Mermaider.Rendering;
 /// </summary>
 internal static class SvgRenderer
 {
-	private static readonly ObjectPool<StringBuilder> StringBuilderPool =
-		new DefaultObjectPoolProvider().CreateStringBuilderPool(initialCapacity: 4096, maximumRetainedCapacity: 64 * 1024);
+	private static readonly string EdgeLabelBgAttrs =
+		$"rx=\"{Radii.EdgeLabel}\" ry=\"{Radii.EdgeLabel}\" fill=\"var(--bg)\" stroke=\"var(--_inner-stroke)\" stroke-width=\"1\"";
+
+	private static readonly string EdgeLabelSecAttrs = TextAttrs.EdgeLabelCenterFill + "var(--_text-sec)\"";
+
+	private static readonly string GroupHeaderAttrs = TextAttrs.GroupHeaderFill + "var(--_text-sec)\"";
 
 	internal static string Render(PositionedGraph graph, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
 	{
-		var sb = StringBuilderPool.Get();
+		var sb = RenderToBuilder(graph, colors, font, transparent, strict);
 		try
 		{
-			StyleBlock.AppendSvgOpenTag(sb, graph.Width, graph.Height, colors, transparent);
-			StyleBlock.AppendStyleBlock(sb, font, strict);
-			AppendArrowDefs(sb);
-
-			foreach (var group in graph.Groups)
-				AppendGroupBody(sb, group);
-
-			foreach (var edge in graph.Edges)
-				AppendEdge(sb, edge);
-
-			foreach (var group in graph.Groups)
-				AppendGroupHeader(sb, group, font);
-
-			foreach (var edge in graph.Edges)
-			{
-				if (edge.Label is not null)
-					AppendEdgeLabel(sb, edge);
-			}
-
-			foreach (var node in graph.Nodes)
-				AppendNode(sb, node, strict);
-
-			_ = sb.Append("\n</svg>");
 			return sb.ToString();
 		}
 		finally
 		{
 			_ = sb.Clear();
-			StringBuilderPool.Return(sb);
+			SharedStringBuilderPool.Instance.Return(sb);
 		}
+	}
+
+	internal static StringBuilder RenderToBuilder(PositionedGraph graph, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
+	{
+		var sb = SharedStringBuilderPool.Instance.Get();
+		StyleBlock.AppendSvgOpenTag(sb, graph.Width, graph.Height, colors, transparent);
+		StyleBlock.AppendStyleBlock(sb, font, strict);
+		AppendArrowDefs(sb);
+
+		foreach (var group in graph.Groups)
+			AppendGroupBody(sb, group);
+
+		foreach (var edge in graph.Edges)
+			AppendEdge(sb, edge);
+
+		foreach (var group in graph.Groups)
+			AppendGroupHeader(sb, group, font);
+
+		foreach (var edge in graph.Edges)
+		{
+			if (edge.Label is not null)
+				AppendEdgeLabel(sb, edge);
+		}
+
+		foreach (var node in graph.Nodes)
+			AppendNode(sb, node, strict);
+
+		_ = sb.Append("\n</svg>");
+		return sb;
 	}
 
 	// ========================================================================
@@ -128,7 +137,7 @@ internal static class SvgRenderer
 			sb, group.Label,
 			group.X + 12, group.Y + (headerHeight / 2.0),
 			FontSizes.GroupHeader,
-			$"font-size=\"{FontSizes.GroupHeader}\" font-weight=\"{FontWeights.GroupHeader}\" fill=\"var(--_text-sec)\"");
+			GroupHeaderAttrs);
 		_ = sb.Append('\n');
 
 		foreach (var child in group.Children)
@@ -155,7 +164,7 @@ internal static class SvgRenderer
 		MultilineUtils.AppendEscapedAttr(sb, edge.Source.AsSpan());
 		_ = sb.Append("\" data-to=\"");
 		MultilineUtils.AppendEscapedAttr(sb, edge.Target.AsSpan());
-		_ = sb.Append("\" data-style=\"").Append(edge.Style.ToString().ToLowerInvariant());
+		_ = sb.Append("\" data-style=\"").Append(edge.Style.ToLower());
 		_ = sb.Append("\" data-arrow-start=\"").Append(edge.HasArrowStart ? "true" : "false");
 		_ = sb.Append("\" data-arrow-end=\"").Append(edge.HasArrowEnd ? "true" : "false");
 		_ = sb.Append('"');
@@ -247,14 +256,13 @@ internal static class SvgRenderer
 		MultilineUtils.AppendEscapedAttr(sb, label.AsSpan());
 		_ = sb.Append("\">\n  ");
 
-		var lr = Radii.EdgeLabel;
 		MultilineUtils.AppendMultilineTextWithBackground(
 			sb, label, mid.X, mid.Y,
 			metrics.Width, metrics.Height,
 			FontSizes.EdgeLabel,
 			padding,
-			$"text-anchor=\"middle\" font-size=\"{FontSizes.EdgeLabel}\" font-weight=\"{FontWeights.EdgeLabel}\" fill=\"var(--_text-sec)\"",
-			$"rx=\"{lr}\" ry=\"{lr}\" fill=\"var(--bg)\" stroke=\"var(--_inner-stroke)\" stroke-width=\"1\"");
+			EdgeLabelSecAttrs,
+			EdgeLabelBgAttrs);
 
 		_ = sb.Append("\n</g>");
 	}
@@ -307,7 +315,7 @@ internal static class SvgRenderer
 		MultilineUtils.AppendEscapedAttr(sb, node.Id.AsSpan());
 		_ = sb.Append("\" data-label=\"");
 		MultilineUtils.AppendEscapedAttr(sb, node.Label.AsSpan());
-		_ = sb.Append("\" data-shape=\"").Append(node.Shape.ToString().ToLowerInvariant()).Append("\">\n  ");
+		_ = sb.Append("\" data-shape=\"").Append(node.Shape.ToLower()).Append("\">\n  ");
 
 		AppendNodeShape(sb, node);
 		_ = sb.Append("\n  ");
@@ -555,6 +563,6 @@ internal static class SvgRenderer
 		MultilineUtils.AppendMultilineText(
 			sb, node.Label, cx, cy,
 			FontSizes.NodeLabel,
-			$"text-anchor=\"middle\" font-size=\"{FontSizes.NodeLabel}\" font-weight=\"{FontWeights.NodeLabel}\" fill=\"{textColor}\"");
+			TextAttrs.NodeLabelCenterFill + textColor + "\"");
 	}
 }

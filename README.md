@@ -24,7 +24,7 @@ Node.js process to produce SVGs. Both have trade-offs&mdash;the first gives you 
 display, the second drags in a JavaScript runtime with all its latency, memory overhead, and deployment
 complexity.
 
-Mermaider is neither. It is a **complete parser _and_ renderer** implemented entirely in .NET. Hand it a
+Mermaider is neither. It is a **complete parser, lightweight layout engine _and_ renderer** implemented entirely in .NET. Hand it a
 Mermaid string, get an SVG back. No interop, no child processes, no headless browsers.
 
 ### Pure .NET parsing and rendering
@@ -46,13 +46,13 @@ baggage from a different era of .NET: high allocations (~554 KB for a 6-node flo
 
 The built-in engine is purpose-built for the small-to-medium directed graphs Mermaid produces:
 
-| Phase | MSAGL | Built-in Sugiyama | Improvement |
-|---|---:|---:|---|
-| Layout only | 227 &micro;s / 554 KB | 1.9 &micro;s / 8 KB | 122&times; faster, 70&times; less memory |
-| End-to-end render | 356 &micro;s / 582 KB | 21 &micro;s / 38 KB | 17&times; faster, 15&times; less memory |
+| Phase             |                 MSAGL |   Built-in Sugiyama | Improvement                              |
+|-------------------|----------------------:|--------------------:|------------------------------------------|
+| Layout only       | 247 &micro;s / 558 KB |  3.4 &micro;s / 16 KB | 73&times; faster, 35&times; less memory |
+| End-to-end render | 351 &micro;s / 586 KB |   24 &micro;s / 46 KB | 15&times; faster, 13&times; less memory |
 
 If you still want MSAGL for its higher-fidelity edge routing on complex graphs, install the optional
-`Mermaid.Layout.Msagl` package (see [below](#msagl-layout-provider)).
+`Mermaider.Layout.Msagl` package (see [below](#msagl-layout-provider)).
 
 ### Native AOT
 
@@ -66,7 +66,7 @@ dotnet add package Mermaider
 ```
 
 ```csharp
-using Mermaid;
+using Mermaider;
 
 var svg = MermaidRenderer.RenderSvg("""
     graph TD
@@ -245,7 +245,7 @@ var cleanSvg = result.Svg;
 ## CLI
 
 ```bash
-dotnet tool install -g Mermaid.Cli
+dotnet tool install -g Mermaider.Cli
 
 echo 'graph TD
   A --> B' | mermaid > diagram.svg
@@ -259,11 +259,11 @@ mermaid --list-themes
 If you prefer MSAGL for its edge routing fidelity on complex graphs, install the optional package:
 
 ```bash
-dotnet add package Mermaid.Layout.Msagl
+dotnet add package Mermaider.Layout.Msagl
 ```
 
 ```csharp
-using Mermaid.Layout.Msagl;
+using Mermaider.Layout.Msagl;
 
 // Global — all subsequent renders use MSAGL:
 MermaidRenderer.SetLayoutProvider(new MsaglLayoutProvider());
@@ -298,17 +298,17 @@ dotnet publish -c Release
 All five diagram types use the built-in Sugiyama engine. Measured with `[MemoryDiagnoser]` on .NET 10
 (Apple M2 Pro):
 
-| Method | Mean | Allocated |
-|---|---:|---:|
-| Flowchart (simple) | ~21 &micro;s | ~38 KB |
-| Flowchart (large) | ~80 &micro;s | ~120 KB |
-| Sequence | ~13 &micro;s | ~30 KB |
-| State | ~25 &micro;s | ~45 KB |
-| Class | ~18 &micro;s | ~35 KB |
-| ER | ~20 &micro;s | ~40 KB |
+| Method             |         Mean | Allocated |
+|--------------------|-------------:|----------:|
+| Flowchart (simple) | ~23 &micro;s |    ~46 KB |
+| Flowchart (large)  | ~71 &micro;s |   ~145 KB |
+| Sequence           | ~12 &micro;s |    ~28 KB |
+| State              | ~17 &micro;s |    ~47 KB |
+| Class              | ~13 &micro;s |    ~36 KB |
+| ER                 | ~17 &micro;s |    ~45 KB |
 
 ```bash
-dotnet run --project tests/Mermaid.Benchmarks -c Release
+dotnet run --project tests/Mermaider.Benchmarks -c Release
 ```
 
 ## Building from Source
@@ -322,12 +322,14 @@ cd mermaider
 
 ## Attribution
 
-This project is a **.NET port** of [**beautiful-mermaid**](https://github.com/lukilabs/beautiful-mermaid) by
+This project started as a **.NET port** of [**beautiful-mermaid**](https://github.com/lukilabs/beautiful-mermaid) by
 [Craft Docs](https://craft.do) (lukilabs). Their TypeScript library pioneered the idea of rendering Mermaid
 diagrams without a browser or DOM&mdash;fast, themeable, and synchronous.
 
 `beautiful-mermaid` itself credits [**mermaid-ascii**](https://github.com/AlexanderGrooff/mermaid-ascii) by
 Alexander Grooff for its ASCII rendering engine, which was ported from Go to TypeScript and extended.
+
+`beautiful-mermaid`, relies on an external battle hardened layout engine `elk.js`,
 
 We owe a huge thank-you to both projects for the excellent foundation.
 

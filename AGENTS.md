@@ -2,13 +2,13 @@
 
 ## Project
 
-mermaid-dotnet — Render Mermaid diagrams to SVG in pure .NET.
+Mermaider — Render Mermaid diagrams to SVG in pure .NET.
 
 ## Build & Test
 
 ```bash
 dotnet build mermaid-dotnet.slnx
-dotnet run --project tests/Mermaid.Tests/Mermaid.Tests.csproj
+dotnet run --project tests/Mermaider.Tests/Mermaider.Tests.csproj
 ```
 
 ## Conventions
@@ -24,9 +24,9 @@ dotnet run --project tests/Mermaid.Tests/Mermaid.Tests.csproj
 
 Three-stage pipeline: **Parse** → **Layout** → **Render**
 
-1. **Parsing** (`src/Mermaid/Parsing/`): Line-by-line regex parsers produce diagram models
-2. **Layout** (`src/Mermaid/Layout/`): MSAGL Sugiyama (flowchart/class/ER) or custom arithmetic (sequence) produces positioned models
-3. **Rendering** (`src/Mermaid/Rendering/`): Pooled StringBuilder produces SVG string
+1. **Parsing** (`src/Mermaider/Parsing/`): Line-by-line regex parsers produce diagram models
+2. **Layout** (`src/Mermaider/Layout/`): Sugiyama (flowchart/class/ER) or custom arithmetic (sequence) produces positioned models
+3. **Rendering** (`src/Mermaider/Rendering/`): Pooled StringBuilder produces SVG string
 
 Supported diagram types: flowchart, state, sequence, class, ER.
 

@@ -8,12 +8,12 @@ See AGENTS.md for project conventions and architecture.
 - SVG rendering uses `ObjectPool<StringBuilder>` — never allocate a new StringBuilder per render
 - Text metrics operate on `ReadOnlySpan<char>` and use `SearchValues<char>` for SIMD character lookups
 - Models use `FrozenDictionary` for immutable lookup tables after parsing
-- Layout uses Microsoft.Msagl (Sugiyama/layered algorithm with rectilinear edge routing)
+- Layout uses built-in Sugiyama engine (layered algorithm with rectilinear edge routing); optional MSAGL via `Mermaider.Layout.Msagl`
 - Theming uses CSS custom properties with `color-mix()` fallbacks embedded in SVG
 
 ## Testing
 
-Run tests with: `dotnet run --project tests/Mermaid.Tests/Mermaid.Tests.csproj`
+Run tests with: `dotnet run --project tests/Mermaider.Tests/Mermaider.Tests.csproj`
 
 Tests use TUnit (source-generated test runner) and AwesomeAssertions.
 
@@ -23,8 +23,8 @@ golden file snapshots (14 — all diagram types, themes, transparency).
 
 ## Benchmarks
 
-Run benchmarks with: `dotnet run -c Release --project tests/Mermaid.Benchmarks/Mermaid.Benchmarks.csproj`
+Run benchmarks with: `dotnet run -c Release --project tests/Mermaider.Benchmarks/Mermaider.Benchmarks.csproj`
 
 ## CLI
 
-Test with: `printf 'graph TD\n  A-->B' | dotnet run --project src/Mermaid.Cli/Mermaid.Cli.csproj`
+Test with: `printf 'graph TD\n  A-->B' | dotnet run --project src/Mermaider.Cli/Mermaider.Cli.csproj`

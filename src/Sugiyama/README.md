@@ -158,10 +158,10 @@ On a 6-node flowchart (Apple M2 Pro, .NET 10):
 
 | | Time | Allocated |
 |---|---:|---:|
-| Sugiyama layout | **1.9 &micro;s** | **8 KB** |
-| Microsoft MSAGL | 227 &micro;s | 554 KB |
+| Sugiyama layout | **3.4 &micro;s** | **16 KB** |
+| Microsoft MSAGL | 247 &micro;s | 558 KB |
 
-**122&times; faster, 70&times; fewer allocations.**
+**73&times; faster, 35&times; fewer allocations.**
 
 The engine uses array-backed storage (`GraphBuffer`) instead of object graphs, minimizing
 GC pressure. Virtual nodes for long edges are appended to flat arrays rather than creating

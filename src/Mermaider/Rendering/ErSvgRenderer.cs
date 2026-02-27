@@ -2,14 +2,16 @@ using System.Text;
 using Mermaider.Models;
 using Mermaider.Text;
 using Mermaider.Theming;
-using Microsoft.Extensions.ObjectPool;
 
 namespace Mermaider.Rendering;
 
 internal static class ErSvgRenderer
 {
-	private static readonly ObjectPool<StringBuilder> StringBuilderPool =
-		new DefaultObjectPoolProvider().CreateStringBuilderPool(initialCapacity: 4096, maximumRetainedCapacity: 64 * 1024);
+	private static readonly string EntityHeaderAttrs =
+		RenderConstants.TextAttrs.NodeLabelBoldCenterFill + "var(--_text)\"";
+
+	private static readonly string RelLabelAttrs =
+		RenderConstants.TextAttrs.EdgeLabelCenterFill + "var(--_text-sec)\"";
 
 	private static readonly int AttrFontSize = RenderConstants.FontSizes.Member;
 	private static readonly int AttrFontWeight = RenderConstants.FontWeights.Member;
@@ -18,33 +20,39 @@ internal static class ErSvgRenderer
 
 	internal static string Render(PositionedErDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
 	{
-		var sb = StringBuilderPool.Get();
+		var sb = RenderToBuilder(diagram, colors, font, transparent, strict);
 		try
 		{
-			StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, colors, transparent);
-			StyleBlock.AppendStyleBlock(sb, font, strict);
-			_ = sb.Append("\n<defs>\n</defs>\n");
-
-			foreach (var rel in diagram.Relationships)
-				AppendRelationshipLine(sb, rel);
-
-			foreach (var entity in diagram.Entities)
-				AppendEntityBox(sb, entity);
-
-			foreach (var rel in diagram.Relationships)
-				AppendCardinality(sb, rel);
-
-			foreach (var rel in diagram.Relationships)
-				AppendRelationshipLabel(sb, rel);
-
-			_ = sb.Append("\n</svg>");
 			return sb.ToString();
 		}
 		finally
 		{
 			_ = sb.Clear();
-			StringBuilderPool.Return(sb);
+			SharedStringBuilderPool.Instance.Return(sb);
 		}
+	}
+
+	internal static StringBuilder RenderToBuilder(PositionedErDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
+	{
+		var sb = SharedStringBuilderPool.Instance.Get();
+		StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, colors, transparent);
+		StyleBlock.AppendStyleBlock(sb, font, strict);
+		_ = sb.Append("\n<defs>\n</defs>\n");
+
+		foreach (var rel in diagram.Relationships)
+			AppendRelationshipLine(sb, rel);
+
+		foreach (var entity in diagram.Entities)
+			AppendEntityBox(sb, entity);
+
+		foreach (var rel in diagram.Relationships)
+			AppendCardinality(sb, rel);
+
+		foreach (var rel in diagram.Relationships)
+			AppendRelationshipLabel(sb, rel);
+
+		_ = sb.Append("\n</svg>");
+		return sb;
 	}
 
 	private static void AppendEntityBox(StringBuilder sb, PositionedErEntity entity)
@@ -76,7 +84,7 @@ internal static class ErSvgRenderer
 		MultilineUtils.AppendMultilineText(
 			sb, entity.Label, x + (width / 2), y + (headerHeight / 2),
 			RenderConstants.FontSizes.NodeLabel,
-			$"text-anchor=\"middle\" font-size=\"{RenderConstants.FontSizes.NodeLabel}\" font-weight=\"700\" fill=\"var(--_text)\"");
+			EntityHeaderAttrs);
 		_ = sb.Append('\n');
 
 		var attrTop = y + headerHeight;
@@ -127,7 +135,7 @@ internal static class ErSvgRenderer
 				.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 				.Append("\" font-size=\"").Append(KeyFontSize)
 				.Append("\" font-weight=\"").Append(KeyFontWeight)
-				.Append("\" fill=\"var(--_text-sec)\">").Append(string.Join(",", attr.Keys)).Append("</text>");
+				.Append("\" fill=\"var(--_text-sec)\">").Append(keyText).Append("</text>");
 		}
 
 		var typeX = boxX + 8 + (keyWidth > 0 ? keyWidth + 6 : 0);
@@ -165,8 +173,8 @@ internal static class ErSvgRenderer
 		MultilineUtils.AppendEscapedAttr(sb, rel.Entity1.AsSpan());
 		_ = sb.Append("\" data-entity2=\"");
 		MultilineUtils.AppendEscapedAttr(sb, rel.Entity2.AsSpan());
-		_ = sb.Append("\" data-cardinality1=\"").Append(rel.Cardinality1.ToString().ToLowerInvariant());
-		_ = sb.Append("\" data-cardinality2=\"").Append(rel.Cardinality2.ToString().ToLowerInvariant());
+		_ = sb.Append("\" data-cardinality1=\"").Append(rel.Cardinality1.ToLower());
+		_ = sb.Append("\" data-cardinality2=\"").Append(rel.Cardinality2.ToLower());
 		_ = sb.Append("\" data-identifying=\"").Append(rel.Identifying ? "true" : "false");
 		_ = sb.Append('"');
 		if (rel.Label.Length > 0)
@@ -203,7 +211,7 @@ internal static class ErSvgRenderer
 		MultilineUtils.AppendMultilineText(
 			sb, rel.Label, mid.X, mid.Y,
 			RenderConstants.FontSizes.EdgeLabel,
-			$"text-anchor=\"middle\" font-size=\"{RenderConstants.FontSizes.EdgeLabel}\" font-weight=\"{RenderConstants.FontWeights.EdgeLabel}\" fill=\"var(--_text-sec)\"");
+			RelLabelAttrs);
 	}
 
 	private static void AppendCardinality(StringBuilder sb, PositionedErRelationship rel)

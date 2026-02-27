@@ -54,4 +54,34 @@ internal static class RenderConstants
 
 	internal const string SansStack = "system-ui, -apple-system, 'Segoe UI', sans-serif";
 	internal const string MonoStack = "ui-monospace, 'SF Mono', 'Cascadia Code', monospace";
+
+	internal static class TextAttrs
+	{
+		internal static readonly string NodeLabelCenterFill =
+			$"text-anchor=\"middle\" font-size=\"{FontSizes.NodeLabel}\" font-weight=\"{FontWeights.NodeLabel}\" fill=\"";
+
+		internal static readonly string NodeLabelBoldCenterFill =
+			$"text-anchor=\"middle\" font-size=\"{FontSizes.NodeLabel}\" font-weight=\"700\" fill=\"";
+
+		internal static readonly string EdgeLabelCenterFill =
+			$"text-anchor=\"middle\" font-size=\"{FontSizes.EdgeLabel}\" font-weight=\"{FontWeights.EdgeLabel}\" fill=\"";
+
+		internal static readonly string GroupHeaderFill =
+			$"font-size=\"{FontSizes.GroupHeader}\" font-weight=\"{FontWeights.GroupHeader}\" fill=\"";
+
+		internal static readonly string SeqNodeLabelFill =
+			$"font-size=\"{FontSizes.NodeLabel}\" text-anchor=\"middle\" font-weight=\"{FontWeights.NodeLabel}\" fill=\"";
+
+		internal static readonly string SeqEdgeLabelCenterFill =
+			$"font-size=\"{FontSizes.EdgeLabel}\" text-anchor=\"middle\" font-weight=\"{FontWeights.EdgeLabel}\" fill=\"";
+
+		internal static readonly string SeqEdgeLabelStartFill =
+			$"font-size=\"{FontSizes.EdgeLabel}\" text-anchor=\"start\" font-weight=\"{FontWeights.EdgeLabel}\" fill=\"";
+
+		internal static readonly string SeqBlockTabFill =
+			$"font-size=\"{FontSizes.EdgeLabel}\" font-weight=\"{FontWeights.GroupHeader}\" fill=\"";
+
+		internal static readonly string ClassRelLabelFill =
+			$"font-size=\"{FontSizes.EdgeLabel}\" text-anchor=\"middle\" font-weight=\"{FontWeights.EdgeLabel}\" fill=\"";
+	}
 }

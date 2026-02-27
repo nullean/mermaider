@@ -8,8 +8,8 @@
     <NoWarn>CS1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="..\..\README.md" Pack="true" PackagePath="README.md" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="..\..\nuget-icon.png" Pack="true" PackagePath="nuget-icon.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="README.md" />
+    <None Include="..\..\nuget-icon.png" Pack="true" PackagePath="nuget-icon.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../Mermaider/Mermaider.csproj" />

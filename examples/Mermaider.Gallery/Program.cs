@@ -137,13 +137,13 @@ string RenderIndex(string? activeTheme, string activeEngine)
 				      </div>
 				      <div class="side-by-side three-col">
 				        <div class="engine-col">
-				          <div class="engine-label">Mermaid.NET (Sugiyama)</div>
+				          <div class="engine-label">Mermaider (Sugiyama)</div>
 				          <div class="svg-container">
 				            <img src="/svg/{e.Slug}?engine=lightweight{themeQuery}" alt="{WebUtility.HtmlEncode(e.Title)} — Lightweight" loading="lazy" />
 				          </div>
 				        </div>
 				        <div class="engine-col">
-				          <div class="engine-label">Mermaid.NET (MSAGL)</div>
+				          <div class="engine-label">Mermaider (MSAGL)</div>
 				          <div class="svg-container">
 				            <img src="/svg/{e.Slug}?engine=msagl{themeQuery}" alt="{WebUtility.HtmlEncode(e.Title)} — MSAGL" loading="lazy" />
 				          </div>
@@ -187,7 +187,7 @@ string RenderIndex(string? activeTheme, string activeEngine)
 		<head>
 		  <meta charset="utf-8" />
 		  <meta name="viewport" content="width=device-width, initial-scale=1" />
-		  <title>Mermaid.NET Gallery</title>
+		  <title>Mermaider Gallery</title>
 		  <style>
 		    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 		    body {
@@ -279,7 +279,7 @@ string RenderIndex(string? activeTheme, string activeEngine)
 		  </style>
 		</head>
 		<body>
-		  <h1>Mermaid.NET Gallery</h1>
+		  <h1>Mermaider Gallery</h1>
 		  <p class="subtitle">SVG diagrams rendered with pure .NET — no browser, no JS runtime</p>
 
 		  <div class="bar-label">Theme</div>
