@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsTestProject>false</IsTestProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/Mermaider/Mermaider.csproj" />
+    <ProjectReference Include="../../src/Sugiyama/Sugiyama.csproj" />
+    <ProjectReference Include="../../src/Mermaider.Layout.Msagl/Mermaider.Layout.Msagl.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="TUnit" />
+    <PackageReference Include="AwesomeAssertions" />
+    <PackageReference Include="Verify.TUnit" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/Mermaider/Mermaider.csproj" />
+  </ItemGroup>
+</Project>

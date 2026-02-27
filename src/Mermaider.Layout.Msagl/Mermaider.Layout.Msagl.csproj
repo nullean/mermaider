@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>Optional MSAGL-based layout engine for Mermaid.NET. Provides higher-fidelity graph layout using Microsoft Automatic Graph Layout at the cost of higher allocations.</Description>
+    <NoWarn>CS1591</NoWarn>
+    <PackageTags>mermaid;layout;msagl;graph;optional</PackageTags>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="README.md" Pack="true" PackagePath="README.md" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\nuget-icon.png" Pack="true" PackagePath="nuget-icon.png" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Mermaider/Mermaider.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Msagl" />
+  </ItemGroup>
+</Project>

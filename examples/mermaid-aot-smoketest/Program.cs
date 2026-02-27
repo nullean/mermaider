@@ -1,5 +1,5 @@
-using Mermaid;
-using Mermaid.Models;
+using Mermaider;
+using Mermaider.Models;
 
 var diagrams = new (string Name, string Source)[]
 {

@@ -13,19 +13,19 @@
     <Project Path="build/scripts/scripts.fsproj" />
   </Folder>
   <Folder Name="/src/">
-    <Project Path="src/Mermaid/Mermaider.csproj" />
+    <Project Path="src/Mermaider/Mermaider.csproj" />
     <Project Path="src/Sugiyama/Sugiyama.csproj" />
-    <Project Path="src/Mermaid.Layout.Msagl/Mermaid.Layout.Msagl.csproj" />
-    <Project Path="src/Mermaid.Cli/Mermaid.Cli.csproj" />
+    <Project Path="src\Mermaider.Cli\Mermaider.Cli.csproj" />
+    <Project Path="src\Mermaider.Layout.Msagl\Mermaider.Layout.Msagl.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <File Path="tests/Directory.Build.props" />
-    <Project Path="tests/Mermaid.Tests/Mermaid.Tests.csproj" />
     <Project Path="tests/Sugiyama.Tests/Sugiyama.Tests.csproj" />
-    <Project Path="tests/Mermaid.Benchmarks/Mermaid.Benchmarks.csproj" />
+    <Project Path="tests/Mermaider.Benchmarks/Mermaider.Benchmarks.csproj" />
+    <Project Path="tests\Mermaider.Tests\Mermaider.Tests.csproj" />
   </Folder>
   <Folder Name="/examples/">
-    <Project Path="examples/Mermaid.Gallery/Mermaid.Gallery.csproj" />
     <Project Path="examples/mermaid-aot-smoketest/mermaid-aot-smoketest.csproj" />
+    <Project Path="examples\Mermaider.Gallery\Mermaider.Gallery.csproj" />
   </Folder>
 </Solution>
