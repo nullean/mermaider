@@ -10,7 +10,7 @@
     --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 4%, var(--bg)));
-    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 14%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
     --_group-fill:    var(--bg);
     --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
@@ -44,11 +44,11 @@
   <text x="140" y="120" font-size="13" text-anchor="middle" font-weight="400" fill="var(--_text-sec)" dy="4.55">Hi</text>
 </g>
 <g class="actor" data-id="A" data-label="Alice" data-type="participant">
-  <rect x="30" y="30" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.25" />
+  <rect x="30" y="30" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
   <text x="70" y="50" font-size="14" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Alice</text>
 </g>
 <g class="actor" data-id="B" data-label="Bob" data-type="participant">
-  <rect x="170" y="30" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.25" />
+  <rect x="170" y="30" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
   <text x="210" y="50" font-size="14" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Bob</text>
 </g>
 </svg>

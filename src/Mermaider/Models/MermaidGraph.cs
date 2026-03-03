@@ -31,10 +31,16 @@ public sealed record MermaidGraph
 	/// </summary>
 	public IReadOnlyDictionary<int, (string? SourceSubgraph, string? TargetSubgraph)> SubgraphEdgeRedirections { get; init; } =
 		ReadOnlyDictionary<int, (string? SourceSubgraph, string? TargetSubgraph)>.Empty;
+
+	public IReadOnlyList<GraphNote> Notes { get; init; } = [];
 }
 
+public sealed record GraphNote(string TargetNodeId, string Text, GraphNotePosition Position);
+
+public enum GraphNotePosition { Left, Right }
+
 /// <summary>A single node in the parsed graph.</summary>
-public readonly record struct MermaidNode(string Id, string Label, NodeShape Shape);
+public readonly record struct MermaidNode(string Id, string Label, NodeShape Shape, bool IsMarkdown = false);
 
 /// <summary>A directed edge between two nodes.</summary>
 public sealed record MermaidEdge(

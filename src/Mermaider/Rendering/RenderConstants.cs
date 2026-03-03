@@ -25,8 +25,8 @@ internal static class RenderConstants
 
 	internal static class StrokeWidths
 	{
-		internal const double OuterBox = 1.25;
-		internal const double InnerBox = 1.5;
+		internal const double OuterBox = 1.75;
+		internal const double InnerBox = 2;
 		internal const double Connector = 2.25;
 	}
 

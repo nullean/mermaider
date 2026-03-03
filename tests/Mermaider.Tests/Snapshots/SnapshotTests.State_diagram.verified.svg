@@ -10,7 +10,7 @@
     --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 4%, var(--bg)));
-    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 14%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
     --_group-fill:    var(--bg);
     --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
@@ -50,19 +50,19 @@
   
 </g>
 <g class="node" data-id="Idle" data-label="Idle" data-shape="rounded">
-  <rect x="66.334" y="152" width="72.44399999999999" height="46.2" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.5" />
+  <rect x="66.334" y="152" width="72.44399999999999" height="46.2" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
   <text x="102.556" y="175.1" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Idle</text>
 </g>
 <g class="node" data-id="Processing" data-label="Processing" data-shape="rounded">
-  <rect x="40" y="270.2" width="125.11199999999998" height="46.2" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.5" />
+  <rect x="40" y="270.2" width="125.11199999999998" height="46.2" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
   <text x="102.55599999999998" y="293.3" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Processing</text>
 </g>
 <g class="node" data-id="Done" data-label="Done" data-shape="rounded">
-  <rect x="60.74799999999999" y="388.4" width="83.616" height="46.2" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.5" />
+  <rect x="60.74799999999999" y="388.4" width="83.616" height="46.2" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
   <text x="102.55599999999998" y="411.5" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Done</text>
 </g>
 <g class="node" data-id="_end" data-label="" data-shape="stateend">
-  <circle cx="102.55599999999998" cy="526.5999999999999" r="12" fill="none" stroke="var(--_text)" stroke-width="3" />
+  <circle cx="102.55599999999998" cy="526.5999999999999" r="12" fill="none" stroke="var(--_text)" stroke-width="4" />
 <circle cx="102.55599999999998" cy="526.5999999999999" r="8" fill="var(--_text)" stroke="none" />
   
 </g>

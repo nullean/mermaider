@@ -73,7 +73,14 @@ internal static class LightweightClassLayoutEngine
 			layoutEdges.Add(new LayoutEdge(rel.From, rel.To, labelW, labelH));
 		}
 
-		var layoutGraph = new LayoutGraph(LayoutDirection.TD, layoutNodes, layoutEdges, []);
+		var layoutDir = diagram.Direction switch
+		{
+			Direction.LR => LayoutDirection.LR,
+			Direction.RL => LayoutDirection.RL,
+			Direction.BT => LayoutDirection.BT,
+			_ => LayoutDirection.TD,
+		};
+		var layoutGraph = new LayoutGraph(layoutDir, layoutNodes, layoutEdges, []);
 		var result = SugiyamaLayout.Compute(layoutGraph, new LayoutOptions
 		{
 			Padding = Padding,
@@ -139,12 +146,39 @@ internal static class LightweightClassLayoutEngine
 			});
 		}
 
+		var notes = new List<PositionedGraphNote>(diagram.Notes.Count);
+		var maxX = result.Width;
+		var maxY = result.Height;
+
+		foreach (var note in diagram.Notes)
+		{
+			var textW = TextMetrics.MeasureTextWidth(
+				note.Text, RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel) + 20;
+			var noteW = Math.Max(120.0, textW);
+			var noteH = RenderConstants.FontSizes.EdgeLabel + 16;
+
+			if (note.TargetClassId != null && nodeLookup.TryGetValue(note.TargetClassId, out var target))
+			{
+				var noteX = target.X + target.Width + 10;
+				var noteY = target.Y;
+				notes.Add(new PositionedGraphNote { Text = note.Text, X = noteX, Y = noteY, Width = noteW, Height = noteH });
+				maxX = Math.Max(maxX, noteX + noteW + 10);
+				maxY = Math.Max(maxY, noteY + noteH + 10);
+			}
+			else
+			{
+				notes.Add(new PositionedGraphNote { Text = note.Text, X = Padding, Y = maxY + 10, Width = noteW, Height = noteH });
+				maxY += noteH + 20;
+			}
+		}
+
 		return new PositionedClassDiagram
 		{
-			Width = result.Width,
-			Height = result.Height,
+			Width = maxX,
+			Height = maxY,
 			Classes = positionedClasses,
 			Relationships = positionedRels,
+			Notes = notes,
 		};
 	}
 

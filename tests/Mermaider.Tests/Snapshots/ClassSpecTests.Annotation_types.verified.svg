@@ -1,0 +1,92 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 761.6 272" width="761.6" height="272" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 4%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+  }
+  .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+  <marker id="cls-inherit" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
+    <polygon points="0 0, 12 6, 0 12" fill="var(--bg)" stroke="var(--_arrow)" stroke-width="1.5" />
+  </marker>
+  <marker id="cls-composition" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto-start-reverse">
+    <polygon points="6 0, 12 6, 6 12, 0 6" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="1" />
+  </marker>
+  <marker id="cls-aggregation" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto-start-reverse">
+    <polygon points="6 0, 12 6, 6 12, 0 6" fill="var(--bg)" stroke="var(--_arrow)" stroke-width="1.5" />
+  </marker>
+  <marker id="cls-arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
+    <polyline points="0 0, 12 6, 0 12" fill="none" stroke="var(--_arrow)" stroke-width="1.5" />
+  </marker>
+  <marker id="cls-lollipop" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto-start-reverse">
+    <circle cx="6" cy="6" r="5" fill="var(--bg)" stroke="var(--_arrow)" stroke-width="1.5" />
+  </marker>
+</defs>
+
+<path class="class-relationship" data-from="Shape" data-to="Circle" data-type="inheritance" data-marker-at="from" d="M105.6,124 L105.6,148 Q105.6,154 111.6,154 L182.39999999999998,154 Q188.39999999999998,154 188.39999999999998,160 L188.39999999999998,184" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="Drawable" data-to="Circle" data-type="realization" data-marker-at="from" d="M271.2,124 L271.2,148 Q271.2,154 265.2,154 L194.39999999999998,154 Q188.39999999999998,154 188.39999999999998,160 L188.39999999999998,184" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-start="url(#cls-inherit)" />
+<g class="class-node" data-id="Shape" data-label="Shape" data-annotation="abstract">
+  <rect x="40" y="40" width="131.2" height="84" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="40" y="40" width="131.2" height="48" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="105.6" y="52" text-anchor="middle" dy="0.35em" font-size="10" font-weight="500" font-style="italic" fill="var(--_text-muted)">&lt;&lt;abstract&gt;&gt;</text>
+  <text x="105.6" y="70" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Shape</text>
+  <line x1="40" y1="88" x2="171.2" y2="88" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="40" y1="96" x2="171.2" y2="96" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text class="mono" x="48" y="110" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">area()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">double</tspan></text>
+</g>
+<g class="class-node" data-id="Drawable" data-label="Drawable" data-annotation="interface">
+  <rect x="211.2" y="40" width="120" height="84" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="211.2" y="40" width="120" height="48" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="271.2" y="52" text-anchor="middle" dy="0.35em" font-size="10" font-weight="500" font-style="italic" fill="var(--_text-muted)">&lt;&lt;interface&gt;&gt;</text>
+  <text x="271.2" y="70" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Drawable</text>
+  <line x1="211.2" y1="88" x2="331.2" y2="88" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="211.2" y1="96" x2="331.2" y2="96" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text class="mono" x="219.2" y="110" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">draw()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
+</g>
+<g class="class-node" data-id="Color" data-label="Color" data-annotation="enumeration">
+  <rect x="379.2" y="40" width="120" height="124" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="379.2" y="40" width="120" height="48" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="439.2" y="52" text-anchor="middle" dy="0.35em" font-size="10" font-weight="500" font-style="italic" fill="var(--_text-muted)">&lt;&lt;enumeration&gt;&gt;</text>
+  <text x="439.2" y="70" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Color</text>
+  <line x1="379.2" y1="88" x2="499.2" y2="88" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text class="mono" x="387.2" y="102" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-sec)">RED</tspan></text>
+  <text class="mono" x="387.2" y="122" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-sec)">GREEN</tspan></text>
+  <text class="mono" x="387.2" y="142" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-sec)">BLUE</tspan></text>
+  <line x1="379.2" y1="156" x2="499.2" y2="156" stroke="var(--_node-stroke)" stroke-width="2" />
+</g>
+<g class="class-node" data-id="EventBus" data-label="EventBus" data-annotation="service">
+  <rect x="547.2" y="40" width="174.4" height="84" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="547.2" y="40" width="174.4" height="48" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="634.4000000000001" y="52" text-anchor="middle" dy="0.35em" font-size="10" font-weight="500" font-style="italic" fill="var(--_text-muted)">&lt;&lt;service&gt;&gt;</text>
+  <text x="634.4000000000001" y="70" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">EventBus</text>
+  <line x1="547.2" y1="88" x2="721.6" y2="88" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="547.2" y1="96" x2="721.6" y2="96" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text class="mono" x="555.2" y="110" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">publish(event)</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
+</g>
+<g class="class-node" data-id="Circle" data-label="Circle">
+  <rect x="128.39999999999998" y="184" width="120" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="128.39999999999998" y="184" width="120" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="188.39999999999998" y="200" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Circle</text>
+  <line x1="128.39999999999998" y1="216" x2="248.39999999999998" y2="216" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="128.39999999999998" y1="224" x2="248.39999999999998" y2="224" stroke="var(--_node-stroke)" stroke-width="2" />
+</g>
+</svg>

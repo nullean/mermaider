@@ -18,7 +18,7 @@ internal static class StyleBlock
 		internal const int Line = 32;
 		internal const int Arrow = 70;
 		internal const int NodeFill = 4;
-		internal const int NodeStroke = 14;
+		internal const int NodeStroke = 22;
 		internal const int GroupHeader = 4;
 		internal const int GroupStroke = 10;
 		internal const int InnerStroke = 10;

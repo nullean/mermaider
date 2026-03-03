@@ -71,6 +71,9 @@ internal static class LightweightLayoutEngine
 		if (graph.SubgraphEdgeRedirections.Count > 0)
 			ClipSubgraphEdges(positioned, graph);
 
+		if (graph.Notes.Count > 0)
+			positioned = AttachNotes(positioned, graph);
+
 		return positioned;
 	}
 
@@ -86,17 +89,19 @@ internal static class LightweightLayoutEngine
 			var inlineStyle = strict is null ? ResolveNodeStyle(n.Id, graph) : null;
 			var cssClass = strict is not null && graph.ClassAssignments.TryGetValue(n.Id, out var cls) ? cls : null;
 
+			var hasNode = nodeLookup.TryGetValue(n.Id, out var mn);
 			positionedNodes.Add(new PositionedNode
 			{
 				Id = n.Id,
-				Label = nodeLookup.TryGetValue(n.Id, out var mn) ? mn.Label : n.Id,
-				Shape = nodeLookup.TryGetValue(n.Id, out var mn2) ? mn2.Shape : NodeShape.Rectangle,
+				Label = hasNode ? mn.Label : n.Id,
+				Shape = hasNode ? mn.Shape : NodeShape.Rectangle,
 				X = n.X,
 				Y = n.Y,
 				Width = n.Width,
 				Height = n.Height,
 				InlineStyle = inlineStyle,
 				CssClassName = cssClass,
+				IsMarkdown = hasNode && mn.IsMarkdown,
 			});
 		}
 
@@ -320,5 +325,57 @@ internal static class LightweightLayoutEngine
 		var d = t;
 		if (d < bestDist)
 		{ bestDist = d; best = new Models.Point(px, py); }
+	}
+
+	private const double NoteWidth = 120;
+	private const double NoteHPad = 10;
+	private const double NoteVPad = 8;
+	private const double NoteGap = 10;
+
+	private static PositionedGraph AttachNotes(PositionedGraph positioned, MermaidGraph graph)
+	{
+		var nodeLookup = new Dictionary<string, PositionedNode>(positioned.Nodes.Count);
+		foreach (var n in positioned.Nodes)
+			nodeLookup[n.Id] = n;
+
+		var notes = new List<PositionedGraphNote>(graph.Notes.Count);
+		var maxX = positioned.Width;
+		var maxY = positioned.Height;
+
+		foreach (var note in graph.Notes)
+		{
+			if (!nodeLookup.TryGetValue(note.TargetNodeId, out var target))
+				continue;
+
+			var textW = TextMetrics.MeasureTextWidth(
+				note.Text, RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel) + (NoteHPad * 2);
+			var noteW = Math.Max(NoteWidth, textW);
+			var noteH = RenderConstants.FontSizes.EdgeLabel + (NoteVPad * 2);
+
+			var noteX = note.Position == GraphNotePosition.Left
+				? target.X - noteW - NoteGap
+				: target.X + target.Width + NoteGap;
+
+			var noteY = target.Y + ((target.Height - noteH) / 2);
+
+			notes.Add(new PositionedGraphNote
+			{
+				Text = note.Text,
+				X = noteX,
+				Y = noteY,
+				Width = noteW,
+				Height = noteH,
+			});
+
+			maxX = Math.Max(maxX, noteX + noteW + NoteGap);
+			maxY = Math.Max(maxY, noteY + noteH + NoteGap);
+		}
+
+		return positioned with
+		{
+			Width = maxX,
+			Height = maxY,
+			Notes = notes,
+		};
 	}
 }

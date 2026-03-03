@@ -1,0 +1,40 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 202" width="220" height="202" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 4%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+  }
+  .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+</defs>
+
+<g class="entity" data-id="PRODUCT" data-label="PRODUCT">
+  <rect x="40" y="40" width="140" height="122" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="40" y="40" width="140" height="34" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="110" y="57" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">PRODUCT</text>
+  <line x1="40" y1="74" x2="180" y2="74" stroke="var(--_node-stroke)" stroke-width="2" />
+  <g><title>Auto-increment</title><rect x="46" y="78" width="23.9" height="14" rx="7" ry="7" fill="var(--_key-badge)" /><text x="57.95" y="85" text-anchor="middle" dy="0.35em" font-size="10" font-weight="600" fill="var(--_text-sec)">PK</text><text class="mono" x="77.9" y="85" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="172" y="85" text-anchor="end" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text)">id</tspan></text></g>
+  <g><title>Required</title><text class="mono" x="48" y="107" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-sec)">string</tspan></text><text class="mono" x="172" y="107" text-anchor="end" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text)">name</tspan></text></g>
+  <g><title>In USD</title><text class="mono" x="48" y="129" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-sec)">decimal</tspan></text><text class="mono" x="172" y="129" text-anchor="end" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text)">price</tspan></text></g>
+  <g><title>Non-negative</title><text class="mono" x="48" y="151" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="172" y="151" text-anchor="end" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text)">stock</tspan></text></g>
+</g>
+</svg>

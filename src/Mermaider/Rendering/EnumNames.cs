@@ -9,6 +9,7 @@ internal static class EnumNames
 		EdgeStyle.Solid => "solid",
 		EdgeStyle.Dotted => "dotted",
 		EdgeStyle.Thick => "thick",
+		EdgeStyle.Invisible => "invisible",
 		_ => style.ToString().ToLowerInvariant(),
 	};
 
@@ -28,6 +29,7 @@ internal static class EnumNames
 		NodeShape.TrapezoidAlt => "trapezoidalt",
 		NodeShape.StateStart => "statestart",
 		NodeShape.StateEnd => "stateend",
+		NodeShape.ForkJoin => "forkjoin",
 		_ => shape.ToString().ToLowerInvariant(),
 	};
 
@@ -48,6 +50,7 @@ internal static class EnumNames
 		ClassRelationType.Association => "association",
 		ClassRelationType.Dependency => "dependency",
 		ClassRelationType.Realization => "realization",
+		ClassRelationType.Lollipop => "lollipop",
 		_ => t.ToString().ToLowerInvariant(),
 	};
 

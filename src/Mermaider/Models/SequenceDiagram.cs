@@ -7,6 +7,9 @@ public sealed record SequenceDiagram
 	public required IReadOnlyList<SequenceMessage> Messages { get; init; }
 	public required IReadOnlyList<SequenceBlock> Blocks { get; init; }
 	public required IReadOnlyList<SequenceNote> Notes { get; init; }
+	public IReadOnlyList<SequenceBox> Boxes { get; init; } = [];
+	public IReadOnlyList<SequenceCreate> Creates { get; init; } = [];
+	public IReadOnlyList<SequenceDestroy> Destroys { get; init; } = [];
 }
 
 public readonly record struct SequenceActor(string Id, string Label, SequenceActorType Type);
@@ -20,7 +23,8 @@ public sealed record SequenceMessage(
 	SequenceLineStyle LineStyle,
 	SequenceArrowHead ArrowHead,
 	bool Activate = false,
-	bool Deactivate = false
+	bool Deactivate = false,
+	bool Bidirectional = false
 );
 
 public enum SequenceLineStyle { Solid, Dashed }
@@ -47,3 +51,9 @@ public sealed record SequenceNote(
 );
 
 public enum SequenceNotePosition { Left, Right, Over }
+
+public sealed record SequenceBox(string? Color, string Title, IReadOnlyList<string> ActorIds);
+
+public sealed record SequenceCreate(string ActorId, int AtMessageIndex);
+
+public sealed record SequenceDestroy(string ActorId, int AtMessageIndex);

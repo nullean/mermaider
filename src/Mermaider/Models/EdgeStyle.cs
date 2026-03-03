@@ -5,5 +5,6 @@ public enum EdgeStyle
 {
 	Solid,
 	Dotted,
-	Thick
+	Thick,
+	Invisible
 }

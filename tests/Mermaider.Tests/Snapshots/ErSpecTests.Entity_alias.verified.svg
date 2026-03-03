@@ -1,0 +1,55 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 487.81 159" width="487.81" height="159" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 4%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+  }
+  .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+</defs>
+
+<path class="er-relationship" data-entity1="p" data-entity2="o" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="places" d="M185.81,79 L275.81,79" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<g class="entity" data-id="p" data-label="Customer Account">
+  <rect x="40" y="40" width="145.81" height="78" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="40" y="40" width="145.81" height="34" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="112.905" y="57" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Customer Account</text>
+  <line x1="40" y1="74" x2="185.81" y2="74" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="46" y="78" width="23.9" height="14" rx="7" ry="7" fill="var(--_key-badge)" /><text x="57.95" y="85" text-anchor="middle" dy="0.35em" font-size="10" font-weight="600" fill="var(--_text-sec)">PK</text><text class="mono" x="77.9" y="85" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="177.81" y="85" text-anchor="end" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text)">id</tspan></text>
+  <text class="mono" x="48" y="107" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-sec)">string</tspan></text><text class="mono" x="177.81" y="107" text-anchor="end" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text)">name</tspan></text>
+</g>
+<g class="entity" data-id="o" data-label="Order">
+  <rect x="275.81" y="40" width="172" height="78" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="275.81" y="40" width="172" height="34" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="361.81" y="57" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Order</text>
+  <line x1="275.81" y1="74" x2="447.81" y2="74" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="281.81" y="78" width="23.9" height="14" rx="7" ry="7" fill="var(--_key-badge)" /><text x="293.76" y="85" text-anchor="middle" dy="0.35em" font-size="10" font-weight="600" fill="var(--_text-sec)">PK</text><text class="mono" x="313.71" y="85" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="439.81" y="85" text-anchor="end" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text)">id</tspan></text>
+  <rect x="281.81" y="100" width="23.9" height="14" rx="7" ry="7" fill="var(--_key-badge)" /><text x="293.76" y="107" text-anchor="middle" dy="0.35em" font-size="10" font-weight="600" fill="var(--_text-sec)">FK</text><text class="mono" x="313.71" y="107" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="439.81" y="107" text-anchor="end" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text)">customer_id</tspan></text>
+</g>
+<line x1="189.81" y1="73" x2="189.81" y2="85" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="193.81" y1="73" x2="193.81" y2="85" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="271.81" y1="86" x2="259.81" y2="79" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="271.81" y1="79" x2="259.81" y2="79" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="271.81" y1="72" x2="259.81" y2="79" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="255.81" cy="79" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<rect x="208.414" y="68.2" width="44.79200000000001" height="21.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="230.81" y="79" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-sec)" dy="4.199999999999999">places</text>
+</svg>

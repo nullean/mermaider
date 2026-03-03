@@ -10,7 +10,7 @@
     --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 4%, var(--bg)));
-    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 14%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
     --_group-fill:    var(--bg);
     --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
@@ -36,8 +36,8 @@
 <line class="lifeline" data-actor="Client" x1="70" y1="70" x2="70" y2="250" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
 <line class="lifeline" data-actor="Server" x1="210" y1="70" x2="210" y2="250" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
 <line class="lifeline" data-actor="DB" x1="350" y1="70" x2="350" y2="250" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
-<rect class="activation" data-actor="DB" x="345" y="130" width="10" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.5" />
-<rect class="activation" data-actor="Server" x="205" y="90" width="10" height="120" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.5" />
+<rect class="activation" data-actor="DB" x="345" y="130" width="10" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+<rect class="activation" data-actor="Server" x="205" y="90" width="10" height="120" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
 <g class="message" data-from="Client" data-to="Server" data-label="Request" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="70" y1="90" x2="210" y2="90" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
   <text x="140" y="80" font-size="13" text-anchor="middle" font-weight="400" fill="var(--_text-sec)" dy="4.55">Request</text>
@@ -55,15 +55,15 @@
   <text x="140" y="200" font-size="13" text-anchor="middle" font-weight="400" fill="var(--_text-sec)" dy="4.55">Response</text>
 </g>
 <g class="actor" data-id="Client" data-label="Client" data-type="participant">
-  <rect x="30" y="30" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.25" />
+  <rect x="30" y="30" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
   <text x="70" y="50" font-size="14" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Client</text>
 </g>
 <g class="actor" data-id="Server" data-label="Server" data-type="participant">
-  <rect x="169.808" y="30" width="80.384" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.25" />
+  <rect x="169.808" y="30" width="80.384" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
   <text x="210" y="50" font-size="14" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Server</text>
 </g>
 <g class="actor" data-id="DB" data-label="DB" data-type="participant">
-  <rect x="310" y="30" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.25" />
+  <rect x="310" y="30" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
   <text x="350" y="50" font-size="14" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">DB</text>
 </g>
 </svg>

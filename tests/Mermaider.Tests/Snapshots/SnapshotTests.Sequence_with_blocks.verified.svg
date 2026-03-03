@@ -10,7 +10,7 @@
     --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 4%, var(--bg)));
-    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 14%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
     --_group-fill:    var(--bg);
     --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
@@ -34,15 +34,15 @@
 </defs>
 
 <g class="block" data-type="alt" data-label="Success">
-  <rect x="30" y="78" width="240" height="124" rx="8" ry="8" fill="none" stroke="var(--_group-stroke)" stroke-width="1.25" />
-  <rect x="30" y="78" width="91.96" height="18" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.25" />
+  <rect x="30" y="78" width="240" height="124" rx="8" ry="8" fill="none" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <rect x="30" y="78" width="91.96" height="18" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
   <text x="36" y="87" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">alt [Success]</text>
   <line x1="30" y1="154" x2="270" y2="154" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
   <text x="38" y="168" font-size="12" text-anchor="start" font-weight="400" fill="var(--_text-sec)" dy="4.199999999999999">[Failure]</text>
 </g>
 <g class="block" data-type="loop" data-label="Retry">
-  <rect x="30" y="210" width="240" height="60" rx="8" ry="8" fill="none" stroke="var(--_group-stroke)" stroke-width="1.25" />
-  <rect x="30" y="210" width="83.32" height="18" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.25" />
+  <rect x="30" y="210" width="240" height="60" rx="8" ry="8" fill="none" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <rect x="30" y="210" width="83.32" height="18" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
   <text x="36" y="219" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">loop [Retry]</text>
 </g>
 <line class="lifeline" data-actor="A" x1="80" y1="70" x2="80" y2="290" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
@@ -60,11 +60,11 @@
   <text x="150" y="240" font-size="13" text-anchor="middle" font-weight="400" fill="var(--_text-sec)" dy="4.55">Ping</text>
 </g>
 <g class="actor" data-id="A" data-label="A" data-type="participant">
-  <rect x="40" y="30" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.25" />
+  <rect x="40" y="30" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
   <text x="80" y="50" font-size="14" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">A</text>
 </g>
 <g class="actor" data-id="B" data-label="B" data-type="participant">
-  <rect x="180" y="30" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.25" />
+  <rect x="180" y="30" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
   <text x="220" y="50" font-size="14" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">B</text>
 </g>
 </svg>

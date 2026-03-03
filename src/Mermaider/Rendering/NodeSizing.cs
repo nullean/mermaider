@@ -39,6 +39,8 @@ internal static class NodeSizing
 				break;
 			case NodeShape.StateStart or NodeShape.StateEnd:
 				return (28, 40);
+			case NodeShape.ForkJoin:
+				return (120, 8);
 		}
 
 		width = Math.Max(width, 64);

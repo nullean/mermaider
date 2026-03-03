@@ -4,6 +4,7 @@ public sealed record ErDiagram
 {
 	public required IReadOnlyList<ErEntity> Entities { get; init; }
 	public required IReadOnlyList<ErRelationship> Relationships { get; init; }
+	public Direction? Direction { get; init; }
 }
 
 public sealed record ErEntity

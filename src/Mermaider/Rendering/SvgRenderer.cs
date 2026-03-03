@@ -45,19 +45,25 @@ internal static class SvgRenderer
 			AppendGroupBody(sb, group);
 
 		foreach (var edge in graph.Edges)
-			AppendEdge(sb, edge);
+		{
+			if (edge.Style != EdgeStyle.Invisible)
+				AppendEdge(sb, edge);
+		}
 
 		foreach (var group in graph.Groups)
 			AppendGroupHeader(sb, group, font);
 
 		foreach (var edge in graph.Edges)
 		{
-			if (edge.Label is not null)
+			if (edge.Style != EdgeStyle.Invisible && edge.Label is not null)
 				AppendEdgeLabel(sb, edge);
 		}
 
 		foreach (var node in graph.Nodes)
 			AppendNode(sb, node, strict);
+
+		foreach (var note in graph.Notes)
+			AppendNote(sb, note);
 
 		_ = sb.Append("\n</svg>");
 		return sb;
@@ -374,6 +380,9 @@ internal static class SvgRenderer
 			case NodeShape.StateEnd:
 				AppendStateEnd(sb, x, y, w, h);
 				break;
+			case NodeShape.ForkJoin:
+				AppendForkJoin(sb, x, y, w, h);
+				break;
 		}
 	}
 
@@ -551,18 +560,106 @@ internal static class SvgRenderer
 			.Append("\" fill=\"var(--_text)\" stroke=\"none\" />");
 	}
 
+	private static readonly string NoteTextAttrs = TextAttrs.EdgeLabelCenterFill + "var(--_accent-text)\"";
+
+	private static void AppendNote(StringBuilder sb, PositionedGraphNote note)
+	{
+		_ = sb.Append("\n<g class=\"note\">\n");
+		_ = sb.Append("  <rect x=\"").Append(note.X).Append("\" y=\"").Append(note.Y)
+			.Append("\" width=\"").Append(note.Width).Append("\" height=\"").Append(note.Height)
+			.Append("\" rx=\"6\" ry=\"6\"")
+			.Append(" fill=\"var(--_accent-fill)\" stroke=\"var(--_accent-stroke)\" stroke-width=\"")
+			.Append(StrokeWidths.InnerBox).Append("\" />\n  ");
+
+		MultilineUtils.AppendMultilineText(
+			sb, note.Text,
+			note.X + (note.Width / 2), note.Y + (note.Height / 2),
+			FontSizes.EdgeLabel,
+			NoteTextAttrs);
+		_ = sb.Append("\n</g>");
+	}
+
+	private static void AppendForkJoin(StringBuilder sb, double x, double y, double w, double h)
+	{
+		_ = sb.Append("<rect x=\"").Append(x).Append("\" y=\"").Append(y)
+			.Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
+			.Append("\" rx=\"2\" ry=\"2\" fill=\"var(--_text)\" stroke=\"none\" />");
+	}
+
 	private static void AppendNodeLabel(StringBuilder sb, PositionedNode node)
 	{
-		if (node.Shape is NodeShape.StateStart or NodeShape.StateEnd && string.IsNullOrEmpty(node.Label))
+		if (node.Shape is NodeShape.StateStart or NodeShape.StateEnd or NodeShape.ForkJoin && string.IsNullOrEmpty(node.Label))
 			return;
 
 		var cx = node.X + (node.Width / 2);
 		var cy = node.Y + (node.Height / 2);
 		var textColor = node.InlineStyle?.GetValueOrDefault("color") ?? "var(--_text)";
 
-		MultilineUtils.AppendMultilineText(
-			sb, node.Label, cx, cy,
-			FontSizes.NodeLabel,
-			TextAttrs.NodeLabelCenterFill + textColor + "\"");
+		if (node.IsMarkdown)
+			AppendMarkdownLabel(sb, node.Label, cx, cy, FontSizes.NodeLabel, textColor);
+		else
+			MultilineUtils.AppendMultilineText(
+				sb, node.Label, cx, cy,
+				FontSizes.NodeLabel,
+				TextAttrs.NodeLabelCenterFill + textColor + "\"");
+	}
+
+	private static void AppendMarkdownLabel(StringBuilder sb, string label, double cx, double cy, int fontSize, string fill)
+	{
+		var lines = label.Split('\n');
+		var lineHeight = fontSize * 1.3;
+		var totalHeight = lines.Length * lineHeight;
+		var startY = cy - (totalHeight / 2) + (lineHeight / 2);
+
+		_ = sb.Append("<text text-anchor=\"middle\" font-size=\"").Append(fontSize)
+			.Append("\" fill=\"").Append(fill).Append("\">");
+
+		for (var li = 0; li < lines.Length; li++)
+		{
+			var line = lines[li];
+			var y = startY + (li * lineHeight);
+
+			_ = sb.Append("<tspan x=\"").Append(cx).Append("\" y=\"").Append(y)
+				.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift).Append("\">");
+
+			var pos = 0;
+			while (pos < line.Length)
+			{
+				if (pos + 1 < line.Length && line[pos] == '*' && line[pos + 1] == '*')
+				{
+					var end = line.IndexOf("**", pos + 2, StringComparison.Ordinal);
+					if (end > 0)
+					{
+						_ = sb.Append("<tspan font-weight=\"bold\">");
+						MultilineUtils.AppendEscapedXml(sb, line.AsSpan(pos + 2, end - pos - 2));
+						_ = sb.Append("</tspan>");
+						pos = end + 2;
+						continue;
+					}
+				}
+
+				if (line[pos] == '*')
+				{
+					var end = line.IndexOf('*', pos + 1);
+					if (end > 0)
+					{
+						_ = sb.Append("<tspan font-style=\"italic\">");
+						MultilineUtils.AppendEscapedXml(sb, line.AsSpan(pos + 1, end - pos - 1));
+						_ = sb.Append("</tspan>");
+						pos = end + 1;
+						continue;
+					}
+				}
+
+				var next = line.IndexOf('*', pos);
+				var segment = next < 0 ? line.AsSpan(pos) : line.AsSpan(pos, next - pos);
+				MultilineUtils.AppendEscapedXml(sb, segment);
+				pos += segment.Length;
+			}
+
+			_ = sb.Append("</tspan>");
+		}
+
+		_ = sb.Append("</text>");
 	}
 }
