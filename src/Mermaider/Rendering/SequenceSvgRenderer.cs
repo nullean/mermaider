@@ -10,14 +10,20 @@ internal static class SequenceSvgRenderer
 	private static readonly string NodeLabelTextAttrs =
 		RenderConstants.TextAttrs.SeqNodeLabelFill + "var(--_text)\"";
 
-	private static readonly string EdgeLabelStartAttrs =
-		RenderConstants.TextAttrs.SeqEdgeLabelStartFill + "var(--_text-muted)\"";
+	private static readonly string MessageLabelStartAttrs =
+		RenderConstants.TextAttrs.SeqMessageLabelStartFill + "var(--_text-sec)\"";
 
-	private static readonly string EdgeLabelMutedAttrs =
-		RenderConstants.TextAttrs.SeqEdgeLabelCenterFill + "var(--_text-muted)\"";
+	private static readonly string MessageLabelCenterAttrs =
+		RenderConstants.TextAttrs.SeqMessageLabelCenterFill + "var(--_text-sec)\"";
+
+	private static readonly string NoteLabelAttrs =
+		RenderConstants.TextAttrs.SeqNoteCenterFill + "var(--_accent-text)\"";
 
 	private static readonly string BlockTabAttrs =
 		RenderConstants.TextAttrs.SeqBlockTabFill + "var(--_text-sec)\"";
+
+	private static readonly string BlockDividerLabelAttrs =
+		RenderConstants.TextAttrs.SeqEdgeLabelStartFill + "var(--_text-sec)\"";
 
 	internal static string Render(PositionedSequenceDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
 	{
@@ -40,6 +46,9 @@ internal static class SequenceSvgRenderer
 		StyleBlock.AppendStyleBlock(sb, font, strict);
 		AppendArrowDefs(sb);
 
+		foreach (var box in diagram.Boxes)
+			AppendBox(sb, box);
+
 		foreach (var block in diagram.Blocks)
 			AppendBlock(sb, block);
 
@@ -57,6 +66,9 @@ internal static class SequenceSvgRenderer
 
 		foreach (var actor in diagram.Actors)
 			AppendActor(sb, actor);
+
+		foreach (var dm in diagram.DestroyMarkers)
+			AppendDestroyMarker(sb, dm);
 
 		_ = sb.Append("\n</svg>");
 		return sb;
@@ -203,23 +215,24 @@ internal static class SequenceSvgRenderer
 
 			MultilineUtils.AppendMultilineText(
 				sb, msg.Label, msg.X1 + loopW + labelPadding, msg.Y + (loopH / 2),
-				RenderConstants.FontSizes.EdgeLabel,
-				EdgeLabelStartAttrs);
+				RenderConstants.FontSizes.SeqMessageLabel,
+				MessageLabelStartAttrs);
 			_ = sb.Append('\n');
 		}
 		else
 		{
+			var markerStart = msg.Bidirectional ? $" marker-start=\"url(#{markerId})\"" : "";
 			_ = sb.Append("  <line x1=\"").Append(msg.X1).Append("\" y1=\"").Append(msg.Y)
 				.Append("\" x2=\"").Append(msg.X2).Append("\" y2=\"").Append(msg.Y)
 				.Append("\" stroke=\"var(--_line)\" stroke-width=\"")
 				.Append(RenderConstants.StrokeWidths.Connector).Append('"').Append(dashArray)
-				.Append(" marker-end=\"url(#").Append(markerId).Append(")\" />\n  ");
+				.Append(" marker-end=\"url(#").Append(markerId).Append(")\"").Append(markerStart).Append(" />\n  ");
 
 			var midX = (msg.X1 + msg.X2) / 2;
 			MultilineUtils.AppendMultilineText(
 				sb, msg.Label, midX, msg.Y - 10,
-				RenderConstants.FontSizes.EdgeLabel,
-				EdgeLabelMutedAttrs);
+				RenderConstants.FontSizes.SeqMessageLabel,
+				MessageLabelCenterAttrs);
 			_ = sb.Append('\n');
 		}
 
@@ -281,7 +294,7 @@ internal static class SequenceSvgRenderer
 					sb, $"[{divider.Label}]",
 					block.X + 8, divider.Y + 14,
 					RenderConstants.FontSizes.EdgeLabel,
-					EdgeLabelStartAttrs);
+					BlockDividerLabelAttrs);
 				_ = sb.Append('\n');
 			}
 		}
@@ -310,7 +323,7 @@ internal static class SequenceSvgRenderer
 		_ = sb.Append("  <rect x=\"").Append(note.X).Append("\" y=\"").Append(note.Y)
 			.Append("\" width=\"").Append(note.Width).Append("\" height=\"").Append(note.Height)
 			.Append("\" rx=\"6\" ry=\"6\"")
-			.Append(" fill=\"var(--_group-hdr)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
+			.Append(" fill=\"var(--_accent-fill)\" stroke=\"var(--_accent-stroke)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.InnerBox).Append("\" />\n  ");
 
 		const double asymmetry = 6.0;
@@ -324,8 +337,55 @@ internal static class SequenceSvgRenderer
 			sb, note.Text,
 			textX, note.Y + (note.Height / 2),
 			RenderConstants.FontSizes.EdgeLabel,
-			EdgeLabelMutedAttrs);
+			NoteLabelAttrs);
 		_ = sb.Append('\n');
+
+		_ = sb.Append("</g>");
+	}
+
+	private static void AppendDestroyMarker(StringBuilder sb, PositionedDestroyMarker dm)
+	{
+		const double size = 12;
+		_ = sb.Append("\n<g class=\"destroy\">\n");
+		_ = sb.Append("  <line x1=\"").Append(dm.X - size).Append("\" y1=\"").Append(dm.Y - size)
+			.Append("\" x2=\"").Append(dm.X + size).Append("\" y2=\"").Append(dm.Y + size)
+			.Append("\" stroke=\"var(--_line)\" stroke-width=\"2.5\" />\n");
+		_ = sb.Append("  <line x1=\"").Append(dm.X + size).Append("\" y1=\"").Append(dm.Y - size)
+			.Append("\" x2=\"").Append(dm.X - size).Append("\" y2=\"").Append(dm.Y + size)
+			.Append("\" stroke=\"var(--_line)\" stroke-width=\"2.5\" />\n");
+		_ = sb.Append("</g>");
+	}
+
+	private static void AppendBox(StringBuilder sb, PositionedSequenceBox box)
+	{
+		_ = sb.Append("\n<g class=\"box\"");
+		if (box.Title.Length > 0)
+		{
+			_ = sb.Append(" data-label=\"");
+			MultilineUtils.AppendEscapedAttr(sb, box.Title.AsSpan());
+			_ = sb.Append('"');
+		}
+		_ = sb.Append(">\n");
+
+		var fill = box.Color ?? "var(--_group-fill)";
+		_ = sb.Append("  <rect x=\"").Append(box.X).Append("\" y=\"").Append(box.Y)
+			.Append("\" width=\"").Append(box.Width).Append("\" height=\"").Append(box.Height)
+			.Append("\" rx=\"").Append(RenderConstants.Radii.Group)
+			.Append("\" ry=\"").Append(RenderConstants.Radii.Group)
+			.Append("\" fill=\"").Append(fill)
+			.Append("\" stroke=\"var(--_group-stroke)\" stroke-width=\"")
+			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" opacity=\"0.5\" />\n");
+
+		if (box.Title.Length > 0)
+		{
+			_ = sb.Append("  ");
+			MultilineUtils.AppendMultilineText(
+				sb, box.Title,
+				box.X + (box.Width / 2), box.Y + 10,
+				RenderConstants.FontSizes.EdgeLabel,
+				BlockTabAttrs);
+			_ = sb.Append('\n');
+		}
 
 		_ = sb.Append("</g>");
 	}

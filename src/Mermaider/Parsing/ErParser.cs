@@ -8,7 +8,7 @@ internal static partial class ErParser
 {
 	private const int TimeoutMs = 2000;
 
-	[GeneratedRegex(@"^(\S+)\s*\{$", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^(\S+?)(?:\[(?:""([^""]+)""|([^\]]+))\])?\s*\{$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex EntityBlockPattern();
 
 	[GeneratedRegex(@"^(\S+)\s+(\S+)(?:\s+(.+))?$", RegexOptions.None, TimeoutMs)]
@@ -17,11 +17,14 @@ internal static partial class ErParser
 	[GeneratedRegex(@"""([^""]*)""", RegexOptions.None, TimeoutMs)]
 	private static partial Regex CommentPattern();
 
-	[GeneratedRegex(@"^(\S+)\s+([|o}{]+(?:--|\.\.)[|o}{]+)\s+(\S+)\s*:\s*(.+)$", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^(\S+)\s+([|o}{]+(?:--|\.\.)[|o}{]+)\s+(\S+)(?:\s*:\s*(.+))?$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex RelationshipPattern();
 
 	[GeneratedRegex(@"^([|o}{]+)(--|\.\.)([|o}{]+)$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex CardinalitySplitPattern();
+
+	[GeneratedRegex(@"^direction\s+(TD|TB|LR|BT|RL)\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex DirectionPattern();
 
 	internal static ErDiagram Parse(string[] lines)
 	{
@@ -41,12 +44,23 @@ internal static partial class ErParser
 	{
 		var entityMap = new Dictionary<string, (ErEntity Entity, List<ErAttributeInfo> Attrs)>();
 		var relationships = new List<ErRelationship>();
+		Direction? direction = null;
 		ErEntity? currentEntity = null;
 		List<ErAttributeInfo>? currentAttrs = null;
 
 		for (var i = 1; i < lines.Length; i++)
 		{
 			var line = lines[i];
+
+			if (currentEntity == null)
+			{
+				var dirMatch = DirectionPattern().Match(line);
+				if (dirMatch.Success)
+				{
+					direction = Enum.Parse<Direction>(dirMatch.Groups[1].Value.ToUpperInvariant());
+					continue;
+				}
+			}
 
 			if (currentEntity != null)
 			{
@@ -67,7 +81,15 @@ internal static partial class ErParser
 			if (entityMatch.Success)
 			{
 				var id = entityMatch.Groups[1].Value;
+				var alias = entityMatch.Groups[2].Success ? entityMatch.Groups[2].Value
+					: entityMatch.Groups[3].Success ? entityMatch.Groups[3].Value
+					: null;
 				var (entity, attrs) = EnsureEntity(entityMap, id);
+				if (alias != null)
+				{
+					entity = entity with { Label = alias };
+					entityMap[id] = (entity, attrs);
+				}
 				currentEntity = entity;
 				currentAttrs = attrs;
 				continue;
@@ -86,7 +108,7 @@ internal static partial class ErParser
 			.Select(v => v.Entity with { Attributes = v.Attrs })
 			.ToList();
 
-		return new ErDiagram { Entities = entities, Relationships = relationships };
+		return new ErDiagram { Entities = entities, Relationships = relationships, Direction = direction };
 	}
 
 	private static (ErEntity Entity, List<ErAttributeInfo> Attrs) EnsureEntity(
@@ -143,8 +165,8 @@ internal static partial class ErParser
 		var entity1 = match.Groups[1].Value;
 		var cardinalityStr = match.Groups[2].Value;
 		var entity2 = match.Groups[3].Value;
-		var rawLabel = match.Groups[4].Value.Trim().Trim('"', '\'');
-		var label = MultilineUtils.NormalizeBrTags(rawLabel);
+		var rawLabel = match.Groups[4].Success ? match.Groups[4].Value.Trim().Trim('"', '\'') : "";
+		var label = rawLabel.Length > 0 ? MultilineUtils.NormalizeBrTags(rawLabel) : "";
 
 		var lineMatch = CardinalitySplitPattern().Match(cardinalityStr);
 		if (!lineMatch.Success)

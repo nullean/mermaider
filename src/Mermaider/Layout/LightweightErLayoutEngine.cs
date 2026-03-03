@@ -68,7 +68,14 @@ internal static class LightweightErLayoutEngine
 			: 0;
 		var effectiveLayerSpacing = Math.Max(LayerSpacing, maxLabelW + 40);
 
-		var layoutGraph = new LayoutGraph(LayoutDirection.LR, layoutNodes, layoutEdges, []);
+		var layoutDir = diagram.Direction switch
+		{
+			Direction.TD or Direction.TB => LayoutDirection.TD,
+			Direction.RL => LayoutDirection.RL,
+			Direction.BT => LayoutDirection.BT,
+			_ => LayoutDirection.LR,
+		};
+		var layoutGraph = new LayoutGraph(layoutDir, layoutNodes, layoutEdges, []);
 		var result = SugiyamaLayout.Compute(layoutGraph, new LayoutOptions
 		{
 			Padding = Padding,

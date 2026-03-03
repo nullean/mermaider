@@ -24,7 +24,7 @@ if (args.Contains("--list-themes"))
 string? inputFile = null;
 string? outputFile = null;
 string? themeName = null;
-var transparent = false;
+var transparent = true;
 
 for (var i = 0; i < args.Length; i++)
 {
@@ -41,6 +41,9 @@ for (var i = 0; i < args.Length; i++)
 			break;
 		case "--transparent":
 			transparent = true;
+			break;
+		case "--no-transparent":
+			transparent = false;
 			break;
 		default:
 			if (!args[i].StartsWith('-') && inputFile == null)
@@ -145,7 +148,8 @@ static void PrintHelp() => Console.WriteLine("""
 		  -i, --input <file>     Input .mmd file (or pass as positional arg)
 		  -o, --output <file>    Output .svg file (default: stdout)
 		  -t, --theme <name>     Theme name (use --list-themes to see options)
-		  --transparent           Transparent background
+		  --transparent           Transparent background (default)
+		  --no-transparent        Opaque background (uses --bg color)
 		  --list-themes           List available theme names
 		  --version               Show version
 		  -h, --help              Show this help

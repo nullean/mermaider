@@ -33,7 +33,7 @@ internal static partial class FlowchartParser
 	[GeneratedRegex(@"^([\w-]+)\s*\[(.+)\]$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex SubgraphBracketPattern();
 
-	[GeneratedRegex(@"^(<)?(-{2,}>|-{3,}|-\.+->|-\.+-|={2,}>|={3,})(?:\|([^|]*)\|)?", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^(<)?(-{2,}>|-{3,}|-\.+->|-\.+-|={2,}>|={3,}|~{3,})(?:\|([^|]*)\|)?", RegexOptions.None, TimeoutMs)]
 	private static partial Regex ArrowPattern();
 
 	[GeneratedRegex(@"^(<)?(-{2}|={2}|-\.)\s+(.+?)\s+(-{2}>|={2}>|\.->)", RegexOptions.None, TimeoutMs)]
@@ -255,6 +255,14 @@ internal static partial class FlowchartParser
 				_ = nodes.Remove(sgId);
 		}
 
+		if (classDefs.ContainsKey("default"))
+		{
+			foreach (var nodeId in nodes.Keys)
+			{
+				_ = classAssignments.TryAdd(nodeId, "default");
+			}
+		}
+
 		return new MermaidGraph
 		{
 			Direction = direction,
@@ -384,8 +392,12 @@ internal static partial class FlowchartParser
 			if (match.Success)
 			{
 				id = match.Groups[1].Value;
-				var label = MultilineUtils.NormalizeBrTags(match.Groups[2].Value);
-				RegisterNode(nodes, subgraphStack, new MermaidNode(id, label, shape));
+				var rawLabel = match.Groups[2].Value;
+				var isMarkdown = rawLabel.StartsWith('`') && rawLabel.EndsWith('`');
+				var label = isMarkdown
+					? rawLabel[1..^1].Trim()
+					: MultilineUtils.NormalizeBrTags(rawLabel);
+				RegisterNode(nodes, subgraphStack, new MermaidNode(id, label, shape, isMarkdown));
 				remaining = text[match.Length..];
 				break;
 			}
@@ -445,6 +457,8 @@ internal static partial class FlowchartParser
 
 	private static EdgeStyle ArrowStyleFromOp(string op)
 	{
+		if (op.Contains('~'))
+			return EdgeStyle.Invisible;
 		if (op.Contains('.'))
 			return EdgeStyle.Dotted;
 		if (op.Contains('='))

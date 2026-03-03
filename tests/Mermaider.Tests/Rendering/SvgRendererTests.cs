@@ -58,10 +58,18 @@ public class SvgRendererTests
 	}
 
 	[Test]
-	public void TransparentBackgroundOmitsBackground()
+	public void TransparentBackgroundByDefault()
 	{
-		var svg = MermaidRenderer.RenderSvg("graph TD\n  A --> B", new() { Transparent = true });
+		var svg = MermaidRenderer.RenderSvg("graph TD\n  A --> B");
 
 		svg.Should().NotContain("background:var(--bg)");
+	}
+
+	[Test]
+	public void OpaqueBackgroundWhenTransparentDisabled()
+	{
+		var svg = MermaidRenderer.RenderSvg("graph TD\n  A --> B", new() { Transparent = false });
+
+		svg.Should().Contain("background:var(--bg)");
 	}
 }

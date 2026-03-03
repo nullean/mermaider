@@ -5,6 +5,8 @@ public sealed record ClassDiagram
 	public required IReadOnlyList<ClassNode> Classes { get; init; }
 	public required IReadOnlyList<ClassRelationship> Relationships { get; init; }
 	public required IReadOnlyList<ClassNamespace> Namespaces { get; init; }
+	public Direction? Direction { get; init; }
+	public IReadOnlyList<ClassNote> Notes { get; init; } = [];
 }
 
 public sealed record ClassNode
@@ -38,7 +40,9 @@ public sealed record ClassRelationship(
 	string? ToCardinality = null
 );
 
-public enum ClassRelationType { Inheritance, Composition, Aggregation, Association, Dependency, Realization }
+public enum ClassRelationType { Inheritance, Composition, Aggregation, Association, Dependency, Realization, Lollipop }
 public enum ClassMarkerAt { From, To }
 
 public sealed record ClassNamespace(string Name, IReadOnlyList<string> ClassIds);
+
+public sealed record ClassNote(string? TargetClassId, string Text);

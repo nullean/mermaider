@@ -11,6 +11,9 @@ internal static partial class ClassParser
 	[GeneratedRegex(@"^namespace\s+(\S+)\s*\{$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex NamespaceStartPattern();
 
+	[GeneratedRegex(@"^direction\s+(TD|TB|LR|BT|RL)\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex DirectionPattern();
+
 	[GeneratedRegex(@"^class\s+(\S+?)(?:\s*~(\w+)~)?\s*\{$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex ClassBlockPattern();
 
@@ -38,6 +41,12 @@ internal static partial class ClassParser
 	[GeneratedRegex(@"^(.+?)\(([^)]*)\)(?:\s*(.+))?$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex MethodSignaturePattern();
 
+	[GeneratedRegex(@"^note\s+(?:for\s+(\S+)\s+)?""([^""]+)""$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex NotePattern();
+
+	[GeneratedRegex(@"^(\S+?)\s+(--\(\)|\.\.?\(\)|\(\)--|\.?\(\)\.\.)\s+(\S+?)(?:\s*:\s*(.+))?$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex LollipopPattern();
+
 	internal static ClassDiagram Parse(string[] lines)
 	{
 		try
@@ -57,6 +66,8 @@ internal static partial class ClassParser
 		var classMap = new Dictionary<string, (ClassNode Node, List<ClassMember> Attrs, List<ClassMember> Methods)>();
 		var relationships = new List<ClassRelationship>();
 		var namespaces = new List<ClassNamespace>();
+		Direction? direction = null;
+		var notes = new List<ClassNote>();
 
 		ClassNode? currentClass = null;
 		List<ClassMember>? currentAttrs = null;
@@ -101,6 +112,13 @@ internal static partial class ClassParser
 					else
 						currentAttrs!.Add(member.Value.Member);
 				}
+				continue;
+			}
+
+			var dirMatch = DirectionPattern().Match(line);
+			if (dirMatch.Success)
+			{
+				direction = Enum.Parse<Direction>(dirMatch.Groups[1].Value.ToUpperInvariant());
 				continue;
 			}
 
@@ -181,6 +199,27 @@ internal static partial class ClassParser
 				}
 			}
 
+			var noteMatch = NotePattern().Match(line);
+			if (noteMatch.Success)
+			{
+				var targetClass = noteMatch.Groups[1].Success ? noteMatch.Groups[1].Value : null;
+				var text = noteMatch.Groups[2].Value;
+				notes.Add(new ClassNote(targetClass, text));
+				continue;
+			}
+
+			var lollipopMatch = LollipopPattern().Match(line);
+			if (lollipopMatch.Success)
+			{
+				var from = lollipopMatch.Groups[1].Value;
+				var to = lollipopMatch.Groups[3].Value;
+				_ = EnsureClass(classMap, from);
+				_ = EnsureClass(classMap, to);
+				var label = lollipopMatch.Groups[4].Success ? lollipopMatch.Groups[4].Value.Trim() : null;
+				relationships.Add(new ClassRelationship(from, to, ClassRelationType.Lollipop, ClassMarkerAt.To, label));
+				continue;
+			}
+
 			var rel = ParseRelationship(line);
 			if (rel != null)
 			{
@@ -194,7 +233,7 @@ internal static partial class ClassParser
 			.Select(v => v.Node with { Attributes = v.Attrs, Methods = v.Methods })
 			.ToList();
 
-		return new ClassDiagram { Classes = classes, Relationships = relationships, Namespaces = namespaces };
+		return new ClassDiagram { Classes = classes, Relationships = relationships, Namespaces = namespaces, Direction = direction, Notes = notes };
 	}
 
 	private static (ClassNode Node, List<ClassMember> Attrs, List<ClassMember> Methods) EnsureClass(

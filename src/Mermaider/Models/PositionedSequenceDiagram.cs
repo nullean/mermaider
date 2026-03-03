@@ -11,6 +11,8 @@ public sealed record PositionedSequenceDiagram
 	public required IReadOnlyList<Activation> Activations { get; init; }
 	public required IReadOnlyList<PositionedSequenceBlock> Blocks { get; init; }
 	public required IReadOnlyList<PositionedSequenceNote> Notes { get; init; }
+	public IReadOnlyList<PositionedSequenceBox> Boxes { get; init; } = [];
+	public IReadOnlyList<PositionedDestroyMarker> DestroyMarkers { get; init; } = [];
 }
 
 public sealed record PositionedSequenceActor
@@ -37,6 +39,7 @@ public sealed record PositionedSequenceMessage
 	public required double X2 { get; init; }
 	public required double Y { get; init; }
 	public required bool IsSelf { get; init; }
+	public bool Bidirectional { get; init; }
 }
 
 public sealed record Activation
@@ -70,4 +73,16 @@ public sealed record PositionedSequenceNote
 	public required double Height { get; init; }
 	public SequenceNotePosition? Position { get; init; }
 	public IReadOnlyList<string>? Actors { get; init; }
+}
+
+public readonly record struct PositionedDestroyMarker(double X, double Y);
+
+public sealed record PositionedSequenceBox
+{
+	public required string Title { get; init; }
+	public string? Color { get; init; }
+	public required double X { get; init; }
+	public required double Y { get; init; }
+	public required double Width { get; init; }
+	public required double Height { get; init; }
 }

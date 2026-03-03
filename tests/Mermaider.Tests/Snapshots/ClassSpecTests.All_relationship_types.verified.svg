@@ -1,0 +1,141 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 236" width="1040" height="236" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 4%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+  }
+  .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+  <marker id="cls-inherit" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
+    <polygon points="0 0, 12 6, 0 12" fill="var(--bg)" stroke="var(--_arrow)" stroke-width="1.5" />
+  </marker>
+  <marker id="cls-composition" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto-start-reverse">
+    <polygon points="6 0, 12 6, 6 12, 0 6" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="1" />
+  </marker>
+  <marker id="cls-aggregation" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto-start-reverse">
+    <polygon points="6 0, 12 6, 6 12, 0 6" fill="var(--bg)" stroke="var(--_arrow)" stroke-width="1.5" />
+  </marker>
+  <marker id="cls-arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
+    <polyline points="0 0, 12 6, 0 12" fill="none" stroke="var(--_arrow)" stroke-width="1.5" />
+  </marker>
+  <marker id="cls-lollipop" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto-start-reverse">
+    <circle cx="6" cy="6" r="5" fill="var(--bg)" stroke="var(--_arrow)" stroke-width="1.5" />
+  </marker>
+</defs>
+
+<path class="class-relationship" data-from="A" data-to="B" data-type="inheritance" data-marker-at="from" data-label="Inheritance" d="M100,88 L100,148" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="C" data-to="D" data-type="composition" data-marker-at="from" data-label="Composition" d="M268,88 L268,148" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-composition)" />
+<path class="class-relationship" data-from="E" data-to="F" data-type="aggregation" data-marker-at="from" data-label="Aggregation" d="M436,88 L436,148" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-aggregation)" />
+<path class="class-relationship" data-from="G" data-to="H" data-type="association" data-marker-at="to" data-label="Association" d="M604,88 L604,148" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
+<path class="class-relationship" data-from="I" data-to="J" data-type="dependency" data-marker-at="to" data-label="Dependency" d="M772,88 L772,148" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#cls-arrow)" />
+<path class="class-relationship" data-from="K" data-to="L" data-type="realization" data-marker-at="to" data-label="Realization" d="M940,88 L940,148" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#cls-inherit)" />
+<g class="class-node" data-id="A" data-label="A">
+  <rect x="40" y="40" width="120" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="40" y="40" width="120" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="100" y="56" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">A</text>
+  <line x1="40" y1="72" x2="160" y2="72" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="40" y1="80" x2="160" y2="80" stroke="var(--_node-stroke)" stroke-width="2" />
+</g>
+<g class="class-node" data-id="B" data-label="B">
+  <rect x="40" y="148" width="120" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="40" y="148" width="120" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="100" y="164" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">B</text>
+  <line x1="40" y1="180" x2="160" y2="180" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="40" y1="188" x2="160" y2="188" stroke="var(--_node-stroke)" stroke-width="2" />
+</g>
+<g class="class-node" data-id="C" data-label="C">
+  <rect x="208" y="40" width="120" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="208" y="40" width="120" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="268" y="56" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">C</text>
+  <line x1="208" y1="72" x2="328" y2="72" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="208" y1="80" x2="328" y2="80" stroke="var(--_node-stroke)" stroke-width="2" />
+</g>
+<g class="class-node" data-id="D" data-label="D">
+  <rect x="208" y="148" width="120" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="208" y="148" width="120" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="268" y="164" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">D</text>
+  <line x1="208" y1="180" x2="328" y2="180" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="208" y1="188" x2="328" y2="188" stroke="var(--_node-stroke)" stroke-width="2" />
+</g>
+<g class="class-node" data-id="E" data-label="E">
+  <rect x="376" y="40" width="120" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="376" y="40" width="120" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="436" y="56" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">E</text>
+  <line x1="376" y1="72" x2="496" y2="72" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="376" y1="80" x2="496" y2="80" stroke="var(--_node-stroke)" stroke-width="2" />
+</g>
+<g class="class-node" data-id="F" data-label="F">
+  <rect x="376" y="148" width="120" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="376" y="148" width="120" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="436" y="164" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">F</text>
+  <line x1="376" y1="180" x2="496" y2="180" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="376" y1="188" x2="496" y2="188" stroke="var(--_node-stroke)" stroke-width="2" />
+</g>
+<g class="class-node" data-id="G" data-label="G">
+  <rect x="544" y="40" width="120" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="544" y="40" width="120" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="604" y="56" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">G</text>
+  <line x1="544" y1="72" x2="664" y2="72" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="544" y1="80" x2="664" y2="80" stroke="var(--_node-stroke)" stroke-width="2" />
+</g>
+<g class="class-node" data-id="H" data-label="H">
+  <rect x="544" y="148" width="120" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="544" y="148" width="120" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="604" y="164" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">H</text>
+  <line x1="544" y1="180" x2="664" y2="180" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="544" y1="188" x2="664" y2="188" stroke="var(--_node-stroke)" stroke-width="2" />
+</g>
+<g class="class-node" data-id="I" data-label="I">
+  <rect x="712" y="40" width="120" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="712" y="40" width="120" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="772" y="56" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">I</text>
+  <line x1="712" y1="72" x2="832" y2="72" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="712" y1="80" x2="832" y2="80" stroke="var(--_node-stroke)" stroke-width="2" />
+</g>
+<g class="class-node" data-id="J" data-label="J">
+  <rect x="712" y="148" width="120" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="712" y="148" width="120" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="772" y="164" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">J</text>
+  <line x1="712" y1="180" x2="832" y2="180" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="712" y1="188" x2="832" y2="188" stroke="var(--_node-stroke)" stroke-width="2" />
+</g>
+<g class="class-node" data-id="K" data-label="K">
+  <rect x="880" y="40" width="120" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="880" y="40" width="120" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="940" y="56" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">K</text>
+  <line x1="880" y1="72" x2="1000" y2="72" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="880" y1="80" x2="1000" y2="80" stroke="var(--_node-stroke)" stroke-width="2" />
+</g>
+<g class="class-node" data-id="L" data-label="L">
+  <rect x="880" y="148" width="120" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="880" y="148" width="120" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="940" y="164" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">L</text>
+  <line x1="880" y1="180" x2="1000" y2="180" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="880" y1="188" x2="1000" y2="188" stroke="var(--_node-stroke)" stroke-width="2" />
+</g>
+<text x="100" y="104" font-size="12" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">Inheritance</text>
+<text x="268" y="104" font-size="12" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">Composition</text>
+<text x="436" y="104" font-size="12" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">Aggregation</text>
+<text x="604" y="104" font-size="12" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">Association</text>
+<text x="772" y="104" font-size="12" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">Dependency</text>
+<text x="940" y="104" font-size="12" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">Realization</text>
+</svg>

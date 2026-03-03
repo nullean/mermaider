@@ -18,11 +18,15 @@ internal static class StyleBlock
 		internal const int Line = 32;
 		internal const int Arrow = 70;
 		internal const int NodeFill = 4;
-		internal const int NodeStroke = 14;
+		internal const int NodeStroke = 22;
 		internal const int GroupHeader = 4;
 		internal const int GroupStroke = 10;
 		internal const int InnerStroke = 10;
 		internal const int KeyBadge = 8;
+
+		internal const int AccentFill = 8;
+		internal const int AccentStroke = 20;
+		internal const int AccentText = 65;
 	}
 
 	internal static void AppendSvgOpenTag(
@@ -77,6 +81,9 @@ internal static class StyleBlock
 		_ = sb.Append("    --_group-stroke:  color-mix(in srgb, var(--fg) ").Append(Mix.GroupStroke).Append("%, var(--bg));\n");
 		_ = sb.Append("    --_inner-stroke:  color-mix(in srgb, var(--fg) ").Append(Mix.InnerStroke).Append("%, var(--bg));\n");
 		_ = sb.Append("    --_key-badge:     color-mix(in srgb, var(--fg) ").Append(Mix.KeyBadge).Append("%, var(--bg));\n");
+		_ = sb.Append("    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) ").Append(Mix.AccentFill).Append("%, var(--bg));\n");
+		_ = sb.Append("    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) ").Append(Mix.AccentStroke).Append("%, var(--bg));\n");
+		_ = sb.Append("    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) ").Append(Mix.AccentText).Append("%, var(--bg));\n");
 		_ = sb.Append("  }\n");
 		_ = sb.Append("  .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }\n");
 		_ = sb.Append("  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }\n");

@@ -48,6 +48,9 @@ internal static class ClassSvgRenderer
 		foreach (var rel in diagram.Relationships)
 			AppendRelationshipLabels(sb, rel);
 
+		foreach (var note in diagram.Notes)
+			AppendNote(sb, note);
+
 		_ = sb.Append("\n</svg>");
 		return sb;
 	}
@@ -98,6 +101,16 @@ internal static class ClassSvgRenderer
 		_ = sb.Append("    <polyline points=\"0 0, ").Append(w).Append(' ').Append(hh)
 			.Append(", 0 ").Append(h)
 			.Append("\" fill=\"none\" stroke=\"var(--_arrow)\" stroke-width=\"1.5\" />\n");
+		_ = sb.Append("  </marker>\n");
+
+		_ = sb.Append("  <marker id=\"cls-lollipop\" markerUnits=\"userSpaceOnUse\" markerWidth=\"").Append(w)
+			.Append("\" markerHeight=\"").Append(h)
+			.Append("\" refX=\"").Append(hw)
+			.Append("\" refY=\"").Append(hh)
+			.Append("\" orient=\"auto-start-reverse\">\n");
+		_ = sb.Append("    <circle cx=\"").Append(hw).Append("\" cy=\"").Append(hh)
+			.Append("\" r=\"").Append(hh - 1)
+			.Append("\" fill=\"var(--bg)\" stroke=\"var(--_arrow)\" stroke-width=\"1.5\" />\n");
 		_ = sb.Append("  </marker>\n");
 
 		_ = sb.Append("</defs>\n");
@@ -264,6 +277,7 @@ internal static class ClassSvgRenderer
 			ClassRelationType.Composition => "cls-composition",
 			ClassRelationType.Aggregation => "cls-aggregation",
 			ClassRelationType.Association or ClassRelationType.Dependency => "cls-arrow",
+			ClassRelationType.Lollipop => "cls-lollipop",
 			_ => null,
 		};
 		if (markerId == null)
@@ -331,5 +345,25 @@ internal static class ClassSvgRenderer
 		if (Math.Abs(dx) > Math.Abs(dy))
 			return (dx > 0 ? 14 : -14, -10);
 		return (-14, dy > 0 ? 14 : -14);
+	}
+
+	private static readonly string NoteTextAttrs =
+		RenderConstants.TextAttrs.EdgeLabelCenterFill + "var(--_accent-text)\"";
+
+	private static void AppendNote(StringBuilder sb, PositionedGraphNote note)
+	{
+		_ = sb.Append("\n<g class=\"note\">\n");
+		_ = sb.Append("  <rect x=\"").Append(note.X).Append("\" y=\"").Append(note.Y)
+			.Append("\" width=\"").Append(note.Width).Append("\" height=\"").Append(note.Height)
+			.Append("\" rx=\"6\" ry=\"6\"")
+			.Append(" fill=\"var(--_accent-fill)\" stroke=\"var(--_accent-stroke)\" stroke-width=\"")
+			.Append(RenderConstants.StrokeWidths.InnerBox).Append("\" />\n  ");
+
+		MultilineUtils.AppendMultilineText(
+			sb, note.Text,
+			note.X + (note.Width / 2), note.Y + (note.Height / 2),
+			RenderConstants.FontSizes.EdgeLabel,
+			NoteTextAttrs);
+		_ = sb.Append("\n</g>");
 	}
 }

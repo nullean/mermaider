@@ -16,5 +16,6 @@ public enum NodeShape
 	Trapezoid,
 	TrapezoidAlt,
 	StateStart,
-	StateEnd
+	StateEnd,
+	ForkJoin
 }

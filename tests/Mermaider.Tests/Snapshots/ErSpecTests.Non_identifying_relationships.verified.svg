@@ -1,0 +1,98 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 459.048 380" width="459.048" height="380" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 4%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+  }
+  .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+</defs>
+
+<path class="er-relationship" data-entity1="PARENT" data-entity2="CHILD" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="has" d="M180,68 L279.048,68" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="CATEGORY" data-entity2="PRODUCT" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="false" data-label="classifies" d="M180,184 L279.048,184" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" />
+<path class="er-relationship" data-entity1="TEAM" data-entity2="MEMBER" data-cardinality1="many" data-cardinality2="many" data-identifying="false" data-label="includes" d="M180,300 L279.048,300" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" />
+<g class="entity" data-id="PARENT" data-label="PARENT">
+  <rect x="40" y="40" width="140" height="56" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="40" y="40" width="140" height="34" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="110" y="57" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">PARENT</text>
+  <line x1="40" y1="74" x2="180" y2="74" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="110" y="85" text-anchor="middle" dy="0.35em" font-size="12" fill="var(--_text-muted)" font-style="italic">(no attributes)</text>
+</g>
+<g class="entity" data-id="CHILD" data-label="CHILD">
+  <rect x="279.048" y="40" width="140" height="56" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="279.048" y="40" width="140" height="34" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="349.048" y="57" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">CHILD</text>
+  <line x1="279.048" y1="74" x2="419.048" y2="74" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="349.048" y="85" text-anchor="middle" dy="0.35em" font-size="12" fill="var(--_text-muted)" font-style="italic">(no attributes)</text>
+</g>
+<g class="entity" data-id="CATEGORY" data-label="CATEGORY">
+  <rect x="40" y="156" width="140" height="56" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="40" y="156" width="140" height="34" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="110" y="173" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">CATEGORY</text>
+  <line x1="40" y1="190" x2="180" y2="190" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="110" y="201" text-anchor="middle" dy="0.35em" font-size="12" fill="var(--_text-muted)" font-style="italic">(no attributes)</text>
+</g>
+<g class="entity" data-id="PRODUCT" data-label="PRODUCT">
+  <rect x="279.048" y="156" width="140" height="56" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="279.048" y="156" width="140" height="34" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="349.048" y="173" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">PRODUCT</text>
+  <line x1="279.048" y1="190" x2="419.048" y2="190" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="349.048" y="201" text-anchor="middle" dy="0.35em" font-size="12" fill="var(--_text-muted)" font-style="italic">(no attributes)</text>
+</g>
+<g class="entity" data-id="TEAM" data-label="TEAM">
+  <rect x="40" y="272" width="140" height="56" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="40" y="272" width="140" height="34" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="110" y="289" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">TEAM</text>
+  <line x1="40" y1="306" x2="180" y2="306" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="110" y="317" text-anchor="middle" dy="0.35em" font-size="12" fill="var(--_text-muted)" font-style="italic">(no attributes)</text>
+</g>
+<g class="entity" data-id="MEMBER" data-label="MEMBER">
+  <rect x="279.048" y="272" width="140" height="56" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="279.048" y="272" width="140" height="34" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="349.048" y="289" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">MEMBER</text>
+  <line x1="279.048" y1="306" x2="419.048" y2="306" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="349.048" y="317" text-anchor="middle" dy="0.35em" font-size="12" fill="var(--_text-muted)" font-style="italic">(no attributes)</text>
+</g>
+<line x1="184" y1="62" x2="184" y2="74" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="188" y1="62" x2="188" y2="74" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="275.048" y1="75" x2="263.048" y2="68" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="275.048" y1="68" x2="263.048" y2="68" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="275.048" y1="61" x2="263.048" y2="68" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="184" y1="178" x2="184" y2="190" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="188" y1="178" x2="188" y2="190" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="275.048" y1="191" x2="263.048" y2="184" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="275.048" y1="184" x2="263.048" y2="184" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="275.048" y1="177" x2="263.048" y2="184" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="259.048" cy="184" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="184" y1="293" x2="196" y2="300" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="184" y1="300" x2="196" y2="300" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="184" y1="307" x2="196" y2="300" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="275.048" y1="307" x2="263.048" y2="300" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="275.048" y1="300" x2="263.048" y2="300" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="275.048" y1="293" x2="263.048" y2="300" stroke="var(--_line)" stroke-width="2.5" />
+<rect x="214.904" y="57.2" width="29.240000000000002" height="21.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="229.524" y="68" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-sec)" dy="4.199999999999999">has</text>
+<rect x="200" y="173.2" width="59.04800000000001" height="21.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="229.524" y="184" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-sec)" dy="4.199999999999999">classifies</text>
+<rect x="202.592" y="289.2" width="53.864" height="21.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="229.524" y="300" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-sec)" dy="4.199999999999999">includes</text>
+</svg>

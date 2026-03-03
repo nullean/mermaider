@@ -1,0 +1,107 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 541.179 1166.056" width="541.179" height="1166.056" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 4%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+  }
+  .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+  <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="1" refY="6" orient="auto-start-reverse">
+    <polygon points="12 0, 0 6, 12 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+
+<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M232.966,86.2 L232.966,158.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" d="M232.966,311.31199999999995 L232.966,341.31199999999995 Q232.966,347.31199999999995 226.966,347.31199999999995 L116.137,347.31199999999995 Q110.137,347.31199999999995 110.137,353.31199999999995 L110.137,383.31199999999995" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="B" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="No" d="M232.966,311.31199999999995 L232.966,341.31199999999995 Q232.966,347.31199999999995 238.966,347.31199999999995 L349.79499999999996,347.31199999999995 Q355.79499999999996,347.31199999999995 355.79499999999996,353.31199999999995 L355.79499999999996,383.31199999999995" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="D" data-to="E" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" d="M355.79499999999996,518.8679999999999 L355.79499999999996,548.8679999999999 Q355.79499999999996,554.8679999999999 349.79499999999996,554.8679999999999 L214.69299999999998,554.8679999999999 Q208.69299999999998,554.8679999999999 208.69299999999998,560.8679999999999 L208.69299999999998,590.8679999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="D" data-to="F" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="No" d="M355.79499999999996,518.8679999999999 L355.79499999999996,549.6585 Q355.79499999999996,554.8679999999999 361.00449999999995,554.8679999999999 L361.00449999999995,554.8679999999999 Q366.21399999999994,554.8679999999999 366.21399999999994,560.0774999999999 L366.21399999999994,590.8679999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="E" data-to="G" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M208.69299999999998,637.068 L208.69299999999998,667.068 Q208.69299999999998,673.068 214.69299999999998,673.068 L261.658,673.068 Q267.658,673.068 267.658,679.068 L267.658,709.068" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="F" data-to="G" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M366.21399999999994,637.068 L366.21399999999994,667.068 Q366.21399999999994,673.068 360.21399999999994,673.068 L273.658,673.068 Q267.658,673.068 267.658,679.068 L267.658,709.068" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="G" data-to="H" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M267.658,755.268 L267.658,827.268" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="H" data-to="I" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" d="M267.658,950.056 L267.658,1022.056" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="H" data-to="A" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="No" d="M329.052,888.662 L455.179,888.662 Q461.179,888.662 461.179,882.662 L461.179,69.1 Q461.179,63.1 455.179,63.1 L273.178,63.1" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="C" data-to="G" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M110.137,429.51199999999994 L110.137,584.8679999999999 Q110.137,590.8679999999999 110.137,596.8679999999999 L110.137,643.968 Q110.137,649.968 116.137,649.968 L261.658,649.968 Q267.658,649.968 267.658,655.968 L267.658,709.068" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<g class="edge-label" data-from="B" data-to="C" data-label="Yes">
+  <rect x="164.56640000000002" y="331.51199999999994" width="38.536" height="31.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+<text x="183.83440000000002" y="347.31199999999995" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-sec)" dy="4.199999999999999">Yes</text>
+</g>
+<g class="edge-label" data-from="B" data-to="D" data-label="No">
+  <rect x="266.0696" y="331.51199999999994" width="32.056" height="31.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+<text x="282.0976" y="347.31199999999995" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-sec)" dy="4.199999999999999">No</text>
+</g>
+<g class="edge-label" data-from="D" data-to="E" data-label="Yes">
+  <rect x="277.6862" y="539.068" width="38.536" height="31.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+<text x="296.95419999999996" y="554.8679999999999" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-sec)" dy="4.199999999999999">Yes</text>
+</g>
+<g class="edge-label" data-from="D" data-to="F" data-label="No">
+  <rect x="339.76699999999994" y="517.468" width="32.056" height="31.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+<text x="355.79499999999996" y="533.2679999999999" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-sec)" dy="4.199999999999999">No</text>
+</g>
+<g class="edge-label" data-from="H" data-to="I" data-label="Yes">
+  <rect x="248.39000000000001" y="963.056" width="38.536" height="31.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+<text x="267.658" y="978.856" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-sec)" dy="4.199999999999999">Yes</text>
+</g>
+<g class="edge-label" data-from="H" data-to="A" data-label="No">
+  <rect x="445.15099999999995" y="377.5248" width="32.056" height="31.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+<text x="461.179" y="393.32480000000004" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-sec)" dy="4.199999999999999">No</text>
+</g>
+<g class="node" data-id="A" data-label="Start" data-shape="rectangle">
+  <rect x="192.754" y="40" width="80.424" height="46.2" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="232.966" y="63.1" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Start</text>
+</g>
+<g class="node" data-id="B" data-label="Is it raining?" data-shape="diamond">
+  <polygon points="232.966,158.2 309.522,234.75599999999997 232.966,311.31199999999995 156.41000000000003,234.75599999999997" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="232.966" y="234.75599999999997" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Is it raining?</text>
+</g>
+<g class="node" data-id="C" data-label="Take umbrella" data-shape="rectangle">
+  <rect x="40" y="383.31199999999995" width="140.274" height="46.2" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="110.137" y="406.412" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Take umbrella</text>
+</g>
+<g class="node" data-id="D" data-label="Is it cold?" data-shape="diamond">
+  <polygon points="355.79499999999996,383.3119999999999 423.573,451.0899999999999 355.79499999999996,518.8679999999999 288.01699999999994,451.0899999999999" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="355.79499999999996" y="451.0899999999999" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Is it cold?</text>
+</g>
+<g class="node" data-id="E" data-label="Wear jacket" data-shape="rectangle">
+  <rect x="146.137" y="590.8679999999999" width="125.11199999999998" height="46.2" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="208.69299999999998" y="613.968" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Wear jacket</text>
+</g>
+<g class="node" data-id="F" data-label="Dress light" data-shape="rectangle">
+  <rect x="307.24899999999997" y="590.8679999999999" width="117.93" height="46.2" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="366.21399999999994" y="613.968" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Dress light</text>
+</g>
+<g class="node" data-id="G" data-label="Go outside" data-shape="rectangle">
+  <rect x="209.49099999999999" y="709.068" width="116.334" height="46.2" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="267.658" y="732.168" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Go outside</text>
+</g>
+<g class="node" data-id="H" data-label="Enjoy?" data-shape="diamond">
+  <polygon points="267.658,827.268 329.052,888.662 267.658,950.056 206.264,888.662" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="267.658" y="888.662" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Enjoy?</text>
+</g>
+<g class="node" data-id="I" data-label="Done" data-shape="circle">
+  <circle cx="267.658" cy="1074.056" r="52" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="267.658" y="1074.056" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Done</text>
+</g>
+</svg>

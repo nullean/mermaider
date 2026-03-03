@@ -8,6 +8,7 @@ public sealed record PositionedGraph
 	public required IReadOnlyList<PositionedNode> Nodes { get; init; }
 	public required IReadOnlyList<PositionedEdge> Edges { get; init; }
 	public required IReadOnlyList<PositionedGroup> Groups { get; init; }
+	public IReadOnlyList<PositionedGraphNote> Notes { get; init; } = [];
 }
 
 /// <summary>A positioned node with absolute coordinates and dimensions.</summary>
@@ -24,6 +25,8 @@ public sealed record PositionedNode
 
 	/// <summary>CSS class name applied via <c>:::name</c> or <c>class</c> directive (strict mode).</summary>
 	public string? CssClassName { get; init; }
+
+	public bool IsMarkdown { get; init; }
 }
 
 /// <summary>A positioned edge with a full polyline path.</summary>
@@ -49,6 +52,16 @@ public sealed record PositionedGroup
 	public required double Width { get; init; }
 	public required double Height { get; init; }
 	public required IReadOnlyList<PositionedGroup> Children { get; init; }
+}
+
+/// <summary>A positioned note attached to a node.</summary>
+public sealed record PositionedGraphNote
+{
+	public required string Text { get; init; }
+	public required double X { get; init; }
+	public required double Y { get; init; }
+	public required double Width { get; init; }
+	public required double Height { get; init; }
 }
 
 /// <summary>A 2D point. Value type to avoid heap allocations.</summary>

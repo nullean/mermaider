@@ -6,6 +6,7 @@ public sealed record PositionedClassDiagram
 	public required double Height { get; init; }
 	public required IReadOnlyList<PositionedClassNode> Classes { get; init; }
 	public required IReadOnlyList<PositionedClassRelationship> Relationships { get; init; }
+	public IReadOnlyList<PositionedGraphNote> Notes { get; init; } = [];
 }
 
 public sealed record PositionedClassNode

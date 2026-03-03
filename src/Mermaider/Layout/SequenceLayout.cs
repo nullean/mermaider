@@ -84,6 +84,14 @@ internal static class SequenceLayout
 			};
 		}
 
+		var createdAt = new Dictionary<string, int>(diagram.Creates.Count);
+		foreach (var c in diagram.Creates)
+			_ = createdAt.TryAdd(c.ActorId, c.AtMessageIndex);
+
+		var destroyedAt = new Dictionary<string, int>(diagram.Destroys.Count);
+		foreach (var d in diagram.Destroys)
+			_ = destroyedAt.TryAdd(d.ActorId, d.AtMessageIndex);
+
 		var messageY = actorY + ActorHeight + HeaderGap;
 		var messages = new List<PositionedSequenceMessage>(diagram.Messages.Count);
 
@@ -136,6 +144,7 @@ internal static class SequenceLayout
 				X2 = actorCenterX[toIdx],
 				Y = messageY,
 				IsSelf = isSelf,
+				Bidirectional = msg.Bidirectional,
 			});
 
 			if (msg.Activate)
@@ -384,14 +393,63 @@ internal static class SequenceLayout
 				actorCenterX[i] += shiftX;
 		}
 
+		var destroyMarkers = new List<PositionedDestroyMarker>(diagram.Destroys.Count);
+
+		for (var i = 0; i < diagram.Actors.Count; i++)
+		{
+			var aid = diagram.Actors[i].Id;
+			if (createdAt.TryGetValue(aid, out var cIdx) && cIdx < messages.Count)
+			{
+				var createY = messages[cIdx].Y - ActorHeight - 4;
+				actors[i] = actors[i] with { Y = createY };
+			}
+		}
+
 		var lifelines = new Lifeline[diagram.Actors.Count];
 		for (var i = 0; i < diagram.Actors.Count; i++)
 		{
-			lifelines[i] = new Lifeline(
-				diagram.Actors[i].Id,
-				actorCenterX[i],
-				actorY + ActorHeight,
-				diagramBottom - Padding);
+			var aid = diagram.Actors[i].Id;
+			var topY = actors[i].Y + ActorHeight;
+			var bottomY = diagramBottom - Padding;
+
+			if (destroyedAt.TryGetValue(aid, out var dIdx) && dIdx < messages.Count)
+			{
+				bottomY = messages[dIdx].Y;
+				destroyMarkers.Add(new PositionedDestroyMarker(actorCenterX[i], bottomY));
+			}
+
+			lifelines[i] = new Lifeline(aid, actorCenterX[i], topY, bottomY);
+		}
+
+		var positionedBoxes = new List<PositionedSequenceBox>(diagram.Boxes.Count);
+		const double boxPadX = 8;
+		const double boxPadY = 6;
+		const double boxHeaderHeight = 20;
+		foreach (var box in diagram.Boxes)
+		{
+			if (box.ActorIds.Count == 0)
+				continue;
+
+			var minX = double.MaxValue;
+			var maxX = double.MinValue;
+			foreach (var aid in box.ActorIds)
+			{
+				if (!actorIndex.TryGetValue(aid, out var aidx))
+					continue;
+				var halfW = actorWidths[aidx] / 2;
+				minX = Math.Min(minX, actorCenterX[aidx] - halfW);
+				maxX = Math.Max(maxX, actorCenterX[aidx] + halfW);
+			}
+
+			positionedBoxes.Add(new PositionedSequenceBox
+			{
+				Title = box.Title,
+				Color = box.Color,
+				X = minX - boxPadX,
+				Y = actorY - boxHeaderHeight - boxPadY,
+				Width = maxX - minX + (boxPadX * 2),
+				Height = diagramBottom - actorY + boxHeaderHeight + (boxPadY * 2),
+			});
 		}
 
 		var diagramWidth = globalMaxX + shiftX + Padding;
@@ -407,6 +465,8 @@ internal static class SequenceLayout
 			Activations = activations,
 			Blocks = blocks,
 			Notes = notes,
+			Boxes = positionedBoxes,
+			DestroyMarkers = destroyMarkers,
 		};
 	}
 }

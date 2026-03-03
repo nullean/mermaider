@@ -23,6 +23,15 @@ internal static partial class StateParser
 	[GeneratedRegex(@"^([\w-]+)\s*:\s*(.+)$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex StateDescPattern();
 
+	[GeneratedRegex(@"^state\s+(\w+)\s+<<(choice|fork|join)>>\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex StereotypePattern();
+
+	[GeneratedRegex(@"^note\s+(left|right)\s+of\s+(\w[\w-]*)\s*:\s*(.+)$", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex NoteInlinePattern();
+
+	[GeneratedRegex(@"^note\s+(left|right)\s+of\s+(\w[\w-]*)$", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex NoteBlockStartPattern();
+
 	internal static MermaidGraph Parse(string[] lines)
 	{
 		try
@@ -47,6 +56,10 @@ internal static partial class StateParser
 		var compositeStateIds = new HashSet<string>();
 		var startCount = 0;
 		var endCount = 0;
+		var notes = new List<GraphNote>();
+		string? pendingNoteTarget = null;
+		var pendingNotePosition = GraphNotePosition.Right;
+		var pendingNoteText = new List<string>();
 
 		for (var i = 1; i < lines.Length; i++)
 		{
@@ -66,6 +79,37 @@ internal static partial class StateParser
 				{
 					direction = dir;
 				}
+				continue;
+			}
+
+			if (pendingNoteTarget != null)
+			{
+				if (line.Equals("end note", StringComparison.OrdinalIgnoreCase))
+				{
+					notes.Add(new GraphNote(pendingNoteTarget, string.Join("\n", pendingNoteText), pendingNotePosition));
+					pendingNoteTarget = null;
+					pendingNoteText.Clear();
+					continue;
+				}
+				pendingNoteText.Add(line);
+				continue;
+			}
+
+			var noteInlineMatch = NoteInlinePattern().Match(line);
+			if (noteInlineMatch.Success)
+			{
+				var pos = noteInlineMatch.Groups[1].Value.Equals("left", StringComparison.OrdinalIgnoreCase) ? GraphNotePosition.Left : GraphNotePosition.Right;
+				var target = noteInlineMatch.Groups[2].Value;
+				var text = noteInlineMatch.Groups[3].Value.Trim();
+				notes.Add(new GraphNote(target, text, pos));
+				continue;
+			}
+
+			var noteBlockMatch = NoteBlockStartPattern().Match(line);
+			if (noteBlockMatch.Success)
+			{
+				pendingNotePosition = noteBlockMatch.Groups[1].Value.Equals("left", StringComparison.OrdinalIgnoreCase) ? GraphNotePosition.Left : GraphNotePosition.Right;
+				pendingNoteTarget = noteBlockMatch.Groups[2].Value;
 				continue;
 			}
 
@@ -104,6 +148,16 @@ internal static partial class StateParser
 						subgraphs.Add(sg);
 					}
 				}
+				continue;
+			}
+
+			var stereoMatch = StereotypePattern().Match(line);
+			if (stereoMatch.Success)
+			{
+				var id = stereoMatch.Groups[1].Value;
+				var stereo = stereoMatch.Groups[2].Value.ToLowerInvariant();
+				var shape = stereo == "choice" ? NodeShape.Diamond : NodeShape.ForkJoin;
+				RegisterStateNode(nodes, compositeStack, new MermaidNode(id, "", shape));
 				continue;
 			}
 
@@ -166,6 +220,7 @@ internal static partial class StateParser
 			NodeOrder = nodes.Keys.ToList(),
 			Edges = edges,
 			Subgraphs = subgraphs,
+			Notes = notes,
 		};
 	}
 
