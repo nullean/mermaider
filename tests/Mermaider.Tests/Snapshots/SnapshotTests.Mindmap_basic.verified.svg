@@ -1,0 +1,56 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 559.75 504" width="559.75" height="504" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 4%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+  }
+  .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+</defs>
+
+<path d="M 85.04 252 C 272.46 252 272.46 54.5 459.88 54.5" fill="none" stroke="#e15759" stroke-width="2" opacity="0.5" />
+<path d="M 264.28 94 C 353.5 94 353.5 133.5 442.72 133.5" fill="none" stroke="#e15759" stroke-width="2" opacity="0.5" />
+<path d="M 85.04 252 C 265.44 252 265.44 212.5 445.84 212.5" fill="none" stroke="#e15759" stroke-width="2" opacity="0.5" />
+<path d="M 276.76 252 C 360.91 252 360.91 291.5 445.06 291.5" fill="none" stroke="#e15759" stroke-width="2" opacity="0.5" />
+<path d="M 85.04 252 C 266.41 252 266.41 370.5 447.79 370.5" fill="none" stroke="#e15759" stroke-width="2" opacity="0.5" />
+<path d="M 260.38 410 C 355.06 410 355.06 449.5 449.74 449.5" fill="none" stroke="#e15759" stroke-width="2" opacity="0.5" />
+<rect x="400" y="40" width="119.75" height="29" rx="8" ry="8" fill="#e15759" opacity="0.7" />
+<text x="459.88" y="54.5" text-anchor="middle" dy="0.35em" font-size="13" font-weight="500" fill="#fff">Requirements</text>
+<rect x="400" y="119" width="85.43" height="29" rx="8" ry="8" fill="#e15759" opacity="0.7" />
+<text x="442.72" y="133.5" text-anchor="middle" dy="0.35em" font-size="13" font-weight="500" fill="#fff">Timeline</text>
+<rect x="220" y="79.5" width="88.55" height="29" rx="8" ry="8" fill="#f28e2b" opacity="0.7" />
+<text x="264.28" y="94" text-anchor="middle" dy="0.35em" font-size="13" font-weight="500" fill="#fff">Planning</text>
+<rect x="400" y="198" width="91.67" height="29" rx="8" ry="8" fill="#e15759" opacity="0.7" />
+<text x="445.84" y="212.5" text-anchor="middle" dy="0.35em" font-size="13" font-weight="500" fill="#fff">Frontend</text>
+<rect x="400" y="277" width="90.11" height="29" rx="8" ry="8" fill="#e15759" opacity="0.7" />
+<text x="445.06" y="291.5" text-anchor="middle" dy="0.35em" font-size="13" font-weight="500" fill="#fff">Backend</text>
+<rect x="220" y="237.5" width="113.51" height="29" fill="#f28e2b" opacity="0.7" />
+<text x="276.76" y="252" text-anchor="middle" dy="0.35em" font-size="13" font-weight="500" fill="#fff">Development</text>
+<rect x="400" y="356" width="95.57" height="29" rx="8" ry="8" fill="#e15759" opacity="0.7" />
+<text x="447.79" y="370.5" text-anchor="middle" dy="0.35em" font-size="13" font-weight="500" fill="#fff">Unit Tests</text>
+<rect x="400" y="435" width="99.47" height="29" rx="8" ry="8" fill="#e15759" opacity="0.7" />
+<text x="449.74" y="449.5" text-anchor="middle" dy="0.35em" font-size="13" font-weight="500" fill="#fff">Integration</text>
+<polygon points="228.7,395.5 292.05,395.5 300.75,410 292.05,424.5 228.7,424.5 220,410" fill="#f28e2b" opacity="0.7" />
+<text x="260.38" y="410" text-anchor="middle" dy="0.35em" font-size="13" font-weight="500" fill="#fff">Testing</text>
+<circle cx="85.04" cy="252" r="45.04" fill="#4e79a7" opacity="0.9" />
+<text x="85.04" y="252" text-anchor="middle" dy="0.35em" font-size="16" font-weight="700" fill="#fff">Project</text>
+</svg>

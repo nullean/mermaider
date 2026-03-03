@@ -19,6 +19,30 @@ internal static partial class DiagramDetector
 	[GeneratedRegex(@"^stateDiagram(-v2)?\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex StateHeader();
 
+	[GeneratedRegex(@"^pie\s*(showData)?\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex PieHeader();
+
+	[GeneratedRegex(@"^quadrantChart\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex QuadrantHeader();
+
+	[GeneratedRegex(@"^timeline\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex TimelineHeader();
+
+	[GeneratedRegex(@"^gitGraph\s*(LR:|TB:|BT:)?\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex GitGraphHeader();
+
+	[GeneratedRegex(@"^radar-beta\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex RadarHeader();
+
+	[GeneratedRegex(@"^treemap-beta\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex TreemapHeader();
+
+	[GeneratedRegex(@"^venn-beta\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex VennHeader();
+
+	[GeneratedRegex(@"^mindmap\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex MindmapHeader();
+
 	internal static DiagramType Detect(ReadOnlySpan<char> text)
 	{
 		var firstLineEnd = text.IndexOf('\n');
@@ -34,6 +58,22 @@ internal static partial class DiagramDetector
 			return DiagramType.Er;
 		if (StateHeader().IsMatch(firstLineStr))
 			return DiagramType.State;
+		if (PieHeader().IsMatch(firstLineStr))
+			return DiagramType.Pie;
+		if (QuadrantHeader().IsMatch(firstLineStr))
+			return DiagramType.Quadrant;
+		if (TimelineHeader().IsMatch(firstLineStr))
+			return DiagramType.Timeline;
+		if (GitGraphHeader().IsMatch(firstLineStr))
+			return DiagramType.GitGraph;
+		if (RadarHeader().IsMatch(firstLineStr))
+			return DiagramType.Radar;
+		if (TreemapHeader().IsMatch(firstLineStr))
+			return DiagramType.Treemap;
+		if (VennHeader().IsMatch(firstLineStr))
+			return DiagramType.Venn;
+		if (MindmapHeader().IsMatch(firstLineStr))
+			return DiagramType.Mindmap;
 
 		return DiagramType.Flowchart;
 	}

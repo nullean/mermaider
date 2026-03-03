@@ -1,6 +1,6 @@
 namespace Mermaider.Gallery;
 
-public enum DiagramCategory { Flowchart, Sequence, State, Class, Er }
+public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap }
 
 public sealed record DiagramExample(string Slug, string Title, DiagramCategory Category, string Source, string? Feature = null);
 
@@ -668,6 +668,205 @@ public static class DiagramExamples
 			  cust ||--o{ ord : places
 			  ord ||--|{ li : contains
 			""", "entity aliases"),
+
+		// ── Pie Chart ──────────────────────────────────────────────────
+
+		new("pie-basic", "Basic Pie", DiagramCategory.Pie, """
+			pie
+			title Pet Adoption
+			"Dogs" : 386
+			"Cats" : 85
+			"Rats" : 15
+			"""),
+
+		new("pie-showdata", "Pie with Data Values", DiagramCategory.Pie, """
+			pie showData
+			title Browser Market Share
+			"Chrome" : 65.3
+			"Safari" : 18.8
+			"Firefox" : 3.2
+			"Edge" : 4.7
+			"Other" : 8.0
+			""", "showData"),
+
+		new("pie-many-slices", "Many Slices", DiagramCategory.Pie, """
+			pie
+			title Revenue by Region
+			"North America" : 42
+			"Europe" : 28
+			"Asia Pacific" : 18
+			"Latin America" : 7
+			"Middle East" : 3
+			"Africa" : 2
+			"""),
+
+		// ── Quadrant Chart ─────────────────────────────────────────────
+
+		new("quadrant-basic", "Priority Matrix", DiagramCategory.Quadrant, """
+			quadrantChart
+			title Priority Matrix
+			x-axis Low Effort --> High Effort
+			y-axis Low Impact --> High Impact
+			quadrant-1 Do First
+			quadrant-2 Schedule
+			quadrant-3 Delegate
+			quadrant-4 Eliminate
+			Feature A: [0.8, 0.9]
+			Feature B: [0.2, 0.3]
+			Feature C: [0.6, 0.4]
+			Feature D: [0.3, 0.8]
+			"""),
+
+		new("quadrant-skills", "Skills Assessment", DiagramCategory.Quadrant, """
+			quadrantChart
+			title Technical Skills Matrix
+			x-axis Beginner --> Expert
+			y-axis Low Demand --> High Demand
+			quadrant-1 Invest
+			quadrant-2 Maintain
+			quadrant-3 Deprioritize
+			quadrant-4 Phase Out
+			Kubernetes: [0.4, 0.9]
+			React: [0.7, 0.8]
+			COBOL: [0.3, 0.1]
+			Rust: [0.3, 0.7]
+			Python: [0.8, 0.9]
+			"""),
+
+		// ── Timeline ───────────────────────────────────────────────────
+
+		new("timeline-sections", "Timeline with Sections", DiagramCategory.Timeline, """
+			timeline
+			title History of Social Media
+			section Early Days
+			2002 : LinkedIn
+			2004 : Facebook : Google
+			section Growth
+			2006 : Twitter
+			2010 : Instagram
+			section Modern Era
+			2016 : TikTok
+			2019 : Threads
+			"""),
+
+		new("timeline-simple", "Simple Timeline", DiagramCategory.Timeline, """
+			timeline
+			title Product Roadmap
+			Q1 2025 : Alpha Release
+			Q2 2025 : Beta Launch : Partner Onboarding
+			Q3 2025 : GA Release
+			Q4 2025 : Enterprise Features
+			"""),
+
+		// ── GitGraph ───────────────────────────────────────────────────
+
+		new("gitgraph-basic", "Basic Git Flow", DiagramCategory.GitGraph, """
+			gitGraph
+			commit id: "init"
+			commit id: "feat-1"
+			branch develop
+			checkout develop
+			commit id: "dev-1"
+			commit id: "dev-2" tag: "v0.1"
+			checkout main
+			merge develop id: "merge-1"
+			commit id: "release" type: HIGHLIGHT tag: "v1.0"
+			"""),
+
+		new("gitgraph-feature", "Feature Branches", DiagramCategory.GitGraph, """
+			gitGraph
+			commit id: "init"
+			branch feature-a
+			checkout feature-a
+			commit id: "a1"
+			commit id: "a2"
+			checkout main
+			branch feature-b
+			checkout feature-b
+			commit id: "b1"
+			checkout main
+			merge feature-a id: "merge-a"
+			merge feature-b id: "merge-b"
+			commit id: "release" tag: "v2.0"
+			"""),
+
+		new("gitgraph-hotfix", "Hotfix Branch", DiagramCategory.GitGraph, """
+			gitGraph
+			commit id: "v1.0" tag: "v1.0"
+			branch develop
+			checkout develop
+			commit id: "feat"
+			checkout main
+			branch hotfix
+			checkout hotfix
+			commit id: "fix" type: REVERSE
+			checkout main
+			merge hotfix id: "patch" tag: "v1.0.1"
+			checkout develop
+			merge hotfix id: "sync"
+			commit id: "more-work"
+			"""),
+
+		// ── Radar Chart ────────────────────────────────────────────────
+
+		new("radar-skills", "Skills Comparison", DiagramCategory.Radar, """
+			radar-beta
+			title Skills Assessment
+			axis Design, Frontend, Backend, DevOps, Testing
+			curve c1["Team A"]{4, 3, 5, 2, 4}
+			curve c2["Team B"]{3, 5, 2, 4, 3}
+			max 5
+			graticule polygon
+			"""),
+
+		new("radar-product", "Product Comparison", DiagramCategory.Radar, """
+			radar-beta
+			title Product Comparison
+			axis Price, Quality, Features, Support, Speed, UX
+			curve c1["Product A"]{4, 5, 3, 4, 5, 4}
+			curve c2["Product B"]{3, 3, 5, 2, 3, 5}
+			max 5
+			"""),
+
+		// ── Treemap ────────────────────────────────────────────────────
+
+		new("treemap-flat", "Flat Treemap", DiagramCategory.Treemap, """
+			treemap-beta
+			"Engineering": 50
+			"Marketing": 25
+			"Sales": 15
+			"Support": 10
+			"""),
+
+		new("treemap-nested", "Nested Treemap", DiagramCategory.Treemap,
+			"treemap-beta\n  \"Technology\"\n    \"Frontend\": 30\n    \"Backend\": 40\n    \"DevOps\": 15\n  \"Business\"\n    \"Sales\": 25\n    \"Marketing\": 20"),
+
+		// ── Venn Diagram ───────────────────────────────────────────────
+
+		new("venn-two", "Two-Set Venn", DiagramCategory.Venn, """
+			venn-beta
+			set A["Frontend"]
+			set B["Backend"]
+			union A, B["Full Stack"]
+			"""),
+
+		new("venn-three", "Three-Set Venn", DiagramCategory.Venn, """
+			venn-beta
+			set A["Design"]
+			set B["Engineering"]
+			set C["Product"]
+			union A, B["Design Systems"]
+			union B, C["Technical PM"]
+			union A, C["UX Research"]
+			"""),
+
+		// ── Mindmap ────────────────────────────────────────────────────
+
+		new("mindmap-project", "Project Mindmap", DiagramCategory.Mindmap,
+			"mindmap\n  ((Project))\n    (Planning)\n      Requirements\n      Timeline\n    [Development]\n      Frontend\n      Backend\n    {{Testing}}\n      Unit Tests\n      Integration"),
+
+		new("mindmap-learning", "Learning Path", DiagramCategory.Mindmap,
+			"mindmap\n  ((Web Development))\n    (Frontend)\n      HTML\n      CSS\n      JavaScript\n    (Backend)\n      .NET\n      Node.js\n    ))Cloud((\n      AWS\n      Azure"),
 	];
 
 	public static DiagramExample[] ByCategory(DiagramCategory category) =>
@@ -680,6 +879,14 @@ public static class DiagramExamples
 		DiagramCategory.State => "State",
 		DiagramCategory.Class => "Class",
 		DiagramCategory.Er => "ER",
+		DiagramCategory.Pie => "Pie Chart",
+		DiagramCategory.Quadrant => "Quadrant Chart",
+		DiagramCategory.Timeline => "Timeline",
+		DiagramCategory.GitGraph => "GitGraph",
+		DiagramCategory.Radar => "Radar Chart",
+		DiagramCategory.Treemap => "Treemap",
+		DiagramCategory.Venn => "Venn Diagram",
+		DiagramCategory.Mindmap => "Mindmap",
 		_ => c.ToString(),
 	};
 
@@ -690,6 +897,14 @@ public static class DiagramExamples
 		DiagramCategory.State => "state",
 		DiagramCategory.Class => "class",
 		DiagramCategory.Er => "er",
+		DiagramCategory.Pie => "pie",
+		DiagramCategory.Quadrant => "quadrant",
+		DiagramCategory.Timeline => "timeline",
+		DiagramCategory.GitGraph => "gitgraph",
+		DiagramCategory.Radar => "radar",
+		DiagramCategory.Treemap => "treemap",
+		DiagramCategory.Venn => "venn",
+		DiagramCategory.Mindmap => "mindmap",
 		_ => c.ToString().ToLowerInvariant(),
 	};
 }

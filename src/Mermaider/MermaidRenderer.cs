@@ -166,6 +166,38 @@ public static class MermaidRenderer
 				provider.LayoutEr(ErParser.Parse(lines)),
 				colors, font, transparent, strict),
 
+			DiagramType.Pie => PieSvgRenderer.RenderToBuilder(
+				PieParser.Parse(lines),
+				colors, font, transparent, strict),
+
+			DiagramType.Quadrant => QuadrantSvgRenderer.RenderToBuilder(
+				QuadrantParser.Parse(lines),
+				colors, font, transparent, strict),
+
+			DiagramType.Timeline => TimelineSvgRenderer.RenderToBuilder(
+				TimelineParser.Parse(lines),
+				colors, font, transparent, strict),
+
+			DiagramType.GitGraph => GitGraphSvgRenderer.RenderToBuilder(
+				GitGraphParser.Parse(lines),
+				colors, font, transparent, strict),
+
+			DiagramType.Radar => RadarSvgRenderer.RenderToBuilder(
+				RadarParser.Parse(lines),
+				colors, font, transparent, strict),
+
+			DiagramType.Treemap => TreemapSvgRenderer.RenderToBuilder(
+				TreemapParser.Parse(PreprocessLinesPreserveIndent(text)),
+				colors, font, transparent, strict),
+
+			DiagramType.Venn => VennSvgRenderer.RenderToBuilder(
+				VennParser.Parse(lines),
+				colors, font, transparent, strict),
+
+			DiagramType.Mindmap => MindmapSvgRenderer.RenderToBuilder(
+				MindmapParser.Parse(PreprocessLinesPreserveIndent(text)),
+				colors, font, transparent, strict),
+
 			_ => SvgRenderer.RenderToBuilder(
 				provider.LayoutFlowchart(ParseInternal(lines, diagramType), options, strict),
 				colors, font, transparent, strict),
@@ -262,6 +294,22 @@ public static class MermaidRenderer
 		{
 			var trimmed = rawLines[i].Trim();
 			if (trimmed.Length > 0 && !trimmed.StartsWith("%%", StringComparison.Ordinal))
+			{
+				rawLines[count] = trimmed;
+				count++;
+			}
+		}
+		return rawLines.AsSpan(0, count).ToArray();
+	}
+
+	internal static string[] PreprocessLinesPreserveIndent(string text)
+	{
+		var rawLines = text.Split('\n');
+		var count = 0;
+		for (var i = 0; i < rawLines.Length; i++)
+		{
+			var trimmed = rawLines[i].TrimEnd();
+			if (trimmed.Trim().Length > 0 && !trimmed.TrimStart().StartsWith("%%", StringComparison.Ordinal))
 			{
 				rawLines[count] = trimmed;
 				count++;

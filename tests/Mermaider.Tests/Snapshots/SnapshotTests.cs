@@ -166,4 +166,117 @@ public class SnapshotTests
 			""",
 			new() { Transparent = false }),
 			"svg");
+
+	[Test]
+	public Task Pie_basic() =>
+		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			pie
+			title Pet Adoption
+			"Dogs" : 386
+			"Cats" : 85
+			"Rats" : 15
+			"""), "svg");
+
+	[Test]
+	public Task Pie_showData() =>
+		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			pie showData
+			title Browser Market Share
+			"Chrome" : 65.3
+			"Safari" : 18.8
+			"Firefox" : 3.2
+			"Edge" : 4.7
+			"Other" : 8.0
+			"""), "svg");
+
+	[Test]
+	public Task Quadrant_basic() =>
+		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			quadrantChart
+			title Priority Matrix
+			x-axis Low Effort --> High Effort
+			y-axis Low Impact --> High Impact
+			quadrant-1 Do First
+			quadrant-2 Schedule
+			quadrant-3 Delegate
+			quadrant-4 Eliminate
+			Feature A: [0.8, 0.9]
+			Feature B: [0.2, 0.3]
+			Feature C: [0.6, 0.4]
+			"""), "svg");
+
+	[Test]
+	public Task Timeline_with_sections() =>
+		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			timeline
+			title History of Social Media
+			section Early Days
+			2002 : LinkedIn
+			2004 : Facebook : Google
+			section Modern Era
+			2010 : Instagram
+			2019 : TikTok
+			"""), "svg");
+
+	[Test]
+	public Task GitGraph_branching() =>
+		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			gitGraph
+			commit id: "init"
+			commit id: "feat-1"
+			branch develop
+			checkout develop
+			commit id: "dev-1"
+			commit id: "dev-2" tag: "v0.1"
+			checkout main
+			merge develop id: "merge-1"
+			commit id: "release" type: HIGHLIGHT tag: "v1.0"
+			"""), "svg");
+
+	[Test]
+	public Task Radar_basic() =>
+		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			radar-beta
+			title Skills Assessment
+			axis Design, Frontend, Backend, DevOps, Testing
+			curve c1["Team A"]{4, 3, 5, 2, 4}
+			curve c2["Team B"]{3, 5, 2, 4, 3}
+			max 5
+			graticule polygon
+			"""), "svg");
+
+	[Test]
+	public Task Treemap_basic() =>
+		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			treemap-beta
+			"Engineering": 50
+			"Marketing": 25
+			"Sales": 15
+			"Support": 10
+			"""), "svg");
+
+	[Test]
+	public Task Venn_two_sets() =>
+		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			venn-beta
+			set A["Frontend"]
+			set B["Backend"]
+			union A, B["Full Stack"]
+			"""), "svg");
+
+	[Test]
+	public Task Mindmap_basic() =>
+		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			mindmap
+			  ((Project))
+			    (Planning)
+			      Requirements
+			      Timeline
+			    [Development]
+			      Frontend
+			      Backend
+			    {{Testing}}
+			      Unit Tests
+			      Integration
+			"""), "svg");
 }

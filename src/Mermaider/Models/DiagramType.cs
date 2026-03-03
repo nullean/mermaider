@@ -7,5 +7,13 @@ public enum DiagramType
 	State,
 	Sequence,
 	Class,
-	Er
+	Er,
+	Pie,
+	Quadrant,
+	Timeline,
+	GitGraph,
+	Radar,
+	Treemap,
+	Venn,
+	Mindmap
 }

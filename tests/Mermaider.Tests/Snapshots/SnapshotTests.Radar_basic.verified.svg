@@ -1,0 +1,62 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 426" width="620" height="426" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 4%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+  }
+  .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+</defs>
+
+<text x="220" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="var(--_text)">Skills Assessment</text>
+<polygon points="220,184 250.43,206.11 238.81,241.89 201.19,241.89 189.57,206.11" fill="none" stroke="var(--_line)" stroke-width="0.5" opacity="0.5" />
+<polygon points="220,152 280.87,196.22 257.62,267.78 182.38,267.78 159.13,196.22" fill="none" stroke="var(--_line)" stroke-width="0.5" opacity="0.5" />
+<polygon points="220,120 311.3,186.33 276.43,293.67 163.57,293.67 128.7,186.33" fill="none" stroke="var(--_line)" stroke-width="0.5" opacity="0.5" />
+<polygon points="220,88 341.74,176.45 295.24,319.55 144.76,319.55 98.26,176.45" fill="none" stroke="var(--_line)" stroke-width="0.5" opacity="0.5" />
+<polygon points="220,56 372.17,166.56 314.05,345.44 125.95,345.44 67.83,166.56" fill="none" stroke="var(--_line)" stroke-width="0.5" opacity="0.5" />
+<line x1="220" y1="216" x2="220" y2="56" stroke="var(--_line)" stroke-width="0.5" opacity="0.5" />
+<text x="220" y="36" text-anchor="middle" dy="0.35em" font-size="11" fill="var(--_text-sec)">Design</text>
+<line x1="220" y1="216" x2="372.17" y2="166.56" stroke="var(--_line)" stroke-width="0.5" opacity="0.5" />
+<text x="391.19" y="160.38" text-anchor="start" dy="0.35em" font-size="11" fill="var(--_text-sec)">Frontend</text>
+<line x1="220" y1="216" x2="314.05" y2="345.44" stroke="var(--_line)" stroke-width="0.5" opacity="0.5" />
+<text x="325.8" y="361.62" text-anchor="start" dy="0.35em" font-size="11" fill="var(--_text-sec)">Backend</text>
+<line x1="220" y1="216" x2="125.95" y2="345.44" stroke="var(--_line)" stroke-width="0.5" opacity="0.5" />
+<text x="114.2" y="361.62" text-anchor="end" dy="0.35em" font-size="11" fill="var(--_text-sec)">DevOps</text>
+<line x1="220" y1="216" x2="67.83" y2="166.56" stroke="var(--_line)" stroke-width="0.5" opacity="0.5" />
+<text x="48.81" y="160.38" text-anchor="end" dy="0.35em" font-size="11" fill="var(--_text-sec)">Testing</text>
+<polygon points="220,88 311.3,186.33 314.05,345.44 182.38,267.78 98.26,176.45" fill="#4e79a7" fill-opacity="0.25" stroke="#4e79a7" stroke-width="2" />
+<circle cx="220" cy="88" r="3" fill="#4e79a7" />
+<circle cx="311.3" cy="186.33" r="3" fill="#4e79a7" />
+<circle cx="314.05" cy="345.44" r="3" fill="#4e79a7" />
+<circle cx="182.38" cy="267.78" r="3" fill="#4e79a7" />
+<circle cx="98.26" cy="176.45" r="3" fill="#4e79a7" />
+<polygon points="220,120 372.17,166.56 257.62,267.78 144.76,319.55 128.7,186.33" fill="#f28e2b" fill-opacity="0.25" stroke="#f28e2b" stroke-width="2" />
+<circle cx="220" cy="120" r="3" fill="#f28e2b" />
+<circle cx="372.17" cy="166.56" r="3" fill="#f28e2b" />
+<circle cx="257.62" cy="267.78" r="3" fill="#f28e2b" />
+<circle cx="144.76" cy="319.55" r="3" fill="#f28e2b" />
+<circle cx="128.7" cy="186.33" r="3" fill="#f28e2b" />
+<rect x="450" y="66" width="12" height="12" rx="2" ry="2" fill="#4e79a7" />
+<text x="468" y="72" dy="0.35em" font-size="12" fill="var(--_text)">Team A</text>
+<rect x="450" y="86" width="12" height="12" rx="2" ry="2" fill="#f28e2b" />
+<text x="468" y="92" dy="0.35em" font-size="12" fill="var(--_text)">Team B</text>
+</svg>
