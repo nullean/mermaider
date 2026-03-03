@@ -29,46 +29,153 @@ public class MermaidCompatTests
 
 	public static IEnumerable<(string Name, string Source)> FlowchartDiagrams()
 	{
-		yield return ("trailing whitespace", "graph TD\n A-->B \n B-->C");
-		yield return ("node name with end substring", "graph TD\nendpoint --> sender");
-		yield return ("keywords between dashes", "graph TD\na-end-node --> b");
-		yield return ("default in node name", "graph TD\ndefault --> monograph");
-		yield return ("single node", "graph TD\nA");
-		yield return ("single square node", "graph TD\na[A]");
-		yield return ("single circle node", "graph TD\na((A))");
-		yield return ("single round node", "graph TD\na(A)");
-		yield return ("single odd node", "graph TD\na>A]");
-		yield return ("single diamond node", "graph TD\na{A}");
-		yield return ("single hexagon node", "graph TD\na{{A}}");
-		yield return ("single double circle node", "graph TD\na(((A)))");
-		yield return ("alphanumeric id starting with number", "graph TD\n1id --> A");
-		yield return ("id with minus", "graph TD\ni-d --> A");
-		yield return ("id with underscore", "graph TD\ni_d --> A");
+		yield return ("trailing whitespace", """
+			graph TD
+			  A-->B
+			  B-->C
+			""");
+		yield return ("node name with end substring", """
+			graph TD
+			  endpoint --> sender
+			""");
+		yield return ("keywords between dashes", """
+			graph TD
+			  a-end-node --> b
+			""");
+		yield return ("default in node name", """
+			graph TD
+			  default --> monograph
+			""");
+		yield return ("single node", """
+			graph TD
+			  A
+			""");
+		yield return ("single square node", """
+			graph TD
+			  a[A]
+			""");
+		yield return ("single circle node", """
+			graph TD
+			  a((A))
+			""");
+		yield return ("single round node", """
+			graph TD
+			  a(A)
+			""");
+		yield return ("single odd node", """
+			graph TD
+			  a>A]
+			""");
+		yield return ("single diamond node", """
+			graph TD
+			  a{A}
+			""");
+		yield return ("single hexagon node", """
+			graph TD
+			  a{{A}}
+			""");
+		yield return ("single double circle node", """
+			graph TD
+			  a(((A)))
+			""");
+		yield return ("alphanumeric id starting with number", """
+			graph TD
+			  1id --> A
+			""");
+		yield return ("id with minus", """
+			graph TD
+			  i-d --> A
+			""");
+		yield return ("id with underscore", """
+			graph TD
+			  i_d --> A
+			""");
 
 		// Edges
-		yield return ("solid arrow", "graph TD\nA --> B");
-		yield return ("dotted arrow", "graph TD\nA -.-> B");
-		yield return ("thick arrow", "graph TD\nA ==> B");
-		yield return ("open ended", "graph TD\nA --- B");
-		yield return ("solid with text", "graph TD\nA -->|text| B");
-		yield return ("dotted with text", "graph TD\nA -. text .-> B");
-		yield return ("thick with text", "graph TD\nA == text ==> B");
-		yield return ("bidirectional", "graph TD\nA <--> B");
-		yield return ("multiple edges", "graph TD\nA---|This is text|B\nA---|Second edge|B");
-		yield return ("long edges", "graph TD\nA ----> B\nA ====> C\nA -...-> D");
+		yield return ("solid arrow", """
+			graph TD
+			  A --> B
+			""");
+		yield return ("dotted arrow", """
+			graph TD
+			  A -.-> B
+			""");
+		yield return ("thick arrow", """
+			graph TD
+			  A ==> B
+			""");
+		yield return ("open ended", """
+			graph TD
+			  A --- B
+			""");
+		yield return ("solid with text", """
+			graph TD
+			  A -->|text| B
+			""");
+		yield return ("dotted with text", """
+			graph TD
+			  A -. text .-> B
+			""");
+		yield return ("thick with text", """
+			graph TD
+			  A == text ==> B
+			""");
+		yield return ("bidirectional", """
+			graph TD
+			  A <--> B
+			""");
+		yield return ("multiple edges", """
+			graph TD
+			  A---|This is text|B
+			  A---|Second edge|B
+			""");
+		yield return ("long edges", """
+			graph TD
+			  A ----> B
+			  A ====> C
+			  A -...-> D
+			""");
 
 		// Directions
-		yield return ("direction TD", "graph TD\nA --> B");
-		yield return ("direction LR", "graph LR\nA --> B");
-		yield return ("direction BT", "graph BT\nA --> B");
-		yield return ("direction RL", "graph RL\nA --> B");
-		yield return ("flowchart keyword", "flowchart TD\nA --> B");
-		yield return ("flowchart LR", "flowchart LR\nA --> B");
+		yield return ("direction TD", """
+			graph TD
+			  A --> B
+			""");
+		yield return ("direction LR", """
+			graph LR
+			  A --> B
+			""");
+		yield return ("direction BT", """
+			graph BT
+			  A --> B
+			""");
+		yield return ("direction RL", """
+			graph RL
+			  A --> B
+			""");
+		yield return ("flowchart keyword", """
+			flowchart TD
+			  A --> B
+			""");
+		yield return ("flowchart LR", """
+			flowchart LR
+			  A --> B
+			""");
 
 		// Chaining and parallel
-		yield return ("chained edges", "graph TD\nA --> B --> C --> D");
-		yield return ("parallel links", "graph TD\nA & B --> C & D");
-		yield return ("chained + parallel", "graph TD\nA --> B --> C\nE & F --> G & H");
+		yield return ("chained edges", """
+			graph TD
+			  A --> B --> C --> D
+			""");
+		yield return ("parallel links", """
+			graph TD
+			  A & B --> C & D
+			""");
+		yield return ("chained + parallel", """
+			graph TD
+			  A --> B --> C
+			  E & F --> G & H
+			""");
 
 		// Shapes with labels
 		yield return ("all shapes", """
@@ -101,8 +208,19 @@ public class MermaidCompatTests
 			""");
 
 		// Subgraphs
-		yield return ("simple subgraph", "graph TD\nA-->B\nsubgraph myTitle\nc-->d\nend");
-		yield return ("subgraph with bracket id", "graph TD\nsubgraph uid1[text of doom]\nc-->d\nend");
+		yield return ("simple subgraph", """
+			graph TD
+			  A-->B
+			  subgraph myTitle
+			    c-->d
+			  end
+			""");
+		yield return ("subgraph with bracket id", """
+			graph TD
+			  subgraph uid1[text of doom]
+			    c-->d
+			  end
+			""");
 		yield return ("nested subgraphs", """
 			graph TD
 			  A-->B
@@ -509,14 +627,39 @@ public class MermaidCompatTests
 
 	public static IEnumerable<(string Name, string Source)> DetectionDiagrams()
 	{
-		yield return ("graph TD", "graph TD\nA-->B");
-		yield return ("graph LR", "graph LR\nA-->B");
-		yield return ("flowchart TD", "flowchart TD\nA-->B");
-		yield return ("flowchart LR", "flowchart LR\nA-->B");
-		yield return ("stateDiagram-v2", "stateDiagram-v2\n[*] --> A\nA --> [*]");
-		yield return ("sequenceDiagram", "sequenceDiagram\nAlice->>Bob: Hi");
-		yield return ("classDiagram", "classDiagram\nA <|-- B");
-		yield return ("erDiagram", "erDiagram\nA ||--o{ B : rel");
+		yield return ("graph TD", """
+			graph TD
+			  A-->B
+			""");
+		yield return ("graph LR", """
+			graph LR
+			  A-->B
+			""");
+		yield return ("flowchart TD", """
+			flowchart TD
+			  A-->B
+			""");
+		yield return ("flowchart LR", """
+			flowchart LR
+			  A-->B
+			""");
+		yield return ("stateDiagram-v2", """
+			stateDiagram-v2
+			  [*] --> A
+			  A --> [*]
+			""");
+		yield return ("sequenceDiagram", """
+			sequenceDiagram
+			  Alice->>Bob: Hi
+			""");
+		yield return ("classDiagram", """
+			classDiagram
+			  A <|-- B
+			""");
+		yield return ("erDiagram", """
+			erDiagram
+			  A ||--o{ B : rel
+			""");
 	}
 
 	// ====================================================================

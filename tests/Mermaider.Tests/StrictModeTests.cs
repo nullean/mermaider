@@ -33,7 +33,11 @@ public class StrictModeTests
 	[Test]
 	public void Rejects_classDef_directive()
 	{
-		var input = "graph TD\n  classDef red fill:#f00\n  A --> B";
+		var input = """
+			graph TD
+			  classDef red fill:#f00
+			  A --> B
+			""";
 		var options = new RenderOptions { Strict = DefaultStrict };
 
 		var act = () => MermaidRenderer.RenderSvg(input, options);
@@ -45,7 +49,11 @@ public class StrictModeTests
 	[Test]
 	public void Rejects_style_directive()
 	{
-		var input = "graph TD\n  A --> B\n  style A fill:#f00";
+		var input = """
+			graph TD
+			  A --> B
+			  style A fill:#f00
+			""";
 		var options = new RenderOptions { Strict = DefaultStrict };
 
 		var act = () => MermaidRenderer.RenderSvg(input, options);
@@ -57,7 +65,10 @@ public class StrictModeTests
 	[Test]
 	public void Rejects_unknown_class_via_shorthand()
 	{
-		var input = "graph TD\n  A:::unknown --> B";
+		var input = """
+			graph TD
+			  A:::unknown --> B
+			""";
 		var options = new RenderOptions { Strict = DefaultStrict };
 
 		var act = () => MermaidRenderer.RenderSvg(input, options);
@@ -69,7 +80,11 @@ public class StrictModeTests
 	[Test]
 	public void Rejects_unknown_class_via_class_directive()
 	{
-		var input = "graph TD\n  A --> B\n  class A unknown";
+		var input = """
+			graph TD
+			  A --> B
+			  class A unknown
+			""";
 		var options = new RenderOptions { Strict = DefaultStrict };
 
 		var act = () => MermaidRenderer.RenderSvg(input, options);
@@ -81,7 +96,10 @@ public class StrictModeTests
 	[Test]
 	public void Allows_known_class_via_shorthand()
 	{
-		var input = "graph TD\n  A:::success --> B:::danger";
+		var input = """
+			graph TD
+			  A:::success --> B:::danger
+			""";
 		var options = new RenderOptions { Strict = DefaultStrict };
 
 		var svg = MermaidRenderer.RenderSvg(input, options);
@@ -93,7 +111,10 @@ public class StrictModeTests
 	[Test]
 	public void Emits_light_mode_css_for_allowed_classes()
 	{
-		var input = "graph TD\n  A:::success --> B";
+		var input = """
+			graph TD
+			  A:::success --> B
+			""";
 		var options = new RenderOptions { Strict = DefaultStrict };
 
 		var svg = MermaidRenderer.RenderSvg(input, options);
@@ -106,7 +127,10 @@ public class StrictModeTests
 	[Test]
 	public void Emits_dark_mode_media_query()
 	{
-		var input = "graph TD\n  A:::danger --> B";
+		var input = """
+			graph TD
+			  A:::danger --> B
+			""";
 		var options = new RenderOptions { Strict = DefaultStrict };
 
 		var svg = MermaidRenderer.RenderSvg(input, options);
@@ -119,7 +143,10 @@ public class StrictModeTests
 	[Test]
 	public void Auto_derives_dark_colors_when_not_specified()
 	{
-		var input = "graph TD\n  A:::success --> B";
+		var input = """
+			graph TD
+			  A:::success --> B
+			""";
 		var options = new RenderOptions { Strict = DefaultStrict };
 
 		var svg = MermaidRenderer.RenderSvg(input, options);
@@ -131,7 +158,10 @@ public class StrictModeTests
 	[Test]
 	public void External_class_gets_raw_class_name_without_prefix()
 	{
-		var input = "graph TD\n  A:::external --> B";
+		var input = """
+			graph TD
+			  A:::external --> B
+			""";
 		var options = new RenderOptions { Strict = DefaultStrict };
 
 		var svg = MermaidRenderer.RenderSvg(input, options);
@@ -144,7 +174,10 @@ public class StrictModeTests
 	[Test]
 	public void Allows_unknown_class_when_RejectUnknownClasses_is_false()
 	{
-		var input = "graph TD\n  A:::whatever --> B";
+		var input = """
+			graph TD
+			  A:::whatever --> B
+			""";
 		var options = new RenderOptions
 		{
 			Strict = new StrictModeOptions
@@ -161,7 +194,10 @@ public class StrictModeTests
 	[Test]
 	public void No_inline_styles_applied_in_strict_mode()
 	{
-		var input = "graph TD\n  A:::success --> B";
+		var input = """
+			graph TD
+			  A:::success --> B
+			""";
 		var options = new RenderOptions { Strict = DefaultStrict };
 
 		var svg = MermaidRenderer.RenderSvg(input, options);
@@ -172,7 +208,11 @@ public class StrictModeTests
 	[Test]
 	public void Works_with_state_diagram()
 	{
-		var input = "stateDiagram-v2\n  [*] --> Active\n  Active --> [*]";
+		var input = """
+			stateDiagram-v2
+			  [*] --> Active
+			  Active --> [*]
+			""";
 		var options = new RenderOptions { Strict = DefaultStrict };
 
 		var svg = MermaidRenderer.RenderSvg(input, options);
@@ -182,7 +222,10 @@ public class StrictModeTests
 	[Test]
 	public void Works_with_sequence_diagram()
 	{
-		var input = "sequenceDiagram\n  Alice->>Bob: Hello";
+		var input = """
+			sequenceDiagram
+			  Alice->>Bob: Hello
+			""";
 		var options = new RenderOptions { Strict = DefaultStrict };
 
 		var svg = MermaidRenderer.RenderSvg(input, options);

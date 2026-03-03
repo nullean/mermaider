@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 180" width="520" height="180" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 4%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+  }
+  .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+</defs>
+
+<text x="10" y="40" dy="0.35em" font-size="11" font-weight="600" fill="#4e79a7">main</text>
+<text x="10" y="80" dy="0.35em" font-size="11" font-weight="600" fill="#f28e2b">develop</text>
+<line x1="100" y1="40" x2="160" y2="40" stroke="#4e79a7" stroke-width="2" />
+<line x1="220" y1="80" x2="280" y2="80" stroke="#f28e2b" stroke-width="2" />
+<line x1="160" y1="40" x2="340" y2="40" stroke="#4e79a7" stroke-width="2" />
+<path d="M 280 80 C 310 80 310 40 340 40" fill="none" stroke="#f28e2b" stroke-width="2" />
+<line x1="340" y1="40" x2="400" y2="40" stroke="#4e79a7" stroke-width="2" />
+<circle cx="100" cy="40" r="8" fill="#4e79a7" stroke="var(--bg)" stroke-width="2" />
+<text x="100" y="62" text-anchor="middle" font-size="11" fill="var(--_text-sec)">init</text>
+<circle cx="160" cy="40" r="8" fill="#4e79a7" stroke="var(--bg)" stroke-width="2" />
+<text x="160" y="62" text-anchor="middle" font-size="11" fill="var(--_text-sec)">feat-1</text>
+<circle cx="220" cy="80" r="8" fill="#f28e2b" stroke="var(--bg)" stroke-width="2" />
+<text x="220" y="102" text-anchor="middle" font-size="11" fill="var(--_text-sec)">dev-1</text>
+<circle cx="280" cy="80" r="8" fill="#f28e2b" stroke="var(--bg)" stroke-width="2" />
+<text x="280" y="102" text-anchor="middle" font-size="11" fill="var(--_text-sec)">dev-2</text>
+<rect x="266.27" y="56" width="27.46" height="16" rx="8" ry="8" fill="#f28e2b" opacity="0.2" />
+<text x="280" y="64" text-anchor="middle" dy="0.35em" font-size="10" font-weight="500" fill="#f28e2b">v0.1</text>
+<circle cx="340" cy="40" r="10" fill="#4e79a7" stroke="var(--bg)" stroke-width="2" />
+<circle cx="340" cy="40" r="6" fill="#4e79a7" />
+<text x="340" y="62" text-anchor="middle" font-size="11" fill="var(--_text-sec)">merge-1</text>
+<rect x="392" y="32" width="16" height="16" rx="3" ry="3" fill="#4e79a7" stroke="var(--bg)" stroke-width="2" />
+<text x="400" y="62" text-anchor="middle" font-size="11" fill="var(--_text-sec)">release</text>
+<rect x="386.27" y="16" width="27.46" height="16" rx="8" ry="8" fill="#4e79a7" opacity="0.2" />
+<text x="400" y="24" text-anchor="middle" dy="0.35em" font-size="10" font-weight="500" fill="#4e79a7">v1.0</text>
+</svg>

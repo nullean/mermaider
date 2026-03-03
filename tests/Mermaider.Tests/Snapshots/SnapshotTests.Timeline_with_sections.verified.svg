@@ -1,0 +1,54 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 268" width="780" height="268" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 4%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+  }
+  .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+</defs>
+
+<text x="390" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="var(--_text)">History of Social Media</text>
+<rect x="30" y="90" width="360" height="168" rx="6" ry="6" fill="#4e79a7" opacity="0.08" />
+<text x="210" y="104" text-anchor="middle" font-size="11" font-weight="600" fill="#4e79a7">Early Days</text>
+<circle cx="120" cy="120" r="8" fill="#4e79a7" stroke="var(--bg)" stroke-width="2" />
+<text x="120" y="106" text-anchor="middle" font-size="13" font-weight="600" fill="var(--_text)">2002</text>
+<rect x="50" y="150" width="140" height="28" rx="6" ry="6" fill="#4e79a7" opacity="0.15" />
+<text x="120" y="164" text-anchor="middle" dy="0.35em" font-size="12" fill="var(--_text)">LinkedIn</text>
+<circle cx="300" cy="120" r="8" fill="#4e79a7" stroke="var(--bg)" stroke-width="2" />
+<text x="300" y="106" text-anchor="middle" font-size="13" font-weight="600" fill="var(--_text)">2004</text>
+<rect x="230" y="150" width="140" height="28" rx="6" ry="6" fill="#4e79a7" opacity="0.15" />
+<text x="300" y="164" text-anchor="middle" dy="0.35em" font-size="12" fill="var(--_text)">Facebook</text>
+<rect x="230" y="184" width="140" height="28" rx="6" ry="6" fill="#4e79a7" opacity="0.15" />
+<text x="300" y="198" text-anchor="middle" dy="0.35em" font-size="12" fill="var(--_text)">Google</text>
+<rect x="390" y="90" width="360" height="168" rx="6" ry="6" fill="#f28e2b" opacity="0.08" />
+<text x="570" y="104" text-anchor="middle" font-size="11" font-weight="600" fill="#f28e2b">Modern Era</text>
+<circle cx="480" cy="120" r="8" fill="#f28e2b" stroke="var(--bg)" stroke-width="2" />
+<text x="480" y="106" text-anchor="middle" font-size="13" font-weight="600" fill="var(--_text)">2010</text>
+<rect x="410" y="150" width="140" height="28" rx="6" ry="6" fill="#f28e2b" opacity="0.15" />
+<text x="480" y="164" text-anchor="middle" dy="0.35em" font-size="12" fill="var(--_text)">Instagram</text>
+<circle cx="660" cy="120" r="8" fill="#f28e2b" stroke="var(--bg)" stroke-width="2" />
+<text x="660" y="106" text-anchor="middle" font-size="13" font-weight="600" fill="var(--_text)">2019</text>
+<rect x="590" y="150" width="140" height="28" rx="6" ry="6" fill="#f28e2b" opacity="0.15" />
+<text x="660" y="164" text-anchor="middle" dy="0.35em" font-size="12" fill="var(--_text)">TikTok</text>
+<line x1="110" y1="120" x2="670" y2="120" stroke="var(--_line)" stroke-width="2" />
+</svg>

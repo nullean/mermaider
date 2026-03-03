@@ -7,7 +7,10 @@ public class SvgRendererTests
 	[Test]
 	public void RendersSvgWithXmlHeader()
 	{
-		var svg = MermaidRenderer.RenderSvg("graph TD\n  A --> B");
+		var svg = MermaidRenderer.RenderSvg("""
+			graph TD
+			  A --> B
+			""");
 
 		svg.Should().StartWith("<svg xmlns=");
 		svg.Should().EndWith("</svg>");
@@ -16,7 +19,10 @@ public class SvgRendererTests
 	[Test]
 	public void SvgContainsNodes()
 	{
-		var svg = MermaidRenderer.RenderSvg("graph TD\n  A[Hello] --> B[World]");
+		var svg = MermaidRenderer.RenderSvg("""
+			graph TD
+			  A[Hello] --> B[World]
+			""");
 
 		svg.Should().Contain("data-id=\"A\"");
 		svg.Should().Contain("data-id=\"B\"");
@@ -27,7 +33,10 @@ public class SvgRendererTests
 	[Test]
 	public void SvgContainsEdges()
 	{
-		var svg = MermaidRenderer.RenderSvg("graph TD\n  A --> B");
+		var svg = MermaidRenderer.RenderSvg("""
+			graph TD
+			  A --> B
+			""");
 
 		svg.Should().Contain("class=\"edge\"");
 		svg.Should().Contain("data-from=\"A\"");
@@ -37,7 +46,10 @@ public class SvgRendererTests
 	[Test]
 	public void SvgContainsStyleBlock()
 	{
-		var svg = MermaidRenderer.RenderSvg("graph TD\n  A --> B");
+		var svg = MermaidRenderer.RenderSvg("""
+			graph TD
+			  A --> B
+			""");
 
 		svg.Should().Contain("<style>");
 		svg.Should().Contain("</style>");
@@ -47,7 +59,10 @@ public class SvgRendererTests
 	[Test]
 	public void RespectCustomColors()
 	{
-		var svg = MermaidRenderer.RenderSvg("graph TD\n  A --> B", new()
+		var svg = MermaidRenderer.RenderSvg("""
+			graph TD
+			  A --> B
+			""", new()
 		{
 			Bg = "#1e1e2e",
 			Fg = "#cdd6f4",
@@ -60,7 +75,10 @@ public class SvgRendererTests
 	[Test]
 	public void TransparentBackgroundByDefault()
 	{
-		var svg = MermaidRenderer.RenderSvg("graph TD\n  A --> B");
+		var svg = MermaidRenderer.RenderSvg("""
+			graph TD
+			  A --> B
+			""");
 
 		svg.Should().NotContain("background:var(--bg)");
 	}
@@ -68,7 +86,10 @@ public class SvgRendererTests
 	[Test]
 	public void OpaqueBackgroundWhenTransparentDisabled()
 	{
-		var svg = MermaidRenderer.RenderSvg("graph TD\n  A --> B", new() { Transparent = false });
+		var svg = MermaidRenderer.RenderSvg("""
+			graph TD
+			  A --> B
+			""", new() { Transparent = false });
 
 		svg.Should().Contain("background:var(--bg)");
 	}

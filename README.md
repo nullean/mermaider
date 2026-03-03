@@ -36,7 +36,8 @@ penalty, and trivial deployment&mdash;just a NuGet reference.
 ### Built-in layout engine
 
 Graph-based diagrams (flowchart, state, class, ER) need a layout algorithm to position nodes and route
-edges. Rather than depending on an external engine, Mermaider ships its own lightweight
+edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap) use
+purpose-built layout arithmetic directly in their renderers. Rather than depending on an external engine, Mermaider ships its own lightweight
 [Sugiyama layout engine](src/Sugiyama/) with zero dependencies.
 
 During development, [Microsoft MSAGL](https://github.com/microsoft/automatic-graph-layout) (Automatic Graph
@@ -163,6 +164,141 @@ MermaidRenderer.RenderSvg("""
 ```
 
 <p align="center"><img src="docs/screenshots/er.svg" alt="ER diagram" /></p>
+
+### Pie Chart
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    pie
+    title Pet Adoption
+    "Dogs" : 386
+    "Cats" : 85
+    "Rats" : 15
+    """);
+```
+
+<p align="center"><img src="docs/screenshots/pie.svg" alt="Pie chart" /></p>
+
+### Quadrant Chart
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    quadrantChart
+    title Priority Matrix
+    x-axis Low Effort --> High Effort
+    y-axis Low Impact --> High Impact
+    quadrant-1 Do First
+    quadrant-2 Schedule
+    quadrant-3 Delegate
+    quadrant-4 Eliminate
+    Feature A: [0.8, 0.9]
+    Feature B: [0.2, 0.3]
+    Feature C: [0.6, 0.4]
+    """);
+```
+
+<p align="center"><img src="docs/screenshots/quadrant.svg" alt="Quadrant chart" /></p>
+
+### Timeline
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    timeline
+    title History of Social Media
+    section Early Days
+    2002 : LinkedIn
+    2004 : Facebook : Google
+    section Modern Era
+    2010 : Instagram
+    2019 : TikTok
+    """);
+```
+
+<p align="center"><img src="docs/screenshots/timeline.svg" alt="Timeline diagram" /></p>
+
+### GitGraph
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    gitGraph
+    commit id: "init"
+    commit id: "feat-1"
+    branch develop
+    checkout develop
+    commit id: "dev-1"
+    commit id: "dev-2" tag: "v0.1"
+    checkout main
+    merge develop id: "merge-1"
+    commit id: "release" type: HIGHLIGHT tag: "v1.0"
+    """);
+```
+
+<p align="center"><img src="docs/screenshots/gitgraph.svg" alt="GitGraph" /></p>
+
+### Radar Chart
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    radar-beta
+    title Skills Assessment
+    axis Design, Frontend, Backend, DevOps, Testing
+    curve c1["Team A"]{4, 3, 5, 2, 4}
+    curve c2["Team B"]{3, 5, 2, 4, 3}
+    max 5
+    graticule polygon
+    """);
+```
+
+<p align="center"><img src="docs/screenshots/radar.svg" alt="Radar chart" /></p>
+
+### Treemap
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    treemap-beta
+    "Engineering": 50
+    "Marketing": 25
+    "Sales": 15
+    "Support": 10
+    """);
+```
+
+<p align="center"><img src="docs/screenshots/treemap.svg" alt="Treemap" /></p>
+
+### Venn Diagram
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    venn-beta
+    set A["Frontend"]
+    set B["Backend"]
+    set C["DevOps"]
+    union A, B["Full Stack"]
+    union B, C["SRE"]
+    """);
+```
+
+<p align="center"><img src="docs/screenshots/venn.svg" alt="Venn diagram" /></p>
+
+### Mindmap
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    mindmap
+      ((Project))
+        (Planning)
+          Requirements
+          Timeline
+        [Development]
+          Frontend
+          Backend
+        {{Testing}}
+          Unit Tests
+          Integration
+    """);
+```
+
+<p align="center"><img src="docs/screenshots/mindmap.svg" alt="Mindmap" /></p>
 
 ## Theming
 
@@ -295,7 +431,7 @@ dotnet publish -c Release
 
 ## Benchmarks
 
-All five diagram types use the built-in Sugiyama engine. Measured with `[MemoryDiagnoser]` on .NET 10
+Graph-based diagram types use the built-in Sugiyama engine. Measured with `[MemoryDiagnoser]` on .NET 10
 (Apple M2 Pro):
 
 | Method             |         Mean | Allocated |
