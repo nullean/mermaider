@@ -245,10 +245,10 @@ public static class MermaidRenderer
 	private static DiagramColors BuildColors(RenderOptions? options) =>
 		new()
 		{
-			Bg = options?.Bg ?? "#FFFFFF",
-			Fg = options?.Fg ?? "#27272A",
+			Bg = options?.Bg ?? Theming.Themes.Default.Bg,
+			Fg = options?.Fg ?? Theming.Themes.Default.Fg,
 			Line = options?.Line,
-			Accent = options?.Accent,
+			Accent = options?.Accent ?? Theming.Themes.Default.Accent,
 			Muted = options?.Muted,
 			Surface = options?.Surface,
 			Border = options?.Border,

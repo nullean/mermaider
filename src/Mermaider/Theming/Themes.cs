@@ -6,14 +6,14 @@ namespace Mermaider.Theming;
 public static class Themes
 {
 	/// <summary>Default colors (zinc light).</summary>
-	public static DiagramColors Default { get; } = new() { Bg = "#FFFFFF", Fg = "#27272A" };
+	public static DiagramColors Default { get; } = new() { Bg = "#FFFFFF", Fg = "#27272A", Accent = "#3b82f6" };
 
 	/// <summary>All 15 built-in themes.</summary>
 	public static FrozenDictionary<string, DiagramColors> BuiltIn { get; } =
 		new Dictionary<string, DiagramColors>
 		{
-			["zinc-light"] = new() { Bg = "#FFFFFF", Fg = "#27272A" },
-			["zinc-dark"] = new() { Bg = "#18181B", Fg = "#FAFAFA" },
+			["zinc-light"] = new() { Bg = "#FFFFFF", Fg = "#27272A", Accent = "#3b82f6" },
+			["zinc-dark"] = new() { Bg = "#18181B", Fg = "#FAFAFA", Accent = "#60a5fa" },
 			["tokyo-night"] = new()
 			{
 				Bg = "#1a1b26", Fg = "#a9b1d6",

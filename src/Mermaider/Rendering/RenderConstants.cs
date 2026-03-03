@@ -6,6 +6,7 @@ internal static class RenderConstants
 	{
 		internal const int NodeLabel = 14;
 		internal const int EdgeLabel = 12;
+		internal const int SeqMessageLabel = 13;
 		internal const int GroupHeader = 12;
 		internal const int Member = 12;
 		internal const int Annotation = 10;
@@ -77,6 +78,15 @@ internal static class RenderConstants
 
 		internal static readonly string SeqEdgeLabelStartFill =
 			$"font-size=\"{FontSizes.EdgeLabel}\" text-anchor=\"start\" font-weight=\"{FontWeights.EdgeLabel}\" fill=\"";
+
+		internal static readonly string SeqMessageLabelCenterFill =
+			$"font-size=\"{FontSizes.SeqMessageLabel}\" text-anchor=\"middle\" font-weight=\"{FontWeights.EdgeLabel}\" fill=\"";
+
+		internal static readonly string SeqMessageLabelStartFill =
+			$"font-size=\"{FontSizes.SeqMessageLabel}\" text-anchor=\"start\" font-weight=\"{FontWeights.EdgeLabel}\" fill=\"";
+
+		internal static readonly string SeqNoteCenterFill =
+			$"font-size=\"{FontSizes.EdgeLabel}\" text-anchor=\"middle\" font-weight=\"{FontWeights.EdgeLabel}\" fill=\"";
 
 		internal static readonly string SeqBlockTabFill =
 			$"font-size=\"{FontSizes.EdgeLabel}\" font-weight=\"{FontWeights.GroupHeader}\" fill=\"";

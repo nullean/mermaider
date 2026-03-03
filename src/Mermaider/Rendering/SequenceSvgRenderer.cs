@@ -10,14 +10,20 @@ internal static class SequenceSvgRenderer
 	private static readonly string NodeLabelTextAttrs =
 		RenderConstants.TextAttrs.SeqNodeLabelFill + "var(--_text)\"";
 
-	private static readonly string EdgeLabelStartAttrs =
-		RenderConstants.TextAttrs.SeqEdgeLabelStartFill + "var(--_text-muted)\"";
+	private static readonly string MessageLabelStartAttrs =
+		RenderConstants.TextAttrs.SeqMessageLabelStartFill + "var(--_text-sec)\"";
 
-	private static readonly string EdgeLabelMutedAttrs =
-		RenderConstants.TextAttrs.SeqEdgeLabelCenterFill + "var(--_text-muted)\"";
+	private static readonly string MessageLabelCenterAttrs =
+		RenderConstants.TextAttrs.SeqMessageLabelCenterFill + "var(--_text-sec)\"";
+
+	private static readonly string NoteLabelAttrs =
+		RenderConstants.TextAttrs.SeqNoteCenterFill + "var(--_accent-text)\"";
 
 	private static readonly string BlockTabAttrs =
 		RenderConstants.TextAttrs.SeqBlockTabFill + "var(--_text-sec)\"";
+
+	private static readonly string BlockDividerLabelAttrs =
+		RenderConstants.TextAttrs.SeqEdgeLabelStartFill + "var(--_text-sec)\"";
 
 	internal static string Render(PositionedSequenceDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
 	{
@@ -203,8 +209,8 @@ internal static class SequenceSvgRenderer
 
 			MultilineUtils.AppendMultilineText(
 				sb, msg.Label, msg.X1 + loopW + labelPadding, msg.Y + (loopH / 2),
-				RenderConstants.FontSizes.EdgeLabel,
-				EdgeLabelStartAttrs);
+				RenderConstants.FontSizes.SeqMessageLabel,
+				MessageLabelStartAttrs);
 			_ = sb.Append('\n');
 		}
 		else
@@ -218,8 +224,8 @@ internal static class SequenceSvgRenderer
 			var midX = (msg.X1 + msg.X2) / 2;
 			MultilineUtils.AppendMultilineText(
 				sb, msg.Label, midX, msg.Y - 10,
-				RenderConstants.FontSizes.EdgeLabel,
-				EdgeLabelMutedAttrs);
+				RenderConstants.FontSizes.SeqMessageLabel,
+				MessageLabelCenterAttrs);
 			_ = sb.Append('\n');
 		}
 
@@ -281,7 +287,7 @@ internal static class SequenceSvgRenderer
 					sb, $"[{divider.Label}]",
 					block.X + 8, divider.Y + 14,
 					RenderConstants.FontSizes.EdgeLabel,
-					EdgeLabelStartAttrs);
+					BlockDividerLabelAttrs);
 				_ = sb.Append('\n');
 			}
 		}
@@ -310,7 +316,7 @@ internal static class SequenceSvgRenderer
 		_ = sb.Append("  <rect x=\"").Append(note.X).Append("\" y=\"").Append(note.Y)
 			.Append("\" width=\"").Append(note.Width).Append("\" height=\"").Append(note.Height)
 			.Append("\" rx=\"6\" ry=\"6\"")
-			.Append(" fill=\"var(--_group-hdr)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
+			.Append(" fill=\"var(--_accent-fill)\" stroke=\"var(--_accent-stroke)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.InnerBox).Append("\" />\n  ");
 
 		const double asymmetry = 6.0;
@@ -324,7 +330,7 @@ internal static class SequenceSvgRenderer
 			sb, note.Text,
 			textX, note.Y + (note.Height / 2),
 			RenderConstants.FontSizes.EdgeLabel,
-			EdgeLabelMutedAttrs);
+			NoteLabelAttrs);
 		_ = sb.Append('\n');
 
 		_ = sb.Append("</g>");
