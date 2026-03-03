@@ -139,7 +139,7 @@ public static class MermaidRenderer
 	{
 		var colors = BuildColors(options);
 		var font = options?.Font ?? LayoutDefaults.Font;
-		var transparent = options?.Transparent ?? false;
+		var transparent = options?.Transparent ?? true;
 		var strict = options?.Strict;
 		var provider = options?.LayoutProvider ?? _layoutProvider;
 

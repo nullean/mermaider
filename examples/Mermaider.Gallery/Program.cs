@@ -12,7 +12,7 @@ var msaglProvider = new MsaglLayoutProvider();
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-app.MapGet("/", (HttpContext ctx) =>
+app.MapGet("/", ctx =>
 {
 	ctx.Response.ContentType = "text/html; charset=utf-8";
 	return ctx.Response.WriteAsync(RenderIndex(null, "lightweight"));
@@ -113,7 +113,7 @@ string RenderIndex(string? activeTheme, string activeEngine)
 			return $"        <a href=\"/theme/{name}\"{active}>{WebUtility.HtmlEncode(name)}</a>";
 		}));
 
-	var engineLinks = new[] { "lightweight", "msagl", "side-by-side" }
+	var engineLinks = EngineNames
 		.Select(eng =>
 		{
 			var active = eng == activeEngine ? " class=\"active\"" : "";
@@ -349,4 +349,9 @@ string RenderIndex(string? activeTheme, string activeEngine)
 		</body>
 		</html>
 		""";
+}
+
+internal partial class Program
+{
+	private static readonly string[] EngineNames = ["lightweight", "msagl", "side-by-side"];
 }

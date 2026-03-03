@@ -38,8 +38,8 @@ public sealed record RenderOptions
 	/// <summary>Vertical spacing between layers. Default: 48.</summary>
 	public double? LayerSpacing { get; init; }
 
-	/// <summary>Render with transparent background. Default: false.</summary>
-	public bool Transparent { get; init; }
+	/// <summary>Render with transparent background. Default: true.</summary>
+	public bool Transparent { get; init; } = true;
 
 	/// <summary>
 	/// Override the layout provider for this render call only.

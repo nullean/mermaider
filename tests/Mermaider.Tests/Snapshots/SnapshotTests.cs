@@ -159,11 +159,11 @@ public class SnapshotTests
 			"svg");
 
 	[Test]
-	public Task Flowchart_transparent() =>
+	public Task Flowchart_opaque() =>
 		Verifier.Verify(MermaidRenderer.RenderSvg("""
 			graph TD
 			A --> B
 			""",
-			new() { Transparent = true }),
+			new() { Transparent = false }),
 			"svg");
 }
