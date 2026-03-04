@@ -126,31 +126,34 @@ public static class MermaidRenderer
 	/// <exception cref="MermaidParseException">Thrown when the input cannot be parsed.</exception>
 	public static MermaidGraph Parse(string text)
 	{
-		var lines = PreprocessLines(text);
+		var (cleaned, _) = DiagramPreprocessor.Process(text);
+
+		var lines = PreprocessLines(cleaned);
 		if (lines.Length == 0)
 			throw new MermaidParseException("Empty mermaid diagram");
 
-		var diagramType = DiagramDetector.Detect(text.AsSpan());
+		var diagramType = DiagramDetector.Detect(cleaned.AsSpan());
 
 		return ParseInternal(lines, diagramType);
 	}
 
 	private static (StrictModeOptions? Strict, StringBuilder Builder) RenderToBuilder(string text, RenderOptions? options)
 	{
-		var colors = BuildColors(options);
+		var (cleaned, metadata) = DiagramPreprocessor.Process(text);
+		var colors = BuildColors(options, metadata);
 		var font = options?.Font ?? LayoutDefaults.Font;
 		var transparent = options?.Transparent ?? true;
 		var strict = options?.Strict;
 		var provider = options?.LayoutProvider ?? _layoutProvider;
 
-		var lines = PreprocessLines(text);
+		var lines = PreprocessLines(cleaned);
 		if (lines.Length == 0)
 			throw new MermaidParseException("Empty mermaid diagram");
 
 		if (strict is not null)
 			StrictModeValidator.Validate(lines, strict);
 
-		var diagramType = DiagramDetector.Detect(text.AsSpan());
+		var diagramType = DiagramDetector.Detect(cleaned.AsSpan());
 
 		var sb = diagramType switch
 		{
@@ -187,7 +190,7 @@ public static class MermaidRenderer
 				colors, font, transparent, strict),
 
 			DiagramType.Treemap => TreemapSvgRenderer.RenderToBuilder(
-				TreemapParser.Parse(PreprocessLinesPreserveIndent(text)),
+				TreemapParser.Parse(PreprocessLinesPreserveIndent(cleaned)),
 				colors, font, transparent, strict),
 
 			DiagramType.Venn => VennSvgRenderer.RenderToBuilder(
@@ -195,13 +198,16 @@ public static class MermaidRenderer
 				colors, font, transparent, strict),
 
 			DiagramType.Mindmap => MindmapSvgRenderer.RenderToBuilder(
-				MindmapParser.Parse(PreprocessLinesPreserveIndent(text)),
+				MindmapParser.Parse(PreprocessLinesPreserveIndent(cleaned)),
 				colors, font, transparent, strict),
 
 			_ => SvgRenderer.RenderToBuilder(
 				provider.LayoutFlowchart(ParseInternal(lines, diagramType), options, strict),
 				colors, font, transparent, strict),
 		};
+
+		if (metadata.Title is { Length: > 0 } title)
+			InsertSvgTitle(sb, title);
 
 		return (strict, sb);
 	}
@@ -274,17 +280,59 @@ public static class MermaidRenderer
 			_ => throw new MermaidParseException($"Diagram type '{diagramType}' is not yet supported.")
 		};
 
-	private static DiagramColors BuildColors(RenderOptions? options) =>
-		new()
+	private static DiagramColors BuildColors(RenderOptions? options, DiagramMetadata? metadata = null)
+	{
+		// If no explicit color options, check for a theme name in metadata
+		DiagramColors? themeColors = null;
+		if (metadata?.Theme is { Length: > 0 } themeName)
+			_ = Theming.Themes.BuiltIn.TryGetValue(themeName, out themeColors);
+
+		var baseColors = themeColors ?? Theming.Themes.Default;
+
+		var colors = new DiagramColors
 		{
-			Bg = options?.Bg ?? Theming.Themes.Default.Bg,
-			Fg = options?.Fg ?? Theming.Themes.Default.Fg,
-			Line = options?.Line,
-			Accent = options?.Accent ?? Theming.Themes.Default.Accent,
-			Muted = options?.Muted,
-			Surface = options?.Surface,
-			Border = options?.Border,
+			Bg = options?.Bg ?? baseColors.Bg,
+			Fg = options?.Fg ?? baseColors.Fg,
+			Line = options?.Line ?? baseColors.Line,
+			Accent = options?.Accent ?? baseColors.Accent,
+			Muted = options?.Muted ?? baseColors.Muted,
+			Surface = options?.Surface ?? baseColors.Surface,
+			Border = options?.Border ?? baseColors.Border,
 		};
+
+		// Apply themeVariables overrides from init directive
+		if (metadata?.ThemeVariables is { } vars)
+		{
+			colors = colors with
+			{
+				Bg = vars.GetValueOrDefault("background") ?? colors.Bg,
+				Fg = vars.GetValueOrDefault("primaryTextColor") ?? colors.Fg,
+				Line = vars.GetValueOrDefault("lineColor") ?? colors.Line,
+				Accent = vars.GetValueOrDefault("primaryColor") ?? colors.Accent,
+			};
+		}
+
+		return colors;
+	}
+
+	private static void InsertSvgTitle(StringBuilder sb, string title)
+	{
+		// Find the end of the <svg ...> opening tag to insert <title> right after it
+		const string svgClose = "\">";
+		var svgStr = sb.ToString();
+		var insertPos = svgStr.IndexOf(svgClose, StringComparison.Ordinal);
+		if (insertPos < 0)
+			return;
+
+		insertPos += svgClose.Length;
+
+		var titleBuilder = new StringBuilder();
+		_ = titleBuilder.Append("\n<title>");
+		Text.MultilineUtils.AppendEscapedXml(titleBuilder, title.AsSpan());
+		_ = titleBuilder.Append("</title>");
+
+		_ = sb.Insert(insertPos, titleBuilder.ToString());
+	}
 
 	internal static string[] PreprocessLines(string text)
 	{
