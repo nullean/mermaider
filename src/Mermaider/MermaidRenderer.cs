@@ -152,55 +152,57 @@ public static class MermaidRenderer
 
 		var diagramType = DiagramDetector.Detect(text.AsSpan());
 
+		var (accessibility, filteredLines) = AccessibilityParser.Extract(lines);
+
 		var sb = diagramType switch
 		{
 			DiagramType.Sequence => SequenceSvgRenderer.RenderToBuilder(
-				SequenceLayout.Layout(SequenceParser.Parse(lines)),
-				colors, font, transparent, strict),
+				SequenceLayout.Layout(SequenceParser.Parse(filteredLines)),
+				colors, font, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Class => ClassSvgRenderer.RenderToBuilder(
-				provider.LayoutClass(ClassParser.Parse(lines)),
-				colors, font, transparent, strict),
+				provider.LayoutClass(ClassParser.Parse(filteredLines)),
+				colors, font, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Er => ErSvgRenderer.RenderToBuilder(
-				provider.LayoutEr(ErParser.Parse(lines)),
-				colors, font, transparent, strict),
+				provider.LayoutEr(ErParser.Parse(filteredLines)),
+				colors, font, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Pie => PieSvgRenderer.RenderToBuilder(
-				PieParser.Parse(lines),
-				colors, font, transparent, strict),
+				PieParser.Parse(filteredLines),
+				colors, font, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Quadrant => QuadrantSvgRenderer.RenderToBuilder(
-				QuadrantParser.Parse(lines),
-				colors, font, transparent, strict),
+				QuadrantParser.Parse(filteredLines),
+				colors, font, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Timeline => TimelineSvgRenderer.RenderToBuilder(
-				TimelineParser.Parse(lines),
-				colors, font, transparent, strict),
+				TimelineParser.Parse(filteredLines),
+				colors, font, transparent, strict, accessibility, diagramType),
 
 			DiagramType.GitGraph => GitGraphSvgRenderer.RenderToBuilder(
-				GitGraphParser.Parse(lines),
-				colors, font, transparent, strict),
+				GitGraphParser.Parse(filteredLines),
+				colors, font, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Radar => RadarSvgRenderer.RenderToBuilder(
-				RadarParser.Parse(lines),
-				colors, font, transparent, strict),
+				RadarParser.Parse(filteredLines),
+				colors, font, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Treemap => TreemapSvgRenderer.RenderToBuilder(
-				TreemapParser.Parse(PreprocessLinesPreserveIndent(text)),
-				colors, font, transparent, strict),
+				TreemapParser.Parse(PreprocessLinesPreserveIndent(text, accessibility)),
+				colors, font, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Venn => VennSvgRenderer.RenderToBuilder(
-				VennParser.Parse(lines),
-				colors, font, transparent, strict),
+				VennParser.Parse(filteredLines),
+				colors, font, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Mindmap => MindmapSvgRenderer.RenderToBuilder(
-				MindmapParser.Parse(PreprocessLinesPreserveIndent(text)),
-				colors, font, transparent, strict),
+				MindmapParser.Parse(PreprocessLinesPreserveIndent(text, accessibility)),
+				colors, font, transparent, strict, accessibility, diagramType),
 
 			_ => SvgRenderer.RenderToBuilder(
-				provider.LayoutFlowchart(ParseInternal(lines, diagramType), options, strict),
-				colors, font, transparent, strict),
+				provider.LayoutFlowchart(ParseInternal(filteredLines, diagramType), options, strict),
+				colors, font, transparent, strict, accessibility, diagramType),
 		};
 
 		return (strict, sb);
@@ -302,19 +304,41 @@ public static class MermaidRenderer
 		return rawLines.AsSpan(0, count).ToArray();
 	}
 
-	internal static string[] PreprocessLinesPreserveIndent(string text)
+	internal static string[] PreprocessLinesPreserveIndent(string text, AccessibilityInfo? accessibility = null)
 	{
 		var rawLines = text.Split('\n');
-		var count = 0;
+		var result = new List<string>(rawLines.Length);
 		for (var i = 0; i < rawLines.Length; i++)
 		{
 			var trimmed = rawLines[i].TrimEnd();
-			if (trimmed.Trim().Length > 0 && !trimmed.TrimStart().StartsWith("%%", StringComparison.Ordinal))
-			{
-				rawLines[count] = trimmed;
-				count++;
-			}
+			var stripped = trimmed.Trim();
+			if (stripped.Length == 0 || stripped.StartsWith("%%", StringComparison.Ordinal))
+				continue;
+			if (accessibility?.HasContent == true && IsAccessibilityLine(stripped, ref i, rawLines))
+				continue;
+			result.Add(trimmed);
 		}
-		return rawLines.AsSpan(0, count).ToArray();
+		return result.ToArray();
+	}
+
+	private static bool IsAccessibilityLine(string stripped, ref int i, string[] rawLines)
+	{
+		if (stripped.StartsWith("accTitle", StringComparison.Ordinal) && stripped.Contains(':'))
+			return true;
+		if (stripped.StartsWith("accDescr", StringComparison.Ordinal) && stripped.Contains(':'))
+			return true;
+		if (stripped.StartsWith("accDescr", StringComparison.Ordinal) && stripped.Contains('{'))
+		{
+			i++;
+			while (i < rawLines.Length)
+			{
+				var inner = rawLines[i].Trim();
+				if (inner == "}" || inner.StartsWith('}'))
+					break;
+				i++;
+			}
+			return true;
+		}
+		return false;
 	}
 }

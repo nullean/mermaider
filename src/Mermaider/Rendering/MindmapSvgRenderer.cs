@@ -21,9 +21,9 @@ internal static class MindmapSvgRenderer
 		"#59a14f", "#edc948", "#b07aa1", "#ff9da7",
 	];
 
-	internal static string Render(MindmapDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
+	internal static string Render(MindmapDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, transparent, strict);
+		var sb = RenderToBuilder(diagram, colors, font, transparent, strict, accessibility, diagramType);
 		try
 		{
 			return sb.ToString();
@@ -35,7 +35,7 @@ internal static class MindmapSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(MindmapDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
+	internal static StringBuilder RenderToBuilder(MindmapDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
@@ -57,7 +57,7 @@ internal static class MindmapSvgRenderer
 		var width = maxX + 40;
 		var height = maxY + 40;
 
-		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent);
+		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
 		StyleBlock.AppendStyleBlock(sb, font, strict);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 

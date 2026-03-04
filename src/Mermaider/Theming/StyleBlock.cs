@@ -31,13 +31,28 @@ internal static class StyleBlock
 
 	internal static void AppendSvgOpenTag(
 		StringBuilder sb, double width, double height,
-		DiagramColors colors, bool transparent)
+		DiagramColors colors, bool transparent,
+		AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		_ = sb.Append("<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 ")
 			.Append(width).Append(' ').Append(height)
 			.Append("\" width=\"").Append(width)
-			.Append("\" height=\"").Append(height)
-			.Append("\" style=\"--bg:").Append(colors.Bg)
+			.Append("\" height=\"").Append(height);
+
+		if (accessibility?.HasContent == true)
+		{
+			_ = sb.Append("\" role=\"img\"");
+			if (diagramType.HasValue)
+				_ = sb.Append(" aria-roledescription=\"").Append(GetRoleDescription(diagramType.Value)).Append('"');
+			if (accessibility.Title is { Length: > 0 })
+			{
+				_ = sb.Append(" aria-label=\"");
+				Text.MultilineUtils.AppendEscapedAttr(sb, accessibility.Title.AsSpan());
+				_ = sb.Append('"');
+			}
+		}
+
+		_ = sb.Append("\" style=\"--bg:").Append(colors.Bg)
 			.Append(";--fg:").Append(colors.Fg);
 
 		if (colors.Line is not null)
@@ -55,7 +70,47 @@ internal static class StyleBlock
 			_ = sb.Append(";background:var(--bg)");
 
 		_ = sb.Append("\">");
+
+		AppendAccessibilityElements(sb, accessibility);
 	}
+
+	internal static void AppendAccessibilityElements(StringBuilder sb, AccessibilityInfo? accessibility)
+	{
+		if (accessibility?.HasContent != true)
+			return;
+
+		if (accessibility.Title is { Length: > 0 })
+		{
+			_ = sb.Append("\n<title>");
+			Text.MultilineUtils.AppendEscapedXml(sb, accessibility.Title.AsSpan());
+			_ = sb.Append("</title>");
+		}
+
+		if (accessibility.Description is { Length: > 0 })
+		{
+			_ = sb.Append("\n<desc>");
+			Text.MultilineUtils.AppendEscapedXml(sb, accessibility.Description.AsSpan());
+			_ = sb.Append("</desc>");
+		}
+	}
+
+	private static string GetRoleDescription(DiagramType diagramType) => diagramType switch
+	{
+		DiagramType.Flowchart => "flowchart",
+		DiagramType.State => "state diagram",
+		DiagramType.Sequence => "sequence diagram",
+		DiagramType.Class => "class diagram",
+		DiagramType.Er => "ER diagram",
+		DiagramType.Pie => "pie chart",
+		DiagramType.Quadrant => "quadrant chart",
+		DiagramType.Timeline => "timeline",
+		DiagramType.GitGraph => "git graph",
+		DiagramType.Radar => "radar chart",
+		DiagramType.Treemap => "treemap",
+		DiagramType.Venn => "venn diagram",
+		DiagramType.Mindmap => "mindmap",
+		_ => "diagram",
+	};
 
 	internal static void AppendStyleBlock(StringBuilder sb, string? font = null, StrictModeOptions? strict = null)
 	{
