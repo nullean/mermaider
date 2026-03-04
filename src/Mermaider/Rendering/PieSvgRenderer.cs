@@ -26,9 +26,9 @@ internal static class PieSvgRenderer
 		"#9c755f", "#bab0ac",
 	];
 
-	internal static string Render(PieChart chart, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
+	internal static string Render(PieChart chart, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
-		var sb = RenderToBuilder(chart, colors, font, transparent, strict);
+		var sb = RenderToBuilder(chart, colors, font, transparent, strict, accessibility, diagramType);
 		try
 		{
 			return sb.ToString();
@@ -40,7 +40,7 @@ internal static class PieSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(PieChart chart, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
+	internal static StringBuilder RenderToBuilder(PieChart chart, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
@@ -57,7 +57,7 @@ internal static class PieSvgRenderer
 		var height = Math.Max(chartHeight, legendTop + legendHeight + 20);
 		var width = LegendX + 200;
 
-		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent);
+		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
 		StyleBlock.AppendStyleBlock(sb, font, strict);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 

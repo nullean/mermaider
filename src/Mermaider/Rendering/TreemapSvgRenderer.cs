@@ -22,9 +22,9 @@ internal static class TreemapSvgRenderer
 		"#9c755f", "#bab0ac",
 	];
 
-	internal static string Render(TreemapDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
+	internal static string Render(TreemapDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, transparent, strict);
+		var sb = RenderToBuilder(diagram, colors, font, transparent, strict, accessibility, diagramType);
 		try
 		{
 			return sb.ToString();
@@ -36,11 +36,11 @@ internal static class TreemapSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(TreemapDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
+	internal static StringBuilder RenderToBuilder(TreemapDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
-		StyleBlock.AppendSvgOpenTag(sb, ChartWidth, ChartHeight, colors, transparent);
+		StyleBlock.AppendSvgOpenTag(sb, ChartWidth, ChartHeight, colors, transparent, accessibility, diagramType);
 		StyleBlock.AppendStyleBlock(sb, font, strict);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
