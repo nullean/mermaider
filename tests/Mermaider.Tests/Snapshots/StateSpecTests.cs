@@ -152,4 +152,23 @@ public class StateSpecTests
 			}
 			First --> Last
 			"""), "svg");
+
+	[Test]
+	public Task ClassDef_and_style() =>
+		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			stateDiagram-v2
+			classDef badBadEvent fill:#f00,color:white,font-weight:bold,stroke-width:2px,stroke:yellow
+			classDef movement font-style:italic
+			classDef default fill:#ddd
+			[*] --> Still
+			Still --> [*]
+			Still --> Moving
+			Moving --> Still
+			Moving --> Crash
+			Crash --> [*]
+			class Still default
+			class Moving movement
+			class Crash badBadEvent
+			SomeState:::movement
+			"""), "svg");
 }
