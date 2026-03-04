@@ -7,6 +7,7 @@ public sealed record PositionedClassDiagram
 	public required IReadOnlyList<PositionedClassNode> Classes { get; init; }
 	public required IReadOnlyList<PositionedClassRelationship> Relationships { get; init; }
 	public IReadOnlyList<PositionedGraphNote> Notes { get; init; } = [];
+	public IReadOnlyList<PositionedGroup> Namespaces { get; init; } = [];
 }
 
 public sealed record PositionedClassNode
@@ -23,6 +24,9 @@ public sealed record PositionedClassNode
 	public required double HeaderHeight { get; init; }
 	public required double AttrHeight { get; init; }
 	public required double MethodHeight { get; init; }
+
+	/// <summary>Resolved inline style (classDef + style directive merged).</summary>
+	public IReadOnlyDictionary<string, string>? InlineStyle { get; init; }
 }
 
 public sealed record PositionedClassRelationship

@@ -87,4 +87,72 @@ public class ClassRendererTests
 
 		svg.Should().Contain("data-label=\"places\"");
 	}
+
+	[Test]
+	public void Renders_classDef_fill_on_class_box()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			classDiagram
+			classDef highlight fill:#f9f,stroke:#333,stroke-width:4px
+			class Duck {
+			+swim() void
+			}
+			cssClass "Duck" highlight
+			""");
+
+		svg.Should().Contain("fill=\"#f9f\"");
+		svg.Should().Contain("stroke=\"#333\"");
+		svg.Should().Contain("stroke-width=\"4px\"");
+	}
+
+	[Test]
+	public void Renders_triple_colon_style()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			classDiagram
+			classDef highlight fill:#f9f,stroke:#333
+			class Fish:::highlight {
+			+int spikeCount
+			}
+			""");
+
+		svg.Should().Contain("data-id=\"Fish\"");
+		svg.Should().Contain("fill=\"#f9f\"");
+	}
+
+	[Test]
+	public void Renders_namespace_group()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			classDiagram
+			namespace Animals {
+			class Duck {
+			+swim() void
+			}
+			class Fish {
+			+int spikeCount
+			}
+			}
+			""");
+
+		svg.Should().Contain("class=\"namespace\"");
+		svg.Should().Contain("data-label=\"Animals\"");
+		svg.Should().Contain("data-id=\"Duck\"");
+		svg.Should().Contain("data-id=\"Fish\"");
+	}
+
+	[Test]
+	public void Renders_style_directive()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			classDiagram
+			class Animal {
+			+int age
+			}
+			style Animal fill:#bbf,stroke:#00f
+			""");
+
+		svg.Should().Contain("fill=\"#bbf\"");
+		svg.Should().Contain("stroke=\"#00f\"");
+	}
 }
