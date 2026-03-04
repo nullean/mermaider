@@ -19,6 +19,9 @@ internal static partial class StrictModeValidator
 	[GeneratedRegex(@"^style\s+", RegexOptions.None, TimeoutMs)]
 	private static partial Regex StyleDirective();
 
+	[GeneratedRegex(@"^linkStyle\s+", RegexOptions.None, TimeoutMs)]
+	private static partial Regex LinkStyleDirective();
+
 	[GeneratedRegex(@"^class\s+[\w,-]+\s+(\w+)\s*$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex ClassAssignDirective();
 
@@ -41,6 +44,11 @@ internal static partial class StrictModeValidator
 			if (StyleDirective().IsMatch(line))
 				throw new MermaidParseException(
 					$"Strict mode: 'style' directives are not allowed (line {i + 1}: \"{line}\"). " +
+					"Use pre-defined allowed classes instead.");
+
+			if (LinkStyleDirective().IsMatch(line))
+				throw new MermaidParseException(
+					$"Strict mode: 'linkStyle' directives are not allowed (line {i + 1}: \"{line}\"). " +
 					"Use pre-defined allowed classes instead.");
 
 			if (strict.RejectUnknownClasses)

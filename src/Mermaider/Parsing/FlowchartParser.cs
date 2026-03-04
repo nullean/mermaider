@@ -24,6 +24,9 @@ internal static partial class FlowchartParser
 	[GeneratedRegex(@"^style\s+([\w,-]+)\s+(.+)$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex StylePattern();
 
+	[GeneratedRegex(@"^linkStyle\s+(default|[\d,\s]+)\s+(.+)$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex LinkStylePattern();
+
 	[GeneratedRegex(@"^direction\s+(TD|TB|LR|BT|RL)\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex DirectionPattern();
 
@@ -129,6 +132,8 @@ internal static partial class FlowchartParser
 		var classDefs = new Dictionary<string, IReadOnlyDictionary<string, string>>();
 		var classAssignments = new Dictionary<string, string>();
 		var nodeStyles = new Dictionary<string, Dictionary<string, string>>();
+		var edgeStyles = new Dictionary<int, Dictionary<string, string>>();
+		IReadOnlyDictionary<string, string>? defaultEdgeStyle = null;
 		var subgraphStack = new Stack<(string Id, string Label, List<string> NodeIds, List<MermaidSubgraph> Children, Direction? Dir)>();
 
 		for (var i = 1; i < lines.Length; i++)
@@ -168,6 +173,35 @@ internal static partial class FlowchartParser
 					}
 					foreach (var kvp in props)
 						existing[kvp.Key] = kvp.Value;
+				}
+				continue;
+			}
+
+			var linkStyleMatch = LinkStylePattern().Match(line);
+			if (linkStyleMatch.Success)
+			{
+				var indexPart = linkStyleMatch.Groups[1].Value.Trim();
+				var props = ParseStyleProps(linkStyleMatch.Groups[2].Value);
+				if (indexPart.Equals("default", StringComparison.OrdinalIgnoreCase))
+				{
+					defaultEdgeStyle = props;
+				}
+				else
+				{
+					var indices = indexPart.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+					foreach (var idxStr in indices)
+					{
+						if (int.TryParse(idxStr, out var idx))
+						{
+							if (!edgeStyles.TryGetValue(idx, out var existing))
+							{
+								existing = [];
+								edgeStyles[idx] = existing;
+							}
+							foreach (var kvp in props)
+								existing[kvp.Key] = kvp.Value;
+						}
+					}
 				}
 				continue;
 			}
@@ -275,6 +309,10 @@ internal static partial class FlowchartParser
 			NodeStyles = nodeStyles.ToDictionary(
 				kvp => kvp.Key,
 				kvp => (IReadOnlyDictionary<string, string>)kvp.Value),
+			EdgeStyles = edgeStyles.ToDictionary(
+				kvp => kvp.Key,
+				kvp => (IReadOnlyDictionary<string, string>)kvp.Value),
+			DefaultEdgeStyle = defaultEdgeStyle,
 			SubgraphEdgeRedirections = redirections
 		};
 	}

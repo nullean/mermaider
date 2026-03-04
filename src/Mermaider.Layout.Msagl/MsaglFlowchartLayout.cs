@@ -121,8 +121,9 @@ internal static class MsaglFlowchartLayout
 		}
 
 		var positionedEdges = new List<PositionedEdge>(edgeMap.Count);
-		foreach (var (msaglEdge, mermaidEdge) in edgeMap)
+		for (var i = 0; i < edgeMap.Count; i++)
 		{
+			var (msaglEdge, mermaidEdge) = edgeMap[i];
 			var points = ExtractEdgePoints(msaglEdge, offsetX, offsetY);
 			Point? labelPos = null;
 			if (msaglEdge.Label != null)
@@ -130,6 +131,8 @@ internal static class MsaglFlowchartLayout
 				var lc = msaglEdge.Label.Center;
 				labelPos = new Point(lc.X + offsetX, lc.Y + offsetY);
 			}
+
+			var edgeInlineStyle = strict is null ? ResolveEdgeStyle(i, graph) : null;
 
 			positionedEdges.Add(new PositionedEdge
 			{
@@ -141,6 +144,7 @@ internal static class MsaglFlowchartLayout
 				HasArrowEnd = mermaidEdge.HasArrowEnd,
 				Points = points,
 				LabelPosition = labelPos,
+				InlineStyle = edgeInlineStyle,
 			});
 		}
 
@@ -299,6 +303,25 @@ internal static class MsaglFlowchartLayout
 		{
 			result ??= [];
 			foreach (var kvp in nodeStyle)
+				result[kvp.Key] = kvp.Value;
+		}
+
+		return result;
+	}
+
+	private static IReadOnlyDictionary<string, string>? ResolveEdgeStyle(int edgeIndex, MermaidGraph graph)
+	{
+		Dictionary<string, string>? result = null;
+
+		if (graph.DefaultEdgeStyle is { } defaultStyle)
+		{
+			result = new Dictionary<string, string>(defaultStyle);
+		}
+
+		if (graph.EdgeStyles.TryGetValue(edgeIndex, out var edgeStyle))
+		{
+			result ??= [];
+			foreach (var kvp in edgeStyle)
 				result[kvp.Key] = kvp.Value;
 		}
 
