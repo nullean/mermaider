@@ -17,9 +17,6 @@ internal static partial class StateParser
 	[GeneratedRegex(@"^state\s+""([^""]+)""\s+as\s+(\w+)\s*$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex StateAliasPattern();
 
-	[GeneratedRegex(@"^(\[\*\]|[\w-]+)\s*(-->)\s*(\[\*\]|[\w-]+)(?:\s*:\s*(.+))?$", RegexOptions.None, TimeoutMs)]
-	private static partial Regex TransitionPattern();
-
 	[GeneratedRegex(@"^([\w-]+)\s*:\s*(.+)$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex StateDescPattern();
 
@@ -31,6 +28,21 @@ internal static partial class StateParser
 
 	[GeneratedRegex(@"^note\s+(left|right)\s+of\s+(\w[\w-]*)$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex NoteBlockStartPattern();
+
+	[GeneratedRegex(@"^classDef\s+(\w+)\s+(.+)$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex ClassDefPattern();
+
+	[GeneratedRegex(@"^class\s+([\w,-]+)\s+(\w+)$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex ClassAssignPattern();
+
+	[GeneratedRegex(@"^style\s+([\w,-]+)\s+(.+)$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex StylePattern();
+
+	[GeneratedRegex(@"^(\[\*\]|[\w-]+)(?::::([\w][\w-]*))?\s*(-->)\s*(\[\*\]|[\w-]+)(?::::([\w][\w-]*))?(?:\s*:\s*(.+))?$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex TransitionWithClassPattern();
+
+	[GeneratedRegex(@"^([\w-]+):::([\w][\w-]*)\s*$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex ClassShorthandPattern();
 
 	internal static MermaidGraph Parse(string[] lines)
 	{
@@ -60,6 +72,9 @@ internal static partial class StateParser
 		string? pendingNoteTarget = null;
 		var pendingNotePosition = GraphNotePosition.Right;
 		var pendingNoteText = new List<string>();
+		var classDefs = new Dictionary<string, IReadOnlyDictionary<string, string>>();
+		var classAssignments = new Dictionary<string, string>();
+		var nodeStyles = new Dictionary<string, Dictionary<string, string>>();
 
 		for (var i = 1; i < lines.Length; i++)
 		{
@@ -92,6 +107,43 @@ internal static partial class StateParser
 					continue;
 				}
 				pendingNoteText.Add(line);
+				continue;
+			}
+
+			var classDefMatch = ClassDefPattern().Match(line);
+			if (classDefMatch.Success)
+			{
+				var name = classDefMatch.Groups[1].Value;
+				var propsStr = classDefMatch.Groups[2].Value;
+				classDefs[name] = ParseStyleProps(propsStr);
+				continue;
+			}
+
+			var classAssignMatch = ClassAssignPattern().Match(line);
+			if (classAssignMatch.Success)
+			{
+				var nodeIds = classAssignMatch.Groups[1].Value.Split(',', StringSplitOptions.TrimEntries);
+				var className = classAssignMatch.Groups[2].Value;
+				foreach (var id in nodeIds)
+					classAssignments[id] = className;
+				continue;
+			}
+
+			var styleMatch = StylePattern().Match(line);
+			if (styleMatch.Success)
+			{
+				var nodeIds = styleMatch.Groups[1].Value.Split(',', StringSplitOptions.TrimEntries);
+				var props = ParseStyleProps(styleMatch.Groups[2].Value);
+				foreach (var id in nodeIds)
+				{
+					if (!nodeStyles.TryGetValue(id, out var existing))
+					{
+						existing = [];
+						nodeStyles[id] = existing;
+					}
+					foreach (var kvp in props)
+						existing[kvp.Key] = kvp.Value;
+				}
 				continue;
 			}
 
@@ -170,12 +222,14 @@ internal static partial class StateParser
 				continue;
 			}
 
-			var transitionMatch = TransitionPattern().Match(line);
+			var transitionMatch = TransitionWithClassPattern().Match(line);
 			if (transitionMatch.Success)
 			{
 				var sourceId = transitionMatch.Groups[1].Value;
-				var targetId = transitionMatch.Groups[3].Value;
-				var rawLabel = transitionMatch.Groups[4].Success ? transitionMatch.Groups[4].Value.Trim() : null;
+				var sourceClass = transitionMatch.Groups[2].Success ? transitionMatch.Groups[2].Value : null;
+				var targetId = transitionMatch.Groups[4].Value;
+				var targetClass = transitionMatch.Groups[5].Success ? transitionMatch.Groups[5].Value : null;
+				var rawLabel = transitionMatch.Groups[6].Success ? transitionMatch.Groups[6].Value.Trim() : null;
 				var edgeLabel = rawLabel is { Length: > 0 } ? MultilineUtils.NormalizeBrTags(rawLabel) : null;
 
 				if (sourceId == "[*]")
@@ -187,6 +241,8 @@ internal static partial class StateParser
 				else if (!compositeStateIds.Contains(sourceId))
 				{
 					EnsureStateNode(nodes, compositeStack, sourceId);
+					if (sourceClass != null)
+						classAssignments[sourceId] = sourceClass;
 				}
 
 				if (targetId == "[*]")
@@ -198,9 +254,21 @@ internal static partial class StateParser
 				else if (!compositeStateIds.Contains(targetId))
 				{
 					EnsureStateNode(nodes, compositeStack, targetId);
+					if (targetClass != null)
+						classAssignments[targetId] = targetClass;
 				}
 
 				edges.Add(new MermaidEdge(sourceId, targetId, edgeLabel, EdgeStyle.Solid, false, true));
+				continue;
+			}
+
+			var classShorthandMatch = ClassShorthandPattern().Match(line);
+			if (classShorthandMatch.Success)
+			{
+				var id = classShorthandMatch.Groups[1].Value;
+				var className = classShorthandMatch.Groups[2].Value;
+				EnsureStateNode(nodes, compositeStack, id);
+				classAssignments[id] = className;
 				continue;
 			}
 
@@ -213,6 +281,14 @@ internal static partial class StateParser
 			}
 		}
 
+		if (classDefs.ContainsKey("default"))
+		{
+			foreach (var nodeId in nodes.Keys)
+			{
+				_ = classAssignments.TryAdd(nodeId, "default");
+			}
+		}
+
 		return new MermaidGraph
 		{
 			Direction = direction,
@@ -221,6 +297,11 @@ internal static partial class StateParser
 			Edges = edges,
 			Subgraphs = subgraphs,
 			Notes = notes,
+			ClassDefs = classDefs,
+			ClassAssignments = classAssignments,
+			NodeStyles = nodeStyles.ToDictionary(
+				kvp => kvp.Key,
+				kvp => (IReadOnlyDictionary<string, string>)kvp.Value),
 		};
 	}
 
@@ -251,5 +332,21 @@ internal static partial class StateParser
 			if (!current.NodeIds.Contains(id))
 				current.NodeIds.Add(id);
 		}
+	}
+
+	private static IReadOnlyDictionary<string, string> ParseStyleProps(string propsStr)
+	{
+		var props = new Dictionary<string, string>();
+		foreach (var pair in propsStr.Split(','))
+		{
+			var colonIdx = pair.IndexOf(':');
+			if (colonIdx <= 0)
+				continue;
+			var key = pair[..colonIdx].Trim();
+			var val = pair[(colonIdx + 1)..].Trim();
+			if (key.Length > 0 && val.Length > 0)
+				props[key] = val;
+		}
+		return props;
 	}
 }
