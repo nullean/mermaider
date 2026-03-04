@@ -93,4 +93,56 @@ public class SvgRendererTests
 
 		svg.Should().Contain("background:var(--bg)");
 	}
+
+	[Test]
+	public void LinkStyleAppliesStrokeToEdge()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			graph LR
+			  A --> B
+			  linkStyle 0 stroke:#ff3,stroke-width:4px
+			""");
+
+		svg.Should().Contain("stroke=\"#ff3\"");
+		svg.Should().Contain("stroke-width=\"4px\"");
+	}
+
+	[Test]
+	public void LinkStyleAppliesDasharray()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			graph LR
+			  A --> B
+			  linkStyle 0 stroke-dasharray:5 5
+			""");
+
+		svg.Should().Contain("stroke-dasharray=\"5 5\"");
+	}
+
+	[Test]
+	public void LinkStyleDefaultAppliesStrokeToAllEdges()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			graph LR
+			  A --> B
+			  B --> C
+			  linkStyle default stroke:#333,stroke-width:1px
+			""");
+
+		// Both edges should have the custom stroke
+		svg.Should().Contain("stroke=\"#333\"");
+		svg.Should().Contain("stroke-width=\"1px\"");
+	}
+
+	[Test]
+	public void LinkStyleColorApplesToEdgeLabel()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			graph LR
+			  A -->|yes| B
+			  linkStyle 0 color:red
+			""");
+
+		svg.Should().Contain("fill=\"red\"");
+	}
 }

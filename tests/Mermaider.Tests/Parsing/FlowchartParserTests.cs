@@ -152,6 +152,84 @@ public class FlowchartParserTests
 	}
 
 	[Test]
+	public void ParsesLinkStyleSingleIndex()
+	{
+		var graph = MermaidRenderer.Parse("""
+			graph LR
+			A --> B
+			B --> C
+			linkStyle 0 stroke:#ff3,stroke-width:4px,color:red
+			""");
+
+		graph.EdgeStyles.Should().ContainKey(0);
+		graph.EdgeStyles[0]["stroke"].Should().Be("#ff3");
+		graph.EdgeStyles[0]["stroke-width"].Should().Be("4px");
+		graph.EdgeStyles[0]["color"].Should().Be("red");
+	}
+
+	[Test]
+	public void ParsesLinkStyleMultipleIndices()
+	{
+		var graph = MermaidRenderer.Parse("""
+			graph LR
+			A --> B
+			B --> C
+			C --> D
+			linkStyle 0,2 stroke:#ff3,stroke-width:4px
+			""");
+
+		graph.EdgeStyles.Should().ContainKey(0);
+		graph.EdgeStyles.Should().ContainKey(2);
+		graph.EdgeStyles[0]["stroke"].Should().Be("#ff3");
+		graph.EdgeStyles[2]["stroke"].Should().Be("#ff3");
+	}
+
+	[Test]
+	public void ParsesLinkStyleDefault()
+	{
+		var graph = MermaidRenderer.Parse("""
+			graph LR
+			A --> B
+			B --> C
+			linkStyle default stroke:#333,stroke-width:1px
+			""");
+
+		graph.DefaultEdgeStyle.Should().NotBeNull();
+		graph.DefaultEdgeStyle!["stroke"].Should().Be("#333");
+		graph.DefaultEdgeStyle["stroke-width"].Should().Be("1px");
+	}
+
+	[Test]
+	public void ParsesLinkStyleStrokeDasharray()
+	{
+		var graph = MermaidRenderer.Parse("""
+			graph LR
+			A --> B
+			linkStyle 0 stroke-dasharray:5 5
+			""");
+
+		graph.EdgeStyles.Should().ContainKey(0);
+		graph.EdgeStyles[0]["stroke-dasharray"].Should().Be("5 5");
+	}
+
+	[Test]
+	public void LinkStyleDefaultAndSpecificOverrides()
+	{
+		var graph = MermaidRenderer.Parse("""
+			graph LR
+			A --> B
+			B --> C
+			linkStyle default stroke:#333,stroke-width:1px
+			linkStyle 1 stroke:#ff0,stroke-width:3px
+			""");
+
+		graph.DefaultEdgeStyle.Should().NotBeNull();
+		graph.DefaultEdgeStyle!["stroke"].Should().Be("#333");
+		graph.EdgeStyles.Should().ContainKey(1);
+		graph.EdgeStyles[1]["stroke"].Should().Be("#ff0");
+	}
+
+	[Test]
 	public void ThrowsOnInvalidHeader()
 	{
 		var act = () => MermaidRenderer.Parse("invalid header");

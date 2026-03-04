@@ -40,6 +40,9 @@ public sealed record PositionedEdge
 	public required bool HasArrowEnd { get; init; }
 	public required IReadOnlyList<Point> Points { get; init; }
 	public Point? LabelPosition { get; init; }
+
+	/// <summary>Resolved inline style properties from <c>linkStyle</c> directives.</summary>
+	public IReadOnlyDictionary<string, string>? InlineStyle { get; init; }
 }
 
 /// <summary>A positioned subgraph group rectangle.</summary>
