@@ -236,4 +236,176 @@ public class ClassParserTests
 
 		diagram.Classes.Should().HaveCount(2);
 	}
+
+	[Test]
+	public void Parses_classDef()
+	{
+		var lines = new[]
+		{
+			"classDiagram",
+			"classDef highlight fill:#f9f,stroke:#333,stroke-width:4px",
+			"class Animal {",
+			"+int age",
+			"}",
+		};
+
+		var diagram = ClassParser.Parse(lines);
+
+		diagram.ClassDefs.Should().ContainKey("highlight");
+		diagram.ClassDefs["highlight"]["fill"].Should().Be("#f9f");
+		diagram.ClassDefs["highlight"]["stroke"].Should().Be("#333");
+		diagram.ClassDefs["highlight"]["stroke-width"].Should().Be("4px");
+	}
+
+	[Test]
+	public void Parses_cssClass_assignment()
+	{
+		var lines = new[]
+		{
+			"classDiagram",
+			"classDef highlight fill:#f9f,stroke:#333",
+			"class Duck {",
+			"+swim() void",
+			"}",
+			"cssClass \"Duck\" highlight",
+		};
+
+		var diagram = ClassParser.Parse(lines);
+
+		diagram.ClassAssignments.Should().ContainKey("Duck");
+		diagram.ClassAssignments["Duck"].Should().Be("highlight");
+	}
+
+	[Test]
+	public void Parses_triple_colon_style_shorthand_with_block()
+	{
+		var lines = new[]
+		{
+			"classDiagram",
+			"classDef highlight fill:#f9f,stroke:#333",
+			"class Fish:::highlight {",
+			"+int spikeCount",
+			"}",
+		};
+
+		var diagram = ClassParser.Parse(lines);
+
+		diagram.Classes.Should().HaveCount(1);
+		diagram.Classes[0].Id.Should().Be("Fish");
+		diagram.Classes[0].Attributes.Should().HaveCount(1);
+		diagram.ClassAssignments.Should().ContainKey("Fish");
+		diagram.ClassAssignments["Fish"].Should().Be("highlight");
+	}
+
+	[Test]
+	public void Parses_triple_colon_style_shorthand_without_block()
+	{
+		var lines = new[]
+		{
+			"classDiagram",
+			"classDef highlight fill:#f9f",
+			"class Fish:::highlight",
+		};
+
+		var diagram = ClassParser.Parse(lines);
+
+		diagram.Classes.Should().HaveCount(1);
+		diagram.Classes[0].Id.Should().Be("Fish");
+		diagram.ClassAssignments.Should().ContainKey("Fish");
+		diagram.ClassAssignments["Fish"].Should().Be("highlight");
+	}
+
+	[Test]
+	public void Parses_style_directive()
+	{
+		var lines = new[]
+		{
+			"classDiagram",
+			"class Animal {",
+			"+int age",
+			"}",
+			"style Animal fill:#bbf,stroke:#00f",
+		};
+
+		var diagram = ClassParser.Parse(lines);
+
+		diagram.NodeStyles.Should().ContainKey("Animal");
+		diagram.NodeStyles["Animal"]["fill"].Should().Be("#bbf");
+		diagram.NodeStyles["Animal"]["stroke"].Should().Be("#00f");
+	}
+
+	[Test]
+	public void Parses_cssClass_with_multiple_classes()
+	{
+		var lines = new[]
+		{
+			"classDiagram",
+			"classDef highlight fill:#f9f",
+			"class Duck",
+			"class Fish",
+			"cssClass \"Duck,Fish\" highlight",
+		};
+
+		var diagram = ClassParser.Parse(lines);
+
+		diagram.ClassAssignments.Should().ContainKey("Duck");
+		diagram.ClassAssignments.Should().ContainKey("Fish");
+		diagram.ClassAssignments["Duck"].Should().Be("highlight");
+		diagram.ClassAssignments["Fish"].Should().Be("highlight");
+	}
+
+	[Test]
+	public void Parses_namespace_with_class_blocks()
+	{
+		var lines = new[]
+		{
+			"classDiagram",
+			"namespace Animals {",
+			"class Duck {",
+			"+swim() void",
+			"}",
+			"class Fish {",
+			"+int spikeCount",
+			"}",
+			"}",
+		};
+
+		var diagram = ClassParser.Parse(lines);
+
+		diagram.Namespaces.Should().HaveCount(1);
+		diagram.Namespaces[0].Name.Should().Be("Animals");
+		diagram.Namespaces[0].ClassIds.Should().HaveCount(2);
+		diagram.Namespaces[0].ClassIds.Should().Contain("Duck");
+		diagram.Namespaces[0].ClassIds.Should().Contain("Fish");
+		diagram.Classes.Should().HaveCount(2);
+	}
+
+	[Test]
+	public void Parses_full_classDef_and_style_example()
+	{
+		var lines = new[]
+		{
+			"classDiagram",
+			"classDef highlight fill:#f9f,stroke:#333,stroke-width:4px",
+			"class Animal {",
+			"+int age",
+			"}",
+			"class Duck {",
+			"+swim() void",
+			"}",
+			"Animal <|-- Duck",
+			"cssClass \"Duck\" highlight",
+			"class Fish:::highlight {",
+			"+int spikeCount",
+			"}",
+		};
+
+		var diagram = ClassParser.Parse(lines);
+
+		diagram.Classes.Should().HaveCount(3);
+		diagram.ClassDefs.Should().ContainKey("highlight");
+		diagram.ClassAssignments["Duck"].Should().Be("highlight");
+		diagram.ClassAssignments["Fish"].Should().Be("highlight");
+		diagram.Relationships.Should().HaveCount(1);
+	}
 }

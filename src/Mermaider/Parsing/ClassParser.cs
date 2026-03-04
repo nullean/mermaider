@@ -14,8 +14,23 @@ internal static partial class ClassParser
 	[GeneratedRegex(@"^direction\s+(TD|TB|LR|BT|RL)\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex DirectionPattern();
 
+	[GeneratedRegex(@"^classDef\s+(\w+)\s+(.+)$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex ClassDefPattern();
+
+	[GeneratedRegex(@"^cssClass\s+""([^""]+)""\s+(\w+)$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex CssClassPattern();
+
+	[GeneratedRegex(@"^style\s+([\w,-]+)\s+(.+)$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex StylePattern();
+
+	[GeneratedRegex(@"^class\s+(\S+?):::([\w][\w-]*)(?:\s*~(\w+)~)?\s*\{$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex ClassBlockWithStylePattern();
+
 	[GeneratedRegex(@"^class\s+(\S+?)(?:\s*~(\w+)~)?\s*\{$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex ClassBlockPattern();
+
+	[GeneratedRegex(@"^class\s+(\S+?):::([\w][\w-]*)(?:\s*~(\w+)~)?\s*$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex ClassOnlyWithStylePattern();
 
 	[GeneratedRegex(@"^class\s+(\S+?)(?:\s*~(\w+)~)?\s*$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex ClassOnlyPattern();
@@ -68,6 +83,9 @@ internal static partial class ClassParser
 		var namespaces = new List<ClassNamespace>();
 		Direction? direction = null;
 		var notes = new List<ClassNote>();
+		var classDefs = new Dictionary<string, IReadOnlyDictionary<string, string>>();
+		var classAssignments = new Dictionary<string, string>();
+		var nodeStyles = new Dictionary<string, Dictionary<string, string>>();
 
 		ClassNode? currentClass = null;
 		List<ClassMember>? currentAttrs = null;
@@ -115,6 +133,46 @@ internal static partial class ClassParser
 				continue;
 			}
 
+			// classDef name fill:#f9f,stroke:#333,stroke-width:4px
+			var classDefMatch = ClassDefPattern().Match(line);
+			if (classDefMatch.Success)
+			{
+				var name = classDefMatch.Groups[1].Value;
+				var propsStr = classDefMatch.Groups[2].Value;
+				classDefs[name] = ParseStyleProps(propsStr);
+				continue;
+			}
+
+			// cssClass "ClassName" styleName
+			var cssClassMatch = CssClassPattern().Match(line);
+			if (cssClassMatch.Success)
+			{
+				var nodeIds = cssClassMatch.Groups[1].Value.Split(',', StringSplitOptions.TrimEntries);
+				var className = cssClassMatch.Groups[2].Value;
+				foreach (var id in nodeIds)
+					classAssignments[id] = className;
+				continue;
+			}
+
+			// style NodeId fill:#f9f,stroke:#333
+			var styleMatch = StylePattern().Match(line);
+			if (styleMatch.Success)
+			{
+				var nodeIds = styleMatch.Groups[1].Value.Split(',', StringSplitOptions.TrimEntries);
+				var props = ParseStyleProps(styleMatch.Groups[2].Value);
+				foreach (var id in nodeIds)
+				{
+					if (!nodeStyles.TryGetValue(id, out var existing))
+					{
+						existing = [];
+						nodeStyles[id] = existing;
+					}
+					foreach (var kvp in props)
+						existing[kvp.Key] = kvp.Value;
+				}
+				continue;
+			}
+
 			var dirMatch = DirectionPattern().Match(line);
 			if (dirMatch.Success)
 			{
@@ -138,6 +196,29 @@ internal static partial class ClassParser
 				continue;
 			}
 
+			// class Foo:::styleName { ... }
+			var classBlockStyleMatch = ClassBlockWithStylePattern().Match(line);
+			if (classBlockStyleMatch.Success)
+			{
+				var id = classBlockStyleMatch.Groups[1].Value;
+				var styleName = classBlockStyleMatch.Groups[2].Value;
+				var genericGroup = classBlockStyleMatch.Groups[3];
+				var generic = genericGroup.Success ? genericGroup.Value : null;
+				var (node, attrs, methods) = EnsureClass(classMap, id);
+				if (generic != null)
+				{
+					node = node with { Label = $"{id}<{generic}>" };
+					classMap[id] = (node, attrs, methods);
+				}
+				classAssignments[id] = styleName;
+				currentClass = node;
+				currentAttrs = attrs;
+				currentMethods = methods;
+				braceDepth = 1;
+				currentNsClassIds?.Add(id);
+				continue;
+			}
+
 			var classBlockMatch = ClassBlockPattern().Match(line);
 			if (classBlockMatch.Success)
 			{
@@ -153,6 +234,24 @@ internal static partial class ClassParser
 				currentAttrs = attrs;
 				currentMethods = methods;
 				braceDepth = 1;
+				currentNsClassIds?.Add(id);
+				continue;
+			}
+
+			// class Foo:::styleName
+			var classOnlyStyleMatch = ClassOnlyWithStylePattern().Match(line);
+			if (classOnlyStyleMatch.Success)
+			{
+				var id = classOnlyStyleMatch.Groups[1].Value;
+				var styleName = classOnlyStyleMatch.Groups[2].Value;
+				var generic = classOnlyStyleMatch.Groups[3].Success ? classOnlyStyleMatch.Groups[3].Value : null;
+				var (node, attrs, methods) = EnsureClass(classMap, id);
+				if (generic != null)
+				{
+					node = node with { Label = $"{id}<{generic}>" };
+					classMap[id] = (node, attrs, methods);
+				}
+				classAssignments[id] = styleName;
 				currentNsClassIds?.Add(id);
 				continue;
 			}
@@ -233,7 +332,35 @@ internal static partial class ClassParser
 			.Select(v => v.Node with { Attributes = v.Attrs, Methods = v.Methods })
 			.ToList();
 
-		return new ClassDiagram { Classes = classes, Relationships = relationships, Namespaces = namespaces, Direction = direction, Notes = notes };
+		return new ClassDiagram
+		{
+			Classes = classes,
+			Relationships = relationships,
+			Namespaces = namespaces,
+			Direction = direction,
+			Notes = notes,
+			ClassDefs = classDefs,
+			ClassAssignments = classAssignments,
+			NodeStyles = nodeStyles.ToDictionary(
+				kvp => kvp.Key,
+				kvp => (IReadOnlyDictionary<string, string>)kvp.Value),
+		};
+	}
+
+	private static IReadOnlyDictionary<string, string> ParseStyleProps(string propsStr)
+	{
+		var props = new Dictionary<string, string>();
+		foreach (var pair in propsStr.Split(','))
+		{
+			var colonIdx = pair.IndexOf(':');
+			if (colonIdx <= 0)
+				continue;
+			var key = pair[..colonIdx].Trim();
+			var val = pair[(colonIdx + 1)..].Trim();
+			if (key.Length > 0 && val.Length > 0)
+				props[key] = val;
+		}
+		return props;
 	}
 
 	private static (ClassNode Node, List<ClassMember> Attrs, List<ClassMember> Methods) EnsureClass(
