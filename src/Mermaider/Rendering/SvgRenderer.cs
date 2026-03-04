@@ -161,10 +161,20 @@ internal static class SvgRenderer
 		if (edge.Points.Count < 2)
 			return;
 
-		var dashArray = edge.Style == EdgeStyle.Dotted ? " stroke-dasharray=\"4 4\"" : "";
-		var strokeWidth = edge.Style == EdgeStyle.Thick
-			? StrokeWidths.Connector + 1
-			: StrokeWidths.Connector;
+		var inlineStroke = edge.InlineStyle?.GetValueOrDefault("stroke");
+		var inlineStrokeWidth = edge.InlineStyle?.GetValueOrDefault("stroke-width");
+		var inlineDashArray = edge.InlineStyle?.GetValueOrDefault("stroke-dasharray");
+
+		var dashArray = inlineDashArray is not null
+			? $" stroke-dasharray=\"{inlineDashArray}\""
+			: edge.Style == EdgeStyle.Dotted ? " stroke-dasharray=\"4 4\"" : "";
+
+		var strokeColor = inlineStroke ?? "var(--_line)";
+
+		var strokeWidthStr = inlineStrokeWidth
+			?? (edge.Style == EdgeStyle.Thick
+				? (StrokeWidths.Connector + 1).ToString(System.Globalization.CultureInfo.InvariantCulture)
+				: StrokeWidths.Connector.ToString(System.Globalization.CultureInfo.InvariantCulture));
 
 		_ = sb.Append("\n<path class=\"edge\" data-from=\"");
 		MultilineUtils.AppendEscapedAttr(sb, edge.Source.AsSpan());
@@ -184,8 +194,8 @@ internal static class SvgRenderer
 
 		_ = sb.Append(" d=\"");
 		BuildRoundedPath(sb, edge.Points, CornerRadius);
-		_ = sb.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"")
-			.Append(strokeWidth).Append('"').Append(dashArray);
+		_ = sb.Append("\" fill=\"none\" stroke=\"").Append(strokeColor)
+			.Append("\" stroke-width=\"").Append(strokeWidthStr).Append('"').Append(dashArray);
 
 		if (edge.HasArrowEnd)
 			_ = sb.Append(" marker-end=\"url(#arrowhead)\"");
@@ -262,12 +272,17 @@ internal static class SvgRenderer
 		MultilineUtils.AppendEscapedAttr(sb, label.AsSpan());
 		_ = sb.Append("\">\n  ");
 
+		var labelColor = edge.InlineStyle?.GetValueOrDefault("color");
+		var textAttrs = labelColor is not null
+			? TextAttrs.EdgeLabelCenterFill + labelColor + "\""
+			: EdgeLabelSecAttrs;
+
 		MultilineUtils.AppendMultilineTextWithBackground(
 			sb, label, mid.X, mid.Y,
 			metrics.Width, metrics.Height,
 			FontSizes.EdgeLabel,
 			padding,
-			EdgeLabelSecAttrs,
+			textAttrs,
 			EdgeLabelBgAttrs);
 
 		_ = sb.Append("\n</g>");

@@ -26,6 +26,17 @@ public sealed record MermaidGraph
 		ReadOnlyDictionary<string, IReadOnlyDictionary<string, string>>.Empty;
 
 	/// <summary>
+	/// Per-edge inline styles from <c>linkStyle</c> directives, keyed by edge index.
+	/// </summary>
+	public IReadOnlyDictionary<int, IReadOnlyDictionary<string, string>> EdgeStyles { get; init; } =
+		ReadOnlyDictionary<int, IReadOnlyDictionary<string, string>>.Empty;
+
+	/// <summary>
+	/// Default edge style applied to all edges not individually styled, from <c>linkStyle default</c>.
+	/// </summary>
+	public IReadOnlyDictionary<string, string>? DefaultEdgeStyle { get; init; }
+
+	/// <summary>
 	/// Tracks edges that were redirected from subgraph IDs to child nodes.
 	/// Key = original edge index; value = (source subgraph ID if redirected, target subgraph ID if redirected).
 	/// </summary>
