@@ -32,6 +32,9 @@ internal static class ClassSvgRenderer
 		}
 	}
 
+	private static readonly string GroupHeaderAttrs =
+		RenderConstants.TextAttrs.GroupHeaderFill + "var(--_text-sec)\"";
+
 	internal static StringBuilder RenderToBuilder(PositionedClassDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
@@ -39,8 +42,14 @@ internal static class ClassSvgRenderer
 		StyleBlock.AppendStyleBlock(sb, font, strict);
 		AppendMarkerDefs(sb);
 
+		foreach (var ns in diagram.Namespaces)
+			AppendNamespaceGroup(sb, ns);
+
 		foreach (var rel in diagram.Relationships)
 			AppendRelationship(sb, rel);
+
+		foreach (var ns in diagram.Namespaces)
+			AppendNamespaceHeader(sb, ns);
 
 		foreach (var cls in diagram.Classes)
 			AppendClassBox(sb, cls);
@@ -135,18 +144,23 @@ internal static class ClassSvgRenderer
 		}
 		_ = sb.Append(">\n");
 
+		var fill = cls.InlineStyle?.GetValueOrDefault("fill") ?? "var(--_node-fill)";
+		var stroke = cls.InlineStyle?.GetValueOrDefault("stroke") ?? "var(--_node-stroke)";
+		var sw = cls.InlineStyle?.GetValueOrDefault("stroke-width")
+			?? RenderConstants.StrokeWidths.OuterBox.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
 		var r = RenderConstants.Radii.Rectangle;
 		_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
 			.Append("\" width=\"").Append(width).Append("\" height=\"").Append(height)
 			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"var(--_node-fill)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
-			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
+			.Append("\" fill=\"").Append(fill).Append("\" stroke=\"").Append(stroke)
+			.Append("\" stroke-width=\"").Append(sw).Append("\" />\n");
 
 		_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
 			.Append("\" width=\"").Append(width).Append("\" height=\"").Append(headerHeight)
 			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"var(--_group-hdr)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
-			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
+			.Append("\" fill=\"var(--_group-hdr)\" stroke=\"").Append(stroke)
+			.Append("\" stroke-width=\"").Append(sw).Append("\" />\n");
 
 		var nameY = y + (headerHeight / 2);
 		if (cls.Annotation != null)
@@ -172,7 +186,7 @@ internal static class ClassSvgRenderer
 		var attrTop = y + headerHeight;
 		_ = sb.Append("  <line x1=\"").Append(x).Append("\" y1=\"").Append(attrTop)
 			.Append("\" x2=\"").Append(x + width).Append("\" y2=\"").Append(attrTop)
-			.Append("\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
+			.Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.InnerBox).Append("\" />\n");
 
 		const double memberRowH = 20;
@@ -188,7 +202,7 @@ internal static class ClassSvgRenderer
 		var methodTop = attrTop + attrHeight;
 		_ = sb.Append("  <line x1=\"").Append(x).Append("\" y1=\"").Append(methodTop)
 			.Append("\" x2=\"").Append(x + width).Append("\" y2=\"").Append(methodTop)
-			.Append("\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
+			.Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.InnerBox).Append("\" />\n");
 
 		for (var i = 0; i < cls.Methods.Count; i++)
@@ -345,6 +359,45 @@ internal static class ClassSvgRenderer
 		if (Math.Abs(dx) > Math.Abs(dy))
 			return (dx > 0 ? 14 : -14, -10);
 		return (-14, dy > 0 ? 14 : -14);
+	}
+
+	private static void AppendNamespaceGroup(StringBuilder sb, PositionedGroup ns)
+	{
+		var r = RenderConstants.Radii.Group;
+
+		_ = sb.Append("\n<g class=\"namespace\" data-id=\"");
+		MultilineUtils.AppendEscapedAttr(sb, ns.Id.AsSpan());
+		_ = sb.Append("\" data-label=\"");
+		MultilineUtils.AppendEscapedAttr(sb, ns.Label.AsSpan());
+		_ = sb.Append("\">\n");
+
+		_ = sb.Append("  <rect x=\"").Append(ns.X).Append("\" y=\"").Append(ns.Y)
+			.Append("\" width=\"").Append(ns.Width).Append("\" height=\"").Append(ns.Height)
+			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
+			.Append("\" fill=\"var(--_group-fill)\" stroke=\"var(--_group-stroke)\" stroke-width=\"")
+			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
+
+		_ = sb.Append("</g>\n");
+	}
+
+	private static void AppendNamespaceHeader(StringBuilder sb, PositionedGroup ns)
+	{
+		var headerHeight = RenderConstants.FontSizes.GroupHeader + 16;
+		var r = RenderConstants.Radii.Group;
+
+		_ = sb.Append("  <rect x=\"").Append(ns.X).Append("\" y=\"").Append(ns.Y)
+			.Append("\" width=\"").Append(ns.Width).Append("\" height=\"").Append(headerHeight)
+			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
+			.Append("\" fill=\"var(--_group-hdr)\" stroke=\"var(--_group-stroke)\" stroke-width=\"")
+			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
+
+		_ = sb.Append("  ");
+		MultilineUtils.AppendMultilineText(
+			sb, ns.Label,
+			ns.X + 12, ns.Y + (headerHeight / 2.0),
+			RenderConstants.FontSizes.GroupHeader,
+			GroupHeaderAttrs);
+		_ = sb.Append('\n');
 	}
 
 	private static readonly string NoteTextAttrs =
