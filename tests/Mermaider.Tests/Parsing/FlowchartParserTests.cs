@@ -195,8 +195,8 @@ public class FlowchartParserTests
 			""");
 
 		graph.DefaultEdgeStyle.Should().NotBeNull();
-		graph.DefaultEdgeStyle!["stroke"].Should().Be("#333");
-		graph.DefaultEdgeStyle["stroke-width"].Should().Be("1px");
+		graph.DefaultEdgeStyle.Should().ContainKey("stroke").WhoseValue.Should().Be("#333");
+		graph.DefaultEdgeStyle.Should().ContainKey("stroke-width").WhoseValue.Should().Be("1px");
 	}
 
 	[Test]
@@ -224,7 +224,7 @@ public class FlowchartParserTests
 			""");
 
 		graph.DefaultEdgeStyle.Should().NotBeNull();
-		graph.DefaultEdgeStyle!["stroke"].Should().Be("#333");
+		graph.DefaultEdgeStyle.Should().ContainKey("stroke").WhoseValue.Should().Be("#333");
 		graph.EdgeStyles.Should().ContainKey(1);
 		graph.EdgeStyles[1]["stroke"].Should().Be("#ff0");
 	}
