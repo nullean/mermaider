@@ -67,6 +67,7 @@ public static class SugiyamaLayout
 
 		DirectionTransform.Run(buf, routes, direction);
 		_ = DirectionTransform.Normalize(buf, routes, options.Padding);
+		EdgeRouter.CleanupRoutes(routes);
 
 		return ExtractResult(buf, input, routes, options.Padding);
 	}

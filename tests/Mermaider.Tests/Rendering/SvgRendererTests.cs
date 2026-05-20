@@ -196,4 +196,68 @@ public class SvgRendererTests
 
 		svg.Should().Contain("fill=\"red\"");
 	}
+
+	[Test]
+	public void NearAlignedVerticalEdgesDoNotRenderTinyDoglegs()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			graph TB
+			  Root["Painless Operators"]
+			  Ref["Reference"]
+			  Desc["Object interaction and<br/>safe data access"]
+			  Detail["Method Call . ( )<br/>Field Access .<br/>Null Safe ?.<br/>New Instance new ( )<br/>String Concatenation +<br/>List/Map Init ["]
+			  Root --> Ref
+			  Ref --> Desc
+			  Desc --> Detail
+			""");
+
+		var path = GetEdgePath(svg, "Desc", "Detail");
+
+		CountSegments(path).Should().Be(1, "a near-vertical edge should be collapsed to one straight segment");
+	}
+
+	[Test]
+	public void EdgesSharingHorizontalTrunkUseAlignedStems()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			flowchart LR
+			  A[Start] --> B{Decision}
+			  B -->|Yes| C[Action 1]
+			  B -->|No| D[Action 2]
+			  C --> E[End]
+			  D --> E
+			""");
+
+		var cToE = GetEdgePath(svg, "C", "E");
+		var dToE = GetEdgePath(svg, "D", "E");
+
+		StemX(cToE).Should().BeApproximately(StemX(dToE), 0.001);
+	}
+
+	private static string GetEdgePath(string svg, string from, string to)
+	{
+		var edgeStart = svg.IndexOf($"<path class=\"edge\" data-from=\"{from}\" data-to=\"{to}\"", StringComparison.Ordinal);
+		edgeStart.Should().BeGreaterThanOrEqualTo(0, $"edge {from} -> {to} should be present");
+		var pathStart = svg.IndexOf(" d=\"", edgeStart, StringComparison.Ordinal);
+		pathStart.Should().BeGreaterThanOrEqualTo(0, $"edge {from} -> {to} should have a path");
+		pathStart += 4;
+		var pathEnd = svg.IndexOf('"', pathStart);
+		return svg[pathStart..pathEnd];
+	}
+
+	private static double StemX(string path)
+	{
+		var comma = path.IndexOf(',');
+		comma.Should().BeGreaterThan(1);
+		return double.Parse(path[1..comma], CultureInfo.InvariantCulture);
+	}
+
+	private static int CountSegments(string path)
+	{
+		var count = 0;
+		var index = -1;
+		while ((index = path.IndexOf(" L", index + 1, StringComparison.Ordinal)) >= 0)
+			count++;
+		return count;
+	}
 }
