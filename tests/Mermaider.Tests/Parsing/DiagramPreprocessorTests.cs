@@ -107,8 +107,8 @@ public class DiagramPreprocessorTests
 		var (_, metadata) = DiagramPreprocessor.Process(input);
 
 		metadata.ThemeVariables.Should().NotBeNull();
-		metadata.ThemeVariables!["primaryColor"].Should().Be("#ff0000");
-		metadata.ThemeVariables["lineColor"].Should().Be("#00ff00");
+		metadata.ThemeVariables.Should().ContainKey("primaryColor").WhoseValue.Should().Be("#ff0000");
+		metadata.ThemeVariables.Should().ContainKey("lineColor").WhoseValue.Should().Be("#00ff00");
 	}
 
 	[Test]
@@ -120,7 +120,7 @@ public class DiagramPreprocessorTests
 
 		metadata.Theme.Should().Be("forest");
 		metadata.ThemeVariables.Should().NotBeNull();
-		metadata.ThemeVariables!["primaryColor"].Should().Be("#abc");
+		metadata.ThemeVariables.Should().ContainKey("primaryColor").WhoseValue.Should().Be("#abc");
 	}
 
 	[Test]
@@ -226,8 +226,6 @@ public class DiagramPreprocessorTests
 	[Test]
 	public void RenderSvgAppliesThemeFromInit()
 	{
-		var input = "%%{init: {\"theme\": \"dark\"}}%%\ngraph TD\n  A --> B";
-
 		// "dark" is not a recognized built-in theme name, so it should fall back to default.
 		// Use a real built-in theme name:
 		var inputWithTheme = "%%{init: {\"theme\": \"dracula\"}}%%\ngraph TD\n  A --> B";
