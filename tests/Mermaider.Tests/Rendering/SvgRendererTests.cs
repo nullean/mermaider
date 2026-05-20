@@ -44,6 +44,32 @@ public class SvgRendererTests
 	}
 
 	[Test]
+	public void FlowchartEdgesAreStraightByDefault()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			graph TD
+			  A --> B
+			  A --> C
+			""");
+
+		svg.Should().Contain("class=\"edge\"");
+		svg.Should().NotContain(" Q");
+	}
+
+	[Test]
+	public void FlowchartEdgesCanUseRoundedCorners()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			graph TD
+			  A --> B
+			  A --> C
+			""", new() { EdgeCornerRadius = 6 });
+
+		svg.Should().Contain("class=\"edge\"");
+		svg.Should().Contain(" Q");
+	}
+
+	[Test]
 	public void SvgContainsStyleBlock()
 	{
 		var svg = MermaidRenderer.RenderSvg("""

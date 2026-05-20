@@ -66,7 +66,7 @@ internal static class QuadrantSvgRenderer
 			_ = sb.Append("\n<text x=\"").Append(F(chartLeft + half))
 				.Append("\" y=\"").Append(F(titleOffset))
 				.Append("\" text-anchor=\"middle\" font-size=\"16\" font-weight=\"700\" fill=\"var(--_text)\">");
-			MultilineUtils.AppendEscapedXml(sb, chart.Title!.AsSpan());
+			MultilineUtils.AppendEscapedXml(sb, chart.Title.AsSpan());
 			_ = sb.Append("</text>");
 		}
 

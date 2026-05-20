@@ -33,10 +33,10 @@
   </marker>
 </defs>
 
-<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" d="M172,86.2 L172,116.2 Q172,122.2 166,122.2 L78,122.2 Q72,122.2 72,128.2 L72,158.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" d="M172,86.2 L172,122.2 L72,122.2 L72,158.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="A" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="No" d="M172,86.2 L172,158.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="B" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Done" d="M72,204.4 L72,276.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="C" data-to="A" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Retry" d="M204,181.3 L234,181.3 Q240,181.3 240,175.3 L240,69.1 Q240,63.1 234,63.1 L204,63.1" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="C" data-to="A" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Retry" d="M204,181.3 L240,181.3 L240,63.1 L204,63.1" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="A" data-to="B" data-label="Yes">
   <rect x="112.732" y="106.4" width="38.536" height="31.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
 <text x="132" y="122.2" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-sec)" dy="4.199999999999999">Yes</text>

@@ -20,9 +20,9 @@ internal static class SvgRenderer
 
 	private static readonly string GroupHeaderAttrs = TextAttrs.GroupHeaderFill + "var(--_text-sec)\"";
 
-	internal static string Render(PositionedGraph graph, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
+	internal static string Render(PositionedGraph graph, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, double edgeCornerRadius = 0)
 	{
-		var sb = RenderToBuilder(graph, colors, font, transparent, strict);
+		var sb = RenderToBuilder(graph, colors, font, transparent, strict, edgeCornerRadius);
 		try
 		{
 			return sb.ToString();
@@ -34,7 +34,7 @@ internal static class SvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(PositionedGraph graph, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
+	internal static StringBuilder RenderToBuilder(PositionedGraph graph, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, double edgeCornerRadius = 0)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 		StyleBlock.AppendSvgOpenTag(sb, graph.Width, graph.Height, colors, transparent);
@@ -47,7 +47,7 @@ internal static class SvgRenderer
 		foreach (var edge in graph.Edges)
 		{
 			if (edge.Style != EdgeStyle.Invisible)
-				AppendEdge(sb, edge);
+				AppendEdge(sb, edge, edgeCornerRadius);
 		}
 
 		foreach (var group in graph.Groups)
@@ -154,9 +154,7 @@ internal static class SvgRenderer
 	// Edge rendering
 	// ========================================================================
 
-	private const double CornerRadius = 6;
-
-	private static void AppendEdge(StringBuilder sb, PositionedEdge edge)
+	private static void AppendEdge(StringBuilder sb, PositionedEdge edge, double edgeCornerRadius)
 	{
 		if (edge.Points.Count < 2)
 			return;
@@ -183,7 +181,7 @@ internal static class SvgRenderer
 		}
 
 		_ = sb.Append(" d=\"");
-		BuildRoundedPath(sb, edge.Points, CornerRadius);
+		BuildRoundedPath(sb, edge.Points, edgeCornerRadius);
 		_ = sb.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"")
 			.Append(strokeWidth).Append('"').Append(dashArray);
 
@@ -201,6 +199,13 @@ internal static class SvgRenderer
 			return;
 
 		_ = sb.Append('M').Append(points[0].X).Append(',').Append(points[0].Y);
+
+		if (radius <= 0)
+		{
+			for (var i = 1; i < points.Count; i++)
+				_ = sb.Append(" L").Append(points[i].X).Append(',').Append(points[i].Y);
+			return;
+		}
 
 		if (points.Count == 2)
 		{

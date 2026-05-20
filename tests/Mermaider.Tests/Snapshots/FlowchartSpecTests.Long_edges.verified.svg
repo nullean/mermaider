@@ -33,9 +33,9 @@
   </marker>
 </defs>
 
-<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M172,86.2 L172,116.2 Q172,122.2 166,122.2 L78,122.2 Q72,122.2 72,128.2 L72,158.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M172,86.2 L172,122.2 L72,122.2 L72,158.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="A" data-to="C" data-style="thick" data-arrow-start="false" data-arrow-end="true" d="M172,86.2 L172,158.2" fill="none" stroke="var(--_line)" stroke-width="3.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="A" data-to="D" data-style="dotted" data-arrow-start="false" data-arrow-end="true" d="M172,86.2 L172,116.2 Q172,122.2 178,122.2 L266,122.2 Q272,122.2 272,128.2 L272,158.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="D" data-style="dotted" data-arrow-start="false" data-arrow-end="true" d="M172,86.2 L172,122.2 L272,122.2 L272,158.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
 <g class="node" data-id="A" data-label="A" data-shape="rectangle">
   <rect x="140" y="40" width="64" height="46.2" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
   <text x="172" y="63.1" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">A</text>

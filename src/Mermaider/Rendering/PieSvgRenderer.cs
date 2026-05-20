@@ -66,7 +66,7 @@ internal static class PieSvgRenderer
 			_ = sb.Append("\n<text x=\"").Append(CenterX)
 				.Append("\" y=\"24\" text-anchor=\"middle\" font-size=\"")
 				.Append(TitleFontSize).Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
-			MultilineUtils.AppendEscapedXml(sb, chart.Title!.AsSpan());
+			MultilineUtils.AppendEscapedXml(sb, chart.Title.AsSpan());
 			_ = sb.Append("</text>");
 		}
 

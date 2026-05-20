@@ -33,9 +33,9 @@
   </marker>
 </defs>
 
-<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M160.56850000000003,86.2 L160.56850000000003,116.2 Q160.56850000000003,122.2 154.56850000000003,122.2 L93.394,122.2 Q87.394,122.2 87.394,128.2 L87.394,158.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M160.56850000000003,86.2 L160.56850000000003,122.2 L87.394,122.2 L87.394,158.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M87.394,204.4 L87.394,276.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="A" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M160.56850000000003,86.2 L160.56850000000003,116.2 Q160.56850000000003,122.2 166.56850000000003,122.2 L227.74300000000002,122.2 Q233.74300000000002,122.2 233.74300000000002,128.2 L233.74300000000002,158.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M160.56850000000003,86.2 L160.56850000000003,122.2 L233.74300000000002,122.2 L233.74300000000002,158.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="A" data-label="Critical" data-shape="rectangle">
   <rect x="113.17450000000002" y="40" width="94.78799999999998" height="46.2" rx="6" ry="6" fill="#f96" stroke="#333" stroke-width="2" />
   <text x="160.56850000000003" y="63.1" text-anchor="middle" font-size="14" font-weight="500" fill="#fff" dy="4.8999999999999995">Critical</text>

@@ -34,10 +34,10 @@
 </defs>
 
 <path class="edge" data-from="_start" data-to="fork_state" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M122,80 L122,152" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="fork_state" data-to="A" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M122,160 L122,190 Q122,196 116,196 L78,196 Q72,196 72,202 L72,232" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="fork_state" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M122,160 L122,190 Q122,196 128,196 L166,196 Q172,196 172,202 L172,232" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="A" data-to="join_state" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M72,278.2 L72,308.2 Q72,314.2 78,314.2 L116,314.2 Q122,314.2 122,320.2 L122,350.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="B" data-to="join_state" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M172,278.2 L172,308.2 Q172,314.2 166,314.2 L128,314.2 Q122,314.2 122,320.2 L122,350.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="fork_state" data-to="A" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M122,160 L122,196 L72,196 L72,232" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="fork_state" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M122,160 L122,196 L172,196 L172,232" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="join_state" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M72,278.2 L72,314.2 L122,314.2 L122,350.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="B" data-to="join_state" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M172,278.2 L172,314.2 L122,314.2 L122,350.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="join_state" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M122,358.2 L122,430.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="fork_state" data-label="" data-shape="forkjoin">
   <rect x="62" y="152" width="120" height="8" rx="2" ry="2" fill="var(--_text)" stroke="none" />
