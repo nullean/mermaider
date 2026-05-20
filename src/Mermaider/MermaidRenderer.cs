@@ -1,4 +1,5 @@
 using System.Buffers;
+using System.Globalization;
 using System.IO.Pipelines;
 using System.Text;
 using Mermaider.Layout;
@@ -38,6 +39,7 @@ public static class MermaidRenderer
 	/// <exception cref="MermaidParseException">Thrown when the input cannot be parsed.</exception>
 	public static string RenderSvg(string text, RenderOptions? options = null)
 	{
+		using var culture = InvariantCultureScope.Enter();
 		var (strict, sb) = RenderToBuilder(text, options);
 		try
 		{
@@ -66,6 +68,7 @@ public static class MermaidRenderer
 	{
 		ArgumentNullException.ThrowIfNull(destination);
 
+		using var culture = InvariantCultureScope.Enter();
 		var (strict, sb) = RenderToBuilder(text, options);
 		try
 		{
@@ -97,6 +100,7 @@ public static class MermaidRenderer
 	{
 		ArgumentNullException.ThrowIfNull(destination);
 
+		using var culture = InvariantCultureScope.Enter();
 		var (strict, sb) = RenderToBuilder(text, options);
 		try
 		{
@@ -212,6 +216,22 @@ public static class MermaidRenderer
 			InsertSvgTitle(sb, title);
 
 		return (strict, sb);
+	}
+
+	private readonly struct InvariantCultureScope : IDisposable
+	{
+		private readonly CultureInfo _previousCulture;
+
+		private InvariantCultureScope(CultureInfo previousCulture) => _previousCulture = previousCulture;
+
+		public static InvariantCultureScope Enter()
+		{
+			var previousCulture = CultureInfo.CurrentCulture;
+			CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+			return new InvariantCultureScope(previousCulture);
+		}
+
+		public void Dispose() => CultureInfo.CurrentCulture = _previousCulture;
 	}
 
 	private static async Task WriteBuilderToStreamAsync(StringBuilder sb, Stream stream, CancellationToken cancellationToken)
