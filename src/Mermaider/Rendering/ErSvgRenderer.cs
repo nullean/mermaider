@@ -120,7 +120,7 @@ internal static class ErSvgRenderer
 		if (hasComment)
 		{
 			_ = sb.Append("<g><title>");
-			MultilineUtils.AppendEscapedXml(sb, attr.Comment!.AsSpan());
+			MultilineUtils.AppendEscapedXml(sb, attr.Comment.AsSpan());
 			_ = sb.Append("</title>");
 		}
 
