@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 252 510,2" width="252" height="510,2" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 252 510.2" width="252" height="510.2" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -33,18 +33,18 @@
   </marker>
 </defs>
 
-<path class="edge" data-from="_start" data-to="fork_state" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M122,80 L122,152" fill="none" stroke="var(--_line)" stroke-width="2,25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="fork_state" data-to="A" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M122,160 L122,196 L72,196 L72,232" fill="none" stroke="var(--_line)" stroke-width="2,25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="fork_state" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M122,160 L122,196 L172,196 L172,232" fill="none" stroke="var(--_line)" stroke-width="2,25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="A" data-to="join_state" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M72,278,2 L72,314,2 L122,314,2 L122,350,2" fill="none" stroke="var(--_line)" stroke-width="2,25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="B" data-to="join_state" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M172,278,2 L172,314,2 L122,314,2 L122,350,2" fill="none" stroke="var(--_line)" stroke-width="2,25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="join_state" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M122,358,2 L122,430,2" fill="none" stroke="var(--_line)" stroke-width="2,25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="_start" data-to="fork_state" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M122,80 L122,152" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="fork_state" data-to="A" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M122,160 L122,196 L72,196 L72,232" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="fork_state" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M122,160 L122,196 L172,196 L172,232" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="join_state" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M72,278.2 L72,314.2 L122,314.2 L122,350.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="B" data-to="join_state" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M172,278.2 L172,314.2 L122,314.2 L122,350.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="join_state" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M122,358.2 L122,430.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="fork_state" data-label="" data-shape="forkjoin">
   <rect x="62" y="152" width="120" height="8" rx="2" ry="2" fill="var(--_text)" stroke="none" />
   
 </g>
 <g class="node" data-id="join_state" data-label="" data-shape="forkjoin">
-  <rect x="62" y="350,2" width="120" height="8" rx="2" ry="2" fill="var(--_text)" stroke="none" />
+  <rect x="62" y="350.2" width="120" height="8" rx="2" ry="2" fill="var(--_text)" stroke="none" />
   
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
@@ -52,16 +52,16 @@
   
 </g>
 <g class="node" data-id="A" data-label="A" data-shape="rounded">
-  <rect x="40" y="232" width="64" height="46,2" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="72" y="255,1" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4,8999999999999995">A</text>
+  <rect x="40" y="232" width="64" height="46.2" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="72" y="255.1" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">A</text>
 </g>
 <g class="node" data-id="B" data-label="B" data-shape="rounded">
-  <rect x="140" y="232" width="64" height="46,2" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="172" y="255,1" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4,8999999999999995">B</text>
+  <rect x="140" y="232" width="64" height="46.2" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="172" y="255.1" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">B</text>
 </g>
 <g class="node" data-id="_end" data-label="" data-shape="stateend">
-  <circle cx="122" cy="450,2" r="12" fill="none" stroke="var(--_text)" stroke-width="4" />
-<circle cx="122" cy="450,2" r="8" fill="var(--_text)" stroke="none" />
+  <circle cx="122" cy="450.2" r="12" fill="none" stroke="var(--_text)" stroke-width="4" />
+<circle cx="122" cy="450.2" r="8" fill="var(--_text)" stroke="none" />
   
 </g>
 </svg>
