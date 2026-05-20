@@ -38,6 +38,9 @@ public sealed record RenderOptions
 	/// <summary>Vertical spacing between layers. Default: 48.</summary>
 	public double? LayerSpacing { get; init; }
 
+	/// <summary>Flowchart edge corner radius in px. Default: 0 for straight edges.</summary>
+	public double EdgeCornerRadius { get; init; }
+
 	/// <summary>Render with transparent background. Default: true.</summary>
 	public bool Transparent { get; init; } = true;
 
