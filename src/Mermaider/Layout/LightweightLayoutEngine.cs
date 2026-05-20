@@ -120,6 +120,8 @@ internal static class LightweightLayoutEngine
 				? new Models.Point(lp.X, lp.Y)
 				: null;
 
+			var edgeInlineStyle = strict is null ? ResolveEdgeStyle(e.OriginalIndex, graph) : null;
+
 			positionedEdges.Add(new PositionedEdge
 			{
 				Source = mermaidEdge.Source,
@@ -130,6 +132,7 @@ internal static class LightweightLayoutEngine
 				HasArrowEnd = mermaidEdge.HasArrowEnd,
 				Points = points,
 				LabelPosition = labelPos,
+				InlineStyle = edgeInlineStyle,
 			});
 		}
 
@@ -171,6 +174,25 @@ internal static class LightweightLayoutEngine
 		{
 			result ??= [];
 			foreach (var kvp in nodeStyle)
+				result[kvp.Key] = kvp.Value;
+		}
+
+		return result;
+	}
+
+	private static IReadOnlyDictionary<string, string>? ResolveEdgeStyle(int edgeIndex, MermaidGraph graph)
+	{
+		Dictionary<string, string>? result = null;
+
+		if (graph.DefaultEdgeStyle is { } defaultStyle)
+		{
+			result = new Dictionary<string, string>(defaultStyle);
+		}
+
+		if (graph.EdgeStyles.TryGetValue(edgeIndex, out var edgeStyle))
+		{
+			result ??= [];
+			foreach (var kvp in edgeStyle)
 				result[kvp.Key] = kvp.Value;
 		}
 

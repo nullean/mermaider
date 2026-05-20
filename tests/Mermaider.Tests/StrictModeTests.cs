@@ -63,6 +63,22 @@ public class StrictModeTests
 	}
 
 	[Test]
+	public void Rejects_linkStyle_directive()
+	{
+		var input = """
+			graph TD
+			  A --> B
+			  linkStyle 0 stroke:#ff3,stroke-width:4px
+			""";
+		var options = new RenderOptions { Strict = DefaultStrict };
+
+		var act = () => MermaidRenderer.RenderSvg(input, options);
+
+		act.Should().Throw<MermaidParseException>()
+			.WithMessage("*linkStyle*not allowed*");
+	}
+
+	[Test]
 	public void Rejects_unknown_class_via_shorthand()
 	{
 		var input = """
