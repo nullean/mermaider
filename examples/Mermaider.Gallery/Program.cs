@@ -19,7 +19,7 @@ var providerList = new (string Value, string Label)[]
 	("naiad", "Naiad"),
 };
 
-app.MapGet("/", (HttpContext ctx) =>
+app.MapGet("/", ctx =>
 {
 	var theme = ctx.Request.Query["theme"].FirstOrDefault();
 	var engine = ctx.Request.Query["engine"].FirstOrDefault() ?? "lightweight";
@@ -34,7 +34,7 @@ foreach (var cat in Enum.GetValues<DiagramCategory>())
 {
 	var slug = DiagramExamples.CategorySlug(cat);
 	var category = cat;
-	app.MapGet($"/{slug}", (HttpContext ctx) =>
+	_ = app.MapGet($"/{slug}", ctx =>
 	{
 		var theme = ctx.Request.Query["theme"].FirstOrDefault();
 		var engine = ctx.Request.Query["engine"].FirstOrDefault() ?? "lightweight";
@@ -155,10 +155,14 @@ string RenderNav(string activePath, string? theme, string engine, string? p1 = n
 string BuildPageQs(string? theme, string engine, string? p1 = null, string? p2 = null)
 {
 	var parts = new List<string>();
-	if (theme is not null) parts.Add($"theme={Uri.EscapeDataString(theme)}");
-	if (engine != "lightweight") parts.Add($"engine={Uri.EscapeDataString(engine)}");
-	if (!string.IsNullOrEmpty(p1)) parts.Add($"p1={Uri.EscapeDataString(p1)}");
-	if (!string.IsNullOrEmpty(p2)) parts.Add($"p2={Uri.EscapeDataString(p2)}");
+	if (theme is not null)
+		parts.Add($"theme={Uri.EscapeDataString(theme)}");
+	if (engine != "lightweight")
+		parts.Add($"engine={Uri.EscapeDataString(engine)}");
+	if (!string.IsNullOrEmpty(p1))
+		parts.Add($"p1={Uri.EscapeDataString(p1)}");
+	if (!string.IsNullOrEmpty(p2))
+		parts.Add($"p2={Uri.EscapeDataString(p2)}");
 	return parts.Count > 0 ? "?" + string.Join("&", parts) : "";
 }
 
@@ -445,8 +449,10 @@ string RenderCardCompare(DiagramExample e, string engine, string engineLabel, st
 
 string RenderCategoryPage(DiagramCategory category, string? theme, string engine, string? p1, string? p2)
 {
-	if (p1 is not null && !providerList.Any(x => x.Value == p1)) p1 = null;
-	if (p2 is not null && !providerList.Any(x => x.Value == p2)) p2 = null;
+	if (p1 is not null && !providerList.Any(x => x.Value == p1))
+		p1 = null;
+	if (p2 is not null && !providerList.Any(x => x.Value == p2))
+		p2 = null;
 
 	var (pageBg, pageFg) = PageColors(theme);
 	var themeQuery = theme is not null ? $"&theme={theme}" : "";
@@ -461,14 +467,16 @@ string RenderCategoryPage(DiagramCategory category, string? theme, string engine
 	var navHtml = RenderNav($"/{catSlug}", theme, engine, p1, p2);
 
 	var activeProviders = new List<string>();
-	if (!string.IsNullOrEmpty(p1)) activeProviders.Add(p1);
-	if (!string.IsNullOrEmpty(p2)) activeProviders.Add(p2);
+	if (!string.IsNullOrEmpty(p1))
+		activeProviders.Add(p1);
+	if (!string.IsNullOrEmpty(p2))
+		activeProviders.Add(p2);
 
 	var colCount = 1 + activeProviders.Count;
 	var gridColsClass = colCount switch { 2 => " two-col", 3 => " three-col", _ => "" };
 	var engineLabel = engine == "msagl" ? "Mermaider (MSAGL)" : "Mermaider (Sugiyama)";
 
-	var features = examples.Where(e => e.Feature is not null).Select(e => e.Feature!).Distinct().ToArray();
+	var features = examples.Select(e => e.Feature).OfType<string>().Distinct().ToArray();
 	var featurePills = features.Length > 0
 		? $"<div class=\"feature-list\">{string.Join("", features.Select(f => $"<span class=\"feature-pill\">{WebUtility.HtmlEncode(f)}</span>"))}</div>"
 		: "";
@@ -549,8 +557,10 @@ string RenderCategoryPage(DiagramCategory category, string? theme, string engine
 
 string RenderComparePage(string? theme, string engine, string? p1, string? p2)
 {
-	if (p1 is not null && !providerList.Any(x => x.Value == p1)) p1 = null;
-	if (p2 is not null && !providerList.Any(x => x.Value == p2)) p2 = null;
+	if (p1 is not null && !providerList.Any(x => x.Value == p1))
+		p1 = null;
+	if (p2 is not null && !providerList.Any(x => x.Value == p2))
+		p2 = null;
 
 	var (pageBg, pageFg) = PageColors(theme);
 	var themeQuery = theme is not null ? $"&theme={theme}" : "";
@@ -562,8 +572,10 @@ string RenderComparePage(string? theme, string engine, string? p1, string? p2)
 	var navHtml = RenderNav("/", theme, engine, p1, p2);
 
 	var activeProviders = new List<string>();
-	if (!string.IsNullOrEmpty(p1)) activeProviders.Add(p1);
-	if (!string.IsNullOrEmpty(p2)) activeProviders.Add(p2);
+	if (!string.IsNullOrEmpty(p1))
+		activeProviders.Add(p1);
+	if (!string.IsNullOrEmpty(p2))
+		activeProviders.Add(p2);
 
 	var colCount = 1 + activeProviders.Count;
 	var gridColsClass = colCount switch { 2 => " two-col", 3 => " three-col", _ => "" };
@@ -662,10 +674,14 @@ string RenderThemeBar(string? theme, string engine, string basePath, string? p1 
 string BuildFullQs(string? theme, string engine, string basePath, string? p1 = null, string? p2 = null)
 {
 	var parts = new List<string>();
-	if (theme is not null) parts.Add($"theme={Uri.EscapeDataString(theme)}");
-	if (engine != "lightweight") parts.Add($"engine={Uri.EscapeDataString(engine)}");
-	if (!string.IsNullOrEmpty(p1)) parts.Add($"p1={Uri.EscapeDataString(p1)}");
-	if (!string.IsNullOrEmpty(p2)) parts.Add($"p2={Uri.EscapeDataString(p2)}");
+	if (theme is not null)
+		parts.Add($"theme={Uri.EscapeDataString(theme)}");
+	if (engine != "lightweight")
+		parts.Add($"engine={Uri.EscapeDataString(engine)}");
+	if (!string.IsNullOrEmpty(p1))
+		parts.Add($"p1={Uri.EscapeDataString(p1)}");
+	if (!string.IsNullOrEmpty(p2))
+		parts.Add($"p2={Uri.EscapeDataString(p2)}");
 	return parts.Count > 0 ? "?" + string.Join("&", parts) : "";
 }
 
