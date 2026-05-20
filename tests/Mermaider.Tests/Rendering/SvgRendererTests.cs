@@ -1,4 +1,5 @@
 using AwesomeAssertions;
+using System.Globalization;
 
 namespace Mermaider.Tests.Rendering;
 
@@ -118,6 +119,30 @@ public class SvgRendererTests
 			""", new() { Transparent = false });
 
 		svg.Should().Contain("background:var(--bg)");
+	}
+
+	[Test]
+	public void RenderSvgUsesInvariantNumberFormatting()
+	{
+		var previousCulture = CultureInfo.CurrentCulture;
+		try
+		{
+			CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("fr-FR");
+
+			var svg = MermaidRenderer.RenderSvg("""
+				graph TD
+				  A --> B
+				""");
+
+			var openTag = svg[..svg.IndexOf('>')];
+			openTag.Should().Contain("height=\"").And.Contain(".");
+			openTag.Should().NotContain("244,");
+			openTag.Should().NotMatchRegex("""\b(?:viewBox|width|height)="[^"]*\d,\d""");
+		}
+		finally
+		{
+			CultureInfo.CurrentCulture = previousCulture;
+		}
 	}
 
 	[Test]
