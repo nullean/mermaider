@@ -18,9 +18,9 @@ internal static class ClassSvgRenderer
 	private static readonly int AnnotationFontSize = RenderConstants.FontSizes.Annotation;
 	private static readonly int AnnotationFontWeight = RenderConstants.FontWeights.Annotation;
 
-	internal static string Render(PositionedClassDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
+	internal static string Render(PositionedClassDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, transparent, strict);
+		var sb = RenderToBuilder(diagram, colors, font, transparent, strict, accessibility, diagramType);
 		try
 		{
 			return sb.ToString();
@@ -35,10 +35,10 @@ internal static class ClassSvgRenderer
 	private static readonly string GroupHeaderAttrs =
 		RenderConstants.TextAttrs.GroupHeaderFill + "var(--_text-sec)\"";
 
-	internal static StringBuilder RenderToBuilder(PositionedClassDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
+	internal static StringBuilder RenderToBuilder(PositionedClassDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
-		StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, colors, transparent);
+		StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, colors, transparent, accessibility, diagramType);
 		StyleBlock.AppendStyleBlock(sb, font, strict);
 		AppendMarkerDefs(sb);
 

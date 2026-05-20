@@ -18,9 +18,9 @@ internal static class ErSvgRenderer
 	private static readonly int KeyFontSize = RenderConstants.FontSizes.KeyBadge;
 	private static readonly int KeyFontWeight = RenderConstants.FontWeights.KeyBadge;
 
-	internal static string Render(PositionedErDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
+	internal static string Render(PositionedErDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, transparent, strict);
+		var sb = RenderToBuilder(diagram, colors, font, transparent, strict, accessibility, diagramType);
 		try
 		{
 			return sb.ToString();
@@ -32,10 +32,10 @@ internal static class ErSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(PositionedErDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null)
+	internal static StringBuilder RenderToBuilder(PositionedErDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
-		StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, colors, transparent);
+		StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, colors, transparent, accessibility, diagramType);
 		StyleBlock.AppendStyleBlock(sb, font, strict);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
