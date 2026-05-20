@@ -10,6 +10,8 @@ namespace Sugiyama.Internal;
 /// </summary>
 internal static class EdgeRouter
 {
+	private const double SnapEpsilon = 8;
+
 	internal sealed class RoutedEdge(
 		int originalIndex,
 		bool reversed,
@@ -35,16 +37,81 @@ internal static class EdgeRouter
 				? RouteBackEdge(graph, chain[0], chain[^1])
 				: RouteChain(graph, chain, useSideRouting);
 
-			var labelPos = ComputeLabelPosition(points);
-
 			if (reversed)
 				points.Reverse();
 
-			results.Add(new RoutedEdge(origIdx, reversed, points, labelPos));
+			results.Add(new RoutedEdge(origIdx, reversed, points, labelPosition: null));
 		}
+
+		CleanupRoutes(results);
 
 		return results;
 	}
+
+	internal static void CleanupRoutes(List<RoutedEdge> edges)
+	{
+		SnapNearAlignedDoglegs(edges);
+		SnapSharedHorizontalTrunks(edges);
+		foreach (var edge in edges)
+		{
+			if (ComputeLabelPosition(edge.Points) is { } labelPosition)
+				edge.SetLabelPosition(labelPosition);
+		}
+	}
+
+	private static void SnapNearAlignedDoglegs(IEnumerable<RoutedEdge> edges)
+	{
+		foreach (var edge in edges)
+		{
+			var points = edge.Points;
+			if (points.Count != 4)
+				continue;
+
+			var (start, firstBend, secondBend, end) = (points[0], points[1], points[2], points[3]);
+			if (!SameX(start, firstBend) || !SameY(firstBend, secondBend) || !SameX(secondBend, end))
+				continue;
+
+			if (Math.Abs(start.X - end.X) > SnapEpsilon)
+				continue;
+
+			var snappedX = (start.X + end.X) / 2.0;
+			points.Clear();
+			points.Add(new LayoutPoint(snappedX, start.Y));
+			points.Add(new LayoutPoint(snappedX, end.Y));
+		}
+	}
+
+	private static void SnapSharedHorizontalTrunks(IEnumerable<RoutedEdge> edges)
+	{
+		var groups = edges
+			.Where(e => e.Points.Count == 3)
+			.Where(e => SameX(e.Points[0], e.Points[1]) && SameY(e.Points[1], e.Points[2]))
+			.GroupBy(e => (Y: Quantize(e.Points[1].Y), TargetX: Quantize(e.Points[2].X), TargetY: Quantize(e.Points[2].Y)));
+
+		foreach (var group in groups)
+		{
+			var candidates = group.ToList();
+			if (candidates.Count < 2)
+				continue;
+
+			var minX = candidates.Min(e => e.Points[0].X);
+			var maxX = candidates.Max(e => e.Points[0].X);
+			if (maxX - minX > SnapEpsilon)
+				continue;
+
+			var snappedX = candidates.Average(e => e.Points[0].X);
+			foreach (var edge in candidates)
+			{
+				var points = edge.Points;
+				points[0] = new LayoutPoint(snappedX, points[0].Y);
+				points[1] = new LayoutPoint(snappedX, points[1].Y);
+			}
+		}
+	}
+
+	private static bool SameX(LayoutPoint a, LayoutPoint b) => Math.Abs(a.X - b.X) < 0.5;
+	private static bool SameY(LayoutPoint a, LayoutPoint b) => Math.Abs(a.Y - b.Y) < 0.5;
+	private static long Quantize(double value) => (long)Math.Round(value * 2, MidpointRounding.AwayFromZero);
 
 	private static List<(int OriginalIndex, bool Reversed, List<int> Chain)> BuildEdgeChains(GraphBuffer graph)
 	{
