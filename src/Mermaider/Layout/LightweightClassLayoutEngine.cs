@@ -73,6 +73,10 @@ internal static class LightweightClassLayoutEngine
 			layoutEdges.Add(new LayoutEdge(rel.From, rel.To, labelW, labelH));
 		}
 
+		var layoutSubgraphs = diagram.Namespaces
+			.Select(ns => new LayoutSubgraph(ns.Name, ns.Name, ns.ClassIds, []))
+			.ToList();
+
 		var layoutDir = diagram.Direction switch
 		{
 			Direction.LR => LayoutDirection.LR,
@@ -80,7 +84,7 @@ internal static class LightweightClassLayoutEngine
 			Direction.BT => LayoutDirection.BT,
 			_ => LayoutDirection.TD,
 		};
-		var layoutGraph = new LayoutGraph(layoutDir, layoutNodes, layoutEdges, []);
+		var layoutGraph = new LayoutGraph(layoutDir, layoutNodes, layoutEdges, layoutSubgraphs);
 		var result = SugiyamaLayout.Compute(layoutGraph, new LayoutOptions
 		{
 			Padding = Padding,
@@ -118,6 +122,7 @@ internal static class LightweightClassLayoutEngine
 				HeaderHeight = size.HeaderHeight,
 				AttrHeight = size.AttrHeight,
 				MethodHeight = size.MethodHeight,
+				InlineStyle = ResolveNodeStyle(cls.Id, diagram),
 			});
 		}
 
@@ -172,6 +177,8 @@ internal static class LightweightClassLayoutEngine
 			}
 		}
 
+		var nsGroups = result.Groups.Select(MapGroup).ToList();
+
 		return new PositionedClassDiagram
 		{
 			Width = maxX,
@@ -179,7 +186,40 @@ internal static class LightweightClassLayoutEngine
 			Classes = positionedClasses,
 			Relationships = positionedRels,
 			Notes = notes,
+			Namespaces = nsGroups,
 		};
+	}
+
+	private static PositionedGroup MapGroup(LayoutGroupResult g) =>
+		new()
+		{
+			Id = g.Id,
+			Label = g.Label,
+			X = g.X,
+			Y = g.Y,
+			Width = g.Width,
+			Height = g.Height,
+			Children = g.Children.Select(MapGroup).ToList(),
+		};
+
+	private static IReadOnlyDictionary<string, string>? ResolveNodeStyle(string nodeId, ClassDiagram diagram)
+	{
+		Dictionary<string, string>? result = null;
+
+		if (diagram.ClassAssignments.TryGetValue(nodeId, out var className) &&
+			diagram.ClassDefs.TryGetValue(className, out var classDef))
+		{
+			result = new Dictionary<string, string>(classDef);
+		}
+
+		if (diagram.NodeStyles.TryGetValue(nodeId, out var nodeStyle))
+		{
+			result ??= [];
+			foreach (var kvp in nodeStyle)
+				result[kvp.Key] = kvp.Value;
+		}
+
+		return result;
 	}
 
 	private static double MaxMemberWidth(IReadOnlyList<ClassMember> members)

@@ -537,6 +537,69 @@ public class MermaidCompatTests
 			    -int privateAttr
 			  }
 			""");
+		yield return ("classDef with cssClass", """
+			classDiagram
+			  classDef highlight fill:#f9f,stroke:#333,stroke-width:4px
+			  class Animal {
+			    +int age
+			  }
+			  class Duck {
+			    +swim() void
+			  }
+			  Animal <|-- Duck
+			  cssClass "Duck" highlight
+			  class Fish:::highlight {
+			    +int spikeCount
+			  }
+			""");
+		yield return ("style directive", """
+			classDiagram
+			  class Animal {
+			    +int age
+			  }
+			  style Animal fill:#bbf,stroke:#00f
+			""");
+		yield return ("namespace grouping", """
+			classDiagram
+			  namespace Animals {
+			    class Duck {
+			      +swim() void
+			    }
+			    class Fish {
+			      +int spikeCount
+			    }
+			  }
+			  namespace Plants {
+			    class Tree {
+			      +grow() void
+			    }
+			  }
+			  Duck --> Fish
+			""");
+		yield return ("multiple namespaces with relationships", """
+			classDiagram
+			  namespace Domain {
+			    class Order {
+			      +int id
+			      +place() void
+			    }
+			    class Product {
+			      +String name
+			      +double price
+			    }
+			  }
+			  namespace Infrastructure {
+			    class OrderRepo {
+			      +save(Order) void
+			    }
+			    class ProductRepo {
+			      +findAll() List
+			    }
+			  }
+			  Order --> Product
+			  OrderRepo ..|> Order
+			  ProductRepo ..|> Product
+			""");
 	}
 
 	// ====================================================================

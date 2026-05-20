@@ -135,6 +135,7 @@ internal static class MsaglClassLayout
 				HeaderHeight = size.HeaderHeight,
 				AttrHeight = size.AttrHeight,
 				MethodHeight = size.MethodHeight,
+				InlineStyle = ResolveNodeStyle(cls.Id, diagram),
 			});
 		}
 
@@ -224,6 +225,26 @@ internal static class MsaglClassLayout
 		}
 
 		return points;
+	}
+
+	private static IReadOnlyDictionary<string, string>? ResolveNodeStyle(string nodeId, ClassDiagram diagram)
+	{
+		Dictionary<string, string>? result = null;
+
+		if (diagram.ClassAssignments.TryGetValue(nodeId, out var className) &&
+			diagram.ClassDefs.TryGetValue(className, out var classDef))
+		{
+			result = new Dictionary<string, string>(classDef);
+		}
+
+		if (diagram.NodeStyles.TryGetValue(nodeId, out var nodeStyle))
+		{
+			result ??= [];
+			foreach (var kvp in nodeStyle)
+				result[kvp.Key] = kvp.Value;
+		}
+
+		return result;
 	}
 
 	private static double MaxMemberWidth(IReadOnlyList<ClassMember> members)

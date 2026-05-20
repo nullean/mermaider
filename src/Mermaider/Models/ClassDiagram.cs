@@ -1,3 +1,5 @@
+using System.Collections.ObjectModel;
+
 namespace Mermaider.Models;
 
 public sealed record ClassDiagram
@@ -7,6 +9,18 @@ public sealed record ClassDiagram
 	public required IReadOnlyList<ClassNamespace> Namespaces { get; init; }
 	public Direction? Direction { get; init; }
 	public IReadOnlyList<ClassNote> Notes { get; init; } = [];
+
+	/// <summary>Named style definitions: classDef name fill:#f9f,stroke:#333</summary>
+	public IReadOnlyDictionary<string, IReadOnlyDictionary<string, string>> ClassDefs { get; init; } =
+		ReadOnlyDictionary<string, IReadOnlyDictionary<string, string>>.Empty;
+
+	/// <summary>Class-to-style assignments via cssClass or :::</summary>
+	public IReadOnlyDictionary<string, string> ClassAssignments { get; init; } =
+		ReadOnlyDictionary<string, string>.Empty;
+
+	/// <summary>Per-node inline styles via style directive.</summary>
+	public IReadOnlyDictionary<string, IReadOnlyDictionary<string, string>> NodeStyles { get; init; } =
+		ReadOnlyDictionary<string, IReadOnlyDictionary<string, string>>.Empty;
 }
 
 public sealed record ClassNode
