@@ -340,6 +340,17 @@ Because the SVG uses CSS custom properties, themes switch live without re-render
 | `NodeSpacing` | `double?` | `28` | Horizontal spacing between sibling nodes |
 | `LayerSpacing` | `double?` | `56` | Vertical spacing between layers |
 
+### Edge rounding
+
+Edges use rounded corners by default (6px radius). To render straight/angular edges instead:
+
+```csharp
+var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
+{
+    RoundedEdges = false,
+});
+```
+
 ### Font sizing
 
 Font sizes are emitted as CSS custom properties in the SVG `<style>` block:
