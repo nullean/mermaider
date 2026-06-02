@@ -15,7 +15,15 @@ public sealed record LayoutGraph(
 	LayoutDirection Direction,
 	IReadOnlyList<LayoutNode> Nodes,
 	IReadOnlyList<LayoutEdge> Edges,
-	IReadOnlyList<LayoutSubgraph> Subgraphs);
+	IReadOnlyList<LayoutSubgraph> Subgraphs)
+{
+	/// <summary>
+	/// Pairs of node IDs that must be placed on the same layer (rank).
+	/// The first node in each pair is placed left of the second.
+	/// Used by invisible edges (<c>~~~</c>).
+	/// </summary>
+	public IReadOnlyList<(string A, string B)> SameRankConstraints { get; init; } = [];
+}
 
 /// <summary>A node with a pre-computed bounding box size.</summary>
 public sealed record LayoutNode(string Id, double Width, double Height);

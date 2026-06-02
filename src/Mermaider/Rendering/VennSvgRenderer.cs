@@ -11,8 +11,8 @@ internal static class VennSvgRenderer
 	private const double BaseRadius = 120;
 	private const double CenterX = 300;
 	private const double CenterY = 200;
-	private const double LabelFontSize = 13;
-	private const double UnionLabelFontSize = 11;
+	private const string LabelFontSize = RenderConstants.FsVar.M;
+	private const string UnionLabelFontSize = RenderConstants.FsVar.S;
 	private const double FillOpacity = 0.35;
 
 	private static readonly string[] SetColors =

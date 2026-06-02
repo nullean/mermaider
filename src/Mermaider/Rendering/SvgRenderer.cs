@@ -16,19 +16,11 @@ internal static class SvgRenderer
 	private static readonly string EdgeLabelBgAttrs =
 		$"rx=\"{Radii.EdgeLabel}\" ry=\"{Radii.EdgeLabel}\" fill=\"var(--bg)\" stroke=\"var(--_inner-stroke)\" stroke-width=\"1\"";
 
-	private static readonly string EdgeLabelSecAttrs = TextAttrs.EdgeLabelCenterFill + "var(--_text-sec)\"";
+	private static readonly string EdgeLabelAttrs = TextAttrs.EdgeLabelCenterFill + "var(--_text)\"";
 
 	private static readonly string GroupHeaderAttrs = TextAttrs.GroupHeaderFill + "var(--_text-sec)\"";
 
-	internal static string Render(
-		PositionedGraph graph,
-		DiagramColors colors,
-		string font,
-		bool transparent,
-		StrictModeOptions? strict = null,
-		AccessibilityInfo? accessibility = null,
-		DiagramType? diagramType = null,
-		double edgeCornerRadius = 0)
+	internal static string Render(PositionedGraph graph, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null, double edgeCornerRadius = 6)
 	{
 		var sb = RenderToBuilder(graph, colors, font, transparent, strict, accessibility, diagramType, edgeCornerRadius);
 		try
@@ -42,15 +34,7 @@ internal static class SvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(
-		PositionedGraph graph,
-		DiagramColors colors,
-		string font,
-		bool transparent,
-		StrictModeOptions? strict = null,
-		AccessibilityInfo? accessibility = null,
-		DiagramType? diagramType = null,
-		double edgeCornerRadius = 0)
+	internal static StringBuilder RenderToBuilder(PositionedGraph graph, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null, double edgeCornerRadius = 6)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 		StyleBlock.AppendSvgOpenTag(sb, graph.Width, graph.Height, colors, transparent, accessibility, diagramType);
@@ -108,8 +92,8 @@ internal static class SvgRenderer
 
 		_ = sb.Append("  <marker id=\"arrowhead-start\" markerUnits=\"userSpaceOnUse\" markerWidth=\"").Append(w)
 			.Append("\" markerHeight=\"").Append(h)
-			.Append("\" refX=\"1\" refY=\"").Append(h / 2.0)
-			.Append("\" orient=\"auto-start-reverse\">\n");
+			.Append("\" refX=\"0\" refY=\"").Append(h / 2.0)
+			.Append("\" orient=\"auto\">\n");
 		_ = sb.Append("    <polygon points=\"").Append(w).Append(" 0, 0 ").Append(h / 2.0)
 			.Append(", ").Append(w).Append(' ').Append(h)
 			.Append("\" fill=\"var(--_arrow)\" stroke=\"var(--_arrow)\" stroke-width=\"0.75\" stroke-linejoin=\"round\" />\n");
@@ -124,6 +108,10 @@ internal static class SvgRenderer
 	private static void AppendGroupBody(StringBuilder sb, PositionedGroup group)
 	{
 		var r = Radii.Group;
+		var fill = group.InlineStyle?.GetValueOrDefault("fill") ?? "var(--_group-fill)";
+		var stroke = group.InlineStyle?.GetValueOrDefault("stroke") ?? "var(--_group-stroke)";
+		var sw = group.InlineStyle?.GetValueOrDefault("stroke-width")
+			?? StrokeWidths.OuterBox.ToString(CultureInfo.InvariantCulture);
 
 		_ = sb.Append("\n<g class=\"subgraph\" data-id=\"");
 		MultilineUtils.AppendEscapedAttr(sb, group.Id.AsSpan());
@@ -134,8 +122,9 @@ internal static class SvgRenderer
 		_ = sb.Append("  <rect x=\"").Append(group.X).Append("\" y=\"").Append(group.Y)
 			.Append("\" width=\"").Append(group.Width).Append("\" height=\"").Append(group.Height)
 			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"var(--_group-fill)\" stroke=\"var(--_group-stroke)\" stroke-width=\"")
-			.Append(StrokeWidths.OuterBox).Append("\" />\n");
+			.Append("\" fill=\"").Append(fill)
+			.Append("\" stroke=\"").Append(stroke)
+			.Append("\" stroke-width=\"").Append(sw).Append("\" />\n");
 
 		_ = sb.Append("</g>\n");
 
@@ -170,7 +159,7 @@ internal static class SvgRenderer
 	// Edge rendering
 	// ========================================================================
 
-	private static void AppendEdge(StringBuilder sb, PositionedEdge edge, double edgeCornerRadius)
+	private static void AppendEdge(StringBuilder sb, PositionedEdge edge, double cornerRadius)
 	{
 		if (edge.Points.Count < 2)
 			return;
@@ -183,11 +172,9 @@ internal static class SvgRenderer
 			? $" stroke-dasharray=\"{inlineDashArray}\""
 			: edge.Style == EdgeStyle.Dotted ? " stroke-dasharray=\"4 4\"" : "";
 
-		var strokeColor = inlineStroke ?? "var(--_line)";
-
-		var strokeWidthStr = inlineStrokeWidth
+		var strokeWidth = inlineStrokeWidth
 			?? (edge.Style == EdgeStyle.Thick
-				? (StrokeWidths.Connector + 1).ToString(System.Globalization.CultureInfo.InvariantCulture)
+				? (StrokeWidths.Connector * 2).ToString(System.Globalization.CultureInfo.InvariantCulture)
 				: StrokeWidths.Connector.ToString(System.Globalization.CultureInfo.InvariantCulture));
 
 		_ = sb.Append("\n<path class=\"edge\" data-from=\"");
@@ -207,9 +194,9 @@ internal static class SvgRenderer
 		}
 
 		_ = sb.Append(" d=\"");
-		BuildRoundedPath(sb, edge.Points, edgeCornerRadius);
-		_ = sb.Append("\" fill=\"none\" stroke=\"").Append(strokeColor)
-			.Append("\" stroke-width=\"").Append(strokeWidthStr).Append('"').Append(dashArray);
+		BuildRoundedPath(sb, edge.Points, cornerRadius);
+		_ = sb.Append("\" fill=\"none\" stroke=\"").Append(inlineStroke ?? "var(--_line)")
+			.Append("\" stroke-width=\"").Append(strokeWidth).Append('"').Append(dashArray);
 
 		if (edge.HasArrowEnd)
 			_ = sb.Append(" marker-end=\"url(#arrowhead)\"");
@@ -225,13 +212,6 @@ internal static class SvgRenderer
 			return;
 
 		_ = sb.Append('M').Append(points[0].X).Append(',').Append(points[0].Y);
-
-		if (radius <= 0)
-		{
-			for (var i = 1; i < points.Count; i++)
-				_ = sb.Append(" L").Append(points[i].X).Append(',').Append(points[i].Y);
-			return;
-		}
 
 		if (points.Count == 2)
 		{
@@ -261,6 +241,12 @@ internal static class SvgRenderer
 
 			var r = Math.Min(radius, Math.Min(len1 / 2, len2 / 2));
 
+			if (r < 0.1)
+			{
+				_ = sb.Append(" L").Append(curr.X).Append(',').Append(curr.Y);
+				continue;
+			}
+
 			var startX = curr.X - (dx1 / len1 * r);
 			var startY = curr.Y - (dy1 / len1 * r);
 			var endX = curr.X + (dx2 / len2 * r);
@@ -278,12 +264,19 @@ internal static class SvgRenderer
 	{
 		var mid = edge.LabelPosition ?? EdgeMidpoint(edge.Points);
 		var label = edge.Label!;
-		var padding = 8.0;
 
 		var metrics = TextMetrics.MeasureMultiline(
 			label.AsSpan(),
 			FontSizes.EdgeLabel,
 			FontWeights.EdgeLabel);
+
+		const double labelPad = 12.0;
+		var labelX = mid.X;
+
+		var labelColor = edge.InlineStyle?.GetValueOrDefault("color");
+		var textAttrs = labelColor is not null
+			? TextAttrs.EdgeLabelCenterFill + labelColor + "\""
+			: EdgeLabelAttrs;
 
 		_ = sb.Append("\n<g class=\"edge-label\" data-from=\"");
 		MultilineUtils.AppendEscapedAttr(sb, edge.Source.AsSpan());
@@ -293,16 +286,11 @@ internal static class SvgRenderer
 		MultilineUtils.AppendEscapedAttr(sb, label.AsSpan());
 		_ = sb.Append("\">\n  ");
 
-		var labelColor = edge.InlineStyle?.GetValueOrDefault("color");
-		var textAttrs = labelColor is not null
-			? TextAttrs.EdgeLabelCenterFill + labelColor + "\""
-			: EdgeLabelSecAttrs;
-
 		MultilineUtils.AppendMultilineTextWithBackground(
-			sb, label, mid.X, mid.Y,
+			sb, label, labelX, mid.Y,
 			metrics.Width, metrics.Height,
 			FontSizes.EdgeLabel,
-			padding,
+			labelPad,
 			textAttrs,
 			EdgeLabelBgAttrs);
 
@@ -632,7 +620,7 @@ internal static class SvgRenderer
 		var textColor = node.InlineStyle?.GetValueOrDefault("color") ?? "var(--_text)";
 
 		if (node.IsMarkdown)
-			AppendMarkdownLabel(sb, node.Label, cx, cy, FontSizes.NodeLabel, textColor);
+			AppendMarkdownLabel(sb, node.Label, cx, cy, FontSizes.NodeLabel, FsVar.M, textColor);
 		else
 			MultilineUtils.AppendMultilineText(
 				sb, node.Label, cx, cy,
@@ -640,15 +628,18 @@ internal static class SvgRenderer
 				TextAttrs.NodeLabelCenterFill + textColor + "\"");
 	}
 
-	private static void AppendMarkdownLabel(StringBuilder sb, string label, double cx, double cy, int fontSize, string fill)
+	private static void AppendMarkdownLabel(StringBuilder sb, string label, double cx, double cy, int fontSizePx, string fontSizeVar, string fill)
 	{
 		var lines = label.Split('\n');
-		var lineHeight = fontSize * 1.3;
+		var lineHeight = fontSizePx * 1.3;
 		var totalHeight = lines.Length * lineHeight;
 		var startY = cy - (totalHeight / 2) + (lineHeight / 2);
 
-		_ = sb.Append("<text text-anchor=\"middle\" font-size=\"").Append(fontSize)
+		_ = sb.Append("<text text-anchor=\"middle\" font-size=\"").Append(fontSizeVar)
 			.Append("\" fill=\"").Append(fill).Append("\">");
+
+		var inBold = false;
+		var inItalic = false;
 
 		for (var li = 0; li < lines.Length; li++)
 		{
@@ -658,11 +649,24 @@ internal static class SvgRenderer
 			_ = sb.Append("<tspan x=\"").Append(cx).Append("\" y=\"").Append(y)
 				.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift).Append("\">");
 
+			if (inBold)
+				_ = sb.Append("<tspan font-weight=\"bold\">");
+			if (inItalic)
+				_ = sb.Append("<tspan font-style=\"italic\">");
+
 			var pos = 0;
 			while (pos < line.Length)
 			{
 				if (pos + 1 < line.Length && line[pos] == '*' && line[pos + 1] == '*')
 				{
+					if (inBold)
+					{
+						_ = sb.Append("</tspan>");
+						inBold = false;
+						pos += 2;
+						continue;
+					}
+
 					var end = line.IndexOf("**", pos + 2, StringComparison.Ordinal);
 					if (end > 0)
 					{
@@ -670,12 +674,27 @@ internal static class SvgRenderer
 						MultilineUtils.AppendEscapedXml(sb, line.AsSpan(pos + 2, end - pos - 2));
 						_ = sb.Append("</tspan>");
 						pos = end + 2;
-						continue;
 					}
+					else
+					{
+						_ = sb.Append("<tspan font-weight=\"bold\">");
+						MultilineUtils.AppendEscapedXml(sb, line.AsSpan(pos + 2));
+						inBold = true;
+						pos = line.Length;
+					}
+					continue;
 				}
 
 				if (line[pos] == '*')
 				{
+					if (inItalic)
+					{
+						_ = sb.Append("</tspan>");
+						inItalic = false;
+						pos++;
+						continue;
+					}
+
 					var end = line.IndexOf('*', pos + 1);
 					if (end > 0)
 					{
@@ -683,8 +702,15 @@ internal static class SvgRenderer
 						MultilineUtils.AppendEscapedXml(sb, line.AsSpan(pos + 1, end - pos - 1));
 						_ = sb.Append("</tspan>");
 						pos = end + 1;
-						continue;
 					}
+					else
+					{
+						_ = sb.Append("<tspan font-style=\"italic\">");
+						MultilineUtils.AppendEscapedXml(sb, line.AsSpan(pos + 1));
+						inItalic = true;
+						pos = line.Length;
+					}
+					continue;
 				}
 
 				var next = line.IndexOf('*', pos);
@@ -693,8 +719,18 @@ internal static class SvgRenderer
 				pos += segment.Length;
 			}
 
+			if (inItalic)
+				_ = sb.Append("</tspan>");
+			if (inBold)
+				_ = sb.Append("</tspan>");
+
 			_ = sb.Append("</tspan>");
 		}
+
+		if (inBold)
+			inBold = false;
+		if (inItalic)
+			inItalic = false;
 
 		_ = sb.Append("</text>");
 	}

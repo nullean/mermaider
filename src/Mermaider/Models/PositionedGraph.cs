@@ -40,8 +40,6 @@ public sealed record PositionedEdge
 	public required bool HasArrowEnd { get; init; }
 	public required IReadOnlyList<Point> Points { get; init; }
 	public Point? LabelPosition { get; init; }
-
-	/// <summary>Resolved inline style properties from <c>linkStyle</c> directives.</summary>
 	public IReadOnlyDictionary<string, string>? InlineStyle { get; init; }
 }
 
@@ -55,6 +53,7 @@ public sealed record PositionedGroup
 	public required double Width { get; init; }
 	public required double Height { get; init; }
 	public required IReadOnlyList<PositionedGroup> Children { get; init; }
+	public IReadOnlyDictionary<string, string>? InlineStyle { get; init; }
 }
 
 /// <summary>A positioned note attached to a node.</summary>

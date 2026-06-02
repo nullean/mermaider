@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 343.88 823" width="343.88" height="823" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 408.65599999999995 1009.2" width="408.65599999999995" height="1009.2" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -9,9 +9,9 @@
     --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
     --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
-    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 4%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    var(--bg);
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
     --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
@@ -19,6 +19,10 @@
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
   }
   .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
   .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
@@ -28,90 +32,90 @@
   <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
     <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
-  <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="1" refY="6" orient="auto-start-reverse">
+  <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
     <polygon points="12 0, 0 6, 12 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
 </defs>
 
-<path class="edge" data-from="_start" data-to="Pending" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M171.94,80 L171.94,152" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Pending" data-to="Confirmed" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="payment_ok" d="M171.94,198.2 L171.94,234.2 L96.97,234.2 L96.97,270.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Pending" data-to="Cancelled" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="timeout" d="M171.94,198.2 L171.94,234.2 L246.91,234.2 L246.91,270.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Confirmed" data-to="Shipped" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="dispatch" d="M96.97,316.4 L96.97,352.4 L145.526,352.4 L145.526,388.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Shipped" data-to="Delivered" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="deliver" d="M145.526,434.59999999999997 L145.526,470.59999999999997 L96.97,470.59999999999997 L96.97,506.59999999999997" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Delivered" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M96.97,552.8 L96.97,624.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Cancelled" data-to="_end2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M246.91,316.4 L246.91,388.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Shipped" data-to="Returned" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="return_request" d="M145.526,434.59999999999997 L145.526,470.59999999999997 L243.718,470.59999999999997 L243.718,506.59999999999997" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Returned" data-to="Refunded" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="process_refund" d="M243.718,552.8 L243.718,624.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Refunded" data-to="_end3" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M243.718,671 L243.718,743" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="_start" data-to="Pending" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M215.67999999999998,124.19999999999999 L215.67999999999998,164.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Pending" data-to="Confirmed" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="payment_ok" d="M156.384,190.6 L134.384,190.6 Q128.384,190.6 128.384,196.6 L128.384,253.89999999999998 L128.384,253.89999999999998 L128.384,317.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Pending" data-to="Cancelled" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="timeout" d="M274.976,190.6 L296.976,190.6 Q302.976,190.6 302.976,196.6 L302.976,253.89999999999998 L302.976,253.89999999999998 L302.976,317.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Confirmed" data-to="Shipped" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="dispatch" d="M128.384,370 L128.384,414.1 Q128.384,420.1 134.384,420.1 L187.01399999999998,420.1 Q192.064,420.1 192.064,415.05 L192.064,410" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Shipped" data-to="Delivered" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="deliver" d="M132.768,496.59999999999997 L110.768,496.59999999999997 Q104.768,496.59999999999997 104.768,502.59999999999997 L104.768,559.9 L104.768,559.9 L104.768,623.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Delivered" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M104.768,676 L104.768,720.1 Q104.768,726.1 110.768,726.1 L126.94999999999996,726.1 Q131.99999999999997,726.1 131.99999999999997,721.05 L131.99999999999997,716" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Cancelled" data-to="_end2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M299.36,370 L299.36,410" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Shipped" data-to="Returned" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="return_request" d="M251.35999999999999,496.59999999999997 L289.712,496.59999999999997 Q295.712,496.59999999999997 295.712,502.59999999999997 L295.712,559.9 L295.712,559.9 L295.712,623.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Returned" data-to="Refunded" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="process_refund" d="M295.712,676 L295.712,716" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Refunded" data-to="_end3" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M295.712,829 L295.712,869" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="Pending" data-to="Confirmed" data-label="payment_ok">
-  <rect x="101.948" y="218.39999999999998" width="80.00800000000001" height="31.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
-<text x="141.952" y="234.2" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-sec)" dy="4.199999999999999">payment_ok</text>
+  <rect x="79.04599999999998" y="246.00000000000003" width="98.67600000000002" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+<text x="128.384" y="267.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">payment_ok</text>
 </g>
 <g class="edge-label" data-from="Pending" data-to="Cancelled" data-label="timeout">
-  <rect x="175.53199999999998" y="218.39999999999998" width="52.79200000000001" height="31.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
-<text x="201.928" y="234.2" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-sec)" dy="4.199999999999999">timeout</text>
+  <rect x="269.514" y="246.00000000000003" width="66.924" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+<text x="302.976" y="267.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">timeout</text>
 </g>
 <g class="edge-label" data-from="Confirmed" data-to="Shipped" data-label="dispatch">
-  <rect x="85.4604" y="336.59999999999997" width="61.864000000000004" height="31.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
-<text x="116.39240000000001" y="352.4" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-sec)" dy="4.199999999999999">dispatch</text>
+  <rect x="121.46999999999998" y="399" width="77.50800000000001" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+<text x="160.224" y="420.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">dispatch</text>
 </g>
 <g class="edge-label" data-from="Shipped" data-to="Delivered" data-label="deliver">
-  <rect x="99.0596" y="454.79999999999995" width="54.087999999999994" height="31.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
-<text x="126.1036" y="470.59999999999997" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-sec)" dy="4.199999999999999">deliver</text>
+  <rect x="70.55" y="552" width="68.436" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+<text x="104.768" y="573.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">deliver</text>
 </g>
 <g class="edge-label" data-from="Shipped" data-to="Returned" data-label="return_request">
-  <rect x="136.3748" y="454.79999999999995" width="96.85600000000001" height="31.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
-<text x="184.8028" y="470.59999999999997" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-sec)" dy="4.199999999999999">return_request</text>
+  <rect x="236.546" y="552" width="118.33200000000001" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+<text x="295.712" y="573.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">return_request</text>
 </g>
 <g class="edge-label" data-from="Returned" data-to="Refunded" data-label="process_refund">
-  <rect x="192.69799999999998" y="565.8" width="102.04" height="31.6" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
-<text x="243.718" y="581.5999999999999" text-anchor="middle" font-size="12" font-weight="400" fill="var(--_text-sec)" dy="4.199999999999999">process_refund</text>
+  <rect x="233.522" y="705" width="124.38" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+<text x="295.712" y="726.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">process_refund</text>
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
-  <circle cx="171.94" cy="60" r="12" fill="var(--_text)" stroke="none" />
+  <circle cx="215.67999999999998" cy="112.19999999999999" r="10" fill="var(--_text)" stroke="none" />
   
 </g>
 <g class="node" data-id="Pending" data-label="Pending" data-shape="rounded">
-  <rect x="120.556" y="152" width="102.768" height="46.2" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="171.94" y="175.1" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Pending</text>
+  <rect x="156.384" y="164.2" width="118.592" height="52.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="215.67999999999998" y="190.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Pending</text>
 </g>
 <g class="node" data-id="Confirmed" data-label="Confirmed" data-shape="rounded">
-  <rect x="40" y="270.2" width="113.94" height="46.2" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="96.97" y="293.3" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Confirmed</text>
+  <rect x="62.70399999999998" y="317.2" width="131.36" height="52.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="128.384" y="343.59999999999997" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Confirmed</text>
 </g>
 <g class="node" data-id="Cancelled" data-label="Cancelled" data-shape="rounded">
-  <rect x="189.94" y="270.2" width="113.94" height="46.2" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="246.91" y="293.3" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Cancelled</text>
+  <rect x="237.29599999999996" y="317.2" width="131.36" height="52.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="302.976" y="343.59999999999997" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Cancelled</text>
 </g>
 <g class="node" data-id="Shipped" data-label="Shipped" data-shape="rounded">
-  <rect x="94.142" y="388.4" width="102.768" height="46.2" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="145.526" y="411.5" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Shipped</text>
+  <rect x="132.768" y="470.2" width="118.59199999999998" height="52.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="192.064" y="496.59999999999997" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Shipped</text>
 </g>
 <g class="node" data-id="Delivered" data-label="Delivered" data-shape="rounded">
-  <rect x="40.798" y="506.59999999999997" width="112.344" height="46.2" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="96.97" y="529.6999999999999" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Delivered</text>
+  <rect x="40" y="623.2" width="129.536" height="52.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="104.768" y="649.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Delivered</text>
 </g>
 <g class="node" data-id="_end" data-label="" data-shape="stateend">
-  <circle cx="96.97" cy="644.8" r="12" fill="none" stroke="var(--_text)" stroke-width="4" />
-<circle cx="96.97" cy="644.8" r="8" fill="var(--_text)" stroke="none" />
+  <circle cx="131.99999999999997" cy="728" r="10" fill="none" stroke="var(--_text)" stroke-width="4" />
+<circle cx="131.99999999999997" cy="728" r="6" fill="var(--_text)" stroke="none" />
   
 </g>
 <g class="node" data-id="_end2" data-label="" data-shape="stateend">
-  <circle cx="246.91" cy="408.4" r="12" fill="none" stroke="var(--_text)" stroke-width="4" />
-<circle cx="246.91" cy="408.4" r="8" fill="var(--_text)" stroke="none" />
+  <circle cx="299.36" cy="422" r="10" fill="none" stroke="var(--_text)" stroke-width="4" />
+<circle cx="299.36" cy="422" r="6" fill="var(--_text)" stroke="none" />
   
 </g>
 <g class="node" data-id="Returned" data-label="Returned" data-shape="rounded">
-  <rect x="189.142" y="506.59999999999997" width="109.152" height="46.2" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="243.718" y="529.6999999999999" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Returned</text>
+  <rect x="232.76799999999997" y="623.2" width="125.888" height="52.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="295.712" y="649.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Returned</text>
 </g>
 <g class="node" data-id="Refunded" data-label="Refunded" data-shape="rounded">
-  <rect x="188.344" y="624.8" width="110.74799999999999" height="46.2" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="243.718" y="647.9" text-anchor="middle" font-size="14" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Refunded</text>
+  <rect x="231.85599999999997" y="776.2" width="127.712" height="52.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="295.712" y="802.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Refunded</text>
 </g>
 <g class="node" data-id="_end3" data-label="" data-shape="stateend">
-  <circle cx="243.718" cy="763" r="12" fill="none" stroke="var(--_text)" stroke-width="4" />
-<circle cx="243.718" cy="763" r="8" fill="var(--_text)" stroke="none" />
+  <circle cx="295.712" cy="881" r="10" fill="none" stroke="var(--_text)" stroke-width="4" />
+<circle cx="295.712" cy="881" r="6" fill="var(--_text)" stroke="none" />
   
 </g>
 </svg>

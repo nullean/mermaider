@@ -121,9 +121,9 @@ internal static class MsaglFlowchartLayout
 		}
 
 		var positionedEdges = new List<PositionedEdge>(edgeMap.Count);
-		for (var i = 0; i < edgeMap.Count; i++)
+		var edgeIdx = 0;
+		foreach (var (msaglEdge, mermaidEdge) in edgeMap)
 		{
-			var (msaglEdge, mermaidEdge) = edgeMap[i];
 			var points = ExtractEdgePoints(msaglEdge, offsetX, offsetY);
 			Point? labelPos = null;
 			if (msaglEdge.Label != null)
@@ -131,8 +131,6 @@ internal static class MsaglFlowchartLayout
 				var lc = msaglEdge.Label.Center;
 				labelPos = new Point(lc.X + offsetX, lc.Y + offsetY);
 			}
-
-			var edgeInlineStyle = strict is null ? ResolveEdgeStyle(i, graph) : null;
 
 			positionedEdges.Add(new PositionedEdge
 			{
@@ -144,8 +142,9 @@ internal static class MsaglFlowchartLayout
 				HasArrowEnd = mermaidEdge.HasArrowEnd,
 				Points = points,
 				LabelPosition = labelPos,
-				InlineStyle = edgeInlineStyle,
+				InlineStyle = ResolveEdgeStyle(edgeIdx, graph),
 			});
+			edgeIdx++;
 		}
 
 		var width = bb.Width + (padding * 2);
@@ -157,7 +156,7 @@ internal static class MsaglFlowchartLayout
 			Height = height,
 			Nodes = positionedNodes,
 			Edges = positionedEdges,
-			Groups = ExtractGroups(graph, msaglNodes, offsetX, offsetY),
+			Groups = ExtractGroups(graph, msaglNodes, offsetX, offsetY, strict),
 		};
 	}
 
@@ -224,21 +223,24 @@ internal static class MsaglFlowchartLayout
 	private static IReadOnlyList<PositionedGroup> ExtractGroups(
 		MermaidGraph graph,
 		Dictionary<string, MsaglNode> msaglNodes,
-		double offsetX, double offsetY)
+		double offsetX, double offsetY,
+		StrictModeOptions? strict)
 	{
 		if (graph.Subgraphs.Count == 0)
 			return [];
 
 		var groups = new List<PositionedGroup>();
 		foreach (var sg in graph.Subgraphs)
-			groups.Add(ExtractGroup(sg, msaglNodes, offsetX, offsetY));
+			groups.Add(ExtractGroup(sg, graph, msaglNodes, offsetX, offsetY, strict));
 		return groups;
 	}
 
 	private static PositionedGroup ExtractGroup(
 		MermaidSubgraph sg,
+		MermaidGraph graph,
 		Dictionary<string, MsaglNode> msaglNodes,
-		double offsetX, double offsetY)
+		double offsetX, double offsetY,
+		StrictModeOptions? strict)
 	{
 		var groupPadding = 16.0;
 		var headerHeight = 28.0;
@@ -261,7 +263,7 @@ internal static class MsaglFlowchartLayout
 		var childGroups = new List<PositionedGroup>();
 		foreach (var child in sg.Children)
 		{
-			var childGroup = ExtractGroup(child, msaglNodes, offsetX, offsetY);
+			var childGroup = ExtractGroup(child, graph, msaglNodes, offsetX, offsetY, strict);
 			childGroups.Add(childGroup);
 			minX = Math.Min(minX, childGroup.X);
 			minY = Math.Min(minY, childGroup.Y);
@@ -286,6 +288,7 @@ internal static class MsaglFlowchartLayout
 			Width = maxX - minX + (groupPadding * 2),
 			Height = maxY - minY + (groupPadding * 2) + headerHeight,
 			Children = childGroups,
+			InlineStyle = strict is null ? ResolveNodeStyle(sg.Id, graph) : null,
 		};
 	}
 
@@ -313,15 +316,15 @@ internal static class MsaglFlowchartLayout
 	{
 		Dictionary<string, string>? result = null;
 
-		if (graph.DefaultEdgeStyle is { } defaultStyle)
+		if (graph.DefaultEdgeStyle is { } defaults)
 		{
-			result = new Dictionary<string, string>(defaultStyle);
+			result = new Dictionary<string, string>(defaults);
 		}
 
-		if (graph.EdgeStyles.TryGetValue(edgeIndex, out var edgeStyle))
+		if (graph.EdgeStyles.TryGetValue(edgeIndex, out var specific))
 		{
 			result ??= [];
-			foreach (var kvp in edgeStyle)
+			foreach (var kvp in specific)
 				result[kvp.Key] = kvp.Value;
 		}
 

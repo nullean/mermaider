@@ -10,8 +10,6 @@ namespace Sugiyama.Internal;
 /// </summary>
 internal static class EdgeRouter
 {
-	private const double SnapEpsilon = 8;
-
 	internal sealed class RoutedEdge(
 		int originalIndex,
 		bool reversed,
@@ -20,13 +18,23 @@ internal static class EdgeRouter
 	{
 		internal int OriginalIndex { get; } = originalIndex;
 		internal bool Reversed { get; } = reversed;
-		internal List<LayoutPoint> Points { get; } = points;
+		internal List<LayoutPoint> Points { get; private set; } = points;
 		internal LayoutPoint? LabelPosition { get; private set; } = labelPosition;
 
 		internal void SetLabelPosition(LayoutPoint lp) => LabelPosition = lp;
+
+		internal void ReplacePoints(List<LayoutPoint> newPoints)
+		{
+			Points = newPoints;
+			LabelPosition = null;
+		}
 	}
 
-	internal static List<RoutedEdge> Run(GraphBuffer graph, bool useSideRouting = false)
+	private const double MinGapFromNode = 42;
+
+	internal static List<RoutedEdge> Run(
+		GraphBuffer graph, bool useSideRouting = false,
+		IReadOnlyList<LayoutEdge>? inputEdges = null)
 	{
 		var edgeChains = BuildEdgeChains(graph);
 		var results = new List<RoutedEdge>(edgeChains.Count);
@@ -37,29 +45,30 @@ internal static class EdgeRouter
 				? RouteBackEdge(graph, chain[0], chain[^1])
 				: RouteChain(graph, chain, useSideRouting);
 
+			var src = chain[0];
+			var tgt = chain[^1];
+			var srcBottom = src < graph.RealNodeCount ? graph.Y[src] + graph.NodeHeights[src] : graph.Y[src];
+			var tgtTop = tgt < graph.RealNodeCount ? graph.Y[tgt] : graph.Y[tgt];
+			var labelPos = ComputeLabelPosition(points, srcBottom, tgtTop);
+
 			if (reversed)
 				points.Reverse();
 
-			results.Add(new RoutedEdge(origIdx, reversed, points, labelPosition: null));
+			results.Add(new RoutedEdge(origIdx, reversed, points, labelPos));
 		}
 
-		CleanupRoutes(results);
+		SnapNearAlignedDoglegs(results);
+		SnapSharedHorizontalTrunks(results);
+
+		if (inputEdges is not null)
+			ResolveOverlappingLabels(results, inputEdges);
 
 		return results;
 	}
 
-	internal static void CleanupRoutes(List<RoutedEdge> edges)
-	{
-		SnapNearAlignedDoglegs(edges);
-		SnapSharedHorizontalTrunks(edges);
-		foreach (var edge in edges)
-		{
-			if (ComputeLabelPosition(edge.Points) is { } labelPosition)
-				edge.SetLabelPosition(labelPosition);
-		}
-	}
+	private const double SnapEpsilon = 8;
 
-	private static void SnapNearAlignedDoglegs(IEnumerable<RoutedEdge> edges)
+	private static void SnapNearAlignedDoglegs(List<RoutedEdge> edges)
 	{
 		foreach (var edge in edges)
 		{
@@ -75,13 +84,11 @@ internal static class EdgeRouter
 				continue;
 
 			var snappedX = (start.X + end.X) / 2.0;
-			points.Clear();
-			points.Add(new LayoutPoint(snappedX, start.Y));
-			points.Add(new LayoutPoint(snappedX, end.Y));
+			edge.ReplacePoints([new LayoutPoint(snappedX, start.Y), new LayoutPoint(snappedX, end.Y)]);
 		}
 	}
 
-	private static void SnapSharedHorizontalTrunks(IEnumerable<RoutedEdge> edges)
+	private static void SnapSharedHorizontalTrunks(List<RoutedEdge> edges)
 	{
 		var groups = edges
 			.Where(e => e.Points.Count == 3)
@@ -112,6 +119,53 @@ internal static class EdgeRouter
 	private static bool SameX(LayoutPoint a, LayoutPoint b) => Math.Abs(a.X - b.X) < 0.5;
 	private static bool SameY(LayoutPoint a, LayoutPoint b) => Math.Abs(a.Y - b.Y) < 0.5;
 	private static long Quantize(double value) => (long)Math.Round(value * 2, MidpointRounding.AwayFromZero);
+
+	private static void ResolveOverlappingLabels(List<RoutedEdge> routes, IReadOnlyList<LayoutEdge> inputEdges)
+	{
+		const double labelGap = 4;
+		var labeled = new List<(int Index, double X, double Y, double W, double H)>();
+
+		for (var i = 0; i < routes.Count; i++)
+		{
+			var r = routes[i];
+			if (r.LabelPosition is not { } lp || r.OriginalIndex >= inputEdges.Count)
+				continue;
+			var e = inputEdges[r.OriginalIndex];
+			if (e.LabelWidth <= 0 || e.LabelHeight <= 0)
+				continue;
+			labeled.Add((i, lp.X, lp.Y, e.LabelWidth, e.LabelHeight));
+		}
+
+		if (labeled.Count < 2)
+			return;
+
+		labeled.Sort((a, b) => a.Y.CompareTo(b.Y));
+
+		for (var i = 1; i < labeled.Count; i++)
+		{
+			var prev = labeled[i - 1];
+			var curr = labeled[i];
+
+			var prevBottom = prev.Y + (prev.H / 2);
+			var currTop = curr.Y - (curr.H / 2);
+
+			if (currTop >= prevBottom + labelGap)
+				continue;
+
+			var prevRight = prev.X + (prev.W / 2);
+			var prevLeft = prev.X - (prev.W / 2);
+			var currRight = curr.X + (curr.W / 2);
+			var currLeft = curr.X - (curr.W / 2);
+
+			if (currLeft > prevRight || currRight < prevLeft)
+				continue;
+
+			var shift = prevBottom - currTop + labelGap;
+			var newY = curr.Y + shift;
+			routes[curr.Index].SetLabelPosition(new LayoutPoint(curr.X, newY));
+			labeled[i] = (curr.Index, curr.X, newY, curr.W, curr.H);
+		}
+	}
 
 	private static List<(int OriginalIndex, bool Reversed, List<int> Chain)> BuildEdgeChains(GraphBuffer graph)
 	{
@@ -162,6 +216,8 @@ internal static class EdgeRouter
 		return chains.Select(kvp => (kvp.Key, kvp.Value.Reversed, kvp.Value.Chain)).ToList();
 	}
 
+	private const double SnapThreshold = 16;
+
 	private static List<LayoutPoint> RouteChain(
 		GraphBuffer graph, List<int> chain, bool useSideRouting)
 	{
@@ -180,36 +236,88 @@ internal static class EdgeRouter
 			}
 			else if (i == chain.Count - 1)
 			{
-				var portX = cx;
-				var portY = graph.Y[node];
-				var prevPoint = points[^1];
-
-				if (Math.Abs(prevPoint.X - portX) > 0.5)
-				{
-					var midY = (prevPoint.Y + portY) / 2.0;
-					points.Add(new LayoutPoint(prevPoint.X, midY));
-					points.Add(new LayoutPoint(portX, midY));
-				}
-
-				points.Add(new LayoutPoint(portX, portY));
+				var chainSource = chain[0];
+				var srcCX = chainSource < graph.RealNodeCount
+					? graph.X[chainSource] + (graph.NodeWidths[chainSource] / 2.0)
+					: graph.X[chainSource];
+				AddTargetPort(graph, points, node, cx, cy, isReal, srcCX);
 			}
 			else
 			{
 				if (points.Count > 0)
 				{
 					var prev = points[^1];
-					if (Math.Abs(prev.X - cx) > 0.5)
+					var dx = Math.Abs(prev.X - cx);
+					if (dx is > 0.5 and <= SnapThreshold)
+					{
+						points.Add(new LayoutPoint(cx, cy));
+					}
+					else if (dx > SnapThreshold)
 					{
 						var midY = (prev.Y + cy) / 2.0;
 						points.Add(new LayoutPoint(prev.X, midY));
 						points.Add(new LayoutPoint(cx, midY));
+						points.Add(new LayoutPoint(cx, cy));
+					}
+					else
+					{
+						points.Add(new LayoutPoint(cx, cy));
 					}
 				}
-				points.Add(new LayoutPoint(cx, cy));
+				else
+				{
+					points.Add(new LayoutPoint(cx, cy));
+				}
 			}
 		}
 
 		return points;
+	}
+
+	private const double SideEntryThreshold = 20;
+
+	private static void AddTargetPort(
+		GraphBuffer graph, List<LayoutPoint> points,
+		int node, double cx, double cy, bool isReal, double sourceCX = double.NaN)
+	{
+		var prevPoint = points[^1];
+		var portY = graph.Y[node];
+		var deltaX = prevPoint.X - cx;
+		var absDx = Math.Abs(deltaX);
+
+		var srcDeltaX = double.IsNaN(sourceCX) ? deltaX : sourceCX - cx;
+		var srcAbsDx = Math.Abs(srcDeltaX);
+
+		if (absDx <= SnapThreshold && srcAbsDx <= SideEntryThreshold)
+		{
+			if (points.Count > 0)
+				points[^1] = new LayoutPoint(cx, points[^1].Y);
+			points.Add(new LayoutPoint(cx, portY));
+			return;
+		}
+
+		if (isReal && (absDx >= SideEntryThreshold || srcAbsDx >= SideEntryThreshold) && HasConvergentIncoming(graph, node))
+		{
+			var nodeLeft = graph.X[node];
+			var nodeRight = nodeLeft + graph.NodeWidths[node];
+			var effectiveDelta = srcAbsDx > absDx ? srcDeltaX : deltaX;
+			if (effectiveDelta > 0)
+			{
+				points.Add(new LayoutPoint(prevPoint.X, cy));
+				points.Add(new LayoutPoint(nodeRight, cy));
+			}
+			else
+			{
+				points.Add(new LayoutPoint(prevPoint.X, cy));
+				points.Add(new LayoutPoint(nodeLeft, cy));
+			}
+			return;
+		}
+
+		var midY = (prevPoint.Y + portY) / 2.0;
+		points.Add(new LayoutPoint(prevPoint.X, midY));
+		points.Add(new LayoutPoint(cx, midY));
+		points.Add(new LayoutPoint(cx, portY));
 	}
 
 	/// <summary>
@@ -221,7 +329,7 @@ internal static class EdgeRouter
 		GraphBuffer graph, List<LayoutPoint> points, List<int> chain,
 		int node, double cx, double cy, bool isReal, bool useSideRouting)
 	{
-		if (!useSideRouting || !isReal || chain.Count < 2)
+		if (!isReal || chain.Count < 2)
 		{
 			var portX = cx;
 			var portY = graph.Y[node] + (isReal ? graph.NodeHeights[node] : 0);
@@ -229,33 +337,181 @@ internal static class EdgeRouter
 			return;
 		}
 
-		var target = chain[^1];
-		var tgtCX = target < graph.RealNodeCount
-			? graph.X[target] + (graph.NodeWidths[target] / 2.0)
-			: graph.X[target];
+		var nextNode = chain[1];
+		var nextCX = nextNode < graph.RealNodeCount
+			? graph.X[nextNode] + (graph.NodeWidths[nextNode] / 2.0)
+			: graph.X[nextNode];
 
-		var deltaX = tgtCX - cx;
+		var deltaX = nextCX - cx;
 		var halfW = graph.NodeWidths[node] / 2.0;
 
-		if (deltaX < -halfW * 0.3)
+		if (useSideRouting)
 		{
-			// Target is to the LEFT in canonical form → top side in LR
-			points.Add(new LayoutPoint(graph.X[node], cy));
-			points.Add(new LayoutPoint(tgtCX, cy));
+			if (deltaX < -halfW * 0.3)
+			{
+				points.Add(new LayoutPoint(graph.X[node], cy));
+				points.Add(new LayoutPoint(nextCX, cy));
+			}
+			else if (deltaX > halfW * 0.3)
+			{
+				points.Add(new LayoutPoint(graph.X[node] + graph.NodeWidths[node], cy));
+				points.Add(new LayoutPoint(nextCX, cy));
+			}
+			else
+			{
+				points.Add(new LayoutPoint(cx, graph.Y[node] + graph.NodeHeights[node]));
+			}
 		}
-		else if (deltaX > halfW * 0.3)
+		else if (HasFanOut(graph, node))
 		{
-			// Target is to the RIGHT in canonical form → bottom side in LR
-			points.Add(new LayoutPoint(graph.X[node] + graph.NodeWidths[node], cy));
+			var target = chain[^1];
+			var tgtCX = target < graph.RealNodeCount
+				? graph.X[target] + (graph.NodeWidths[target] / 2.0)
+				: graph.X[target];
+
+			var goRight = Math.Abs(deltaX) > SideEntryThreshold
+				? deltaX > 0
+				: FanOutSide(graph, node, target);
+
+			var sideX = goRight
+				? graph.X[node] + graph.NodeWidths[node]
+				: graph.X[node];
+			points.Add(new LayoutPoint(sideX, cy));
 			points.Add(new LayoutPoint(tgtCX, cy));
 		}
 		else
 		{
-			// Target roughly aligned → normal bottom exit (right side in LR)
-			var portX = cx;
-			var portY = graph.Y[node] + graph.NodeHeights[node];
-			points.Add(new LayoutPoint(portX, portY));
+			points.Add(new LayoutPoint(cx, graph.Y[node] + graph.NodeHeights[node]));
 		}
+	}
+
+	private static bool FanOutSide(GraphBuffer graph, int source, int target)
+	{
+		var targets = new List<int>();
+		foreach (var e in graph.Edges)
+		{
+			if (e.From != source)
+				continue;
+			var finalTarget = ResolveVirtualChain(graph, e);
+			if (finalTarget >= graph.RealNodeCount || targets.Contains(finalTarget))
+				continue;
+			targets.Add(finalTarget);
+		}
+		if (targets.Count < 2)
+			return true;
+
+		targets.Sort((a, b) => graph.X[a].CompareTo(graph.X[b]));
+		var chainTarget = ResolveVirtualChain(graph, target);
+		var idx = targets.IndexOf(chainTarget >= 0 ? chainTarget : target);
+		return idx >= targets.Count / 2.0;
+	}
+
+	private static int ResolveVirtualChain(GraphBuffer graph, GraphEdge edge)
+	{
+		var current = edge.To;
+		while (current >= graph.RealNodeCount)
+		{
+			var found = false;
+			foreach (var ve in graph.Edges)
+			{
+				if (ve.From == current && ve.OriginalIndex == edge.OriginalIndex)
+				{
+					current = ve.To;
+					found = true;
+					break;
+				}
+			}
+			if (!found)
+				break;
+		}
+		return current;
+	}
+
+	private static int ResolveVirtualChain(GraphBuffer graph, int target)
+	{
+		if (target < graph.RealNodeCount)
+			return target;
+		return -1;
+	}
+
+	private static bool HasFanOut(GraphBuffer graph, int node)
+	{
+		if (node >= graph.RealNodeCount)
+			return false;
+
+		var cx = graph.X[node] + (graph.NodeWidths[node] / 2.0);
+		var hasLeft = false;
+		var hasRight = false;
+		var distinctTargets = new HashSet<int>();
+
+		foreach (var e in graph.Edges)
+		{
+			if (e.From != node)
+				continue;
+
+			var finalTarget = e.To;
+			if (finalTarget >= graph.RealNodeCount)
+			{
+				var current = finalTarget;
+				while (current >= graph.RealNodeCount)
+				{
+					var found = false;
+					foreach (var ve in graph.Edges)
+					{
+						if (ve.From == current && ve.OriginalIndex == e.OriginalIndex)
+						{
+							current = ve.To;
+							found = true;
+							break;
+						}
+					}
+					if (!found)
+						break;
+				}
+				finalTarget = current;
+			}
+
+			if (finalTarget >= graph.RealNodeCount)
+				continue;
+
+			_ = distinctTargets.Add(finalTarget);
+			var tgtCX = graph.X[finalTarget] + (graph.NodeWidths[finalTarget] / 2.0);
+			if (tgtCX < cx - 10)
+				hasLeft = true;
+			if (tgtCX > cx + 10)
+				hasRight = true;
+		}
+		return (hasLeft && hasRight) || distinctTargets.Count >= 2;
+	}
+
+	private static bool HasConvergentIncoming(GraphBuffer graph, int node)
+	{
+		var distinctSources = new HashSet<int>();
+		foreach (var e in graph.Edges)
+		{
+			if (e.To != node)
+				continue;
+
+			var src = e.From;
+			while (src >= graph.RealNodeCount)
+			{
+				var found = false;
+				foreach (var ve in graph.Edges)
+				{
+					if (ve.To == src)
+					{
+						src = ve.From;
+						found = true;
+						break;
+					}
+				}
+				if (!found)
+					break;
+			}
+			if (src < graph.RealNodeCount)
+				_ = distinctSources.Add(src);
+		}
+		return distinctSources.Count >= 2;
 	}
 
 	/// <summary>
@@ -295,32 +551,46 @@ internal static class EdgeRouter
 	/// <summary>
 	/// Place the label at the midpoint of the longest straight segment,
 	/// biased toward the start so it doesn't overlap arrowheads at the end.
+	/// Clamps the Y position to keep a minimum visible gap from source/target nodes.
 	/// </summary>
-	private static LayoutPoint? ComputeLabelPosition(List<LayoutPoint> points)
+	private static LayoutPoint? ComputeLabelPosition(List<LayoutPoint> points, double srcBottom, double tgtTop)
 	{
 		if (points.Count < 2)
 			return null;
 
-		var bestIdx = 1;
+		var bestStart = 0;
+		var bestEnd = 1;
 		var bestLen = 0.0;
 
+		var runStart = 0;
 		for (var i = 1; i < points.Count; i++)
 		{
-			var dx = points[i].X - points[i - 1].X;
-			var dy = points[i].Y - points[i - 1].Y;
-			var segLen = Math.Sqrt((dx * dx) + (dy * dy));
-			if (segLen > bestLen)
+			var isCollinear = i < points.Count - 1 &&
+				Math.Abs(points[i].X - points[runStart].X) < 0.5 &&
+				Math.Abs(points[i + 1].X - points[runStart].X) < 0.5;
+
+			if (!isCollinear || i == points.Count - 1)
 			{
-				bestLen = segLen;
-				bestIdx = i;
+				var rdx = points[i].X - points[runStart].X;
+				var rdy = points[i].Y - points[runStart].Y;
+				var runLen = Math.Sqrt((rdx * rdx) + (rdy * rdy));
+				if (runLen > bestLen)
+				{
+					bestLen = runLen;
+					bestStart = runStart;
+					bestEnd = i;
+				}
+				runStart = i;
 			}
 		}
 
-		// Bias toward the start of the segment (t=0.4 instead of 0.5)
-		// to keep labels away from arrowheads at the end
-		const double t = 0.4;
-		return new LayoutPoint(
-			points[bestIdx - 1].X + ((points[bestIdx].X - points[bestIdx - 1].X) * t),
-			points[bestIdx - 1].Y + ((points[bestIdx].Y - points[bestIdx - 1].Y) * t));
+		const double t = 0.5;
+		var x = points[bestStart].X + ((points[bestEnd].X - points[bestStart].X) * t);
+		var y = (srcBottom + tgtTop) / 2.0;
+
+		y = Math.Max(y, srcBottom + MinGapFromNode);
+		y = Math.Min(y, tgtTop - MinGapFromNode);
+
+		return new LayoutPoint(x, y);
 	}
 }

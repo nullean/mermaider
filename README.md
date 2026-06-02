@@ -318,6 +318,79 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 Because the SVG uses CSS custom properties, themes switch live without re-rendering&mdash;just update the
 `--bg` / `--fg` properties on the root `<svg>` element.
 
+## Render Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `Bg` | `string?` | `"#FFFFFF"` | Background color (hex or CSS) |
+| `Fg` | `string?` | `"#27272A"` | Foreground / primary text color |
+| `Line` | `string?` | derived | Edge/connector stroke color |
+| `Accent` | `string?` | derived | Arrowheads, highlights |
+| `Muted` | `string?` | derived | Secondary text, edge labels |
+| `Surface` | `string?` | derived | Node fill tint |
+| `Border` | `string?` | derived | Node/group stroke |
+| `Font` | `string?` | `"Inter"` | Font family for all text |
+| `FontSize` | `string?` | `"1rem"` | Base font size (`--fs-m`). Accepts CSS units: `"1rem"`, `"16px"`, `"1em"` |
+| `FontSizeSmall` | `double?` | `0.875` | Ratio for small text (`--fs-s`) |
+| `FontSizeExtraSmall` | `double?` | `0.75` | Ratio for extra-small text (`--fs-xs`) |
+| `FontSizeLarge` | `double?` | `1.125` | Ratio for large text (`--fs-l`) |
+| `RoundedEdges` | `bool` | `true` | Rounded corners (6px radius) on edge paths |
+| `Transparent` | `bool` | `true` | Transparent background |
+| `Padding` | `double?` | `40` | Canvas padding in px |
+| `NodeSpacing` | `double?` | `28` | Horizontal spacing between sibling nodes |
+| `LayerSpacing` | `double?` | `56` | Vertical spacing between layers |
+
+### Font sizing
+
+Font sizes are emitted as CSS custom properties in the SVG `<style>` block:
+
+```css
+:root { --fs-xs: 0.75rem; --fs-s: 0.875rem; --fs-m: 1rem; --fs-l: 1.125rem; }
+```
+
+All text elements reference these variables, so downstream consumers can override sizing by
+redefining the custom properties on the `<svg>` element without re-rendering.
+
+## Implementer Notes
+
+### Label parsing
+
+Node labels support three formats:
+
+- **Plain text**: `A[Hello World]` renders as-is
+- **Markdown labels**: `A["\`**bold** and _italic_\`"]` renders `<tspan>` elements with `font-weight`/`font-style`
+  - Supported tags: `**bold**`, `*italic*`, `~~strikethrough~~`, `<u>underline</u>`
+  - Newlines within markdown labels produce multi-line `<text>` with `<tspan dy="...">`
+- **Escaped newlines**: `\n` in any label is converted to an actual line break
+
+Long labels are automatically word-wrapped at 220px content width during layout. The wrapping
+happens at word boundaries and respects the font metrics used for measurement.
+
+### Edge routing
+
+The built-in Sugiyama engine uses rectilinear edge routing:
+
+- Edges exit from the bottom of source nodes and enter the top of target nodes by default
+- **Fan-out**: When a node has multiple outgoing edges, exit ports shift to left/right sides
+- **Convergent**: When a node has multiple incoming edges from different directions, entry shifts to sides
+- **Invisible edges** (`~~~`) create same-rank constraints without visible connectors
+- **Back-edges** (cycles) detour around nodes with distinct visual paths
+- Edge labels are placed at the midpoint of the longest collinear segment, with a minimum 42px gap from node borders
+
+### SVG structure
+
+The generated SVG follows a consistent structure:
+
+1. `<svg>` with inline `style` attribute for CSS custom properties
+2. `<style>` block with `color-mix()` derivations, font declarations, and font-size variables
+3. `<defs>` with arrow marker definitions
+4. Group backgrounds (subgraph `<rect>` fills)
+5. Edge paths (`<path class="edge" ...>`)
+6. Group headers (subgraph title labels)
+7. Edge labels (text with optional background `<rect>`)
+8. Nodes (shape + label text)
+9. Notes (if applicable)
+
 ## Strict Mode
 
 When you embed user-authored Mermaid in a product, you typically want **uniform styling** controlled by your

@@ -47,6 +47,8 @@ public static class SugiyamaLayout
 
 		CrossingMinimizer.Run(buf, options.CrossingIterations);
 		CoordinateAssigner.Run(buf, options.NodeSpacing, options.LayerSpacing);
+		SpreadFanOutChildren(buf, options.NodeSpacing);
+		SpreadForkBranches(buf, options.NodeSpacing);
 
 		if (input.Subgraphs.Count > 0)
 		{
@@ -55,7 +57,10 @@ public static class SugiyamaLayout
 		}
 
 		var useSideRouting = input.Direction is LayoutDirection.LR or LayoutDirection.RL;
-		var routes = EdgeRouter.Run(buf, useSideRouting);
+		var routes = EdgeRouter.Run(buf, useSideRouting, input.Edges);
+
+		if (input.Subgraphs.Count > 0)
+			RerouteSubgraphCrossingEdges(buf, routes, input);
 
 		var direction = input.Direction switch
 		{
@@ -67,7 +72,6 @@ public static class SugiyamaLayout
 
 		DirectionTransform.Run(buf, routes, direction);
 		_ = DirectionTransform.Normalize(buf, routes, options.Padding);
-		EdgeRouter.CleanupRoutes(routes);
 
 		return ExtractResult(buf, input, routes, options.Padding);
 	}
@@ -91,7 +95,15 @@ public static class SugiyamaLayout
 			_ = value1.Add(edge.Source);
 		}
 
-		// Include subgraph membership as connectivity
+		foreach (var (a, b) in input.SameRankConstraints)
+		{
+			if (adj.TryGetValue(a, out var va) && adj.TryGetValue(b, out var vb))
+			{
+				_ = va.Add(b);
+				_ = vb.Add(a);
+			}
+		}
+
 		foreach (var sg in input.Subgraphs)
 			ConnectSubgraphNodes(adj, sg);
 
@@ -171,7 +183,13 @@ public static class SugiyamaLayout
 			}
 
 			var subSubgraphs = FilterSubgraphs(input.Subgraphs, component);
-			var subGraph = new LayoutGraph(input.Direction, subNodes, subEdges, subSubgraphs);
+			var subSameRank = input.SameRankConstraints
+				.Where(c => component.Contains(c.A) && component.Contains(c.B))
+				.ToList();
+			var subGraph = new LayoutGraph(input.Direction, subNodes, subEdges, subSubgraphs)
+			{
+				SameRankConstraints = subSameRank,
+			};
 			var result = ComputeSingle(subGraph, options);
 			componentResults.Add((result, edgeMap));
 		}
@@ -425,6 +443,379 @@ public static class SugiyamaLayout
 	}
 
 	// ========================================================================
+	// Subgraph crossing reroute — when edges cross into a subgraph, route
+	// them from the source's sides so they avoid the subgraph header text
+	// ========================================================================
+
+	private static void RerouteSubgraphCrossingEdges(
+		GraphBuffer buf, List<EdgeRouter.RoutedEdge> routes, LayoutGraph input)
+	{
+		var nodeSubgraph = new Dictionary<string, string>();
+		foreach (var sg in input.Subgraphs)
+			CollectSubgraphMembership(sg, nodeSubgraph);
+
+		if (nodeSubgraph.Count == 0)
+			return;
+
+		var nodeIndex = new Dictionary<string, int>(buf.RealNodeCount);
+		for (var i = 0; i < buf.RealNodeCount; i++)
+			nodeIndex[buf.NodeIds[i]] = i;
+
+		var subgraphTopY = new Dictionary<string, double>();
+		foreach (var sg in input.Subgraphs)
+			ComputeSubgraphTopY(sg, nodeIndex, buf, subgraphTopY);
+
+		var crossingEdgesBySource = new Dictionary<int, List<int>>();
+		for (var ri = 0; ri < routes.Count; ri++)
+		{
+			var route = routes[ri];
+			if (route.OriginalIndex >= input.Edges.Count)
+				continue;
+			var edge = input.Edges[route.OriginalIndex];
+			if (!nodeIndex.TryGetValue(edge.Source, out var srcIdx) ||
+				!nodeIndex.TryGetValue(edge.Target, out var tgtIdx))
+				continue;
+
+			_ = nodeSubgraph.TryGetValue(edge.Source, out var srcSg);
+			_ = nodeSubgraph.TryGetValue(edge.Target, out var tgtSg);
+
+			if (tgtSg is null || srcSg is not null)
+				continue;
+
+			var srcBottom = buf.Y[srcIdx] + buf.NodeHeights[srcIdx];
+			if (subgraphTopY.TryGetValue(tgtSg, out var sgTop) && srcBottom > sgTop)
+				continue;
+
+			if (!crossingEdgesBySource.TryGetValue(srcIdx, out var list))
+			{
+				list = [];
+				crossingEdgesBySource[srcIdx] = list;
+			}
+			list.Add(ri);
+		}
+
+		const double sideExtension = 20;
+
+		foreach (var (srcIdx, routeIndices) in crossingEdgesBySource)
+		{
+			if (routeIndices.Count < 1)
+				continue;
+
+			var srcCX = buf.X[srcIdx] + (buf.NodeWidths[srcIdx] / 2.0);
+			var srcCY = buf.Y[srcIdx] + (buf.NodeHeights[srcIdx] / 2.0);
+			var srcLeft = buf.X[srcIdx];
+			var srcRight = srcLeft + buf.NodeWidths[srcIdx];
+
+			var sorted = routeIndices.OrderBy(ri =>
+			{
+				var e = input.Edges[routes[ri].OriginalIndex];
+				return nodeIndex.TryGetValue(e.Target, out var ti)
+					? buf.Y[ti]
+					: 0.0;
+			}).ToList();
+
+			for (var i = 0; i < sorted.Count; i++)
+			{
+				var ri = sorted[i];
+				var route = routes[ri];
+				var edge = input.Edges[route.OriginalIndex];
+				if (!nodeIndex.TryGetValue(edge.Target, out var tgtIdx))
+					continue;
+
+				var tgtCY = buf.Y[tgtIdx] + (buf.NodeHeights[tgtIdx] / 2.0);
+
+				var goRight = sorted.Count == 1
+					? tgtCY > srcCY
+					: i % 2 == 0;
+
+				var tgtBorderX = goRight
+					? buf.X[tgtIdx] + buf.NodeWidths[tgtIdx]
+					: buf.X[tgtIdx];
+				var laneX = goRight
+					? Math.Max(srcRight, tgtBorderX) + sideExtension
+					: Math.Min(srcLeft, tgtBorderX) - sideExtension;
+
+				var points = new List<LayoutPoint>
+				{
+					new(goRight ? srcRight : srcLeft, srcCY),
+					new(laneX, srcCY),
+					new(laneX, tgtCY),
+					new(tgtBorderX, tgtCY),
+				};
+
+				route.ReplacePoints(points);
+			}
+		}
+	}
+
+	private static void ComputeSubgraphTopY(
+		LayoutSubgraph sg, Dictionary<string, int> nodeIndex, GraphBuffer buf,
+		Dictionary<string, double> result)
+	{
+		var minY = double.MaxValue;
+		foreach (var nodeId in sg.NodeIds)
+		{
+			if (nodeIndex.TryGetValue(nodeId, out var idx))
+				minY = Math.Min(minY, buf.Y[idx]);
+		}
+		foreach (var child in sg.Children)
+		{
+			ComputeSubgraphTopY(child, nodeIndex, buf, result);
+			if (result.TryGetValue(child.Id, out var childTop))
+				minY = Math.Min(minY, childTop);
+		}
+		if (minY < double.MaxValue)
+			result[sg.Id] = minY;
+	}
+
+	private static void CollectSubgraphMembership(LayoutSubgraph sg, Dictionary<string, string> result)
+	{
+		foreach (var nodeId in sg.NodeIds)
+			result[nodeId] = sg.Id;
+		foreach (var child in sg.Children)
+			CollectSubgraphMembership(child, result);
+	}
+
+	// ========================================================================
+	// Fan-out spread — push children of fan-out nodes apart so side-exit
+	// edges have visible horizontal legs and connect to child top-centers
+	// ========================================================================
+
+	private static void SpreadFanOutChildren(GraphBuffer buf, double nodeSpacing)
+	{
+		const double minSpread = 28;
+
+		for (var parent = 0; parent < buf.RealNodeCount; parent++)
+		{
+			var parentCX = buf.X[parent] + (buf.NodeWidths[parent] / 2.0);
+			var leftChild = -1;
+			var rightChild = -1;
+
+			foreach (var e in buf.Edges)
+			{
+				if (e.From != parent || e.IsVirtual)
+					continue;
+				var child = e.To;
+				if (child >= buf.RealNodeCount)
+					continue;
+				var childCX = buf.X[child] + (buf.NodeWidths[child] / 2.0);
+				if (childCX < parentCX - 10)
+				{
+					if (leftChild < 0 || childCX < buf.X[leftChild] + (buf.NodeWidths[leftChild] / 2.0))
+						leftChild = child;
+				}
+				if (childCX > parentCX + 10)
+				{
+					if (rightChild < 0 || childCX > buf.X[rightChild] + (buf.NodeWidths[rightChild] / 2.0))
+						rightChild = child;
+				}
+			}
+
+			if (leftChild < 0 || rightChild < 0)
+				continue;
+
+			var parentLeft = buf.X[parent];
+			var parentRight = parentLeft + buf.NodeWidths[parent];
+			var leftCX = buf.X[leftChild] + (buf.NodeWidths[leftChild] / 2.0);
+			var rightCX = buf.X[rightChild] + (buf.NodeWidths[rightChild] / 2.0);
+
+			var leftGap = parentLeft - leftCX;
+			var rightGap = rightCX - parentRight;
+
+			if (leftGap >= minSpread && rightGap >= minSpread)
+				continue;
+
+			var leftShift = leftGap < minSpread ? minSpread - leftGap : 0;
+			var rightShift = rightGap < minSpread ? minSpread - rightGap : 0;
+
+			if (leftShift > 0)
+				ShiftNodeAndLayerNeighbors(buf, leftChild, -leftShift, nodeSpacing);
+			if (rightShift > 0)
+				ShiftNodeAndLayerNeighbors(buf, rightChild, rightShift, nodeSpacing);
+		}
+	}
+
+	private static void ShiftNodeAndLayerNeighbors(GraphBuffer buf, int node, double shift, double nodeSpacing)
+	{
+		var layer = buf.Layers[node];
+		var nodes = buf.LayerNodes[layer];
+		var pos = buf.NodePositionInLayer[node];
+
+		buf.X[node] += shift;
+
+		if (shift < 0)
+		{
+			for (var i = pos - 1; i >= 0; i--)
+			{
+				var prev = nodes[i];
+				var prevRight = buf.X[prev] + (prev < buf.RealNodeCount ? buf.NodeWidths[prev] : 0);
+				var gap = buf.X[nodes[i + 1]] - prevRight;
+				if (gap >= nodeSpacing)
+					break;
+				buf.X[prev] -= nodeSpacing - gap;
+			}
+		}
+		else
+		{
+			for (var i = pos + 1; i < nodes.Length; i++)
+			{
+				var next = nodes[i];
+				var prevNode = nodes[i - 1];
+				var prevRight = buf.X[prevNode] + (prevNode < buf.RealNodeCount ? buf.NodeWidths[prevNode] : 0);
+				var gap = buf.X[next] - prevRight;
+				if (gap >= nodeSpacing)
+					break;
+				buf.X[next] += nodeSpacing - gap;
+			}
+		}
+	}
+
+	// ========================================================================
+	// Fork branch spread — when S→A→B and S→B exist, push A to the side
+	// so the two paths are visually distinct (matching Mermaid.js fork layout)
+	// ========================================================================
+
+	private static void SpreadForkBranches(GraphBuffer buf, double nodeSpacing)
+	{
+		var realOutgoing = BuildRealOutgoing(buf);
+
+		foreach (var (source, targets) in realOutgoing)
+		{
+			if (targets.Count != 2)
+				continue;
+
+			var a = targets[0];
+			var b = targets[1];
+
+			int intermediate;
+			int convergence;
+
+			if (realOutgoing.TryGetValue(a, out var aTargets) && aTargets.Contains(b))
+			{
+				intermediate = a;
+				convergence = b;
+			}
+			else if (realOutgoing.TryGetValue(b, out var bTargets) && bTargets.Contains(a))
+			{
+				intermediate = b;
+				convergence = a;
+			}
+			else
+			{
+				continue;
+			}
+
+			var srcCX = buf.X[source] + (buf.NodeWidths[source] / 2.0);
+			var intCX = buf.X[intermediate] + (buf.NodeWidths[intermediate] / 2.0);
+
+			if (Math.Abs(intCX - srcCX) > nodeSpacing)
+				continue;
+
+			var offset = (buf.NodeWidths[source] / 2.0) + (buf.NodeWidths[intermediate] / 2.0) + nodeSpacing;
+			ShiftNodeAndLayerNeighbors(buf, intermediate, offset, nodeSpacing);
+
+			ShiftForkDescendants(buf, intermediate, convergence, offset, nodeSpacing, realOutgoing);
+
+			AlignShortcutVirtualNodes(buf, source, convergence);
+		}
+	}
+
+	private static void AlignShortcutVirtualNodes(GraphBuffer buf, int source, int convergence)
+	{
+		var convergenceCX = buf.X[convergence] + (buf.NodeWidths[convergence] / 2.0);
+
+		foreach (var e in buf.Edges)
+		{
+			if (e.From != source)
+				continue;
+
+			var current = e.To;
+			while (current >= buf.RealNodeCount)
+			{
+				var nextFound = false;
+				foreach (var ve in buf.Edges)
+				{
+					if (ve.From == current && ve.OriginalIndex == e.OriginalIndex)
+					{
+						if (ve.To == convergence || ve.To >= buf.RealNodeCount)
+						{
+							buf.X[current] = convergenceCX;
+						}
+						current = ve.To;
+						nextFound = true;
+						break;
+					}
+				}
+				if (!nextFound)
+					break;
+			}
+
+			if (current == convergence)
+				return;
+		}
+	}
+
+	private static void ShiftForkDescendants(
+		GraphBuffer buf, int node, int convergence, double shift, double nodeSpacing,
+		Dictionary<int, List<int>> realOutgoing)
+	{
+		if (!realOutgoing.TryGetValue(node, out var children))
+			return;
+
+		foreach (var child in children)
+		{
+			if (child == convergence)
+				continue;
+			ShiftNodeAndLayerNeighbors(buf, child, shift, nodeSpacing);
+			ShiftForkDescendants(buf, child, convergence, shift, nodeSpacing, realOutgoing);
+		}
+	}
+
+	private static Dictionary<int, List<int>> BuildRealOutgoing(GraphBuffer buf)
+	{
+		var result = new Dictionary<int, List<int>>();
+		foreach (var e in buf.Edges)
+		{
+			if (e.From >= buf.RealNodeCount)
+				continue;
+
+			var finalTarget = e.To;
+			if (finalTarget >= buf.RealNodeCount)
+			{
+				var current = finalTarget;
+				while (current >= buf.RealNodeCount)
+				{
+					var found = false;
+					foreach (var ve in buf.Edges)
+					{
+						if (ve.From == current && ve.OriginalIndex == e.OriginalIndex)
+						{
+							current = ve.To;
+							found = true;
+							break;
+						}
+					}
+					if (!found)
+						break;
+				}
+				finalTarget = current;
+			}
+
+			if (finalTarget >= buf.RealNodeCount)
+				continue;
+
+			if (!result.TryGetValue(e.From, out var list))
+			{
+				list = [];
+				result[e.From] = list;
+			}
+			if (!list.Contains(finalTarget))
+				list.Add(finalTarget);
+		}
+		return result;
+	}
+
+	// ========================================================================
 	// Subgraph spacing fix — push layers apart where group boxes would overlap
 	// ========================================================================
 
@@ -511,6 +902,12 @@ public static class SugiyamaLayout
 			{
 				buf.Edges.Add(new GraphEdge(from, to, i));
 			}
+		}
+
+		foreach (var (a, b) in input.SameRankConstraints)
+		{
+			if (nodeIndex.TryGetValue(a, out var idxA) && nodeIndex.TryGetValue(b, out var idxB))
+				buf.SameRankPairs.Add((idxA, idxB));
 		}
 
 		return buf;

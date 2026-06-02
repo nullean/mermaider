@@ -32,8 +32,17 @@ internal static class LightweightLayoutEngine
 		}
 
 		var layoutEdges = new List<LayoutEdge>(graph.Edges.Count);
-		foreach (var edge in graph.Edges)
+		var layoutEdgeToOriginal = new List<int>(graph.Edges.Count);
+		var sameRankConstraints = new List<(string A, string B)>();
+		for (var ei = 0; ei < graph.Edges.Count; ei++)
 		{
+			var edge = graph.Edges[ei];
+			if (edge.Style == Models.EdgeStyle.Invisible)
+			{
+				sameRankConstraints.Add((edge.Source, edge.Target));
+				continue;
+			}
+
 			double labelW = 0, labelH = 0;
 			if (edge.Label is { Length: > 0 })
 			{
@@ -44,6 +53,7 @@ internal static class LightweightLayoutEngine
 				labelW = metrics.Width + 8;
 				labelH = metrics.Height + 6;
 			}
+			layoutEdgeToOriginal.Add(ei);
 			layoutEdges.Add(new LayoutEdge(edge.Source, edge.Target, labelW, labelH));
 		}
 
@@ -57,16 +67,26 @@ internal static class LightweightLayoutEngine
 			_ => LayoutDirection.TD,
 		};
 
-		var layoutGraph = new LayoutGraph(direction, layoutNodes, layoutEdges, layoutSubgraphs);
+		var layoutGraph = new LayoutGraph(direction, layoutNodes, layoutEdges, layoutSubgraphs)
+		{
+			SameRankConstraints = sameRankConstraints,
+		};
+
+		var maxLabelH = layoutEdges.Where(e => e.LabelHeight > 0).Select(e => e.LabelHeight).DefaultIfEmpty(0).Max();
+		var effectiveLayerSpacing = maxLabelH > 0
+			? Math.Max(layerSpacing, maxLabelH + 76)
+			: layerSpacing;
+
 		var layoutOptions = new LayoutOptions
 		{
 			Padding = padding,
 			NodeSpacing = nodeSpacing,
-			LayerSpacing = layerSpacing,
+			LayerSpacing = effectiveLayerSpacing,
 		};
 
 		var result = SugiyamaLayout.Compute(layoutGraph, layoutOptions);
-		var positioned = MapResult(result, graph, strict);
+		CompactStartEndNodes(result, graph);
+		var positioned = MapResult(result, graph, strict, layoutEdgeToOriginal);
 
 		if (graph.SubgraphEdgeRedirections.Count > 0)
 			ClipSubgraphEdges(positioned, graph);
@@ -80,7 +100,93 @@ internal static class LightweightLayoutEngine
 	private static LayoutSubgraph MapSubgraph(MermaidSubgraph sg) =>
 		new(sg.Id, sg.Label, sg.NodeIds, sg.Children.Select(MapSubgraph).ToList());
 
-	private static PositionedGraph MapResult(LayoutResult result, MermaidGraph graph, StrictModeOptions? strict)
+	private static void CompactStartEndNodes(LayoutResult result, MermaidGraph graph)
+	{
+		const double compactGap = 40;
+
+		var nodeIndex = new Dictionary<string, int>(result.Nodes.Count);
+		for (var i = 0; i < result.Nodes.Count; i++)
+			nodeIndex[result.Nodes[i].Id] = i;
+
+		foreach (var (id, mn) in graph.Nodes)
+		{
+			if (mn.Shape is not (Models.NodeShape.StateStart or Models.NodeShape.StateEnd))
+				continue;
+
+			if (!nodeIndex.TryGetValue(id, out var idx))
+				continue;
+
+			var node = result.Nodes[idx];
+			var oldY = node.Y;
+			double newY;
+
+			if (mn.Shape == Models.NodeShape.StateStart)
+			{
+				var closestBelow = double.MaxValue;
+				foreach (var e in graph.Edges)
+				{
+					if (e.Source != id || !nodeIndex.TryGetValue(e.Target, out var ti))
+						continue;
+					closestBelow = Math.Min(closestBelow, result.Nodes[ti].Y);
+				}
+				if (closestBelow >= double.MaxValue)
+					continue;
+				newY = closestBelow - node.Height - compactGap;
+				if (newY <= oldY)
+					continue;
+			}
+			else
+			{
+				var closestAbove = double.MinValue;
+				foreach (var e in graph.Edges)
+				{
+					if (e.Target != id || !nodeIndex.TryGetValue(e.Source, out var si))
+						continue;
+					var srcNode = result.Nodes[si];
+					closestAbove = Math.Max(closestAbove, srcNode.Y + srcNode.Height);
+				}
+				if (closestAbove <= double.MinValue)
+					continue;
+				newY = closestAbove + compactGap;
+				if (newY >= oldY)
+					continue;
+			}
+
+			var nodes = (List<LayoutNodeResult>)result.Nodes;
+			nodes[idx] = new LayoutNodeResult(node.Id, node.X, newY, node.Width, node.Height);
+
+			var deltaY = newY - oldY;
+			var edges = (List<LayoutEdgeResult>)result.Edges;
+			for (var ei = 0; ei < edges.Count; ei++)
+			{
+				var edge = edges[ei];
+				var pts = edge.Points;
+				if (pts.Count == 0)
+					continue;
+
+				if (mn.Shape == Models.NodeShape.StateStart)
+				{
+					var first = pts[0];
+					if (Math.Abs(first.Y - (oldY + node.Height)) < 1)
+					{
+						var newPts = new List<LayoutPoint>(pts) { [0] = new LayoutPoint(first.X, newY + node.Height) };
+						edges[ei] = new LayoutEdgeResult(edge.OriginalIndex, newPts, edge.LabelPosition);
+					}
+				}
+				else
+				{
+					var last = pts[^1];
+					if (Math.Abs(last.Y - oldY) < 1)
+					{
+						var newPts = new List<LayoutPoint>(pts) { [^1] = new LayoutPoint(last.X, newY) };
+						edges[ei] = new LayoutEdgeResult(edge.OriginalIndex, newPts, edge.LabelPosition);
+					}
+				}
+			}
+		}
+	}
+
+	private static PositionedGraph MapResult(LayoutResult result, MermaidGraph graph, StrictModeOptions? strict, List<int>? layoutEdgeToOriginal = null)
 	{
 		var nodeLookup = graph.Nodes;
 		var positionedNodes = new List<PositionedNode>(result.Nodes.Count);
@@ -90,10 +196,11 @@ internal static class LightweightLayoutEngine
 			var cssClass = strict is not null && graph.ClassAssignments.TryGetValue(n.Id, out var cls) ? cls : null;
 
 			var hasNode = nodeLookup.TryGetValue(n.Id, out var mn);
+			var label = hasNode ? NodeSizing.WrapLabel(mn.Label) : n.Id;
 			positionedNodes.Add(new PositionedNode
 			{
 				Id = n.Id,
-				Label = hasNode ? mn.Label : n.Id,
+				Label = label,
 				Shape = hasNode ? mn.Shape : NodeShape.Rectangle,
 				X = n.X,
 				Y = n.Y,
@@ -108,9 +215,12 @@ internal static class LightweightLayoutEngine
 		var positionedEdges = new List<PositionedEdge>(result.Edges.Count);
 		foreach (var e in result.Edges)
 		{
-			if (e.OriginalIndex >= graph.Edges.Count)
+			var origIdx = layoutEdgeToOriginal is not null && e.OriginalIndex < layoutEdgeToOriginal.Count
+				? layoutEdgeToOriginal[e.OriginalIndex]
+				: e.OriginalIndex;
+			if (origIdx >= graph.Edges.Count)
 				continue;
-			var mermaidEdge = graph.Edges[e.OriginalIndex];
+			var mermaidEdge = graph.Edges[origIdx];
 
 			var points = new List<Models.Point>(e.Points.Count);
 			foreach (var p in e.Points)
@@ -119,8 +229,6 @@ internal static class LightweightLayoutEngine
 			Models.Point? labelPos = e.LabelPosition is { } lp
 				? new Models.Point(lp.X, lp.Y)
 				: null;
-
-			var edgeInlineStyle = strict is null ? ResolveEdgeStyle(e.OriginalIndex, graph) : null;
 
 			positionedEdges.Add(new PositionedEdge
 			{
@@ -132,11 +240,11 @@ internal static class LightweightLayoutEngine
 				HasArrowEnd = mermaidEdge.HasArrowEnd,
 				Points = points,
 				LabelPosition = labelPos,
-				InlineStyle = edgeInlineStyle,
+				InlineStyle = ResolveEdgeStyle(origIdx, graph),
 			});
 		}
 
-		var groups = result.Groups.Select(MapGroup).ToList();
+		var groups = result.Groups.Select(g => MapGroup(g, graph, strict)).ToList();
 
 		return new PositionedGraph
 		{
@@ -148,7 +256,7 @@ internal static class LightweightLayoutEngine
 		};
 	}
 
-	private static PositionedGroup MapGroup(LayoutGroupResult g) =>
+	private static PositionedGroup MapGroup(LayoutGroupResult g, MermaidGraph graph, StrictModeOptions? strict) =>
 		new()
 		{
 			Id = g.Id,
@@ -157,7 +265,8 @@ internal static class LightweightLayoutEngine
 			Y = g.Y,
 			Width = g.Width,
 			Height = g.Height,
-			Children = g.Children.Select(MapGroup).ToList(),
+			Children = g.Children.Select(c => MapGroup(c, graph, strict)).ToList(),
+			InlineStyle = strict is null ? ResolveNodeStyle(g.Id, graph) : null,
 		};
 
 	private static IReadOnlyDictionary<string, string>? ResolveNodeStyle(string nodeId, MermaidGraph graph)
@@ -184,15 +293,15 @@ internal static class LightweightLayoutEngine
 	{
 		Dictionary<string, string>? result = null;
 
-		if (graph.DefaultEdgeStyle is { } defaultStyle)
+		if (graph.DefaultEdgeStyle is { } defaults)
 		{
-			result = new Dictionary<string, string>(defaultStyle);
+			result = new Dictionary<string, string>(defaults);
 		}
 
-		if (graph.EdgeStyles.TryGetValue(edgeIndex, out var edgeStyle))
+		if (graph.EdgeStyles.TryGetValue(edgeIndex, out var specific))
 		{
 			result ??= [];
-			foreach (var kvp in edgeStyle)
+			foreach (var kvp in specific)
 				result[kvp.Key] = kvp.Value;
 		}
 

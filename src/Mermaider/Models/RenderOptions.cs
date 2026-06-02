@@ -29,6 +29,18 @@ public sealed record RenderOptions
 	/// <summary>Font family for all text. Default: "Inter".</summary>
 	public string? Font { get; init; }
 
+	/// <summary>Base font size (--fs-m). Accepts any CSS unit: "1rem", "16px", "1em". Default: "1rem".</summary>
+	public string? FontSize { get; init; }
+
+	/// <summary>Ratio for small text (--fs-s). Default: 0.875.</summary>
+	public double? FontSizeSmall { get; init; }
+
+	/// <summary>Ratio for extra-small text (--fs-xs). Default: 0.75.</summary>
+	public double? FontSizeExtraSmall { get; init; }
+
+	/// <summary>Ratio for large text (--fs-l). Default: 1.125.</summary>
+	public double? FontSizeLarge { get; init; }
+
 	/// <summary>Canvas padding in px. Default: 40.</summary>
 	public double? Padding { get; init; }
 
@@ -38,8 +50,8 @@ public sealed record RenderOptions
 	/// <summary>Vertical spacing between layers. Default: 48.</summary>
 	public double? LayerSpacing { get; init; }
 
-	/// <summary>Flowchart edge corner radius in px. Default: 0 for straight edges.</summary>
-	public double EdgeCornerRadius { get; init; }
+	/// <summary>Use rounded corners on edge paths. Default: true (radius 6px).</summary>
+	public bool RoundedEdges { get; init; } = true;
 
 	/// <summary>Render with transparent background. Default: true.</summary>
 	public bool Transparent { get; init; } = true;

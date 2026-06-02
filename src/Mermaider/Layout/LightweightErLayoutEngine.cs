@@ -12,13 +12,13 @@ namespace Mermaider.Layout;
 internal static class LightweightErLayoutEngine
 {
 	private const double Padding = 40;
-	private const double BoxPadX = 14;
-	private const double HeaderHeight = 34;
-	private const double RowHeight = 22;
-	private const double MinWidth = 140;
+	private const double BoxPadX = 16;
+	private const double HeaderHeight = 38;
+	private const double RowHeight = 26;
+	private const double MinWidth = 160;
 	private static readonly double AttrFontSize = RenderConstants.FontSizes.Member;
-	private const double NodeSpacing = 90;
-	private const double LayerSpacing = 90;
+	private const double NodeSpacing = 120;
+	private const double LayerSpacing = 120;
 
 	internal static PositionedErDiagram Layout(ErDiagram diagram)
 	{

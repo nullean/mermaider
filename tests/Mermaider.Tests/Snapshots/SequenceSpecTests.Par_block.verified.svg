@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 332" width="430" height="332" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 452" width="420" height="452" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -9,9 +9,9 @@
     --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
     --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
-    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 4%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    var(--bg);
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
     --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
@@ -19,6 +19,10 @@
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
   }
   .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
   .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
@@ -34,40 +38,54 @@
 </defs>
 
 <g class="block" data-type="par" data-label="Fetch in parallel">
-  <rect x="160" y="118" width="240" height="124" rx="8" ry="8" fill="none" stroke="var(--_group-stroke)" stroke-width="1.75" />
-  <rect x="160" y="118" width="138.04000000000002" height="18" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
-  <text x="166" y="127" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">par [Fetch in parallel]</text>
-  <line x1="160" y1="194" x2="400" y2="194" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+  <rect x="170" y="138" width="220" height="134" rx="8" ry="8" fill="none" stroke="var(--_line)" stroke-width="1.75" />
+  <rect x="170" y="138" width="41.62" height="18" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_line)" stroke-width="1.75" />
+  <text x="176" y="147" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">par</text>
+  <rect x="223.322" y="136" width="113.35600000000002" height="22" rx="4" ry="4" fill="var(--_text)" />
+  <text x="280" y="147" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--bg)">Fetch in parallel</text>
+  <line x1="170" y1="224" x2="390" y2="224" stroke="var(--_line)" stroke-width="1.75" />
 </g>
-<line class="lifeline" data-actor="Client" x1="70" y1="70" x2="70" y2="302" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
-<line class="lifeline" data-actor="Auth" x1="210" y1="70" x2="210" y2="302" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
-<line class="lifeline" data-actor="Data" x1="350" y1="70" x2="350" y2="302" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="Client" x1="70" y1="70" x2="70" y2="422" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="Auth" x1="210" y1="70" x2="210" y2="422" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="Data" x1="350" y1="70" x2="350" y2="422" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
 <g class="message" data-from="Client" data-to="Auth" data-label="Validate token" data-line-style="solid" data-arrow-head="filled" data-self="false">
-  <line x1="70" y1="90" x2="210" y2="90" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
-  <text x="140" y="80" font-size="13" text-anchor="middle" font-weight="400" fill="var(--_text-sec)" dy="4.55">Validate token</text>
+  <line x1="70" y1="100" x2="210" y2="100" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
+  <text x="140" y="86" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Validate token</text>
 </g>
 <g class="message" data-from="Auth" data-to="Data" data-label="Get user profile" data-line-style="solid" data-arrow-head="filled" data-self="false">
-  <line x1="210" y1="158" x2="350" y2="158" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
-  <text x="280" y="148" font-size="13" text-anchor="middle" font-weight="400" fill="var(--_text-sec)" dy="4.55">Get user profile</text>
+  <line x1="210" y1="178" x2="350" y2="178" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
+  <text x="280" y="164" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Get user profile</text>
 </g>
 <g class="message" data-from="Auth" data-to="Data" data-label="Get permissions" data-line-style="solid" data-arrow-head="filled" data-self="false">
-  <line x1="210" y1="222" x2="350" y2="222" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
-  <text x="280" y="212" font-size="13" text-anchor="middle" font-weight="400" fill="var(--_text-sec)" dy="4.55">Get permissions</text>
+  <line x1="210" y1="252" x2="350" y2="252" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
+  <text x="280" y="238" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Get permissions</text>
 </g>
 <g class="message" data-from="Auth" data-to="Client" data-label="Combined result" data-line-style="dashed" data-arrow-head="filled" data-self="false">
-  <line x1="210" y1="262" x2="70" y2="262" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
-  <text x="140" y="252" font-size="13" text-anchor="middle" font-weight="400" fill="var(--_text-sec)" dy="4.55">Combined result</text>
+  <line x1="210" y1="302" x2="70" y2="302" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="140" y="288" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Combined result</text>
 </g>
 <g class="actor" data-id="Client" data-label="Client" data-type="participant">
   <rect x="30" y="30" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="70" y="50" font-size="14" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Client</text>
+  <text x="70" y="50" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">Client</text>
 </g>
 <g class="actor" data-id="Auth" data-label="Auth" data-type="participant">
   <rect x="170" y="30" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="210" y="50" font-size="14" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Auth</text>
+  <text x="210" y="50" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">Auth</text>
 </g>
 <g class="actor" data-id="Data" data-label="Data" data-type="participant">
   <rect x="310" y="30" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="350" y="50" font-size="14" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Data</text>
+  <text x="350" y="50" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">Data</text>
+</g>
+<g class="actor" data-id="Client" data-label="Client" data-type="participant">
+  <rect x="30" y="382" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="70" y="402" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">Client</text>
+</g>
+<g class="actor" data-id="Auth" data-label="Auth" data-type="participant">
+  <rect x="170" y="382" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="210" y="402" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">Auth</text>
+</g>
+<g class="actor" data-id="Data" data-label="Data" data-type="participant">
+  <rect x="310" y="382" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="350" y="402" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">Data</text>
 </g>
 </svg>

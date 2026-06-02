@@ -17,10 +17,10 @@ internal static class TimelineSvgRenderer
 	private const double EventStartY = 110;
 	private const double SectionPadX = 10;
 	private const double SectionPadY = 10;
-	private const double TitleFontSize = 16;
-	private const double PeriodFontSize = 13;
-	private const double EventFontSize = 12;
-	private const double SectionFontSize = 11;
+	private const string TitleFontSize = RenderConstants.FsVar.L;
+	private const string PeriodFontSize = RenderConstants.FsVar.S;
+	private const string EventFontSize = RenderConstants.FsVar.S;
+	private const string SectionFontSize = RenderConstants.FsVar.S;
 
 	private static readonly string[] SectionColors =
 	[

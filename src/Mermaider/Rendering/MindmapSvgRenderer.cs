@@ -12,8 +12,10 @@ internal static class MindmapSvgRenderer
 	private const double VerticalGap = 50;
 	private const double NodePadX = 16;
 	private const double NodePadY = 8;
-	private const double NodeFontSize = 13;
-	private const double RootFontSize = 16;
+	private const string NodeFontSize = RenderConstants.FsVar.M;
+	private const double NodeFontSizePx = 13;
+	private const string RootFontSize = RenderConstants.FsVar.L;
+	private const double RootFontSizePx = 16;
 
 	private static readonly string[] NodeColors =
 	[
@@ -81,10 +83,10 @@ internal static class MindmapSvgRenderer
 
 	private static double LayoutTree(MindmapNode node, double x, double y, int depth, List<PositionedMindmapNode> result)
 	{
-		var fontSize = depth == 0 ? RootFontSize : NodeFontSize;
-		var textWidth = TextMetrics.MeasureTextWidth(node.Label, fontSize, 600);
+		var fontSizePx = depth == 0 ? RootFontSizePx : NodeFontSizePx;
+		var textWidth = TextMetrics.MeasureTextWidth(node.Label, fontSizePx, 600);
 		var w = textWidth + (NodePadX * 2);
-		var h = fontSize + (NodePadY * 2);
+		var h = fontSizePx + (NodePadY * 2);
 		var color = NodeColors[depth % NodeColors.Length];
 
 		if (node.Children.Count == 0)
