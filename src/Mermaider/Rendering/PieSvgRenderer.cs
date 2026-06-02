@@ -14,9 +14,9 @@ internal static class PieSvgRenderer
 	private const double LegendSwatchSize = 14;
 	private const double LegendRowHeight = 22;
 	private const double LegendTextOffset = 22;
-	private const double TitleFontSize = 16;
-	private const double LabelFontSize = 12;
-	private const double LegendFontSize = 13;
+	private const string TitleFontSize = RenderConstants.FsVar.L;
+	private const string LabelFontSize = RenderConstants.FsVar.S;
+	private const string LegendFontSize = RenderConstants.FsVar.S;
 	private const double TextPosition = 0.75;
 
 	private static readonly string[] SliceColors =

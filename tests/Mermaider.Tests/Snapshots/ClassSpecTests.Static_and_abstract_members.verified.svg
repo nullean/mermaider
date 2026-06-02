@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 232.79999999999998 188" width="232.79999999999998" height="188" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 255.6 188" width="255.6" height="188" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -9,9 +9,9 @@
     --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
     --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
-    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 4%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    var(--bg);
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
     --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
@@ -19,6 +19,10 @@
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
   }
   .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
   .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
@@ -43,13 +47,13 @@
 </defs>
 
 <g class="class-node" data-id="MathUtils" data-label="MathUtils">
-  <rect x="40" y="40" width="152.79999999999998" height="108" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <rect x="40" y="40" width="152.79999999999998" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="116.39999999999999" y="56" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">MathUtils</text>
-  <line x1="40" y1="72" x2="192.79999999999998" y2="72" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text class="mono" x="48" y="86" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">double</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">PI$</tspan></text>
-  <line x1="40" y1="100" x2="192.79999999999998" y2="100" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text class="mono" x="48" y="114" dy="0.35em" font-size="12" font-weight="400" text-decoration="underline"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">add(a, b)</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">$ int</tspan></text>
-  <text class="mono" x="48" y="134" dy="0.35em" font-size="12" font-weight="400" font-style="italic"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">compute()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">* void</tspan></text>
+  <rect x="40" y="40" width="175.6" height="108" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="40" y="40" width="175.6" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="127.8" y="56" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">MathUtils</text>
+  <line x1="40" y1="72" x2="215.6" y2="72" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text class="mono" x="48" y="86" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">double</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">PI$</tspan></text>
+  <line x1="40" y1="100" x2="215.6" y2="100" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text class="mono" x="48" y="114" dy="0.35em" font-size="var(--fs-s)" font-weight="400" text-decoration="underline"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">add(a, b)</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">$ int</tspan></text>
+  <text class="mono" x="48" y="134" dy="0.35em" font-size="var(--fs-s)" font-weight="400" font-style="italic"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">compute()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">* void</tspan></text>
 </g>
 </svg>

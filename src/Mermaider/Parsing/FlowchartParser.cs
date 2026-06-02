@@ -72,7 +72,7 @@ internal static partial class FlowchartParser
 	[GeneratedRegex(@"^([\w-]+)\{\{(.+?)\}\}", RegexOptions.None, TimeoutMs)]
 	private static partial Regex HexagonPattern();
 
-	[GeneratedRegex(@"^([\w-]+)\[(.+?)\]", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^([\w-]+)\[(.+?)\]", RegexOptions.Singleline, TimeoutMs)]
 	private static partial Regex RectanglePattern();
 
 	[GeneratedRegex(@"^([\w-]+)\((.+?)\)", RegexOptions.None, TimeoutMs)]
@@ -108,7 +108,7 @@ internal static partial class FlowchartParser
 	{
 		try
 		{
-			return ParseCore(lines);
+			return ParseCore(JoinMultilineLabels(lines));
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
@@ -116,6 +116,26 @@ internal static partial class FlowchartParser
 				$"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.",
 				ex);
 		}
+	}
+
+	private static string[] JoinMultilineLabels(string[] lines)
+	{
+		var result = new List<string>(lines.Length);
+		for (var i = 0; i < lines.Length; i++)
+		{
+			var line = lines[i];
+			if (line.Contains("[\"") && !line.Contains("\"]"))
+			{
+				while (++i < lines.Length)
+				{
+					line = line + "\n" + lines[i];
+					if (lines[i].Contains("\"]"))
+						break;
+				}
+			}
+			result.Add(line);
+		}
+		return result.ToArray();
 	}
 
 	private static MermaidGraph ParseCore(string[] lines)
@@ -431,10 +451,12 @@ internal static partial class FlowchartParser
 			{
 				id = match.Groups[1].Value;
 				var rawLabel = match.Groups[2].Value;
+				if (rawLabel.Length >= 2 && rawLabel[0] == '"' && rawLabel[^1] == '"')
+					rawLabel = rawLabel[1..^1];
 				var isMarkdown = rawLabel.StartsWith('`') && rawLabel.EndsWith('`');
 				var label = isMarkdown
-					? rawLabel[1..^1].Trim()
-					: MultilineUtils.NormalizeBrTags(rawLabel);
+					? rawLabel[1..^1].Trim().Replace("\\n", "\n")
+					: MultilineUtils.NormalizeBrTags(rawLabel).Replace("\\n", "\n");
 				RegisterNode(nodes, subgraphStack, new MermaidNode(id, label, shape, isMarkdown));
 				remaining = text[match.Length..];
 				break;

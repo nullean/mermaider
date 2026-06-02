@@ -16,9 +16,12 @@ internal static class GitGraphSvgRenderer
 	private const double BranchLabelWidth = 80;
 	private const double LeftPad = 100;
 	private const double TopPad = 40;
-	private const double LabelFontSize = 11;
-	private const double TagFontSize = 10;
-	private const double BranchFontSize = 11;
+	private const string LabelFontSize = RenderConstants.FsVar.S;
+	private const string TagFontSize = RenderConstants.FsVar.S;
+	private const double TagFontSizePx = 11;
+	private const string BranchFontSize = RenderConstants.FsVar.S;
+	private const double BranchFontSizePx = 12;
+	private const double LinkStrokeWidth = 3;
 
 	private static readonly string[] BranchColors =
 	[
@@ -83,7 +86,13 @@ internal static class GitGraphSvgRenderer
 	private static void AppendBranchLabel(StringBuilder sb, BranchInfo branch)
 	{
 		var y = TopPad + (branch.Lane * LaneSpacing);
-		_ = sb.Append("\n<text x=\"10\" y=\"").Append(F(y))
+		var labelW = TextMetrics.MeasureTextWidth(branch.Name, BranchFontSizePx, 600) + 12;
+		var pillH = BranchFontSizePx + 8;
+		_ = sb.Append("\n<rect x=\"6\" y=\"").Append(F(y - (pillH / 2)))
+			.Append("\" width=\"").Append(F(labelW)).Append("\" height=\"").Append(F(pillH))
+			.Append("\" rx=\"").Append(F(pillH / 2)).Append("\" ry=\"").Append(F(pillH / 2))
+			.Append("\" fill=\"").Append(branch.Color).Append("\" opacity=\"0.15\" />");
+		_ = sb.Append("\n<text x=\"12\" y=\"").Append(F(y))
 			.Append("\" dy=\"0.35em\" font-size=\"").Append(BranchFontSize)
 			.Append("\" font-weight=\"600\" fill=\"").Append(branch.Color).Append("\">");
 		MultilineUtils.AppendEscapedXml(sb, branch.Name.AsSpan());
@@ -104,7 +113,7 @@ internal static class GitGraphSvgRenderer
 			_ = sb.Append("\n<line x1=\"").Append(F(x1)).Append("\" y1=\"").Append(F(y1))
 				.Append("\" x2=\"").Append(F(x2)).Append("\" y2=\"").Append(F(y2))
 				.Append("\" stroke=\"").Append(link.Color)
-				.Append("\" stroke-width=\"2\" />");
+				.Append("\" stroke-width=\"").Append(LinkStrokeWidth).Append("\" />");
 		}
 		else
 		{
@@ -114,7 +123,7 @@ internal static class GitGraphSvgRenderer
 				.Append(' ').Append(F(midX)).Append(' ').Append(F(y2))
 				.Append(' ').Append(F(x2)).Append(' ').Append(F(y2))
 				.Append("\" fill=\"none\" stroke=\"").Append(link.Color)
-				.Append("\" stroke-width=\"2\" />");
+				.Append("\" stroke-width=\"").Append(LinkStrokeWidth).Append("\" />");
 		}
 	}
 
@@ -171,7 +180,7 @@ internal static class GitGraphSvgRenderer
 
 		if (commit.Tag is { Length: > 0 })
 		{
-			var tagW = TextMetrics.MeasureTextWidth(commit.Tag, TagFontSize, 500) + 10;
+			var tagW = TextMetrics.MeasureTextWidth(commit.Tag, TagFontSizePx, 500) + 10;
 			_ = sb.Append("\n<rect x=\"").Append(F(cx - (tagW / 2))).Append("\" y=\"").Append(F(cy + TagOffsetY - 8))
 				.Append("\" width=\"").Append(F(tagW)).Append("\" height=\"16\" rx=\"8\" ry=\"8\" fill=\"")
 				.Append(commit.Color).Append("\" opacity=\"0.2\" />");

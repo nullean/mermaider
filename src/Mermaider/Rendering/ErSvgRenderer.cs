@@ -13,9 +13,10 @@ internal static class ErSvgRenderer
 	private static readonly string RelLabelAttrs =
 		RenderConstants.TextAttrs.EdgeLabelCenterFill + "var(--_text-sec)\"";
 
-	private static readonly int AttrFontSize = RenderConstants.FontSizes.Member;
+	private static readonly string AttrFontSize = RenderConstants.FsVar.S;
 	private static readonly int AttrFontWeight = RenderConstants.FontWeights.Member;
-	private static readonly int KeyFontSize = RenderConstants.FontSizes.KeyBadge;
+	private static readonly string KeyFontSize = RenderConstants.FsVar.Xs;
+	private static readonly int KeyFontSizePx = RenderConstants.FontSizes.KeyBadge;
 	private static readonly int KeyFontWeight = RenderConstants.FontWeights.KeyBadge;
 
 	internal static string Render(PositionedErDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
@@ -128,7 +129,7 @@ internal static class ErSvgRenderer
 		if (attr.Keys.Count > 0)
 		{
 			var keyText = string.Join(",", attr.Keys);
-			keyWidth = TextMetrics.MeasureTextWidth(keyText, KeyFontSize, KeyFontWeight) + 8;
+			keyWidth = TextMetrics.MeasureTextWidth(keyText, KeyFontSizePx, KeyFontWeight) + 8;
 			_ = sb.Append("<rect x=\"").Append(boxX + 6).Append("\" y=\"").Append(y - 7)
 				.Append("\" width=\"").Append(keyWidth).Append("\" height=\"14\" rx=\"7\" ry=\"7\" fill=\"var(--_key-badge)\" />");
 			_ = sb.Append("<text x=\"").Append(boxX + 6 + (keyWidth / 2)).Append("\" y=\"").Append(y)

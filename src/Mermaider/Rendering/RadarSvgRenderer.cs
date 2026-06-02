@@ -13,9 +13,9 @@ internal static class RadarSvgRenderer
 	private const double LabelPad = 20;
 	private const double LegendSwatchSize = 12;
 	private const double LegendRowHeight = 20;
-	private const double TitleFontSize = 16;
-	private const double AxisLabelFontSize = 11;
-	private const double LegendFontSize = 12;
+	private const string TitleFontSize = RenderConstants.FsVar.L;
+	private const string AxisLabelFontSize = RenderConstants.FsVar.S;
+	private const string LegendFontSize = RenderConstants.FsVar.S;
 	private const double CurveOpacity = 0.25;
 
 	private static readonly string[] CurveColors =

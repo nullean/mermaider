@@ -5,8 +5,50 @@ namespace Mermaider.Rendering;
 
 internal static class NodeSizing
 {
+	private const double MaxContentWidth = 220;
+
+	internal static string WrapLabel(string label)
+	{
+		if (!label.Contains('\n') &&
+			TextMetrics.MeasureTextWidth(label, RenderConstants.FontSizes.NodeLabel, RenderConstants.FontWeights.NodeLabel) <= MaxContentWidth)
+			return label;
+
+		var lines = label.Split('\n');
+		var result = new List<string>();
+		foreach (var line in lines)
+		{
+			var lineW = TextMetrics.MeasureTextWidth(line, RenderConstants.FontSizes.NodeLabel, RenderConstants.FontWeights.NodeLabel);
+			if (lineW <= MaxContentWidth)
+			{
+				result.Add(line);
+				continue;
+			}
+
+			var words = line.Split(' ');
+			var current = "";
+			foreach (var word in words)
+			{
+				var candidate = current.Length == 0 ? word : current + " " + word;
+				var candidateW = TextMetrics.MeasureTextWidth(candidate, RenderConstants.FontSizes.NodeLabel, RenderConstants.FontWeights.NodeLabel);
+				if (candidateW > MaxContentWidth && current.Length > 0)
+				{
+					result.Add(current);
+					current = word;
+				}
+				else
+				{
+					current = candidate;
+				}
+			}
+			if (current.Length > 0)
+				result.Add(current);
+		}
+		return string.Join('\n', result);
+	}
+
 	internal static (double Width, double Height) Estimate(string label, NodeShape shape)
 	{
+		label = WrapLabel(label);
 		var metrics = TextMetrics.MeasureMultiline(label.AsSpan(), RenderConstants.FontSizes.NodeLabel, RenderConstants.FontWeights.NodeLabel);
 
 		var width = metrics.Width + (RenderConstants.NodePadding.Horizontal * 2);
@@ -38,7 +80,7 @@ internal static class NodeSizing
 				height += 14;
 				break;
 			case NodeShape.StateStart or NodeShape.StateEnd:
-				return (28, 40);
+				return (24, 24);
 			case NodeShape.ForkJoin:
 				return (120, 8);
 		}

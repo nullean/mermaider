@@ -209,7 +209,7 @@ public static class MermaidRenderer
 
 			_ => SvgRenderer.RenderToBuilder(
 				provider.LayoutFlowchart(ParseInternal(filteredLines, diagramType), options, strict),
-				colors, font, transparent, strict, accessibility, diagramType, options?.EdgeCornerRadius ?? 0),
+				colors, font, transparent, strict, accessibility, diagramType, options?.RoundedEdges != false ? 6.0 : 0),
 		};
 
 		if (metadata.Title is { Length: > 0 } title)

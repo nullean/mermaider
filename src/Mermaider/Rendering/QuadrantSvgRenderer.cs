@@ -13,9 +13,9 @@ internal static class QuadrantSvgRenderer
 	private const double TitleHeight = 32;
 	private const double AxisLabelPad = 8;
 	private const double PointRadius = 6;
-	private const double PointLabelFontSize = 11;
-	private const double QuadrantLabelFontSize = 14;
-	private const double AxisLabelFontSize = 12;
+	private const string PointLabelFontSize = RenderConstants.FsVar.S;
+	private const string QuadrantLabelFontSize = RenderConstants.FsVar.M;
+	private const string AxisLabelFontSize = RenderConstants.FsVar.S;
 
 	private static readonly string[] QuadrantFills =
 	[
@@ -65,7 +65,7 @@ internal static class QuadrantSvgRenderer
 		{
 			_ = sb.Append("\n<text x=\"").Append(F(chartLeft + half))
 				.Append("\" y=\"").Append(F(titleOffset))
-				.Append("\" text-anchor=\"middle\" font-size=\"16\" font-weight=\"700\" fill=\"var(--_text)\">");
+				.Append("\" text-anchor=\"middle\" font-size=\"").Append(RenderConstants.FsVar.L).Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
 			MultilineUtils.AppendEscapedXml(sb, chart.Title.AsSpan());
 			_ = sb.Append("</text>");
 		}

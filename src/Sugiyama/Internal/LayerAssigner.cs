@@ -11,6 +11,7 @@ internal static class LayerAssigner
 	internal static void Run(GraphBuffer graph)
 	{
 		AssignLayers(graph);
+		EnforceSameRankConstraints(graph);
 		InsertVirtualNodes(graph);
 		BuildLayerArrays(graph);
 	}
@@ -55,6 +56,27 @@ internal static class LayerAssigner
 			}
 		}
 
+		graph.LayerCount = maxLayer + 1;
+	}
+
+	private static void EnforceSameRankConstraints(GraphBuffer graph)
+	{
+		if (graph.SameRankPairs.Count == 0)
+			return;
+
+		foreach (var (a, b) in graph.SameRankPairs)
+		{
+			var targetLayer = Math.Max(graph.Layers[a], graph.Layers[b]);
+			graph.Layers[a] = targetLayer;
+			graph.Layers[b] = targetLayer;
+		}
+
+		var maxLayer = 0;
+		for (var i = 0; i < graph.NodeCount; i++)
+		{
+			if (graph.Layers[i] > maxLayer)
+				maxLayer = graph.Layers[i];
+		}
 		graph.LayerCount = maxLayer + 1;
 	}
 

@@ -28,6 +28,9 @@ internal sealed class GraphBuffer : IDisposable
 	internal int[][] LayerNodes = [];
 	internal int[] NodePositionInLayer;
 
+	/// <summary>Pairs of node indices that must share the same layer. A is placed left of B.</summary>
+	internal List<(int A, int B)> SameRankPairs = [];
+
 	internal double[] X;
 	internal double[] Y;
 

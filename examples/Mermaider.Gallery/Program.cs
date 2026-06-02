@@ -19,7 +19,7 @@ var providerList = new (string Value, string Label)[]
 	("naiad", "Naiad"),
 };
 
-app.MapGet("/", ctx =>
+_ = app.MapGet("/", (ctx) =>
 {
 	var theme = ctx.Request.Query["theme"].FirstOrDefault();
 	var engine = ctx.Request.Query["engine"].FirstOrDefault() ?? "lightweight";
@@ -34,7 +34,7 @@ foreach (var cat in Enum.GetValues<DiagramCategory>())
 {
 	var slug = DiagramExamples.CategorySlug(cat);
 	var category = cat;
-	_ = app.MapGet($"/{slug}", ctx =>
+	_ = app.MapGet($"/{slug}", (ctx) =>
 	{
 		var theme = ctx.Request.Query["theme"].FirstOrDefault();
 		var engine = ctx.Request.Query["engine"].FirstOrDefault() ?? "lightweight";
@@ -476,7 +476,7 @@ string RenderCategoryPage(DiagramCategory category, string? theme, string engine
 	var gridColsClass = colCount switch { 2 => " two-col", 3 => " three-col", _ => "" };
 	var engineLabel = engine == "msagl" ? "Mermaider (MSAGL)" : "Mermaider (Sugiyama)";
 
-	var features = examples.Select(e => e.Feature).OfType<string>().Distinct().ToArray();
+	var features = examples.Where(e => e.Feature is not null).Select(e => e.Feature).Distinct().ToArray();
 	var featurePills = features.Length > 0
 		? $"<div class=\"feature-list\">{string.Join("", features.Select(f => $"<span class=\"feature-pill\">{WebUtility.HtmlEncode(f)}</span>"))}</div>"
 		: "";

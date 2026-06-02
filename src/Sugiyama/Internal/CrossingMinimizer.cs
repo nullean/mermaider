@@ -17,13 +17,36 @@ internal static class CrossingMinimizer
 
 		for (var iter = 0; iter < iterations; iter++)
 		{
-			// Top-down sweep: order each layer based on predecessors in the layer above
 			for (var layer = 1; layer < graph.LayerCount; layer++)
 				SweepLayer(graph, layer, barycenters, useInEdges: true);
 
-			// Bottom-up sweep: order each layer based on successors in the layer below
 			for (var layer = graph.LayerCount - 2; layer >= 0; layer--)
 				SweepLayer(graph, layer, barycenters, useInEdges: false);
+		}
+
+		EnforceSameRankOrder(graph);
+	}
+
+	private static void EnforceSameRankOrder(GraphBuffer graph)
+	{
+		if (graph.SameRankPairs.Count == 0)
+			return;
+
+		foreach (var (a, b) in graph.SameRankPairs)
+		{
+			if (graph.Layers[a] != graph.Layers[b])
+				continue;
+
+			var posA = graph.NodePositionInLayer[a];
+			var posB = graph.NodePositionInLayer[b];
+			if (posA >= posB)
+			{
+				var layer = graph.Layers[a];
+				var nodes = graph.LayerNodes[layer];
+				(nodes[posA], nodes[posB]) = (nodes[posB], nodes[posA]);
+				graph.NodePositionInLayer[a] = posB;
+				graph.NodePositionInLayer[b] = posA;
+			}
 		}
 	}
 

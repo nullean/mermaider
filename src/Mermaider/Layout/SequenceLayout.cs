@@ -10,8 +10,8 @@ internal static class SequenceLayout
 	private const double ActorGap = 140;
 	private const double ActorHeight = 40;
 	private const double ActorPadX = 16;
-	private const double HeaderGap = 20;
-	private const double MessageRowHeight = 40;
+	private const double HeaderGap = 30;
+	private const double MessageRowHeight = 50;
 	private const double SelfMessageHeight = 30;
 	private const double ActivationWidth = 10;
 	private const double BlockPadX = 10;
@@ -20,9 +20,10 @@ internal static class SequenceLayout
 	private const double BlockHeaderExtra = 28;
 	private const double DividerExtra = 24;
 	private const double NoteWidth = 120;
-	private const double NoteVPad = 8;
-	private const double NoteHPad = 10;
+	private const double NoteVPad = 12;
+	private const double NoteHPad = 14;
 	private const double NoteGap = 10;
+	private const double NoteFontSize = 14;
 	private const double NestingOffset = 4;
 
 	internal static PositionedSequenceDiagram Layout(SequenceDiagram diagram)
@@ -177,7 +178,7 @@ internal static class SequenceLayout
 			{
 				foreach (var ni in noteIndices)
 				{
-					var noteH = RenderConstants.FontSizes.EdgeLabel + (NoteVPad * 2);
+					var noteH = NoteFontSize + (NoteVPad * 2);
 					var notePosition = diagram.Notes[ni].Position;
 					if (notePosition == SequenceNotePosition.Over)
 						messageY += noteH + 4;
@@ -237,37 +238,15 @@ internal static class SequenceLayout
 					maxIdx = ai;
 			}
 
-			var blockLeft = actorCenterX[minIdx] - (actorWidths[minIdx] / 2) - BlockPadX;
-			var blockRight = actorCenterX[maxIdx] + (actorWidths[maxIdx] / 2) + BlockPadX;
+			var blockLeft = actorCenterX[minIdx] - (actorWidths[minIdx] / 2);
+			var blockRight = actorCenterX[maxIdx] + (actorWidths[maxIdx] / 2);
 
 			var dividers = new List<PositionedBlockDivider>(block.Dividers.Count);
 			foreach (var d in block.Dividers)
 			{
 				var dMsg = d.Index < messages.Count ? messages[d.Index] : null;
 				var msgY = dMsg?.Y ?? messageY;
-				var offset = 28.0;
-
-				if (d.Label.Length > 0 && dMsg?.Label.Length > 0)
-				{
-					var divLabelW = TextMetrics.MeasureTextWidth(
-						$"[{d.Label}]",
-						RenderConstants.FontSizes.EdgeLabel,
-						RenderConstants.FontWeights.EdgeLabel);
-					var divLabelLeft = blockLeft + 8;
-					var divLabelRight = divLabelLeft + divLabelW;
-
-					var msgLabelW = TextMetrics.MeasureTextWidth(
-						dMsg.Label,
-						RenderConstants.FontSizes.EdgeLabel,
-						RenderConstants.FontWeights.EdgeLabel);
-					var msgLabelLeft = dMsg.IsSelf
-						? dMsg.X1 + 36
-						: ((dMsg.X1 + dMsg.X2) / 2) - (msgLabelW / 2);
-					var msgLabelRight = msgLabelLeft + msgLabelW;
-
-					if (divLabelRight > msgLabelLeft && divLabelLeft < msgLabelRight)
-						offset = 36;
-				}
+				var offset = d.Label.Length > 0 ? 40.0 : 28.0;
 
 				dividers.Add(new PositionedBlockDivider(msgY - offset, d.Label));
 			}
@@ -289,10 +268,10 @@ internal static class SequenceLayout
 		{
 			var textW = TextMetrics.MeasureTextWidth(
 				note.Text,
-				RenderConstants.FontSizes.EdgeLabel,
+				NoteFontSize,
 				RenderConstants.FontWeights.EdgeLabel) + (NoteHPad * 2);
 			var noteW = Math.Max(NoteWidth, textW);
-			var noteH = RenderConstants.FontSizes.EdgeLabel + (NoteVPad * 2);
+			var noteH = NoteFontSize + (NoteVPad * 2);
 
 			var refMsg = note.AfterIndex >= 0 && note.AfterIndex < messages.Count
 				? messages[note.AfterIndex]
@@ -337,7 +316,7 @@ internal static class SequenceLayout
 			});
 		}
 
-		var diagramBottom = messageY + Padding;
+		var diagramBottom = messageY + HeaderGap + ActorHeight + Padding;
 		var globalMinX = Padding;
 		var globalMaxX = 0.0;
 

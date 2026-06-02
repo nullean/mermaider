@@ -17,8 +17,9 @@ internal static class StyleBlock
 		internal const int TextFaint = 20;
 		internal const int Line = 32;
 		internal const int Arrow = 70;
-		internal const int NodeFill = 4;
+		internal const int NodeFill = 10;
 		internal const int NodeStroke = 22;
+		internal const int GroupFill = 3;
 		internal const int GroupHeader = 4;
 		internal const int GroupStroke = 10;
 		internal const int InnerStroke = 10;
@@ -94,7 +95,7 @@ internal static class StyleBlock
 		}
 	}
 
-	private static string GetRoleDescription(DiagramType diagramType) => diagramType switch
+	private static string GetRoleDescription(DiagramType type) => type switch
 	{
 		DiagramType.Flowchart => "flowchart",
 		DiagramType.State => "state diagram",
@@ -109,10 +110,10 @@ internal static class StyleBlock
 		DiagramType.Treemap => "treemap",
 		DiagramType.Venn => "venn diagram",
 		DiagramType.Mindmap => "mindmap",
-		_ => "diagram",
+		_ => "diagram"
 	};
 
-	internal static void AppendStyleBlock(StringBuilder sb, string? font = null, StrictModeOptions? strict = null)
+	internal static void AppendStyleBlock(StringBuilder sb, string? font = null, StrictModeOptions? strict = null, Rendering.FontScale? fontScale = null)
 	{
 		_ = sb.Append("\n<style>\n");
 
@@ -131,7 +132,7 @@ internal static class StyleBlock
 		_ = sb.Append("    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) ").Append(Mix.Arrow).Append("%, var(--bg)));\n");
 		_ = sb.Append("    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) ").Append(Mix.NodeFill).Append("%, var(--bg)));\n");
 		_ = sb.Append("    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) ").Append(Mix.NodeStroke).Append("%, var(--bg)));\n");
-		_ = sb.Append("    --_group-fill:    var(--bg);\n");
+		_ = sb.Append("    --_group-fill:    color-mix(in srgb, var(--fg) ").Append(Mix.GroupFill).Append("%, var(--bg));\n");
 		_ = sb.Append("    --_group-hdr:     color-mix(in srgb, var(--fg) ").Append(Mix.GroupHeader).Append("%, var(--bg));\n");
 		_ = sb.Append("    --_group-stroke:  color-mix(in srgb, var(--fg) ").Append(Mix.GroupStroke).Append("%, var(--bg));\n");
 		_ = sb.Append("    --_inner-stroke:  color-mix(in srgb, var(--fg) ").Append(Mix.InnerStroke).Append("%, var(--bg));\n");
@@ -139,6 +140,12 @@ internal static class StyleBlock
 		_ = sb.Append("    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) ").Append(Mix.AccentFill).Append("%, var(--bg));\n");
 		_ = sb.Append("    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) ").Append(Mix.AccentStroke).Append("%, var(--bg));\n");
 		_ = sb.Append("    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) ").Append(Mix.AccentText).Append("%, var(--bg));\n");
+
+		var fs = fontScale ?? Rendering.FontScale.Default;
+		_ = sb.Append("    --fs-xs: ").Append(fs.Xs).Append(";\n");
+		_ = sb.Append("    --fs-s:  ").Append(fs.S).Append(";\n");
+		_ = sb.Append("    --fs-m:  ").Append(fs.M).Append(";\n");
+		_ = sb.Append("    --fs-l:  ").Append(fs.L).Append(";\n");
 		_ = sb.Append("  }\n");
 		_ = sb.Append("  .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }\n");
 		_ = sb.Append("  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }\n");

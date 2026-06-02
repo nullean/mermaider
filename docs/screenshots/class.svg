@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 382.4 392" width="382.4" height="392" style="--bg:#FFFFFF;--fg:#27272A;background:var(--bg)">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 389.6 292" width="389.6" height="292" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -9,13 +9,20 @@
     --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
     --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
-    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 4%, var(--bg)));
-    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 14%, var(--bg)));
-    --_group-fill:    var(--bg);
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
     --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
     --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
   }
   .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
   .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
@@ -34,40 +41,35 @@
   <marker id="cls-arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
     <polyline points="0 0, 12 6, 0 12" fill="none" stroke="var(--_arrow)" stroke-width="1.5" />
   </marker>
+  <marker id="cls-lollipop" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto-start-reverse">
+    <circle cx="6" cy="6" r="5" fill="var(--bg)" stroke="var(--_arrow)" stroke-width="1.5" />
+  </marker>
 </defs>
 
-<path class="class-relationship" data-from="Animal" data-to="Dog" data-type="inheritance" data-marker-at="from" d="M187.6,184 L187.6,208 Q187.6,214 181.6,214 L108,214 Q102,214 102,220 L102,244" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
-<path class="class-relationship" data-from="Animal" data-to="Cat" data-type="inheritance" data-marker-at="from" d="M187.6,184 L187.6,208 Q187.6,214 193.6,214 L267.2,214 Q273.2,214 273.2,220 L273.2,244" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="Animal" data-to="Dog" data-type="inheritance" data-marker-at="from" d="M128,92 L106,92 Q100,92 100,98 L100,148 L100,148 L100,204" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="Animal" data-to="Cat" data-type="inheritance" data-marker-at="from" d="M261.6,92 L283.6,92 Q289.6,92 289.6,98 L289.6,148 L289.6,148 L289.6,204" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
 <g class="class-node" data-id="Animal" data-label="Animal" data-annotation="abstract">
-  <rect x="125.6" y="40" width="124" height="144" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.25" />
-  <rect x="125.6" y="40" width="124" height="48" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.25" />
-  <text x="187.6" y="52" text-anchor="middle" dy="0.35em" font-size="10" font-weight="500" font-style="italic" fill="var(--_text-muted)">&lt;&lt;abstract&gt;&gt;</text>
-  <text x="187.6" y="70" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Animal</text>
-  <line x1="125.6" y1="88" x2="249.6" y2="88" stroke="var(--_node-stroke)" stroke-width="1.5" />
-  <text class="mono" x="133.6" y="102" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">name</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">String</tspan></text>
-  <text class="mono" x="133.6" y="122" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">age</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">int</tspan></text>
-  <line x1="125.6" y1="136" x2="249.6" y2="136" stroke="var(--_node-stroke)" stroke-width="1.5" />
-  <text class="mono" x="133.6" y="150" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">eat()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
-  <text class="mono" x="133.6" y="170" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">sleep()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
+  <rect x="128" y="40" width="133.6" height="104" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="128" y="40" width="133.6" height="48" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="194.8" y="52" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="500" font-style="italic" fill="var(--_text-muted)">&lt;&lt;abstract&gt;&gt;</text>
+  <text x="194.8" y="70" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Animal</text>
+  <line x1="128" y1="88" x2="261.6" y2="88" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text class="mono" x="136" y="102" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">name</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">String</tspan></text>
+  <line x1="128" y1="116" x2="261.6" y2="116" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text class="mono" x="136" y="130" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">eat()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
 </g>
 <g class="class-node" data-id="Dog" data-label="Dog">
-  <rect x="40" y="244" width="124" height="108" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.25" />
-  <rect x="40" y="244" width="124" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.25" />
-  <text x="102" y="260" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Dog</text>
-  <line x1="40" y1="276" x2="164" y2="276" stroke="var(--_node-stroke)" stroke-width="1.5" />
-  <text class="mono" x="48" y="290" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">breed</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">String</tspan></text>
-  <line x1="40" y1="304" x2="164" y2="304" stroke="var(--_node-stroke)" stroke-width="1.5" />
-  <text class="mono" x="48" y="318" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">bark()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
-  <text class="mono" x="48" y="338" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">fetch()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
+  <rect x="40" y="204" width="120" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="40" y="204" width="120" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="100" y="220" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Dog</text>
+  <line x1="40" y1="236" x2="160" y2="236" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="40" y1="244" x2="160" y2="244" stroke="var(--_node-stroke)" stroke-width="2" />
 </g>
 <g class="class-node" data-id="Cat" data-label="Cat">
-  <rect x="204" y="244" width="138.39999999999998" height="108" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.25" />
-  <rect x="204" y="244" width="138.39999999999998" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.25" />
-  <text x="273.2" y="260" text-anchor="middle" font-size="14" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Cat</text>
-  <line x1="204" y1="276" x2="342.4" y2="276" stroke="var(--_node-stroke)" stroke-width="1.5" />
-  <text class="mono" x="212" y="290" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">indoor</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">bool</tspan></text>
-  <line x1="204" y1="304" x2="342.4" y2="304" stroke="var(--_node-stroke)" stroke-width="1.5" />
-  <text class="mono" x="212" y="318" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">purr()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
-  <text class="mono" x="212" y="338" dy="0.35em" font-size="12" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">scratch()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
+  <rect x="229.60000000000002" y="204" width="120" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="229.60000000000002" y="204" width="120" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="289.6" y="220" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Cat</text>
+  <line x1="229.60000000000002" y1="236" x2="349.6" y2="236" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="229.60000000000002" y1="244" x2="349.6" y2="244" stroke="var(--_node-stroke)" stroke-width="2" />
 </g>
 </svg>

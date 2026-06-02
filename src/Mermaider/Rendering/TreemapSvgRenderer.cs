@@ -11,8 +11,8 @@ internal static class TreemapSvgRenderer
 	private const double ChartWidth = 600;
 	private const double ChartHeight = 400;
 	private const double Padding = 2;
-	private const double LabelFontSize = 12;
-	private const double ValueFontSize = 10;
+	private const string LabelFontSize = RenderConstants.FsVar.S;
+	private const string ValueFontSize = RenderConstants.FsVar.Xs;
 	private const double HeaderHeight = 20;
 
 	private static readonly string[] NodeColors =

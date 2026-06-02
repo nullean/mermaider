@@ -11,10 +11,10 @@ internal static class SequenceSvgRenderer
 		RenderConstants.TextAttrs.SeqNodeLabelFill + "var(--_text)\"";
 
 	private static readonly string MessageLabelStartAttrs =
-		RenderConstants.TextAttrs.SeqMessageLabelStartFill + "var(--_text-sec)\"";
+		RenderConstants.TextAttrs.SeqMessageLabelStartFill + "var(--_text)\"";
 
 	private static readonly string MessageLabelCenterAttrs =
-		RenderConstants.TextAttrs.SeqMessageLabelCenterFill + "var(--_text-sec)\"";
+		RenderConstants.TextAttrs.SeqMessageLabelCenterFill + "var(--_text)\"";
 
 	private static readonly string NoteLabelAttrs =
 		RenderConstants.TextAttrs.SeqNoteCenterFill + "var(--_accent-text)\"";
@@ -22,8 +22,6 @@ internal static class SequenceSvgRenderer
 	private static readonly string BlockTabAttrs =
 		RenderConstants.TextAttrs.SeqBlockTabFill + "var(--_text-sec)\"";
 
-	private static readonly string BlockDividerLabelAttrs =
-		RenderConstants.TextAttrs.SeqEdgeLabelStartFill + "var(--_text-sec)\"";
 
 	internal static string Render(PositionedSequenceDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
@@ -66,6 +64,14 @@ internal static class SequenceSvgRenderer
 
 		foreach (var actor in diagram.Actors)
 			AppendActor(sb, actor);
+
+		if (diagram.Actors.Count > 0)
+		{
+			var actorH = diagram.Actors[0].Height;
+			var bottomActorY = diagram.Height - actorH - 30;
+			foreach (var actor in diagram.Actors)
+				AppendActor(sb, actor with { Y = bottomActorY });
+		}
 
 		foreach (var dm in diagram.DestroyMarkers)
 			AppendDestroyMarker(sb, dm);
@@ -229,14 +235,44 @@ internal static class SequenceSvgRenderer
 				.Append(" marker-end=\"url(#").Append(markerId).Append(")\"").Append(markerStart).Append(" />\n  ");
 
 			var midX = (msg.X1 + msg.X2) / 2;
+			var label = msg.Label;
+			AppendAutoNumberBadge(sb, ref label, msg);
 			MultilineUtils.AppendMultilineText(
-				sb, msg.Label, midX, msg.Y - 10,
+				sb, label, midX, msg.Y - 14,
 				RenderConstants.FontSizes.SeqMessageLabel,
 				MessageLabelCenterAttrs);
 			_ = sb.Append('\n');
 		}
 
 		_ = sb.Append("</g>");
+	}
+
+	private static void AppendAutoNumberBadge(StringBuilder sb, ref string label, PositionedSequenceMessage msg)
+	{
+		var dotIdx = label.IndexOf(". ", StringComparison.Ordinal);
+		if (dotIdx is <= 0 or > 4)
+			return;
+
+		var numStr = label[..dotIdx];
+		foreach (var c in numStr)
+		{
+			if (!char.IsDigit(c))
+				return;
+		}
+
+		label = label[(dotIdx + 2)..];
+
+		var badgeX = msg.X1;
+		const double badgeR = 11;
+		const string badgeFontSize = RenderConstants.FsVar.Xs;
+
+		_ = sb.Append("<circle cx=\"").Append(badgeX).Append("\" cy=\"").Append(msg.Y)
+			.Append("\" r=\"").Append(badgeR)
+			.Append("\" fill=\"var(--_text)\" />");
+		_ = sb.Append("<text x=\"").Append(badgeX).Append("\" y=\"").Append(msg.Y)
+			.Append("\" text-anchor=\"middle\" dy=\"0.35em\" font-size=\"").Append(badgeFontSize)
+			.Append("\" font-weight=\"700\" fill=\"var(--bg)\">")
+			.Append(numStr).Append("</text>\n  ");
 	}
 
 	private static void AppendBlock(StringBuilder sb, PositionedSequenceBlock block)
@@ -254,16 +290,12 @@ internal static class SequenceSvgRenderer
 			.Append("\" width=\"").Append(block.Width).Append("\" height=\"").Append(block.Height)
 			.Append("\" rx=\"").Append(RenderConstants.Radii.Group)
 			.Append("\" ry=\"").Append(RenderConstants.Radii.Group)
-			.Append("\" fill=\"none\" stroke=\"var(--_group-stroke)\" stroke-width=\"")
+			.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
 
 		var typeName = block.Type.ToLower();
-		var labelText = block.Label.Length > 0
-			? $"{typeName} [{block.Label}]"
-			: typeName;
-		var firstLine = labelText.Split('\n')[0];
 		var tabWidth = TextMetrics.MeasureTextWidth(
-			firstLine,
+			typeName,
 			RenderConstants.FontSizes.EdgeLabel,
 			RenderConstants.FontWeights.GroupHeader) + 16;
 		const double tabHeight = 18;
@@ -271,35 +303,57 @@ internal static class SequenceSvgRenderer
 		_ = sb.Append("  <rect x=\"").Append(block.X).Append("\" y=\"").Append(block.Y)
 			.Append("\" width=\"").Append(tabWidth).Append("\" height=\"").Append(tabHeight)
 			.Append("\" rx=\"6\" ry=\"6\"")
-			.Append(" fill=\"var(--_group-hdr)\" stroke=\"var(--_group-stroke)\" stroke-width=\"")
+			.Append(" fill=\"var(--_group-hdr)\" stroke=\"var(--_line)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n  ");
 
 		MultilineUtils.AppendMultilineText(
-			sb, labelText,
+			sb, typeName,
 			block.X + 6, block.Y + (tabHeight / 2),
 			RenderConstants.FontSizes.EdgeLabel,
 			BlockTabAttrs);
 		_ = sb.Append('\n');
 
+		if (block.Label.Length > 0)
+		{
+			AppendConditionBadge(sb, block.Label, block.X + (block.Width / 2), block.Y + (tabHeight / 2));
+		}
+
 		foreach (var divider in block.Dividers)
 		{
 			_ = sb.Append("  <line x1=\"").Append(block.X).Append("\" y1=\"").Append(divider.Y)
 				.Append("\" x2=\"").Append(block.X + block.Width).Append("\" y2=\"").Append(divider.Y)
-				.Append("\" stroke=\"var(--_line)\" stroke-width=\"0.75\" stroke-dasharray=\"6 4\" />\n");
+				.Append("\" stroke=\"var(--_line)\" stroke-width=\"")
+				.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
 
 			if (divider.Label.Length > 0)
 			{
-				_ = sb.Append("  ");
-				MultilineUtils.AppendMultilineText(
-					sb, $"[{divider.Label}]",
-					block.X + 8, divider.Y + 14,
-					RenderConstants.FontSizes.EdgeLabel,
-					BlockDividerLabelAttrs);
-				_ = sb.Append('\n');
+				AppendConditionBadge(sb, divider.Label, block.X + (block.Width / 2), divider.Y + 14);
 			}
 		}
 
 		_ = sb.Append("</g>");
+	}
+
+	private static void AppendConditionBadge(StringBuilder sb, string label, double cx, double cy)
+	{
+		var text = label;
+		var textW = TextMetrics.MeasureTextWidth(
+			text, RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel);
+		const double padX = 8;
+		const double padY = 4;
+		var badgeW = textW + (padX * 2);
+		var badgeH = RenderConstants.FontSizes.EdgeLabel + (padY * 2);
+
+		_ = sb.Append("  <rect x=\"").Append(cx - (badgeW / 2)).Append("\" y=\"").Append(cy - (badgeH / 2))
+			.Append("\" width=\"").Append(badgeW).Append("\" height=\"").Append(badgeH)
+			.Append("\" rx=\"4\" ry=\"4\" fill=\"var(--_text)\" />\n");
+		_ = sb.Append("  <text x=\"").Append(cx).Append("\" y=\"").Append(cy)
+			.Append("\" text-anchor=\"middle\" dy=\"0.35em\" font-size=\"")
+			.Append(RenderConstants.FsVar.S)
+			.Append("\" font-weight=\"").Append(RenderConstants.FontWeights.EdgeLabel)
+			.Append("\" fill=\"var(--bg)\">");
+		MultilineUtils.AppendEscapedXml(sb, label.AsSpan());
+		_ = sb.Append("</text>\n");
 	}
 
 	private static void AppendNote(StringBuilder sb, PositionedSequenceNote note)
