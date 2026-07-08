@@ -1,6 +1,6 @@
 namespace Mermaider.Gallery;
 
-public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, RealWorld }
+public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Requirement, RealWorld }
 
 public sealed record DiagramExample(string Slug, string Title, DiagramCategory Category, string Source, string? Feature = null);
 
@@ -867,6 +867,58 @@ public static class DiagramExamples
 
 		new("mindmap-learning", "Learning Path", DiagramCategory.Mindmap,
 			"mindmap\n  ((Web Development))\n    (Frontend)\n      HTML\n      CSS\n      JavaScript\n    (Backend)\n      .NET\n      Node.js\n    ))Cloud((\n      AWS\n      Azure"),
+
+		// ── Requirement ────────────────────────────────────────────────
+
+		new("requirement-basic", "Basic Requirement", DiagramCategory.Requirement, """
+			requirementDiagram
+
+			requirement test_req {
+			id: 1
+			text: the test text.
+			risk: high
+			verifymethod: test
+			}
+
+			element test_entity {
+			type: simulation
+			}
+
+			test_entity - satisfies -> test_req
+			"""),
+
+		new("requirement-sysml", "SysML Traceability", DiagramCategory.Requirement, """
+			requirementDiagram
+			direction LR
+
+			functionalRequirement login {
+			id: REQ-1
+			text: Users must authenticate.
+			risk: medium
+			verifymethod: test
+			}
+
+			performanceRequirement latency {
+			id: REQ-2
+			text: Auth must complete under 200ms.
+			risk: high
+			verifymethod: analysis
+			}
+
+			element auth_service {
+			type: service
+			docRef: design/auth.md
+			}
+
+			element login_ui {
+			type: ui
+			}
+
+			auth_service - satisfies -> login
+			login_ui - verifies -> login
+			latency - derives -> login
+			"""),
+
 		// ── Real World (RFC diagrams) ─────────────────────────────────
 
 		new("rfc-path-flow", "Path Flow (V1)", DiagramCategory.RealWorld, """
@@ -1029,6 +1081,7 @@ public static class DiagramExamples
 		DiagramCategory.Treemap => "Treemap",
 		DiagramCategory.Venn => "Venn Diagram",
 		DiagramCategory.Mindmap => "Mindmap",
+		DiagramCategory.Requirement => "Requirement",
 		DiagramCategory.RealWorld => "Real World",
 		_ => c.ToString(),
 	};
@@ -1048,6 +1101,7 @@ public static class DiagramExamples
 		DiagramCategory.Treemap => "treemap",
 		DiagramCategory.Venn => "venn",
 		DiagramCategory.Mindmap => "mindmap",
+		DiagramCategory.Requirement => "requirement",
 		DiagramCategory.RealWorld => "real-world",
 		_ => c.ToString().ToLowerInvariant(),
 	};

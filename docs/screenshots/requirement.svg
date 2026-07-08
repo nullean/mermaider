@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 208 280" width="208" height="280" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+  <marker id="req-arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+
+<line x1="104" y1="98" x2="104" y2="134" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#req-arrow)" />
+<rect x="75.72" y="107" width="56.57" height="18" rx="4" ry="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="0.75" />
+<text x="104" y="116" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text-muted)">satisfies</text>
+<g class="req-node" data-id="test_req">
+  <rect x="24" y="134" width="160" height="122" rx="6" ry="6" fill="var(--_accent-fill)" stroke="var(--_accent-stroke)" stroke-width="1.75" />
+  <text x="104" y="152" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Requirement</text>
+  <text x="104" y="168" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">test_req</text>
+  <text x="104" y="186" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Id: 1</text>
+  <text x="104" y="202" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Text: the test text.</text>
+  <text x="104" y="218" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Risk: High</text>
+  <text x="104" y="234" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Verification: Test</text>
+</g>
+<g class="req-node" data-id="test_entity">
+  <rect x="24" y="24" width="160" height="74" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="104" y="42" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Element</text>
+  <text x="104" y="58" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">test_entity</text>
+  <text x="104" y="76" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Type: simulation</text>
+</g>
+</svg>

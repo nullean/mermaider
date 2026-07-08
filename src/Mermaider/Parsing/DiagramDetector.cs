@@ -43,6 +43,10 @@ internal static partial class DiagramDetector
 	[GeneratedRegex(@"^mindmap\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex MindmapHeader();
 
+	// Matches requirementDiagram and bare requirement (upstream detector).
+	[GeneratedRegex(@"^requirement(Diagram)?\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex RequirementHeader();
+
 	internal static DiagramType Detect(ReadOnlySpan<char> text)
 	{
 		var firstLineEnd = text.IndexOf('\n');
@@ -74,6 +78,8 @@ internal static partial class DiagramDetector
 			return DiagramType.Venn;
 		if (MindmapHeader().IsMatch(firstLineStr))
 			return DiagramType.Mindmap;
+		if (RequirementHeader().IsMatch(firstLineStr))
+			return DiagramType.Requirement;
 
 		return DiagramType.Flowchart;
 	}
