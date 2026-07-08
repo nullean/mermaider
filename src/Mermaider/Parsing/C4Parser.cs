@@ -8,7 +8,7 @@ internal static partial class C4Parser
 {
 	private const int TimeoutMs = 2000;
 
-	[GeneratedRegex(@"^C4(Context|Container|Component|Dynamic|Deployment)\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	[GeneratedRegex(@"^C4(Context|Container|Component|Dynamic|Deployment)\b(?:\s+title\s+(.+))?$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex HeaderPattern();
 
 	[GeneratedRegex(@"^title\s+(.+)$", RegexOptions.None, TimeoutMs)]
@@ -30,6 +30,23 @@ internal static partial class C4Parser
 	[GeneratedRegex(@"^Update(?:Element|Rel)Style\s*\(", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex StyleUpdatePattern();
 
+	private sealed class BoundaryFrame(
+		string alias,
+		C4BoundaryType type,
+		string label,
+		string? typeLabel,
+		bool isDeploymentNode,
+		string? technology)
+	{
+		public string Alias { get; } = alias;
+		public C4BoundaryType Type { get; } = type;
+		public string Label { get; } = label;
+		public string? TypeLabel { get; } = typeLabel;
+		public bool IsDeploymentNode { get; } = isDeploymentNode;
+		public string? Technology { get; } = technology;
+		public List<C4Node> Children { get; } = [];
+	}
+
 	internal static C4Diagram Parse(string[] lines)
 	{
 		try
@@ -46,13 +63,19 @@ internal static partial class C4Parser
 
 	private static C4Diagram ParseCore(string[] lines)
 	{
-		var kind = DetectKind(lines[0]);
-		string? title = null;
+		var headerMatch = HeaderPattern().Match(lines[0]);
+		var kind = headerMatch.Success
+			? MapKind(headerMatch.Groups[1].Value)
+			: DetectKindFallback(lines[0]);
+		var title = headerMatch.Success && headerMatch.Groups[2].Success
+			? Unquote(headerMatch.Groups[2].Value.Trim())
+			: null;
+
 		var shapeInRow = 4;
 		var boundaryInRow = 2;
 		var relations = new List<C4Relation>();
 		var root = new List<C4Node>();
-		var stack = new Stack<(string Alias, C4BoundaryType Type, string Label, string? TypeLabel, List<C4Node> Children)>();
+		var stack = new Stack<BoundaryFrame>();
 
 		for (var i = 1; i < lines.Length; i++)
 		{
@@ -121,13 +144,11 @@ internal static partial class C4Parser
 				{
 					if (!opensBrace && i + 1 < lines.Length && lines[i + 1] is "{")
 						i++;
-					stack.Push((alias, boundaryType, label, typeLabel, []));
+					stack.Push(new BoundaryFrame(alias, boundaryType, label, typeLabel, isDeploymentNode: false, technology: null));
 				}
 				else
 				{
-					// Empty boundary without children
-					var empty = new C4Boundary(alias, boundaryType, label, typeLabel, []);
-					AddNode(empty, stack, root);
+					AddNode(new C4Boundary(alias, boundaryType, label, typeLabel, []), stack, root);
 				}
 				continue;
 			}
@@ -138,22 +159,16 @@ internal static partial class C4Parser
 				var label = args.Count > 1 ? Unquote(args[1]) : alias;
 				var techn = args.Count > 2 ? Unquote(args[2]) : null;
 				var descr = args.Count > 3 ? Unquote(args[3]) : null;
-				var node = new C4Element(alias, C4ElementType.DeploymentNode, label, techn, descr, External: false);
 
 				if (opensBrace || PeekOpensBrace(lines, i))
 				{
 					if (!opensBrace && i + 1 < lines.Length && lines[i + 1] is "{")
 						i++;
-					// Treat deployment nodes as boundaries so children nest visually
-					stack.Push((alias, C4BoundaryType.Boundary, label, techn, []));
-					// Also register the node itself as first child marker via a synthetic element at boundary level —
-					// we render Deployment_Node as a boundary-like box labeled with the node.
-					// Children will be added to the stack frame.
-					_ = node; // label already on boundary
+					stack.Push(new BoundaryFrame(alias, C4BoundaryType.Boundary, label, typeLabel: null, isDeploymentNode: true, technology: techn));
 				}
 				else
 				{
-					AddNode(node, stack, root);
+					AddNode(new C4Element(alias, C4ElementType.DeploymentNode, label, techn, descr, External: false), stack, root);
 				}
 				continue;
 			}
@@ -177,16 +192,26 @@ internal static partial class C4Parser
 		};
 	}
 
-	private static C4DiagramKind DetectKind(string header)
+	private static C4DiagramKind MapKind(string capture) => capture.ToLowerInvariant() switch
 	{
-		if (header.Contains("C4Container", StringComparison.OrdinalIgnoreCase))
-			return C4DiagramKind.Container;
-		if (header.Contains("C4Component", StringComparison.OrdinalIgnoreCase))
-			return C4DiagramKind.Component;
-		if (header.Contains("C4Dynamic", StringComparison.OrdinalIgnoreCase))
-			return C4DiagramKind.Dynamic;
-		if (header.Contains("C4Deployment", StringComparison.OrdinalIgnoreCase))
+		"container" => C4DiagramKind.Container,
+		"component" => C4DiagramKind.Component,
+		"dynamic" => C4DiagramKind.Dynamic,
+		"deployment" => C4DiagramKind.Deployment,
+		_ => C4DiagramKind.Context,
+	};
+
+	private static C4DiagramKind DetectKindFallback(string header)
+	{
+		// Prefer longest / most specific token first
+		if (header.StartsWith("C4Deployment", StringComparison.OrdinalIgnoreCase))
 			return C4DiagramKind.Deployment;
+		if (header.StartsWith("C4Component", StringComparison.OrdinalIgnoreCase))
+			return C4DiagramKind.Component;
+		if (header.StartsWith("C4Container", StringComparison.OrdinalIgnoreCase))
+			return C4DiagramKind.Container;
+		if (header.StartsWith("C4Dynamic", StringComparison.OrdinalIgnoreCase))
+			return C4DiagramKind.Dynamic;
 		return C4DiagramKind.Context;
 	}
 
@@ -205,10 +230,7 @@ internal static partial class C4Parser
 		|| typeName.Equals("Node_L", StringComparison.OrdinalIgnoreCase)
 		|| typeName.Equals("Node_R", StringComparison.OrdinalIgnoreCase);
 
-	private static void AddNode(
-		C4Node node,
-		Stack<(string Alias, C4BoundaryType Type, string Label, string? TypeLabel, List<C4Node> Children)> stack,
-		List<C4Node> root)
+	private static void AddNode(C4Node node, Stack<BoundaryFrame> stack, List<C4Node> root)
 	{
 		if (stack.Count > 0)
 			stack.Peek().Children.Add(node);
@@ -216,12 +238,17 @@ internal static partial class C4Parser
 			root.Add(node);
 	}
 
-	private static void FlushBoundary(
-		Stack<(string Alias, C4BoundaryType Type, string Label, string? TypeLabel, List<C4Node> Children)> stack,
-		List<C4Node> root)
+	private static void FlushBoundary(Stack<BoundaryFrame> stack, List<C4Node> root)
 	{
 		var frame = stack.Pop();
-		var boundary = new C4Boundary(frame.Alias, frame.Type, frame.Label, frame.TypeLabel, frame.Children);
+		var boundary = new C4Boundary(
+			frame.Alias,
+			frame.Type,
+			frame.Label,
+			frame.TypeLabel,
+			frame.Children,
+			frame.IsDeploymentNode,
+			frame.Technology);
 		if (stack.Count > 0)
 			stack.Peek().Children.Add(boundary);
 		else
@@ -261,8 +288,6 @@ internal static partial class C4Parser
 		var alias = positional[0];
 		var label = positional.Count > 1 ? Unquote(positional[1]) : alias;
 
-		// Person/System: (alias, label, ?descr)
-		// Container/Component: (alias, label, ?techn, ?descr)
 		string? technology = null;
 		string? description = null;
 
@@ -285,7 +310,6 @@ internal static partial class C4Parser
 	private static C4Relation? ParseRelation(string keyword, string argsRaw)
 	{
 		var args = PositionalArgs(SplitArgs(argsRaw));
-		// RelIndex(index, from, to, label, ...)
 		var offset = keyword.Equals("RelIndex", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
 		if (args.Count < offset + 2)
 			return null;
@@ -340,7 +364,6 @@ internal static partial class C4Parser
 			var c = raw[i];
 			if (c == '"')
 			{
-				// doubled quote inside string
 				if (inQuotes && i + 1 < raw.Length && raw[i + 1] == '"')
 				{
 					_ = sb.Append('"');

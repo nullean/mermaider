@@ -111,7 +111,7 @@ public class AccessibilityTests
 	}
 
 	// ========================================================================
-	// All 13 diagram types
+	// All diagram types with accessibility (see also C4RendererTests)
 	// ========================================================================
 
 	[Test]

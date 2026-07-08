@@ -36,7 +36,9 @@ public sealed record C4Boundary(
 	C4BoundaryType Type,
 	string Label,
 	string? TypeLabel,
-	IReadOnlyList<C4Node> Children) : C4Node(Alias);
+	IReadOnlyList<C4Node> Children,
+	bool IsDeploymentNode = false,
+	string? Technology = null) : C4Node(Alias);
 
 public enum C4ElementType
 {

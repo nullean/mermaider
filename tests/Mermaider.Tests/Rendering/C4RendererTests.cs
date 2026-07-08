@@ -116,4 +116,40 @@ public class C4RendererTests
 		svg.Should().Contain("aria-roledescription=\"C4 diagram\"");
 		svg.Should().Contain("Banking context");
 	}
+
+	[Test]
+	public void Renders_deployment_node_relations()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			C4Deployment
+			Deployment_Node(mob, "Mobile device", "iOS") {
+			  Container(app, "Mobile App", "Xamarin", "UI")
+			}
+			Container(api, "API", "Java", "Backend")
+			Rel(app, api, "Calls", "HTTPS")
+			Rel(mob, api, "Hosts traffic")
+			""");
+
+		svg.Should().Contain("Mobile device");
+		svg.Should().Contain("Mobile App");
+		svg.Should().Contain("API");
+		svg.Should().Contain("Calls");
+		svg.Should().Contain("Hosts traffic");
+		// Deployment nodes use solid stroke (no dasharray on the outer node fill path is OK;
+		// enterprise boundaries use stroke-dasharray — deployment should still render the label).
+		svg.Should().Contain("#FFFFFF");
+	}
+
+	[Test]
+	public void Renders_self_relation_loop()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			C4Component
+			Component(c1, "Controller", "MVC", "Handles")
+			Rel(c1, c1, "self")
+			""");
+
+		svg.Should().Contain("<path");
+		svg.Should().Contain("self");
+	}
 }

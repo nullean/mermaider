@@ -182,10 +182,15 @@ C4Context
 
 - One `DiagramType` for five headers; kind on model is enough for v1.
 - PlantUML-call DSL needs quote-aware `SplitArgs` + `$named` filtering.
-- Nested `{`/`}` → stack of boundary frames; deployment nodes with braces act as boundary-like frames.
+- Nested `{`/`}` → stack of boundary frames; **mark deployment nodes** (`IsDeploymentNode`) so they get solid chrome + relation anchors without double-drawing leaves.
+- Keep **separate** `placements` (drawn leaves) vs `relationAnchors` (leaves + nested deployment boxes).
+- Layout must walk **source order** (do not partition leaves-then-boundaries) — Person → Boundary → System_Ext is the common case.
 - Grid layout (shapeInRow / boundaryInRow) is “good enough Mermaider”; not d3/elk.
 - C4 is fixed-style upstream — keep shape fills hardcoded; theme only chrome/text.
-- Detector keyword gate: do **not** require end-of-line only if headers never take inline options (C4 headers are bare).
+- Header regex should capture kind + optional compact `title`; `DetectKind` must use `StartsWith` / capture group, not `Contains` (avoids `C4Context` matching `C4Container` substring myths and order bugs).
+- Self-relations need an explicit loop path; edge clipping collapses zero-length segments.
+- Primary-constructor private classes: **camelCase** parameter names (IDE1006).
+- Add Verify snapshot for at least one happy-path SVG early.
 - InternalsVisibleTo already covers parser unit tests calling internal helpers.
 
 ## Ref

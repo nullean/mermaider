@@ -1060,6 +1060,7 @@ public static class DiagramExamples
 		DiagramCategory.Treemap => "Treemap",
 		DiagramCategory.Venn => "Venn Diagram",
 		DiagramCategory.Mindmap => "Mindmap",
+		DiagramCategory.C4 => "C4",
 		DiagramCategory.RealWorld => "Real World",
 		_ => c.ToString(),
 	};
@@ -1079,6 +1080,7 @@ public static class DiagramExamples
 		DiagramCategory.Treemap => "treemap",
 		DiagramCategory.Venn => "venn",
 		DiagramCategory.Mindmap => "mindmap",
+		DiagramCategory.C4 => "c4",
 		DiagramCategory.RealWorld => "real-world",
 		_ => c.ToString().ToLowerInvariant(),
 	};

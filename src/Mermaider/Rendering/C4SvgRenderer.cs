@@ -72,6 +72,8 @@ internal static class C4SvgRenderer
 		var titleOffset = hasTitle ? TitleHeight : 0;
 
 		var placements = new Dictionary<string, PlacedElement>(StringComparer.Ordinal);
+		// Relation anchors include leaf elements + nested deployment-node boxes (not redrawn as leaves).
+		var relationAnchors = new Dictionary<string, PlacedElement>(StringComparer.Ordinal);
 		var rootBoundaries = new List<PlacedBoundary>();
 
 		var (contentW, contentH) = LayoutNodes(
@@ -81,6 +83,7 @@ internal static class C4SvgRenderer
 			Margin,
 			Margin + titleOffset,
 			placements,
+			relationAnchors,
 			rootBoundaries);
 
 		var width = Math.Max(contentW + Margin, 320);
@@ -103,13 +106,13 @@ internal static class C4SvgRenderer
 			AppendBoundary(sb, b);
 
 		foreach (var rel in diagram.Relations)
-			AppendRelation(sb, rel, placements);
+			AppendRelation(sb, rel, relationAnchors);
 
 		foreach (var p in placements.Values)
 			AppendElement(sb, p);
 
 		foreach (var rel in diagram.Relations)
-			AppendRelationLabel(sb, rel, placements);
+			AppendRelationLabel(sb, rel, relationAnchors);
 
 		_ = sb.Append("\n</svg>");
 		return sb;
@@ -122,69 +125,57 @@ internal static class C4SvgRenderer
 		double originX,
 		double originY,
 		Dictionary<string, PlacedElement> placements,
+		Dictionary<string, PlacedElement> relationAnchors,
 		List<PlacedBoundary> outBoundaries)
 	{
+		// Walk source order so Person → Boundary → System_Ext keeps left-to-right flow.
 		var cursorX = originX;
 		var cursorY = originY;
 		var rowMaxH = 0.0;
-		var col = 0;
+		var leafCol = 0;
+		var boundaryCol = 0;
 		var maxX = originX;
 		var maxY = originY;
 
-		var leaves = new List<C4Element>();
-		var boundaries = new List<C4Boundary>();
-		foreach (var n in nodes)
-		{
-			if (n is C4Element e)
-				leaves.Add(e);
-			else if (n is C4Boundary b)
-				boundaries.Add(b);
-		}
-
-		for (var i = 0; i < leaves.Count; i++)
-		{
-			if (col >= shapeInRow)
-			{
-				cursorX = originX;
-				cursorY += rowMaxH + GapY;
-				rowMaxH = 0;
-				col = 0;
-			}
-
-			var el = leaves[i];
-			var placed = new PlacedElement
-			{
-				Element = el,
-				X = cursorX,
-				Y = cursorY,
-				W = BoxWidth,
-				H = BoxHeight,
-			};
-			placements[el.Alias] = placed;
-			cursorX += BoxWidth + GapX;
-			rowMaxH = Math.Max(rowMaxH, BoxHeight);
-			col++;
-			maxX = Math.Max(maxX, placed.X + placed.W);
-			maxY = Math.Max(maxY, placed.Y + placed.H);
-		}
-
-		if (leaves.Count > 0 && boundaries.Count > 0)
+		void NewRow()
 		{
 			cursorX = originX;
 			cursorY += rowMaxH + GapY;
 			rowMaxH = 0;
-			col = 0;
+			leafCol = 0;
+			boundaryCol = 0;
 		}
 
-		for (var i = 0; i < boundaries.Count; i++)
+		foreach (var n in nodes)
 		{
-			if (col >= boundaryInRow)
+			if (n is C4Element el)
 			{
-				cursorX = originX;
-				cursorY += rowMaxH + GapY;
-				rowMaxH = 0;
-				col = 0;
+				if (leafCol >= shapeInRow)
+					NewRow();
+
+				var placed = new PlacedElement
+				{
+					Element = el,
+					X = cursorX,
+					Y = cursorY,
+					W = BoxWidth,
+					H = BoxHeight,
+				};
+				placements[el.Alias] = placed;
+				relationAnchors[el.Alias] = placed;
+				cursorX += BoxWidth + GapX;
+				rowMaxH = Math.Max(rowMaxH, BoxHeight);
+				leafCol++;
+				maxX = Math.Max(maxX, placed.X + placed.W);
+				maxY = Math.Max(maxY, placed.Y + placed.H);
+				continue;
 			}
+
+			if (n is not C4Boundary boundary)
+				continue;
+
+			if (boundaryCol >= boundaryInRow)
+				NewRow();
 
 			var childPlacements = new Dictionary<string, PlacedElement>(StringComparer.Ordinal);
 			var childBoundaries = new List<PlacedBoundary>();
@@ -192,12 +183,13 @@ internal static class C4SvgRenderer
 			var innerOriginY = cursorY + BoundaryPad + BoundaryHeader;
 
 			var (innerMaxX, innerMaxY) = LayoutNodes(
-				boundaries[i].Children,
+				boundary.Children,
 				shapeInRow,
 				boundaryInRow,
 				innerOriginX,
 				innerOriginY,
 				childPlacements,
+				relationAnchors,
 				childBoundaries);
 
 			foreach (var kv in childPlacements)
@@ -208,7 +200,7 @@ internal static class C4SvgRenderer
 
 			var pb = new PlacedBoundary
 			{
-				Boundary = boundaries[i],
+				Boundary = boundary,
 				X = cursorX,
 				Y = cursorY,
 				W = bw,
@@ -217,9 +209,28 @@ internal static class C4SvgRenderer
 			pb.Children.AddRange(childBoundaries);
 			outBoundaries.Add(pb);
 
+			// Nested deployment nodes are relation endpoints (outer box), not leaf redraws.
+			if (boundary.IsDeploymentNode)
+			{
+				relationAnchors[boundary.Alias] = new PlacedElement
+				{
+					Element = new C4Element(
+						boundary.Alias,
+						C4ElementType.DeploymentNode,
+						boundary.Label,
+						boundary.Technology,
+						Description: null,
+						External: false),
+					X = cursorX,
+					Y = cursorY,
+					W = bw,
+					H = bh,
+				};
+			}
+
 			cursorX += bw + GapX;
 			rowMaxH = Math.Max(rowMaxH, bh);
-			col++;
+			boundaryCol++;
 			maxX = Math.Max(maxX, pb.X + pb.W);
 			maxY = Math.Max(maxY, pb.Y + pb.H);
 		}
@@ -238,17 +249,32 @@ internal static class C4SvgRenderer
 
 	private static void AppendBoundary(StringBuilder sb, PlacedBoundary b)
 	{
-		_ = sb.Append("\n<rect x=\"").Append(F(b.X)).Append("\" y=\"").Append(F(b.Y))
-			.Append("\" width=\"").Append(F(b.W)).Append("\" height=\"").Append(F(b.H))
-			.Append("\" rx=\"4\" ry=\"4\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"1.5\" stroke-dasharray=\"6 4\" />");
+		if (b.Boundary.IsDeploymentNode)
+		{
+			// Solid node chrome (not dashed enterprise boundary style)
+			_ = sb.Append("\n<rect x=\"").Append(F(b.X)).Append("\" y=\"").Append(F(b.Y))
+				.Append("\" width=\"").Append(F(b.W)).Append("\" height=\"").Append(F(b.H))
+				.Append("\" rx=\"4\" ry=\"4\" fill=\"").Append(NodeColors.Fill)
+				.Append("\" stroke=\"").Append(NodeColors.Stroke).Append("\" stroke-width=\"1.5\" />");
+		}
+		else
+		{
+			_ = sb.Append("\n<rect x=\"").Append(F(b.X)).Append("\" y=\"").Append(F(b.Y))
+				.Append("\" width=\"").Append(F(b.W)).Append("\" height=\"").Append(F(b.H))
+				.Append("\" rx=\"4\" ry=\"4\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"1.5\" stroke-dasharray=\"6 4\" />");
+		}
 
 		var header = b.Boundary.Label;
 		if (b.Boundary.TypeLabel is { Length: > 0 } tl)
 			header = $"{header} [{tl}]";
+		else if (b.Boundary.IsDeploymentNode && b.Boundary.Technology is { Length: > 0 } techn)
+			header = $"{header} [{techn}]";
 
+		var fill = b.Boundary.IsDeploymentNode ? NodeColors.Text : "var(--_text-sec)";
 		_ = sb.Append("\n<text x=\"").Append(F(b.X + 10)).Append("\" y=\"").Append(F(b.Y + 16))
+			.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(LabelFontSize)
-			.Append("\" font-weight=\"600\" fill=\"var(--_text-sec)\">");
+			.Append("\" font-weight=\"600\" fill=\"").Append(fill).Append("\">");
 		MultilineUtils.AppendEscapedXml(sb, header.AsSpan());
 		_ = sb.Append("</text>");
 
@@ -309,13 +335,15 @@ internal static class C4SvgRenderer
 		var textStartY = isPerson ? p.Y + 58 : p.Y + 28;
 
 		_ = sb.Append("\n<text x=\"").Append(F(midX)).Append("\" y=\"").Append(F(textStartY))
-			.Append("\" text-anchor=\"middle\" font-size=\"").Append(TypeFontSize)
+			.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
+			.Append("\" font-size=\"").Append(TypeFontSize)
 			.Append("\" fill=\"").Append(text).Append("\" opacity=\"0.85\">");
 		MultilineUtils.AppendEscapedXml(sb, typeLabel.AsSpan());
 		_ = sb.Append("</text>");
 
 		_ = sb.Append("\n<text x=\"").Append(F(midX)).Append("\" y=\"").Append(F(textStartY + 18))
-			.Append("\" text-anchor=\"middle\" font-size=\"").Append(LabelFontSize)
+			.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
+			.Append("\" font-size=\"").Append(LabelFontSize)
 			.Append("\" font-weight=\"700\" fill=\"").Append(text).Append("\">");
 		AppendTruncated(sb, p.Element.Label, 28);
 		_ = sb.Append("</text>");
@@ -323,7 +351,8 @@ internal static class C4SvgRenderer
 		if (p.Element.Technology is { Length: > 0 } techn)
 		{
 			_ = sb.Append("\n<text x=\"").Append(F(midX)).Append("\" y=\"").Append(F(textStartY + 34))
-				.Append("\" text-anchor=\"middle\" font-size=\"").Append(TypeFontSize)
+				.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
+				.Append("\" font-size=\"").Append(TypeFontSize)
 				.Append("\" fill=\"").Append(text).Append("\" opacity=\"0.9\">[");
 			AppendTruncated(sb, techn, 24);
 			_ = sb.Append("]</text>");
@@ -331,9 +360,10 @@ internal static class C4SvgRenderer
 
 		if (p.Element.Description is { Length: > 0 } descr)
 		{
-			var dy = p.Element.Technology is { Length: > 0 } ? 50 : 36;
-			_ = sb.Append("\n<text x=\"").Append(F(midX)).Append("\" y=\"").Append(F(textStartY + dy))
-				.Append("\" text-anchor=\"middle\" font-size=\"").Append(DescFontSize)
+			var descY = p.Element.Technology is { Length: > 0 } ? 50 : 36;
+			_ = sb.Append("\n<text x=\"").Append(F(midX)).Append("\" y=\"").Append(F(textStartY + descY))
+				.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
+				.Append("\" font-size=\"").Append(DescFontSize)
 				.Append("\" fill=\"").Append(text).Append("\" opacity=\"0.8\">");
 			var cleaned = descr.Replace("<br/>", " ", StringComparison.OrdinalIgnoreCase)
 				.Replace("<br>", " ", StringComparison.OrdinalIgnoreCase);
@@ -346,6 +376,22 @@ internal static class C4SvgRenderer
 	{
 		if (!placements.TryGetValue(rel.From, out var from) || !placements.TryGetValue(rel.To, out var to))
 			return;
+
+		// Self-relation: small loop on the right side of the box (v1).
+		if (string.Equals(rel.From, rel.To, StringComparison.Ordinal))
+		{
+			var sx = from.X + from.W;
+			var sy = from.Y + (from.H * 0.35);
+			var ex = from.X + from.W;
+			var ey = from.Y + (from.H * 0.65);
+			var cx = sx + 28;
+			_ = sb.Append("\n<path d=\"M ").Append(F(sx)).Append(' ').Append(F(sy))
+				.Append(" C ").Append(F(cx)).Append(' ').Append(F(sy))
+				.Append(' ').Append(F(cx)).Append(' ').Append(F(ey))
+				.Append(' ').Append(F(ex)).Append(' ').Append(F(ey))
+				.Append("\" fill=\"none\" stroke=\"var(--_arrow)\" stroke-width=\"1.5\" marker-end=\"url(#c4-arrow)\" />");
+			return;
+		}
 
 		var x1 = from.X + (from.W * 0.5);
 		var y1 = from.Y + (from.H * 0.5);

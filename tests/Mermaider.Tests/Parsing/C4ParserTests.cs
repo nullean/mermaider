@@ -163,4 +163,35 @@ public class C4ParserTests
 		args.Should().HaveCount(3);
 		args[1].Should().Be("\"A, B, and C\"");
 	}
+
+	[Test]
+	public void Parses_compact_header_title()
+	{
+		var diagram = C4Parser.Parse(
+		[
+			"C4Context title Banking",
+			"""Person(a, "A")""",
+		]);
+
+		diagram.Title.Should().Be("Banking");
+		diagram.Kind.Should().Be(C4DiagramKind.Context);
+	}
+
+	[Test]
+	public void Parses_nested_deployment_node()
+	{
+		var diagram = C4Parser.Parse(
+		[
+			"C4Deployment",
+			"""Deployment_Node(mob, "Mobile", "iOS") {""",
+			"""Container(app, "App", "Xamarin", "UI")""",
+			"}",
+		]);
+
+		diagram.Kind.Should().Be(C4DiagramKind.Deployment);
+		var node = diagram.RootNodes[0].Should().BeOfType<C4Boundary>().Subject;
+		node.IsDeploymentNode.Should().BeTrue();
+		node.Technology.Should().Be("iOS");
+		node.Children.Should().HaveCount(1);
+	}
 }
