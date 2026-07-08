@@ -104,6 +104,7 @@ internal static class RequirementSvgRenderer
 		string Name,
 		bool IsRequirement,
 		string KindLabel,
+		IReadOnlyList<string> NameLines,
 		IReadOnlyList<string> Lines,
 		double X,
 		double Y,
@@ -113,9 +114,14 @@ internal static class RequirementSvgRenderer
 	private static Dictionary<string, Box> BuildBoxes(RequirementDiagram diagram)
 	{
 		var boxes = new Dictionary<string, Box>(StringComparer.Ordinal);
+		var contentW = MaxBoxW - (BoxPadX * 2);
 
 		foreach (var req in diagram.Requirements)
 		{
+			// First-wins: skip duplicate names (including later elements of the same name)
+			if (boxes.ContainsKey(req.Name))
+				continue;
+
 			var lines = new List<string>();
 			if (req.Id is { Length: > 0 })
 				lines.Add($"Id: {req.Id}");
@@ -127,12 +133,18 @@ internal static class RequirementSvgRenderer
 				lines.Add($"Verification: {FormatVerify(req.VerifyMethod)}");
 
 			var kindLabel = FormatKind(req.Kind);
-			var (w, h) = MeasureBox(req.Name, kindLabel, lines);
-			boxes[req.Name] = new Box(req.Name, IsRequirement: true, kindLabel, lines, 0, 0, w, h);
+			var nameLines = WrapText(req.Name, contentW, TitleFontPx, 700);
+			var wrappedLines = WrapLines(lines, contentW, BodyFontPx, 400);
+			var (w, h) = MeasureBox(kindLabel, nameLines, wrappedLines);
+			boxes[req.Name] = new Box(req.Name, IsRequirement: true, kindLabel, nameLines, wrappedLines, 0, 0, w, h);
 		}
 
 		foreach (var elem in diagram.Elements)
 		{
+			// First-wins: do not overwrite a requirement (or earlier element) of the same name
+			if (boxes.ContainsKey(elem.Name))
+				continue;
+
 			var lines = new List<string>();
 			if (elem.Type is { Length: > 0 })
 				lines.Add($"Type: {elem.Type}");
@@ -140,25 +152,103 @@ internal static class RequirementSvgRenderer
 				lines.Add($"Doc ref: {elem.DocRef}");
 
 			const string kindLabel = "Element";
-			var (w, h) = MeasureBox(elem.Name, kindLabel, lines);
-			boxes[elem.Name] = new Box(elem.Name, IsRequirement: false, kindLabel, lines, 0, 0, w, h);
+			var nameLines = WrapText(elem.Name, contentW, TitleFontPx, 700);
+			var wrappedLines = WrapLines(lines, contentW, BodyFontPx, 400);
+			var (w, h) = MeasureBox(kindLabel, nameLines, wrappedLines);
+			boxes[elem.Name] = new Box(elem.Name, IsRequirement: false, kindLabel, nameLines, wrappedLines, 0, 0, w, h);
 		}
 
 		return boxes;
 	}
 
-	private static (double W, double H) MeasureBox(string name, string kindLabel, IReadOnlyList<string> lines)
+	private static (double W, double H) MeasureBox(
+		string kindLabel, IReadOnlyList<string> nameLines, IReadOnlyList<string> lines)
 	{
 		var maxTextW = TextMetrics.MeasureTextWidth(kindLabel, HeaderFontPx, 600);
-		maxTextW = Math.Max(maxTextW, TextMetrics.MeasureTextWidth(name, TitleFontPx, 700));
+		foreach (var line in nameLines)
+			maxTextW = Math.Max(maxTextW, TextMetrics.MeasureTextWidth(line, TitleFontPx, 700));
 		foreach (var line in lines)
 			maxTextW = Math.Max(maxTextW, TextMetrics.MeasureTextWidth(line, BodyFontPx, 400));
 
 		var w = Math.Clamp(maxTextW + (BoxPadX * 2), MinBoxW, MaxBoxW);
-		// kind + name + property lines
-		var lineCount = 2 + lines.Count;
+		// kind + name line(s) + property lines
+		var lineCount = 1 + nameLines.Count + lines.Count;
 		var h = (BoxPadY * 2) + (lineCount * LineHeight) + 6;
 		return (w, h);
+	}
+
+	private static List<string> WrapLines(IReadOnlyList<string> lines, double maxWidth, double fontSize, int fontWeight)
+	{
+		var result = new List<string>();
+		foreach (var line in lines)
+			result.AddRange(WrapText(line, maxWidth, fontSize, fontWeight));
+		return result;
+	}
+
+	private static List<string> WrapText(string text, double maxWidth, double fontSize, int fontWeight)
+	{
+		if (text.Length == 0)
+			return [""];
+
+		if (TextMetrics.MeasureTextWidth(text, fontSize, fontWeight) <= maxWidth)
+			return [text];
+
+		var result = new List<string>();
+		var words = text.Split(' ');
+		var current = "";
+		foreach (var word in words)
+		{
+			var candidate = current.Length == 0 ? word : current + " " + word;
+			var candidateW = TextMetrics.MeasureTextWidth(candidate, fontSize, fontWeight);
+			if (candidateW > maxWidth && current.Length > 0)
+			{
+				result.Add(current);
+				// Hard-break an overlong single word so it never paints past the box
+				if (TextMetrics.MeasureTextWidth(word, fontSize, fontWeight) > maxWidth)
+				{
+					result.AddRange(HardBreak(word, maxWidth, fontSize, fontWeight));
+					current = "";
+				}
+				else
+				{
+					current = word;
+				}
+			}
+			else
+			{
+				current = candidate;
+			}
+		}
+
+		if (current.Length > 0)
+		{
+			if (TextMetrics.MeasureTextWidth(current, fontSize, fontWeight) > maxWidth)
+				result.AddRange(HardBreak(current, maxWidth, fontSize, fontWeight));
+			else
+				result.Add(current);
+		}
+
+		return result.Count > 0 ? result : [text];
+	}
+
+	private static List<string> HardBreak(string word, double maxWidth, double fontSize, int fontWeight)
+	{
+		var result = new List<string>();
+		var start = 0;
+		while (start < word.Length)
+		{
+			var end = start + 1;
+			while (end < word.Length &&
+				TextMetrics.MeasureTextWidth(word.AsSpan(start, end - start + 1), fontSize, fontWeight) <= maxWidth)
+			{
+				end++;
+			}
+
+			result.Add(word[start..end]);
+			start = end;
+		}
+
+		return result;
 	}
 
 	private static void LayoutBoxes(Direction direction, Dictionary<string, Box> boxes)
@@ -285,14 +375,19 @@ internal static class RequirementSvgRenderer
 		_ = sb.Append("</text>");
 		y += LineHeight;
 
-		// Name
-		_ = sb.Append("\n  <text x=\"").Append(F(cx)).Append("\" y=\"").Append(F(y))
-			.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
-			.Append("\" font-size=\"").Append(RenderConstants.FsVar.M)
-			.Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
-		MultilineUtils.AppendEscapedXml(sb, box.Name.AsSpan());
-		_ = sb.Append("</text>");
-		y += LineHeight + 2;
+		// Name (possibly multi-line after wrap)
+		foreach (var nameLine in box.NameLines)
+		{
+			_ = sb.Append("\n  <text x=\"").Append(F(cx)).Append("\" y=\"").Append(F(y))
+				.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
+				.Append("\" font-size=\"").Append(RenderConstants.FsVar.M)
+				.Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
+			MultilineUtils.AppendEscapedXml(sb, nameLine.AsSpan());
+			_ = sb.Append("</text>");
+			y += LineHeight;
+		}
+
+		y += 2;
 
 		foreach (var line in box.Lines)
 		{
