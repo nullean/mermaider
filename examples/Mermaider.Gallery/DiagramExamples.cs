@@ -7,6 +7,7 @@ public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadra
 public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, XyChart, RealWorld }
 public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Requirement, RealWorld }
 public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Packet, RealWorld }
+public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Kanban, RealWorld }
 
 public sealed record DiagramExample(string Slug, string Title, DiagramCategory Category, string Source, string? Feature = null);
 
@@ -1010,6 +1011,30 @@ public static partial class DiagramExamples
 			+32: "Sequence Number"
 			+32: "Ack Number"
 			"""),
+		// ── Kanban ─────────────────────────────────────────────────────
+
+		new("kanban-sprint", "Sprint Board", DiagramCategory.Kanban, """
+			kanban
+			  Todo
+			    Task1
+			    Task2
+			  In Progress
+			    Task3
+			  Done
+			    Task4
+			"""),
+
+		new("kanban-metadata", "Tasks with Metadata", DiagramCategory.Kanban, """
+			kanban
+			  todo[To Do]
+			    docs[Create Documentation]
+			    id8[Design grammar]@{ assigned: 'knsv' }
+			  wip[In Progress]
+			    id4[Create parsing tests]@{ ticket: MC-2038, assigned: 'K.Sveidqvist', priority: 'High' }
+			  done[Done]
+			    id5[define getData]
+			"""),
+
 		// ── Real World (RFC diagrams) ─────────────────────────────────
 
 		..CreateRequirementExamples(),
@@ -1041,6 +1066,7 @@ public static partial class DiagramExamples
 		DiagramCategory.XyChart => "XY Chart",
 		DiagramCategory.Requirement => "Requirement",
 		DiagramCategory.Packet => "Packet",
+		DiagramCategory.Kanban => "Kanban",
 		DiagramCategory.RealWorld => "Real World",
 		_ => c.ToString(),
 	};
@@ -1067,6 +1093,7 @@ public static partial class DiagramExamples
 		DiagramCategory.XyChart => "xychart",
 		DiagramCategory.Requirement => "requirement",
 		DiagramCategory.Packet => "packet",
+		DiagramCategory.Kanban => "kanban",
 		DiagramCategory.RealWorld => "real-world",
 		_ => c.ToString().ToLowerInvariant(),
 	};

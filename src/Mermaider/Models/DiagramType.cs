@@ -23,4 +23,5 @@ public enum DiagramType
 	XyChart,
 	Requirement,
 	Packet
+	Kanban
 }

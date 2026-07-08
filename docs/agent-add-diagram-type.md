@@ -239,6 +239,12 @@ journey
 | Lower | Kanban, block, packet, architecture | `*-beta` | newer / niche |
 | Done / in flight | Packet | `packet` / `packet-beta` | bit fields; arithmetic rows |
 | Lower | Kanban, block, architecture | `*-beta` | newer / niche |
+| Done / in flight | C4 | `C4Context`… | nested boundaries; fixed palette |
+| Done / in flight | Sankey | `sankey` / `sankey-beta` | CSV links; flow widths |
+| Done / in flight | XY chart | `xychart` / `xychart-beta` | bar/line |
+| Done / in flight | Kanban | `kanban` | indent columns/tasks |
+| Medium | Requirement | `requirementDiagram` | |
+| Lower | block, packet, architecture | `*-beta` | newer / niche |
 
 ## Anti-patterns
 
@@ -369,6 +375,17 @@ test_entity - satisfies -> test_req
 - Model is flat `Fields` list of `{Start, End, Label}`; renderer splits across 32-bit rows (mermaid parity).
 - Arithmetic in renderer: `bitsPerRow=32`, `bitWidth=32`, `rowHeight=32`; bit numbers above blocks; fixed light fills; theme `var(--_text)` / `var(--_line)` for text/stroke.
 - Zero `+count` skipped; invalid end &lt; start skipped (no throw for v1).
+### Kanban (2026-07)
+
+- Detector: `^kanban\b` (word boundary, not full-line `$` — header may grow).
+- **Must** use `PreprocessLinesPreserveIndent(cleaned, accessibility)` — columns vs tasks are indent-driven.
+- Two levels only: shallowest content indent = column; deeper = task under current column.
+- `id[Title]` optional; bare text → id equals label.
+- Task metadata: trailing `@{ assigned, ticket, priority }` with quoted or bare values; strip before id/title parse.
+- Role string: `"kanban board"` (only emitted when acc* directives present).
+- Theme via existing CSS vars: `--_node-fill`, `--_accent-fill`, `--_accent-text`, `--_text`, `--_text-muted`, `--_line` — no `--_surface` / `--_accent`.
+- Layout arithmetic in renderer (horizontal columns, stacked cards, task-count badge).
+- Prefer passing `accessibility` into preserve-indent preprocess so `accTitle`/`accDescr` are not parsed as columns.
 
 ## Ref
 
