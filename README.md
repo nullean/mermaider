@@ -44,6 +44,7 @@ edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, v
 edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, requirement) use
 edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, packet) use
 edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, kanban) use
+edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, architecture) use
 purpose-built layout arithmetic directly in their renderers. Rather than depending on an external engine, Mermaider ships its own lightweight
 [Sugiyama layout engine](src/Sugiyama/) with zero dependencies.
 
@@ -433,6 +434,23 @@ MermaidRenderer.RenderSvg("""
 ```
 
 <p align="center"><img src="docs/screenshots/kanban.svg" alt="Kanban board" /></p>
+### Architecture
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    architecture-beta
+        group api(cloud)[API]
+        service db(database)[Database] in api
+        service disk(disk)[Disk] in api
+        service server(server)[Server] in api
+        db:R --> L:server
+        disk:T --> B:server
+    """);
+```
+
+v1 notes: ids are unique across groups and services (first declaration wins); `{group}` edge modifiers are accepted for syntax compatibility but attach to the service tile (not the parent group boundary); `junction` and edge labels are not supported yet.
+
+<p align="center"><img src="docs/screenshots/architecture.svg" alt="Architecture diagram" /></p>
 
 ## Theming
 

@@ -24,4 +24,5 @@ public enum DiagramType
 	Requirement,
 	Packet
 	Kanban
+	Architecture,
 }

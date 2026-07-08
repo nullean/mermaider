@@ -225,6 +225,8 @@ public static class MermaidRenderer
 				PacketParser.Parse(filteredLines),
 			DiagramType.Kanban => KanbanSvgRenderer.RenderToBuilder(
 				KanbanParser.Parse(PreprocessLinesPreserveIndent(cleaned, accessibility)),
+			DiagramType.Architecture => ArchitectureSvgRenderer.RenderToBuilder(
+				ArchitectureParser.Parse(filteredLines),
 				colors, font, transparent, strict, accessibility, diagramType),
 
 			_ => SvgRenderer.RenderToBuilder(

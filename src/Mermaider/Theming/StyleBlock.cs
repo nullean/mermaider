@@ -118,6 +118,7 @@ internal static class StyleBlock
 		DiagramType.Requirement => "requirement diagram",
 		DiagramType.Packet => "packet diagram",
 		DiagramType.Kanban => "kanban board",
+		DiagramType.Architecture => "architecture diagram",
 		_ => "diagram"
 	};
 

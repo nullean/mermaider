@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 396" width="384" height="396" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+  <marker id="arch-arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
+    <polygon points="0 0, 12 6, 0 12" fill="#1f2937" />
+  </marker>
+  <marker id="arch-arrow-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
+    <polygon points="12 0, 0 6, 12 12" fill="#1f2937" />
+  </marker>
+</defs>
+
+<g class="arch-group" data-id="api">
+  <rect x="40" y="40" width="304" height="316" rx="8" fill="none" stroke="#a5b4fc" stroke-width="1.75" stroke-dasharray="7 5" />
+  <rect x="54" y="50" width="22" height="22" rx="4" fill="#326ce5" />
+  <path d="M60.64 62.58 a3.01 2.53 0 1 1 0.95 -3.17 a3.33 2.85 0 1 1 5.15 0 a2.53 2.22 0 1 1 1.43 3.17 z" fill="none" stroke="#ffffff" stroke-width="2" />
+  <text x="84" y="61" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)">API</text>
+</g>
+<path d="M146 132 L238 132" fill="none" stroke="#1f2937" stroke-width="2" marker-end="url(#arch-arrow)" />
+<path d="M266 236 L266 160" fill="none" stroke="#1f2937" stroke-width="2" marker-end="url(#arch-arrow)" />
+<g class="arch-service" data-id="db">
+  <rect x="90" y="104" width="56" height="56" rx="6" fill="#326ce5" />
+  <ellipse cx="118" cy="125.07" rx="8.47" ry="3.39" fill="none" stroke="#ffffff" stroke-width="2" />
+  <path d="M109.53 125.07 L109.53 138.16 A8.47 3.39 0 0 0 126.47 138.16 L126.47 125.07" fill="none" stroke="#ffffff" stroke-width="2" />
+  <path d="M109.53 132.77 A8.47 3.39 0 0 0 126.47 132.77" fill="none" stroke="#ffffff" stroke-width="1.5" />
+  <text x="118" y="176" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)">Database</text>
+</g>
+<g class="arch-service" data-id="disk">
+  <rect x="238" y="236" width="56" height="56" rx="6" fill="#326ce5" />
+  <circle cx="266" cy="264" r="10.78" fill="none" stroke="#ffffff" stroke-width="2" />
+  <circle cx="266" cy="264" r="2.77" fill="#ffffff" />
+  <line x1="267.85" y1="262.46" x2="272.93" y2="257.84" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+  <text x="266" y="308" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)">Disk</text>
+</g>
+<g class="arch-service" data-id="server">
+  <rect x="238" y="104" width="56" height="56" rx="6" fill="#326ce5" />
+  <rect x="256.76" y="123.53" width="18.48" height="16.94" rx="3" fill="none" stroke="#ffffff" stroke-width="2" />
+  <line x1="259.84" y1="128.27" x2="272.16" y2="128.27" stroke="#ffffff" stroke-width="1.75" />
+  <line x1="259.84" y1="132" x2="272.16" y2="132" stroke="#ffffff" stroke-width="1.75" />
+  <line x1="259.84" y1="135.73" x2="272.16" y2="135.73" stroke="#ffffff" stroke-width="1.75" />
+  <text x="266" y="176" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)">Server</text>
+</g>
+</svg>

@@ -8,6 +8,7 @@ public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadra
 public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Requirement, RealWorld }
 public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Packet, RealWorld }
 public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Kanban, RealWorld }
+public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Architecture, RealWorld }
 
 public sealed record DiagramExample(string Slug, string Title, DiagramCategory Category, string Source, string? Feature = null);
 
@@ -1033,6 +1034,28 @@ public static partial class DiagramExamples
 			    id4[Create parsing tests]@{ ticket: MC-2038, assigned: 'K.Sveidqvist', priority: 'High' }
 			  done[Done]
 			    id5[define getData]
+		// ── Architecture ───────────────────────────────────────────────
+
+		// Edge form must be official `id:Port -- Port:id` (GitHub mermaid rejects `id:P --> id:P`)
+		new("architecture-basic", "API & Storage", DiagramCategory.Architecture, """
+			architecture-beta
+			    group api(cloud)[API]
+			    service db(database)[Database] in api
+			    service disk(disk)[Disk] in api
+			    service server(server)[Server] in api
+			    db:R --> L:server
+			    disk:T --> B:server
+			"""),
+
+		new("architecture-grouped", "Services in Group", DiagramCategory.Architecture, """
+			architecture-beta
+			    group public_api(cloud)[Public API]
+			    service server(server)[Server] in public_api
+			    service db(database)[Database] in public_api
+			    service disk1(disk)[Storage] in public_api
+
+			    db:R -- L:server
+			    disk1:T -- B:server
 			"""),
 
 		// ── Real World (RFC diagrams) ─────────────────────────────────
@@ -1067,6 +1090,7 @@ public static partial class DiagramExamples
 		DiagramCategory.Requirement => "Requirement",
 		DiagramCategory.Packet => "Packet",
 		DiagramCategory.Kanban => "Kanban",
+		DiagramCategory.Architecture => "Architecture",
 		DiagramCategory.RealWorld => "Real World",
 		_ => c.ToString(),
 	};
@@ -1094,6 +1118,7 @@ public static partial class DiagramExamples
 		DiagramCategory.Requirement => "requirement",
 		DiagramCategory.Packet => "packet",
 		DiagramCategory.Kanban => "kanban",
+		DiagramCategory.Architecture => "architecture",
 		DiagramCategory.RealWorld => "real-world",
 		_ => c.ToString().ToLowerInvariant(),
 	};

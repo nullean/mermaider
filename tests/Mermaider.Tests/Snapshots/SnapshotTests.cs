@@ -389,5 +389,14 @@ public class SnapshotTests
 			16-31: "Destination Port"
 			32-47: "Length"
 			48-63: "Checksum"
+	public Task Architecture_basic() =>
+		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			architecture-beta
+			    group api(cloud)[API]
+			    service db(database)[Database] in api
+			    service disk(disk)[Disk] in api
+			    service server(server)[Server] in api
+			    db:R --> L:server
+			    disk:T --> B:server
 			"""), "svg");
 }
