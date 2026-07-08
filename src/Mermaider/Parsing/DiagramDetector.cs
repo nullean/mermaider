@@ -43,6 +43,9 @@ internal static partial class DiagramDetector
 	[GeneratedRegex(@"^mindmap\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex MindmapHeader();
 
+	[GeneratedRegex(@"^xychart(?:-beta)?\b", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex XyChartHeader();
+
 	internal static DiagramType Detect(ReadOnlySpan<char> text)
 	{
 		var firstLineEnd = text.IndexOf('\n');
@@ -74,6 +77,8 @@ internal static partial class DiagramDetector
 			return DiagramType.Venn;
 		if (MindmapHeader().IsMatch(firstLineStr))
 			return DiagramType.Mindmap;
+		if (XyChartHeader().IsMatch(firstLineStr))
+			return DiagramType.XyChart;
 
 		return DiagramType.Flowchart;
 	}
