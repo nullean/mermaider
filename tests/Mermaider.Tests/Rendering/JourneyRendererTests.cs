@@ -55,11 +55,33 @@ public class JourneyRendererTests
 	}
 
 	[Test]
-	public void Contains_score_bars()
+	public void Contains_task_boxes_and_timeline()
 	{
 		var svg = MermaidRenderer.RenderSvg(FullJourney);
 
 		svg.Should().Contain("<rect");
+		svg.Should().Contain("<line");
+		svg.Should().Contain("stroke-dasharray");
+	}
+
+	[Test]
+	public void Contains_faces_for_scores()
+	{
+		var svg = MermaidRenderer.RenderSvg(FullJourney);
+
+		// Faces are drawn as circle + path/line mouths
+		svg.Should().Contain("<circle");
+		svg.Should().Contain("<path");
+	}
+
+	[Test]
+	public void Contains_actor_legend()
+	{
+		var svg = MermaidRenderer.RenderSvg(FullJourney);
+
+		// Legend lists unique actors (Me, Cat)
+		svg.Should().Contain("Me");
+		svg.Should().Contain("Cat");
 	}
 
 	[Test]

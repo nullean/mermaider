@@ -7,44 +7,39 @@ using Mermaider.Theming;
 namespace Mermaider.Rendering;
 
 /// <summary>
-/// Renders a user journey as horizontal task columns with score bars (1–5),
-/// section bands, and actor labels — Mermaider theme CSS vars throughout.
+/// Renders a user journey in the mermaid.js layout: section headers, task boxes with
+/// actor dots, a horizontal timeline, and face markers hung by score (1–5).
+/// Theme text/chrome via CSS vars; actor/score accents use a fixed chart palette.
 /// </summary>
 internal static class JourneySvgRenderer
 {
-	private const double LeftPad = 40;
-	private const double RightPad = 24;
+	private const double LeftPad = 16;
+	private const double RightPad = 32;
 	private const double TopPad = 16;
-	private const double BottomPad = 28;
+	private const double BottomPad = 24;
 	private const double TitleHeight = 36;
-	private const double SectionLabelHeight = 22;
-	private const double ScoreAxisMax = 5.0;
-	private const double BarMaxHeight = 120;
-	private const double BarWidth = 36;
-	private const double ColumnWidth = 110;
-	private const double ColumnGap = 12;
-	private const double TaskLabelHeight = 40;
-	private const double ActorLabelHeight = 28;
-	private const double ScoreAxisWidth = 28;
+	private const double LegendRowHeight = 18;
+	private const double SectionBoxHeight = 28;
+	private const double SectionToTaskGap = 10;
+	private const double TaskBoxHeight = 36;
+	private const double TaskBoxMinWidth = 88;
+	private const double TaskBoxPadX = 14;
+	private const double TaskGap = 16;
+	private const double SectionGap = 28;
+	private const double TimelineGap = 28;
+	private const double FaceTrackHeight = 130;
+	private const double FaceRadius = 14;
+	private const double ActorDotR = 5;
+	private const double MaxScore = 5.0;
 
 	private const string TitleFontSize = RenderConstants.FsVar.L;
 	private const string LabelFontSize = RenderConstants.FsVar.S;
 	private const string SmallFontSize = RenderConstants.FsVar.Xs;
 
-	// Score 1 → red … score 5 → green (same family as other chart palettes)
-	private static readonly string[] ScoreColors =
+	private static readonly string[] ActorPalette =
 	[
-		"#e15759", // 1
-		"#f28e2b", // 2
-		"#edc948", // 3
-		"#76b7b2", // 4
-		"#59a14f", // 5
-	];
-
-	private static readonly string[] SectionBandColors =
-	[
-		"#4e79a7", "#f28e2b", "#e15759", "#76b7b2",
-		"#59a14f", "#edc948", "#b07aa1", "#ff9da7",
+		"#59a14f", "#4e79a7", "#f28e2b", "#e15759",
+		"#b07aa1", "#76b7b2", "#edc948", "#ff9da7",
 	];
 
 	internal static string Render(JourneyDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
@@ -68,29 +63,51 @@ internal static class JourneySvgRenderer
 		var hasTitle = diagram.Title is { Length: > 0 };
 		var titleOffset = hasTitle ? TitleHeight : 0;
 
-		var totalTasks = 0;
-		foreach (var section in diagram.Sections)
-			totalTasks += section.Tasks.Count;
+		// Collect actors (first-seen order) and task column metrics
+		var actorColors = BuildActorColors(diagram);
+		var legendHeight = actorColors.Count > 0
+			? Math.Max(actorColors.Count * LegendRowHeight, 8)
+			: 0;
 
-		if (totalTasks == 0)
+		var flat = Flatten(diagram);
+		if (flat.Count == 0)
 		{
-			var emptyH = titleOffset + TopPad + BottomPad + 40;
-			StyleBlock.AppendSvgOpenTag(sb, 320, emptyH, colors, transparent, accessibility, diagramType);
+			var emptyH = titleOffset + TopPad + BottomPad + 48;
+			StyleBlock.AppendSvgOpenTag(sb, 360, emptyH, colors, transparent, accessibility, diagramType);
 			StyleBlock.AppendStyleBlock(sb, font, strict);
 			if (hasTitle)
-				AppendTitle(sb, diagram.Title!, 160);
+				AppendTitle(sb, diagram.Title!, 180);
 			_ = sb.Append("\n</svg>");
 			return sb;
 		}
 
-		var chartLeft = LeftPad + ScoreAxisWidth;
-		var chartWidth = (totalTasks * (ColumnWidth + ColumnGap)) - ColumnGap;
-		var width = chartLeft + chartWidth + RightPad;
+		// Column centers: each task gets a box; width from label estimate
+		var columns = new List<Column>(flat.Count);
+		var legendWidth = legendHeight > 0 ? 70.0 : 0;
+		var x = LeftPad + legendWidth + 12;
 
-		var plotTop = TopPad + titleOffset + SectionLabelHeight;
-		var plotHeight = BarMaxHeight;
-		var taskLabelTop = plotTop + plotHeight + 12;
-		var height = taskLabelTop + TaskLabelHeight + ActorLabelHeight + BottomPad;
+		for (var i = 0; i < flat.Count; i++)
+		{
+			var item = flat[i];
+			if (i > 0 && item.IsSectionStart)
+				x += SectionGap - TaskGap;
+
+			var boxW = Math.Max(TaskBoxMinWidth, EstimateTextWidth(item.Task.Name) + (TaskBoxPadX * 2));
+			var cx = x + (boxW / 2);
+			columns.Add(new Column(item, cx, boxW, x));
+			x += boxW + TaskGap;
+		}
+
+		var contentRight = x - TaskGap;
+		var width = contentRight + RightPad;
+		// Ensure room for title / legend
+		width = Math.Max(width, LeftPad + legendWidth + 280 + RightPad);
+
+		var sectionY = TopPad + titleOffset + 4;
+		var taskY = sectionY + SectionBoxHeight + SectionToTaskGap;
+		var timelineY = taskY + TaskBoxHeight + TimelineGap;
+		var faceTop = timelineY + 8;
+		var height = faceTop + FaceTrackHeight + BottomPad;
 
 		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
 		StyleBlock.AppendStyleBlock(sb, font, strict);
@@ -99,60 +116,103 @@ internal static class JourneySvgRenderer
 		if (hasTitle)
 			AppendTitle(sb, diagram.Title!, width / 2);
 
-		// Score axis (1–5)
-		for (var s = 1; s <= 5; s++)
-		{
-			var frac = s / ScoreAxisMax;
-			var y = plotTop + plotHeight - (frac * plotHeight);
-			_ = sb.Append("\n<line x1=\"").Append(F(chartLeft - 4)).Append("\" y1=\"").Append(F(y))
-				.Append("\" x2=\"").Append(F(chartLeft + chartWidth)).Append("\" y2=\"").Append(F(y))
-				.Append("\" stroke=\"var(--_line)\" stroke-width=\"0.5\" opacity=\"0.25\" />");
-			_ = sb.Append("\n<text x=\"").Append(F(LeftPad + 4)).Append("\" y=\"").Append(F(y + 4))
-				.Append("\" font-size=\"").Append(SmallFontSize)
-				.Append("\" fill=\"var(--_text-muted)\">").Append(s).Append("</text>");
-		}
+		AppendActorLegend(sb, actorColors, LeftPad, TopPad + titleOffset);
 
-		// Baseline
-		_ = sb.Append("\n<line x1=\"").Append(F(chartLeft)).Append("\" y1=\"").Append(F(plotTop + plotHeight))
-			.Append("\" x2=\"").Append(F(chartLeft + chartWidth)).Append("\" y2=\"").Append(F(plotTop + plotHeight))
-			.Append("\" stroke=\"var(--_line)\" stroke-width=\"1.5\" />");
-
-		var col = 0;
+		// Section headers spanning their tasks
 		var sectionIndex = 0;
 		foreach (var section in diagram.Sections)
 		{
-			if (section.Tasks.Count == 0)
+			if (section.Tasks.Count == 0 || section.Name is not { Length: > 0 })
+			{
+				sectionIndex++;
 				continue;
-
-			var sectionStartX = chartLeft + (col * (ColumnWidth + ColumnGap));
-			var sectionWidth = (section.Tasks.Count * (ColumnWidth + ColumnGap)) - ColumnGap;
-			var bandColor = SectionBandColors[sectionIndex % SectionBandColors.Length];
-
-			if (section.Name is { Length: > 0 })
-			{
-				_ = sb.Append("\n<rect x=\"").Append(F(sectionStartX - 4))
-					.Append("\" y=\"").Append(F(plotTop - SectionLabelHeight))
-					.Append("\" width=\"").Append(F(sectionWidth + 8))
-					.Append("\" height=\"").Append(F(plotHeight + SectionLabelHeight + TaskLabelHeight + ActorLabelHeight + 8))
-					.Append("\" rx=\"6\" ry=\"6\" fill=\"").Append(bandColor)
-					.Append("\" opacity=\"0.08\" />");
-
-				_ = sb.Append("\n<text x=\"").Append(F(sectionStartX + (sectionWidth / 2)))
-					.Append("\" y=\"").Append(F(plotTop - 8))
-					.Append("\" text-anchor=\"middle\" font-size=\"").Append(LabelFontSize)
-					.Append("\" font-weight=\"600\" fill=\"").Append(bandColor).Append("\">");
-				MultilineUtils.AppendEscapedXml(sb, section.Name.AsSpan());
-				_ = sb.Append("</text>");
 			}
 
-			foreach (var task in section.Tasks)
+			var first = columns.FindIndex(c => c.Item.SectionIndex == sectionIndex);
+			var last = columns.FindLastIndex(c => c.Item.SectionIndex == sectionIndex);
+			if (first < 0 || last < 0)
 			{
-				var cx = chartLeft + (col * (ColumnWidth + ColumnGap)) + (ColumnWidth / 2);
-				AppendTask(sb, task, cx, plotTop, plotHeight, taskLabelTop);
-				col++;
+				sectionIndex++;
+				continue;
 			}
+
+			var left = columns[first].BoxLeft;
+			var right = columns[last].BoxLeft + columns[last].BoxWidth;
+			var secW = right - left;
+			var secCx = left + (secW / 2);
+
+			_ = sb.Append("\n<rect x=\"").Append(F(left)).Append("\" y=\"").Append(F(sectionY))
+				.Append("\" width=\"").Append(F(secW)).Append("\" height=\"").Append(SectionBoxHeight)
+				.Append("\" rx=\"6\" ry=\"6\" fill=\"var(--_node-fill)\" stroke=\"var(--_node-stroke)\" stroke-width=\"1\" />");
+			_ = sb.Append("\n<text x=\"").Append(F(secCx)).Append("\" y=\"").Append(F(sectionY + (SectionBoxHeight * 0.65)))
+				.Append("\" text-anchor=\"middle\" font-size=\"").Append(LabelFontSize)
+				.Append("\" font-weight=\"600\" fill=\"var(--_text)\">");
+			MultilineUtils.AppendEscapedXml(sb, section.Name.AsSpan());
+			_ = sb.Append("</text>");
 
 			sectionIndex++;
+		}
+
+		// Timeline arrow (drawn under task boxes so boxes sit on it visually via drop lines)
+		var lineStart = columns[0].Cx;
+		var lineEnd = columns[^1].Cx + 20;
+		_ = sb.Append("\n<line x1=\"").Append(F(lineStart - 10)).Append("\" y1=\"").Append(F(timelineY))
+			.Append("\" x2=\"").Append(F(lineEnd)).Append("\" y2=\"").Append(F(timelineY))
+			.Append("\" stroke=\"var(--_line)\" stroke-width=\"2\" />");
+		// Arrow head
+		_ = sb.Append("\n<polygon points=\"")
+			.Append(F(lineEnd)).Append(',').Append(F(timelineY)).Append(' ')
+			.Append(F(lineEnd - 10)).Append(',').Append(F(timelineY - 5)).Append(' ')
+			.Append(F(lineEnd - 10)).Append(',').Append(F(timelineY + 5))
+			.Append("\" fill=\"var(--_line)\" />");
+
+		// Task boxes, actor dots, drop lines, faces
+		foreach (var col in columns)
+		{
+			var task = col.Item.Task;
+			var boxX = col.BoxLeft;
+			var boxY = taskY;
+
+			_ = sb.Append("\n<rect x=\"").Append(F(boxX)).Append("\" y=\"").Append(F(boxY))
+				.Append("\" width=\"").Append(F(col.BoxWidth)).Append("\" height=\"").Append(TaskBoxHeight)
+				.Append("\" rx=\"6\" ry=\"6\" fill=\"var(--_node-fill)\" stroke=\"var(--_node-stroke)\" stroke-width=\"1\" />");
+
+			_ = sb.Append("\n<text x=\"").Append(F(col.Cx)).Append("\" y=\"").Append(F(boxY + (TaskBoxHeight * 0.62)))
+				.Append("\" text-anchor=\"middle\" font-size=\"").Append(LabelFontSize)
+				.Append("\" fill=\"var(--_text)\">");
+			MultilineUtils.AppendEscapedXml(sb, task.Name.AsSpan());
+			_ = sb.Append("</text>");
+
+			// Actor dots along top edge of task box
+			if (task.Actors.Count > 0)
+			{
+				var dotsW = (task.Actors.Count - 1) * (ActorDotR * 2.4);
+				var dotX = col.Cx - (dotsW / 2);
+				foreach (var actor in task.Actors)
+				{
+					var fill = actorColors.GetValueOrDefault(actor, ActorPalette[0]);
+					_ = sb.Append("\n<circle cx=\"").Append(F(dotX)).Append("\" cy=\"").Append(F(boxY))
+						.Append("\" r=\"").Append(ActorDotR)
+						.Append("\" fill=\"").Append(fill)
+						.Append("\" stroke=\"var(--bg)\" stroke-width=\"1.5\" />");
+					dotX += ActorDotR * 2.4;
+				}
+			}
+
+			// Drop line from timeline to face
+			var score = Math.Clamp(task.Score, 1, 5);
+			// score 5 near timeline, score 1 far below
+			var faceBand = (FaceRadius * 2) + 8;
+			var dropSpan = FaceTrackHeight - faceBand;
+			var scoreFrac = (MaxScore - score) / (MaxScore - 1);
+			var faceOffset = scoreFrac * dropSpan;
+			var faceY = faceTop + faceOffset + FaceRadius;
+
+			_ = sb.Append("\n<line x1=\"").Append(F(col.Cx)).Append("\" y1=\"").Append(F(timelineY))
+				.Append("\" x2=\"").Append(F(col.Cx)).Append("\" y2=\"").Append(F(faceY - FaceRadius))
+				.Append("\" stroke=\"var(--_line)\" stroke-width=\"1\" stroke-dasharray=\"3 3\" opacity=\"0.55\" />");
+
+			AppendFace(sb, col.Cx, faceY, score);
 		}
 
 		_ = sb.Append("\n</svg>");
@@ -168,41 +228,104 @@ internal static class JourneySvgRenderer
 		_ = sb.Append("</text>");
 	}
 
-	private static void AppendTask(StringBuilder sb, JourneyTask task, double cx, double plotTop, double plotHeight, double taskLabelTop)
+	private static void AppendActorLegend(StringBuilder sb, Dictionary<string, string> actorColors, double x, double y)
 	{
-		var score = Math.Clamp(task.Score, 1, 5);
-		var frac = score / ScoreAxisMax;
-		var barH = frac * plotHeight;
-		var barY = plotTop + plotHeight - barH;
-		var barX = cx - (BarWidth / 2);
-		var color = ScoreColors[score - 1];
-
-		_ = sb.Append("\n<rect x=\"").Append(F(barX)).Append("\" y=\"").Append(F(barY))
-			.Append("\" width=\"").Append(F(BarWidth)).Append("\" height=\"").Append(F(Math.Max(barH, 2)))
-			.Append("\" rx=\"4\" ry=\"4\" fill=\"").Append(color).Append("\" />");
-
-		// Score value on bar
-		_ = sb.Append("\n<text x=\"").Append(F(cx)).Append("\" y=\"").Append(F(barY - 6))
-			.Append("\" text-anchor=\"middle\" font-size=\"").Append(SmallFontSize)
-			.Append("\" font-weight=\"600\" fill=\"var(--_text)\">").Append(score).Append("</text>");
-
-		// Task name (wrap-ish: single line truncated visually via full text)
-		_ = sb.Append("\n<text x=\"").Append(F(cx)).Append("\" y=\"").Append(F(taskLabelTop + 14))
-			.Append("\" text-anchor=\"middle\" font-size=\"").Append(LabelFontSize)
-			.Append("\" fill=\"var(--_text)\">");
-		MultilineUtils.AppendEscapedXml(sb, task.Name.AsSpan());
-		_ = sb.Append("</text>");
-
-		if (task.Actors.Count > 0)
+		var row = 0;
+		foreach (var (actor, color) in actorColors)
 		{
-			var actors = string.Join(", ", task.Actors);
-			_ = sb.Append("\n<text x=\"").Append(F(cx)).Append("\" y=\"").Append(F(taskLabelTop + 30))
-				.Append("\" text-anchor=\"middle\" font-size=\"").Append(SmallFontSize)
-				.Append("\" fill=\"var(--_text-muted)\">");
-			MultilineUtils.AppendEscapedXml(sb, actors.AsSpan());
+			var cy = y + (row * LegendRowHeight) + 8;
+			_ = sb.Append("\n<circle cx=\"").Append(F(x + 6)).Append("\" cy=\"").Append(F(cy))
+				.Append("\" r=\"").Append(ActorDotR).Append("\" fill=\"").Append(color).Append("\" />");
+			_ = sb.Append("\n<text x=\"").Append(F(x + 16)).Append("\" y=\"").Append(F(cy + 4))
+				.Append("\" font-size=\"").Append(SmallFontSize)
+				.Append("\" fill=\"var(--_text)\">");
+			MultilineUtils.AppendEscapedXml(sb, actor.AsSpan());
 			_ = sb.Append("</text>");
+			row++;
 		}
 	}
+
+	/// <summary>Draw a simple face (circle + eyes + mouth) for score 1–5.</summary>
+	private static void AppendFace(StringBuilder sb, double cx, double cy, int score)
+	{
+		// Face plate
+		_ = sb.Append("\n<circle cx=\"").Append(F(cx)).Append("\" cy=\"").Append(F(cy))
+			.Append("\" r=\"").Append(FaceRadius)
+			.Append("\" fill=\"var(--_node-fill)\" stroke=\"var(--_node-stroke)\" stroke-width=\"1.25\" />");
+
+		// Eyes
+		var eyeY = cy - 3;
+		var eyeDx = 4.5;
+		_ = sb.Append("\n<circle cx=\"").Append(F(cx - eyeDx)).Append("\" cy=\"").Append(F(eyeY))
+			.Append("\" r=\"1.4\" fill=\"var(--_text)\" />");
+		_ = sb.Append("\n<circle cx=\"").Append(F(cx + eyeDx)).Append("\" cy=\"").Append(F(eyeY))
+			.Append("\" r=\"1.4\" fill=\"var(--_text)\" />");
+
+		// Mouth: smile (5–4), flat (3), frown (2–1)
+		var mouthY = cy + 4;
+		if (score >= 4)
+		{
+			// smile arc
+			_ = sb.Append("\n<path d=\"M ").Append(F(cx - 5)).Append(' ').Append(F(mouthY))
+				.Append(" Q ").Append(F(cx)).Append(' ').Append(F(mouthY + 5))
+				.Append(' ').Append(F(cx + 5)).Append(' ').Append(F(mouthY))
+				.Append("\" fill=\"none\" stroke=\"var(--_text)\" stroke-width=\"1.4\" stroke-linecap=\"round\" />");
+		}
+		else if (score == 3)
+		{
+			_ = sb.Append("\n<line x1=\"").Append(F(cx - 4.5)).Append("\" y1=\"").Append(F(mouthY + 1))
+				.Append("\" x2=\"").Append(F(cx + 4.5)).Append("\" y2=\"").Append(F(mouthY + 1))
+				.Append("\" stroke=\"var(--_text)\" stroke-width=\"1.4\" stroke-linecap=\"round\" />");
+		}
+		else
+		{
+			// frown arc
+			_ = sb.Append("\n<path d=\"M ").Append(F(cx - 5)).Append(' ').Append(F(mouthY + 3))
+				.Append(" Q ").Append(F(cx)).Append(' ').Append(F(mouthY - 2))
+				.Append(' ').Append(F(cx + 5)).Append(' ').Append(F(mouthY + 3))
+				.Append("\" fill=\"none\" stroke=\"var(--_text)\" stroke-width=\"1.4\" stroke-linecap=\"round\" />");
+		}
+	}
+
+	private static Dictionary<string, string> BuildActorColors(JourneyDiagram diagram)
+	{
+		var map = new Dictionary<string, string>(StringComparer.Ordinal);
+		var i = 0;
+		foreach (var section in diagram.Sections)
+		{
+			foreach (var task in section.Tasks)
+			{
+				foreach (var actor in task.Actors)
+				{
+					if (map.ContainsKey(actor))
+						continue;
+					map[actor] = ActorPalette[i % ActorPalette.Length];
+					i++;
+				}
+			}
+		}
+		return map;
+	}
+
+	private static List<FlatTask> Flatten(JourneyDiagram diagram)
+	{
+		var list = new List<FlatTask>();
+		for (var s = 0; s < diagram.Sections.Count; s++)
+		{
+			var section = diagram.Sections[s];
+			for (var t = 0; t < section.Tasks.Count; t++)
+				list.Add(new FlatTask(section.Tasks[t], s, t == 0));
+		}
+		return list;
+	}
+
+	// Rough proportional width (Mermaider chart style — no full text metrics dependency)
+	private static double EstimateTextWidth(string text) =>
+		Math.Max(text.Length * 7.2, 24);
+
+	private readonly record struct FlatTask(JourneyTask Task, int SectionIndex, bool IsSectionStart);
+
+	private readonly record struct Column(FlatTask Item, double Cx, double BoxWidth, double BoxLeft);
 
 	private static string F(double value) =>
 		value.ToString("0.##", CultureInfo.InvariantCulture);
