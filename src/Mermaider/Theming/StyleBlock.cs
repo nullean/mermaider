@@ -114,6 +114,7 @@ internal static class StyleBlock
 		DiagramType.Journey => "user journey",
 		DiagramType.C4 => "C4 diagram",
 		DiagramType.Sankey => "sankey diagram",
+		DiagramType.XyChart => "XY chart",
 		_ => "diagram"
 	};
 

@@ -40,6 +40,7 @@ Public API stays `MermaidRenderer.RenderSvg` / `Parse` ΓÇö no new entry point
 9. README section + `AGENTS.md` type list  
 10. Parser + renderer tests  
 11. Optional screenshot under `docs/screenshots/{type}.svg` (CLI ΓåÆ file; opaque for GH if needed)
+11. Optional screenshot under `docs/screenshots/{type}.svg`
 
 ## Conventions (non-negotiable)
 
@@ -138,6 +139,23 @@ When ΓÇ£good enough Mermaider chartΓÇ¥ is fine: arithmetic layout + theme 
 Run: `dotnet run --project tests/Mermaider.Tests/Mermaider.Tests.csproj -c Release`  
 TreatWarningsAsErrors: fix IDE00xx before ship.
 
+- Box text center: `y = mid` + `dy="{RenderConstants.TextBaselineShift}"` (`0.35em`)  
+- Chart accents may use fixed palette (pie/timeline/C4/sankey/xy)  
+- Escape via `MultilineUtils.AppendEscapedXml` / `AppendEscapedAttr`  
+- No wall-clock in parse/layout  
+- TreatWarningsAsErrors: fix **IDE00xx** / CA rules before ship  
+
+## Parse patterns
+
+| Do | Don't |
+|----|--------|
+| Keyword gate in detector; full header in parser | Duplicate full header regex in both |
+| Quote-aware splits for CSV / call-style DSLs | Naive `Split(',')` |
+| Reject NaN / Infinity numeric values | `value <= 0` alone (NaN slips through) |
+| Compact header titles when applicable | Assume title only on following lines |
+
+Header title: support both `type\ntitle X` and compact `type title X`.
+
 ## Worktree / PR
 
 ```text
@@ -151,6 +169,8 @@ gh pr create --repo nullean/mermaider --head tig:feat/{type} --base main --draft
 
 Issue first when tracking: `gh issue create --repo nullean/mermaider`.  
 Title: `Fixes #N - Add {Type} support`. Body terse + example + test plan.
+Issue first: `gh issue create --repo nullean/mermaider`.  
+Title: `Fixes #N - Add {Type} support`.
 
 ## Remaining types (priority)
 
@@ -208,6 +228,23 @@ journey
   Make tea: 5: Me
   Do work: 1: Me, Cat
 ```
+| Done / in flight | C4 | `C4Context`… | nested boundaries; fixed palette |
+| Done / in flight | Sankey | `sankey` / `sankey-beta` | CSV links; flow widths |
+| Done / in flight | XY chart | `xychart` / `xychart-beta` | bar/line |
+| Medium | Requirement | `requirementDiagram` | |
+| Lower | Kanban, block, packet, architecture | `*-beta` | newer / niche |
+
+## Anti-patterns
+
+- Special-casing GH `<img>` fills in the **library** renderer  
+- Parallel “support matrix” string lists in tests (drift)  
+- Silent `DateTime.Today`  
+- New public APIs per diagram type  
+- Claiming pixel-perfect mermaid without reading upstream source  
+- Putting `accTitle` **before** the type header in tests  
+- PowerShell `Set-Content` rewrites of C# (corrupts tabs) — use write/strreplace tools  
+
+## Smoke snippets
 
 ```text
 C4Context
@@ -218,6 +255,22 @@ C4Context
 ```
 
 ## Learnings log (append after each type)
+```text
+sankey-beta
+Electricity grid,Industry,342.165
+Electricity grid,Losses,56.691
+```
+
+```text
+xychart-beta
+  title "Sales"
+  x-axis [jan, feb, mar]
+  y-axis "Rev" 0 --> 100
+  bar [10, 20, 30]
+  line [12, 18, 28]
+```
+
+## Learnings log
 
 ### C4 (2026-07)
 
@@ -249,6 +302,32 @@ C4Context
 - Links as cubic ribbons (`fill-opacity`, source color); labels `var(--_text)` + `TextBaselineShift`.
 - Node palette fixed (pie-style); no frontmatter config in v1.
 - Do not leave unused `[GeneratedRegex]` helpers (IDE / dead code).
+- Nested braces → stack of boundary frames; mark deployment nodes (`IsDeploymentNode`) for solid chrome + relation anchors.
+- Separate `placements` (drawn leaves) vs `relationAnchors` (leaves + nested deployment boxes).
+- Layout must walk **source order** (do not partition leaves-then-boundaries).
+- Header kind detection: capture group / `StartsWith`, not `Contains`.
+- Self-relations need an explicit loop path.
+- Primary-constructor private classes: **camelCase** parameter names (IDE1006).
+- Add Verify snapshot early.
+
+### Sankey (2026-07)
+
+- Detector: `sankey` and `sankey-beta`.
+- CSV 3 columns; quote-aware field split; skip non-positive / NaN / Infinity.
+- Topo longest-path + capped edge relaxation for residual SCCs; compress vertical stack if overflow.
+- Skip self-loop ribbons; cubic ribbons with source color + fill-opacity.
+- No unused `[GeneratedRegex]` helpers.
+
+### XY chart (2026-07)
+
+- Detector: `xychart` and `xychart-beta`; optional `horizontal` / compact `title` on header.
+- Axes: categorical `[a, b]` or numeric `min --> max` with optional quoted title; reject NaN/Infinity on **all** range paths.
+- Series: `bar` / `line` with optional series name (legend); ignore per-point text labels (leading number only).
+- Bad series tokens become **0** (keep category index alignment — do not drop).
+- Render: themed axes/ticks; fixed plot palette; draw bars under lines but **color by declaration index** (legend must match).
+- Auto Y for bars: include 0 from both sides (`min>0` → 0, `max<0` → 0).
+- Horizontal flag stored; v1 vertical geometry only (numeric `XMin`/`XMax` parsed, plotting still categorical slots).
+- Watch IDE: shadowing locals (`top`), CA2249 `Contains`, IDE0047 parens.
 
 ## Ref
 

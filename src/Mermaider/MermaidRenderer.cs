@@ -217,6 +217,8 @@ public static class MermaidRenderer
 				C4Parser.Parse(filteredLines),
 			DiagramType.Sankey => SankeySvgRenderer.RenderToBuilder(
 				SankeyParser.Parse(filteredLines),
+			DiagramType.XyChart => XyChartSvgRenderer.RenderToBuilder(
+				XyChartParser.Parse(filteredLines),
 				colors, font, transparent, strict, accessibility, diagramType),
 
 			_ => SvgRenderer.RenderToBuilder(

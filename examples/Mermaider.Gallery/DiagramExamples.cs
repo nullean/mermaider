@@ -4,6 +4,7 @@ public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadra
 public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Journey, RealWorld }
 public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, C4, RealWorld }
 public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Sankey, RealWorld }
+public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, XyChart, RealWorld }
 
 public sealed record DiagramExample(string Slug, string Title, DiagramCategory Category, string Source, string? Feature = null);
 
@@ -967,6 +968,25 @@ public static class DiagramExamples
 			Signups,Trials,400
 			Trials,Paid,120
 			Trials,Churned,280
+		// ── XY Chart ───────────────────────────────────────────────────
+
+		new("xychart-sales", "Sales Revenue", DiagramCategory.XyChart, """
+			xychart-beta
+			title "Sales Revenue"
+			x-axis [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]
+			y-axis "Revenue (in $)" 4000 --> 11000
+			bar [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
+			line [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
+			"""),
+
+		new("xychart-latency", "Latency Lines", DiagramCategory.XyChart, """
+			xychart-beta
+			title "An Example Chart"
+			x-axis ["90d", "60d", "30d", "7d", "1d", "Current"]
+			y-axis "Seconds" 0 --> 200
+			line "avg" [48.1, 41.5, 45.7, 72.8, 67.7, 59.9]
+			line "p50" [38.2, 36.8, 39.7, 54.5, 49.0, 38.4]
+			line "p95" [112.2, 75.3, 103.0, 177.0, 180.2, 109.4]
 			"""),
 
 		// ── Real World (RFC diagrams) ─────────────────────────────────
@@ -1135,6 +1155,7 @@ public static class DiagramExamples
 		DiagramCategory.Journey => "User Journey",
 		DiagramCategory.C4 => "C4",
 		DiagramCategory.Sankey => "Sankey",
+		DiagramCategory.XyChart => "XY Chart",
 		DiagramCategory.RealWorld => "Real World",
 		_ => c.ToString(),
 	};
@@ -1158,6 +1179,7 @@ public static class DiagramExamples
 		DiagramCategory.Journey => "journey",
 		DiagramCategory.C4 => "c4",
 		DiagramCategory.Sankey => "sankey",
+		DiagramCategory.XyChart => "xychart",
 		DiagramCategory.RealWorld => "real-world",
 		_ => c.ToString().ToLowerInvariant(),
 	};

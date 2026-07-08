@@ -56,6 +56,8 @@ internal static partial class DiagramDetector
 	private static partial Regex C4Header();
 	[GeneratedRegex(@"^sankey(?:-beta)?\b", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex SankeyHeader();
+	[GeneratedRegex(@"^xychart(?:-beta)?\b", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex XyChartHeader();
 
 	internal static DiagramType Detect(ReadOnlySpan<char> text)
 	{
@@ -97,6 +99,8 @@ internal static partial class DiagramDetector
 			return DiagramType.C4;
 		if (SankeyHeader().IsMatch(firstLineStr))
 			return DiagramType.Sankey;
+		if (XyChartHeader().IsMatch(firstLineStr))
+			return DiagramType.XyChart;
 
 		return DiagramType.Flowchart;
 	}

@@ -20,4 +20,5 @@ public enum DiagramType
 	Journey,
 	C4,
 	Sankey,
+	XyChart,
 }
