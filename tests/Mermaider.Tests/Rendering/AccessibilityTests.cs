@@ -323,6 +323,25 @@ public class AccessibilityTests
 		svg.Should().Contain("<desc>Brainstorm map</desc>");
 	}
 
+	[Test]
+	public void Kanban_accTitle_and_accDescr()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			kanban
+			accTitle: Sprint Board
+			accDescr: Team task board
+			  Todo
+			    Task1
+			  Done
+			    Task2
+			""");
+
+		svg.Should().Contain("role=\"img\"");
+		svg.Should().Contain("aria-roledescription=\"kanban board\"");
+		svg.Should().Contain("<title>Sprint Board</title>");
+		svg.Should().Contain("<desc>Team task board</desc>");
+	}
+
 	// ========================================================================
 	// Accessibility directives do not interfere with diagram parsing
 	// ========================================================================
