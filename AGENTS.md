@@ -30,6 +30,8 @@ Three-stage pipeline: **Parse** → **Layout** → **Render**
 
 Supported diagram types: flowchart, state, sequence, class, ER, pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, journey.
 
+Adding a type: see `docs/agent-add-diagram-type.md` (playbook for parallel agents).
+
 ## Public API
 
 - Library: `MermaidRenderer.RenderSvg(text, options?)` and `MermaidRenderer.Parse(text)`
