@@ -39,7 +39,7 @@ internal static partial class QuadrantParser
 
 	private static QuadrantChart ParseCore(string[] lines)
 	{
-		string? title = null;
+		var (_, title) = DiagramHeaderOptions.Parse(lines[0], "quadrantChart");
 		string? xAxisLeft = null, xAxisRight = null;
 		string? yAxisBottom = null, yAxisTop = null;
 		string? q1 = null, q2 = null, q3 = null, q4 = null;

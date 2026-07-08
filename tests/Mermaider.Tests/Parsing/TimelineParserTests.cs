@@ -20,6 +20,40 @@ public class TimelineParserTests
 	}
 
 	[Test]
+	public void Parses_title_on_header_line()
+	{
+		var lines = new[]
+		{
+			"timeline title The long road (compact)",
+			"1998 : WinSpit ships",
+			"2026 : Mermaid too",
+		};
+
+		var diagram = TimelineParser.Parse(lines);
+
+		diagram.Title.Should().Be("The long road (compact)");
+		diagram.Sections.Should().HaveCount(1);
+		diagram.Sections[0].Periods.Should().HaveCount(2);
+		diagram.Sections[0].Periods[0].Label.Should().Be("1998");
+		diagram.Sections[0].Periods[1].Label.Should().Be("2026");
+	}
+
+	[Test]
+	public void Body_title_overrides_header_title()
+	{
+		var lines = new[]
+		{
+			"timeline title Header Title",
+			"title Body Title",
+			"2000 : Event",
+		};
+
+		var diagram = TimelineParser.Parse(lines);
+
+		diagram.Title.Should().Be("Body Title");
+	}
+
+	[Test]
 	public void Parses_periods_with_events()
 	{
 		var lines = new[]

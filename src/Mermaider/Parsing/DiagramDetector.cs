@@ -19,13 +19,14 @@ internal static partial class DiagramDetector
 	[GeneratedRegex(@"^stateDiagram(-v2)?\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex StateHeader();
 
-	[GeneratedRegex(@"^pie\s*(showData)?\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	// Keyword gate only — optional showData/title on the same line are owned by the parsers.
+	[GeneratedRegex(@"^pie(?:\s|$)", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex PieHeader();
 
-	[GeneratedRegex(@"^quadrantChart\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	[GeneratedRegex(@"^quadrantChart(?:\s|$)", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex QuadrantHeader();
 
-	[GeneratedRegex(@"^timeline\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	[GeneratedRegex(@"^timeline(?:\s|$)", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex TimelineHeader();
 
 	[GeneratedRegex(@"^gitGraph\s*(LR:|TB:|BT:)?\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
