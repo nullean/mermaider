@@ -7,9 +7,17 @@ namespace Mermaider.Parsing;
 internal static partial class GanttParser
 {
 	private const int TimeoutMs = 2000;
+	/// <summary>Guard against hostile durations that overflow TimeSpan/DateTime (~200 years).</summary>
+	private const double MaxDurationDays = 365.0 * 200;
+	/// <summary>Mermaid-style cap when walking excluded days.</summary>
+	private const int MaxExcludeIterations = 10_000;
 
 	/// <summary>Stable synthetic origin when a chart has no absolute dates (never wall-clock).</summary>
 	private static readonly DateTime SyntheticOrigin = new(2020, 1, 1);
+
+	// Supported mermaid dateFormat tokens (dayjs-style) we map to .NET custom format:
+	// YYYY/YY, MM/M, DD/D, HH/H, mm, ss. Unsupported tokens (Do, DDD, Q, X, …) are left as-is
+	// and typically fail TryParseExact → treated as non-dates.
 
 	[GeneratedRegex(@"^gantt(?:\s+title\s+(.+))?\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex HeaderPattern();
@@ -26,11 +34,18 @@ internal static partial class GanttParser
 	[GeneratedRegex(@"^(.+?)\s*:\s*(.*)$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex TaskPattern();
 
-	[GeneratedRegex(@"^\d+(?:\.\d+)?[smhdw]$", RegexOptions.IgnoreCase, TimeoutMs)]
+	/// <summary>
+	/// Mermaid duration units are case-sensitive: m=minutes, M=months, y=years, ms=milliseconds.
+	/// Do not use IgnoreCase — that would map <c>1M</c> to minutes.
+	/// </summary>
+	[GeneratedRegex(@"^\d+(?:\.\d+)?(?:ms|[smhdwyM])$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex DurationPattern();
 
 	[GeneratedRegex(@"^after\s+(.+)$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex AfterPattern();
+
+	[GeneratedRegex(@"^excludes\s+(.+)$", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex ExcludesPattern();
 
 	internal static GanttDiagram Parse(string[] lines)
 	{
@@ -43,6 +58,18 @@ internal static partial class GanttParser
 			throw new MermaidParseException(
 				$"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.",
 				ex);
+		}
+		catch (OverflowException ex)
+		{
+			throw new MermaidParseException("Gantt duration or date arithmetic overflowed.", ex);
+		}
+		catch (ArgumentOutOfRangeException ex)
+		{
+			throw new MermaidParseException("Gantt duration or date is out of range.", ex);
+		}
+		catch (FormatException ex)
+		{
+			throw new MermaidParseException($"Invalid gantt dateFormat or date value: {ex.Message}", ex);
 		}
 	}
 
@@ -59,6 +86,7 @@ internal static partial class GanttParser
 		var byId = new Dictionary<string, GanttTask>(StringComparer.OrdinalIgnoreCase);
 		DateTime? previousEnd = null;
 		DateTime? chartOrigin = null;
+		var excludeWeekends = false;
 
 		var headerMatch = HeaderPattern().Match(lines[0]);
 		if (headerMatch.Success && headerMatch.Groups[1].Success)
@@ -70,6 +98,20 @@ internal static partial class GanttParser
 
 			if (IsDeferredDirective(line))
 				continue;
+
+			var excludesMatch = ExcludesPattern().Match(line);
+			if (excludesMatch.Success)
+			{
+				// v1: implement "weekends" (Sat/Sun). Other exclude tokens are accepted but ignored.
+				var tokens = excludesMatch.Groups[1].Value
+					.Split([',', ' '], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+				foreach (var t in tokens)
+				{
+					if (t.Equals("weekends", StringComparison.OrdinalIgnoreCase))
+						excludeWeekends = true;
+				}
+				continue;
+			}
 
 			var titleMatch = TitlePattern().Match(line);
 			if (titleMatch.Success)
@@ -83,6 +125,8 @@ internal static partial class GanttParser
 			{
 				dateFormat = dfMatch.Groups[1].Value.Trim();
 				netDateFormat = ToNetDateFormat(dateFormat);
+				// Fail early on format strings that .NET rejects (wrap as MermaidParseException via Parse).
+				ValidateNetDateFormat(netDateFormat);
 				continue;
 			}
 
@@ -102,7 +146,7 @@ internal static partial class GanttParser
 			var name = taskMatch.Groups[1].Value.Trim();
 			var meta = taskMatch.Groups[2].Value.Trim();
 			var raw = ParseRawTask(name, meta, netDateFormat);
-			var task = ResolveTask(raw, byId, previousEnd, ref chartOrigin);
+			var task = ResolveTask(raw, byId, previousEnd, ref chartOrigin, excludeWeekends);
 
 			currentTasks.Add(task);
 			if (task.Id is { Length: > 0 })
@@ -123,12 +167,16 @@ internal static partial class GanttParser
 		};
 	}
 
+	/// <summary>
+	/// Directives deferred for a later version (axis/tick/today marker).
+	/// <c>excludes</c> is handled separately (weekends MVP).
+	/// </summary>
 	private static bool IsDeferredDirective(string line) =>
-		line.StartsWith("excludes", StringComparison.OrdinalIgnoreCase) ||
 		line.StartsWith("axisFormat", StringComparison.OrdinalIgnoreCase) ||
 		line.StartsWith("tickInterval", StringComparison.OrdinalIgnoreCase) ||
 		line.StartsWith("todayMarker", StringComparison.OrdinalIgnoreCase) ||
-		line.StartsWith("weekday", StringComparison.OrdinalIgnoreCase);
+		line.StartsWith("weekday", StringComparison.OrdinalIgnoreCase) ||
+		line.StartsWith("weekend", StringComparison.OrdinalIgnoreCase);
 
 	private static void FlushSection(List<GanttSection> sections, string? name, List<GanttTask> tasks)
 	{
@@ -139,6 +187,81 @@ internal static partial class GanttParser
 		sections.Add(new GanttSection(name, tasks));
 	}
 
+	/// <summary>
+	/// Parsed duration with case-sensitive unit. Months/years use calendar arithmetic at apply time.
+	/// </summary>
+	private readonly record struct ParsedDuration(double Number, string Unit)
+	{
+		public static ParsedDuration Days(double n) => new(n, "d");
+		public static ParsedDuration Zero => new(0, "d");
+
+		public DateTime AddTo(DateTime start)
+		{
+			// Bound extreme magnitudes before arithmetic.
+			if (double.IsNaN(Number) || double.IsInfinity(Number) || Number < 0)
+				throw new MermaidParseException($"Invalid gantt duration value: {Number}{Unit}");
+
+			try
+			{
+				return Unit switch
+				{
+					"ms" => start.AddMilliseconds(Number),
+					"s" => start.AddSeconds(Number),
+					"m" => start.AddMinutes(Number),
+					"h" => start.AddHours(Number),
+					"d" => start.AddDays(Number),
+					"w" => start.AddDays(Number * 7),
+					"M" => AddCalendarMonths(start, Number),
+					"y" => AddCalendarYears(start, Number),
+					_ => start.AddDays(Number),
+				};
+			}
+			catch (ArgumentOutOfRangeException ex)
+			{
+				throw new MermaidParseException($"Gantt duration {Number}{Unit} is out of range.", ex);
+			}
+			catch (OverflowException ex)
+			{
+				throw new MermaidParseException($"Gantt duration {Number}{Unit} overflowed.", ex);
+			}
+		}
+
+		/// <summary>Approximate span for overflow pre-checks (months ≈ 30d, years ≈ 365d).</summary>
+		public double ApproximateDays =>
+			Unit switch
+			{
+				"ms" => Number / 86_400_000d,
+				"s" => Number / 86_400d,
+				"m" => Number / 1_440d,
+				"h" => Number / 24d,
+				"d" => Number,
+				"w" => Number * 7,
+				"M" => Number * 30,
+				"y" => Number * 365,
+				_ => Number,
+			};
+	}
+
+	private static DateTime AddCalendarMonths(DateTime start, double number)
+	{
+		var whole = (int)Math.Truncate(number);
+		var frac = number - whole;
+		var result = start.AddMonths(whole);
+		if (frac != 0)
+			result = result.AddDays(frac * 30);
+		return result;
+	}
+
+	private static DateTime AddCalendarYears(DateTime start, double number)
+	{
+		var whole = (int)Math.Truncate(number);
+		var frac = number - whole;
+		var result = start.AddYears(whole);
+		if (frac != 0)
+			result = result.AddDays(frac * 365);
+		return result;
+	}
+
 	private sealed class RawTask
 	{
 		public required string Name { get; init; }
@@ -147,12 +270,19 @@ internal static partial class GanttParser
 		public DateTime? StartDate { get; init; }
 		public string[]? AfterIds { get; init; }
 		public DateTime? EndDate { get; init; }
-		public TimeSpan? Duration { get; init; }
+		public ParsedDuration? Duration { get; init; }
+		/// <summary>True when end was an explicit calendar date (excludes do not extend end).</summary>
+		public bool ManualEndTime { get; init; }
 	}
 
 	/// <summary>
-	/// Left-to-right token consumer: tags*, [id], [start|after], [end|duration].
-	/// A token is a date only when it parses under the active dateFormat.
+	/// Mermaid metadata after tags (see ganttDb compileData):
+	/// 1 token → end (date or duration), start = previous end;
+	/// 2 tokens → start + end (no id);
+	/// 3 tokens → id + start + end.
+	/// Dialect extension: a leading non-date/non-duration/non-after token may be consumed as id
+	/// even when fewer than three slots remain (common charts use <c>id, end</c>).
+	/// When only one slot remains after optional id, a date is always END (never start).
 	/// </summary>
 	private static RawTask ParseRawTask(string name, string meta, string netDateFormat)
 	{
@@ -161,14 +291,15 @@ internal static partial class GanttParser
 		DateTime? startDate = null;
 		string[]? afterIds = null;
 		DateTime? endDate = null;
-		TimeSpan? duration = null;
+		ParsedDuration? duration = null;
+		var manualEndTime = false;
 
 		if (meta.Length == 0)
 		{
 			return new RawTask
 			{
 				Name = name,
-				Duration = TimeSpan.FromDays(1),
+				Duration = ParsedDuration.Days(1),
 			};
 		}
 
@@ -182,6 +313,7 @@ internal static partial class GanttParser
 		}
 
 		// Optional id: first remaining token that is not after / duration / date
+		// (greedy id — locked dialect for charts like "a1, 2026-07-07, 1d" and "id, endDate").
 		if (i < tokens.Count &&
 			!IsAfter(tokens[i]) &&
 			!IsDuration(tokens[i]) &&
@@ -191,36 +323,70 @@ internal static partial class GanttParser
 			i++;
 		}
 
-		// Optional start: after … | date
-		if (i < tokens.Count)
+		var remaining = tokens.Count - i;
+
+		if (remaining == 1)
 		{
-			if (IsAfter(tokens[i]))
+			// Single slot: end date | duration | (after alone → start, default end)
+			var t = tokens[i];
+			if (IsAfter(t))
 			{
-				afterIds = ParseAfterIds(tokens[i]);
+				afterIds = ParseAfterIds(t);
+			}
+			else if (IsDuration(t))
+			{
+				duration = ParseDuration(t);
+			}
+			else if (ParseDate(t, netDateFormat) is { } ed)
+			{
+				endDate = ed;
+				manualEndTime = true;
+			}
+		}
+		else if (remaining >= 2)
+		{
+			// Start: after … | date  (unknown tokens left for end path / ignored)
+			var t0 = tokens[i];
+			if (IsAfter(t0))
+			{
+				afterIds = ParseAfterIds(t0);
 				i++;
 			}
-			else if (ParseDate(tokens[i], netDateFormat) is { } sd)
+			else if (ParseDate(t0, netDateFormat) is { } sd)
 			{
 				startDate = sd;
 				i++;
 			}
-		}
+			else if (!IsDuration(t0))
+			{
+				// Not a recognizable start — skip so a following duration can still bind as end
+				// only if something else provides start via previous/after. Avoid swallowing duration.
+				// If it's an id-like leftover after we already took id, ignore.
+				i++;
+			}
 
-		// Optional end: duration | date
-		if (i < tokens.Count)
-		{
-			if (IsDuration(tokens[i]))
-				duration = ParseDuration(tokens[i]);
-			else if (ParseDate(tokens[i], netDateFormat) is { } ed)
-				endDate = ed;
+			// End: duration | date
+			if (i < tokens.Count)
+			{
+				var t1 = tokens[i];
+				if (IsDuration(t1))
+				{
+					duration = ParseDuration(t1);
+				}
+				else if (ParseDate(t1, netDateFormat) is { } ed)
+				{
+					endDate = ed;
+					manualEndTime = true;
+				}
+			}
 		}
 
 		// Defaults when end is unspecified
 		if (duration is null && endDate is null)
 		{
 			duration = (tags & GanttTaskTags.Milestone) != 0
-				? TimeSpan.Zero
-				: TimeSpan.FromDays(1);
+				? ParsedDuration.Zero
+				: ParsedDuration.Days(1);
 		}
 
 		return new RawTask
@@ -232,6 +398,7 @@ internal static partial class GanttParser
 			AfterIds = afterIds,
 			EndDate = endDate,
 			Duration = duration,
+			ManualEndTime = manualEndTime,
 		};
 	}
 
@@ -239,15 +406,22 @@ internal static partial class GanttParser
 		RawTask raw,
 		Dictionary<string, GanttTask> byId,
 		DateTime? previousEnd,
-		ref DateTime? chartOrigin)
+		ref DateTime? chartOrigin,
+		bool excludeWeekends)
 	{
 		if (raw.StartDate is { } absStart)
 			chartOrigin ??= absStart;
+		if (raw.EndDate is { } absEnd)
+			chartOrigin ??= absEnd;
 
 		var origin = chartOrigin ?? SyntheticOrigin;
 
 		var start = ResolveStart(raw, byId, previousEnd, origin);
 		var end = ResolveEnd(raw, start);
+
+		if (excludeWeekends && !raw.ManualEndTime && end > start)
+			end = ApplyWeekendExcludes(start, end);
+
 		if (end < start)
 			end = start;
 
@@ -284,13 +458,41 @@ internal static partial class GanttParser
 	private static DateTime ResolveEnd(RawTask raw, DateTime start)
 	{
 		if (raw.Duration is { } dur)
-			return start + dur;
+			return dur.AddTo(start);
 		if (raw.EndDate is { } ed)
 			return ed;
 		if ((raw.Tags & GanttTaskTags.Milestone) != 0)
 			return start;
 		return start.AddDays(1);
 	}
+
+	/// <summary>
+	/// Mermaid fixTaskDates for weekends: for each day in (start, end], if weekend, push end +1 day.
+	/// </summary>
+	private static DateTime ApplyWeekendExcludes(DateTime start, DateTime end)
+	{
+		var cursor = start.Date.AddDays(1);
+		var endCursor = end;
+		var iterations = 0;
+		while (cursor <= endCursor)
+		{
+			if (iterations++ > MaxExcludeIterations)
+				throw new MermaidParseException(
+					"Failed to resolve gantt task end after excludes weekends (iteration cap).");
+
+			if (IsWeekend(cursor))
+				endCursor = endCursor.AddDays(1);
+
+			cursor = cursor.AddDays(1);
+		}
+		// Preserve time-of-day from original end when both are date-aligned; otherwise keep computed end.
+		if (end.TimeOfDay != TimeSpan.Zero && endCursor.TimeOfDay == TimeSpan.Zero)
+			endCursor = endCursor.Date + end.TimeOfDay;
+		return endCursor;
+	}
+
+	private static bool IsWeekend(DateTime d) =>
+		d.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;
 
 	private static List<string> SplitMeta(string meta)
 	{
@@ -346,45 +548,95 @@ internal static partial class GanttParser
 
 	private static bool IsDuration(string token) => DurationPattern().IsMatch(token);
 
-	private static TimeSpan ParseDuration(string token)
+	private static ParsedDuration ParseDuration(string token)
 	{
-		var unit = char.ToLowerInvariant(token[^1]);
-		var number = double.Parse(token.AsSpan(0, token.Length - 1), CultureInfo.InvariantCulture);
-		return unit switch
+		string unit;
+		int numberLen;
+		if (token.EndsWith("ms", StringComparison.Ordinal))
 		{
-			's' => TimeSpan.FromSeconds(number),
-			'm' => TimeSpan.FromMinutes(number),
-			'h' => TimeSpan.FromHours(number),
-			'd' => TimeSpan.FromDays(number),
-			'w' => TimeSpan.FromDays(number * 7),
-			_ => TimeSpan.FromDays(number),
-		};
+			unit = "ms";
+			numberLen = token.Length - 2;
+		}
+		else
+		{
+			// Preserve original case: 'M' months vs 'm' minutes.
+			unit = token[^1].ToString();
+			numberLen = token.Length - 1;
+		}
+
+		if (!double.TryParse(token.AsSpan(0, numberLen), NumberStyles.Float, CultureInfo.InvariantCulture, out var number))
+			throw new MermaidParseException($"Invalid gantt duration: {token}");
+
+		var dur = new ParsedDuration(number, unit);
+		if (dur.ApproximateDays > MaxDurationDays)
+			throw new MermaidParseException($"Gantt duration too large: {token}");
+
+		return dur;
 	}
 
-	private static string ToNetDateFormat(string mermaid) =>
-		mermaid
-			.Replace("YYYY", "yyyy", StringComparison.Ordinal)
-			.Replace("YY", "yy", StringComparison.Ordinal)
-			.Replace("DD", "dd", StringComparison.Ordinal)
-			.Replace("D", "d", StringComparison.Ordinal);
+	/// <summary>
+	/// Map common dayjs/Mermaid tokens to .NET custom date format.
+	/// Order matters: longer tokens first (YYYY before YY, DD before D, HH before H, mm before m).
+	/// Known support: YYYY-MM-DD, YY-MM-DD, DD-MM-YYYY, YYYY/MM/DD, and datetime with HH:mm:ss.
+	/// </summary>
+	private static string ToNetDateFormat(string mermaid)
+	{
+		// Use placeholders so shorter replacements cannot corrupt longer ones.
+		const string y4 = "\u0001";
+		const string y2 = "\u0002";
+		const string d2 = "\u0003";
+		const string d1 = "\u0004";
+		const string h2 = "\u0005";
+		const string h1 = "\u0006";
+		const string min2 = "\u0007";
+		const string sec2 = "\u0008";
+
+		var s = mermaid
+			.Replace("YYYY", y4, StringComparison.Ordinal)
+			.Replace("YY", y2, StringComparison.Ordinal)
+			.Replace("DD", d2, StringComparison.Ordinal)
+			.Replace("D", d1, StringComparison.Ordinal)
+			.Replace("HH", h2, StringComparison.Ordinal)
+			.Replace("H", h1, StringComparison.Ordinal)
+			.Replace("mm", min2, StringComparison.Ordinal)
+			.Replace("ss", sec2, StringComparison.Ordinal);
+
+		// Month tokens MM/M are already .NET-compatible (case-sensitive).
+		return s
+			.Replace(y4, "yyyy", StringComparison.Ordinal)
+			.Replace(y2, "yy", StringComparison.Ordinal)
+			.Replace(d2, "dd", StringComparison.Ordinal)
+			.Replace(d1, "d", StringComparison.Ordinal)
+			.Replace(h2, "HH", StringComparison.Ordinal)
+			.Replace(h1, "H", StringComparison.Ordinal)
+			.Replace(min2, "mm", StringComparison.Ordinal)
+			.Replace(sec2, "ss", StringComparison.Ordinal);
+	}
+
+	private static void ValidateNetDateFormat(string netFormat)
+	{
+		// Probe with a fixed instant — invalid custom format strings throw FormatException.
+		_ = new DateTime(2020, 1, 2, 3, 4, 5).ToString(netFormat, CultureInfo.InvariantCulture);
+	}
 
 	private static DateTime? ParseDate(string text, string netFormat)
 	{
 		// Unspecified kind throughout — never wall-clock, never forced UTC.
-		if (DateTime.TryParseExact(
-				text, netFormat, CultureInfo.InvariantCulture,
-				DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.NoCurrentDateDefault,
-				out var dt))
+		// Strict parse under active dateFormat only (no culture-loose TryParse fallback —
+		// that mis-tokenized ids/metadata under non-ISO formats).
+		try
 		{
-			return DateTime.SpecifyKind(dt, DateTimeKind.Unspecified);
+			if (DateTime.TryParseExact(
+					text, netFormat, CultureInfo.InvariantCulture,
+					DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.NoCurrentDateDefault,
+					out var dt))
+			{
+				return DateTime.SpecifyKind(dt, DateTimeKind.Unspecified);
+			}
 		}
-
-		if (DateTime.TryParse(
-				text, CultureInfo.InvariantCulture,
-				DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.NoCurrentDateDefault,
-				out dt))
+		catch (FormatException ex)
 		{
-			return DateTime.SpecifyKind(dt, DateTimeKind.Unspecified);
+			throw new MermaidParseException($"Invalid gantt dateFormat '{netFormat}'.", ex);
 		}
 
 		return null;
