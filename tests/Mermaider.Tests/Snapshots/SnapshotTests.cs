@@ -279,4 +279,16 @@ public class SnapshotTests
 			      Unit Tests
 			      Integration
 			"""), "svg");
+
+	[Test]
+	public Task Sankey_basic() =>
+		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			sankey-beta
+			Electricity grid,Over generation / exports,104.453
+			Electricity grid,Heating and cooling - homes,113.726
+			Electricity grid,Industry,342.165
+			Bio-conversion,Losses,26.862
+			Bio-conversion,Solid,280.322
+			Bio-conversion,Gas,81.144
+			"""), "svg");
 }

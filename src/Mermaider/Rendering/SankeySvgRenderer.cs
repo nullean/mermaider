@@ -179,7 +179,20 @@ internal static class SankeySvgRenderer
 			}
 		}
 
-		var layerCount = nodes.Values.Max(n => n.Layer) + 1;
+		// Compact ranks to dense 0..k-1 so empty/inflated layers don't waste columns
+		// or cram nodes to the right after cycle handling.
+		var distinctLayers = nodes.Values
+			.Select(n => n.Layer)
+			.Distinct()
+			.OrderBy(l => l)
+			.ToArray();
+		var layerRemap = new Dictionary<int, int>(distinctLayers.Length);
+		for (var i = 0; i < distinctLayers.Length; i++)
+			layerRemap[distinctLayers[i]] = i;
+		foreach (var n in nodes.Values)
+			n.Layer = layerRemap[n.Layer];
+
+		var layerCount = distinctLayers.Length;
 		if (layerCount < 1)
 			layerCount = 1;
 
@@ -242,7 +255,8 @@ internal static class SankeySvgRenderer
 			}
 		}
 
-		// Link vertical slots (source out, target in). Skip self-loops (degenerate ribbons).
+		// Link vertical slots (source out, target in).
+		// Skip self-loops and feedback/same-layer edges (would draw leftward or zero-span ribbons).
 		var linkLayouts = new List<LinkLayout>(edges.Count);
 		foreach (var (s, t, v) in edges.OrderBy(e => nodes[e.Source].Layer).ThenBy(e => e.Source).ThenBy(e => e.Target))
 		{
@@ -251,6 +265,9 @@ internal static class SankeySvgRenderer
 
 			var src = nodes[s];
 			var tgt = nodes[t];
+			if (tgt.Layer <= src.Layer)
+				continue;
+
 			var srcSpan = src.Y1 - src.Y0;
 			var tgtSpan = tgt.Y1 - tgt.Y0;
 			var srcTotal = Math.Max(outSum.GetValueOrDefault(s), 1e-9);
