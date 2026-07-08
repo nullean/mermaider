@@ -137,8 +137,27 @@ public class BlockParserTests
 		]);
 
 		diagram.Nodes.Should().HaveCount(3);
-		diagram.Nodes[1].Id.Should().StartWith("__space_");
+		diagram.Nodes[1].IsSpace.Should().BeTrue();
 		diagram.Nodes[1].Label.Should().BeEmpty();
+		diagram.Nodes[0].IsSpace.Should().BeFalse();
+		diagram.Nodes[2].IsSpace.Should().BeFalse();
+	}
+
+	[Test]
+	public void Literal_space_prefixed_ids_are_not_spacers()
+	{
+		var diagram = BlockParser.Parse(
+		[
+			"block-beta",
+			"columns 2",
+			"__space_0[\"Slot\"] space",
+		]);
+
+		diagram.Nodes.Should().HaveCount(2);
+		diagram.Nodes[0].Id.Should().Be("__space_0");
+		diagram.Nodes[0].Label.Should().Be("Slot");
+		diagram.Nodes[0].IsSpace.Should().BeFalse();
+		diagram.Nodes[1].IsSpace.Should().BeTrue();
 	}
 
 	[Test]

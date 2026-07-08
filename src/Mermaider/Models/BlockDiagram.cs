@@ -9,6 +9,6 @@ public sealed record BlockDiagram
 	public IReadOnlyList<BlockEdge> Edges { get; init; } = [];
 }
 
-public sealed record BlockNode(string Id, string Label, bool Rounded = false);
+public sealed record BlockNode(string Id, string Label, bool Rounded = false, bool IsSpace = false);
 
 public sealed record BlockEdge(string From, string To);

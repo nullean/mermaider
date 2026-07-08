@@ -120,4 +120,33 @@ public class BlockRendererTests
 		svg.Should().Contain("Only");
 		svg.Should().Contain("<rect ");
 	}
+
+	[Test]
+	public void Space_keyword_leaves_gap_without_drawing_rect()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			block-beta
+			columns 3
+			  A["A"] space B["B"]
+			""");
+
+		// Two real nodes → two rects (plus Split's leading fragment)
+		svg.Split("<rect ", StringSplitOptions.None).Length.Should().Be(3);
+		svg.Should().Contain(">A</text>");
+		svg.Should().Contain(">B</text>");
+	}
+
+	[Test]
+	public void Literal_underscore_space_id_still_renders()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			block-beta
+			columns 2
+			  __space_0["Slot"] space
+			""");
+
+		// Real node with magic-looking id must still draw; space keyword must not
+		svg.Should().Contain(">Slot</text>");
+		svg.Split("<rect ", StringSplitOptions.None).Length.Should().Be(2);
+	}
 }

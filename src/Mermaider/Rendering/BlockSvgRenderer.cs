@@ -59,7 +59,7 @@ internal static class BlockSvgRenderer
 		var cellH = MinCellH;
 		foreach (var node in diagram.Nodes)
 		{
-			if (node.Id.StartsWith("__space_", StringComparison.Ordinal))
+			if (node.IsSpace)
 				continue;
 			var metrics = TextMetrics.MeasureMultiline(
 				node.Label.AsSpan(), FontSizePx, RenderConstants.FontWeights.NodeLabel);
@@ -103,7 +103,7 @@ internal static class BlockSvgRenderer
 			var cy = y + (cellH / 2);
 			positions[node.Id] = (cx, cy, x, y);
 
-			if (node.Id.StartsWith("__space_", StringComparison.Ordinal))
+			if (node.IsSpace)
 				continue;
 
 			var rx = node.Rounded ? RenderConstants.Radii.Rounded : RenderConstants.Radii.Rectangle;

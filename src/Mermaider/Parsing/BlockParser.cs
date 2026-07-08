@@ -99,8 +99,8 @@ internal static partial class BlockParser
 
 			if (id.Equals("space", StringComparison.OrdinalIgnoreCase))
 			{
-				// Spacer cell: empty slot in the grid
-				nodes.Add(new BlockNode($"__space_{nodes.Count}", "", Rounded: false));
+				// Spacer cell: empty slot in the grid (IsSpace flag, not a magic id prefix)
+				nodes.Add(new BlockNode("space", "", Rounded: false, IsSpace: true));
 				continue;
 			}
 
