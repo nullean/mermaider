@@ -43,6 +43,57 @@ public class PieParserTests
 	}
 
 	[Test]
+	public void Parses_title_on_header_line()
+	{
+		var lines = new[]
+		{
+			"pie title Pets adopted by volunteers",
+			"\"Dogs\" : 386",
+			"\"Cats\" : 85",
+		};
+
+		var chart = PieParser.Parse(lines);
+
+		chart.Title.Should().Be("Pets adopted by volunteers");
+		chart.ShowData.Should().BeFalse();
+		chart.Slices.Should().HaveCount(2);
+		chart.Slices[0].Label.Should().Be("Dogs");
+		chart.Slices[0].Value.Should().Be(386);
+	}
+
+	[Test]
+	public void Parses_showData_and_title_on_header_line()
+	{
+		var lines = new[]
+		{
+			"pie showData title Key elements",
+			"\"Calcium\" : 42.96",
+			"\"Potassium\" : 50.05",
+		};
+
+		var chart = PieParser.Parse(lines);
+
+		chart.ShowData.Should().BeTrue();
+		chart.Title.Should().Be("Key elements");
+		chart.Slices.Should().HaveCount(2);
+	}
+
+	[Test]
+	public void Body_title_overrides_header_title()
+	{
+		var lines = new[]
+		{
+			"pie title Header Title",
+			"title Body Title",
+			"\"A\" : 10",
+		};
+
+		var chart = PieParser.Parse(lines);
+
+		chart.Title.Should().Be("Body Title");
+	}
+
+	[Test]
 	public void Parses_showData_flag()
 	{
 		var lines = new[]

@@ -20,6 +20,40 @@ public class QuadrantParserTests
 	}
 
 	[Test]
+	public void Parses_title_on_header_line()
+	{
+		var lines = new[]
+		{
+			"quadrantChart title Features by effort (compact)",
+			"x-axis Low effort --> High effort",
+			"y-axis Low glory --> High glory",
+			"Mermaid: [0.8, 0.9]",
+		};
+
+		var chart = QuadrantParser.Parse(lines);
+
+		chart.Title.Should().Be("Features by effort (compact)");
+		chart.XAxisLeft.Should().Be("Low effort");
+		chart.XAxisRight.Should().Be("High effort");
+		chart.Points.Should().HaveCount(1);
+		chart.Points[0].Label.Should().Be("Mermaid");
+	}
+
+	[Test]
+	public void Body_title_overrides_header_title()
+	{
+		var lines = new[]
+		{
+			"quadrantChart title Header Title",
+			"title Body Title",
+		};
+
+		var chart = QuadrantParser.Parse(lines);
+
+		chart.Title.Should().Be("Body Title");
+	}
+
+	[Test]
 	public void Parses_x_axis_with_both_labels()
 	{
 		var lines = new[]
