@@ -381,5 +381,13 @@ public class SnapshotTests
 			}
 
 			test_entity - satisfies -> test_req
+	public Task Packet_udp_header() =>
+		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			packet-beta
+			title UDP Header
+			0-15: "Source Port"
+			16-31: "Destination Port"
+			32-47: "Length"
+			48-63: "Checksum"
 			"""), "svg");
 }

@@ -61,6 +61,8 @@ internal static partial class DiagramDetector
 	// Matches requirementDiagram and bare requirement (upstream detector).
 	[GeneratedRegex(@"^requirement(Diagram)?\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex RequirementHeader();
+	[GeneratedRegex(@"^packet(?:-beta)?\b", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex PacketHeader();
 
 	internal static DiagramType Detect(ReadOnlySpan<char> text)
 	{
@@ -106,6 +108,8 @@ internal static partial class DiagramDetector
 			return DiagramType.XyChart;
 		if (RequirementHeader().IsMatch(firstLineStr))
 			return DiagramType.Requirement;
+		if (PacketHeader().IsMatch(firstLineStr))
+			return DiagramType.Packet;
 
 		return DiagramType.Flowchart;
 	}

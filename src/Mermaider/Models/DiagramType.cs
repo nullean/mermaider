@@ -22,4 +22,5 @@ public enum DiagramType
 	Sankey,
 	XyChart,
 	Requirement,
+	Packet
 }

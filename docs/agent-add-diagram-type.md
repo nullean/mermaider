@@ -237,6 +237,8 @@ journey
 | Done / in flight | XY chart | `xychart` / `xychart-beta` | bar/line |
 | Done / in flight | Requirement | `requirementDiagram` / `requirement` | SysML boxes + relations |
 | Lower | Kanban, block, packet, architecture | `*-beta` | newer / niche |
+| Done / in flight | Packet | `packet` / `packet-beta` | bit fields; arithmetic rows |
+| Lower | Kanban, block, architecture | `*-beta` | newer / niche |
 
 ## Anti-patterns
 
@@ -358,6 +360,15 @@ test_entity - satisfies -> test_req
 - Requirements use accent fill/stroke; elements use node fill — distinguishes SysML stereotypes visually.
 - StyleBlock role: `"requirement diagram"`.
 - Screenshot: CLI `--output docs/screenshots/requirement.svg` for PR preview image.
+### Packet (2026-07)
+
+- Detector: `packet` and `packet-beta` (`^packet(?:-beta)?\b`).
+- Field forms: range `0-15: "L"`, single bit `106: "URG"`, bit-count `+16: "Source Port"` (starts after previous end).
+- Optional `title` on following line or compact `packet title X` on header.
+- Labels must be double-quoted (mermaid grammar).
+- Model is flat `Fields` list of `{Start, End, Label}`; renderer splits across 32-bit rows (mermaid parity).
+- Arithmetic in renderer: `bitsPerRow=32`, `bitWidth=32`, `rowHeight=32`; bit numbers above blocks; fixed light fills; theme `var(--_text)` / `var(--_line)` for text/stroke.
+- Zero `+count` skipped; invalid end &lt; start skipped (no throw for v1).
 
 ## Ref
 

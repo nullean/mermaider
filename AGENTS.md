@@ -36,6 +36,7 @@ Supported diagram types: flowchart, state, sequence, class, ER, pie, quadrant, t
 Supported diagram types: flowchart, state, sequence, class, ER, pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, sankey.
 Supported diagram types: flowchart, state, sequence, class, ER, pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, xychart.
 Supported diagram types: flowchart, state, sequence, class, ER, pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, requirement.
+Supported diagram types: flowchart, state, sequence, class, ER, pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, packet.
 
 ## Public API
 

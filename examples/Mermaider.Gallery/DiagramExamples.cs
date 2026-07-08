@@ -6,6 +6,7 @@ public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadra
 public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Sankey, RealWorld }
 public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, XyChart, RealWorld }
 public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Requirement, RealWorld }
+public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Packet, RealWorld }
 
 public sealed record DiagramExample(string Slug, string Title, DiagramCategory Category, string Source, string? Feature = null);
 
@@ -990,6 +991,25 @@ public static partial class DiagramExamples
 			line "p95" [112.2, 75.3, 103.0, 177.0, 180.2, 109.4]
 			"""),
 
+		// ── Packet ─────────────────────────────────────────────────────
+
+		new("packet-udp", "UDP Header", DiagramCategory.Packet, """
+			packet-beta
+			title UDP Header
+			0-15: "Source Port"
+			16-31: "Destination Port"
+			32-47: "Length"
+			48-63: "Checksum"
+			"""),
+
+		new("packet-tcp-flags", "Bit-count Form", DiagramCategory.Packet, """
+			packet
+			title TCP Segment (partial)
+			+16: "Source Port"
+			+16: "Dest Port"
+			+32: "Sequence Number"
+			+32: "Ack Number"
+			"""),
 		// ── Real World (RFC diagrams) ─────────────────────────────────
 
 		..CreateRequirementExamples(),
@@ -1020,6 +1040,7 @@ public static partial class DiagramExamples
 		DiagramCategory.Sankey => "Sankey",
 		DiagramCategory.XyChart => "XY Chart",
 		DiagramCategory.Requirement => "Requirement",
+		DiagramCategory.Packet => "Packet",
 		DiagramCategory.RealWorld => "Real World",
 		_ => c.ToString(),
 	};
@@ -1045,6 +1066,7 @@ public static partial class DiagramExamples
 		DiagramCategory.Sankey => "sankey",
 		DiagramCategory.XyChart => "xychart",
 		DiagramCategory.Requirement => "requirement",
+		DiagramCategory.Packet => "packet",
 		DiagramCategory.RealWorld => "real-world",
 		_ => c.ToString().ToLowerInvariant(),
 	};

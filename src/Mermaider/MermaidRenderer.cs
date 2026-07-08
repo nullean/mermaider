@@ -221,6 +221,8 @@ public static class MermaidRenderer
 				XyChartParser.Parse(filteredLines),
 			DiagramType.Requirement => RequirementSvgRenderer.RenderToBuilder(
 				RequirementParser.Parse(filteredLines),
+			DiagramType.Packet => PacketSvgRenderer.RenderToBuilder(
+				PacketParser.Parse(filteredLines),
 				colors, font, transparent, strict, accessibility, diagramType),
 
 			_ => SvgRenderer.RenderToBuilder(
