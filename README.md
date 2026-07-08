@@ -36,7 +36,7 @@ penalty, and trivial deployment&mdash;just a NuGet reference.
 ### Built-in layout engine
 
 Graph-based diagrams (flowchart, state, class, ER) need a layout algorithm to position nodes and route
-edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap) use
+edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, C4) use
 purpose-built layout arithmetic directly in their renderers. Rather than depending on an external engine, Mermaider ships its own lightweight
 [Sugiyama layout engine](src/Sugiyama/) with zero dependencies.
 
@@ -299,6 +299,22 @@ MermaidRenderer.RenderSvg("""
 ```
 
 <p align="center"><img src="docs/screenshots/mindmap.svg" alt="Mindmap" /></p>
+
+### C4 Architecture
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    C4Context
+    title System Context diagram for Internet Banking System
+    Person(customer, "Banking Customer", "A customer of the bank.")
+    System(banking, "Internet Banking System", "View accounts and make payments.")
+    System_Ext(mail, "E-mail System", "Microsoft Exchange")
+    Rel(customer, banking, "Uses")
+    Rel(banking, mail, "Sends e-mails", "SMTP")
+    """);
+```
+
+<p align="center"><img src="docs/screenshots/c4.svg" alt="C4 diagram" /></p>
 
 ## Theming
 

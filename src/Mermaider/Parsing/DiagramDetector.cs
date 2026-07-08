@@ -43,6 +43,10 @@ internal static partial class DiagramDetector
 	[GeneratedRegex(@"^mindmap\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex MindmapHeader();
 
+	// Keyword gate only — full header options live in C4Parser
+	[GeneratedRegex(@"^C4(?:Context|Container|Component|Dynamic|Deployment)\b", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex C4Header();
+
 	internal static DiagramType Detect(ReadOnlySpan<char> text)
 	{
 		var firstLineEnd = text.IndexOf('\n');
@@ -74,6 +78,8 @@ internal static partial class DiagramDetector
 			return DiagramType.Venn;
 		if (MindmapHeader().IsMatch(firstLineStr))
 			return DiagramType.Mindmap;
+		if (C4Header().IsMatch(firstLineStr))
+			return DiagramType.C4;
 
 		return DiagramType.Flowchart;
 	}
