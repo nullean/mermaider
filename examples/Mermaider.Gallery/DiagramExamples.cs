@@ -1,6 +1,7 @@
 namespace Mermaider.Gallery;
 
 public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Gantt, RealWorld }
+public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Journey, RealWorld }
 
 public sealed record DiagramExample(string Slug, string Title, DiagramCategory Category, string Source, string? Feature = null);
 
@@ -892,6 +893,31 @@ public static class DiagramExamples
 			  section Ship
 			  RC cut           :milestone, m1, after p2, 0d
 			  GA               :crit, p3, after m1, 5d
+		// ── User Journey ───────────────────────────────────────────────
+
+		new("journey-workday", "Working Day", DiagramCategory.Journey, """
+			journey
+			  title My working day
+			  section Go to work
+			    Make tea: 5: Me
+			    Go upstairs: 3: Me
+			    Do work: 1: Me, Cat
+			  section Go home
+			    Go downstairs: 5: Me
+			    Sit down: 5: Me
+			"""),
+
+		new("journey-onboarding", "App Onboarding", DiagramCategory.Journey, """
+			journey
+			  title First-time login
+			  section Discover
+			    Open app: 4: User
+			    See welcome: 5: User
+			  section Authenticate
+			    Enter email: 3: User
+			    Confirm MFA: 2: User, System
+			  section Success
+			    Reach dashboard: 5: User
 			"""),
 
 		// ── Real World (RFC diagrams) ─────────────────────────────────
@@ -1057,6 +1083,7 @@ public static class DiagramExamples
 		DiagramCategory.Venn => "Venn Diagram",
 		DiagramCategory.Mindmap => "Mindmap",
 		DiagramCategory.Gantt => "Gantt",
+		DiagramCategory.Journey => "User Journey",
 		DiagramCategory.RealWorld => "Real World",
 		_ => c.ToString(),
 	};
@@ -1077,6 +1104,7 @@ public static class DiagramExamples
 		DiagramCategory.Venn => "venn",
 		DiagramCategory.Mindmap => "mindmap",
 		DiagramCategory.Gantt => "gantt",
+		DiagramCategory.Journey => "journey",
 		DiagramCategory.RealWorld => "real-world",
 		_ => c.ToString().ToLowerInvariant(),
 	};

@@ -111,6 +111,7 @@ internal static class StyleBlock
 		DiagramType.Venn => "venn diagram",
 		DiagramType.Mindmap => "mindmap",
 		DiagramType.Gantt => "gantt chart",
+		DiagramType.Journey => "user journey",
 		_ => "diagram"
 	};
 

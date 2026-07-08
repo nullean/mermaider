@@ -17,5 +17,5 @@ public enum DiagramType
 	Venn,
 	Mindmap,
 	Gantt,
+	Journey,
 }
-

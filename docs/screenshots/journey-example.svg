@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1174 509" width="1174" height="509" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6;background:var(--bg)">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+  <marker id="journey-arrow" refX="5" refY="2" markerWidth="6" markerHeight="4" orient="auto">
+    <path d="M 0,0 V 4 L6,2 Z" fill="#000000" />
+  </marker>
+</defs>
+
+<g transform="translate(0,8)">
+<text x="150" y="25" font-size="18" font-weight="bold" fill="var(--_text)">My working day</text>
+<circle cx="20" cy="60" r="7" fill="#8FBC8F" stroke="#000" stroke-width="1" />
+<text x="40" y="65" font-size="14" fill="#666666">Me</text>
+<circle cx="20" cy="80" r="7" fill="#7CFC00" stroke="#000" stroke-width="1" />
+<text x="40" y="85" font-size="14" fill="#666666">Cat</text>
+<rect x="150" y="50" width="550" height="50" rx="3" ry="3" fill="#191970" />
+<text x="425" y="75" text-anchor="middle" dy="0.35em" font-size="14" fill="#ffffff">Go to work</text>
+<rect x="750" y="50" width="350" height="50" rx="3" ry="3" fill="#8B008B" />
+<text x="925" y="75" text-anchor="middle" dy="0.35em" font-size="14" fill="#ffffff">Go home</text>
+<line x1="225" y1="110" x2="225" y2="485" stroke="#666666" stroke-width="1" stroke-dasharray="4 2" />
+<circle class="face" cx="225" cy="300" r="15" fill="#FFF8DC" stroke="#999999" stroke-width="2" />
+<circle cx="220" cy="295" r="1.5" fill="#666666" stroke="#666666" />
+<circle cx="230" cy="295" r="1.5" fill="#666666" stroke="#666666" />
+<path class="mouth" d="M 217.86 302 A 7.14 7.14 0 0 0 232.14 302" fill="none" stroke="#666666" stroke-width="1.5" />
+<rect x="150" y="110" width="150" height="50" rx="3" ry="3" fill="#191970" />
+<circle cx="164" cy="110" r="7" fill="#8FBC8F" stroke="#000" stroke-width="1"><title>Me</title></circle>
+<text x="225" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="#ffffff">Make tea</text>
+<line x1="425" y1="110" x2="425" y2="485" stroke="#666666" stroke-width="1" stroke-dasharray="4 2" />
+<circle class="face" cx="425" cy="360" r="15" fill="#FFF8DC" stroke="#999999" stroke-width="2" />
+<circle cx="420" cy="355" r="1.5" fill="#666666" stroke="#666666" />
+<circle cx="430" cy="355" r="1.5" fill="#666666" stroke="#666666" />
+<line class="mouth" x1="420" y1="367" x2="430" y2="367" stroke="#666666" stroke-width="1" />
+<rect x="350" y="110" width="150" height="50" rx="3" ry="3" fill="#191970" />
+<circle cx="364" cy="110" r="7" fill="#8FBC8F" stroke="#000" stroke-width="1"><title>Me</title></circle>
+<text x="425" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="#ffffff">Go upstairs</text>
+<line x1="625" y1="110" x2="625" y2="485" stroke="#666666" stroke-width="1" stroke-dasharray="4 2" />
+<circle class="face" cx="625" cy="420" r="15" fill="#FFF8DC" stroke="#999999" stroke-width="2" />
+<circle cx="620" cy="415" r="1.5" fill="#666666" stroke="#666666" />
+<circle cx="630" cy="415" r="1.5" fill="#666666" stroke="#666666" />
+<path class="mouth" d="M 617.86 427 A 7.14 7.14 0 0 1 632.14 427" fill="none" stroke="#666666" stroke-width="1.5" />
+<rect x="550" y="110" width="150" height="50" rx="3" ry="3" fill="#191970" />
+<circle cx="564" cy="110" r="7" fill="#8FBC8F" stroke="#000" stroke-width="1"><title>Me</title></circle>
+<circle cx="574" cy="110" r="7" fill="#7CFC00" stroke="#000" stroke-width="1"><title>Cat</title></circle>
+<text x="625" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="#ffffff">Do work</text>
+<line x1="825" y1="110" x2="825" y2="485" stroke="#666666" stroke-width="1" stroke-dasharray="4 2" />
+<circle class="face" cx="825" cy="300" r="15" fill="#FFF8DC" stroke="#999999" stroke-width="2" />
+<circle cx="820" cy="295" r="1.5" fill="#666666" stroke="#666666" />
+<circle cx="830" cy="295" r="1.5" fill="#666666" stroke="#666666" />
+<path class="mouth" d="M 817.86 302 A 7.14 7.14 0 0 0 832.14 302" fill="none" stroke="#666666" stroke-width="1.5" />
+<rect x="750" y="110" width="150" height="50" rx="3" ry="3" fill="#8B008B" />
+<circle cx="764" cy="110" r="7" fill="#8FBC8F" stroke="#000" stroke-width="1"><title>Me</title></circle>
+<text x="825" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="#ffffff">Go downstairs</text>
+<line x1="1025" y1="110" x2="1025" y2="485" stroke="#666666" stroke-width="1" stroke-dasharray="4 2" />
+<circle class="face" cx="1025" cy="300" r="15" fill="#FFF8DC" stroke="#999999" stroke-width="2" />
+<circle cx="1020" cy="295" r="1.5" fill="#666666" stroke="#666666" />
+<circle cx="1030" cy="295" r="1.5" fill="#666666" stroke="#666666" />
+<path class="mouth" d="M 1017.86 302 A 7.14 7.14 0 0 0 1032.14 302" fill="none" stroke="#666666" stroke-width="1.5" />
+<rect x="950" y="110" width="150" height="50" rx="3" ry="3" fill="#8B008B" />
+<circle cx="964" cy="110" r="7" fill="#8FBC8F" stroke="#000" stroke-width="1"><title>Me</title></circle>
+<text x="1025" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="#ffffff">Sit down</text>
+<line x1="150" y1="200" x2="1020" y2="200" stroke="#000000" stroke-width="4" marker-end="url(#journey-arrow)" />
+</g>
+</svg>

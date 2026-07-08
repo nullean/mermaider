@@ -48,8 +48,13 @@ internal static partial class DiagramDetector
 	[GeneratedRegex(@"^gantt(?:\s|$)", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex GanttHeader();
 
+	// Keyword gate — optional title on the same line is owned by JourneyParser.
+	[GeneratedRegex(@"^journey(?:\s|$)", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex JourneyHeader();
+
 	internal static DiagramType Detect(ReadOnlySpan<char> text)
 	{
+
 		var firstLineEnd = text.IndexOf('\n');
 		var firstLine = firstLineEnd >= 0 ? text[..firstLineEnd] : text;
 		firstLine = firstLine.Trim();
@@ -81,6 +86,8 @@ internal static partial class DiagramDetector
 			return DiagramType.Mindmap;
 		if (GanttHeader().IsMatch(firstLineStr))
 			return DiagramType.Gantt;
+		if (JourneyHeader().IsMatch(firstLineStr))
+			return DiagramType.Journey;
 
 		return DiagramType.Flowchart;
 	}
