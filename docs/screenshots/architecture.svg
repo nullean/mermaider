@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 188" width="488" height="188" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 216 372" width="216" height="372" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -38,20 +38,29 @@
 </defs>
 
 <g class="arch-group" data-id="api">
-  <rect x="32" y="32" width="132" height="124" rx="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.5" stroke-dasharray="6 4" />
+  <rect x="32" y="32" width="152" height="308" rx="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.5" stroke-dasharray="6 4" />
   <path d="M53.86 48.34 a3.74 3.27 0 1 1 1.4 -4.21 a4.21 3.74 0 1 1 6.55 0 a3.27 2.81 0 1 1 1.87 4.21 z" fill="none" stroke="var(--_accent-stroke)" stroke-width="1.5" />
   <text x="78" y="46" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)">API</text>
 </g>
 <g class="arch-service" data-id="db">
-  <rect x="200" y="32" width="120" height="72" rx="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.5" />
-  <path d="M253.95 56.75 a4.4 3.85 0 1 1 1.65 -4.95 a4.95 4.4 0 1 1 7.7 0 a3.85 3.3 0 1 1 2.2 4.95 z" fill="none" stroke="var(--_accent-stroke)" stroke-width="1.5" />
-  <text x="260" y="86" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)">Database</text>
+  <rect x="48" y="76" width="120" height="72" rx="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.5" />
+  <ellipse cx="108" cy="91.95" rx="7.7" ry="3.08" fill="none" stroke="var(--_accent-stroke)" stroke-width="1.5" />
+  <path d="M100.3 91.95 L100.3 102.4 A7.7 3.08 0 0 0 115.7 102.4 L115.7 91.95" fill="none" stroke="var(--_accent-stroke)" stroke-width="1.5" />
+  <text x="108" y="130" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)">Database</text>
 </g>
 <g class="arch-service" data-id="disk">
-  <rect x="336" y="32" width="120" height="72" rx="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.5" />
-  <path d="M389.95 56.75 a4.4 3.85 0 1 1 1.65 -4.95 a4.95 4.4 0 1 1 7.7 0 a3.85 3.3 0 1 1 2.2 4.95 z" fill="none" stroke="var(--_accent-stroke)" stroke-width="1.5" />
-  <text x="396" y="86" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)">Disk</text>
+  <rect x="48" y="164" width="120" height="72" rx="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.5" />
+  <circle cx="108" cy="186" r="8.25" fill="none" stroke="var(--_accent-stroke)" stroke-width="1.5" />
+  <circle cx="108" cy="186" r="2.42" fill="var(--_accent-text)" />
+  <text x="108" y="218" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)">Disk</text>
 </g>
-<path d="M98 156 L98 94 L260 94 L260 32" fill="none" stroke="var(--_line)" stroke-width="1.75" marker-end="url(#arch-arrow)" />
-<path d="M98 156 L98 94 L396 94 L396 32" fill="none" stroke="var(--_line)" stroke-width="1.75" marker-end="url(#arch-arrow)" />
+<g class="arch-service" data-id="server">
+  <rect x="48" y="252" width="120" height="72" rx="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.5" />
+  <rect x="100.3" y="266.3" width="15.4" height="15.4" rx="2" fill="none" stroke="var(--_accent-stroke)" stroke-width="1.5" />
+  <line x1="103.05" y1="271.25" x2="112.95" y2="271.25" stroke="var(--_accent-stroke)" stroke-width="1.25" />
+  <line x1="103.05" y1="275.1" x2="112.95" y2="275.1" stroke="var(--_accent-stroke)" stroke-width="1.25" />
+  <text x="108" y="306" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)">Server</text>
+</g>
+<path d="M168 112 L108 112 L108 288 L48 288" fill="none" stroke="var(--_line)" stroke-width="1.75" marker-end="url(#arch-arrow)" />
+<path d="M108 164 L108 244 L108 244 L108 324" fill="none" stroke="var(--_line)" stroke-width="1.75" marker-end="url(#arch-arrow)" />
 </svg>

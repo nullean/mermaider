@@ -10,10 +10,11 @@ public class ArchitectureRendererTests
 		var svg = MermaidRenderer.RenderSvg("""
 			architecture-beta
 			    group api(cloud)[API]
-			    service db(database)[Database]
-			    service disk(disk)[Disk]
-			    api:B --> db:T
-			    api:B --> disk:T
+			    service db(database)[Database] in api
+			    service disk(disk)[Disk] in api
+			    service server(server)[Server] in api
+			    db:R --> L:server
+			    disk:T --> B:server
 			""");
 
 		svg.Should().StartWith("<svg");
@@ -26,15 +27,32 @@ public class ArchitectureRendererTests
 		var svg = MermaidRenderer.RenderSvg("""
 			architecture-beta
 			    group api(cloud)[API]
-			    service db(database)[Database]
-			    service disk(disk)[Disk]
-			    api:B --> db:T
-			    api:B --> disk:T
+			    service db(database)[Database] in api
+			    service disk(disk)[Disk] in api
+			    service server(server)[Server] in api
+			    db:R --> L:server
+			    disk:T --> B:server
 			""");
 
 		svg.Should().Contain("API");
 		svg.Should().Contain("Database");
 		svg.Should().Contain("Disk");
+		svg.Should().Contain("Server");
+	}
+
+	[Test]
+	public void Still_renders_fixture_style_edge_form()
+	{
+		// WinPrint fixture uses id:P --> id:P; GH mermaid requires id:P --> P:id
+		var svg = MermaidRenderer.RenderSvg("""
+			architecture-beta
+			    group api(cloud)[API]
+			    service db(database)[Database]
+			    api:B --> db:T
+			""");
+
+		svg.Should().StartWith("<svg");
+		svg.Should().Contain("Database");
 	}
 
 	[Test]

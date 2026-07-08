@@ -870,15 +870,15 @@ public static class DiagramExamples
 
 		// ── Architecture ───────────────────────────────────────────────
 
+		// Edge form must be official `id:Port -- Port:id` (GitHub mermaid rejects `id:P --> id:P`)
 		new("architecture-basic", "API & Storage", DiagramCategory.Architecture, """
 			architecture-beta
 			    group api(cloud)[API]
-
-			    service db(database)[Database]
-			    service disk(disk)[Disk]
-
-			    api:B --> db:T
-			    api:B --> disk:T
+			    service db(database)[Database] in api
+			    service disk(disk)[Disk] in api
+			    service server(server)[Server] in api
+			    db:R --> L:server
+			    disk:T --> B:server
 			"""),
 
 		new("architecture-grouped", "Services in Group", DiagramCategory.Architecture, """
