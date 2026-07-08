@@ -85,12 +85,12 @@ public class JourneyRendererTests
 	}
 
 	[Test]
-	public void Uses_theme_css_vars_for_text()
+	public void Uses_theme_css_vars_for_title()
 	{
 		var svg = MermaidRenderer.RenderSvg(FullJourney);
 
+		// Title uses theme token; section/task labels use mermaid-native white on dark fills
 		svg.Should().Contain("var(--_text)");
-		svg.Should().Contain("var(--fs-");
 	}
 
 	[Test]
