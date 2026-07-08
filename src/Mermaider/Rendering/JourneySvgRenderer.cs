@@ -151,10 +151,11 @@ internal static class JourneySvgRenderer
 
 			if (section.Name is { Length: > 0 })
 			{
+				// House style: y = box mid-line, dy shifts for optical vertical center
 				_ = sb.Append("\n<text x=\"").Append(F(secX + (secW / 2)))
-					.Append("\" y=\"").Append(F(SectionY + (TaskHeight / 2) + 5))
-					.Append("\" text-anchor=\"middle\" dominant-baseline=\"central\" font-size=\"14\" fill=\"")
-					.Append(SectionTextColour).Append("\">");
+					.Append("\" y=\"").Append(F(SectionY + (TaskHeight / 2)))
+					.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
+					.Append("\" font-size=\"14\" fill=\"").Append(SectionTextColour).Append("\">");
 				MultilineUtils.AppendEscapedXml(sb, section.Name.AsSpan());
 				_ = sb.Append("</text>");
 			}
@@ -205,8 +206,8 @@ internal static class JourneySvgRenderer
 
 			// task label (white on dark section fill)
 			_ = sb.Append("\n<text x=\"").Append(F(center)).Append("\" y=\"").Append(F(taskY + (TaskHeight / 2)))
-				.Append("\" text-anchor=\"middle\" dominant-baseline=\"central\" font-size=\"14\" fill=\"")
-				.Append(SectionTextColour).Append("\">");
+				.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
+				.Append("\" font-size=\"14\" fill=\"").Append(SectionTextColour).Append("\">");
 			MultilineUtils.AppendEscapedXml(sb, task.Name.AsSpan());
 			_ = sb.Append("</text>");
 		}
