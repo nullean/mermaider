@@ -36,7 +36,7 @@ penalty, and trivial deployment&mdash;just a NuGet reference.
 ### Built-in layout engine
 
 Graph-based diagrams (flowchart, state, class, ER) need a layout algorithm to position nodes and route
-edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap) use
+edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, sankey) use
 purpose-built layout arithmetic directly in their renderers. Rather than depending on an external engine, Mermaider ships its own lightweight
 [Sugiyama layout engine](src/Sugiyama/) with zero dependencies.
 
@@ -299,6 +299,19 @@ MermaidRenderer.RenderSvg("""
 ```
 
 <p align="center"><img src="docs/screenshots/mindmap.svg" alt="Mindmap" /></p>
+
+### Sankey Diagram
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    sankey-beta
+    Electricity grid,Over generation / exports,104.453
+    Electricity grid,Heating and cooling - homes,113.726
+    Electricity grid,Industry,342.165
+    """);
+```
+
+<p align="center"><img src="docs/screenshots/sankey.svg" alt="Sankey diagram" /></p>
 
 ## Theming
 

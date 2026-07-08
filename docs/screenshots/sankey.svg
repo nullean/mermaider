@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+</defs>
+
+<path d="M 96 24 C 195.33 24 195.33 24 294.67 24 L 294.67 376 C 195.33 376 195.33 275.4 96 275.4 Z" fill="#76b7b2" fill-opacity="0.45" stroke="none" />
+<path d="M 96 289.4 C 300.67 289.4 300.67 24 505.33 24 L 505.33 148.99 C 300.67 148.99 300.67 376 96 376 Z" fill="#b07aa1" fill-opacity="0.45" stroke="none" />
+<path d="M 306.67 24 C 406 24 406 148.99 505.33 148.99 L 505.33 376 C 406 376 406 376 306.67 376 Z" fill="#edc948" fill-opacity="0.45" stroke="none" />
+<path d="M 517.33 24 C 616.67 24 616.67 235.85 716 235.85 L 716 301.6 C 616.67 301.6 616.67 95.44 517.33 95.44 Z" fill="#4e79a7" fill-opacity="0.45" stroke="none" />
+<path d="M 517.33 95.44 C 616.67 95.44 616.67 24 716 24 L 716 221.85 C 616.67 221.85 616.67 310.38 517.33 310.38 Z" fill="#4e79a7" fill-opacity="0.45" stroke="none" />
+<path d="M 517.33 310.38 C 616.67 310.38 616.67 315.6 716 315.6 L 716 376 C 616.67 376 616.67 376 517.33 376 Z" fill="#4e79a7" fill-opacity="0.45" stroke="none" />
+<rect x="505.33" y="24" width="12" height="352" fill="#4e79a7" stroke="none" rx="2" ry="2" />
+<text x="525.33" y="200" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Electricity grid</text>
+<rect x="716" y="315.6" width="12" height="60.4" fill="#59a14f" stroke="none" rx="2" ry="2" />
+<text x="736" y="345.8" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Over generation / exports</text>
+<rect x="716" y="235.85" width="12" height="65.76" fill="#f28e2b" stroke="none" rx="2" ry="2" />
+<text x="736" y="268.72" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Heating and cooling - homes</text>
+<rect x="716" y="24" width="12" height="197.85" fill="#e15759" stroke="none" rx="2" ry="2" />
+<text x="736" y="122.92" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Industry</text>
+<rect x="294.67" y="24" width="12" height="352" fill="#edc948" stroke="none" rx="2" ry="2" />
+<text x="314.67" y="200" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Thermal generation</text>
+<rect x="84" y="24" width="12" height="251.4" fill="#76b7b2" stroke="none" rx="2" ry="2" />
+<text x="76" y="149.7" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Nuclear</text>
+<rect x="84" y="289.4" width="12" height="86.6" fill="#b07aa1" stroke="none" rx="2" ry="2" />
+<text x="76" y="332.7" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Wind</text>
+</svg>

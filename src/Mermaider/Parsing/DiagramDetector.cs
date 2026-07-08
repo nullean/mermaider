@@ -43,6 +43,9 @@ internal static partial class DiagramDetector
 	[GeneratedRegex(@"^mindmap\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex MindmapHeader();
 
+	[GeneratedRegex(@"^sankey(?:-beta)?\b", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex SankeyHeader();
+
 	internal static DiagramType Detect(ReadOnlySpan<char> text)
 	{
 		var firstLineEnd = text.IndexOf('\n');
@@ -74,6 +77,8 @@ internal static partial class DiagramDetector
 			return DiagramType.Venn;
 		if (MindmapHeader().IsMatch(firstLineStr))
 			return DiagramType.Mindmap;
+		if (SankeyHeader().IsMatch(firstLineStr))
+			return DiagramType.Sankey;
 
 		return DiagramType.Flowchart;
 	}
