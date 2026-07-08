@@ -1,6 +1,6 @@
 namespace Mermaider.Gallery;
 
-public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, RealWorld }
+public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Gantt, RealWorld }
 
 public sealed record DiagramExample(string Slug, string Title, DiagramCategory Category, string Source, string? Feature = null);
 
@@ -867,6 +867,33 @@ public static class DiagramExamples
 
 		new("mindmap-learning", "Learning Path", DiagramCategory.Mindmap,
 			"mindmap\n  ((Web Development))\n    (Frontend)\n      HTML\n      CSS\n      JavaScript\n    (Backend)\n      .NET\n      Node.js\n    ))Cloud((\n      AWS\n      Azure"),
+
+		// ── Gantt ──────────────────────────────────────────────────────
+
+		new("gantt-shipping", "Shipping Schedule", DiagramCategory.Gantt, """
+			gantt
+			  title Shipping this file
+			  dateFormat  YYYY-MM-DD
+			  section Render
+			  Spike the renderer :done, a1, 2026-07-07, 1d
+			  Print this page    :active, a2, after a1, 1d
+			  section Polish
+			  Update tests       :crit, after a2, 12h
+			  Update docs        : 6h
+			"""),
+
+		new("gantt-milestones", "Milestones", DiagramCategory.Gantt, """
+			gantt
+			  title Release train
+			  dateFormat YYYY-MM-DD
+			  section Build
+			  Implement parser :done, p1, 2026-01-06, 3d
+			  Add tests        :active, p2, after p1, 2d
+			  section Ship
+			  RC cut           :milestone, m1, after p2, 0d
+			  GA               :crit, p3, after m1, 5d
+			"""),
+
 		// ── Real World (RFC diagrams) ─────────────────────────────────
 
 		new("rfc-path-flow", "Path Flow (V1)", DiagramCategory.RealWorld, """
@@ -1029,6 +1056,7 @@ public static class DiagramExamples
 		DiagramCategory.Treemap => "Treemap",
 		DiagramCategory.Venn => "Venn Diagram",
 		DiagramCategory.Mindmap => "Mindmap",
+		DiagramCategory.Gantt => "Gantt",
 		DiagramCategory.RealWorld => "Real World",
 		_ => c.ToString(),
 	};
@@ -1048,6 +1076,7 @@ public static class DiagramExamples
 		DiagramCategory.Treemap => "treemap",
 		DiagramCategory.Venn => "venn",
 		DiagramCategory.Mindmap => "mindmap",
+		DiagramCategory.Gantt => "gantt",
 		DiagramCategory.RealWorld => "real-world",
 		_ => c.ToString().ToLowerInvariant(),
 	};

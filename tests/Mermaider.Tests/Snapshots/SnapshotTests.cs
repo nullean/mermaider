@@ -279,4 +279,32 @@ public class SnapshotTests
 			      Unit Tests
 			      Integration
 			"""), "svg");
+
+	[Test]
+	public Task Gantt_showcase() =>
+		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			gantt
+			title Shipping this file
+			dateFormat  YYYY-MM-DD
+			section Render
+			Spike the renderer :done, a1, 2026-07-07, 1d
+			Print this page    :active, a2, after a1, 1d
+			section Polish
+			Update tests       :crit, after a2, 12h
+			Update docs        : 6h
+			"""), "svg");
+
+	[Test]
+	public Task Gantt_milestones() =>
+		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			gantt
+			title Release train
+			dateFormat YYYY-MM-DD
+			section Build
+			Implement parser :done, p1, 2026-01-06, 3d
+			Add tests        :active, p2, after p1, 2d
+			section Ship
+			RC cut           :milestone, m1, after p2, 0d
+			GA               :crit, p3, after m1, 5d
+			"""), "svg");
 }

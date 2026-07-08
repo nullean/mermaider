@@ -44,6 +44,10 @@ internal static partial class DiagramDetector
 	[GeneratedRegex(@"^mindmap\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex MindmapHeader();
 
+	// Keyword gate — optional title on the same line is owned by GanttParser.
+	[GeneratedRegex(@"^gantt(?:\s|$)", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex GanttHeader();
+
 	internal static DiagramType Detect(ReadOnlySpan<char> text)
 	{
 		var firstLineEnd = text.IndexOf('\n');
@@ -75,7 +79,10 @@ internal static partial class DiagramDetector
 			return DiagramType.Venn;
 		if (MindmapHeader().IsMatch(firstLineStr))
 			return DiagramType.Mindmap;
+		if (GanttHeader().IsMatch(firstLineStr))
+			return DiagramType.Gantt;
 
 		return DiagramType.Flowchart;
 	}
 }
+
