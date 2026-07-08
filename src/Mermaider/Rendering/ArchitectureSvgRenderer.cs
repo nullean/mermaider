@@ -8,16 +8,22 @@ namespace Mermaider.Rendering;
 
 internal static class ArchitectureSvgRenderer
 {
-	private const double Margin = 32;
-	private const double GroupPad = 16;
-	private const double GroupHeaderH = 28;
-	private const double ServiceW = 120;
-	private const double ServiceH = 72;
-	private const double ServiceGap = 16;
-	private const double GroupGap = 36;
-	private const double IconSize = 22;
-	private const double EmptyGroupMinW = 100;
-	private const double EmptyGroupMinH = 64;
+	private const double Margin = 40;
+	private const double GroupPad = 28;
+	private const double GroupHeaderH = 36;
+	private const double IconTile = 56;
+	private const double ServiceW = 100;
+	private const double ServiceH = 92; // icon tile + label
+	private const double CellGapX = 48;
+	private const double CellGapY = 40;
+	private const double GroupGap = 48;
+	private const double EmptyGroupMinW = 140;
+	private const double EmptyGroupMinH = 100;
+
+	// Mermaid-like solid icon chrome (architecture is fixed-style upstream)
+	private const string IconFill = "#326ce5";
+	private const string IconGlyph = "#ffffff";
+	private const string GroupStroke = "#a5b4fc";
 
 	internal static string Render(ArchitectureDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
@@ -42,15 +48,15 @@ internal static class ArchitectureSvgRenderer
 		StyleBlock.AppendStyleBlock(sb, font, strict);
 		AppendDefs(sb);
 
-		// Groups (dashed containers) first so services paint on top
 		foreach (var g in layout.Groups)
 			AppendGroup(sb, g);
 
-		foreach (var s in layout.Services)
-			AppendService(sb, s);
-
+		// Edges under services so arrowheads don't cover tiles
 		foreach (var e in layout.Edges)
 			AppendEdge(sb, e, layout);
+
+		foreach (var s in layout.Services)
+			AppendService(sb, s);
 
 		_ = sb.Append("\n</svg>");
 		return sb;
@@ -75,7 +81,6 @@ internal static class ArchitectureSvgRenderer
 		var placedServices = new List<PlacedService>();
 		var bounds = new Dictionary<string, (double X, double Y, double W, double H)>(StringComparer.Ordinal);
 
-		var groupById = diagram.Groups.ToDictionary(g => g.Id, StringComparer.Ordinal);
 		var servicesByParent = diagram.Services
 			.GroupBy(s => s.ParentId ?? "", StringComparer.Ordinal)
 			.ToDictionary(g => g.Key, g => g.ToList(), StringComparer.Ordinal);
@@ -92,29 +97,23 @@ internal static class ArchitectureSvgRenderer
 
 		foreach (var group in topLevelGroups)
 		{
-			var (w, h) = PlaceGroupTree(group, cursorX, Margin, groupById, servicesByParent, childGroupsByParent, placedGroups, placedServices, bounds);
+			var (w, h) = PlaceGroupTree(
+				group, cursorX, Margin, diagram.Edges,
+				servicesByParent, childGroupsByParent,
+				placedGroups, placedServices, bounds);
 			cursorX += w + GroupGap;
 			maxBottom = Math.Max(maxBottom, Margin + h);
 		}
 
-		// Ungrouped services: place in a row to the right of groups, or starting at margin if none
 		if (ungrouped.Count > 0)
 		{
-			var sx = topLevelGroups.Count > 0 ? cursorX : Margin;
-			var sy = Margin;
-			var rowBottom = sy;
-			foreach (var svc in ungrouped)
-			{
-				placedServices.Add(new PlacedService(svc.Id, svc.Icon, svc.Label, sx, sy, ServiceW, ServiceH));
-				bounds[svc.Id] = (sx, sy, ServiceW, ServiceH);
-				rowBottom = Math.Max(rowBottom, sy + ServiceH);
-				sx += ServiceW + ServiceGap;
-			}
-			cursorX = Math.Max(cursorX, sx);
-			maxBottom = Math.Max(maxBottom, rowBottom);
+			var originX = topLevelGroups.Count > 0 ? cursorX : Margin;
+			var (uw, uh) = PlaceServiceCluster(
+				ungrouped, diagram.Edges, originX, Margin, placedServices, bounds);
+			cursorX = Math.Max(cursorX, originX + uw + GroupGap);
+			maxBottom = Math.Max(maxBottom, Margin + uh);
 		}
 
-		// If nothing placed, still produce a minimal canvas
 		if (placedGroups.Count == 0 && placedServices.Count == 0)
 		{
 			return new LayoutResult
@@ -128,15 +127,14 @@ internal static class ArchitectureSvgRenderer
 			};
 		}
 
-		var width = Math.Max(cursorX - GroupGap + Margin, Margin + EmptyGroupMinW);
-		// cursorX already includes trailing gap after last column; clamp if no trailing content
-		if (topLevelGroups.Count > 0 || ungrouped.Count > 0)
-			width = cursorX - (ungrouped.Count > 0 ? ServiceGap : GroupGap) + Margin;
+		var width = cursorX - GroupGap + Margin;
+		if (width < Margin + 120)
+			width = Margin + 120;
 		var height = maxBottom + Margin;
 
 		return new LayoutResult
 		{
-			Width = Math.Max(width, 120),
+			Width = width,
 			Height = Math.Max(height, 80),
 			Groups = placedGroups,
 			Services = placedServices,
@@ -149,14 +147,13 @@ internal static class ArchitectureSvgRenderer
 		ArchitectureGroup group,
 		double x,
 		double y,
-		Dictionary<string, ArchitectureGroup> groupById,
+		IReadOnlyList<ArchitectureEdge> edges,
 		Dictionary<string, List<ArchitectureService>> servicesByParent,
 		Dictionary<string, List<ArchitectureGroup>> childGroupsByParent,
 		List<PlacedGroup> placedGroups,
 		List<PlacedService> placedServices,
 		Dictionary<string, (double X, double Y, double W, double H)> bounds)
 	{
-		_ = groupById;
 		var services = servicesByParent.GetValueOrDefault(group.Id, []);
 		var childGroups = childGroupsByParent.GetValueOrDefault(group.Id, []);
 
@@ -165,23 +162,18 @@ internal static class ArchitectureSvgRenderer
 		var contentRight = contentX;
 		var contentBottom = contentY;
 
-		// Stack direct services vertically
-		var svcY = contentY;
-		foreach (var svc in services)
+		if (services.Count > 0)
 		{
-			placedServices.Add(new PlacedService(svc.Id, svc.Icon, svc.Label, contentX, svcY, ServiceW, ServiceH));
-			bounds[svc.Id] = (contentX, svcY, ServiceW, ServiceH);
-			contentRight = Math.Max(contentRight, contentX + ServiceW);
-			contentBottom = Math.Max(contentBottom, svcY + ServiceH);
-			svcY += ServiceH + ServiceGap;
+			var (cw, ch) = PlaceServiceCluster(services, edges, contentX, contentY, placedServices, bounds);
+			contentRight = contentX + cw;
+			contentBottom = contentY + ch;
 		}
 
-		// Nested groups as further columns inside this group
-		var nestedX = services.Count > 0 ? contentX + ServiceW + GroupGap : contentX;
+		var nestedX = services.Count > 0 ? contentRight + GroupGap : contentX;
 		var nestedY = contentY;
 		foreach (var child in childGroups)
 		{
-			var (cw, ch) = PlaceGroupTree(child, nestedX, nestedY, groupById, servicesByParent, childGroupsByParent, placedGroups, placedServices, bounds);
+			var (cw, ch) = PlaceGroupTree(child, nestedX, nestedY, edges, servicesByParent, childGroupsByParent, placedGroups, placedServices, bounds);
 			contentRight = Math.Max(contentRight, nestedX + cw);
 			contentBottom = Math.Max(contentBottom, nestedY + ch);
 			nestedX += cw + GroupGap;
@@ -200,13 +192,162 @@ internal static class ArchitectureSvgRenderer
 			innerH = Math.Max(contentBottom - contentY, ServiceH);
 		}
 
-		var labelW = TextMetrics.MeasureTextWidth(group.Label, 13, 600) + 40;
+		var labelW = TextMetrics.MeasureTextWidth(group.Label, 14, 600) + 48;
 		var w = Math.Max(innerW + (GroupPad * 2), labelW);
 		var h = GroupHeaderH + GroupPad + innerH + GroupPad;
 
 		placedGroups.Add(new PlacedGroup(group.Id, group.Icon, group.Label, x, y, w, h));
 		bounds[group.Id] = (x, y, w, h);
 		return (w, h);
+	}
+
+	/// <summary>
+	/// Place services on a grid derived from edge port directions
+	/// (R→L = left of, T→B = below, etc.) so layout matches mermaid spatial intent.
+	/// </summary>
+	private static (double W, double H) PlaceServiceCluster(
+		List<ArchitectureService> services,
+		IReadOnlyList<ArchitectureEdge> allEdges,
+		double originX,
+		double originY,
+		List<PlacedService> placedServices,
+		Dictionary<string, (double X, double Y, double W, double H)> bounds)
+	{
+		var ids = services.Select(s => s.Id).ToHashSet(StringComparer.Ordinal);
+		var col = new Dictionary<string, int>(StringComparer.Ordinal);
+		var row = new Dictionary<string, int>(StringComparer.Ordinal);
+		foreach (var s in services)
+		{
+			col[s.Id] = 0;
+			row[s.Id] = 0;
+		}
+
+		// Local edges only (both ends in this cluster)
+		var edges = allEdges
+			.Where(e => ids.Contains(e.SourceId) && ids.Contains(e.TargetId))
+			.ToList();
+
+		// Relax port constraints into grid coords
+		for (var iter = 0; iter < Math.Max(4, services.Count * 2); iter++)
+		{
+			foreach (var e in edges)
+			{
+				ApplyPortConstraint(e, col, row);
+			}
+		}
+
+		// Normalize so min col/row is 0
+		if (services.Count > 0)
+		{
+			var minC = col.Values.Min();
+			var minR = row.Values.Min();
+			foreach (var s in services)
+			{
+				col[s.Id] -= minC;
+				row[s.Id] -= minR;
+			}
+		}
+
+		// Resolve collisions: if two share a cell, nudge later one down/right
+		var occupied = new Dictionary<(int C, int R), string>();
+		foreach (var s in services.OrderBy(s => s.Id, StringComparer.Ordinal))
+		{
+			var c = col[s.Id];
+			var r = row[s.Id];
+			while (occupied.ContainsKey((c, r)))
+			{
+				// Prefer push down, then right
+				r++;
+				if (r > services.Count)
+				{
+					r = 0;
+					c++;
+				}
+			}
+			col[s.Id] = c;
+			row[s.Id] = r;
+			occupied[(c, r)] = s.Id;
+		}
+
+		var maxC = services.Count == 0 ? 0 : col.Values.Max();
+		var maxR = services.Count == 0 ? 0 : row.Values.Max();
+		var cellW = ServiceW + CellGapX;
+		var cellH = ServiceH + CellGapY;
+
+		foreach (var s in services)
+		{
+			var x = originX + (col[s.Id] * cellW);
+			var y = originY + (row[s.Id] * cellH);
+			// Service bounds for edges: the icon tile (not the full label area)
+			var tileX = x + ((ServiceW - IconTile) / 2);
+			var tileY = y;
+			placedServices.Add(new PlacedService(s.Id, s.Icon, s.Label, x, y, ServiceW, ServiceH));
+			// Edge attachment uses icon tile so arrows hit the blue squares
+			bounds[s.Id] = (tileX, tileY, IconTile, IconTile);
+		}
+
+		var w = ((maxC + 1) * cellW) - CellGapX;
+		var h = ((maxR + 1) * cellH) - CellGapY;
+		if (services.Count == 0)
+		{
+			w = 0;
+			h = 0;
+		}
+		return (Math.Max(w, 0), Math.Max(h, 0));
+	}
+
+	private static void ApplyPortConstraint(
+		ArchitectureEdge e,
+		Dictionary<string, int> col,
+		Dictionary<string, int> row)
+	{
+		// Source port tells which side of source the edge leaves — implies relative placement.
+		// Target port is where it arrives.
+		// db:R --> L:server  => db left of server
+		// disk:T --> B:server => disk below server
+		switch (e.SourcePort)
+		{
+			case ArchitecturePort.Right when e.TargetPort == ArchitecturePort.Left:
+				// source left of target
+				if (col[e.SourceId] >= col[e.TargetId])
+					col[e.TargetId] = col[e.SourceId] + 1;
+				// prefer same row
+				row[e.TargetId] = row[e.SourceId];
+				break;
+			case ArchitecturePort.Left when e.TargetPort == ArchitecturePort.Right:
+				if (col[e.TargetId] >= col[e.SourceId])
+					col[e.SourceId] = col[e.TargetId] + 1;
+				row[e.SourceId] = row[e.TargetId];
+				break;
+			case ArchitecturePort.Bottom when e.TargetPort == ArchitecturePort.Top:
+				// source above target
+				if (row[e.SourceId] >= row[e.TargetId])
+					row[e.TargetId] = row[e.SourceId] + 1;
+				col[e.TargetId] = col[e.SourceId];
+				break;
+			case ArchitecturePort.Top when e.TargetPort == ArchitecturePort.Bottom:
+				// source below target
+				if (row[e.TargetId] >= row[e.SourceId])
+					row[e.SourceId] = row[e.TargetId] + 1;
+				col[e.SourceId] = col[e.TargetId];
+				break;
+			case ArchitecturePort.Right:
+				if (col[e.SourceId] >= col[e.TargetId])
+					col[e.TargetId] = col[e.SourceId] + 1;
+				break;
+			case ArchitecturePort.Left:
+				if (col[e.TargetId] >= col[e.SourceId])
+					col[e.SourceId] = col[e.TargetId] + 1;
+				break;
+			case ArchitecturePort.Bottom:
+				if (row[e.SourceId] >= row[e.TargetId])
+					row[e.TargetId] = row[e.SourceId] + 1;
+				break;
+			case ArchitecturePort.Top:
+				if (row[e.TargetId] >= row[e.SourceId])
+					row[e.SourceId] = row[e.TargetId] + 1;
+				break;
+		}
 	}
 
 	private static void AppendDefs(StringBuilder sb)
@@ -221,7 +362,7 @@ internal static class ArchitectureSvgRenderer
 			.Append("\" orient=\"auto\">\n");
 		_ = sb.Append("    <polygon points=\"0 0, ").Append(s).Append(' ').Append(F(hh))
 			.Append(", 0 ").Append(s)
-			.Append("\" fill=\"var(--_arrow)\" />\n");
+			.Append("\" fill=\"#1f2937\" />\n");
 		_ = sb.Append("  </marker>\n");
 		_ = sb.Append("  <marker id=\"arch-arrow-start\" markerUnits=\"userSpaceOnUse\" markerWidth=\"").Append(s)
 			.Append("\" markerHeight=\"").Append(s)
@@ -229,7 +370,7 @@ internal static class ArchitectureSvgRenderer
 			.Append("\" orient=\"auto\">\n");
 		_ = sb.Append("    <polygon points=\"").Append(s).Append(" 0, 0 ").Append(F(hh))
 			.Append(", ").Append(s).Append(' ').Append(s)
-			.Append("\" fill=\"var(--_arrow)\" />\n");
+			.Append("\" fill=\"#1f2937\" />\n");
 		_ = sb.Append("  </marker>\n");
 		_ = sb.Append("</defs>\n");
 	}
@@ -242,20 +383,24 @@ internal static class ArchitectureSvgRenderer
 		_ = sb.Append("  <rect x=\"").Append(F(g.X)).Append("\" y=\"").Append(F(g.Y))
 			.Append("\" width=\"").Append(F(g.W)).Append("\" height=\"").Append(F(g.H))
 			.Append("\" rx=\"").Append(RenderConstants.Radii.Group)
-			.Append("\" fill=\"var(--_group-fill)\" stroke=\"var(--_group-stroke)\" stroke-width=\"1.5\" stroke-dasharray=\"6 4\" />\n");
+			.Append("\" fill=\"none\" stroke=\"").Append(GroupStroke)
+			.Append("\" stroke-width=\"1.75\" stroke-dasharray=\"7 5\" />\n");
 
-		// Icon glyph + label in header
-		var iconCx = g.X + GroupPad + (IconSize / 2);
-		var iconCy = g.Y + (GroupHeaderH / 2);
-		AppendIconGlyph(sb, g.Icon, iconCx, iconCy, IconSize * 0.85);
+		// Header chip: blue tile + label (mermaid style)
+		var chip = 22.0;
+		var chipX = g.X + 14;
+		var chipY = g.Y + 10;
+		_ = sb.Append("  <rect x=\"").Append(F(chipX)).Append("\" y=\"").Append(F(chipY))
+			.Append("\" width=\"").Append(F(chip)).Append("\" height=\"").Append(F(chip))
+			.Append("\" rx=\"4\" fill=\"").Append(IconFill).Append("\" />\n");
+		AppendIconGlyph(sb, g.Icon, chipX + (chip / 2), chipY + (chip / 2), chip * 0.72, IconGlyph);
 
-		var labelX = g.X + GroupPad + IconSize + 8;
-		var labelY = g.Y + (GroupHeaderH / 2);
+		var labelX = chipX + chip + 8;
+		var labelY = chipY + (chip / 2);
 		_ = sb.Append("  <text x=\"").Append(F(labelX)).Append("\" y=\"").Append(F(labelY))
 			.Append("\" text-anchor=\"start\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(RenderConstants.FsVar.S)
-			.Append("\" font-weight=\"").Append(RenderConstants.FontWeights.GroupHeader)
-			.Append("\" fill=\"var(--_text)\">");
+			.Append("\" font-weight=\"600\" fill=\"var(--_text)\">");
 		MultilineUtils.AppendEscapedXml(sb, g.Label.AsSpan());
 		_ = sb.Append("</text>\n</g>");
 	}
@@ -265,26 +410,29 @@ internal static class ArchitectureSvgRenderer
 		_ = sb.Append("\n<g class=\"arch-service\" data-id=\"");
 		MultilineUtils.AppendEscapedAttr(sb, s.Id.AsSpan());
 		_ = sb.Append("\">\n");
-		_ = sb.Append("  <rect x=\"").Append(F(s.X)).Append("\" y=\"").Append(F(s.Y))
-			.Append("\" width=\"").Append(F(s.W)).Append("\" height=\"").Append(F(s.H))
-			.Append("\" rx=\"").Append(RenderConstants.Radii.Rectangle)
-			.Append("\" fill=\"var(--_node-fill)\" stroke=\"var(--_node-stroke)\" stroke-width=\"1.5\" />\n");
 
-		var iconCx = s.X + (s.W / 2);
-		var iconCy = s.Y + 22;
-		AppendIconGlyph(sb, s.Icon, iconCx, iconCy, IconSize);
+		// Blue icon tile centered in service cell
+		var tileX = s.X + ((s.W - IconTile) / 2);
+		var tileY = s.Y;
+		_ = sb.Append("  <rect x=\"").Append(F(tileX)).Append("\" y=\"").Append(F(tileY))
+			.Append("\" width=\"").Append(F(IconTile)).Append("\" height=\"").Append(F(IconTile))
+			.Append("\" rx=\"6\" fill=\"").Append(IconFill).Append("\" />\n");
 
-		var labelY = s.Y + s.H - 18;
+		var iconCx = tileX + (IconTile / 2);
+		var iconCy = tileY + (IconTile / 2);
+		AppendIconGlyph(sb, s.Icon, iconCx, iconCy, IconTile * 0.55, IconGlyph);
+
+		// Label under tile
+		var labelY = tileY + IconTile + 16;
 		_ = sb.Append("  <text x=\"").Append(F(iconCx)).Append("\" y=\"").Append(F(labelY))
 			.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(RenderConstants.FsVar.S)
-			.Append("\" font-weight=\"").Append(RenderConstants.FontWeights.NodeLabel)
-			.Append("\" fill=\"var(--_text)\">");
+			.Append("\" font-weight=\"500\" fill=\"var(--_text)\">");
 		MultilineUtils.AppendEscapedXml(sb, s.Label.AsSpan());
 		_ = sb.Append("</text>\n</g>");
 	}
 
-	private static void AppendIconGlyph(StringBuilder sb, string icon, double cx, double cy, double size)
+	private static void AppendIconGlyph(StringBuilder sb, string icon, double cx, double cy, double size, string stroke)
 	{
 		var half = size / 2;
 		var key = icon;
@@ -297,115 +445,121 @@ internal static class ArchitectureSvgRenderer
 		{
 			case "database":
 			case "db":
-				AppendDatabaseIcon(sb, cx, cy, half);
+				AppendDatabaseIcon(sb, cx, cy, half, stroke);
 				break;
-
 			case "disk":
 			case "storage":
-				_ = sb.Append("  <circle cx=\"").Append(F(cx)).Append("\" cy=\"").Append(F(cy))
-					.Append("\" r=\"").Append(F(half * 0.75))
-					.Append("\" fill=\"none\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.5\" />\n");
-				_ = sb.Append("  <circle cx=\"").Append(F(cx)).Append("\" cy=\"").Append(F(cy))
-					.Append("\" r=\"").Append(F(half * 0.22))
-					.Append("\" fill=\"var(--_accent-text)\" />\n");
+				AppendDiskIcon(sb, cx, cy, half, stroke);
 				break;
-
 			case "server":
-				AppendServerIcon(sb, cx, cy, half, size);
+				AppendServerIcon(sb, cx, cy, half, size, stroke);
 				break;
-
 			case "internet":
 			case "globe":
-				AppendInternetIcon(sb, cx, cy, half);
+				AppendInternetIcon(sb, cx, cy, half, stroke);
 				break;
-
 			case "cloud":
-				AppendCloudIcon(sb, cx, cy, half);
+				AppendCloudIcon(sb, cx, cy, half, stroke);
 				break;
-
 			default:
-				// Letter glyph from first character of icon name
 				var letter = key.Length > 0 ? char.ToUpperInvariant(key[0]).ToString() : "?";
-				_ = sb.Append("  <circle cx=\"").Append(F(cx)).Append("\" cy=\"").Append(F(cy))
-					.Append("\" r=\"").Append(F(half * 0.8))
-					.Append("\" fill=\"none\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.5\" />\n");
 				_ = sb.Append("  <text x=\"").Append(F(cx)).Append("\" y=\"").Append(F(cy))
 					.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
-					.Append("\" font-size=\"").Append(RenderConstants.FsVar.S)
-					.Append("\" font-weight=\"700\" fill=\"var(--_accent-text)\">");
+					.Append("\" font-size=\"").Append(F(size * 0.55))
+					.Append("\" font-weight=\"700\" fill=\"").Append(stroke).Append("\">");
 				MultilineUtils.AppendEscapedXml(sb, letter.AsSpan());
 				_ = sb.Append("</text>\n");
 				break;
 		}
 	}
 
-	private static void AppendDatabaseIcon(StringBuilder sb, double cx, double cy, double half)
+	private static void AppendDatabaseIcon(StringBuilder sb, double cx, double cy, double half, string stroke)
 	{
-		var top = cy - (half * 0.55);
+		var top = cy - (half * 0.45);
 		var bottom = cy + (half * 0.4);
-		var left = cx - (half * 0.7);
-		var right = cx + (half * 0.7);
-		var rx = half * 0.7;
-		var ry = half * 0.28;
+		var left = cx - (half * 0.55);
+		var right = cx + (half * 0.55);
+		var rx = half * 0.55;
+		var ry = half * 0.22;
 
 		_ = sb.Append("  <ellipse cx=\"").Append(F(cx)).Append("\" cy=\"").Append(F(top))
 			.Append("\" rx=\"").Append(F(rx)).Append("\" ry=\"").Append(F(ry))
-			.Append("\" fill=\"none\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.5\" />\n");
+			.Append("\" fill=\"none\" stroke=\"").Append(stroke).Append("\" stroke-width=\"2\" />\n");
 		_ = sb.Append("  <path d=\"M").Append(F(left)).Append(' ').Append(F(top))
 			.Append(" L").Append(F(left)).Append(' ').Append(F(bottom))
 			.Append(" A").Append(F(rx)).Append(' ').Append(F(ry))
 			.Append(" 0 0 0 ").Append(F(right)).Append(' ').Append(F(bottom))
 			.Append(" L").Append(F(right)).Append(' ').Append(F(top))
-			.Append("\" fill=\"none\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.5\" />\n");
+			.Append("\" fill=\"none\" stroke=\"").Append(stroke).Append("\" stroke-width=\"2\" />\n");
+		// middle ellipse band
+		var mid = cy + (half * 0.05);
+		_ = sb.Append("  <path d=\"M").Append(F(left)).Append(' ').Append(F(mid))
+			.Append(" A").Append(F(rx)).Append(' ').Append(F(ry))
+			.Append(" 0 0 0 ").Append(F(right)).Append(' ').Append(F(mid))
+			.Append("\" fill=\"none\" stroke=\"").Append(stroke).Append("\" stroke-width=\"1.5\" />\n");
 	}
 
-	private static void AppendServerIcon(StringBuilder sb, double cx, double cy, double half, double size)
+	private static void AppendDiskIcon(StringBuilder sb, double cx, double cy, double half, string stroke)
 	{
-		var left = cx - (half * 0.7);
-		var top = cy - (half * 0.7);
-		var box = size * 0.7;
+		_ = sb.Append("  <circle cx=\"").Append(F(cx)).Append("\" cy=\"").Append(F(cy))
+			.Append("\" r=\"").Append(F(half * 0.7))
+			.Append("\" fill=\"none\" stroke=\"").Append(stroke).Append("\" stroke-width=\"2\" />\n");
+		_ = sb.Append("  <circle cx=\"").Append(F(cx)).Append("\" cy=\"").Append(F(cy))
+			.Append("\" r=\"").Append(F(half * 0.18))
+			.Append("\" fill=\"").Append(stroke).Append("\" />\n");
+		// platter arm
+		_ = sb.Append("  <line x1=\"").Append(F(cx + (half * 0.12))).Append("\" y1=\"").Append(F(cy - (half * 0.1)))
+			.Append("\" x2=\"").Append(F(cx + (half * 0.45))).Append("\" y2=\"").Append(F(cy - (half * 0.4)))
+			.Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"2\" stroke-linecap=\"round\" />\n");
+	}
+
+	private static void AppendServerIcon(StringBuilder sb, double cx, double cy, double half, double size, string stroke)
+	{
+		var left = cx - (half * 0.6);
+		var top = cy - (half * 0.55);
+		var boxW = size * 0.6;
+		var boxH = size * 0.55;
 		_ = sb.Append("  <rect x=\"").Append(F(left)).Append("\" y=\"").Append(F(top))
-			.Append("\" width=\"").Append(F(box)).Append("\" height=\"").Append(F(box))
-			.Append("\" rx=\"2\" fill=\"none\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.5\" />\n");
+			.Append("\" width=\"").Append(F(boxW)).Append("\" height=\"").Append(F(boxH))
+			.Append("\" rx=\"3\" fill=\"none\" stroke=\"").Append(stroke).Append("\" stroke-width=\"2\" />\n");
 
-		var lineLeft = cx - (half * 0.45);
-		var lineRight = cx + (half * 0.45);
-		var y1 = cy - (half * 0.25);
-		var y2 = cy + (half * 0.1);
-		_ = sb.Append("  <line x1=\"").Append(F(lineLeft)).Append("\" y1=\"").Append(F(y1))
-			.Append("\" x2=\"").Append(F(lineRight)).Append("\" y2=\"").Append(F(y1))
-			.Append("\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.25\" />\n");
-		_ = sb.Append("  <line x1=\"").Append(F(lineLeft)).Append("\" y1=\"").Append(F(y2))
-			.Append("\" x2=\"").Append(F(lineRight)).Append("\" y2=\"").Append(F(y2))
-			.Append("\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.25\" />\n");
+		var lineLeft = cx - (half * 0.4);
+		var lineRight = cx + (half * 0.4);
+		for (var i = 0; i < 3; i++)
+		{
+			var ly = top + (boxH * (0.28 + (i * 0.22)));
+			_ = sb.Append("  <line x1=\"").Append(F(lineLeft)).Append("\" y1=\"").Append(F(ly))
+				.Append("\" x2=\"").Append(F(lineRight)).Append("\" y2=\"").Append(F(ly))
+				.Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"1.75\" />\n");
+		}
 	}
 
-	private static void AppendInternetIcon(StringBuilder sb, double cx, double cy, double half)
+	private static void AppendInternetIcon(StringBuilder sb, double cx, double cy, double half, string stroke)
 	{
-		var r = half * 0.75;
+		var r = half * 0.7;
 		_ = sb.Append("  <circle cx=\"").Append(F(cx)).Append("\" cy=\"").Append(F(cy))
 			.Append("\" r=\"").Append(F(r))
-			.Append("\" fill=\"none\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.5\" />\n");
+			.Append("\" fill=\"none\" stroke=\"").Append(stroke).Append("\" stroke-width=\"2\" />\n");
 		_ = sb.Append("  <ellipse cx=\"").Append(F(cx)).Append("\" cy=\"").Append(F(cy))
-			.Append("\" rx=\"").Append(F(half * 0.35)).Append("\" ry=\"").Append(F(r))
-			.Append("\" fill=\"none\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.25\" />\n");
+			.Append("\" rx=\"").Append(F(half * 0.32)).Append("\" ry=\"").Append(F(r))
+			.Append("\" fill=\"none\" stroke=\"").Append(stroke).Append("\" stroke-width=\"1.5\" />\n");
 		_ = sb.Append("  <line x1=\"").Append(F(cx - r)).Append("\" y1=\"").Append(F(cy))
 			.Append("\" x2=\"").Append(F(cx + r)).Append("\" y2=\"").Append(F(cy))
-			.Append("\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.25\" />\n");
+			.Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"1.5\" />\n");
 	}
 
-	private static void AppendCloudIcon(StringBuilder sb, double cx, double cy, double half)
+	private static void AppendCloudIcon(StringBuilder sb, double cx, double cy, double half, string stroke)
 	{
 		var startX = cx - (half * 0.55);
-		var startY = cy + (half * 0.25);
+		var startY = cy + (half * 0.2);
 		_ = sb.Append("  <path d=\"M").Append(F(startX)).Append(' ').Append(F(startY))
-			.Append(" a").Append(F(half * 0.4)).Append(' ').Append(F(half * 0.35))
-			.Append(" 0 1 1 ").Append(F(half * 0.15)).Append(' ').Append(F(-(half * 0.45)))
-			.Append(" a").Append(F(half * 0.45)).Append(' ').Append(F(half * 0.4))
-			.Append(" 0 1 1 ").Append(F(half * 0.7)).Append(" 0")
-			.Append(" a").Append(F(half * 0.35)).Append(' ').Append(F(half * 0.3))
-			.Append(" 0 1 1 ").Append(F(half * 0.2)).Append(' ').Append(F(half * 0.45))
-			.Append(" z\" fill=\"none\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.5\" />\n");
+			.Append(" a").Append(F(half * 0.38)).Append(' ').Append(F(half * 0.32))
+			.Append(" 0 1 1 ").Append(F(half * 0.12)).Append(' ').Append(F(-(half * 0.4)))
+			.Append(" a").Append(F(half * 0.42)).Append(' ').Append(F(half * 0.36))
+			.Append(" 0 1 1 ").Append(F(half * 0.65)).Append(" 0")
+			.Append(" a").Append(F(half * 0.32)).Append(' ').Append(F(half * 0.28))
+			.Append(" 0 1 1 ").Append(F(half * 0.18)).Append(' ').Append(F(half * 0.4))
+			.Append(" z\" fill=\"none\" stroke=\"").Append(stroke).Append("\" stroke-width=\"2\" />\n");
 	}
 
 	private static void AppendEdge(StringBuilder sb, ArchitectureEdge edge, LayoutResult layout)
@@ -419,23 +573,31 @@ internal static class ArchitectureSvgRenderer
 		var (x1, y1) = PortPoint(src, edge.SourcePort);
 		var (x2, y2) = PortPoint(dst, edge.TargetPort);
 
-		// Simple elbow: mid-point bend based on dominant direction
+		// Prefer straight line when ports align; otherwise single elbow
 		string path;
-		var horizontalPorts = edge.SourcePort is ArchitecturePort.Left or ArchitecturePort.Right
-			|| edge.TargetPort is ArchitecturePort.Left or ArchitecturePort.Right;
-		if (horizontalPorts)
+		var dx = Math.Abs(x2 - x1);
+		var dy = Math.Abs(y2 - y1);
+		if (dx < 1.5 || dy < 1.5)
 		{
+			// Already aligned
+			path = $"M{F(x1)} {F(y1)} L{F(x2)} {F(y2)}";
+		}
+		else if (edge.SourcePort is ArchitecturePort.Left or ArchitecturePort.Right
+			|| edge.TargetPort is ArchitecturePort.Left or ArchitecturePort.Right)
+		{
+			// Horizontal-first elbow
 			var mx = (x1 + x2) / 2;
 			path = $"M{F(x1)} {F(y1)} L{F(mx)} {F(y1)} L{F(mx)} {F(y2)} L{F(x2)} {F(y2)}";
 		}
 		else
 		{
+			// Vertical-first elbow
 			var my = (y1 + y2) / 2;
 			path = $"M{F(x1)} {F(y1)} L{F(x1)} {F(my)} L{F(x2)} {F(my)} L{F(x2)} {F(y2)}";
 		}
 
 		_ = sb.Append("\n<path d=\"").Append(path)
-			.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"1.75\"");
+			.Append("\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"2\"");
 
 		if (edge.ArrowToTarget)
 			_ = sb.Append(" marker-end=\"url(#arch-arrow)\"");

@@ -67,6 +67,45 @@ public class ArchitectureRendererTests
 		svg.Should().Contain("stroke-dasharray");
 		svg.Should().Contain("arch-group");
 		svg.Should().Contain("arch-service");
+		// Mermaid-like solid blue icon tiles
+		svg.Should().Contain("#326ce5");
+	}
+
+	[Test]
+	public void Places_services_from_edge_ports_not_vertical_stack()
+	{
+		// db:R --> L:server puts Database left of Server (not stacked)
+		var svg = MermaidRenderer.RenderSvg("""
+			architecture-beta
+			    group api(cloud)[API]
+			    service db(database)[Database] in api
+			    service disk(disk)[Disk] in api
+			    service server(server)[Server] in api
+			    db:R --> L:server
+			    disk:T --> B:server
+			""");
+
+		// Extract service group x positions from data-id order is unstable; check for horizontal spread via multiple distinct tile x=
+		// Server and Database must not share the same x (stacked layout had identical x for all).
+		var dbIdx = svg.IndexOf("data-id=\"db\"", StringComparison.Ordinal);
+		var serverIdx = svg.IndexOf("data-id=\"server\"", StringComparison.Ordinal);
+		dbIdx.Should().BeGreaterThan(0);
+		serverIdx.Should().BeGreaterThan(0);
+		var dbRect = svg.IndexOf("<rect", dbIdx, StringComparison.Ordinal);
+		var serverRect = svg.IndexOf("<rect", serverIdx, StringComparison.Ordinal);
+		var dbX = ExtractAttr(svg, dbRect, "x");
+		var serverX = ExtractAttr(svg, serverRect, "x");
+		dbX.Should().NotBe(serverX);
+	}
+
+	private static string ExtractAttr(string svg, int from, string name)
+	{
+		var key = name + "=\"";
+		var i = svg.IndexOf(key, from, StringComparison.Ordinal);
+		i.Should().BeGreaterThanOrEqualTo(0);
+		var start = i + key.Length;
+		var end = svg.IndexOf('"', start);
+		return svg[start..end];
 	}
 
 	[Test]
