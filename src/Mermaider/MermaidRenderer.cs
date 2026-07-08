@@ -207,6 +207,10 @@ public static class MermaidRenderer
 				MindmapParser.Parse(PreprocessLinesPreserveIndent(cleaned)),
 				colors, font, transparent, strict, accessibility, diagramType),
 
+			DiagramType.Journey => JourneySvgRenderer.RenderToBuilder(
+				JourneyParser.Parse(filteredLines),
+				colors, font, transparent, strict, accessibility, diagramType),
+
 			_ => SvgRenderer.RenderToBuilder(
 				provider.LayoutFlowchart(ParseInternal(filteredLines, diagramType), options, strict),
 				colors, font, transparent, strict, accessibility, diagramType, options?.RoundedEdges != false ? 6.0 : 0),

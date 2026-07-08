@@ -15,5 +15,7 @@ public enum DiagramType
 	Radar,
 	Treemap,
 	Venn,
-	Mindmap
+	Mindmap,
+	Journey,
 }
+
