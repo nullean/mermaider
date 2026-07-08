@@ -30,10 +30,10 @@
 
 <defs>
   <marker id="arch-arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="#1f2937" />
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" />
   </marker>
   <marker id="arch-arrow-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
-    <polygon points="12 0, 0 6, 12 12" fill="#1f2937" />
+    <polygon points="12 0, 0 6, 12 12" fill="var(--_arrow)" />
   </marker>
 </defs>
 
@@ -43,8 +43,8 @@
   <path d="M60.64 62.58 a3.01 2.53 0 1 1 0.95 -3.17 a3.33 2.85 0 1 1 5.15 0 a2.53 2.22 0 1 1 1.43 3.17 z" fill="none" stroke="#ffffff" stroke-width="2" />
   <text x="84" y="61" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)">API</text>
 </g>
-<path d="M146 132 L238 132" fill="none" stroke="#1f2937" stroke-width="2" marker-end="url(#arch-arrow)" />
-<path d="M266 236 L266 160" fill="none" stroke="#1f2937" stroke-width="2" marker-end="url(#arch-arrow)" />
+<path d="M146 132 L238 132" fill="none" stroke="var(--_line)" stroke-width="2" marker-end="url(#arch-arrow)" />
+<path d="M266 236 L266 160" fill="none" stroke="var(--_line)" stroke-width="2" marker-end="url(#arch-arrow)" />
 <g class="arch-service" data-id="db">
   <rect x="90" y="104" width="56" height="56" rx="6" fill="#326ce5" />
   <ellipse cx="118" cy="125.07" rx="8.47" ry="3.39" fill="none" stroke="#ffffff" stroke-width="2" />

@@ -158,4 +158,72 @@ public class ArchitectureRendererTests
 		svg.Should().StartWith("<svg");
 		svg.Should().EndWith("</svg>");
 	}
+
+	[Test]
+	public void Cyclic_duplicate_group_parents_do_not_crash_and_render_svg()
+	{
+		// Duplicate group ids can form a parent cycle (a→b→a); must not StackOverflow.
+		var svg = MermaidRenderer.RenderSvg("""
+			architecture-beta
+			    group a(cloud)[A]
+			    group b(cloud)[B] in a
+			    group a(cloud)[A] in b
+			    service s(server)[S] in a
+			""");
+
+		svg.Should().StartWith("<svg");
+		svg.Should().EndWith("</svg>");
+		svg.Should().Contain("arch-group");
+		svg.Should().Contain("arch-service");
+		svg.Should().Contain(">S<");
+	}
+
+	[Test]
+	public void Service_with_missing_parent_is_still_placed()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			architecture-beta
+			    service x(server)[X] in nope
+			    service y(database)[Y]
+			    x:R --> L:y
+			""");
+
+		svg.Should().StartWith("<svg");
+		svg.Should().Contain("data-id=\"x\"");
+		svg.Should().Contain(">X<");
+		svg.Should().Contain("data-id=\"y\"");
+		svg.Should().Contain("<path");
+		svg.Should().Contain("marker-end");
+	}
+
+	[Test]
+	public void Group_with_missing_parent_is_still_placed()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			architecture-beta
+			    group orphan(cloud)[Orphan] in missing
+			    service s(server)[S] in orphan
+			""");
+
+		svg.Should().Contain("data-id=\"orphan\"");
+		svg.Should().Contain("Orphan");
+		svg.Should().Contain("data-id=\"s\"");
+		svg.Should().Contain(">S<");
+	}
+
+	[Test]
+	public void Edge_and_markers_use_theme_css_variables()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			architecture-beta
+			    service a(server)[A]
+			    service b(server)[B]
+			    a:R --> L:b
+			""");
+
+		svg.Should().Contain("stroke=\"var(--_line)\"");
+		svg.Should().Contain("fill=\"var(--_arrow)\"");
+		svg.Should().NotContain("stroke=\"#1f2937\"");
+		svg.Should().NotContain("fill=\"#1f2937\"");
+	}
 }
