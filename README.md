@@ -314,6 +314,8 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
+v1 notes: ids are unique across groups and services (first declaration wins); `{group}` edge modifiers are accepted for syntax compatibility but attach to the service tile (not the parent group boundary); `junction` and edge labels are not supported yet.
+
 <p align="center"><img src="docs/screenshots/architecture.svg" alt="Architecture diagram" /></p>
 
 ## Theming

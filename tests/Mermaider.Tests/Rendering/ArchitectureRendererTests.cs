@@ -160,14 +160,13 @@ public class ArchitectureRendererTests
 	}
 
 	[Test]
-	public void Cyclic_duplicate_group_parents_do_not_crash_and_render_svg()
+	public void Cyclic_group_parents_do_not_crash_and_render_svg()
 	{
-		// Duplicate group ids can form a parent cycle (a→b→a); must not StackOverflow.
+		// Unique ids with mutual parents form a cycle; must not StackOverflow.
 		var svg = MermaidRenderer.RenderSvg("""
 			architecture-beta
-			    group a(cloud)[A]
-			    group b(cloud)[B] in a
 			    group a(cloud)[A] in b
+			    group b(cloud)[B] in a
 			    service s(server)[S] in a
 			""");
 
@@ -176,6 +175,68 @@ public class ArchitectureRendererTests
 		svg.Should().Contain("arch-group");
 		svg.Should().Contain("arch-service");
 		svg.Should().Contain(">S<");
+	}
+
+	[Test]
+	public void Group_and_service_same_id_first_wins_single_data_id()
+	{
+		// group db then service db: service is dropped at parse; only one data-id="db".
+		var svg = MermaidRenderer.RenderSvg("""
+			architecture-beta
+			    group db(cloud)[Group DB]
+			    service db(database)[Service DB]
+			    service other(server)[Other]
+			    db:R --> L:other
+			""");
+
+		var idCount = 0;
+		var search = "data-id=\"db\"";
+		for (var i = 0; (i = svg.IndexOf(search, i, StringComparison.Ordinal)) >= 0; i += search.Length)
+			idCount++;
+
+		idCount.Should().Be(1);
+		svg.Should().Contain("Group DB");
+		svg.Should().NotContain("Service DB");
+		svg.Should().Contain("data-id=\"other\"");
+		// Edge still attaches to the group bounds for id db
+		svg.Should().Contain("<path");
+	}
+
+	[Test]
+	public void Nested_groups_render_two_group_boxes()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			architecture-beta
+			    group public_api(cloud)[Public API]
+			    group private_api(cloud)[Private API] in public_api
+			    service db(database)[DB] in private_api
+			""");
+
+		svg.Should().Contain("data-id=\"public_api\"");
+		svg.Should().Contain("data-id=\"private_api\"");
+		svg.Should().Contain("Public API");
+		svg.Should().Contain("Private API");
+		svg.Should().Contain("data-id=\"db\"");
+		// Two dashed group rects
+		var groupCount = 0;
+		var needle = "class=\"arch-group\"";
+		for (var i = 0; (i = svg.IndexOf(needle, i, StringComparison.Ordinal)) >= 0; i += needle.Length)
+			groupCount++;
+		groupCount.Should().Be(2);
+	}
+
+	[Test]
+	public void Bidirectional_edge_emits_marker_start_and_end()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			architecture-beta
+			    service a(server)[A]
+			    service b(server)[B]
+			    a:R <--> L:b
+			""");
+
+		svg.Should().Contain("marker-end=\"url(#arch-arrow)\"");
+		svg.Should().Contain("marker-start=\"url(#arch-arrow-start)\"");
 	}
 
 	[Test]

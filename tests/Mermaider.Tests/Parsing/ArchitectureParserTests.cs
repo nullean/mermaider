@@ -153,8 +153,10 @@ public class ArchitectureParserTests
 	}
 
 	[Test]
-	public void Parses_edge_with_group_modifier()
+	public void Parses_edge_with_group_modifier_as_service_ids_v1()
 	{
+		// v1: {group} is accepted for syntax compatibility but attachment uses service ids
+		// (parent-group boundary attach is not modeled yet).
 		var lines = new[]
 		{
 			"architecture-beta",
@@ -170,5 +172,42 @@ public class ArchitectureParserTests
 		diagram.Edges.Should().HaveCount(1);
 		diagram.Edges[0].SourceId.Should().Be("a");
 		diagram.Edges[0].TargetId.Should().Be("b");
+	}
+
+	[Test]
+	public void Duplicate_ids_across_group_and_service_first_wins()
+	{
+		var lines = new[]
+		{
+			"architecture-beta",
+			"group db(cloud)[Group DB]",
+			"service db(database)[Service DB]",
+			"service other(server)[Other]",
+		};
+
+		var diagram = ArchitectureParser.Parse(lines);
+
+		diagram.Groups.Should().HaveCount(1);
+		diagram.Groups[0].Id.Should().Be("db");
+		diagram.Groups[0].Label.Should().Be("Group DB");
+		// Service with the same id is skipped so edge bounds cannot clobber the group.
+		diagram.Services.Should().HaveCount(1);
+		diagram.Services[0].Id.Should().Be("other");
+	}
+
+	[Test]
+	public void Duplicate_group_id_first_wins()
+	{
+		var lines = new[]
+		{
+			"architecture-beta",
+			"group a(cloud)[First]",
+			"group a(cloud)[Second]",
+		};
+
+		var diagram = ArchitectureParser.Parse(lines);
+
+		diagram.Groups.Should().HaveCount(1);
+		diagram.Groups[0].Label.Should().Be("First");
 	}
 }

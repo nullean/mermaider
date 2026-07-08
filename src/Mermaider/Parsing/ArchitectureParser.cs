@@ -49,6 +49,9 @@ internal static partial class ArchitectureParser
 		var groups = new List<ArchitectureGroup>();
 		var services = new List<ArchitectureService>();
 		var edges = new List<ArchitectureEdge>();
+		// Mermaid architecture ids are unique across groups and services.
+		// First declaration wins so bounds/edges cannot clobber each other.
+		var usedIds = new HashSet<string>(StringComparer.Ordinal);
 
 		for (var i = 0; i < lines.Length; i++)
 		{
@@ -60,6 +63,8 @@ internal static partial class ArchitectureParser
 			if (groupMatch.Success)
 			{
 				var id = groupMatch.Groups[1].Value;
+				if (!usedIds.Add(id))
+					continue;
 				var icon = groupMatch.Groups[2].Value.Trim();
 				var label = groupMatch.Groups[3].Value.Trim();
 				var parent = groupMatch.Groups[4].Success ? groupMatch.Groups[4].Value : null;
@@ -71,6 +76,8 @@ internal static partial class ArchitectureParser
 			if (serviceMatch.Success)
 			{
 				var id = serviceMatch.Groups[1].Value;
+				if (!usedIds.Add(id))
+					continue;
 				var icon = serviceMatch.Groups[2].Value.Trim();
 				var label = serviceMatch.Groups[3].Value.Trim();
 				var parent = serviceMatch.Groups[4].Success ? serviceMatch.Groups[4].Value : null;

@@ -199,7 +199,8 @@ internal static class ArchitectureLayout
 		var h = GroupHeaderH + GroupPad + innerH + GroupPad;
 
 		placedGroups.Add(new PlacedGroup(group.Id, group.Icon, group.Label, x, y, w, h));
-		bounds[group.Id] = (x, y, w, h);
+		// First-wins: never overwrite an existing id (group/service collision defense).
+		_ = bounds.TryAdd(group.Id, (x, y, w, h));
 		return (w, h);
 	}
 
@@ -235,14 +236,18 @@ internal static class ArchitectureLayout
 			.Where(e => ids.Contains(e.SourceId) && ids.Contains(e.TargetId))
 			.ToList();
 
-		// Relax port constraints into grid coords
-		for (var iter = 0; iter < Math.Max(4, toPlace.Count * 2); iter++)
+		// Relax port-axis inequalities first (stable; no free-axis thrash).
+		var iters = Math.Max(4, toPlace.Count * 2);
+		for (var iter = 0; iter < iters; iter++)
 		{
 			foreach (var e in edges)
-			{
-				ApplyPortConstraint(e, col, row);
-			}
+				ApplyPortAxisInequality(e, col, row);
 		}
+
+		// Free-axis preference (same row for horizontal ports, same col for vertical)
+		// runs once after inequalities converge so multi-edge clusters don't thrash.
+		foreach (var e in edges)
+			ApplyPortFreeAxisPreference(e, col, row);
 
 		// Normalize so min col/row is 0
 		var minC = col.Values.Min();
@@ -287,8 +292,9 @@ internal static class ArchitectureLayout
 			var tileX = x + ((ServiceW - IconTile) / 2);
 			var tileY = y;
 			placedServices.Add(new PlacedService(s.Id, s.Icon, s.Label, x, y, ServiceW, ServiceH));
-			// Edge attachment uses icon tile so arrows hit the blue squares
-			bounds[s.Id] = (tileX, tileY, IconTile, IconTile);
+			// Edge attachment uses icon tile so arrows hit the blue squares.
+			// First-wins if a group already claimed this id (should be rare after parse dedupe).
+			_ = bounds.TryAdd(s.Id, (tileX, tileY, IconTile, IconTile));
 		}
 
 		var w = ((maxC + 1) * cellW) - CellGapX;
@@ -296,41 +302,16 @@ internal static class ArchitectureLayout
 		return (Math.Max(w, 0), Math.Max(h, 0));
 	}
 
-	private static void ApplyPortConstraint(
+	private static void ApplyPortAxisInequality(
 		ArchitectureEdge e,
 		Dictionary<string, int> col,
 		Dictionary<string, int> row)
 	{
-		// Source port tells which side of source the edge leaves — implies relative placement.
-		// Target port is where it arrives.
+		// Primary axis only — source port side implies relative placement.
 		// db:R --> L:server  => db left of server
 		// disk:T --> B:server => disk below server
 		switch (e.SourcePort)
 		{
-			case ArchitecturePort.Right when e.TargetPort == ArchitecturePort.Left:
-				// source left of target
-				if (col[e.SourceId] >= col[e.TargetId])
-					col[e.TargetId] = col[e.SourceId] + 1;
-				// prefer same row
-				row[e.TargetId] = row[e.SourceId];
-				break;
-			case ArchitecturePort.Left when e.TargetPort == ArchitecturePort.Right:
-				if (col[e.TargetId] >= col[e.SourceId])
-					col[e.SourceId] = col[e.TargetId] + 1;
-				row[e.SourceId] = row[e.TargetId];
-				break;
-			case ArchitecturePort.Bottom when e.TargetPort == ArchitecturePort.Top:
-				// source above target
-				if (row[e.SourceId] >= row[e.TargetId])
-					row[e.TargetId] = row[e.SourceId] + 1;
-				col[e.TargetId] = col[e.SourceId];
-				break;
-			case ArchitecturePort.Top when e.TargetPort == ArchitecturePort.Bottom:
-				// source below target
-				if (row[e.TargetId] >= row[e.SourceId])
-					row[e.SourceId] = row[e.TargetId] + 1;
-				col[e.SourceId] = col[e.TargetId];
-				break;
 			case ArchitecturePort.Right:
 				if (col[e.SourceId] >= col[e.TargetId])
 					col[e.TargetId] = col[e.SourceId] + 1;
@@ -346,6 +327,30 @@ internal static class ArchitectureLayout
 			case ArchitecturePort.Top:
 				if (row[e.TargetId] >= row[e.SourceId])
 					row[e.SourceId] = row[e.TargetId] + 1;
+				break;
+		}
+	}
+
+	private static void ApplyPortFreeAxisPreference(
+		ArchitectureEdge e,
+		Dictionary<string, int> col,
+		Dictionary<string, int> row)
+	{
+		// Soft same-row/col preference for matched port pairs — applied once after
+		// inequalities so multi-edge clusters don't thrash every iteration.
+		switch (e.SourcePort)
+		{
+			case ArchitecturePort.Right when e.TargetPort == ArchitecturePort.Left:
+				row[e.TargetId] = row[e.SourceId];
+				break;
+			case ArchitecturePort.Left when e.TargetPort == ArchitecturePort.Right:
+				row[e.SourceId] = row[e.TargetId];
+				break;
+			case ArchitecturePort.Bottom when e.TargetPort == ArchitecturePort.Top:
+				col[e.TargetId] = col[e.SourceId];
+				break;
+			case ArchitecturePort.Top when e.TargetPort == ArchitecturePort.Bottom:
+				col[e.SourceId] = col[e.TargetId];
 				break;
 		}
 	}
