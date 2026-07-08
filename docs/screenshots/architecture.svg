@@ -39,17 +39,17 @@
 
 <g class="arch-group" data-id="api">
   <rect x="32" y="32" width="132" height="124" rx="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.5" stroke-dasharray="6 4" />
-  <path d="M53.86 48.34 a3.74 3.27 0 1 1 1.4 -4.21 a4.21 3.74 0 1 1 6.55 0 a3.27 2.81 0 1 1 1.87 4.21 z" fill="none" stroke="var(--_accent)" stroke-width="1.5" />
+  <path d="M53.86 48.34 a3.74 3.27 0 1 1 1.4 -4.21 a4.21 3.74 0 1 1 6.55 0 a3.27 2.81 0 1 1 1.87 4.21 z" fill="none" stroke="var(--_accent-stroke)" stroke-width="1.5" />
   <text x="78" y="46" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)">API</text>
 </g>
 <g class="arch-service" data-id="db">
   <rect x="200" y="32" width="120" height="72" rx="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.5" />
-  <path d="M253.95 56.75 a4.4 3.85 0 1 1 1.65 -4.95 a4.95 4.4 0 1 1 7.7 0 a3.85 3.3 0 1 1 2.2 4.95 z" fill="none" stroke="var(--_accent)" stroke-width="1.5" />
+  <path d="M253.95 56.75 a4.4 3.85 0 1 1 1.65 -4.95 a4.95 4.4 0 1 1 7.7 0 a3.85 3.3 0 1 1 2.2 4.95 z" fill="none" stroke="var(--_accent-stroke)" stroke-width="1.5" />
   <text x="260" y="86" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)">Database</text>
 </g>
 <g class="arch-service" data-id="disk">
   <rect x="336" y="32" width="120" height="72" rx="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.5" />
-  <path d="M389.95 56.75 a4.4 3.85 0 1 1 1.65 -4.95 a4.95 4.4 0 1 1 7.7 0 a3.85 3.3 0 1 1 2.2 4.95 z" fill="none" stroke="var(--_accent)" stroke-width="1.5" />
+  <path d="M389.95 56.75 a4.4 3.85 0 1 1 1.65 -4.95 a4.95 4.4 0 1 1 7.7 0 a3.85 3.3 0 1 1 2.2 4.95 z" fill="none" stroke="var(--_accent-stroke)" stroke-width="1.5" />
   <text x="396" y="86" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)">Disk</text>
 </g>
 <path d="M98 156 L98 94 L260 94 L260 32" fill="none" stroke="var(--_line)" stroke-width="1.75" marker-end="url(#arch-arrow)" />
