@@ -33,6 +33,7 @@ Supported diagram types: flowchart, state, sequence, class, ER, pie, quadrant, t
 
 Adding a type: see `docs/agent-add-diagram-type.md` (playbook for parallel agents).
 Supported diagram types: flowchart, state, sequence, class, ER, pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, C4.
+Supported diagram types: flowchart, state, sequence, class, ER, pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, sankey.
 
 ## Public API
 

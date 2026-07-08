@@ -19,4 +19,5 @@ public enum DiagramType
 	Gantt,
 	Journey,
 	C4,
+	Sankey,
 }

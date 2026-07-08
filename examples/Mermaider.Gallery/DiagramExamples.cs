@@ -3,6 +3,7 @@ namespace Mermaider.Gallery;
 public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Gantt, RealWorld }
 public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Journey, RealWorld }
 public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, C4, RealWorld }
+public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Sankey, RealWorld }
 
 public sealed record DiagramExample(string Slug, string Title, DiagramCategory Category, string Source, string? Feature = null);
 
@@ -947,6 +948,25 @@ public static class DiagramExamples
 			Rel(spa, api, "Uses", "JSON/HTTPS")
 			Rel(api, db, "Reads from and writes to", "JDBC")
 			Rel(api, mail, "Sends e-mails", "SMTP")
+		// ── Sankey ─────────────────────────────────────────────────────
+
+		new("sankey-energy", "Energy Flow", DiagramCategory.Sankey, """
+			sankey-beta
+			Electricity grid,Over generation / exports,104.453
+			Electricity grid,Heating and cooling - homes,113.726
+			Electricity grid,Industry,342.165
+			Electricity grid,Losses,56.691
+			Thermal generation,Electricity grid,525.531
+			Nuclear,Thermal generation,839.978
+			Wind,Electricity grid,289.366
+			"""),
+
+		new("sankey-funnel", "Funnel", DiagramCategory.Sankey, """
+			sankey-beta
+			Visitors,Signups,1000
+			Signups,Trials,400
+			Trials,Paid,120
+			Trials,Churned,280
 			"""),
 
 		// ── Real World (RFC diagrams) ─────────────────────────────────
@@ -1114,6 +1134,7 @@ public static class DiagramExamples
 		DiagramCategory.Gantt => "Gantt",
 		DiagramCategory.Journey => "User Journey",
 		DiagramCategory.C4 => "C4",
+		DiagramCategory.Sankey => "Sankey",
 		DiagramCategory.RealWorld => "Real World",
 		_ => c.ToString(),
 	};
@@ -1136,6 +1157,7 @@ public static class DiagramExamples
 		DiagramCategory.Gantt => "gantt",
 		DiagramCategory.Journey => "journey",
 		DiagramCategory.C4 => "c4",
+		DiagramCategory.Sankey => "sankey",
 		DiagramCategory.RealWorld => "real-world",
 		_ => c.ToString().ToLowerInvariant(),
 	};

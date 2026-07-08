@@ -54,6 +54,8 @@ internal static partial class DiagramDetector
 	// Keyword gate only — full header options live in C4Parser
 	[GeneratedRegex(@"^C4(?:Context|Container|Component|Dynamic|Deployment)\b", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex C4Header();
+	[GeneratedRegex(@"^sankey(?:-beta)?\b", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex SankeyHeader();
 
 	internal static DiagramType Detect(ReadOnlySpan<char> text)
 	{
@@ -93,6 +95,8 @@ internal static partial class DiagramDetector
 			return DiagramType.Journey;
 		if (C4Header().IsMatch(firstLineStr))
 			return DiagramType.C4;
+		if (SankeyHeader().IsMatch(firstLineStr))
+			return DiagramType.Sankey;
 
 		return DiagramType.Flowchart;
 	}

@@ -113,6 +113,7 @@ internal static class StyleBlock
 		DiagramType.Gantt => "gantt chart",
 		DiagramType.Journey => "user journey",
 		DiagramType.C4 => "C4 diagram",
+		DiagramType.Sankey => "sankey diagram",
 		_ => "diagram"
 	};
 
