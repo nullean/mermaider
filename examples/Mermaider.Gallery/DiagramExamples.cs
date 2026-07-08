@@ -1,6 +1,6 @@
 namespace Mermaider.Gallery;
 
-public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, RealWorld }
+public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Packet, RealWorld }
 
 public sealed record DiagramExample(string Slug, string Title, DiagramCategory Category, string Source, string? Feature = null);
 
@@ -867,6 +867,26 @@ public static class DiagramExamples
 
 		new("mindmap-learning", "Learning Path", DiagramCategory.Mindmap,
 			"mindmap\n  ((Web Development))\n    (Frontend)\n      HTML\n      CSS\n      JavaScript\n    (Backend)\n      .NET\n      Node.js\n    ))Cloud((\n      AWS\n      Azure"),
+
+		// ── Packet ─────────────────────────────────────────────────────
+
+		new("packet-udp", "UDP Header", DiagramCategory.Packet, """
+			packet-beta
+			title UDP Header
+			0-15: "Source Port"
+			16-31: "Destination Port"
+			32-47: "Length"
+			48-63: "Checksum"
+			"""),
+
+		new("packet-tcp-flags", "Bit-count Form", DiagramCategory.Packet, """
+			packet
+			title TCP Segment (partial)
+			+16: "Source Port"
+			+16: "Dest Port"
+			+32: "Sequence Number"
+			+32: "Ack Number"
+			"""),
 		// ── Real World (RFC diagrams) ─────────────────────────────────
 
 		new("rfc-path-flow", "Path Flow (V1)", DiagramCategory.RealWorld, """
@@ -1029,6 +1049,7 @@ public static class DiagramExamples
 		DiagramCategory.Treemap => "Treemap",
 		DiagramCategory.Venn => "Venn Diagram",
 		DiagramCategory.Mindmap => "Mindmap",
+		DiagramCategory.Packet => "Packet",
 		DiagramCategory.RealWorld => "Real World",
 		_ => c.ToString(),
 	};
@@ -1048,6 +1069,7 @@ public static class DiagramExamples
 		DiagramCategory.Treemap => "treemap",
 		DiagramCategory.Venn => "venn",
 		DiagramCategory.Mindmap => "mindmap",
+		DiagramCategory.Packet => "packet",
 		DiagramCategory.RealWorld => "real-world",
 		_ => c.ToString().ToLowerInvariant(),
 	};

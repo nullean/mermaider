@@ -36,7 +36,7 @@ penalty, and trivial deployment&mdash;just a NuGet reference.
 ### Built-in layout engine
 
 Graph-based diagrams (flowchart, state, class, ER) need a layout algorithm to position nodes and route
-edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap) use
+edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, packet) use
 purpose-built layout arithmetic directly in their renderers. Rather than depending on an external engine, Mermaider ships its own lightweight
 [Sugiyama layout engine](src/Sugiyama/) with zero dependencies.
 
@@ -299,6 +299,23 @@ MermaidRenderer.RenderSvg("""
 ```
 
 <p align="center"><img src="docs/screenshots/mindmap.svg" alt="Mindmap" /></p>
+
+### Packet Diagram
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    packet-beta
+    title UDP Header
+    0-15: "Source Port"
+    16-31: "Destination Port"
+    32-47: "Length"
+    48-63: "Checksum"
+    """);
+```
+
+Supports range fields (`0-15: "Label"`), single-bit fields (`106: "URG"`), and bit-count form (`+16: "Source Port"`).
+
+<p align="center"><img src="docs/screenshots/packet.svg" alt="Packet diagram" /></p>
 
 ## Theming
 
