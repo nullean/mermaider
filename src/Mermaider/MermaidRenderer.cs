@@ -213,6 +213,8 @@ public static class MermaidRenderer
 
 			DiagramType.Journey => JourneySvgRenderer.RenderToBuilder(
 				JourneyParser.Parse(filteredLines),
+			DiagramType.C4 => C4SvgRenderer.RenderToBuilder(
+				C4Parser.Parse(filteredLines),
 				colors, font, transparent, strict, accessibility, diagramType),
 
 			_ => SvgRenderer.RenderToBuilder(

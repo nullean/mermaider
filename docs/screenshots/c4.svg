@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 236" width="760" height="236" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+  <marker id="c4-arrow" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto-start-reverse">
+    <polygon points="0 0, 10 4, 0 8" fill="var(--_arrow)" />
+  </marker>
+</defs>
+
+<text x="380" y="28" text-anchor="middle" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)">System Context diagram for Internet Banking System</text>
+<line x1="240" y1="136" x2="280" y2="136" stroke="var(--_arrow)" stroke-width="1.5" marker-end="url(#c4-arrow)" />
+<line x1="480" y1="136" x2="520" y2="136" stroke="var(--_arrow)" stroke-width="1.5" marker-end="url(#c4-arrow)" />
+<circle cx="140" cy="98" r="14" fill="#08427B" stroke="#052E56" stroke-width="1.5" />
+<path d="M 70 116 Q 140 108 210 116 L 220 184 Q 140 196 60 184 Z" fill="#08427B" stroke="#052E56" stroke-width="1.5" />
+<text x="140" y="134" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" fill="#FFFFFF" opacity="0.85">[person]</text>
+<text x="140" y="152" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#FFFFFF">Banking Customer</text>
+<text x="140" y="170" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" fill="#FFFFFF" opacity="0.8">A customer of the bank.</text>
+<rect x="280" y="76" width="200" height="120" rx="4" ry="4" fill="#1168BD" stroke="#0B4884" stroke-width="1.5" />
+<text x="380" y="104" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" fill="#FFFFFF" opacity="0.85">[system]</text>
+<text x="380" y="122" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#FFFFFF">Internet Banking System</text>
+<text x="380" y="140" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" fill="#FFFFFF" opacity="0.8">View accounts and make payments.</text>
+<rect x="520" y="76" width="200" height="120" rx="4" ry="4" fill="#999999" stroke="#8A8A8A" stroke-width="1.5" />
+<text x="620" y="104" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" fill="#FFFFFF" opacity="0.85">[external system]</text>
+<text x="620" y="122" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#FFFFFF">E-mail System</text>
+<text x="620" y="140" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" fill="#FFFFFF" opacity="0.8">Microsoft Exchange</text>
+<text x="260" y="130" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text)" font-weight="500">Uses</text>
+<text x="500" y="130" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text)" font-weight="500">Sends e-mails [SMTP]</text>
+</svg>

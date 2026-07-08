@@ -18,4 +18,5 @@ public enum DiagramType
 	Mindmap,
 	Gantt,
 	Journey,
+	C4,
 }

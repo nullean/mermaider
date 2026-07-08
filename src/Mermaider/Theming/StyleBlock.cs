@@ -112,6 +112,7 @@ internal static class StyleBlock
 		DiagramType.Mindmap => "mindmap",
 		DiagramType.Gantt => "gantt chart",
 		DiagramType.Journey => "user journey",
+		DiagramType.C4 => "C4 diagram",
 		_ => "diagram"
 	};
 

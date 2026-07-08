@@ -317,5 +317,14 @@ public class SnapshotTests
 			section Go home
 			Go downstairs: 5: Me
 			Sit down: 5: Me
+	public Task C4_context_basic() =>
+		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			C4Context
+			title Banking Context
+			Person(customer, "Customer")
+			System(banking, "Internet Banking")
+			System_Ext(mail, "E-mail")
+			Rel(customer, banking, "Uses")
+			Rel(banking, mail, "Sends e-mails", "SMTP")
 			"""), "svg");
 }

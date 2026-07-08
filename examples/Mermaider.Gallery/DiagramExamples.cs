@@ -2,6 +2,7 @@ namespace Mermaider.Gallery;
 
 public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Gantt, RealWorld }
 public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Journey, RealWorld }
+public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, C4, RealWorld }
 
 public sealed record DiagramExample(string Slug, string Title, DiagramCategory Category, string Source, string? Feature = null);
 
@@ -918,6 +919,34 @@ public static class DiagramExamples
 			    Confirm MFA: 2: User, System
 			  section Success
 			    Reach dashboard: 5: User
+		// ── C4 ─────────────────────────────────────────────────────────
+
+		new("c4-context", "System Context", DiagramCategory.C4, """
+			C4Context
+			title System Context diagram for Internet Banking System
+			Person(customer, "Banking Customer", "A customer of the bank, with personal bank accounts.")
+			System(banking, "Internet Banking System", "Allows customers to view accounts and make payments.")
+			System_Ext(mail, "E-mail System", "The internal Microsoft Exchange e-mail system.")
+			SystemDb_Ext(mainframe, "Mainframe Banking System", "Stores core banking information.")
+			Rel(customer, banking, "Uses")
+			Rel(banking, mail, "Sends e-mails", "SMTP")
+			Rel(banking, mainframe, "Uses")
+			"""),
+
+		new("c4-container", "Container Diagram", DiagramCategory.C4, """
+			C4Container
+			title Container diagram for Internet Banking System
+			Person(customer, "Customer", "A customer of the bank")
+			Container_Boundary(c1, "Internet Banking") {
+			  Container(spa, "Single-Page App", "JavaScript, Angular", "Provides banking UI")
+			  Container(api, "API Application", "Java, Spring", "Provides banking functionality via API")
+			  ContainerDb(db, "Database", "SQL Database", "Stores user registration info")
+			}
+			System_Ext(mail, "E-mail System", "Microsoft Exchange")
+			Rel(customer, spa, "Uses", "HTTPS")
+			Rel(spa, api, "Uses", "JSON/HTTPS")
+			Rel(api, db, "Reads from and writes to", "JDBC")
+			Rel(api, mail, "Sends e-mails", "SMTP")
 			"""),
 
 		// ── Real World (RFC diagrams) ─────────────────────────────────
@@ -1084,6 +1113,7 @@ public static class DiagramExamples
 		DiagramCategory.Mindmap => "Mindmap",
 		DiagramCategory.Gantt => "Gantt",
 		DiagramCategory.Journey => "User Journey",
+		DiagramCategory.C4 => "C4",
 		DiagramCategory.RealWorld => "Real World",
 		_ => c.ToString(),
 	};
@@ -1105,6 +1135,7 @@ public static class DiagramExamples
 		DiagramCategory.Mindmap => "mindmap",
 		DiagramCategory.Gantt => "gantt",
 		DiagramCategory.Journey => "journey",
+		DiagramCategory.C4 => "c4",
 		DiagramCategory.RealWorld => "real-world",
 		_ => c.ToString().ToLowerInvariant(),
 	};

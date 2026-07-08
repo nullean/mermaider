@@ -51,6 +51,9 @@ internal static partial class DiagramDetector
 	// Keyword gate — optional title on the same line is owned by JourneyParser.
 	[GeneratedRegex(@"^journey(?:\s|$)", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex JourneyHeader();
+	// Keyword gate only — full header options live in C4Parser
+	[GeneratedRegex(@"^C4(?:Context|Container|Component|Dynamic|Deployment)\b", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex C4Header();
 
 	internal static DiagramType Detect(ReadOnlySpan<char> text)
 	{
@@ -88,6 +91,8 @@ internal static partial class DiagramDetector
 			return DiagramType.Gantt;
 		if (JourneyHeader().IsMatch(firstLineStr))
 			return DiagramType.Journey;
+		if (C4Header().IsMatch(firstLineStr))
+			return DiagramType.C4;
 
 		return DiagramType.Flowchart;
 	}
