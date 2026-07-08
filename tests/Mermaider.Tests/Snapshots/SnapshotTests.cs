@@ -398,5 +398,11 @@ public class SnapshotTests
 			    service server(server)[Server] in api
 			    db:R --> L:server
 			    disk:T --> B:server
+	public Task Block_grid() =>
+		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			block-beta
+			columns 3
+			  A["A"] B["B"] C["C"]
+			  D["D"] E["E"] F["F"]
 			"""), "svg");
 }

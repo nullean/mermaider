@@ -67,6 +67,8 @@ internal static partial class DiagramDetector
 	private static partial Regex KanbanHeader();
 	[GeneratedRegex(@"^architecture(?:-beta)?(?:\s|$)", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex ArchitectureHeader();
+	[GeneratedRegex(@"^block(?:-beta)?\b", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex BlockHeader();
 
 	internal static DiagramType Detect(ReadOnlySpan<char> text)
 	{
@@ -118,6 +120,8 @@ internal static partial class DiagramDetector
 			return DiagramType.Kanban;
 		if (ArchitectureHeader().IsMatch(firstLineStr))
 			return DiagramType.Architecture;
+		if (BlockHeader().IsMatch(firstLineStr))
+			return DiagramType.Block;
 
 		return DiagramType.Flowchart;
 	}

@@ -451,6 +451,18 @@ MermaidRenderer.RenderSvg("""
 v1 notes: ids are unique across groups and services (first declaration wins); `{group}` edge modifiers are accepted for syntax compatibility but attach to the service tile (not the parent group boundary); `junction` and edge labels are not supported yet.
 
 <p align="center"><img src="docs/screenshots/architecture.svg" alt="Architecture diagram" /></p>
+### Block Diagram
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    block-beta
+    columns 3
+      A["A"] B["B"] C["C"]
+      D["D"] E["E"] F["F"]
+    """);
+```
+
+<p align="center"><img src="docs/screenshots/block.svg" alt="Block diagram" /></p>
 
 ## Theming
 

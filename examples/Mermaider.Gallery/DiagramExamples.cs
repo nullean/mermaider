@@ -9,6 +9,7 @@ public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadra
 public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Packet, RealWorld }
 public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Kanban, RealWorld }
 public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Architecture, RealWorld }
+public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Block, RealWorld }
 
 public sealed record DiagramExample(string Slug, string Title, DiagramCategory Category, string Source, string? Feature = null);
 
@@ -1056,6 +1057,22 @@ public static partial class DiagramExamples
 
 			    db:R -- L:server
 			    disk1:T -- B:server
+		// ── Block ──────────────────────────────────────────────────────
+
+		new("block-grid", "3×2 Grid", DiagramCategory.Block, """
+			block-beta
+			columns 3
+			  A["A"] B["B"] C["C"]
+			  D["D"] E["E"] F["F"]
+			"""),
+
+		new("block-pipeline", "Pipeline with Edges", DiagramCategory.Block, """
+			block-beta
+			columns 4
+			  In["Input"] Process["Process"] Out["Output"] Store["Store"]
+			  In --> Process
+			  Process --> Out
+			  Out --> Store
 			"""),
 
 		// ── Real World (RFC diagrams) ─────────────────────────────────
@@ -1091,6 +1108,7 @@ public static partial class DiagramExamples
 		DiagramCategory.Packet => "Packet",
 		DiagramCategory.Kanban => "Kanban",
 		DiagramCategory.Architecture => "Architecture",
+		DiagramCategory.Block => "Block",
 		DiagramCategory.RealWorld => "Real World",
 		_ => c.ToString(),
 	};
@@ -1119,6 +1137,7 @@ public static partial class DiagramExamples
 		DiagramCategory.Packet => "packet",
 		DiagramCategory.Kanban => "kanban",
 		DiagramCategory.Architecture => "architecture",
+		DiagramCategory.Block => "block",
 		DiagramCategory.RealWorld => "real-world",
 		_ => c.ToString().ToLowerInvariant(),
 	};

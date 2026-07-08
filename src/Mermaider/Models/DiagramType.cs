@@ -25,4 +25,5 @@ public enum DiagramType
 	Packet
 	Kanban
 	Architecture,
+	Block,
 }
