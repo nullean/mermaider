@@ -165,6 +165,20 @@ internal static class SankeySvgRenderer
 			}
 		}
 
+		// Residual SCCs / partial cycles never hit indegree 0 — relax edges with a hard layer cap.
+		var layerCap = Math.Max(1, nodes.Count - 1);
+		for (var iter = 0; iter < nodes.Count; iter++)
+		{
+			foreach (var (s, t, _) in edges)
+			{
+				if (string.Equals(s, t, StringComparison.Ordinal))
+					continue;
+				var next = Math.Min(layerCap, nodes[s].Layer + 1);
+				if (next > nodes[t].Layer)
+					nodes[t].Layer = next;
+			}
+		}
+
 		var layerCount = nodes.Values.Max(n => n.Layer) + 1;
 		if (layerCount < 1)
 			layerCount = 1;
@@ -185,32 +199,56 @@ internal static class SankeySvgRenderer
 			n.X1 = n.X0 + NodeWidth;
 		}
 
-		// Vertical stack per layer, proportional heights
+		// Vertical stack per layer, proportional heights (clamp so we stay in viewBox)
 		var byLayer = nodes.Values.GroupBy(n => n.Layer).OrderBy(g => g.Key);
 		foreach (var group in byLayer)
 		{
 			var list = group.OrderByDescending(n => n.Value).ThenBy(n => n.Name, StringComparer.Ordinal).ToList();
 			var total = list.Sum(n => n.Value);
-			if (total <= 0)
+			if (total <= 0 || double.IsNaN(total) || double.IsInfinity(total))
 				total = list.Count;
 
-			var usable = chartH - (NodePad * Math.Max(0, list.Count - 1));
+			var padTotal = NodePad * Math.Max(0, list.Count - 1);
+			var usable = Math.Max(list.Count * 4.0, chartH - padTotal);
+			// If min heights + pads exceed chartH, scale everything into chartH
+			var minNeeded = (list.Count * 4.0) + padTotal;
+			if (minNeeded > chartH)
+				usable = Math.Max(1, chartH - padTotal);
+
 			var y = Margin;
 			foreach (var n in list)
 			{
-				var h = Math.Max(4, usable * (n.Value / total));
+				var h = Math.Max(2, usable * (n.Value / total));
 				n.Y0 = y;
 				n.Y1 = y + h;
 				n.OutCursor = n.Y0;
 				n.InCursor = n.Y0;
 				y = n.Y1 + NodePad;
 			}
+
+			// If we overran, compress into [Margin, Margin+chartH]
+			if (y - NodePad > Margin + chartH)
+			{
+				var scale = chartH / Math.Max(1e-9, y - NodePad - Margin);
+				foreach (var n in list)
+				{
+					var h = (n.Y1 - n.Y0) * scale;
+					var top = Margin + ((n.Y0 - Margin) * scale);
+					n.Y0 = top;
+					n.Y1 = top + h;
+					n.OutCursor = n.Y0;
+					n.InCursor = n.Y0;
+				}
+			}
 		}
 
-		// Link vertical slots (source out, target in)
+		// Link vertical slots (source out, target in). Skip self-loops (degenerate ribbons).
 		var linkLayouts = new List<LinkLayout>(edges.Count);
 		foreach (var (s, t, v) in edges.OrderBy(e => nodes[e.Source].Layer).ThenBy(e => e.Source).ThenBy(e => e.Target))
 		{
+			if (string.Equals(s, t, StringComparison.Ordinal))
+				continue;
+
 			var src = nodes[s];
 			var tgt = nodes[t];
 			var srcSpan = src.Y1 - src.Y0;
@@ -263,26 +301,10 @@ internal static class SankeySvgRenderer
 			.Append("\" width=\"").Append(F(NodeWidth)).Append("\" height=\"").Append(F(Math.Max(1, node.Y1 - node.Y0)))
 			.Append("\" fill=\"").Append(node.Color).Append("\" stroke=\"none\" rx=\"2\" ry=\"2\" />");
 
-		// Labels: left of first layer, right of last, otherwise right of node
-		var isLeft = node.Layer == 0;
-		var isRight = node.Layer == layerCount - 1 && layerCount > 1;
-		double lx;
-		string anchor;
-		if (isLeft)
-		{
-			lx = node.X0 - LabelPad;
-			anchor = "end";
-		}
-		else if (isRight)
-		{
-			lx = node.X1 + LabelPad;
-			anchor = "start";
-		}
-		else
-		{
-			lx = node.X1 + LabelPad;
-			anchor = "start";
-		}
+		// Labels: left of first layer, right of later layers
+		var isLeft = node.Layer == 0 || (layerCount > 1 && node.Layer < layerCount - 1 && node.X0 < DefaultWidth * 0.25);
+		var lx = isLeft ? node.X0 - LabelPad : node.X1 + LabelPad;
+		var anchor = isLeft ? "end" : "start";
 
 		var midY = (node.Y0 + node.Y1) * 0.5;
 		_ = sb.Append("\n<text x=\"").Append(F(lx)).Append("\" y=\"").Append(F(midY))

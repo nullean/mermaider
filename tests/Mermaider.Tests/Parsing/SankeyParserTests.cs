@@ -73,4 +73,19 @@ public class SankeyParserTests
 
 		diagram.Links.Should().HaveCount(1);
 	}
+
+	[Test]
+	public void Rejects_nan_and_infinity()
+	{
+		var diagram = SankeyParser.Parse(
+		[
+			"sankey-beta",
+			"A,B,NaN",
+			"A,B,Infinity",
+			"A,B,1",
+		]);
+
+		diagram.Links.Should().HaveCount(1);
+		diagram.Links[0].Value.Should().Be(1);
+	}
 }

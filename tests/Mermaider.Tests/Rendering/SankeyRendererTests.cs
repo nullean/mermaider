@@ -69,4 +69,34 @@ public class SankeyRendererTests
 		svg.Should().Contain("aria-roledescription=\"sankey diagram\"");
 		svg.Should().Contain("Energy flow");
 	}
+
+	[Test]
+	public void Renders_cycle_without_crash()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			sankey-beta
+			A,B,1
+			B,C,1
+			C,A,1
+			""");
+
+		svg.Should().StartWith("<svg");
+		svg.Should().Contain("A");
+		svg.Should().Contain("B");
+		svg.Should().Contain("C");
+	}
+
+	[Test]
+	public void Skips_self_loop_link()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			sankey-beta
+			A,A,5
+			A,B,3
+			""");
+
+		svg.Should().Contain("B");
+		// One ribbon for A→B (self-loop omitted)
+		svg.Split("<path", StringSplitOptions.None).Length.Should().Be(2);
+	}
 }

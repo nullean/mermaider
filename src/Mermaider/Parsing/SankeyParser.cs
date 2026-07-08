@@ -9,9 +9,6 @@ internal static partial class SankeyParser
 {
 	private const int TimeoutMs = 2000;
 
-	[GeneratedRegex(@"^sankey(?:-beta)?\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
-	private static partial Regex HeaderPattern();
-
 	internal static SankeyDiagram Parse(string[] lines)
 	{
 		try
@@ -51,7 +48,7 @@ internal static partial class SankeyParser
 
 			if (!double.TryParse(fields[2].Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out var value))
 				continue;
-			if (value <= 0)
+			if (double.IsNaN(value) || double.IsInfinity(value) || value <= 0)
 				continue;
 
 			links.Add(new SankeyLink(source, target, value));

@@ -203,11 +203,12 @@ C4Context
 
 - Detector: `sankey` **and** `sankey-beta` (`^\s*sankey(-beta)?` upstream).
 - Body is CSV (3 columns only): implement quote-aware field split once; share with tests via `internal`.
-- Empty lines allowed; skip non-positive / unparsable values quietly (mermaid is lenient).
-- Layout: longest-path layering from sources + proportional vertical stack; links as cubic ribbons (`fill-opacity`, source color).
-- Labels: left of layer 0, right of last layer; `var(--_text)` + `TextBaselineShift`.
-- Node palette fixed (pie-style); no frontmatter config in v1 (`linkColor`, `nodeAlignment` follow-ups).
-- Cycles: if no indegree-0 node, pin first key at layer 0 so layout still terminates.
+- Empty lines allowed; skip non-positive / unparsable / **NaN / Infinity** values quietly.
+- Layout: topo longest-path + **capped edge relaxation** for residual SCCs; proportional stack with **compress if overflow**.
+- Skip self-loops when building ribbons (zero-width path garbage).
+- Links as cubic ribbons (`fill-opacity`, source color); labels `var(--_text)` + `TextBaselineShift`.
+- Node palette fixed (pie-style); no frontmatter config in v1.
+- Do not leave unused `[GeneratedRegex]` helpers (IDE / dead code).
 
 ## Ref
 
