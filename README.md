@@ -314,6 +314,8 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
+Supports `Rel`, `BiRel`, `Rel_Back` (arrow reversed vs argument order), and `RelIndex`. Directional forms (`Rel_U` / `Rel_D` / `Rel_L` / `Rel_R` and aliases) parse as plain `Rel`; layout direction hints are ignored in v1.
+
 <p align="center"><img src="docs/screenshots/c4.svg" alt="C4 diagram" /></p>
 
 ## Theming

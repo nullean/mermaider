@@ -111,6 +111,26 @@ public class C4ParserTests
 	}
 
 	[Test]
+	public void Parses_rel_back_swaps_from_to()
+	{
+		var diagram = C4Parser.Parse(
+		[
+			"C4Context",
+			"""Person(a, "A")""",
+			"""System(b, "B")""",
+			"""Rel_Back(a, b, "Notified by", "Events")""",
+		]);
+
+		diagram.Relations.Should().HaveCount(1);
+		// Rel_Back(a, b, …) means arrow b → a (reverse of argument order).
+		diagram.Relations[0].From.Should().Be("b");
+		diagram.Relations[0].To.Should().Be("a");
+		diagram.Relations[0].Label.Should().Be("Notified by");
+		diagram.Relations[0].Technology.Should().Be("Events");
+		diagram.Relations[0].Bidirectional.Should().BeFalse();
+	}
+
+	[Test]
 	public void Parses_container_with_technology()
 	{
 		var diagram = C4Parser.Parse(

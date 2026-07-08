@@ -66,7 +66,7 @@ Header title: support both `type\ntitle X` and compact `type title X`.
 - Kind stored on model (`C4DiagramKind`) for future styling; v1 layout is shared
 - Element shapes: Person / System* / Container* / Component* / Db / Queue / `_Ext` / Deployment_Node
 - Boundaries: `Enterprise_Boundary` / `System_Boundary` / `Container_Boundary` / `Boundary` + `{ … }`
-- Relations: `Rel`, `BiRel`, `Rel_*`, `RelIndex` (index skipped), `Rel_Back` (same as Rel for v1)
+- Relations: `Rel`, `BiRel`, `RelIndex` (index skipped), `Rel_Back` (swaps from/to), `Rel_U`/`D`/`L`/`R` (accepted as plain Rel; layout direction ignored in v1)
 - Skip `UpdateElementStyle` / `UpdateRelStyle` in v1; honor `UpdateLayoutConfig($c4ShapeInRow, $c4BoundaryInRow)`
 - Layout: **grid arithmetic in renderer** (shapeInRow / boundaryInRow), not Sugiyama
 - accTitle must appear **after** the diagram header (detector reads first non-empty line of cleaned text)

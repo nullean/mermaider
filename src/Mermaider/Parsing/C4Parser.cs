@@ -309,6 +309,7 @@ internal static partial class C4Parser
 
 	private static C4Relation? ParseRelation(string keyword, string argsRaw)
 	{
+		// Rel_U/D/L/R (and Up/Down/Left/Right) accept as plain Rel for v1; layout direction hints ignored.
 		var args = PositionalArgs(SplitArgs(argsRaw));
 		var offset = keyword.Equals("RelIndex", StringComparison.OrdinalIgnoreCase) ? 1 : 0;
 		if (args.Count < offset + 2)
@@ -316,6 +317,10 @@ internal static partial class C4Parser
 
 		var from = args[offset];
 		var to = args[offset + 1];
+		// Rel_Back(from, to, …) draws to → from (C4-PlantUML / mermaid argument order).
+		if (keyword.Equals("Rel_Back", StringComparison.OrdinalIgnoreCase))
+			(from, to) = (to, from);
+
 		var label = args.Count > offset + 2 ? Unquote(args[offset + 2]) : null;
 		var techn = args.Count > offset + 3 ? Unquote(args[offset + 3]) : null;
 		var bi = keyword.Equals("BiRel", StringComparison.OrdinalIgnoreCase);
