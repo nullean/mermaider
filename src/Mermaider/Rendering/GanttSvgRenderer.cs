@@ -20,10 +20,9 @@ internal static class GanttSvgRenderer
 	private const double AxisHeight = 28;
 	private const double ChartMinWidth = 480;
 
-	// Concrete px sizes so SVG-as-<img> (e.g. GitHub) still paints text if CSS vars fail.
-	private const string TitleFontSize = "18";
-	private const string LabelFontSize = "13";
-	private const string AxisFontSize = "11";
+	private const string TitleFontSize = RenderConstants.FsVar.L;
+	private const string LabelFontSize = RenderConstants.FsVar.S;
+	private const string AxisFontSize = RenderConstants.FsVar.Xs;
 
 	private const string ColorDefault = "#4e79a7";
 	private const string ColorDone = "#9ca3af";
@@ -49,7 +48,6 @@ internal static class GanttSvgRenderer
 	internal static StringBuilder RenderToBuilder(GanttDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
-		var textColor = colors.Fg;
 
 		var hasTitle = diagram.Title is { Length: > 0 };
 		var titleOffset = hasTitle ? TitleHeight : 0;
@@ -75,7 +73,7 @@ internal static class GanttSvgRenderer
 			StyleBlock.AppendSvgOpenTag(sb, 400, emptyH, colors, transparent, accessibility, diagramType);
 			StyleBlock.AppendStyleBlock(sb, font, strict);
 			if (hasTitle)
-				AppendTitle(sb, diagram.Title!, 200, textColor);
+				AppendTitle(sb, diagram.Title!, 200);
 			_ = sb.Append("\n</svg>");
 			return sb;
 		}
@@ -104,9 +102,9 @@ internal static class GanttSvgRenderer
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		if (hasTitle)
-			AppendTitle(sb, diagram.Title!, width / 2, textColor);
+			AppendTitle(sb, diagram.Title!, width / 2);
 
-		AppendTimeAxis(sb, min, max, chartLeft, chartTop, chartWidth, contentHeight, textColor);
+		AppendTimeAxis(sb, min, max, chartLeft, chartTop, chartWidth, contentHeight);
 
 		var y = chartTop;
 		foreach (var section in diagram.Sections)
@@ -116,9 +114,7 @@ internal static class GanttSvgRenderer
 				_ = sb.Append("\n<text x=\"").Append(F(LeftPad))
 					.Append("\" y=\"").Append(F(y + (SectionHeaderHeight * 0.65)))
 					.Append("\" font-size=\"").Append(LabelFontSize)
-					.Append("\" font-weight=\"700\" fill=\"");
-				MultilineUtils.AppendEscapedAttr(sb, textColor.AsSpan());
-				_ = sb.Append("\">");
+					.Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
 				MultilineUtils.AppendEscapedXml(sb, section.Name.AsSpan());
 				_ = sb.Append("</text>");
 				y += SectionHeaderHeight;
@@ -126,7 +122,7 @@ internal static class GanttSvgRenderer
 
 			foreach (var task in section.Tasks)
 			{
-				AppendTaskRow(sb, task, y, chartLeft, chartWidth, min, max, textColor);
+				AppendTaskRow(sb, task, y, chartLeft, chartWidth, min, max);
 				y += RowHeight;
 			}
 		}
@@ -135,21 +131,18 @@ internal static class GanttSvgRenderer
 		return sb;
 	}
 
-	private static void AppendTitle(StringBuilder sb, string title, double centerX, string textColor)
+	private static void AppendTitle(StringBuilder sb, string title, double centerX)
 	{
 		_ = sb.Append("\n<text x=\"").Append(F(centerX))
 			.Append("\" y=\"24\" text-anchor=\"middle\" font-size=\"")
-			.Append(TitleFontSize).Append("\" font-weight=\"700\" fill=\"");
-		MultilineUtils.AppendEscapedAttr(sb, textColor.AsSpan());
-		_ = sb.Append("\">");
+			.Append(TitleFontSize).Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
 		MultilineUtils.AppendEscapedXml(sb, title.AsSpan());
 		_ = sb.Append("</text>");
 	}
 
 	private static void AppendTimeAxis(
 		StringBuilder sb, DateTime min, DateTime max,
-		double chartLeft, double chartTop, double chartWidth, double contentHeight,
-		string textColor)
+		double chartLeft, double chartTop, double chartWidth, double contentHeight)
 	{
 		var span = max - min;
 		var tickDays = span.TotalDays switch
@@ -164,11 +157,11 @@ internal static class GanttSvgRenderer
 
 		_ = sb.Append("\n<line x1=\"").Append(F(chartLeft)).Append("\" y1=\"").Append(F(axisY))
 			.Append("\" x2=\"").Append(F(chartLeft + chartWidth)).Append("\" y2=\"").Append(F(axisY))
-			.Append("\" stroke=\"var(--_line, #999)\" stroke-width=\"1\" />");
+			.Append("\" stroke=\"var(--_line)\" stroke-width=\"1\" />");
 
 		_ = sb.Append("\n<rect x=\"").Append(F(chartLeft)).Append("\" y=\"").Append(F(chartTop))
 			.Append("\" width=\"").Append(F(chartWidth)).Append("\" height=\"").Append(F(contentHeight))
-			.Append("\" fill=\"var(--_node-fill, #f4f4f5)\" opacity=\"0.5\" />");
+			.Append("\" fill=\"var(--_node-fill)\" opacity=\"0.5\" />");
 
 		for (var d = 0.0; d <= span.TotalDays + 0.001; d += tickDays)
 		{
@@ -177,16 +170,14 @@ internal static class GanttSvgRenderer
 			var x = chartLeft + (frac * chartWidth);
 			_ = sb.Append("\n<line x1=\"").Append(F(x)).Append("\" y1=\"").Append(F(chartTop))
 				.Append("\" x2=\"").Append(F(x)).Append("\" y2=\"").Append(F(axisY))
-				.Append("\" stroke=\"var(--_line, #ccc)\" stroke-width=\"0.5\" opacity=\"0.5\" />");
+				.Append("\" stroke=\"var(--_line)\" stroke-width=\"0.5\" opacity=\"0.35\" />");
 
 			var label = tickDays >= 28
 				? t.ToString("MMM yyyy", CultureInfo.InvariantCulture)
 				: t.ToString("MMM d", CultureInfo.InvariantCulture);
 			_ = sb.Append("\n<text x=\"").Append(F(x)).Append("\" y=\"").Append(F(axisY + 16))
 				.Append("\" text-anchor=\"middle\" font-size=\"").Append(AxisFontSize)
-				.Append("\" fill=\"");
-			MultilineUtils.AppendEscapedAttr(sb, textColor.AsSpan());
-			_ = sb.Append("\" opacity=\"0.7\">");
+				.Append("\" fill=\"var(--_text-muted)\">");
 			MultilineUtils.AppendEscapedXml(sb, label.AsSpan());
 			_ = sb.Append("</text>");
 		}
@@ -194,8 +185,7 @@ internal static class GanttSvgRenderer
 
 	private static void AppendTaskRow(
 		StringBuilder sb, GanttTask task, double rowY,
-		double chartLeft, double chartWidth, DateTime min, DateTime max,
-		string textColor)
+		double chartLeft, double chartWidth, DateTime min, DateTime max)
 	{
 		var span = (max - min).TotalDays;
 		if (span <= 0)
@@ -204,9 +194,7 @@ internal static class GanttSvgRenderer
 		_ = sb.Append("\n<text x=\"").Append(F(LeftPad))
 			.Append("\" y=\"").Append(F(rowY + (RowHeight * 0.6)))
 			.Append("\" font-size=\"").Append(LabelFontSize)
-			.Append("\" fill=\"");
-		MultilineUtils.AppendEscapedAttr(sb, textColor.AsSpan());
-		_ = sb.Append("\">");
+			.Append("\" fill=\"var(--_text)\">");
 		MultilineUtils.AppendEscapedXml(sb, task.Name.AsSpan());
 		_ = sb.Append("</text>");
 

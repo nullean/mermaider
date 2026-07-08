@@ -31,23 +31,23 @@
 <defs>
 </defs>
 
-<text x="350" y="24" text-anchor="middle" font-size="18" font-weight="700" fill="#27272A">Shipping this file</text>
-<line x1="196" y1="256" x2="676" y2="256" stroke="var(--_line, #999)" stroke-width="1" />
-<rect x="196" y="52" width="480" height="200" fill="var(--_node-fill, #f4f4f5)" opacity="0.5" />
-<line x1="196" y1="52" x2="196" y2="256" stroke="var(--_line, #ccc)" stroke-width="0.5" opacity="0.5" />
-<text x="196" y="272" text-anchor="middle" font-size="11" fill="#27272A" opacity="0.7">Jul 7</text>
-<line x1="370.55" y1="52" x2="370.55" y2="256" stroke="var(--_line, #ccc)" stroke-width="0.5" opacity="0.5" />
-<text x="370.55" y="272" text-anchor="middle" font-size="11" fill="#27272A" opacity="0.7">Jul 8</text>
-<line x1="545.09" y1="52" x2="545.09" y2="256" stroke="var(--_line, #ccc)" stroke-width="0.5" opacity="0.5" />
-<text x="545.09" y="272" text-anchor="middle" font-size="11" fill="#27272A" opacity="0.7">Jul 9</text>
-<text x="16" y="70.2" font-size="13" font-weight="700" fill="#27272A">Render</text>
-<text x="16" y="101.6" font-size="13" fill="#27272A">Spike the renderer</text>
+<text x="350" y="24" text-anchor="middle" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)">Shipping this file</text>
+<line x1="196" y1="256" x2="676" y2="256" stroke="var(--_line)" stroke-width="1" />
+<rect x="196" y="52" width="480" height="200" fill="var(--_node-fill)" opacity="0.5" />
+<line x1="196" y1="52" x2="196" y2="256" stroke="var(--_line)" stroke-width="0.5" opacity="0.35" />
+<text x="196" y="272" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-muted)">Jul 7</text>
+<line x1="370.55" y1="52" x2="370.55" y2="256" stroke="var(--_line)" stroke-width="0.5" opacity="0.35" />
+<text x="370.55" y="272" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-muted)">Jul 8</text>
+<line x1="545.09" y1="52" x2="545.09" y2="256" stroke="var(--_line)" stroke-width="0.5" opacity="0.35" />
+<text x="545.09" y="272" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-muted)">Jul 9</text>
+<text x="16" y="70.2" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">Render</text>
+<text x="16" y="101.6" font-size="var(--fs-s)" fill="var(--_text)">Spike the renderer</text>
 <rect x="196" y="88" width="174.55" height="20" rx="4" ry="4" fill="#9ca3af" />
-<text x="16" y="137.6" font-size="13" fill="#27272A">Print this page</text>
+<text x="16" y="137.6" font-size="var(--fs-s)" fill="var(--_text)">Print this page</text>
 <rect x="370.55" y="124" width="174.55" height="20" rx="4" ry="4" fill="#3b82f6" />
-<text x="16" y="170.2" font-size="13" font-weight="700" fill="#27272A">Polish</text>
-<text x="16" y="201.6" font-size="13" fill="#27272A">Update tests</text>
+<text x="16" y="170.2" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">Polish</text>
+<text x="16" y="201.6" font-size="var(--fs-s)" fill="var(--_text)">Update tests</text>
 <rect x="545.09" y="188" width="87.27" height="20" rx="4" ry="4" fill="#e15759" />
-<text x="16" y="237.6" font-size="13" fill="#27272A">Update docs</text>
+<text x="16" y="237.6" font-size="var(--fs-s)" fill="var(--_text)">Update docs</text>
 <rect x="632.36" y="224" width="43.64" height="20" rx="4" ry="4" fill="#4e79a7" />
 </svg>
