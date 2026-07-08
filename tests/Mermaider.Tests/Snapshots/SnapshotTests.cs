@@ -279,4 +279,37 @@ public class SnapshotTests
 			      Unit Tests
 			      Integration
 			"""), "svg");
+
+	[Test]
+	public Task XyChart_basic() =>
+		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			xychart-beta
+			title "Sales Revenue"
+			x-axis [jan, feb, mar, apr, may, jun]
+			y-axis "Revenue (in $)" 4000 --> 11000
+			bar [5000, 6000, 7500, 8200, 9500, 10500]
+			line [5000, 6000, 7500, 8200, 9500, 10500]
+			"""), "svg");
+
+	[Test]
+	public Task XyChart_multi_series_legend() =>
+		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			xychart-beta
+			title "Latency"
+			x-axis [p50, p90, p99]
+			y-axis "ms" 0 --> 200
+			bar "api" [40, 80, 150]
+			bar "db" [20, 45, 90]
+			line "slo" [100, 100, 100]
+			"""), "svg");
+
+	[Test]
+	public Task XyChart_horizontal() =>
+		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			xychart-beta horizontal
+			title "Throughput"
+			x-axis [alpha, beta, gamma]
+			y-axis "req/s" 0 --> 100
+			bar [30, 60, 90]
+			"""), "svg");
 }

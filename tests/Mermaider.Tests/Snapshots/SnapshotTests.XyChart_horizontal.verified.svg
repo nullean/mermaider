@@ -1,0 +1,59 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 500" width="700" height="500" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+</defs>
+
+<text x="350" y="24" text-anchor="middle" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)">Throughput</text>
+<line x1="90" y1="450" x2="670" y2="450" stroke="var(--_line)" stroke-width="1.5" />
+<line x1="90" y1="68" x2="90" y2="450" stroke="var(--_line)" stroke-width="1.5" />
+<line x1="90" y1="450" x2="90" y2="454" stroke="var(--_line)" stroke-width="1" />
+<text x="90" y="466" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">0</text>
+<line x1="206" y1="450" x2="206" y2="454" stroke="var(--_line)" stroke-width="1" />
+<text x="206" y="466" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">20</text>
+<line x1="322" y1="450" x2="322" y2="454" stroke="var(--_line)" stroke-width="1" />
+<text x="322" y="466" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">40</text>
+<line x1="438" y1="450" x2="438" y2="454" stroke="var(--_line)" stroke-width="1" />
+<text x="438" y="466" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">60</text>
+<line x1="554" y1="450" x2="554" y2="454" stroke="var(--_line)" stroke-width="1" />
+<text x="554" y="466" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">80</text>
+<line x1="670" y1="450" x2="670" y2="454" stroke="var(--_line)" stroke-width="1" />
+<text x="670" y="466" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">100</text>
+<line x1="86" y1="131.67" x2="90" y2="131.67" stroke="var(--_line)" stroke-width="1" />
+<text x="82" y="131.67" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text-sec)">alpha</text>
+<line x1="86" y1="259" x2="90" y2="259" stroke="var(--_line)" stroke-width="1" />
+<text x="82" y="259" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text-sec)">beta</text>
+<line x1="86" y1="386.33" x2="90" y2="386.33" stroke="var(--_line)" stroke-width="1" />
+<text x="82" y="386.33" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text-sec)">gamma</text>
+<text x="380" y="488" text-anchor="middle" font-size="var(--fs-s)" fill="var(--_text)">req/s</text>
+<rect x="90" y="87.1" width="174" height="89.13" fill="#4e79a7" opacity="0.9" />
+<rect x="90" y="214.43" width="348" height="89.13" fill="#4e79a7" opacity="0.9" />
+<rect x="90" y="341.77" width="522" height="89.13" fill="#4e79a7" opacity="0.9" />
+</svg>
