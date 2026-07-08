@@ -142,11 +142,13 @@ xychart-beta
 ### XY chart (2026-07)
 
 - Detector: `xychart` and `xychart-beta`; optional `horizontal` / compact `title` on header.
-- Axes: categorical `[a, b]` or numeric `min --> max` with optional quoted title.
+- Axes: categorical `[a, b]` or numeric `min --> max` with optional quoted title; reject NaN/Infinity on **all** range paths.
 - Series: `bar` / `line` with optional series name (legend); ignore per-point text labels (leading number only).
-- Render: themed axes/ticks; fixed plot palette; **bars then lines**; auto Y range includes 0 when bars present.
-- Horizontal flag stored on model; v1 ships vertical geometry (do not claim full horizontal parity).
-- Watch IDE: shadowing locals (`top`), `string.Contains` vs `IndexOf` (CA2249), excess parens (IDE0047).
+- Bad series tokens become **0** (keep category index alignment — do not drop).
+- Render: themed axes/ticks; fixed plot palette; draw bars under lines but **color by declaration index** (legend must match).
+- Auto Y for bars: include 0 from both sides (`min>0` → 0, `max<0` → 0).
+- Horizontal flag stored; v1 vertical geometry only (numeric `XMin`/`XMax` parsed, plotting still categorical slots).
+- Watch IDE: shadowing locals (`top`), CA2249 `Contains`, IDE0047 parens.
 
 ## Ref
 

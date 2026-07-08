@@ -172,9 +172,10 @@ internal static partial class XyChartParser
 		{
 			if (tokens[p] != "-->" || p < 1 || p + 1 >= tokens.Length)
 				continue;
-			if (!double.TryParse(tokens[p - 1], NumberStyles.Float, CultureInfo.InvariantCulture, out var mn))
-				continue;
-			if (!double.TryParse(tokens[p + 1], NumberStyles.Float, CultureInfo.InvariantCulture, out var mx))
+			if (!double.TryParse(tokens[p - 1], NumberStyles.Float, CultureInfo.InvariantCulture, out var mn)
+				|| !double.TryParse(tokens[p + 1], NumberStyles.Float, CultureInfo.InvariantCulture, out var mx)
+				|| double.IsNaN(mn) || double.IsNaN(mx)
+				|| double.IsInfinity(mn) || double.IsInfinity(mx))
 				continue;
 			string? title = null;
 			if (p >= 2)
@@ -253,9 +254,12 @@ internal static partial class XyChartParser
 			}
 			if (cut > 0)
 				trimmed = trimmed[..cut].Trim();
+			// Keep index alignment with categories: bad tokens become 0 (not dropped).
 			if (double.TryParse(trimmed, NumberStyles.Float, CultureInfo.InvariantCulture, out var v)
 				&& !double.IsNaN(v) && !double.IsInfinity(v))
 				result.Add(v);
+			else
+				result.Add(0);
 		}
 		return result;
 	}

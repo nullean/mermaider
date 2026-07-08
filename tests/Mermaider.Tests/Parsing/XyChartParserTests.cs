@@ -93,4 +93,30 @@ public class XyChartParserTests
 
 		chart.Series[0].Values.Should().Equal(540, 65, 7);
 	}
+
+	[Test]
+	public void Keeps_slot_for_invalid_numbers()
+	{
+		var chart = XyChartParser.Parse(
+		[
+			"xychart",
+			"bar [1, NaN, 3]",
+		]);
+
+		chart.Series[0].Values.Should().Equal(1, 0, 3);
+	}
+
+	[Test]
+	public void Rejects_nan_axis_range()
+	{
+		var chart = XyChartParser.Parse(
+		[
+			"xychart",
+			"y-axis NaN --> Infinity",
+			"bar [1, 2]",
+		]);
+
+		chart.YMin.Should().BeNull();
+		chart.YMax.Should().BeNull();
+	}
 }

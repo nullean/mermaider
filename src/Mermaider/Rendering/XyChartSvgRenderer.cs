@@ -152,17 +152,27 @@ internal static class XyChartSvgRenderer
 			_ = sb.Append("</text>");
 		}
 
-		// Draw bars first, then lines (mermaid-ish)
-		var colorIdx = 0;
-		var barSeries = chart.Series.Where(s => s.Type == XySeriesType.Bar).ToList();
-		var barGroupCount = Math.Max(1, barSeries.Count);
+		// Stable series colors in declaration order (shared by draw + legend).
+		var seriesColors = new string[chart.Series.Count];
+		for (var si = 0; si < chart.Series.Count; si++)
+			seriesColors[si] = PlotColors[si % PlotColors.Length];
+
+		var barSeriesIdx = new List<int>();
+		for (var si = 0; si < chart.Series.Count; si++)
+		{
+			if (chart.Series[si].Type == XySeriesType.Bar)
+				barSeriesIdx.Add(si);
+		}
+		var barGroupCount = Math.Max(1, barSeriesIdx.Count);
 		var groupWidth = plotW / catCount;
 		var barWidth = Math.Max(2, groupWidth * 0.7 / barGroupCount);
 
-		for (var bi = 0; bi < barSeries.Count; bi++)
+		// Bars first (under lines), but colors stay declaration-indexed.
+		for (var bi = 0; bi < barSeriesIdx.Count; bi++)
 		{
-			var series = barSeries[bi];
-			var color = PlotColors[colorIdx++ % PlotColors.Length];
+			var si = barSeriesIdx[bi];
+			var series = chart.Series[si];
+			var color = seriesColors[si];
 			for (var i = 0; i < series.Values.Count && i < catCount; i++)
 			{
 				var v = series.Values[i];
@@ -181,11 +191,12 @@ internal static class XyChartSvgRenderer
 			}
 		}
 
-		foreach (var series in chart.Series.Where(s => s.Type == XySeriesType.Line))
+		for (var si = 0; si < chart.Series.Count; si++)
 		{
-			var color = PlotColors[colorIdx++ % PlotColors.Length];
-			if (series.Values.Count == 0)
+			var series = chart.Series[si];
+			if (series.Type != XySeriesType.Line || series.Values.Count == 0)
 				continue;
+			var color = seriesColors[si];
 
 			_ = sb.Append("\n<polyline fill=\"none\" stroke=\"").Append(color)
 				.Append("\" stroke-width=\"2\" points=\"");
@@ -212,13 +223,11 @@ internal static class XyChartSvgRenderer
 		{
 			var lx = plotX;
 			var ly = height - 14;
-			// re-walk colors in same order: bars then lines matching draw order
-			colorIdx = 0;
-			foreach (var series in chart.Series)
+			for (var si = 0; si < chart.Series.Count; si++)
 			{
-				var color = PlotColors[colorIdx++ % PlotColors.Length];
-				if (series.Name is not { Length: > 0 } name)
+				if (chart.Series[si].Name is not { Length: > 0 } name)
 					continue;
+				var color = seriesColors[si];
 				_ = sb.Append("\n<rect x=\"").Append(F(lx)).Append("\" y=\"").Append(F(ly - 8))
 					.Append("\" width=\"12\" height=\"12\" rx=\"2\" fill=\"").Append(color).Append("\" />");
 				_ = sb.Append("\n<text x=\"").Append(F(lx + 16)).Append("\" y=\"").Append(F(ly))
@@ -256,9 +265,14 @@ internal static class XyChartSvgRenderer
 			min = 0;
 			max = 1;
 		}
-		// Include 0 baseline for bars when range is positive
-		if (chart.Series.Any(s => s.Type == XySeriesType.Bar) && min > 0)
-			min = 0;
+		// Include 0 baseline for bars (positive or all-negative ranges)
+		if (chart.Series.Any(s => s.Type == XySeriesType.Bar))
+		{
+			if (min > 0)
+				min = 0;
+			if (max < 0)
+				max = 0;
+		}
 		if (chart.YMin is not null)
 			min = chart.YMin.Value;
 		if (chart.YMax is not null)
