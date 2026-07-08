@@ -1,6 +1,6 @@
 namespace Mermaider.Gallery;
 
-public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, RealWorld }
+public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Architecture, RealWorld }
 
 public sealed record DiagramExample(string Slug, string Title, DiagramCategory Category, string Source, string? Feature = null);
 
@@ -867,6 +867,31 @@ public static class DiagramExamples
 
 		new("mindmap-learning", "Learning Path", DiagramCategory.Mindmap,
 			"mindmap\n  ((Web Development))\n    (Frontend)\n      HTML\n      CSS\n      JavaScript\n    (Backend)\n      .NET\n      Node.js\n    ))Cloud((\n      AWS\n      Azure"),
+
+		// ── Architecture ───────────────────────────────────────────────
+
+		new("architecture-basic", "API & Storage", DiagramCategory.Architecture, """
+			architecture-beta
+			    group api(cloud)[API]
+
+			    service db(database)[Database]
+			    service disk(disk)[Disk]
+
+			    api:B --> db:T
+			    api:B --> disk:T
+			"""),
+
+		new("architecture-grouped", "Services in Group", DiagramCategory.Architecture, """
+			architecture-beta
+			    group public_api(cloud)[Public API]
+			    service server(server)[Server] in public_api
+			    service db(database)[Database] in public_api
+			    service disk1(disk)[Storage] in public_api
+
+			    db:R -- L:server
+			    disk1:T -- B:server
+			"""),
+
 		// ── Real World (RFC diagrams) ─────────────────────────────────
 
 		new("rfc-path-flow", "Path Flow (V1)", DiagramCategory.RealWorld, """
@@ -1029,6 +1054,7 @@ public static class DiagramExamples
 		DiagramCategory.Treemap => "Treemap",
 		DiagramCategory.Venn => "Venn Diagram",
 		DiagramCategory.Mindmap => "Mindmap",
+		DiagramCategory.Architecture => "Architecture",
 		DiagramCategory.RealWorld => "Real World",
 		_ => c.ToString(),
 	};
@@ -1048,6 +1074,7 @@ public static class DiagramExamples
 		DiagramCategory.Treemap => "treemap",
 		DiagramCategory.Venn => "venn",
 		DiagramCategory.Mindmap => "mindmap",
+		DiagramCategory.Architecture => "architecture",
 		DiagramCategory.RealWorld => "real-world",
 		_ => c.ToString().ToLowerInvariant(),
 	};

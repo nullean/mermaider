@@ -279,4 +279,17 @@ public class SnapshotTests
 			      Unit Tests
 			      Integration
 			"""), "svg");
+
+	[Test]
+	public Task Architecture_basic() =>
+		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			architecture-beta
+			    group api(cloud)[API]
+
+			    service db(database)[Database]
+			    service disk(disk)[Disk]
+
+			    api:B --> db:T
+			    api:B --> disk:T
+			"""), "svg");
 }

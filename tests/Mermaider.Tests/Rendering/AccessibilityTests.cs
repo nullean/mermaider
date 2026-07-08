@@ -323,6 +323,24 @@ public class AccessibilityTests
 		svg.Should().Contain("<desc>Brainstorm map</desc>");
 	}
 
+	[Test]
+	public void Architecture_diagram_accessibility()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			architecture-beta
+			accTitle: Cloud Layout
+			accDescr: API with storage
+			    group api(cloud)[API]
+			    service db(database)[Database]
+			    api:B --> db:T
+			""");
+
+		svg.Should().Contain("role=\"img\"");
+		svg.Should().Contain("aria-roledescription=\"architecture diagram\"");
+		svg.Should().Contain("<title>Cloud Layout</title>");
+		svg.Should().Contain("<desc>API with storage</desc>");
+	}
+
 	// ========================================================================
 	// Accessibility directives do not interfere with diagram parsing
 	// ========================================================================
