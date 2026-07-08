@@ -3,6 +3,9 @@ namespace Mermaider.Models;
 /// <summary>Packet / packet-beta bit-field diagram.</summary>
 public sealed record PacketDiagram
 {
+	/// <summary>Inclusive maximum bit index accepted for fields (bits 0..MaxBitIndex).</summary>
+	public const int MaxBitIndex = 4095;
+
 	public string? Title { get; init; }
 	public required IReadOnlyList<PacketField> Fields { get; init; }
 }

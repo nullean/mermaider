@@ -9,6 +9,8 @@ namespace Mermaider.Rendering;
 internal static class PacketSvgRenderer
 {
 	private const int BitsPerRow = 32;
+	// Max rows from PacketDiagram.MaxBitIndex (bits 0..4095 → 128 rows of 32).
+	private const int MaxRows = (PacketDiagram.MaxBitIndex / BitsPerRow) + 1;
 	private const double BitWidth = 32;
 	private const double RowHeight = 32;
 	private const double PaddingX = 5;
@@ -93,19 +95,27 @@ internal static class PacketSvgRenderer
 			var field = fields[i];
 			var start = field.Start;
 			var end = field.End;
-			if (end < start)
+			// Guard: skip inverted ranges or bits past the hard cap (parser should already reject).
+			if (end < start || start < 0 || start > PacketDiagram.MaxBitIndex || end > PacketDiagram.MaxBitIndex)
 				continue;
 
 			// Split field across 32-bit row boundaries (mermaid parity).
 			while (start <= end)
 			{
 				var rowIndex = start / BitsPerRow;
+				if (rowIndex >= MaxRows)
+					break;
+
 				while (rows.Count <= rowIndex)
 					rows.Add([]);
 
 				var rowEndBit = ((rowIndex + 1) * BitsPerRow) - 1;
 				var segEnd = Math.Min(end, rowEndBit);
 				rows[rowIndex].Add(new Segment(start, segEnd, field.Label, i));
+
+				// Avoid int overflow when segEnd == int.MaxValue (defense in depth).
+				if (segEnd >= end || segEnd == int.MaxValue)
+					break;
 				start = segEnd + 1;
 			}
 		}

@@ -73,19 +73,30 @@ internal static partial class PacketParser
 				if (!int.TryParse(fieldMatch.Groups[1].Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var count)
 					|| count <= 0)
 					continue;
+
+				// Reject when cursor is already past the cap (or would overflow).
+				if (nextBit > PacketDiagram.MaxBitIndex)
+					continue;
+
 				start = nextBit;
-				end = start + count - 1;
+				// Use long to avoid int overflow on large counts.
+				var endLong = (long)start + count - 1;
+				if (endLong > PacketDiagram.MaxBitIndex || endLong < start)
+					continue;
+				end = (int)endLong;
 			}
 			else
 			{
 				if (!int.TryParse(fieldMatch.Groups[2].Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out start)
-					|| start < 0)
+					|| start < 0
+					|| start > PacketDiagram.MaxBitIndex)
 					continue;
 
 				if (fieldMatch.Groups[3].Success)
 				{
 					if (!int.TryParse(fieldMatch.Groups[3].Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out end)
-						|| end < start)
+						|| end < start
+						|| end > PacketDiagram.MaxBitIndex)
 						continue;
 				}
 				else
@@ -96,6 +107,7 @@ internal static partial class PacketParser
 			}
 
 			fields.Add(new PacketField(start, end, label));
+			// Safe: end <= MaxBitIndex so nextBit <= MaxBitIndex + 1
 			nextBit = end + 1;
 		}
 

@@ -156,4 +156,90 @@ public class PacketParserTests
 		diagram.Fields[0].Start.Should().Be(0);
 		diagram.Fields[0].End.Should().Be(7);
 	}
+
+	[Test]
+	public void Rejects_range_beyond_max_bit_index()
+	{
+		var lines = new[]
+		{
+			"packet",
+			"0-999999: \"Huge\"",
+			"0-7: \"OK\"",
+		};
+
+		var diagram = PacketParser.Parse(lines);
+
+		diagram.Fields.Should().HaveCount(1);
+		diagram.Fields[0].Label.Should().Be("OK");
+		diagram.Fields[0].Start.Should().Be(0);
+		diagram.Fields[0].End.Should().Be(7);
+	}
+
+	[Test]
+	public void Rejects_single_bit_beyond_max_bit_index()
+	{
+		var lines = new[]
+		{
+			"packet",
+			"2147483646: \"x\"",
+			"0: \"OK\"",
+		};
+
+		var diagram = PacketParser.Parse(lines);
+
+		diagram.Fields.Should().HaveCount(1);
+		diagram.Fields[0].Label.Should().Be("OK");
+		diagram.Fields[0].Start.Should().Be(0);
+	}
+
+	[Test]
+	public void Rejects_count_form_that_exceeds_max_bit_index()
+	{
+		var lines = new[]
+		{
+			"packet",
+			"+999999: \"Overflow\"",
+			"+8: \"OK\"",
+		};
+
+		var diagram = PacketParser.Parse(lines);
+
+		diagram.Fields.Should().HaveCount(1);
+		diagram.Fields[0].Label.Should().Be("OK");
+		diagram.Fields[0].Start.Should().Be(0);
+		diagram.Fields[0].End.Should().Be(7);
+	}
+
+	[Test]
+	public void Rejects_inverted_range_end_less_than_start()
+	{
+		var lines = new[]
+		{
+			"packet",
+			"15-0: \"Bad\"",
+			"0-7: \"OK\"",
+		};
+
+		var diagram = PacketParser.Parse(lines);
+
+		diagram.Fields.Should().HaveCount(1);
+		diagram.Fields[0].Label.Should().Be("OK");
+	}
+
+	[Test]
+	public void Accepts_field_at_max_bit_index()
+	{
+		var max = Mermaider.Models.PacketDiagram.MaxBitIndex;
+		var lines = new[]
+		{
+			"packet",
+			$"{max}: \"Last\"",
+		};
+
+		var diagram = PacketParser.Parse(lines);
+
+		diagram.Fields.Should().HaveCount(1);
+		diagram.Fields[0].Start.Should().Be(max);
+		diagram.Fields[0].End.Should().Be(max);
+	}
 }
