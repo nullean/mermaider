@@ -27,8 +27,12 @@ internal static class JourneySvgRenderer
 	private const double TitleY = 25;
 	private const double TopPad = 8;
 
-	// Face bottom extent: 300 + 5*30 = 450, plus radius
+	// Face bottom extent pad used for drop-lines and default content height
 	private const double MaxFaceY = FaceBaseY + (5 * FaceStepY) + FaceRadius + 20;
+
+	// Actor legend: cy starts 60, +20 per row
+	private const double LegendStartY = 60;
+	private const double LegendStepY = 20;
 
 	private static readonly string[] ActorColours =
 	[
@@ -78,10 +82,11 @@ internal static class JourneySvgRenderer
 		var leftMargin = LeftMarginBase + Math.Max(0, legendLabelW - 40);
 
 		var flat = Flatten(diagram);
+		var legendBottom = LegendBottom(actors.Count);
 		if (flat.Count == 0)
 		{
 			var emptyW = leftMargin + 200;
-			var emptyH = 120.0;
+			var emptyH = Math.Max(120.0, legendBottom + 16);
 			StyleBlock.AppendSvgOpenTag(sb, emptyW, emptyH, colors, transparent, accessibility, diagramType);
 			StyleBlock.AppendStyleBlock(sb, font, strict);
 			if (hasTitle)
@@ -95,7 +100,8 @@ internal static class JourneySvgRenderer
 		var pitch = TaskWidth + TaskMargin;
 		var lastTaskRight = leftMargin + ((flat.Count - 1) * pitch) + TaskWidth;
 		var width = lastTaskRight + DiagramMarginX + 24;
-		var height = MaxFaceY + 16;
+		// Content bottom: faces and dashed lines, or actor legend when many actors
+		var height = Math.Max(MaxFaceY + 16, legendBottom + 16);
 		// room for title above section row
 		var viewTop = hasTitle ? -8.0 : 0;
 		var totalHeight = height - viewTop;
@@ -212,9 +218,10 @@ internal static class JourneySvgRenderer
 			_ = sb.Append("</text>");
 		}
 
-		// activity line + arrow (after tasks, like mermaid)
+		// activity line + arrow: anchor to task geometry (not width - leftMargin, which
+		// detaches when leftMargin expands for long actor legend labels)
 		var lineX1 = leftMargin;
-		var lineX2 = width - leftMargin - 4;
+		var lineX2 = lastTaskRight - 4;
 		_ = sb.Append("\n<line x1=\"").Append(F(lineX1)).Append("\" y1=\"").Append(F(timelineY))
 			.Append("\" x2=\"").Append(F(lineX2)).Append("\" y2=\"").Append(F(timelineY))
 			.Append("\" stroke=\"").Append(TimelineStroke)
@@ -239,7 +246,7 @@ internal static class JourneySvgRenderer
 		Dictionary<string, (string Color, int Pos)> actorMap)
 	{
 		// mermaid: cx=20, cy starts 60, r=7, label x=40, y=cy+7, step ~20
-		var yPos = 60.0;
+		var yPos = LegendStartY;
 		foreach (var person in actors)
 		{
 			var color = actorMap[person].Color;
@@ -250,8 +257,17 @@ internal static class JourneySvgRenderer
 				.Append("\" font-size=\"14\" fill=\"#666666\">");
 			MultilineUtils.AppendEscapedXml(sb, person.AsSpan());
 			_ = sb.Append("</text>");
-			yPos += 20;
+			yPos += LegendStepY;
 		}
+	}
+
+	/// <summary>Bottom Y of actor legend (last row circle + pad), or 0 when empty.</summary>
+	private static double LegendBottom(int actorCount)
+	{
+		if (actorCount <= 0)
+			return 0;
+		// last row cy + radius; text sits at cy+5 with ~14px font
+		return LegendStartY + ((actorCount - 1) * LegendStepY) + Math.Max(ActorDotR, 12);
 	}
 
 	/// <summary>mermaid svgDraw.drawFace — radius 15, smile/sad/ambivalent by score.</summary>
