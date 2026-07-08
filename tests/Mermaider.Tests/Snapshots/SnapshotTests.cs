@@ -279,4 +279,13 @@ public class SnapshotTests
 			      Unit Tests
 			      Integration
 			"""), "svg");
+
+	[Test]
+	public Task Block_grid() =>
+		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			block-beta
+			columns 3
+			  A["A"] B["B"] C["C"]
+			  D["D"] E["E"] F["F"]
+			"""), "svg");
 }

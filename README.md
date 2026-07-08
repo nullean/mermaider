@@ -300,6 +300,19 @@ MermaidRenderer.RenderSvg("""
 
 <p align="center"><img src="docs/screenshots/mindmap.svg" alt="Mindmap" /></p>
 
+### Block Diagram
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    block-beta
+    columns 3
+      A["A"] B["B"] C["C"]
+      D["D"] E["E"] F["F"]
+    """);
+```
+
+<p align="center"><img src="docs/screenshots/block.svg" alt="Block diagram" /></p>
+
 ## Theming
 
 Every diagram derives its palette from just two colors&mdash;background and foreground&mdash;using

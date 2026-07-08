@@ -110,6 +110,7 @@ internal static class StyleBlock
 		DiagramType.Treemap => "treemap",
 		DiagramType.Venn => "venn diagram",
 		DiagramType.Mindmap => "mindmap",
+		DiagramType.Block => "block diagram",
 		_ => "diagram"
 	};
 

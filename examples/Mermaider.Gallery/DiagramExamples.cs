@@ -1,6 +1,6 @@
 namespace Mermaider.Gallery;
 
-public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, RealWorld }
+public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Block, RealWorld }
 
 public sealed record DiagramExample(string Slug, string Title, DiagramCategory Category, string Source, string? Feature = null);
 
@@ -867,6 +867,25 @@ public static class DiagramExamples
 
 		new("mindmap-learning", "Learning Path", DiagramCategory.Mindmap,
 			"mindmap\n  ((Web Development))\n    (Frontend)\n      HTML\n      CSS\n      JavaScript\n    (Backend)\n      .NET\n      Node.js\n    ))Cloud((\n      AWS\n      Azure"),
+
+		// ── Block ──────────────────────────────────────────────────────
+
+		new("block-grid", "3×2 Grid", DiagramCategory.Block, """
+			block-beta
+			columns 3
+			  A["A"] B["B"] C["C"]
+			  D["D"] E["E"] F["F"]
+			"""),
+
+		new("block-pipeline", "Pipeline with Edges", DiagramCategory.Block, """
+			block-beta
+			columns 4
+			  In["Input"] Process["Process"] Out["Output"] Store["Store"]
+			  In --> Process
+			  Process --> Out
+			  Out --> Store
+			"""),
+
 		// ── Real World (RFC diagrams) ─────────────────────────────────
 
 		new("rfc-path-flow", "Path Flow (V1)", DiagramCategory.RealWorld, """
@@ -1029,6 +1048,7 @@ public static class DiagramExamples
 		DiagramCategory.Treemap => "Treemap",
 		DiagramCategory.Venn => "Venn Diagram",
 		DiagramCategory.Mindmap => "Mindmap",
+		DiagramCategory.Block => "Block",
 		DiagramCategory.RealWorld => "Real World",
 		_ => c.ToString(),
 	};
@@ -1048,6 +1068,7 @@ public static class DiagramExamples
 		DiagramCategory.Treemap => "treemap",
 		DiagramCategory.Venn => "venn",
 		DiagramCategory.Mindmap => "mindmap",
+		DiagramCategory.Block => "block",
 		DiagramCategory.RealWorld => "real-world",
 		_ => c.ToString().ToLowerInvariant(),
 	};
