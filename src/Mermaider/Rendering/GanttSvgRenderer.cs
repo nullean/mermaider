@@ -19,16 +19,18 @@ internal static class GanttSvgRenderer
 	private const double TitleHeight = 36;
 	private const double AxisHeight = 28;
 	private const double ChartMinWidth = 480;
-	private const string TitleFontSize = RenderConstants.FsVar.L;
-	private const string LabelFontSize = RenderConstants.FsVar.S;
-	private const string AxisFontSize = RenderConstants.FsVar.Xs;
 
-	private static readonly string ColorDefault = "#4e79a7";
-	private static readonly string ColorDone = "#9ca3af";
-	private static readonly string ColorActive = "#3b82f6";
-	private static readonly string ColorCrit = "#e15759";
-	private static readonly string ColorCritDone = "#b07aa1";
-	private static readonly string ColorMilestone = "#edc948";
+	// Concrete px sizes so SVG-as-<img> (e.g. GitHub) still paints text if CSS vars fail.
+	private const string TitleFontSize = "18";
+	private const string LabelFontSize = "13";
+	private const string AxisFontSize = "11";
+
+	private const string ColorDefault = "#4e79a7";
+	private const string ColorDone = "#9ca3af";
+	private const string ColorActive = "#3b82f6";
+	private const string ColorCrit = "#e15759";
+	private const string ColorCritDone = "#b07aa1";
+	private const string ColorMilestone = "#edc948";
 
 	internal static string Render(GanttDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
@@ -47,32 +49,24 @@ internal static class GanttSvgRenderer
 	internal static StringBuilder RenderToBuilder(GanttDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
+		var textColor = colors.Fg;
 
 		var hasTitle = diagram.Title is { Length: > 0 };
 		var titleOffset = hasTitle ? TitleHeight : 0;
 
-		// Flatten tasks with section headers for layout
-		var rows = new List<Row>();
-		foreach (var section in diagram.Sections)
-		{
-			if (section.Name is { Length: > 0 })
-				rows.Add(new Row.SectionHeader(section.Name));
-			foreach (var task in section.Tasks)
-				rows.Add(new Row.TaskRow(task));
-		}
-
 		var min = DateTime.MaxValue;
 		var max = DateTime.MinValue;
 		var taskCount = 0;
-		foreach (var row in rows)
+		foreach (var section in diagram.Sections)
 		{
-			if (row is not Row.TaskRow t)
-				continue;
-			taskCount++;
-			if (t.Task.Start < min)
-				min = t.Task.Start;
-			if (t.Task.End > max)
-				max = t.Task.End;
+			foreach (var task in section.Tasks)
+			{
+				taskCount++;
+				if (task.Start < min)
+					min = task.Start;
+				if (task.End > max)
+					max = task.End;
+			}
 		}
 
 		if (taskCount == 0 || min == DateTime.MaxValue)
@@ -81,12 +75,11 @@ internal static class GanttSvgRenderer
 			StyleBlock.AppendSvgOpenTag(sb, 400, emptyH, colors, transparent, accessibility, diagramType);
 			StyleBlock.AppendStyleBlock(sb, font, strict);
 			if (hasTitle)
-				AppendTitle(sb, diagram.Title!, 200);
+				AppendTitle(sb, diagram.Title!, 200, textColor);
 			_ = sb.Append("\n</svg>");
 			return sb;
 		}
 
-		// Ensure non-zero span
 		if (max <= min)
 			max = min.AddDays(1);
 
@@ -95,8 +88,12 @@ internal static class GanttSvgRenderer
 		var width = LeftPad + LabelWidth + chartWidth + RightPad;
 
 		var contentHeight = 0.0;
-		foreach (var row in rows)
-			contentHeight += row is Row.SectionHeader ? SectionHeaderHeight : RowHeight;
+		foreach (var section in diagram.Sections)
+		{
+			if (section.Name is { Length: > 0 })
+				contentHeight += SectionHeaderHeight;
+			contentHeight += section.Tasks.Count * RowHeight;
+		}
 
 		var height = TopPad + titleOffset + contentHeight + AxisHeight + BottomPad;
 		var chartLeft = LeftPad + LabelWidth;
@@ -107,30 +104,30 @@ internal static class GanttSvgRenderer
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		if (hasTitle)
-			AppendTitle(sb, diagram.Title!, width / 2);
+			AppendTitle(sb, diagram.Title!, width / 2, textColor);
 
-		// Vertical grid lines + axis labels
-		AppendTimeAxis(sb, min, max, chartLeft, chartTop, chartWidth, contentHeight);
+		AppendTimeAxis(sb, min, max, chartLeft, chartTop, chartWidth, contentHeight, textColor);
 
 		var y = chartTop;
-		foreach (var row in rows)
+		foreach (var section in diagram.Sections)
 		{
-			switch (row)
+			if (section.Name is { Length: > 0 })
 			{
-				case Row.SectionHeader sh:
-					_ = sb.Append("\n<text x=\"").Append(F(LeftPad))
-						.Append("\" y=\"").Append(F(y + (SectionHeaderHeight * 0.65)))
-						.Append("\" font-size=\"").Append(LabelFontSize)
-						.Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
-					MultilineUtils.AppendEscapedXml(sb, sh.Name.AsSpan());
-					_ = sb.Append("</text>");
-					y += SectionHeaderHeight;
-					break;
+				_ = sb.Append("\n<text x=\"").Append(F(LeftPad))
+					.Append("\" y=\"").Append(F(y + (SectionHeaderHeight * 0.65)))
+					.Append("\" font-size=\"").Append(LabelFontSize)
+					.Append("\" font-weight=\"700\" fill=\"");
+				MultilineUtils.AppendEscapedAttr(sb, textColor.AsSpan());
+				_ = sb.Append("\">");
+				MultilineUtils.AppendEscapedXml(sb, section.Name.AsSpan());
+				_ = sb.Append("</text>");
+				y += SectionHeaderHeight;
+			}
 
-				case Row.TaskRow tr:
-					AppendTaskRow(sb, tr.Task, y, chartLeft, chartWidth, min, max);
-					y += RowHeight;
-					break;
+			foreach (var task in section.Tasks)
+			{
+				AppendTaskRow(sb, task, y, chartLeft, chartWidth, min, max, textColor);
+				y += RowHeight;
 			}
 		}
 
@@ -138,19 +135,23 @@ internal static class GanttSvgRenderer
 		return sb;
 	}
 
-	private static void AppendTitle(StringBuilder sb, string title, double centerX)
+	private static void AppendTitle(StringBuilder sb, string title, double centerX, string textColor)
 	{
 		_ = sb.Append("\n<text x=\"").Append(F(centerX))
 			.Append("\" y=\"24\" text-anchor=\"middle\" font-size=\"")
-			.Append(TitleFontSize).Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
+			.Append(TitleFontSize).Append("\" font-weight=\"700\" fill=\"");
+		MultilineUtils.AppendEscapedAttr(sb, textColor.AsSpan());
+		_ = sb.Append("\">");
 		MultilineUtils.AppendEscapedXml(sb, title.AsSpan());
 		_ = sb.Append("</text>");
 	}
 
-	private static void AppendTimeAxis(StringBuilder sb, DateTime min, DateTime max, double chartLeft, double chartTop, double chartWidth, double contentHeight)
+	private static void AppendTimeAxis(
+		StringBuilder sb, DateTime min, DateTime max,
+		double chartLeft, double chartTop, double chartWidth, double contentHeight,
+		string textColor)
 	{
 		var span = max - min;
-		// Choose tick step: day / week / month-ish based on span
 		var tickDays = span.TotalDays switch
 		{
 			<= 14 => 1.0,
@@ -161,15 +162,13 @@ internal static class GanttSvgRenderer
 
 		var axisY = chartTop + contentHeight + 4;
 
-		// Baseline
 		_ = sb.Append("\n<line x1=\"").Append(F(chartLeft)).Append("\" y1=\"").Append(F(axisY))
 			.Append("\" x2=\"").Append(F(chartLeft + chartWidth)).Append("\" y2=\"").Append(F(axisY))
-			.Append("\" stroke=\"var(--_line)\" stroke-width=\"1\" />");
+			.Append("\" stroke=\"var(--_line, #999)\" stroke-width=\"1\" />");
 
-		// Vertical track background
 		_ = sb.Append("\n<rect x=\"").Append(F(chartLeft)).Append("\" y=\"").Append(F(chartTop))
 			.Append("\" width=\"").Append(F(chartWidth)).Append("\" height=\"").Append(F(contentHeight))
-			.Append("\" fill=\"var(--_surface, transparent)\" opacity=\"0.35\" />");
+			.Append("\" fill=\"var(--_node-fill, #f4f4f5)\" opacity=\"0.5\" />");
 
 		for (var d = 0.0; d <= span.TotalDays + 0.001; d += tickDays)
 		{
@@ -178,30 +177,36 @@ internal static class GanttSvgRenderer
 			var x = chartLeft + (frac * chartWidth);
 			_ = sb.Append("\n<line x1=\"").Append(F(x)).Append("\" y1=\"").Append(F(chartTop))
 				.Append("\" x2=\"").Append(F(x)).Append("\" y2=\"").Append(F(axisY))
-				.Append("\" stroke=\"var(--_line)\" stroke-width=\"0.5\" opacity=\"0.35\" />");
+				.Append("\" stroke=\"var(--_line, #ccc)\" stroke-width=\"0.5\" opacity=\"0.5\" />");
 
 			var label = tickDays >= 28
 				? t.ToString("MMM yyyy", CultureInfo.InvariantCulture)
 				: t.ToString("MMM d", CultureInfo.InvariantCulture);
 			_ = sb.Append("\n<text x=\"").Append(F(x)).Append("\" y=\"").Append(F(axisY + 16))
 				.Append("\" text-anchor=\"middle\" font-size=\"").Append(AxisFontSize)
-				.Append("\" fill=\"var(--_muted, var(--_text))\">");
+				.Append("\" fill=\"");
+			MultilineUtils.AppendEscapedAttr(sb, textColor.AsSpan());
+			_ = sb.Append("\" opacity=\"0.7\">");
 			MultilineUtils.AppendEscapedXml(sb, label.AsSpan());
 			_ = sb.Append("</text>");
 		}
 	}
 
-	private static void AppendTaskRow(StringBuilder sb, GanttTask task, double rowY, double chartLeft, double chartWidth, DateTime min, DateTime max)
+	private static void AppendTaskRow(
+		StringBuilder sb, GanttTask task, double rowY,
+		double chartLeft, double chartWidth, DateTime min, DateTime max,
+		string textColor)
 	{
 		var span = (max - min).TotalDays;
 		if (span <= 0)
 			span = 1;
 
-		// Label
 		_ = sb.Append("\n<text x=\"").Append(F(LeftPad))
 			.Append("\" y=\"").Append(F(rowY + (RowHeight * 0.6)))
 			.Append("\" font-size=\"").Append(LabelFontSize)
-			.Append("\" fill=\"var(--_text)\">");
+			.Append("\" fill=\"");
+		MultilineUtils.AppendEscapedAttr(sb, textColor.AsSpan());
+		_ = sb.Append("\">");
 		MultilineUtils.AppendEscapedXml(sb, task.Name.AsSpan());
 		_ = sb.Append("</text>");
 
@@ -217,12 +222,11 @@ internal static class GanttSvgRenderer
 		var barY = rowY + ((RowHeight - BarHeight) / 2);
 		var fill = ColorFor(task.Tags);
 
-		if ((task.Tags & GanttTaskTags.Milestone) != 0 || w <= 6)
+		if ((task.Tags & GanttTaskTags.Milestone) != 0)
 		{
-			// Diamond
 			var cx = x + (Math.Max(w, 4) / 2);
 			var cy = rowY + (RowHeight / 2);
-			var r = 8.0;
+			const double r = 8.0;
 			_ = sb.Append("\n<polygon points=\"")
 				.Append(F(cx)).Append(',').Append(F(cy - r)).Append(' ')
 				.Append(F(cx + r)).Append(',').Append(F(cy)).Append(' ')
@@ -256,12 +260,6 @@ internal static class GanttSvgRenderer
 		if (isActive)
 			return ColorActive;
 		return ColorDefault;
-	}
-
-	private abstract record Row
-	{
-		public sealed record SectionHeader(string Name) : Row;
-		public sealed record TaskRow(GanttTask Task) : Row;
 	}
 
 	private static string F(double value) =>

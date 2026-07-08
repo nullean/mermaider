@@ -179,4 +179,45 @@ public class GanttParserTests
 
 		diagram.Sections[0].Tasks.Should().HaveCount(1);
 	}
+
+	[Test]
+	public void Parses_hyphenated_task_id_as_id_not_date()
+	{
+		var lines = new[]
+		{
+			"gantt",
+			"dateFormat YYYY-MM-DD",
+			"Feature work :done, task-1, 2026-07-07, 2d",
+			"Follow up : after task-1, 1d",
+		};
+
+		var diagram = GanttParser.Parse(lines);
+		var tasks = diagram.Sections[0].Tasks;
+
+		tasks[0].Id.Should().Be("task-1");
+		tasks[0].Start.Date.Should().Be(new DateTime(2026, 7, 7));
+		tasks[0].End.Date.Should().Be(new DateTime(2026, 7, 9));
+		tasks[1].Start.Should().Be(tasks[0].End);
+	}
+
+	[Test]
+	public void Does_not_use_wall_clock_when_dates_missing()
+	{
+		// Duration-only chain with no absolute dates must resolve from a fixed synthetic origin.
+		var lines = new[]
+		{
+			"gantt",
+			"dateFormat YYYY-MM-DD",
+			"A : 1d",
+			"B : 2d",
+		};
+
+		var diagram = GanttParser.Parse(lines);
+		var tasks = diagram.Sections[0].Tasks;
+
+		tasks[0].Start.Should().Be(new DateTime(2020, 1, 1));
+		tasks[0].End.Should().Be(new DateTime(2020, 1, 2));
+		tasks[1].Start.Should().Be(tasks[0].End);
+		tasks[1].End.Should().Be(new DateTime(2020, 1, 4));
+	}
 }

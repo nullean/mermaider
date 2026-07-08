@@ -8,6 +8,9 @@ internal static partial class GanttParser
 {
 	private const int TimeoutMs = 2000;
 
+	/// <summary>Stable synthetic origin when a chart has no absolute dates (never wall-clock).</summary>
+	private static readonly DateTime SyntheticOrigin = new(2020, 1, 1);
+
 	[GeneratedRegex(@"^gantt(?:\s+title\s+(.+))?\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex HeaderPattern();
 
@@ -20,7 +23,6 @@ internal static partial class GanttParser
 	[GeneratedRegex(@"^section\s+(.+)$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex SectionPattern();
 
-	// taskName : metadata
 	[GeneratedRegex(@"^(.+?)\s*:\s*(.*)$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex TaskPattern();
 
@@ -48,29 +50,26 @@ internal static partial class GanttParser
 	{
 		string? title = null;
 		var dateFormat = "YYYY-MM-DD";
+		var netDateFormat = ToNetDateFormat(dateFormat);
+
 		var sections = new List<GanttSection>();
+		string? currentSectionName = null;
+		var currentTasks = new List<GanttTask>();
+
+		var byId = new Dictionary<string, GanttTask>(StringComparer.OrdinalIgnoreCase);
+		DateTime? previousEnd = null;
+		DateTime? chartOrigin = null;
 
 		var headerMatch = HeaderPattern().Match(lines[0]);
 		if (headerMatch.Success && headerMatch.Groups[1].Success)
 			title = headerMatch.Groups[1].Value.Trim();
 
-		// First pass: collect raw task specs so we can resolve after/duration in order
-		var rawTasks = new List<RawTask>();
-		var sectionBreaks = new List<(int TaskIndex, string? Name)>();
-
 		for (var i = 1; i < lines.Length; i++)
 		{
 			var line = lines[i];
 
-			// Skip known no-op / deferred directives for v1
-			if (line.StartsWith("excludes", StringComparison.OrdinalIgnoreCase) ||
-				line.StartsWith("axisFormat", StringComparison.OrdinalIgnoreCase) ||
-				line.StartsWith("tickInterval", StringComparison.OrdinalIgnoreCase) ||
-				line.StartsWith("todayMarker", StringComparison.OrdinalIgnoreCase) ||
-				line.StartsWith("weekday", StringComparison.OrdinalIgnoreCase))
-			{
+			if (IsDeferredDirective(line))
 				continue;
-			}
 
 			var titleMatch = TitlePattern().Match(line);
 			if (titleMatch.Success)
@@ -83,51 +82,36 @@ internal static partial class GanttParser
 			if (dfMatch.Success)
 			{
 				dateFormat = dfMatch.Groups[1].Value.Trim();
+				netDateFormat = ToNetDateFormat(dateFormat);
 				continue;
 			}
 
 			var sectionMatch = SectionPattern().Match(line);
 			if (sectionMatch.Success)
 			{
-				sectionBreaks.Add((rawTasks.Count, sectionMatch.Groups[1].Value.Trim()));
+				FlushSection(sections, currentSectionName, currentTasks);
+				currentSectionName = sectionMatch.Groups[1].Value.Trim();
+				currentTasks = [];
 				continue;
 			}
 
 			var taskMatch = TaskPattern().Match(line);
-			if (taskMatch.Success)
-			{
-				var name = taskMatch.Groups[1].Value.Trim();
-				// Avoid treating directive-like lines as tasks
-				if (name.Equals("title", StringComparison.OrdinalIgnoreCase) ||
-					name.Equals("dateFormat", StringComparison.OrdinalIgnoreCase) ||
-					name.Equals("section", StringComparison.OrdinalIgnoreCase) ||
-					name.Equals("gantt", StringComparison.OrdinalIgnoreCase))
-				{
-					continue;
-				}
-
-				var meta = taskMatch.Groups[2].Value.Trim();
-				rawTasks.Add(ParseRawTask(name, meta));
-			}
-		}
-
-		// If no section was declared before tasks, start with a default section
-		if (sectionBreaks.Count == 0 || sectionBreaks[0].TaskIndex > 0)
-			sectionBreaks.Insert(0, (0, null));
-
-		var resolved = ResolveTasks(rawTasks, dateFormat);
-
-		for (var s = 0; s < sectionBreaks.Count; s++)
-		{
-			var start = sectionBreaks[s].TaskIndex;
-			var end = s + 1 < sectionBreaks.Count ? sectionBreaks[s + 1].TaskIndex : resolved.Count;
-			if (end <= start)
+			if (!taskMatch.Success)
 				continue;
-			var slice = resolved.GetRange(start, end - start);
-			sections.Add(new GanttSection(sectionBreaks[s].Name, slice));
+
+			var name = taskMatch.Groups[1].Value.Trim();
+			var meta = taskMatch.Groups[2].Value.Trim();
+			var raw = ParseRawTask(name, meta, netDateFormat);
+			var task = ResolveTask(raw, byId, previousEnd, ref chartOrigin);
+
+			currentTasks.Add(task);
+			if (task.Id is { Length: > 0 })
+				byId[task.Id] = task;
+			previousEnd = task.End;
 		}
 
-		// Drop empty default section if we only had empty breaks
+		FlushSection(sections, currentSectionName, currentTasks);
+
 		if (sections.Count == 0)
 			sections.Add(new GanttSection(null, []));
 
@@ -139,24 +123,44 @@ internal static partial class GanttParser
 		};
 	}
 
+	private static bool IsDeferredDirective(string line) =>
+		line.StartsWith("excludes", StringComparison.OrdinalIgnoreCase) ||
+		line.StartsWith("axisFormat", StringComparison.OrdinalIgnoreCase) ||
+		line.StartsWith("tickInterval", StringComparison.OrdinalIgnoreCase) ||
+		line.StartsWith("todayMarker", StringComparison.OrdinalIgnoreCase) ||
+		line.StartsWith("weekday", StringComparison.OrdinalIgnoreCase);
+
+	private static void FlushSection(List<GanttSection> sections, string? name, List<GanttTask> tasks)
+	{
+		if (tasks.Count == 0 && name is null)
+			return;
+		if (tasks.Count == 0)
+			return;
+		sections.Add(new GanttSection(name, tasks));
+	}
+
 	private sealed class RawTask
 	{
 		public required string Name { get; init; }
 		public string? Id { get; init; }
 		public GanttTaskTags Tags { get; init; }
-		public string? StartDateText { get; init; }
+		public DateTime? StartDate { get; init; }
 		public string[]? AfterIds { get; init; }
-		public string? EndDateText { get; init; }
+		public DateTime? EndDate { get; init; }
 		public TimeSpan? Duration { get; init; }
 	}
 
-	private static RawTask ParseRawTask(string name, string meta)
+	/// <summary>
+	/// Left-to-right token consumer: tags*, [id], [start|after], [end|duration].
+	/// A token is a date only when it parses under the active dateFormat.
+	/// </summary>
+	private static RawTask ParseRawTask(string name, string meta, string netDateFormat)
 	{
 		var tags = GanttTaskTags.None;
 		string? id = null;
-		string? startDate = null;
+		DateTime? startDate = null;
 		string[]? afterIds = null;
-		string? endDate = null;
+		DateTime? endDate = null;
 		TimeSpan? duration = null;
 
 		if (meta.Length == 0)
@@ -164,99 +168,128 @@ internal static partial class GanttParser
 			return new RawTask
 			{
 				Name = name,
-				Tags = tags,
 				Duration = TimeSpan.FromDays(1),
 			};
 		}
 
-		// Split on commas not inside after-lists — after lists use spaces, not commas for ids
 		var tokens = SplitMeta(meta);
-
 		var i = 0;
-		// Leading tags
+
 		while (i < tokens.Count && TryParseTag(tokens[i], out var tag))
 		{
 			tags |= tag;
 			i++;
 		}
 
-		// Remaining: [id], [start|after …], [end|duration]
-		var remaining = tokens.Count - i;
-		if (remaining == 0)
+		// Optional id: first remaining token that is not after / duration / date
+		if (i < tokens.Count &&
+			!IsAfter(tokens[i]) &&
+			!IsDuration(tokens[i]) &&
+			ParseDate(tokens[i], netDateFormat) is null)
 		{
-			duration = TimeSpan.FromDays(1);
+			id = tokens[i];
+			i++;
 		}
-		else if (remaining == 1)
-		{
-			// Duration only, date only (as end?), or id only — treat as duration or end
-			var t = tokens[i];
-			if (IsDuration(t))
-				duration = ParseDuration(t);
-			else if (LooksLikeDate(t))
-				endDate = t; // single date = end; start falls back to previous
-			else
-				id = t;
-		}
-		else
-		{
-			// 2+ tokens after tags
-			// Possible patterns:
-			//   id, start, end
-			//   id, after X, duration
-			//   after X, duration
-			//   start, end
-			//   start, duration
-			//   id, duration
-			//   crit, done already consumed as tags
 
-			// If first remaining is not after/date/duration → id
-			if (!IsAfter(tokens[i]) && !LooksLikeDate(tokens[i]) && !IsDuration(tokens[i]))
+		// Optional start: after … | date
+		if (i < tokens.Count)
+		{
+			if (IsAfter(tokens[i]))
 			{
-				id = tokens[i];
+				afterIds = ParseAfterIds(tokens[i]);
 				i++;
 			}
-
-			// Start
-			if (i < tokens.Count)
+			else if (ParseDate(tokens[i], netDateFormat) is { } sd)
 			{
-				if (IsAfter(tokens[i]))
-				{
-					afterIds = ParseAfterIds(tokens[i]);
-					i++;
-				}
-				else if (LooksLikeDate(tokens[i]))
-				{
-					startDate = tokens[i];
-					i++;
-				}
-				// else leave start unset (previous task)
-			}
-
-			// End / duration
-			if (i < tokens.Count)
-			{
-				if (IsDuration(tokens[i]))
-					duration = ParseDuration(tokens[i]);
-				else if (LooksLikeDate(tokens[i]))
-					endDate = tokens[i];
+				startDate = sd;
+				i++;
 			}
 		}
 
-		if (duration is null && endDate is null && (tags & GanttTaskTags.Milestone) != 0)
-			duration = TimeSpan.Zero;
-		else if (duration is null && endDate is null && startDate is null && afterIds is null)
-			duration = TimeSpan.FromDays(1);
+		// Optional end: duration | date
+		if (i < tokens.Count)
+		{
+			if (IsDuration(tokens[i]))
+				duration = ParseDuration(tokens[i]);
+			else if (ParseDate(tokens[i], netDateFormat) is { } ed)
+				endDate = ed;
+		}
+
+		// Defaults when end is unspecified
+		if (duration is null && endDate is null)
+		{
+			duration = (tags & GanttTaskTags.Milestone) != 0
+				? TimeSpan.Zero
+				: TimeSpan.FromDays(1);
+		}
 
 		return new RawTask
 		{
 			Name = name,
 			Id = id,
 			Tags = tags,
-			StartDateText = startDate,
+			StartDate = startDate,
 			AfterIds = afterIds,
-			EndDateText = endDate,
+			EndDate = endDate,
 			Duration = duration,
 		};
+	}
+
+	private static GanttTask ResolveTask(
+		RawTask raw,
+		Dictionary<string, GanttTask> byId,
+		DateTime? previousEnd,
+		ref DateTime? chartOrigin)
+	{
+		if (raw.StartDate is { } absStart)
+			chartOrigin ??= absStart;
+
+		var origin = chartOrigin ?? SyntheticOrigin;
+
+		var start = ResolveStart(raw, byId, previousEnd, origin);
+		var end = ResolveEnd(raw, start);
+		if (end < start)
+			end = start;
+
+		return new GanttTask(raw.Name, raw.Id, start, end, raw.Tags);
+	}
+
+	private static DateTime ResolveStart(
+		RawTask raw,
+		Dictionary<string, GanttTask> byId,
+		DateTime? previousEnd,
+		DateTime origin)
+	{
+		if (raw.AfterIds is { Length: > 0 })
+		{
+			var maxEnd = DateTime.MinValue;
+			var found = false;
+			foreach (var refId in raw.AfterIds)
+			{
+				if (byId.TryGetValue(refId, out var dep) && dep.End > maxEnd)
+				{
+					maxEnd = dep.End;
+					found = true;
+				}
+			}
+			return found ? maxEnd : previousEnd ?? origin;
+		}
+
+		if (raw.StartDate is { } sd)
+			return sd;
+
+		return previousEnd ?? origin;
+	}
+
+	private static DateTime ResolveEnd(RawTask raw, DateTime start)
+	{
+		if (raw.Duration is { } dur)
+			return start + dur;
+		if (raw.EndDate is { } ed)
+			return ed;
+		if ((raw.Tags & GanttTaskTags.Milestone) != 0)
+			return start;
+		return start.AddDays(1);
 	}
 
 	private static List<string> SplitMeta(string meta)
@@ -328,114 +361,31 @@ internal static partial class GanttParser
 		};
 	}
 
-	private static bool LooksLikeDate(string token)
-	{
-		// Heuristic: contains digit and is not a duration / after / pure identifier
-		if (IsDuration(token) || IsAfter(token))
-			return false;
-		var hasDigit = false;
-		var hasSep = false;
-		foreach (var c in token)
-		{
-			if (char.IsDigit(c))
-				hasDigit = true;
-			else if (c is '-' or '/' or ':' or ' ' or 'T')
-				hasSep = true;
-		}
-		return hasDigit && hasSep;
-	}
-
-	private static List<GanttTask> ResolveTasks(List<RawTask> rawTasks, string mermaidDateFormat)
-	{
-		var netFormat = ToNetDateFormat(mermaidDateFormat);
-		var byId = new Dictionary<string, GanttTask>(StringComparer.OrdinalIgnoreCase);
-		var resolved = new List<GanttTask>(rawTasks.Count);
-		DateTime? previousEnd = null;
-		DateTime? chartStart = null;
-
-		foreach (var raw in rawTasks)
-		{
-			var start = ResolveStart(raw, byId, previousEnd, chartStart, netFormat);
-			var end = ResolveEnd(raw, start, netFormat);
-			if (end < start)
-				end = start;
-
-			var task = new GanttTask(raw.Name, raw.Id, start, end, raw.Tags);
-			resolved.Add(task);
-			if (raw.Id is { Length: > 0 })
-				byId[raw.Id] = task;
-
-			previousEnd = end;
-			chartStart ??= start;
-		}
-
-		return resolved;
-	}
-
-	private static DateTime ResolveStart(
-		RawTask raw,
-		Dictionary<string, GanttTask> byId,
-		DateTime? previousEnd,
-		DateTime? chartStart,
-		string netFormat)
-	{
-		if (raw.AfterIds is { Length: > 0 })
-		{
-			var maxEnd = DateTime.MinValue;
-			var found = false;
-			foreach (var refId in raw.AfterIds)
-			{
-				if (byId.TryGetValue(refId, out var dep))
-				{
-					if (dep.End > maxEnd)
-						maxEnd = dep.End;
-					found = true;
-				}
-			}
-			return found ? maxEnd : previousEnd ?? DateTime.Today;
-		}
-
-		if (raw.StartDateText is { } sd)
-			return ParseDate(sd, netFormat) ?? previousEnd ?? DateTime.Today;
-
-		return previousEnd ?? chartStart ?? DateTime.Today;
-	}
-
-	private static DateTime ResolveEnd(RawTask raw, DateTime start, string netFormat)
-	{
-		if (raw.Duration is { } dur)
-			return start + dur;
-		if (raw.EndDateText is { } ed)
-			return ParseDate(ed, netFormat) ?? start.AddDays(1);
-		if ((raw.Tags & GanttTaskTags.Milestone) != 0)
-			return start;
-		return start.AddDays(1);
-	}
-
-	private static string ToNetDateFormat(string mermaid)
-	{
-		// Mermaid uses moment-like tokens. Map common ones to .NET custom format.
-		// Replace longer tokens first.
-		return mermaid
+	private static string ToNetDateFormat(string mermaid) =>
+		mermaid
 			.Replace("YYYY", "yyyy", StringComparison.Ordinal)
 			.Replace("YY", "yy", StringComparison.Ordinal)
 			.Replace("DD", "dd", StringComparison.Ordinal)
-			.Replace("D", "d", StringComparison.Ordinal)
-			.Replace("HH", "HH", StringComparison.Ordinal)
-			.Replace("mm", "mm", StringComparison.Ordinal)
-			.Replace("ss", "ss", StringComparison.Ordinal);
-	}
+			.Replace("D", "d", StringComparison.Ordinal);
 
 	private static DateTime? ParseDate(string text, string netFormat)
 	{
-		if (DateTime.TryParseExact(text, netFormat, CultureInfo.InvariantCulture,
-				DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
+		// Unspecified kind throughout — never wall-clock, never forced UTC.
+		if (DateTime.TryParseExact(
+				text, netFormat, CultureInfo.InvariantCulture,
+				DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.NoCurrentDateDefault,
 				out var dt))
-			return dt;
+		{
+			return DateTime.SpecifyKind(dt, DateTimeKind.Unspecified);
+		}
 
-		// Fallbacks for common absolute dates
-		if (DateTime.TryParse(text, CultureInfo.InvariantCulture, DateTimeStyles.AllowWhiteSpaces, out dt))
-			return dt;
+		if (DateTime.TryParse(
+				text, CultureInfo.InvariantCulture,
+				DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.NoCurrentDateDefault,
+				out dt))
+		{
+			return DateTime.SpecifyKind(dt, DateTimeKind.Unspecified);
+		}
 
 		return null;
 	}
