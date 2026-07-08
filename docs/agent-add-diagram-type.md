@@ -232,6 +232,10 @@ journey
 | Done / in flight | Sankey | `sankey` / `sankey-beta` | CSV links; flow widths |
 | Done / in flight | XY chart | `xychart` / `xychart-beta` | bar/line |
 | Medium | Requirement | `requirementDiagram` | |
+| Done / in flight | C4 | `C4Context`… | nested boundaries; fixed palette |
+| Done / in flight | Sankey | `sankey` / `sankey-beta` | CSV links; flow widths |
+| Done / in flight | XY chart | `xychart` / `xychart-beta` | bar/line |
+| Done / in flight | Requirement | `requirementDiagram` / `requirement` | SysML boxes + relations |
 | Lower | Kanban, block, packet, architecture | `*-beta` | newer / niche |
 
 ## Anti-patterns
@@ -268,6 +272,20 @@ xychart-beta
   y-axis "Rev" 0 --> 100
   bar [10, 20, 30]
   line [12, 18, 28]
+```
+
+```text
+requirementDiagram
+requirement test_req {
+id: 1
+text: the test text.
+risk: high
+verifymethod: test
+}
+element test_entity {
+type: simulation
+}
+test_entity - satisfies -> test_req
 ```
 
 ## Learnings log
@@ -328,6 +346,18 @@ xychart-beta
 - Auto Y for bars: include 0 from both sides (`min>0` → 0, `max<0` → 0).
 - Horizontal flag stored; v1 vertical geometry only (numeric `XMin`/`XMax` parsed, plotting still categorical slots).
 - Watch IDE: shadowing locals (`top`), CA2249 `Contains`, IDE0047 parens.
+
+### Requirement (2026-07)
+
+- Detector: `requirementDiagram` **and** bare `requirement` (upstream `requirement(Diagram)?`).
+- Block bodies are multi-line `{` … `}`; property keys case-insensitive (`id`, `text`, `risk`, `verifymethod`, `type`, `docref`).
+- Six requirement kinds map to display labels with spaces (“Functional Requirement”, …).
+- Relations: `A - type -> B` and reverse `B <- type - A` (src/dst flip); types: contains, copies, derives, satisfies, verifies, refines, traces.
+- `direction TB|BT|LR|RL` — v1 layout is simple two-group grid (elements vs requirements), not Sugiyama.
+- Draw edges **before** boxes so labels/rects sit under node chrome; side attachment along dominant axis.
+- Requirements use accent fill/stroke; elements use node fill — distinguishes SysML stereotypes visually.
+- StyleBlock role: `"requirement diagram"`.
+- Screenshot: CLI `--output docs/screenshots/requirement.svg` for PR preview image.
 
 ## Ref
 

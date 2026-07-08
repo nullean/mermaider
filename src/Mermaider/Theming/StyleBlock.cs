@@ -115,6 +115,7 @@ internal static class StyleBlock
 		DiagramType.C4 => "C4 diagram",
 		DiagramType.Sankey => "sankey diagram",
 		DiagramType.XyChart => "XY chart",
+		DiagramType.Requirement => "requirement diagram",
 		_ => "diagram"
 	};
 

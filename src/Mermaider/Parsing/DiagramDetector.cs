@@ -58,6 +58,9 @@ internal static partial class DiagramDetector
 	private static partial Regex SankeyHeader();
 	[GeneratedRegex(@"^xychart(?:-beta)?\b", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex XyChartHeader();
+	// Matches requirementDiagram and bare requirement (upstream detector).
+	[GeneratedRegex(@"^requirement(Diagram)?\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex RequirementHeader();
 
 	internal static DiagramType Detect(ReadOnlySpan<char> text)
 	{
@@ -101,6 +104,8 @@ internal static partial class DiagramDetector
 			return DiagramType.Sankey;
 		if (XyChartHeader().IsMatch(firstLineStr))
 			return DiagramType.XyChart;
+		if (RequirementHeader().IsMatch(firstLineStr))
+			return DiagramType.Requirement;
 
 		return DiagramType.Flowchart;
 	}

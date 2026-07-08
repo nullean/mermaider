@@ -21,4 +21,5 @@ public enum DiagramType
 	C4,
 	Sankey,
 	XyChart,
+	Requirement,
 }

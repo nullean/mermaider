@@ -41,6 +41,7 @@ edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, v
 edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, C4) use
 edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, sankey) use
 edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, xychart) use
+edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, requirement) use
 purpose-built layout arithmetic directly in their renderers. Rather than depending on an external engine, Mermaider ships its own lightweight
 [Sugiyama layout engine](src/Sugiyama/) with zero dependencies.
 
@@ -376,6 +377,28 @@ MermaidRenderer.RenderSvg("""
 ```
 
 <p align="center"><img src="docs/screenshots/xychart.svg" alt="XY chart" /></p>
+### Requirement Diagram
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    requirementDiagram
+
+    requirement test_req {
+    id: 1
+    text: the test text.
+    risk: high
+    verifymethod: test
+    }
+
+    element test_entity {
+    type: simulation
+    }
+
+    test_entity - satisfies -> test_req
+    """);
+```
+
+<p align="center"><img src="docs/screenshots/requirement.svg" alt="Requirement diagram" /></p>
 
 ## Theming
 

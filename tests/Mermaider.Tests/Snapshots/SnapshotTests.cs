@@ -365,5 +365,21 @@ public class SnapshotTests
 			x-axis [alpha, beta, gamma]
 			y-axis "req/s" 0 --> 100
 			bar [30, 60, 90]
+	public Task Requirement_basic() =>
+		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			requirementDiagram
+
+			requirement test_req {
+			id: 1
+			text: the test text.
+			risk: high
+			verifymethod: test
+			}
+
+			element test_entity {
+			type: simulation
+			}
+
+			test_entity - satisfies -> test_req
 			"""), "svg");
 }
