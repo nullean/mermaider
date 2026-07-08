@@ -304,10 +304,10 @@ internal static class ArchitectureSvgRenderer
 			case "storage":
 				_ = sb.Append("  <circle cx=\"").Append(F(cx)).Append("\" cy=\"").Append(F(cy))
 					.Append("\" r=\"").Append(F(half * 0.75))
-					.Append("\" fill=\"none\" stroke=\"var(--_accent)\" stroke-width=\"1.5\" />\n");
+					.Append("\" fill=\"none\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.5\" />\n");
 				_ = sb.Append("  <circle cx=\"").Append(F(cx)).Append("\" cy=\"").Append(F(cy))
 					.Append("\" r=\"").Append(F(half * 0.22))
-					.Append("\" fill=\"var(--_accent)\" />\n");
+					.Append("\" fill=\"var(--_accent-text)\" />\n");
 				break;
 
 			case "server":
@@ -328,11 +328,11 @@ internal static class ArchitectureSvgRenderer
 				var letter = key.Length > 0 ? char.ToUpperInvariant(key[0]).ToString() : "?";
 				_ = sb.Append("  <circle cx=\"").Append(F(cx)).Append("\" cy=\"").Append(F(cy))
 					.Append("\" r=\"").Append(F(half * 0.8))
-					.Append("\" fill=\"none\" stroke=\"var(--_accent)\" stroke-width=\"1.5\" />\n");
+					.Append("\" fill=\"none\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.5\" />\n");
 				_ = sb.Append("  <text x=\"").Append(F(cx)).Append("\" y=\"").Append(F(cy))
 					.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 					.Append("\" font-size=\"").Append(RenderConstants.FsVar.S)
-					.Append("\" font-weight=\"700\" fill=\"var(--_accent)\">");
+					.Append("\" font-weight=\"700\" fill=\"var(--_accent-text)\">");
 				MultilineUtils.AppendEscapedXml(sb, letter.AsSpan());
 				_ = sb.Append("</text>\n");
 				break;
@@ -350,13 +350,13 @@ internal static class ArchitectureSvgRenderer
 
 		_ = sb.Append("  <ellipse cx=\"").Append(F(cx)).Append("\" cy=\"").Append(F(top))
 			.Append("\" rx=\"").Append(F(rx)).Append("\" ry=\"").Append(F(ry))
-			.Append("\" fill=\"none\" stroke=\"var(--_accent)\" stroke-width=\"1.5\" />\n");
+			.Append("\" fill=\"none\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.5\" />\n");
 		_ = sb.Append("  <path d=\"M").Append(F(left)).Append(' ').Append(F(top))
 			.Append(" L").Append(F(left)).Append(' ').Append(F(bottom))
 			.Append(" A").Append(F(rx)).Append(' ').Append(F(ry))
 			.Append(" 0 0 0 ").Append(F(right)).Append(' ').Append(F(bottom))
 			.Append(" L").Append(F(right)).Append(' ').Append(F(top))
-			.Append("\" fill=\"none\" stroke=\"var(--_accent)\" stroke-width=\"1.5\" />\n");
+			.Append("\" fill=\"none\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.5\" />\n");
 	}
 
 	private static void AppendServerIcon(StringBuilder sb, double cx, double cy, double half, double size)
@@ -366,7 +366,7 @@ internal static class ArchitectureSvgRenderer
 		var box = size * 0.7;
 		_ = sb.Append("  <rect x=\"").Append(F(left)).Append("\" y=\"").Append(F(top))
 			.Append("\" width=\"").Append(F(box)).Append("\" height=\"").Append(F(box))
-			.Append("\" rx=\"2\" fill=\"none\" stroke=\"var(--_accent)\" stroke-width=\"1.5\" />\n");
+			.Append("\" rx=\"2\" fill=\"none\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.5\" />\n");
 
 		var lineLeft = cx - (half * 0.45);
 		var lineRight = cx + (half * 0.45);
@@ -374,10 +374,10 @@ internal static class ArchitectureSvgRenderer
 		var y2 = cy + (half * 0.1);
 		_ = sb.Append("  <line x1=\"").Append(F(lineLeft)).Append("\" y1=\"").Append(F(y1))
 			.Append("\" x2=\"").Append(F(lineRight)).Append("\" y2=\"").Append(F(y1))
-			.Append("\" stroke=\"var(--_accent)\" stroke-width=\"1.25\" />\n");
+			.Append("\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.25\" />\n");
 		_ = sb.Append("  <line x1=\"").Append(F(lineLeft)).Append("\" y1=\"").Append(F(y2))
 			.Append("\" x2=\"").Append(F(lineRight)).Append("\" y2=\"").Append(F(y2))
-			.Append("\" stroke=\"var(--_accent)\" stroke-width=\"1.25\" />\n");
+			.Append("\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.25\" />\n");
 	}
 
 	private static void AppendInternetIcon(StringBuilder sb, double cx, double cy, double half)
@@ -385,13 +385,13 @@ internal static class ArchitectureSvgRenderer
 		var r = half * 0.75;
 		_ = sb.Append("  <circle cx=\"").Append(F(cx)).Append("\" cy=\"").Append(F(cy))
 			.Append("\" r=\"").Append(F(r))
-			.Append("\" fill=\"none\" stroke=\"var(--_accent)\" stroke-width=\"1.5\" />\n");
+			.Append("\" fill=\"none\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.5\" />\n");
 		_ = sb.Append("  <ellipse cx=\"").Append(F(cx)).Append("\" cy=\"").Append(F(cy))
 			.Append("\" rx=\"").Append(F(half * 0.35)).Append("\" ry=\"").Append(F(r))
-			.Append("\" fill=\"none\" stroke=\"var(--_accent)\" stroke-width=\"1.25\" />\n");
+			.Append("\" fill=\"none\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.25\" />\n");
 		_ = sb.Append("  <line x1=\"").Append(F(cx - r)).Append("\" y1=\"").Append(F(cy))
 			.Append("\" x2=\"").Append(F(cx + r)).Append("\" y2=\"").Append(F(cy))
-			.Append("\" stroke=\"var(--_accent)\" stroke-width=\"1.25\" />\n");
+			.Append("\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.25\" />\n");
 	}
 
 	private static void AppendCloudIcon(StringBuilder sb, double cx, double cy, double half)
@@ -405,7 +405,7 @@ internal static class ArchitectureSvgRenderer
 			.Append(" 0 1 1 ").Append(F(half * 0.7)).Append(" 0")
 			.Append(" a").Append(F(half * 0.35)).Append(' ').Append(F(half * 0.3))
 			.Append(" 0 1 1 ").Append(F(half * 0.2)).Append(' ').Append(F(half * 0.45))
-			.Append(" z\" fill=\"none\" stroke=\"var(--_accent)\" stroke-width=\"1.5\" />\n");
+			.Append(" z\" fill=\"none\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.5\" />\n");
 	}
 
 	private static void AppendEdge(StringBuilder sb, ArchitectureEdge edge, LayoutResult layout)
