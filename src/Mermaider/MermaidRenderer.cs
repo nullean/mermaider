@@ -213,20 +213,36 @@ public static class MermaidRenderer
 
 			DiagramType.Journey => JourneySvgRenderer.RenderToBuilder(
 				JourneyParser.Parse(filteredLines),
+				colors, font, transparent, strict, accessibility, diagramType),
+
 			DiagramType.C4 => C4SvgRenderer.RenderToBuilder(
 				C4Parser.Parse(filteredLines),
+				colors, font, transparent, strict, accessibility, diagramType),
+
 			DiagramType.Sankey => SankeySvgRenderer.RenderToBuilder(
 				SankeyParser.Parse(filteredLines),
+				colors, font, transparent, strict, accessibility, diagramType),
+
 			DiagramType.XyChart => XyChartSvgRenderer.RenderToBuilder(
 				XyChartParser.Parse(filteredLines),
+				colors, font, transparent, strict, accessibility, diagramType),
+
 			DiagramType.Requirement => RequirementSvgRenderer.RenderToBuilder(
 				RequirementParser.Parse(filteredLines),
+				colors, font, transparent, strict, accessibility, diagramType),
+
 			DiagramType.Packet => PacketSvgRenderer.RenderToBuilder(
 				PacketParser.Parse(filteredLines),
+				colors, font, transparent, strict, accessibility, diagramType),
+
 			DiagramType.Kanban => KanbanSvgRenderer.RenderToBuilder(
 				KanbanParser.Parse(PreprocessLinesPreserveIndent(cleaned, accessibility)),
+				colors, font, transparent, strict, accessibility, diagramType),
+
 			DiagramType.Architecture => ArchitectureSvgRenderer.RenderToBuilder(
 				ArchitectureParser.Parse(filteredLines),
+				colors, font, transparent, strict, accessibility, diagramType),
+
 			DiagramType.Block => BlockSvgRenderer.RenderToBuilder(
 				BlockParser.Parse(filteredLines),
 				colors, font, transparent, strict, accessibility, diagramType),

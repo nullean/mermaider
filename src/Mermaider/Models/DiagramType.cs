@@ -22,8 +22,8 @@ public enum DiagramType
 	Sankey,
 	XyChart,
 	Requirement,
-	Packet
-	Kanban
+	Packet,
+	Kanban,
 	Architecture,
 	Block,
 }

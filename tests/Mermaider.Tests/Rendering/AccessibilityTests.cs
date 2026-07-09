@@ -111,7 +111,7 @@ public class AccessibilityTests
 	}
 
 	// ========================================================================
-	// All diagram types with accessibility (see also C4RendererTests)
+	// All 13 diagram types
 	// ========================================================================
 
 	[Test]
@@ -324,22 +324,6 @@ public class AccessibilityTests
 	}
 
 	[Test]
-	public void Kanban_accTitle_and_accDescr()
-	{
-		var svg = MermaidRenderer.RenderSvg("""
-			kanban
-			accTitle: Sprint Board
-			accDescr: Team task board
-			  Todo
-			    Task1
-			  Done
-			    Task2
-			""");
-
-		svg.Should().Contain("role=\"img\"");
-		svg.Should().Contain("aria-roledescription=\"kanban board\"");
-		svg.Should().Contain("<title>Sprint Board</title>");
-		svg.Should().Contain("<desc>Team task board</desc>");
 	public void Architecture_diagram_accessibility()
 	{
 		var svg = MermaidRenderer.RenderSvg("""
@@ -450,5 +434,24 @@ public class AccessibilityTests
 		info.Description.Should().BeNull();
 		info.HasContent.Should().BeFalse();
 		filtered.Should().HaveCount(2);
+	}
+
+	[Test]
+	public void Kanban_accTitle_and_accDescr()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			kanban
+			accTitle: Sprint Board
+			accDescr: Team task board
+			  Todo
+			    Task1
+			  Done
+			    Task2
+			""");
+
+		svg.Should().Contain("role=\"img\"");
+		svg.Should().Contain("aria-roledescription=\"kanban board\"");
+		svg.Should().Contain("<title>Sprint Board</title>");
+		svg.Should().Contain("<desc>Team task board</desc>");
 	}
 }
