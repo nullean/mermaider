@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text;
 using Mermaider.Models;
 using Mermaider.Text;
@@ -64,10 +63,10 @@ internal static class VennSvgRenderer
 			var color = SetColors[i % SetColors.Length];
 			var r = BaseRadius;
 
-			_ = sb.Append("\n<circle cx=\"").Append(F(px)).Append("\" cy=\"").Append(F(py))
-				.Append("\" r=\"").Append(F(r))
+			_ = sb.Append("\n<circle cx=\"").Append(SvgFormat.F(px)).Append("\" cy=\"").Append(SvgFormat.F(py))
+				.Append("\" r=\"").Append(SvgFormat.F(r))
 				.Append("\" fill=\"").Append(color)
-				.Append("\" fill-opacity=\"").Append(F(FillOpacity))
+				.Append("\" fill-opacity=\"").Append(SvgFormat.F(FillOpacity))
 				.Append("\" stroke=\"").Append(color)
 				.Append("\" stroke-width=\"2\" />");
 
@@ -76,7 +75,7 @@ internal static class VennSvgRenderer
 			var lx = px + (labelDist * Math.Cos(labelAngle));
 			var ly = py + (labelDist * Math.Sin(labelAngle));
 
-			_ = sb.Append("\n<text x=\"").Append(F(lx)).Append("\" y=\"").Append(F(ly))
+			_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(lx)).Append("\" y=\"").Append(SvgFormat.F(ly))
 				.Append("\" text-anchor=\"middle\" dy=\"0.35em\" font-size=\"")
 				.Append(LabelFontSize).Append("\" font-weight=\"600\" fill=\"var(--_text)\">");
 			MultilineUtils.AppendEscapedXml(sb, set.Label.AsSpan());
@@ -106,7 +105,7 @@ internal static class VennSvgRenderer
 			ux /= count;
 			uy /= count;
 
-			_ = sb.Append("\n<text x=\"").Append(F(ux)).Append("\" y=\"").Append(F(uy))
+			_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(ux)).Append("\" y=\"").Append(SvgFormat.F(uy))
 				.Append("\" text-anchor=\"middle\" dy=\"0.35em\" font-size=\"")
 				.Append(UnionLabelFontSize).Append("\" font-weight=\"500\" fill=\"var(--_text)\">");
 			MultilineUtils.AppendEscapedXml(sb, union.Label.AsSpan());
@@ -142,6 +141,4 @@ internal static class VennSvgRenderer
 		return positions;
 	}
 
-	private static string F(double value) =>
-		value.ToString("0.##", CultureInfo.InvariantCulture);
 }

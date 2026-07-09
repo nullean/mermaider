@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text;
 using Mermaider.Models;
 using Mermaider.Text;
@@ -115,7 +114,7 @@ internal static class JourneySvgRenderer
 			.Append("\n  </marker>\n</defs>\n");
 
 		// Translate so title can sit above y=0 section area like mermaid viewBox
-		_ = sb.Append("\n<g transform=\"translate(0,").Append(F(-viewTop)).Append(")\">");
+		_ = sb.Append("\n<g transform=\"translate(0,").Append(SvgFormat.F(-viewTop)).Append(")\">");
 
 		if (hasTitle)
 			AppendTitle(sb, diagram.Title!, leftMargin);
@@ -151,15 +150,15 @@ internal static class JourneySvgRenderer
 			var secX = leftMargin + (firstIdx * pitch);
 			var secW = (count * TaskWidth) + ((count - 1) * TaskMargin);
 
-			_ = sb.Append("\n<rect x=\"").Append(F(secX)).Append("\" y=\"").Append(F(SectionY))
-				.Append("\" width=\"").Append(F(secW)).Append("\" height=\"").Append(F(TaskHeight))
+			_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(secX)).Append("\" y=\"").Append(SvgFormat.F(SectionY))
+				.Append("\" width=\"").Append(SvgFormat.F(secW)).Append("\" height=\"").Append(SvgFormat.F(TaskHeight))
 				.Append("\" rx=\"3\" ry=\"3\" fill=\"").Append(fill).Append("\" />");
 
 			if (section.Name is { Length: > 0 })
 			{
 				// House style: y = box mid-line, dy shifts for optical vertical center
-				_ = sb.Append("\n<text x=\"").Append(F(secX + (secW / 2)))
-					.Append("\" y=\"").Append(F(SectionY + (TaskHeight / 2)))
+				_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(secX + (secW / 2)))
+					.Append("\" y=\"").Append(SvgFormat.F(SectionY + (TaskHeight / 2)))
 					.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 					.Append("\" font-size=\"14\" fill=\"").Append(SectionTextColour).Append("\">");
 				MultilineUtils.AppendEscapedXml(sb, section.Name.AsSpan());
@@ -181,8 +180,8 @@ internal static class JourneySvgRenderer
 			var faceCy = FaceBaseY + ((5 - score) * FaceStepY);
 
 			// dashed line (under rect so only lower part shows) — mermaid draws full line then rect on top
-			_ = sb.Append("\n<line x1=\"").Append(F(center)).Append("\" y1=\"").Append(F(taskY))
-				.Append("\" x2=\"").Append(F(center)).Append("\" y2=\"").Append(F(MaxFaceY))
+			_ = sb.Append("\n<line x1=\"").Append(SvgFormat.F(center)).Append("\" y1=\"").Append(SvgFormat.F(taskY))
+				.Append("\" x2=\"").Append(SvgFormat.F(center)).Append("\" y2=\"").Append(SvgFormat.F(MaxFaceY))
 				.Append("\" stroke=\"").Append(DropLineStroke)
 				.Append("\" stroke-width=\"1\" stroke-dasharray=\"4 2\" />");
 
@@ -190,8 +189,8 @@ internal static class JourneySvgRenderer
 			AppendFace(sb, center, faceCy, score);
 
 			// task box
-			_ = sb.Append("\n<rect x=\"").Append(F(taskX)).Append("\" y=\"").Append(F(taskY))
-				.Append("\" width=\"").Append(F(TaskWidth)).Append("\" height=\"").Append(F(TaskHeight))
+			_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(taskX)).Append("\" y=\"").Append(SvgFormat.F(taskY))
+				.Append("\" width=\"").Append(SvgFormat.F(TaskWidth)).Append("\" height=\"").Append(SvgFormat.F(TaskHeight))
 				.Append("\" rx=\"3\" ry=\"3\" fill=\"").Append(fill).Append("\" />");
 
 			// actor dots along top of task (mermaid: xPos = task.x + 14, step 10)
@@ -200,7 +199,7 @@ internal static class JourneySvgRenderer
 			{
 				if (!actorMap.TryGetValue(person, out var info))
 					continue;
-				_ = sb.Append("\n<circle cx=\"").Append(F(dotX)).Append("\" cy=\"").Append(F(taskY))
+				_ = sb.Append("\n<circle cx=\"").Append(SvgFormat.F(dotX)).Append("\" cy=\"").Append(SvgFormat.F(taskY))
 					.Append("\" r=\"").Append(ActorDotR)
 					.Append("\" fill=\"").Append(info.Color)
 					.Append("\" stroke=\"#000\" stroke-width=\"1\">")
@@ -211,7 +210,7 @@ internal static class JourneySvgRenderer
 			}
 
 			// task label (white on dark section fill)
-			_ = sb.Append("\n<text x=\"").Append(F(center)).Append("\" y=\"").Append(F(taskY + (TaskHeight / 2)))
+			_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(center)).Append("\" y=\"").Append(SvgFormat.F(taskY + (TaskHeight / 2)))
 				.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 				.Append("\" font-size=\"14\" fill=\"").Append(SectionTextColour).Append("\">");
 			MultilineUtils.AppendEscapedXml(sb, task.Name.AsSpan());
@@ -222,8 +221,8 @@ internal static class JourneySvgRenderer
 		// detaches when leftMargin expands for long actor legend labels)
 		var lineX1 = leftMargin;
 		var lineX2 = lastTaskRight - 4;
-		_ = sb.Append("\n<line x1=\"").Append(F(lineX1)).Append("\" y1=\"").Append(F(timelineY))
-			.Append("\" x2=\"").Append(F(lineX2)).Append("\" y2=\"").Append(F(timelineY))
+		_ = sb.Append("\n<line x1=\"").Append(SvgFormat.F(lineX1)).Append("\" y1=\"").Append(SvgFormat.F(timelineY))
+			.Append("\" x2=\"").Append(SvgFormat.F(lineX2)).Append("\" y2=\"").Append(SvgFormat.F(timelineY))
 			.Append("\" stroke=\"").Append(TimelineStroke)
 			.Append("\" stroke-width=\"4\" marker-end=\"url(#journey-arrow)\" />");
 
@@ -234,7 +233,7 @@ internal static class JourneySvgRenderer
 	private static void AppendTitle(StringBuilder sb, string title, double x)
 	{
 		// mermaid: x = leftMargin, y = 25, bold, font-size 4ex ≈ 16-18px
-		_ = sb.Append("\n<text x=\"").Append(F(x)).Append("\" y=\"").Append(TitleY)
+		_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(x)).Append("\" y=\"").Append(TitleY)
 			.Append("\" font-size=\"18\" font-weight=\"bold\" fill=\"var(--_text)\">");
 		MultilineUtils.AppendEscapedXml(sb, title.AsSpan());
 		_ = sb.Append("</text>");
@@ -250,10 +249,10 @@ internal static class JourneySvgRenderer
 		foreach (var person in actors)
 		{
 			var color = actorMap[person].Color;
-			_ = sb.Append("\n<circle cx=\"20\" cy=\"").Append(F(yPos))
+			_ = sb.Append("\n<circle cx=\"20\" cy=\"").Append(SvgFormat.F(yPos))
 				.Append("\" r=\"").Append(ActorDotR)
 				.Append("\" fill=\"").Append(color).Append("\" stroke=\"#000\" stroke-width=\"1\" />");
-			_ = sb.Append("\n<text x=\"40\" y=\"").Append(F(yPos + 5))
+			_ = sb.Append("\n<text x=\"40\" y=\"").Append(SvgFormat.F(yPos + 5))
 				.Append("\" font-size=\"14\" fill=\"#666666\">");
 			MultilineUtils.AppendEscapedXml(sb, person.AsSpan());
 			_ = sb.Append("</text>");
@@ -273,7 +272,7 @@ internal static class JourneySvgRenderer
 	/// <summary>mermaid svgDraw.drawFace — radius 15, smile/sad/ambivalent by score.</summary>
 	private static void AppendFace(StringBuilder sb, double cx, double cy, int score)
 	{
-		_ = sb.Append("\n<circle class=\"face\" cx=\"").Append(F(cx)).Append("\" cy=\"").Append(F(cy))
+		_ = sb.Append("\n<circle class=\"face\" cx=\"").Append(SvgFormat.F(cx)).Append("\" cy=\"").Append(SvgFormat.F(cy))
 			.Append("\" r=\"").Append(FaceRadius)
 			.Append("\" fill=\"").Append(FaceFill)
 			.Append("\" stroke=\"").Append(FaceStroke)
@@ -282,9 +281,9 @@ internal static class JourneySvgRenderer
 		// eyes
 		var eyeOffset = FaceRadius / 3;
 		var eyeY = cy - eyeOffset;
-		_ = sb.Append("\n<circle cx=\"").Append(F(cx - eyeOffset)).Append("\" cy=\"").Append(F(eyeY))
+		_ = sb.Append("\n<circle cx=\"").Append(SvgFormat.F(cx - eyeOffset)).Append("\" cy=\"").Append(SvgFormat.F(eyeY))
 			.Append("\" r=\"1.5\" fill=\"").Append(MouthStroke).Append("\" stroke=\"").Append(MouthStroke).Append("\" />");
-		_ = sb.Append("\n<circle cx=\"").Append(F(cx + eyeOffset)).Append("\" cy=\"").Append(F(eyeY))
+		_ = sb.Append("\n<circle cx=\"").Append(SvgFormat.F(cx + eyeOffset)).Append("\" cy=\"").Append(SvgFormat.F(eyeY))
 			.Append("\" r=\"1.5\" fill=\"").Append(MouthStroke).Append("\" stroke=\"").Append(MouthStroke).Append("\" />");
 
 		if (score > 3)
@@ -293,9 +292,9 @@ internal static class JourneySvgRenderer
 			// Approximate with cubic: open upward smile
 			var r = FaceRadius / 2.1;
 			_ = sb.Append("\n<path class=\"mouth\" d=\"M ")
-				.Append(F(cx - r)).Append(' ').Append(F(cy + 2))
-				.Append(" A ").Append(F(r)).Append(' ').Append(F(r))
-				.Append(" 0 0 0 ").Append(F(cx + r)).Append(' ').Append(F(cy + 2))
+				.Append(SvgFormat.F(cx - r)).Append(' ').Append(SvgFormat.F(cy + 2))
+				.Append(" A ").Append(SvgFormat.F(r)).Append(' ').Append(SvgFormat.F(r))
+				.Append(" 0 0 0 ").Append(SvgFormat.F(cx + r)).Append(' ').Append(SvgFormat.F(cy + 2))
 				.Append("\" fill=\"none\" stroke=\"").Append(MouthStroke)
 				.Append("\" stroke-width=\"1.5\" />");
 		}
@@ -304,17 +303,17 @@ internal static class JourneySvgRenderer
 			// sad: upper arc, translated down
 			var r = FaceRadius / 2.1;
 			_ = sb.Append("\n<path class=\"mouth\" d=\"M ")
-				.Append(F(cx - r)).Append(' ').Append(F(cy + 7))
-				.Append(" A ").Append(F(r)).Append(' ').Append(F(r))
-				.Append(" 0 0 1 ").Append(F(cx + r)).Append(' ').Append(F(cy + 7))
+				.Append(SvgFormat.F(cx - r)).Append(' ').Append(SvgFormat.F(cy + 7))
+				.Append(" A ").Append(SvgFormat.F(r)).Append(' ').Append(SvgFormat.F(r))
+				.Append(" 0 0 1 ").Append(SvgFormat.F(cx + r)).Append(' ').Append(SvgFormat.F(cy + 7))
 				.Append("\" fill=\"none\" stroke=\"").Append(MouthStroke)
 				.Append("\" stroke-width=\"1.5\" />");
 		}
 		else
 		{
 			// ambivalent line
-			_ = sb.Append("\n<line class=\"mouth\" x1=\"").Append(F(cx - 5)).Append("\" y1=\"").Append(F(cy + 7))
-				.Append("\" x2=\"").Append(F(cx + 5)).Append("\" y2=\"").Append(F(cy + 7))
+			_ = sb.Append("\n<line class=\"mouth\" x1=\"").Append(SvgFormat.F(cx - 5)).Append("\" y1=\"").Append(SvgFormat.F(cy + 7))
+				.Append("\" x2=\"").Append(SvgFormat.F(cx + 5)).Append("\" y2=\"").Append(SvgFormat.F(cy + 7))
 				.Append("\" stroke=\"").Append(MouthStroke).Append("\" stroke-width=\"1\" />");
 		}
 	}
@@ -352,6 +351,4 @@ internal static class JourneySvgRenderer
 
 	private readonly record struct FlatTask(JourneyTask Task, int SectionIndex);
 
-	private static string F(double value) =>
-		value.ToString("0.##", CultureInfo.InvariantCulture);
 }

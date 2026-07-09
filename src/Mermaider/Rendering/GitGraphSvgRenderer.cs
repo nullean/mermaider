@@ -88,11 +88,11 @@ internal static class GitGraphSvgRenderer
 		var y = TopPad + (branch.Lane * LaneSpacing);
 		var labelW = TextMetrics.MeasureTextWidth(branch.Name, BranchFontSizePx, 600) + 12;
 		var pillH = BranchFontSizePx + 8;
-		_ = sb.Append("\n<rect x=\"6\" y=\"").Append(F(y - (pillH / 2)))
-			.Append("\" width=\"").Append(F(labelW)).Append("\" height=\"").Append(F(pillH))
-			.Append("\" rx=\"").Append(F(pillH / 2)).Append("\" ry=\"").Append(F(pillH / 2))
+		_ = sb.Append("\n<rect x=\"6\" y=\"").Append(SvgFormat.F(y - (pillH / 2)))
+			.Append("\" width=\"").Append(SvgFormat.F(labelW)).Append("\" height=\"").Append(SvgFormat.F(pillH))
+			.Append("\" rx=\"").Append(SvgFormat.F(pillH / 2)).Append("\" ry=\"").Append(SvgFormat.F(pillH / 2))
 			.Append("\" fill=\"").Append(branch.Color).Append("\" opacity=\"0.15\" />");
-		_ = sb.Append("\n<text x=\"12\" y=\"").Append(F(y))
+		_ = sb.Append("\n<text x=\"12\" y=\"").Append(SvgFormat.F(y))
 			.Append("\" dy=\"0.35em\" font-size=\"").Append(BranchFontSize)
 			.Append("\" font-weight=\"600\" fill=\"").Append(branch.Color).Append("\">");
 		MultilineUtils.AppendEscapedXml(sb, branch.Name.AsSpan());
@@ -110,18 +110,18 @@ internal static class GitGraphSvgRenderer
 
 		if (Math.Abs(y1 - y2) < 0.01)
 		{
-			_ = sb.Append("\n<line x1=\"").Append(F(x1)).Append("\" y1=\"").Append(F(y1))
-				.Append("\" x2=\"").Append(F(x2)).Append("\" y2=\"").Append(F(y2))
+			_ = sb.Append("\n<line x1=\"").Append(SvgFormat.F(x1)).Append("\" y1=\"").Append(SvgFormat.F(y1))
+				.Append("\" x2=\"").Append(SvgFormat.F(x2)).Append("\" y2=\"").Append(SvgFormat.F(y2))
 				.Append("\" stroke=\"").Append(link.Color)
 				.Append("\" stroke-width=\"").Append(LinkStrokeWidth).Append("\" />");
 		}
 		else
 		{
 			var midX = (x1 + x2) / 2;
-			_ = sb.Append("\n<path d=\"M ").Append(F(x1)).Append(' ').Append(F(y1))
-				.Append(" C ").Append(F(midX)).Append(' ').Append(F(y1))
-				.Append(' ').Append(F(midX)).Append(' ').Append(F(y2))
-				.Append(' ').Append(F(x2)).Append(' ').Append(F(y2))
+			_ = sb.Append("\n<path d=\"M ").Append(SvgFormat.F(x1)).Append(' ').Append(SvgFormat.F(y1))
+				.Append(" C ").Append(SvgFormat.F(midX)).Append(' ').Append(SvgFormat.F(y1))
+				.Append(' ').Append(SvgFormat.F(midX)).Append(' ').Append(SvgFormat.F(y2))
+				.Append(' ').Append(SvgFormat.F(x2)).Append(' ').Append(SvgFormat.F(y2))
 				.Append("\" fill=\"none\" stroke=\"").Append(link.Color)
 				.Append("\" stroke-width=\"").Append(LinkStrokeWidth).Append("\" />");
 		}
@@ -135,34 +135,34 @@ internal static class GitGraphSvgRenderer
 		switch (commit.Type)
 		{
 			case GitCommitType.Highlight:
-				_ = sb.Append("\n<rect x=\"").Append(F(cx - 8)).Append("\" y=\"").Append(F(cy - 8))
+				_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(cx - 8)).Append("\" y=\"").Append(SvgFormat.F(cy - 8))
 					.Append("\" width=\"16\" height=\"16\" rx=\"3\" ry=\"3\" fill=\"")
 					.Append(commit.Color).Append("\" stroke=\"var(--bg)\" stroke-width=\"2\" />");
 				break;
 			case GitCommitType.Reverse:
-				_ = sb.Append("\n<circle cx=\"").Append(F(cx)).Append("\" cy=\"").Append(F(cy))
+				_ = sb.Append("\n<circle cx=\"").Append(SvgFormat.F(cx)).Append("\" cy=\"").Append(SvgFormat.F(cy))
 					.Append("\" r=\"").Append(CommitRadius)
 					.Append("\" fill=\"var(--bg)\" stroke=\"").Append(commit.Color).Append("\" stroke-width=\"2\" />");
-				_ = sb.Append("\n<line x1=\"").Append(F(cx - 5)).Append("\" y1=\"").Append(F(cy - 5))
-					.Append("\" x2=\"").Append(F(cx + 5)).Append("\" y2=\"").Append(F(cy + 5))
+				_ = sb.Append("\n<line x1=\"").Append(SvgFormat.F(cx - 5)).Append("\" y1=\"").Append(SvgFormat.F(cy - 5))
+					.Append("\" x2=\"").Append(SvgFormat.F(cx + 5)).Append("\" y2=\"").Append(SvgFormat.F(cy + 5))
 					.Append("\" stroke=\"").Append(commit.Color).Append("\" stroke-width=\"2\" />");
-				_ = sb.Append("\n<line x1=\"").Append(F(cx + 5)).Append("\" y1=\"").Append(F(cy - 5))
-					.Append("\" x2=\"").Append(F(cx - 5)).Append("\" y2=\"").Append(F(cy + 5))
+				_ = sb.Append("\n<line x1=\"").Append(SvgFormat.F(cx + 5)).Append("\" y1=\"").Append(SvgFormat.F(cy - 5))
+					.Append("\" x2=\"").Append(SvgFormat.F(cx - 5)).Append("\" y2=\"").Append(SvgFormat.F(cy + 5))
 					.Append("\" stroke=\"").Append(commit.Color).Append("\" stroke-width=\"2\" />");
 				break;
 			default:
 				if (commit.IsMerge)
 				{
-					_ = sb.Append("\n<circle cx=\"").Append(F(cx)).Append("\" cy=\"").Append(F(cy))
+					_ = sb.Append("\n<circle cx=\"").Append(SvgFormat.F(cx)).Append("\" cy=\"").Append(SvgFormat.F(cy))
 						.Append("\" r=\"").Append(CommitRadius + 2)
 						.Append("\" fill=\"").Append(commit.Color).Append("\" stroke=\"var(--bg)\" stroke-width=\"2\" />");
-					_ = sb.Append("\n<circle cx=\"").Append(F(cx)).Append("\" cy=\"").Append(F(cy))
+					_ = sb.Append("\n<circle cx=\"").Append(SvgFormat.F(cx)).Append("\" cy=\"").Append(SvgFormat.F(cy))
 						.Append("\" r=\"").Append(CommitRadius - 2)
 						.Append("\" fill=\"").Append(commit.Color).Append("\" />");
 				}
 				else
 				{
-					_ = sb.Append("\n<circle cx=\"").Append(F(cx)).Append("\" cy=\"").Append(F(cy))
+					_ = sb.Append("\n<circle cx=\"").Append(SvgFormat.F(cx)).Append("\" cy=\"").Append(SvgFormat.F(cy))
 						.Append("\" r=\"").Append(CommitRadius)
 						.Append("\" fill=\"").Append(commit.Color).Append("\" stroke=\"var(--bg)\" stroke-width=\"2\" />");
 				}
@@ -171,7 +171,7 @@ internal static class GitGraphSvgRenderer
 
 		if (commit.Label is { Length: > 0 })
 		{
-			_ = sb.Append("\n<text x=\"").Append(F(cx)).Append("\" y=\"").Append(F(cy + LabelOffsetY))
+			_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(cx)).Append("\" y=\"").Append(SvgFormat.F(cy + LabelOffsetY))
 				.Append("\" text-anchor=\"middle\" font-size=\"").Append(LabelFontSize)
 				.Append("\" fill=\"var(--_text-sec)\">");
 			MultilineUtils.AppendEscapedXml(sb, commit.Label.AsSpan());
@@ -181,10 +181,10 @@ internal static class GitGraphSvgRenderer
 		if (commit.Tag is { Length: > 0 })
 		{
 			var tagW = TextMetrics.MeasureTextWidth(commit.Tag, TagFontSizePx, 500) + 10;
-			_ = sb.Append("\n<rect x=\"").Append(F(cx - (tagW / 2))).Append("\" y=\"").Append(F(cy + TagOffsetY - 8))
-				.Append("\" width=\"").Append(F(tagW)).Append("\" height=\"16\" rx=\"8\" ry=\"8\" fill=\"")
+			_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(cx - (tagW / 2))).Append("\" y=\"").Append(SvgFormat.F(cy + TagOffsetY - 8))
+				.Append("\" width=\"").Append(SvgFormat.F(tagW)).Append("\" height=\"16\" rx=\"8\" ry=\"8\" fill=\"")
 				.Append(commit.Color).Append("\" opacity=\"0.2\" />");
-			_ = sb.Append("\n<text x=\"").Append(F(cx)).Append("\" y=\"").Append(F(cy + TagOffsetY))
+			_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(cx)).Append("\" y=\"").Append(SvgFormat.F(cy + TagOffsetY))
 				.Append("\" text-anchor=\"middle\" dy=\"0.35em\" font-size=\"").Append(TagFontSize)
 				.Append("\" font-weight=\"500\" fill=\"").Append(commit.Color).Append("\">");
 			MultilineUtils.AppendEscapedXml(sb, commit.Tag.AsSpan());
@@ -290,6 +290,4 @@ internal static class GitGraphSvgRenderer
 		return new SimulationResult(commits, links, branchList);
 	}
 
-	private static string F(double value) =>
-		value.ToString("0.##", CultureInfo.InvariantCulture);
 }

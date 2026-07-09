@@ -69,7 +69,7 @@ internal static class XyChartSvgRenderer
 
 		if (hasTitle)
 		{
-			_ = sb.Append("\n<text x=\"").Append(F(width * 0.5)).Append("\" y=\"24\" text-anchor=\"middle\" font-size=\"")
+			_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(width * 0.5)).Append("\" y=\"24\" text-anchor=\"middle\" font-size=\"")
 				.Append(TitleFontSize).Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
 			MultilineUtils.AppendEscapedXml(sb, chart.Title.AsSpan());
 			_ = sb.Append("</text>");
@@ -94,11 +94,11 @@ internal static class XyChartSvgRenderer
 		}
 
 		// Axes: horizontal puts values on X (bottom) and categories on Y (left).
-		_ = sb.Append("\n<line x1=\"").Append(F(plotX)).Append("\" y1=\"").Append(F(plotY + plotH))
-			.Append("\" x2=\"").Append(F(plotX + plotW)).Append("\" y2=\"").Append(F(plotY + plotH))
+		_ = sb.Append("\n<line x1=\"").Append(SvgFormat.F(plotX)).Append("\" y1=\"").Append(SvgFormat.F(plotY + plotH))
+			.Append("\" x2=\"").Append(SvgFormat.F(plotX + plotW)).Append("\" y2=\"").Append(SvgFormat.F(plotY + plotH))
 			.Append("\" stroke=\"var(--_line)\" stroke-width=\"1.5\" />");
-		_ = sb.Append("\n<line x1=\"").Append(F(plotX)).Append("\" y1=\"").Append(F(plotY))
-			.Append("\" x2=\"").Append(F(plotX)).Append("\" y2=\"").Append(F(plotY + plotH))
+		_ = sb.Append("\n<line x1=\"").Append(SvgFormat.F(plotX)).Append("\" y1=\"").Append(SvgFormat.F(plotY))
+			.Append("\" x2=\"").Append(SvgFormat.F(plotX)).Append("\" y2=\"").Append(SvgFormat.F(plotY + plotH))
 			.Append("\" stroke=\"var(--_line)\" stroke-width=\"1.5\" />");
 
 		const int tickCount = 5;
@@ -110,12 +110,12 @@ internal static class XyChartSvgRenderer
 				var frac = t / (double)tickCount;
 				var val = vMin + ((vMax - vMin) * frac);
 				var x = plotX + (plotW * frac);
-				_ = sb.Append("\n<line x1=\"").Append(F(x)).Append("\" y1=\"").Append(F(plotY + plotH))
-					.Append("\" x2=\"").Append(F(x)).Append("\" y2=\"").Append(F(plotY + plotH + 4))
+				_ = sb.Append("\n<line x1=\"").Append(SvgFormat.F(x)).Append("\" y1=\"").Append(SvgFormat.F(plotY + plotH))
+					.Append("\" x2=\"").Append(SvgFormat.F(x)).Append("\" y2=\"").Append(SvgFormat.F(plotY + plotH + 4))
 					.Append("\" stroke=\"var(--_line)\" stroke-width=\"1\" />");
-				_ = sb.Append("\n<text x=\"").Append(F(x)).Append("\" y=\"").Append(F(plotY + plotH + 16))
+				_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(x)).Append("\" y=\"").Append(SvgFormat.F(plotY + plotH + 16))
 					.Append("\" text-anchor=\"middle\" font-size=\"").Append(TickFontSize)
-					.Append("\" fill=\"var(--_text-sec)\">").Append(F(val)).Append("</text>");
+					.Append("\" fill=\"var(--_text-sec)\">").Append(SvgFormat.F(val)).Append("</text>");
 			}
 
 			// Category labels along left (Y)
@@ -123,10 +123,10 @@ internal static class XyChartSvgRenderer
 			{
 				var y = CategoryPos(i, catCount, plotY, plotH);
 				var label = CategoryLabel(chart, i);
-				_ = sb.Append("\n<line x1=\"").Append(F(plotX - 4)).Append("\" y1=\"").Append(F(y))
-					.Append("\" x2=\"").Append(F(plotX)).Append("\" y2=\"").Append(F(y))
+				_ = sb.Append("\n<line x1=\"").Append(SvgFormat.F(plotX - 4)).Append("\" y1=\"").Append(SvgFormat.F(y))
+					.Append("\" x2=\"").Append(SvgFormat.F(plotX)).Append("\" y2=\"").Append(SvgFormat.F(y))
 					.Append("\" stroke=\"var(--_line)\" stroke-width=\"1\" />");
-				_ = sb.Append("\n<text x=\"").Append(F(plotX - 8)).Append("\" y=\"").Append(F(y))
+				_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(plotX - 8)).Append("\" y=\"").Append(SvgFormat.F(y))
 					.Append("\" text-anchor=\"end\" dy=\"").Append(RenderConstants.TextBaselineShift)
 					.Append("\" font-size=\"").Append(TickFontSize).Append("\" fill=\"var(--_text-sec)\">");
 				MultilineUtils.AppendEscapedXml(sb, label.AsSpan());
@@ -141,13 +141,13 @@ internal static class XyChartSvgRenderer
 				var frac = t / (double)tickCount;
 				var val = vMin + ((vMax - vMin) * (1 - frac)); // top = max
 				var y = plotY + (plotH * frac);
-				_ = sb.Append("\n<line x1=\"").Append(F(plotX - 4)).Append("\" y1=\"").Append(F(y))
-					.Append("\" x2=\"").Append(F(plotX)).Append("\" y2=\"").Append(F(y))
+				_ = sb.Append("\n<line x1=\"").Append(SvgFormat.F(plotX - 4)).Append("\" y1=\"").Append(SvgFormat.F(y))
+					.Append("\" x2=\"").Append(SvgFormat.F(plotX)).Append("\" y2=\"").Append(SvgFormat.F(y))
 					.Append("\" stroke=\"var(--_line)\" stroke-width=\"1\" />");
-				_ = sb.Append("\n<text x=\"").Append(F(plotX - 8)).Append("\" y=\"").Append(F(y))
+				_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(plotX - 8)).Append("\" y=\"").Append(SvgFormat.F(y))
 					.Append("\" text-anchor=\"end\" dy=\"").Append(RenderConstants.TextBaselineShift)
 					.Append("\" font-size=\"").Append(TickFontSize).Append("\" fill=\"var(--_text-sec)\">")
-					.Append(F(val)).Append("</text>");
+					.Append(SvgFormat.F(val)).Append("</text>");
 			}
 
 			// Category labels along bottom (X)
@@ -155,10 +155,10 @@ internal static class XyChartSvgRenderer
 			{
 				var x = CategoryPos(i, catCount, plotX, plotW);
 				var label = CategoryLabel(chart, i);
-				_ = sb.Append("\n<line x1=\"").Append(F(x)).Append("\" y1=\"").Append(F(plotY + plotH))
-					.Append("\" x2=\"").Append(F(x)).Append("\" y2=\"").Append(F(plotY + plotH + 4))
+				_ = sb.Append("\n<line x1=\"").Append(SvgFormat.F(x)).Append("\" y1=\"").Append(SvgFormat.F(plotY + plotH))
+					.Append("\" x2=\"").Append(SvgFormat.F(x)).Append("\" y2=\"").Append(SvgFormat.F(plotY + plotH + 4))
 					.Append("\" stroke=\"var(--_line)\" stroke-width=\"1\" />");
-				_ = sb.Append("\n<text x=\"").Append(F(x)).Append("\" y=\"").Append(F(plotY + plotH + 16))
+				_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(x)).Append("\" y=\"").Append(SvgFormat.F(plotY + plotH + 16))
 					.Append("\" text-anchor=\"middle\" font-size=\"").Append(TickFontSize)
 					.Append("\" fill=\"var(--_text-sec)\">");
 				MultilineUtils.AppendEscapedXml(sb, label.AsSpan());
@@ -212,8 +212,8 @@ internal static class XyChartSvgRenderer
 					var w = Math.Abs(x1 - x0);
 					if (w < 0.5)
 						w = 0.5;
-					_ = sb.Append("\n<rect x=\"").Append(F(barLeft)).Append("\" y=\"").Append(F(y))
-						.Append("\" width=\"").Append(F(w)).Append("\" height=\"").Append(F(barThickness))
+					_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(barLeft)).Append("\" y=\"").Append(SvgFormat.F(y))
+						.Append("\" width=\"").Append(SvgFormat.F(w)).Append("\" height=\"").Append(SvgFormat.F(barThickness))
 						.Append("\" fill=\"").Append(color).Append("\" opacity=\"0.9\" />");
 				}
 				else
@@ -226,8 +226,8 @@ internal static class XyChartSvgRenderer
 					var h = Math.Abs(y1 - y0);
 					if (h < 0.5)
 						h = 0.5;
-					_ = sb.Append("\n<rect x=\"").Append(F(x)).Append("\" y=\"").Append(F(barTop))
-						.Append("\" width=\"").Append(F(barThickness)).Append("\" height=\"").Append(F(h))
+					_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(x)).Append("\" y=\"").Append(SvgFormat.F(barTop))
+						.Append("\" width=\"").Append(SvgFormat.F(barThickness)).Append("\" height=\"").Append(SvgFormat.F(h))
 						.Append("\" fill=\"").Append(color).Append("\" opacity=\"0.9\" />");
 				}
 			}
@@ -250,13 +250,13 @@ internal static class XyChartSvgRenderer
 				{
 					var x = ValueToX(series.Values[i], vMin, vMax, plotX, plotW);
 					var y = CategoryPos(i, catCount, plotY, plotH);
-					_ = sb.Append(F(x)).Append(',').Append(F(y));
+					_ = sb.Append(SvgFormat.F(x)).Append(',').Append(SvgFormat.F(y));
 				}
 				else
 				{
 					var x = CategoryPos(i, catCount, plotX, plotW);
 					var y = ValueToY(series.Values[i], vMin, vMax, plotY, plotH);
-					_ = sb.Append(F(x)).Append(',').Append(F(y));
+					_ = sb.Append(SvgFormat.F(x)).Append(',').Append(SvgFormat.F(y));
 				}
 			}
 			_ = sb.Append("\" />");
@@ -274,7 +274,7 @@ internal static class XyChartSvgRenderer
 					x = CategoryPos(i, catCount, plotX, plotW);
 					y = ValueToY(series.Values[i], vMin, vMax, plotY, plotH);
 				}
-				_ = sb.Append("\n<circle cx=\"").Append(F(x)).Append("\" cy=\"").Append(F(y))
+				_ = sb.Append("\n<circle cx=\"").Append(SvgFormat.F(x)).Append("\" cy=\"").Append(SvgFormat.F(y))
 					.Append("\" r=\"3\" fill=\"").Append(color).Append("\" />");
 			}
 		}
@@ -288,9 +288,9 @@ internal static class XyChartSvgRenderer
 				if (chart.Series[si].Name is not { Length: > 0 } name)
 					continue;
 				var color = seriesColors[si];
-				_ = sb.Append("\n<rect x=\"").Append(F(lx)).Append("\" y=\"").Append(F(ly - 8))
+				_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(lx)).Append("\" y=\"").Append(SvgFormat.F(ly - 8))
 					.Append("\" width=\"12\" height=\"12\" rx=\"2\" fill=\"").Append(color).Append("\" />");
-				_ = sb.Append("\n<text x=\"").Append(F(lx + 16)).Append("\" y=\"").Append(F(ly))
+				_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(lx + 16)).Append("\" y=\"").Append(SvgFormat.F(ly))
 					.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift)
 					.Append("\" font-size=\"").Append(TickFontSize).Append("\" fill=\"var(--_text)\">");
 				MultilineUtils.AppendEscapedXml(sb, name.AsSpan());
@@ -307,17 +307,17 @@ internal static class XyChartSvgRenderer
 	{
 		if (leftSide)
 		{
-			_ = sb.Append("\n<text x=\"16\" y=\"").Append(F(midY))
+			_ = sb.Append("\n<text x=\"16\" y=\"").Append(SvgFormat.F(midY))
 				.Append("\" text-anchor=\"middle\" transform=\"rotate(-90 16 ")
-				.Append(F(midY)).Append(")\" font-size=\"").Append(AxisFontSize)
+				.Append(SvgFormat.F(midY)).Append(")\" font-size=\"").Append(AxisFontSize)
 				.Append("\" fill=\"var(--_text)\">");
 			MultilineUtils.AppendEscapedXml(sb, title.AsSpan());
 			_ = sb.Append("</text>");
 			return;
 		}
 
-		_ = sb.Append("\n<text x=\"").Append(F(midX))
-			.Append("\" y=\"").Append(F(bottomTitleY))
+		_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(midX))
+			.Append("\" y=\"").Append(SvgFormat.F(bottomTitleY))
 			.Append("\" text-anchor=\"middle\" font-size=\"").Append(AxisFontSize)
 			.Append("\" fill=\"var(--_text)\">");
 		MultilineUtils.AppendEscapedXml(sb, title.AsSpan());
@@ -390,6 +390,4 @@ internal static class XyChartSvgRenderer
 		return plotX + (plotW * t);
 	}
 
-	private static string F(double value) =>
-		value.ToString("0.##", CultureInfo.InvariantCulture);
 }

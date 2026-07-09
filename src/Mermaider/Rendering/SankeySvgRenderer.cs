@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text;
 using Mermaider.Models;
 using Mermaider.Text;
@@ -301,21 +300,21 @@ internal static class SankeySvgRenderer
 		var color = link.Source.Color;
 
 		// Ribbon path: source edge → cubic → target edge → back
-		_ = sb.Append("\n<path d=\"M ").Append(F(x0)).Append(' ').Append(F(link.Sy0))
-			.Append(" C ").Append(F(midX)).Append(' ').Append(F(link.Sy0))
-			.Append(' ').Append(F(midX)).Append(' ').Append(F(link.Ty0))
-			.Append(' ').Append(F(x1)).Append(' ').Append(F(link.Ty0))
-			.Append(" L ").Append(F(x1)).Append(' ').Append(F(link.Ty1))
-			.Append(" C ").Append(F(midX)).Append(' ').Append(F(link.Ty1))
-			.Append(' ').Append(F(midX)).Append(' ').Append(F(link.Sy1))
-			.Append(' ').Append(F(x0)).Append(' ').Append(F(link.Sy1))
+		_ = sb.Append("\n<path d=\"M ").Append(SvgFormat.F(x0)).Append(' ').Append(SvgFormat.F(link.Sy0))
+			.Append(" C ").Append(SvgFormat.F(midX)).Append(' ').Append(SvgFormat.F(link.Sy0))
+			.Append(' ').Append(SvgFormat.F(midX)).Append(' ').Append(SvgFormat.F(link.Ty0))
+			.Append(' ').Append(SvgFormat.F(x1)).Append(' ').Append(SvgFormat.F(link.Ty0))
+			.Append(" L ").Append(SvgFormat.F(x1)).Append(' ').Append(SvgFormat.F(link.Ty1))
+			.Append(" C ").Append(SvgFormat.F(midX)).Append(' ').Append(SvgFormat.F(link.Ty1))
+			.Append(' ').Append(SvgFormat.F(midX)).Append(' ').Append(SvgFormat.F(link.Sy1))
+			.Append(' ').Append(SvgFormat.F(x0)).Append(' ').Append(SvgFormat.F(link.Sy1))
 			.Append(" Z\" fill=\"").Append(color).Append("\" fill-opacity=\"0.45\" stroke=\"none\" />");
 	}
 
 	private static void AppendNode(StringBuilder sb, NodeLayout node, int layerCount)
 	{
-		_ = sb.Append("\n<rect x=\"").Append(F(node.X0)).Append("\" y=\"").Append(F(node.Y0))
-			.Append("\" width=\"").Append(F(NodeWidth)).Append("\" height=\"").Append(F(Math.Max(1, node.Y1 - node.Y0)))
+		_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(node.X0)).Append("\" y=\"").Append(SvgFormat.F(node.Y0))
+			.Append("\" width=\"").Append(SvgFormat.F(NodeWidth)).Append("\" height=\"").Append(SvgFormat.F(Math.Max(1, node.Y1 - node.Y0)))
 			.Append("\" fill=\"").Append(node.Color).Append("\" stroke=\"none\" rx=\"2\" ry=\"2\" />");
 
 		// Labels: left of first layer, right of later layers
@@ -324,7 +323,7 @@ internal static class SankeySvgRenderer
 		var anchor = isLeft ? "end" : "start";
 
 		var midY = (node.Y0 + node.Y1) * 0.5;
-		_ = sb.Append("\n<text x=\"").Append(F(lx)).Append("\" y=\"").Append(F(midY))
+		_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(lx)).Append("\" y=\"").Append(SvgFormat.F(midY))
 			.Append("\" text-anchor=\"").Append(anchor)
 			.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(LabelFontSize)
@@ -333,6 +332,4 @@ internal static class SankeySvgRenderer
 		_ = sb.Append("</text>");
 	}
 
-	private static string F(double value) =>
-		value.ToString("0.##", CultureInfo.InvariantCulture);
 }

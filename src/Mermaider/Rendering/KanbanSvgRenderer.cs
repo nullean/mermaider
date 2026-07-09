@@ -118,7 +118,7 @@ internal static class KanbanSvgRenderer
 
 	private static void AppendBoardTitle(StringBuilder sb, string title, double cx, double y)
 	{
-		_ = sb.Append("\n<text x=\"").Append(F(cx)).Append("\" y=\"").Append(F(y))
+		_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(cx)).Append("\" y=\"").Append(SvgFormat.F(y))
 			.Append("\" text-anchor=\"middle\" font-size=\"").Append(TitleFontSize)
 			.Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
 		MultilineUtils.AppendEscapedXml(sb, title.AsSpan());
@@ -128,20 +128,20 @@ internal static class KanbanSvgRenderer
 	private static void AppendColumn(StringBuilder sb, KanbanColumn column, double x, double y, double width, double height)
 	{
 		// Column background
-		_ = sb.Append("\n<rect x=\"").Append(F(x)).Append("\" y=\"").Append(F(y))
-			.Append("\" width=\"").Append(F(width)).Append("\" height=\"").Append(F(height))
+		_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(x)).Append("\" y=\"").Append(SvgFormat.F(y))
+			.Append("\" width=\"").Append(SvgFormat.F(width)).Append("\" height=\"").Append(SvgFormat.F(height))
 			.Append("\" rx=\"8\" ry=\"8\" fill=\"var(--_node-fill)\" stroke=\"var(--_line)\" stroke-width=\"1\" />");
 
 		// Accent header bar (top rounded via clip of full rounded rect + flat strip)
-		_ = sb.Append("\n<rect x=\"").Append(F(x)).Append("\" y=\"").Append(F(y))
-			.Append("\" width=\"").Append(F(width)).Append("\" height=\"").Append(F(HeaderHeight))
+		_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(x)).Append("\" y=\"").Append(SvgFormat.F(y))
+			.Append("\" width=\"").Append(SvgFormat.F(width)).Append("\" height=\"").Append(SvgFormat.F(HeaderHeight))
 			.Append("\" rx=\"8\" ry=\"8\" fill=\"var(--_accent-fill)\" />");
-		_ = sb.Append("\n<rect x=\"").Append(F(x)).Append("\" y=\"").Append(F(y + HeaderHeight - 8))
-			.Append("\" width=\"").Append(F(width)).Append("\" height=\"8\" fill=\"var(--_accent-fill)\" />");
+		_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(x)).Append("\" y=\"").Append(SvgFormat.F(y + HeaderHeight - 8))
+			.Append("\" width=\"").Append(SvgFormat.F(width)).Append("\" height=\"8\" fill=\"var(--_accent-fill)\" />");
 
 		var headerCx = x + (width / 2);
 		var headerCy = y + (HeaderHeight / 2);
-		_ = sb.Append("\n<text x=\"").Append(F(headerCx)).Append("\" y=\"").Append(F(headerCy))
+		_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(headerCx)).Append("\" y=\"").Append(SvgFormat.F(headerCy))
 			.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(HeaderFontSize)
 			.Append("\" font-weight=\"700\" fill=\"var(--_accent-text)\">");
@@ -150,8 +150,8 @@ internal static class KanbanSvgRenderer
 
 		// Task count badge
 		var countLabel = column.Tasks.Count.ToString(CultureInfo.InvariantCulture);
-		_ = sb.Append("\n<text x=\"").Append(F(x + width - ColumnPad))
-			.Append("\" y=\"").Append(F(headerCy))
+		_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(x + width - ColumnPad))
+			.Append("\" y=\"").Append(SvgFormat.F(headerCy))
 			.Append("\" text-anchor=\"end\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(MetaFontSize)
 			.Append("\" font-weight=\"600\" fill=\"var(--_text-muted)\">");
@@ -170,14 +170,14 @@ internal static class KanbanSvgRenderer
 
 	private static void AppendCard(StringBuilder sb, KanbanTask task, double x, double y, double width, double height)
 	{
-		_ = sb.Append("\n<rect x=\"").Append(F(x)).Append("\" y=\"").Append(F(y))
-			.Append("\" width=\"").Append(F(width)).Append("\" height=\"").Append(F(height))
+		_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(x)).Append("\" y=\"").Append(SvgFormat.F(y))
+			.Append("\" width=\"").Append(SvgFormat.F(width)).Append("\" height=\"").Append(SvgFormat.F(height))
 			.Append("\" rx=\"6\" ry=\"6\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"1\" />");
 
 		var textX = x + CardPadX;
 		var textY = y + CardPadY + (CardFontSizePx * 0.85);
 
-		_ = sb.Append("\n<text x=\"").Append(F(textX)).Append("\" y=\"").Append(F(textY))
+		_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(textX)).Append("\" y=\"").Append(SvgFormat.F(textY))
 			.Append("\" font-size=\"").Append(CardFontSize)
 			.Append("\" font-weight=\"500\" fill=\"var(--_text)\">");
 		MultilineUtils.AppendEscapedXml(sb, task.Title.AsSpan());
@@ -186,7 +186,7 @@ internal static class KanbanSvgRenderer
 		var metaY = textY + CardFontSizePx + MetaLineGap + 2;
 		foreach (var line in EnumerateMetaLines(task))
 		{
-			_ = sb.Append("\n<text x=\"").Append(F(textX)).Append("\" y=\"").Append(F(metaY))
+			_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(textX)).Append("\" y=\"").Append(SvgFormat.F(metaY))
 				.Append("\" font-size=\"").Append(MetaFontSize)
 				.Append("\" font-weight=\"400\" fill=\"var(--_text-muted)\">");
 			MultilineUtils.AppendEscapedXml(sb, line.AsSpan());
@@ -220,6 +220,4 @@ internal static class KanbanSvgRenderer
 			yield return task.Priority;
 	}
 
-	private static string F(double value) =>
-		value.ToString("0.##", CultureInfo.InvariantCulture);
 }

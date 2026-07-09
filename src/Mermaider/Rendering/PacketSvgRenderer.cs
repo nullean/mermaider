@@ -66,7 +66,7 @@ internal static class PacketSvgRenderer
 
 		if (hasTitle)
 		{
-			_ = sb.Append("\n<text x=\"").Append(F(width / 2))
+			_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(width / 2))
 				.Append("\" y=\"24\" text-anchor=\"middle\" font-size=\"")
 				.Append(TitleFontSize).Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
 			MultilineUtils.AppendEscapedXml(sb, diagram.Title.AsSpan());
@@ -134,16 +134,16 @@ internal static class PacketSvgRenderer
 
 		var fill = BlockFills[seg.ColorIndex % BlockFills.Length];
 
-		_ = sb.Append("\n<rect x=\"").Append(F(blockX))
-			.Append("\" y=\"").Append(F(wordY))
-			.Append("\" width=\"").Append(F(width))
-			.Append("\" height=\"").Append(F(RowHeight))
+		_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(blockX))
+			.Append("\" y=\"").Append(SvgFormat.F(wordY))
+			.Append("\" width=\"").Append(SvgFormat.F(width))
+			.Append("\" height=\"").Append(SvgFormat.F(RowHeight))
 			.Append("\" fill=\"").Append(fill)
 			.Append("\" stroke=\"var(--_line)\" stroke-width=\"1\" />");
 
 		// Label centered in block
-		_ = sb.Append("\n<text x=\"").Append(F(blockX + (width / 2)))
-			.Append("\" y=\"").Append(F(wordY + (RowHeight / 2)))
+		_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(blockX + (width / 2)))
+			.Append("\" y=\"").Append(SvgFormat.F(wordY + (RowHeight / 2)))
 			.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(LabelFontSize)
 			.Append("\" fill=\"var(--_text)\">");
@@ -157,8 +157,8 @@ internal static class PacketSvgRenderer
 		var bitY = wordY - 2;
 
 		// Start bit number
-		_ = sb.Append("\n<text x=\"").Append(F(blockX + (isSingle ? width / 2 : 0)))
-			.Append("\" y=\"").Append(F(bitY))
+		_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(blockX + (isSingle ? width / 2 : 0)))
+			.Append("\" y=\"").Append(SvgFormat.F(bitY))
 			.Append("\" text-anchor=\"").Append(isSingle ? "middle" : "start")
 			.Append("\" font-size=\"").Append(BitFontSize)
 			.Append("\" fill=\"var(--_text)\">")
@@ -167,8 +167,8 @@ internal static class PacketSvgRenderer
 
 		if (!isSingle)
 		{
-			_ = sb.Append("\n<text x=\"").Append(F(blockX + width))
-				.Append("\" y=\"").Append(F(bitY))
+			_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(blockX + width))
+				.Append("\" y=\"").Append(SvgFormat.F(bitY))
 				.Append("\" text-anchor=\"end\" font-size=\"").Append(BitFontSize)
 				.Append("\" fill=\"var(--_text)\">")
 				.Append(seg.End.ToString(CultureInfo.InvariantCulture))
@@ -176,6 +176,4 @@ internal static class PacketSvgRenderer
 		}
 	}
 
-	private static string F(double value) =>
-		value.ToString("0.##", CultureInfo.InvariantCulture);
 }

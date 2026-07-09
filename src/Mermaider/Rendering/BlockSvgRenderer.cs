@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text;
 using Mermaider.Models;
 using Mermaider.Text;
@@ -107,13 +106,13 @@ internal static class BlockSvgRenderer
 				continue;
 
 			var rx = node.Rounded ? RenderConstants.Radii.Rounded : RenderConstants.Radii.Rectangle;
-			_ = sb.Append("\n<rect x=\"").Append(F(x)).Append("\" y=\"").Append(F(y))
-				.Append("\" width=\"").Append(F(cellW)).Append("\" height=\"").Append(F(cellH))
+			_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(x)).Append("\" y=\"").Append(SvgFormat.F(y))
+				.Append("\" width=\"").Append(SvgFormat.F(cellW)).Append("\" height=\"").Append(SvgFormat.F(cellH))
 				.Append("\" rx=\"").Append(rx).Append("\" ry=\"").Append(rx)
 				.Append("\" fill=\"var(--_node-fill)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
-				.Append(F(RenderConstants.StrokeWidths.OuterBox)).Append("\" />");
+				.Append(SvgFormat.F(RenderConstants.StrokeWidths.OuterBox)).Append("\" />");
 
-			_ = sb.Append("\n<text x=\"").Append(F(cx)).Append("\" y=\"").Append(F(cy))
+			_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(cx)).Append("\" y=\"").Append(SvgFormat.F(cy))
 				.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 				.Append("\" font-size=\"").Append(LabelFontSize)
 				.Append("\" font-weight=\"").Append(RenderConstants.FontWeights.NodeLabel)
@@ -138,7 +137,7 @@ internal static class BlockSvgRenderer
 
 	private static void AppendTitle(StringBuilder sb, string title, double centerX)
 	{
-		_ = sb.Append("\n<text x=\"").Append(F(centerX)).Append("\" y=\"22\" text-anchor=\"middle\" font-size=\"")
+		_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(centerX)).Append("\" y=\"22\" text-anchor=\"middle\" font-size=\"")
 			.Append(TitleFontSize).Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
 		MultilineUtils.AppendEscapedXml(sb, title.AsSpan());
 		_ = sb.Append("</text>");
@@ -155,8 +154,8 @@ internal static class BlockSvgRenderer
 		var (x1, y1) = EdgeAnchor(from, to.Cx, to.Cy, cellW, cellH);
 		var (x2, y2) = EdgeAnchor(to, from.Cx, from.Cy, cellW, cellH);
 
-		_ = sb.Append("\n<line x1=\"").Append(F(x1)).Append("\" y1=\"").Append(F(y1))
-			.Append("\" x2=\"").Append(F(x2)).Append("\" y2=\"").Append(F(y2))
+		_ = sb.Append("\n<line x1=\"").Append(SvgFormat.F(x1)).Append("\" y1=\"").Append(SvgFormat.F(y1))
+			.Append("\" x2=\"").Append(SvgFormat.F(x2)).Append("\" y2=\"").Append(SvgFormat.F(y2))
 			.Append("\" stroke=\"var(--_line)\" stroke-width=\"1.75\" marker-end=\"url(#block-arrow)\" />");
 	}
 
@@ -180,6 +179,4 @@ internal static class BlockSvgRenderer
 		return (box.Cx, y);
 	}
 
-	private static string F(double value) =>
-		value.ToString("0.##", CultureInfo.InvariantCulture);
 }
