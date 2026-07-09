@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text;
 using Mermaider.Models;
 using Mermaider.Text;
@@ -100,8 +99,8 @@ internal static class PieSvgRenderer
 	{
 		if (sweepAngle >= (2 * Math.PI) - 0.0001)
 		{
-			_ = sb.Append("\n<circle cx=\"").Append(F(CenterX)).Append("\" cy=\"").Append(F(centerY))
-				.Append("\" r=\"").Append(F(Radius))
+			_ = sb.Append("\n<circle cx=\"").Append(SvgFormat.F(CenterX)).Append("\" cy=\"").Append(SvgFormat.F(centerY))
+				.Append("\" r=\"").Append(SvgFormat.F(Radius))
 				.Append("\" fill=\"").Append(color)
 				.Append("\" stroke=\"var(--bg)\" stroke-width=\"2\" />");
 			return;
@@ -113,11 +112,11 @@ internal static class PieSvgRenderer
 		var y2 = centerY + (Radius * Math.Sin(startAngle + sweepAngle));
 		var largeArc = sweepAngle > Math.PI ? 1 : 0;
 
-		_ = sb.Append("\n<path d=\"M ").Append(F(CenterX)).Append(' ').Append(F(centerY))
-			.Append(" L ").Append(F(x1)).Append(' ').Append(F(y1))
-			.Append(" A ").Append(F(Radius)).Append(' ').Append(F(Radius))
+		_ = sb.Append("\n<path d=\"M ").Append(SvgFormat.F(CenterX)).Append(' ').Append(SvgFormat.F(centerY))
+			.Append(" L ").Append(SvgFormat.F(x1)).Append(' ').Append(SvgFormat.F(y1))
+			.Append(" A ").Append(SvgFormat.F(Radius)).Append(' ').Append(SvgFormat.F(Radius))
 			.Append(" 0 ").Append(largeArc).Append(" 1 ")
-			.Append(F(x2)).Append(' ').Append(F(y2))
+			.Append(SvgFormat.F(x2)).Append(' ').Append(SvgFormat.F(y2))
 			.Append(" Z\" fill=\"").Append(color)
 			.Append("\" stroke=\"var(--bg)\" stroke-width=\"2\" />");
 	}
@@ -135,11 +134,11 @@ internal static class PieSvgRenderer
 		var lx = CenterX + (labelR * Math.Cos(midAngle));
 		var ly = centerY + (labelR * Math.Sin(midAngle));
 
-		_ = sb.Append("\n<text x=\"").Append(F(lx)).Append("\" y=\"").Append(F(ly))
+		_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(lx)).Append("\" y=\"").Append(SvgFormat.F(ly))
 			.Append("\" text-anchor=\"middle\" dy=\"0.35em\" font-size=\"")
 			.Append(LabelFontSize).Append("\" font-weight=\"600\" fill=\"#fff\">");
 
-		_ = sb.Append(F(pct)).Append('%');
+		_ = sb.Append(SvgFormat.F(pct)).Append('%');
 		_ = sb.Append("</text>");
 	}
 
@@ -151,22 +150,20 @@ internal static class PieSvgRenderer
 			var color = SliceColors[i % SliceColors.Length];
 			var y = legendTop + (i * LegendRowHeight);
 
-			_ = sb.Append("\n<rect x=\"").Append(F(LegendX)).Append("\" y=\"").Append(F(y))
+			_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(LegendX)).Append("\" y=\"").Append(SvgFormat.F(y))
 				.Append("\" width=\"").Append(LegendSwatchSize).Append("\" height=\"").Append(LegendSwatchSize)
 				.Append("\" rx=\"3\" ry=\"3\" fill=\"").Append(color).Append("\" />");
 
-			_ = sb.Append("\n<text x=\"").Append(F(LegendX + LegendTextOffset)).Append("\" y=\"").Append(F(y + (LegendSwatchSize / 2)))
+			_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(LegendX + LegendTextOffset)).Append("\" y=\"").Append(SvgFormat.F(y + (LegendSwatchSize / 2)))
 				.Append("\" dy=\"0.35em\" font-size=\"").Append(LegendFontSize)
 				.Append("\" fill=\"var(--_text)\">");
 			MultilineUtils.AppendEscapedXml(sb, slice.Label.AsSpan());
 
 			if (chart.ShowData)
-				_ = sb.Append(" (").Append(F(slice.Value)).Append(')');
+				_ = sb.Append(" (").Append(SvgFormat.F(slice.Value)).Append(')');
 
 			_ = sb.Append("</text>");
 		}
 	}
 
-	private static string F(double value) =>
-		value.ToString("0.##", CultureInfo.InvariantCulture);
 }
