@@ -8,7 +8,7 @@ namespace Mermaider.Icons;
 /// for common architecture vocabulary (WAF, API gateway, Kubernetes, pods, pools, reverse proxy,
 /// web, API) that doesn't belong to any one vendor. These are original, simplified shapes — not
 /// vendors' official trademarked artwork — sanitized and validated once at startup via
-/// <see cref="IconValidation"/>, the same path <see cref="IconRegistry.Register"/> uses for
+/// <see cref="IconValidation"/>, the same path <see cref="IconRegistry.Register(string,string)"/> uses for
 /// user-supplied icons.
 /// <para>
 /// Vendor and <c>ext:</c> icons are glyph-only (transparent background) — the gradient badge look

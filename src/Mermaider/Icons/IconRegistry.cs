@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Text;
 
 namespace Mermaider.Icons;
 
@@ -10,7 +11,7 @@ namespace Mermaider.Icons;
 /// selection of common AWS / GCP / Azure service glyphs plus the full Elastic set (see
 /// <see cref="Names"/> for the exact list). These are original, simplified pictograms — not the
 /// vendors' official trademarked logos — meant to render something reasonable out of the box.
-/// Register real/licensed vendor logos via <see cref="Register"/> if you have the rights to use them.
+/// Register real/licensed vendor logos via <see cref="Register(string,string)"/> if you have the rights to use them.
 /// </para>
 /// </summary>
 public static class IconRegistry
@@ -25,6 +26,11 @@ public static class IconRegistry
 	/// priority over built-in icons of the same name. The SVG is validated and sanitized before
 	/// being stored: malformed markup, scripts, event handlers, and external references are rejected.
 	/// </summary>
+	/// <remarks>
+	/// Registered icons are stored as sanitized SVG text; at render time they're always emitted as
+	/// a base64 data URL — <c>&lt;image href="data:image/svg+xml;base64,..."/&gt;</c> — regardless
+	/// of which <c>Register</c> overload you used to supply them.
+	/// </remarks>
 	/// <param name="name">The icon name, e.g. <c>"server"</c> or <c>"aws:ec2"</c>. Case-insensitive.</param>
 	/// <param name="svg">Raw SVG markup for the icon (must have an <c>&lt;svg&gt;</c> root element).</param>
 	/// <exception cref="MermaidParseException">Thrown when <paramref name="svg"/> is not well-formed SVG.</exception>
@@ -33,6 +39,34 @@ public static class IconRegistry
 		ArgumentException.ThrowIfNullOrWhiteSpace(name);
 		ArgumentException.ThrowIfNullOrWhiteSpace(svg);
 		Custom[name] = IconValidation.ValidateAndNormalize(name, svg);
+	}
+
+	/// <summary>
+	/// Registers (or overwrites) an icon from UTF-8-encoded SVG bytes — e.g. <c>File.ReadAllBytes</c>
+	/// for an icon on disk. See <see cref="Register(string,string)"/> for validation and rendering
+	/// details (icons are always emitted as a base64 data URL, regardless of how they were registered).
+	/// </summary>
+	/// <param name="name">The icon name, e.g. <c>"server"</c> or <c>"aws:ec2"</c>. Case-insensitive.</param>
+	/// <param name="svg">UTF-8-encoded SVG markup for the icon.</param>
+	/// <exception cref="MermaidParseException">Thrown when <paramref name="svg"/> is not well-formed SVG.</exception>
+	public static void Register(string name, ReadOnlySpan<byte> svg) =>
+		Register(name, Encoding.UTF8.GetString(svg));
+
+	/// <summary>
+	/// Registers (or overwrites) an icon by reading UTF-8-encoded SVG from a stream — e.g. an
+	/// embedded resource opened via <c>Assembly.GetManifestResourceStream</c>. The stream is read
+	/// to completion but not disposed. See <see cref="Register(string,string)"/> for validation and
+	/// rendering details (icons are always emitted as a base64 data URL, regardless of how they were
+	/// registered).
+	/// </summary>
+	/// <param name="name">The icon name, e.g. <c>"server"</c> or <c>"aws:ec2"</c>. Case-insensitive.</param>
+	/// <param name="svg">A stream containing UTF-8-encoded SVG markup for the icon.</param>
+	/// <exception cref="MermaidParseException">Thrown when the stream content is not well-formed SVG.</exception>
+	public static void Register(string name, Stream svg)
+	{
+		ArgumentNullException.ThrowIfNull(svg);
+		using var reader = new StreamReader(svg, Encoding.UTF8, leaveOpen: true);
+		Register(name, reader.ReadToEnd());
 	}
 
 	/// <summary>Removes a previously registered custom icon. Built-in icons cannot be removed.</summary>

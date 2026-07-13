@@ -365,6 +365,20 @@ architecture-beta
 service w(mycompany:widget)[Widget]
 ```
 
+`Register` also has `ReadOnlySpan<byte>` and `Stream` overloads for loading icons from disk or
+embedded resources without decoding them yourself:
+
+```csharp
+IconRegistry.Register("mycompany:logo", File.ReadAllBytes("logo.svg"));
+
+using var stream = typeof(Program).Assembly.GetManifestResourceStream("MyApp.Icons.logo.svg")!;
+IconRegistry.Register("mycompany:logo", stream);
+```
+
+Regardless of which overload you use, every registered icon is stored as sanitized SVG text and
+rendered the same way: as a base64 data URL on an `<image>` element
+(`<image href="data:image/svg+xml;base64,...">`), sized and centered in the service box.
+
 Registration validates and sanitizes the SVG using the same allowlist as
 [`SvgSanitizer`](#svg-sanitization) &mdash; `<script>` tags, event-handler attributes, and any
 `href` other than a same-document `data:image/svg+xml`/`data:image/png` URI are rejected outright

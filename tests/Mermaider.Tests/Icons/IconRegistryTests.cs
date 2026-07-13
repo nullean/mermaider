@@ -1,3 +1,4 @@
+using System.Text;
 using AwesomeAssertions;
 using Mermaider.Icons;
 
@@ -126,6 +127,46 @@ public class IconRegistryTests
 			IconRegistry.TryGet(name, out var svg).Should().BeTrue();
 			svg.Should().Contain("<rect");
 			IconRegistry.Names.Should().Contain(name);
+		}
+		finally
+		{
+			IconRegistry.Unregister(name);
+		}
+	}
+
+	[Test]
+	public void Register_from_byte_span()
+	{
+		const string name = "test:custom-icon-from-bytes";
+		try
+		{
+			var bytes = Encoding.UTF8.GetBytes("""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/></svg>""");
+
+			IconRegistry.Register(name, bytes);
+
+			IconRegistry.TryGet(name, out var svg).Should().BeTrue();
+			svg.Should().Contain("<circle");
+		}
+		finally
+		{
+			IconRegistry.Unregister(name);
+		}
+	}
+
+	[Test]
+	public void Register_from_stream_leaves_it_open()
+	{
+		const string name = "test:custom-icon-from-stream";
+		try
+		{
+			var bytes = Encoding.UTF8.GetBytes("""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polygon points="0,0 24,0 12,24"/></svg>""");
+			using var stream = new MemoryStream(bytes);
+
+			IconRegistry.Register(name, stream);
+
+			IconRegistry.TryGet(name, out var svg).Should().BeTrue();
+			svg.Should().Contain("<polygon");
+			stream.CanRead.Should().BeTrue();
 		}
 		finally
 		{
