@@ -1032,6 +1032,25 @@ public static class DiagramExamples
 			j:B -- T:c
 			"""),
 
+		new("architecture-arrow-directions", "Edge Arrow Directions", DiagramCategory.Architecture, """
+			architecture-beta
+			service a(server)[Client]
+			service b(server)[Server]
+			a:R -- L:b
+
+			service c(server)[Sender]
+			service d(server)[Receiver]
+			c:R --> L:d
+
+			service e(server)[Follower]
+			service f(server)[Leader]
+			e:R <-- L:f
+
+			service g(server)[Node A]
+			service h(server)[Node B]
+			g:R <--> L:h
+			""", Feature: "arrows"),
+
 		new("architecture-vendor-icons", "Vendor Icon Packs", DiagramCategory.Architecture, """
 			architecture-beta
 			group awsGroup(cloud)[AWS]
