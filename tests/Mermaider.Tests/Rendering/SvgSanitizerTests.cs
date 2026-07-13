@@ -69,13 +69,18 @@ public class SvgSanitizerTests
 	}
 
 	[Test]
-	public void Strips_image_element()
+	public void Strips_unsafe_href_from_image_element_but_keeps_the_element()
 	{
+		// <image> is allowed structurally (architecture-diagram icons render as <image> with a
+		// base64 data URI — see SvgSanitizerTests further below), but the actual attack vector —
+		// an external/tracking href — is always stripped regardless.
 		var svg = """<svg xmlns="http://www.w3.org/2000/svg"><image href="http://evil.com/tracker.png"/><rect x="0" y="0" width="10" height="10"/></svg>""";
 		var result = SvgSanitizer.Sanitize(svg);
 
 		result.HasViolations.Should().BeTrue();
-		result.Svg.Should().NotContain("<image");
+		result.Svg.Should().Contain("<image");
+		result.Svg.Should().NotContain("evil.com");
+		result.Svg.Should().NotContain("href");
 	}
 
 	[Test]
@@ -268,5 +273,85 @@ public class SvgSanitizerTests
 
 		var svg = MermaidRenderer.RenderSvg(input, options);
 		svg.Should().Contain("</svg>");
+	}
+
+	// ========================================================================
+	// The scoped <image> exception — architecture-diagram icons
+	// ========================================================================
+
+	[Test]
+	public void Allows_image_element_with_safe_base64_svg_data_uri()
+	{
+		var svg = """<svg xmlns="http://www.w3.org/2000/svg"><image x="0" y="0" width="10" height="10" href="data:image/svg+xml;base64,PHN2ZyAvPg=="/></svg>""";
+		var result = SvgSanitizer.Sanitize(svg);
+
+		result.HasViolations.Should().BeFalse();
+		result.Svg.Should().Contain("<image");
+		result.Svg.Should().Contain("data:image/svg+xml;base64,");
+	}
+
+	[Test]
+	public void Allows_image_element_with_safe_base64_png_data_uri()
+	{
+		var svg = """<svg xmlns="http://www.w3.org/2000/svg"><image x="0" y="0" width="10" height="10" href="data:image/png;base64,iVBORw0KGgo="/></svg>""";
+		var result = SvgSanitizer.Sanitize(svg);
+
+		result.HasViolations.Should().BeFalse();
+		result.Svg.Should().Contain("data:image/png;base64,");
+	}
+
+	[Test]
+	public void Strips_http_href_on_image_element()
+	{
+		var svg = """<svg xmlns="http://www.w3.org/2000/svg"><image x="0" y="0" width="10" height="10" href="http://evil.example/x.png"/></svg>""";
+		var result = SvgSanitizer.Sanitize(svg);
+
+		result.HasViolations.Should().BeTrue();
+		result.Svg.Should().NotContain("evil.example");
+	}
+
+	[Test]
+	public void Strips_javascript_href_on_image_element()
+	{
+		var svg = """<svg xmlns="http://www.w3.org/2000/svg"><image x="0" y="0" width="10" height="10" href="javascript:alert(1)"/></svg>""";
+		var result = SvgSanitizer.Sanitize(svg);
+
+		result.HasViolations.Should().BeTrue();
+		result.Svg.Should().NotContain("javascript:");
+	}
+
+	[Test]
+	public void Strips_non_image_data_uri_on_image_element()
+	{
+		var svg = """<svg xmlns="http://www.w3.org/2000/svg"><image x="0" y="0" width="10" height="10" href="data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg=="/></svg>""";
+		var result = SvgSanitizer.Sanitize(svg);
+
+		result.HasViolations.Should().BeTrue();
+		result.Svg.Should().NotContain("data:text/html");
+	}
+
+	[Test]
+	public void Strips_children_of_image_element_even_when_individually_allowlisted()
+	{
+		// <image> is defined as an empty element in the SVG spec. A <rect> child would
+		// individually pass the allowlist, but must still be removed because it's nested
+		// under <image> — per-element allowlisting alone doesn't catch this.
+		var svg = """<svg xmlns="http://www.w3.org/2000/svg"><image href="data:image/svg+xml;base64,PHN2ZyAvPg=="><rect x="0" y="0" width="4" height="4"/></image></svg>""";
+		var result = SvgSanitizer.Sanitize(svg);
+
+		result.HasViolations.Should().BeTrue();
+		result.Svg.Should().Contain("<image");
+		result.Svg.Should().NotContain("<rect");
+		result.Violations.Should().Contain(v => v.Kind == "element" && v.Name == "rect" && v.ParentElement == "image");
+	}
+
+	[Test]
+	public void Strips_href_on_non_image_element_even_if_it_looks_like_a_safe_data_uri()
+	{
+		var svg = """<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect xlink:href="data:image/svg+xml;base64,PHN2ZyAvPg==" x="0" y="0" width="10" height="10"/></svg>""";
+		var result = SvgSanitizer.Sanitize(svg);
+
+		result.HasViolations.Should().BeTrue();
+		result.Svg.Should().NotContain("xlink:href");
 	}
 }

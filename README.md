@@ -300,6 +300,38 @@ MermaidRenderer.RenderSvg("""
 
 <p align="center"><img src="docs/screenshots/mindmap.svg" alt="Mindmap" /></p>
 
+### Architecture
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    architecture-beta
+    group k8s(cloud)[k8s]
+    group ech(cloud)[ECH]
+
+    service edot(server)[EDOT] in k8s
+    service oteldemo(server)[OtelDemo] in k8s
+    service es(elastic:elasticsearch)[Elasticsearch] in ech
+    service kbn(elastic:kibana)[Kibana] in ech
+    service apm(elastic:apm)[APM] in ech
+
+    junction otlp
+
+    edot:L -- R:otlp
+    otlp:L -- T:apm
+    oteldemo:L -- R:edot
+    kbn:L -- T:es
+    apm:L -- R:es
+    """);
+```
+
+<p align="center"><img src="docs/screenshots/architecture.svg" alt="Architecture diagram" /></p>
+
+Icons resolve through an extensible `IconRegistry` &mdash; five built-in pictograms
+(`cloud`/`database`/`disk`/`internet`/`server`), curated AWS/Azure/GCP/Elastic packs
+(`aws:compute`, `elastic:kibana`, ...), and generic infrastructure components
+(`ext:waf`, `ext:api-gateway`, `ext:k8s`, ...). Register your own with
+`IconRegistry.Register("mycompany:widget", svgMarkup)`.
+
 ## Theming
 
 Every diagram derives its palette from just two colors&mdash;background and foreground&mdash;using
