@@ -300,6 +300,93 @@ MermaidRenderer.RenderSvg("""
 
 <p align="center"><img src="docs/screenshots/mindmap.svg" alt="Mindmap" /></p>
 
+### Architecture
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    architecture-beta
+    group k8s(cloud)[k8s]
+    group ech(cloud)[ECH]
+
+    service edot(server)[EDOT] in k8s
+    service oteldemo(server)[OtelDemo] in k8s
+    service es(elastic:elasticsearch)[Elasticsearch] in ech
+    service kbn(elastic:kibana)[Kibana] in ech
+    service apm(elastic:apm)[APM] in ech
+
+    junction otlp
+
+    edot:L -- R:otlp
+    otlp:L -- T:apm
+    oteldemo:L -- R:edot
+    kbn:L -- T:es
+    apm:L -- R:es
+    """);
+```
+
+<p align="center"><img src="docs/screenshots/architecture.svg" alt="Architecture diagram" /></p>
+
+#### Built-in icons
+
+Icons resolve through `Mermaider.Icons.IconRegistry`, referenced in a diagram as `service id(iconName)[Title]`.
+
+| Pack | Icons |
+| --- | --- |
+| Default (no prefix) | `cloud`, `database`, `disk`, `internet`, `server`, `generic` |
+| `aws:` / `azure:` / `gcp:` | `compute`, `storage`, `database`, `networking`, `serverless`, `load-balancer`, `queue`, `cdn`, `cache` |
+| `elastic:` | `elasticsearch`, `kibana`, `logstash`, `beats`, `fleet`, `serverless`, `apm`, `security`, `observability` |
+| `ext:` (vendor-neutral) | `waf`, `api-gateway`, `k8s`, `pod`, `pool`, `reverse-proxy`, `web`, `api`, `load-balancer`, `queue`, `cdn`, `cache` |
+
+The vendor and `ext:` icons are original, simplified pictograms &mdash; **not** the vendors'
+official trademarked artwork. AWS/Azure/GCP's real icon sets are licensed for use *in your own
+diagrams*, not for bundling into a redistributable library, which is why these are bespoke
+shapes; register the real logos yourself (see below) if you have the rights to use them.
+They render with a colored gradient badge behind them (vendor hue for
+`aws:`/`azure:`/`gcp:`/`elastic:`, neutral slate for `ext:`). Default-pack icons render plainly
+on the themed node box instead.
+
+#### Adding your own icons
+
+Register any SVG under a name of your choosing &mdash; including bare names, or `pack:icon` style
+names to group related icons:
+
+```csharp
+using Mermaider.Icons;
+
+IconRegistry.Register("mycompany:widget", """
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8" fill="#0f62fe"/>
+    </svg>
+    """);
+```
+
+```
+architecture-beta
+service w(mycompany:widget)[Widget]
+```
+
+`Register` also has `ReadOnlySpan<byte>` and `Stream` overloads for loading icons from disk or
+embedded resources without decoding them yourself:
+
+```csharp
+IconRegistry.Register("mycompany:logo", File.ReadAllBytes("logo.svg"));
+
+using var stream = typeof(Program).Assembly.GetManifestResourceStream("MyApp.Icons.logo.svg")!;
+IconRegistry.Register("mycompany:logo", stream);
+```
+
+Regardless of which overload you use, every registered icon is stored as sanitized SVG text and
+rendered the same way: as a base64 data URL on an `<image>` element
+(`<image href="data:image/svg+xml;base64,...">`), sized and centered in the service box.
+
+Registration validates and sanitizes the SVG using the same allowlist as
+[`SvgSanitizer`](#svg-sanitization) &mdash; `<script>` tags, event-handler attributes, and any
+`href` other than a same-document `data:image/svg+xml`/`data:image/png` URI are rejected outright
+(`MermaidParseException`), not silently stripped. Custom icons render inside the plain themed node
+box, same as the default pack &mdash; the colored gradient badge is only applied to the built-in
+vendor/`ext:` icons. If you have the rights to use a vendor's real logo (e.g. inside your own
+company's tooling), register it under whatever name you like and it renders exactly as provided.
+
 ## Theming
 
 Every diagram derives its palette from just two colors&mdash;background and foreground&mdash;using
