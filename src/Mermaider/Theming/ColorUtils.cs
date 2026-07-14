@@ -2,9 +2,27 @@ using System.Globalization;
 
 namespace Mermaider.Theming;
 
-/// <summary>Hex color manipulation for auto-deriving dark mode variants.</summary>
+/// <summary>Hex color manipulation for auto-deriving dark mode variants and contrast enforcement.</summary>
 internal static class ColorUtils
 {
+	/// <summary>
+	/// Returns <c>"#ffffff"</c> or <c>"#1a1a1a"</c> based on the WCAG relative luminance of
+	/// <paramref name="hex"/>, so text drawn on top of a categorical palette fill is always legible.
+	/// </summary>
+	internal static string ContrastText(string hex)
+	{
+		var (r, g, b) = ParseHex(hex);
+		// WCAG sRGB linearization
+		static double Lin(byte v)
+		{
+			var c = v / 255.0;
+			return c <= 0.04045 ? c / 12.92 : Math.Pow((c + 0.055) / 1.055, 2.4);
+		}
+		var luminance = (0.2126 * Lin(r)) + (0.7152 * Lin(g)) + (0.0722 * Lin(b));
+		// Contrast against white (L=1) vs near-black (L≈0): pick whichever is ≥4.5:1
+		return luminance > 0.179 ? "#1a1a1a" : "#ffffff";
+	}
+
 	internal static string InvertLightness(string hex)
 	{
 		var (r, g, b) = ParseHex(hex);

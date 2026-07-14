@@ -14,15 +14,10 @@ internal static class VennSvgRenderer
 	private const string UnionLabelFontSize = RenderConstants.FsVar.S;
 	private const double FillOpacity = 0.35;
 
-	private static readonly string[] SetColors =
-	[
-		"#4e79a7", "#f28e2b", "#e15759", "#76b7b2",
-		"#59a14f", "#edc948", "#b07aa1", "#ff9da7",
-	];
 
-	internal static string Render(VennDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(VennDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
 		try
 		{
 			return sb.ToString();
@@ -34,7 +29,7 @@ internal static class VennSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(VennDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(VennDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
@@ -43,7 +38,7 @@ internal static class VennSvgRenderer
 		var height = CenterY * 2;
 
 		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict);
+		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		if (n == 0)
@@ -60,7 +55,7 @@ internal static class VennSvgRenderer
 			var set = diagram.Sets[i];
 			var (px, py) = positions[i];
 			setPositions[set.Id] = (px, py);
-			var color = SetColors[i % SetColors.Length];
+			var color = CategoricalPalette.At(i);
 			var r = BaseRadius;
 
 			_ = sb.Append("\n<circle cx=\"").Append(px.SvgFormat()).Append("\" cy=\"").Append(py.SvgFormat())

@@ -17,15 +17,10 @@ internal static class RadarSvgRenderer
 	private const string LegendFontSize = RenderConstants.FsVar.S;
 	private const double CurveOpacity = 0.25;
 
-	private static readonly string[] CurveColors =
-	[
-		"#4e79a7", "#f28e2b", "#e15759", "#76b7b2",
-		"#59a14f", "#edc948", "#b07aa1", "#ff9da7",
-	];
 
-	internal static string Render(RadarChart chart, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(RadarChart chart, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
-		var sb = RenderToBuilder(chart, colors, font, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(chart, colors, font, monoFont, transparent, strict, accessibility, diagramType);
 		try
 		{
 			return sb.ToString();
@@ -37,14 +32,14 @@ internal static class RadarSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(RadarChart chart, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(RadarChart chart, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
 		if (chart.Axes.Count == 0)
 		{
 			StyleBlock.AppendSvgOpenTag(sb, 200, 100, colors, transparent, accessibility, diagramType);
-			StyleBlock.AppendStyleBlock(sb, font, strict);
+			StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 			_ = sb.Append("\n</svg>");
 			return sb;
 		}
@@ -57,7 +52,7 @@ internal static class RadarSvgRenderer
 		var height = centerY + Radius + LabelPad + 30;
 
 		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict);
+		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		if (hasTitle)
@@ -76,7 +71,7 @@ internal static class RadarSvgRenderer
 		for (var ci = 0; ci < chart.Curves.Count; ci++)
 		{
 			var curve = chart.Curves[ci];
-			var color = CurveColors[ci % CurveColors.Length];
+			var color = CategoricalPalette.At(ci);
 			AppendCurve(sb, chart, curve, n, centerY, color);
 		}
 
@@ -183,7 +178,7 @@ internal static class RadarSvgRenderer
 		for (var i = 0; i < chart.Curves.Count; i++)
 		{
 			var curve = chart.Curves[i];
-			var color = CurveColors[i % CurveColors.Length];
+			var color = CategoricalPalette.At(i);
 			var y = legendTop + (i * LegendRowHeight);
 
 			_ = sb.Append("\n<rect x=\"").Append(legendX.SvgFormat()).Append("\" y=\"").Append(y.SvgFormat())

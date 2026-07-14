@@ -23,15 +23,10 @@ internal static class GitGraphSvgRenderer
 	private const double BranchFontSizePx = 12;
 	private const double LinkStrokeWidth = 3;
 
-	private static readonly string[] BranchColors =
-	[
-		"#4e79a7", "#f28e2b", "#e15759", "#76b7b2",
-		"#59a14f", "#edc948", "#b07aa1", "#ff9da7",
-	];
 
-	internal static string Render(GitGraph graph, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(GitGraph graph, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
-		var sb = RenderToBuilder(graph, colors, font, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(graph, colors, font, monoFont, transparent, strict, accessibility, diagramType);
 		try
 		{
 			return sb.ToString();
@@ -43,7 +38,7 @@ internal static class GitGraphSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(GitGraph graph, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(GitGraph graph, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
@@ -51,7 +46,7 @@ internal static class GitGraphSvgRenderer
 		if (simulation.Commits.Count == 0)
 		{
 			StyleBlock.AppendSvgOpenTag(sb, 200, 100, colors, transparent, accessibility, diagramType);
-			StyleBlock.AppendStyleBlock(sb, font, strict);
+			StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 			_ = sb.Append("\n</svg>");
 			return sb;
 		}
@@ -67,7 +62,7 @@ internal static class GitGraphSvgRenderer
 		var height = TopPad + ((maxLane + 1) * LaneSpacing) + 60;
 
 		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict);
+		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		foreach (var branch in simulation.Branches)
@@ -210,8 +205,8 @@ internal static class GitGraphSvgRenderer
 		var currentBranch = "main";
 
 		branches["main"] = nextLane++;
-		branchColors["main"] = BranchColors[0];
-		branchList.Add(new BranchInfo("main", 0, BranchColors[0]));
+		branchColors["main"] = CategoricalPalette.Blue;
+		branchList.Add(new BranchInfo("main", 0, CategoricalPalette.Blue));
 
 		var commitCounter = 0;
 
@@ -223,7 +218,7 @@ internal static class GitGraphSvgRenderer
 				{
 					var lane = nextLane++;
 					branches[branch.Name] = lane;
-					var color = BranchColors[lane % BranchColors.Length];
+					var color = CategoricalPalette.At(lane);
 					branchColors[branch.Name] = color;
 					branchList.Add(new BranchInfo(branch.Name, lane, color));
 				}
@@ -236,7 +231,7 @@ internal static class GitGraphSvgRenderer
 			else if (action is GitCommitAction commit)
 			{
 				var lane = branches.GetValueOrDefault(currentBranch, 0);
-				var color = branchColors.GetValueOrDefault(currentBranch, BranchColors[0]);
+				var color = branchColors.GetValueOrDefault(currentBranch, CategoricalPalette.Blue);
 				var label = commit.Id ?? commitCounter.ToString(CultureInfo.InvariantCulture);
 				commitCounter++;
 
@@ -252,7 +247,7 @@ internal static class GitGraphSvgRenderer
 			else if (action is GitMergeAction merge)
 			{
 				var lane = branches.GetValueOrDefault(currentBranch, 0);
-				var color = branchColors.GetValueOrDefault(currentBranch, BranchColors[0]);
+				var color = branchColors.GetValueOrDefault(currentBranch, CategoricalPalette.Blue);
 				commitCounter++;
 
 				var idx = commits.Count;
@@ -273,7 +268,7 @@ internal static class GitGraphSvgRenderer
 			else if (action is GitCherryPickAction cherryPick)
 			{
 				var lane = branches.GetValueOrDefault(currentBranch, 0);
-				var color = branchColors.GetValueOrDefault(currentBranch, BranchColors[0]);
+				var color = branchColors.GetValueOrDefault(currentBranch, CategoricalPalette.Blue);
 				commitCounter++;
 
 				var idx = commits.Count;

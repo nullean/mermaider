@@ -60,8 +60,11 @@ foreach (var cat in Enum.GetValues<DiagramCategory>())
 	});
 }
 
-app.MapGet("/svg/{slug}", (string slug, string? theme, string? engine) =>
+app.MapGet("/svg/{slug}", (HttpContext ctx, string slug) =>
 {
+	var q = ctx.Request.Query;
+	var theme = q["theme"].FirstOrDefault();
+	var engine = q["engine"].FirstOrDefault();
 	var example = DiagramExamples.All.FirstOrDefault(e => e.Slug == slug);
 	if (example is null)
 		return Results.NotFound($"Unknown diagram: {slug}");
@@ -79,7 +82,7 @@ app.MapGet("/svg/{slug}", (string slug, string? theme, string? engine) =>
 		}
 	}
 
-	var options = ResolveOptions(theme, engine);
+	var options = ResolveOptions(q);
 	try
 	{
 		var svg = MermaidRenderer.RenderSvg(example.Source, options);
@@ -91,7 +94,15 @@ app.MapGet("/svg/{slug}", (string slug, string? theme, string? engine) =>
 	}
 });
 
-app.MapPost("/render", async (HttpContext ctx, string? theme, string? engine) =>
+app.MapGet("/source/{slug}", (string slug) =>
+{
+	var example = DiagramExamples.All.FirstOrDefault(e => e.Slug == slug);
+	return example is null
+		? Results.NotFound($"Unknown diagram: {slug}")
+		: Results.Content(example.Source, "text/plain; charset=utf-8");
+});
+
+app.MapPost("/render", async (HttpContext ctx) =>
 {
 	using var reader = new StreamReader(ctx.Request.Body);
 	var source = await reader.ReadToEndAsync();
@@ -99,7 +110,7 @@ app.MapPost("/render", async (HttpContext ctx, string? theme, string? engine) =>
 	if (string.IsNullOrWhiteSpace(source))
 		return Results.BadRequest("POST body must contain Mermaid source text");
 
-	var options = ResolveOptions(theme, engine);
+	var options = ResolveOptions(ctx.Request.Query);
 	try
 	{
 		var svg = MermaidRenderer.RenderSvg(source, options);
@@ -109,6 +120,17 @@ app.MapPost("/render", async (HttpContext ctx, string? theme, string? engine) =>
 	{
 		return Results.Problem(ex.Message, statusCode: 400);
 	}
+});
+
+app.MapGet("/playground", ctx =>
+{
+	var q = ctx.Request.Query;
+	var theme = q["theme"].FirstOrDefault();
+	var engine = q["engine"].FirstOrDefault() ?? "lightweight";
+	var slug = q["example"].FirstOrDefault() ?? DiagramExamples.All.FirstOrDefault()?.Slug;
+
+	ctx.Response.ContentType = "text/html; charset=utf-8";
+	return ctx.Response.WriteAsync(RenderPlaygroundPage(theme, engine, slug, q));
 });
 
 Console.WriteLine("Gallery running at http://localhost:5555");
@@ -138,24 +160,71 @@ string ProviderColStyle(string? bg) => bg switch
 	_ => "background:linear-gradient(135deg, #f5f5f5 0%, #d9d9d9 100%);",
 };
 
-RenderOptions? ResolveOptions(string? theme, string? engine)
+RenderOptions? ResolveOptions(IQueryCollection q)
 {
+	var theme = q["theme"].FirstOrDefault();
+	var engine = q["engine"].FirstOrDefault();
 	IGraphLayoutProvider? provider = engine?.ToLowerInvariant() == "msagl" ? msaglProvider : null;
 
-	if (theme is null || !Themes.BuiltIn.TryGetValue(theme, out var colors))
-		return provider is not null ? new RenderOptions { LayoutProvider = provider } : null;
+	// Seed from named theme (if any)
+	DiagramColors? base_ = null;
+	if (theme is not null)
+		_ = Themes.BuiltIn.TryGetValue(theme, out base_);
+
+	// Per-channel overrides from query params win over the theme seed
+	var bg = q["bg"].FirstOrDefault() ?? base_?.Bg;
+	var fg = q["fg"].FirstOrDefault() ?? base_?.Fg;
+	var line = q["line"].FirstOrDefault() ?? base_?.Line;
+	var accent = q["accent"].FirstOrDefault() ?? base_?.Accent;
+	var muted = q["muted"].FirstOrDefault() ?? base_?.Muted;
+	var surface = q["surface"].FirstOrDefault() ?? base_?.Surface;
+	var border = q["border"].FirstOrDefault() ?? base_?.Border;
+
+	// Render option overrides
+	double? padding = double.TryParse(q["padding"].FirstOrDefault(), out var p) ? p : null;
+	double? nodeSpacing = double.TryParse(q["nodeSpacing"].FirstOrDefault(), out var ns) ? ns : null;
+	double? layerSpacing = double.TryParse(q["layerSpacing"].FirstOrDefault(), out var ls) ? ls : null;
+	bool? roundedEdges = q["rounded"].FirstOrDefault() is { } rv ? rv is not ("false" or "0") : null;
+	bool? transparent = q["transparent"].FirstOrDefault() is { } tv ? tv is not ("false" or "0") : null;
+	var font = q["font"].FirstOrDefault();
+	var monoFont = q["monoFont"].FirstOrDefault();
+	var fontSize = q["fontSize"].FirstOrDefault();
+
+	// If nothing at all was set, skip allocating an options object
+	if (bg is null && fg is null && padding is null && nodeSpacing is null && layerSpacing is null
+		&& roundedEdges is null && transparent is null && font is null && monoFont is null && fontSize is null && provider is null)
+		return null;
 
 	return new RenderOptions
 	{
-		Bg = colors.Bg,
-		Fg = colors.Fg,
-		Line = colors.Line,
-		Accent = colors.Accent,
-		Muted = colors.Muted,
-		Surface = colors.Surface,
-		Border = colors.Border,
+		Bg = bg,
+		Fg = fg,
+		Line = line,
+		Accent = accent,
+		Muted = muted,
+		Surface = surface,
+		Border = border,
+		Padding = padding,
+		NodeSpacing = nodeSpacing,
+		LayerSpacing = layerSpacing,
+		RoundedEdges = roundedEdges ?? true,
+		Transparent = transparent ?? true,
+		Font = font,
+		MonoFont = monoFont,
+		FontSize = fontSize,
 		LayoutProvider = provider,
 	};
+}
+
+string RenderSectionBar(string activePath, string? theme, string engine)
+{
+	var examplesActive = activePath != "/playground" ? " active" : "";
+	var playActive = activePath == "/playground" ? " active" : "";
+	var examplesHref = $"/{BuildPageQs(theme, engine)}";
+	return $"""
+		<a href="{examplesHref}" class="section-link{examplesActive}">Compare</a>
+		<a href="/playground" class="section-link{playActive}">Theme Playground</a>
+		""";
 }
 
 string RenderNav(string activePath, string? theme, string engine, string? p1 = null, string? p2 = null, string? bg = null)
@@ -208,7 +277,20 @@ string SharedStyles(string pageBg, string pageFg) => $$"""
 	  padding: 1.5rem 2rem 0;
 	}
 	header h1 { font-size: 1.8rem; margin-bottom: 0.3rem; }
-	header .subtitle { opacity: 0.6; font-size: 0.95rem; margin-bottom: 1rem; }
+	header .subtitle { opacity: 0.6; font-size: 0.95rem; margin-bottom: 0.8rem; }
+	.section-bar {
+	  display: flex; gap: 0;
+	  border-bottom: 2px solid color-mix(in srgb, {{pageFg}} 12%, transparent);
+	  margin: 0 -2rem; padding: 0 2rem;
+	}
+	.section-link {
+	  padding: 0.55rem 1.3rem; font-size: 1rem; font-weight: 500;
+	  text-decoration: none; color: {{pageFg}}; opacity: 0.5;
+	  border-bottom: 3px solid transparent; margin-bottom: -2px;
+	  transition: opacity 0.15s;
+	}
+	.section-link:hover { opacity: 0.85; }
+	.section-link.active { opacity: 1; font-weight: 700; border-bottom-color: {{pageFg}}; }
 	nav.main-nav {
 	  display: flex; flex-wrap: wrap; gap: 0.3rem;
 	  padding: 0.5rem 2rem; margin-bottom: 0.5rem;
@@ -341,6 +423,103 @@ string SharedStyles(string pageBg, string pageFg) => $$"""
 	.section-intro .feature-pill {
 	  font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 10px;
 	  background: color-mix(in srgb, {{pageFg}} 10%, transparent);
+	}
+	.playground-layout {
+	  display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start;
+	}
+	@media (max-width: 900px) { .playground-layout { grid-template-columns: 1fr; } }
+	.playground-panel {
+	  border: 1px solid color-mix(in srgb, {{pageFg}} 12%, transparent);
+	  border-radius: 10px; overflow: hidden;
+	  background: color-mix(in srgb, {{pageBg}} 90%, {{pageFg}});
+	}
+	.playground-panel h2 { font-size: 1rem; font-weight: 600; padding: 0.6rem 1rem;
+	  border-bottom: 1px solid color-mix(in srgb, {{pageFg}} 8%, transparent); }
+	.playground-panel textarea {
+	  width: 100%; min-height: 180px; font-family: monospace; font-size: 0.85rem;
+	  padding: 0.75rem; border: none; resize: vertical;
+	  background: color-mix(in srgb, {{pageBg}} 95%, {{pageFg}}); color: {{pageFg}};
+	}
+	.playground-preview { padding: 1rem; text-align: center; min-height: 80px; background: #ffffff; }
+	.playground-preview img { max-width: 100%; height: auto; }
+	.playground-controls {
+	  padding: 1rem; border-top: 1px solid color-mix(in srgb, {{pageFg}} 8%, transparent);
+	  display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: flex-end;
+	}
+	.play-ctrl { display: flex; flex-direction: column; gap: 0.2rem; min-width: 60px; }
+	.play-ctrl label {
+	  font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.04em; opacity: 0.5;
+	}
+	.play-ctrl input[type=color] { width: 44px; height: 28px; padding: 2px; border-radius: 4px;
+	  border: 1px solid color-mix(in srgb, {{pageFg}} 20%, transparent); cursor: pointer; }
+	.play-ctrl input[type=range] { width: 120px; accent-color: {{pageFg}}; }
+	.play-ctrl select, .play-ctrl input[type=text] {
+	  padding: 0.25rem 0.45rem; border-radius: 5px; font-size: 0.8rem;
+	  border: 1px solid color-mix(in srgb, {{pageFg}} 20%, transparent);
+	  background: {{pageBg}}; color: {{pageFg}};
+	}
+	.play-ctrl input[type=checkbox] { accent-color: {{pageFg}}; }
+	.ctrl-val {
+	  font-size: 0.75rem; font-variant-numeric: tabular-nums;
+	  opacity: 0.75; margin-left: 0.35rem;
+	}
+	.ctrl-hint {
+	  font-size: 0.62rem; opacity: 0.38; margin-top: 0.05rem; line-height: 1.2;
+	}
+	.pg-panel-title {
+	  font-size: 1.05rem; font-weight: 600; padding: 0.6rem 0.8rem;
+	  border-bottom: 1px solid color-mix(in srgb, {{pageFg}} 10%, transparent);
+	}
+	.pg-card.selected { outline: 2px solid {{pageFg}}; outline-offset: -2px; }
+	.pg-card {
+	  cursor: pointer;
+	  transition: transform 0.1s, box-shadow 0.1s;
+	}
+	.pg-card:hover {
+	  transform: translateY(-2px);
+	  box-shadow: 0 4px 12px color-mix(in srgb, {{pageFg}} 18%, transparent);
+	  outline: 1px solid color-mix(in srgb, {{pageFg}} 30%, transparent);
+	}
+	.play-ctrl-palette { min-width: unset; }
+	.palette-row { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 2px; }
+	.palette-swatch {
+	  width: 20px; height: 20px; border-radius: 3px;
+	  border: 1px solid color-mix(in srgb, {{pageFg}} 15%, transparent);
+	  flex-shrink: 0;
+	}
+	.filter-bar {
+	  display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; margin-top: 1.5rem;
+	  padding: 0.6rem 0.8rem; border-radius: 8px;
+	  background: color-mix(in srgb, {{pageFg}} 6%, transparent);
+	}
+	.filter-chip {
+	  padding: 0.25rem 0.7rem; border-radius: 12px; font-size: 0.8rem; cursor: pointer;
+	  border: 1px solid color-mix(in srgb, {{pageFg}} 20%, transparent);
+	  background: transparent; color: {{pageFg}}; opacity: 0.6; transition: all 0.1s;
+	}
+	.filter-chip:hover, .filter-chip.active { opacity: 1;
+	  background: color-mix(in srgb, {{pageFg}} 15%, transparent); }
+	.filter-chip.active { font-weight: 600; }
+	.pg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+	.pg-card { border: 1px solid color-mix(in srgb, {{pageFg}} 10%, transparent);
+	  border-radius: 8px; overflow: hidden; text-align: center;
+	  background: color-mix(in srgb, {{pageBg}} 92%, {{pageFg}}); }
+	.pg-card img { max-width: 100%; height: auto; display: block; }
+	.pg-card-label { font-size: 0.75rem; padding: 0.35rem 0.5rem; opacity: 0.6; }
+	.pg-edit-block {
+	  border-top: 1px solid color-mix(in srgb, {{pageFg}} 10%, transparent);
+	  padding: 0.8rem;
+	}
+	.pg-edit-block > label {
+	  display: block; font-size: 0.65rem; text-transform: uppercase;
+	  letter-spacing: 0.04em; opacity: 0.5; margin-bottom: 0.4rem;
+	}
+	#pg-edit {
+	  width: 100%; min-height: 140px; font-family: monospace; font-size: 0.8rem;
+	  padding: 0.6rem; border-radius: 5px; resize: vertical;
+	  border: 1px solid color-mix(in srgb, {{pageFg}} 20%, transparent);
+	  background: color-mix(in srgb, {{pageBg}} 95%, {{pageFg}}); color: {{pageFg}};
+	  line-height: 1.45;
 	}
 	""";
 
@@ -494,6 +673,7 @@ string RenderCategoryPage(DiagramCategory category, string? theme, string engine
 	var p2Options = BuildSelectOptions(p2 ?? "", [("", "— none —"), .. providerList]);
 	var bgOptionsHtml = BuildSelectOptions(bg ?? "", bgOptions);
 	var navHtml = RenderNav($"/{catSlug}", theme, engine, p1, p2, bg);
+	var sectionBarHtml = RenderSectionBar($"/{catSlug}", theme, engine);
 
 	var activeProviders = new List<string>();
 	if (!string.IsNullOrEmpty(p1))
@@ -531,6 +711,7 @@ string RenderCategoryPage(DiagramCategory category, string? theme, string engine
 		  <header>
 		    <h1>Mermaider Gallery</h1>
 		    <p class="subtitle">{{catLabel}} diagram examples &amp; features</p>
+		    <div class="section-bar">{{sectionBarHtml}}</div>
 		  </header>
 
 		  <nav class="main-nav">
@@ -606,6 +787,7 @@ string RenderComparePage(string? theme, string engine, string? p1, string? p2, s
 	var p2Options = BuildSelectOptions(p2 ?? "", [("", "— none —"), .. providerList]);
 	var bgOptionsHtml = BuildSelectOptions(bg ?? "", bgOptions);
 	var navHtml = RenderNav("/", theme, engine, p1, p2, bg);
+	var sectionBarHtml = RenderSectionBar("/", theme, engine);
 
 	var activeProviders = new List<string>();
 	if (!string.IsNullOrEmpty(p1))
@@ -636,6 +818,7 @@ string RenderComparePage(string? theme, string engine, string? p1, string? p2, s
 		  <header>
 		    <h1>Mermaider Gallery</h1>
 		    <p class="subtitle">Compare Mermaid diagram renderers side by side</p>
+		    <div class="section-bar">{{sectionBarHtml}}</div>
 		  </header>
 
 		  <nav class="main-nav">
@@ -691,6 +874,327 @@ string RenderComparePage(string? theme, string engine, string? p1, string? p2, s
 		</body>
 		</html>
 		""";
+}
+
+string RenderPlaygroundPage(string? theme, string engine, string? selectedSlug, IQueryCollection q)
+{
+	var (pageBg, pageFg) = PageColors(theme);
+	var sectionBarHtml = RenderSectionBar("/playground", theme, engine);
+
+	var allExamples = DiagramExamples.All;
+	var selectedEx = allExamples.FirstOrDefault(e => e.Slug == selectedSlug) ?? allExamples[0];
+
+	// Seed color values from theme or defaults
+	DiagramColors? baseColors = null;
+	if (theme is not null)
+		_ = Themes.BuiltIn.TryGetValue(theme, out baseColors);
+	var defaultBg = q["bg"].FirstOrDefault() ?? baseColors?.Bg ?? "#FFFFFF";
+	var defaultFg = q["fg"].FirstOrDefault() ?? baseColors?.Fg ?? "#27272A";
+	var defaultLine = q["line"].FirstOrDefault() ?? baseColors?.Line ?? "";
+	var defaultAccent = q["accent"].FirstOrDefault() ?? baseColors?.Accent ?? "#3b82f6";
+	var defaultMuted = q["muted"].FirstOrDefault() ?? baseColors?.Muted ?? "";
+	var defaultSurface = q["surface"].FirstOrDefault() ?? baseColors?.Surface ?? "";
+	var defaultBorder = q["border"].FirstOrDefault() ?? baseColors?.Border ?? "";
+	var defaultPadding = q["padding"].FirstOrDefault() ?? "40";
+	var defaultNs = q["nodeSpacing"].FirstOrDefault() ?? "28";
+	var defaultLs = q["layerSpacing"].FirstOrDefault() ?? "48";
+	var defaultRounded = q["rounded"].FirstOrDefault() ?? "true";
+	var defaultTransp = q["transparent"].FirstOrDefault() ?? "true";
+	var defaultFont = q["font"].FirstOrDefault() ?? "Inter";
+	var defaultMonoFont = q["monoFont"].FirstOrDefault() ?? "";
+	var roundedChecked = defaultRounded is not ("false" or "0") ? " checked" : "";
+	var transpChecked = defaultTransp is not ("false" or "0") ? " checked" : "";
+
+	// Build base theme picker options
+	var themeOptions = string.Join("\n",
+		new[] { ("", "default") }.Concat(Themes.BuiltIn.Keys.OrderBy(k => k).Select(k => (k, k)))
+		.Select(t =>
+		{
+			var sel = (t.Item1 == theme) || (t.Item1 == "" && theme is null) ? " selected" : "";
+			return $"<option value=\"{WebUtility.HtmlEncode(t.Item1)}\"{sel}>{WebUtility.HtmlEncode(t.Item2)}</option>";
+		}));
+
+	// Filter chips
+	var categories = Enum.GetValues<DiagramCategory>();
+	var filterChips = "<button class=\"filter-chip active\" data-cat=\"\">All</button>\n" +
+		string.Join("\n", categories.Select(c =>
+			$"<button class=\"filter-chip\" data-cat=\"{DiagramExamples.CategorySlug(c)}\">{WebUtility.HtmlEncode(DiagramExamples.CategoryLabel(c))}</button>"));
+
+	// Gallery grid — cards are clickable to select the preview
+	var gridCards = string.Join("\n", allExamples.Select(e =>
+	{
+		var selected = e.Slug == selectedEx.Slug ? " selected" : "";
+		var titleJs = WebUtility.HtmlEncode(JsonSerializer.Serialize(e.Title));
+		return $$"""
+		    <div class="pg-card{{selected}}" data-cat="{{DiagramExamples.CategorySlug(e.Category)}}" data-slug="{{e.Slug}}"
+		      onclick="pgSelectCard('{{e.Slug}}',{{titleJs}})">
+		      <img class="pg-thumb" alt="{{WebUtility.HtmlEncode(e.Title)}}" loading="lazy" />
+		      <div class="pg-card-label">{{WebUtility.HtmlEncode(e.Title)}}</div>
+		    </div>
+		""";
+	}));
+
+	// Slugs JSON for JS
+	var slugsJson = "[" + string.Join(",",
+		allExamples.Select(e => $"{{\"slug\":\"{e.Slug}\",\"cat\":\"{DiagramExamples.CategorySlug(e.Category)}\"}}")) + "]";
+
+	return $$"""
+		<!DOCTYPE html>
+		<html lang="en">
+		<head>
+		  <meta charset="utf-8" />
+		  <meta name="viewport" content="width=device-width,initial-scale=1" />
+		  <title>Playground — Mermaider Gallery</title>
+		  <style>
+		{{SharedStyles(pageBg, pageFg)}}
+		  </style>
+		</head>
+		<body>
+		<header>
+		  <h1>Mermaider Gallery</h1>
+		  <p class="subtitle">Theme playground</p>
+		  <div class="section-bar">{{sectionBarHtml}}</div>
+		</header>
+		<main>
+		  <div class="playground-layout">
+		    <!-- Left: controls -->
+		    <div class="playground-panel">
+		      <div class="pg-panel-title">Editor</div>
+		      <div class="playground-controls">
+		        <div class="play-ctrl">
+		          <label>Base theme</label>
+		          <select id="pg-theme" onchange="pgThemeChanged(this.value)">
+		{{themeOptions}}
+		          </select>
+		        </div>
+		        <div class="play-ctrl"><label>bg</label><input type="color" id="pg-bg" value="{{defaultBg}}" oninput="pgScheduleRender()" /></div>
+		        <div class="play-ctrl"><label>fg</label><input type="color" id="pg-fg" value="{{defaultFg}}" oninput="pgScheduleRender()" /></div>
+		        <div class="play-ctrl"><label>accent</label><input type="color" id="pg-accent" value="{{defaultAccent}}" oninput="pgScheduleRender()" /></div>
+		        <div class="play-ctrl"><label>line</label><input type="color" id="pg-line" value="{{(defaultLine.Length > 0 ? defaultLine : "#888888")}}" oninput="pgScheduleRender()" /></div>
+		        <div class="play-ctrl"><label>muted</label><input type="color" id="pg-muted" value="{{(defaultMuted.Length > 0 ? defaultMuted : "#777777")}}" oninput="pgScheduleRender()" /></div>
+		        <div class="play-ctrl play-ctrl-palette">
+		          <label title="Data palette used by pie, gantt, timeline, gitgraph, sankey, radar, mindmap, venn, journey, packet, xychart, treemap (CategoricalPalette.cs)">data palette</label>
+		          <div class="palette-row">{{PaletteSwatches()}}</div>
+		        </div>
+		        <div class="play-ctrl">
+		          <label>padding <span class="ctrl-val" id="pg-pad-val">{{defaultPadding}}</span></label>
+		          <input type="range" id="pg-pad" min="0" max="100" value="{{defaultPadding}}"
+		            oninput="document.getElementById('pg-pad-val').textContent=this.value;pgScheduleRender()" />
+		          <span class="ctrl-hint">px around the diagram</span>
+		        </div>
+		        <div class="play-ctrl">
+		          <label>node spacing <span class="ctrl-val" id="pg-ns-val">{{defaultNs}}</span></label>
+		          <input type="range" id="pg-ns" min="4" max="80" value="{{defaultNs}}"
+		            oninput="document.getElementById('pg-ns-val').textContent=this.value;pgScheduleRender()" />
+		          <span class="ctrl-hint">px between sibling nodes</span>
+		        </div>
+		        <div class="play-ctrl">
+		          <label>layer spacing <span class="ctrl-val" id="pg-ls-val">{{defaultLs}}</span></label>
+		          <input type="range" id="pg-ls" min="8" max="120" value="{{defaultLs}}"
+		            oninput="document.getElementById('pg-ls-val').textContent=this.value;pgScheduleRender()" />
+		          <span class="ctrl-hint">px between layout layers</span>
+		        </div>
+		        <div class="play-ctrl"><label>font</label>
+		          <select id="pg-font" onchange="pgScheduleRender()">
+		            <option value="Inter"{{(defaultFont == "Inter" ? " selected" : "")}}>Inter</option>
+		            <option value="system-ui"{{(defaultFont == "system-ui" ? " selected" : "")}}>system-ui</option>
+		            <option value="Georgia"{{(defaultFont == "Georgia" ? " selected" : "")}}>Georgia</option>
+		            <option value="serif"{{(defaultFont == "serif" ? " selected" : "")}}>serif</option>
+		            <option value="sans-serif"{{(defaultFont == "sans-serif" ? " selected" : "")}}>sans-serif</option>
+		          </select>
+		        </div>
+		        <div class="play-ctrl"><label title="mono font — used for code/type text (ER, Class)">mono font</label>
+		          <select id="pg-mono-font" onchange="pgScheduleRender()">
+		            <option value=""{{(defaultMonoFont == "" ? " selected" : "")}}>default</option>
+		            <option value="ui-monospace"{{(defaultMonoFont == "ui-monospace" ? " selected" : "")}}>ui-monospace</option>
+		            <option value="monospace"{{(defaultMonoFont == "monospace" ? " selected" : "")}}>monospace</option>
+		            <option value="Courier New"{{(defaultMonoFont == "Courier New" ? " selected" : "")}}>Courier New</option>
+		            <option value="Menlo"{{(defaultMonoFont == "Menlo" ? " selected" : "")}}>Menlo</option>
+		          </select>
+		        </div>
+		        <div class="play-ctrl"><label title="rounded edges">rounded</label>
+		          <input type="checkbox" id="pg-rounded"{{roundedChecked}} onchange="pgScheduleRender()" />
+		        </div>
+		        <div class="play-ctrl"><label>transparent</label>
+		          <input type="checkbox" id="pg-transp"{{transpChecked}} onchange="pgScheduleRender()" />
+		        </div>
+		      </div>
+		      <div class="pg-edit-block">
+		        <label>Edit Diagram</label>
+		        <textarea id="pg-edit" spellcheck="false" oninput="pgScheduleRender()"></textarea>
+		      </div>
+		    </div>
+		    <!-- Right: live preview -->
+		    <div class="playground-panel">
+		      <div class="pg-panel-title">Preview Selected: <span id="pg-preview-title">{{WebUtility.HtmlEncode(selectedEx.Title)}}</span></div>
+		      <div class="playground-preview" id="pg-out"><span style="opacity:.3">Rendering…</span></div>
+		    </div>
+		  </div>
+
+		  <!-- Gallery grid -->
+		  <div class="filter-bar">
+		{{filterChips}}
+		  </div>
+		  <div class="pg-grid" id="pg-grid">
+		{{gridCards}}
+		  </div>
+		</main>
+		{{SharedScripts(engine, "")}}
+		{{PlaygroundScripts(slugsJson, selectedEx.Source)}}
+		</body>
+		</html>
+		""";
+}
+
+string PlaygroundScripts(string slugsJson, string initialSource) => $$"""
+	<script>
+	  const PG_SLUGS = {{slugsJson}};
+	  let pgTimer = null;
+	  let pgCurrentSlug = document.querySelector('.pg-card.selected')?.dataset.slug || (PG_SLUGS[0]?.slug ?? '');
+
+	  function pgBuildQs() {
+	    const p = new URLSearchParams();
+	    const bg = document.getElementById('pg-bg').value;
+	    const fg = document.getElementById('pg-fg').value;
+	    const accent = document.getElementById('pg-accent').value;
+	    const line = document.getElementById('pg-line').value;
+	    const muted = document.getElementById('pg-muted').value;
+	    const pad = document.getElementById('pg-pad').value;
+	    const ns = document.getElementById('pg-ns').value;
+	    const ls = document.getElementById('pg-ls').value;
+	    const font = document.getElementById('pg-font').value;
+	    const monoFont = document.getElementById('pg-mono-font').value;
+	    const rounded = document.getElementById('pg-rounded').checked ? 'true' : 'false';
+	    const transp = document.getElementById('pg-transp').checked ? 'true' : 'false';
+	    if (bg) p.set('bg', bg);
+	    if (fg) p.set('fg', fg);
+	    if (accent) p.set('accent', accent);
+	    if (line) p.set('line', line);
+	    if (muted) p.set('muted', muted);
+	    p.set('padding', pad);
+	    p.set('nodeSpacing', ns);
+	    p.set('layerSpacing', ls);
+	    if (font !== 'Inter') p.set('font', font);
+	    if (monoFont) p.set('monoFont', monoFont);
+	    p.set('rounded', rounded);
+	    p.set('transparent', transp);
+	    return p.toString();
+	  }
+
+	  async function pgRender() {
+	    const out = document.getElementById('pg-out');
+	    const qs = pgBuildQs();
+	    const src = document.getElementById('pg-edit')?.value;
+	    if (!src) return;
+	    out.innerHTML = '<span style="opacity:.3">Rendering…</span>';
+	    try {
+	      const resp = await fetch('/render?' + qs, { method: 'POST', body: src });
+	      if (!resp.ok) {
+	        const txt = await resp.text();
+	        out.innerHTML = '<span style="color:#e53e3e;font-size:.8rem">' + txt + '</span>';
+	      } else {
+	        const blob = await resp.blob();
+	        const url = URL.createObjectURL(blob);
+	        const img = new Image();
+	        img.src = url;
+	        img.style.maxWidth = '100%';
+	        out.innerHTML = '';
+	        out.appendChild(img);
+	      }
+	    } catch(e) {
+	      out.innerHTML = '<span style="color:#e53e3e">' + e.message + '</span>';
+	    }
+	    pgUpdateGrid();
+	  }
+
+	  function pgUpdateGrid() {
+	    const qs = pgBuildQs();
+	    const imgs = document.querySelectorAll('.pg-thumb');
+	    imgs.forEach((img, i) => {
+	      if (i < PG_SLUGS.length) {
+	        img.src = '/svg/' + PG_SLUGS[i].slug + '?' + qs;
+	      }
+	    });
+	  }
+
+	  function pgScheduleRender() {
+	    clearTimeout(pgTimer);
+	    pgTimer = setTimeout(pgRender, 300);
+	  }
+
+	  async function pgSelectCard(slug, title) {
+	    pgCurrentSlug = slug;
+	    document.getElementById('pg-preview-title').textContent = title;
+	    document.querySelectorAll('.pg-card').forEach(c => c.classList.remove('selected'));
+	    const card = document.querySelector('.pg-card[data-slug="' + slug + '"]');
+	    if (card) card.classList.add('selected');
+	    try {
+	      const resp = await fetch('/source/' + slug);
+	      if (resp.ok) document.getElementById('pg-edit').value = await resp.text();
+	    } catch(e) { /* ignore */ }
+	    window.scrollTo({ top: 0, behavior: 'smooth' });
+	    pgRender();
+	  }
+
+	  function pgThemeChanged(theme) {
+	    const themeData = {{ThemesJson()}};
+	    if (theme && themeData[theme]) {
+	      const t = themeData[theme];
+	      if (t.bg) document.getElementById('pg-bg').value = t.bg;
+	      if (t.fg) document.getElementById('pg-fg').value = t.fg;
+	      if (t.accent) document.getElementById('pg-accent').value = t.accent;
+	      if (t.line) document.getElementById('pg-line').value = t.line;
+	      if (t.muted) document.getElementById('pg-muted').value = t.muted;
+	    }
+	    pgScheduleRender();
+	  }
+
+	  // Filter chips
+	  document.querySelectorAll('.filter-chip').forEach(chip => {
+	    chip.addEventListener('click', () => {
+	      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+	      chip.classList.add('active');
+	      const cat = chip.dataset.cat;
+	      document.querySelectorAll('.pg-card').forEach(card => {
+	        card.style.display = (!cat || card.dataset.cat === cat) ? '' : 'none';
+	      });
+	    });
+	  });
+
+	  // Populate textarea with selected example source, then render
+	  document.getElementById('pg-edit').value = {{System.Text.Json.JsonSerializer.Serialize(initialSource)}};
+	  pgRender();
+	</script>
+	""";
+
+// 12-color Tableau sequence — mirrors CategoricalPalette.cs (src/Mermaider/Rendering/CategoricalPalette.cs)
+string PaletteSwatches()
+{
+	string[] colors =
+	[
+		"#4e79a7", "#f28e2b", "#e15759", "#76b7b2",
+		"#59a14f", "#edc948", "#b07aa1", "#ff9da7",
+		"#9c755f", "#bab0ac", "#86bcb6", "#8cd17d",
+	];
+	return string.Join("", colors.Select(c =>
+		$"<div class=\"palette-swatch\" style=\"background:{c}\" title=\"{c}\"></div>"));
+}
+
+string ThemesJson()
+{
+	var entries = Themes.BuiltIn.Select(kv =>
+	{
+		var c = kv.Value;
+		var parts = new List<string> { $"\"bg\":\"{c.Bg}\"", $"\"fg\":\"{c.Fg}\"" };
+		if (c.Accent is not null)
+			parts.Add($"\"accent\":\"{c.Accent}\"");
+		if (c.Line is not null)
+			parts.Add($"\"line\":\"{c.Line}\"");
+		if (c.Muted is not null)
+			parts.Add($"\"muted\":\"{c.Muted}\"");
+		return $"\"{kv.Key}\":{{{string.Join(",", parts)}}}";
+	});
+	return "{" + string.Join(",", entries) + "}";
 }
 
 string RenderThemeBar(string? theme, string engine, string basePath, string? p1 = null, string? p2 = null, string? bg = null)

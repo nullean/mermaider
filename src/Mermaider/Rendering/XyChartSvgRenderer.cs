@@ -21,15 +21,10 @@ internal static class XyChartSvgRenderer
 	private const string AxisFontSize = RenderConstants.FsVar.S;
 	private const string TickFontSize = RenderConstants.FsVar.Xs;
 
-	private static readonly string[] PlotColors =
-	[
-		"#4e79a7", "#f28e2b", "#e15759", "#76b7b2",
-		"#59a14f", "#edc948", "#b07aa1", "#ff9da7",
-	];
 
-	internal static string Render(XyChart chart, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(XyChart chart, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
-		var sb = RenderToBuilder(chart, colors, font, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(chart, colors, font, monoFont, transparent, strict, accessibility, diagramType);
 		try
 		{
 			return sb.ToString();
@@ -41,7 +36,7 @@ internal static class XyChartSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(XyChart chart, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(XyChart chart, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 		var hasTitle = chart.Title is { Length: > 0 };
@@ -64,7 +59,7 @@ internal static class XyChartSvgRenderer
 		var plotY = top;
 
 		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict);
+		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		if (hasTitle)
@@ -179,7 +174,7 @@ internal static class XyChartSvgRenderer
 		// Stable series colors in declaration order (shared by draw + legend).
 		var seriesColors = new string[chart.Series.Count];
 		for (var si = 0; si < chart.Series.Count; si++)
-			seriesColors[si] = PlotColors[si % PlotColors.Length];
+			seriesColors[si] = CategoricalPalette.At(si);
 
 		var barSeriesIdx = new List<int>();
 		for (var si = 0; si < chart.Series.Count; si++)

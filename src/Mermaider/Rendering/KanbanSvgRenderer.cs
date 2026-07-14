@@ -34,15 +34,15 @@ internal static class KanbanSvgRenderer
 	private const string CardFontSize = RenderConstants.FsVar.S;
 	private const string MetaFontSize = RenderConstants.FsVar.Xs;
 
-	// Priority colors (categorical data palette — sanctioned exception to the no-hex rule)
-	private const string PriorityVeryHigh = "#e15759";
-	private const string PriorityHigh = "#f28e2b";
-	private const string PriorityLow = "#59a14f";
-	private const string PriorityVeryLow = "#9ca3af";
+	// Priority colors — from the single shared categorical palette
+	private static readonly string PriorityVeryHigh = CategoricalPalette.Red;
+	private static readonly string PriorityHigh = CategoricalPalette.Orange;
+	private static readonly string PriorityLow = CategoricalPalette.Green;
+	private const string PriorityVeryLow = "var(--_text-muted)";
 
-	internal static string Render(KanbanDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(KanbanDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
 		try
 		{
 			return sb.ToString();
@@ -54,7 +54,7 @@ internal static class KanbanSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(KanbanDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(KanbanDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
@@ -64,7 +64,7 @@ internal static class KanbanSvgRenderer
 		if (diagram.Columns.Count == 0)
 		{
 			StyleBlock.AppendSvgOpenTag(sb, 200, 100 + titleOffset, colors, transparent, accessibility, diagramType);
-			StyleBlock.AppendStyleBlock(sb, font, strict);
+			StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 			if (hasTitle)
 				AppendBoardTitle(sb, diagram.Title!, 100, 28);
 			_ = sb.Append("\n</svg>");
@@ -115,7 +115,7 @@ internal static class KanbanSvgRenderer
 		var height = titleOffset + Pad + maxColumnHeight + Pad;
 
 		StyleBlock.AppendSvgOpenTag(sb, totalWidth, height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict);
+		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		if (hasTitle)

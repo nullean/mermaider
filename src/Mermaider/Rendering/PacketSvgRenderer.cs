@@ -21,18 +21,16 @@ internal static class PacketSvgRenderer
 	private const string LabelFontSize = RenderConstants.FsVar.S;
 	private const string BitFontSize = RenderConstants.FsVar.Xs;
 
-	// Fixed light fills for packet blocks (not theme-derived).
-	private static readonly string[] BlockFills =
-	[
-		"#e8f0fe", "#fef3e8", "#f0e8fe", "#e8fef0",
-		"#fee8e8", "#fefee8", "#e8fefe", "#f5e8fe",
-	];
+	// Block fills are light tints of the categorical palette mixed against the theme background,
+	// keeping a pastel look while following the theme and the shared palette.
+	private static string BlockFill(int index) =>
+		$"color-mix(in srgb, {CategoricalPalette.At(index)} 18%, var(--bg))";
 
 	private readonly record struct Segment(int Start, int End, string Label, int ColorIndex);
 
-	internal static string Render(PacketDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(PacketDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
 		try
 		{
 			return sb.ToString();
@@ -44,7 +42,7 @@ internal static class PacketSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(PacketDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(PacketDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
@@ -61,7 +59,7 @@ internal static class PacketSvgRenderer
 		var height = titleOffset + (totalRowHeight * rowCount) + PaddingY + 8;
 
 		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict);
+		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		if (hasTitle)
@@ -132,7 +130,7 @@ internal static class PacketSvgRenderer
 		if (width < 1)
 			width = 1;
 
-		var fill = BlockFills[seg.ColorIndex % BlockFills.Length];
+		var fill = BlockFill(seg.ColorIndex);
 
 		_ = sb.Append("\n<rect x=\"").Append(blockX.SvgFormat())
 			.Append("\" y=\"").Append(wordY.SvgFormat())

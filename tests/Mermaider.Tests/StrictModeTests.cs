@@ -231,4 +231,124 @@ public class StrictModeTests
 		var svg = MermaidRenderer.RenderSvg(input, options);
 		svg.Should().Contain("</svg>");
 	}
+
+	// ========================================================================
+	// A1 — source-authored theme / themeVariables rejected under strict mode
+	// ========================================================================
+
+	[Test]
+	public void Rejects_init_themeVariables_in_strict_mode()
+	{
+		var input = """
+			%%{init: {"themeVariables": {"primaryColor": "#ff0000"}}}%%
+			graph TD
+			  A --> B
+			""";
+		var options = new RenderOptions { Strict = DefaultStrict };
+
+		var act = () => MermaidRenderer.RenderSvg(input, options);
+
+		act.Should().Throw<MermaidParseException>()
+			.WithMessage("*Strict mode*theme*");
+	}
+
+	[Test]
+	public void Rejects_init_theme_in_strict_mode()
+	{
+		var input = """
+			%%{init: {"theme": "dark"}}%%
+			graph TD
+			  A --> B
+			""";
+		var options = new RenderOptions { Strict = DefaultStrict };
+
+		var act = () => MermaidRenderer.RenderSvg(input, options);
+
+		act.Should().Throw<MermaidParseException>()
+			.WithMessage("*Strict mode*theme*");
+	}
+
+	[Test]
+	public void Allows_title_only_frontmatter_in_strict_mode()
+	{
+		var input = """
+			---
+			title: My Diagram
+			---
+			graph TD
+			  A --> B
+			""";
+		var options = new RenderOptions { Strict = DefaultStrict };
+
+		var act = () => MermaidRenderer.RenderSvg(input, options);
+
+		act.Should().NotThrow();
+	}
+
+	// ========================================================================
+	// A2 — linkStyle and Update*Style rejected under strict mode
+	// ========================================================================
+
+	[Test]
+	public void Rejects_linkStyle_in_strict_mode()
+	{
+		var input = """
+			graph TD
+			  A --> B
+			  linkStyle 0 stroke:#f00
+			""";
+		var options = new RenderOptions { Strict = DefaultStrict };
+
+		var act = () => MermaidRenderer.RenderSvg(input, options);
+
+		act.Should().Throw<MermaidParseException>()
+			.WithMessage("*linkStyle*not allowed*");
+	}
+
+	[Test]
+	public void Rejects_UpdateElementStyle_in_strict_mode()
+	{
+		var input = """
+			C4Context
+			Person(user, "User")
+			UpdateElementStyle(user, $fontColor="red")
+			""";
+		var options = new RenderOptions { Strict = DefaultStrict };
+
+		var act = () => MermaidRenderer.RenderSvg(input, options);
+
+		act.Should().Throw<MermaidParseException>()
+			.WithMessage("*Update*Style*not allowed*");
+	}
+
+	[Test]
+	public void Rejects_UpdateRelStyle_in_strict_mode()
+	{
+		var input = """
+			C4Context
+			Person(user, "User")
+			UpdateRelStyle(user, user, $lineColor="red")
+			""";
+		var options = new RenderOptions { Strict = DefaultStrict };
+
+		var act = () => MermaidRenderer.RenderSvg(input, options);
+
+		act.Should().Throw<MermaidParseException>()
+			.WithMessage("*Update*Style*not allowed*");
+	}
+
+	[Test]
+	public void Does_not_reject_linkStyle_without_strict()
+	{
+		// Without strict mode, linkStyle is parsed/silently handled or ignored
+		var input = """
+			graph TD
+			  A --> B
+			  linkStyle 0 stroke:#f00
+			""";
+
+		var act = () => MermaidRenderer.RenderSvg(input);
+
+		act.Should().NotThrow();
+	}
 }

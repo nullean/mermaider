@@ -14,16 +14,10 @@ internal static class TreemapSvgRenderer
 	private const string ValueFontSize = RenderConstants.FsVar.Xs;
 	private const double HeaderHeight = 20;
 
-	private static readonly string[] NodeColors =
-	[
-		"#4e79a7", "#f28e2b", "#e15759", "#76b7b2",
-		"#59a14f", "#edc948", "#b07aa1", "#ff9da7",
-		"#9c755f", "#bab0ac",
-	];
 
-	internal static string Render(TreemapDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(TreemapDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
 		try
 		{
 			return sb.ToString();
@@ -35,12 +29,12 @@ internal static class TreemapSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(TreemapDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(TreemapDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
 		StyleBlock.AppendSvgOpenTag(sb, ChartWidth, ChartHeight, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict);
+		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		var allNodes = diagram.Roots;
@@ -99,7 +93,7 @@ internal static class TreemapSvgRenderer
 				rh = h * fraction;
 			}
 
-			var color = NodeColors[rects.Count % NodeColors.Length];
+			var color = CategoricalPalette.At(rects.Count);
 			rects.Add(new TreeRect(cx + Padding, cy + Padding, rw - (Padding * 2), rh - (Padding * 2), node.Label, node.ComputedValue, color, depth));
 
 			if (node.Children.Count > 0)
@@ -135,7 +129,7 @@ internal static class TreemapSvgRenderer
 			var textY = rect.Y + 12;
 			_ = sb.Append("\n<text x=\"").Append(textX.SvgFormat()).Append("\" y=\"").Append(textY.SvgFormat())
 				.Append("\" text-anchor=\"middle\" font-size=\"").Append(LabelFontSize)
-				.Append("\" font-weight=\"600\" fill=\"#fff\">");
+				.Append("\" font-weight=\"600\" fill=\"").Append(ColorUtils.ContrastText(rect.Color)).Append("\">");
 			MultilineUtils.AppendEscapedXml(sb, rect.Label.AsSpan());
 			_ = sb.Append("</text>");
 
@@ -143,7 +137,7 @@ internal static class TreemapSvgRenderer
 			{
 				_ = sb.Append("\n<text x=\"").Append(textX.SvgFormat()).Append("\" y=\"").Append((textY + 14).SvgFormat())
 					.Append("\" text-anchor=\"middle\" font-size=\"").Append(ValueFontSize)
-					.Append("\" fill=\"rgba(255,255,255,0.8)\">");
+					.Append("\" fill=\"").Append(ColorUtils.ContrastText(rect.Color)).Append("\" opacity=\"0.8\">");
 				_ = sb.Append(rect.Value.SvgFormat());
 				_ = sb.Append("</text>");
 			}

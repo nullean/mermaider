@@ -24,9 +24,9 @@ internal static class QuadrantSvgRenderer
 		"color-mix(in srgb, var(--accent, var(--fg)) 6%, var(--bg))",
 	];
 
-	internal static string Render(QuadrantChart chart, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(QuadrantChart chart, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
-		var sb = RenderToBuilder(chart, colors, font, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(chart, colors, font, monoFont, transparent, strict, accessibility, diagramType);
 		try
 		{
 			return sb.ToString();
@@ -38,7 +38,7 @@ internal static class QuadrantSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(QuadrantChart chart, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(QuadrantChart chart, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
@@ -57,7 +57,7 @@ internal static class QuadrantSvgRenderer
 		var half = ChartSize / 2;
 
 		StyleBlock.AppendSvgOpenTag(sb, totalWidth, totalHeight, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict);
+		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		if (hasTitle)

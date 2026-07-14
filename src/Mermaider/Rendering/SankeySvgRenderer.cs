@@ -15,12 +15,6 @@ internal static class SankeySvgRenderer
 	private const double LabelPad = 8;
 	private const string LabelFontSize = RenderConstants.FsVar.S;
 
-	private static readonly string[] NodeColors =
-	[
-		"#4e79a7", "#f28e2b", "#e15759", "#76b7b2",
-		"#59a14f", "#edc948", "#b07aa1", "#ff9da7",
-		"#9c755f", "#bab0ac", "#86bcb6", "#8cd17d",
-	];
 
 	private sealed class NodeLayout
 	{
@@ -31,7 +25,7 @@ internal static class SankeySvgRenderer
 		public double Y1 { get; set; }
 		public double X0 { get; set; }
 		public double X1 { get; set; }
-		public string Color { get; set; } = NodeColors[0];
+		public string Color { get; set; } = CategoricalPalette.Blue;
 		public double OutCursor { get; set; }
 		public double InCursor { get; set; }
 	}
@@ -48,9 +42,9 @@ internal static class SankeySvgRenderer
 		public int Index { get; set; }
 	}
 
-	internal static string Render(SankeyDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(SankeyDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
 		try
 		{
 			return sb.ToString();
@@ -62,14 +56,14 @@ internal static class SankeySvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(SankeyDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(SankeyDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
 		if (diagram.Links.Count == 0)
 		{
 			StyleBlock.AppendSvgOpenTag(sb, 320, 120, colors, transparent, accessibility, diagramType);
-			StyleBlock.AppendStyleBlock(sb, font, strict);
+			StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 			_ = sb.Append("\n</svg>");
 			return sb;
 		}
@@ -79,7 +73,7 @@ internal static class SankeySvgRenderer
 		var height = DefaultHeight;
 
 		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict);
+		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 
 		// Emit gradient defs, one per link
 		_ = sb.Append("\n<defs>");
@@ -211,7 +205,7 @@ internal static class SankeySvgRenderer
 		// Color nodes
 		var colorIdx = 0;
 		foreach (var n in nodes.Values.OrderBy(n => n.Name, StringComparer.Ordinal))
-			n.Color = NodeColors[colorIdx++ % NodeColors.Length];
+			n.Color = CategoricalPalette.At(colorIdx++);
 
 		// Horizontal positions
 		var chartW = DefaultWidth - (Margin * 2) - 120; // leave room for labels

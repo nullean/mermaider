@@ -20,9 +20,9 @@ internal static class SvgRenderer
 
 	private static readonly string GroupHeaderAttrs = TextAttrs.GroupHeaderFill + "var(--_text-sec)\"";
 
-	internal static string Render(PositionedGraph graph, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null, double edgeCornerRadius = 6)
+	internal static string Render(PositionedGraph graph, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null, double edgeCornerRadius = 6)
 	{
-		var sb = RenderToBuilder(graph, colors, font, transparent, strict, accessibility, diagramType, edgeCornerRadius);
+		var sb = RenderToBuilder(graph, colors, font, monoFont, transparent, strict, accessibility, diagramType, edgeCornerRadius);
 		try
 		{
 			return sb.ToString();
@@ -34,11 +34,11 @@ internal static class SvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(PositionedGraph graph, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null, double edgeCornerRadius = 6)
+	internal static StringBuilder RenderToBuilder(PositionedGraph graph, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null, double edgeCornerRadius = 6)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 		StyleBlock.AppendSvgOpenTag(sb, graph.Width, graph.Height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict);
+		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 		AppendArrowDefs(sb);
 
 		foreach (var group in graph.Groups)

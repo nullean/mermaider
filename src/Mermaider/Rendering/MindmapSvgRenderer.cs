@@ -16,15 +16,10 @@ internal static class MindmapSvgRenderer
 	private const string RootFontSize = RenderConstants.FsVar.L;
 	private const double RootFontSizePx = 16;
 
-	private static readonly string[] NodeColors =
-	[
-		"#4e79a7", "#f28e2b", "#e15759", "#76b7b2",
-		"#59a14f", "#edc948", "#b07aa1", "#ff9da7",
-	];
 
-	internal static string Render(MindmapDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(MindmapDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
 		try
 		{
 			return sb.ToString();
@@ -36,7 +31,7 @@ internal static class MindmapSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(MindmapDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(MindmapDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
@@ -59,7 +54,7 @@ internal static class MindmapSvgRenderer
 		var height = maxY + 40;
 
 		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict);
+		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		foreach (var node in positioned)
@@ -86,7 +81,7 @@ internal static class MindmapSvgRenderer
 		var textWidth = TextMetrics.MeasureTextWidth(node.Label, fontSizePx, 600);
 		var w = textWidth + (NodePadX * 2);
 		var h = fontSizePx + (NodePadY * 2);
-		var color = NodeColors[depth % NodeColors.Length];
+		var color = CategoricalPalette.At(depth);
 
 		if (node.Children.Count == 0)
 		{
@@ -184,7 +179,7 @@ internal static class MindmapSvgRenderer
 		_ = sb.Append("\n<text x=\"").Append(cx.SvgFormat()).Append("\" y=\"").Append(cy.SvgFormat())
 			.Append("\" text-anchor=\"middle\" dy=\"0.35em\" font-size=\"").Append(fontSize)
 			.Append("\" font-weight=\"").Append(node.Depth == 0 ? "700" : "500")
-			.Append("\" fill=\"#fff\">");
+			.Append("\" fill=\"").Append(ColorUtils.ContrastText(node.Color)).Append("\">");
 		MultilineUtils.AppendEscapedXml(sb, node.Label.AsSpan());
 		_ = sb.Append("</text>");
 	}

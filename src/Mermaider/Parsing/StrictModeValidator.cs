@@ -19,6 +19,12 @@ internal static partial class StrictModeValidator
 	[GeneratedRegex(@"^style\s+", RegexOptions.None, TimeoutMs)]
 	private static partial Regex StyleDirective();
 
+	[GeneratedRegex(@"^linkStyle\b", RegexOptions.None, TimeoutMs)]
+	private static partial Regex LinkStyleDirective();
+
+	[GeneratedRegex(@"^Update\w*Style\b", RegexOptions.None, TimeoutMs)]
+	private static partial Regex UpdateStyleDirective();
+
 	[GeneratedRegex(@"^class\s+[\w,-]+\s+(\w+)\s*$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex ClassAssignDirective();
 
@@ -42,6 +48,16 @@ internal static partial class StrictModeValidator
 				throw new MermaidParseException(
 					$"Strict mode: 'style' directives are not allowed (line {i + 1}: \"{line}\"). " +
 					"Use pre-defined allowed classes instead.");
+
+			if (LinkStyleDirective().IsMatch(line))
+				throw new MermaidParseException(
+					$"Strict mode: 'linkStyle' directives are not allowed (line {i + 1}: \"{line}\"). " +
+					"Edge styling must come from the host design system.");
+
+			if (UpdateStyleDirective().IsMatch(line))
+				throw new MermaidParseException(
+					$"Strict mode: C4 'Update*Style' directives are not allowed (line {i + 1}: \"{line}\"). " +
+					"Element styling must come from the host design system.");
 
 			if (strict.RejectUnknownClasses)
 			{

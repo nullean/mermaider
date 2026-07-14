@@ -23,9 +23,9 @@ internal static class SequenceSvgRenderer
 		RenderConstants.TextAttrs.SeqBlockTabFill + "var(--_text-sec)\"";
 
 
-	internal static string Render(PositionedSequenceDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(PositionedSequenceDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
 		try
 		{
 			return sb.ToString();
@@ -37,11 +37,11 @@ internal static class SequenceSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(PositionedSequenceDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(PositionedSequenceDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 		StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict);
+		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 		AppendArrowDefs(sb);
 
 		foreach (var box in diagram.Boxes)

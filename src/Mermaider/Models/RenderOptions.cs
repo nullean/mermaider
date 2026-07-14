@@ -29,6 +29,12 @@ public sealed record RenderOptions
 	/// <summary>Font family for all text. Default: "Inter".</summary>
 	public string? Font { get; init; }
 
+	/// <summary>
+	/// Monospace font family for code-style text (e.g. ER attribute types, Class member signatures).
+	/// When null, falls back to the built-in system monospace stack.
+	/// </summary>
+	public string? MonoFont { get; init; }
+
 	/// <summary>Base font size (--fs-m). Accepts any CSS unit: "1rem", "16px", "1em". Default: "1rem".</summary>
 	public string? FontSize { get; init; }
 

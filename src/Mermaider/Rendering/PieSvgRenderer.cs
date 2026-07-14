@@ -18,16 +18,10 @@ internal static class PieSvgRenderer
 	private const string LegendFontSize = RenderConstants.FsVar.S;
 	private const double TextPosition = 0.75;
 
-	private static readonly string[] SliceColors =
-	[
-		"#4e79a7", "#f28e2b", "#e15759", "#76b7b2",
-		"#59a14f", "#edc948", "#b07aa1", "#ff9da7",
-		"#9c755f", "#bab0ac",
-	];
 
-	internal static string Render(PieChart chart, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(PieChart chart, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
-		var sb = RenderToBuilder(chart, colors, font, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(chart, colors, font, monoFont, transparent, strict, accessibility, diagramType);
 		try
 		{
 			return sb.ToString();
@@ -39,7 +33,7 @@ internal static class PieSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(PieChart chart, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(PieChart chart, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
@@ -57,7 +51,7 @@ internal static class PieSvgRenderer
 		var width = LegendX + 200;
 
 		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict);
+		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		if (hasTitle)
@@ -81,10 +75,10 @@ internal static class PieSvgRenderer
 			var slice = chart.Slices[i];
 			var fraction = slice.Value / total;
 			var sweepAngle = fraction * 2 * Math.PI;
-			var color = SliceColors[i % SliceColors.Length];
+			var color = CategoricalPalette.At(i);
 
 			AppendSlice(sb, centerY, startAngle, sweepAngle, color);
-			AppendSliceLabel(sb, fraction, centerY, startAngle, sweepAngle);
+			AppendSliceLabel(sb, fraction, centerY, startAngle, sweepAngle, color);
 
 			startAngle += sweepAngle;
 		}
@@ -123,7 +117,7 @@ internal static class PieSvgRenderer
 
 	private static void AppendSliceLabel(
 		StringBuilder sb, double fraction,
-		double centerY, double startAngle, double sweepAngle)
+		double centerY, double startAngle, double sweepAngle, string sliceColor)
 	{
 		var pct = fraction * 100;
 		if (pct < 3)
@@ -136,7 +130,8 @@ internal static class PieSvgRenderer
 
 		_ = sb.Append("\n<text x=\"").Append(lx.SvgFormat()).Append("\" y=\"").Append(ly.SvgFormat())
 			.Append("\" text-anchor=\"middle\" dy=\"0.35em\" font-size=\"")
-			.Append(LabelFontSize).Append("\" font-weight=\"600\" fill=\"#fff\">");
+			.Append(LabelFontSize).Append("\" font-weight=\"600\" fill=\"")
+			.Append(ColorUtils.ContrastText(sliceColor)).Append("\">");
 
 		_ = sb.Append(pct.SvgFormat()).Append('%');
 		_ = sb.Append("</text>");
@@ -147,7 +142,7 @@ internal static class PieSvgRenderer
 		for (var i = 0; i < chart.Slices.Count; i++)
 		{
 			var slice = chart.Slices[i];
-			var color = SliceColors[i % SliceColors.Length];
+			var color = CategoricalPalette.At(i);
 			var y = legendTop + (i * LegendRowHeight);
 
 			_ = sb.Append("\n<rect x=\"").Append(LegendX.SvgFormat()).Append("\" y=\"").Append(y.SvgFormat())
