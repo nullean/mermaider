@@ -62,7 +62,7 @@ internal static class RadarSvgRenderer
 
 		if (hasTitle)
 		{
-			_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(CenterX))
+			_ = sb.Append("\n<text x=\"").Append(CenterX.SvgFormat())
 				.Append("\" y=\"28\" text-anchor=\"middle\" font-size=\"")
 				.Append(TitleFontSize).Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
 			MultilineUtils.AppendEscapedXml(sb, chart.Title.AsSpan());
@@ -95,8 +95,8 @@ internal static class RadarSvgRenderer
 
 			if (chart.Graticule == RadarGraticule.Circle)
 			{
-				_ = sb.Append("\n<circle cx=\"").Append(SvgFormat.F(CenterX)).Append("\" cy=\"").Append(SvgFormat.F(centerY))
-					.Append("\" r=\"").Append(SvgFormat.F(r))
+				_ = sb.Append("\n<circle cx=\"").Append(CenterX.SvgFormat()).Append("\" cy=\"").Append(centerY.SvgFormat())
+					.Append("\" r=\"").Append(r.SvgFormat())
 					.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"0.5\" opacity=\"0.5\" />");
 			}
 			else
@@ -107,7 +107,7 @@ internal static class RadarSvgRenderer
 					var angle = (2 * Math.PI * i / n) - (Math.PI / 2);
 					if (i > 0)
 						_ = sb.Append(' ');
-					_ = sb.Append(SvgFormat.F(CenterX + (r * Math.Cos(angle)))).Append(',').Append(SvgFormat.F(centerY + (r * Math.Sin(angle))));
+					_ = sb.Append((CenterX + (r * Math.Cos(angle))).SvgFormat()).Append(',').Append((centerY + (r * Math.Sin(angle))).SvgFormat());
 				}
 				_ = sb.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"0.5\" opacity=\"0.5\" />");
 			}
@@ -122,8 +122,8 @@ internal static class RadarSvgRenderer
 			var tipX = CenterX + (Radius * Math.Cos(angle));
 			var tipY = centerY + (Radius * Math.Sin(angle));
 
-			_ = sb.Append("\n<line x1=\"").Append(SvgFormat.F(CenterX)).Append("\" y1=\"").Append(SvgFormat.F(centerY))
-				.Append("\" x2=\"").Append(SvgFormat.F(tipX)).Append("\" y2=\"").Append(SvgFormat.F(tipY))
+			_ = sb.Append("\n<line x1=\"").Append(CenterX.SvgFormat()).Append("\" y1=\"").Append(centerY.SvgFormat())
+				.Append("\" x2=\"").Append(tipX.SvgFormat()).Append("\" y2=\"").Append(tipY.SvgFormat())
 				.Append("\" stroke=\"var(--_line)\" stroke-width=\"0.5\" opacity=\"0.5\" />");
 
 			var labelR = Radius + LabelPad;
@@ -133,7 +133,7 @@ internal static class RadarSvgRenderer
 				: Math.Cos(angle) > 0 ? "start"
 				: "end";
 
-			_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(lx)).Append("\" y=\"").Append(SvgFormat.F(ly))
+			_ = sb.Append("\n<text x=\"").Append(lx.SvgFormat()).Append("\" y=\"").Append(ly.SvgFormat())
 				.Append("\" text-anchor=\"").Append(anchor)
 				.Append("\" dy=\"0.35em\" font-size=\"").Append(AxisLabelFontSize)
 				.Append("\" fill=\"var(--_text-sec)\">");
@@ -158,9 +158,9 @@ internal static class RadarSvgRenderer
 
 			if (i > 0)
 				_ = sb.Append(' ');
-			_ = sb.Append(SvgFormat.F(CenterX + (r * Math.Cos(angle)))).Append(',').Append(SvgFormat.F(centerY + (r * Math.Sin(angle))));
+			_ = sb.Append((CenterX + (r * Math.Cos(angle))).SvgFormat()).Append(',').Append((centerY + (r * Math.Sin(angle))).SvgFormat());
 		}
-		_ = sb.Append("\" fill=\"").Append(color).Append("\" fill-opacity=\"").Append(SvgFormat.F(CurveOpacity))
+		_ = sb.Append("\" fill=\"").Append(color).Append("\" fill-opacity=\"").Append(CurveOpacity.SvgFormat())
 			.Append("\" stroke=\"").Append(color).Append("\" stroke-width=\"2\" />");
 
 		for (var i = 0; i < n; i++)
@@ -172,7 +172,7 @@ internal static class RadarSvgRenderer
 			var px = CenterX + (r * Math.Cos(angle));
 			var py = centerY + (r * Math.Sin(angle));
 
-			_ = sb.Append("\n<circle cx=\"").Append(SvgFormat.F(px)).Append("\" cy=\"").Append(SvgFormat.F(py))
+			_ = sb.Append("\n<circle cx=\"").Append(px.SvgFormat()).Append("\" cy=\"").Append(py.SvgFormat())
 				.Append("\" r=\"3\" fill=\"").Append(color).Append("\" />");
 		}
 	}
@@ -186,11 +186,11 @@ internal static class RadarSvgRenderer
 			var color = CurveColors[i % CurveColors.Length];
 			var y = legendTop + (i * LegendRowHeight);
 
-			_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(legendX)).Append("\" y=\"").Append(SvgFormat.F(y))
+			_ = sb.Append("\n<rect x=\"").Append(legendX.SvgFormat()).Append("\" y=\"").Append(y.SvgFormat())
 				.Append("\" width=\"").Append(LegendSwatchSize).Append("\" height=\"").Append(LegendSwatchSize)
 				.Append("\" rx=\"2\" ry=\"2\" fill=\"").Append(color).Append("\" />");
 
-			_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(legendX + LegendSwatchSize + 6)).Append("\" y=\"").Append(SvgFormat.F(y + (LegendSwatchSize / 2)))
+			_ = sb.Append("\n<text x=\"").Append((legendX + LegendSwatchSize + 6).SvgFormat()).Append("\" y=\"").Append((y + (LegendSwatchSize / 2)).SvgFormat())
 				.Append("\" dy=\"0.35em\" font-size=\"").Append(LegendFontSize)
 				.Append("\" fill=\"var(--_text)\">");
 			MultilineUtils.AppendEscapedXml(sb, curve.Label.AsSpan());

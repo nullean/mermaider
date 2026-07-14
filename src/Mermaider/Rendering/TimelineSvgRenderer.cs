@@ -78,7 +78,7 @@ internal static class TimelineSvgRenderer
 
 		if (hasTitle)
 		{
-			_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(width / 2))
+			_ = sb.Append("\n<text x=\"").Append((width / 2).SvgFormat())
 				.Append("\" y=\"28\" text-anchor=\"middle\" font-size=\"")
 				.Append(TitleFontSize).Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
 			MultilineUtils.AppendEscapedXml(sb, diagram.Title.AsSpan());
@@ -98,15 +98,15 @@ internal static class TimelineSvgRenderer
 
 			if (section.Name is { Length: > 0 })
 			{
-				_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(sectionStartX - SectionPadX))
-					.Append("\" y=\"").Append(SvgFormat.F(axisTop - 30))
-					.Append("\" width=\"").Append(SvgFormat.F(sectionWidth + (SectionPadX * 2)))
-					.Append("\" height=\"").Append(SvgFormat.F(height - axisTop + 20))
+				_ = sb.Append("\n<rect x=\"").Append((sectionStartX - SectionPadX).SvgFormat())
+					.Append("\" y=\"").Append((axisTop - 30).SvgFormat())
+					.Append("\" width=\"").Append((sectionWidth + (SectionPadX * 2)).SvgFormat())
+					.Append("\" height=\"").Append((height - axisTop + 20).SvgFormat())
 					.Append("\" rx=\"6\" ry=\"6\" fill=\"").Append(color)
 					.Append("\" opacity=\"0.08\" />");
 
-				_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(sectionStartX + (sectionWidth / 2)))
-					.Append("\" y=\"").Append(SvgFormat.F(axisTop - 16))
+				_ = sb.Append("\n<text x=\"").Append((sectionStartX + (sectionWidth / 2)).SvgFormat())
+					.Append("\" y=\"").Append((axisTop - 16).SvgFormat())
 					.Append("\" text-anchor=\"middle\" font-size=\"").Append(SectionFontSize)
 					.Append("\" font-weight=\"600\" fill=\"").Append(color).Append("\">");
 				MultilineUtils.AppendEscapedXml(sb, section.Name.AsSpan());
@@ -125,8 +125,8 @@ internal static class TimelineSvgRenderer
 
 		var lineStartX = 40 + (PeriodWidth / 2) - 10;
 		var lineEndX = 40 + ((totalPeriods - 1) * (PeriodWidth + PeriodGap)) + (PeriodWidth / 2) + 10;
-		_ = sb.Append("\n<line x1=\"").Append(SvgFormat.F(lineStartX)).Append("\" y1=\"").Append(SvgFormat.F(axisTop))
-			.Append("\" x2=\"").Append(SvgFormat.F(lineEndX)).Append("\" y2=\"").Append(SvgFormat.F(axisTop))
+		_ = sb.Append("\n<line x1=\"").Append(lineStartX.SvgFormat()).Append("\" y1=\"").Append(axisTop.SvgFormat())
+			.Append("\" x2=\"").Append(lineEndX.SvgFormat()).Append("\" y2=\"").Append(axisTop.SvgFormat())
 			.Append("\" stroke=\"var(--_line)\" stroke-width=\"2\" />");
 
 		_ = sb.Append("\n</svg>");
@@ -135,11 +135,11 @@ internal static class TimelineSvgRenderer
 
 	private static void AppendPeriod(StringBuilder sb, TimelinePeriod period, double cx, double axisTop, string color)
 	{
-		_ = sb.Append("\n<circle cx=\"").Append(SvgFormat.F(cx)).Append("\" cy=\"").Append(SvgFormat.F(axisTop))
+		_ = sb.Append("\n<circle cx=\"").Append(cx.SvgFormat()).Append("\" cy=\"").Append(axisTop.SvgFormat())
 			.Append("\" r=\"").Append(MarkerRadius)
 			.Append("\" fill=\"").Append(color).Append("\" stroke=\"var(--bg)\" stroke-width=\"2\" />");
 
-		_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(cx)).Append("\" y=\"").Append(SvgFormat.F(axisTop - 14))
+		_ = sb.Append("\n<text x=\"").Append(cx.SvgFormat()).Append("\" y=\"").Append((axisTop - 14).SvgFormat())
 			.Append("\" text-anchor=\"middle\" font-size=\"").Append(PeriodFontSize)
 			.Append("\" font-weight=\"600\" fill=\"var(--_text)\">");
 		MultilineUtils.AppendEscapedXml(sb, period.Label.AsSpan());
@@ -151,12 +151,12 @@ internal static class TimelineSvgRenderer
 			var boxX = cx - (PeriodWidth / 2) + 10;
 			var boxW = PeriodWidth - 20;
 
-			_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(boxX)).Append("\" y=\"").Append(SvgFormat.F(eventY))
-				.Append("\" width=\"").Append(SvgFormat.F(boxW)).Append("\" height=\"").Append(EventBoxHeight)
+			_ = sb.Append("\n<rect x=\"").Append(boxX.SvgFormat()).Append("\" y=\"").Append(eventY.SvgFormat())
+				.Append("\" width=\"").Append(boxW.SvgFormat()).Append("\" height=\"").Append(EventBoxHeight)
 				.Append("\" rx=\"6\" ry=\"6\" fill=\"").Append(color)
 				.Append("\" opacity=\"0.15\" />");
 
-			_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(cx)).Append("\" y=\"").Append(SvgFormat.F(eventY + (EventBoxHeight / 2)))
+			_ = sb.Append("\n<text x=\"").Append(cx.SvgFormat()).Append("\" y=\"").Append((eventY + (EventBoxHeight / 2)).SvgFormat())
 				.Append("\" text-anchor=\"middle\" dy=\"0.35em\" font-size=\"").Append(EventFontSize)
 				.Append("\" fill=\"var(--_text)\">");
 			MultilineUtils.AppendEscapedXml(sb, evt.AsSpan());

@@ -127,10 +127,10 @@ internal static class MindmapSvgRenderer
 	private static void AppendLink(StringBuilder sb, double x1, double y1, double x2, double y2, string color)
 	{
 		var midX = (x1 + x2) / 2;
-		_ = sb.Append("\n<path d=\"M ").Append(SvgFormat.F(x1)).Append(' ').Append(SvgFormat.F(y1))
-			.Append(" C ").Append(SvgFormat.F(midX)).Append(' ').Append(SvgFormat.F(y1))
-			.Append(' ').Append(SvgFormat.F(midX)).Append(' ').Append(SvgFormat.F(y2))
-			.Append(' ').Append(SvgFormat.F(x2)).Append(' ').Append(SvgFormat.F(y2))
+		_ = sb.Append("\n<path d=\"M ").Append(x1.SvgFormat()).Append(' ').Append(y1.SvgFormat())
+			.Append(" C ").Append(midX.SvgFormat()).Append(' ').Append(y1.SvgFormat())
+			.Append(' ').Append(midX.SvgFormat()).Append(' ').Append(y2.SvgFormat())
+			.Append(' ').Append(x2.SvgFormat()).Append(' ').Append(y2.SvgFormat())
 			.Append("\" fill=\"none\" stroke=\"").Append(color)
 			.Append("\" stroke-width=\"2\" opacity=\"0.5\" />");
 	}
@@ -146,8 +146,8 @@ internal static class MindmapSvgRenderer
 		{
 			case MindmapShape.Circle:
 				var r = Math.Max(node.W, node.H) / 2;
-				_ = sb.Append("\n<circle cx=\"").Append(SvgFormat.F(cx)).Append("\" cy=\"").Append(SvgFormat.F(cy))
-					.Append("\" r=\"").Append(SvgFormat.F(r))
+				_ = sb.Append("\n<circle cx=\"").Append(cx.SvgFormat()).Append("\" cy=\"").Append(cy.SvgFormat())
+					.Append("\" r=\"").Append(r.SvgFormat())
 					.Append("\" fill=\"").Append(node.Color)
 					.Append("\" opacity=\"").Append(opacity).Append("\" />");
 				break;
@@ -156,32 +156,32 @@ internal static class MindmapSvgRenderer
 				var hy = node.H / 2;
 				var inset = hy * 0.6;
 				_ = sb.Append("\n<polygon points=\"")
-					.Append(SvgFormat.F(node.X + inset)).Append(',').Append(SvgFormat.F(node.Y)).Append(' ')
-					.Append(SvgFormat.F(node.X + node.W - inset)).Append(',').Append(SvgFormat.F(node.Y)).Append(' ')
-					.Append(SvgFormat.F(node.X + node.W)).Append(',').Append(SvgFormat.F(cy)).Append(' ')
-					.Append(SvgFormat.F(node.X + node.W - inset)).Append(',').Append(SvgFormat.F(node.Y + node.H)).Append(' ')
-					.Append(SvgFormat.F(node.X + inset)).Append(',').Append(SvgFormat.F(node.Y + node.H)).Append(' ')
-					.Append(SvgFormat.F(node.X)).Append(',').Append(SvgFormat.F(cy))
+					.Append((node.X + inset).SvgFormat()).Append(',').Append(node.Y.SvgFormat()).Append(' ')
+					.Append((node.X + node.W - inset).SvgFormat()).Append(',').Append(node.Y.SvgFormat()).Append(' ')
+					.Append((node.X + node.W).SvgFormat()).Append(',').Append(cy.SvgFormat()).Append(' ')
+					.Append((node.X + node.W - inset).SvgFormat()).Append(',').Append((node.Y + node.H).SvgFormat()).Append(' ')
+					.Append((node.X + inset).SvgFormat()).Append(',').Append((node.Y + node.H).SvgFormat()).Append(' ')
+					.Append(node.X.SvgFormat()).Append(',').Append(cy.SvgFormat())
 					.Append("\" fill=\"").Append(node.Color)
 					.Append("\" opacity=\"").Append(opacity).Append("\" />");
 				break;
 			case MindmapShape.Square:
-				_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(node.X)).Append("\" y=\"").Append(SvgFormat.F(node.Y))
-					.Append("\" width=\"").Append(SvgFormat.F(node.W)).Append("\" height=\"").Append(SvgFormat.F(node.H))
+				_ = sb.Append("\n<rect x=\"").Append(node.X.SvgFormat()).Append("\" y=\"").Append(node.Y.SvgFormat())
+					.Append("\" width=\"").Append(node.W.SvgFormat()).Append("\" height=\"").Append(node.H.SvgFormat())
 					.Append("\" fill=\"").Append(node.Color)
 					.Append("\" opacity=\"").Append(opacity).Append("\" />");
 				break;
 			default:
 				var rx = node.Shape == MindmapShape.Cloud ? node.H / 2 : 8;
-				_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(node.X)).Append("\" y=\"").Append(SvgFormat.F(node.Y))
-					.Append("\" width=\"").Append(SvgFormat.F(node.W)).Append("\" height=\"").Append(SvgFormat.F(node.H))
-					.Append("\" rx=\"").Append(SvgFormat.F(rx)).Append("\" ry=\"").Append(SvgFormat.F(rx))
+				_ = sb.Append("\n<rect x=\"").Append(node.X.SvgFormat()).Append("\" y=\"").Append(node.Y.SvgFormat())
+					.Append("\" width=\"").Append(node.W.SvgFormat()).Append("\" height=\"").Append(node.H.SvgFormat())
+					.Append("\" rx=\"").Append(rx.SvgFormat()).Append("\" ry=\"").Append(rx.SvgFormat())
 					.Append("\" fill=\"").Append(node.Color)
 					.Append("\" opacity=\"").Append(opacity).Append("\" />");
 				break;
 		}
 
-		_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(cx)).Append("\" y=\"").Append(SvgFormat.F(cy))
+		_ = sb.Append("\n<text x=\"").Append(cx.SvgFormat()).Append("\" y=\"").Append(cy.SvgFormat())
 			.Append("\" text-anchor=\"middle\" dy=\"0.35em\" font-size=\"").Append(fontSize)
 			.Append("\" font-weight=\"").Append(node.Depth == 0 ? "700" : "500")
 			.Append("\" fill=\"#fff\">");
