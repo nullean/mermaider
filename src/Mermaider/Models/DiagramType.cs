@@ -16,5 +16,6 @@ public enum DiagramType
 	Treemap,
 	Venn,
 	Mindmap,
+	Architecture,
 	Kanban
 }

@@ -207,6 +207,10 @@ public static class MermaidRenderer
 				MindmapParser.Parse(PreprocessLinesPreserveIndent(cleaned)),
 				colors, font, transparent, strict, accessibility, diagramType),
 
+			DiagramType.Architecture => ArchitectureSvgRenderer.RenderToBuilder(
+				Layout.ArchitectureLayout.Layout(ArchitectureParser.Parse(filteredLines)),
+				colors, font, transparent, strict, accessibility, diagramType),
+
 			DiagramType.Kanban => KanbanSvgRenderer.RenderToBuilder(
 				KanbanParser.Parse(PreprocessLinesPreserveIndent(cleaned, accessibility)),
 				colors, font, transparent, strict, accessibility, diagramType),

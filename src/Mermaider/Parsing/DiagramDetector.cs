@@ -43,6 +43,9 @@ internal static partial class DiagramDetector
 	[GeneratedRegex(@"^mindmap\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex MindmapHeader();
 
+	[GeneratedRegex(@"^architecture-beta\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex ArchitectureHeader();
+
 	[GeneratedRegex(@"^kanban\b", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex KanbanHeader();
 
@@ -77,6 +80,8 @@ internal static partial class DiagramDetector
 			return DiagramType.Venn;
 		if (MindmapHeader().IsMatch(firstLineStr))
 			return DiagramType.Mindmap;
+		if (ArchitectureHeader().IsMatch(firstLineStr))
+			return DiagramType.Architecture;
 		if (KanbanHeader().IsMatch(firstLineStr))
 			return DiagramType.Kanban;
 
