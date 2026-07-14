@@ -78,6 +78,9 @@ internal static partial class DiagramDetector
 	[GeneratedRegex(@"^block(?:-beta)?\b", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex BlockHeader();
 
+	[GeneratedRegex(@"^treeView(?:-beta)?(?:\s|$)", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex TreeViewHeader();
+
 
 	internal static DiagramType Detect(ReadOnlySpan<char> text)
 	{
@@ -130,6 +133,8 @@ internal static partial class DiagramDetector
 			return DiagramType.Architecture;
 		if (BlockHeader().IsMatch(firstLineStr))
 			return DiagramType.Block;
+		if (TreeViewHeader().IsMatch(firstLineStr))
+			return DiagramType.TreeView;
 
 		return DiagramType.Flowchart;
 	}

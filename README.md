@@ -37,7 +37,7 @@ penalty, and trivial deployment&mdash;just a NuGet reference.
 
 Graph-based diagrams (flowchart, state, class, ER) need a layout algorithm to position nodes and route
 edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, gantt,
-journey, C4, sankey, xychart, requirement, packet, kanban, architecture, block) use
+journey, C4, sankey, xychart, requirement, packet, kanban, architecture, block, treeview) use
 purpose-built layout arithmetic directly in their renderers. Rather than depending on an external engine, Mermaider ships its own lightweight
 [Sugiyama layout engine](src/Sugiyama/) with zero dependencies.
 
@@ -527,6 +527,29 @@ MermaidRenderer.RenderSvg("""
 ```
 
 <p align="center"><img src="docs/screenshots/block.svg" alt="Block diagram" /></p>
+
+### TreeView
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    treeView-beta
+        my-project/
+            src/
+                index.ts :::highlight ## entry point
+                utils.ts
+            tests/
+                index.test.ts
+            package.json
+            README.md
+    """);
+```
+
+Supports indentation-based and box-drawing (`├──`/`└──`/`│`) input formats. Annotations:
+`:::className` (highlighting), `## description` (inline notes), `icon(name)` (custom icons).
+Built-in icons: `file`, `folder`, `folder-open`, `file:code`, `file:image`, `file:document`,
+`file:config`, `file:data`.
+
+<p align="center"><img src="docs/screenshots/treeview.svg" alt="Tree view diagram" /></p>
 
 ## Theming
 

@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 226.556 272" width="226.556" height="272" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+</defs>
+
+<line x1="32" y1="66" x2="42" y2="66" stroke="var(--_line)" stroke-width="1" />
+<line x1="32" y1="38" x2="32" y2="66" stroke="var(--_line)" stroke-width="1" />
+<line x1="52" y1="94" x2="62" y2="94" stroke="var(--_line)" stroke-width="1" />
+<line x1="52" y1="66" x2="52" y2="94" stroke="var(--_line)" stroke-width="1" />
+<line x1="52" y1="122" x2="62" y2="122" stroke="var(--_line)" stroke-width="1" />
+<line x1="52" y1="66" x2="52" y2="122" stroke="var(--_line)" stroke-width="1" />
+<line x1="32" y1="150" x2="42" y2="150" stroke="var(--_line)" stroke-width="1" />
+<line x1="32" y1="38" x2="32" y2="150" stroke="var(--_line)" stroke-width="1" />
+<line x1="52" y1="178" x2="62" y2="178" stroke="var(--_line)" stroke-width="1" />
+<line x1="52" y1="150" x2="52" y2="178" stroke="var(--_line)" stroke-width="1" />
+<line x1="32" y1="206" x2="42" y2="206" stroke="var(--_line)" stroke-width="1" />
+<line x1="32" y1="38" x2="32" y2="206" stroke="var(--_line)" stroke-width="1" />
+<line x1="32" y1="234" x2="42" y2="234" stroke="var(--_line)" stroke-width="1" />
+<line x1="32" y1="38" x2="32" y2="234" stroke="var(--_line)" stroke-width="1" />
+<g class="treeview-node">
+<image x="24" y="30" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik00IDRoNWwyIDJoOWEyIDIgMCAwIDEgMiAydjEwYTIgMiAwIDAgMS0yIDJINGEyIDIgMCAwIDEtMi0yVjZhMiAyIDAgMCAxIDItMnoiIGZpbGw9IiM2NDc0OGIiLz4KPC9zdmc+" />
+<text x="46" y="38" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">my-project</text>
+</g>
+<g class="treeview-node">
+<image x="44" y="58" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik00IDRoNWwyIDJoOWEyIDIgMCAwIDEgMiAydjEwYTIgMiAwIDAgMS0yIDJINGEyIDIgMCAwIDEtMi0yVjZhMiAyIDAgMCAxIDItMnoiIGZpbGw9IiM2NDc0OGIiLz4KPC9zdmc+" />
+<text x="66" y="66" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">src</text>
+</g>
+<rect x="58" y="84" width="150.56" height="20" rx="4" ry="4" fill="var(--_accent-fill)" stroke="var(--_accent-stroke)" stroke-width="1" />
+<g class="treeview-node highlight">
+<image x="64" y="86" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCAySDZhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWOHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHBvbHlsaW5lIHBvaW50cz0iMTQgMiAxNCA4IDIwIDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+" />
+<text x="86" y="94" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)">index.ts</text>
+<text x="146.97" y="94" dy="0.35em" font-size="var(--fs-xs)" font-weight="400" font-style="italic" fill="var(--_text-muted)">entry point</text>
+</g>
+<g class="treeview-node">
+<image x="64" y="114" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCAySDZhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWOHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHBvbHlsaW5lIHBvaW50cz0iMTQgMiAxNCA4IDIwIDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+" />
+<text x="86" y="122" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)">utils.ts</text>
+</g>
+<g class="treeview-node">
+<image x="44" y="142" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik00IDRoNWwyIDJoOWEyIDIgMCAwIDEgMiAydjEwYTIgMiAwIDAgMS0yIDJINGEyIDIgMCAwIDEtMi0yVjZhMiAyIDAgMCAxIDItMnoiIGZpbGw9IiM2NDc0OGIiLz4KPC9zdmc+" />
+<text x="66" y="150" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">tests</text>
+</g>
+<g class="treeview-node">
+<image x="64" y="170" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCAySDZhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWOHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHBvbHlsaW5lIHBvaW50cz0iMTQgMiAxNCA4IDIwIDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+" />
+<text x="86" y="178" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)">index.test.ts</text>
+</g>
+<g class="treeview-node">
+<image x="44" y="198" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCAySDZhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWOHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHBvbHlsaW5lIHBvaW50cz0iMTQgMiAxNCA4IDIwIDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+" />
+<text x="66" y="206" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)">package.json</text>
+</g>
+<g class="treeview-node">
+<image x="44" y="226" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCAySDZhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWOHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHBvbHlsaW5lIHBvaW50cz0iMTQgMiAxNCA4IDIwIDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+" />
+<text x="66" y="234" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)">README.md</text>
+</g>
+</svg>

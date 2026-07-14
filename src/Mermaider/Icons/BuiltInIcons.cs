@@ -145,6 +145,67 @@ internal static class BuiltInIcons
 				</svg>
 				""",
 
+			// ── Tree view file/folder icons ──────────────────────────────────────
+			["file"] = """
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+				<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="none" stroke="#64748b" stroke-width="1.5"/>
+				<polyline points="14 2 14 8 20 8" fill="none" stroke="#64748b" stroke-width="1.5"/>
+				</svg>
+				""",
+			["folder"] = """
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+				<path d="M4 4h5l2 2h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" fill="#64748b"/>
+				</svg>
+				""",
+			["folder-open"] = """
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+				<path d="M4 4h5l2 2h9a2 2 0 0 1 2 2v2H4V6a2 2 0 0 1 2-2z" fill="#64748b"/>
+				<path d="M2 10h20l-2 10H4z" fill="#64748b" fill-opacity="0.8"/>
+				</svg>
+				""",
+			["file:code"] = """
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+				<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="none" stroke="#64748b" stroke-width="1.5"/>
+				<polyline points="14 2 14 8 20 8" fill="none" stroke="#64748b" stroke-width="1.5"/>
+				<polyline points="10 13 8 15 10 17" fill="none" stroke="#64748b" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+				<polyline points="14 13 16 15 14 17" fill="none" stroke="#64748b" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+				""",
+			["file:image"] = """
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+				<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="none" stroke="#64748b" stroke-width="1.5"/>
+				<polyline points="14 2 14 8 20 8" fill="none" stroke="#64748b" stroke-width="1.5"/>
+				<circle cx="10" cy="13" r="1.5" fill="#64748b"/>
+				<path d="M7 18l3-3 2 2 3-3 3 3" fill="none" stroke="#64748b" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+				""",
+			["file:document"] = """
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+				<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="none" stroke="#64748b" stroke-width="1.5"/>
+				<polyline points="14 2 14 8 20 8" fill="none" stroke="#64748b" stroke-width="1.5"/>
+				<line x1="8" y1="13" x2="16" y2="13" stroke="#64748b" stroke-width="1.2"/>
+				<line x1="8" y1="16" x2="14" y2="16" stroke="#64748b" stroke-width="1.2"/>
+				</svg>
+				""",
+			["file:config"] = """
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+				<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="none" stroke="#64748b" stroke-width="1.5"/>
+				<polyline points="14 2 14 8 20 8" fill="none" stroke="#64748b" stroke-width="1.5"/>
+				<circle cx="12" cy="15" r="2.5" fill="none" stroke="#64748b" stroke-width="1.3"/>
+				<path d="M12 11v1.5M12 17.5V19M9 15h1.5M14.5 15H16" stroke="#64748b" stroke-width="1.3" stroke-linecap="round"/>
+				</svg>
+				""",
+			["file:data"] = """
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+				<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="none" stroke="#64748b" stroke-width="1.5"/>
+				<polyline points="14 2 14 8 20 8" fill="none" stroke="#64748b" stroke-width="1.5"/>
+				<line x1="8" y1="12" x2="16" y2="12" stroke="#64748b" stroke-width="1"/>
+				<line x1="8" y1="15" x2="16" y2="15" stroke="#64748b" stroke-width="1"/>
+				<line x1="8" y1="18" x2="16" y2="18" stroke="#64748b" stroke-width="1"/>
+				<line x1="12" y1="12" x2="12" y2="18" stroke="#64748b" stroke-width="1"/>
+				</svg>
+				""",
+
 			// ── AWS-flavored (curated, original shapes — not the official logos) ──
 			["aws:compute"] = VendorGlyph(ChipGlyph),
 			["aws:storage"] = VendorGlyph(StorageGlyph),

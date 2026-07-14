@@ -1,6 +1,6 @@
 namespace Mermaider.Gallery;
 
-public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Gantt, Journey, C4, Sankey, XyChart, Requirement, Packet, Kanban, Architecture, Block, RealWorld }
+public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Gantt, Journey, C4, Sankey, XyChart, Requirement, Packet, Kanban, Architecture, Block, TreeView, RealWorld }
 
 public sealed record DiagramExample(string Slug, string Title, DiagramCategory Category, string Source, string? Feature = null);
 
@@ -1170,6 +1170,7 @@ public static partial class DiagramExamples
 
 		..CreateNewDiagramTypeExamples(),
 		..CreateRequirementExamples(),
+		..CreateTreeViewExamples(),
 		..CreateRealWorldExamples(),
 	];
 
