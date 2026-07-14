@@ -8,7 +8,7 @@ public static partial class DiagramExamples
 {
 	public static readonly DiagramExample[] All =
 	[
-		// ΓöÇΓöÇ Flowchart ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+		// ── Flowchart ──────────────────────────────────────────────────
 
 		new("flowchart-simple", "Simple Flow", DiagramCategory.Flowchart, """
 			graph TD
@@ -155,7 +155,7 @@ public static partial class DiagramExamples
 			  C --> D[Normal label]
 			""", "markdown labels"),
 
-		// ΓöÇΓöÇ Sequence ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+		// ── Sequence ───────────────────────────────────────────────────
 
 		new("sequence-basic", "Basic Messages", DiagramCategory.Sequence, """
 			sequenceDiagram
@@ -326,7 +326,7 @@ public static partial class DiagramExamples
 			  Bob-->>Alice: Done
 			""", "create/destroy"),
 
-		// ΓöÇΓöÇ State ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+		// ── State ──────────────────────────────────────────────────────
 
 		new("state-simple", "Simple States", DiagramCategory.State, """
 			stateDiagram-v2
@@ -415,7 +415,7 @@ public static partial class DiagramExamples
 			  Second --> [*]
 			""", "composite"),
 
-		// ΓöÇΓöÇ Class ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+		// ── Class ──────────────────────────────────────────────────────
 
 		new("class-basic", "Inheritance", DiagramCategory.Class, """
 			classDiagram
@@ -562,7 +562,7 @@ public static partial class DiagramExamples
 			  ProductRepo ..|> Product
 			"""),
 
-		// ΓöÇΓöÇ ER ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+		// ── ER ─────────────────────────────────────────────────────────
 
 		new("er-basic", "Basic ER", DiagramCategory.Er, """
 			erDiagram
@@ -669,7 +669,7 @@ public static partial class DiagramExamples
 			  ord ||--|{ li : contains
 			""", "entity aliases"),
 
-		// ΓöÇΓöÇ Pie Chart ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+		// ── Pie Chart ──────────────────────────────────────────────────
 
 		new("pie-basic", "Basic Pie", DiagramCategory.Pie, """
 			pie
@@ -847,7 +847,7 @@ public static partial class DiagramExamples
 			commit id: "more-work"
 			"""),
 
-		// ΓöÇΓöÇ Radar Chart ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+		// ── Radar Chart ────────────────────────────────────────────────
 
 		new("radar-skills", "Skills Comparison", DiagramCategory.Radar, """
 			radar-beta
@@ -868,7 +868,7 @@ public static partial class DiagramExamples
 			max 5
 			"""),
 
-		// ΓöÇΓöÇ Treemap ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+		// ── Treemap ────────────────────────────────────────────────────
 
 		new("treemap-flat", "Flat Treemap", DiagramCategory.Treemap, """
 			treemap-beta
@@ -881,7 +881,7 @@ public static partial class DiagramExamples
 		new("treemap-nested", "Nested Treemap", DiagramCategory.Treemap,
 			"treemap-beta\n  \"Technology\"\n    \"Frontend\": 30\n    \"Backend\": 40\n    \"DevOps\": 15\n  \"Business\"\n    \"Sales\": 25\n    \"Marketing\": 20"),
 
-		// ΓöÇΓöÇ Venn Diagram ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+		// ── Venn Diagram ───────────────────────────────────────────────
 
 		new("venn-two", "Two-Set Venn", DiagramCategory.Venn, """
 			venn-beta
@@ -900,7 +900,7 @@ public static partial class DiagramExamples
 			union A, C["UX Research"]
 			"""),
 
-		// ΓöÇΓöÇ Mindmap ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+		// ── Mindmap ────────────────────────────────────────────────────
 
 		new("mindmap-project", "Project Mindmap", DiagramCategory.Mindmap,
 			"mindmap\n  ((Project))\n    (Planning)\n      Requirements\n      Timeline\n    [Development]\n      Frontend\n      Backend\n    {{Testing}}\n      Unit Tests\n      Integration"),

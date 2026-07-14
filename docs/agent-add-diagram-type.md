@@ -6,7 +6,7 @@ Terse playbook for parallel agents implementing remaining Mermaid types in Merma
 
 ```
 Parse → Layout (optional) → Render SVG
-Parse ΓåÆ Layout (optional) ΓåÆ Render SVG
+Parse → Layout (optional) → Render SVG
 ```
 
 | Stage | Where | Notes |
@@ -21,7 +21,7 @@ Parse ΓåÆ Layout (optional) ΓåÆ Render SVG
 | Tests | `Parsing/*ParserTests`, `Rendering/*RendererTests` | |
 
 Public API stays `MermaidRenderer.RenderSvg` / `Parse` — no new entry points.
-Public API stays `MermaidRenderer.RenderSvg` / `Parse` ΓÇö no new entry points.
+Public API stays `MermaidRenderer.RenderSvg` / `Parse` — no new entry points.
 
 ## File checklist
 
@@ -36,10 +36,10 @@ Public API stays `MermaidRenderer.RenderSvg` / `Parse` ΓÇö no new entry point
 9. README section + `AGENTS.md` type list  
 10. Parser + renderer tests  
 11. Optional screenshot under `docs/screenshots/{type}.svg` (CLI → file; opaque for GH if needed)
-8. Gallery category + 1ΓÇô2 examples  
+8. Gallery category + 1–2 examples  
 9. README section + `AGENTS.md` type list  
 10. Parser + renderer tests  
-11. Optional screenshot under `docs/screenshots/{type}.svg` (CLI ΓåÆ file; opaque for GH if needed)
+11. Optional screenshot under `docs/screenshots/{type}.svg` (CLI → file; opaque for GH if needed)
 11. Optional screenshot under `docs/screenshots/{type}.svg`
 
 ## Design rules
@@ -59,7 +59,7 @@ bottom of that file is the gate before shipping a renderer.
 - No wall-clock in parse/layout (`DateTime.Today` banned); fixed synthetic origins if needed  
 
 ## Parse patterns (from Gantt)
-- Box text center: `y = mid` + `dy="{RenderConstants.TextBaselineShift}"` (`0.35em`) ΓÇö **not** `dominant-baseline` alone  
+- Box text center: `y = mid` + `dy="{RenderConstants.TextBaselineShift}"` (`0.35em`) — **not** `dominant-baseline` alone  
 - Chart accents may use fixed palette (pie/timeline/gantt/journey); **C4 uses fixed C4 palette** (mermaid parity)  
 - Escape via `MultilineUtils.AppendEscapedXml` / `AppendEscapedAttr`  
 - No wall-clock in parse/layout (`DateTime.Today` banned); fixed synthetic origins if needed  
@@ -90,7 +90,7 @@ Header title: support both `type\ntitle X` and compact `type title X`.
 - Element shapes: Person / System* / Container* / Component* / Db / Queue / `_Ext` / Deployment_Node
 - Boundaries: `Enterprise_Boundary` / `System_Boundary` / `Container_Boundary` / `Boundary` + `{ … }`
 - Relations: `Rel`, `BiRel`, `RelIndex` (index skipped), `Rel_Back` (swaps from/to), `Rel_U`/`D`/`L`/`R` (accepted as plain Rel; layout direction ignored in v1)
-- Detector: `^C4(?:Context|Container|Component|Dynamic|Deployment)\b` (all five headers ΓåÆ one `DiagramType.C4`)
+- Detector: `^C4(?:Context|Container|Component|Dynamic|Deployment)\b` (all five headers → one `DiagramType.C4`)
 - Kind stored on model (`C4DiagramKind`) for future styling; v1 layout is shared
 - Element shapes: Person / System* / Container* / Component* / Db / Queue / `_Ext` / Deployment_Node
 - Boundaries: `Enterprise_Boundary` / `System_Boundary` / `Container_Boundary` / `Boundary` + `{ ΓÇª }`
@@ -111,7 +111,7 @@ When users demand **mermaid.ai parity**:
 5. Prefer mermaid palettes for type-specific chrome; keep title on theme vars  
 
 When “good enough Mermaider chart” is fine: arithmetic layout + theme vars + fixed accents (pie/timeline style).
-4. Match draw order (e.g. dashed line under task rect; **C4: boundaries ΓåÆ relations ΓåÆ elements ΓåÆ labels**)  
+4. Match draw order (e.g. dashed line under task rect; **C4: boundaries → relations → elements → labels**)  
 5. Prefer mermaid palettes for type-specific chrome; keep title on theme vars  
 
 When ΓÇ£good enough Mermaider chartΓÇ¥ is fine: arithmetic layout + theme vars + fixed accents (pie/timeline style).
@@ -137,7 +137,7 @@ When ΓÇ£good enough Mermaider chartΓÇ¥ is fine: arithmetic layout + theme 
 - Nested structure if type has blocks (C4 boundaries)  
 - WinPrint / real-world fixture line if exists  
 - `RenderSvg` → `<svg`…`</svg>`, key labels present  
-- `RenderSvg` ΓåÆ `<svg`ΓÇª`</svg>`, key labels present  
+- `RenderSvg` → `<svg`ΓÇª`</svg>`, key labels present  
 - Theme: title or labels use `var(--_text)` where themed  
 - Edge: empty diagram, clamp/out-of-range values  
 - Accessibility: `accTitle` **after** header; assert `aria-roledescription`  
@@ -168,7 +168,7 @@ Header title: support both `type\ntitle X` and compact `type title X`.
 git fetch origin main
 git worktree add ../add-{type} -b feat/{type} origin/main
 # implement → test → commit
-# implement ΓåÆ test ΓåÆ commit
+# implement → test → commit
 git push -u fork HEAD   # tig/mermaider if no write on nullean
 gh pr create --repo nullean/mermaider --head tig:feat/{type} --base main --draft
 ```
@@ -208,7 +208,7 @@ Unsupported today must **not** crash host apps harder than `MermaidParseExceptio
 - Claiming pixel-perfect mermaid without reading upstream source  
 - Putting `accTitle` **before** the type header in tests (detector only sees first line)  
 - PowerShell `Set-Content` rewrites of C# (corrupts tabs / IDE0055) — use the write/strreplace tools  
-- PowerShell `Set-Content` rewrites of C# (corrupts tabs / IDE0055) ΓÇö use the write/strreplace tools  
+- PowerShell `Set-Content` rewrites of C# (corrupts tabs / IDE0055) — use the write/strreplace tools  
 
 ```text
 sankey-beta
@@ -313,11 +313,11 @@ test_entity - satisfies -> test_req
 - Layout must walk **source order** (do not partition leaves-then-boundaries) — Person → Boundary → System_Ext is the common case.
 - Grid layout (shapeInRow / boundaryInRow) is “good enough Mermaider”; not d3/elk.
 - C4 is fixed-style upstream — keep shape fills hardcoded; theme only chrome/text.
-- Nested `{`/`}` ΓåÆ stack of boundary frames; **mark deployment nodes** (`IsDeploymentNode`) so they get solid chrome + relation anchors without double-drawing leaves.
+- Nested `{`/`}` → stack of boundary frames; **mark deployment nodes** (`IsDeploymentNode`) so they get solid chrome + relation anchors without double-drawing leaves.
 - Keep **separate** `placements` (drawn leaves) vs `relationAnchors` (leaves + nested deployment boxes).
-- Layout must walk **source order** (do not partition leaves-then-boundaries) ΓÇö Person ΓåÆ Boundary ΓåÆ System_Ext is the common case.
+- Layout must walk **source order** (do not partition leaves-then-boundaries) — Person → Boundary → System_Ext is the common case.
 - Grid layout (shapeInRow / boundaryInRow) is ΓÇ£good enough MermaiderΓÇ¥; not d3/elk.
-- C4 is fixed-style upstream ΓÇö keep shape fills hardcoded; theme only chrome/text.
+- C4 is fixed-style upstream — keep shape fills hardcoded; theme only chrome/text.
 - Header regex should capture kind + optional compact `title`; `DetectKind` must use `StartsWith` / capture group, not `Contains` (avoids `C4Context` matching `C4Container` substring myths and order bugs).
 - Self-relations need an explicit loop path; edge clipping collapses zero-length segments.
 - Primary-constructor private classes: **camelCase** parameter names (IDE1006).
