@@ -12,7 +12,6 @@
     <ProjectReference Include="../../src/Mermaider/Mermaider.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <!-- WinPrint mermaid showcase: https://github.com/tig/winprint/blob/develop/testfiles/mermaid.md -->
     <None Include="Fixtures\mermaid.md" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

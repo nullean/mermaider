@@ -5,11 +5,9 @@ using Mermaider;
 namespace Mermaider.Tests;
 
 /// <summary>
-/// Integration tests against the WinPrint mermaid showcase file.
-/// Source: https://github.com/tig/winprint/blob/develop/testfiles/mermaid.md
-///
-/// Ensures Mermaider never throws unexpected exceptions when consumers render each
-/// fenced diagram: valid SVG, or <see cref="MermaidParseException"/> for unsupported types.
+/// Integration tests against <c>Fixtures/mermaid.md</c> — the grand tour and stress test.
+/// Ensures Mermaider never throws unexpected exceptions when rendering each fenced diagram:
+/// either valid SVG is returned, or <see cref="MermaidParseException"/> for not-yet-implemented types.
 /// </summary>
 public partial class MermaidShowcaseTests
 {
