@@ -16,5 +16,14 @@ public enum DiagramType
 	Treemap,
 	Venn,
 	Mindmap,
-	Architecture
+	Gantt,
+	Journey,
+	C4,
+	Sankey,
+	XyChart,
+	Requirement,
+	Packet,
+	Kanban,
+	Architecture,
+	Block,
 }

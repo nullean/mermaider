@@ -308,4 +308,44 @@ public class DiagramPreprocessorTests
 		// Nord theme bg = #2e3440
 		svg.Should().Contain("--bg:#2e3440");
 	}
+
+	// ========================================================================
+	// Security: ticketBaseUrl rejection
+	// ========================================================================
+
+	[Test]
+	public void Throws_on_ticketBaseUrl_in_frontmatter()
+	{
+		var input = """
+			---
+			title: Sprint
+			ticketBaseUrl: https://jira.example.com/browse/#TICKET#
+			---
+			kanban
+			  Todo
+			    Task1@{ ticket: MC-42 }
+			""";
+
+		var act = () => DiagramPreprocessor.Process(input);
+
+		act.Should().Throw<MermaidParseException>()
+			.WithMessage("*ticketBaseUrl*");
+	}
+
+	[Test]
+	public void Does_not_throw_on_frontmatter_without_ticketBaseUrl()
+	{
+		var input = """
+			---
+			title: My Board
+			---
+			kanban
+			  Todo
+			    Task1
+			""";
+
+		var act = () => DiagramPreprocessor.Process(input);
+
+		act.Should().NotThrow();
+	}
 }

@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 500" width="700" height="500" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+</defs>
+
+<text x="350" y="24" text-anchor="middle" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)">Sales Revenue</text>
+<line x1="70" y1="450" x2="670" y2="450" stroke="var(--_line)" stroke-width="1.5" />
+<line x1="70" y1="68" x2="70" y2="450" stroke="var(--_line)" stroke-width="1.5" />
+<line x1="66" y1="68" x2="70" y2="68" stroke="var(--_line)" stroke-width="1" />
+<text x="62" y="68" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text-sec)">11000</text>
+<line x1="66" y1="144.4" x2="70" y2="144.4" stroke="var(--_line)" stroke-width="1" />
+<text x="62" y="144.4" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text-sec)">9600</text>
+<line x1="66" y1="220.8" x2="70" y2="220.8" stroke="var(--_line)" stroke-width="1" />
+<text x="62" y="220.8" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text-sec)">8200</text>
+<line x1="66" y1="297.2" x2="70" y2="297.2" stroke="var(--_line)" stroke-width="1" />
+<text x="62" y="297.2" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text-sec)">6800</text>
+<line x1="66" y1="373.6" x2="70" y2="373.6" stroke="var(--_line)" stroke-width="1" />
+<text x="62" y="373.6" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text-sec)">5400</text>
+<line x1="66" y1="450" x2="70" y2="450" stroke="var(--_line)" stroke-width="1" />
+<text x="62" y="450" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text-sec)">4000</text>
+<line x1="95" y1="450" x2="95" y2="454" stroke="var(--_line)" stroke-width="1" />
+<text x="95" y="466" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">jan</text>
+<line x1="145" y1="450" x2="145" y2="454" stroke="var(--_line)" stroke-width="1" />
+<text x="145" y="466" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">feb</text>
+<line x1="195" y1="450" x2="195" y2="454" stroke="var(--_line)" stroke-width="1" />
+<text x="195" y="466" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">mar</text>
+<line x1="245" y1="450" x2="245" y2="454" stroke="var(--_line)" stroke-width="1" />
+<text x="245" y="466" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">apr</text>
+<line x1="295" y1="450" x2="295" y2="454" stroke="var(--_line)" stroke-width="1" />
+<text x="295" y="466" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">may</text>
+<line x1="345" y1="450" x2="345" y2="454" stroke="var(--_line)" stroke-width="1" />
+<text x="345" y="466" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">jun</text>
+<line x1="395" y1="450" x2="395" y2="454" stroke="var(--_line)" stroke-width="1" />
+<text x="395" y="466" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">jul</text>
+<line x1="445" y1="450" x2="445" y2="454" stroke="var(--_line)" stroke-width="1" />
+<text x="445" y="466" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">aug</text>
+<line x1="495" y1="450" x2="495" y2="454" stroke="var(--_line)" stroke-width="1" />
+<text x="495" y="466" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">sep</text>
+<line x1="545" y1="450" x2="545" y2="454" stroke="var(--_line)" stroke-width="1" />
+<text x="545" y="466" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">oct</text>
+<line x1="595" y1="450" x2="595" y2="454" stroke="var(--_line)" stroke-width="1" />
+<text x="595" y="466" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">nov</text>
+<line x1="645" y1="450" x2="645" y2="454" stroke="var(--_line)" stroke-width="1" />
+<text x="645" y="466" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">dec</text>
+<text x="16" y="259" text-anchor="middle" transform="rotate(-90 16 259)" font-size="var(--fs-s)" fill="var(--_text)">Revenue (in $)</text>
+<rect x="77.5" y="395.43" width="35" height="54.57" fill="#4e79a7" opacity="0.9" />
+<rect x="127.5" y="340.86" width="35" height="109.14" fill="#4e79a7" opacity="0.9" />
+<rect x="177.5" y="259" width="35" height="191" fill="#4e79a7" opacity="0.9" />
+<rect x="227.5" y="220.8" width="35" height="229.2" fill="#4e79a7" opacity="0.9" />
+<rect x="277.5" y="149.86" width="35" height="300.14" fill="#4e79a7" opacity="0.9" />
+<rect x="327.5" y="95.29" width="35" height="354.71" fill="#4e79a7" opacity="0.9" />
+<rect x="377.5" y="68" width="35" height="382" fill="#4e79a7" opacity="0.9" />
+<rect x="427.5" y="111.66" width="35" height="338.34" fill="#4e79a7" opacity="0.9" />
+<rect x="477.5" y="166.23" width="35" height="283.77" fill="#4e79a7" opacity="0.9" />
+<rect x="527.5" y="204.43" width="35" height="245.57" fill="#4e79a7" opacity="0.9" />
+<rect x="577.5" y="286.29" width="35" height="163.71" fill="#4e79a7" opacity="0.9" />
+<rect x="627.5" y="340.86" width="35" height="109.14" fill="#4e79a7" opacity="0.9" />
+<polyline fill="none" stroke="#f28e2b" stroke-width="2" points="95,395.43 145,340.86 195,259 245,220.8 295,149.86 345,95.29 395,68 445,111.66 495,166.23 545,204.43 595,286.29 645,340.86" />
+<circle cx="95" cy="395.43" r="3" fill="#f28e2b" />
+<circle cx="145" cy="340.86" r="3" fill="#f28e2b" />
+<circle cx="195" cy="259" r="3" fill="#f28e2b" />
+<circle cx="245" cy="220.8" r="3" fill="#f28e2b" />
+<circle cx="295" cy="149.86" r="3" fill="#f28e2b" />
+<circle cx="345" cy="95.29" r="3" fill="#f28e2b" />
+<circle cx="395" cy="68" r="3" fill="#f28e2b" />
+<circle cx="445" cy="111.66" r="3" fill="#f28e2b" />
+<circle cx="495" cy="166.23" r="3" fill="#f28e2b" />
+<circle cx="545" cy="204.43" r="3" fill="#f28e2b" />
+<circle cx="595" cy="286.29" r="3" fill="#f28e2b" />
+<circle cx="645" cy="340.86" r="3" fill="#f28e2b" />
+</svg>

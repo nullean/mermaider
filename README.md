@@ -36,7 +36,8 @@ penalty, and trivial deployment&mdash;just a NuGet reference.
 ### Built-in layout engine
 
 Graph-based diagrams (flowchart, state, class, ER) need a layout algorithm to position nodes and route
-edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap) use
+edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, gantt,
+journey, C4, sankey, xychart, requirement, packet, kanban, architecture, block) use
 purpose-built layout arithmetic directly in their renderers. Rather than depending on an external engine, Mermaider ships its own lightweight
 [Sugiyama layout engine](src/Sugiyama/) with zero dependencies.
 
@@ -300,6 +301,133 @@ MermaidRenderer.RenderSvg("""
 
 <p align="center"><img src="docs/screenshots/mindmap.svg" alt="Mindmap" /></p>
 
+### Gantt
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    gantt
+      title Shipping this file
+      dateFormat  YYYY-MM-DD
+      section Render
+      Spike the renderer :done, a1, 2026-07-07, 1d
+      Print this page    :active, a2, after a1, 1d
+      section Polish
+      Update tests       :crit, after a2, 12h
+      Update docs        : 6h
+### User Journey
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    journey
+      title My working day
+      section Go to work
+        Make tea: 5: Me
+        Go upstairs: 3: Me
+        Do work: 1: Me, Cat
+      section Go home
+        Go downstairs: 5: Me
+        Sit down: 5: Me
+    """);
+```
+
+### C4 Architecture
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    C4Context
+    title System Context diagram for Internet Banking System
+    Person(customer, "Banking Customer", "A customer of the bank.")
+    System(banking, "Internet Banking System", "View accounts and make payments.")
+    System_Ext(mail, "E-mail System", "Microsoft Exchange")
+    Rel(customer, banking, "Uses")
+    Rel(banking, mail, "Sends e-mails", "SMTP")
+    """);
+```
+
+Supports `Rel`, `BiRel`, `Rel_Back` (arrow reversed vs argument order), and `RelIndex`. Directional forms (`Rel_U` / `Rel_D` / `Rel_L` / `Rel_R` and aliases) parse as plain `Rel`; layout direction hints are ignored in v1.
+
+<p align="center"><img src="docs/screenshots/c4.svg" alt="C4 diagram" /></p>
+### Sankey Diagram
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    sankey-beta
+    Electricity grid,Over generation / exports,104.453
+    Electricity grid,Heating and cooling - homes,113.726
+    Electricity grid,Industry,342.165
+    """);
+```
+
+<p align="center"><img src="docs/screenshots/sankey.svg" alt="Sankey diagram" /></p>
+### XY Chart
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    xychart-beta
+    title "Sales Revenue"
+    x-axis [jan, feb, mar, apr, may, jun]
+    y-axis "Revenue (in $)" 4000 --> 11000
+    bar [5000, 6000, 7500, 8200, 9500, 10500]
+    line [5000, 6000, 7500, 8200, 9500, 10500]
+    """);
+```
+
+<p align="center"><img src="docs/screenshots/xychart.svg" alt="XY chart" /></p>
+### Requirement Diagram
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    requirementDiagram
+
+    requirement test_req {
+    id: 1
+    text: the test text.
+    risk: high
+    verifymethod: test
+    }
+
+    element test_entity {
+    type: simulation
+    }
+
+    test_entity - satisfies -> test_req
+    """);
+```
+
+<p align="center"><img src="docs/screenshots/requirement.svg" alt="Requirement diagram" /></p>
+### Packet Diagram
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    packet-beta
+    title UDP Header
+    0-15: "Source Port"
+    16-31: "Destination Port"
+    32-47: "Length"
+    48-63: "Checksum"
+    """);
+```
+
+Supports range fields (`0-15: "Label"`), single-bit fields (`106: "URG"`), and bit-count form (`+16: "Source Port"`).
+
+<p align="center"><img src="docs/screenshots/packet.svg" alt="Packet diagram" /></p>
+### Kanban
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    kanban
+      Todo
+        Task1
+        Task2
+      In Progress
+        Task3
+      Done
+        Task4
+    """);
+```
+
+<p align="center"><img src="docs/screenshots/kanban.svg" alt="Kanban board" /></p>
+
 ### Architecture
 
 ```csharp
@@ -386,6 +514,19 @@ Registration validates and sanitizes the SVG using the same allowlist as
 box, same as the default pack &mdash; the colored gradient badge is only applied to the built-in
 vendor/`ext:` icons. If you have the rights to use a vendor's real logo (e.g. inside your own
 company's tooling), register it under whatever name you like and it renders exactly as provided.
+
+### Block Diagram
+
+```csharp
+MermaidRenderer.RenderSvg("""
+    block-beta
+    columns 3
+      A["A"] B["B"] C["C"]
+      D["D"] E["E"] F["F"]
+    """);
+```
+
+<p align="center"><img src="docs/screenshots/block.svg" alt="Block diagram" /></p>
 
 ## Theming
 

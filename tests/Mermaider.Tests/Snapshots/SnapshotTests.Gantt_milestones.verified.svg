@@ -1,0 +1,70 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 308" width="700" height="308" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+</defs>
+
+<text x="350" y="24" text-anchor="middle" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)">Release train</text>
+<line x1="196" y1="244" x2="676" y2="244" stroke="var(--_line)" stroke-width="1" />
+<rect x="196" y="52" width="480" height="188" fill="var(--_node-fill)" opacity="0.5" />
+<line x1="196" y1="52" x2="196" y2="244" stroke="var(--_line)" stroke-width="0.5" opacity="0.35" />
+<text x="196" y="260" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-muted)">Jan 6</text>
+<line x1="244" y1="52" x2="244" y2="244" stroke="var(--_line)" stroke-width="0.5" opacity="0.35" />
+<text x="244" y="260" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-muted)">Jan 7</text>
+<line x1="292" y1="52" x2="292" y2="244" stroke="var(--_line)" stroke-width="0.5" opacity="0.35" />
+<text x="292" y="260" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-muted)">Jan 8</text>
+<line x1="340" y1="52" x2="340" y2="244" stroke="var(--_line)" stroke-width="0.5" opacity="0.35" />
+<text x="340" y="260" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-muted)">Jan 9</text>
+<line x1="388" y1="52" x2="388" y2="244" stroke="var(--_line)" stroke-width="0.5" opacity="0.35" />
+<text x="388" y="260" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-muted)">Jan 10</text>
+<line x1="436" y1="52" x2="436" y2="244" stroke="var(--_line)" stroke-width="0.5" opacity="0.35" />
+<text x="436" y="260" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-muted)">Jan 11</text>
+<line x1="484" y1="52" x2="484" y2="244" stroke="var(--_line)" stroke-width="0.5" opacity="0.35" />
+<text x="484" y="260" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-muted)">Jan 12</text>
+<line x1="532" y1="52" x2="532" y2="244" stroke="var(--_line)" stroke-width="0.5" opacity="0.35" />
+<text x="532" y="260" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-muted)">Jan 13</text>
+<line x1="580" y1="52" x2="580" y2="244" stroke="var(--_line)" stroke-width="0.5" opacity="0.35" />
+<text x="580" y="260" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-muted)">Jan 14</text>
+<line x1="628" y1="52" x2="628" y2="244" stroke="var(--_line)" stroke-width="0.5" opacity="0.35" />
+<text x="628" y="260" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-muted)">Jan 15</text>
+<line x1="676" y1="52" x2="676" y2="244" stroke="var(--_line)" stroke-width="0.5" opacity="0.35" />
+<text x="676" y="260" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-muted)">Jan 16</text>
+<text x="16" y="70.2" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">Build</text>
+<text x="16" y="101.6" font-size="var(--fs-s)" fill="var(--_text)">Implement parser</text>
+<rect x="196" y="88" width="144" height="20" rx="4" ry="4" fill="#9ca3af" />
+<text x="16" y="137.6" font-size="var(--fs-s)" fill="var(--_text)">Add tests</text>
+<rect x="340" y="124" width="96" height="20" rx="4" ry="4" fill="#3b82f6" />
+<text x="16" y="170.2" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">Ship</text>
+<rect x="196" y="180" width="480" height="24" fill="#edc948" opacity="0.12" />
+<polygon points="438,185 445,192 438,199 431,192" fill="#edc948" />
+<text x="451" y="192" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">RC cut</text>
+<text x="16" y="225.6" font-size="var(--fs-s)" fill="var(--_text)">GA</text>
+<rect x="436" y="212" width="240" height="20" rx="4" ry="4" fill="#e15759" />
+</svg>

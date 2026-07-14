@@ -1,0 +1,72 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 500" width="700" height="500" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+</defs>
+
+<text x="350" y="24" text-anchor="middle" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)">Latency</text>
+<line x1="70" y1="422" x2="670" y2="422" stroke="var(--_line)" stroke-width="1.5" />
+<line x1="70" y1="68" x2="70" y2="422" stroke="var(--_line)" stroke-width="1.5" />
+<line x1="66" y1="68" x2="70" y2="68" stroke="var(--_line)" stroke-width="1" />
+<text x="62" y="68" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text-sec)">200</text>
+<line x1="66" y1="138.8" x2="70" y2="138.8" stroke="var(--_line)" stroke-width="1" />
+<text x="62" y="138.8" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text-sec)">160</text>
+<line x1="66" y1="209.6" x2="70" y2="209.6" stroke="var(--_line)" stroke-width="1" />
+<text x="62" y="209.6" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text-sec)">120</text>
+<line x1="66" y1="280.4" x2="70" y2="280.4" stroke="var(--_line)" stroke-width="1" />
+<text x="62" y="280.4" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text-sec)">80</text>
+<line x1="66" y1="351.2" x2="70" y2="351.2" stroke="var(--_line)" stroke-width="1" />
+<text x="62" y="351.2" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text-sec)">40</text>
+<line x1="66" y1="422" x2="70" y2="422" stroke="var(--_line)" stroke-width="1" />
+<text x="62" y="422" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text-sec)">0</text>
+<line x1="170" y1="422" x2="170" y2="426" stroke="var(--_line)" stroke-width="1" />
+<text x="170" y="438" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">p50</text>
+<line x1="370" y1="422" x2="370" y2="426" stroke="var(--_line)" stroke-width="1" />
+<text x="370" y="438" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">p90</text>
+<line x1="570" y1="422" x2="570" y2="426" stroke="var(--_line)" stroke-width="1" />
+<text x="570" y="438" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">p99</text>
+<text x="16" y="245" text-anchor="middle" transform="rotate(-90 16 245)" font-size="var(--fs-s)" fill="var(--_text)">ms</text>
+<rect x="100" y="351.2" width="70" height="70.8" fill="#4e79a7" opacity="0.9" />
+<rect x="300" y="280.4" width="70" height="141.6" fill="#4e79a7" opacity="0.9" />
+<rect x="500" y="156.5" width="70" height="265.5" fill="#4e79a7" opacity="0.9" />
+<rect x="170" y="386.6" width="70" height="35.4" fill="#f28e2b" opacity="0.9" />
+<rect x="370" y="342.35" width="70" height="79.65" fill="#f28e2b" opacity="0.9" />
+<rect x="570" y="262.7" width="70" height="159.3" fill="#f28e2b" opacity="0.9" />
+<polyline fill="none" stroke="#e15759" stroke-width="2" points="170,245 370,245 570,245" />
+<circle cx="170" cy="245" r="3" fill="#e15759" />
+<circle cx="370" cy="245" r="3" fill="#e15759" />
+<circle cx="570" cy="245" r="3" fill="#e15759" />
+<rect x="70" y="478" width="12" height="12" rx="2" fill="#4e79a7" />
+<text x="86" y="486" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text)">api</text>
+<rect x="123" y="478" width="12" height="12" rx="2" fill="#f28e2b" />
+<text x="139" y="486" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text)">db</text>
+<rect x="169" y="478" width="12" height="12" rx="2" fill="#e15759" />
+<text x="185" y="486" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text)">slo</text>
+</svg>

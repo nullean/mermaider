@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+<linearGradient id="sankey-grad-0" gradientUnits="userSpaceOnUse" x1="96" y1="0" x2="294.67" y2="0"><stop offset="0%" stop-color="#76b7b2" stop-opacity="0.5" /><stop offset="100%" stop-color="#edc948" stop-opacity="0.5" /></linearGradient>
+<linearGradient id="sankey-grad-1" gradientUnits="userSpaceOnUse" x1="96" y1="0" x2="505.33" y2="0"><stop offset="0%" stop-color="#b07aa1" stop-opacity="0.5" /><stop offset="100%" stop-color="#4e79a7" stop-opacity="0.5" /></linearGradient>
+<linearGradient id="sankey-grad-2" gradientUnits="userSpaceOnUse" x1="306.67" y1="0" x2="505.33" y2="0"><stop offset="0%" stop-color="#edc948" stop-opacity="0.5" /><stop offset="100%" stop-color="#4e79a7" stop-opacity="0.5" /></linearGradient>
+<linearGradient id="sankey-grad-3" gradientUnits="userSpaceOnUse" x1="517.33" y1="0" x2="716" y2="0"><stop offset="0%" stop-color="#4e79a7" stop-opacity="0.5" /><stop offset="100%" stop-color="#f28e2b" stop-opacity="0.5" /></linearGradient>
+<linearGradient id="sankey-grad-4" gradientUnits="userSpaceOnUse" x1="517.33" y1="0" x2="716" y2="0"><stop offset="0%" stop-color="#4e79a7" stop-opacity="0.5" /><stop offset="100%" stop-color="#e15759" stop-opacity="0.5" /></linearGradient>
+<linearGradient id="sankey-grad-5" gradientUnits="userSpaceOnUse" x1="517.33" y1="0" x2="716" y2="0"><stop offset="0%" stop-color="#4e79a7" stop-opacity="0.5" /><stop offset="100%" stop-color="#59a14f" stop-opacity="0.5" /></linearGradient>
+</defs>
+
+<path d="M 96 24 C 195.33 24 195.33 69.1 294.67 69.1 L 294.67 330.9 C 195.33 330.9 195.33 275.4 96 275.4 Z" fill="url(#sankey-grad-0)" stroke="none" />
+<path d="M 96 289.4 C 300.67 289.4 300.67 73 505.33 73 L 505.33 163.2 C 300.67 163.2 300.67 376 96 376 Z" fill="url(#sankey-grad-1)" stroke="none" />
+<path d="M 306.67 69.1 C 406 69.1 406 163.2 505.33 163.2 L 505.33 327 C 406 327 406 330.9 306.67 330.9 Z" fill="url(#sankey-grad-2)" stroke="none" />
+<path d="M 517.33 73 C 616.67 73 616.67 217.79 716 217.79 L 716 250.41 C 616.67 250.41 616.67 124.55 517.33 124.55 Z" fill="url(#sankey-grad-3)" stroke="none" />
+<path d="M 517.33 124.55 C 616.67 124.55 616.67 105.62 716 105.62 L 716 203.79 C 616.67 203.79 616.67 279.65 517.33 279.65 Z" fill="url(#sankey-grad-4)" stroke="none" />
+<path d="M 517.33 279.65 C 616.67 279.65 616.67 264.41 716 264.41 L 716 294.38 C 616.67 294.38 616.67 327 517.33 327 Z" fill="url(#sankey-grad-5)" stroke="none" />
+<rect x="505.33" y="73" width="12" height="253.99" fill="#4e79a7" stroke="none" rx="2" ry="2" />
+<text x="497.33" y="200" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Electricity grid 814.9</text>
+<rect x="716" y="264.41" width="12" height="29.97" fill="#59a14f" stroke="none" rx="2" ry="2" />
+<text x="736" y="279.4" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Over generation / exports 104.45</text>
+<rect x="716" y="217.79" width="12" height="32.63" fill="#f28e2b" stroke="none" rx="2" ry="2" />
+<text x="736" y="234.1" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Heating and cooling - homes 113.73</text>
+<rect x="716" y="105.62" width="12" height="98.16" fill="#e15759" stroke="none" rx="2" ry="2" />
+<text x="736" y="154.7" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Industry 342.17</text>
+<rect x="294.67" y="69.1" width="12" height="261.81" fill="#edc948" stroke="none" rx="2" ry="2" />
+<text x="286.67" y="200" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Thermal generation 839.98</text>
+<rect x="84" y="24" width="12" height="251.4" fill="#76b7b2" stroke="none" rx="2" ry="2" />
+<text x="76" y="149.7" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Nuclear 839.98</text>
+<rect x="84" y="289.4" width="12" height="86.6" fill="#b07aa1" stroke="none" rx="2" ry="2" />
+<text x="76" y="332.7" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Wind 289.37</text>
+</svg>

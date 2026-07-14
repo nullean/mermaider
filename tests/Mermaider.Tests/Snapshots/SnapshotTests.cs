@@ -5,107 +5,41 @@ namespace Mermaider.Tests.Snapshots;
 public class SnapshotTests
 {
 	[Test]
-	public Task Flowchart_simple() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
-			graph TD
-			A[Start] --> B{Decision}
-			B -->|Yes| C[OK]
-			B -->|No| D[Cancel]
+	public Task Block_grid() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			block-beta
+			columns 3
+			  A["A"] B["B"] C["C"]
+			  D["D"] E["E"] F["F"]
 			"""), "svg");
 
 	[Test]
-	public Task Flowchart_all_shapes() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
-			graph LR
-			A[Rectangle] --> B(Rounded)
-			B --> C([Stadium])
-			C --> D{Diamond}
-			D --> E((Circle))
-			E --> F>Asymmetric]
+	public Task C4_context_basic() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			C4Context
+			title Banking Context
+			Person(customer, "Customer")
+			System(banking, "Internet Banking")
+			System_Ext(mail, "E-mail")
+			Rel(customer, banking, "Uses")
+			Rel(banking, mail, "Sends e-mails", "SMTP")
 			"""), "svg");
 
 	[Test]
-	public Task Flowchart_subgraph() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
-			graph TD
-			subgraph Backend
-			A[API] --> B[DB]
-			end
-			subgraph Frontend
-			C[UI] --> D[State]
-			end
-			C --> A
-			"""), "svg");
-
-	[Test]
-	public Task Flowchart_edge_styles() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
-			graph LR
-			A --> B
-			A -.-> C
-			A ==> D
-			"""), "svg");
-
-	[Test]
-	public Task State_diagram() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
-			stateDiagram-v2
-			[*] --> Idle
-			Idle --> Processing : start
-			Processing --> Done : complete
-			Done --> [*]
-			"""), "svg");
-
-	[Test]
-	public Task Sequence_basic() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
-			sequenceDiagram
-			participant A as Alice
-			participant B as Bob
-			A->>B: Hello
-			B-->>A: Hi
-			"""), "svg");
-
-	[Test]
-	public Task Sequence_with_activation() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
-			sequenceDiagram
-			Client->>+Server: Request
-			Server->>+DB: Query
-			DB-->>-Server: Result
-			Server-->>-Client: Response
-			"""), "svg");
-
-	[Test]
-	public Task Sequence_with_blocks() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
-			sequenceDiagram
-			participant A
-			participant B
-			alt Success
-			A->>B: OK
-			else Failure
-			A->>B: Error
-			end
-			loop Retry
-			A->>B: Ping
-			end
-			"""), "svg");
-
-	[Test]
-	public Task Sequence_with_notes() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
-			sequenceDiagram
-			participant A
-			participant B
-			A->>B: Hello
-			Note right of B: Important
-			Note over A,B: Shared note
+	public Task Class_relationships() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			classDiagram
+			A <|-- B
+			A *-- C
+			A o-- D
+			A --> E
+			A ..> F
+			A ..|> G
 			"""), "svg");
 
 	[Test]
 	public Task Class_with_members() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
 			classDiagram
 			class Animal {
 			<<abstract>>
@@ -122,20 +56,8 @@ public class SnapshotTests
 			"""), "svg");
 
 	[Test]
-	public Task Class_relationships() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
-			classDiagram
-			A <|-- B
-			A *-- C
-			A o-- D
-			A --> E
-			A ..> F
-			A ..|> G
-			"""), "svg");
-
-	[Test]
 	public Task Er_basic() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
 			erDiagram
 			CUSTOMER ||--o{ ORDER : places
 			ORDER ||--|{ LINE_ITEM : contains
@@ -150,26 +72,152 @@ public class SnapshotTests
 			"""), "svg");
 
 	[Test]
-	public Task Flowchart_tokyo_night_theme() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
-			graph TD
-			A --> B --> C
-			""",
-			new() { Bg = "#1a1b26", Fg = "#a9b1d6", Line = "#3d59a1", Accent = "#7aa2f7" }),
-			"svg");
+	public Task Flowchart_all_shapes() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			graph LR
+			A[Rectangle] --> B(Rounded)
+			B --> C([Stadium])
+			C --> D{Diamond}
+			D --> E((Circle))
+			E --> F>Asymmetric]
+			"""), "svg");
+
+	[Test]
+	public Task Flowchart_edge_styles() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			graph LR
+			A --> B
+			A -.-> C
+			A ==> D
+			"""), "svg");
 
 	[Test]
 	public Task Flowchart_opaque() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
 			graph TD
 			A --> B
 			""",
-			new() { Transparent = false }),
-			"svg");
+				new() { Transparent = false }),
+				"svg");
+
+	[Test]
+	public Task Flowchart_simple() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			graph TD
+			A[Start] --> B{Decision}
+			B -->|Yes| C[OK]
+			B -->|No| D[Cancel]
+			"""), "svg");
+
+	[Test]
+	public Task Flowchart_subgraph() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			graph TD
+			subgraph Backend
+			A[API] --> B[DB]
+			end
+			subgraph Frontend
+			C[UI] --> D[State]
+			end
+			C --> A
+			"""), "svg");
+
+	[Test]
+	public Task Flowchart_tokyo_night_theme() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			graph TD
+			A --> B --> C
+			""",
+				new() { Bg = "#1a1b26", Fg = "#a9b1d6", Line = "#3d59a1", Accent = "#7aa2f7" }),
+				"svg");
+
+	[Test]
+	public Task Gantt_milestones() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			gantt
+			title Release train
+			dateFormat YYYY-MM-DD
+			section Build
+			Implement parser :done, p1, 2026-01-06, 3d
+			Add tests        :active, p2, after p1, 2d
+			section Ship
+			RC cut           :milestone, m1, after p2, 0d
+			GA               :crit, p3, after m1, 5d
+			"""), "svg");
+
+	[Test]
+	public Task Gantt_showcase() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			gantt
+			title Shipping this file
+			dateFormat  YYYY-MM-DD
+			section Render
+			Spike the renderer :done, a1, 2026-07-07, 1d
+			Print this page    :active, a2, after a1, 1d
+			section Polish
+			Update tests       :crit, after a2, 12h
+			Update docs        : 6h
+			"""), "svg");
+
+	[Test]
+	public Task GitGraph_branching() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			gitGraph
+			commit id: "init"
+			commit id: "feat-1"
+			branch develop
+			checkout develop
+			commit id: "dev-1"
+			commit id: "dev-2" tag: "v0.1"
+			checkout main
+			merge develop id: "merge-1"
+			commit id: "release" type: HIGHLIGHT tag: "v1.0"
+			"""), "svg");
+
+	[Test]
+	public Task Journey_working_day() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			journey
+			title My working day
+			section Go to work
+			Make tea: 5: Me
+			Go upstairs: 3: Me
+			Do work: 1: Me, Cat
+			section Go home
+			Go downstairs: 5: Me
+			Sit down: 5: Me
+			"""), "svg");
+
+	[Test]
+	public Task Mindmap_basic() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			mindmap
+			  ((Project))
+			    (Planning)
+			      Requirements
+			      Timeline
+			    [Development]
+			      Frontend
+			      Backend
+			    {{Testing}}
+			      Unit Tests
+			      Integration
+			"""), "svg");
+
+	[Test]
+	public Task Packet_udp_header() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			packet-beta
+			title UDP Header
+			0-15: "Source Port"
+			16-31: "Destination Port"
+			32-47: "Length"
+			48-63: "Checksum"
+			"""), "svg");
 
 	[Test]
 	public Task Pie_basic() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
 			pie
 			title Pet Adoption
 			"Dogs" : 386
@@ -179,7 +227,7 @@ public class SnapshotTests
 
 	[Test]
 	public Task Pie_showData() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
 			pie showData
 			title Browser Market Share
 			"Chrome" : 65.3
@@ -191,7 +239,7 @@ public class SnapshotTests
 
 	[Test]
 	public Task Quadrant_basic() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
 			quadrantChart
 			title Priority Matrix
 			x-axis Low Effort --> High Effort
@@ -206,8 +254,108 @@ public class SnapshotTests
 			"""), "svg");
 
 	[Test]
+	public Task Radar_basic() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			radar-beta
+			title Skills Assessment
+			axis Design, Frontend, Backend, DevOps, Testing
+			curve c1["Team A"]{4, 3, 5, 2, 4}
+			curve c2["Team B"]{3, 5, 2, 4, 3}
+			max 5
+			graticule polygon
+			"""), "svg");
+
+	[Test]
+	public Task Requirement_basic() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			requirementDiagram
+
+			requirement test_req {
+			id: 1
+			text: the test text.
+			risk: high
+			verifymethod: test
+			}
+
+			element test_entity {
+			type: simulation
+			}
+
+			test_entity - satisfies -> test_req
+			"""), "svg");
+
+	[Test]
+	public Task Sankey_basic() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			sankey-beta
+			Electricity grid,Over generation / exports,104.453
+			Electricity grid,Heating and cooling - homes,113.726
+			Electricity grid,Industry,342.165
+			Bio-conversion,Losses,26.862
+			Bio-conversion,Solid,280.322
+			Bio-conversion,Gas,81.144
+			"""), "svg");
+
+	[Test]
+	public Task Sequence_basic() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			sequenceDiagram
+			participant A as Alice
+			participant B as Bob
+			A->>B: Hello
+			B-->>A: Hi
+			"""), "svg");
+
+	[Test]
+	public Task Sequence_with_activation() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			sequenceDiagram
+			Client->>+Server: Request
+			Server->>+DB: Query
+			DB-->>-Server: Result
+			Server-->>-Client: Response
+			"""), "svg");
+
+	[Test]
+	public Task Sequence_with_blocks() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			sequenceDiagram
+			participant A
+			participant B
+			alt Success
+			A->>B: OK
+			else Failure
+			A->>B: Error
+			end
+			loop Retry
+			A->>B: Ping
+			end
+			"""), "svg");
+
+	[Test]
+	public Task Sequence_with_notes() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			sequenceDiagram
+			participant A
+			participant B
+			A->>B: Hello
+			Note right of B: Important
+			Note over A,B: Shared note
+			"""), "svg");
+
+	[Test]
+	public Task State_diagram() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			stateDiagram-v2
+			[*] --> Idle
+			Idle --> Processing : start
+			Processing --> Done : complete
+			Done --> [*]
+			"""), "svg");
+
+	[Test]
 	public Task Timeline_with_sections() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
 			timeline
 			title History of Social Media
 			section Early Days
@@ -219,35 +367,8 @@ public class SnapshotTests
 			"""), "svg");
 
 	[Test]
-	public Task GitGraph_branching() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
-			gitGraph
-			commit id: "init"
-			commit id: "feat-1"
-			branch develop
-			checkout develop
-			commit id: "dev-1"
-			commit id: "dev-2" tag: "v0.1"
-			checkout main
-			merge develop id: "merge-1"
-			commit id: "release" type: HIGHLIGHT tag: "v1.0"
-			"""), "svg");
-
-	[Test]
-	public Task Radar_basic() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
-			radar-beta
-			title Skills Assessment
-			axis Design, Frontend, Backend, DevOps, Testing
-			curve c1["Team A"]{4, 3, 5, 2, 4}
-			curve c2["Team B"]{3, 5, 2, 4, 3}
-			max 5
-			graticule polygon
-			"""), "svg");
-
-	[Test]
 	public Task Treemap_basic() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
 			treemap-beta
 			"Engineering": 50
 			"Marketing": 25
@@ -257,7 +378,7 @@ public class SnapshotTests
 
 	[Test]
 	public Task Venn_two_sets() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
 			venn-beta
 			set A["Frontend"]
 			set B["Backend"]
@@ -265,19 +386,36 @@ public class SnapshotTests
 			"""), "svg");
 
 	[Test]
-	public Task Mindmap_basic() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
-			mindmap
-			  ((Project))
-			    (Planning)
-			      Requirements
-			      Timeline
-			    [Development]
-			      Frontend
-			      Backend
-			    {{Testing}}
-			      Unit Tests
-			      Integration
+	public Task XyChart_basic() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			xychart-beta
+			title "Sales Revenue"
+			x-axis [jan, feb, mar, apr, may, jun]
+			y-axis "Revenue (in $)" 4000 --> 11000
+			bar [5000, 6000, 7500, 8200, 9500, 10500]
+			line [5000, 6000, 7500, 8200, 9500, 10500]
+			"""), "svg");
+
+	[Test]
+	public Task XyChart_horizontal() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			xychart-beta horizontal
+			title "Throughput"
+			x-axis [alpha, beta, gamma]
+			y-axis "req/s" 0 --> 100
+			bar [30, 60, 90]
+			"""), "svg");
+
+	[Test]
+	public Task XyChart_multi_series_legend() =>
+			Verifier.Verify(MermaidRenderer.RenderSvg("""
+			xychart-beta
+			title "Latency"
+			x-axis [p50, p90, p99]
+			y-axis "ms" 0 --> 200
+			bar "api" [40, 80, 150]
+			bar "db" [20, 45, 90]
+			line "slo" [100, 100, 100]
 			"""), "svg");
 
 	[Test]

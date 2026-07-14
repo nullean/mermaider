@@ -110,7 +110,16 @@ internal static class StyleBlock
 		DiagramType.Treemap => "treemap",
 		DiagramType.Venn => "venn diagram",
 		DiagramType.Mindmap => "mindmap",
+		DiagramType.Gantt => "gantt chart",
+		DiagramType.Journey => "user journey",
+		DiagramType.C4 => "C4 diagram",
+		DiagramType.Sankey => "sankey diagram",
+		DiagramType.XyChart => "XY chart",
+		DiagramType.Requirement => "requirement diagram",
+		DiagramType.Packet => "packet diagram",
+		DiagramType.Kanban => "kanban board",
 		DiagramType.Architecture => "architecture diagram",
+		DiagramType.Block => "block diagram",
 		_ => "diagram"
 	};
 
@@ -148,8 +157,8 @@ internal static class StyleBlock
 		_ = sb.Append("    --fs-m:  ").Append(fs.M).Append(";\n");
 		_ = sb.Append("    --fs-l:  ").Append(fs.L).Append(";\n");
 		_ = sb.Append("  }\n");
-		_ = sb.Append("  .node, .actor, .entity, .class-node, .architecture-service { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }\n");
-		_ = sb.Append("  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }\n");
+		_ = sb.Append("  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }\n");
+		_ = sb.Append("  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }\n");
 
 		if (strict is not null)
 			AppendStrictModeClasses(sb, strict);
