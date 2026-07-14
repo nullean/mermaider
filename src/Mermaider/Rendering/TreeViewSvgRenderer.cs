@@ -24,9 +24,9 @@ internal static class TreeViewSvgRenderer
 	private const string LabelFontSize = RenderConstants.FsVar.S;
 	private const string DescFontSize = RenderConstants.FsVar.Xs;
 
-	internal static string Render(TreeViewDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(TreeViewDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
 		try
 		{
 			return sb.ToString();
@@ -38,7 +38,7 @@ internal static class TreeViewSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(TreeViewDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(TreeViewDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
@@ -49,7 +49,7 @@ internal static class TreeViewSvgRenderer
 		if (flatRows.Count == 0)
 		{
 			StyleBlock.AppendSvgOpenTag(sb, 200, 60, colors, transparent, accessibility, diagramType);
-			StyleBlock.AppendStyleBlock(sb, font, strict);
+			StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 			_ = sb.Append("\n</svg>");
 			return sb;
 		}
@@ -59,7 +59,7 @@ internal static class TreeViewSvgRenderer
 		var totalHeight = Pad + (flatRows.Count * RowHeight) + Pad;
 
 		StyleBlock.AppendSvgOpenTag(sb, totalWidth, totalHeight, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict);
+		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		// Render connector lines first (under everything else)

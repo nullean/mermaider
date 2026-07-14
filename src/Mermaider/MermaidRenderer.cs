@@ -258,7 +258,7 @@ public static class MermaidRenderer
 
 			DiagramType.TreeView => TreeViewSvgRenderer.RenderToBuilder(
 				TreeViewParser.Parse(PreprocessLinesPreserveIndent(cleaned, accessibility)),
-				colors, font, transparent, strict, accessibility, diagramType),
+				colors, font, monoFont, transparent, strict, accessibility, diagramType),
 
 			_ => SvgRenderer.RenderToBuilder(
 				provider.LayoutFlowchart(ParseInternal(filteredLines, diagramType), options, strict),
