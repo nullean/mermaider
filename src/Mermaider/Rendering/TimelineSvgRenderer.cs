@@ -89,7 +89,7 @@ internal static class TimelineSvgRenderer
 		{
 			var sectionStartX = 40 + (periodIndex * (PeriodWidth + PeriodGap));
 			var sectionWidth = (section.Periods.Count * (PeriodWidth + PeriodGap)) - PeriodGap;
-			var color = CategoricalPalette.At(sectionColorIndex);
+			var color = colors.PaletteAt(sectionColorIndex);
 
 			if (section.Name is { Length: > 0 })
 			{

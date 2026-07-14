@@ -78,7 +78,345 @@ var svg = MermaidRenderer.RenderSvg("""
     """);
 ```
 
+## Theming
+
+Every diagram derives its palette from just two colors&mdash;background and foreground&mdash;using
+`color-mix()` CSS functions embedded in the SVG. Override individual roles for richer themes:
+
+```csharp
+var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
+{
+    Bg = "#1E1E2E",
+    Fg = "#CDD6F4",
+    Accent = "#CBA6F7",    // arrow heads, highlights
+    Muted  = "#6C7086",    // secondary text, edge labels
+});
+```
+
+Because the SVG uses CSS custom properties, themes switch live without re-rendering&mdash;just update the
+`--bg` / `--fg` properties on the root `<svg>` element.
+
+### Built-in themes
+
+15 themes ship out of the box. Pass the name via the `theme` init directive in your diagram source, or
+resolve one programmatically:
+
+```csharp
+var colors = Themes.BuiltIn["tokyo-night"];
+var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
+{
+    Bg = colors.Bg, Fg = colors.Fg, Accent = colors.Accent, Muted = colors.Muted,
+});
+```
+
+| Theme | Style |
+|-------|-------|
+| `zinc-light` | Default light |
+| `zinc-dark` | Default dark |
+| `tokyo-night` / `tokyo-night-storm` / `tokyo-night-light` | Tokyo Night family |
+| `catppuccin-mocha` / `catppuccin-latte` | Catppuccin |
+| `nord` / `nord-light` | Nord |
+| `dracula` | Dracula |
+| `github-light` / `github-dark` | GitHub |
+| `solarized-light` / `solarized-dark` | Solarized |
+| `one-dark` | One Dark |
+
+Dark themes automatically ship a brighter data palette (pie slices, sankey nodes, timeline bands, etc.)
+that maintains legibility on dark backgrounds. You can override the data palette entirely:
+
+```csharp
+var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
+{
+    DataPalette = ["#ff6b6b", "#feca57", "#48dbfb", "#ff9ff3", "#54a0ff"],
+});
+```
+
+## Render Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `Bg` | `string?` | `"#FFFFFF"` | Background color (hex or CSS) |
+| `Fg` | `string?` | `"#27272A"` | Foreground / primary text color |
+| `Line` | `string?` | derived | Edge/connector stroke color |
+| `Accent` | `string?` | derived | Arrowheads, highlights |
+| `Muted` | `string?` | derived | Secondary text, edge labels |
+| `Surface` | `string?` | derived | Node fill tint |
+| `Border` | `string?` | derived | Node/group stroke |
+| `Font` | `string?` | `"Inter"` | Font family for all text |
+| `MonoFont` | `string?` | system stack | Monospace font for ER attribute types and Class member signatures |
+| `FontSize` | `string?` | `"1rem"` | Base font size (`--fs-m`). Accepts CSS units: `"1rem"`, `"16px"`, `"1em"` |
+| `FontSizeSmall` | `double?` | `0.875` | Ratio for small text (`--fs-s`) |
+| `FontSizeExtraSmall` | `double?` | `0.75` | Ratio for extra-small text (`--fs-xs`) |
+| `FontSizeLarge` | `double?` | `1.125` | Ratio for large text (`--fs-l`) |
+| `DataPalette` | `string[]?` | theme default | Categorical colors for pie, sankey, timeline, gitgraph, radar, mindmap, venn, journey, packet, xychart, treemap |
+| `RoundedEdges` | `bool` | `true` | Rounded corners (6px radius) on edge paths |
+| `Transparent` | `bool` | `true` | Transparent background |
+| `Padding` | `double?` | `40` | Canvas padding in px |
+| `NodeSpacing` | `double?` | `28` | Horizontal spacing between sibling nodes |
+| `LayerSpacing` | `double?` | `56` | Vertical spacing between layers |
+
+### Font options
+
+`Font` controls all text in the diagram. `MonoFont` controls code-style text specifically (ER attribute
+types, Class member signatures) — these always render in monospace regardless of the main font. Both
+accept any CSS font-family value:
+
+```csharp
+var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
+{
+    Font = "system-ui",            // sans-serif system font
+    MonoFont = "ui-monospace",     // system monospace (e.g. SF Mono, Cascadia)
+});
+```
+
+Generic CSS keywords (`monospace`, `sans-serif`, `serif`, etc.) are passed unquoted as required by CSS.
+Named fonts are automatically quoted: `'Courier New'`, `'JetBrains Mono'`, etc.
+
+### Data palette
+
+Color-encoded diagram types (pie, sankey, timeline, gitgraph, radar, mindmap, venn, journey, packet,
+xychart, treemap) all draw from a single 12-color Tableau-derived palette. Dark themes ship a brightened
+variant automatically. Use `DataPalette` to supply your own colors:
+
+```csharp
+// Brand colors for pie/sankey/etc.
+var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
+{
+    DataPalette = ["#0f62fe", "#da1e28", "#198038", "#f1c21b"],
+});
+```
+
+The `CategoricalPalette` class exposes all 12 colors by semantic name for use in custom logic:
+
+```csharp
+using Mermaider.Rendering;
+
+// Named colors (index-stable)
+string blue  = CategoricalPalette.Blue;   // #4e79a7
+string red   = CategoricalPalette.Red;    // #e15759
+string green = CategoricalPalette.Green;  // #59a14f
+
+// Dark variants (same hue, ~20% lower lightness — suitable for strokes/borders)
+string redDark  = CategoricalPalette.RedDark;
+string blueDark = CategoricalPalette.BlueDark;
+
+// Ordinal access (wraps at 12)
+string color = CategoricalPalette.At(7);  // Pink
+```
+
+### Edge rounding
+
+Edges use rounded corners by default (6px radius). To render straight/angular edges instead:
+
+```csharp
+var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
+{
+    RoundedEdges = false,
+});
+```
+
+### Font sizing
+
+Font sizes are emitted as CSS custom properties in the SVG `<style>` block:
+
+```css
+:root { --fs-xs: 0.75rem; --fs-s: 0.875rem; --fs-m: 1rem; --fs-l: 1.125rem; }
+```
+
+All text elements reference these variables, so downstream consumers can override sizing by
+redefining the custom properties on the `<svg>` element without re-rendering.
+
+## Implementer Notes
+
+### Label parsing
+
+Node labels support three formats:
+
+- **Plain text**: `A[Hello World]` renders as-is
+- **Markdown labels**: `A["\`**bold** and _italic_\`"]` renders `<tspan>` elements with `font-weight`/`font-style`
+  - Supported tags: `**bold**`, `*italic*`, `~~strikethrough~~`, `<u>underline</u>`
+  - Newlines within markdown labels produce multi-line `<text>` with `<tspan dy="...">`
+- **Escaped newlines**: `\n` in any label is converted to an actual line break
+
+Long labels are automatically word-wrapped at 220px content width during layout. The wrapping
+happens at word boundaries and respects the font metrics used for measurement.
+
+### Edge routing
+
+The built-in Sugiyama engine uses rectilinear edge routing:
+
+- Edges exit from the bottom of source nodes and enter the top of target nodes by default
+- **Fan-out**: When a node has multiple outgoing edges, exit ports shift to left/right sides
+- **Convergent**: When a node has multiple incoming edges from different directions, entry shifts to sides
+- **Invisible edges** (`~~~`) create same-rank constraints without visible connectors
+- **Back-edges** (cycles) detour around nodes with distinct visual paths
+- Edge labels are placed at the midpoint of the longest collinear segment, with a minimum 42px gap from node borders
+
+### SVG structure
+
+The generated SVG follows a consistent structure:
+
+1. `<svg>` with inline `style` attribute for CSS custom properties
+2. `<style>` block with `color-mix()` derivations, font declarations, and font-size variables
+3. `<defs>` with arrow marker definitions
+4. Group backgrounds (subgraph `<rect>` fills)
+5. Edge paths (`<path class="edge" ...>`)
+6. Group headers (subgraph title labels)
+7. Edge labels (text with optional background `<rect>`)
+8. Nodes (shape + label text)
+9. Notes (if applicable)
+
+## Strict Mode
+
+When you embed user-authored Mermaid in a product, you typically want **uniform styling** controlled by your
+design system&mdash;not arbitrary colors injected via `classDef` or `style` directives.
+
+Strict mode:
+
+- **Rejects** `classDef`, `style`, and `linkStyle` directives at parse time (throws `MermaidParseException`)
+- **Rejects** source-authored `theme` / `themeVariables` overrides from `%%{init}%%` and frontmatter
+- **Rejects** C4 `UpdateElementStyle` / `UpdateRelStyle` / `UpdateBoundaryStyle`
+- **Enforces** a pre-approved class allowlist with theme-aware colors
+- **Generates** `@media (prefers-color-scheme: dark)` CSS for automatic light/dark switching
+- **Auto-derives** dark mode colors by inverting HSL lightness (or use explicit overrides)
+
+```csharp
+var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
+{
+    Strict = new StrictModeOptions
+    {
+        AllowedClasses =
+        [
+            new DiagramClass
+            {
+                Name = "ok",
+                Fill = "#D4EDDA", Stroke = "#28A745", Color = "#155724",
+            },
+            new DiagramClass
+            {
+                Name = "warn",
+                Fill = "#FFF3CD", Stroke = "#FFC107", Color = "#856404",
+            },
+            new DiagramClass { Name = "custom-highlight" },
+        ],
+        RejectUnknownClasses = true,
+        Sanitize = SvgSanitizeMode.Strip,
+    }
+});
+```
+
+Nodes reference classes via Mermaid's `:::` shorthand or `class` directive:
+
+```
+graph TD
+  A[Healthy]:::ok --> B[Warning]:::warn --> C[Custom]:::custom-highlight
+```
+
+## SVG Sanitization
+
+A standalone, general-purpose SVG sanitizer is included&mdash;useful beyond Mermaid for any untrusted SVG content.
+
+It enforces element and attribute allowlists, and **always** blocks the main XSS vectors regardless of the
+allowlist: `<script>`, `<foreignObject>`, `on*` event handlers, `href`/`xlink:href` with `javascript:` URIs.
+
+```csharp
+var result = SvgSanitizer.Sanitize(untrustedSvg);
+
+if (result.HasViolations)
+    Console.WriteLine($"Stripped {result.Violations.Count} violations");
+
+var cleanSvg = result.Svg;
+```
+
+## CLI
+
+```bash
+dotnet tool install -g Mermaider.Cli
+
+echo 'graph TD
+  A --> B' | mermaid > diagram.svg
+
+mermaid input.mmd -o output.svg --theme github-dark
+mermaid --list-themes
+```
+
+## <a name="msagl-layout-provider"></a>MSAGL Layout Provider
+
+If you prefer MSAGL for its edge routing fidelity on complex graphs, install the optional package:
+
+```bash
+dotnet add package Mermaider.Layout.Msagl
+```
+
+```csharp
+using Mermaider.Layout.Msagl;
+
+// Global — all subsequent renders use MSAGL:
+MermaidRenderer.SetLayoutProvider(new MsaglLayoutProvider());
+
+// Or per-call:
+var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
+{
+    LayoutProvider = new MsaglLayoutProvider(),
+});
+```
+
+## AOT Support
+
+Mermaider is fully compatible with .NET Native AOT. To publish your own AOT app:
+
+```xml
+<PropertyGroup>
+  <PublishAot>true</PublishAot>
+</PropertyGroup>
+
+<ItemGroup>
+  <PackageReference Include="Mermaider" />
+</ItemGroup>
+```
+
+```bash
+dotnet publish -c Release
+```
+
+## Benchmarks
+
+Graph-based diagram types use the built-in Sugiyama engine. Measured with `[MemoryDiagnoser]` on .NET 10
+(Apple M2 Pro):
+
+| Method             |         Mean | Allocated |
+|--------------------|-------------:|----------:|
+| Flowchart (simple) | ~23 &micro;s |    ~46 KB |
+| Flowchart (large)  | ~71 &micro;s |   ~145 KB |
+| Sequence           | ~12 &micro;s |    ~28 KB |
+| State              | ~17 &micro;s |    ~47 KB |
+| Class              | ~13 &micro;s |    ~36 KB |
+| ER                 | ~17 &micro;s |    ~45 KB |
+
+```bash
+dotnet run --project tests/Mermaider.Benchmarks -c Release
+```
+
+## Building from Source
+
+```bash
+git clone https://github.com/nullean/mermaider.git
+cd mermaider
+./build.sh build
+./build.sh test
+```
+
+---
+
 ## Supported Diagrams
+
+Mermaider renders all major Mermaid diagram types to SVG. The design model is normalized across all
+types&mdash;every diagram respects the same `Bg`, `Fg`, `Accent`, `Muted`, `Font`, `MonoFont`, and
+`DataPalette` options.
+
+<p align="center">
+  <img src="docs/screenshots/playground.png" alt="Mermaider playground — all diagram types with theme controls" />
+</p>
 
 ### Flowchart
 
@@ -314,6 +652,9 @@ MermaidRenderer.RenderSvg("""
       section Polish
       Update tests       :crit, after a2, 12h
       Update docs        : 6h
+    """);
+```
+
 ### User Journey
 
 ```csharp
@@ -347,6 +688,7 @@ MermaidRenderer.RenderSvg("""
 Supports `Rel`, `BiRel`, `Rel_Back` (arrow reversed vs argument order), and `RelIndex`. Directional forms (`Rel_U` / `Rel_D` / `Rel_L` / `Rel_R` and aliases) parse as plain `Rel`; layout direction hints are ignored in v1.
 
 <p align="center"><img src="docs/screenshots/c4.svg" alt="C4 diagram" /></p>
+
 ### Sankey Diagram
 
 ```csharp
@@ -359,6 +701,7 @@ MermaidRenderer.RenderSvg("""
 ```
 
 <p align="center"><img src="docs/screenshots/sankey.svg" alt="Sankey diagram" /></p>
+
 ### XY Chart
 
 ```csharp
@@ -373,6 +716,7 @@ MermaidRenderer.RenderSvg("""
 ```
 
 <p align="center"><img src="docs/screenshots/xychart.svg" alt="XY chart" /></p>
+
 ### Requirement Diagram
 
 ```csharp
@@ -395,6 +739,7 @@ MermaidRenderer.RenderSvg("""
 ```
 
 <p align="center"><img src="docs/screenshots/requirement.svg" alt="Requirement diagram" /></p>
+
 ### Packet Diagram
 
 ```csharp
@@ -411,6 +756,7 @@ MermaidRenderer.RenderSvg("""
 Supports range fields (`0-15: "Label"`), single-bit fields (`106: "URG"`), and bit-count form (`+16: "Source Port"`).
 
 <p align="center"><img src="docs/screenshots/packet.svg" alt="Packet diagram" /></p>
+
 ### Kanban
 
 ```csharp
@@ -551,245 +897,7 @@ Built-in icons: `file`, `folder`, `folder-open`, `file:code`, `file:image`, `fil
 
 <p align="center"><img src="docs/screenshots/treeview.svg" alt="Tree view diagram" /></p>
 
-## Theming
-
-Every diagram derives its palette from just two colors&mdash;background and foreground&mdash;using
-`color-mix()` CSS functions embedded in the SVG. Override individual roles for richer themes:
-
-```csharp
-var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
-{
-    Bg = "#1E1E2E",
-    Fg = "#CDD6F4",
-    Accent = "#CBA6F7",    // arrow heads, highlights
-    Muted  = "#6C7086",    // secondary text, labels
-});
-```
-
-Because the SVG uses CSS custom properties, themes switch live without re-rendering&mdash;just update the
-`--bg` / `--fg` properties on the root `<svg>` element.
-
-## Render Options
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `Bg` | `string?` | `"#FFFFFF"` | Background color (hex or CSS) |
-| `Fg` | `string?` | `"#27272A"` | Foreground / primary text color |
-| `Line` | `string?` | derived | Edge/connector stroke color |
-| `Accent` | `string?` | derived | Arrowheads, highlights |
-| `Muted` | `string?` | derived | Secondary text, edge labels |
-| `Surface` | `string?` | derived | Node fill tint |
-| `Border` | `string?` | derived | Node/group stroke |
-| `Font` | `string?` | `"Inter"` | Font family for all text |
-| `FontSize` | `string?` | `"1rem"` | Base font size (`--fs-m`). Accepts CSS units: `"1rem"`, `"16px"`, `"1em"` |
-| `FontSizeSmall` | `double?` | `0.875` | Ratio for small text (`--fs-s`) |
-| `FontSizeExtraSmall` | `double?` | `0.75` | Ratio for extra-small text (`--fs-xs`) |
-| `FontSizeLarge` | `double?` | `1.125` | Ratio for large text (`--fs-l`) |
-| `RoundedEdges` | `bool` | `true` | Rounded corners (6px radius) on edge paths |
-| `Transparent` | `bool` | `true` | Transparent background |
-| `Padding` | `double?` | `40` | Canvas padding in px |
-| `NodeSpacing` | `double?` | `28` | Horizontal spacing between sibling nodes |
-| `LayerSpacing` | `double?` | `56` | Vertical spacing between layers |
-
-### Edge rounding
-
-Edges use rounded corners by default (6px radius). To render straight/angular edges instead:
-
-```csharp
-var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
-{
-    RoundedEdges = false,
-});
-```
-
-### Font sizing
-
-Font sizes are emitted as CSS custom properties in the SVG `<style>` block:
-
-```css
-:root { --fs-xs: 0.75rem; --fs-s: 0.875rem; --fs-m: 1rem; --fs-l: 1.125rem; }
-```
-
-All text elements reference these variables, so downstream consumers can override sizing by
-redefining the custom properties on the `<svg>` element without re-rendering.
-
-## Implementer Notes
-
-### Label parsing
-
-Node labels support three formats:
-
-- **Plain text**: `A[Hello World]` renders as-is
-- **Markdown labels**: `A["\`**bold** and _italic_\`"]` renders `<tspan>` elements with `font-weight`/`font-style`
-  - Supported tags: `**bold**`, `*italic*`, `~~strikethrough~~`, `<u>underline</u>`
-  - Newlines within markdown labels produce multi-line `<text>` with `<tspan dy="...">`
-- **Escaped newlines**: `\n` in any label is converted to an actual line break
-
-Long labels are automatically word-wrapped at 220px content width during layout. The wrapping
-happens at word boundaries and respects the font metrics used for measurement.
-
-### Edge routing
-
-The built-in Sugiyama engine uses rectilinear edge routing:
-
-- Edges exit from the bottom of source nodes and enter the top of target nodes by default
-- **Fan-out**: When a node has multiple outgoing edges, exit ports shift to left/right sides
-- **Convergent**: When a node has multiple incoming edges from different directions, entry shifts to sides
-- **Invisible edges** (`~~~`) create same-rank constraints without visible connectors
-- **Back-edges** (cycles) detour around nodes with distinct visual paths
-- Edge labels are placed at the midpoint of the longest collinear segment, with a minimum 42px gap from node borders
-
-### SVG structure
-
-The generated SVG follows a consistent structure:
-
-1. `<svg>` with inline `style` attribute for CSS custom properties
-2. `<style>` block with `color-mix()` derivations, font declarations, and font-size variables
-3. `<defs>` with arrow marker definitions
-4. Group backgrounds (subgraph `<rect>` fills)
-5. Edge paths (`<path class="edge" ...>`)
-6. Group headers (subgraph title labels)
-7. Edge labels (text with optional background `<rect>`)
-8. Nodes (shape + label text)
-9. Notes (if applicable)
-
-## Strict Mode
-
-When you embed user-authored Mermaid in a product, you typically want **uniform styling** controlled by your
-design system&mdash;not arbitrary colors injected via `classDef` or `style` directives.
-
-Strict mode:
-
-- **Rejects** `classDef` and `style` directives at parse time (throws `MermaidParseException`)
-- **Enforces** a pre-approved class allowlist with theme-aware colors
-- **Generates** `@media (prefers-color-scheme: dark)` CSS for automatic light/dark switching
-- **Auto-derives** dark mode colors by inverting HSL lightness (or use explicit overrides)
-
-```csharp
-var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
-{
-    Strict = new StrictModeOptions
-    {
-        AllowedClasses =
-        [
-            new DiagramClass
-            {
-                Name = "ok",
-                Fill = "#D4EDDA", Stroke = "#28A745", Color = "#155724",
-            },
-            new DiagramClass
-            {
-                Name = "warn",
-                Fill = "#FFF3CD", Stroke = "#FFC107", Color = "#856404",
-            },
-            new DiagramClass { Name = "custom-highlight" },
-        ],
-        RejectUnknownClasses = true,
-        Sanitize = SvgSanitizeMode.Strip,
-    }
-});
-```
-
-Nodes reference classes via Mermaid's `:::` shorthand or `class` directive:
-
-```
-graph TD
-  A[Healthy]:::ok --> B[Warning]:::warn --> C[Custom]:::custom-highlight
-```
-
-## SVG Sanitization
-
-A standalone, general-purpose SVG sanitizer is included&mdash;useful beyond Mermaid for any untrusted SVG content.
-
-It enforces element and attribute allowlists, and **always** blocks the main XSS vectors regardless of the
-allowlist: `<script>`, `<foreignObject>`, `on*` event handlers, `href`/`xlink:href` with `javascript:` URIs.
-
-```csharp
-var result = SvgSanitizer.Sanitize(untrustedSvg);
-
-if (result.HasViolations)
-    Console.WriteLine($"Stripped {result.Violations.Count} violations");
-
-var cleanSvg = result.Svg;
-```
-
-## CLI
-
-```bash
-dotnet tool install -g Mermaider.Cli
-
-echo 'graph TD
-  A --> B' | mermaid > diagram.svg
-
-mermaid input.mmd -o output.svg --theme github-dark
-mermaid --list-themes
-```
-
-## <a name="msagl-layout-provider"></a>MSAGL Layout Provider
-
-If you prefer MSAGL for its edge routing fidelity on complex graphs, install the optional package:
-
-```bash
-dotnet add package Mermaider.Layout.Msagl
-```
-
-```csharp
-using Mermaider.Layout.Msagl;
-
-// Global — all subsequent renders use MSAGL:
-MermaidRenderer.SetLayoutProvider(new MsaglLayoutProvider());
-
-// Or per-call:
-var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
-{
-    LayoutProvider = new MsaglLayoutProvider(),
-});
-```
-
-## AOT Support
-
-Mermaider is fully compatible with .NET Native AOT. To publish your own AOT app:
-
-```xml
-<PropertyGroup>
-  <PublishAot>true</PublishAot>
-</PropertyGroup>
-
-<ItemGroup>
-  <PackageReference Include="Mermaider" />
-</ItemGroup>
-```
-
-```bash
-dotnet publish -c Release
-```
-
-## Benchmarks
-
-Graph-based diagram types use the built-in Sugiyama engine. Measured with `[MemoryDiagnoser]` on .NET 10
-(Apple M2 Pro):
-
-| Method             |         Mean | Allocated |
-|--------------------|-------------:|----------:|
-| Flowchart (simple) | ~23 &micro;s |    ~46 KB |
-| Flowchart (large)  | ~71 &micro;s |   ~145 KB |
-| Sequence           | ~12 &micro;s |    ~28 KB |
-| State              | ~17 &micro;s |    ~47 KB |
-| Class              | ~13 &micro;s |    ~36 KB |
-| ER                 | ~17 &micro;s |    ~45 KB |
-
-```bash
-dotnet run --project tests/Mermaider.Benchmarks -c Release
-```
-
-## Building from Source
-
-```bash
-git clone https://github.com/nullean/mermaider.git
-cd mermaider
-./build.sh build
-./build.sh test
-```
+---
 
 ## Attribution
 

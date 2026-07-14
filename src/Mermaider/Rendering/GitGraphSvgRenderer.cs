@@ -42,7 +42,7 @@ internal static class GitGraphSvgRenderer
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
-		var simulation = Simulate(graph);
+		var simulation = Simulate(graph, colors);
 		if (simulation.Commits.Count == 0)
 		{
 			StyleBlock.AppendSvgOpenTag(sb, 200, 100, colors, transparent, accessibility, diagramType);
@@ -192,7 +192,7 @@ internal static class GitGraphSvgRenderer
 	private sealed record BranchInfo(string Name, int Lane, string Color);
 	private sealed record SimulationResult(List<CommitInfo> Commits, List<CommitLink> Links, List<BranchInfo> Branches);
 
-	private static SimulationResult Simulate(GitGraph graph)
+	private static SimulationResult Simulate(GitGraph graph, DiagramColors colors)
 	{
 		var commits = new List<CommitInfo>();
 		var links = new List<CommitLink>();
@@ -205,8 +205,8 @@ internal static class GitGraphSvgRenderer
 		var currentBranch = "main";
 
 		branches["main"] = nextLane++;
-		branchColors["main"] = CategoricalPalette.Blue;
-		branchList.Add(new BranchInfo("main", 0, CategoricalPalette.Blue));
+		branchColors["main"] = colors.PaletteAt(0);
+		branchList.Add(new BranchInfo("main", 0, colors.PaletteAt(0)));
 
 		var commitCounter = 0;
 
@@ -218,7 +218,7 @@ internal static class GitGraphSvgRenderer
 				{
 					var lane = nextLane++;
 					branches[branch.Name] = lane;
-					var color = CategoricalPalette.At(lane);
+					var color = colors.PaletteAt(lane);
 					branchColors[branch.Name] = color;
 					branchList.Add(new BranchInfo(branch.Name, lane, color));
 				}
@@ -231,7 +231,7 @@ internal static class GitGraphSvgRenderer
 			else if (action is GitCommitAction commit)
 			{
 				var lane = branches.GetValueOrDefault(currentBranch, 0);
-				var color = branchColors.GetValueOrDefault(currentBranch, CategoricalPalette.Blue);
+				var color = branchColors.GetValueOrDefault(currentBranch, colors.PaletteAt(0));
 				var label = commit.Id ?? commitCounter.ToString(CultureInfo.InvariantCulture);
 				commitCounter++;
 
@@ -247,7 +247,7 @@ internal static class GitGraphSvgRenderer
 			else if (action is GitMergeAction merge)
 			{
 				var lane = branches.GetValueOrDefault(currentBranch, 0);
-				var color = branchColors.GetValueOrDefault(currentBranch, CategoricalPalette.Blue);
+				var color = branchColors.GetValueOrDefault(currentBranch, colors.PaletteAt(0));
 				commitCounter++;
 
 				var idx = commits.Count;
@@ -268,7 +268,7 @@ internal static class GitGraphSvgRenderer
 			else if (action is GitCherryPickAction cherryPick)
 			{
 				var lane = branches.GetValueOrDefault(currentBranch, 0);
-				var color = branchColors.GetValueOrDefault(currentBranch, CategoricalPalette.Blue);
+				var color = branchColors.GetValueOrDefault(currentBranch, colors.PaletteAt(0));
 				commitCounter++;
 
 				var idx = commits.Count;

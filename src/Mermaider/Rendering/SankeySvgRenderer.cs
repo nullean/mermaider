@@ -68,7 +68,7 @@ internal static class SankeySvgRenderer
 			return sb;
 		}
 
-		var (nodes, links, layerCount) = Layout(diagram);
+		var (nodes, links, layerCount) = Layout(diagram, colors);
 		var width = DefaultWidth;
 		var height = DefaultHeight;
 
@@ -99,7 +99,7 @@ internal static class SankeySvgRenderer
 		return sb;
 	}
 
-	private static (Dictionary<string, NodeLayout> Nodes, List<LinkLayout> Links, int LayerCount) Layout(SankeyDiagram diagram)
+	private static (Dictionary<string, NodeLayout> Nodes, List<LinkLayout> Links, int LayerCount) Layout(SankeyDiagram diagram, DiagramColors colors)
 	{
 		var nodes = new Dictionary<string, NodeLayout>(StringComparer.Ordinal);
 		var edges = new List<(string Source, string Target, double Value)>();
@@ -205,7 +205,7 @@ internal static class SankeySvgRenderer
 		// Color nodes
 		var colorIdx = 0;
 		foreach (var n in nodes.Values.OrderBy(n => n.Name, StringComparer.Ordinal))
-			n.Color = CategoricalPalette.At(colorIdx++);
+			n.Color = colors.PaletteAt(colorIdx++);
 
 		// Horizontal positions
 		var chartW = DefaultWidth - (Margin * 2) - 120; // leave room for labels

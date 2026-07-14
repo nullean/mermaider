@@ -75,7 +75,7 @@ internal static class PieSvgRenderer
 			var slice = chart.Slices[i];
 			var fraction = slice.Value / total;
 			var sweepAngle = fraction * 2 * Math.PI;
-			var color = CategoricalPalette.At(i);
+			var color = colors.PaletteAt(i);
 
 			AppendSlice(sb, centerY, startAngle, sweepAngle, color);
 			AppendSliceLabel(sb, fraction, centerY, startAngle, sweepAngle, color);
@@ -83,7 +83,7 @@ internal static class PieSvgRenderer
 			startAngle += sweepAngle;
 		}
 
-		AppendLegend(sb, chart, legendTop);
+		AppendLegend(sb, chart, legendTop, colors);
 
 		_ = sb.Append("\n</svg>");
 		return sb;
@@ -137,12 +137,12 @@ internal static class PieSvgRenderer
 		_ = sb.Append("</text>");
 	}
 
-	private static void AppendLegend(StringBuilder sb, PieChart chart, double legendTop)
+	private static void AppendLegend(StringBuilder sb, PieChart chart, double legendTop, DiagramColors colors)
 	{
 		for (var i = 0; i < chart.Slices.Count; i++)
 		{
 			var slice = chart.Slices[i];
-			var color = CategoricalPalette.At(i);
+			var color = colors.PaletteAt(i);
 			var y = legendTop + (i * LegendRowHeight);
 
 			_ = sb.Append("\n<rect x=\"").Append(LegendX.SvgFormat()).Append("\" y=\"").Append(y.SvgFormat())

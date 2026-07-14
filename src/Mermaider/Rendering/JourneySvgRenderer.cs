@@ -63,7 +63,7 @@ internal static class JourneySvgRenderer
 		var actors = CollectActors(diagram);
 		var actorMap = new Dictionary<string, (string Color, int Pos)>(StringComparer.Ordinal);
 		for (var i = 0; i < actors.Count; i++)
-			actorMap[actors[i]] = (CategoricalPalette.At(i), i);
+			actorMap[actors[i]] = (colors.PaletteAt(i), i);
 
 		// left margin expands with longest actor name (mermaid measures text; we estimate)
 		var legendLabelW = 0.0;
@@ -132,7 +132,7 @@ internal static class JourneySvgRenderer
 				continue;
 			}
 
-			var fill = CategoricalPalette.At(sectionNum);
+			var fill = colors.PaletteAt(sectionNum);
 			// mermaid: width * taskCount + diagramMarginX * (taskCount - 1)
 			// but task spacing uses taskMargin not diagramMarginX for positions.
 			// drawSection width = conf.width * taskCount + conf.diagramMarginX * (taskCount-1)
@@ -166,7 +166,7 @@ internal static class JourneySvgRenderer
 			var task = item.Task;
 			var taskX = leftMargin + (i * pitch);
 			var center = taskX + (TaskWidth / 2);
-			var fill = CategoricalPalette.At(item.SectionIndex);
+			var fill = colors.PaletteAt(item.SectionIndex);
 			var score = Math.Clamp(task.Score, 1, 5);
 			var faceCy = FaceBaseY + ((5 - score) * FaceStepY);
 

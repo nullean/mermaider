@@ -1145,6 +1145,9 @@ string PlaygroundScripts(string slugsJson, string initialSource) => $$"""
 	      if (t.accent) document.getElementById('pg-accent').value = t.accent;
 	      if (t.line) document.getElementById('pg-line').value = t.line;
 	      if (t.muted) document.getElementById('pg-muted').value = t.muted;
+	      const palette = t.dataPalette || {{System.Text.Json.JsonSerializer.Serialize(Themes.DefaultDataPalette)}};
+	      const row = document.querySelector('.palette-row');
+	      if (row) row.innerHTML = palette.map(c => `<div class="palette-swatch" style="background:${c}" title="${c}"></div>`).join('');
 	    }
 	    pgScheduleRender();
 	  }
@@ -1167,15 +1170,13 @@ string PlaygroundScripts(string slugsJson, string initialSource) => $$"""
 	</script>
 	""";
 
-// 12-color Tableau sequence — mirrors CategoricalPalette.cs (src/Mermaider/Rendering/CategoricalPalette.cs)
-string PaletteSwatches()
+string PaletteSwatches(string? themeName = null)
 {
-	string[] colors =
-	[
-		"#4e79a7", "#f28e2b", "#e15759", "#76b7b2",
-		"#59a14f", "#edc948", "#b07aa1", "#ff9da7",
-		"#9c755f", "#bab0ac", "#86bcb6", "#8cd17d",
-	];
+	var colors = themeName is not null
+		&& Themes.BuiltIn.TryGetValue(themeName, out var tc)
+		&& tc.DataPalette is not null
+		? tc.DataPalette
+		: Themes.DefaultDataPalette;
 	return string.Join("", colors.Select(c =>
 		$"<div class=\"palette-swatch\" style=\"background:{c}\" title=\"{c}\"></div>"));
 }
@@ -1192,6 +1193,11 @@ string ThemesJson()
 			parts.Add($"\"line\":\"{c.Line}\"");
 		if (c.Muted is not null)
 			parts.Add($"\"muted\":\"{c.Muted}\"");
+		if (c.DataPalette is not null)
+		{
+			var paletteJson = "[" + string.Join(",", c.DataPalette.Select(p => $"\"{p}\"")) + "]";
+			parts.Add($"\"dataPalette\":{paletteJson}");
+		}
 		return $"\"{kv.Key}\":{{{string.Join(",", parts)}}}";
 	});
 	return "{" + string.Join(",", entries) + "}";

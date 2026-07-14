@@ -71,12 +71,12 @@ internal static class RadarSvgRenderer
 		for (var ci = 0; ci < chart.Curves.Count; ci++)
 		{
 			var curve = chart.Curves[ci];
-			var color = CategoricalPalette.At(ci);
+			var color = colors.PaletteAt(ci);
 			AppendCurve(sb, chart, curve, n, centerY, color);
 		}
 
 		if (chart.ShowLegend && chart.Curves.Count > 0)
-			AppendLegend(sb, chart, titleOffset + 30);
+			AppendLegend(sb, chart, titleOffset + 30, colors);
 
 		_ = sb.Append("\n</svg>");
 		return sb;
@@ -172,13 +172,13 @@ internal static class RadarSvgRenderer
 		}
 	}
 
-	private static void AppendLegend(StringBuilder sb, RadarChart chart, double legendTop)
+	private static void AppendLegend(StringBuilder sb, RadarChart chart, double legendTop, DiagramColors colors)
 	{
 		var legendX = CenterX + Radius + LabelPad + 50;
 		for (var i = 0; i < chart.Curves.Count; i++)
 		{
 			var curve = chart.Curves[i];
-			var color = CategoricalPalette.At(i);
+			var color = colors.PaletteAt(i);
 			var y = legendTop + (i * LegendRowHeight);
 
 			_ = sb.Append("\n<rect x=\"").Append(legendX.SvgFormat()).Append("\" y=\"").Append(y.SvgFormat())

@@ -70,6 +70,13 @@ public sealed record RenderOptions
 	public IGraphLayoutProvider? LayoutProvider { get; init; }
 
 	/// <summary>
+	/// Override the categorical data palette used by color-encoded diagram types
+	/// (pie, sankey, timeline, radar, gitgraph, mindmap, venn, journey, packet, xychart, treemap).
+	/// When null, the theme's built-in data palette is used (dark themes ship a brighter variant).
+	/// </summary>
+	public string[]? DataPalette { get; init; }
+
+	/// <summary>
 	/// Enable strict mode. When set, <c>classDef</c> and <c>style</c> directives
 	/// are rejected, and only pre-approved class names are allowed on nodes.
 	/// </summary>

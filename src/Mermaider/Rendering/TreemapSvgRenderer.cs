@@ -41,7 +41,7 @@ internal static class TreemapSvgRenderer
 		if (allNodes.Count > 0)
 		{
 			var rects = new List<TreeRect>();
-			Squarify(allNodes, 0, 0, ChartWidth, ChartHeight, rects, 0);
+			Squarify(allNodes, 0, 0, ChartWidth, ChartHeight, rects, 0, colors);
 
 			foreach (var rect in rects)
 				AppendRect(sb, rect);
@@ -53,7 +53,7 @@ internal static class TreemapSvgRenderer
 
 	private sealed record TreeRect(double X, double Y, double W, double H, string Label, double Value, string Color, int Depth);
 
-	private static void Squarify(IReadOnlyList<TreemapNode> nodes, double x, double y, double w, double h, List<TreeRect> rects, int depth)
+	private static void Squarify(IReadOnlyList<TreemapNode> nodes, double x, double y, double w, double h, List<TreeRect> rects, int depth, DiagramColors colors)
 	{
 		var total = 0.0;
 		foreach (var node in nodes)
@@ -65,10 +65,10 @@ internal static class TreemapSvgRenderer
 		var sorted = new List<TreemapNode>(nodes);
 		sorted.Sort((a, b) => b.ComputedValue.CompareTo(a.ComputedValue));
 
-		LayoutRow(sorted, x, y, w, h, total, rects, depth);
+		LayoutRow(sorted, x, y, w, h, total, rects, depth, colors);
 	}
 
-	private static void LayoutRow(List<TreemapNode> nodes, double x, double y, double w, double h, double total, List<TreeRect> rects, int depth)
+	private static void LayoutRow(List<TreemapNode> nodes, double x, double y, double w, double h, double total, List<TreeRect> rects, int depth, DiagramColors colors)
 	{
 		if (nodes.Count == 0 || total <= 0)
 			return;
@@ -93,7 +93,7 @@ internal static class TreemapSvgRenderer
 				rh = h * fraction;
 			}
 
-			var color = CategoricalPalette.At(rects.Count);
+			var color = colors.PaletteAt(rects.Count);
 			rects.Add(new TreeRect(cx + Padding, cy + Padding, rw - (Padding * 2), rh - (Padding * 2), node.Label, node.ComputedValue, color, depth));
 
 			if (node.Children.Count > 0)
@@ -101,7 +101,7 @@ internal static class TreemapSvgRenderer
 				var innerY = cy + Padding + HeaderHeight;
 				var innerH = rh - (Padding * 2) - HeaderHeight;
 				if (innerH > 10)
-					Squarify(node.Children, cx + Padding, innerY, rw - (Padding * 2), innerH, rects, depth + 1);
+					Squarify(node.Children, cx + Padding, innerY, rw - (Padding * 2), innerH, rects, depth + 1, colors);
 			}
 
 			if (isWide)

@@ -23,8 +23,8 @@ internal static class PacketSvgRenderer
 
 	// Block fills are light tints of the categorical palette mixed against the theme background,
 	// keeping a pastel look while following the theme and the shared palette.
-	private static string BlockFill(int index) =>
-		$"color-mix(in srgb, {CategoricalPalette.At(index)} 18%, var(--bg))";
+	private static string BlockFill(int index, DiagramColors colors) =>
+		$"color-mix(in srgb, {colors.PaletteAt(index)} 18%, var(--bg))";
 
 	private readonly record struct Segment(int Start, int End, string Label, int ColorIndex);
 
@@ -75,7 +75,7 @@ internal static class PacketSvgRenderer
 		{
 			var wordY = titleOffset + (row * totalRowHeight) + rowPadY;
 			foreach (var seg in rows[row])
-				AppendSegment(sb, seg, wordY, showBits);
+				AppendSegment(sb, seg, wordY, showBits, colors);
 		}
 
 		_ = sb.Append("\n</svg>");
@@ -121,7 +121,7 @@ internal static class PacketSvgRenderer
 		return rows;
 	}
 
-	private static void AppendSegment(StringBuilder sb, Segment seg, double wordY, bool showBits)
+	private static void AppendSegment(StringBuilder sb, Segment seg, double wordY, bool showBits, DiagramColors colors)
 	{
 		var col = seg.Start % BitsPerRow;
 		var bitCount = seg.End - seg.Start + 1;
@@ -130,7 +130,7 @@ internal static class PacketSvgRenderer
 		if (width < 1)
 			width = 1;
 
-		var fill = BlockFill(seg.ColorIndex);
+		var fill = BlockFill(seg.ColorIndex, colors);
 
 		_ = sb.Append("\n<rect x=\"").Append(blockX.SvgFormat())
 			.Append("\" y=\"").Append(wordY.SvgFormat())

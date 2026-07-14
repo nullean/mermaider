@@ -174,7 +174,7 @@ internal static class XyChartSvgRenderer
 		// Stable series colors in declaration order (shared by draw + legend).
 		var seriesColors = new string[chart.Series.Count];
 		for (var si = 0; si < chart.Series.Count; si++)
-			seriesColors[si] = CategoricalPalette.At(si);
+			seriesColors[si] = colors.PaletteAt(si);
 
 		var barSeriesIdx = new List<int>();
 		for (var si = 0; si < chart.Series.Count; si++)

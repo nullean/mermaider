@@ -373,6 +373,7 @@ public static class MermaidRenderer
 			Muted = options?.Muted ?? baseColors.Muted,
 			Surface = options?.Surface ?? baseColors.Surface,
 			Border = options?.Border ?? baseColors.Border,
+			DataPalette = options?.DataPalette ?? baseColors.DataPalette,
 		};
 
 		// Apply themeVariables overrides from init directive

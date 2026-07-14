@@ -31,6 +31,15 @@ internal static class ColorUtils
 		return $"#{r2:X2}{g2:X2}{b2:X2}";
 	}
 
+	/// <summary>Shift the HSL lightness of a hex color by <paramref name="delta"/> (e.g. -0.20 to darken, +0.15 to lighten).</summary>
+	internal static string AdjustLightness(string hex, double delta)
+	{
+		var (r, g, b) = ParseHex(hex);
+		var (h, s, l) = RgbToHsl(r, g, b);
+		var (r2, g2, b2) = HslToRgb(h, s, Math.Clamp(l + delta, 0.0, 1.0));
+		return $"#{r2:X2}{g2:X2}{b2:X2}";
+	}
+
 	private static (byte R, byte G, byte B) ParseHex(string hex)
 	{
 		var span = hex.AsSpan();

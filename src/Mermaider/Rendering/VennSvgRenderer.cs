@@ -55,7 +55,7 @@ internal static class VennSvgRenderer
 			var set = diagram.Sets[i];
 			var (px, py) = positions[i];
 			setPositions[set.Id] = (px, py);
-			var color = CategoricalPalette.At(i);
+			var color = colors.PaletteAt(i);
 			var r = BaseRadius;
 
 			_ = sb.Append("\n<circle cx=\"").Append(px.SvgFormat()).Append("\" cy=\"").Append(py.SvgFormat())
