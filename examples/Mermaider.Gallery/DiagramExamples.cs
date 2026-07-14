@@ -795,6 +795,7 @@ public static class DiagramExamples
 			1995 : Java : JavaScript : Ruby
 			2009 : Go
 			2015 : Rust
+			2016 : .NET Core
 			"""),
 
 		// ── GitGraph ───────────────────────────────────────────────────
