@@ -700,6 +700,21 @@ public static class DiagramExamples
 			"Africa" : 2
 			"""),
 
+		new("pie-inline-title", "Inline Title", DiagramCategory.Pie, """
+			pie title Team Lunch Vote
+			"Pizza" : 12
+			"Sushi" : 8
+			"Tacos" : 5
+			"Salad" : 3
+			"""),
+
+		new("pie-showdata-inline-title", "showData + Inline Title", DiagramCategory.Pie, """
+			pie showData title CI Pipeline Outcomes
+			"Success" : 187
+			"Failed" : 23
+			"Cancelled" : 9
+			""", "showData"),
+
 		// ── Quadrant Chart ─────────────────────────────────────────────
 
 		new("quadrant-basic", "Priority Matrix", DiagramCategory.Quadrant, """
@@ -733,6 +748,20 @@ public static class DiagramExamples
 			Python: [0.8, 0.9]
 			"""),
 
+		new("quadrant-inline-title", "Inline Title", DiagramCategory.Quadrant, """
+			quadrantChart title Feature Prioritization
+			x-axis Low Complexity --> High Complexity
+			y-axis Low Value --> High Value
+			quadrant-1 Quick Wins
+			quadrant-2 Big Bets
+			quadrant-3 Low Priority
+			quadrant-4 Fill-Ins
+			Dark Mode: [0.2, 0.8]
+			SSO: [0.6, 0.9]
+			CSV Export: [0.2, 0.4]
+			AI Suggestions: [0.9, 0.7]
+			"""),
+
 		// ── Timeline ───────────────────────────────────────────────────
 
 		new("timeline-sections", "Timeline with Sections", DiagramCategory.Timeline, """
@@ -756,6 +785,16 @@ public static class DiagramExamples
 			Q2 2025 : Beta Launch : Partner Onboarding
 			Q3 2025 : GA Release
 			Q4 2025 : Enterprise Features
+			"""),
+
+		new("timeline-inline-title", "Inline Title", DiagramCategory.Timeline, """
+			timeline title Programming Language Milestones
+			1972 : C
+			1983 : C++
+			1991 : Python
+			1995 : Java : JavaScript : Ruby
+			2009 : Go
+			2015 : Rust
 			"""),
 
 		// ── GitGraph ───────────────────────────────────────────────────
