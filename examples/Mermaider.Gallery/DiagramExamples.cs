@@ -868,6 +868,266 @@ public static partial class DiagramExamples
 		new("mindmap-learning", "Learning Path", DiagramCategory.Mindmap,
 			"mindmap\n  ((Web Development))\n    (Frontend)\n      HTML\n      CSS\n      JavaScript\n    (Backend)\n      .NET\n      Node.js\n    ))Cloud((\n      AWS\n      Azure"),
 
+		// ── Architecture ───────────────────────────────────────────────
+
+		new("architecture-icon-showcase", "Icon Showcase (all icons)", DiagramCategory.Architecture, """
+			architecture-beta
+			group defaultPack(cloud)[Default Icons]
+			service dCloud(cloud)[cloud] in defaultPack
+			service dDatabase(database)[database] in defaultPack
+			service dDisk(disk)[disk] in defaultPack
+			service dInternet(internet)[internet] in defaultPack
+			service dServer(server)[server] in defaultPack
+			service dGeneric(generic)[generic] in defaultPack
+			dCloud:R -- L:dDatabase
+			dCloud:B -- T:dDisk
+			dDatabase:B -- T:dInternet
+			dDisk:R -- L:dInternet
+			dDisk:B -- T:dServer
+			dInternet:B -- T:dGeneric
+			dServer:R -- L:dGeneric
+
+			group awsPack(aws:compute)[AWS Icons]
+			service awsCompute(aws:compute)[aws-compute] in awsPack
+			service awsStorage(aws:storage)[aws-storage] in awsPack
+			service awsDatabase(aws:database)[aws-database] in awsPack
+			service awsNetworking(aws:networking)[aws-networking] in awsPack
+			service awsServerless(aws:serverless)[aws-serverless] in awsPack
+			service awsLoadBalancer(aws:load-balancer)[aws-load-balancer] in awsPack
+			service awsQueue(aws:queue)[aws-queue] in awsPack
+			service awsCdn(aws:cdn)[aws-cdn] in awsPack
+			service awsCache(aws:cache)[aws-cache] in awsPack
+			awsCompute:R -- L:awsStorage
+			awsStorage:R -- L:awsDatabase
+			awsCompute:B -- T:awsNetworking
+			awsStorage:B -- T:awsServerless
+			awsDatabase:B -- T:awsLoadBalancer
+			awsNetworking:R -- L:awsServerless
+			awsServerless:R -- L:awsLoadBalancer
+			awsNetworking:B -- T:awsQueue
+			awsServerless:B -- T:awsCdn
+			awsLoadBalancer:B -- T:awsCache
+			awsQueue:R -- L:awsCdn
+			awsCdn:R -- L:awsCache
+
+			group azurePack(azure:compute)[Azure Icons]
+			service azureCompute(azure:compute)[azure-compute] in azurePack
+			service azureStorage(azure:storage)[azure-storage] in azurePack
+			service azureDatabase(azure:database)[azure-database] in azurePack
+			service azureNetworking(azure:networking)[azure-networking] in azurePack
+			service azureServerless(azure:serverless)[azure-serverless] in azurePack
+			service azureLoadBalancer(azure:load-balancer)[azure-load-balancer] in azurePack
+			service azureQueue(azure:queue)[azure-queue] in azurePack
+			service azureCdn(azure:cdn)[azure-cdn] in azurePack
+			service azureCache(azure:cache)[azure-cache] in azurePack
+			azureCompute:R -- L:azureStorage
+			azureStorage:R -- L:azureDatabase
+			azureCompute:B -- T:azureNetworking
+			azureStorage:B -- T:azureServerless
+			azureDatabase:B -- T:azureLoadBalancer
+			azureNetworking:R -- L:azureServerless
+			azureServerless:R -- L:azureLoadBalancer
+			azureNetworking:B -- T:azureQueue
+			azureServerless:B -- T:azureCdn
+			azureLoadBalancer:B -- T:azureCache
+			azureQueue:R -- L:azureCdn
+			azureCdn:R -- L:azureCache
+
+			group gcpPack(gcp:compute)[GCP Icons]
+			service gcpCompute(gcp:compute)[gcp-compute] in gcpPack
+			service gcpStorage(gcp:storage)[gcp-storage] in gcpPack
+			service gcpDatabase(gcp:database)[gcp-database] in gcpPack
+			service gcpNetworking(gcp:networking)[gcp-networking] in gcpPack
+			service gcpServerless(gcp:serverless)[gcp-serverless] in gcpPack
+			service gcpLoadBalancer(gcp:load-balancer)[gcp-load-balancer] in gcpPack
+			service gcpQueue(gcp:queue)[gcp-queue] in gcpPack
+			service gcpCdn(gcp:cdn)[gcp-cdn] in gcpPack
+			service gcpCache(gcp:cache)[gcp-cache] in gcpPack
+			gcpCompute:R -- L:gcpStorage
+			gcpStorage:R -- L:gcpDatabase
+			gcpCompute:B -- T:gcpNetworking
+			gcpStorage:B -- T:gcpServerless
+			gcpDatabase:B -- T:gcpLoadBalancer
+			gcpNetworking:R -- L:gcpServerless
+			gcpServerless:R -- L:gcpLoadBalancer
+			gcpNetworking:B -- T:gcpQueue
+			gcpServerless:B -- T:gcpCdn
+			gcpLoadBalancer:B -- T:gcpCache
+			gcpQueue:R -- L:gcpCdn
+			gcpCdn:R -- L:gcpCache
+
+			group elasticPack(elastic:elasticsearch)[Elastic Icons]
+			service esElasticsearch(elastic:elasticsearch)[elastic-elasticsearch] in elasticPack
+			service esKibana(elastic:kibana)[elastic-kibana] in elasticPack
+			service esLogstash(elastic:logstash)[elastic-logstash] in elasticPack
+			service esBeats(elastic:beats)[elastic-beats] in elasticPack
+			service esFleet(elastic:fleet)[elastic-fleet] in elasticPack
+			service esServerless(elastic:serverless)[elastic-serverless] in elasticPack
+			service esApm(elastic:apm)[elastic-apm] in elasticPack
+			service esSecurity(elastic:security)[elastic-security] in elasticPack
+			service esObservability(elastic:observability)[elastic-observability] in elasticPack
+			esElasticsearch:R -- L:esKibana
+			esKibana:R -- L:esLogstash
+			esElasticsearch:B -- T:esBeats
+			esKibana:B -- T:esFleet
+			esLogstash:B -- T:esServerless
+			esBeats:R -- L:esFleet
+			esFleet:R -- L:esServerless
+			esBeats:B -- T:esApm
+			esFleet:B -- T:esSecurity
+			esServerless:B -- T:esObservability
+			esApm:R -- L:esSecurity
+			esSecurity:R -- L:esObservability
+
+			group extPack(ext:api)[Generic (ext:) Icons]
+			service extWaf(ext:waf)[ext-waf] in extPack
+			service extApiGateway(ext:api-gateway)[ext-api-gateway] in extPack
+			service extK8s(ext:k8s)[ext-k8s] in extPack
+			service extPod(ext:pod)[ext-pod] in extPack
+			service extPool(ext:pool)[ext-pool] in extPack
+			service extReverseProxy(ext:reverse-proxy)[ext-reverse-proxy] in extPack
+			service extWeb(ext:web)[ext-web] in extPack
+			service extApi(ext:api)[ext-api] in extPack
+			service extLoadBalancer(ext:load-balancer)[ext-load-balancer] in extPack
+			service extQueue(ext:queue)[ext-queue] in extPack
+			service extCdn(ext:cdn)[ext-cdn] in extPack
+			service extCache(ext:cache)[ext-cache] in extPack
+			extWaf:R -- L:extApiGateway
+			extApiGateway:R -- L:extK8s
+			extWaf:B -- T:extPod
+			extApiGateway:B -- T:extPool
+			extK8s:B -- T:extReverseProxy
+			extPod:R -- L:extPool
+			extPool:R -- L:extReverseProxy
+			extPod:B -- T:extWeb
+			extPool:B -- T:extApi
+			extReverseProxy:B -- T:extLoadBalancer
+			extWeb:R -- L:extApi
+			extApi:R -- L:extLoadBalancer
+			extWeb:B -- T:extQueue
+			extApi:B -- T:extCdn
+			extLoadBalancer:B -- T:extCache
+			extQueue:R -- L:extCdn
+			extCdn:R -- L:extCache
+			""", Feature: "icons"),
+
+		new("architecture-basic", "Cloud API", DiagramCategory.Architecture, """
+			architecture-beta
+			group api(cloud)[API]
+			service db(database)[Database] in api
+			service disk1(disk)[Storage] in api
+			service server(server)[Server] in api
+			server:T -- B:disk1
+			server:L -- R:db
+			"""),
+
+		new("architecture-junction", "Junction Routing", DiagramCategory.Architecture, """
+			architecture-beta
+			service a(server)[Gateway]
+			service b(server)[ServiceA]
+			service c(server)[ServiceB]
+			junction j
+			a:R -- L:j
+			j:R -- L:b
+			j:B -- T:c
+			"""),
+
+		new("architecture-arrow-directions", "Edge Arrow Directions", DiagramCategory.Architecture, """
+			architecture-beta
+			service a(server)[Client]
+			service b(server)[Server]
+			a:R -- L:b
+
+			service c(server)[Sender]
+			service d(server)[Receiver]
+			c:R --> L:d
+
+			service e(server)[Follower]
+			service f(server)[Leader]
+			e:R <-- L:f
+
+			service g(server)[Node A]
+			service h(server)[Node B]
+			g:R <--> L:h
+			""", Feature: "arrows"),
+
+		new("architecture-vendor-icons", "Vendor Icon Packs", DiagramCategory.Architecture, """
+			architecture-beta
+			group awsGroup(cloud)[AWS]
+			service awsCompute(aws:compute)[EC2] in awsGroup
+			service awsStorage(aws:storage)[S3] in awsGroup
+
+			group azureGroup(cloud)[Azure]
+			service azureCompute(azure:compute)[VM] in azureGroup
+			service azureStorage(azure:storage)[Blob] in azureGroup
+
+			group gcpGroup(cloud)[GCP]
+			service gcpCompute(gcp:compute)[Compute Engine] in gcpGroup
+			service gcpStorage(gcp:storage)[Cloud Storage] in gcpGroup
+
+			service search(elastic:elasticsearch)[Elasticsearch]
+
+			awsCompute:R -- L:awsStorage
+			azureCompute:R -- L:azureStorage
+			gcpCompute:R -- L:gcpStorage
+			awsStorage:B -- T:search
+			gcpStorage:B -- T:search
+			""", Feature: "icons"),
+
+		new("architecture-elastic-stack", "Elastic Stack", DiagramCategory.Architecture, """
+			architecture-beta
+			group stack(cloud)[Elastic Stack]
+			service beats(elastic:beats)[Beats] in stack
+			service ls(elastic:logstash)[Logstash] in stack
+			service es(elastic:elasticsearch)[Elasticsearch] in stack
+			service kbn(elastic:kibana)[Kibana] in stack
+			service fleet(elastic:fleet)[Fleet] in stack
+			beats:R -- L:ls
+			ls:R -- L:es
+			es:R -- L:kbn
+			fleet:T -- B:beats
+			""", Feature: "icons"),
+
+		new("architecture-networking", "Multi-Cloud Networking", DiagramCategory.Architecture, """
+			architecture-beta
+			group awsNet(cloud)[AWS]
+			service awsVpc(aws:networking)[VPC] in awsNet
+			service awsCompute(aws:compute)[EC2] in awsNet
+			awsVpc:R -- L:awsCompute
+
+			group azureNet(cloud)[Azure]
+			service azureVnet(azure:networking)[VNet] in azureNet
+			service azureCompute(azure:compute)[VM] in azureNet
+			azureVnet:R -- L:azureCompute
+
+			group gcpNet(cloud)[GCP]
+			service gcpVpc(gcp:networking)[VPC] in gcpNet
+			service gcpCompute(gcp:compute)[Compute Engine] in gcpNet
+			gcpVpc:R -- L:gcpCompute
+			""", Feature: "icons"),
+
+		new("architecture-observability", "Observability Pipeline (bug report)", DiagramCategory.Architecture, """
+			architecture-beta
+			group k8s(cloud)[k8s]
+			group ech(cloud)[ECH]
+
+			service edot(server)[EDOT] in k8s
+			service oteldemo(server)[OtelDemo] in k8s
+			service es(server)[Elasticsearch] in ech
+			service kbn(server)[Kibana] in ech
+			service apm(server)[APM] in ech
+
+			junction otlp
+
+			edot:L -- R:otlp
+			otlp:L -- T:apm
+			oteldemo:L -- R:edot
+			kbn:L -- T:es
+			apm:L -- R:es
+			"""),
+
+		// ── Real World (RFC diagrams) ─────────────────────────────────
+
 		..CreateNewDiagramTypeExamples(),
 		..CreateRequirementExamples(),
 		..CreateRealWorldExamples(),

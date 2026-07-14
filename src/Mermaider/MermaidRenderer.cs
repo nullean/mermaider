@@ -240,7 +240,7 @@ public static class MermaidRenderer
 				colors, font, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Architecture => ArchitectureSvgRenderer.RenderToBuilder(
-				ArchitectureParser.Parse(filteredLines),
+				Layout.ArchitectureLayout.Layout(ArchitectureParser.Parse(filteredLines)),
 				colors, font, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Block => BlockSvgRenderer.RenderToBuilder(

@@ -78,6 +78,7 @@ internal static partial class DiagramDetector
 	[GeneratedRegex(@"^block(?:-beta)?\b", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex BlockHeader();
 
+
 	internal static DiagramType Detect(ReadOnlySpan<char> text)
 	{
 		var firstLineEnd = text.IndexOf('\n');

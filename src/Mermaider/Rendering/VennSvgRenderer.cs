@@ -63,10 +63,10 @@ internal static class VennSvgRenderer
 			var color = SetColors[i % SetColors.Length];
 			var r = BaseRadius;
 
-			_ = sb.Append("\n<circle cx=\"").Append(SvgFormat.F(px)).Append("\" cy=\"").Append(SvgFormat.F(py))
-				.Append("\" r=\"").Append(SvgFormat.F(r))
+			_ = sb.Append("\n<circle cx=\"").Append(px.SvgFormat()).Append("\" cy=\"").Append(py.SvgFormat())
+				.Append("\" r=\"").Append(r.SvgFormat())
 				.Append("\" fill=\"").Append(color)
-				.Append("\" fill-opacity=\"").Append(SvgFormat.F(FillOpacity))
+				.Append("\" fill-opacity=\"").Append(FillOpacity.SvgFormat())
 				.Append("\" stroke=\"").Append(color)
 				.Append("\" stroke-width=\"2\" />");
 
@@ -75,7 +75,7 @@ internal static class VennSvgRenderer
 			var lx = px + (labelDist * Math.Cos(labelAngle));
 			var ly = py + (labelDist * Math.Sin(labelAngle));
 
-			_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(lx)).Append("\" y=\"").Append(SvgFormat.F(ly))
+			_ = sb.Append("\n<text x=\"").Append(lx.SvgFormat()).Append("\" y=\"").Append(ly.SvgFormat())
 				.Append("\" text-anchor=\"middle\" dy=\"0.35em\" font-size=\"")
 				.Append(LabelFontSize).Append("\" font-weight=\"600\" fill=\"var(--_text)\">");
 			MultilineUtils.AppendEscapedXml(sb, set.Label.AsSpan());
@@ -105,7 +105,7 @@ internal static class VennSvgRenderer
 			ux /= count;
 			uy /= count;
 
-			_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(ux)).Append("\" y=\"").Append(SvgFormat.F(uy))
+			_ = sb.Append("\n<text x=\"").Append(ux.SvgFormat()).Append("\" y=\"").Append(uy.SvgFormat())
 				.Append("\" text-anchor=\"middle\" dy=\"0.35em\" font-size=\"")
 				.Append(UnionLabelFontSize).Append("\" font-weight=\"500\" fill=\"var(--_text)\">");
 			MultilineUtils.AppendEscapedXml(sb, union.Label.AsSpan());

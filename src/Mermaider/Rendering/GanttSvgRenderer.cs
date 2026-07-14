@@ -111,8 +111,8 @@ internal static class GanttSvgRenderer
 		{
 			if (section.Name is { Length: > 0 })
 			{
-				_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(LeftPad))
-					.Append("\" y=\"").Append(SvgFormat.F(y + (SectionHeaderHeight * 0.65)))
+				_ = sb.Append("\n<text x=\"").Append(LeftPad.SvgFormat())
+					.Append("\" y=\"").Append((y + (SectionHeaderHeight * 0.65)).SvgFormat())
 					.Append("\" font-size=\"").Append(LabelFontSize)
 					.Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
 				MultilineUtils.AppendEscapedXml(sb, section.Name.AsSpan());
@@ -133,7 +133,7 @@ internal static class GanttSvgRenderer
 
 	private static void AppendTitle(StringBuilder sb, string title, double centerX)
 	{
-		_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(centerX))
+		_ = sb.Append("\n<text x=\"").Append(centerX.SvgFormat())
 			.Append("\" y=\"24\" text-anchor=\"middle\" font-size=\"")
 			.Append(TitleFontSize).Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
 		MultilineUtils.AppendEscapedXml(sb, title.AsSpan());
@@ -155,12 +155,12 @@ internal static class GanttSvgRenderer
 
 		var axisY = chartTop + contentHeight + 4;
 
-		_ = sb.Append("\n<line x1=\"").Append(SvgFormat.F(chartLeft)).Append("\" y1=\"").Append(SvgFormat.F(axisY))
-			.Append("\" x2=\"").Append(SvgFormat.F(chartLeft + chartWidth)).Append("\" y2=\"").Append(SvgFormat.F(axisY))
+		_ = sb.Append("\n<line x1=\"").Append(chartLeft.SvgFormat()).Append("\" y1=\"").Append(axisY.SvgFormat())
+			.Append("\" x2=\"").Append((chartLeft + chartWidth).SvgFormat()).Append("\" y2=\"").Append(axisY.SvgFormat())
 			.Append("\" stroke=\"var(--_line)\" stroke-width=\"1\" />");
 
-		_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(chartLeft)).Append("\" y=\"").Append(SvgFormat.F(chartTop))
-			.Append("\" width=\"").Append(SvgFormat.F(chartWidth)).Append("\" height=\"").Append(SvgFormat.F(contentHeight))
+		_ = sb.Append("\n<rect x=\"").Append(chartLeft.SvgFormat()).Append("\" y=\"").Append(chartTop.SvgFormat())
+			.Append("\" width=\"").Append(chartWidth.SvgFormat()).Append("\" height=\"").Append(contentHeight.SvgFormat())
 			.Append("\" fill=\"var(--_node-fill)\" opacity=\"0.5\" />");
 
 		for (var d = 0.0; d <= span.TotalDays + 0.001; d += tickDays)
@@ -168,14 +168,14 @@ internal static class GanttSvgRenderer
 			var t = min.AddDays(d);
 			var frac = d / span.TotalDays;
 			var x = chartLeft + (frac * chartWidth);
-			_ = sb.Append("\n<line x1=\"").Append(SvgFormat.F(x)).Append("\" y1=\"").Append(SvgFormat.F(chartTop))
-				.Append("\" x2=\"").Append(SvgFormat.F(x)).Append("\" y2=\"").Append(SvgFormat.F(axisY))
+			_ = sb.Append("\n<line x1=\"").Append(x.SvgFormat()).Append("\" y1=\"").Append(chartTop.SvgFormat())
+				.Append("\" x2=\"").Append(x.SvgFormat()).Append("\" y2=\"").Append(axisY.SvgFormat())
 				.Append("\" stroke=\"var(--_line)\" stroke-width=\"0.5\" opacity=\"0.35\" />");
 
 			var label = tickDays >= 28
 				? t.ToString("MMM yyyy", CultureInfo.InvariantCulture)
 				: t.ToString("MMM d", CultureInfo.InvariantCulture);
-			_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(x)).Append("\" y=\"").Append(SvgFormat.F(axisY + 16))
+			_ = sb.Append("\n<text x=\"").Append(x.SvgFormat()).Append("\" y=\"").Append((axisY + 16).SvgFormat())
 				.Append("\" text-anchor=\"middle\" font-size=\"").Append(AxisFontSize)
 				.Append("\" fill=\"var(--_text-muted)\">");
 			MultilineUtils.AppendEscapedXml(sb, label.AsSpan());
@@ -191,8 +191,8 @@ internal static class GanttSvgRenderer
 		if (span <= 0)
 			span = 1;
 
-		_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(LeftPad))
-			.Append("\" y=\"").Append(SvgFormat.F(rowY + (RowHeight * 0.6)))
+		_ = sb.Append("\n<text x=\"").Append(LeftPad.SvgFormat())
+			.Append("\" y=\"").Append((rowY + (RowHeight * 0.6)).SvgFormat())
 			.Append("\" font-size=\"").Append(LabelFontSize)
 			.Append("\" fill=\"var(--_text)\">");
 		MultilineUtils.AppendEscapedXml(sb, task.Name.AsSpan());
@@ -216,16 +216,16 @@ internal static class GanttSvgRenderer
 			var cy = rowY + (RowHeight / 2);
 			const double r = 8.0;
 			_ = sb.Append("\n<polygon points=\"")
-				.Append(SvgFormat.F(cx)).Append(',').Append(SvgFormat.F(cy - r)).Append(' ')
-				.Append(SvgFormat.F(cx + r)).Append(',').Append(SvgFormat.F(cy)).Append(' ')
-				.Append(SvgFormat.F(cx)).Append(',').Append(SvgFormat.F(cy + r)).Append(' ')
-				.Append(SvgFormat.F(cx - r)).Append(',').Append(SvgFormat.F(cy))
+				.Append(cx.SvgFormat()).Append(',').Append((cy - r).SvgFormat()).Append(' ')
+				.Append((cx + r).SvgFormat()).Append(',').Append(cy.SvgFormat()).Append(' ')
+				.Append(cx.SvgFormat()).Append(',').Append((cy + r).SvgFormat()).Append(' ')
+				.Append((cx - r).SvgFormat()).Append(',').Append(cy.SvgFormat())
 				.Append("\" fill=\"").Append(fill).Append("\" />");
 		}
 		else
 		{
-			_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(x)).Append("\" y=\"").Append(SvgFormat.F(barY))
-				.Append("\" width=\"").Append(SvgFormat.F(w)).Append("\" height=\"").Append(BarHeight)
+			_ = sb.Append("\n<rect x=\"").Append(x.SvgFormat()).Append("\" y=\"").Append(barY.SvgFormat())
+				.Append("\" width=\"").Append(w.SvgFormat()).Append("\" height=\"").Append(BarHeight)
 				.Append("\" rx=\"4\" ry=\"4\" fill=\"").Append(fill).Append("\" />");
 		}
 	}

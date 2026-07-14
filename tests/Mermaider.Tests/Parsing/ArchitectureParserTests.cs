@@ -1,4 +1,5 @@
 using AwesomeAssertions;
+using Mermaider.Icons;
 using Mermaider.Models;
 using Mermaider.Parsing;
 
@@ -7,207 +8,137 @@ namespace Mermaider.Tests.Parsing;
 public class ArchitectureParserTests
 {
 	[Test]
-	public void Parses_group_and_services()
+	public void Parses_groups_services_and_junction()
 	{
 		var lines = new[]
 		{
 			"architecture-beta",
-			"group api(cloud)[API]",
-			"service db(database)[Database]",
-			"service disk(disk)[Disk]",
+			"group k8s(cloud)[k8s]",
+			"service edot(server)[EDOT] in k8s",
+			"junction otlp",
 		};
 
 		var diagram = ArchitectureParser.Parse(lines);
 
-		diagram.Groups.Should().HaveCount(1);
-		diagram.Groups[0].Id.Should().Be("api");
+		diagram.Groups.Should().ContainSingle();
+		diagram.Groups[0].Id.Should().Be("k8s");
 		diagram.Groups[0].Icon.Should().Be("cloud");
-		diagram.Groups[0].Label.Should().Be("API");
-		diagram.Services.Should().HaveCount(2);
-		diagram.Services[0].Id.Should().Be("db");
-		diagram.Services[0].Icon.Should().Be("database");
-		diagram.Services[1].Id.Should().Be("disk");
+		diagram.Groups[0].Title.Should().Be("k8s");
+
+		diagram.Services.Should().ContainSingle();
+		diagram.Services[0].Id.Should().Be("edot");
+		diagram.Services[0].Icon.Should().Be("server");
+		diagram.Services[0].Title.Should().Be("EDOT");
+		diagram.Services[0].GroupId.Should().Be("k8s");
+
+		diagram.Junctions.Should().ContainSingle();
+		diagram.Junctions[0].Id.Should().Be("otlp");
 	}
 
 	[Test]
-	public void Parses_service_in_group()
+	public void Parses_nested_groups()
 	{
 		var lines = new[]
 		{
 			"architecture-beta",
-			"group api(cloud)[API]",
-			"service db(database)[Database] in api",
+			"group outer(cloud)[Outer]",
+			"group inner(cloud)[Inner] in outer",
+			"service a(server)[A] in inner",
 		};
 
 		var diagram = ArchitectureParser.Parse(lines);
 
-		diagram.Services[0].ParentId.Should().Be("api");
+		diagram.Groups.Should().HaveCount(2);
+		diagram.Groups.Single(g => g.Id == "inner").ParentId.Should().Be("outer");
+		diagram.Services[0].GroupId.Should().Be("inner");
 	}
 
 	[Test]
-	public void Parses_fixture_style_edges()
-	{
-		var lines = new[]
-		{
-			"architecture-beta",
-			"group api(cloud)[API]",
-			"service db(database)[Database]",
-			"api:B --> db:T",
-		};
-
-		var diagram = ArchitectureParser.Parse(lines);
-
-		diagram.Edges.Should().HaveCount(1);
-		var edge = diagram.Edges[0];
-		edge.SourceId.Should().Be("api");
-		edge.SourcePort.Should().Be(ArchitecturePort.Bottom);
-		edge.TargetId.Should().Be("db");
-		edge.TargetPort.Should().Be(ArchitecturePort.Top);
-		edge.ArrowToTarget.Should().BeTrue();
-		edge.ArrowToSource.Should().BeFalse();
-	}
-
-	[Test]
-	public void Parses_official_style_edges()
-	{
-		var lines = new[]
-		{
-			"architecture-beta",
-			"service db(database)[Database]",
-			"service server(server)[Server]",
-			"db:R -- L:server",
-		};
-
-		var diagram = ArchitectureParser.Parse(lines);
-
-		diagram.Edges.Should().HaveCount(1);
-		var edge = diagram.Edges[0];
-		edge.SourceId.Should().Be("db");
-		edge.SourcePort.Should().Be(ArchitecturePort.Right);
-		edge.TargetId.Should().Be("server");
-		edge.TargetPort.Should().Be(ArchitecturePort.Left);
-		edge.ArrowToTarget.Should().BeFalse();
-		edge.ArrowToSource.Should().BeFalse();
-	}
-
-	[Test]
-	public void Parses_bidirectional_arrow()
+	public void Parses_edge_sides_and_arrow_direction()
 	{
 		var lines = new[]
 		{
 			"architecture-beta",
 			"service a(server)[A]",
 			"service b(server)[B]",
-			"a:R <--> L:b",
+			"a:L -- R:b",
 		};
 
 		var diagram = ArchitectureParser.Parse(lines);
 
-		diagram.Edges[0].ArrowToSource.Should().BeTrue();
-		diagram.Edges[0].ArrowToTarget.Should().BeTrue();
+		diagram.Edges.Should().ContainSingle();
+		var edge = diagram.Edges[0];
+		edge.SourceId.Should().Be("a");
+		edge.SourceSide.Should().Be(ArchitectureSide.Left);
+		edge.TargetId.Should().Be("b");
+		edge.TargetSide.Should().Be(ArchitectureSide.Right);
+		edge.SourceArrow.Should().BeFalse();
+		edge.TargetArrow.Should().BeFalse();
 	}
 
 	[Test]
-	public void Parses_architecture_without_beta()
-	{
-		var lines = new[]
-		{
-			"architecture",
-			"service a(server)[A]",
-		};
-
-		var diagram = ArchitectureParser.Parse(lines);
-
-		diagram.Services.Should().HaveCount(1);
-		diagram.Services[0].Id.Should().Be("a");
-	}
-
-	[Test]
-	public void Parses_nested_group()
+	[Arguments("-->", false, true)]
+	[Arguments("<--", true, false)]
+	[Arguments("<-->", true, true)]
+	[Arguments("--", false, false)]
+	public void Parses_arrow_variants(string arrow, bool expectSourceArrow, bool expectTargetArrow)
 	{
 		var lines = new[]
 		{
 			"architecture-beta",
-			"group public_api(cloud)[Public API]",
-			"group private_api(cloud)[Private API] in public_api",
-			"service db(database)[DB] in private_api",
+			"service a(server)[A]",
+			"service b(server)[B]",
+			$"a:R {arrow} L:b",
 		};
+
+		var diagram = ArchitectureParser.Parse(lines);
+
+		diagram.Edges[0].SourceArrow.Should().Be(expectSourceArrow);
+		diagram.Edges[0].TargetArrow.Should().Be(expectTargetArrow);
+	}
+
+	[Test]
+	public void Service_without_icon_falls_back_to_generic()
+	{
+		var lines = new[]
+		{
+			"architecture-beta",
+			"service a[A]",
+		};
+
+		var diagram = ArchitectureParser.Parse(lines);
+
+		diagram.Services[0].Icon.Should().Be(IconRegistry.FallbackName);
+	}
+
+	[Test]
+	public void Reported_bug_diagram_parses_without_error()
+	{
+		var lines = """
+			architecture-beta
+			group k8s(cloud)[k8s]
+			group ech(cloud)[ECH]
+
+			service edot(server)[EDOT] in k8s
+			service oteldemo(server)[OtelDemo] in k8s
+			service es(server)[Elasticsearch] in ech
+			service kbn(server)[Kibana] in ech
+			service apm(server)[APM] in ech
+
+			junction otlp
+
+			edot:L -- R:otlp
+			otlp:L -- T:apm
+			oteldemo:L -- R:edot
+			kbn:L -- T:es
+			apm:L -- R:es
+			""".Split('\n');
 
 		var diagram = ArchitectureParser.Parse(lines);
 
 		diagram.Groups.Should().HaveCount(2);
-		diagram.Groups[1].ParentId.Should().Be("public_api");
-		diagram.Services[0].ParentId.Should().Be("private_api");
-	}
-
-	[Test]
-	public void Handles_empty_diagram()
-	{
-		var lines = new[] { "architecture-beta" };
-
-		var diagram = ArchitectureParser.Parse(lines);
-
-		diagram.Groups.Should().BeEmpty();
-		diagram.Services.Should().BeEmpty();
-		diagram.Edges.Should().BeEmpty();
-	}
-
-	[Test]
-	public void Parses_edge_with_group_modifier_as_service_ids_v1()
-	{
-		// v1: {group} is accepted for syntax compatibility but attachment uses service ids
-		// (parent-group boundary attach is not modeled yet).
-		var lines = new[]
-		{
-			"architecture-beta",
-			"group g1(cloud)[G1]",
-			"group g2(cloud)[G2]",
-			"service a(server)[A] in g1",
-			"service b(server)[B] in g2",
-			"a{group}:B --> T:b{group}",
-		};
-
-		var diagram = ArchitectureParser.Parse(lines);
-
-		diagram.Edges.Should().HaveCount(1);
-		diagram.Edges[0].SourceId.Should().Be("a");
-		diagram.Edges[0].TargetId.Should().Be("b");
-	}
-
-	[Test]
-	public void Duplicate_ids_across_group_and_service_first_wins()
-	{
-		var lines = new[]
-		{
-			"architecture-beta",
-			"group db(cloud)[Group DB]",
-			"service db(database)[Service DB]",
-			"service other(server)[Other]",
-		};
-
-		var diagram = ArchitectureParser.Parse(lines);
-
-		diagram.Groups.Should().HaveCount(1);
-		diagram.Groups[0].Id.Should().Be("db");
-		diagram.Groups[0].Label.Should().Be("Group DB");
-		// Service with the same id is skipped so edge bounds cannot clobber the group.
-		diagram.Services.Should().HaveCount(1);
-		diagram.Services[0].Id.Should().Be("other");
-	}
-
-	[Test]
-	public void Duplicate_group_id_first_wins()
-	{
-		var lines = new[]
-		{
-			"architecture-beta",
-			"group a(cloud)[First]",
-			"group a(cloud)[Second]",
-		};
-
-		var diagram = ArchitectureParser.Parse(lines);
-
-		diagram.Groups.Should().HaveCount(1);
-		diagram.Groups[0].Label.Should().Be("First");
+		diagram.Services.Should().HaveCount(5);
+		diagram.Junctions.Should().ContainSingle();
+		diagram.Edges.Should().HaveCount(5);
 	}
 }

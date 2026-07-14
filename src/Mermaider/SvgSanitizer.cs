@@ -1,4 +1,5 @@
 using System.Collections.Frozen;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
 namespace Mermaider;
@@ -33,8 +34,18 @@ public sealed record SvgSanitizeResult
 /// Usable standalone — not tied to the Mermaid rendering pipeline.
 /// </para>
 /// </summary>
-public static class SvgSanitizer
+public static partial class SvgSanitizer
 {
+	private const int TimeoutMs = 2000;
+
+	/// <summary>
+	/// Matches a same-document-safe base64 image data URI — the only <c>href</c> value
+	/// ever permitted, and only on an <c>&lt;image&gt;</c> element (see <see cref="IsAllowedAttribute"/>).
+	/// Deliberately excludes <c>http(s):</c>, <c>javascript:</c>, and any non-image data URI.
+	/// </summary>
+	[GeneratedRegex(@"^data:image/(?:svg\+xml|png);base64,[A-Za-z0-9+/]+=*$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex SafeImageDataUriPattern();
+
 	// ========================================================================
 	// Default allowlists
 	// ========================================================================
@@ -45,7 +56,7 @@ public static class SvgSanitizer
 		"svg", "g", "defs", "style", "title", "desc",
 		"rect", "circle", "ellipse", "polygon", "polyline", "line", "path",
 		"text", "tspan",
-		"marker",
+		"marker", "image",
 		"clipPath", "mask",
 		"linearGradient", "radialGradient", "stop",
 		"filter", "feGaussianBlur", "feOffset", "feBlend", "feFlood",
@@ -106,7 +117,11 @@ public static class SvgSanitizer
 	/// <param name="allowedElements">Set of allowed element local names.</param>
 	/// <param name="allowedAttributes">Set of allowed attribute local names.
 	/// <c>data-*</c> attributes are always allowed. <c>on*</c> event handlers
-	/// and <c>href</c>/<c>xlink:href</c> are always blocked regardless of this set.</param>
+	/// and <c>href</c>/<c>xlink:href</c> are always blocked regardless of this set,
+	/// with a single narrow exception: an <c>&lt;image&gt;</c> element's <c>href</c> may
+	/// carry a base64 <c>data:image/svg+xml</c> or <c>data:image/png</c> URI (used for
+	/// architecture-diagram icons) — every other scheme (<c>http(s):</c>, <c>javascript:</c>,
+	/// non-image data URIs) is still stripped.</param>
 	/// <returns>A result containing the cleaned SVG and any violations found.</returns>
 	public static SvgSanitizeResult Sanitize(
 		string svg,
@@ -140,6 +155,23 @@ public static class SvgSanitizer
 			attr.Remove();
 		}
 
+		// <image> is defined as an empty element in the SVG spec — it must never have children,
+		// regardless of whether those children would individually be allowlisted. Strip them
+		// unconditionally rather than trusting per-element allowlisting to cover this case.
+		var imagesWithChildren = doc.Root.DescendantsAndSelf()
+			.Where(el => el.Name.LocalName == "image" && el.Nodes().Any())
+			.ToList();
+
+		foreach (var image in imagesWithChildren)
+		{
+			foreach (var child in image.Nodes().ToList())
+			{
+				if (child is XElement childElement)
+					violations.Add(new SvgViolation("element", childElement.Name.LocalName, "image"));
+				child.Remove();
+			}
+		}
+
 		if (violations.Count == 0)
 			return new SvgSanitizeResult { Svg = svg, HasViolations = false, Violations = [] };
 
@@ -165,11 +197,18 @@ public static class SvgSanitizer
 		if (name.StartsWith("data-", StringComparison.Ordinal))
 			return true;
 
+		var isHrefAttr = name is "href" || attr.Name.NamespaceName.Contains("xlink");
+		if (isHrefAttr)
+		{
+			// Scoped exception: an <image> may carry a same-document-safe base64 image
+			// data URI (used to embed architecture-diagram icons). Everything else that
+			// looks like href/xlink:href — including on any other element — stays blocked.
+			return attr.Parent?.Name.LocalName == "image"
+				&& SafeImageDataUriPattern().IsMatch(attr.Value);
+		}
+
 		if (attr.Name.NamespaceName.Length > 0)
 		{
-			if (name is "href" || attr.Name.NamespaceName.Contains("xlink"))
-				return false;
-
 			if (attr.Name.NamespaceName.Contains("xmlns") || name == "xmlns")
 				return true;
 		}

@@ -94,7 +94,7 @@ internal static class C4SvgRenderer
 
 		if (hasTitle)
 		{
-			_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(width * 0.5))
+			_ = sb.Append("\n<text x=\"").Append((width * 0.5).SvgFormat())
 				.Append("\" y=\"28\" text-anchor=\"middle\" font-size=\"")
 				.Append(TitleFontSize).Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
 			MultilineUtils.AppendEscapedXml(sb, diagram.Title.AsSpan());
@@ -251,15 +251,15 @@ internal static class C4SvgRenderer
 		if (b.Boundary.IsDeploymentNode)
 		{
 			// Solid node chrome (not dashed enterprise boundary style)
-			_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(b.X)).Append("\" y=\"").Append(SvgFormat.F(b.Y))
-				.Append("\" width=\"").Append(SvgFormat.F(b.W)).Append("\" height=\"").Append(SvgFormat.F(b.H))
+			_ = sb.Append("\n<rect x=\"").Append(b.X.SvgFormat()).Append("\" y=\"").Append(b.Y.SvgFormat())
+				.Append("\" width=\"").Append(b.W.SvgFormat()).Append("\" height=\"").Append(b.H.SvgFormat())
 				.Append("\" rx=\"4\" ry=\"4\" fill=\"").Append(NodeColors.Fill)
 				.Append("\" stroke=\"").Append(NodeColors.Stroke).Append("\" stroke-width=\"1.5\" />");
 		}
 		else
 		{
-			_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(b.X)).Append("\" y=\"").Append(SvgFormat.F(b.Y))
-				.Append("\" width=\"").Append(SvgFormat.F(b.W)).Append("\" height=\"").Append(SvgFormat.F(b.H))
+			_ = sb.Append("\n<rect x=\"").Append(b.X.SvgFormat()).Append("\" y=\"").Append(b.Y.SvgFormat())
+				.Append("\" width=\"").Append(b.W.SvgFormat()).Append("\" height=\"").Append(b.H.SvgFormat())
 				.Append("\" rx=\"4\" ry=\"4\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"1.5\" stroke-dasharray=\"6 4\" />");
 		}
 
@@ -270,7 +270,7 @@ internal static class C4SvgRenderer
 			header = $"{header} [{techn}]";
 
 		var fill = b.Boundary.IsDeploymentNode ? NodeColors.Text : "var(--_text-sec)";
-		_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(b.X + 10)).Append("\" y=\"").Append(SvgFormat.F(b.Y + 16))
+		_ = sb.Append("\n<text x=\"").Append((b.X + 10).SvgFormat()).Append("\" y=\"").Append((b.Y + 16).SvgFormat())
 			.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(LabelFontSize)
 			.Append("\" font-weight=\"600\" fill=\"").Append(fill).Append("\">");
@@ -293,38 +293,38 @@ internal static class C4SvgRenderer
 			var cx = p.X + (p.W * 0.5);
 			var headR = 14.0;
 			var headCy = p.Y + 22;
-			_ = sb.Append("\n<circle cx=\"").Append(SvgFormat.F(cx)).Append("\" cy=\"").Append(SvgFormat.F(headCy))
-				.Append("\" r=\"").Append(SvgFormat.F(headR))
+			_ = sb.Append("\n<circle cx=\"").Append(cx.SvgFormat()).Append("\" cy=\"").Append(headCy.SvgFormat())
+				.Append("\" r=\"").Append(headR.SvgFormat())
 				.Append("\" fill=\"").Append(fill).Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"1.5\" />");
-			_ = sb.Append("\n<path d=\"M ").Append(SvgFormat.F(p.X + 30)).Append(' ').Append(SvgFormat.F(p.Y + 40))
-				.Append(" Q ").Append(SvgFormat.F(cx)).Append(' ').Append(SvgFormat.F(p.Y + 32))
-				.Append(' ').Append(SvgFormat.F(p.X + p.W - 30)).Append(' ').Append(SvgFormat.F(p.Y + 40))
-				.Append(" L ").Append(SvgFormat.F(p.X + p.W - 20)).Append(' ').Append(SvgFormat.F(p.Y + p.H - 12))
-				.Append(" Q ").Append(SvgFormat.F(cx)).Append(' ').Append(SvgFormat.F(p.Y + p.H))
-				.Append(' ').Append(SvgFormat.F(p.X + 20)).Append(' ').Append(SvgFormat.F(p.Y + p.H - 12))
+			_ = sb.Append("\n<path d=\"M ").Append((p.X + 30).SvgFormat()).Append(' ').Append((p.Y + 40).SvgFormat())
+				.Append(" Q ").Append(cx.SvgFormat()).Append(' ').Append((p.Y + 32).SvgFormat())
+				.Append(' ').Append((p.X + p.W - 30).SvgFormat()).Append(' ').Append((p.Y + 40).SvgFormat())
+				.Append(" L ").Append((p.X + p.W - 20).SvgFormat()).Append(' ').Append((p.Y + p.H - 12).SvgFormat())
+				.Append(" Q ").Append(cx.SvgFormat()).Append(' ').Append((p.Y + p.H).SvgFormat())
+				.Append(' ').Append((p.X + 20).SvgFormat()).Append(' ').Append((p.Y + p.H - 12).SvgFormat())
 				.Append(" Z\" fill=\"").Append(fill).Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"1.5\" />");
 		}
 		else if (isDb)
 		{
 			var rx = p.W * 0.5;
 			var ry = 12.0;
-			_ = sb.Append("\n<path d=\"M ").Append(SvgFormat.F(p.X)).Append(' ').Append(SvgFormat.F(p.Y + ry))
-				.Append(" A ").Append(SvgFormat.F(rx)).Append(' ').Append(SvgFormat.F(ry)).Append(" 0 0 1 ")
-				.Append(SvgFormat.F(p.X + p.W)).Append(' ').Append(SvgFormat.F(p.Y + ry))
-				.Append(" L ").Append(SvgFormat.F(p.X + p.W)).Append(' ').Append(SvgFormat.F(p.Y + p.H - ry))
-				.Append(" A ").Append(SvgFormat.F(rx)).Append(' ').Append(SvgFormat.F(ry)).Append(" 0 0 1 ")
-				.Append(SvgFormat.F(p.X)).Append(' ').Append(SvgFormat.F(p.Y + p.H - ry))
+			_ = sb.Append("\n<path d=\"M ").Append(p.X.SvgFormat()).Append(' ').Append((p.Y + ry).SvgFormat())
+				.Append(" A ").Append(rx.SvgFormat()).Append(' ').Append(ry.SvgFormat()).Append(" 0 0 1 ")
+				.Append((p.X + p.W).SvgFormat()).Append(' ').Append((p.Y + ry).SvgFormat())
+				.Append(" L ").Append((p.X + p.W).SvgFormat()).Append(' ').Append((p.Y + p.H - ry).SvgFormat())
+				.Append(" A ").Append(rx.SvgFormat()).Append(' ').Append(ry.SvgFormat()).Append(" 0 0 1 ")
+				.Append(p.X.SvgFormat()).Append(' ').Append((p.Y + p.H - ry).SvgFormat())
 				.Append(" Z\" fill=\"").Append(fill).Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"1.5\" />");
-			_ = sb.Append("\n<path d=\"M ").Append(SvgFormat.F(p.X)).Append(' ').Append(SvgFormat.F(p.Y + ry))
-				.Append(" A ").Append(SvgFormat.F(rx)).Append(' ').Append(SvgFormat.F(ry)).Append(" 0 0 0 ")
-				.Append(SvgFormat.F(p.X + p.W)).Append(' ').Append(SvgFormat.F(p.Y + ry))
+			_ = sb.Append("\n<path d=\"M ").Append(p.X.SvgFormat()).Append(' ').Append((p.Y + ry).SvgFormat())
+				.Append(" A ").Append(rx.SvgFormat()).Append(' ').Append(ry.SvgFormat()).Append(" 0 0 0 ")
+				.Append((p.X + p.W).SvgFormat()).Append(' ').Append((p.Y + ry).SvgFormat())
 				.Append("\" fill=\"none\" stroke=\"").Append(stroke).Append("\" stroke-width=\"1.5\" />");
 		}
 		else
 		{
 			var rx = isQueue ? 24 : 4;
-			_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(p.X)).Append("\" y=\"").Append(SvgFormat.F(p.Y))
-				.Append("\" width=\"").Append(SvgFormat.F(p.W)).Append("\" height=\"").Append(SvgFormat.F(p.H))
+			_ = sb.Append("\n<rect x=\"").Append(p.X.SvgFormat()).Append("\" y=\"").Append(p.Y.SvgFormat())
+				.Append("\" width=\"").Append(p.W.SvgFormat()).Append("\" height=\"").Append(p.H.SvgFormat())
 				.Append("\" rx=\"").Append(rx).Append("\" ry=\"").Append(rx).Append("\" fill=\"").Append(fill)
 				.Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"1.5\" />");
 		}
@@ -333,14 +333,14 @@ internal static class C4SvgRenderer
 		var midX = p.X + (p.W * 0.5);
 		var textStartY = isPerson ? p.Y + 58 : p.Y + 28;
 
-		_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(midX)).Append("\" y=\"").Append(SvgFormat.F(textStartY))
+		_ = sb.Append("\n<text x=\"").Append(midX.SvgFormat()).Append("\" y=\"").Append(textStartY.SvgFormat())
 			.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(TypeFontSize)
 			.Append("\" fill=\"").Append(text).Append("\" opacity=\"0.85\">");
 		MultilineUtils.AppendEscapedXml(sb, typeLabel.AsSpan());
 		_ = sb.Append("</text>");
 
-		_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(midX)).Append("\" y=\"").Append(SvgFormat.F(textStartY + 18))
+		_ = sb.Append("\n<text x=\"").Append(midX.SvgFormat()).Append("\" y=\"").Append((textStartY + 18).SvgFormat())
 			.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(LabelFontSize)
 			.Append("\" font-weight=\"700\" fill=\"").Append(text).Append("\">");
@@ -349,7 +349,7 @@ internal static class C4SvgRenderer
 
 		if (p.Element.Technology is { Length: > 0 } techn)
 		{
-			_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(midX)).Append("\" y=\"").Append(SvgFormat.F(textStartY + 34))
+			_ = sb.Append("\n<text x=\"").Append(midX.SvgFormat()).Append("\" y=\"").Append((textStartY + 34).SvgFormat())
 				.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 				.Append("\" font-size=\"").Append(TypeFontSize)
 				.Append("\" fill=\"").Append(text).Append("\" opacity=\"0.9\">[");
@@ -360,7 +360,7 @@ internal static class C4SvgRenderer
 		if (p.Element.Description is { Length: > 0 } descr)
 		{
 			var descY = p.Element.Technology is { Length: > 0 } ? 50 : 36;
-			_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(midX)).Append("\" y=\"").Append(SvgFormat.F(textStartY + descY))
+			_ = sb.Append("\n<text x=\"").Append(midX.SvgFormat()).Append("\" y=\"").Append((textStartY + descY).SvgFormat())
 				.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 				.Append("\" font-size=\"").Append(DescFontSize)
 				.Append("\" fill=\"").Append(text).Append("\" opacity=\"0.8\">");
@@ -384,10 +384,10 @@ internal static class C4SvgRenderer
 			var ex = from.X + from.W;
 			var ey = from.Y + (from.H * 0.65);
 			var cx = sx + 28;
-			_ = sb.Append("\n<path d=\"M ").Append(SvgFormat.F(sx)).Append(' ').Append(SvgFormat.F(sy))
-				.Append(" C ").Append(SvgFormat.F(cx)).Append(' ').Append(SvgFormat.F(sy))
-				.Append(' ').Append(SvgFormat.F(cx)).Append(' ').Append(SvgFormat.F(ey))
-				.Append(' ').Append(SvgFormat.F(ex)).Append(' ').Append(SvgFormat.F(ey))
+			_ = sb.Append("\n<path d=\"M ").Append(sx.SvgFormat()).Append(' ').Append(sy.SvgFormat())
+				.Append(" C ").Append(cx.SvgFormat()).Append(' ').Append(sy.SvgFormat())
+				.Append(' ').Append(cx.SvgFormat()).Append(' ').Append(ey.SvgFormat())
+				.Append(' ').Append(ex.SvgFormat()).Append(' ').Append(ey.SvgFormat())
 				.Append("\" fill=\"none\" stroke=\"var(--_arrow)\" stroke-width=\"1.5\" marker-end=\"url(#c4-arrow)\" />");
 			return;
 		}
@@ -402,8 +402,8 @@ internal static class C4SvgRenderer
 		var marker = " marker-end=\"url(#c4-arrow)\"";
 		var markerStart = rel.Bidirectional ? " marker-start=\"url(#c4-arrow)\"" : "";
 
-		_ = sb.Append("\n<line x1=\"").Append(SvgFormat.F(x1)).Append("\" y1=\"").Append(SvgFormat.F(y1))
-			.Append("\" x2=\"").Append(SvgFormat.F(x2)).Append("\" y2=\"").Append(SvgFormat.F(y2))
+		_ = sb.Append("\n<line x1=\"").Append(x1.SvgFormat()).Append("\" y1=\"").Append(y1.SvgFormat())
+			.Append("\" x2=\"").Append(x2.SvgFormat()).Append("\" y2=\"").Append(y2.SvgFormat())
 			.Append("\" stroke=\"var(--_arrow)\" stroke-width=\"1.5\"")
 			.Append(marker).Append(markerStart).Append(" />");
 	}
@@ -426,7 +426,7 @@ internal static class C4SvgRenderer
 		if (rel.Technology is { Length: > 0 } t)
 			text = $"{text} [{t}]";
 
-		_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(mx)).Append("\" y=\"").Append(SvgFormat.F(my))
+		_ = sb.Append("\n<text x=\"").Append(mx.SvgFormat()).Append("\" y=\"").Append(my.SvgFormat())
 			.Append("\" text-anchor=\"middle\" font-size=\"").Append(TypeFontSize)
 			.Append("\" fill=\"var(--_text)\" font-weight=\"500\">");
 		MultilineUtils.AppendEscapedXml(sb, text.AsSpan());

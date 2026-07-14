@@ -5,18 +5,6 @@ namespace Mermaider.Tests.Snapshots;
 public class SnapshotTests
 {
 	[Test]
-	public Task Architecture_basic() =>
-			Verifier.Verify(MermaidRenderer.RenderSvg("""
-			architecture-beta
-			    group api(cloud)[API]
-			    service db(database)[Database] in api
-			    service disk(disk)[Disk] in api
-			    service server(server)[Server] in api
-			    db:R --> L:server
-			    disk:T --> B:server
-			"""), "svg");
-
-	[Test]
 	public Task Block_grid() =>
 			Verifier.Verify(MermaidRenderer.RenderSvg("""
 			block-beta
@@ -428,5 +416,15 @@ public class SnapshotTests
 			bar "api" [40, 80, 150]
 			bar "db" [20, 45, 90]
 			line "slo" [100, 100, 100]
+			"""), "svg");
+
+	[Test]
+	public Task Architecture_basic() =>
+		Verifier.Verify(MermaidRenderer.RenderSvg("""
+			architecture-beta
+			group api(cloud)[API]
+			service db(database)[Database] in api
+			service server(server)[Server] in api
+			server:R -- L:db
 			"""), "svg");
 }

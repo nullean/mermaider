@@ -300,21 +300,21 @@ internal static class SankeySvgRenderer
 		var color = link.Source.Color;
 
 		// Ribbon path: source edge → cubic → target edge → back
-		_ = sb.Append("\n<path d=\"M ").Append(SvgFormat.F(x0)).Append(' ').Append(SvgFormat.F(link.Sy0))
-			.Append(" C ").Append(SvgFormat.F(midX)).Append(' ').Append(SvgFormat.F(link.Sy0))
-			.Append(' ').Append(SvgFormat.F(midX)).Append(' ').Append(SvgFormat.F(link.Ty0))
-			.Append(' ').Append(SvgFormat.F(x1)).Append(' ').Append(SvgFormat.F(link.Ty0))
-			.Append(" L ").Append(SvgFormat.F(x1)).Append(' ').Append(SvgFormat.F(link.Ty1))
-			.Append(" C ").Append(SvgFormat.F(midX)).Append(' ').Append(SvgFormat.F(link.Ty1))
-			.Append(' ').Append(SvgFormat.F(midX)).Append(' ').Append(SvgFormat.F(link.Sy1))
-			.Append(' ').Append(SvgFormat.F(x0)).Append(' ').Append(SvgFormat.F(link.Sy1))
+		_ = sb.Append("\n<path d=\"M ").Append(x0.SvgFormat()).Append(' ').Append(link.Sy0.SvgFormat())
+			.Append(" C ").Append(midX.SvgFormat()).Append(' ').Append(link.Sy0.SvgFormat())
+			.Append(' ').Append(midX.SvgFormat()).Append(' ').Append(link.Ty0.SvgFormat())
+			.Append(' ').Append(x1.SvgFormat()).Append(' ').Append(link.Ty0.SvgFormat())
+			.Append(" L ").Append(x1.SvgFormat()).Append(' ').Append(link.Ty1.SvgFormat())
+			.Append(" C ").Append(midX.SvgFormat()).Append(' ').Append(link.Ty1.SvgFormat())
+			.Append(' ').Append(midX.SvgFormat()).Append(' ').Append(link.Sy1.SvgFormat())
+			.Append(' ').Append(x0.SvgFormat()).Append(' ').Append(link.Sy1.SvgFormat())
 			.Append(" Z\" fill=\"").Append(color).Append("\" fill-opacity=\"0.45\" stroke=\"none\" />");
 	}
 
 	private static void AppendNode(StringBuilder sb, NodeLayout node, int layerCount)
 	{
-		_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(node.X0)).Append("\" y=\"").Append(SvgFormat.F(node.Y0))
-			.Append("\" width=\"").Append(SvgFormat.F(NodeWidth)).Append("\" height=\"").Append(SvgFormat.F(Math.Max(1, node.Y1 - node.Y0)))
+		_ = sb.Append("\n<rect x=\"").Append(node.X0.SvgFormat()).Append("\" y=\"").Append(node.Y0.SvgFormat())
+			.Append("\" width=\"").Append(NodeWidth.SvgFormat()).Append("\" height=\"").Append(Math.Max(1, node.Y1 - node.Y0).SvgFormat())
 			.Append("\" fill=\"").Append(node.Color).Append("\" stroke=\"none\" rx=\"2\" ry=\"2\" />");
 
 		// Labels: left of first layer, right of later layers
@@ -323,7 +323,7 @@ internal static class SankeySvgRenderer
 		var anchor = isLeft ? "end" : "start";
 
 		var midY = (node.Y0 + node.Y1) * 0.5;
-		_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(lx)).Append("\" y=\"").Append(SvgFormat.F(midY))
+		_ = sb.Append("\n<text x=\"").Append(lx.SvgFormat()).Append("\" y=\"").Append(midY.SvgFormat())
 			.Append("\" text-anchor=\"").Append(anchor)
 			.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(LabelFontSize)

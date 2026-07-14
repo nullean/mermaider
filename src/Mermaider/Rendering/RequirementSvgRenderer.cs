@@ -82,7 +82,7 @@ internal static class RequirementSvgRenderer
 
 		if (hasTitle)
 		{
-			_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(width / 2))
+			_ = sb.Append("\n<text x=\"").Append((width / 2).SvgFormat())
 				.Append("\" y=\"24\" text-anchor=\"middle\" font-size=\"")
 				.Append(RenderConstants.FsVar.L).Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
 			MultilineUtils.AppendEscapedXml(sb, diagram.Title.AsSpan());
@@ -354,19 +354,19 @@ internal static class RequirementSvgRenderer
 		MultilineUtils.AppendEscapedAttr(sb, box.Name.AsSpan());
 		_ = sb.Append("\">");
 
-		_ = sb.Append("\n  <rect x=\"").Append(SvgFormat.F(box.X)).Append("\" y=\"").Append(SvgFormat.F(box.Y))
-			.Append("\" width=\"").Append(SvgFormat.F(box.W)).Append("\" height=\"").Append(SvgFormat.F(box.H))
+		_ = sb.Append("\n  <rect x=\"").Append(box.X.SvgFormat()).Append("\" y=\"").Append(box.Y.SvgFormat())
+			.Append("\" width=\"").Append(box.W.SvgFormat()).Append("\" height=\"").Append(box.H.SvgFormat())
 			.Append("\" rx=\"").Append(RenderConstants.Radii.Rectangle)
 			.Append("\" ry=\"").Append(RenderConstants.Radii.Rectangle)
 			.Append("\" fill=\"").Append(fill)
 			.Append("\" stroke=\"").Append(stroke)
-			.Append("\" stroke-width=\"").Append(SvgFormat.F(RenderConstants.StrokeWidths.OuterBox)).Append("\" />");
+			.Append("\" stroke-width=\"").Append(RenderConstants.StrokeWidths.OuterBox.SvgFormat()).Append("\" />");
 
 		var cx = box.X + (box.W / 2);
 		var y = box.Y + BoxPadY + (LineHeight / 2);
 
 		// Kind label (muted)
-		_ = sb.Append("\n  <text x=\"").Append(SvgFormat.F(cx)).Append("\" y=\"").Append(SvgFormat.F(y))
+		_ = sb.Append("\n  <text x=\"").Append(cx.SvgFormat()).Append("\" y=\"").Append(y.SvgFormat())
 			.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(RenderConstants.FsVar.S)
 			.Append("\" font-weight=\"600\" fill=\"var(--_text-sec)\">");
@@ -377,7 +377,7 @@ internal static class RequirementSvgRenderer
 		// Name (possibly multi-line after wrap)
 		foreach (var nameLine in box.NameLines)
 		{
-			_ = sb.Append("\n  <text x=\"").Append(SvgFormat.F(cx)).Append("\" y=\"").Append(SvgFormat.F(y))
+			_ = sb.Append("\n  <text x=\"").Append(cx.SvgFormat()).Append("\" y=\"").Append(y.SvgFormat())
 				.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 				.Append("\" font-size=\"").Append(RenderConstants.FsVar.M)
 				.Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
@@ -390,7 +390,7 @@ internal static class RequirementSvgRenderer
 
 		foreach (var line in box.Lines)
 		{
-			_ = sb.Append("\n  <text x=\"").Append(SvgFormat.F(cx)).Append("\" y=\"").Append(SvgFormat.F(y))
+			_ = sb.Append("\n  <text x=\"").Append(cx.SvgFormat()).Append("\" y=\"").Append(y.SvgFormat())
 				.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 				.Append("\" font-size=\"").Append(RenderConstants.FsVar.S)
 				.Append("\" fill=\"var(--_text)\">");
@@ -412,19 +412,19 @@ internal static class RequirementSvgRenderer
 		var mx = (x1 + x2) / 2;
 		var my = (y1 + y2) / 2;
 
-		_ = sb.Append("\n<line x1=\"").Append(SvgFormat.F(x1)).Append("\" y1=\"").Append(SvgFormat.F(y1))
-			.Append("\" x2=\"").Append(SvgFormat.F(x2)).Append("\" y2=\"").Append(SvgFormat.F(y2))
+		_ = sb.Append("\n<line x1=\"").Append(x1.SvgFormat()).Append("\" y1=\"").Append(y1.SvgFormat())
+			.Append("\" x2=\"").Append(x2.SvgFormat()).Append("\" y2=\"").Append(y2.SvgFormat())
 			.Append("\" stroke=\"var(--_line)\" stroke-width=\"")
-			.Append(SvgFormat.F(RenderConstants.StrokeWidths.Connector))
+			.Append(RenderConstants.StrokeWidths.Connector.SvgFormat())
 			.Append("\" marker-end=\"url(#req-arrow)\" />");
 
 		var labelW = TextMetrics.MeasureTextWidth(label, BodyFontPx, 400) + 12;
 		var labelH = 18.0;
-		_ = sb.Append("\n<rect x=\"").Append(SvgFormat.F(mx - (labelW / 2))).Append("\" y=\"").Append(SvgFormat.F(my - (labelH / 2)))
-			.Append("\" width=\"").Append(SvgFormat.F(labelW)).Append("\" height=\"").Append(SvgFormat.F(labelH))
+		_ = sb.Append("\n<rect x=\"").Append((mx - (labelW / 2)).SvgFormat()).Append("\" y=\"").Append((my - (labelH / 2)).SvgFormat())
+			.Append("\" width=\"").Append(labelW.SvgFormat()).Append("\" height=\"").Append(labelH.SvgFormat())
 			.Append("\" rx=\"4\" ry=\"4\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"0.75\" />");
 
-		_ = sb.Append("\n<text x=\"").Append(SvgFormat.F(mx)).Append("\" y=\"").Append(SvgFormat.F(my))
+		_ = sb.Append("\n<text x=\"").Append(mx.SvgFormat()).Append("\" y=\"").Append(my.SvgFormat())
 			.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(RenderConstants.FsVar.S)
 			.Append("\" fill=\"var(--_text-muted)\">");
