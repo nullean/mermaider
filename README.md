@@ -36,15 +36,8 @@ penalty, and trivial deployment&mdash;just a NuGet reference.
 ### Built-in layout engine
 
 Graph-based diagrams (flowchart, state, class, ER) need a layout algorithm to position nodes and route
-edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, gantt) use
-edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, journey) use
-edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, C4) use
-edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, sankey) use
-edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, xychart) use
-edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, requirement) use
-edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, packet) use
-edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, kanban) use
-edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, architecture) use
+edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, gantt,
+journey, C4, sankey, xychart, requirement, packet, kanban, architecture, block) use
 purpose-built layout arithmetic directly in their renderers. Rather than depending on an external engine, Mermaider ships its own lightweight
 [Sugiyama layout engine](src/Sugiyama/) with zero dependencies.
 

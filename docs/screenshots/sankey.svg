@@ -24,31 +24,37 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
 </style>
 
 <defs>
+<linearGradient id="sankey-grad-0" gradientUnits="userSpaceOnUse" x1="96" y1="0" x2="294.67" y2="0"><stop offset="0%" stop-color="#76b7b2" stop-opacity="0.5" /><stop offset="100%" stop-color="#edc948" stop-opacity="0.5" /></linearGradient>
+<linearGradient id="sankey-grad-1" gradientUnits="userSpaceOnUse" x1="96" y1="0" x2="505.33" y2="0"><stop offset="0%" stop-color="#b07aa1" stop-opacity="0.5" /><stop offset="100%" stop-color="#4e79a7" stop-opacity="0.5" /></linearGradient>
+<linearGradient id="sankey-grad-2" gradientUnits="userSpaceOnUse" x1="306.67" y1="0" x2="505.33" y2="0"><stop offset="0%" stop-color="#edc948" stop-opacity="0.5" /><stop offset="100%" stop-color="#4e79a7" stop-opacity="0.5" /></linearGradient>
+<linearGradient id="sankey-grad-3" gradientUnits="userSpaceOnUse" x1="517.33" y1="0" x2="716" y2="0"><stop offset="0%" stop-color="#4e79a7" stop-opacity="0.5" /><stop offset="100%" stop-color="#f28e2b" stop-opacity="0.5" /></linearGradient>
+<linearGradient id="sankey-grad-4" gradientUnits="userSpaceOnUse" x1="517.33" y1="0" x2="716" y2="0"><stop offset="0%" stop-color="#4e79a7" stop-opacity="0.5" /><stop offset="100%" stop-color="#e15759" stop-opacity="0.5" /></linearGradient>
+<linearGradient id="sankey-grad-5" gradientUnits="userSpaceOnUse" x1="517.33" y1="0" x2="716" y2="0"><stop offset="0%" stop-color="#4e79a7" stop-opacity="0.5" /><stop offset="100%" stop-color="#59a14f" stop-opacity="0.5" /></linearGradient>
 </defs>
 
-<path d="M 96 24 C 195.33 24 195.33 24 294.67 24 L 294.67 376 C 195.33 376 195.33 275.4 96 275.4 Z" fill="#76b7b2" fill-opacity="0.45" stroke="none" />
-<path d="M 96 289.4 C 300.67 289.4 300.67 24 505.33 24 L 505.33 148.99 C 300.67 148.99 300.67 376 96 376 Z" fill="#b07aa1" fill-opacity="0.45" stroke="none" />
-<path d="M 306.67 24 C 406 24 406 148.99 505.33 148.99 L 505.33 376 C 406 376 406 376 306.67 376 Z" fill="#edc948" fill-opacity="0.45" stroke="none" />
-<path d="M 517.33 24 C 616.67 24 616.67 235.85 716 235.85 L 716 301.6 C 616.67 301.6 616.67 95.44 517.33 95.44 Z" fill="#4e79a7" fill-opacity="0.45" stroke="none" />
-<path d="M 517.33 95.44 C 616.67 95.44 616.67 24 716 24 L 716 221.85 C 616.67 221.85 616.67 310.38 517.33 310.38 Z" fill="#4e79a7" fill-opacity="0.45" stroke="none" />
-<path d="M 517.33 310.38 C 616.67 310.38 616.67 315.6 716 315.6 L 716 376 C 616.67 376 616.67 376 517.33 376 Z" fill="#4e79a7" fill-opacity="0.45" stroke="none" />
-<rect x="505.33" y="24" width="12" height="352" fill="#4e79a7" stroke="none" rx="2" ry="2" />
-<text x="525.33" y="200" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Electricity grid</text>
-<rect x="716" y="315.6" width="12" height="60.4" fill="#59a14f" stroke="none" rx="2" ry="2" />
-<text x="736" y="345.8" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Over generation / exports</text>
-<rect x="716" y="235.85" width="12" height="65.76" fill="#f28e2b" stroke="none" rx="2" ry="2" />
-<text x="736" y="268.72" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Heating and cooling - homes</text>
-<rect x="716" y="24" width="12" height="197.85" fill="#e15759" stroke="none" rx="2" ry="2" />
-<text x="736" y="122.92" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Industry</text>
-<rect x="294.67" y="24" width="12" height="352" fill="#edc948" stroke="none" rx="2" ry="2" />
-<text x="314.67" y="200" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Thermal generation</text>
+<path d="M 96 24 C 195.33 24 195.33 69.1 294.67 69.1 L 294.67 330.9 C 195.33 330.9 195.33 275.4 96 275.4 Z" fill="url(#sankey-grad-0)" stroke="none" />
+<path d="M 96 289.4 C 300.67 289.4 300.67 73 505.33 73 L 505.33 163.2 C 300.67 163.2 300.67 376 96 376 Z" fill="url(#sankey-grad-1)" stroke="none" />
+<path d="M 306.67 69.1 C 406 69.1 406 163.2 505.33 163.2 L 505.33 327 C 406 327 406 330.9 306.67 330.9 Z" fill="url(#sankey-grad-2)" stroke="none" />
+<path d="M 517.33 73 C 616.67 73 616.67 217.79 716 217.79 L 716 250.41 C 616.67 250.41 616.67 124.55 517.33 124.55 Z" fill="url(#sankey-grad-3)" stroke="none" />
+<path d="M 517.33 124.55 C 616.67 124.55 616.67 105.62 716 105.62 L 716 203.79 C 616.67 203.79 616.67 279.65 517.33 279.65 Z" fill="url(#sankey-grad-4)" stroke="none" />
+<path d="M 517.33 279.65 C 616.67 279.65 616.67 264.41 716 264.41 L 716 294.38 C 616.67 294.38 616.67 327 517.33 327 Z" fill="url(#sankey-grad-5)" stroke="none" />
+<rect x="505.33" y="73" width="12" height="253.99" fill="#4e79a7" stroke="none" rx="2" ry="2" />
+<text x="497.33" y="200" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Electricity grid 814.9</text>
+<rect x="716" y="264.41" width="12" height="29.97" fill="#59a14f" stroke="none" rx="2" ry="2" />
+<text x="736" y="279.4" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Over generation / exports 104.45</text>
+<rect x="716" y="217.79" width="12" height="32.63" fill="#f28e2b" stroke="none" rx="2" ry="2" />
+<text x="736" y="234.1" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Heating and cooling - homes 113.73</text>
+<rect x="716" y="105.62" width="12" height="98.16" fill="#e15759" stroke="none" rx="2" ry="2" />
+<text x="736" y="154.7" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Industry 342.17</text>
+<rect x="294.67" y="69.1" width="12" height="261.81" fill="#edc948" stroke="none" rx="2" ry="2" />
+<text x="286.67" y="200" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Thermal generation 839.98</text>
 <rect x="84" y="24" width="12" height="251.4" fill="#76b7b2" stroke="none" rx="2" ry="2" />
-<text x="76" y="149.7" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Nuclear</text>
+<text x="76" y="149.7" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Nuclear 839.98</text>
 <rect x="84" y="289.4" width="12" height="86.6" fill="#b07aa1" stroke="none" rx="2" ry="2" />
-<text x="76" y="332.7" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Wind</text>
+<text x="76" y="332.7" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Wind 289.37</text>
 </svg>

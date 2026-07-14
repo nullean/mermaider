@@ -24,8 +24,8 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
 </style>
 
 <defs>
@@ -41,15 +41,15 @@
 <path d="M 70 116 Q 140 108 210 116 L 220 184 Q 140 196 60 184 Z" fill="#08427B" stroke="#052E56" stroke-width="1.5" />
 <text x="140" y="134" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" fill="#FFFFFF" opacity="0.85">[person]</text>
 <text x="140" y="152" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#FFFFFF">Banking Customer</text>
-<text x="140" y="170" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" fill="#FFFFFF" opacity="0.8">A customer of the bank.</text>
+<text x="140" y="170" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" fill="#FFFFFF" opacity="0.8">A customer of the bank, with pe…</text>
 <rect x="280" y="76" width="200" height="120" rx="4" ry="4" fill="#1168BD" stroke="#0B4884" stroke-width="1.5" />
 <text x="380" y="104" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" fill="#FFFFFF" opacity="0.85">[system]</text>
 <text x="380" y="122" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#FFFFFF">Internet Banking System</text>
-<text x="380" y="140" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" fill="#FFFFFF" opacity="0.8">View accounts and make payments.</text>
+<text x="380" y="140" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" fill="#FFFFFF" opacity="0.8">Allows customers to view accoun…</text>
 <rect x="520" y="76" width="200" height="120" rx="4" ry="4" fill="#999999" stroke="#8A8A8A" stroke-width="1.5" />
 <text x="620" y="104" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" fill="#FFFFFF" opacity="0.85">[external system]</text>
 <text x="620" y="122" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#FFFFFF">E-mail System</text>
-<text x="620" y="140" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" fill="#FFFFFF" opacity="0.8">Microsoft Exchange</text>
+<text x="620" y="140" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" fill="#FFFFFF" opacity="0.8">The internal Microsoft Exchange…</text>
 <text x="260" y="130" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text)" font-weight="500">Uses</text>
 <text x="500" y="130" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text)" font-weight="500">Sends e-mails [SMTP]</text>
 </svg>

@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1174 509" width="1174" height="509" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6;background:var(--bg)">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1174 509" width="1174" height="509" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -24,8 +24,8 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
 </style>
 
 <defs>
@@ -85,6 +85,6 @@
 <rect x="950" y="110" width="150" height="50" rx="3" ry="3" fill="#8B008B" />
 <circle cx="964" cy="110" r="7" fill="#8FBC8F" stroke="#000" stroke-width="1"><title>Me</title></circle>
 <text x="1025" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="#ffffff">Sit down</text>
-<line x1="150" y1="200" x2="1020" y2="200" stroke="#000000" stroke-width="4" marker-end="url(#journey-arrow)" />
+<line x1="150" y1="200" x2="1096" y2="200" stroke="#000000" stroke-width="4" marker-end="url(#journey-arrow)" />
 </g>
 </svg>
