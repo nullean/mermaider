@@ -16,6 +16,32 @@
 
 ---
 
+## Table of Contents
+
+- [Why Mermaider?](#why-mermaider)
+- [Quick Start](#quick-start)
+- [Theming](#theming)
+  - [Built-in themes](#built-in-themes)
+- [Render Options](#render-options)
+  - [Font options](#font-options)
+  - [Data palette](#data-palette)
+  - [Allowed diagram types](#allowed-diagram-types)
+  - [Edge rounding](#edge-rounding)
+  - [Font sizing](#font-sizing)
+- [Implementer Notes](#implementer-notes)
+- [Strict Mode](#strict-mode)
+- [SVG Sanitization](#svg-sanitization)
+- [CLI](#cli)
+- [MSAGL Layout Provider](#msagl-layout-provider)
+- [AOT Support](#aot-support)
+- [Benchmarks](#benchmarks)
+- [Building from Source](#building-from-source)
+- [Supported Diagrams](#supported-diagrams)
+- [Attribution](#attribution)
+- [License](#license)
+
+---
+
 ## Why Mermaider?
 
 Most .NET packages for Mermaid fall into one of two camps: **DSL-only** libraries that help you _build_
@@ -149,6 +175,7 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 | `FontSizeExtraSmall` | `double?` | `0.75` | Ratio for extra-small text (`--fs-xs`) |
 | `FontSizeLarge` | `double?` | `1.125` | Ratio for large text (`--fs-l`) |
 | `DataPalette` | `string[]?` | theme default | Categorical colors for pie, sankey, timeline, gitgraph, radar, mindmap, venn, journey, packet, xychart, treemap |
+| `AllowedDiagrams` | `DiagramTypes` | `DiagramTypes.All` | Allowlist of accepted diagram types — diagrams outside this set throw `MermaidParseException` |
 | `RoundedEdges` | `bool` | `true` | Rounded corners (6px radius) on edge paths |
 | `Transparent` | `bool` | `true` | Transparent background |
 | `Padding` | `double?` | `40` | Canvas padding in px |
@@ -203,6 +230,40 @@ string blueDark = CategoricalPalette.BlueDark;
 // Ordinal access (wraps at 12)
 string color = CategoricalPalette.At(7);  // Pink
 ```
+
+### Allowed diagram types
+
+`AllowedDiagrams` is a `[Flags]` enum that controls which diagram types the renderer will accept.
+Diagrams whose detected type is outside the set throw `MermaidParseException`. The default is
+`DiagramTypes.All`.
+
+```csharp
+// Stable diagrams only, plus Architecture:
+var opts = new RenderOptions
+{
+    AllowedDiagrams = DiagramTypes.Stable | DiagramTypes.Architecture,
+};
+
+// Everything except TreeView and Block:
+var opts = new RenderOptions
+{
+    AllowedDiagrams = DiagramTypes.All & ~(DiagramTypes.TreeView | DiagramTypes.Block),
+};
+
+// Only flowcharts and sequence diagrams:
+var opts = new RenderOptions
+{
+    AllowedDiagrams = DiagramTypes.Flowchart | DiagramTypes.Sequence,
+};
+```
+
+Named sets:
+
+| Set | Contents |
+|-----|----------|
+| `DiagramTypes.All` | All 24 diagram types (default) |
+| `DiagramTypes.Stable` | 15 types with stable Mermaid syntax (no `-beta` keyword) |
+| `DiagramTypes.Beta` | 9 types that use a `-beta` keyword (`radar-beta`, `architecture-beta`, etc.) |
 
 ### Edge rounding
 

@@ -70,6 +70,12 @@ public sealed record RenderOptions
 	public IGraphLayoutProvider? LayoutProvider { get; init; }
 
 	/// <summary>
+	/// Which diagram types this renderer will accept. Defaults to <see cref="DiagramTypes.All"/>.
+	/// Diagrams whose detected type is not in this set throw <see cref="MermaidParseException"/>.
+	/// </summary>
+	public DiagramTypes AllowedDiagrams { get; init; } = DiagramTypes.All;
+
+	/// <summary>
 	/// Override the categorical data palette used by color-encoded diagram types
 	/// (pie, sankey, timeline, radar, gitgraph, mindmap, venn, journey, packet, xychart, treemap).
 	/// When null, the theme's built-in data palette is used (dark themes ship a brighter variant).

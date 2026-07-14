@@ -168,6 +168,12 @@ public static class MermaidRenderer
 
 		var diagramType = DiagramDetector.Detect(cleaned.AsSpan());
 
+		var allowedDiagrams = options?.AllowedDiagrams ?? DiagramTypes.All;
+		if ((allowedDiagrams & diagramType.ToFlag()) == 0)
+			throw new MermaidParseException(
+				$"Diagram type '{diagramType}' is not in the allowed set. " +
+				$"Adjust RenderOptions.AllowedDiagrams to include it.");
+
 		var (accessibility, filteredLines) = AccessibilityParser.Extract(lines);
 
 		var sb = diagramType switch

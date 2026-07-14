@@ -133,8 +133,11 @@ app.MapGet("/playground", ctx =>
 	return ctx.Response.WriteAsync(RenderPlaygroundPage(theme, engine, slug, q));
 });
 
-Console.WriteLine("Gallery running at http://localhost:5555");
-app.Run("http://localhost:5555");
+var url = Environment.GetEnvironmentVariable("ASPNETCORE_URLS")
+	?? args.SkipWhile(a => a != "--urls").Skip(1).FirstOrDefault()
+	?? "http://localhost:5555";
+Console.WriteLine($"Gallery running at {url}");
+app.Run(url);
 
 string ErrorSvg(string message)
 {
