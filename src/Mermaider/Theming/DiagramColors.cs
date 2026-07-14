@@ -29,4 +29,17 @@ public sealed record DiagramColors
 
 	/// <summary>Node/group stroke color override.</summary>
 	public string? Border { get; init; }
+
+	/// <summary>
+	/// Categorical data palette used by color-encoded diagram types (pie, sankey, timeline, etc.).
+	/// When null, falls back to <see cref="Rendering.CategoricalPalette.Colors"/>.
+	/// </summary>
+	public string[]? DataPalette { get; init; }
+
+	/// <summary>Returns color <paramref name="i"/> from the active data palette, wrapping around.</summary>
+	internal string PaletteAt(int i)
+	{
+		var palette = DataPalette ?? Rendering.CategoricalPalette.Colors;
+		return palette[i % palette.Length];
+	}
 }

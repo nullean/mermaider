@@ -124,15 +124,37 @@ internal static class StyleBlock
 		_ => "diagram"
 	};
 
-	internal static void AppendStyleBlock(StringBuilder sb, string? font = null, StrictModeOptions? strict = null, Rendering.FontScale? fontScale = null)
+	// CSS generic font family keywords must not be quoted in font-family declarations.
+	private static readonly System.Collections.Frozen.FrozenSet<string> GenericFontKeywords =
+		System.Collections.Frozen.FrozenSet.ToFrozenSet(
+		[
+			"serif", "sans-serif", "monospace", "cursive", "fantasy",
+			"system-ui", "ui-serif", "ui-sans-serif", "ui-monospace", "ui-rounded",
+			"emoji", "math", "fangsong"
+		], System.StringComparer.OrdinalIgnoreCase);
+
+	private static void AppendFontFamilyCss(StringBuilder sb, string selector, string fontName, string fallbackStack)
+	{
+		_ = sb.Append("  ").Append(selector).Append(" { font-family: ");
+		_ = GenericFontKeywords.Contains(fontName)
+			? sb.Append(fontName)
+			: sb.Append('\'').Append(fontName).Append('\'');
+		_ = sb.Append(", ").Append(fallbackStack).Append("; }\n");
+	}
+
+	internal static void AppendStyleBlock(StringBuilder sb, string? font = null, StrictModeOptions? strict = null, Rendering.FontScale? fontScale = null, string? monoFont = null)
 	{
 		_ = sb.Append("\n<style>\n");
 
-		_ = font is { Length: > 0 }
-			? sb.Append("  text { font-family: '").Append(font).Append("', ").Append(Rendering.RenderConstants.SansStack).Append("; }\n")
-			: sb.Append("  text { font-family: ").Append(Rendering.RenderConstants.SansStack).Append("; }\n");
+		if (font is { Length: > 0 })
+			AppendFontFamilyCss(sb, "text", font, Rendering.RenderConstants.SansStack);
+		else
+			_ = sb.Append("  text { font-family: ").Append(Rendering.RenderConstants.SansStack).Append("; }\n");
 
-		_ = sb.Append("  .mono { font-family: ").Append(Rendering.RenderConstants.MonoStack).Append("; }\n");
+		if (monoFont is { Length: > 0 })
+			AppendFontFamilyCss(sb, ".mono", monoFont, Rendering.RenderConstants.MonoStack);
+		else
+			_ = sb.Append("  .mono { font-family: ").Append(Rendering.RenderConstants.MonoStack).Append("; }\n");
 
 		_ = sb.Append("  svg {\n");
 		_ = sb.Append("    --_text:          var(--fg);\n");

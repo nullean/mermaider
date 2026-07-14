@@ -29,6 +29,12 @@ public sealed record RenderOptions
 	/// <summary>Font family for all text. Default: "Inter".</summary>
 	public string? Font { get; init; }
 
+	/// <summary>
+	/// Monospace font family for code-style text (e.g. ER attribute types, Class member signatures).
+	/// When null, falls back to the built-in system monospace stack.
+	/// </summary>
+	public string? MonoFont { get; init; }
+
 	/// <summary>Base font size (--fs-m). Accepts any CSS unit: "1rem", "16px", "1em". Default: "1rem".</summary>
 	public string? FontSize { get; init; }
 
@@ -62,6 +68,19 @@ public sealed record RenderOptions
 	/// <see cref="MermaidRenderer.SetLayoutProvider"/>.
 	/// </summary>
 	public IGraphLayoutProvider? LayoutProvider { get; init; }
+
+	/// <summary>
+	/// Which diagram types this renderer will accept. Defaults to <see cref="DiagramTypes.All"/>.
+	/// Diagrams whose detected type is not in this set throw <see cref="MermaidParseException"/>.
+	/// </summary>
+	public DiagramTypes AllowedDiagrams { get; init; } = DiagramTypes.All;
+
+	/// <summary>
+	/// Override the categorical data palette used by color-encoded diagram types
+	/// (pie, sankey, timeline, radar, gitgraph, mindmap, venn, journey, packet, xychart, treemap).
+	/// When null, the theme's built-in data palette is used (dark themes ship a brighter variant).
+	/// </summary>
+	public string[]? DataPalette { get; init; }
 
 	/// <summary>
 	/// Enable strict mode. When set, <c>classDef</c> and <c>style</c> directives

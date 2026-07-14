@@ -20,10 +20,10 @@ internal static class RequirementSvgRenderer
 	private const double MaxBoxW = 280;
 
 	internal static string Render(
-		RequirementDiagram diagram, DiagramColors colors, string font, bool transparent,
+		RequirementDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false,
 		StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
 		try
 		{
 			return sb.ToString();
@@ -36,7 +36,7 @@ internal static class RequirementSvgRenderer
 	}
 
 	internal static StringBuilder RenderToBuilder(
-		RequirementDiagram diagram, DiagramColors colors, string font, bool transparent,
+		RequirementDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false,
 		StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
@@ -45,7 +45,7 @@ internal static class RequirementSvgRenderer
 		if (boxes.Count == 0)
 		{
 			StyleBlock.AppendSvgOpenTag(sb, 200, 100, colors, transparent, accessibility, diagramType);
-			StyleBlock.AppendStyleBlock(sb, font, strict);
+			StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 			_ = sb.Append("\n</svg>");
 			return sb;
 		}
@@ -77,7 +77,7 @@ internal static class RequirementSvgRenderer
 		}
 
 		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict);
+		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 		AppendMarkerDefs(sb);
 
 		if (hasTitle)

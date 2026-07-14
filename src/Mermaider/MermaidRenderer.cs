@@ -146,6 +146,7 @@ public static class MermaidRenderer
 		var (cleaned, metadata) = DiagramPreprocessor.Process(text);
 		var colors = BuildColors(options, metadata);
 		var font = options?.Font ?? LayoutDefaults.Font;
+		var monoFont = options?.MonoFont;
 		var transparent = options?.Transparent ?? true;
 		var strict = options?.Strict;
 		var provider = options?.LayoutProvider ?? _layoutProvider;
@@ -155,9 +156,23 @@ public static class MermaidRenderer
 			throw new MermaidParseException("Empty mermaid diagram");
 
 		if (strict is not null)
+		{
+			if (metadata.Theme is { Length: > 0 } || metadata.ThemeVariables is not null)
+				throw new MermaidParseException(
+					"Strict mode: source-authored 'theme' / 'themeVariables' overrides are not allowed. " +
+					"Styling is controlled by the host design system; remove the %%{init}%% theme directive " +
+					"or frontmatter 'theme:' key.");
+
 			StrictModeValidator.Validate(lines, strict);
+		}
 
 		var diagramType = DiagramDetector.Detect(cleaned.AsSpan());
+
+		var allowedDiagrams = options?.AllowedDiagrams ?? DiagramTypes.All;
+		if ((allowedDiagrams & diagramType.ToFlag()) == 0)
+			throw new MermaidParseException(
+				$"Diagram type '{diagramType}' is not in the allowed set. " +
+				$"Adjust RenderOptions.AllowedDiagrams to include it.");
 
 		var (accessibility, filteredLines) = AccessibilityParser.Extract(lines);
 
@@ -165,95 +180,95 @@ public static class MermaidRenderer
 		{
 			DiagramType.Sequence => SequenceSvgRenderer.RenderToBuilder(
 				SequenceLayout.Layout(SequenceParser.Parse(filteredLines)),
-				colors, font, transparent, strict, accessibility, diagramType),
+				colors, font, monoFont, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Class => ClassSvgRenderer.RenderToBuilder(
 				provider.LayoutClass(ClassParser.Parse(filteredLines)),
-				colors, font, transparent, strict, accessibility, diagramType),
+				colors, font, monoFont, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Er => ErSvgRenderer.RenderToBuilder(
 				provider.LayoutEr(ErParser.Parse(filteredLines)),
-				colors, font, transparent, strict, accessibility, diagramType),
+				colors, font, monoFont, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Pie => PieSvgRenderer.RenderToBuilder(
 				PieParser.Parse(filteredLines),
-				colors, font, transparent, strict, accessibility, diagramType),
+				colors, font, monoFont, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Quadrant => QuadrantSvgRenderer.RenderToBuilder(
 				QuadrantParser.Parse(filteredLines),
-				colors, font, transparent, strict, accessibility, diagramType),
+				colors, font, monoFont, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Timeline => TimelineSvgRenderer.RenderToBuilder(
 				TimelineParser.Parse(filteredLines),
-				colors, font, transparent, strict, accessibility, diagramType),
+				colors, font, monoFont, transparent, strict, accessibility, diagramType),
 
 			DiagramType.GitGraph => GitGraphSvgRenderer.RenderToBuilder(
 				GitGraphParser.Parse(filteredLines),
-				colors, font, transparent, strict, accessibility, diagramType),
+				colors, font, monoFont, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Radar => RadarSvgRenderer.RenderToBuilder(
 				RadarParser.Parse(filteredLines),
-				colors, font, transparent, strict, accessibility, diagramType),
+				colors, font, monoFont, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Treemap => TreemapSvgRenderer.RenderToBuilder(
 				TreemapParser.Parse(PreprocessLinesPreserveIndent(cleaned)),
-				colors, font, transparent, strict, accessibility, diagramType),
+				colors, font, monoFont, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Venn => VennSvgRenderer.RenderToBuilder(
 				VennParser.Parse(filteredLines),
-				colors, font, transparent, strict, accessibility, diagramType),
+				colors, font, monoFont, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Mindmap => MindmapSvgRenderer.RenderToBuilder(
 				MindmapParser.Parse(PreprocessLinesPreserveIndent(cleaned)),
-				colors, font, transparent, strict, accessibility, diagramType),
+				colors, font, monoFont, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Gantt => GanttSvgRenderer.RenderToBuilder(
 				GanttParser.Parse(filteredLines),
-				colors, font, transparent, strict, accessibility, diagramType),
+				colors, font, monoFont, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Journey => JourneySvgRenderer.RenderToBuilder(
 				JourneyParser.Parse(filteredLines),
-				colors, font, transparent, strict, accessibility, diagramType),
+				colors, font, monoFont, transparent, strict, accessibility, diagramType),
 
 			DiagramType.C4 => C4SvgRenderer.RenderToBuilder(
 				C4Parser.Parse(filteredLines),
-				colors, font, transparent, strict, accessibility, diagramType),
+				colors, font, monoFont, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Sankey => SankeySvgRenderer.RenderToBuilder(
 				SankeyParser.Parse(filteredLines),
-				colors, font, transparent, strict, accessibility, diagramType),
+				colors, font, monoFont, transparent, strict, accessibility, diagramType),
 
 			DiagramType.XyChart => XyChartSvgRenderer.RenderToBuilder(
 				XyChartParser.Parse(filteredLines),
-				colors, font, transparent, strict, accessibility, diagramType),
+				colors, font, monoFont, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Requirement => RequirementSvgRenderer.RenderToBuilder(
 				RequirementParser.Parse(filteredLines),
-				colors, font, transparent, strict, accessibility, diagramType),
+				colors, font, monoFont, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Packet => PacketSvgRenderer.RenderToBuilder(
 				PacketParser.Parse(filteredLines),
-				colors, font, transparent, strict, accessibility, diagramType),
+				colors, font, monoFont, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Kanban => KanbanSvgRenderer.RenderToBuilder(
 				KanbanParser.Parse(PreprocessLinesPreserveIndent(cleaned, accessibility)),
-				colors, font, transparent, strict, accessibility, diagramType),
+				colors, font, monoFont, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Architecture => ArchitectureSvgRenderer.RenderToBuilder(
 				Layout.ArchitectureLayout.Layout(ArchitectureParser.Parse(filteredLines)),
-				colors, font, transparent, strict, accessibility, diagramType),
+				colors, font, monoFont, transparent, strict, accessibility, diagramType),
 
 			DiagramType.Block => BlockSvgRenderer.RenderToBuilder(
 				BlockParser.Parse(filteredLines),
-				colors, font, transparent, strict, accessibility, diagramType),
+				colors, font, monoFont, transparent, strict, accessibility, diagramType),
 
 			DiagramType.TreeView => TreeViewSvgRenderer.RenderToBuilder(
 				TreeViewParser.Parse(PreprocessLinesPreserveIndent(cleaned, accessibility)),
-				colors, font, transparent, strict, accessibility, diagramType),
+				colors, font, monoFont, transparent, strict, accessibility, diagramType),
 
 			_ => SvgRenderer.RenderToBuilder(
 				provider.LayoutFlowchart(ParseInternal(filteredLines, diagramType), options, strict),
-				colors, font, transparent, strict, accessibility, diagramType, options?.RoundedEdges != false ? 6.0 : 0),
+				colors, font, monoFont, transparent, strict, accessibility, diagramType, options?.RoundedEdges != false ? 6.0 : 0),
 		};
 
 		if (metadata.Title is { Length: > 0 } title)
@@ -364,6 +379,7 @@ public static class MermaidRenderer
 			Muted = options?.Muted ?? baseColors.Muted,
 			Surface = options?.Surface ?? baseColors.Surface,
 			Border = options?.Border ?? baseColors.Border,
+			DataPalette = options?.DataPalette ?? baseColors.DataPalette,
 		};
 
 		// Apply themeVariables overrides from init directive

@@ -2,14 +2,41 @@ using System.Globalization;
 
 namespace Mermaider.Theming;
 
-/// <summary>Hex color manipulation for auto-deriving dark mode variants.</summary>
+/// <summary>Hex color manipulation for auto-deriving dark mode variants and contrast enforcement.</summary>
 internal static class ColorUtils
 {
+	/// <summary>
+	/// Returns <c>"#ffffff"</c> or <c>"#1a1a1a"</c> based on the WCAG relative luminance of
+	/// <paramref name="hex"/>, so text drawn on top of a categorical palette fill is always legible.
+	/// </summary>
+	internal static string ContrastText(string hex)
+	{
+		var (r, g, b) = ParseHex(hex);
+		// WCAG sRGB linearization
+		static double Lin(byte v)
+		{
+			var c = v / 255.0;
+			return c <= 0.04045 ? c / 12.92 : Math.Pow((c + 0.055) / 1.055, 2.4);
+		}
+		var luminance = (0.2126 * Lin(r)) + (0.7152 * Lin(g)) + (0.0722 * Lin(b));
+		// Contrast against white (L=1) vs near-black (L≈0): pick whichever is ≥4.5:1
+		return luminance > 0.179 ? "#1a1a1a" : "#ffffff";
+	}
+
 	internal static string InvertLightness(string hex)
 	{
 		var (r, g, b) = ParseHex(hex);
 		var (h, s, l) = RgbToHsl(r, g, b);
 		var (r2, g2, b2) = HslToRgb(h, s, 1.0 - l);
+		return $"#{r2:X2}{g2:X2}{b2:X2}";
+	}
+
+	/// <summary>Shift the HSL lightness of a hex color by <paramref name="delta"/> (e.g. -0.20 to darken, +0.15 to lighten).</summary>
+	internal static string AdjustLightness(string hex, double delta)
+	{
+		var (r, g, b) = ParseHex(hex);
+		var (h, s, l) = RgbToHsl(r, g, b);
+		var (r2, g2, b2) = HslToRgb(h, s, Math.Clamp(l + delta, 0.0, 1.0));
 		return $"#{r2:X2}{g2:X2}{b2:X2}";
 	}
 

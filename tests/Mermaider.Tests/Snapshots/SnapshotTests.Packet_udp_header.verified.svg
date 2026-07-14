@@ -32,19 +32,19 @@
 </defs>
 
 <text x="513" y="24" text-anchor="middle" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)">UDP Header</text>
-<rect x="1" y="51" width="507" height="32" fill="#e8f0fe" stroke="var(--_line)" stroke-width="1" />
+<rect x="1" y="51" width="507" height="32" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="var(--_line)" stroke-width="1" />
 <text x="254.5" y="67" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Source Port</text>
 <text x="1" y="49" text-anchor="start" font-size="var(--fs-xs)" fill="var(--_text)">0</text>
 <text x="508" y="49" text-anchor="end" font-size="var(--fs-xs)" fill="var(--_text)">15</text>
-<rect x="513" y="51" width="507" height="32" fill="#fef3e8" stroke="var(--_line)" stroke-width="1" />
+<rect x="513" y="51" width="507" height="32" fill="color-mix(in srgb, #f28e2b 18%, var(--bg))" stroke="var(--_line)" stroke-width="1" />
 <text x="766.5" y="67" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Destination Port</text>
 <text x="513" y="49" text-anchor="start" font-size="var(--fs-xs)" fill="var(--_text)">16</text>
 <text x="1020" y="49" text-anchor="end" font-size="var(--fs-xs)" fill="var(--_text)">31</text>
-<rect x="1" y="98" width="507" height="32" fill="#f0e8fe" stroke="var(--_line)" stroke-width="1" />
+<rect x="1" y="98" width="507" height="32" fill="color-mix(in srgb, #e15759 18%, var(--bg))" stroke="var(--_line)" stroke-width="1" />
 <text x="254.5" y="114" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Length</text>
 <text x="1" y="96" text-anchor="start" font-size="var(--fs-xs)" fill="var(--_text)">32</text>
 <text x="508" y="96" text-anchor="end" font-size="var(--fs-xs)" fill="var(--_text)">47</text>
-<rect x="513" y="98" width="507" height="32" fill="#e8fef0" stroke="var(--_line)" stroke-width="1" />
+<rect x="513" y="98" width="507" height="32" fill="color-mix(in srgb, #76b7b2 18%, var(--bg))" stroke="var(--_line)" stroke-width="1" />
 <text x="766.5" y="114" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Checksum</text>
 <text x="513" y="96" text-anchor="start" font-size="var(--fs-xs)" fill="var(--_text)">48</text>
 <text x="1020" y="96" text-anchor="end" font-size="var(--fs-xs)" fill="var(--_text)">63</text>

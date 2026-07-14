@@ -12,9 +12,9 @@ internal static class ArchitectureSvgRenderer
 	private static readonly string GroupTitleAttrs = RenderConstants.TextAttrs.GroupHeaderFill + "var(--_text-sec)\"";
 	private static readonly string ServiceLabelAttrs = RenderConstants.TextAttrs.NodeLabelCenterFill + "var(--_text)\"";
 
-	internal static string Render(PositionedArchitectureDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(PositionedArchitectureDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
 		try
 		{
 			return sb.ToString();
@@ -26,11 +26,11 @@ internal static class ArchitectureSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(PositionedArchitectureDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(PositionedArchitectureDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 		StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict);
+		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 		AppendMarkerDefs(sb);
 
 		foreach (var group in diagram.Groups)

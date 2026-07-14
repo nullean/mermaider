@@ -33,26 +33,17 @@ internal static class JourneySvgRenderer
 	private const double LegendStartY = 60;
 	private const double LegendStepY = 20;
 
-	private static readonly string[] ActorColours =
-	[
-		"#8FBC8F", "#7CFC00", "#00FFFF", "#20B2AA", "#B0E0E6", "#FFFFE0",
-	];
+	// Actor and section colors are drawn from the single shared palette so they follow themes.
+	// SectionTextColour uses ContrastText so labels stay legible on any palette color.
+	private const string FaceFill = "var(--_node-fill)";
+	private const string FaceStroke = "var(--_node-stroke)";
+	private const string MouthStroke = "var(--_text-muted)";
+	private const string DropLineStroke = "var(--_line)";
+	private const string TimelineStroke = "var(--_text)";
 
-	private static readonly string[] SectionFills =
-	[
-		"#191970", "#8B008B", "#4B0082", "#2F4F4F", "#800000", "#8B4513", "#00008B",
-	];
-
-	private const string SectionTextColour = "#ffffff";
-	private const string FaceFill = "#FFF8DC";
-	private const string FaceStroke = "#999999";
-	private const string MouthStroke = "#666666";
-	private const string DropLineStroke = "#666666";
-	private const string TimelineStroke = "#000000";
-
-	internal static string Render(JourneyDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(JourneyDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
 		try
 		{
 			return sb.ToString();
@@ -64,7 +55,7 @@ internal static class JourneySvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(JourneyDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(JourneyDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
@@ -72,7 +63,7 @@ internal static class JourneySvgRenderer
 		var actors = CollectActors(diagram);
 		var actorMap = new Dictionary<string, (string Color, int Pos)>(StringComparer.Ordinal);
 		for (var i = 0; i < actors.Count; i++)
-			actorMap[actors[i]] = (ActorColours[i % ActorColours.Length], i);
+			actorMap[actors[i]] = (colors.PaletteAt(i), i);
 
 		// left margin expands with longest actor name (mermaid measures text; we estimate)
 		var legendLabelW = 0.0;
@@ -87,7 +78,7 @@ internal static class JourneySvgRenderer
 			var emptyW = leftMargin + 200;
 			var emptyH = Math.Max(120.0, legendBottom + 16);
 			StyleBlock.AppendSvgOpenTag(sb, emptyW, emptyH, colors, transparent, accessibility, diagramType);
-			StyleBlock.AppendStyleBlock(sb, font, strict);
+			StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 			if (hasTitle)
 				AppendTitle(sb, diagram.Title!, leftMargin);
 			_ = sb.Append("\n</svg>");
@@ -106,7 +97,7 @@ internal static class JourneySvgRenderer
 		var totalHeight = height - viewTop;
 
 		StyleBlock.AppendSvgOpenTag(sb, width, totalHeight, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict);
+		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 
 		// Arrow marker (mermaid arrowhead)
 		_ = sb.Append("\n<defs>\n  <marker id=\"journey-arrow\" refX=\"5\" refY=\"2\" markerWidth=\"6\" markerHeight=\"4\" orient=\"auto\">")
@@ -141,7 +132,7 @@ internal static class JourneySvgRenderer
 				continue;
 			}
 
-			var fill = SectionFills[sectionNum % SectionFills.Length];
+			var fill = colors.PaletteAt(sectionNum);
 			// mermaid: width * taskCount + diagramMarginX * (taskCount - 1)
 			// but task spacing uses taskMargin not diagramMarginX for positions.
 			// drawSection width = conf.width * taskCount + conf.diagramMarginX * (taskCount-1)
@@ -160,7 +151,7 @@ internal static class JourneySvgRenderer
 				_ = sb.Append("\n<text x=\"").Append((secX + (secW / 2)).SvgFormat())
 					.Append("\" y=\"").Append((SectionY + (TaskHeight / 2)).SvgFormat())
 					.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
-					.Append("\" font-size=\"14\" fill=\"").Append(SectionTextColour).Append("\">");
+					.Append("\" font-size=\"14\" fill=\"").Append(ColorUtils.ContrastText(fill)).Append("\">");
 				MultilineUtils.AppendEscapedXml(sb, section.Name.AsSpan());
 				_ = sb.Append("</text>");
 			}
@@ -175,7 +166,7 @@ internal static class JourneySvgRenderer
 			var task = item.Task;
 			var taskX = leftMargin + (i * pitch);
 			var center = taskX + (TaskWidth / 2);
-			var fill = SectionFills[item.SectionIndex % SectionFills.Length];
+			var fill = colors.PaletteAt(item.SectionIndex);
 			var score = Math.Clamp(task.Score, 1, 5);
 			var faceCy = FaceBaseY + ((5 - score) * FaceStepY);
 
@@ -202,17 +193,17 @@ internal static class JourneySvgRenderer
 				_ = sb.Append("\n<circle cx=\"").Append(dotX.SvgFormat()).Append("\" cy=\"").Append(taskY.SvgFormat())
 					.Append("\" r=\"").Append(ActorDotR)
 					.Append("\" fill=\"").Append(info.Color)
-					.Append("\" stroke=\"#000\" stroke-width=\"1\">")
+					.Append("\" stroke=\"var(--_node-stroke)\" stroke-width=\"1\">")
 					.Append("<title>");
 				MultilineUtils.AppendEscapedXml(sb, person.AsSpan());
 				_ = sb.Append("</title></circle>");
 				dotX += 10;
 			}
 
-			// task label (white on dark section fill)
+			// task label — color chosen for contrast against the section fill
 			_ = sb.Append("\n<text x=\"").Append(center.SvgFormat()).Append("\" y=\"").Append((taskY + (TaskHeight / 2)).SvgFormat())
 				.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
-				.Append("\" font-size=\"14\" fill=\"").Append(SectionTextColour).Append("\">");
+				.Append("\" font-size=\"14\" fill=\"").Append(ColorUtils.ContrastText(fill)).Append("\">");
 			MultilineUtils.AppendEscapedXml(sb, task.Name.AsSpan());
 			_ = sb.Append("</text>");
 		}
@@ -251,9 +242,9 @@ internal static class JourneySvgRenderer
 			var color = actorMap[person].Color;
 			_ = sb.Append("\n<circle cx=\"20\" cy=\"").Append(yPos.SvgFormat())
 				.Append("\" r=\"").Append(ActorDotR)
-				.Append("\" fill=\"").Append(color).Append("\" stroke=\"#000\" stroke-width=\"1\" />");
+				.Append("\" fill=\"").Append(color).Append("\" stroke=\"var(--_node-stroke)\" stroke-width=\"1\" />");
 			_ = sb.Append("\n<text x=\"40\" y=\"").Append((yPos + 5).SvgFormat())
-				.Append("\" font-size=\"14\" fill=\"#666666\">");
+				.Append("\" font-size=\"14\" fill=\"var(--_text-muted)\">");
 			MultilineUtils.AppendEscapedXml(sb, person.AsSpan());
 			_ = sb.Append("</text>");
 			yPos += LegendStepY;

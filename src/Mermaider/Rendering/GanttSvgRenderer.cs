@@ -27,16 +27,16 @@ internal static class GanttSvgRenderer
 	private const string LabelFontSize = RenderConstants.FsVar.S;
 	private const string AxisFontSize = RenderConstants.FsVar.Xs;
 
-	private const string ColorDefault = "#4e79a7";
-	private const string ColorDone = "#9ca3af";
-	private const string ColorActive = "#3b82f6";
-	private const string ColorCrit = "#e15759";
-	private const string ColorCritDone = "#b07aa1";
-	private const string ColorMilestone = "#edc948";
+	private static readonly string ColorDefault = CategoricalPalette.Blue;
+	private const string ColorDone = "var(--_text-muted)";
+	private const string ColorActive = "var(--_arrow)";
+	private static readonly string ColorCrit = CategoricalPalette.Red;
+	private static readonly string ColorCritDone = CategoricalPalette.Purple;
+	private static readonly string ColorMilestone = CategoricalPalette.Yellow;
 
-	internal static string Render(GanttDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(GanttDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
 		try
 		{
 			return sb.ToString();
@@ -48,7 +48,7 @@ internal static class GanttSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(GanttDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(GanttDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
@@ -74,7 +74,7 @@ internal static class GanttSvgRenderer
 		{
 			var emptyH = titleOffset + TopPad + BottomPad + 40;
 			StyleBlock.AppendSvgOpenTag(sb, 400, emptyH, colors, transparent, accessibility, diagramType);
-			StyleBlock.AppendStyleBlock(sb, font, strict);
+			StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 			if (hasTitle)
 				AppendTitle(sb, diagram.Title!, 200);
 			_ = sb.Append("\n</svg>");
@@ -102,7 +102,7 @@ internal static class GanttSvgRenderer
 		var chartTop = TopPad + titleOffset;
 
 		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict);
+		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		if (hasTitle)
