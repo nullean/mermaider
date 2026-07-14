@@ -177,7 +177,7 @@ public class PhaseBenchmarks
 	public ML.LayoutResult Layout_Lightweight() => ML.SugiyamaLayout.Compute(LightweightInput);
 
 	[Benchmark]
-	public string Render() => SvgRenderer.Render(MsaglLayoutResult, Colors, "Inter", false);
+	public string Render() => SvgRenderer.Render(MsaglLayoutResult, Colors, "Inter", null, false);
 
 	[Benchmark]
 	public string EndToEnd_Msagl() => MermaidRenderer.RenderSvg(SimpleFlowchart,
