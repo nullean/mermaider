@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text;
 using Mermaider.Models;
 using Mermaider.Text;
@@ -124,8 +123,8 @@ internal static class TreemapSvgRenderer
 			return;
 
 		var opacity = rect.Depth == 0 ? "0.8" : "0.6";
-		_ = sb.Append("\n<rect x=\"").Append(F(rect.X)).Append("\" y=\"").Append(F(rect.Y))
-			.Append("\" width=\"").Append(F(rect.W)).Append("\" height=\"").Append(F(rect.H))
+		_ = sb.Append("\n<rect x=\"").Append(rect.X.SvgFormat()).Append("\" y=\"").Append(rect.Y.SvgFormat())
+			.Append("\" width=\"").Append(rect.W.SvgFormat()).Append("\" height=\"").Append(rect.H.SvgFormat())
 			.Append("\" rx=\"3\" ry=\"3\" fill=\"").Append(rect.Color)
 			.Append("\" opacity=\"").Append(opacity)
 			.Append("\" stroke=\"var(--bg)\" stroke-width=\"1\" />");
@@ -134,7 +133,7 @@ internal static class TreemapSvgRenderer
 		{
 			var textX = rect.X + (rect.W / 2);
 			var textY = rect.Y + 12;
-			_ = sb.Append("\n<text x=\"").Append(F(textX)).Append("\" y=\"").Append(F(textY))
+			_ = sb.Append("\n<text x=\"").Append(textX.SvgFormat()).Append("\" y=\"").Append(textY.SvgFormat())
 				.Append("\" text-anchor=\"middle\" font-size=\"").Append(LabelFontSize)
 				.Append("\" font-weight=\"600\" fill=\"#fff\">");
 			MultilineUtils.AppendEscapedXml(sb, rect.Label.AsSpan());
@@ -142,15 +141,13 @@ internal static class TreemapSvgRenderer
 
 			if (rect.H > 30)
 			{
-				_ = sb.Append("\n<text x=\"").Append(F(textX)).Append("\" y=\"").Append(F(textY + 14))
+				_ = sb.Append("\n<text x=\"").Append(textX.SvgFormat()).Append("\" y=\"").Append((textY + 14).SvgFormat())
 					.Append("\" text-anchor=\"middle\" font-size=\"").Append(ValueFontSize)
 					.Append("\" fill=\"rgba(255,255,255,0.8)\">");
-				_ = sb.Append(F(rect.Value));
+				_ = sb.Append(rect.Value.SvgFormat());
 				_ = sb.Append("</text>");
 			}
 		}
 	}
 
-	private static string F(double value) =>
-		value.ToString("0.##", CultureInfo.InvariantCulture);
 }
