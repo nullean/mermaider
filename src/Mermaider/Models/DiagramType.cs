@@ -26,4 +26,5 @@ public enum DiagramType
 	Kanban,
 	Architecture,
 	Block,
+	TreeView,
 }

@@ -120,6 +120,7 @@ internal static class StyleBlock
 		DiagramType.Kanban => "kanban board",
 		DiagramType.Architecture => "architecture diagram",
 		DiagramType.Block => "block diagram",
+		DiagramType.TreeView => "tree view",
 		_ => "diagram"
 	};
 

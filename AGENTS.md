@@ -28,7 +28,7 @@ Three-stage pipeline: **Parse** → **Layout** → **Render**
 2. **Layout** (`src/Mermaider/Layout/`): Sugiyama (flowchart/class/ER) or custom arithmetic (sequence) produces positioned models
 3. **Rendering** (`src/Mermaider/Rendering/`): Pooled StringBuilder produces SVG string
 
-Supported diagram types: flowchart, state, sequence, class, ER, pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, gantt, journey, C4, sankey, xychart, requirement, packet, kanban, architecture, block.
+Supported diagram types: flowchart, state, sequence, class, ER, pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, gantt, journey, C4, sankey, xychart, requirement, packet, kanban, architecture, block, treeview.
 
 Adding a type: see `docs/agent-add-diagram-type.md` (playbook for parallel agents).
 
