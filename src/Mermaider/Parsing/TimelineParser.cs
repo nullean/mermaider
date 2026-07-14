@@ -35,7 +35,7 @@ internal static partial class TimelineParser
 
 	private static TimelineDiagram ParseCore(string[] lines)
 	{
-		string? title = null;
+		var (_, title) = DiagramHeaderOptions.Parse(lines[0], "timeline");
 		var sections = new List<TimelineSection>();
 		string? currentSectionName = null;
 		var currentPeriods = new List<TimelinePeriod>();

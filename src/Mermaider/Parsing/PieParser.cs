@@ -29,13 +29,8 @@ internal static partial class PieParser
 
 	private static PieChart ParseCore(string[] lines)
 	{
-		string? title = null;
-		var showData = false;
+		var (showData, title) = DiagramHeaderOptions.Parse(lines[0], "pie");
 		var slices = new List<PieSlice>();
-
-		var firstLine = lines[0];
-		if (firstLine.Contains("showData", StringComparison.OrdinalIgnoreCase))
-			showData = true;
 
 		for (var i = 1; i < lines.Length; i++)
 		{
