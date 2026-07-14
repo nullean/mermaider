@@ -206,27 +206,6 @@ public static partial class DiagramExamples
 			    t4[Deploy to staging]
 			"""),
 
-		new("architecture-basic", "API & Storage", DiagramCategory.Architecture, """
-			architecture-beta
-			    group api(cloud)[API]
-			    service db(database)[Database] in api
-			    service disk(disk)[Disk] in api
-			    service server(server)[Server] in api
-			    db:R --> L:server
-			    disk:T --> B:server
-			"""),
-
-		new("architecture-grouped", "Services in Group", DiagramCategory.Architecture, """
-			architecture-beta
-			    group public_api(cloud)[Public API]
-			    service server(server)[Server] in public_api
-			    service db(database)[Database] in public_api
-			    service disk1(disk)[Storage] in public_api
-
-			    db:R -- L:server
-			    disk1:T -- B:server
-			"""),
-
 		new("block-grid", "3×2 Grid", DiagramCategory.Block, """
 			block-beta
 			columns 3
