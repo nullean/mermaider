@@ -32,6 +32,11 @@ Supported diagram types: flowchart, state, sequence, class, ER, pie, quadrant, t
 
 Adding a type: see `docs/agent-add-diagram-type.md` (playbook for parallel agents).
 
+## Design system
+
+See `DESIGN.md` for the enforced uniformity rules: token derivation, font scale, geometry
+constants, drop-shadow classes, and the "adding a diagram" checklist.
+
 ## Public API
 
 - Library: `MermaidRenderer.RenderSvg(text, options?)` and `MermaidRenderer.Parse(text)`

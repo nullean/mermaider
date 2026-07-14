@@ -45,6 +45,7 @@ internal static class SankeySvgRenderer
 		public double Sy1 { get; set; }
 		public double Ty0 { get; set; }
 		public double Ty1 { get; set; }
+		public int Index { get; set; }
 	}
 
 	internal static string Render(SankeyDiagram diagram, DiagramColors colors, string font, bool transparent, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
@@ -79,7 +80,19 @@ internal static class SankeySvgRenderer
 
 		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
 		StyleBlock.AppendStyleBlock(sb, font, strict);
-		_ = sb.Append("\n<defs>\n</defs>\n");
+
+		// Emit gradient defs, one per link
+		_ = sb.Append("\n<defs>");
+		foreach (var link in links)
+		{
+			_ = sb.Append("\n<linearGradient id=\"sankey-grad-").Append(link.Index)
+				.Append("\" gradientUnits=\"userSpaceOnUse\" x1=\"").Append(link.Source.X1.SvgFormat())
+				.Append("\" y1=\"0\" x2=\"").Append(link.Target.X0.SvgFormat()).Append("\" y2=\"0\">")
+				.Append("<stop offset=\"0%\" stop-color=\"").Append(link.Source.Color).Append("\" stop-opacity=\"0.5\" />")
+				.Append("<stop offset=\"100%\" stop-color=\"").Append(link.Target.Color).Append("\" stop-opacity=\"0.5\" />")
+				.Append("</linearGradient>");
+		}
+		_ = sb.Append("\n</defs>\n");
 
 		// Links first (under nodes)
 		foreach (var link in links)
@@ -211,52 +224,54 @@ internal static class SankeySvgRenderer
 			n.X1 = n.X0 + NodeWidth;
 		}
 
-		// Vertical stack per layer, proportional heights (clamp so we stay in viewBox)
-		var byLayer = nodes.Values.GroupBy(n => n.Layer).OrderBy(g => g.Key);
+		// Vertical stack per layer — global proportional heights.
+		// Compute the max layer total to establish a single value→height scale,
+		// so node heights are proportional across ALL layers (not just within each layer).
+		var byLayer = nodes.Values.GroupBy(n => n.Layer).OrderBy(g => g.Key).ToList();
+
+		double maxLayerTotal = 0;
+		foreach (var group in byLayer)
+		{
+			var layerTotal = group.Sum(n => n.Value);
+			if (layerTotal > maxLayerTotal)
+				maxLayerTotal = layerTotal;
+		}
+		if (maxLayerTotal <= 0 || double.IsNaN(maxLayerTotal) || double.IsInfinity(maxLayerTotal))
+			maxLayerTotal = 1;
+
 		foreach (var group in byLayer)
 		{
 			var list = group.OrderByDescending(n => n.Value).ThenBy(n => n.Name, StringComparer.Ordinal).ToList();
-			var total = list.Sum(n => n.Value);
-			if (total <= 0 || double.IsNaN(total) || double.IsInfinity(total))
-				total = list.Count;
-
 			var padTotal = NodePad * Math.Max(0, list.Count - 1);
 			var usable = Math.Max(list.Count * 4.0, chartH - padTotal);
-			// If min heights + pads exceed chartH, scale everything into chartH
-			var minNeeded = (list.Count * 4.0) + padTotal;
-			if (minNeeded > chartH)
-				usable = Math.Max(1, chartH - padTotal);
 
-			var y = Margin;
-			foreach (var n in list)
+			// Scale each node by its fraction of the max-layer total
+			var stackHeight = 0.0;
+			var heights = new double[list.Count];
+			for (var i = 0; i < list.Count; i++)
 			{
-				var h = Math.Max(2, usable * (n.Value / total));
-				n.Y0 = y;
-				n.Y1 = y + h;
-				n.OutCursor = n.Y0;
-				n.InCursor = n.Y0;
-				y = n.Y1 + NodePad;
+				heights[i] = Math.Max(2, usable * (list[i].Value / maxLayerTotal));
+				stackHeight += heights[i];
 			}
+			stackHeight += padTotal;
 
-			// If we overran, compress into [Margin, Margin+chartH]
-			if (y - NodePad > Margin + chartH)
+			// Center the stack vertically within chartH
+			var offset = Margin + Math.Max(0, (chartH - stackHeight) / 2);
+			var y = offset;
+			for (var i = 0; i < list.Count; i++)
 			{
-				var scale = chartH / Math.Max(1e-9, y - NodePad - Margin);
-				foreach (var n in list)
-				{
-					var h = (n.Y1 - n.Y0) * scale;
-					var top = Margin + ((n.Y0 - Margin) * scale);
-					n.Y0 = top;
-					n.Y1 = top + h;
-					n.OutCursor = n.Y0;
-					n.InCursor = n.Y0;
-				}
+				list[i].Y0 = y;
+				list[i].Y1 = y + heights[i];
+				list[i].OutCursor = list[i].Y0;
+				list[i].InCursor = list[i].Y0;
+				y = list[i].Y1 + NodePad;
 			}
 		}
 
 		// Link vertical slots (source out, target in).
 		// Skip self-loops and feedback/same-layer edges (would draw leftward or zero-span ribbons).
 		var linkLayouts = new List<LinkLayout>(edges.Count);
+		var linkIndex = 0;
 		foreach (var (s, t, v) in edges.OrderBy(e => nodes[e.Source].Layer).ThenBy(e => e.Source).ThenBy(e => e.Target))
 		{
 			if (string.Equals(s, t, StringComparison.Ordinal))
@@ -283,6 +298,7 @@ internal static class SankeySvgRenderer
 				Sy1 = src.OutCursor + srcH,
 				Ty0 = tgt.InCursor,
 				Ty1 = tgt.InCursor + tgtH,
+				Index = linkIndex++,
 			};
 			src.OutCursor += srcH;
 			tgt.InCursor += tgtH;
@@ -297,7 +313,6 @@ internal static class SankeySvgRenderer
 		var x0 = link.Source.X1;
 		var x1 = link.Target.X0;
 		var midX = (x0 + x1) * 0.5;
-		var color = link.Source.Color;
 
 		// Ribbon path: source edge → cubic → target edge → back
 		_ = sb.Append("\n<path d=\"M ").Append(x0.SvgFormat()).Append(' ').Append(link.Sy0.SvgFormat())
@@ -308,7 +323,7 @@ internal static class SankeySvgRenderer
 			.Append(" C ").Append(midX.SvgFormat()).Append(' ').Append(link.Ty1.SvgFormat())
 			.Append(' ').Append(midX.SvgFormat()).Append(' ').Append(link.Sy1.SvgFormat())
 			.Append(' ').Append(x0.SvgFormat()).Append(' ').Append(link.Sy1.SvgFormat())
-			.Append(" Z\" fill=\"").Append(color).Append("\" fill-opacity=\"0.45\" stroke=\"none\" />");
+			.Append(" Z\" fill=\"url(#sankey-grad-").Append(link.Index).Append(")\" stroke=\"none\" />");
 	}
 
 	private static void AppendNode(StringBuilder sb, NodeLayout node, int layerCount)
@@ -317,19 +332,27 @@ internal static class SankeySvgRenderer
 			.Append("\" width=\"").Append(NodeWidth.SvgFormat()).Append("\" height=\"").Append(Math.Max(1, node.Y1 - node.Y0).SvgFormat())
 			.Append("\" fill=\"").Append(node.Color).Append("\" stroke=\"none\" rx=\"2\" ry=\"2\" />");
 
-		// Labels: left of first layer, right of later layers
-		var isLeft = node.Layer == 0 || (layerCount > 1 && node.Layer < layerCount - 1 && node.X0 < DefaultWidth * 0.25);
+		// Labels: left for all columns except the last
+		var isLeft = node.Layer < layerCount - 1;
 		var lx = isLeft ? node.X0 - LabelPad : node.X1 + LabelPad;
 		var anchor = isLeft ? "end" : "start";
 
 		var midY = (node.Y0 + node.Y1) * 0.5;
+		var label = $"{node.Name} {FormatValue(node.Value)}";
 		_ = sb.Append("\n<text x=\"").Append(lx.SvgFormat()).Append("\" y=\"").Append(midY.SvgFormat())
 			.Append("\" text-anchor=\"").Append(anchor)
 			.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(LabelFontSize)
 			.Append("\" fill=\"var(--_text)\">");
-		MultilineUtils.AppendEscapedXml(sb, node.Name.AsSpan());
+		MultilineUtils.AppendEscapedXml(sb, label.AsSpan());
 		_ = sb.Append("</text>");
+	}
+
+	private static string FormatValue(double value)
+	{
+		if (value == Math.Floor(value))
+			return ((long)value).ToString(System.Globalization.CultureInfo.InvariantCulture);
+		return value.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture);
 	}
 
 }

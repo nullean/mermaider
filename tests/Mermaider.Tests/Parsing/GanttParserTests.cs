@@ -405,4 +405,38 @@ public class GanttParserTests
 		task.Start.Date.Should().Be(new DateTime(2026, 7, 7));
 		task.End.Date.Should().Be(new DateTime(2026, 7, 10));
 	}
+
+	[Test]
+	public void Throws_on_click_directive()
+	{
+		var lines = new[]
+		{
+			"gantt",
+			"dateFormat YYYY-MM-DD",
+			"Task : done, a1, 2026-07-07, 1d",
+			"click a1 href \"https://example.com\"",
+		};
+
+		var act = () => GanttParser.Parse(lines);
+
+		act.Should().Throw<MermaidParseException>()
+			.WithMessage("*click*");
+	}
+
+	[Test]
+	public void Throws_on_click_call_directive()
+	{
+		var lines = new[]
+		{
+			"gantt",
+			"dateFormat YYYY-MM-DD",
+			"Task : done, a1, 2026-07-07, 1d",
+			"  Click a1 call myCallback()",
+		};
+
+		var act = () => GanttParser.Parse(lines);
+
+		act.Should().Throw<MermaidParseException>()
+			.WithMessage("*click*");
+	}
 }

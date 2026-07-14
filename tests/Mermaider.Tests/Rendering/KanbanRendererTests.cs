@@ -79,7 +79,8 @@ public class KanbanRendererTests
 		svg.Should().Contain("Create parsing tests");
 		svg.Should().Contain("MC-2038");
 		svg.Should().Contain("K.Sveidqvist");
-		svg.Should().Contain("High");
+		// Priority is rendered as a colored left border, not as text
+		svg.Should().Contain("#f28e2b"); // High priority color
 	}
 
 	[Test]
@@ -114,6 +115,7 @@ public class KanbanRendererTests
 		var svg = MermaidRenderer.RenderSvg(FullBoard);
 
 		svg.Should().Contain("fill=\"var(--_text)\"");
-		svg.Should().Contain("fill=\"var(--_accent-text)\"");
+		// Kanban uses neutral group-header fill, not accent — no --_accent-text expected
+		svg.Should().Contain("fill=\"var(--_group-hdr)\"");
 	}
 }

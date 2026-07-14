@@ -99,6 +99,13 @@ internal static partial class GanttParser
 			if (IsDeferredDirective(line))
 				continue;
 
+			// Gantt click/interaction directives can execute arbitrary JavaScript callbacks.
+			// They are disabled in mermaid.js strict mode for the same reason — reject early.
+			if (line.TrimStart().StartsWith("click ", StringComparison.OrdinalIgnoreCase))
+				throw new MermaidParseException(
+					"Gantt 'click' interactivity is not supported: it can execute arbitrary JavaScript " +
+					"callbacks. Remove click directives to render the diagram.");
+
 			var excludesMatch = ExcludesPattern().Match(line);
 			if (excludesMatch.Success)
 			{

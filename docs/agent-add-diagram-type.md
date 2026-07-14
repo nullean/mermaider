@@ -42,6 +42,12 @@ Public API stays `MermaidRenderer.RenderSvg` / `Parse` ΓÇö no new entry point
 11. Optional screenshot under `docs/screenshots/{type}.svg` (CLI ΓåÆ file; opaque for GH if needed)
 11. Optional screenshot under `docs/screenshots/{type}.svg`
 
+## Design rules
+
+See `DESIGN.md` for the full enforced design system (token derivation table, font scale,
+geometry constants, drop-shadow classes, measurement-px alignment). The checklist at the
+bottom of that file is the gate before shipping a renderer.
+
 ## Conventions (non-negotiable)
 
 - .NET 10, file-scoped ns, `var`, tabs, Allman  

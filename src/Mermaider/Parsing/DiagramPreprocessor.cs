@@ -103,7 +103,8 @@ internal static partial class DiagramPreprocessor
 			? rest[(closingIndex + 1)..].ToString()
 			: string.Empty;
 
-		// Parse title from simple YAML (no full YAML parser dependency)
+		// Parse title from simple YAML (no full YAML parser dependency).
+		// Also reject forbidden config keys that pose security risks.
 		string? title = null;
 		foreach (var yamlLine in yamlContent.Split('\n'))
 		{
@@ -119,8 +120,16 @@ internal static partial class DiagramPreprocessor
 					value = value[1..^1];
 				}
 				title = value.ToString();
-				break;
 			}
+
+			// ticketBaseUrl generates clickable links from user-supplied ticket values and can
+			// produce link-injection in embedding contexts that bypass sanitization pipelines.
+			// Reject early with a clear message rather than silently ignoring the directive.
+			if (trimmed.StartsWith("ticketBaseUrl:"))
+				throw new MermaidParseException(
+					"Kanban 'ticketBaseUrl' is not supported: it generates clickable links from ticket " +
+					"metadata that could bypass link sanitization in embedding contexts. " +
+					"Remove the ticketBaseUrl line from your frontmatter config to render the diagram.");
 		}
 
 		return (afterBlock, title);

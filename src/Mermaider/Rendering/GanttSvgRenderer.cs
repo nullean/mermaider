@@ -14,11 +14,14 @@ internal static class GanttSvgRenderer
 	private const double BottomPad = 40;
 	private const double LabelWidth = 180;
 	private const double RowHeight = 36;
+	private const double MilestoneRowHeight = 24;
 	private const double BarHeight = 20;
 	private const double SectionHeaderHeight = 28;
 	private const double TitleHeight = 36;
 	private const double AxisHeight = 28;
 	private const double ChartMinWidth = 480;
+	private const double MilestoneDiamondR = 7.0;
+	private const double MilestoneLabelGap = 6.0;
 
 	private const string TitleFontSize = RenderConstants.FsVar.L;
 	private const string LabelFontSize = RenderConstants.FsVar.S;
@@ -90,7 +93,8 @@ internal static class GanttSvgRenderer
 		{
 			if (section.Name is { Length: > 0 })
 				contentHeight += SectionHeaderHeight;
-			contentHeight += section.Tasks.Count * RowHeight;
+			foreach (var task in section.Tasks)
+				contentHeight += IsMilestone(task) ? MilestoneRowHeight : RowHeight;
 		}
 
 		var height = TopPad + titleOffset + contentHeight + AxisHeight + BottomPad;
@@ -122,14 +126,18 @@ internal static class GanttSvgRenderer
 
 			foreach (var task in section.Tasks)
 			{
-				AppendTaskRow(sb, task, y, chartLeft, chartWidth, min, max);
-				y += RowHeight;
+				var rowH = IsMilestone(task) ? MilestoneRowHeight : RowHeight;
+				AppendTaskRow(sb, task, y, rowH, chartLeft, chartWidth, min, max);
+				y += rowH;
 			}
 		}
 
 		_ = sb.Append("\n</svg>");
 		return sb;
 	}
+
+	private static bool IsMilestone(GanttTask task) =>
+		(task.Tags & GanttTaskTags.Milestone) != 0;
 
 	private static void AppendTitle(StringBuilder sb, string title, double centerX)
 	{
@@ -184,19 +192,12 @@ internal static class GanttSvgRenderer
 	}
 
 	private static void AppendTaskRow(
-		StringBuilder sb, GanttTask task, double rowY,
+		StringBuilder sb, GanttTask task, double rowY, double rowH,
 		double chartLeft, double chartWidth, DateTime min, DateTime max)
 	{
 		var span = (max - min).TotalDays;
 		if (span <= 0)
 			span = 1;
-
-		_ = sb.Append("\n<text x=\"").Append(LeftPad.SvgFormat())
-			.Append("\" y=\"").Append((rowY + (RowHeight * 0.6)).SvgFormat())
-			.Append("\" font-size=\"").Append(LabelFontSize)
-			.Append("\" fill=\"var(--_text)\">");
-		MultilineUtils.AppendEscapedXml(sb, task.Name.AsSpan());
-		_ = sb.Append("</text>");
 
 		var startFrac = (task.Start - min).TotalDays / span;
 		var endFrac = (task.End - min).TotalDays / span;
@@ -207,23 +208,46 @@ internal static class GanttSvgRenderer
 
 		var x = chartLeft + (startFrac * chartWidth);
 		var w = Math.Max((endFrac - startFrac) * chartWidth, 4);
-		var barY = rowY + ((RowHeight - BarHeight) / 2);
 		var fill = ColorFor(task.Tags);
 
-		if ((task.Tags & GanttTaskTags.Milestone) != 0)
+		if (IsMilestone(task))
 		{
+			// Row tint band
+			_ = sb.Append("\n<rect x=\"").Append(chartLeft.SvgFormat()).Append("\" y=\"").Append(rowY.SvgFormat())
+				.Append("\" width=\"").Append(chartWidth.SvgFormat()).Append("\" height=\"").Append(rowH.SvgFormat())
+				.Append("\" fill=\"").Append(ColorMilestone).Append("\" opacity=\"0.12\" />");
+
 			var cx = x + (Math.Max(w, 4) / 2);
-			var cy = rowY + (RowHeight / 2);
-			const double r = 8.0;
+			var cy = rowY + (rowH / 2);
+			const double r = MilestoneDiamondR;
 			_ = sb.Append("\n<polygon points=\"")
 				.Append(cx.SvgFormat()).Append(',').Append((cy - r).SvgFormat()).Append(' ')
 				.Append((cx + r).SvgFormat()).Append(',').Append(cy.SvgFormat()).Append(' ')
 				.Append(cx.SvgFormat()).Append(',').Append((cy + r).SvgFormat()).Append(' ')
 				.Append((cx - r).SvgFormat()).Append(',').Append(cy.SvgFormat())
 				.Append("\" fill=\"").Append(fill).Append("\" />");
+
+			// Inline label to the right of the diamond
+			var labelX = cx + r + MilestoneLabelGap;
+			_ = sb.Append("\n<text x=\"").Append(labelX.SvgFormat())
+				.Append("\" y=\"").Append(cy.SvgFormat())
+				.Append("\" text-anchor=\"start\" dy=\"").Append(RenderConstants.TextBaselineShift)
+				.Append("\" font-size=\"").Append(LabelFontSize)
+				.Append("\" fill=\"var(--_text)\">");
+			MultilineUtils.AppendEscapedXml(sb, task.Name.AsSpan());
+			_ = sb.Append("</text>");
 		}
 		else
 		{
+			// Left-column label for normal tasks
+			_ = sb.Append("\n<text x=\"").Append(LeftPad.SvgFormat())
+				.Append("\" y=\"").Append((rowY + (rowH * 0.6)).SvgFormat())
+				.Append("\" font-size=\"").Append(LabelFontSize)
+				.Append("\" fill=\"var(--_text)\">");
+			MultilineUtils.AppendEscapedXml(sb, task.Name.AsSpan());
+			_ = sb.Append("</text>");
+
+			var barY = rowY + ((rowH - BarHeight) / 2);
 			_ = sb.Append("\n<rect x=\"").Append(x.SvgFormat()).Append("\" y=\"").Append(barY.SvgFormat())
 				.Append("\" width=\"").Append(w.SvgFormat()).Append("\" height=\"").Append(BarHeight)
 				.Append("\" rx=\"4\" ry=\"4\" fill=\"").Append(fill).Append("\" />");

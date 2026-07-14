@@ -24,33 +24,39 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
 </style>
 
 <defs>
+<linearGradient id="sankey-grad-0" gradientUnits="userSpaceOnUse" x1="96" y1="0" x2="716" y2="0"><stop offset="0%" stop-color="#4e79a7" stop-opacity="0.5" /><stop offset="100%" stop-color="#e15759" stop-opacity="0.5" /></linearGradient>
+<linearGradient id="sankey-grad-1" gradientUnits="userSpaceOnUse" x1="96" y1="0" x2="716" y2="0"><stop offset="0%" stop-color="#4e79a7" stop-opacity="0.5" /><stop offset="100%" stop-color="#edc948" stop-opacity="0.5" /></linearGradient>
+<linearGradient id="sankey-grad-2" gradientUnits="userSpaceOnUse" x1="96" y1="0" x2="716" y2="0"><stop offset="0%" stop-color="#4e79a7" stop-opacity="0.5" /><stop offset="100%" stop-color="#ff9da7" stop-opacity="0.5" /></linearGradient>
+<linearGradient id="sankey-grad-3" gradientUnits="userSpaceOnUse" x1="96" y1="0" x2="716" y2="0"><stop offset="0%" stop-color="#f28e2b" stop-opacity="0.5" /><stop offset="100%" stop-color="#76b7b2" stop-opacity="0.5" /></linearGradient>
+<linearGradient id="sankey-grad-4" gradientUnits="userSpaceOnUse" x1="96" y1="0" x2="716" y2="0"><stop offset="0%" stop-color="#f28e2b" stop-opacity="0.5" /><stop offset="100%" stop-color="#59a14f" stop-opacity="0.5" /></linearGradient>
+<linearGradient id="sankey-grad-5" gradientUnits="userSpaceOnUse" x1="96" y1="0" x2="716" y2="0"><stop offset="0%" stop-color="#f28e2b" stop-opacity="0.5" /><stop offset="100%" stop-color="#b07aa1" stop-opacity="0.5" /></linearGradient>
 </defs>
 
-<path d="M 96 237.64 C 406 237.64 406 329.89 716 329.89 L 716 354.02 C 406 354.02 406 266.55 96 266.55 Z" fill="#4e79a7" fill-opacity="0.45" stroke="none" />
-<path d="M 96 266.55 C 406 266.55 406 368.02 716 368.02 L 716 376 C 406 376 406 276.12 96 276.12 Z" fill="#4e79a7" fill-opacity="0.45" stroke="none" />
-<path d="M 96 276.12 C 406 276.12 406 139.71 716 139.71 L 716 223.04 C 406 223.04 406 376 96 376 Z" fill="#4e79a7" fill-opacity="0.45" stroke="none" />
-<path d="M 96 24 C 406 24 406 237.04 716 237.04 L 716 270.84 C 406 270.84 406 64.52 96 64.52 Z" fill="#f28e2b" fill-opacity="0.45" stroke="none" />
-<path d="M 96 64.52 C 406 64.52 406 24 716 24 L 716 125.71 C 406 125.71 406 186.43 96 186.43 Z" fill="#f28e2b" fill-opacity="0.45" stroke="none" />
-<path d="M 96 186.43 C 406 186.43 406 284.84 716 284.84 L 716 315.89 C 406 315.89 406 223.64 96 223.64 Z" fill="#f28e2b" fill-opacity="0.45" stroke="none" />
+<path d="M 96 237.64 C 406 237.64 406 329.89 716 329.89 L 716 354.02 C 406 354.02 406 266.55 96 266.55 Z" fill="url(#sankey-grad-0)" stroke="none" />
+<path d="M 96 266.55 C 406 266.55 406 368.02 716 368.02 L 716 376 C 406 376 406 276.12 96 276.12 Z" fill="url(#sankey-grad-1)" stroke="none" />
+<path d="M 96 276.12 C 406 276.12 406 139.71 716 139.71 L 716 223.04 C 406 223.04 406 376 96 376 Z" fill="url(#sankey-grad-2)" stroke="none" />
+<path d="M 96 24 C 406 24 406 237.04 716 237.04 L 716 270.84 C 406 270.84 406 64.52 96 64.52 Z" fill="url(#sankey-grad-3)" stroke="none" />
+<path d="M 96 64.52 C 406 64.52 406 24 716 24 L 716 125.71 C 406 125.71 406 186.43 96 186.43 Z" fill="url(#sankey-grad-4)" stroke="none" />
+<path d="M 96 186.43 C 406 186.43 406 284.84 716 284.84 L 716 315.89 C 406 315.89 406 223.64 96 223.64 Z" fill="url(#sankey-grad-5)" stroke="none" />
 <rect x="84" y="24" width="12" height="199.64" fill="#f28e2b" stroke="none" rx="2" ry="2" />
-<text x="76" y="123.82" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Electricity grid</text>
+<text x="76" y="123.82" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Electricity grid 560.34</text>
 <rect x="716" y="284.84" width="12" height="31.05" fill="#b07aa1" stroke="none" rx="2" ry="2" />
-<text x="736" y="300.37" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Over generation / exports</text>
+<text x="736" y="300.37" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Over generation / exports 104.45</text>
 <rect x="716" y="237.04" width="12" height="33.81" fill="#76b7b2" stroke="none" rx="2" ry="2" />
-<text x="736" y="253.94" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Heating and cooling - homes</text>
+<text x="736" y="253.94" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Heating and cooling - homes 113.73</text>
 <rect x="716" y="24" width="12" height="101.71" fill="#59a14f" stroke="none" rx="2" ry="2" />
-<text x="736" y="74.86" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Industry</text>
+<text x="736" y="74.86" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Industry 342.17</text>
 <rect x="84" y="237.64" width="12" height="138.36" fill="#4e79a7" stroke="none" rx="2" ry="2" />
-<text x="76" y="306.82" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Bio-conversion</text>
+<text x="76" y="306.82" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Bio-conversion 388.33</text>
 <rect x="716" y="368.02" width="12" height="7.98" fill="#edc948" stroke="none" rx="2" ry="2" />
-<text x="736" y="372.01" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Losses</text>
+<text x="736" y="372.01" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Losses 26.86</text>
 <rect x="716" y="139.71" width="12" height="83.33" fill="#ff9da7" stroke="none" rx="2" ry="2" />
-<text x="736" y="181.38" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Solid</text>
+<text x="736" y="181.38" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Solid 280.32</text>
 <rect x="716" y="329.89" width="12" height="24.12" fill="#e15759" stroke="none" rx="2" ry="2" />
-<text x="736" y="341.95" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Gas</text>
+<text x="736" y="341.95" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Gas 81.14</text>
 </svg>

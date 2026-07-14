@@ -157,8 +157,8 @@ internal static class StyleBlock
 		_ = sb.Append("    --fs-m:  ").Append(fs.M).Append(";\n");
 		_ = sb.Append("    --fs-l:  ").Append(fs.L).Append(";\n");
 		_ = sb.Append("  }\n");
-		_ = sb.Append("  .node, .actor, .entity, .class-node, .architecture-service { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }\n");
-		_ = sb.Append("  .subgraph { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }\n");
+		_ = sb.Append("  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }\n");
+		_ = sb.Append("  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }\n");
 
 		if (strict is not null)
 			AppendStrictModeClasses(sb, strict);

@@ -28,6 +28,22 @@ public static partial class DiagramExamples
 			  GA               :crit, p3, after m1, 5d
 			"""),
 
+		new("gantt-multi-after", "Multi-dependency", DiagramCategory.Gantt, """
+			gantt
+			  title Multi-dependency demo
+			  dateFormat YYYY-MM-DD
+			  section Backend
+			  API design    :done, b1, 2026-01-05, 2d
+			  Implement     :done, b2, after b1, 3d
+			  section Frontend
+			  UI design     :done, f1, 2026-01-05, 2d
+			  Build         :active, f2, after f1, 3d
+			  section Release
+			  Integration   :crit, r1, after b2 f2, 2d
+			  QA            :crit, r2, after r1, 1d
+			  Launch        :milestone, m1, after r2, 0d
+			"""),
+
 		new("journey-workday", "Working Day", DiagramCategory.Journey, """
 			journey
 			  title My working day
@@ -100,6 +116,14 @@ public static partial class DiagramExamples
 			Trials,Churned,280
 			"""),
 
+		new("sankey-quoted", "Quoted Names", DiagramCategory.Sankey, """
+			sankey-beta
+			"Pumped heat","Heating and cooling, homes",193.026
+			"Pumped heat","Heating and cooling, commercial",70.672
+			"Solar thermal","Heating and cooling, homes",11.606
+			"Solar thermal","Heating and cooling, commercial",3.3
+			"""),
+
 		new("xychart-sales", "Sales Revenue", DiagramCategory.XyChart, """
 			xychart-beta
 			title "Sales Revenue"
@@ -157,6 +181,29 @@ public static partial class DiagramExamples
 			    id4[Create parsing tests]@{ ticket: MC-2038, assigned: 'K.Sveidqvist', priority: 'High' }
 			  done[Done]
 			    id5[define getData]
+			"""),
+
+		new("kanban-priorities", "Priority Levels", DiagramCategory.Kanban, """
+			kanban
+			  backlog[Backlog]
+			    p1[Security audit]@{ priority: 'Very High' }
+			    p2[Perf regression]@{ priority: 'High' }
+			    p3[Docs update]@{ priority: 'Low' }
+			    p4[Typo fix]@{ priority: 'Very Low' }
+			  review[Review]
+			    p5[API redesign]@{ assigned: 'alice', priority: 'High' }
+			    p6[Changelog]@{ assigned: 'bob', ticket: CH-99, priority: 'Very Low' }
+			"""),
+
+		new("kanban-bare-columns", "Bare Column Titles", DiagramCategory.Kanban, """
+			kanban
+			  [To Do]
+			    t1[Implement feature]
+			    t2[Write unit tests]
+			  [In Review]
+			    t3[PR for auth flow]
+			  [Done]
+			    t4[Deploy to staging]
 			"""),
 
 		new("architecture-basic", "API & Storage", DiagramCategory.Architecture, """

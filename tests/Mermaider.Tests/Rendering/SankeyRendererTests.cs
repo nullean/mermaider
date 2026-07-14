@@ -39,7 +39,9 @@ public partial class SankeyRendererTests
 
 		svg.Should().Contain("<path");
 		svg.Should().Contain("<rect");
-		svg.Should().Contain("fill-opacity");
+		// Ribbons now use source→target linearGradients instead of flat fill-opacity
+		svg.Should().Contain("linearGradient");
+		svg.Should().Contain("sankey-grad-");
 	}
 
 	[Test]
@@ -131,14 +133,18 @@ public partial class SankeyRendererTests
 		svg.Split("<path", StringSplitOptions.None).Length.Should().Be(2);
 	}
 
-	/// <summary>Map node label → rect x from adjacent rect/text pairs in the SVG.</summary>
+	/// <summary>Map node label → rect x from adjacent rect/text pairs in the SVG.
+	/// Labels include a numeric value suffix (e.g. "A 1") — key is the name portion only.</summary>
 	private static Dictionary<string, double> NodeXs(string svg)
 	{
 		var result = new Dictionary<string, double>(StringComparer.Ordinal);
 		foreach (Match m in NodeRectText().Matches(svg))
 		{
 			var x = double.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture);
-			var name = m.Groups[2].Value;
+			// Label format is "Name value" — extract just the name (everything before last space+number)
+			var fullLabel = m.Groups[2].Value;
+			var spaceIdx = fullLabel.LastIndexOf(' ');
+			var name = spaceIdx > 0 ? fullLabel[..spaceIdx] : fullLabel;
 			result[name] = x;
 		}
 

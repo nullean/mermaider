@@ -128,6 +128,13 @@ internal static partial class KanbanParser
 		if (m.Success)
 			return (m.Groups[1].Value, m.Groups[2].Value);
 
+		// Bare bracket form: [Title] with no leading id — strip brackets
+		if (text.Length >= 2 && text[0] == '[' && text[^1] == ']')
+		{
+			var inner = text[1..^1];
+			return (inner, inner);
+		}
+
 		// Bare text: id = label
 		return (text, text);
 	}

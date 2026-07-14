@@ -161,4 +161,48 @@ public class KanbanParserTests
 		diagram.Columns[0].Tasks.Should().HaveCount(0);
 		diagram.Columns[1].Tasks.Should().HaveCount(1);
 	}
+
+	[Test]
+	public void Parses_bare_bracket_column_title()
+	{
+		var lines = new[]
+		{
+			"kanban",
+			"  [To Do]",
+			"    t1[Implement feature]",
+			"  [Done]",
+			"    t2[Ship it]",
+		};
+
+		var diagram = KanbanParser.Parse(lines);
+
+		diagram.Columns.Should().HaveCount(2);
+		diagram.Columns[0].Title.Should().Be("To Do");
+		diagram.Columns[0].Id.Should().Be("To Do");
+		diagram.Columns[1].Title.Should().Be("Done");
+	}
+
+	[Test]
+	public void Priority_colors_all_four_levels()
+	{
+		var lines = new[]
+		{
+			"kanban",
+			"  backlog[Backlog]",
+			"    p1[A]@{ priority: 'Very High' }",
+			"    p2[B]@{ priority: 'High' }",
+			"    p3[C]@{ priority: 'Low' }",
+			"    p4[D]@{ priority: 'Very Low' }",
+			"    p5[E]",
+		};
+
+		var diagram = KanbanParser.Parse(lines);
+		var tasks = diagram.Columns[0].Tasks;
+
+		tasks[0].Priority.Should().Be("Very High");
+		tasks[1].Priority.Should().Be("High");
+		tasks[2].Priority.Should().Be("Low");
+		tasks[3].Priority.Should().Be("Very Low");
+		tasks[4].Priority.Should().BeNull();
+	}
 }
