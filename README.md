@@ -63,10 +63,6 @@ one theming model, consistent output regardless of diagram type.
 - **Strict styling mode:** reject `classDef`, `style`, and `linkStyle` at parse time; enforce your design system's class allowlist. Built for products that embed user-authored diagrams.
 - **Fast:** ~23 µs, ~46 KB allocated, for a simple flowchart on .NET 10 (Apple M2 Pro).
 
-Most .NET Mermaid packages are either DSL helpers that produce markup strings you still can't display,
-or browser wrappers that shell out to Puppeteer or a Node.js process. Mermaider is the rendering layer
-both approaches are missing.
-
 ### Pure .NET parsing and rendering
 
 Mermaider parses Mermaid's text DSL and renders SVG output using only managed .NET code. There is no
