@@ -38,6 +38,7 @@
 - [Building from Source](#building-from-source)
 - [Supported Diagrams](#supported-diagrams)
 - [Attribution](#attribution)
+- [Projects using Mermaider](#projects-using-mermaider)
 - [License](#license)
 
 ---
@@ -86,6 +87,24 @@ If you still want MSAGL for its higher-fidelity edge routing on complex graphs, 
 
 Every public API is compatible with .NET Native AOT. The CI pipeline publishes and invokes a native binary
 on Linux, macOS, and Windows to prove it. No reflection, no runtime code generation, no surprises.
+
+### Security and normalized styling
+
+When you embed user-authored Mermaid diagrams in a product, security and visual consistency are not
+afterthoughts—they are core requirements that shaped Mermaider's design from the start.
+
+**Safety**: every rendered SVG is run through an element/attribute allowlist before it leaves the
+library. There is no way to opt out. This is defense-in-depth on top of per-renderer output escaping:
+`<script>`, `<foreignObject>`, event handlers, and external `href` URIs are structurally absent from
+the allowlist&mdash;not blocked by a regex that someone could work around.
+
+**Visual consistency**: the [Strict Styling](#strict-styling) mode lets you enforce a host-controlled
+design system. Source-authored `classDef`, `style`, `linkStyle`, and theme overrides are rejected at
+parse time, and diagrams are constrained to a class allowlist you define. This guarantees that
+user-authored diagrams look like they belong in your product rather than importing arbitrary colors.
+
+Both features are independent: sanitization is always on; strict styling is opt-in. Together they
+make Mermaider suitable for multi-tenant and security-sensitive embedding.
 
 ## Quick Start
 
@@ -296,7 +315,7 @@ redefining the custom properties on the `<svg>` element without re-rendering.
 Node labels support three formats:
 
 - **Plain text**: `A[Hello World]` renders as-is
-- **Markdown labels**: `A["\`**bold** and _italic_\`"]` renders `<tspan>` elements with `font-weight`/`font-style`
+- **Markdown labels**: ``A["`**bold** and _italic_`"]`` renders `<tspan>` elements with `font-weight`/`font-style`
   - Supported tags: `**bold**`, `*italic*`, `~~strikethrough~~`, `<u>underline</u>`
   - Newlines within markdown labels produce multi-line `<text>` with `<tspan dy="...">`
 - **Escaped newlines**: `\n` in any label is converted to an actual line break
@@ -1019,6 +1038,13 @@ This codebase was written with a coding agent (Claude). That said, care was take
 idioms and keep allocations low: `ReadOnlySpan<char>` parsing, `[GeneratedRegex]` with ReDoS timeout guards,
 `FrozenDictionary` / `FrozenSet` for hot-path lookups, `SearchValues<char>` for character classification,
 object pooling, and file-scoped namespaces throughout. The benchmark numbers above reflect the result.
+
+## Projects using Mermaider
+
+Projects that use Mermaider and have contributed back:
+
+- [elastic/docs-builder](https://github.com/elastic/docs-builder) &mdash; Elastic's documentation build toolchain
+- [tig/winprint](https://tig.github.io/winprint/) &mdash; WinPrint uses Mermaider as its default Mermaid renderer
 
 ## License
 
