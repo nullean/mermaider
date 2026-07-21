@@ -61,7 +61,7 @@ one theming model, consistent output regardless of diagram type.
 - **Unified theming:** 15 built-in themes. Colors are emitted as CSS custom properties, so themes switch live on the `<svg>` element without re-rendering.
 - **Always-on SVG sanitization:** every rendered SVG passes through an element/attribute allowlist before leaving the library. `<script>`, `<foreignObject>`, event handlers, and external `href`s are absent from the allowlist, not pattern-matched. No opt-out.
 - **Strict styling mode:** reject `classDef`, `style`, and `linkStyle` at parse time; enforce your design system's class allowlist. Built for products that embed user-authored diagrams.
-- **Fast:** ~23 µs / ~46 KB for a simple flowchart on .NET 10 (Apple M2 Pro).
+- **Fast:** ~23 µs, ~46 KB allocated, for a simple flowchart on .NET 10 (Apple M2 Pro).
 
 Most .NET Mermaid packages are either DSL helpers that produce markup strings you still can't display,
 or browser wrappers that shell out to Puppeteer or a Node.js process. Mermaider is the rendering layer
