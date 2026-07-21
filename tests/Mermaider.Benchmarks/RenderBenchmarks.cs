@@ -147,7 +147,8 @@ public class PhaseBenchmarks
 		new NormalizedRenderStyles(Colors, "Inter", null, FontScale.Default, false, null),
 		new AccessibilityInfo(),
 		DiagramType.Flowchart,
-		6);
+		6,
+		ResourceLimits.Default);
 
 	private const string SimpleFlowchart = """
 		graph TD

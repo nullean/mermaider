@@ -42,10 +42,16 @@ public static class SugiyamaLayout
 		CycleRemover.Run(buf);
 		LayerAssigner.Run(buf);
 
+		options.CancellationToken.ThrowIfCancellationRequested();
+		if (buf.NodeCount > options.MaxNodeCount)
+			throw new InvalidOperationException(
+				$"Layout node count {buf.NodeCount} exceeds limit {options.MaxNodeCount} " +
+				$"(MaxNodesAfterLayout). Raise ResourceLimits.MaxNodesAfterLayout or simplify the diagram.");
+
 		if (input.Subgraphs.Count > 0)
 			PromoteDisconnectedSubgraphNodes(buf, input);
 
-		CrossingMinimizer.Run(buf, options.CrossingIterations);
+		CrossingMinimizer.Run(buf, options.CrossingIterations, options.CancellationToken);
 		CoordinateAssigner.Run(buf, options.NodeSpacing, options.LayerSpacing);
 		SpreadFanOutChildren(buf, options.NodeSpacing);
 		SpreadForkBranches(buf, options.NodeSpacing);

@@ -12,14 +12,50 @@ namespace Mermaider.Rendering;
 /// </summary>
 internal static class MermaidRenderPipeline
 {
-	internal static string Execute(string text, RenderOptions? options)
+	internal static string Execute(string text, RenderOptions? options, CancellationToken ct = default)
 	{
-		using var culture = InvariantCultureScope.Enter();
-		var prepared = DiagramPreparationStage.Prepare(text, options);
-		var configuration = RenderConfigurationNormalizer.Normalize(prepared, options);
-		var request = new NormalizedRenderRequest(prepared, configuration, options);
-		var rawSvg = DiagramSvgStage.Render(request);
-		return SvgSanitizationStage.Apply(rawSvg, options?.SanitizeMode ?? SanitizeMode.Strip);
+		var limits = options?.Limits ?? ResourceLimits.Default;
+
+		// Input length check before any work (string allocation already done by caller)
+		ResourceGuard.CheckInputLength(text, limits);
+
+		// Create a deadline CTS using limits.TimeProvider so tests can inject a FakeTimeProvider
+		// and advance time to trigger the deadline deterministically without wall-clock delays.
+		// When the caller also supplies a CancellationToken, we link both into a combined source
+		// so either the deadline or the caller's cancellation aborts the render.
+		CancellationTokenSource? deadlineCts = null;    // fires after RenderDeadline elapses
+		CancellationTokenSource? linkedCts = null;      // union of deadline + caller token
+		if (limits.RenderDeadline.HasValue)
+		{
+			deadlineCts = new CancellationTokenSource(limits.RenderDeadline.Value, limits.TimeProvider);
+			if (ct != default)
+				linkedCts = CancellationTokenSource.CreateLinkedTokenSource(deadlineCts.Token, ct);
+		}
+
+		try
+		{
+			var token = linkedCts?.Token ?? deadlineCts?.Token ?? ct;
+
+			using var culture = InvariantCultureScope.Enter();
+			token.ThrowIfCancellationRequested();
+
+			var prepared = DiagramPreparationStage.Prepare(text, options, limits, token);
+			token.ThrowIfCancellationRequested();
+
+			var configuration = RenderConfigurationNormalizer.Normalize(prepared, options);
+			token.ThrowIfCancellationRequested();
+
+			var request = new NormalizedRenderRequest(prepared, configuration, options, limits, token);
+			var rawSvg = DiagramSvgStage.Render(request);
+			token.ThrowIfCancellationRequested();
+
+			return SvgSanitizationStage.Apply(rawSvg, options?.SanitizeMode ?? SanitizeMode.Strip);
+		}
+		finally
+		{
+			linkedCts?.Dispose();
+			deadlineCts?.Dispose();
+		}
 	}
 
 	private readonly struct InvariantCultureScope : IDisposable
@@ -63,23 +99,32 @@ internal sealed record NormalizedRenderConfiguration(
 internal sealed record NormalizedRenderRequest(
 	PreparedDiagram Diagram,
 	NormalizedRenderConfiguration Configuration,
-	RenderOptions? Options);
+	RenderOptions? Options,
+	ResourceLimits Limits,
+	CancellationToken CancellationToken);
 
 /// <summary>Normalized rendering inputs shared by every SVG renderer.</summary>
 internal readonly record struct SvgRenderContext(
 	NormalizedRenderStyles Styles,
 	AccessibilityInfo Accessibility,
 	DiagramType DiagramType,
-	double EdgeRadius);
+	double EdgeRadius,
+	ResourceLimits Limits);
 
 internal static class DiagramPreparationStage
 {
-	internal static PreparedDiagram Prepare(string text, RenderOptions? options)
+	internal static PreparedDiagram Prepare(string text, RenderOptions? options,
+		ResourceLimits limits, CancellationToken ct = default)
 	{
 		var (cleaned, metadata) = DiagramPreprocessor.Process(text);
 		var lines = MermaidRenderer.PreprocessLines(cleaned);
 		if (lines.Length == 0)
 			throw new MermaidParseException("Empty mermaid diagram");
+
+		// Line count + line length checks (bounds aggregate regex budget)
+		ResourceGuard.CheckLines(lines, limits);
+		ResourceGuard.CheckLineLength(lines, limits);
+		ct.ThrowIfCancellationRequested();
 
 		var diagramType = DiagramDetector.Detect(cleaned.AsSpan());
 		var allowedDiagrams = options?.AllowedDiagrams ?? DiagramTypes.All;
@@ -184,83 +229,172 @@ internal static class DiagramSvgStage
 		var accessibility = diagram.Accessibility;
 		var diagramType = diagram.DiagramType;
 		var provider = configuration.LayoutProvider;
-		var context = new SvgRenderContext(styles, accessibility, diagramType, configuration.EdgeRadius);
+		var limits = request.Limits;
+		var ct = request.CancellationToken;
+		var context = new SvgRenderContext(styles, accessibility, diagramType, configuration.EdgeRadius, limits);
 
-		var sb = diagramType switch
+		StringBuilder sb;
+
+		// Each arm parses, checks element count, then renders.
+		// MaxLines already bounds all parser iterations; element count is a secondary
+		// guard for the super-linear Sugiyama-backed types and for explicit per-type
+		// counts that the caller can tune via ResourceLimits.MaxElements.
+		switch (diagramType)
 		{
-			DiagramType.Sequence => SequenceSvgRenderer.RenderToBuilder(
-				SequenceLayout.Layout(SequenceParser.Parse(lines)), context),
+			case DiagramType.Sequence:
+				{
+					var parsed = SequenceParser.Parse(lines);
+					ResourceGuard.CheckElements(parsed.Actors.Count + parsed.Messages.Count + parsed.Notes.Count, limits);
+					sb = SequenceSvgRenderer.RenderToBuilder(SequenceLayout.Layout(parsed), context);
+					break;
+				}
+			case DiagramType.Class:
+				{
+					var parsed = ClassParser.Parse(lines);
+					ResourceGuard.CheckElements(parsed.Classes.Count + parsed.Relationships.Count, limits);
+					ct.ThrowIfCancellationRequested();
+					sb = ClassSvgRenderer.RenderToBuilder(provider.LayoutClass(parsed), context);
+					break;
+				}
+			case DiagramType.Er:
+				{
+					var parsed = ErParser.Parse(lines);
+					ResourceGuard.CheckElements(parsed.Entities.Count + parsed.Relationships.Count, limits);
+					ct.ThrowIfCancellationRequested();
+					sb = ErSvgRenderer.RenderToBuilder(provider.LayoutEr(parsed), context);
+					break;
+				}
+			case DiagramType.Pie:
+				{
+					var parsed = PieParser.Parse(lines);
+					sb = PieSvgRenderer.RenderToBuilder(parsed, context);
+					break;
+				}
+			case DiagramType.Quadrant:
+				{
+					sb = QuadrantSvgRenderer.RenderToBuilder(QuadrantParser.Parse(lines), context);
+					break;
+				}
+			case DiagramType.Timeline:
+				{
+					sb = TimelineSvgRenderer.RenderToBuilder(TimelineParser.Parse(lines), context);
+					break;
+				}
+			case DiagramType.GitGraph:
+				{
+					sb = GitGraphSvgRenderer.RenderToBuilder(GitGraphParser.Parse(lines), context);
+					break;
+				}
+			case DiagramType.Radar:
+				{
+					sb = RadarSvgRenderer.RenderToBuilder(RadarParser.Parse(lines), context);
+					break;
+				}
+			case DiagramType.Treemap:
+				{
+					sb = TreemapSvgRenderer.RenderToBuilder(
+						TreemapParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource)),
+						context);
+					break;
+				}
+			case DiagramType.Venn:
+				{
+					var parsed = VennParser.Parse(lines);
+					ResourceGuard.CheckElements(parsed.Sets.Count + parsed.Unions.Count, limits);
+					sb = VennSvgRenderer.RenderToBuilder(parsed, context);
+					break;
+				}
+			case DiagramType.Mindmap:
+				{
+					sb = MindmapSvgRenderer.RenderToBuilder(
+						MindmapParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource)),
+						context);
+					break;
+				}
+			case DiagramType.Gantt:
+				{
+					sb = GanttSvgRenderer.RenderToBuilder(GanttParser.Parse(lines), context);
+					break;
+				}
+			case DiagramType.Journey:
+				{
+					sb = JourneySvgRenderer.RenderToBuilder(JourneyParser.Parse(lines), context);
+					break;
+				}
+			case DiagramType.C4:
+				{
+					sb = C4SvgRenderer.RenderToBuilder(C4Parser.Parse(lines), context);
+					break;
+				}
+			case DiagramType.Sankey:
+				{
+					sb = SankeySvgRenderer.RenderToBuilder(SankeyParser.Parse(lines), context);
+					break;
+				}
+			case DiagramType.XyChart:
+				{
+					sb = XyChartSvgRenderer.RenderToBuilder(XyChartParser.Parse(lines), context);
+					break;
+				}
+			case DiagramType.Requirement:
+				{
+					sb = RequirementSvgRenderer.RenderToBuilder(RequirementParser.Parse(lines), context);
+					break;
+				}
+			case DiagramType.Packet:
+				{
+					sb = PacketSvgRenderer.RenderToBuilder(PacketParser.Parse(lines), context);
+					break;
+				}
+			case DiagramType.Kanban:
+				{
+					sb = KanbanSvgRenderer.RenderToBuilder(
+						KanbanParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource, accessibility)),
+						context);
+					break;
+				}
+			case DiagramType.Architecture:
+				{
+					var parsed = ArchitectureParser.Parse(lines);
+					ResourceGuard.CheckElements(
+						parsed.Services.Count + parsed.Groups.Count + parsed.Edges.Count + parsed.Junctions.Count,
+						limits);
+					ct.ThrowIfCancellationRequested();
+					sb = ArchitectureSvgRenderer.RenderToBuilder(ArchitectureLayout.Layout(parsed), context);
+					break;
+				}
+			case DiagramType.Block:
+				{
+					sb = BlockSvgRenderer.RenderToBuilder(BlockParser.Parse(lines), context);
+					break;
+				}
+			case DiagramType.TreeView:
+				{
+					sb = TreeViewSvgRenderer.RenderToBuilder(
+						TreeViewParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource, accessibility)),
+						context);
+					break;
+				}
+			default:
+				{
+					// Flowchart, State — primary Sugiyama path, most DoS-critical
+					var parsed = MermaidRenderer.ParseInternal(lines, diagramType);
+					ResourceGuard.CheckElements(parsed.Nodes.Count + parsed.Edges.Count, limits);
+					ct.ThrowIfCancellationRequested();
 
-			DiagramType.Class => ClassSvgRenderer.RenderToBuilder(
-				provider.LayoutClass(ClassParser.Parse(lines)), context),
-
-			DiagramType.Er => ErSvgRenderer.RenderToBuilder(
-				provider.LayoutEr(ErParser.Parse(lines)), context),
-
-			DiagramType.Pie => PieSvgRenderer.RenderToBuilder(
-				PieParser.Parse(lines), context),
-
-			DiagramType.Quadrant => QuadrantSvgRenderer.RenderToBuilder(
-				QuadrantParser.Parse(lines), context),
-
-			DiagramType.Timeline => TimelineSvgRenderer.RenderToBuilder(
-				TimelineParser.Parse(lines), context),
-
-			DiagramType.GitGraph => GitGraphSvgRenderer.RenderToBuilder(
-				GitGraphParser.Parse(lines), context),
-
-			DiagramType.Radar => RadarSvgRenderer.RenderToBuilder(
-				RadarParser.Parse(lines), context),
-
-			DiagramType.Treemap => TreemapSvgRenderer.RenderToBuilder(
-				TreemapParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource)), context),
-
-			DiagramType.Venn => VennSvgRenderer.RenderToBuilder(
-				VennParser.Parse(lines), context),
-
-			DiagramType.Mindmap => MindmapSvgRenderer.RenderToBuilder(
-				MindmapParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource)), context),
-
-			DiagramType.Gantt => GanttSvgRenderer.RenderToBuilder(
-				GanttParser.Parse(lines), context),
-
-			DiagramType.Journey => JourneySvgRenderer.RenderToBuilder(
-				JourneyParser.Parse(lines), context),
-
-			DiagramType.C4 => C4SvgRenderer.RenderToBuilder(
-				C4Parser.Parse(lines), context),
-
-			DiagramType.Sankey => SankeySvgRenderer.RenderToBuilder(
-				SankeyParser.Parse(lines), context),
-
-			DiagramType.XyChart => XyChartSvgRenderer.RenderToBuilder(
-				XyChartParser.Parse(lines), context),
-
-			DiagramType.Requirement => RequirementSvgRenderer.RenderToBuilder(
-				RequirementParser.Parse(lines), context),
-
-			DiagramType.Packet => PacketSvgRenderer.RenderToBuilder(
-				PacketParser.Parse(lines), context),
-
-			DiagramType.Kanban => KanbanSvgRenderer.RenderToBuilder(
-				KanbanParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource, accessibility)), context),
-
-			DiagramType.Architecture => ArchitectureSvgRenderer.RenderToBuilder(
-				ArchitectureLayout.Layout(ArchitectureParser.Parse(lines)), context),
-
-			DiagramType.Block => BlockSvgRenderer.RenderToBuilder(
-				BlockParser.Parse(lines), context),
-
-			DiagramType.TreeView => TreeViewSvgRenderer.RenderToBuilder(
-				TreeViewParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource, accessibility)), context),
-
-			_ => SvgRenderer.RenderToBuilder(
-				provider.LayoutFlowchart(MermaidRenderer.ParseInternal(lines, diagramType), request.Options, strict),
-				context),
-		};
+					// For the built-in layout provider, thread the token and node cap directly into
+					// Sugiyama so hot loops can be interrupted. Custom providers get the pre-call check only.
+					var positioned = provider is DefaultLayoutProvider
+						? LightweightLayoutEngine.Layout(parsed, request.Options, strict, limits.MaxNodesAfterLayout, ct)
+						: provider.LayoutFlowchart(parsed, request.Options, strict);
+					sb = SvgRenderer.RenderToBuilder(positioned, context);
+					break;
+				}
+		}
 
 		try
 		{
+			ResourceGuard.CheckOutputLength(sb, limits);
 			if (diagram.Metadata.Title is { Length: > 0 } title)
 				InsertSvgTitle(sb, title);
 			return sb.ToString();

@@ -99,4 +99,12 @@ public sealed record RenderOptions
 	/// Default: <see cref="Models.SanitizeMode.Strip"/>.
 	/// </summary>
 	public SanitizeMode SanitizeMode { get; init; } = SanitizeMode.Strip;
+
+	/// <summary>
+	/// Resource limits for the parse + layout + render pipeline.
+	/// Defaults to <see cref="ResourceLimits.Default"/> — generous on-by-default
+	/// limits that reject pathological inputs while accommodating real-world diagrams.
+	/// Set to <see cref="ResourceLimits.Unlimited"/> to disable all checks for trusted input.
+	/// </summary>
+	public ResourceLimits Limits { get; init; } = ResourceLimits.Default;
 }

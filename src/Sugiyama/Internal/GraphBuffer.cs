@@ -34,6 +34,16 @@ internal sealed class GraphBuffer : IDisposable
 	internal double[] X;
 	internal double[] Y;
 
+	// CSR out-adjacency: for node n, out-neighbors are OutAdjNeighbor[OutAdjStart[n]..OutAdjStart[n+1])
+	internal int[] OutAdjStart = [];    // length NodeCount + 1
+	internal int[] OutAdjNeighbor = []; // target node ordinals
+
+	// CSR in-adjacency
+	internal int[] InAdjStart = [];     // length NodeCount + 1
+	internal int[] InAdjNeighbor = [];  // source node ordinals
+
+	internal bool AdjacencyBuilt { get; private set; }
+
 	private readonly List<int[]> _rentedArrays = [];
 
 	internal GraphBuffer(int nodeCount, int edgeCapacity)
@@ -80,6 +90,44 @@ internal sealed class GraphBuffer : IDisposable
 		Array.Clear(arr, 0, size);
 		_rentedArrays.Add(arr);
 		return arr;
+	}
+
+	internal void RebuildAdjacency()
+	{
+		var n = NodeCount;
+		var outStart = new int[n + 1];
+		var inStart = new int[n + 1];
+
+		foreach (var e in Edges)
+		{
+			outStart[e.From + 1]++;
+			inStart[e.To + 1]++;
+		}
+
+		for (var i = 1; i <= n; i++)
+		{
+			outStart[i] += outStart[i - 1];
+			inStart[i] += inStart[i - 1];
+		}
+
+		var outNeighbor = new int[Edges.Count];
+		var inNeighbor = new int[Edges.Count];
+		var outPos = new int[n];
+		var inPos = new int[n];
+		Array.Copy(outStart, outPos, n);
+		Array.Copy(inStart, inPos, n);
+
+		foreach (var e in Edges)
+		{
+			outNeighbor[outPos[e.From]++] = e.To;
+			inNeighbor[inPos[e.To]++] = e.From;
+		}
+
+		OutAdjStart = outStart;
+		OutAdjNeighbor = outNeighbor;
+		InAdjStart = inStart;
+		InAdjNeighbor = inNeighbor;
+		AdjacencyBuilt = true;
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]

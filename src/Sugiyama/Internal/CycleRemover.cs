@@ -16,12 +16,23 @@ internal static class CycleRemover
 			? stackalloc NodeState[nodeCount]
 			: new NodeState[nodeCount];
 
+		// Build per-node out-edge lists (target + edge index) in O(E)
+		// We need edge indices for the reversal step, so we can't use the CSR directly.
+		var outEdgesPerNode = new List<(int To, int EdgeIdx)>[nodeCount];
+		for (var i = 0; i < nodeCount; i++)
+			outEdgesPerNode[i] = [];
+		for (var i = 0; i < graph.Edges.Count; i++)
+		{
+			var e = graph.Edges[i];
+			outEdgesPerNode[e.From].Add((e.To, i));
+		}
+
 		var reversals = new List<int>();
 
 		for (var n = 0; n < nodeCount; n++)
 		{
 			if (state[n] == NodeState.Unvisited)
-				Dfs(graph, n, state, reversals);
+				Dfs(outEdgesPerNode, n, state, reversals);
 		}
 
 		for (var i = 0; i < reversals.Count; i++)
@@ -32,27 +43,25 @@ internal static class CycleRemover
 		}
 	}
 
-	private static void Dfs(GraphBuffer graph, int start, Span<NodeState> state, List<int> reversals)
+	private static void Dfs(List<(int To, int EdgeIdx)>[] outEdgesPerNode, int start,
+		Span<NodeState> state, List<int> reversals)
 	{
-		var stack = new Stack<(int Node, int EdgeIdx)>();
+		var stack = new Stack<(int Node, int AdjPos)>();
 		state[start] = NodeState.InStack;
 		stack.Push((start, 0));
 
 		while (stack.Count > 0)
 		{
-			var (node, edgeIdx) = stack.Pop();
+			var (node, adjPos) = stack.Pop();
+			var outEdges = outEdgesPerNode[node];
 			var advanced = false;
 
-			for (var i = edgeIdx; i < graph.Edges.Count; i++)
+			for (var i = adjPos; i < outEdges.Count; i++)
 			{
-				var e = graph.Edges[i];
-				if (e.From != node)
-					continue;
-
-				var target = e.To;
+				var (target, edgeIdx) = outEdges[i];
 				if (state[target] == NodeState.InStack)
 				{
-					reversals.Add(i);
+					reversals.Add(edgeIdx);
 				}
 				else if (state[target] == NodeState.Unvisited)
 				{

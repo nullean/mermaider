@@ -36,7 +36,7 @@ internal static class MindmapSvgRenderer
 		var sb = SharedStringBuilderPool.Instance.Get();
 
 		var positioned = new List<PositionedMindmapNode>();
-		_ = LayoutTree(diagram.Root, 40, 40, 0, positioned, context.Styles.Colors);
+		_ = LayoutTree(diagram.Root, 40, 40, 0, positioned, context.Styles.Colors, context.Limits);
 
 		var maxX = 0.0;
 		var maxY = 0.0;
@@ -75,8 +75,9 @@ internal static class MindmapSvgRenderer
 		string Label, MindmapShape Shape, string Color,
 		int Depth, double? ParentCx, double? ParentCy);
 
-	private static double LayoutTree(MindmapNode node, double x, double y, int depth, List<PositionedMindmapNode> result, DiagramColors colors)
+	private static double LayoutTree(MindmapNode node, double x, double y, int depth, List<PositionedMindmapNode> result, DiagramColors colors, ResourceLimits limits)
 	{
+		ResourceGuard.CheckRecursionDepth(depth, limits);
 		var fontSizePx = depth == 0 ? RootFontSizePx : NodeFontSizePx;
 		var textWidth = TextMetrics.MeasureTextWidth(node.Label, fontSizePx, 600);
 		var w = textWidth + (NodePadX * 2);
@@ -97,7 +98,7 @@ internal static class MindmapSvgRenderer
 		foreach (var child in node.Children)
 		{
 			childPositions.Add(result.Count);
-			var childH = LayoutTree(child, childX, childY, depth + 1, result, colors);
+			var childH = LayoutTree(child, childX, childY, depth + 1, result, colors, limits);
 			childY += childH + VerticalGap;
 			totalChildHeight += childH + VerticalGap;
 		}

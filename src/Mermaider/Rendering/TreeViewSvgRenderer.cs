@@ -44,7 +44,7 @@ internal static class TreeViewSvgRenderer
 
 		var flatRows = new List<FlatRow>();
 		foreach (var root in diagram.Roots)
-			FlattenTree(root, 0, flatRows);
+			FlattenTree(root, 0, flatRows, context.Limits);
 
 		if (flatRows.Count == 0)
 		{
@@ -78,11 +78,12 @@ internal static class TreeViewSvgRenderer
 		return sb;
 	}
 
-	private static void FlattenTree(TreeViewNode node, int depth, List<FlatRow> rows)
+	private static void FlattenTree(TreeViewNode node, int depth, List<FlatRow> rows, ResourceLimits limits)
 	{
+		ResourceGuard.CheckRecursionDepth(depth, limits);
 		rows.Add(new FlatRow(node, depth));
 		foreach (var child in node.Children)
-			FlattenTree(child, depth + 1, rows);
+			FlattenTree(child, depth + 1, rows, limits);
 	}
 
 	private static double MeasureMaxWidth(List<FlatRow> rows)

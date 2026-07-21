@@ -37,41 +37,53 @@ public static class MermaidRenderer
 	/// <param name="options">Optional rendering configuration (colors, font, spacing).</param>
 	/// <returns>A self-contained SVG string.</returns>
 	/// <exception cref="MermaidParseException">Thrown when the input cannot be parsed.</exception>
+	/// <exception cref="MermaidResourceLimitException">Thrown when a resource limit is exceeded.</exception>
 	/// <exception cref="MermaidSvgException">Thrown when block mode rejects generated SVG.</exception>
 	public static string RenderSvg(string text, RenderOptions? options = null)
 		=> MermaidRenderPipeline.Execute(text, options);
 
 	/// <summary>
 	/// Render and sanitize Mermaid diagram text, then write the UTF-8 SVG to a <see cref="Stream"/>.
+	/// The <paramref name="cancellationToken"/> is now honored throughout the full parse + layout + render
+	/// pipeline, not only for the final write. When <see cref="RenderOptions.Limits"/> includes a
+	/// <see cref="ResourceLimits.RenderDeadline"/>, that deadline is combined with this token.
 	/// </summary>
 	/// <param name="text">Mermaid source text.</param>
 	/// <param name="destination">The stream to write the SVG to.</param>
 	/// <param name="options">Optional rendering configuration.</param>
-	/// <param name="cancellationToken">Cancellation token.</param>
+	/// <param name="cancellationToken">Cancellation token — honored throughout the full pipeline.</param>
 	/// <exception cref="MermaidParseException">Thrown when the input cannot be parsed.</exception>
+	/// <exception cref="MermaidResourceLimitException">Thrown when a resource limit is exceeded.</exception>
 	/// <exception cref="MermaidSvgException">Thrown when block mode rejects generated SVG.</exception>
+	/// <exception cref="OperationCanceledException">Thrown when the token or deadline fires.</exception>
 	public static async Task RenderSvgAsync(string text, Stream destination, RenderOptions? options = null, CancellationToken cancellationToken = default)
 	{
 		ArgumentNullException.ThrowIfNull(destination);
 
-		var svg = MermaidRenderPipeline.Execute(text, options);
+		// Execute on a thread-pool thread so the CancellationToken can interrupt CPU-bound work
+		// (the pipeline checks the token at phase boundaries and in hot layout loops).
+		var svg = await Task.Run(() => MermaidRenderPipeline.Execute(text, options, cancellationToken), cancellationToken).ConfigureAwait(false);
 		await destination.WriteAsync(Encoding.UTF8.GetBytes(svg), cancellationToken).ConfigureAwait(false);
 	}
 
 	/// <summary>
 	/// Render and sanitize Mermaid diagram text, then write the UTF-8 SVG to a <see cref="PipeWriter"/>.
+	/// The <paramref name="cancellationToken"/> is honored throughout the full parse + layout + render
+	/// pipeline, not only for the final flush.
 	/// </summary>
 	/// <param name="text">Mermaid source text.</param>
 	/// <param name="destination">The pipe writer to write the SVG to.</param>
 	/// <param name="options">Optional rendering configuration.</param>
-	/// <param name="cancellationToken">Cancellation token.</param>
+	/// <param name="cancellationToken">Cancellation token — honored throughout the full pipeline.</param>
 	/// <exception cref="MermaidParseException">Thrown when the input cannot be parsed.</exception>
+	/// <exception cref="MermaidResourceLimitException">Thrown when a resource limit is exceeded.</exception>
 	/// <exception cref="MermaidSvgException">Thrown when block mode rejects generated SVG.</exception>
+	/// <exception cref="OperationCanceledException">Thrown when the token or deadline fires.</exception>
 	public static async Task RenderSvgAsync(string text, PipeWriter destination, RenderOptions? options = null, CancellationToken cancellationToken = default)
 	{
 		ArgumentNullException.ThrowIfNull(destination);
 
-		var svg = MermaidRenderPipeline.Execute(text, options);
+		var svg = await Task.Run(() => MermaidRenderPipeline.Execute(text, options, cancellationToken), cancellationToken).ConfigureAwait(false);
 		var bytes = Encoding.UTF8.GetBytes(svg);
 		bytes.CopyTo(destination.GetMemory(bytes.Length).Span);
 		destination.Advance(bytes.Length);

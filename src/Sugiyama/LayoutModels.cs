@@ -1,3 +1,5 @@
+using System.Threading;
+
 namespace Sugiyama;
 
 /// <summary>A 2D point. Value type to avoid heap allocations.</summary>
@@ -67,6 +69,20 @@ public sealed record LayoutOptions
 	/// When false, all nodes share a unified layout grid.
 	/// </summary>
 	public bool SeparateComponents { get; init; } = true;
+
+	/// <summary>
+	/// Token checked at phase boundaries within the layout engine.
+	/// When cancelled, <see cref="OperationCanceledException"/> is thrown.
+	/// Default: none.
+	/// </summary>
+	public CancellationToken CancellationToken { get; init; }
+
+	/// <summary>
+	/// Maximum node count after virtual-node insertion (Sugiyama amplification guard).
+	/// If exceeded, <see cref="InvalidOperationException"/> is thrown.
+	/// Default: int.MaxValue (no limit).
+	/// </summary>
+	public int MaxNodeCount { get; init; } = int.MaxValue;
 }
 
 // ====================================================================
