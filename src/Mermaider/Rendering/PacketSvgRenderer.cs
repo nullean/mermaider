@@ -28,9 +28,9 @@ internal static class PacketSvgRenderer
 
 	private readonly record struct Segment(int Start, int End, string Label, int ColorIndex);
 
-	internal static string Render(PacketDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(PacketDiagram diagram, SvgRenderContext context)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, context);
 		try
 		{
 			return sb.ToString();
@@ -42,7 +42,7 @@ internal static class PacketSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(PacketDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(PacketDiagram diagram, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
@@ -58,8 +58,8 @@ internal static class PacketSvgRenderer
 		var totalRowHeight = RowHeight + rowPadY;
 		var height = titleOffset + (totalRowHeight * rowCount) + PaddingY + 8;
 
-		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		if (hasTitle)
@@ -75,7 +75,7 @@ internal static class PacketSvgRenderer
 		{
 			var wordY = titleOffset + (row * totalRowHeight) + rowPadY;
 			foreach (var seg in rows[row])
-				AppendSegment(sb, seg, wordY, showBits, colors);
+				AppendSegment(sb, seg, wordY, showBits, context.Styles.Colors);
 		}
 
 		_ = sb.Append("\n</svg>");

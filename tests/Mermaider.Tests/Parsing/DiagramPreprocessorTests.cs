@@ -310,11 +310,11 @@ public class DiagramPreprocessorTests
 	}
 
 	// ========================================================================
-	// Security: ticketBaseUrl rejection
+	// Security: unsupported frontmatter is ignored by the positive extraction allowlist
 	// ========================================================================
 
 	[Test]
-	public void Throws_on_ticketBaseUrl_in_frontmatter()
+	public void Ignores_unsupported_ticketBaseUrl_in_frontmatter()
 	{
 		var input = """
 			---
@@ -326,10 +326,11 @@ public class DiagramPreprocessorTests
 			    Task1@{ ticket: MC-42 }
 			""";
 
-		var act = () => DiagramPreprocessor.Process(input);
+		var (cleaned, metadata) = DiagramPreprocessor.Process(input);
 
-		act.Should().Throw<MermaidParseException>()
-			.WithMessage("*ticketBaseUrl*");
+		metadata.Title.Should().Be("Sprint");
+		cleaned.Should().NotContain("ticketBaseUrl");
+		cleaned.Should().Contain("kanban");
 	}
 
 	[Test]

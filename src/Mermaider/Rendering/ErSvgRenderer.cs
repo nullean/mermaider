@@ -19,9 +19,9 @@ internal static class ErSvgRenderer
 	private static readonly int KeyFontSizePx = RenderConstants.FontSizes.KeyBadge;
 	private static readonly int KeyFontWeight = RenderConstants.FontWeights.KeyBadge;
 
-	internal static string Render(PositionedErDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(PositionedErDiagram diagram, SvgRenderContext context)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, context);
 		try
 		{
 			return sb.ToString();
@@ -33,11 +33,11 @@ internal static class ErSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(PositionedErDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(PositionedErDiagram diagram, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
-		StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+		StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		foreach (var rel in diagram.Relationships)

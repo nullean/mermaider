@@ -18,9 +18,9 @@ internal static class BlockSvgRenderer
 	private const string LabelFontSize = RenderConstants.FsVar.M;
 	private const string TitleFontSize = RenderConstants.FsVar.L;
 
-	internal static string Render(BlockDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(BlockDiagram diagram, SvgRenderContext context)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, context);
 		try
 		{
 			return sb.ToString();
@@ -32,7 +32,7 @@ internal static class BlockSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(BlockDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(BlockDiagram diagram, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
@@ -45,8 +45,8 @@ internal static class BlockSvgRenderer
 		{
 			var emptyW = (Pad * 2) + MinCellW;
 			var emptyH = titleOffset + (Pad * 2) + MinCellH;
-			StyleBlock.AppendSvgOpenTag(sb, emptyW, emptyH, colors, transparent, accessibility, diagramType);
-			StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+			StyleBlock.AppendSvgOpenTag(sb, emptyW, emptyH, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+			StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 			_ = sb.Append("\n<defs>\n</defs>\n");
 			if (hasTitle)
 				AppendTitle(sb, diagram.Title!, emptyW * 0.5);
@@ -80,8 +80,8 @@ internal static class BlockSvgRenderer
 		var originX = Pad;
 		var originY = titleOffset + Pad;
 
-		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 		_ = sb.Append("\n<defs>\n");
 		_ = sb.Append("<marker id=\"block-arrow\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\">")
 			.Append("<path d=\"M 0 0 L 10 5 L 0 10 z\" fill=\"var(--_arrow)\" />")

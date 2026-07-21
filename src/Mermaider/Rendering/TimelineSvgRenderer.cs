@@ -22,9 +22,9 @@ internal static class TimelineSvgRenderer
 	private const string SectionFontSize = RenderConstants.FsVar.S;
 
 
-	internal static string Render(TimelineDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(TimelineDiagram diagram, SvgRenderContext context)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, context);
 		try
 		{
 			return sb.ToString();
@@ -36,7 +36,7 @@ internal static class TimelineSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(TimelineDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(TimelineDiagram diagram, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
@@ -57,8 +57,8 @@ internal static class TimelineSvgRenderer
 
 		if (totalPeriods == 0)
 		{
-			StyleBlock.AppendSvgOpenTag(sb, 200, 100, colors, transparent, accessibility, diagramType);
-			StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+			StyleBlock.AppendSvgOpenTag(sb, 200, 100, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+			StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 			_ = sb.Append("\n</svg>");
 			return sb;
 		}
@@ -67,8 +67,8 @@ internal static class TimelineSvgRenderer
 		var eventAreaHeight = (maxEvents * (EventBoxHeight + EventGap)) + 20;
 		var height = titleOffset + TimelineY + 50 + eventAreaHeight + SectionPadY;
 
-		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		if (hasTitle)
@@ -89,7 +89,7 @@ internal static class TimelineSvgRenderer
 		{
 			var sectionStartX = 40 + (periodIndex * (PeriodWidth + PeriodGap));
 			var sectionWidth = (section.Periods.Count * (PeriodWidth + PeriodGap)) - PeriodGap;
-			var color = colors.PaletteAt(sectionColorIndex);
+			var color = context.Styles.Colors.PaletteAt(sectionColorIndex);
 
 			if (section.Name is { Length: > 0 })
 			{

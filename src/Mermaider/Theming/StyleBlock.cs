@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 using Mermaider.Models;
 
@@ -134,15 +135,43 @@ internal static class StyleBlock
 			"serif", "sans-serif", "monospace", "cursive", "fantasy",
 			"system-ui", "ui-serif", "ui-sans-serif", "ui-monospace", "ui-rounded",
 			"emoji", "math", "fangsong"
-		], System.StringComparer.OrdinalIgnoreCase);
+		], StringComparer.OrdinalIgnoreCase);
 
 	private static void AppendFontFamilyCss(StringBuilder sb, string selector, string fontName, string fallbackStack)
 	{
 		_ = sb.Append("  ").Append(selector).Append(" { font-family: ");
-		_ = GenericFontKeywords.Contains(fontName)
-			? sb.Append(fontName)
-			: sb.Append('\'').Append(fontName).Append('\'');
+		if (GenericFontKeywords.Contains(fontName))
+		{
+			_ = sb.Append(fontName);
+		}
+		else
+		{
+			_ = sb.Append('\'');
+			AppendCssString(sb, fontName);
+			_ = sb.Append('\'');
+		}
 		_ = sb.Append(", ").Append(fallbackStack).Append("; }\n");
+	}
+
+	/// <summary>
+	/// Emits a CSS string using only literal ASCII identifier characters and positive
+	/// hexadecimal escapes. Quotes, braces, newlines, and other syntax characters therefore
+	/// remain data inside the surrounding quoted font-family string.
+	/// </summary>
+	private static void AppendCssString(StringBuilder sb, string value)
+	{
+		foreach (var c in value)
+		{
+			if (char.IsAsciiLetterOrDigit(c) || c is ' ' or '-' or '_')
+			{
+				_ = sb.Append(c);
+				continue;
+			}
+
+			_ = sb.Append('\\')
+				.Append(((int)c).ToString("X", CultureInfo.InvariantCulture))
+				.Append(' ');
+		}
 	}
 
 	internal static void AppendStyleBlock(StringBuilder sb, string? font = null, StrictStylingOptions? strict = null, Rendering.FontScale? fontScale = null, string? monoFont = null)

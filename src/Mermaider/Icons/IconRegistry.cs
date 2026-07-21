@@ -33,12 +33,12 @@ public static class IconRegistry
 	/// </remarks>
 	/// <param name="name">The icon name, e.g. <c>"server"</c> or <c>"aws:ec2"</c>. Case-insensitive.</param>
 	/// <param name="svg">Raw SVG markup for the icon (must have an <c>&lt;svg&gt;</c> root element).</param>
-	/// <exception cref="MermaidParseException">Thrown when <paramref name="svg"/> is not well-formed SVG.</exception>
+	/// <exception cref="MermaidSvgException">Thrown when <paramref name="svg"/> is malformed or violates the SVG allowlist.</exception>
 	public static void Register(string name, string svg)
 	{
 		ArgumentException.ThrowIfNullOrWhiteSpace(name);
 		ArgumentException.ThrowIfNullOrWhiteSpace(svg);
-		Custom[name] = IconValidation.ValidateAndNormalize(name, svg);
+		Custom[name] = IconValidation.ValidateAndNormalize(svg);
 	}
 
 	/// <summary>
@@ -48,7 +48,7 @@ public static class IconRegistry
 	/// </summary>
 	/// <param name="name">The icon name, e.g. <c>"server"</c> or <c>"aws:ec2"</c>. Case-insensitive.</param>
 	/// <param name="svg">UTF-8-encoded SVG markup for the icon.</param>
-	/// <exception cref="MermaidParseException">Thrown when <paramref name="svg"/> is not well-formed SVG.</exception>
+	/// <exception cref="MermaidSvgException">Thrown when <paramref name="svg"/> is malformed or violates the SVG allowlist.</exception>
 	public static void Register(string name, ReadOnlySpan<byte> svg) =>
 		Register(name, Encoding.UTF8.GetString(svg));
 
@@ -61,7 +61,7 @@ public static class IconRegistry
 	/// </summary>
 	/// <param name="name">The icon name, e.g. <c>"server"</c> or <c>"aws:ec2"</c>. Case-insensitive.</param>
 	/// <param name="svg">A stream containing UTF-8-encoded SVG markup for the icon.</param>
-	/// <exception cref="MermaidParseException">Thrown when the stream content is not well-formed SVG.</exception>
+	/// <exception cref="MermaidSvgException">Thrown when the stream content is malformed or violates the SVG allowlist.</exception>
 	public static void Register(string name, Stream svg)
 	{
 		ArgumentNullException.ThrowIfNull(svg);

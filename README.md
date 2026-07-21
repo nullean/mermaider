@@ -170,7 +170,7 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 | `Border` | `string?` | derived | Node/group stroke |
 | `Font` | `string?` | `"Inter"` | Font family for all text |
 | `MonoFont` | `string?` | system stack | Monospace font for ER attribute types and Class member signatures |
-| `FontSize` | `string?` | `"1rem"` | Base font size (`--fs-m`). Accepts CSS units: `"1rem"`, `"16px"`, `"1em"` |
+| `FontSize` | `string?` | `"1rem"` | Base font size (`--fs-m`). Accepts `px`, `rem`, `em`, and `%` units |
 | `FontSizeSmall` | `double?` | `0.875` | Ratio for small text (`--fs-s`) |
 | `FontSizeExtraSmall` | `double?` | `0.75` | Ratio for extra-small text (`--fs-xs`) |
 | `FontSizeLarge` | `double?` | `1.125` | Ratio for large text (`--fs-l`) |
@@ -181,12 +181,14 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 | `Padding` | `double?` | `40` | Canvas padding in px |
 | `NodeSpacing` | `double?` | `28` | Horizontal spacing between sibling nodes |
 | `LayerSpacing` | `double?` | `56` | Vertical spacing between layers |
+| `Strict` | `StrictStylingOptions?` | `null` | Optional host-controlled styling policy |
+| `SanitizeMode` | `SanitizeMode` | `Strip` | Strip SVG violations, or throw `MermaidSvgException` in `Block` mode |
 
 ### Font options
 
 `Font` controls all text in the diagram. `MonoFont` controls code-style text specifically (ER attribute
 types, Class member signatures) — these always render in monospace regardless of the main font. Both
-accept any CSS font-family value:
+accept a font-family name (not an arbitrary CSS declaration):
 
 ```csharp
 var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
@@ -392,11 +394,17 @@ attribute. Because they are absent from the allowlist, the main XSS vectors are 
 non-image data URIs. The single positive exception is a base64 `data:image/svg+xml` or `data:image/png`
 URI `href` on an `<image>` element (used for diagram icons).
 
+The renderer-only stylesheet is accepted through a separate exact generated grammar. Standalone
+untrusted SVG cannot retain `<style>` elements or `style` attributes. Custom sanitizer allowlists can
+only narrow the built-in safety sets; they cannot opt a new element or attribute into the policy.
+
 Use `RenderOptions.SanitizeMode` to choose what happens when the output contains a violation (which, for the
 built-in renderers, should never happen&mdash;it indicates a bug):
 
-- `SanitizeMode.Strip` (default): silently remove the disallowed element/attribute.
-- `SanitizeMode.Block`: throw `MermaidParseException` on the first violation (fail closed).
+- `SanitizeMode.Strip` (default): remove disallowed content from well-formed SVG and return the
+  stripped document. If the generated output is not well-formed XML, return
+  `MermaidRenderer.FallbackSvg`, the canonical empty SVG document.
+- `SanitizeMode.Block`: throw `MermaidSvgException` with all detected violations (fail closed).
 
 ```csharp
 var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
@@ -415,6 +423,11 @@ if (result.HasViolations)
 
 var cleanSvg = result.Svg;
 ```
+
+Malformed XML produces `MermaidRenderer.FallbackSvg` and a `malformed-xml` violation in the result.
+To reject instead, call `SvgSanitizer.Sanitize(untrustedSvg, SanitizeMode.Block)`; it throws
+`MermaidSvgException`. A well-formed document with violations is always returned stripped by the
+non-throwing overload—safe siblings are preserved.
 
 ## CLI
 
@@ -943,8 +956,8 @@ rendered the same way: as a base64 data URL on an `<image>` element
 
 Registration validates and sanitizes the SVG using the same allowlist as
 [`SvgSanitizer`](#svg-sanitization) &mdash; `<script>` tags, event-handler attributes, and any
-`href` other than a same-document `data:image/svg+xml`/`data:image/png` URI are rejected outright
-(`MermaidParseException`), not silently stripped. Custom icons render inside the plain themed node
+`href` other than a validated base64 `data:image/svg+xml`/`data:image/png` URI are rejected outright
+(`MermaidSvgException`), not silently stripped. Custom icons render inside the plain themed node
 box, same as the default pack &mdash; the colored gradient badge is only applied to the built-in
 vendor/`ext:` icons. If you have the rights to use a vendor's real logo (e.g. inside your own
 company's tooling), register it under whatever name you like and it renders exactly as provided.

@@ -20,18 +20,17 @@ internal static class SvgRenderer
 
 	/// <summary>
 	/// Reads a user-supplied inline style value (from <c>style</c>/<c>classDef</c>/<c>linkStyle</c>)
-	/// and escapes it for safe emission into a double-quoted SVG attribute. Without this, a value
-	/// like <c>red" onmouseover="alert(1)</c> breaks out of the attribute and injects a live event
-	/// handler — the rendered SVG carries no sanitizer unless strict mode is enabled by the host.
+	/// and escapes it for safe emission into a double-quoted SVG attribute. The output sanitizer
+	/// subsequently applies the same explicit value allowlists used for every SVG attribute.
 	/// </summary>
 	private static string? InlineStyleValue(IReadOnlyDictionary<string, string>? style, string key) =>
 		style?.GetValueOrDefault(key) is { } value ? MultilineUtils.EscapeAttr(value) : null;
 
 	private static readonly string GroupHeaderAttrs = TextAttrs.GroupHeaderFill + "var(--_text-sec)\"";
 
-	internal static string Render(PositionedGraph graph, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null, double edgeCornerRadius = 6)
+	internal static string Render(PositionedGraph graph, SvgRenderContext context)
 	{
-		var sb = RenderToBuilder(graph, colors, font, monoFont, transparent, strict, accessibility, diagramType, edgeCornerRadius);
+		var sb = RenderToBuilder(graph, context);
 		try
 		{
 			return sb.ToString();
@@ -43,11 +42,11 @@ internal static class SvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(PositionedGraph graph, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null, double edgeCornerRadius = 6)
+	internal static StringBuilder RenderToBuilder(PositionedGraph graph, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
-		StyleBlock.AppendSvgOpenTag(sb, graph.Width, graph.Height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+		StyleBlock.AppendSvgOpenTag(sb, graph.Width, graph.Height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 		AppendArrowDefs(sb);
 
 		foreach (var group in graph.Groups)
@@ -56,11 +55,11 @@ internal static class SvgRenderer
 		foreach (var edge in graph.Edges)
 		{
 			if (edge.Style != EdgeStyle.Invisible)
-				AppendEdge(sb, edge, edgeCornerRadius);
+				AppendEdge(sb, edge, context.EdgeRadius);
 		}
 
 		foreach (var group in graph.Groups)
-			AppendGroupHeader(sb, group, font);
+			AppendGroupHeader(sb, group);
 
 		foreach (var edge in graph.Edges)
 		{
@@ -69,7 +68,7 @@ internal static class SvgRenderer
 		}
 
 		foreach (var node in graph.Nodes)
-			AppendNode(sb, node, strict);
+			AppendNode(sb, node, context.Styles.Strict);
 
 		foreach (var note in graph.Notes)
 			AppendNote(sb, note);
@@ -141,7 +140,7 @@ internal static class SvgRenderer
 			AppendGroupBody(sb, child);
 	}
 
-	private static void AppendGroupHeader(StringBuilder sb, PositionedGroup group, string font)
+	private static void AppendGroupHeader(StringBuilder sb, PositionedGroup group)
 	{
 		var headerHeight = FontSizes.GroupHeader + 16;
 		var r = Radii.Group;
@@ -161,7 +160,7 @@ internal static class SvgRenderer
 		_ = sb.Append('\n');
 
 		foreach (var child in group.Children)
-			AppendGroupHeader(sb, child, font);
+			AppendGroupHeader(sb, child);
 	}
 
 	// ========================================================================

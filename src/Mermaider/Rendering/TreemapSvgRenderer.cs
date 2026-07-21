@@ -15,9 +15,9 @@ internal static class TreemapSvgRenderer
 	private const double HeaderHeight = 20;
 
 
-	internal static string Render(TreemapDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(TreemapDiagram diagram, SvgRenderContext context)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, context);
 		try
 		{
 			return sb.ToString();
@@ -29,19 +29,19 @@ internal static class TreemapSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(TreemapDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(TreemapDiagram diagram, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
-		StyleBlock.AppendSvgOpenTag(sb, ChartWidth, ChartHeight, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+		StyleBlock.AppendSvgOpenTag(sb, ChartWidth, ChartHeight, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		var allNodes = diagram.Roots;
 		if (allNodes.Count > 0)
 		{
 			var rects = new List<TreeRect>();
-			Squarify(allNodes, 0, 0, ChartWidth, ChartHeight, rects, 0, colors);
+			Squarify(allNodes, 0, 0, ChartWidth, ChartHeight, rects, 0, context.Styles.Colors);
 
 			foreach (var rect in rects)
 				AppendRect(sb, rect);

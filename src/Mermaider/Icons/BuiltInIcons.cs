@@ -267,7 +267,7 @@ internal static class BuiltInIcons
 
 		var validated = new Dictionary<string, string>(raw.Count, StringComparer.OrdinalIgnoreCase);
 		foreach (var (name, svg) in raw)
-			validated[name] = IconValidation.ValidateAndNormalize(name, svg);
+			validated[name] = IconValidation.ValidateAndNormalize(svg);
 
 		return validated.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 	}

@@ -31,9 +31,9 @@ internal sealed partial record FontScale
 	internal static FontScale From(RenderOptions? options)
 	{
 		var baseStr = options?.FontSize ?? DefaultBase;
-		var xsRatio = options?.FontSizeExtraSmall ?? DefaultXsRatio;
-		var sRatio = options?.FontSizeSmall ?? DefaultSRatio;
-		var lRatio = options?.FontSizeLarge ?? DefaultLRatio;
+		var xsRatio = NormalizeRatio(options?.FontSizeExtraSmall, DefaultXsRatio);
+		var sRatio = NormalizeRatio(options?.FontSizeSmall, DefaultSRatio);
+		var lRatio = NormalizeRatio(options?.FontSizeLarge, DefaultLRatio);
 
 		return new FontScale(baseStr, xsRatio, sRatio, lRatio);
 	}
@@ -42,7 +42,7 @@ internal sealed partial record FontScale
 	{
 		var (value, unit) = ParseSize(baseSize);
 
-		M = baseSize;
+		M = FormatSize(value, unit);
 		Xs = FormatSize(value * xsRatio, unit);
 		S = FormatSize(value * sRatio, unit);
 		L = FormatSize(value * lRatio, unit);
@@ -56,18 +56,25 @@ internal sealed partial record FontScale
 
 	private static (double Value, string Unit) ParseSize(string size)
 	{
-		var match = SizePattern().Match(size);
-		if (!match.Success)
+		if (size.Length > 64)
 			return (1, "rem");
 
-		var value = double.Parse(match.Groups[1].Value, CultureInfo.InvariantCulture);
-		var unit = match.Groups[2].Value;
+		var match = SizePattern().Match(size);
+		if (!match.Success
+			|| !double.TryParse(match.Groups[1].Value, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out var value)
+			|| !double.IsFinite(value))
+			return (1, "rem");
+
+		var unit = match.Groups[2].Value.ToLowerInvariant();
 		return (value, unit);
 	}
+
+	private static double NormalizeRatio(double? candidate, double fallback) =>
+		candidate is > 0 && double.IsFinite(candidate.Value) ? candidate.Value : fallback;
 
 	private static string FormatSize(double value, string unit) =>
 		$"{value.ToString("0.###", CultureInfo.InvariantCulture)}{unit}";
 
-	[GeneratedRegex(@"^([\d.]+)\s*([a-z%]+)$", RegexOptions.None, 2000)]
+	[GeneratedRegex(@"^((?:0|[1-9][0-9]*)(?:\.[0-9]{1,3})?)\s*(px|rem|em|%)$", RegexOptions.IgnoreCase, 2000)]
 	private static partial Regex SizePattern();
 }
