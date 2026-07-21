@@ -28,7 +28,6 @@
   - [Allowed diagram types](#allowed-diagram-types)
   - [Edge rounding](#edge-rounding)
   - [Font sizing](#font-sizing)
-- [Implementer Notes](#implementer-notes)
 - [Strict Styling](#strict-styling)
 - [SVG Sanitization](#svg-sanitization)
 - [CLI](#cli)
@@ -54,14 +53,14 @@ one theming model, consistent output regardless of diagram type.
 
 ### What makes it stand out
 
-- **Pure .NET, zero interop:** a NuGet reference is all you need. No Chromium, no Node.js, no subprocess management.
-- **Native AOT:** every public API is AOT-compatible. CI publishes and invokes a native binary on Linux, macOS, and Windows on every commit.
-- **Built-in layout engine:** a purpose-built Sugiyama engine with zero external dependencies: 73x faster and 35x less memory than MSAGL for the same flowchart (3.4 µs / 16 KB vs 247 µs / 558 KB, layout only).
-- **24 diagram types:** flowchart, sequence, class, ER, state, pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, gantt, journey, C4, sankey, xychart, requirement, packet, kanban, architecture, block, treeview.
-- **Unified theming:** 15 built-in themes. Colors are emitted as CSS custom properties, so themes switch live on the `<svg>` element without re-rendering.
-- **Always-on SVG sanitization:** every rendered SVG passes through an element/attribute allowlist before leaving the library. `<script>`, `<foreignObject>`, event handlers, and external `href`s are absent from the allowlist, not pattern-matched. No opt-out.
-- **Strict styling mode:** reject `classDef`, `style`, and `linkStyle` at parse time; enforce your design system's class allowlist. Built for products that embed user-authored diagrams.
-- **Fast:** ~23 µs, ~46 KB allocated, for a simple flowchart on .NET 10 (Apple M2 Pro).
+- **[Pure .NET, zero interop](#pure-net-parsing-and-rendering):** just a NuGet reference. No Chromium, no Node.js, no subprocess management.
+- **[Native AOT](#native-aot):** every public API proven in CI on Linux, macOS, and Windows.
+- **[Built-in layout engine](#built-in-layout-engine):** zero-dependency Sugiyama, far leaner than MSAGL.
+- **[24 diagram types](#supported-diagrams):** one API, one theming model for all of them.
+- **[Unified theming](#theming):** 15 themes, live-switchable via CSS custom properties.
+- **[Always-on SVG sanitization](#svg-sanitization):** allowlist-only, no opt-out.
+- **[Strict styling mode](#strict-styling):** enforce your design system on user-authored diagrams.
+- **[Fast](#benchmarks):** ~23 µs, ~46 KB allocated for a simple flowchart.
 
 ### Pure .NET parsing and rendering
 
@@ -222,9 +221,7 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 
 ### Font options
 
-`Font` controls all text in the diagram. `MonoFont` controls code-style text specifically (ER attribute
-types, Class member signatures. These always render in monospace regardless of the main font. Both
-accept a font-family name (not an arbitrary CSS declaration):
+Both `Font` and `MonoFont` accept a font-family name (not an arbitrary CSS declaration):
 
 ```csharp
 var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
@@ -324,46 +321,6 @@ Font sizes are emitted as CSS custom properties in the SVG `<style>` block:
 
 All text elements reference these variables, so downstream consumers can override sizing by
 redefining the custom properties on the `<svg>` element without re-rendering.
-
-## Implementer Notes
-
-### Label parsing
-
-Node labels support three formats:
-
-- **Plain text**: `A[Hello World]` renders as-is
-- **Markdown labels**: ``A["`**bold** and _italic_`"]`` renders `<tspan>` elements with `font-weight`/`font-style`
-  - Supported tags: `**bold**`, `*italic*`, `~~strikethrough~~`, `<u>underline</u>`
-  - Newlines within markdown labels produce multi-line `<text>` with `<tspan dy="...">`
-- **Escaped newlines**: `\n` in any label is converted to an actual line break
-
-Long labels are automatically word-wrapped at 220px content width during layout. The wrapping
-happens at word boundaries and respects the font metrics used for measurement.
-
-### Edge routing
-
-The built-in Sugiyama engine uses rectilinear edge routing:
-
-- Edges exit from the bottom of source nodes and enter the top of target nodes by default
-- **Fan-out**: When a node has multiple outgoing edges, exit ports shift to left/right sides
-- **Convergent**: When a node has multiple incoming edges from different directions, entry shifts to sides
-- **Invisible edges** (`~~~`) create same-rank constraints without visible connectors
-- **Back-edges** (cycles) detour around nodes with distinct visual paths
-- Edge labels are placed at the midpoint of the longest collinear segment, with a minimum 42px gap from node borders
-
-### SVG structure
-
-The generated SVG follows a consistent structure:
-
-1. `<svg>` with inline `style` attribute for CSS custom properties
-2. `<style>` block with `color-mix()` derivations, font declarations, and font-size variables
-3. `<defs>` with arrow marker definitions
-4. Group backgrounds (subgraph `<rect>` fills)
-5. Edge paths (`<path class="edge" ...>`)
-6. Group headers (subgraph title labels)
-7. Edge labels (text with optional background `<rect>`)
-8. Nodes (shape + label text)
-9. Notes (if applicable)
 
 ## Strict Styling
 
