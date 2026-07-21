@@ -47,9 +47,10 @@
 
 Most .NET packages for Mermaid fall into one of two camps: **DSL-only** libraries that help you _build_
 Mermaid markup but can't render it, or **browser wrappers** that shell out to Chrome, Puppeteer, or a
-Node.js process to produce SVGs. Both have trade-offs&mdash;the first gives you a string you still can't
-display, the second drags in a JavaScript runtime with all its latency, memory overhead, and deployment
-complexity.
+Node.js process to produce SVGs. Both have trade-offs:
+
+- **DSL-only**: gives you a string you still can't display
+- **Browser wrapper**: drags in a JavaScript runtime with latency, memory overhead, and deployment complexity
 
 Mermaider is neither. It is a **complete parser, lightweight layout engine _and_ renderer** implemented entirely in .NET. Hand it a
 Mermaid string, get an SVG back. No interop, no child processes, no headless browsers.
@@ -58,7 +59,7 @@ Mermaid string, get an SVG back. No interop, no child processes, no headless bro
 
 Mermaider parses Mermaid's text DSL and renders SVG output using only managed .NET code. There is no
 dependency on JavaScript, Chromium, or any external process. This means deterministic output, no cold-start
-penalty, and trivial deployment&mdash;just a NuGet reference.
+penalty, and trivial deployment: just a NuGet reference.
 
 ### Built-in layout engine
 
@@ -90,32 +91,29 @@ on Linux, macOS, and Windows to prove it. No reflection, no runtime code generat
 
 ### Security and normalized styling
 
-When you embed user-authored Mermaid diagrams in a product, security and visual consistency are not
-afterthoughts—they are core requirements that shaped Mermaider's design from the start.
+Security and visual consistency are not afterthoughts when embedding user-authored diagrams. Both shaped Mermaider's design from the start.
 
 #### Safety
 
-Every rendered SVG is run through an element/attribute allowlist before it leaves the library. There
-is no way to opt out. This is defense-in-depth on top of per-renderer output escaping: `<script>`,
-`<foreignObject>`, event handlers, and external `href` URIs are structurally absent from the
-allowlist&mdash;not blocked by a regex that someone could work around. The sanitizer is covered by
-[unit tests](tests/Mermaider.Tests/Rendering/SvgSanitizerTests.cs) and a
-[deterministic fuzzer](tests/Mermaider.Tests/Rendering/SvgSanitizerFuzzTests.cs) that runs 4,000
-generated cases (mutation + structured element/attribute/value cross-product) with a safety oracle
-that verifies each output independently and confirms that a second sanitizer pass is an exact no-op.
+Every rendered SVG passes through an element/attribute allowlist before leaving the library. There is no way to opt out. The allowlist is the only gate:
+
+- `<script>`, `<foreignObject>`, and event handlers are absent from the allowlist, not pattern-matched
+- External `href` URIs are structurally excluded; the only permitted `href` is a base64 `data:image/svg+xml` or `data:image/png` on an `<image>` element
+- A second sanitizer pass on any output is always a no-op, proving convergence
+
+Coverage: [unit tests](tests/Mermaider.Tests/Rendering/SvgSanitizerTests.cs) and a [deterministic fuzzer](tests/Mermaider.Tests/Rendering/SvgSanitizerFuzzTests.cs) with 4,000 generated cases across mutation and structured element/attribute/value cross-products.
 
 #### Visual consistency
 
-Every diagram type&mdash;flowchart, sequence, ER, state, architecture, gantt, pie, and all the
-rest&mdash;renders from the same [`RenderOptions`](#render-options). One set of values for `Bg`,
-`Fg`, `Accent`, `Muted`, `Font`, `MonoFont`, `FontSize`, and stroke weights applies uniformly across
-all 24 diagram types. There is no per-type color system to override or per-type font stack to paper
-over; the design token model is the only model.
+All 24 diagram types render from the same [`RenderOptions`](#render-options). A single set of values controls:
 
-[Strict Styling](#strict-styling) goes further for user-authored content: `classDef`, `style`,
-`linkStyle`, and theme overrides are rejected at parse time, and nodes are constrained to a class
-allowlist you define. This guarantees that diagrams imported from users look like they belong in your
-product rather than leaking arbitrary author colors.
+- **Colors**: `Bg`, `Fg`, `Accent`, `Muted`, `Surface`, `Border`, `Line`
+- **Typography**: `Font`, `MonoFont`, `FontSize` and size ratios
+- **Data palette**: categorical colors for pie, sankey, timeline, gitgraph, and the rest
+
+There is no per-type color system or per-type font stack. The design token model is the only model.
+
+[Strict Styling](#strict-styling) goes further for user-authored content: `classDef`, `style`, `linkStyle`, and theme overrides are rejected at parse time, and nodes are constrained to a class allowlist you define.
 
 ## Quick Start
 
@@ -136,7 +134,7 @@ var svg = MermaidRenderer.RenderSvg("""
 
 ## Theming
 
-Every diagram derives its palette from just two colors&mdash;background and foreground&mdash;using
+Every diagram derives its palette from just two colors (background and foreground) using
 `color-mix()` CSS functions embedded in the SVG. Override individual roles for richer themes:
 
 ```csharp
@@ -149,7 +147,7 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 });
 ```
 
-Because the SVG uses CSS custom properties, themes switch live without re-rendering&mdash;just update the
+Because the SVG uses CSS custom properties, themes switch live without re-rendering: just update the
 `--bg` / `--fg` properties on the root `<svg>` element.
 
 ### Built-in themes
@@ -205,7 +203,7 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 | `FontSizeExtraSmall` | `double?` | `0.75` | Ratio for extra-small text (`--fs-xs`) |
 | `FontSizeLarge` | `double?` | `1.125` | Ratio for large text (`--fs-l`) |
 | `DataPalette` | `string[]?` | theme default | Categorical colors for pie, sankey, timeline, gitgraph, radar, mindmap, venn, journey, packet, xychart, treemap |
-| `AllowedDiagrams` | `DiagramTypes` | `DiagramTypes.All` | Allowlist of accepted diagram types — diagrams outside this set throw `MermaidParseException` |
+| `AllowedDiagrams` | `DiagramTypes` | `DiagramTypes.All` | Allowlist of accepted diagram types; diagrams outside this set throw `MermaidParseException` |
 | `RoundedEdges` | `bool` | `true` | Rounded corners (6px radius) on edge paths |
 | `Transparent` | `bool` | `true` | Transparent background |
 | `Padding` | `double?` | `40` | Canvas padding in px |
@@ -217,7 +215,7 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 ### Font options
 
 `Font` controls all text in the diagram. `MonoFont` controls code-style text specifically (ER attribute
-types, Class member signatures) — these always render in monospace regardless of the main font. Both
+types, Class member signatures. These always render in monospace regardless of the main font. Both
 accept a font-family name (not an arbitrary CSS declaration):
 
 ```csharp
@@ -362,12 +360,12 @@ The generated SVG follows a consistent structure:
 ## Strict Styling
 
 > **Strict styling is about visual uniformity, not safety.** It does *not* make output safe to
-> publish&mdash;[SVG sanitization](#svg-sanitization) does that, and it is always on regardless of this
+> publish. [SVG sanitization](#svg-sanitization) does that, and it is always on regardless of this
 > setting. Use strict styling when you want a consistent look controlled by your design system rather
 > than by whatever colors a diagram author wrote.
 
 When you embed user-authored Mermaid in a product, you typically want **uniform styling** controlled by your
-design system&mdash;not arbitrary colors injected via `classDef` or `style` directives.
+design system, not arbitrary colors injected via `classDef` or `style` directives.
 
 Strict styling:
 
@@ -412,13 +410,13 @@ graph TD
 ## SVG Sanitization
 
 **Sanitization is the safety mechanism, and it is always on.** Every rendered SVG is run through an
-element/attribute **allowlist** on every `RenderSvg` call before it leaves the library&mdash;there is no way to
+element/attribute **allowlist** on every `RenderSvg` call before it leaves the library. There is no way to
 turn it off, and it is completely independent of [strict styling](#strict-styling). This is defense-in-depth on
 top of the per-renderer output escaping: even if a renderer had a bug, disallowed markup cannot reach a
 published page.
 
 The sanitizer is **allowlist-only**: anything not explicitly affirmed as safe is removed. There is deliberately
-no blocklist of "known bad" constructs&mdash;safety never depends on us having enumerated every dangerous
+no blocklist of "known bad" constructs. Safety never depends on us having enumerated every dangerous
 attribute. Because they are absent from the allowlist, the main XSS vectors are denied as a consequence:
 `<script>`, `<foreignObject>`, `on*` event handlers, and `href`/`xlink:href` with `javascript:`/`http(s):`/
 non-image data URIs. The single positive exception is a base64 `data:image/svg+xml` or `data:image/png`
@@ -429,7 +427,7 @@ untrusted SVG cannot retain `<style>` elements or `style` attributes. Custom san
 only narrow the built-in safety sets; they cannot opt a new element or attribute into the policy.
 
 Use `RenderOptions.SanitizeMode` to choose what happens when the output contains a violation (which, for the
-built-in renderers, should never happen&mdash;it indicates a bug):
+built-in renderers, should never happen; it indicates a bug):
 
 - `SanitizeMode.Strip` (default): remove disallowed content from well-formed SVG and return the
   stripped document. If the generated output is not well-formed XML, return
@@ -443,7 +441,7 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 });
 ```
 
-The same engine is also exposed standalone&mdash;useful beyond Mermaid for any untrusted SVG content:
+The same engine is also exposed standalone, useful beyond Mermaid for any untrusted SVG content:
 
 ```csharp
 var result = SvgSanitizer.Sanitize(untrustedSvg);
@@ -457,7 +455,7 @@ var cleanSvg = result.Svg;
 Malformed XML produces `MermaidRenderer.FallbackSvg` and a `malformed-xml` violation in the result.
 To reject instead, call `SvgSanitizer.Sanitize(untrustedSvg, SanitizeMode.Block)`; it throws
 `MermaidSvgException`. A well-formed document with violations is always returned stripped by the
-non-throwing overload—safe siblings are preserved.
+non-throwing overload; safe siblings are preserved.
 
 ## CLI
 
@@ -542,11 +540,11 @@ cd mermaider
 ## Supported Diagrams
 
 Mermaider renders all major Mermaid diagram types to SVG. The design model is normalized across all
-types&mdash;every diagram respects the same `Bg`, `Fg`, `Accent`, `Muted`, `Font`, `MonoFont`, and
+types. Every diagram respects the same `Bg`, `Fg`, `Accent`, `Muted`, `Font`, `MonoFont`, and
 `DataPalette` options.
 
 <p align="center">
-  <img src="docs/screenshots/playground.png" alt="Mermaider playground — all diagram types with theme controls" />
+  <img src="docs/screenshots/playground.png" alt="Mermaider playground - all diagram types with theme controls" />
 </p>
 
 ### Flowchart
@@ -942,7 +940,7 @@ Icons resolve through `Mermaider.Icons.IconRegistry`, referenced in a diagram as
 | `elastic:` | `elasticsearch`, `kibana`, `logstash`, `beats`, `fleet`, `serverless`, `apm`, `security`, `observability` |
 | `ext:` (vendor-neutral) | `waf`, `api-gateway`, `k8s`, `pod`, `pool`, `reverse-proxy`, `web`, `api`, `load-balancer`, `queue`, `cdn`, `cache` |
 
-The vendor and `ext:` icons are original, simplified pictograms &mdash; **not** the vendors'
+The vendor and `ext:` icons are original, simplified pictograms, **not** the vendors'
 official trademarked artwork. AWS/Azure/GCP's real icon sets are licensed for use *in your own
 diagrams*, not for bundling into a redistributable library, which is why these are bespoke
 shapes; register the real logos yourself (see below) if you have the rights to use them.
@@ -952,7 +950,7 @@ on the themed node box instead.
 
 #### Adding your own icons
 
-Register any SVG under a name of your choosing &mdash; including bare names, or `pack:icon` style
+Register any SVG under a name of your choosing, including bare names or `pack:icon` style
 names to group related icons:
 
 ```csharp
@@ -985,10 +983,10 @@ rendered the same way: as a base64 data URL on an `<image>` element
 (`<image href="data:image/svg+xml;base64,...">`), sized and centered in the service box.
 
 Registration validates and sanitizes the SVG using the same allowlist as
-[`SvgSanitizer`](#svg-sanitization) &mdash; `<script>` tags, event-handler attributes, and any
+[`SvgSanitizer`](#svg-sanitization): `<script>` tags, event-handler attributes, and any
 `href` other than a validated base64 `data:image/svg+xml`/`data:image/png` URI are rejected outright
 (`MermaidSvgException`), not silently stripped. Custom icons render inside the plain themed node
-box, same as the default pack &mdash; the colored gradient badge is only applied to the built-in
+box, same as the default pack. The colored gradient badge is only applied to the built-in
 vendor/`ext:` icons. If you have the rights to use a vendor's real logo (e.g. inside your own
 company's tooling), register it under whatever name you like and it renders exactly as provided.
 
@@ -1034,7 +1032,7 @@ Built-in icons: `file`, `folder`, `folder-open`, `file:code`, `file:image`, `fil
 
 This project started as a **.NET port** of [**beautiful-mermaid**](https://github.com/lukilabs/beautiful-mermaid) by
 [Craft Docs](https://craft.do) (lukilabs). Their TypeScript library pioneered the idea of rendering Mermaid
-diagrams without a browser or DOM&mdash;fast, themeable, and synchronous.
+diagrams without a browser or DOM: fast, themeable, and synchronous.
 
 `beautiful-mermaid` itself credits [**mermaid-ascii**](https://github.com/AlexanderGrooff/mermaid-ascii) by
 Alexander Grooff for its ASCII rendering engine, which was ported from Go to TypeScript and extended.
@@ -1054,9 +1052,9 @@ object pooling, and file-scoped namespaces throughout. The benchmark numbers abo
 
 Projects that use Mermaider and have contributed back:
 
-- [elastic/docs-builder](https://github.com/elastic/docs-builder) &mdash; Elastic's documentation build toolchain
-- [tig/winprint](https://tig.github.io/winprint/) &mdash; WinPrint uses Mermaider as its default Mermaid renderer
+- [elastic/docs-builder](https://github.com/elastic/docs-builder) - Elastic's documentation build toolchain
+- [tig/winprint](https://tig.github.io/winprint/) - WinPrint uses Mermaider as its default Mermaid renderer
 
 ## License
 
-MIT &mdash; see [LICENSE.txt](LICENSE.txt).
+MIT. See [LICENSE.txt](LICENSE.txt).
