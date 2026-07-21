@@ -3,9 +3,9 @@ using Mermaider.Models;
 
 namespace Mermaider.Tests;
 
-public class StrictModeTests
+public class StrictStylingTests
 {
-	private static readonly StrictModeOptions DefaultStrict = new()
+	private static readonly StrictStylingOptions DefaultStrict = new()
 	{
 		AllowedClasses =
 		[
@@ -180,7 +180,7 @@ public class StrictModeTests
 			""";
 		var options = new RenderOptions
 		{
-			Strict = new StrictModeOptions
+			Strict = new StrictStylingOptions
 			{
 				AllowedClasses = [],
 				RejectUnknownClasses = false
@@ -350,5 +350,91 @@ public class StrictModeTests
 		var act = () => MermaidRenderer.RenderSvg(input);
 
 		act.Should().NotThrow();
+	}
+
+	[Test]
+	public void Rejects_every_class_name_outside_the_positive_identifier_grammar()
+	{
+		string[] invalidNames =
+		[
+			"", "1starts-with-digit", "contains space", "contains.dot", "contains:colon",
+			"quote'", "double\"quote", "close}", "comma,name", "slash/name", "é",
+		];
+
+		foreach (var name in invalidNames)
+		{
+			var options = new RenderOptions
+			{
+				Strict = new StrictStylingOptions
+				{
+					AllowedClasses = [new DiagramClass { Name = name }],
+				},
+			};
+			var act = () => MermaidRenderer.RenderSvg("graph TD\nA --> B", options);
+
+			act.Should().ThrowExactly<MermaidParseException>($"'{name}' is outside the class-name allowlist");
+		}
+	}
+
+	[Test]
+	public void Allows_each_class_name_character_in_the_positive_identifier_grammar()
+	{
+		string[] validNames = ["a", "_private", "A1", "with-dash", "with_underscore", "Mixed_1-name"];
+
+		foreach (var name in validNames)
+		{
+			var options = new RenderOptions
+			{
+				Strict = new StrictStylingOptions
+				{
+					AllowedClasses = [new DiagramClass { Name = name }],
+				},
+			};
+			var act = () => MermaidRenderer.RenderSvg("graph TD\nA --> B", options);
+
+			act.Should().NotThrow($"'{name}' is inside the class-name allowlist");
+		}
+	}
+
+	[Test]
+	public void Styled_class_requires_fill()
+	{
+		var options = new RenderOptions
+		{
+			Strict = new StrictStylingOptions
+			{
+				AllowedClasses = [new DiagramClass { Name = "invalid", Color = "#fff" }],
+			},
+		};
+		var act = () => MermaidRenderer.RenderSvg("graph TD\nA --> B", options);
+
+		act.Should().ThrowExactly<MermaidParseException>()
+			.WithMessage("*must define Fill*");
+	}
+
+	[Test]
+	public void Rejects_non_hex_value_in_each_strict_class_color_slot()
+	{
+		var invalidClasses = new (string Property, DiagramClass Class)[]
+		{
+			(nameof(DiagramClass.Fill), new DiagramClass { Name = "invalid", Fill = "red" }),
+			(nameof(DiagramClass.Stroke), new DiagramClass { Name = "invalid", Fill = "#fff", Stroke = "url(#paint)" }),
+			(nameof(DiagramClass.Color), new DiagramClass { Name = "invalid", Fill = "#fff", Color = "#12" }),
+			(nameof(DiagramClass.DarkFill), new DiagramClass { Name = "invalid", Fill = "#fff", DarkFill = "#12345" }),
+			(nameof(DiagramClass.DarkStroke), new DiagramClass { Name = "invalid", Fill = "#fff", DarkStroke = "#ggg" }),
+			(nameof(DiagramClass.DarkColor), new DiagramClass { Name = "invalid", Fill = "#fff", DarkColor = "#fff;display:none" }),
+		};
+
+		foreach (var (property, invalidClass) in invalidClasses)
+		{
+			var options = new RenderOptions
+			{
+				Strict = new StrictStylingOptions { AllowedClasses = [invalidClass] },
+			};
+			var act = () => MermaidRenderer.RenderSvg("graph TD\nA --> B", options);
+
+			act.Should().ThrowExactly<MermaidParseException>()
+				.WithMessage($"*{property}*hexadecimal color*");
+		}
 	}
 }

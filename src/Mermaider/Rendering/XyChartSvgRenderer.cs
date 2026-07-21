@@ -22,9 +22,9 @@ internal static class XyChartSvgRenderer
 	private const string TickFontSize = RenderConstants.FsVar.Xs;
 
 
-	internal static string Render(XyChart chart, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(XyChart chart, SvgRenderContext context)
 	{
-		var sb = RenderToBuilder(chart, colors, font, monoFont, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(chart, context);
 		try
 		{
 			return sb.ToString();
@@ -36,7 +36,7 @@ internal static class XyChartSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(XyChart chart, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(XyChart chart, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 		var hasTitle = chart.Title is { Length: > 0 };
@@ -58,8 +58,8 @@ internal static class XyChartSvgRenderer
 		var plotX = left;
 		var plotY = top;
 
-		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		if (hasTitle)
@@ -174,7 +174,7 @@ internal static class XyChartSvgRenderer
 		// Stable series colors in declaration order (shared by draw + legend).
 		var seriesColors = new string[chart.Series.Count];
 		for (var si = 0; si < chart.Series.Count; si++)
-			seriesColors[si] = colors.PaletteAt(si);
+			seriesColors[si] = context.Styles.Colors.PaletteAt(si);
 
 		var barSeriesIdx = new List<int>();
 		for (var si = 0; si < chart.Series.Count; si++)

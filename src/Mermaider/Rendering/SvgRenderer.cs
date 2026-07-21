@@ -18,11 +18,19 @@ internal static class SvgRenderer
 
 	private static readonly string EdgeLabelAttrs = TextAttrs.EdgeLabelCenterFill + "var(--_text)\"";
 
+	/// <summary>
+	/// Reads a user-supplied inline style value (from <c>style</c>/<c>classDef</c>/<c>linkStyle</c>)
+	/// and escapes it for safe emission into a double-quoted SVG attribute. The output sanitizer
+	/// subsequently applies the same explicit value allowlists used for every SVG attribute.
+	/// </summary>
+	private static string? InlineStyleValue(IReadOnlyDictionary<string, string>? style, string key) =>
+		style?.GetValueOrDefault(key) is { } value ? MultilineUtils.EscapeAttr(value) : null;
+
 	private static readonly string GroupHeaderAttrs = TextAttrs.GroupHeaderFill + "var(--_text-sec)\"";
 
-	internal static string Render(PositionedGraph graph, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null, double edgeCornerRadius = 6)
+	internal static string Render(PositionedGraph graph, SvgRenderContext context)
 	{
-		var sb = RenderToBuilder(graph, colors, font, monoFont, transparent, strict, accessibility, diagramType, edgeCornerRadius);
+		var sb = RenderToBuilder(graph, context);
 		try
 		{
 			return sb.ToString();
@@ -34,11 +42,11 @@ internal static class SvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(PositionedGraph graph, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null, double edgeCornerRadius = 6)
+	internal static StringBuilder RenderToBuilder(PositionedGraph graph, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
-		StyleBlock.AppendSvgOpenTag(sb, graph.Width, graph.Height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+		StyleBlock.AppendSvgOpenTag(sb, graph.Width, graph.Height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 		AppendArrowDefs(sb);
 
 		foreach (var group in graph.Groups)
@@ -47,11 +55,11 @@ internal static class SvgRenderer
 		foreach (var edge in graph.Edges)
 		{
 			if (edge.Style != EdgeStyle.Invisible)
-				AppendEdge(sb, edge, edgeCornerRadius);
+				AppendEdge(sb, edge, context.EdgeRadius);
 		}
 
 		foreach (var group in graph.Groups)
-			AppendGroupHeader(sb, group, font);
+			AppendGroupHeader(sb, group);
 
 		foreach (var edge in graph.Edges)
 		{
@@ -60,7 +68,7 @@ internal static class SvgRenderer
 		}
 
 		foreach (var node in graph.Nodes)
-			AppendNode(sb, node, strict);
+			AppendNode(sb, node, context.Styles.Strict);
 
 		foreach (var note in graph.Notes)
 			AppendNote(sb, note);
@@ -108,9 +116,9 @@ internal static class SvgRenderer
 	private static void AppendGroupBody(StringBuilder sb, PositionedGroup group)
 	{
 		var r = Radii.Group;
-		var fill = group.InlineStyle?.GetValueOrDefault("fill") ?? "var(--_group-fill)";
-		var stroke = group.InlineStyle?.GetValueOrDefault("stroke") ?? "var(--_group-stroke)";
-		var sw = group.InlineStyle?.GetValueOrDefault("stroke-width")
+		var fill = InlineStyleValue(group.InlineStyle, "fill") ?? "var(--_group-fill)";
+		var stroke = InlineStyleValue(group.InlineStyle, "stroke") ?? "var(--_group-stroke)";
+		var sw = InlineStyleValue(group.InlineStyle, "stroke-width")
 			?? StrokeWidths.OuterBox.ToString(CultureInfo.InvariantCulture);
 
 		_ = sb.Append("\n<g class=\"subgraph\" data-id=\"");
@@ -132,7 +140,7 @@ internal static class SvgRenderer
 			AppendGroupBody(sb, child);
 	}
 
-	private static void AppendGroupHeader(StringBuilder sb, PositionedGroup group, string font)
+	private static void AppendGroupHeader(StringBuilder sb, PositionedGroup group)
 	{
 		var headerHeight = FontSizes.GroupHeader + 16;
 		var r = Radii.Group;
@@ -152,7 +160,7 @@ internal static class SvgRenderer
 		_ = sb.Append('\n');
 
 		foreach (var child in group.Children)
-			AppendGroupHeader(sb, child, font);
+			AppendGroupHeader(sb, child);
 	}
 
 	// ========================================================================
@@ -164,9 +172,9 @@ internal static class SvgRenderer
 		if (edge.Points.Count < 2)
 			return;
 
-		var inlineStroke = edge.InlineStyle?.GetValueOrDefault("stroke");
-		var inlineStrokeWidth = edge.InlineStyle?.GetValueOrDefault("stroke-width");
-		var inlineDashArray = edge.InlineStyle?.GetValueOrDefault("stroke-dasharray");
+		var inlineStroke = InlineStyleValue(edge.InlineStyle, "stroke");
+		var inlineStrokeWidth = InlineStyleValue(edge.InlineStyle, "stroke-width");
+		var inlineDashArray = InlineStyleValue(edge.InlineStyle, "stroke-dasharray");
 
 		var dashArray = inlineDashArray is not null
 			? $" stroke-dasharray=\"{inlineDashArray}\""
@@ -273,7 +281,7 @@ internal static class SvgRenderer
 		const double labelPad = 12.0;
 		var labelX = mid.X;
 
-		var labelColor = edge.InlineStyle?.GetValueOrDefault("color");
+		var labelColor = InlineStyleValue(edge.InlineStyle, "color");
 		var textAttrs = labelColor is not null
 			? TextAttrs.EdgeLabelCenterFill + labelColor + "\""
 			: EdgeLabelAttrs;
@@ -332,7 +340,7 @@ internal static class SvgRenderer
 	// Node rendering
 	// ========================================================================
 
-	private static void AppendNode(StringBuilder sb, PositionedNode node, StrictModeOptions? strict = null)
+	private static void AppendNode(StringBuilder sb, PositionedNode node, StrictStylingOptions? strict = null)
 	{
 		_ = sb.Append("\n<g class=\"node");
 		if (node.CssClassName is not null)
@@ -356,9 +364,9 @@ internal static class SvgRenderer
 	private static void AppendNodeShape(StringBuilder sb, PositionedNode node)
 	{
 		var (x, y, w, h) = (node.X, node.Y, node.Width, node.Height);
-		var fill = node.InlineStyle?.GetValueOrDefault("fill") ?? "var(--_node-fill)";
-		var stroke = node.InlineStyle?.GetValueOrDefault("stroke") ?? "var(--_node-stroke)";
-		var sw = node.InlineStyle?.GetValueOrDefault("stroke-width") ?? StrokeWidths.InnerBox.ToString(CultureInfo.InvariantCulture);
+		var fill = InlineStyleValue(node.InlineStyle, "fill") ?? "var(--_node-fill)";
+		var stroke = InlineStyleValue(node.InlineStyle, "stroke") ?? "var(--_node-stroke)";
+		var sw = InlineStyleValue(node.InlineStyle, "stroke-width") ?? StrokeWidths.InnerBox.ToString(CultureInfo.InvariantCulture);
 
 		switch (node.Shape)
 		{
@@ -617,7 +625,7 @@ internal static class SvgRenderer
 
 		var cx = node.X + (node.Width / 2);
 		var cy = node.Y + (node.Height / 2);
-		var textColor = node.InlineStyle?.GetValueOrDefault("color") ?? "var(--_text)";
+		var textColor = InlineStyleValue(node.InlineStyle, "color") ?? "var(--_text)";
 
 		if (node.IsMarkdown)
 			AppendMarkdownLabel(sb, node.Label, cx, cy, FontSizes.NodeLabel, FsVar.M, textColor);

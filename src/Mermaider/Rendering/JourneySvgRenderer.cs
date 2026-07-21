@@ -41,9 +41,9 @@ internal static class JourneySvgRenderer
 	private const string DropLineStroke = "var(--_line)";
 	private const string TimelineStroke = "var(--_text)";
 
-	internal static string Render(JourneyDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(JourneyDiagram diagram, SvgRenderContext context)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, context);
 		try
 		{
 			return sb.ToString();
@@ -55,7 +55,7 @@ internal static class JourneySvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(JourneyDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(JourneyDiagram diagram, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
@@ -63,7 +63,7 @@ internal static class JourneySvgRenderer
 		var actors = CollectActors(diagram);
 		var actorMap = new Dictionary<string, (string Color, int Pos)>(StringComparer.Ordinal);
 		for (var i = 0; i < actors.Count; i++)
-			actorMap[actors[i]] = (colors.PaletteAt(i), i);
+			actorMap[actors[i]] = (context.Styles.Colors.PaletteAt(i), i);
 
 		// left margin expands with longest actor name (mermaid measures text; we estimate)
 		var legendLabelW = 0.0;
@@ -77,8 +77,8 @@ internal static class JourneySvgRenderer
 		{
 			var emptyW = leftMargin + 200;
 			var emptyH = Math.Max(120.0, legendBottom + 16);
-			StyleBlock.AppendSvgOpenTag(sb, emptyW, emptyH, colors, transparent, accessibility, diagramType);
-			StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+			StyleBlock.AppendSvgOpenTag(sb, emptyW, emptyH, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+			StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 			if (hasTitle)
 				AppendTitle(sb, diagram.Title!, leftMargin);
 			_ = sb.Append("\n</svg>");
@@ -96,8 +96,8 @@ internal static class JourneySvgRenderer
 		var viewTop = hasTitle ? -8.0 : 0;
 		var totalHeight = height - viewTop;
 
-		StyleBlock.AppendSvgOpenTag(sb, width, totalHeight, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+		StyleBlock.AppendSvgOpenTag(sb, width, totalHeight, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 
 		// Arrow marker (mermaid arrowhead)
 		_ = sb.Append("\n<defs>\n  <marker id=\"journey-arrow\" refX=\"5\" refY=\"2\" markerWidth=\"6\" markerHeight=\"4\" orient=\"auto\">")
@@ -132,7 +132,7 @@ internal static class JourneySvgRenderer
 				continue;
 			}
 
-			var fill = colors.PaletteAt(sectionNum);
+			var fill = context.Styles.Colors.PaletteAt(sectionNum);
 			// mermaid: width * taskCount + diagramMarginX * (taskCount - 1)
 			// but task spacing uses taskMargin not diagramMarginX for positions.
 			// drawSection width = conf.width * taskCount + conf.diagramMarginX * (taskCount-1)
@@ -166,7 +166,7 @@ internal static class JourneySvgRenderer
 			var task = item.Task;
 			var taskX = leftMargin + (i * pitch);
 			var center = taskX + (TaskWidth / 2);
-			var fill = colors.PaletteAt(item.SectionIndex);
+			var fill = context.Styles.Colors.PaletteAt(item.SectionIndex);
 			var score = Math.Clamp(task.Score, 1, 5);
 			var faceCy = FaceBaseY + ((5 - score) * FaceStepY);
 

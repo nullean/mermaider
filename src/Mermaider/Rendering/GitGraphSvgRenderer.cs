@@ -24,9 +24,9 @@ internal static class GitGraphSvgRenderer
 	private const double LinkStrokeWidth = 3;
 
 
-	internal static string Render(GitGraph graph, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(GitGraph graph, SvgRenderContext context)
 	{
-		var sb = RenderToBuilder(graph, colors, font, monoFont, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(graph, context);
 		try
 		{
 			return sb.ToString();
@@ -38,15 +38,15 @@ internal static class GitGraphSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(GitGraph graph, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(GitGraph graph, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
-		var simulation = Simulate(graph, colors);
+		var simulation = Simulate(graph, context.Styles.Colors);
 		if (simulation.Commits.Count == 0)
 		{
-			StyleBlock.AppendSvgOpenTag(sb, 200, 100, colors, transparent, accessibility, diagramType);
-			StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+			StyleBlock.AppendSvgOpenTag(sb, 200, 100, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+			StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 			_ = sb.Append("\n</svg>");
 			return sb;
 		}
@@ -61,8 +61,8 @@ internal static class GitGraphSvgRenderer
 		var width = LeftPad + (simulation.Commits.Count * CommitSpacing) + 60;
 		var height = TopPad + ((maxLane + 1) * LaneSpacing) + 60;
 
-		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		foreach (var branch in simulation.Branches)

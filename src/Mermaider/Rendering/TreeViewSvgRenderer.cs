@@ -24,9 +24,9 @@ internal static class TreeViewSvgRenderer
 	private const string LabelFontSize = RenderConstants.FsVar.S;
 	private const string DescFontSize = RenderConstants.FsVar.Xs;
 
-	internal static string Render(TreeViewDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(TreeViewDiagram diagram, SvgRenderContext context)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, context);
 		try
 		{
 			return sb.ToString();
@@ -38,7 +38,7 @@ internal static class TreeViewSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(TreeViewDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(TreeViewDiagram diagram, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
@@ -48,8 +48,8 @@ internal static class TreeViewSvgRenderer
 
 		if (flatRows.Count == 0)
 		{
-			StyleBlock.AppendSvgOpenTag(sb, 200, 60, colors, transparent, accessibility, diagramType);
-			StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+			StyleBlock.AppendSvgOpenTag(sb, 200, 60, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+			StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 			_ = sb.Append("\n</svg>");
 			return sb;
 		}
@@ -58,8 +58,8 @@ internal static class TreeViewSvgRenderer
 		var totalWidth = Pad + maxWidth + Pad;
 		var totalHeight = Pad + (flatRows.Count * RowHeight) + Pad;
 
-		StyleBlock.AppendSvgOpenTag(sb, totalWidth, totalHeight, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+		StyleBlock.AppendSvgOpenTag(sb, totalWidth, totalHeight, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		// Render connector lines first (under everything else)
@@ -171,9 +171,10 @@ internal static class TreeViewSvgRenderer
 				.Append("\" fill=\"var(--_accent-fill)\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1\" />");
 		}
 
-		// Group wrapper with optional CSS class
+		// Group wrapper with optional CSS class. CssClass is parser-constrained to [\w-], but
+		// escape it anyway so this attribute can't become a breakout vector if that ever changes.
 		_ = hasCustomClass
-			? sb.Append("\n<g class=\"treeview-node ").Append(node.CssClass).Append("\">")
+			? sb.Append("\n<g class=\"treeview-node ").Append(MultilineUtils.EscapeAttr(node.CssClass!)).Append("\">")
 			: sb.Append("\n<g class=\"treeview-node\">");
 
 		// Icon

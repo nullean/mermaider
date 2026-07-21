@@ -17,9 +17,9 @@ internal static class MindmapSvgRenderer
 	private const double RootFontSizePx = 16;
 
 
-	internal static string Render(MindmapDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(MindmapDiagram diagram, SvgRenderContext context)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, context);
 		try
 		{
 			return sb.ToString();
@@ -31,12 +31,12 @@ internal static class MindmapSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(MindmapDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(MindmapDiagram diagram, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
 		var positioned = new List<PositionedMindmapNode>();
-		_ = LayoutTree(diagram.Root, 40, 40, 0, positioned, colors);
+		_ = LayoutTree(diagram.Root, 40, 40, 0, positioned, context.Styles.Colors);
 
 		var maxX = 0.0;
 		var maxY = 0.0;
@@ -53,8 +53,8 @@ internal static class MindmapSvgRenderer
 		var width = maxX + 40;
 		var height = maxY + 40;
 
-		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		foreach (var node in positioned)

@@ -50,9 +50,9 @@ internal static class C4SvgRenderer
 		public List<PlacedBoundary> Children { get; } = [];
 	}
 
-	internal static string Render(C4Diagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(C4Diagram diagram, SvgRenderContext context)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, context);
 		try
 		{
 			return sb.ToString();
@@ -64,7 +64,7 @@ internal static class C4SvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(C4Diagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(C4Diagram diagram, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 		var hasTitle = diagram.Title is { Length: > 0 };
@@ -88,8 +88,8 @@ internal static class C4SvgRenderer
 		var width = Math.Max(contentW + Margin, 320);
 		var height = Math.Max(contentH + Margin, 200);
 
-		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 		AppendDefs(sb);
 
 		if (hasTitle)

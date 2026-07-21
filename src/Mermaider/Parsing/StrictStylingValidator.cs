@@ -9,7 +9,7 @@ namespace Mermaider.Parsing;
 /// Rejects <c>classDef</c> and <c>style</c> directives; validates class references
 /// against the allowed set.
 /// </summary>
-internal static partial class StrictModeValidator
+internal static partial class StrictStylingValidator
 {
 	private const int TimeoutMs = 2000;
 
@@ -31,8 +31,12 @@ internal static partial class StrictModeValidator
 	[GeneratedRegex(@":::([\w][\w-]*)", RegexOptions.None, TimeoutMs)]
 	private static partial Regex ClassShorthand();
 
-	internal static void Validate(string[] lines, StrictModeOptions strict)
+	[GeneratedRegex(@"^[A-Za-z_][A-Za-z0-9_-]*$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex SafeClassName();
+
+	internal static void Validate(string[] lines, StrictStylingOptions strict)
 	{
+		ValidateAllowedClasses(strict);
 		var allowed = BuildAllowedSet(strict);
 
 		for (var i = 1; i < lines.Length; i++)
@@ -67,6 +71,34 @@ internal static partial class StrictModeValidator
 		}
 	}
 
+	private static void ValidateAllowedClasses(StrictStylingOptions strict)
+	{
+		foreach (var cls in strict.AllowedClasses)
+		{
+			if (!SafeClassName().IsMatch(cls.Name))
+				throw new MermaidParseException(
+					$"Strict mode: class name '{cls.Name}' contains characters outside the allowed class-name grammar.");
+
+			if (cls.Fill is null && !cls.IsExternal)
+				throw new MermaidParseException(
+					$"Strict mode: styled class '{cls.Name}' must define Fill.");
+
+			ValidateHexColor(cls.Name, nameof(cls.Fill), cls.Fill);
+			ValidateHexColor(cls.Name, nameof(cls.Stroke), cls.Stroke);
+			ValidateHexColor(cls.Name, nameof(cls.Color), cls.Color);
+			ValidateHexColor(cls.Name, nameof(cls.DarkFill), cls.DarkFill);
+			ValidateHexColor(cls.Name, nameof(cls.DarkStroke), cls.DarkStroke);
+			ValidateHexColor(cls.Name, nameof(cls.DarkColor), cls.DarkColor);
+		}
+	}
+
+	private static void ValidateHexColor(string className, string property, string? value)
+	{
+		if (value is not null && !SvgValueAllowlist.IsAllowedHexColor(value))
+			throw new MermaidParseException(
+				$"Strict mode: {property} for class '{className}' must be a 3, 4, 6, or 8 digit hexadecimal color.");
+	}
+
 	private static void ValidateClassAssignment(string line, FrozenSet<string> allowed, int lineIndex)
 	{
 		var match = ClassAssignDirective().Match(line);
@@ -92,6 +124,6 @@ internal static partial class StrictModeValidator
 		}
 	}
 
-	private static FrozenSet<string> BuildAllowedSet(StrictModeOptions strict) =>
+	private static FrozenSet<string> BuildAllowedSet(StrictStylingOptions strict) =>
 		strict.AllowedClasses.Select(c => c.Name).ToFrozenSet(StringComparer.Ordinal);
 }

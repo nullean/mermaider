@@ -105,6 +105,11 @@ catch (MermaidParseException ex)
 	Console.Error.WriteLine($"Parse error: {ex.Message}");
 	return 1;
 }
+catch (MermaidSvgException ex)
+{
+	Console.Error.WriteLine($"SVG error: {ex.Message}");
+	return 2;
+}
 catch (Exception ex)
 {
 	Console.Error.WriteLine($"Error: {ex.Message}");

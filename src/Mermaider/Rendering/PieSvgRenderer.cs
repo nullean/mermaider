@@ -19,9 +19,9 @@ internal static class PieSvgRenderer
 	private const double TextPosition = 0.75;
 
 
-	internal static string Render(PieChart chart, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(PieChart chart, SvgRenderContext context)
 	{
-		var sb = RenderToBuilder(chart, colors, font, monoFont, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(chart, context);
 		try
 		{
 			return sb.ToString();
@@ -33,7 +33,7 @@ internal static class PieSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(PieChart chart, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(PieChart chart, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
@@ -50,8 +50,8 @@ internal static class PieSvgRenderer
 		var height = Math.Max(chartHeight, legendTop + legendHeight + 20);
 		var width = LegendX + 200;
 
-		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		if (hasTitle)
@@ -75,7 +75,7 @@ internal static class PieSvgRenderer
 			var slice = chart.Slices[i];
 			var fraction = slice.Value / total;
 			var sweepAngle = fraction * 2 * Math.PI;
-			var color = colors.PaletteAt(i);
+			var color = context.Styles.Colors.PaletteAt(i);
 
 			AppendSlice(sb, centerY, startAngle, sweepAngle, color);
 			AppendSliceLabel(sb, fraction, centerY, startAngle, sweepAngle, color);
@@ -83,7 +83,7 @@ internal static class PieSvgRenderer
 			startAngle += sweepAngle;
 		}
 
-		AppendLegend(sb, chart, legendTop, colors);
+		AppendLegend(sb, chart, legendTop, context.Styles.Colors);
 
 		_ = sb.Append("\n</svg>");
 		return sb;

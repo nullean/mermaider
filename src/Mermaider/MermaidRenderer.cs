@@ -1,21 +1,21 @@
-using System.Buffers;
-using System.Globalization;
 using System.IO.Pipelines;
 using System.Text;
 using Mermaider.Layout;
 using Mermaider.Models;
 using Mermaider.Parsing;
 using Mermaider.Rendering;
-using Mermaider.Theming;
 
 namespace Mermaider;
 
 /// <summary>
-/// Renders Mermaid diagram text to SVG strings.
+/// Renders Mermaid diagram text to sanitized SVG strings suitable for direct HTML embedding.
 /// Framework-agnostic, no DOM required. Pure .NET.
 /// </summary>
 public static class MermaidRenderer
 {
+	/// <summary>Canonical safe empty SVG returned when generated output is not well-formed XML.</summary>
+	public const string FallbackSvg = SvgDocuments.Empty;
+
 #pragma warning disable IDE1006
 	private static volatile IGraphLayoutProvider _layoutProvider = DefaultLayoutProvider.Instance;
 #pragma warning restore IDE1006
@@ -31,95 +31,51 @@ public static class MermaidRenderer
 	public static IGraphLayoutProvider LayoutProvider => _layoutProvider;
 
 	/// <summary>
-	/// Render Mermaid diagram text to a self-contained SVG string.
+	/// Render Mermaid diagram text to a self-contained, sanitized SVG string.
 	/// </summary>
 	/// <param name="text">Mermaid source text (e.g. "graph TD\n  A --&gt; B")</param>
 	/// <param name="options">Optional rendering configuration (colors, font, spacing).</param>
 	/// <returns>A self-contained SVG string.</returns>
 	/// <exception cref="MermaidParseException">Thrown when the input cannot be parsed.</exception>
+	/// <exception cref="MermaidSvgException">Thrown when block mode rejects generated SVG.</exception>
 	public static string RenderSvg(string text, RenderOptions? options = null)
-	{
-		using var culture = InvariantCultureScope.Enter();
-		var (strict, sb) = RenderToBuilder(text, options);
-		try
-		{
-			var svg = sb.ToString();
-			if (strict?.Sanitize is { } sanitizeMode)
-				svg = StrictModeSanitizer.Sanitize(svg, sanitizeMode);
-			return svg;
-		}
-		finally
-		{
-			_ = sb.Clear();
-			SharedStringBuilderPool.Instance.Return(sb);
-		}
-	}
+		=> MermaidRenderPipeline.Execute(text, options);
 
 	/// <summary>
-	/// Render Mermaid diagram text and write the SVG to a <see cref="Stream"/>.
-	/// Writes UTF-8 encoded content in chunks without materializing the full string.
+	/// Render and sanitize Mermaid diagram text, then write the UTF-8 SVG to a <see cref="Stream"/>.
 	/// </summary>
 	/// <param name="text">Mermaid source text.</param>
 	/// <param name="destination">The stream to write the SVG to.</param>
 	/// <param name="options">Optional rendering configuration.</param>
 	/// <param name="cancellationToken">Cancellation token.</param>
 	/// <exception cref="MermaidParseException">Thrown when the input cannot be parsed.</exception>
+	/// <exception cref="MermaidSvgException">Thrown when block mode rejects generated SVG.</exception>
 	public static async Task RenderSvgAsync(string text, Stream destination, RenderOptions? options = null, CancellationToken cancellationToken = default)
 	{
 		ArgumentNullException.ThrowIfNull(destination);
 
-		using var culture = InvariantCultureScope.Enter();
-		var (strict, sb) = RenderToBuilder(text, options);
-		try
-		{
-			if (strict?.Sanitize is { } sanitizeMode)
-			{
-				var svg = StrictModeSanitizer.Sanitize(sb.ToString(), sanitizeMode);
-				await destination.WriteAsync(Encoding.UTF8.GetBytes(svg), cancellationToken).ConfigureAwait(false);
-				return;
-			}
-			await WriteBuilderToStreamAsync(sb, destination, cancellationToken).ConfigureAwait(false);
-		}
-		finally
-		{
-			_ = sb.Clear();
-			SharedStringBuilderPool.Instance.Return(sb);
-		}
+		var svg = MermaidRenderPipeline.Execute(text, options);
+		await destination.WriteAsync(Encoding.UTF8.GetBytes(svg), cancellationToken).ConfigureAwait(false);
 	}
 
 	/// <summary>
-	/// Render Mermaid diagram text and write the SVG to a <see cref="PipeWriter"/>.
-	/// Writes UTF-8 encoded content in chunks without materializing the full string.
+	/// Render and sanitize Mermaid diagram text, then write the UTF-8 SVG to a <see cref="PipeWriter"/>.
 	/// </summary>
 	/// <param name="text">Mermaid source text.</param>
 	/// <param name="destination">The pipe writer to write the SVG to.</param>
 	/// <param name="options">Optional rendering configuration.</param>
 	/// <param name="cancellationToken">Cancellation token.</param>
 	/// <exception cref="MermaidParseException">Thrown when the input cannot be parsed.</exception>
+	/// <exception cref="MermaidSvgException">Thrown when block mode rejects generated SVG.</exception>
 	public static async Task RenderSvgAsync(string text, PipeWriter destination, RenderOptions? options = null, CancellationToken cancellationToken = default)
 	{
 		ArgumentNullException.ThrowIfNull(destination);
 
-		using var culture = InvariantCultureScope.Enter();
-		var (strict, sb) = RenderToBuilder(text, options);
-		try
-		{
-			if (strict?.Sanitize is { } sanitizeMode)
-			{
-				var svg = StrictModeSanitizer.Sanitize(sb.ToString(), sanitizeMode);
-				var bytes = Encoding.UTF8.GetBytes(svg);
-				bytes.CopyTo(destination.GetMemory(bytes.Length).Span);
-				destination.Advance(bytes.Length);
-				_ = await destination.FlushAsync(cancellationToken).ConfigureAwait(false);
-				return;
-			}
-			await WriteBuilderToPipeWriterAsync(sb, destination, cancellationToken).ConfigureAwait(false);
-		}
-		finally
-		{
-			_ = sb.Clear();
-			SharedStringBuilderPool.Instance.Return(sb);
-		}
+		var svg = MermaidRenderPipeline.Execute(text, options);
+		var bytes = Encoding.UTF8.GetBytes(svg);
+		bytes.CopyTo(destination.GetMemory(bytes.Length).Span);
+		destination.Advance(bytes.Length);
+		_ = await destination.FlushAsync(cancellationToken).ConfigureAwait(false);
 	}
 
 	/// <summary>
@@ -141,280 +97,13 @@ public static class MermaidRenderer
 		return ParseInternal(lines, diagramType);
 	}
 
-	private static (StrictModeOptions? Strict, StringBuilder Builder) RenderToBuilder(string text, RenderOptions? options)
-	{
-		var (cleaned, metadata) = DiagramPreprocessor.Process(text);
-		var colors = BuildColors(options, metadata);
-		var font = options?.Font ?? LayoutDefaults.Font;
-		var monoFont = options?.MonoFont;
-		var transparent = options?.Transparent ?? true;
-		var strict = options?.Strict;
-		var provider = options?.LayoutProvider ?? _layoutProvider;
-
-		var lines = PreprocessLines(cleaned);
-		if (lines.Length == 0)
-			throw new MermaidParseException("Empty mermaid diagram");
-
-		if (strict is not null)
-		{
-			if (metadata.Theme is { Length: > 0 } || metadata.ThemeVariables is not null)
-				throw new MermaidParseException(
-					"Strict mode: source-authored 'theme' / 'themeVariables' overrides are not allowed. " +
-					"Styling is controlled by the host design system; remove the %%{init}%% theme directive " +
-					"or frontmatter 'theme:' key.");
-
-			StrictModeValidator.Validate(lines, strict);
-		}
-
-		var diagramType = DiagramDetector.Detect(cleaned.AsSpan());
-
-		var allowedDiagrams = options?.AllowedDiagrams ?? DiagramTypes.All;
-		if ((allowedDiagrams & diagramType.ToFlag()) == 0)
-			throw new MermaidParseException(
-				$"Diagram type '{diagramType}' is not in the allowed set. " +
-				$"Adjust RenderOptions.AllowedDiagrams to include it.");
-
-		var (accessibility, filteredLines) = AccessibilityParser.Extract(lines);
-
-		var sb = diagramType switch
-		{
-			DiagramType.Sequence => SequenceSvgRenderer.RenderToBuilder(
-				SequenceLayout.Layout(SequenceParser.Parse(filteredLines)),
-				colors, font, monoFont, transparent, strict, accessibility, diagramType),
-
-			DiagramType.Class => ClassSvgRenderer.RenderToBuilder(
-				provider.LayoutClass(ClassParser.Parse(filteredLines)),
-				colors, font, monoFont, transparent, strict, accessibility, diagramType),
-
-			DiagramType.Er => ErSvgRenderer.RenderToBuilder(
-				provider.LayoutEr(ErParser.Parse(filteredLines)),
-				colors, font, monoFont, transparent, strict, accessibility, diagramType),
-
-			DiagramType.Pie => PieSvgRenderer.RenderToBuilder(
-				PieParser.Parse(filteredLines),
-				colors, font, monoFont, transparent, strict, accessibility, diagramType),
-
-			DiagramType.Quadrant => QuadrantSvgRenderer.RenderToBuilder(
-				QuadrantParser.Parse(filteredLines),
-				colors, font, monoFont, transparent, strict, accessibility, diagramType),
-
-			DiagramType.Timeline => TimelineSvgRenderer.RenderToBuilder(
-				TimelineParser.Parse(filteredLines),
-				colors, font, monoFont, transparent, strict, accessibility, diagramType),
-
-			DiagramType.GitGraph => GitGraphSvgRenderer.RenderToBuilder(
-				GitGraphParser.Parse(filteredLines),
-				colors, font, monoFont, transparent, strict, accessibility, diagramType),
-
-			DiagramType.Radar => RadarSvgRenderer.RenderToBuilder(
-				RadarParser.Parse(filteredLines),
-				colors, font, monoFont, transparent, strict, accessibility, diagramType),
-
-			DiagramType.Treemap => TreemapSvgRenderer.RenderToBuilder(
-				TreemapParser.Parse(PreprocessLinesPreserveIndent(cleaned)),
-				colors, font, monoFont, transparent, strict, accessibility, diagramType),
-
-			DiagramType.Venn => VennSvgRenderer.RenderToBuilder(
-				VennParser.Parse(filteredLines),
-				colors, font, monoFont, transparent, strict, accessibility, diagramType),
-
-			DiagramType.Mindmap => MindmapSvgRenderer.RenderToBuilder(
-				MindmapParser.Parse(PreprocessLinesPreserveIndent(cleaned)),
-				colors, font, monoFont, transparent, strict, accessibility, diagramType),
-
-			DiagramType.Gantt => GanttSvgRenderer.RenderToBuilder(
-				GanttParser.Parse(filteredLines),
-				colors, font, monoFont, transparent, strict, accessibility, diagramType),
-
-			DiagramType.Journey => JourneySvgRenderer.RenderToBuilder(
-				JourneyParser.Parse(filteredLines),
-				colors, font, monoFont, transparent, strict, accessibility, diagramType),
-
-			DiagramType.C4 => C4SvgRenderer.RenderToBuilder(
-				C4Parser.Parse(filteredLines),
-				colors, font, monoFont, transparent, strict, accessibility, diagramType),
-
-			DiagramType.Sankey => SankeySvgRenderer.RenderToBuilder(
-				SankeyParser.Parse(filteredLines),
-				colors, font, monoFont, transparent, strict, accessibility, diagramType),
-
-			DiagramType.XyChart => XyChartSvgRenderer.RenderToBuilder(
-				XyChartParser.Parse(filteredLines),
-				colors, font, monoFont, transparent, strict, accessibility, diagramType),
-
-			DiagramType.Requirement => RequirementSvgRenderer.RenderToBuilder(
-				RequirementParser.Parse(filteredLines),
-				colors, font, monoFont, transparent, strict, accessibility, diagramType),
-
-			DiagramType.Packet => PacketSvgRenderer.RenderToBuilder(
-				PacketParser.Parse(filteredLines),
-				colors, font, monoFont, transparent, strict, accessibility, diagramType),
-
-			DiagramType.Kanban => KanbanSvgRenderer.RenderToBuilder(
-				KanbanParser.Parse(PreprocessLinesPreserveIndent(cleaned, accessibility)),
-				colors, font, monoFont, transparent, strict, accessibility, diagramType),
-
-			DiagramType.Architecture => ArchitectureSvgRenderer.RenderToBuilder(
-				Layout.ArchitectureLayout.Layout(ArchitectureParser.Parse(filteredLines)),
-				colors, font, monoFont, transparent, strict, accessibility, diagramType),
-
-			DiagramType.Block => BlockSvgRenderer.RenderToBuilder(
-				BlockParser.Parse(filteredLines),
-				colors, font, monoFont, transparent, strict, accessibility, diagramType),
-
-			DiagramType.TreeView => TreeViewSvgRenderer.RenderToBuilder(
-				TreeViewParser.Parse(PreprocessLinesPreserveIndent(cleaned, accessibility)),
-				colors, font, monoFont, transparent, strict, accessibility, diagramType),
-
-			_ => SvgRenderer.RenderToBuilder(
-				provider.LayoutFlowchart(ParseInternal(filteredLines, diagramType), options, strict),
-				colors, font, monoFont, transparent, strict, accessibility, diagramType, options?.RoundedEdges != false ? 6.0 : 0),
-		};
-
-		if (metadata.Title is { Length: > 0 } title)
-			InsertSvgTitle(sb, title);
-
-		return (strict, sb);
-	}
-
-	private readonly struct InvariantCultureScope : IDisposable
-	{
-		private readonly CultureInfo _previousCulture;
-
-		private InvariantCultureScope(CultureInfo previousCulture) => _previousCulture = previousCulture;
-
-		public static InvariantCultureScope Enter()
-		{
-			var previousCulture = CultureInfo.CurrentCulture;
-			CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
-			return new InvariantCultureScope(previousCulture);
-		}
-
-		public void Dispose() => CultureInfo.CurrentCulture = _previousCulture;
-	}
-
-	private static async Task WriteBuilderToStreamAsync(StringBuilder sb, Stream stream, CancellationToken cancellationToken)
-	{
-		var encoder = Encoding.UTF8.GetEncoder();
-		var buffer = ArrayPool<byte>.Shared.Rent(4096);
-		try
-		{
-			foreach (var chunk in sb.GetChunks())
-			{
-				var charArray = ArrayPool<char>.Shared.Rent(chunk.Length);
-				chunk.Span.CopyTo(charArray);
-				var totalChars = chunk.Length;
-				var charsConsumed = 0;
-				while (charsConsumed < totalChars)
-				{
-					encoder.Convert(charArray.AsSpan(charsConsumed, totalChars - charsConsumed), buffer, flush: false, out var used, out var bytesWritten, out _);
-					charsConsumed += used;
-					if (bytesWritten > 0)
-						await stream.WriteAsync(buffer.AsMemory(0, bytesWritten), cancellationToken).ConfigureAwait(false);
-				}
-				ArrayPool<char>.Shared.Return(charArray);
-			}
-			encoder.Convert([], buffer, flush: true, out _, out var finalBytes, out _);
-			if (finalBytes > 0)
-				await stream.WriteAsync(buffer.AsMemory(0, finalBytes), cancellationToken).ConfigureAwait(false);
-		}
-		finally
-		{
-			ArrayPool<byte>.Shared.Return(buffer);
-		}
-	}
-
-	private static async Task WriteBuilderToPipeWriterAsync(StringBuilder sb, PipeWriter writer, CancellationToken cancellationToken)
-	{
-		var encoder = Encoding.UTF8.GetEncoder();
-		foreach (var chunk in sb.GetChunks())
-		{
-			var charArray = ArrayPool<char>.Shared.Rent(chunk.Length);
-			chunk.Span.CopyTo(charArray);
-			var totalChars = chunk.Length;
-			var charsConsumed = 0;
-			while (charsConsumed < totalChars)
-			{
-				var memory = writer.GetMemory(1024);
-				encoder.Convert(charArray.AsSpan(charsConsumed, totalChars - charsConsumed), memory.Span, flush: false, out var used, out var bytesWritten, out _);
-				charsConsumed += used;
-				writer.Advance(bytesWritten);
-
-				if (writer.UnflushedBytes >= 4096)
-					_ = await writer.FlushAsync(cancellationToken).ConfigureAwait(false);
-			}
-			ArrayPool<char>.Shared.Return(charArray);
-		}
-
-		var finalMemory = writer.GetMemory(16);
-		encoder.Convert([], finalMemory.Span, flush: true, out _, out var finalBytes, out _);
-		if (finalBytes > 0)
-			writer.Advance(finalBytes);
-		_ = await writer.FlushAsync(cancellationToken).ConfigureAwait(false);
-	}
-
-	private static MermaidGraph ParseInternal(string[] lines, DiagramType diagramType) =>
+	internal static MermaidGraph ParseInternal(string[] lines, DiagramType diagramType) =>
 		diagramType switch
 		{
 			DiagramType.Flowchart => FlowchartParser.Parse(lines),
 			DiagramType.State => StateParser.Parse(lines),
 			_ => throw new MermaidParseException($"Diagram type '{diagramType}' is not yet supported.")
 		};
-
-	private static DiagramColors BuildColors(RenderOptions? options, DiagramMetadata? metadata = null)
-	{
-		// If no explicit color options, check for a theme name in metadata
-		DiagramColors? themeColors = null;
-		if (metadata?.Theme is { Length: > 0 } themeName)
-			_ = Theming.Themes.BuiltIn.TryGetValue(themeName, out themeColors);
-
-		var baseColors = themeColors ?? Theming.Themes.Default;
-
-		var colors = new DiagramColors
-		{
-			Bg = options?.Bg ?? baseColors.Bg,
-			Fg = options?.Fg ?? baseColors.Fg,
-			Line = options?.Line ?? baseColors.Line,
-			Accent = options?.Accent ?? baseColors.Accent,
-			Muted = options?.Muted ?? baseColors.Muted,
-			Surface = options?.Surface ?? baseColors.Surface,
-			Border = options?.Border ?? baseColors.Border,
-			DataPalette = options?.DataPalette ?? baseColors.DataPalette,
-		};
-
-		// Apply themeVariables overrides from init directive
-		if (metadata?.ThemeVariables is { } vars)
-		{
-			colors = colors with
-			{
-				Bg = vars.GetValueOrDefault("background") ?? colors.Bg,
-				Fg = vars.GetValueOrDefault("primaryTextColor") ?? colors.Fg,
-				Line = vars.GetValueOrDefault("lineColor") ?? colors.Line,
-				Accent = vars.GetValueOrDefault("primaryColor") ?? colors.Accent,
-			};
-		}
-
-		return colors;
-	}
-
-	private static void InsertSvgTitle(StringBuilder sb, string title)
-	{
-		// Find the end of the <svg ...> opening tag to insert <title> right after it
-		const string svgClose = "\">";
-		var svgStr = sb.ToString();
-		var insertPos = svgStr.IndexOf(svgClose, StringComparison.Ordinal);
-		if (insertPos < 0)
-			return;
-
-		insertPos += svgClose.Length;
-
-		var titleBuilder = new StringBuilder();
-		_ = titleBuilder.Append("\n<title>");
-		Text.MultilineUtils.AppendEscapedXml(titleBuilder, title.AsSpan());
-		_ = titleBuilder.Append("</title>");
-
-		_ = sb.Insert(insertPos, titleBuilder.ToString());
-	}
 
 	internal static string[] PreprocessLines(string text)
 	{

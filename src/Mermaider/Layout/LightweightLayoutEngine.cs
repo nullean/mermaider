@@ -12,7 +12,7 @@ namespace Mermaider.Layout;
 /// </summary>
 internal static class LightweightLayoutEngine
 {
-	internal static PositionedGraph Layout(MermaidGraph graph, RenderOptions? options = null, StrictModeOptions? strict = null)
+	internal static PositionedGraph Layout(MermaidGraph graph, RenderOptions? options = null, StrictStylingOptions? strict = null)
 	{
 		var padding = options?.Padding ?? LayoutDefaults.Padding;
 		var nodeSpacing = options?.NodeSpacing ?? LayoutDefaults.NodeSpacing;
@@ -186,7 +186,7 @@ internal static class LightweightLayoutEngine
 		}
 	}
 
-	private static PositionedGraph MapResult(LayoutResult result, MermaidGraph graph, StrictModeOptions? strict, List<int>? layoutEdgeToOriginal = null)
+	private static PositionedGraph MapResult(LayoutResult result, MermaidGraph graph, StrictStylingOptions? strict, List<int>? layoutEdgeToOriginal = null)
 	{
 		var nodeLookup = graph.Nodes;
 		var positionedNodes = new List<PositionedNode>(result.Nodes.Count);
@@ -256,7 +256,7 @@ internal static class LightweightLayoutEngine
 		};
 	}
 
-	private static PositionedGroup MapGroup(LayoutGroupResult g, MermaidGraph graph, StrictModeOptions? strict) =>
+	private static PositionedGroup MapGroup(LayoutGroupResult g, MermaidGraph graph, StrictStylingOptions? strict) =>
 		new()
 		{
 			Id = g.Id,

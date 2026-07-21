@@ -23,9 +23,9 @@ internal static class SequenceSvgRenderer
 		RenderConstants.TextAttrs.SeqBlockTabFill + "var(--_text-sec)\"";
 
 
-	internal static string Render(PositionedSequenceDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(PositionedSequenceDiagram diagram, SvgRenderContext context)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, context);
 		try
 		{
 			return sb.ToString();
@@ -37,11 +37,11 @@ internal static class SequenceSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(PositionedSequenceDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(PositionedSequenceDiagram diagram, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
-		StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+		StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 		AppendArrowDefs(sb);
 
 		foreach (var box in diagram.Boxes)
@@ -421,7 +421,9 @@ internal static class SequenceSvgRenderer
 		}
 		_ = sb.Append(">\n");
 
-		var fill = box.Color ?? "var(--_group-fill)";
+		// box.Color is a free-form \S+ token from source (e.g. `box red Team`); escape it so a
+		// crafted value like `"/><image onerror=...` cannot break out of the fill attribute.
+		var fill = box.Color is { } boxColor ? MultilineUtils.EscapeAttr(boxColor) : "var(--_group-fill)";
 		_ = sb.Append("  <rect x=\"").Append(box.X).Append("\" y=\"").Append(box.Y)
 			.Append("\" width=\"").Append(box.Width).Append("\" height=\"").Append(box.Height)
 			.Append("\" rx=\"").Append(RenderConstants.Radii.Group)

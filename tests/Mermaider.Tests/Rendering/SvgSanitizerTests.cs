@@ -1,4 +1,6 @@
 using System.Collections.Frozen;
+using System.Text;
+using System.Xml.Linq;
 using AwesomeAssertions;
 using Mermaider.Models;
 using Mermaider.Rendering;
@@ -135,13 +137,14 @@ public class SvgSanitizerTests
 	}
 
 	[Test]
-	public void Preserves_style_element()
+	public void Strips_style_element_from_standalone_untrusted_svg()
 	{
 		var svg = """<svg xmlns="http://www.w3.org/2000/svg"><style>text { font-family: Inter; }</style><rect x="0" y="0" width="10" height="10"/></svg>""";
 		var result = SvgSanitizer.Sanitize(svg);
 
-		result.HasViolations.Should().BeFalse();
-		result.Svg.Should().Contain("<style");
+		result.HasViolations.Should().BeTrue();
+		result.Svg.Should().NotContain("<style");
+		result.Svg.Should().Contain("<rect");
 	}
 
 	[Test]
@@ -185,8 +188,28 @@ public class SvgSanitizerTests
 		result.Svg.Should().Contain("<rect");
 	}
 
+	[Test]
+	public void Custom_allowlists_cannot_expand_the_default_safety_ceiling()
+	{
+		var expandedElements = SvgSanitizer.DefaultAllowedElements
+			.Append("script")
+			.ToFrozenSet(StringComparer.Ordinal);
+		var expandedAttributes = SvgSanitizer.DefaultAllowedAttributes
+			.Append("onclick")
+			.ToFrozenSet(StringComparer.Ordinal);
+		var svg = """<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script><rect width="10" height="10" onclick="alert(2)"/></svg>""";
+
+		var result = SvgSanitizer.Sanitize(svg, expandedElements, expandedAttributes);
+
+		result.HasViolations.Should().BeTrue();
+		result.Svg.Should().NotContain("<script");
+		result.Svg.Should().NotContain("onclick");
+		result.Svg.Should().NotContain("alert");
+		result.Svg.Should().Contain("<rect");
+	}
+
 	// ========================================================================
-	// Block mode — through StrictModeSanitizer (internal bridge)
+	// Block mode — through the rendered SVG pipeline stage
 	// ========================================================================
 
 	[Test]
@@ -194,9 +217,9 @@ public class SvgSanitizerTests
 	{
 		var svg = """<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>""";
 
-		var act = () => StrictModeSanitizer.Sanitize(svg, SvgSanitizeMode.Block);
+		var act = () => SvgSanitizationStage.Apply(svg, SanitizeMode.Block);
 
-		act.Should().Throw<MermaidParseException>()
+		act.Should().ThrowExactly<MermaidSvgException>()
 			.WithMessage("*disallowed*script*");
 	}
 
@@ -205,9 +228,9 @@ public class SvgSanitizerTests
 	{
 		var svg = """<svg xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="10" height="10" onmouseover="alert(1)"/></svg>""";
 
-		var act = () => StrictModeSanitizer.Sanitize(svg, SvgSanitizeMode.Block);
+		var act = () => SvgSanitizationStage.Apply(svg, SanitizeMode.Block);
 
-		act.Should().Throw<MermaidParseException>()
+		act.Should().ThrowExactly<MermaidSvgException>()
 			.WithMessage("*disallowed*onmouseover*");
 	}
 
@@ -216,9 +239,9 @@ public class SvgSanitizerTests
 	{
 		var svg = """<svg xmlns="http://www.w3.org/2000/svg"><foreignObject width="100" height="100"/></svg>""";
 
-		var act = () => StrictModeSanitizer.Sanitize(svg, SvgSanitizeMode.Block);
+		var act = () => SvgSanitizationStage.Apply(svg, SanitizeMode.Block);
 
-		act.Should().Throw<MermaidParseException>()
+		act.Should().ThrowExactly<MermaidSvgException>()
 			.WithMessage("*disallowed*foreignObject*");
 	}
 
@@ -227,7 +250,7 @@ public class SvgSanitizerTests
 	{
 		var svg = """<svg xmlns="http://www.w3.org/2000/svg"><g><rect x="0" y="0" width="10" height="10" fill="#fff"/><text x="5" y="5">ok</text></g></svg>""";
 
-		var result = StrictModeSanitizer.Sanitize(svg, SvgSanitizeMode.Block);
+		var result = SvgSanitizationStage.Apply(svg, SanitizeMode.Block);
 		result.Should().BeSameAs(svg);
 	}
 
@@ -236,43 +259,88 @@ public class SvgSanitizerTests
 	{
 		var svg = """<svg xmlns="http://www.w3.org/2000/svg"><script>x</script><rect x="0" y="0" width="10" height="10"/></svg>""";
 
-		var result = StrictModeSanitizer.Sanitize(svg, SvgSanitizeMode.Strip);
+		var result = SvgSanitizationStage.Apply(svg, SanitizeMode.Strip);
 		result.Should().NotContain("<script");
 		result.Should().Contain("<rect");
 	}
 
 	// ========================================================================
-	// Integration — through MermaidRenderer with strict mode
+	// Integration — sanitization is non-optional and decoupled from strict mode
 	// ========================================================================
 
 	[Test]
-	public void Strict_mode_sanitizes_by_default()
+	public void SanitizeMode_defaults_to_strip()
 	{
-		var input = "graph TD\n  A --> B";
-		var options = new RenderOptions
-		{
-			Strict = new StrictModeOptions { AllowedClasses = [] }
-		};
+		new RenderOptions().SanitizeMode.Should().Be(SanitizeMode.Strip);
+	}
 
-		var svg = MermaidRenderer.RenderSvg(input, options);
+	[Test]
+	public void FallbackSvg_is_the_canonical_safe_empty_document()
+	{
+		MermaidRenderer.FallbackSvg.Should().Be("<svg xmlns=\"http://www.w3.org/2000/svg\"></svg>");
+		SvgSanitizer.Sanitize(MermaidRenderer.FallbackSvg).HasViolations.Should().BeFalse();
+	}
+
+	[Test]
+	public void Strip_returns_cleaned_svg_when_renderer_output_is_rejected()
+	{
+		var result = SvgSanitizationStage.Apply(
+			"<svg xmlns=\"http://www.w3.org/2000/svg\"><script>attack</script></svg>",
+			SanitizeMode.Strip);
+
+		result.Should().NotBe(MermaidRenderer.FallbackSvg);
+		XDocument.Parse(result).Root!.Elements().Should().BeEmpty();
+	}
+
+	[Test]
+	public void Strip_preserves_safe_siblings_while_removing_a_violation()
+	{
+		var result = SvgSanitizationStage.Apply(
+			"<svg xmlns=\"http://www.w3.org/2000/svg\"><script>attack</script><text>Safe</text></svg>",
+			SanitizeMode.Strip);
+
+		result.Should().NotContain("<script");
+		result.Should().NotContain("attack");
+		result.Should().Contain("Safe");
+	}
+
+	[Test]
+	public void Block_throws_the_dedicated_blocked_exception()
+	{
+		var act = () => SvgSanitizationStage.Apply(
+			"<svg xmlns=\"http://www.w3.org/2000/svg\"><script>primary</script></svg>",
+			SanitizeMode.Block);
+
+		act.Should().ThrowExactly<MermaidSvgException>();
+	}
+
+	[Test]
+	public void Sanitization_runs_on_default_path_with_no_options()
+	{
+		// No RenderOptions and no strict mode — sanitization is non-optional, so the
+		// always-on allowlist pass still runs. Clean rendered output passes through.
+		var svg = MermaidRenderer.RenderSvg("graph TD\n  A --> B");
 		svg.Should().Contain("</svg>");
 	}
 
 	[Test]
-	public void Strict_mode_sanitize_null_skips_sanitization()
+	public void Block_mode_passes_clean_rendered_output()
 	{
-		var input = "graph TD\n  A --> B";
-		var options = new RenderOptions
-		{
-			Strict = new StrictModeOptions
-			{
-				AllowedClasses = [],
-				Sanitize = null
-			}
-		};
+		var options = new RenderOptions { SanitizeMode = SanitizeMode.Block };
+		var act = () => MermaidRenderer.RenderSvg("graph TD\n  A --> B", options);
+		act.Should().NotThrow();
+	}
 
-		var svg = MermaidRenderer.RenderSvg(input, options);
-		svg.Should().Contain("</svg>");
+	[Test]
+	public void Sanitization_is_not_gated_by_strict_mode()
+	{
+		// Strict mode no longer carries a Sanitize toggle; sanitization runs either way.
+		var strict = MermaidRenderer.RenderSvg("graph TD\n  A --> B",
+			new RenderOptions { Strict = new StrictStylingOptions { AllowedClasses = [] } });
+		var plain = MermaidRenderer.RenderSvg("graph TD\n  A --> B");
+
+		strict.Should().Contain("</svg>");
+		plain.Should().Contain("</svg>");
 	}
 
 	// ========================================================================
@@ -353,5 +421,268 @@ public class SvgSanitizerTests
 
 		result.HasViolations.Should().BeTrue();
 		result.Svg.Should().NotContain("xlink:href");
+	}
+
+	// ========================================================================
+	// Root, namespace, CSS, paint, and nested-image value rules
+	// ========================================================================
+
+	[Test]
+	public void Rejects_non_svg_root_without_throwing()
+	{
+		var result = SvgSanitizer.Sanitize("<html><svg/></html>");
+
+		result.HasViolations.Should().BeTrue();
+		result.Svg.Should().Be("<svg xmlns=\"http://www.w3.org/2000/svg\"></svg>");
+		result.Violations.Should().Contain(v => v.Kind == "element" && v.Name == "html");
+	}
+
+	[Test]
+	public void Rejects_prefixed_svg_root_that_would_not_enter_svg_mode_in_html()
+	{
+		var result = SvgSanitizer.Sanitize("""<s:svg xmlns:s="http://www.w3.org/2000/svg"><s:rect/></s:svg>""");
+
+		result.HasViolations.Should().BeTrue();
+		result.Svg.Should().Be("<svg xmlns=\"http://www.w3.org/2000/svg\"></svg>");
+	}
+
+	[Test]
+	public void Strips_allowlisted_local_name_from_a_foreign_namespace()
+	{
+		var result = SvgSanitizer.Sanitize("""<svg xmlns="http://www.w3.org/2000/svg" xmlns:e="https://attacker.invalid/ns"><e:rect width="10" height="10"/><circle cx="5" cy="5" r="5"/></svg>""");
+
+		result.HasViolations.Should().BeTrue();
+		result.Svg.Should().NotContain("e:rect");
+		result.Svg.Should().Contain("<circle");
+	}
+
+	[Test]
+	public void Strips_unapproved_namespace_declarations_and_namespaced_data_attributes()
+	{
+		var result = SvgSanitizer.Sanitize("""<svg xmlns="http://www.w3.org/2000/svg" xmlns:e="https://attacker.invalid/ns"><rect e:data-value="x" width="10" height="10"/></svg>""");
+
+		result.HasViolations.Should().BeTrue();
+		result.Svg.Should().NotContain("attacker.invalid");
+		result.Svg.Should().NotContain("data-value");
+	}
+
+	[Test]
+	public void Allows_exact_xlink_namespace_for_a_validated_image_data_uri()
+	{
+		var result = SvgSanitizer.Sanitize("""<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><image xlink:href="data:image/svg+xml;base64,PHN2ZyAvPg=="/></svg>""");
+
+		result.HasViolations.Should().BeFalse();
+		result.Svg.Should().Contain("xlink:href");
+	}
+
+	[Test]
+	public void Strips_external_paint_server_urls()
+	{
+		var result = SvgSanitizer.Sanitize("""<svg xmlns="http://www.w3.org/2000/svg"><rect fill="url(https://attacker.invalid/paint.svg#x)" stroke="url(data:image/svg+xml;base64,AAAA)"/></svg>""");
+
+		result.HasViolations.Should().BeTrue();
+		result.Svg.Should().NotContain("attacker.invalid");
+		result.Svg.Should().NotContain("data:image");
+	}
+
+	[Test]
+	public void Allows_only_same_document_fragment_paint_urls()
+	{
+		var svg = """<svg xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="safe-gradient"><stop offset="0" stop-color="#fff"/></linearGradient></defs><rect fill="url(#safe-gradient)"/></svg>""";
+		var result = SvgSanitizer.Sanitize(svg);
+
+		result.HasViolations.Should().BeFalse();
+		result.Svg.Should().BeSameAs(svg);
+	}
+
+	[Test]
+	public void Strips_external_marker_reference()
+	{
+		var result = SvgSanitizer.Sanitize("""<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0L1 1" marker-end="url(https://attacker.invalid/m.svg#x)"/></svg>""");
+
+		result.HasViolations.Should().BeTrue();
+		result.Svg.Should().NotContain("marker-end");
+	}
+
+	[Test]
+	public void Allows_same_document_marker_reference()
+	{
+		var svg = """<svg xmlns="http://www.w3.org/2000/svg"><defs><marker id="arrow"><path d="M0 0L1 1"/></marker></defs><path d="M0 0L1 1" marker-end="url(#arrow)"/></svg>""";
+		var result = SvgSanitizer.Sanitize(svg);
+
+		result.HasViolations.Should().BeFalse();
+	}
+
+	[Test]
+	public void Strips_style_attribute_even_if_a_custom_name_allowlist_includes_it()
+	{
+		var attributes = SvgSanitizer.DefaultAllowedAttributes
+			.Append("style")
+			.ToFrozenSet(StringComparer.Ordinal);
+		var result = SvgSanitizer.Sanitize(
+			"""<svg xmlns="http://www.w3.org/2000/svg"><rect style="fill:red"/></svg>""",
+			SvgSanitizer.DefaultAllowedElements,
+			attributes);
+
+		result.HasViolations.Should().BeTrue();
+		result.Svg.Should().NotContain("style=");
+	}
+
+	[Test]
+	public void Strips_style_element_even_if_a_custom_name_allowlist_includes_it()
+	{
+		var elements = SvgSanitizer.DefaultAllowedElements
+			.Append("style")
+			.ToFrozenSet(StringComparer.Ordinal);
+		var result = SvgSanitizer.Sanitize(
+			"""<svg xmlns="http://www.w3.org/2000/svg"><style>body { display: none; }</style></svg>""",
+			elements,
+			SvgSanitizer.DefaultAllowedAttributes);
+
+		result.HasViolations.Should().BeTrue();
+		result.Svg.Should().NotContain("<style");
+	}
+
+	[Test]
+	public void Strips_processing_instructions_and_xml_declaration()
+	{
+		var result = SvgSanitizer.Sanitize("""<?xml version="1.0"?><?xml-stylesheet href="https://attacker.invalid/x.css"?><svg xmlns="http://www.w3.org/2000/svg"><rect/></svg>""");
+
+		result.HasViolations.Should().BeTrue();
+		result.Svg.Should().NotContain("<?xml");
+		result.Svg.Should().NotContain("attacker.invalid");
+	}
+
+	[Test]
+	public void Strip_returns_empty_svg_for_document_type_declarations()
+	{
+		var result = SvgSanitizer.Sanitize("""<!DOCTYPE svg [<!ENTITY x "payload">]><svg xmlns="http://www.w3.org/2000/svg"><text>&x;</text></svg>""");
+
+		result.HasViolations.Should().BeTrue();
+		result.Svg.Should().Be("<svg xmlns=\"http://www.w3.org/2000/svg\"></svg>");
+		result.Violations.Should().ContainSingle(v => v.Kind == "document" && v.Name == "malformed-xml");
+	}
+
+	[Test]
+	public void Strip_returns_empty_svg_for_malformed_xml()
+	{
+		var result = SvgSanitizer.Sanitize("<svg><g></svg>", SanitizeMode.Strip);
+
+		result.HasViolations.Should().BeTrue();
+		result.Svg.Should().Be("<svg xmlns=\"http://www.w3.org/2000/svg\"></svg>");
+		result.Violations.Should().ContainSingle(v => v.Kind == "document" && v.Name == "malformed-xml");
+	}
+
+	[Test]
+	public void Block_overload_throws_for_malformed_xml()
+	{
+		var act = () => SvgSanitizer.Sanitize("<svg><g></svg>", SanitizeMode.Block);
+
+		act.Should().ThrowExactly<MermaidSvgException>()
+			.WithMessage("*not well-formed SVG/XML*");
+	}
+
+	[Test]
+	public void Block_overload_throws_for_well_formed_policy_violation()
+	{
+		var act = () => SvgSanitizer.Sanitize(
+			"<svg xmlns=\"http://www.w3.org/2000/svg\"><script>attack</script></svg>",
+			SanitizeMode.Block);
+
+		act.Should().ThrowExactly<MermaidSvgException>()
+			.WithMessage("*disallowed*script*");
+	}
+
+	[Test]
+	public void Mode_overload_rejects_unknown_enum_values()
+	{
+		var act = () => SvgSanitizer.Sanitize(
+			"<svg xmlns=\"http://www.w3.org/2000/svg\"/>",
+			(SanitizeMode)int.MaxValue);
+
+		act.Should().ThrowExactly<ArgumentOutOfRangeException>();
+	}
+
+	[Test]
+	public void MermaidSvgException_keeps_an_immutable_snapshot_of_all_violations()
+	{
+		var source = new List<SvgViolation>
+		{
+			new("element", "script"),
+			new("attribute", "onclick", "rect"),
+		};
+		var exception = new MermaidSvgException(source);
+
+		source.Clear();
+
+		exception.Violations.Should().HaveCount(2);
+		exception.Violations.Should().Contain(new SvgViolation("element", "script"));
+		var collection = (IList<SvgViolation>)exception.Violations;
+		var act = () => collection[0] = new SvgViolation("element", "changed");
+		act.Should().ThrowExactly<NotSupportedException>();
+	}
+
+	[Test]
+	public void Strips_nested_elements_from_title_and_description()
+	{
+		var result = SvgSanitizer.Sanitize("""<svg xmlns="http://www.w3.org/2000/svg"><title>safe<text>nested</text></title><desc><image href="data:image/svg+xml;base64,PHN2ZyAvPg=="/></desc></svg>""");
+
+		result.HasViolations.Should().BeTrue();
+		result.Svg.Should().NotContain("<text");
+		result.Svg.Should().NotContain("<image");
+	}
+
+	[Test]
+	public void Metadata_elements_retain_text_nodes_only()
+	{
+		var result = SvgSanitizer.Sanitize("""<svg xmlns="http://www.w3.org/2000/svg"><title>safe<!-- hidden --><![CDATA[ text]]></title><desc>description<!-- hidden --></desc></svg>""");
+
+		result.HasViolations.Should().BeTrue();
+		result.Svg.Should().NotContain("<!--");
+		var doc = XDocument.Parse(result.Svg);
+		doc.Descendants().Where(element => element.Name.LocalName is "title" or "desc")
+			.SelectMany(element => element.Nodes())
+			.Should().OnlyContain(node => node is XText);
+	}
+
+	[Test]
+	public void Strips_svg_image_data_uri_when_nested_svg_contains_active_content()
+	{
+		var nested = """<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>""";
+		var data = Convert.ToBase64String(Encoding.UTF8.GetBytes(nested));
+		var result = SvgSanitizer.Sanitize($"<svg xmlns=\"http://www.w3.org/2000/svg\"><image href=\"data:image/svg+xml;base64,{data}\"/></svg>");
+
+		result.HasViolations.Should().BeTrue();
+		result.Svg.Should().NotContain("href=");
+	}
+
+	[Test]
+	public void Strips_svg_image_data_uri_when_nested_svg_contains_css()
+	{
+		var nested = """<svg xmlns="http://www.w3.org/2000/svg"><style>body{display:none}</style><rect/></svg>""";
+		var data = Convert.ToBase64String(Encoding.UTF8.GetBytes(nested));
+		var result = SvgSanitizer.Sanitize($"<svg xmlns=\"http://www.w3.org/2000/svg\"><image href=\"data:image/svg+xml;base64,{data}\"/></svg>");
+
+		result.HasViolations.Should().BeTrue();
+		result.Svg.Should().NotContain("href=");
+	}
+
+	[Test]
+	public void Strips_png_data_uri_without_png_signature()
+	{
+		var fakePng = Convert.ToBase64String(Encoding.UTF8.GetBytes("<script>alert(1)</script>"));
+		var result = SvgSanitizer.Sanitize($"<svg xmlns=\"http://www.w3.org/2000/svg\"><image href=\"data:image/png;base64,{fakePng}\"/></svg>");
+
+		result.HasViolations.Should().BeTrue();
+		result.Svg.Should().NotContain("href=");
+	}
+
+	[Test]
+	public void Renderer_generated_stylesheet_survives_internal_output_sanitization()
+	{
+		var svg = MermaidRenderer.RenderSvg("graph TD\nA --> B");
+
+		svg.Should().Contain("<style>");
+		svg.Should().Contain("style=\"--bg:");
 	}
 }

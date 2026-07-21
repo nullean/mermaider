@@ -20,10 +20,9 @@ internal static class RequirementSvgRenderer
 	private const double MaxBoxW = 280;
 
 	internal static string Render(
-		RequirementDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false,
-		StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+		RequirementDiagram diagram, SvgRenderContext context)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, context);
 		try
 		{
 			return sb.ToString();
@@ -36,16 +35,15 @@ internal static class RequirementSvgRenderer
 	}
 
 	internal static StringBuilder RenderToBuilder(
-		RequirementDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false,
-		StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+		RequirementDiagram diagram, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
 		var boxes = BuildBoxes(diagram);
 		if (boxes.Count == 0)
 		{
-			StyleBlock.AppendSvgOpenTag(sb, 200, 100, colors, transparent, accessibility, diagramType);
-			StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+			StyleBlock.AppendSvgOpenTag(sb, 200, 100, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+			StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 			_ = sb.Append("\n</svg>");
 			return sb;
 		}
@@ -76,8 +74,8 @@ internal static class RequirementSvgRenderer
 			}
 		}
 
-		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 		AppendMarkerDefs(sb);
 
 		if (hasTitle)
