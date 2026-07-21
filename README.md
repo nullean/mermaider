@@ -45,15 +45,27 @@
 
 ## Why Mermaider?
 
-Most .NET packages for Mermaid fall into one of two camps: **DSL-only** libraries that help you _build_
-Mermaid markup but can't render it, or **browser wrappers** that shell out to Chrome, Puppeteer, or a
-Node.js process to produce SVGs. Both have trade-offs:
+Mermaider is a **complete Mermaid parser, layout engine, and SVG renderer** built entirely in .NET.
+Hand it a Mermaid string; get a sanitized, consistently styled SVG back. No interop, no child processes, no headless browsers.
 
-- **DSL-only**: gives you a string you still can't display
-- **Browser wrapper**: drags in a JavaScript runtime with latency, memory overhead, and deployment complexity
+It covers all 24 major Mermaid diagram types, always-on allowlist SVG sanitization with no opt-out,
+and a unified design-token model so every diagram type renders from the same `RenderOptions` — one API,
+one theming model, consistent output regardless of diagram type.
 
-Mermaider is neither. It is a **complete parser, lightweight layout engine _and_ renderer** implemented entirely in .NET. Hand it a
-Mermaid string, get an SVG back. No interop, no child processes, no headless browsers.
+### What makes it stand out
+
+- **Pure .NET, zero interop:** a NuGet reference is all you need. No Chromium, no Node.js, no subprocess management.
+- **Native AOT:** every public API is AOT-compatible. CI publishes and invokes a native binary on Linux, macOS, and Windows on every commit.
+- **Built-in layout engine:** a purpose-built Sugiyama engine with zero external dependencies: 73x faster and 35x less memory than MSAGL for the same flowchart (3.4 µs / 16 KB vs 247 µs / 558 KB, layout only).
+- **24 diagram types:** flowchart, sequence, class, ER, state, pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, gantt, journey, C4, sankey, xychart, requirement, packet, kanban, architecture, block, treeview.
+- **Unified theming:** 15 built-in themes. Colors are emitted as CSS custom properties, so themes switch live on the `<svg>` element without re-rendering.
+- **Always-on SVG sanitization:** every rendered SVG passes through an element/attribute allowlist before leaving the library. `<script>`, `<foreignObject>`, event handlers, and external `href`s are absent from the allowlist, not pattern-matched. No opt-out.
+- **Strict styling mode:** reject `classDef`, `style`, and `linkStyle` at parse time; enforce your design system's class allowlist. Built for products that embed user-authored diagrams.
+- **Fast:** ~23 µs / ~46 KB for a simple flowchart on .NET 10 (Apple M2 Pro).
+
+Most .NET Mermaid packages are either DSL helpers that produce markup strings you still can't display,
+or browser wrappers that shell out to Puppeteer or a Node.js process. Mermaider is the rendering layer
+both approaches are missing.
 
 ### Pure .NET parsing and rendering
 
