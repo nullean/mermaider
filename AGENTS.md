@@ -37,6 +37,34 @@ Adding a type: see `docs/agent-add-diagram-type.md` (playbook for parallel agent
 See `DESIGN.md` for the enforced uniformity rules: token derivation, font scale, geometry
 constants, drop-shadow classes, and the "adding a diagram" checklist.
 
+## Security
+
+### Injection / XSS (already hardened)
+- `SvgSanitizer` applies an allowlist-only pass before every output; `DtdProcessing.Prohibit` + `XmlResolver = null` blocks XXE and billion-laughs
+- `[GeneratedRegex]` with `matchTimeoutMilliseconds: 2000` on every regex pattern (ReDoS)
+
+### Resource-exhaustion / DoS (added in `feature/validations`)
+Mermaider accepts untrusted input. `ResourceLimits` (on by default; opt-out via `ResourceLimits.Unlimited`) enforces:
+
+| Limit | Default | Guarded at |
+|---|---|---|
+| `MaxInputLength` | 512 KB | Before any split/regex |
+| `MaxLines` | 10 000 | After preprocessing |
+| `MaxLineLength` | 8 000 chars | After preprocessing |
+| `MaxElements` | 5 000 | Per-type boundary in render pipeline |
+| `MaxNodesAfterLayout` | 20 000 | After Sugiyama virtual-node insertion |
+| `MaxRecursionDepth` | 64 | Mindmap / TreeView / Treemap recursive layout |
+| `MaxOutputLength` | 8 MB | SVG StringBuilder before return |
+| `RenderDeadline` | 5 s | Cooperative — checked at inner loop boundaries |
+
+Violations throw `MermaidResourceLimitException : MermaidParseException` (existing catch blocks keep working).
+
+**Cooperative deadline caveat**: `RenderDeadline` is checked at phase transitions and in the Sugiyama crossing-minimizer sweep, not after arbitrary native calls (e.g. MSAGL layout). It bounds the observed hotspots but is not a hard OS-level timer.
+
+**Sugiyama layout O(V+E)**: The built-in Sugiyama engine was rewritten to use a CSR adjacency index in `GraphBuffer`; all three O(N³) hotspots in `CrossingMinimizer`, `LayerAssigner`, and `CycleRemover` are now O(V+E). The output is byte-identical for all golden snapshots.
+
+Hosts may raise limits selectively or set `Limits = ResourceLimits.Unlimited` for fully trusted callers.
+
 ## Public API
 
 - Library: `MermaidRenderer.RenderSvg(text, options?)` and `MermaidRenderer.Parse(text)`

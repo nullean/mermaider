@@ -4,15 +4,17 @@ namespace Sugiyama.Internal;
 /// Phase 2: Assign each node to a discrete integer layer using longest-path layering
 /// (Kahn's algorithm for topological order). Then insert virtual nodes for edges
 /// that span more than one layer.
-/// Complexity: O(V + E)
+/// Complexity: O(V + E) via CSR adjacency
 /// </summary>
 internal static class LayerAssigner
 {
 	internal static void Run(GraphBuffer graph)
 	{
+		graph.RebuildAdjacency();
 		AssignLayers(graph);
 		EnforceSameRankConstraints(graph);
 		InsertVirtualNodes(graph);
+		graph.RebuildAdjacency();
 		BuildLayerArrays(graph);
 	}
 
@@ -21,8 +23,9 @@ internal static class LayerAssigner
 		var n = graph.NodeCount;
 		var inDegree = graph.RentInt(n);
 
-		foreach (var e in graph.Edges)
-			inDegree[e.To]++;
+		// Use CSR in-adjacency for fast in-degree
+		for (var i = 0; i < n; i++)
+			inDegree[i] = graph.InAdjStart[i + 1] - graph.InAdjStart[i];
 
 		var queue = new Queue<int>(n);
 		for (var i = 0; i < n; i++)
@@ -38,19 +41,16 @@ internal static class LayerAssigner
 		while (queue.Count > 0)
 		{
 			var node = queue.Dequeue();
-			foreach (var e in graph.Edges)
+			// Use CSR out-adjacency instead of scanning all edges
+			for (var j = graph.OutAdjStart[node]; j < graph.OutAdjStart[node + 1]; j++)
 			{
-				if (e.From != node)
-					continue;
-				var target = e.To;
+				var target = graph.OutAdjNeighbor[j];
 				var newLayer = graph.Layers[node] + 1;
 				if (newLayer > graph.Layers[target])
 					graph.Layers[target] = newLayer;
-
 				inDegree[target]--;
 				if (inDegree[target] == 0)
 					queue.Enqueue(target);
-
 				if (newLayer > maxLayer)
 					maxLayer = newLayer;
 			}

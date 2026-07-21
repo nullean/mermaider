@@ -12,7 +12,8 @@ namespace Mermaider.Layout;
 /// </summary>
 internal static class LightweightLayoutEngine
 {
-	internal static PositionedGraph Layout(MermaidGraph graph, RenderOptions? options = null, StrictStylingOptions? strict = null)
+	internal static PositionedGraph Layout(MermaidGraph graph, RenderOptions? options = null, StrictStylingOptions? strict = null,
+		int maxNodesAfterLayout = int.MaxValue, CancellationToken ct = default)
 	{
 		var padding = options?.Padding ?? LayoutDefaults.Padding;
 		var nodeSpacing = options?.NodeSpacing ?? LayoutDefaults.NodeSpacing;
@@ -82,9 +83,20 @@ internal static class LightweightLayoutEngine
 			Padding = padding,
 			NodeSpacing = nodeSpacing,
 			LayerSpacing = effectiveLayerSpacing,
+			CancellationToken = ct,
+			MaxNodeCount = maxNodesAfterLayout,
 		};
 
-		var result = SugiyamaLayout.Compute(layoutGraph, layoutOptions);
+		LayoutResult result;
+		try
+		{
+			result = SugiyamaLayout.Compute(layoutGraph, layoutOptions);
+		}
+		catch (InvalidOperationException ex) when (ex.Message.Contains("MaxNodesAfterLayout") || ex.Message.Contains("node count"))
+		{
+			throw new MermaidResourceLimitException(
+				nameof(ResourceLimits.MaxNodesAfterLayout), 0, maxNodesAfterLayout, ex);
+		}
 		CompactStartEndNodes(result, graph);
 		var positioned = MapResult(result, graph, strict, layoutEdgeToOriginal);
 

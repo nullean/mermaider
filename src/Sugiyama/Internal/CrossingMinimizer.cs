@@ -1,14 +1,16 @@
+using System.Threading;
+
 namespace Sugiyama.Internal;
 
 /// <summary>
 /// Phase 3: Minimize edge crossings using the barycenter heuristic.
 /// Sweeps top-down then bottom-up for a configurable number of iterations.
 /// All sorting is in-place on flat arrays — no LINQ, no allocations per sweep.
-/// Complexity: O(iterations × E) per sweep
+/// Complexity: O(iterations × E) — O(E) per sweep via CSR adjacency
 /// </summary>
 internal static class CrossingMinimizer
 {
-	internal static void Run(GraphBuffer graph, int iterations = 4)
+	internal static void Run(GraphBuffer graph, int iterations = 4, CancellationToken ct = default)
 	{
 		if (graph.LayerCount <= 1)
 			return;
@@ -17,9 +19,11 @@ internal static class CrossingMinimizer
 
 		for (var iter = 0; iter < iterations; iter++)
 		{
+			ct.ThrowIfCancellationRequested();
 			for (var layer = 1; layer < graph.LayerCount; layer++)
 				SweepLayer(graph, layer, barycenters, useInEdges: true);
 
+			ct.ThrowIfCancellationRequested();
 			for (var layer = graph.LayerCount - 2; layer >= 0; layer--)
 				SweepLayer(graph, layer, barycenters, useInEdges: false);
 		}
@@ -63,25 +67,25 @@ internal static class CrossingMinimizer
 
 			if (useInEdges)
 			{
-				foreach (var e in graph.Edges)
+				// Iterate only in-neighbors of this node (O(in-degree) not O(E))
+				for (var j = graph.InAdjStart[node]; j < graph.InAdjStart[node + 1]; j++)
 				{
-					if (e.To != node)
+					var from = graph.InAdjNeighbor[j];
+					if (graph.Layers[from] != layer - 1)
 						continue;
-					if (graph.Layers[e.From] != layer - 1)
-						continue;
-					sum += graph.NodePositionInLayer[e.From];
+					sum += graph.NodePositionInLayer[from];
 					count++;
 				}
 			}
 			else
 			{
-				foreach (var e in graph.Edges)
+				// Iterate only out-neighbors
+				for (var j = graph.OutAdjStart[node]; j < graph.OutAdjStart[node + 1]; j++)
 				{
-					if (e.From != node)
+					var to = graph.OutAdjNeighbor[j];
+					if (graph.Layers[to] != layer + 1)
 						continue;
-					if (graph.Layers[e.To] != layer + 1)
-						continue;
-					sum += graph.NodePositionInLayer[e.To];
+					sum += graph.NodePositionInLayer[to];
 					count++;
 				}
 			}
