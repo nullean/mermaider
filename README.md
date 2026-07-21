@@ -102,10 +102,16 @@ the allowlist&mdash;not blocked by a regex that someone could work around. The s
 generated cases (mutation + structured element/attribute/value cross-product) with a safety oracle
 that verifies each output independently and confirms that a second sanitizer pass is an exact no-op.
 
-**Visual consistency**: the [Strict Styling](#strict-styling) mode lets you enforce a host-controlled
-design system. Source-authored `classDef`, `style`, `linkStyle`, and theme overrides are rejected at
-parse time, and diagrams are constrained to a class allowlist you define. This guarantees that
-user-authored diagrams look like they belong in your product rather than importing arbitrary colors.
+**Visual consistency**: every diagram type&mdash;flowchart, sequence, ER, state, architecture,
+gantt, pie, and all the rest&mdash;renders from the same [`RenderOptions`](#render-options). One set
+of values for `Bg`, `Fg`, `Accent`, `Muted`, `Font`, `MonoFont`, `FontSize`, and stroke weights
+applies uniformly across all 24 diagram types. There is no per-type color system to override or
+per-type font stack to paper over; the design token model is the only model.
+
+[Strict Styling](#strict-styling) goes further for user-authored content: `classDef`, `style`,
+`linkStyle`, and theme overrides are rejected at parse time, and nodes are constrained to a
+class allowlist you define. This guarantees that diagrams imported from users look like they
+belong in your product rather than leaking arbitrary author colors.
 
 Both features are independent: sanitization is always on; strict styling is opt-in. Together they
 make Mermaider suitable for multi-tenant and security-sensitive embedding.
