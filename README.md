@@ -93,28 +93,29 @@ on Linux, macOS, and Windows to prove it. No reflection, no runtime code generat
 When you embed user-authored Mermaid diagrams in a product, security and visual consistency are not
 afterthoughts—they are core requirements that shaped Mermaider's design from the start.
 
-**Safety**: every rendered SVG is run through an element/attribute allowlist before it leaves the
-library. There is no way to opt out. This is defense-in-depth on top of per-renderer output escaping:
-`<script>`, `<foreignObject>`, event handlers, and external `href` URIs are structurally absent from
-the allowlist&mdash;not blocked by a regex that someone could work around. The sanitizer is covered by
+#### Safety
+
+Every rendered SVG is run through an element/attribute allowlist before it leaves the library. There
+is no way to opt out. This is defense-in-depth on top of per-renderer output escaping: `<script>`,
+`<foreignObject>`, event handlers, and external `href` URIs are structurally absent from the
+allowlist&mdash;not blocked by a regex that someone could work around. The sanitizer is covered by
 [unit tests](tests/Mermaider.Tests/Rendering/SvgSanitizerTests.cs) and a
 [deterministic fuzzer](tests/Mermaider.Tests/Rendering/SvgSanitizerFuzzTests.cs) that runs 4,000
 generated cases (mutation + structured element/attribute/value cross-product) with a safety oracle
 that verifies each output independently and confirms that a second sanitizer pass is an exact no-op.
 
-**Visual consistency**: every diagram type&mdash;flowchart, sequence, ER, state, architecture,
-gantt, pie, and all the rest&mdash;renders from the same [`RenderOptions`](#render-options). One set
-of values for `Bg`, `Fg`, `Accent`, `Muted`, `Font`, `MonoFont`, `FontSize`, and stroke weights
-applies uniformly across all 24 diagram types. There is no per-type color system to override or
-per-type font stack to paper over; the design token model is the only model.
+#### Visual consistency
+
+Every diagram type&mdash;flowchart, sequence, ER, state, architecture, gantt, pie, and all the
+rest&mdash;renders from the same [`RenderOptions`](#render-options). One set of values for `Bg`,
+`Fg`, `Accent`, `Muted`, `Font`, `MonoFont`, `FontSize`, and stroke weights applies uniformly across
+all 24 diagram types. There is no per-type color system to override or per-type font stack to paper
+over; the design token model is the only model.
 
 [Strict Styling](#strict-styling) goes further for user-authored content: `classDef`, `style`,
-`linkStyle`, and theme overrides are rejected at parse time, and nodes are constrained to a
-class allowlist you define. This guarantees that diagrams imported from users look like they
-belong in your product rather than leaking arbitrary author colors.
-
-Both features are independent: sanitization is always on; strict styling is opt-in. Together they
-make Mermaider suitable for multi-tenant and security-sensitive embedding.
+`linkStyle`, and theme overrides are rejected at parse time, and nodes are constrained to a class
+allowlist you define. This guarantees that diagrams imported from users look like they belong in your
+product rather than leaking arbitrary author colors.
 
 ## Quick Start
 
