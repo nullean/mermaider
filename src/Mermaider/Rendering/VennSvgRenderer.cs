@@ -15,9 +15,9 @@ internal static class VennSvgRenderer
 	private const double FillOpacity = 0.35;
 
 
-	internal static string Render(VennDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(VennDiagram diagram, SvgRenderContext context)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, context);
 		try
 		{
 			return sb.ToString();
@@ -29,7 +29,7 @@ internal static class VennSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(VennDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(VennDiagram diagram, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
@@ -37,8 +37,8 @@ internal static class VennSvgRenderer
 		var width = CenterX * 2;
 		var height = CenterY * 2;
 
-		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		if (n == 0)
@@ -55,7 +55,7 @@ internal static class VennSvgRenderer
 			var set = diagram.Sets[i];
 			var (px, py) = positions[i];
 			setPositions[set.Id] = (px, py);
-			var color = colors.PaletteAt(i);
+			var color = context.Styles.Colors.PaletteAt(i);
 			var r = BaseRadius;
 
 			_ = sb.Append("\n<circle cx=\"").Append(px.SvgFormat()).Append("\" cy=\"").Append(py.SvgFormat())

@@ -40,10 +40,13 @@ public sealed record DiagramClass
 /// </summary>
 public enum SanitizeMode
 {
-	/// <summary>Silently remove disallowed elements and attributes from the output.</summary>
+	/// <summary>
+	/// Remove disallowed content from well-formed SVG and return the cleaned document.
+	/// Malformed XML returns <see cref="MermaidRenderer.FallbackSvg"/>.
+	/// </summary>
 	Strip,
 
-	/// <summary>Throw <see cref="MermaidParseException"/> on the first disallowed element or attribute.</summary>
+	/// <summary>Throw <see cref="MermaidSvgException"/> when any SVG violation is found.</summary>
 	Block
 }
 

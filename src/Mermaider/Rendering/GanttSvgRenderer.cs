@@ -34,9 +34,9 @@ internal static class GanttSvgRenderer
 	private static readonly string ColorCritDone = CategoricalPalette.Purple;
 	private static readonly string ColorMilestone = CategoricalPalette.Yellow;
 
-	internal static string Render(GanttDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(GanttDiagram diagram, SvgRenderContext context)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, context);
 		try
 		{
 			return sb.ToString();
@@ -48,7 +48,7 @@ internal static class GanttSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(GanttDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(GanttDiagram diagram, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
@@ -73,8 +73,8 @@ internal static class GanttSvgRenderer
 		if (taskCount == 0 || min == DateTime.MaxValue)
 		{
 			var emptyH = titleOffset + TopPad + BottomPad + 40;
-			StyleBlock.AppendSvgOpenTag(sb, 400, emptyH, colors, transparent, accessibility, diagramType);
-			StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+			StyleBlock.AppendSvgOpenTag(sb, 400, emptyH, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+			StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 			if (hasTitle)
 				AppendTitle(sb, diagram.Title!, 200);
 			_ = sb.Append("\n</svg>");
@@ -101,8 +101,8 @@ internal static class GanttSvgRenderer
 		var chartLeft = LeftPad + LabelWidth;
 		var chartTop = TopPad + titleOffset;
 
-		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		if (hasTitle)

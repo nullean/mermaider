@@ -35,7 +35,7 @@ public sealed record RenderOptions
 	/// </summary>
 	public string? MonoFont { get; init; }
 
-	/// <summary>Base font size (--fs-m). Accepts any CSS unit: "1rem", "16px", "1em". Default: "1rem".</summary>
+	/// <summary>Base font size (--fs-m). Allows px, rem, em, or percent values. Default: "1rem".</summary>
 	public string? FontSize { get; init; }
 
 	/// <summary>Ratio for small text (--fs-s). Default: 0.875.</summary>
@@ -94,7 +94,9 @@ public sealed record RenderOptions
 	/// How the always-on SVG sanitizer reacts to disallowed content in the rendered
 	/// output. Sanitization is non-optional — every rendered SVG is validated against
 	/// the element/attribute allowlist regardless of this value; this only selects
-	/// whether a violation is silently stripped or thrown. Default: <see cref="Models.SanitizeMode.Strip"/>.
+	/// whether a violation is stripped or throws <see cref="MermaidSvgException"/>.
+	/// Malformed XML in strip mode returns <see cref="MermaidRenderer.FallbackSvg"/>.
+	/// Default: <see cref="Models.SanitizeMode.Strip"/>.
 	/// </summary>
 	public SanitizeMode SanitizeMode { get; init; } = SanitizeMode.Strip;
 }

@@ -200,7 +200,7 @@ public class IconRegistryTests
 			"test:malicious-icon",
 			"""<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script><rect x="0" y="0" width="10" height="10"/></svg>""");
 
-		act.Should().Throw<MermaidParseException>();
+		act.Should().ThrowExactly<MermaidSvgException>();
 		IconRegistry.TryGet("test:malicious-icon", out _).Should().BeFalse();
 	}
 
@@ -211,7 +211,7 @@ public class IconRegistryTests
 			"test:malicious-onclick-icon",
 			"""<svg xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="10" height="10" onclick="alert(1)"/></svg>""");
 
-		act.Should().Throw<MermaidParseException>();
+		act.Should().ThrowExactly<MermaidSvgException>();
 		IconRegistry.TryGet("test:malicious-onclick-icon", out _).Should().BeFalse();
 	}
 
@@ -222,7 +222,7 @@ public class IconRegistryTests
 			"test:malicious-href-icon",
 			"""<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><image xlink:href="http://evil.example/x.png" width="10" height="10"/></svg>""");
 
-		act.Should().Throw<MermaidParseException>();
+		act.Should().ThrowExactly<MermaidSvgException>();
 		IconRegistry.TryGet("test:malicious-href-icon", out _).Should().BeFalse();
 	}
 
@@ -233,7 +233,7 @@ public class IconRegistryTests
 			"test:image-with-children",
 			"""<svg xmlns="http://www.w3.org/2000/svg"><image href="data:image/svg+xml;base64,PHN2ZyAvPg=="><rect x="0" y="0" width="4" height="4"/></image></svg>""");
 
-		act.Should().Throw<MermaidParseException>();
+		act.Should().ThrowExactly<MermaidSvgException>();
 		IconRegistry.TryGet("test:image-with-children", out _).Should().BeFalse();
 	}
 
@@ -242,7 +242,7 @@ public class IconRegistryTests
 	{
 		var act = () => IconRegistry.Register("test:not-svg", "<div>not an svg</div>");
 
-		act.Should().Throw<MermaidParseException>();
+		act.Should().ThrowExactly<MermaidSvgException>();
 	}
 
 	[Test]
@@ -250,6 +250,6 @@ public class IconRegistryTests
 	{
 		var act = () => IconRegistry.Register("test:malformed", "<svg><rect></svg>");
 
-		act.Should().Throw<MermaidParseException>();
+		act.Should().ThrowExactly<MermaidSvgException>();
 	}
 }

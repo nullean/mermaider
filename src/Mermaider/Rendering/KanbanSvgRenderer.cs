@@ -40,9 +40,9 @@ internal static class KanbanSvgRenderer
 	private static readonly string PriorityLow = CategoricalPalette.Green;
 	private const string PriorityVeryLow = "var(--_text-muted)";
 
-	internal static string Render(KanbanDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(KanbanDiagram diagram, SvgRenderContext context)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, context);
 		try
 		{
 			return sb.ToString();
@@ -54,7 +54,7 @@ internal static class KanbanSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(KanbanDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(KanbanDiagram diagram, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
@@ -63,8 +63,8 @@ internal static class KanbanSvgRenderer
 
 		if (diagram.Columns.Count == 0)
 		{
-			StyleBlock.AppendSvgOpenTag(sb, 200, 100 + titleOffset, colors, transparent, accessibility, diagramType);
-			StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+			StyleBlock.AppendSvgOpenTag(sb, 200, 100 + titleOffset, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+			StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 			if (hasTitle)
 				AppendBoardTitle(sb, diagram.Title!, 100, 28);
 			_ = sb.Append("\n</svg>");
@@ -114,8 +114,8 @@ internal static class KanbanSvgRenderer
 
 		var height = titleOffset + Pad + maxColumnHeight + Pad;
 
-		StyleBlock.AppendSvgOpenTag(sb, totalWidth, height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+		StyleBlock.AppendSvgOpenTag(sb, totalWidth, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		if (hasTitle)

@@ -143,6 +143,11 @@ public class PhaseBenchmarks
 	private static readonly MermaidGraph ParsedGraph = FlowchartParser.Parse(Lines);
 	private static readonly PositionedGraph MsaglLayoutResult = MsaglProvider.LayoutFlowchart(ParsedGraph);
 	private static readonly DiagramColors Colors = new() { Bg = "#FFFFFF", Fg = "#27272A" };
+	private static readonly SvgRenderContext RenderContext = new(
+		new NormalizedRenderStyles(Colors, "Inter", null, FontScale.Default, false, null),
+		new AccessibilityInfo(),
+		DiagramType.Flowchart,
+		6);
 
 	private const string SimpleFlowchart = """
 		graph TD
@@ -177,7 +182,7 @@ public class PhaseBenchmarks
 	public ML.LayoutResult Layout_Lightweight() => ML.SugiyamaLayout.Compute(LightweightInput);
 
 	[Benchmark]
-	public string Render() => SvgRenderer.Render(MsaglLayoutResult, Colors, "Inter", null, false);
+	public string Render() => SvgRenderer.Render(MsaglLayoutResult, RenderContext);
 
 	[Benchmark]
 	public string EndToEnd_Msagl() => MermaidRenderer.RenderSvg(SimpleFlowchart,

@@ -42,9 +42,9 @@ internal static class SankeySvgRenderer
 		public int Index { get; set; }
 	}
 
-	internal static string Render(SankeyDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(SankeyDiagram diagram, SvgRenderContext context)
 	{
-		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
+		var sb = RenderToBuilder(diagram, context);
 		try
 		{
 			return sb.ToString();
@@ -56,24 +56,24 @@ internal static class SankeySvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(SankeyDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(SankeyDiagram diagram, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
 		if (diagram.Links.Count == 0)
 		{
-			StyleBlock.AppendSvgOpenTag(sb, 320, 120, colors, transparent, accessibility, diagramType);
-			StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+			StyleBlock.AppendSvgOpenTag(sb, 320, 120, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+			StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 			_ = sb.Append("\n</svg>");
 			return sb;
 		}
 
-		var (nodes, links, layerCount) = Layout(diagram, colors);
+		var (nodes, links, layerCount) = Layout(diagram, context.Styles.Colors);
 		var width = DefaultWidth;
 		var height = DefaultHeight;
 
-		StyleBlock.AppendSvgOpenTag(sb, width, height, colors, transparent, accessibility, diagramType);
-		StyleBlock.AppendStyleBlock(sb, font, strict, monoFont: monoFont);
+		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 
 		// Emit gradient defs, one per link
 		_ = sb.Append("\n<defs>");
