@@ -96,7 +96,11 @@ afterthoughts—they are core requirements that shaped Mermaider's design from t
 **Safety**: every rendered SVG is run through an element/attribute allowlist before it leaves the
 library. There is no way to opt out. This is defense-in-depth on top of per-renderer output escaping:
 `<script>`, `<foreignObject>`, event handlers, and external `href` URIs are structurally absent from
-the allowlist&mdash;not blocked by a regex that someone could work around.
+the allowlist&mdash;not blocked by a regex that someone could work around. The sanitizer is covered by
+[unit tests](tests/Mermaider.Tests/Rendering/SvgSanitizerTests.cs) and a
+[deterministic fuzzer](tests/Mermaider.Tests/Rendering/SvgSanitizerFuzzTests.cs) that runs 4,000
+generated cases (mutation + structured element/attribute/value cross-product) with a safety oracle
+that verifies each output independently and confirms that a second sanitizer pass is an exact no-op.
 
 **Visual consistency**: the [Strict Styling](#strict-styling) mode lets you enforce a host-controlled
 design system. Source-authored `classDef`, `style`, `linkStyle`, and theme overrides are rejected at
