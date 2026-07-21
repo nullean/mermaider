@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="nuget-icon.png" alt="Mermaider" width="96" />
+  <img src="https://raw.githubusercontent.com/nullean/mermaider/main/nuget-icon.png" alt="Mermaider" width="96" />
 </p>
 
 <h1 align="center">Mermaider</h1>
@@ -509,7 +509,7 @@ types. Every diagram respects the same `Bg`, `Fg`, `Accent`, `Muted`, `Font`, `M
 `DataPalette` options.
 
 <p align="center">
-  <img src="docs/screenshots/playground.png" alt="Mermaider playground - all diagram types with theme controls" />
+  <img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/playground.png" alt="Mermaider playground - all diagram types with theme controls" />
 </p>
 
 ### Flowchart
@@ -525,7 +525,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="docs/screenshots/flowchart.svg" alt="Flowchart" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/flowchart.svg" alt="Flowchart" /></p>
 
 ### Sequence
 
@@ -541,7 +541,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="docs/screenshots/sequence.svg" alt="Sequence diagram" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/sequence.svg" alt="Sequence diagram" /></p>
 
 ### State
 
@@ -557,7 +557,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="docs/screenshots/state.svg" alt="State diagram" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/state.svg" alt="State diagram" /></p>
 
 ### Class
 
@@ -576,7 +576,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="docs/screenshots/class.svg" alt="Class diagram" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/class.svg" alt="Class diagram" /></p>
 
 ### ER (Entity-Relationship)
 
@@ -596,7 +596,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="docs/screenshots/er.svg" alt="ER diagram" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/er.svg" alt="ER diagram" /></p>
 
 ### Pie Chart
 
@@ -610,7 +610,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="docs/screenshots/pie.svg" alt="Pie chart" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/pie.svg" alt="Pie chart" /></p>
 
 ### Quadrant Chart
 
@@ -630,7 +630,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="docs/screenshots/quadrant.svg" alt="Quadrant chart" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/quadrant.svg" alt="Quadrant chart" /></p>
 
 ### Timeline
 
@@ -647,7 +647,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="docs/screenshots/timeline.svg" alt="Timeline diagram" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/timeline.svg" alt="Timeline diagram" /></p>
 
 ### GitGraph
 
@@ -666,7 +666,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="docs/screenshots/gitgraph.svg" alt="GitGraph" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/gitgraph.svg" alt="GitGraph" /></p>
 
 ### Radar Chart
 
@@ -682,7 +682,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="docs/screenshots/radar.svg" alt="Radar chart" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/radar.svg" alt="Radar chart" /></p>
 
 ### Treemap
 
@@ -696,7 +696,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="docs/screenshots/treemap.svg" alt="Treemap" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/treemap.svg" alt="Treemap" /></p>
 
 ### Venn Diagram
 
@@ -711,7 +711,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="docs/screenshots/venn.svg" alt="Venn diagram" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/venn.svg" alt="Venn diagram" /></p>
 
 ### Mindmap
 
@@ -731,7 +731,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="docs/screenshots/mindmap.svg" alt="Mindmap" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/mindmap.svg" alt="Mindmap" /></p>
 
 ### Gantt
 
@@ -781,7 +781,7 @@ MermaidRenderer.RenderSvg("""
 
 Supports `Rel`, `BiRel`, `Rel_Back` (arrow reversed vs argument order), and `RelIndex`. Directional forms (`Rel_U` / `Rel_D` / `Rel_L` / `Rel_R` and aliases) parse as plain `Rel`; layout direction hints are ignored in v1.
 
-<p align="center"><img src="docs/screenshots/c4.svg" alt="C4 diagram" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/c4.svg" alt="C4 diagram" /></p>
 
 ### Sankey Diagram
 
@@ -794,7 +794,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="docs/screenshots/sankey.svg" alt="Sankey diagram" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/sankey.svg" alt="Sankey diagram" /></p>
 
 ### XY Chart
 
@@ -809,7 +809,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="docs/screenshots/xychart.svg" alt="XY chart" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/xychart.svg" alt="XY chart" /></p>
 
 ### Requirement Diagram
 
@@ -832,7 +832,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="docs/screenshots/requirement.svg" alt="Requirement diagram" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/requirement.svg" alt="Requirement diagram" /></p>
 
 ### Packet Diagram
 
@@ -849,7 +849,7 @@ MermaidRenderer.RenderSvg("""
 
 Supports range fields (`0-15: "Label"`), single-bit fields (`106: "URG"`), and bit-count form (`+16: "Source Port"`).
 
-<p align="center"><img src="docs/screenshots/packet.svg" alt="Packet diagram" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/packet.svg" alt="Packet diagram" /></p>
 
 ### Kanban
 
@@ -866,7 +866,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="docs/screenshots/kanban.svg" alt="Kanban board" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/kanban.svg" alt="Kanban board" /></p>
 
 ### Architecture
 
@@ -892,7 +892,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="docs/screenshots/architecture.svg" alt="Architecture diagram" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/architecture.svg" alt="Architecture diagram" /></p>
 
 #### Built-in icons
 
@@ -966,7 +966,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="docs/screenshots/block.svg" alt="Block diagram" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/block.svg" alt="Block diagram" /></p>
 
 ### TreeView
 
@@ -989,7 +989,7 @@ Supports indentation-based and box-drawing (`├──`/`└──`/`│`) input
 Built-in icons: `file`, `folder`, `folder-open`, `file:code`, `file:image`, `file:document`,
 `file:config`, `file:data`.
 
-<p align="center"><img src="docs/screenshots/treeview.svg" alt="Tree view diagram" /></p>
+<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/treeview.svg" alt="Tree view diagram" /></p>
 
 ---
 
