@@ -38,11 +38,11 @@ internal static class StyleBlock
 		_ = sb.Append("<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 ")
 			.Append(width).Append(' ').Append(height)
 			.Append("\" width=\"").Append(width)
-			.Append("\" height=\"").Append(height);
+			.Append("\" height=\"").Append(height).Append('"');
 
 		if (accessibility?.HasContent == true)
 		{
-			_ = sb.Append("\" role=\"img\"");
+			_ = sb.Append(" role=\"img\"");
 			if (diagramType.HasValue)
 				_ = sb.Append(" aria-roledescription=\"").Append(GetRoleDescription(diagramType.Value)).Append('"');
 			if (accessibility.Title is { Length: > 0 })
@@ -53,19 +53,22 @@ internal static class StyleBlock
 			}
 		}
 
-		_ = sb.Append("\" style=\"--bg:").Append(colors.Bg)
-			.Append(";--fg:").Append(colors.Fg);
+		// Colors may originate from source-authored %%{init}%% themeVariables (non-strict mode),
+		// so they are user-controlled and must be escaped before landing in the style="..."
+		// attribute — otherwise a value like `red"><script>...` breaks out of the attribute.
+		_ = sb.Append(" style=\"--bg:").Append(Text.MultilineUtils.EscapeAttr(colors.Bg))
+			.Append(";--fg:").Append(Text.MultilineUtils.EscapeAttr(colors.Fg));
 
 		if (colors.Line is not null)
-			_ = sb.Append(";--line:").Append(colors.Line);
+			_ = sb.Append(";--line:").Append(Text.MultilineUtils.EscapeAttr(colors.Line));
 		if (colors.Accent is not null)
-			_ = sb.Append(";--accent:").Append(colors.Accent);
+			_ = sb.Append(";--accent:").Append(Text.MultilineUtils.EscapeAttr(colors.Accent));
 		if (colors.Muted is not null)
-			_ = sb.Append(";--muted:").Append(colors.Muted);
+			_ = sb.Append(";--muted:").Append(Text.MultilineUtils.EscapeAttr(colors.Muted));
 		if (colors.Surface is not null)
-			_ = sb.Append(";--surface:").Append(colors.Surface);
+			_ = sb.Append(";--surface:").Append(Text.MultilineUtils.EscapeAttr(colors.Surface));
 		if (colors.Border is not null)
-			_ = sb.Append(";--border:").Append(colors.Border);
+			_ = sb.Append(";--border:").Append(Text.MultilineUtils.EscapeAttr(colors.Border));
 
 		if (!transparent)
 			_ = sb.Append(";background:var(--bg)");
@@ -142,7 +145,7 @@ internal static class StyleBlock
 		_ = sb.Append(", ").Append(fallbackStack).Append("; }\n");
 	}
 
-	internal static void AppendStyleBlock(StringBuilder sb, string? font = null, StrictModeOptions? strict = null, Rendering.FontScale? fontScale = null, string? monoFont = null)
+	internal static void AppendStyleBlock(StringBuilder sb, string? font = null, StrictStylingOptions? strict = null, Rendering.FontScale? fontScale = null, string? monoFont = null)
 	{
 		_ = sb.Append("\n<style>\n");
 
@@ -184,12 +187,12 @@ internal static class StyleBlock
 		_ = sb.Append("  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }\n");
 
 		if (strict is not null)
-			AppendStrictModeClasses(sb, strict);
+			AppendStrictStylingClasses(sb, strict);
 
 		_ = sb.Append("</style>\n");
 	}
 
-	private static void AppendStrictModeClasses(StringBuilder sb, StrictModeOptions strict)
+	private static void AppendStrictStylingClasses(StringBuilder sb, StrictStylingOptions strict)
 	{
 		var lightRules = new List<(string Selector, string Fill, string Stroke, string? Color)>();
 		var darkRules = new List<(string Selector, string Fill, string Stroke, string? Color)>();

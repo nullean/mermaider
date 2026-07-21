@@ -1,4 +1,3 @@
-using System.Buffers;
 using System.Globalization;
 using System.IO.Pipelines;
 using System.Text;
@@ -40,12 +39,14 @@ public static class MermaidRenderer
 	public static string RenderSvg(string text, RenderOptions? options = null)
 	{
 		using var culture = InvariantCultureScope.Enter();
-		var (strict, sb) = RenderToBuilder(text, options);
+		var sb = RenderToBuilder(text, options);
 		try
 		{
-			var svg = sb.ToString();
-			if (strict?.Sanitize is { } sanitizeMode)
-				svg = StrictModeSanitizer.Sanitize(svg, sanitizeMode);
+			// SVG sanitization is non-optional: the rendered output is always validated
+			// against the element/attribute allowlist before it leaves the library, so a
+			// caller cannot accidentally publish unsanitized markup. Strict mode only
+			// selects strip-vs-throw behaviour; it does not gate whether sanitization runs.
+			var svg = OutputSanitizer.Sanitize(sb.ToString(), options?.SanitizeMode ?? SanitizeMode.Strip);
 			return svg;
 		}
 		finally
@@ -69,16 +70,14 @@ public static class MermaidRenderer
 		ArgumentNullException.ThrowIfNull(destination);
 
 		using var culture = InvariantCultureScope.Enter();
-		var (strict, sb) = RenderToBuilder(text, options);
+		var sb = RenderToBuilder(text, options);
 		try
 		{
-			if (strict?.Sanitize is { } sanitizeMode)
-			{
-				var svg = StrictModeSanitizer.Sanitize(sb.ToString(), sanitizeMode);
-				await destination.WriteAsync(Encoding.UTF8.GetBytes(svg), cancellationToken).ConfigureAwait(false);
-				return;
-			}
-			await WriteBuilderToStreamAsync(sb, destination, cancellationToken).ConfigureAwait(false);
+			// Sanitization needs the whole document, so the streaming fast path no longer
+			// applies — always materialize, sanitize, then write. See RenderSvg for why
+			// sanitization is non-optional.
+			var svg = OutputSanitizer.Sanitize(sb.ToString(), options?.SanitizeMode ?? SanitizeMode.Strip);
+			await destination.WriteAsync(Encoding.UTF8.GetBytes(svg), cancellationToken).ConfigureAwait(false);
 		}
 		finally
 		{
@@ -101,19 +100,17 @@ public static class MermaidRenderer
 		ArgumentNullException.ThrowIfNull(destination);
 
 		using var culture = InvariantCultureScope.Enter();
-		var (strict, sb) = RenderToBuilder(text, options);
+		var sb = RenderToBuilder(text, options);
 		try
 		{
-			if (strict?.Sanitize is { } sanitizeMode)
-			{
-				var svg = StrictModeSanitizer.Sanitize(sb.ToString(), sanitizeMode);
-				var bytes = Encoding.UTF8.GetBytes(svg);
-				bytes.CopyTo(destination.GetMemory(bytes.Length).Span);
-				destination.Advance(bytes.Length);
-				_ = await destination.FlushAsync(cancellationToken).ConfigureAwait(false);
-				return;
-			}
-			await WriteBuilderToPipeWriterAsync(sb, destination, cancellationToken).ConfigureAwait(false);
+			// Sanitization needs the whole document, so the streaming fast path no longer
+			// applies — always materialize, sanitize, then write. See RenderSvg for why
+			// sanitization is non-optional.
+			var svg = OutputSanitizer.Sanitize(sb.ToString(), options?.SanitizeMode ?? SanitizeMode.Strip);
+			var bytes = Encoding.UTF8.GetBytes(svg);
+			bytes.CopyTo(destination.GetMemory(bytes.Length).Span);
+			destination.Advance(bytes.Length);
+			_ = await destination.FlushAsync(cancellationToken).ConfigureAwait(false);
 		}
 		finally
 		{
@@ -141,7 +138,7 @@ public static class MermaidRenderer
 		return ParseInternal(lines, diagramType);
 	}
 
-	private static (StrictModeOptions? Strict, StringBuilder Builder) RenderToBuilder(string text, RenderOptions? options)
+	private static StringBuilder RenderToBuilder(string text, RenderOptions? options)
 	{
 		var (cleaned, metadata) = DiagramPreprocessor.Process(text);
 		var colors = BuildColors(options, metadata);
@@ -163,7 +160,7 @@ public static class MermaidRenderer
 					"Styling is controlled by the host design system; remove the %%{init}%% theme directive " +
 					"or frontmatter 'theme:' key.");
 
-			StrictModeValidator.Validate(lines, strict);
+			StrictStylingValidator.Validate(lines, strict);
 		}
 
 		var diagramType = DiagramDetector.Detect(cleaned.AsSpan());
@@ -274,7 +271,7 @@ public static class MermaidRenderer
 		if (metadata.Title is { Length: > 0 } title)
 			InsertSvgTitle(sb, title);
 
-		return (strict, sb);
+		return sb;
 	}
 
 	private readonly struct InvariantCultureScope : IDisposable
@@ -291,66 +288,6 @@ public static class MermaidRenderer
 		}
 
 		public void Dispose() => CultureInfo.CurrentCulture = _previousCulture;
-	}
-
-	private static async Task WriteBuilderToStreamAsync(StringBuilder sb, Stream stream, CancellationToken cancellationToken)
-	{
-		var encoder = Encoding.UTF8.GetEncoder();
-		var buffer = ArrayPool<byte>.Shared.Rent(4096);
-		try
-		{
-			foreach (var chunk in sb.GetChunks())
-			{
-				var charArray = ArrayPool<char>.Shared.Rent(chunk.Length);
-				chunk.Span.CopyTo(charArray);
-				var totalChars = chunk.Length;
-				var charsConsumed = 0;
-				while (charsConsumed < totalChars)
-				{
-					encoder.Convert(charArray.AsSpan(charsConsumed, totalChars - charsConsumed), buffer, flush: false, out var used, out var bytesWritten, out _);
-					charsConsumed += used;
-					if (bytesWritten > 0)
-						await stream.WriteAsync(buffer.AsMemory(0, bytesWritten), cancellationToken).ConfigureAwait(false);
-				}
-				ArrayPool<char>.Shared.Return(charArray);
-			}
-			encoder.Convert([], buffer, flush: true, out _, out var finalBytes, out _);
-			if (finalBytes > 0)
-				await stream.WriteAsync(buffer.AsMemory(0, finalBytes), cancellationToken).ConfigureAwait(false);
-		}
-		finally
-		{
-			ArrayPool<byte>.Shared.Return(buffer);
-		}
-	}
-
-	private static async Task WriteBuilderToPipeWriterAsync(StringBuilder sb, PipeWriter writer, CancellationToken cancellationToken)
-	{
-		var encoder = Encoding.UTF8.GetEncoder();
-		foreach (var chunk in sb.GetChunks())
-		{
-			var charArray = ArrayPool<char>.Shared.Rent(chunk.Length);
-			chunk.Span.CopyTo(charArray);
-			var totalChars = chunk.Length;
-			var charsConsumed = 0;
-			while (charsConsumed < totalChars)
-			{
-				var memory = writer.GetMemory(1024);
-				encoder.Convert(charArray.AsSpan(charsConsumed, totalChars - charsConsumed), memory.Span, flush: false, out var used, out var bytesWritten, out _);
-				charsConsumed += used;
-				writer.Advance(bytesWritten);
-
-				if (writer.UnflushedBytes >= 4096)
-					_ = await writer.FlushAsync(cancellationToken).ConfigureAwait(false);
-			}
-			ArrayPool<char>.Shared.Return(charArray);
-		}
-
-		var finalMemory = writer.GetMemory(16);
-		encoder.Convert([], finalMemory.Span, flush: true, out _, out var finalBytes, out _);
-		if (finalBytes > 0)
-			writer.Advance(finalBytes);
-		_ = await writer.FlushAsync(cancellationToken).ConfigureAwait(false);
 	}
 
 	private static MermaidGraph ParseInternal(string[] lines, DiagramType diagramType) =>

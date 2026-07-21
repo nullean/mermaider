@@ -9,7 +9,7 @@ namespace Mermaider.Parsing;
 /// Rejects <c>classDef</c> and <c>style</c> directives; validates class references
 /// against the allowed set.
 /// </summary>
-internal static partial class StrictModeValidator
+internal static partial class StrictStylingValidator
 {
 	private const int TimeoutMs = 2000;
 
@@ -31,7 +31,7 @@ internal static partial class StrictModeValidator
 	[GeneratedRegex(@":::([\w][\w-]*)", RegexOptions.None, TimeoutMs)]
 	private static partial Regex ClassShorthand();
 
-	internal static void Validate(string[] lines, StrictModeOptions strict)
+	internal static void Validate(string[] lines, StrictStylingOptions strict)
 	{
 		var allowed = BuildAllowedSet(strict);
 
@@ -92,6 +92,6 @@ internal static partial class StrictModeValidator
 		}
 	}
 
-	private static FrozenSet<string> BuildAllowedSet(StrictModeOptions strict) =>
+	private static FrozenSet<string> BuildAllowedSet(StrictStylingOptions strict) =>
 		strict.AllowedClasses.Select(c => c.Name).ToFrozenSet(StringComparer.Ordinal);
 }

@@ -33,8 +33,12 @@ public sealed record DiagramClass
 	internal bool IsExternal => Fill is null && Stroke is null && Color is null;
 }
 
-/// <summary>Controls how the SVG sanitizer handles disallowed content.</summary>
-public enum SvgSanitizeMode
+/// <summary>
+/// Controls what the always-on SVG sanitizer does when the rendered output contains
+/// content outside the element/attribute allowlist. Sanitization itself is not optional —
+/// this only selects the reaction to a violation. See <see cref="RenderOptions.SanitizeMode"/>.
+/// </summary>
+public enum SanitizeMode
 {
 	/// <summary>Silently remove disallowed elements and attributes from the output.</summary>
 	Strip,
@@ -44,11 +48,13 @@ public enum SvgSanitizeMode
 }
 
 /// <summary>
-/// Strict mode configuration. Disallows <c>classDef</c> and <c>style</c> directives
-/// in Mermaid source, permitting only pre-approved class names.
-/// Optionally sanitizes the final SVG output against an element/attribute allowlist.
+/// Strict <b>styling</b> configuration — enforces visual uniformity, not security.
+/// (SVG sanitization is always on and independent of this; see <see cref="RenderOptions.SanitizeMode"/>.)
+/// When set, source-authored styling is rejected — <c>classDef</c>, <c>style</c>, <c>linkStyle</c>,
+/// C4 <c>Update*Style</c>, and <c>%%{init}%%</c>/frontmatter <c>theme</c>/<c>themeVariables</c> overrides —
+/// so appearance is controlled by the host design system, permitting only pre-approved class names.
 /// </summary>
-public sealed record StrictModeOptions
+public sealed record StrictStylingOptions
 {
 	/// <summary>
 	/// Allowed class definitions with theme-aware colors.
@@ -63,11 +69,4 @@ public sealed record StrictModeOptions
 	/// names are silently ignored (node gets default styling). Default: true.
 	/// </summary>
 	public bool RejectUnknownClasses { get; init; } = true;
-
-	/// <summary>
-	/// When set, a final pass over the rendered SVG ensures only allowlisted
-	/// elements and attributes are present. Default: <see cref="SvgSanitizeMode.Strip"/>.
-	/// Set to <c>null</c> to disable sanitization entirely.
-	/// </summary>
-	public SvgSanitizeMode? Sanitize { get; init; } = SvgSanitizeMode.Strip;
 }

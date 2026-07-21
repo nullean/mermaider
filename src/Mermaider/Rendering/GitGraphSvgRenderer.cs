@@ -24,7 +24,7 @@ internal static class GitGraphSvgRenderer
 	private const double LinkStrokeWidth = 3;
 
 
-	internal static string Render(GitGraph graph, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(GitGraph graph, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = RenderToBuilder(graph, colors, font, monoFont, transparent, strict, accessibility, diagramType);
 		try
@@ -38,7 +38,7 @@ internal static class GitGraphSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(GitGraph graph, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(GitGraph graph, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 

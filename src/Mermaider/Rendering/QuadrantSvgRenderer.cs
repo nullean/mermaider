@@ -24,7 +24,7 @@ internal static class QuadrantSvgRenderer
 		"color-mix(in srgb, var(--accent, var(--fg)) 6%, var(--bg))",
 	];
 
-	internal static string Render(QuadrantChart chart, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(QuadrantChart chart, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = RenderToBuilder(chart, colors, font, monoFont, transparent, strict, accessibility, diagramType);
 		try
@@ -38,7 +38,7 @@ internal static class QuadrantSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(QuadrantChart chart, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(QuadrantChart chart, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 

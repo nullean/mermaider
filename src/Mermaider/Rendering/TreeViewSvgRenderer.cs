@@ -24,7 +24,7 @@ internal static class TreeViewSvgRenderer
 	private const string LabelFontSize = RenderConstants.FsVar.S;
 	private const string DescFontSize = RenderConstants.FsVar.Xs;
 
-	internal static string Render(TreeViewDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(TreeViewDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
 		try
@@ -38,7 +38,7 @@ internal static class TreeViewSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(TreeViewDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(TreeViewDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 
@@ -171,9 +171,10 @@ internal static class TreeViewSvgRenderer
 				.Append("\" fill=\"var(--_accent-fill)\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1\" />");
 		}
 
-		// Group wrapper with optional CSS class
+		// Group wrapper with optional CSS class. CssClass is parser-constrained to [\w-], but
+		// escape it anyway so this attribute can't become a breakout vector if that ever changes.
 		_ = hasCustomClass
-			? sb.Append("\n<g class=\"treeview-node ").Append(node.CssClass).Append("\">")
+			? sb.Append("\n<g class=\"treeview-node ").Append(MultilineUtils.EscapeAttr(node.CssClass!)).Append("\">")
 			: sb.Append("\n<g class=\"treeview-node\">");
 
 		// Icon

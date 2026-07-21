@@ -29,7 +29,7 @@
   - [Edge rounding](#edge-rounding)
   - [Font sizing](#font-sizing)
 - [Implementer Notes](#implementer-notes)
-- [Strict Mode](#strict-mode)
+- [Strict Styling](#strict-styling)
 - [SVG Sanitization](#svg-sanitization)
 - [CLI](#cli)
 - [MSAGL Layout Provider](#msagl-layout-provider)
@@ -327,12 +327,17 @@ The generated SVG follows a consistent structure:
 8. Nodes (shape + label text)
 9. Notes (if applicable)
 
-## Strict Mode
+## Strict Styling
+
+> **Strict styling is about visual uniformity, not safety.** It does *not* make output safe to
+> publish&mdash;[SVG sanitization](#svg-sanitization) does that, and it is always on regardless of this
+> setting. Use strict styling when you want a consistent look controlled by your design system rather
+> than by whatever colors a diagram author wrote.
 
 When you embed user-authored Mermaid in a product, you typically want **uniform styling** controlled by your
 design system&mdash;not arbitrary colors injected via `classDef` or `style` directives.
 
-Strict mode:
+Strict styling:
 
 - **Rejects** `classDef`, `style`, and `linkStyle` directives at parse time (throws `MermaidParseException`)
 - **Rejects** source-authored `theme` / `themeVariables` overrides from `%%{init}%%` and frontmatter
@@ -344,7 +349,7 @@ Strict mode:
 ```csharp
 var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 {
-    Strict = new StrictModeOptions
+    Strict = new StrictStylingOptions
     {
         AllowedClasses =
         [
@@ -361,7 +366,6 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
             new DiagramClass { Name = "custom-highlight" },
         ],
         RejectUnknownClasses = true,
-        Sanitize = SvgSanitizeMode.Strip,
     }
 });
 ```
@@ -375,10 +379,33 @@ graph TD
 
 ## SVG Sanitization
 
-A standalone, general-purpose SVG sanitizer is included&mdash;useful beyond Mermaid for any untrusted SVG content.
+**Sanitization is the safety mechanism, and it is always on.** Every rendered SVG is run through an
+element/attribute **allowlist** on every `RenderSvg` call before it leaves the library&mdash;there is no way to
+turn it off, and it is completely independent of [strict styling](#strict-styling). This is defense-in-depth on
+top of the per-renderer output escaping: even if a renderer had a bug, disallowed markup cannot reach a
+published page.
 
-It enforces element and attribute allowlists, and **always** blocks the main XSS vectors regardless of the
-allowlist: `<script>`, `<foreignObject>`, `on*` event handlers, `href`/`xlink:href` with `javascript:` URIs.
+The sanitizer is **allowlist-only**: anything not explicitly affirmed as safe is removed. There is deliberately
+no blocklist of "known bad" constructs&mdash;safety never depends on us having enumerated every dangerous
+attribute. Because they are absent from the allowlist, the main XSS vectors are denied as a consequence:
+`<script>`, `<foreignObject>`, `on*` event handlers, and `href`/`xlink:href` with `javascript:`/`http(s):`/
+non-image data URIs. The single positive exception is a base64 `data:image/svg+xml` or `data:image/png`
+URI `href` on an `<image>` element (used for diagram icons).
+
+Use `RenderOptions.SanitizeMode` to choose what happens when the output contains a violation (which, for the
+built-in renderers, should never happen&mdash;it indicates a bug):
+
+- `SanitizeMode.Strip` (default): silently remove the disallowed element/attribute.
+- `SanitizeMode.Block`: throw `MermaidParseException` on the first violation (fail closed).
+
+```csharp
+var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
+{
+    SanitizeMode = SanitizeMode.Block, // fail closed instead of silently stripping
+});
+```
+
+The same engine is also exposed standalone&mdash;useful beyond Mermaid for any untrusted SVG content:
 
 ```csharp
 var result = SvgSanitizer.Sanitize(untrustedSvg);

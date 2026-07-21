@@ -3,9 +3,9 @@ using Mermaider.Models;
 
 namespace Mermaider.Tests;
 
-public class StrictModeTests
+public class StrictStylingTests
 {
-	private static readonly StrictModeOptions DefaultStrict = new()
+	private static readonly StrictStylingOptions DefaultStrict = new()
 	{
 		AllowedClasses =
 		[
@@ -180,7 +180,7 @@ public class StrictModeTests
 			""";
 		var options = new RenderOptions
 		{
-			Strict = new StrictModeOptions
+			Strict = new StrictStylingOptions
 			{
 				AllowedClasses = [],
 				RejectUnknownClasses = false

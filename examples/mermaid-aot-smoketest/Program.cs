@@ -70,7 +70,7 @@ try
 		  A[Start]:::ok --> B[End]
 		""", new RenderOptions
 	{
-		Strict = new StrictModeOptions
+		Strict = new StrictStylingOptions
 		{
 			AllowedClasses = [new DiagramClass { Name = "ok", Fill = "#D4EDDA", Stroke = "#28A745", Color = "#155724" }]
 		}

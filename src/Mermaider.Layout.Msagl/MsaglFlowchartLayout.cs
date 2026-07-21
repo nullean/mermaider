@@ -14,7 +14,7 @@ namespace Mermaider.Layout.Msagl;
 
 internal static class MsaglFlowchartLayout
 {
-	internal static PositionedGraph Layout(MermaidGraph graph, RenderOptions? options = null, StrictModeOptions? strict = null)
+	internal static PositionedGraph Layout(MermaidGraph graph, RenderOptions? options = null, StrictStylingOptions? strict = null)
 	{
 		var padding = options?.Padding ?? LayoutDefaults.Padding;
 		var nodeSpacing = options?.NodeSpacing ?? LayoutDefaults.NodeSpacing;
@@ -87,7 +87,7 @@ internal static class MsaglFlowchartLayout
 		Dictionary<string, MsaglNode> msaglNodes,
 		List<(MsaglEdge MsaglEdge, MermaidEdge MermaidEdge)> edgeMap,
 		double padding,
-		StrictModeOptions? strict = null)
+		StrictStylingOptions? strict = null)
 	{
 		var bb = geometryGraph.BoundingBox;
 		var offsetX = -bb.Left + padding;
@@ -224,7 +224,7 @@ internal static class MsaglFlowchartLayout
 		MermaidGraph graph,
 		Dictionary<string, MsaglNode> msaglNodes,
 		double offsetX, double offsetY,
-		StrictModeOptions? strict)
+		StrictStylingOptions? strict)
 	{
 		if (graph.Subgraphs.Count == 0)
 			return [];
@@ -240,7 +240,7 @@ internal static class MsaglFlowchartLayout
 		MermaidGraph graph,
 		Dictionary<string, MsaglNode> msaglNodes,
 		double offsetX, double offsetY,
-		StrictModeOptions? strict)
+		StrictStylingOptions? strict)
 	{
 		var groupPadding = 16.0;
 		var headerHeight = 28.0;

@@ -23,7 +23,7 @@ internal static class SequenceSvgRenderer
 		RenderConstants.TextAttrs.SeqBlockTabFill + "var(--_text-sec)\"";
 
 
-	internal static string Render(PositionedSequenceDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static string Render(PositionedSequenceDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
 		try
@@ -37,7 +37,7 @@ internal static class SequenceSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(PositionedSequenceDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+	internal static StringBuilder RenderToBuilder(PositionedSequenceDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false, StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 		StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, colors, transparent, accessibility, diagramType);
@@ -421,7 +421,9 @@ internal static class SequenceSvgRenderer
 		}
 		_ = sb.Append(">\n");
 
-		var fill = box.Color ?? "var(--_group-fill)";
+		// box.Color is a free-form \S+ token from source (e.g. `box red Team`); escape it so a
+		// crafted value like `"/><image onerror=...` cannot break out of the fill attribute.
+		var fill = box.Color is { } boxColor ? MultilineUtils.EscapeAttr(boxColor) : "var(--_group-fill)";
 		_ = sb.Append("  <rect x=\"").Append(box.X).Append("\" y=\"").Append(box.Y)
 			.Append("\" width=\"").Append(box.Width).Append("\" height=\"").Append(box.Height)
 			.Append("\" rx=\"").Append(RenderConstants.Radii.Group)

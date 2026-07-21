@@ -8,7 +8,7 @@ namespace Mermaider.Layout;
 /// </summary>
 public interface IGraphLayoutProvider
 {
-	PositionedGraph LayoutFlowchart(MermaidGraph graph, RenderOptions? options = null, StrictModeOptions? strict = null);
+	PositionedGraph LayoutFlowchart(MermaidGraph graph, RenderOptions? options = null, StrictStylingOptions? strict = null);
 
 	PositionedClassDiagram LayoutClass(ClassDiagram diagram);
 

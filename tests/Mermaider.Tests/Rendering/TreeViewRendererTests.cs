@@ -159,7 +159,7 @@ public class TreeViewRendererTests
 			""",
 			new RenderOptions
 			{
-				Strict = new StrictModeOptions
+				Strict = new StrictStylingOptions
 				{
 					AllowedClasses = [new DiagramClass { Name = "highlight" }],
 					RejectUnknownClasses = true,
@@ -180,7 +180,7 @@ public class TreeViewRendererTests
 			""",
 			new RenderOptions
 			{
-				Strict = new StrictModeOptions
+				Strict = new StrictStylingOptions
 				{
 					AllowedClasses = [new DiagramClass { Name = "highlight" }],
 					RejectUnknownClasses = true,

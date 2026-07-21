@@ -186,7 +186,7 @@ public class SvgSanitizerTests
 	}
 
 	// ========================================================================
-	// Block mode — through StrictModeSanitizer (internal bridge)
+	// Block mode — through OutputSanitizer (internal bridge)
 	// ========================================================================
 
 	[Test]
@@ -194,7 +194,7 @@ public class SvgSanitizerTests
 	{
 		var svg = """<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>""";
 
-		var act = () => StrictModeSanitizer.Sanitize(svg, SvgSanitizeMode.Block);
+		var act = () => OutputSanitizer.Sanitize(svg, SanitizeMode.Block);
 
 		act.Should().Throw<MermaidParseException>()
 			.WithMessage("*disallowed*script*");
@@ -205,7 +205,7 @@ public class SvgSanitizerTests
 	{
 		var svg = """<svg xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="10" height="10" onmouseover="alert(1)"/></svg>""";
 
-		var act = () => StrictModeSanitizer.Sanitize(svg, SvgSanitizeMode.Block);
+		var act = () => OutputSanitizer.Sanitize(svg, SanitizeMode.Block);
 
 		act.Should().Throw<MermaidParseException>()
 			.WithMessage("*disallowed*onmouseover*");
@@ -216,7 +216,7 @@ public class SvgSanitizerTests
 	{
 		var svg = """<svg xmlns="http://www.w3.org/2000/svg"><foreignObject width="100" height="100"/></svg>""";
 
-		var act = () => StrictModeSanitizer.Sanitize(svg, SvgSanitizeMode.Block);
+		var act = () => OutputSanitizer.Sanitize(svg, SanitizeMode.Block);
 
 		act.Should().Throw<MermaidParseException>()
 			.WithMessage("*disallowed*foreignObject*");
@@ -227,7 +227,7 @@ public class SvgSanitizerTests
 	{
 		var svg = """<svg xmlns="http://www.w3.org/2000/svg"><g><rect x="0" y="0" width="10" height="10" fill="#fff"/><text x="5" y="5">ok</text></g></svg>""";
 
-		var result = StrictModeSanitizer.Sanitize(svg, SvgSanitizeMode.Block);
+		var result = OutputSanitizer.Sanitize(svg, SanitizeMode.Block);
 		result.Should().BeSameAs(svg);
 	}
 
@@ -236,43 +236,48 @@ public class SvgSanitizerTests
 	{
 		var svg = """<svg xmlns="http://www.w3.org/2000/svg"><script>x</script><rect x="0" y="0" width="10" height="10"/></svg>""";
 
-		var result = StrictModeSanitizer.Sanitize(svg, SvgSanitizeMode.Strip);
+		var result = OutputSanitizer.Sanitize(svg, SanitizeMode.Strip);
 		result.Should().NotContain("<script");
 		result.Should().Contain("<rect");
 	}
 
 	// ========================================================================
-	// Integration — through MermaidRenderer with strict mode
+	// Integration — sanitization is non-optional and decoupled from strict mode
 	// ========================================================================
 
 	[Test]
-	public void Strict_mode_sanitizes_by_default()
+	public void SanitizeMode_defaults_to_strip()
 	{
-		var input = "graph TD\n  A --> B";
-		var options = new RenderOptions
-		{
-			Strict = new StrictModeOptions { AllowedClasses = [] }
-		};
+		new RenderOptions().SanitizeMode.Should().Be(SanitizeMode.Strip);
+	}
 
-		var svg = MermaidRenderer.RenderSvg(input, options);
+	[Test]
+	public void Sanitization_runs_on_default_path_with_no_options()
+	{
+		// No RenderOptions and no strict mode — sanitization is non-optional, so the
+		// always-on allowlist pass still runs. Clean rendered output passes through.
+		var svg = MermaidRenderer.RenderSvg("graph TD\n  A --> B");
 		svg.Should().Contain("</svg>");
 	}
 
 	[Test]
-	public void Strict_mode_sanitize_null_skips_sanitization()
+	public void Block_mode_passes_clean_rendered_output()
 	{
-		var input = "graph TD\n  A --> B";
-		var options = new RenderOptions
-		{
-			Strict = new StrictModeOptions
-			{
-				AllowedClasses = [],
-				Sanitize = null
-			}
-		};
+		var options = new RenderOptions { SanitizeMode = SanitizeMode.Block };
+		var act = () => MermaidRenderer.RenderSvg("graph TD\n  A --> B", options);
+		act.Should().NotThrow();
+	}
 
-		var svg = MermaidRenderer.RenderSvg(input, options);
-		svg.Should().Contain("</svg>");
+	[Test]
+	public void Sanitization_is_not_gated_by_strict_mode()
+	{
+		// Strict mode no longer carries a Sanitize toggle; sanitization runs either way.
+		var strict = MermaidRenderer.RenderSvg("graph TD\n  A --> B",
+			new RenderOptions { Strict = new StrictStylingOptions { AllowedClasses = [] } });
+		var plain = MermaidRenderer.RenderSvg("graph TD\n  A --> B");
+
+		strict.Should().Contain("</svg>");
+		plain.Should().Contain("</svg>");
 	}
 
 	// ========================================================================

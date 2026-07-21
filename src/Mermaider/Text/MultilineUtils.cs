@@ -75,6 +75,22 @@ internal static partial class MultilineUtils
 		}
 	}
 
+	/// <summary>
+	/// Returns <paramref name="value"/> with XML attribute-significant characters escaped.
+	/// Used to neutralize attribute-breakout injection when a user-supplied string
+	/// (e.g. a <c>style</c>/<c>classDef</c> color) is emitted into a double-quoted SVG
+	/// attribute value. Returns the original instance unchanged when nothing needs escaping.
+	/// </summary>
+	internal static string EscapeAttr(string value)
+	{
+		if (!value.AsSpan().ContainsAny(XmlSpecialCharacters))
+			return value;
+
+		var sb = new StringBuilder(value.Length + 16);
+		AppendEscapedAttr(sb, value.AsSpan());
+		return sb.ToString();
+	}
+
 	internal static void AppendEscapedAttr(StringBuilder sb, ReadOnlySpan<char> value)
 	{
 		if (!value.ContainsAny(XmlSpecialCharacters))

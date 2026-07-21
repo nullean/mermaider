@@ -83,8 +83,18 @@ public sealed record RenderOptions
 	public string[]? DataPalette { get; init; }
 
 	/// <summary>
-	/// Enable strict mode. When set, <c>classDef</c> and <c>style</c> directives
-	/// are rejected, and only pre-approved class names are allowed on nodes.
+	/// Enable strict styling to enforce visual uniformity (not a security feature —
+	/// SVG output is always sanitized regardless; see <see cref="SanitizeMode"/>).
+	/// When set, source-authored styling directives are rejected and only pre-approved
+	/// class names are allowed on nodes. See <see cref="StrictStylingOptions"/>.
 	/// </summary>
-	public StrictModeOptions? Strict { get; init; }
+	public StrictStylingOptions? Strict { get; init; }
+
+	/// <summary>
+	/// How the always-on SVG sanitizer reacts to disallowed content in the rendered
+	/// output. Sanitization is non-optional — every rendered SVG is validated against
+	/// the element/attribute allowlist regardless of this value; this only selects
+	/// whether a violation is silently stripped or thrown. Default: <see cref="Models.SanitizeMode.Strip"/>.
+	/// </summary>
+	public SanitizeMode SanitizeMode { get; init; } = SanitizeMode.Strip;
 }

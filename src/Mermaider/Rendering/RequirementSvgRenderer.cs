@@ -21,7 +21,7 @@ internal static class RequirementSvgRenderer
 
 	internal static string Render(
 		RequirementDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false,
-		StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+		StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = RenderToBuilder(diagram, colors, font, monoFont, transparent, strict, accessibility, diagramType);
 		try
@@ -37,7 +37,7 @@ internal static class RequirementSvgRenderer
 
 	internal static StringBuilder RenderToBuilder(
 		RequirementDiagram diagram, DiagramColors colors, string font, string? monoFont = null, bool transparent = false,
-		StrictModeOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+		StrictStylingOptions? strict = null, AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 

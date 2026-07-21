@@ -27,9 +27,12 @@ public sealed record SvgSanitizeResult
 
 /// <summary>
 /// General-purpose SVG sanitizer. Walks the XML tree and enforces an
-/// element/attribute allowlist. Blocks the main XSS vectors in SVG:
-/// <c>&lt;script&gt;</c>, <c>&lt;foreignObject&gt;</c>, event handler attributes,
-/// and <c>href</c>/<c>xlink:href</c> (which can carry <c>javascript:</c> URIs).
+/// element/attribute <b>allowlist</b>: anything not explicitly affirmed as safe is removed.
+/// There is no blocklist — safety does not depend on having enumerated every dangerous
+/// construct. Because they are absent from the allowlist, the main XSS vectors are denied
+/// as a consequence: <c>&lt;script&gt;</c>, <c>&lt;foreignObject&gt;</c>, <c>on*</c> event
+/// handlers, and <c>href</c>/<c>xlink:href</c> (which can carry <c>javascript:</c> URIs).
+/// The single positive exception is a base64 image data URI <c>href</c> on an <c>&lt;image&gt;</c>.
 /// <para>
 /// Usable standalone — not tied to the Mermaid rendering pipeline.
 /// </para>
@@ -67,7 +70,7 @@ public static partial class SvgSanitizer
 	/// <summary>Default set of allowed SVG attribute local names.</summary>
 	public static readonly FrozenSet<string> DefaultAllowedAttributes = new[]
 	{
-		"id", "class", "style", "transform",
+		"id", "class", "style", "transform", "role",
 		"xmlns", "viewBox", "preserveAspectRatio", "width", "height",
 		"x", "y", "cx", "cy", "r", "rx", "ry",
 		"x1", "y1", "x2", "y2",
@@ -115,13 +118,13 @@ public static partial class SvgSanitizer
 	/// </summary>
 	/// <param name="svg">Raw SVG markup.</param>
 	/// <param name="allowedElements">Set of allowed element local names.</param>
-	/// <param name="allowedAttributes">Set of allowed attribute local names.
-	/// <c>data-*</c> attributes are always allowed. <c>on*</c> event handlers
-	/// and <c>href</c>/<c>xlink:href</c> are always blocked regardless of this set,
-	/// with a single narrow exception: an <c>&lt;image&gt;</c> element's <c>href</c> may
-	/// carry a base64 <c>data:image/svg+xml</c> or <c>data:image/png</c> URI (used for
-	/// architecture-diagram icons) — every other scheme (<c>http(s):</c>, <c>javascript:</c>,
-	/// non-image data URIs) is still stripped.</param>
+	/// <param name="allowedAttributes">Set of allowed attribute local names. Only names in
+	/// this set are kept (plus always-allowed <c>data-*</c> attributes and XML namespace
+	/// declarations). <c>on*</c> handlers and <c>href</c>/<c>xlink:href</c> are denied simply
+	/// by not being in the set — there is no separate blocklist. The single positive exception
+	/// is an <c>&lt;image&gt;</c> element's <c>href</c> carrying a base64 <c>data:image/svg+xml</c>
+	/// or <c>data:image/png</c> URI (used for diagram icons); every other scheme (<c>http(s):</c>,
+	/// <c>javascript:</c>, non-image data URIs) and any namespaced attribute is stripped.</param>
 	/// <returns>A result containing the cleaned SVG and any violations found.</returns>
 	public static SvgSanitizeResult Sanitize(
 		string svg,
@@ -189,29 +192,36 @@ public static partial class SvgSanitizer
 
 	private static bool IsAllowedAttribute(XAttribute attr, FrozenSet<string> allowed)
 	{
+		// Pure allowlist: an attribute is denied unless one of the positive rules below
+		// affirms it as safe. There is deliberately NO blocklist of "known bad" names
+		// (e.g. on* handlers) — those are denied simply by not appearing in the allowlist,
+		// so safety never depends on us having enumerated every dangerous attribute.
 		var name = attr.Name.LocalName;
 
-		if (name.StartsWith("on", StringComparison.OrdinalIgnoreCase))
-			return false;
-
-		if (name.StartsWith("data-", StringComparison.Ordinal))
+		// data-* attributes carry data, not behavior; aria-* attributes are accessibility
+		// metadata. Neither can execute script.
+		if (name.StartsWith("data-", StringComparison.Ordinal)
+			|| name.StartsWith("aria-", StringComparison.Ordinal))
 			return true;
 
-		var isHrefAttr = name is "href" || attr.Name.NamespaceName.Contains("xlink");
-		if (isHrefAttr)
-		{
-			// Scoped exception: an <image> may carry a same-document-safe base64 image
-			// data URI (used to embed architecture-diagram icons). Everything else that
-			// looks like href/xlink:href — including on any other element — stays blocked.
-			return attr.Parent?.Name.LocalName == "image"
-				&& SafeImageDataUriPattern().IsMatch(attr.Value);
-		}
+		// XML namespace declarations.
+		if (name == "xmlns" || attr.Name.NamespaceName.Contains("xmlns"))
+			return true;
 
+		// Scoped positive exception: an <image> may carry a same-document-safe base64 image
+		// data URI (architecture/treeview icons). This is the ONLY href/xlink:href ever allowed;
+		// every other href — javascript:, http(s):, non-image data URIs, or href on any other
+		// element — is denied because "href" is not in the allowlist.
+		if ((name is "href" || attr.Name.NamespaceName.Contains("xlink"))
+			&& attr.Parent?.Name.LocalName == "image"
+			&& SafeImageDataUriPattern().IsMatch(attr.Value))
+			return true;
+
+		// Any other namespaced attribute (xlink:*, custom prefixes) is not something the
+		// renderer emits and is not affirmed safe — deny it. The allowlist only covers
+		// plain, unnamespaced local names.
 		if (attr.Name.NamespaceName.Length > 0)
-		{
-			if (attr.Name.NamespaceName.Contains("xmlns") || name == "xmlns")
-				return true;
-		}
+			return false;
 
 		return allowed.Contains(name);
 	}
