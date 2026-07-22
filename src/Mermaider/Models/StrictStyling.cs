@@ -51,11 +51,76 @@ public enum SanitizeMode
 }
 
 /// <summary>
+/// Controls how <see cref="StrictStylingOptions"/> reacts when source-authored styling
+/// directives (<c>classDef</c>, <c>style</c>, <c>linkStyle</c>, C4 <c>Update*Style</c>,
+/// <c>%%{init}%%</c> theme overrides) or unknown class references are encountered.
+/// </summary>
+public enum StrictStylingMode
+{
+	/// <summary>
+	/// Silently strip disallowed styling directives and unknown class references and
+	/// continue rendering. Dropped items are reported via
+	/// <see cref="StrictStylingOptions.OnStripped"/> when a callback is provided.
+	/// This is the default — it mirrors <see cref="SanitizeMode.Strip"/>.
+	/// </summary>
+	Strip,
+
+	/// <summary>
+	/// Throw <see cref="MermaidParseException"/> on the first disallowed directive or
+	/// unknown class reference (the original strict-mode behavior).
+	/// </summary>
+	Block
+}
+
+/// <summary>Classifies what kind of styling directive was stripped in strip mode.</summary>
+public enum StrictStylingViolationKind
+{
+	/// <summary>A <c>classDef</c> directive was stripped.</summary>
+	ClassDefDirective,
+
+	/// <summary>A <c>style</c> (per-node inline style) directive was stripped.</summary>
+	StyleDirective,
+
+	/// <summary>A <c>linkStyle</c> directive was stripped.</summary>
+	LinkStyleDirective,
+
+	/// <summary>A C4 <c>Update*Style</c> directive was stripped.</summary>
+	UpdateStyleDirective,
+
+	/// <summary>A class reference (<c>:::name</c> or <c>class A name</c>) to an unknown class was stripped.</summary>
+	UnknownClassReference,
+
+	/// <summary>A source-authored <c>theme</c> or <c>themeVariables</c> override was stripped.</summary>
+	ThemeOverride,
+}
+
+/// <summary>Describes a single styling directive or class reference that was stripped in strip mode.</summary>
+public sealed record StrictStylingViolation
+{
+	/// <summary>What kind of directive or reference was stripped.</summary>
+	public required StrictStylingViolationKind Kind { get; init; }
+
+	/// <summary>Human-readable description of what was stripped and why.</summary>
+	public required string Message { get; init; }
+
+	/// <summary>1-based line number of the offending source line. 0 when not line-scoped (e.g. theme override).</summary>
+	public int Line { get; init; }
+
+	/// <summary>The offending source text (line content or class name).</summary>
+	public required string Source { get; init; }
+}
+
+/// <summary>
 /// Strict <b>styling</b> configuration — enforces visual uniformity, not security.
 /// (SVG sanitization is always on and independent of this; see <see cref="RenderOptions.SanitizeMode"/>.)
-/// When set, source-authored styling is rejected — <c>classDef</c>, <c>style</c>, <c>linkStyle</c>,
+/// When set, source-authored styling is controlled — <c>classDef</c>, <c>style</c>, <c>linkStyle</c>,
 /// C4 <c>Update*Style</c>, and <c>%%{init}%%</c>/frontmatter <c>theme</c>/<c>themeVariables</c> overrides —
 /// so appearance is controlled by the host design system, permitting only pre-approved class names.
+/// <para>
+/// In <see cref="StrictStylingMode.Strip"/> mode (the default) disallowed directives are silently
+/// dropped and the diagram still renders; in <see cref="StrictStylingMode.Block"/> mode they throw
+/// <see cref="MermaidParseException"/>.
+/// </para>
 /// </summary>
 public sealed record StrictStylingOptions
 {
@@ -67,9 +132,16 @@ public sealed record StrictStylingOptions
 	public IReadOnlyList<DiagramClass> AllowedClasses { get; init; } = [];
 
 	/// <summary>
-	/// When true, referencing a class name not in <see cref="AllowedClasses"/>
-	/// throws <see cref="MermaidParseException"/>. When false, unknown class
-	/// names are silently ignored (node gets default styling). Default: true.
+	/// How to react when a disallowed styling directive or unknown class reference is found.
+	/// Default: <see cref="StrictStylingMode.Strip"/> (drop and continue, mirroring
+	/// <see cref="SanitizeMode.Strip"/>).
 	/// </summary>
-	public bool RejectUnknownClasses { get; init; } = true;
+	public StrictStylingMode Mode { get; init; } = StrictStylingMode.Strip;
+
+	/// <summary>
+	/// Optional callback invoked for each styling directive or class reference that is stripped
+	/// when <see cref="Mode"/> is <see cref="StrictStylingMode.Strip"/>. Use this to log or
+	/// accumulate dropped items. Not called in <see cref="StrictStylingMode.Block"/> mode.
+	/// </summary>
+	public Action<StrictStylingViolation>? OnStripped { get; init; }
 }

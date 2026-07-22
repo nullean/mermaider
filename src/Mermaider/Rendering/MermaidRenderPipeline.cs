@@ -49,7 +49,7 @@ internal static class MermaidRenderPipeline
 			var rawSvg = DiagramSvgStage.Render(request);
 			token.ThrowIfCancellationRequested();
 
-			return SvgSanitizationStage.Apply(rawSvg, options?.SanitizeMode ?? SanitizeMode.Strip);
+			return SvgSanitizationStage.Apply(rawSvg, options?.SanitizeMode ?? SanitizeMode.Strip, options?.OnSanitized);
 		}
 		finally
 		{
@@ -143,19 +143,36 @@ internal static class RenderConfigurationNormalizer
 	internal static NormalizedRenderConfiguration Normalize(PreparedDiagram diagram, RenderOptions? options)
 	{
 		var strict = options?.Strict;
+		var metadata = diagram.Metadata;
 		if (strict is not null)
 		{
-			if (diagram.Metadata.Theme is { Length: > 0 } || diagram.Metadata.ThemeVariables is not null)
-				throw new MermaidParseException(
+			if (metadata.Theme is { Length: > 0 } || metadata.ThemeVariables is not null)
+			{
+				const string themeMsg =
 					"Strict mode: source-authored 'theme' / 'themeVariables' overrides are not allowed. " +
 					"Styling is controlled by the host design system; remove the %%{init}%% theme directive " +
-					"or frontmatter 'theme:' key.");
+					"or frontmatter 'theme:' key.";
+
+				if (strict.Mode == StrictStylingMode.Block)
+					throw new MermaidParseException(themeMsg);
+
+				strict.OnStripped?.Invoke(new StrictStylingViolation
+				{
+					Kind = StrictStylingViolationKind.ThemeOverride,
+					Message = themeMsg,
+					Line = 0,
+					Source = metadata.Theme ?? "(themeVariables)",
+				});
+
+				// Suppress source theme so host design-system colors are used instead.
+				metadata = metadata with { Theme = null, ThemeVariables = null };
+			}
 
 			StrictStylingValidator.Validate(diagram.Lines, strict);
 		}
 
 		var styles = new NormalizedRenderStyles(
-			BuildColors(options, diagram.Metadata),
+			BuildColors(options, metadata),
 			options?.Font ?? LayoutDefaults.Font,
 			options?.MonoFont,
 			FontScale.From(options),
@@ -422,14 +439,24 @@ internal static class DiagramSvgStage
 
 internal static class SvgSanitizationStage
 {
-	internal static string Apply(string rawSvg, SanitizeMode mode)
+	internal static string Apply(string rawSvg, SanitizeMode mode, Action<SvgViolation>? onSanitized = null)
 	{
 		if (mode is not (SanitizeMode.Strip or SanitizeMode.Block))
 			throw new ArgumentOutOfRangeException(nameof(mode), mode, "Unknown SVG sanitization mode.");
 
 		var result = SvgSanitizer.SanitizeRendererOutput(rawSvg);
-		if (mode == SanitizeMode.Block && result.HasViolations)
-			throw new MermaidSvgException(result.Violations);
+
+		if (result.HasViolations)
+		{
+			if (mode == SanitizeMode.Block)
+				throw new MermaidSvgException(result.Violations);
+
+			if (onSanitized is not null)
+			{
+				foreach (var violation in result.Violations)
+					onSanitized(violation);
+			}
+		}
 
 		return result.Svg;
 	}
