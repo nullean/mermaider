@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Sugiyama.Internal;
 
 namespace Sugiyama;
@@ -720,7 +721,7 @@ public static class SugiyamaLayout
 			var offset = (buf.NodeWidths[source] / 2.0) + (buf.NodeWidths[intermediate] / 2.0) + nodeSpacing;
 			ShiftNodeAndLayerNeighbors(buf, intermediate, offset, nodeSpacing);
 
-			ShiftForkDescendants(buf, intermediate, convergence, offset, nodeSpacing, realOutgoing);
+			ShiftForkDescendants(buf, intermediate, convergence, offset, nodeSpacing, realOutgoing, [intermediate]);
 
 			AlignShortcutVirtualNodes(buf, source, convergence);
 		}
@@ -763,8 +764,13 @@ public static class SugiyamaLayout
 
 	private static void ShiftForkDescendants(
 		GraphBuffer buf, int node, int convergence, double shift, double nodeSpacing,
-		Dictionary<int, List<int>> realOutgoing)
+		Dictionary<int, List<int>> realOutgoing, HashSet<int> visited)
 	{
+		// Defense-in-depth: convert an uncatchable StackOverflowException into a
+		// catchable InsufficientExecutionStackException for any future pathological
+		// graph that somehow slips past the visited-set guard.
+		RuntimeHelpers.EnsureSufficientExecutionStack();
+
 		if (!realOutgoing.TryGetValue(node, out var children))
 			return;
 
@@ -772,8 +778,10 @@ public static class SugiyamaLayout
 		{
 			if (child == convergence)
 				continue;
+			if (!visited.Add(child))
+				continue; // already shifted by a previous path through this node
 			ShiftNodeAndLayerNeighbors(buf, child, shift, nodeSpacing);
-			ShiftForkDescendants(buf, child, convergence, shift, nodeSpacing, realOutgoing);
+			ShiftForkDescendants(buf, child, convergence, shift, nodeSpacing, realOutgoing, visited);
 		}
 	}
 
@@ -808,6 +816,13 @@ public static class SugiyamaLayout
 			}
 
 			if (finalTarget >= buf.RealNodeCount)
+				continue;
+
+			// Self-loop: the resolved target is the source node itself.
+			// Self-loops carry no layering information and must not enter the
+			// fork-descendant adjacency — doing so makes ShiftForkDescendants
+			// recurse on a node that is its own successor (→ infinite recursion).
+			if (finalTarget == e.From)
 				continue;
 
 			if (!result.TryGetValue(e.From, out var list))

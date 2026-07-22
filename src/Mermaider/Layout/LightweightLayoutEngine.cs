@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Mermaider.Models;
 using Mermaider.Rendering;
 using Mermaider.Text;
@@ -96,6 +97,11 @@ internal static class LightweightLayoutEngine
 		{
 			throw new MermaidResourceLimitException(
 				nameof(ResourceLimits.MaxNodesAfterLayout), 0, maxNodesAfterLayout, ex);
+		}
+		catch (InsufficientExecutionStackException ex)
+		{
+			throw new MermaidResourceLimitException(
+				nameof(ResourceLimits.MaxRecursionDepth), 0, maxNodesAfterLayout, ex);
 		}
 		CompactStartEndNodes(result, graph);
 		var positioned = MapResult(result, graph, strict, layoutEdgeToOriginal);
