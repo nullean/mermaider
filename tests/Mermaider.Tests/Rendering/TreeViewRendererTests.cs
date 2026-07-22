@@ -161,8 +161,8 @@ public class TreeViewRendererTests
 			{
 				Strict = new StrictStylingOptions
 				{
+					Mode = StrictStylingMode.Block,
 					AllowedClasses = [new DiagramClass { Name = "highlight" }],
-					RejectUnknownClasses = true,
 				}
 			});
 
@@ -183,7 +183,6 @@ public class TreeViewRendererTests
 				Strict = new StrictStylingOptions
 				{
 					AllowedClasses = [new DiagramClass { Name = "highlight" }],
-					RejectUnknownClasses = true,
 				}
 			});
 

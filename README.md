@@ -120,7 +120,7 @@ All 24 diagram types render from the same [`RenderOptions`](#render-options). A 
 
 There is no per-type color system or per-type font stack. The design token model is the only model.
 
-[Strict Styling](#strict-styling) goes further for user-authored content: `classDef`, `style`, `linkStyle`, and theme overrides are rejected at parse time, and nodes are constrained to a class allowlist you define.
+[Strict Styling](#strict-styling) goes further for user-authored content: `classDef`, `style`, `linkStyle`, and theme overrides are stripped (and optionally reported via callback), and nodes are constrained to a class allowlist you define.
 
 ## Quick Start
 
@@ -334,12 +334,14 @@ design system, not arbitrary colors injected via `classDef` or `style` directive
 
 Strict styling:
 
-- **Rejects** `classDef`, `style`, and `linkStyle` directives at parse time (throws `MermaidParseException`)
-- **Rejects** source-authored `theme` / `themeVariables` overrides from `%%{init}%%` and frontmatter
-- **Rejects** C4 `UpdateElementStyle` / `UpdateRelStyle` / `UpdateBoundaryStyle`
+- **Strips** `classDef`, `style`, and `linkStyle` directives (diagram renders; violations reported via `OnStripped`)
+- **Strips** source-authored `theme` / `themeVariables` overrides from `%%{init}%%` and frontmatter
+- **Strips** C4 `UpdateElementStyle` / `UpdateRelStyle` / `UpdateBoundaryStyle`
 - **Enforces** a pre-approved class allowlist with theme-aware colors
 - **Generates** `@media (prefers-color-scheme: dark)` CSS for automatic light/dark switching
 - **Auto-derives** dark mode colors by inverting HSL lightness (or use explicit overrides)
+
+The default mode is `StrictStylingMode.Strip` — disallowed directives and unknown class references are silently dropped and the diagram still renders. Wire `OnStripped` to log what was dropped:
 
 ```csharp
 var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
@@ -360,9 +362,19 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
             },
             new DiagramClass { Name = "custom-highlight" },
         ],
-        RejectUnknownClasses = true,
+        OnStripped = v => logger.LogWarning("Strict mode stripped {Kind}: {Message}", v.Kind, v.Message),
     }
 });
+```
+
+Set `Mode = StrictStylingMode.Block` to throw `MermaidParseException` instead (the original fail-closed behavior):
+
+```csharp
+Strict = new StrictStylingOptions
+{
+    Mode = StrictStylingMode.Block,
+    AllowedClasses = [ ... ],
+}
 ```
 
 Nodes reference classes via Mermaid's `:::` shorthand or `class` directive:
@@ -403,6 +415,15 @@ built-in renderers, should never happen; it indicates a bug):
 var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 {
     SanitizeMode = SanitizeMode.Block, // fail closed instead of silently stripping
+});
+```
+
+In `Strip` mode (the default), use `OnSanitized` to receive a callback for each removed violation instead of discovering them silently:
+
+```csharp
+var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
+{
+    OnSanitized = v => logger.LogWarning("SVG sanitizer removed {Kind} '{Name}'", v.Kind, v.Name),
 });
 ```
 

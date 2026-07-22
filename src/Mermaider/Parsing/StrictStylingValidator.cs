@@ -6,8 +6,10 @@ namespace Mermaider.Parsing;
 
 /// <summary>
 /// Validates Mermaid source lines against strict mode constraints.
-/// Rejects <c>classDef</c> and <c>style</c> directives; validates class references
-/// against the allowed set.
+/// In <see cref="StrictStylingMode.Block"/> mode, throws <see cref="MermaidParseException"/>
+/// on the first disallowed directive or unknown class reference.
+/// In <see cref="StrictStylingMode.Strip"/> mode, reports each stripped item via
+/// <see cref="StrictStylingOptions.OnStripped"/> and continues.
 /// </summary>
 internal static partial class StrictStylingValidator
 {
@@ -36,6 +38,8 @@ internal static partial class StrictStylingValidator
 
 	internal static void Validate(string[] lines, StrictStylingOptions strict)
 	{
+		// AllowedClasses grammar + hex-color checks always throw regardless of Mode —
+		// these are host-configuration errors, not source-authored styling.
 		ValidateAllowedClasses(strict);
 		var allowed = BuildAllowedSet(strict);
 
@@ -44,31 +48,58 @@ internal static partial class StrictStylingValidator
 			var line = lines[i];
 
 			if (ClassDefDirective().IsMatch(line))
-				throw new MermaidParseException(
-					$"Strict mode: 'classDef' directives are not allowed (line {i + 1}: \"{line}\"). " +
-					"Use pre-defined allowed classes instead.");
+			{
+				var msg = $"Strict mode: 'classDef' directives are not allowed (line {i + 1}: \"{line}\"). " +
+					"Use pre-defined allowed classes instead.";
+				RejectOrReport(strict, StrictStylingViolationKind.ClassDefDirective, msg, i + 1, line);
+				continue;
+			}
 
 			if (StyleDirective().IsMatch(line))
-				throw new MermaidParseException(
-					$"Strict mode: 'style' directives are not allowed (line {i + 1}: \"{line}\"). " +
-					"Use pre-defined allowed classes instead.");
+			{
+				var msg = $"Strict mode: 'style' directives are not allowed (line {i + 1}: \"{line}\"). " +
+					"Use pre-defined allowed classes instead.";
+				RejectOrReport(strict, StrictStylingViolationKind.StyleDirective, msg, i + 1, line);
+				continue;
+			}
 
 			if (LinkStyleDirective().IsMatch(line))
-				throw new MermaidParseException(
-					$"Strict mode: 'linkStyle' directives are not allowed (line {i + 1}: \"{line}\"). " +
-					"Edge styling must come from the host design system.");
+			{
+				var msg = $"Strict mode: 'linkStyle' directives are not allowed (line {i + 1}: \"{line}\"). " +
+					"Edge styling must come from the host design system.";
+				RejectOrReport(strict, StrictStylingViolationKind.LinkStyleDirective, msg, i + 1, line);
+				continue;
+			}
 
 			if (UpdateStyleDirective().IsMatch(line))
-				throw new MermaidParseException(
-					$"Strict mode: C4 'Update*Style' directives are not allowed (line {i + 1}: \"{line}\"). " +
-					"Element styling must come from the host design system.");
-
-			if (strict.RejectUnknownClasses)
 			{
-				ValidateClassAssignment(line, allowed, i);
-				ValidateClassShorthand(line, allowed, i);
+				var msg = $"Strict mode: C4 'Update*Style' directives are not allowed (line {i + 1}: \"{line}\"). " +
+					"Element styling must come from the host design system.";
+				RejectOrReport(strict, StrictStylingViolationKind.UpdateStyleDirective, msg, i + 1, line);
+				continue;
 			}
+
+			ValidateClassAssignment(line, allowed, i, strict);
+			ValidateClassShorthand(line, allowed, i, strict);
 		}
+	}
+
+	/// <summary>
+	/// Throws <see cref="MermaidParseException"/> in Block mode; invokes
+	/// <see cref="StrictStylingOptions.OnStripped"/> and continues in Strip mode.
+	/// </summary>
+	private static void RejectOrReport(StrictStylingOptions strict, StrictStylingViolationKind kind, string message, int line, string source)
+	{
+		if (strict.Mode == StrictStylingMode.Block)
+			throw new MermaidParseException(message);
+
+		strict.OnStripped?.Invoke(new StrictStylingViolation
+		{
+			Kind = kind,
+			Message = message,
+			Line = line,
+			Source = source,
+		});
 	}
 
 	private static void ValidateAllowedClasses(StrictStylingOptions strict)
@@ -99,28 +130,51 @@ internal static partial class StrictStylingValidator
 				$"Strict mode: {property} for class '{className}' must be a 3, 4, 6, or 8 digit hexadecimal color.");
 	}
 
-	private static void ValidateClassAssignment(string line, FrozenSet<string> allowed, int lineIndex)
+	private static void ValidateClassAssignment(string line, FrozenSet<string> allowed, int lineIndex, StrictStylingOptions strict)
 	{
 		var match = ClassAssignDirective().Match(line);
-		if (match.Success)
+		if (!match.Success)
+			return;
+		var name = match.Groups[1].Value;
+		if (allowed.Contains(name))
+			return;
+
+		var msg = $"Strict mode: unknown class '{name}' (line {lineIndex + 1}). " +
+			$"Allowed classes: {string.Join(", ", allowed)}.";
+
+		if (strict.Mode == StrictStylingMode.Block)
+			throw new MermaidParseException(msg);
+
+		strict.OnStripped?.Invoke(new StrictStylingViolation
 		{
-			var name = match.Groups[1].Value;
-			if (!allowed.Contains(name))
-				throw new MermaidParseException(
-					$"Strict mode: unknown class '{name}' (line {lineIndex + 1}). " +
-					$"Allowed classes: {string.Join(", ", allowed)}.");
-		}
+			Kind = StrictStylingViolationKind.UnknownClassReference,
+			Message = msg,
+			Line = lineIndex + 1,
+			Source = name,
+		});
 	}
 
-	private static void ValidateClassShorthand(string line, FrozenSet<string> allowed, int lineIndex)
+	private static void ValidateClassShorthand(string line, FrozenSet<string> allowed, int lineIndex, StrictStylingOptions strict)
 	{
 		foreach (var match in ClassShorthand().EnumerateMatches(line))
 		{
 			var name = line.AsSpan(match.Index + 3, match.Length - 3).ToString();
-			if (!allowed.Contains(name))
-				throw new MermaidParseException(
-					$"Strict mode: unknown class '{name}' (line {lineIndex + 1}). " +
-					$"Allowed classes: {string.Join(", ", allowed)}.");
+			if (allowed.Contains(name))
+				continue;
+
+			var msg = $"Strict mode: unknown class '{name}' (line {lineIndex + 1}). " +
+				$"Allowed classes: {string.Join(", ", allowed)}.";
+
+			if (strict.Mode == StrictStylingMode.Block)
+				throw new MermaidParseException(msg);
+
+			strict.OnStripped?.Invoke(new StrictStylingViolation
+			{
+				Kind = StrictStylingViolationKind.UnknownClassReference,
+				Message = msg,
+				Line = lineIndex + 1,
+				Source = name,
+			});
 		}
 	}
 

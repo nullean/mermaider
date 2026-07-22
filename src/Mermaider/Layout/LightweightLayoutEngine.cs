@@ -258,7 +258,7 @@ internal static class LightweightLayoutEngine
 				HasArrowEnd = mermaidEdge.HasArrowEnd,
 				Points = points,
 				LabelPosition = labelPos,
-				InlineStyle = ResolveEdgeStyle(origIdx, graph),
+				InlineStyle = strict is null ? ResolveEdgeStyle(origIdx, graph) : null,
 			});
 		}
 

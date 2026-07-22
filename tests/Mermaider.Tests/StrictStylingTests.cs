@@ -5,6 +5,7 @@ namespace Mermaider.Tests;
 
 public class StrictStylingTests
 {
+	// Strip mode (the new default) — disallowed directives are ignored and rendering continues.
 	private static readonly StrictStylingOptions DefaultStrict = new()
 	{
 		AllowedClasses =
@@ -30,6 +31,9 @@ public class StrictStylingTests
 		]
 	};
 
+	// Block mode — preserves the original throw-on-first-violation behavior.
+	private static readonly StrictStylingOptions BlockStrict = DefaultStrict with { Mode = StrictStylingMode.Block };
+
 	[Test]
 	public void Rejects_classDef_directive()
 	{
@@ -38,7 +42,7 @@ public class StrictStylingTests
 			  classDef red fill:#f00
 			  A --> B
 			""";
-		var options = new RenderOptions { Strict = DefaultStrict };
+		var options = new RenderOptions { Strict = BlockStrict };
 
 		var act = () => MermaidRenderer.RenderSvg(input, options);
 
@@ -54,7 +58,7 @@ public class StrictStylingTests
 			  A --> B
 			  style A fill:#f00
 			""";
-		var options = new RenderOptions { Strict = DefaultStrict };
+		var options = new RenderOptions { Strict = BlockStrict };
 
 		var act = () => MermaidRenderer.RenderSvg(input, options);
 
@@ -69,7 +73,7 @@ public class StrictStylingTests
 			graph TD
 			  A:::unknown --> B
 			""";
-		var options = new RenderOptions { Strict = DefaultStrict };
+		var options = new RenderOptions { Strict = BlockStrict };
 
 		var act = () => MermaidRenderer.RenderSvg(input, options);
 
@@ -85,7 +89,7 @@ public class StrictStylingTests
 			  A --> B
 			  class A unknown
 			""";
-		var options = new RenderOptions { Strict = DefaultStrict };
+		var options = new RenderOptions { Strict = BlockStrict };
 
 		var act = () => MermaidRenderer.RenderSvg(input, options);
 
@@ -172,7 +176,7 @@ public class StrictStylingTests
 	}
 
 	[Test]
-	public void Allows_unknown_class_when_RejectUnknownClasses_is_false()
+	public void Allows_unknown_class_in_strip_mode()
 	{
 		var input = """
 			graph TD
@@ -180,11 +184,7 @@ public class StrictStylingTests
 			""";
 		var options = new RenderOptions
 		{
-			Strict = new StrictStylingOptions
-			{
-				AllowedClasses = [],
-				RejectUnknownClasses = false
-			}
+			Strict = new StrictStylingOptions { AllowedClasses = [] }
 		};
 
 		var svg = MermaidRenderer.RenderSvg(input, options);
@@ -244,7 +244,7 @@ public class StrictStylingTests
 			graph TD
 			  A --> B
 			""";
-		var options = new RenderOptions { Strict = DefaultStrict };
+		var options = new RenderOptions { Strict = BlockStrict };
 
 		var act = () => MermaidRenderer.RenderSvg(input, options);
 
@@ -260,7 +260,7 @@ public class StrictStylingTests
 			graph TD
 			  A --> B
 			""";
-		var options = new RenderOptions { Strict = DefaultStrict };
+		var options = new RenderOptions { Strict = BlockStrict };
 
 		var act = () => MermaidRenderer.RenderSvg(input, options);
 
@@ -297,7 +297,7 @@ public class StrictStylingTests
 			  A --> B
 			  linkStyle 0 stroke:#f00
 			""";
-		var options = new RenderOptions { Strict = DefaultStrict };
+		var options = new RenderOptions { Strict = BlockStrict };
 
 		var act = () => MermaidRenderer.RenderSvg(input, options);
 
@@ -313,7 +313,7 @@ public class StrictStylingTests
 			Person(user, "User")
 			UpdateElementStyle(user, $fontColor="red")
 			""";
-		var options = new RenderOptions { Strict = DefaultStrict };
+		var options = new RenderOptions { Strict = BlockStrict };
 
 		var act = () => MermaidRenderer.RenderSvg(input, options);
 
@@ -329,7 +329,7 @@ public class StrictStylingTests
 			Person(user, "User")
 			UpdateRelStyle(user, user, $lineColor="red")
 			""";
-		var options = new RenderOptions { Strict = DefaultStrict };
+		var options = new RenderOptions { Strict = BlockStrict };
 
 		var act = () => MermaidRenderer.RenderSvg(input, options);
 
@@ -436,5 +436,205 @@ public class StrictStylingTests
 			act.Should().ThrowExactly<MermaidParseException>()
 				.WithMessage($"*{property}*hexadecimal color*");
 		}
+	}
+
+	// ========================================================================
+	// Strip mode — default behavior; disallowed directives are dropped and
+	// reported via OnStripped; rendering continues normally.
+	// ========================================================================
+
+	[Test]
+	public void Strip_classDef_renders_and_reports_callback()
+	{
+		var input = """
+			graph TD
+			  classDef red fill:#f00
+			  A --> B
+			""";
+		var stripped = new List<StrictStylingViolation>();
+		var options = new RenderOptions
+		{
+			Strict = DefaultStrict with { OnStripped = stripped.Add }
+		};
+
+		var svg = MermaidRenderer.RenderSvg(input, options);
+
+		svg.Should().Contain("</svg>");
+		stripped.Should().ContainSingle(v =>
+			v.Kind == StrictStylingViolationKind.ClassDefDirective &&
+			v.Line == 2);
+	}
+
+	[Test]
+	public void Strip_style_directive_renders_and_reports_callback()
+	{
+		var input = """
+			graph TD
+			  A --> B
+			  style A fill:#f00
+			""";
+		var stripped = new List<StrictStylingViolation>();
+		var options = new RenderOptions
+		{
+			Strict = DefaultStrict with { OnStripped = stripped.Add }
+		};
+
+		var svg = MermaidRenderer.RenderSvg(input, options);
+
+		svg.Should().Contain("</svg>");
+		stripped.Should().ContainSingle(v =>
+			v.Kind == StrictStylingViolationKind.StyleDirective &&
+			v.Line == 3);
+	}
+
+	[Test]
+	public void Strip_linkStyle_renders_without_source_edge_color_and_reports_callback()
+	{
+		var input = """
+			graph TD
+			  A --> B
+			  linkStyle 0 stroke:#f00,stroke-width:4px
+			""";
+		var stripped = new List<StrictStylingViolation>();
+		var options = new RenderOptions
+		{
+			Strict = DefaultStrict with { OnStripped = stripped.Add }
+		};
+
+		var svg = MermaidRenderer.RenderSvg(input, options);
+
+		svg.Should().Contain("</svg>");
+		// Source linkStyle must not appear as inline stroke on the edge
+		svg.Should().NotContain("#f00");
+		stripped.Should().ContainSingle(v =>
+			v.Kind == StrictStylingViolationKind.LinkStyleDirective &&
+			v.Line == 3);
+	}
+
+	[Test]
+	public void Strip_unknown_class_shorthand_renders_and_reports_callback()
+	{
+		var input = """
+			graph TD
+			  A:::whatever --> B
+			""";
+		var stripped = new List<StrictStylingViolation>();
+		var options = new RenderOptions
+		{
+			Strict = DefaultStrict with { OnStripped = stripped.Add }
+		};
+
+		var svg = MermaidRenderer.RenderSvg(input, options);
+
+		svg.Should().Contain("</svg>");
+		stripped.Should().ContainSingle(v =>
+			v.Kind == StrictStylingViolationKind.UnknownClassReference &&
+			v.Source == "whatever");
+	}
+
+	[Test]
+	public void Strip_unknown_class_directive_renders_and_reports_callback()
+	{
+		var input = """
+			graph TD
+			  A --> B
+			  class A whatever
+			""";
+		var stripped = new List<StrictStylingViolation>();
+		var options = new RenderOptions
+		{
+			Strict = DefaultStrict with { OnStripped = stripped.Add }
+		};
+
+		var svg = MermaidRenderer.RenderSvg(input, options);
+
+		svg.Should().Contain("</svg>");
+		stripped.Should().ContainSingle(v =>
+			v.Kind == StrictStylingViolationKind.UnknownClassReference &&
+			v.Source == "whatever");
+	}
+
+	[Test]
+	public void Strip_theme_override_renders_with_host_colors_and_reports_callback()
+	{
+		var input = """
+			%%{init: {"theme": "dark"}}%%
+			graph TD
+			  A --> B
+			""";
+		var stripped = new List<StrictStylingViolation>();
+		var options = new RenderOptions
+		{
+			// Provide explicit host colors so we can assert they win over the source theme.
+			Bg = "#123456",
+			Strict = DefaultStrict with { OnStripped = stripped.Add }
+		};
+
+		var svg = MermaidRenderer.RenderSvg(input, options);
+
+		svg.Should().Contain("</svg>");
+		// Host background color must appear; dark theme defaults must NOT override it.
+		svg.Should().Contain("#123456");
+		stripped.Should().ContainSingle(v =>
+			v.Kind == StrictStylingViolationKind.ThemeOverride &&
+			v.Line == 0);
+	}
+
+	[Test]
+	public void Strip_mode_no_callback_renders_silently_without_throwing()
+	{
+		// Sanity: strip mode with no OnStripped callback must not throw.
+		var input = """
+			graph TD
+			  classDef red fill:#f00
+			  A:::unknown --> B
+			  linkStyle 0 stroke:#f00
+			""";
+		var options = new RenderOptions { Strict = DefaultStrict };
+
+		var act = () => MermaidRenderer.RenderSvg(input, options);
+
+		act.Should().NotThrow();
+	}
+
+	// ========================================================================
+	// Block mode — AllowedClasses validation always throws in both modes.
+	// ========================================================================
+
+	[Test]
+	public void AllowedClasses_validation_throws_in_strip_mode_too()
+	{
+		// Host-config errors (bad AllowedClasses) must always throw, regardless of Mode.
+		var options = new RenderOptions
+		{
+			Strict = new StrictStylingOptions
+			{
+				Mode = StrictStylingMode.Strip,
+				AllowedClasses = [new DiagramClass { Name = "invalid", Color = "#fff" }],
+			}
+		};
+
+		var act = () => MermaidRenderer.RenderSvg("graph TD\nA --> B", options);
+
+		act.Should().ThrowExactly<MermaidParseException>()
+			.WithMessage("*must define Fill*");
+	}
+
+	// ========================================================================
+	// SVG-sanitizer callback (OnSanitized on RenderOptions)
+	// ========================================================================
+
+	[Test]
+	public void OnSanitized_not_called_when_no_violations()
+	{
+		var called = false;
+		var options = new RenderOptions
+		{
+			OnSanitized = _ => called = true
+		};
+
+		_ = MermaidRenderer.RenderSvg("graph TD\n  A --> B", options);
+
+		called.Should().BeFalse("a clean diagram produces no sanitizer violations");
 	}
 }
