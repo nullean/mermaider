@@ -246,4 +246,82 @@ public class SugiyamaLayoutTests
 
 		wide.Height.Should().BeGreaterThan(tight.Height, "wider spacing should produce larger output");
 	}
+
+	// ====================================================================
+	// Self-loop / cycle regression tests (issue #49)
+	// ====================================================================
+
+	[Test]
+	public void Self_loop_with_outgoing_edge_does_not_stackoverflow()
+	{
+		// A-->A self-loop plus A-->B: previously caused infinite recursion
+		// in ShiftForkDescendants via BuildRealOutgoing including the self-edge.
+		var graph = new LayoutGraph(
+			LayoutDirection.TD,
+			[new LayoutNode("A", 100, 40), new LayoutNode("B", 100, 40)],
+			[new LayoutEdge("A", "A"), new LayoutEdge("A", "B")],
+			[]);
+
+		var result = SugiyamaLayout.Compute(graph);
+
+		result.Nodes.Should().HaveCount(2);
+		result.Edges.Should().HaveCount(2, "self-loop edge is still present in the output");
+	}
+
+	[Test]
+	public void Multiple_self_loops_do_not_stackoverflow()
+	{
+		// Mirrors the real-world firewall state machine from issue #49.
+		var graph = new LayoutGraph(
+			LayoutDirection.TD,
+			[
+				new LayoutNode("Start", 60, 30),
+				new LayoutNode("Ready", 100, 40),
+				new LayoutNode("Stopped", 100, 40),
+			],
+			[
+				new LayoutEdge("Start", "Ready"),
+				new LayoutEdge("Ready", "Ready"),
+				new LayoutEdge("Ready", "Ready"),
+				new LayoutEdge("Ready", "Ready"),
+				new LayoutEdge("Ready", "Stopped"),
+			],
+			[]);
+
+		var result = SugiyamaLayout.Compute(graph);
+
+		result.Nodes.Should().HaveCount(3);
+	}
+
+	[Test]
+	public void Two_node_cycle_does_not_stackoverflow()
+	{
+		// A-->B-->A: any directed cycle is a latent risk for ShiftForkDescendants
+		// without a visited-set guard.
+		var graph = new LayoutGraph(
+			LayoutDirection.TD,
+			[new LayoutNode("A", 100, 40), new LayoutNode("B", 100, 40)],
+			[new LayoutEdge("A", "B"), new LayoutEdge("B", "A")],
+			[]);
+
+		var result = SugiyamaLayout.Compute(graph);
+
+		result.Nodes.Should().HaveCount(2);
+	}
+
+	[Test]
+	public void Self_loop_only_node_does_not_stackoverflow()
+	{
+		// A node with only a self-loop and no other edges.
+		var graph = new LayoutGraph(
+			LayoutDirection.TD,
+			[new LayoutNode("A", 100, 40)],
+			[new LayoutEdge("A", "A")],
+			[]);
+
+		var result = SugiyamaLayout.Compute(graph);
+
+		result.Nodes.Should().HaveCount(1);
+		result.Edges.Should().HaveCount(1);
+	}
 }

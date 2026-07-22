@@ -450,6 +450,34 @@ public class MermaidCompatTests
 			  Review --> Published : approve
 			  Published --> [*]
 			""");
+		// Issue #49: self-loop with outgoing edge previously caused StackOverflowException
+		yield return ("self-loop minimal (issue #49)", """
+			stateDiagram-v2
+			  [*] --> Ready
+			  Ready --> Ready: A
+			  Ready --> Stopped: X
+			""");
+		yield return ("multiple self-loops (issue #49 real-world)", """
+			stateDiagram-v2
+			  [*] --> WaitingForIP: Actor created
+			  WaitingForIP --> WaitingForInit: InspectedData(ip)
+			  WaitingForInit --> Ready: ContainerInitialised
+			  Ready --> Ready: ClusterEndpoints
+			  Ready --> Ready: AclData
+			  Ready --> Ready: TreeCacheEvent
+			  Ready --> Ready: InspectedData
+			  Ready --> Stopped: RemoveRules
+			""");
+		yield return ("flowchart self-loop (issue #49)", """
+			flowchart LR
+			  A --> A
+			  A --> B
+			""");
+		yield return ("two-node cycle (issue #49)", """
+			flowchart TD
+			  A --> B
+			  B --> A
+			""");
 	}
 
 	// ====================================================================
