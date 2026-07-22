@@ -146,6 +146,8 @@ internal static class RenderConfigurationNormalizer
 		var metadata = diagram.Metadata;
 		if (strict is not null)
 		{
+			var violations = new List<StrictStylingViolation>();
+
 			if (metadata.Theme is { Length: > 0 } || metadata.ThemeVariables is not null)
 			{
 				const string themeMsg =
@@ -156,7 +158,7 @@ internal static class RenderConfigurationNormalizer
 				if (strict.Mode == StrictStylingMode.Block)
 					throw new MermaidParseException(themeMsg);
 
-				strict.OnStripped?.Invoke(new StrictStylingViolation
+				violations.Add(new StrictStylingViolation
 				{
 					Kind = StrictStylingViolationKind.ThemeOverride,
 					Message = themeMsg,
@@ -168,7 +170,10 @@ internal static class RenderConfigurationNormalizer
 				metadata = metadata with { Theme = null, ThemeVariables = null };
 			}
 
-			StrictStylingValidator.Validate(diagram.Lines, strict);
+			StrictStylingValidator.Validate(diagram.Lines, strict, violations);
+
+			if (violations.Count > 0)
+				strict.OnStripped?.Invoke(violations);
 		}
 
 		var styles = new NormalizedRenderStyles(
@@ -439,7 +444,7 @@ internal static class DiagramSvgStage
 
 internal static class SvgSanitizationStage
 {
-	internal static string Apply(string rawSvg, SanitizeMode mode, Action<SvgViolation>? onSanitized = null)
+	internal static string Apply(string rawSvg, SanitizeMode mode, Action<IReadOnlyList<SvgViolation>>? onSanitized = null)
 	{
 		if (mode is not (SanitizeMode.Strip or SanitizeMode.Block))
 			throw new ArgumentOutOfRangeException(nameof(mode), mode, "Unknown SVG sanitization mode.");
@@ -451,11 +456,7 @@ internal static class SvgSanitizationStage
 			if (mode == SanitizeMode.Block)
 				throw new MermaidSvgException(result.Violations);
 
-			if (onSanitized is not null)
-			{
-				foreach (var violation in result.Violations)
-					onSanitized(violation);
-			}
+			onSanitized?.Invoke(result.Violations);
 		}
 
 		return result.Svg;

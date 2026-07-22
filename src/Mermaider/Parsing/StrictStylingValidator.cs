@@ -36,7 +36,12 @@ internal static partial class StrictStylingValidator
 	[GeneratedRegex(@"^[A-Za-z_][A-Za-z0-9_-]*$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex SafeClassName();
 
-	internal static void Validate(string[] lines, StrictStylingOptions strict)
+	/// <summary>
+	/// Validates source lines against strict-mode constraints. In Block mode throws on the first
+	/// violation; in Strip mode appends each violation to <paramref name="violations"/> (the caller
+	/// is responsible for invoking <see cref="StrictStylingOptions.OnStripped"/> once at the end).
+	/// </summary>
+	internal static void Validate(string[] lines, StrictStylingOptions strict, List<StrictStylingViolation> violations)
 	{
 		// AllowedClasses grammar + hex-color checks always throw regardless of Mode —
 		// these are host-configuration errors, not source-authored styling.
@@ -51,7 +56,7 @@ internal static partial class StrictStylingValidator
 			{
 				var msg = $"Strict mode: 'classDef' directives are not allowed (line {i + 1}: \"{line}\"). " +
 					"Use pre-defined allowed classes instead.";
-				RejectOrReport(strict, StrictStylingViolationKind.ClassDefDirective, msg, i + 1, line);
+				RejectOrCollect(strict, violations, StrictStylingViolationKind.ClassDefDirective, msg, i + 1, line);
 				continue;
 			}
 
@@ -59,7 +64,7 @@ internal static partial class StrictStylingValidator
 			{
 				var msg = $"Strict mode: 'style' directives are not allowed (line {i + 1}: \"{line}\"). " +
 					"Use pre-defined allowed classes instead.";
-				RejectOrReport(strict, StrictStylingViolationKind.StyleDirective, msg, i + 1, line);
+				RejectOrCollect(strict, violations, StrictStylingViolationKind.StyleDirective, msg, i + 1, line);
 				continue;
 			}
 
@@ -67,7 +72,7 @@ internal static partial class StrictStylingValidator
 			{
 				var msg = $"Strict mode: 'linkStyle' directives are not allowed (line {i + 1}: \"{line}\"). " +
 					"Edge styling must come from the host design system.";
-				RejectOrReport(strict, StrictStylingViolationKind.LinkStyleDirective, msg, i + 1, line);
+				RejectOrCollect(strict, violations, StrictStylingViolationKind.LinkStyleDirective, msg, i + 1, line);
 				continue;
 			}
 
@@ -75,25 +80,26 @@ internal static partial class StrictStylingValidator
 			{
 				var msg = $"Strict mode: C4 'Update*Style' directives are not allowed (line {i + 1}: \"{line}\"). " +
 					"Element styling must come from the host design system.";
-				RejectOrReport(strict, StrictStylingViolationKind.UpdateStyleDirective, msg, i + 1, line);
+				RejectOrCollect(strict, violations, StrictStylingViolationKind.UpdateStyleDirective, msg, i + 1, line);
 				continue;
 			}
 
-			ValidateClassAssignment(line, allowed, i, strict);
-			ValidateClassShorthand(line, allowed, i, strict);
+			ValidateClassAssignment(line, allowed, i, strict, violations);
+			ValidateClassShorthand(line, allowed, i, strict, violations);
 		}
 	}
 
 	/// <summary>
-	/// Throws <see cref="MermaidParseException"/> in Block mode; invokes
-	/// <see cref="StrictStylingOptions.OnStripped"/> and continues in Strip mode.
+	/// Throws <see cref="MermaidParseException"/> in Block mode; appends a violation to
+	/// <paramref name="violations"/> in Strip mode (caller fires <see cref="StrictStylingOptions.OnStripped"/> once).
 	/// </summary>
-	private static void RejectOrReport(StrictStylingOptions strict, StrictStylingViolationKind kind, string message, int line, string source)
+	private static void RejectOrCollect(StrictStylingOptions strict, List<StrictStylingViolation> violations,
+		StrictStylingViolationKind kind, string message, int line, string source)
 	{
 		if (strict.Mode == StrictStylingMode.Block)
 			throw new MermaidParseException(message);
 
-		strict.OnStripped?.Invoke(new StrictStylingViolation
+		violations.Add(new StrictStylingViolation
 		{
 			Kind = kind,
 			Message = message,
@@ -130,7 +136,8 @@ internal static partial class StrictStylingValidator
 				$"Strict mode: {property} for class '{className}' must be a 3, 4, 6, or 8 digit hexadecimal color.");
 	}
 
-	private static void ValidateClassAssignment(string line, FrozenSet<string> allowed, int lineIndex, StrictStylingOptions strict)
+	private static void ValidateClassAssignment(string line, FrozenSet<string> allowed, int lineIndex,
+		StrictStylingOptions strict, List<StrictStylingViolation> violations)
 	{
 		var match = ClassAssignDirective().Match(line);
 		if (!match.Success)
@@ -142,19 +149,11 @@ internal static partial class StrictStylingValidator
 		var msg = $"Strict mode: unknown class '{name}' (line {lineIndex + 1}). " +
 			$"Allowed classes: {string.Join(", ", allowed)}.";
 
-		if (strict.Mode == StrictStylingMode.Block)
-			throw new MermaidParseException(msg);
-
-		strict.OnStripped?.Invoke(new StrictStylingViolation
-		{
-			Kind = StrictStylingViolationKind.UnknownClassReference,
-			Message = msg,
-			Line = lineIndex + 1,
-			Source = name,
-		});
+		RejectOrCollect(strict, violations, StrictStylingViolationKind.UnknownClassReference, msg, lineIndex + 1, name);
 	}
 
-	private static void ValidateClassShorthand(string line, FrozenSet<string> allowed, int lineIndex, StrictStylingOptions strict)
+	private static void ValidateClassShorthand(string line, FrozenSet<string> allowed, int lineIndex,
+		StrictStylingOptions strict, List<StrictStylingViolation> violations)
 	{
 		foreach (var match in ClassShorthand().EnumerateMatches(line))
 		{
@@ -165,16 +164,7 @@ internal static partial class StrictStylingValidator
 			var msg = $"Strict mode: unknown class '{name}' (line {lineIndex + 1}). " +
 				$"Allowed classes: {string.Join(", ", allowed)}.";
 
-			if (strict.Mode == StrictStylingMode.Block)
-				throw new MermaidParseException(msg);
-
-			strict.OnStripped?.Invoke(new StrictStylingViolation
-			{
-				Kind = StrictStylingViolationKind.UnknownClassReference,
-				Message = msg,
-				Line = lineIndex + 1,
-				Source = name,
-			});
+			RejectOrCollect(strict, violations, StrictStylingViolationKind.UnknownClassReference, msg, lineIndex + 1, name);
 		}
 	}
 
