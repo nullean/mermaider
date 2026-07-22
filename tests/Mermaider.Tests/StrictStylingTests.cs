@@ -454,7 +454,7 @@ public class StrictStylingTests
 		var stripped = new List<StrictStylingViolation>();
 		var options = new RenderOptions
 		{
-			Strict = DefaultStrict with { OnStripped = stripped.Add }
+			Strict = DefaultStrict with { OnStripped = v => stripped.AddRange(v) }
 		};
 
 		var svg = MermaidRenderer.RenderSvg(input, options);
@@ -476,7 +476,7 @@ public class StrictStylingTests
 		var stripped = new List<StrictStylingViolation>();
 		var options = new RenderOptions
 		{
-			Strict = DefaultStrict with { OnStripped = stripped.Add }
+			Strict = DefaultStrict with { OnStripped = v => stripped.AddRange(v) }
 		};
 
 		var svg = MermaidRenderer.RenderSvg(input, options);
@@ -498,7 +498,7 @@ public class StrictStylingTests
 		var stripped = new List<StrictStylingViolation>();
 		var options = new RenderOptions
 		{
-			Strict = DefaultStrict with { OnStripped = stripped.Add }
+			Strict = DefaultStrict with { OnStripped = v => stripped.AddRange(v) }
 		};
 
 		var svg = MermaidRenderer.RenderSvg(input, options);
@@ -521,7 +521,7 @@ public class StrictStylingTests
 		var stripped = new List<StrictStylingViolation>();
 		var options = new RenderOptions
 		{
-			Strict = DefaultStrict with { OnStripped = stripped.Add }
+			Strict = DefaultStrict with { OnStripped = v => stripped.AddRange(v) }
 		};
 
 		var svg = MermaidRenderer.RenderSvg(input, options);
@@ -543,7 +543,7 @@ public class StrictStylingTests
 		var stripped = new List<StrictStylingViolation>();
 		var options = new RenderOptions
 		{
-			Strict = DefaultStrict with { OnStripped = stripped.Add }
+			Strict = DefaultStrict with { OnStripped = v => stripped.AddRange(v) }
 		};
 
 		var svg = MermaidRenderer.RenderSvg(input, options);
@@ -567,7 +567,7 @@ public class StrictStylingTests
 		{
 			// Provide explicit host colors so we can assert they win over the source theme.
 			Bg = "#123456",
-			Strict = DefaultStrict with { OnStripped = stripped.Add }
+			Strict = DefaultStrict with { OnStripped = v => stripped.AddRange(v) }
 		};
 
 		var svg = MermaidRenderer.RenderSvg(input, options);

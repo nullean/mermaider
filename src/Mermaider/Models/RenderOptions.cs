@@ -101,12 +101,12 @@ public sealed record RenderOptions
 	public SanitizeMode SanitizeMode { get; init; } = SanitizeMode.Strip;
 
 	/// <summary>
-	/// Optional callback invoked for each SVG element or attribute stripped by the always-on
-	/// sanitizer when <see cref="SanitizeMode"/> is <see cref="Models.SanitizeMode.Strip"/>.
-	/// Use this to log or accumulate sanitizer violations without having to set
-	/// <see cref="Models.SanitizeMode.Block"/>. Not called in Block mode (an exception is thrown instead).
+	/// Optional callback invoked once per diagram with all SVG elements and attributes stripped by
+	/// the always-on sanitizer when <see cref="SanitizeMode"/> is <see cref="Models.SanitizeMode.Strip"/>.
+	/// The list contains every violation found in one render call. Not called when there are no
+	/// violations, and not called in Block mode (an exception is thrown instead).
 	/// </summary>
-	public Action<SvgViolation>? OnSanitized { get; init; }
+	public Action<IReadOnlyList<SvgViolation>>? OnSanitized { get; init; }
 
 	/// <summary>
 	/// Resource limits for the parse + layout + render pipeline.

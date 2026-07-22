@@ -139,9 +139,10 @@ public sealed record StrictStylingOptions
 	public StrictStylingMode Mode { get; init; } = StrictStylingMode.Strip;
 
 	/// <summary>
-	/// Optional callback invoked for each styling directive or class reference that is stripped
-	/// when <see cref="Mode"/> is <see cref="StrictStylingMode.Strip"/>. Use this to log or
-	/// accumulate dropped items. Not called in <see cref="StrictStylingMode.Block"/> mode.
+	/// Optional callback invoked once per diagram with all styling directives and class references
+	/// that were stripped when <see cref="Mode"/> is <see cref="StrictStylingMode.Strip"/>. The list
+	/// contains every violation found in one render call, ordered by source line. Not called when
+	/// there are no violations, and not called in <see cref="StrictStylingMode.Block"/> mode.
 	/// </summary>
-	public Action<StrictStylingViolation>? OnStripped { get; init; }
+	public Action<IReadOnlyList<StrictStylingViolation>>? OnStripped { get; init; }
 }
