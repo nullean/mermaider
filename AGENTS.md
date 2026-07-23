@@ -42,6 +42,8 @@ constants, drop-shadow classes, and the "adding a diagram" checklist.
 ### Injection / XSS (already hardened)
 - `SvgSanitizer` applies an allowlist-only pass before every output; `DtdProcessing.Prohibit` + `XmlResolver = null` blocks XXE and billion-laughs
 - `[GeneratedRegex]` with `matchTimeoutMilliseconds: 2000` on every regex pattern (ReDoS)
+- `<style>` is stripped unconditionally by the public `SvgSanitizer.Sanitize()` API — it can only survive in SVG produced by Mermaider's own render pipeline, and only after `RendererStylesheetAllowlist.IsAllowed()` validates it line-by-line against the exact grammar the renderer produces
+- **`StrictStylingOptions` eliminates all diagram-source user values from the stylesheet.** When strict styling is active, `AllowedClasses` and colors are caller-defined; no `classDef`, `style`, `linkStyle`, or `%%{init}%%` value from the diagram source reaches the stylesheet. New stylesheet-writing code paths must preserve this invariant: either gate diagram-source values behind `strict is null`, or validate with `IsAllowedColor`/`IsAllowedHexColor` and document that the value is caller-supplied. `RendererStylesheetAllowlist` must be updated whenever the renderer emits new CSS — the sanitizer rejects output that doesn't match.
 
 ### Resource-exhaustion / DoS (added in `feature/validations`)
 Mermaider accepts untrusted input. `ResourceLimits` (on by default; opt-out via `ResourceLimits.Unlimited`) enforces:
