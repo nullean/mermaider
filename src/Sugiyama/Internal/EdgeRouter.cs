@@ -296,7 +296,10 @@ internal static class EdgeRouter
 			return;
 		}
 
-		if (isReal && (absDx >= SideEntryThreshold || srcAbsDx >= SideEntryThreshold) && HasConvergentIncoming(graph, node))
+		// Side-entry only makes sense when the edge is approaching horizontally (LR-style).
+		// When approaching from above (TD: prevPoint.Y < portY), mid-Y routing must be used
+		// instead — side-entry would create a long vertical segment through sibling nodes.
+		if (isReal && prevPoint.Y > portY - 2 && (absDx >= SideEntryThreshold || srcAbsDx >= SideEntryThreshold) && HasConvergentIncoming(graph, node))
 		{
 			var nodeLeft = graph.X[node];
 			var nodeRight = nodeLeft + graph.NodeWidths[node];

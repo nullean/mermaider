@@ -32,8 +32,8 @@
 </defs>
 
 <path class="er-relationship" data-entity1="USER" data-entity2="POST" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="writes" d="M140,182 L140,380 Q140,386 146,386 L250,386 L250,386 L360,386" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="USER" data-entity2="COMMENT" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="writes" d="M140,182 L140,491 Q140,497 146,497 L354,497 Q360,497 366,497 L714,497 Q720,497 720,491 L720,439" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="POST" data-entity2="COMMENT" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="has" d="M440,470 L440,491 Q440,497 446,497 L714,497 Q720,497 720,491 L720,439" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="USER" data-entity2="COMMENT" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="writes" d="M140,182 L140,491 Q140,497 146,497 L354,497 Q360,497 366,497 L500,497 L500,497 L640,497" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="POST" data-entity2="COMMENT" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="has" d="M440,470 L440,491 Q440,497 446,497 L540,497 L540,497 L640,497" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="POST" data-entity2="TAG" data-cardinality1="zeromany" data-cardinality2="zeromany" data-identifying="true" data-label="tagged" d="M440,302 L440,280 Q440,274 446,274 L540,274 L540,274 L640,274" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="entity" data-id="USER" data-label="USER">
   <rect x="40" y="40" width="200" height="142" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
@@ -81,16 +81,16 @@
 <circle cx="340" cy="386" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="146" y1="186" x2="134" y2="186" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="146" y1="190" x2="134" y2="190" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="727" y1="443" x2="720" y2="455" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="720" y1="443" x2="720" y2="455" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="713" y1="443" x2="720" y2="455" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="720" cy="459" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="636" y1="504" x2="624" y2="497" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="636" y1="497" x2="624" y2="497" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="636" y1="490" x2="624" y2="497" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="620" cy="497" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="446" y1="474" x2="434" y2="474" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="446" y1="478" x2="434" y2="478" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="727" y1="443" x2="720" y2="455" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="720" y1="443" x2="720" y2="455" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="713" y1="443" x2="720" y2="455" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="720" cy="459" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="636" y1="504" x2="624" y2="497" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="636" y1="497" x2="624" y2="497" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="636" y1="490" x2="624" y2="497" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="620" cy="497" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="433" y1="298" x2="440" y2="286" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="440" y1="298" x2="440" y2="286" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="447" y1="298" x2="440" y2="286" stroke="var(--_line)" stroke-width="2.5" />
@@ -101,10 +101,10 @@
 <circle cx="620" cy="274" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
 <rect x="124.806" y="373.9" width="46.388000000000005" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="148" y="386" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">writes</text>
-<rect x="278.306" y="484.9" width="46.388000000000005" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="301.5" y="497" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">writes</text>
-<rect x="579.11" y="484.9" width="32.78" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="595.5" y="497" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">has</text>
+<rect x="209.30599999999998" y="484.9" width="46.388000000000005" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="232.5" y="497" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">writes</text>
+<rect x="510.11" y="484.9" width="32.78" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="526.5" y="497" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">has</text>
 <rect x="500.538" y="261.9" width="50.92400000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="526" y="274" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">tagged</text>
 </svg>
