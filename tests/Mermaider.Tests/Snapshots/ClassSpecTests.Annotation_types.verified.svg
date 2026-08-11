@@ -46,8 +46,8 @@
   </marker>
 </defs>
 
-<path class="class-relationship" data-from="Shape" data-to="Circle" data-type="inheritance" data-marker-at="from" d="M115.2,124 L115.2,148 Q115.2,154 121.2,154 L200.2,154 Q206.2,154 206.2,160 L206.2,184" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
-<path class="class-relationship" data-from="Drawable" data-to="Circle" data-type="realization" data-marker-at="from" d="M297.2,124 L297.2,148 Q297.2,154 291.2,154 L212.2,154 Q206.2,154 206.2,160 L206.2,184" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="Shape" data-to="Circle" data-type="inheritance" data-marker-at="from" d="M115.2,124 L115.2,148 Q115.2,154 121.2,154 L200.20000000000002,154 Q206.20000000000002,154 206.20000000000002,160 L206.20000000000002,184" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="Drawable" data-to="Circle" data-type="realization" data-marker-at="from" d="M297.2,124 L297.2,148 Q297.2,154 291.2,154 L212.20000000000002,154 Q206.20000000000002,154 206.20000000000002,160 L206.20000000000002,184" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-start="url(#cls-inherit)" />
 <g class="class-node" data-id="Shape" data-label="Shape" data-annotation="abstract">
   <rect x="40" y="40" width="150.4" height="84" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
   <rect x="40" y="40" width="150.4" height="48" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
@@ -87,10 +87,10 @@
   <text class="mono" x="588" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">publish(event)</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
 </g>
 <g class="class-node" data-id="Circle" data-label="Circle">
-  <rect x="146.2" y="184" width="120" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <rect x="146.2" y="184" width="120" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="206.2" y="200" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Circle</text>
-  <line x1="146.2" y1="216" x2="266.2" y2="216" stroke="var(--_node-stroke)" stroke-width="2" />
-  <line x1="146.2" y1="224" x2="266.2" y2="224" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="146.20000000000002" y="184" width="120" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="146.20000000000002" y="184" width="120" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="206.20000000000002" y="200" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Circle</text>
+  <line x1="146.20000000000002" y1="216" x2="266.20000000000005" y2="216" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="146.20000000000002" y1="224" x2="266.20000000000005" y2="224" stroke="var(--_node-stroke)" stroke-width="2" />
 </g>
 </svg>

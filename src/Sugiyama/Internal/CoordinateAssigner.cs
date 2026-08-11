@@ -5,9 +5,9 @@ namespace Sugiyama.Internal;
 /// Uses a priority-based placement inspired by the ELK layered algorithm:
 /// 1. Assign Y (primary axis) based on layer heights + spacing
 /// 2. Assign initial X (secondary axis) by stacking within each layer
-/// 3. Center all layers relative to the widest
+/// 3. Seed parent positions bottom-up from children midpoints (subtree seeding)
 /// 4. Iteratively pull nodes toward the median X of their connected neighbors
-/// 5. Final compaction pass to re-center layers
+/// 5. Global X normalise (shift so min X = 0)
 /// </summary>
 internal static class CoordinateAssigner
 {
@@ -15,7 +15,7 @@ internal static class CoordinateAssigner
 	{
 		AssignPrimaryAxis(graph, layerSpacing);
 		AssignSecondaryAxis(graph, nodeSpacing);
-		CenterLayers(graph);
+		SeedFromSubtrees(graph, nodeSpacing);
 		AlignToConnections(graph, nodeSpacing);
 		NormalizeX(graph);
 	}
@@ -61,43 +61,73 @@ internal static class CoordinateAssigner
 	}
 
 	/// <summary>
-	/// Center each layer horizontally within the widest layer's bounding box.
-	/// Uses actual bounding box positions, not just widths.
+	/// Seed initial X positions bottom-up from children.
+	/// For each node that has real children in the next layer, place it at the
+	/// median X of those children's centers. Compact siblings after each layer
+	/// to restore minimum spacing without breaking the crossing-minimizer order.
+	/// This gives AlignToConnections a much better starting point than global
+	/// centering over the widest layer, keeping parents close to their subtrees.
 	/// </summary>
-	private static void CenterLayers(GraphBuffer graph)
+	private static void SeedFromSubtrees(GraphBuffer graph, double nodeSpacing)
 	{
-		var maxRight = 0.0;
-		for (var layer = 0; layer < graph.LayerCount; layer++)
+		var outEdges = BuildOutEdges(graph);
+
+		for (var layer = graph.LayerCount - 2; layer >= 0; layer--)
 		{
 			var nodes = graph.LayerNodes[layer];
-			if (nodes.Length == 0)
+			var anyMoved = false;
+
+			for (var pos = 0; pos < nodes.Length; pos++)
+			{
+				var node = nodes[pos];
+				if (!outEdges.TryGetValue(node, out var children))
+					continue;
+
+				var childCenters = new List<double>(children.Count);
+				foreach (var child in children)
+				{
+					if (graph.Layers[child] != layer + 1 || child >= graph.RealNodeCount)
+						continue;
+					childCenters.Add(graph.X[child] + (graph.NodeWidths[child] / 2.0));
+				}
+
+				if (childCenters.Count == 0)
+					continue;
+
+				childCenters.Sort();
+				var median = childCenters.Count % 2 == 1
+					? childCenters[childCenters.Count / 2]
+					: (childCenters[(childCenters.Count / 2) - 1] + childCenters[childCenters.Count / 2]) / 2.0;
+
+				var nodeW = node < graph.RealNodeCount ? graph.NodeWidths[node] : 0;
+				graph.X[node] = median - (nodeW / 2.0);
+				anyMoved = true;
+			}
+
+			if (!anyMoved)
 				continue;
-			var last = nodes[^1];
-			var lastW = last < graph.RealNodeCount ? graph.NodeWidths[last] : 0;
-			var right = graph.X[last] + lastW;
-			if (right > maxRight)
-				maxRight = right;
-		}
 
-		for (var layer = 0; layer < graph.LayerCount; layer++)
-		{
-			var nodes = graph.LayerNodes[layer];
-			if (nodes.Length == 0)
-				continue;
+			// Enforce minimum spacing left-to-right (push right if crowded)
+			for (var pos = 1; pos < nodes.Length; pos++)
+			{
+				var prev = nodes[pos - 1];
+				var curr = nodes[pos];
+				var prevW = prev < graph.RealNodeCount ? graph.NodeWidths[prev] : 0;
+				var minX = graph.X[prev] + prevW + nodeSpacing;
+				if (graph.X[curr] < minX)
+					graph.X[curr] = minX;
+			}
 
-			var layerLeft = graph.X[nodes[0]];
-			var last = nodes[^1];
-			var lastW = last < graph.RealNodeCount ? graph.NodeWidths[last] : 0;
-			var layerRight = graph.X[last] + lastW;
-			var layerWidth = layerRight - layerLeft;
-
-			var desiredLeft = (maxRight - layerWidth) / 2.0;
-			var shift = desiredLeft - layerLeft;
-			if (Math.Abs(shift) < 0.5)
-				continue;
-
-			foreach (var node in nodes)
-				graph.X[node] += shift;
+			// Enforce minimum spacing right-to-left (pull back if piled right)
+			for (var pos = nodes.Length - 2; pos >= 0; pos--)
+			{
+				var curr = nodes[pos];
+				var next = nodes[pos + 1];
+				var currW = curr < graph.RealNodeCount ? graph.NodeWidths[curr] : 0;
+				var maxX = graph.X[next] - currW - nodeSpacing;
+				if (graph.X[curr] > maxX)
+					graph.X[curr] = maxX;
+			}
 		}
 	}
 

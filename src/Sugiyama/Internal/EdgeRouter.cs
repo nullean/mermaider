@@ -379,8 +379,22 @@ internal static class EdgeRouter
 			var sideX = goRight
 				? graph.X[node] + graph.NodeWidths[node]
 				: graph.X[node];
-			points.Add(new LayoutPoint(sideX, cy));
-			points.Add(new LayoutPoint(tgtCX, cy));
+
+			// Guard: fall back to bottom-center if the horizontal side-exit segment
+			// would pass through a same-layer sibling, or if the exit point overshoots
+			// the target (node right-edge is already past the target center, or vice-versa).
+			// Both cases mean side-routing would draw across another node or produce a
+			// hairpin jog; a straight bottom-exit and corridor route is cleaner.
+			var exitOvershoot = goRight ? sideX > tgtCX : sideX < tgtCX;
+			if (exitOvershoot || ExitCrossesSibling(graph, node, sideX, tgtCX))
+			{
+				points.Add(new LayoutPoint(cx, graph.Y[node] + graph.NodeHeights[node]));
+			}
+			else
+			{
+				points.Add(new LayoutPoint(sideX, cy));
+				points.Add(new LayoutPoint(tgtCX, cy));
+			}
 		}
 		else
 		{
@@ -485,6 +499,28 @@ internal static class EdgeRouter
 				hasRight = true;
 		}
 		return hasLeft && hasRight;
+	}
+
+	/// <summary>
+	/// Returns true if the horizontal segment [segFromX, segToX] at source center-Y
+	/// would pass through any real same-layer sibling node.
+	/// </summary>
+	private static bool ExitCrossesSibling(GraphBuffer graph, int node, double segFromX, double segToX)
+	{
+		var layer = graph.Layers[node];
+		var segMin = Math.Min(segFromX, segToX);
+		var segMax = Math.Max(segFromX, segToX);
+
+		foreach (var sibling in graph.LayerNodes[layer])
+		{
+			if (sibling == node || sibling >= graph.RealNodeCount)
+				continue;
+			var sibLeft = graph.X[sibling];
+			var sibRight = sibLeft + graph.NodeWidths[sibling];
+			if (sibRight > segMin + 1 && sibLeft < segMax - 1)
+				return true;
+		}
+		return false;
 	}
 
 	private static bool HasConvergentIncoming(GraphBuffer graph, int node)
