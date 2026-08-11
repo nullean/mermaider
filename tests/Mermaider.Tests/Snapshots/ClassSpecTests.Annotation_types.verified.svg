@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820.8 288" width="820.8" height="288" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820.8 272" width="820.8" height="272" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -46,8 +46,8 @@
   </marker>
 </defs>
 
-<path class="class-relationship" data-from="Shape" data-to="Circle" data-type="inheritance" data-marker-at="from" d="M115.2,124 L115.2,202 Q115.2,208 121.2,208 L146.2,208" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
-<path class="class-relationship" data-from="Drawable" data-to="Circle" data-type="realization" data-marker-at="from" d="M297.2,124 L297.2,202 Q297.2,208 291.2,208 L266.2,208" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="Shape" data-to="Circle" data-type="inheritance" data-marker-at="from" d="M115.2,124 L115.2,148 Q115.2,154 121.2,154 L200.2,154 Q206.2,154 206.2,160 L206.2,184" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="Drawable" data-to="Circle" data-type="realization" data-marker-at="from" d="M297.2,124 L297.2,148 Q297.2,154 291.2,154 L212.2,154 Q206.2,154 206.2,160 L206.2,184" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-start="url(#cls-inherit)" />
 <g class="class-node" data-id="Shape" data-label="Shape" data-annotation="abstract">
   <rect x="40" y="40" width="150.4" height="84" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
   <rect x="40" y="40" width="150.4" height="48" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />

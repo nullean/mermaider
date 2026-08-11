@@ -40,7 +40,7 @@
 <path class="edge" data-from="_start" data-to="Draft" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M105.68,124.19999999999999 L105.68,164.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Draft" data-to="Review" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="submit" d="M105.68,217 L105.68,317.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Review" data-to="Published" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="approve" d="M105.68,370 L105.68,470.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Review" data-to="Draft" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="reject" d="M161.328,343.59999999999997 L201.36,343.59999999999997 Q207.36,343.59999999999997 207.36,337.59999999999997 L207.36,196.6 Q207.36,190.6 201.36,190.6 L152.208,190.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Review" data-to="Draft" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="reject" d="M161.328,343.59999999999997 L201.36,343.59999999999997 Q207.36,343.59999999999997 207.36,337.59999999999997 L207.36,196.6 Q207.36,190.6 201.36,190.6 L152.20800000000003,190.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Published" data-to="Archived" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="archive" d="M105.68,523 L105.68,623.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Archived" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M105.68,676 L105.68,716" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="Draft" data-to="Review" data-label="submit">
@@ -64,7 +64,7 @@
   
 </g>
 <g class="node" data-id="Draft" data-label="Draft" data-shape="rounded">
-  <rect x="59.15200000000001" y="164.2" width="93.056" height="52.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="59.152000000000015" y="164.2" width="93.056" height="52.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
   <text x="105.68" y="190.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Draft</text>
 </g>
 <g class="node" data-id="Review" data-label="Review" data-shape="rounded">
