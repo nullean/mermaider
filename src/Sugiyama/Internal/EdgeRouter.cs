@@ -481,7 +481,7 @@ internal static class EdgeRouter
 			if (tgtCX > cx + 10)
 				hasRight = true;
 		}
-		return (hasLeft && hasRight) || distinctTargets.Count >= 2;
+		return hasLeft && hasRight;
 	}
 
 	private static bool HasConvergentIncoming(GraphBuffer graph, int node)

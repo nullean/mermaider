@@ -38,18 +38,18 @@
 </defs>
 
 <path class="edge" data-from="_start" data-to="Active" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M94.73599999999999,124.19999999999999 L94.73599999999999,164.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Active" data-to="Inactive" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="disable" d="M146.736,190.6 L234.20799999999997,190.6 Q240.20799999999997,190.6 240.20799999999997,196.6 L240.20799999999997,253.89999999999998 L240.20799999999997,253.89999999999998 L240.20799999999997,317.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Active" data-to="Inactive" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="disable" d="M94.73599999999999,217 L94.73599999999999,261.1 Q94.73599999999999,267.1 100.73599999999999,267.1 L234.20799999999997,267.1 Q240.20799999999997,267.1 240.20799999999997,273.1 L240.20799999999997,317.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Inactive" data-to="Active" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="reactivate" d="M297.67999999999995,343.59999999999997 L327.67999999999995,343.59999999999997 Q333.67999999999995,343.59999999999997 333.67999999999995,337.59999999999997 L333.67999999999995,196.6 Q333.67999999999995,190.6 327.67999999999995,190.6 L146.736,190.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Inactive" data-to="Closed" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="close" d="M240.20799999999997,370 L240.20799999999997,490.59999999999997 Q240.20799999999997,496.59999999999997 234.20799999999997,496.59999999999997 L149.472,496.59999999999997" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Closed" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M94.73599999999999,523 L94.73599999999999,563" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Active" data-to="Closed" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="close" d="M42.736,190.6 L88.73599999999999,190.6 Q94.73599999999999,190.6 94.73599999999999,196.6 L94.73599999999999,311.2 Q94.73599999999999,317.2 94.73599999999999,323.2 L94.73599999999999,470.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Active" data-to="Closed" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="close" d="M94.73599999999999,217 L94.73599999999999,311.2 Q94.73599999999999,317.2 94.73599999999999,323.2 L94.73599999999999,470.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="Active" data-to="Inactive" data-label="disable">
-  <rect x="205.23399999999998" y="246.00000000000003" width="69.94800000000001" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
-<text x="240.20799999999997" y="267.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">disable</text>
+  <rect x="132.498" y="246.00000000000003" width="69.94800000000001" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+<text x="167.47199999999998" y="267.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">disable</text>
 </g>
 <g class="edge-label" data-from="Inactive" data-to="Active" data-label="reactivate">
-  <rect x="196.91799999999995" y="274.19999999999993" width="86.58000000000001" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
-<text x="240.20799999999997" y="295.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">reactivate</text>
+  <rect x="196.91799999999995" y="246.00000000000003" width="86.58000000000001" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+<text x="240.20799999999997" y="267.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">reactivate</text>
 </g>
 <g class="edge-label" data-from="Inactive" data-to="Closed" data-label="close">
   <rect x="210.52599999999995" y="399" width="59.36400000000001" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />

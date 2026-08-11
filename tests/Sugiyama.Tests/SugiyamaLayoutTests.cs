@@ -251,6 +251,64 @@ public class SugiyamaLayoutTests
 	// Self-loop / cycle regression tests (issue #49)
 	// ====================================================================
 
+	// ====================================================================
+	// Fan-out layout regression tests (issue #3780 / #3841)
+	// ====================================================================
+
+	[Test]
+	public void FanOut_children_on_same_side_edges_do_not_pass_through_sibling_nodes()
+	{
+		// Regression: VX has 2 children (AX, AU) that both land far left of VX
+		// after layout (because layer 2 has 4 nodes and centering pushes VX right).
+		// The EdgeRouter must NOT exit VX from its left side at center-Y — that
+		// horizontal segment at layer-1 center-Y passes through the "O" sibling node.
+		// Instead it must exit from VX's bottom center.
+		var graph = new LayoutGraph(
+			LayoutDirection.TD,
+			[
+				new LayoutNode("S",  240, 52),
+				new LayoutNode("O",  150, 52),
+				new LayoutNode("VX", 110, 52),
+				new LayoutNode("VY", 110, 52),
+				new LayoutNode("AX", 153, 52),
+				new LayoutNode("AU", 157, 52),
+				new LayoutNode("NG", 166, 52),
+				new LayoutNode("AP", 181, 52),
+			],
+			[
+				new LayoutEdge("S", "O"),
+				new LayoutEdge("S", "VX"),
+				new LayoutEdge("S", "VY"),
+				new LayoutEdge("VX", "AX"),
+				new LayoutEdge("VX", "AU"),
+				new LayoutEdge("VY", "NG"),
+				new LayoutEdge("VY", "AP"),
+			],
+			[]);
+
+		var result = SugiyamaLayout.Compute(graph);
+
+		var o  = result.Nodes.First(n => n.Id == "O");
+		var oRight  = o.X + o.Width;
+		var oBottom = o.Y + o.Height;
+
+		// No edge point from VX's outgoing edges should lie inside O's bounding box.
+		var vxEdges = result.Edges
+			.Where(e => e.OriginalIndex == 3 || e.OriginalIndex == 4) // VX→AX, VX→AU
+			.ToList();
+
+		foreach (var edge in vxEdges)
+		{
+			foreach (var pt in edge.Points)
+			{
+				var insideX = pt.X > o.X && pt.X < oRight;
+				var insideY = pt.Y > o.Y && pt.Y < oBottom;
+				(insideX && insideY).Should().BeFalse(
+					$"edge point ({pt.X:F1},{pt.Y:F1}) lies inside the 'other-events' node bounding box [{o.X:F1},{o.Y:F1},{oRight:F1},{oBottom:F1}]");
+			}
+		}
+	}
+
 	[Test]
 	public void Self_loop_with_outgoing_edge_does_not_stackoverflow()
 	{

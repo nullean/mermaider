@@ -46,8 +46,8 @@
   </marker>
 </defs>
 
-<path class="class-relationship" data-from="Vehicle" data-to="Car" data-type="inheritance" data-marker-at="from" d="M190.4,112 L303.79999999999995,112 Q309.79999999999995,112 309.79999999999995,118 L309.79999999999995,282 Q309.79999999999995,288 303.79999999999995,288 L238.79999999999998,288" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
-<path class="class-relationship" data-from="Vehicle" data-to="Truck" data-type="inheritance" data-marker-at="from" d="M48.400000000000006,112 L113.39999999999999,112 Q119.39999999999999,112 119.39999999999999,118 L119.39999999999999,244" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="Vehicle" data-to="Car" data-type="inheritance" data-marker-at="from" d="M119.4,184 L119.4,282 Q119.4,288 125.4,288 L238.79999999999998,288" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="Vehicle" data-to="Truck" data-type="inheritance" data-marker-at="from" d="M119.39999999999999,184 L119.39999999999999,244" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
 <path class="class-relationship" data-from="Electric" data-to="Car" data-type="realization" data-marker-at="from" data-label="optional" d="M326.6,144 L326.6,188 Q326.6,194 320.6,194 L315.79999999999995,194 Q309.79999999999995,194 309.79999999999995,200 L309.79999999999995,244" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-start="url(#cls-inherit)" />
 <path class="class-relationship" data-from="Car" data-to="Engine" data-type="composition" data-marker-at="from" d="M309.8,332 L309.8,392" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-composition)" />
 <g class="class-node" data-id="Vehicle" data-label="Vehicle" data-annotation="abstract">
