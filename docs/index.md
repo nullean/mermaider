@@ -11,8 +11,7 @@ dotnet add package Mermaider
 ```csharp
 using Mermaider;
 
-var renderer = new MermaidRenderer();
-string svg = renderer.Render("""
+string svg = MermaidRenderer.RenderSvg("""
     graph TD
       A[Start] --> B{Check}
       B --> |yes| C[Done]
@@ -20,4 +19,4 @@ string svg = renderer.Render("""
 """);
 ```
 
-The `Render` call returns a complete SVG string, sanitized and ready to embed directly in HTML.
+`RenderSvg` returns a complete SVG string, sanitized and ready to embed directly in HTML.
