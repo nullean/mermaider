@@ -1,0 +1,27 @@
+project: mermaider
+max_toc_depth: 2
+
+branding:
+  icon: images/mermaider-mark.svg
+  favicon: images/png/mermaider-mark-32.png
+  og-image: images/png/mermaider-mark-512.png
+  apple-touch-icon: images/png/mermaider-mark-180.png
+
+toc:
+  - file: index.md
+  - folder: getting-started
+    children:
+      - file: index.md
+  - folder: diagram-types
+    children:
+      - file: index.md
+  - folder: theming
+    children:
+      - file: index.md
+  - folder: security
+    children:
+      - file: index.md
+  - folder: layout
+    children:
+      - file: index.md
+  - file: agent-add-diagram-type.md

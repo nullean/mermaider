@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 0 384 96" width="384" height="96" role="img" aria-label="mermaider">
+  <defs>
+    <linearGradient gradientUnits="userSpaceOnUse" id="fg-Ldark" x1="0" y1="0" x2="120" y2="96">
+      <stop offset="0.46" stop-color="#7FE0FF"></stop><stop offset="0.54" stop-color="#D66FFF"></stop>
+    </linearGradient>
+    <radialGradient id="fi-Ldark" cx="0.3" cy="0.16" r="1.1">
+      <stop offset="0" stop-color="#2B3B4A"></stop><stop offset="0.5" stop-color="#1B2732"></stop><stop offset="1" stop-color="#121B24"></stop>
+    </radialGradient>
+    <clipPath id="cl-Ldark"><path d="M178 84 C158 52 122 38 94 44 C78 48 62 60 56 76 L6 30 L18 96 L6 162 L56 116 C62 132 78 144 94 148 C122 155 158 140 178 108 L156 96 Z"></path></clipPath>
+  </defs>
+  <g transform="translate(0 6) scale(0.44)">
+    <g>
+      <g clip-path="url(#cl-Ldark)"><path d="M178 84 C158 52 122 38 94 44 C78 48 62 60 56 76 L6 30 L18 96 L6 162 L56 116 C62 132 78 144 94 148 C122 155 158 140 178 108 L156 96 Z" fill="url(#fi-Ldark)" stroke="#FFFFFF" stroke-opacity="0.2" stroke-width="21.7" stroke-linejoin="round" stroke-linecap="round"></path></g>
+      <path d="M178 84 C158 52 122 38 94 44 C78 48 62 60 56 76 L6 30 L18 96 L6 162 L56 116 C62 132 78 144 94 148 C122 155 158 140 178 108 L156 96 Z" fill="none" stroke="url(#fg-Ldark)" stroke-width="14" stroke-linejoin="round" stroke-linecap="round"></path>
+      <path d="M42 96 H94" fill="none" stroke="#7FE0FF" stroke-width="6" stroke-linecap="round"></path>
+      <circle cx="42" cy="96" r="10" fill="#7FE0FF"></circle>
+      <circle cx="94" cy="96" r="12" fill="#B6D9FF"></circle>
+      <circle cx="136" cy="80" r="10" fill="#E19BFF"></circle>
+    </g>
+  </g>
+  <text x="96" y="59.9" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="32" font-weight="700" letter-spacing="-1" fill="#FFFFFF">mermaider</text>
+</svg>

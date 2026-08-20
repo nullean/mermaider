@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mermaider — pure-.NET Mermaid rendering</title>
+<meta name="description" content="Render Mermaid diagrams in pure .NET. No JavaScript runtime, no headless browser, no Node.js subprocess. Pass Mermaid syntax, get back a complete SVG."/>
+<base href="/"/>
+
+<link rel="icon" type="image/svg+xml" href="images/mermaider-mark.svg"/>
+<link rel="icon" type="image/png" sizes="32x32" href="images/png/mermaider-mark-32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="images/png/mermaider-mark-16.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="images/png/mermaider-mark-180.png"/>
+<meta name="theme-color" content="#08090B"/>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #08090B;
+    --bg2:        #0D1013;
+    --bg3:        #1B2126;
+    --cyan:       #7FE0FF;
+    --cyan-hi:    #B6D9FF;
+    --cyan-dim:   #0D2B38;
+    --purple:     #D66FFF;
+    --purple-hi:  #E19BFF;
+    --purple-dim: #2A1040;
+    --text:       #E9ECF1;
+    --muted:      #98A1AE;
+    --dim:        #5A6472;
+    --line:       rgba(127,224,255,0.10);
+    --line-soft:  rgba(127,224,255,0.055);
+    --mono:       'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --display:    'Space Grotesk', system-ui, sans-serif;
+    --maxw:       1240px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── mesh background ─── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-color: var(--bg);
+    background-image:
+      radial-gradient(at 8% 18%,  rgba(127,224,255,0.18) 0px, transparent 55%),
+      radial-gradient(at 92% 6%,  rgba(214,111,255,0.24) 0px, transparent 50%),
+      radial-gradient(at 60% 78%, rgba(214,111,255,0.16) 0px, transparent 55%),
+      radial-gradient(at 22% 88%, rgba(127,224,255,0.07) 0px, transparent 50%),
+      radial-gradient(at 80% 48%, rgba(182,217,255,0.12) 0px, transparent 50%),
+      radial-gradient(at 45% 42%, rgba(127,224,255,0.04) 0px, transparent 45%);
+  }
+
+  nav, section, footer { position: relative; z-index: 1; }
+
+  .inner { max-width: var(--maxw); margin: 0 auto; padding: 0 2.5rem; }
+
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; border-radius: 2px; }
+  code { font-family: var(--mono); }
+
+  /* ─────────────────────────  NAV  ───────────────────────── */
+  nav { border-bottom: 1px solid var(--line-soft); }
+  nav .inner {
+    display: flex; align-items: center; gap: 2rem;
+    padding-top: 1.1rem; padding-bottom: 1.1rem;
+  }
+  .nav-logo { display: flex; align-items: center; text-decoration: none; margin-right: auto; }
+  .nav-lockup { display: block; width: 180px; height: 48px; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: 0.8rem; color: var(--muted); text-decoration: none; transition: color .18s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    font-size: 0.78rem; font-weight: 700; color: var(--cyan);
+    border: 1px solid var(--cyan-dim); padding: 0.45rem 1rem; border-radius: 4px;
+    text-decoration: none; white-space: nowrap;
+    transition: background .18s, color .18s, border-color .18s;
+  }
+  .nav-cta:hover { background: var(--cyan); border-color: var(--cyan); color: var(--bg); }
+
+  /* ─────────────────────────  HERO  ───────────────────────── */
+  .hero .inner {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem;
+    align-items: center; padding-top: 4.5rem; padding-bottom: 5.5rem;
+  }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.65rem; letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--cyan); border: 1px solid var(--cyan-dim);
+    background: rgba(127,224,255,0.04);
+    padding: 0.28rem 0.75rem; border-radius: 2px; white-space: nowrap;
+    margin-bottom: 1.5rem;
+  }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: .3 } }
+
+  h1 {
+    font-family: var(--display); font-weight: 700;
+    font-size: clamp(2.4rem, 4.2vw, 4rem); line-height: 1.04; letter-spacing: -0.035em;
+    margin-bottom: 1.4rem;
+  }
+  h1 em { font-style: normal; color: var(--cyan); }
+
+  .hero-sub { font-size: 1rem; color: var(--muted); max-width: 34rem; margin-bottom: 1.5rem; }
+  .hero-sub strong { color: var(--text); font-weight: 500; }
+
+  .actions { display: flex; gap: 0.9rem; flex-wrap: wrap; }
+  .btn-primary, .btn-secondary {
+    font-family: var(--mono); font-size: 0.82rem; font-weight: 700;
+    padding: 0.78rem 1.6rem; border-radius: 4px; text-decoration: none;
+    transition: transform .15s, opacity .18s, border-color .18s;
+  }
+  .btn-primary { background: var(--cyan); color: var(--bg); }
+  .btn-primary:hover { opacity: .88; transform: translateY(-1px); }
+  .btn-secondary { color: var(--text); border: 1px solid rgba(233,236,241,0.16); font-weight: 500; }
+  .btn-secondary:hover { border-color: rgba(233,236,241,0.42); transform: translateY(-1px); }
+
+  /* ─────────────────────────  PACKAGE COMMANDS  ───────────────────────── */
+  .pkg-commands { display: flex; flex-direction: column; gap: 0.55rem; margin-bottom: 1.75rem; }
+  .pkg-row { display: flex; align-items: stretch; gap: 0.55rem; }
+  .pkg-row .pkg-cmd { flex: 1; }
+  .pkg-nuget {
+    display: flex; align-items: center; padding: 0 0.85rem;
+    background: var(--bg2); border: 1px solid var(--line);
+    border-radius: 5px; font-size: 0.75rem; font-weight: 700;
+    color: var(--cyan); text-decoration: none; white-space: nowrap;
+    transition: border-color .18s, background .18s;
+  }
+  .pkg-nuget:hover { border-color: rgba(127,224,255,0.28); background: var(--bg3); }
+  .pkg-cmd {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    background: var(--bg2); border: 1px solid var(--line);
+    border-radius: 5px; padding: 0.7rem 1rem;
+    font-family: var(--mono); font-size: 0.82rem; color: var(--text);
+    cursor: pointer; text-align: left;
+    transition: border-color .18s, background .18s;
+  }
+  .pkg-cmd:hover { border-color: rgba(127,224,255,0.28); background: var(--bg3); }
+  .pkg-cmd.copied { border-color: var(--cyan); }
+  .pkg-cmd-dim { color: var(--dim); }
+  .pkg-cmd-icon { color: var(--dim); font-size: 1rem; flex-shrink: 0; transition: color .18s; }
+  .pkg-cmd:hover .pkg-cmd-icon { color: var(--cyan); }
+
+  /* ─────────────────────────  CODE PANEL  ───────────────────────── */
+  .code-panel {
+    background: var(--bg2); border: 1px solid var(--line);
+    border-radius: 6px; overflow: hidden; margin-bottom: 1.2rem;
+  }
+  .code-panel:last-child { margin-bottom: 0; }
+  .code-panel-head {
+    padding: 0.55rem 1.1rem; font-size: 0.7rem; color: var(--dim);
+    border-bottom: 1px solid var(--line-soft); background: rgba(255,255,255,0.02);
+  }
+  .code-panel pre { padding: 1.1rem 1.25rem; font-size: 0.78rem; line-height: 1.85; overflow-x: auto; font-family: var(--mono); }
+  .c-kw   { color: #C792EA }
+  .c-ns   { color: var(--muted) }
+  .c-type { color: var(--cyan-hi) }
+  .c-key  { color: var(--cyan) }
+  .c-str  { color: #C3E88D }
+  .c-com  { color: var(--dim) }
+  .c-val  { color: #E8B96A }
+  .c-tag  { color: var(--cyan-hi) }
+
+  /* ─────────────────────────  SECTIONS  ───────────────────────── */
+  .section .inner { padding-top: 5.5rem; padding-bottom: 5.5rem; }
+  .divider { border: none; border-top: 1px solid var(--line-soft); }
+
+  .section-label {
+    font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--cyan); margin-bottom: 0.9rem;
+  }
+  .section-title {
+    font-family: var(--display); font-weight: 700;
+    font-size: clamp(1.85rem, 3.2vw, 2.7rem); line-height: 1.12; letter-spacing: -0.028em;
+    margin-bottom: 0.9rem;
+  }
+  .section-sub { color: var(--muted); max-width: 38rem; margin-bottom: 3rem; }
+
+  /* ─────────────────────────  GRIDS  ───────────────────────── */
+  .grid-3 {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: var(--line-soft); border: 1px solid var(--line-soft);
+    border-radius: 8px; overflow: hidden;
+  }
+  .grid-2 {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px;
+    background: var(--line-soft); border: 1px solid var(--line-soft);
+    border-radius: 8px; overflow: hidden;
+  }
+  .card {
+    background: var(--bg2); padding: 2rem 1.9rem;
+    text-decoration: none; color: inherit; display: block;
+    transition: background .18s;
+  }
+  .card:hover { background: var(--bg3); }
+  .card-kicker { font-size: 0.68rem; letter-spacing: 0.10em; text-transform: uppercase; color: var(--cyan); margin-bottom: 0.65rem; }
+  .card-kicker.blue { color: var(--purple-hi); }
+  .card-title { font-family: var(--display); font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; margin-bottom: 0.75rem; }
+  .card-body { font-size: 0.8rem; color: var(--muted); line-height: 1.75; }
+  .card-more { font-size: 0.75rem; color: var(--cyan); display: inline-block; margin-top: 1rem; }
+
+  /* ─────────────────────────  DIAGRAM GALLERY  ───────────────────────── */
+  .gallery-section { position: relative; }
+  .gallery-section::before {
+    content: '';
+    position: absolute; inset: 0; pointer-events: none; z-index: 0;
+    background-color: #040507;
+    background-image:
+      radial-gradient(at 20% 35%, rgba(127,224,255,0.07) 0px, transparent 55%),
+      radial-gradient(at 80% 65%, rgba(214,111,255,0.07) 0px, transparent 55%),
+      radial-gradient(at 55% 15%, rgba(182,217,255,0.04) 0px, transparent 50%);
+  }
+  .gallery-section .inner { position: relative; z-index: 1; }
+
+  .diagram-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
+  .diagram-card {
+    position: relative; overflow: hidden;
+    border: 1px solid var(--line); border-radius: 8px;
+    cursor: pointer;
+    transition: border-color .18s, transform .15s, box-shadow .18s;
+    background: #0D1013;
+  }
+  /* per-card mesh — alternating warm/cool bias */
+  .diagram-card::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+    background-image:
+      radial-gradient(at 25% 25%, rgba(127,224,255,0.13) 0, transparent 65%),
+      radial-gradient(at 75% 75%, rgba(214,111,255,0.10) 0, transparent 65%);
+  }
+  .diagram-card:nth-child(even)::before {
+    background-image:
+      radial-gradient(at 75% 25%, rgba(214,111,255,0.12) 0, transparent 65%),
+      radial-gradient(at 25% 75%, rgba(127,224,255,0.09) 0, transparent 65%);
+  }
+  .diagram-card:nth-child(3n)::before {
+    background-image:
+      radial-gradient(at 50% 20%, rgba(182,217,255,0.10) 0, transparent 65%),
+      radial-gradient(at 50% 80%, rgba(214,111,255,0.11) 0, transparent 65%);
+  }
+  .diagram-card:hover {
+    border-color: rgba(127,224,255,0.32);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px -8px rgba(127,224,255,0.12);
+  }
+  .diagram-card-name {
+    position: relative; z-index: 1;
+    padding: 0.5rem 0.65rem 0.35rem;
+    font-size: 0.64rem; letter-spacing: 0.09em; text-transform: uppercase;
+    color: var(--cyan); font-weight: 700;
+    border-bottom: 1px solid var(--line-soft);
+    background: rgba(0,0,0,0.18);
+  }
+  .diagram-card-preview {
+    position: relative; z-index: 1;
+    height: 130px; overflow: hidden;
+    display: flex; align-items: flex-start; justify-content: center;
+  }
+  .diagram-card-preview img {
+    display: block; width: 115%; height: auto;
+    margin-left: -7.5%; margin-top: 4px;
+    object-fit: cover; object-position: top center;
+  }
+
+  /* ─────────────────────────  DIAGRAM POPUP  ───────────────────────── */
+  .diagram-popup {
+    display: none; position: fixed; inset: 0; z-index: 9999;
+    background: rgba(4,5,7,0.88); backdrop-filter: blur(8px);
+    align-items: center; justify-content: center; padding: 2rem;
+  }
+  .diagram-popup.open { display: flex; }
+  .diagram-popup-inner {
+    position: relative; max-width: 90vw; max-height: 88vh;
+    background: var(--bg2); border: 1px solid var(--line);
+    border-radius: 12px; overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .diagram-popup-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.7rem 1.1rem; border-bottom: 1px solid var(--line-soft);
+    background: rgba(255,255,255,0.02);
+    font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dim);
+  }
+  .diagram-popup-close {
+    background: none; border: 1px solid var(--line); color: var(--muted);
+    border-radius: 4px; padding: 0.25rem 0.65rem; cursor: pointer; font-size: 0.75rem;
+    transition: border-color .18s, color .18s;
+  }
+  .diagram-popup-close:hover { border-color: var(--cyan); color: var(--cyan); }
+  .diagram-popup-img {
+    overflow: auto; padding: 2rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .diagram-popup-img img { max-width: 100%; max-height: 72vh; height: auto; display: block; }
+
+  /* ─────────────────────────  SPLIT + STEPS  ───────────────────────── */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: start; }
+  .steps { display: flex; flex-direction: column; gap: 2rem; }
+  .step { display: flex; gap: 1.2rem; align-items: flex-start; }
+  .step-num { font-family: var(--display); font-weight: 700; font-size: 1.05rem; color: var(--cyan); flex-shrink: 0; width: 2rem; padding-top: 0.1rem; }
+  .step-title { font-family: var(--display); font-weight: 700; font-size: 1rem; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+  .step-body { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
+
+  /* ─────────────────────────  CTA + FOOTER  ───────────────────────── */
+  .cta { text-align: center; position: relative; overflow: hidden; }
+  .cta::before {
+    content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 680px; height: 420px; pointer-events: none;
+    background: radial-gradient(ellipse, rgba(127,224,255,0.08) 0%, transparent 68%);
+  }
+  .cta h2 { font-family: var(--display); font-weight: 700; font-size: clamp(2rem, 3.6vw, 3rem); letter-spacing: -0.03em; margin-bottom: 1rem; }
+  .cta h2 em { font-style: normal; color: var(--cyan); }
+  .cta p { color: var(--muted); margin-bottom: 2rem; }
+  .cta .actions { justify-content: center; }
+
+  footer { border-top: 1px solid var(--line-soft); }
+  footer .inner {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1.5rem; flex-wrap: wrap;
+    padding-top: 1.4rem; padding-bottom: 1.4rem; font-size: 0.75rem; color: var(--dim);
+  }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: var(--cyan); }
+
+  .nullean-link {
+    display: inline-flex; align-items: center; gap: 0; text-decoration: none;
+    border-radius: 6px; overflow: hidden;
+    border: 1px solid rgba(31,158,158,0.35);
+    transition: border-color .18s;
+  }
+  .nullean-link:hover { border-color: rgba(31,158,158,0.7); }
+  .nullean-link svg { display: block; }
+
+  /* ─────────────────────────  REVEAL  ───────────────────────── */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity .65s ease, transform .65s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ─────────────────────────  RESPONSIVE  ───────────────────────── */
+  @media (max-width: 900px) {
+    .inner { padding: 0 1.5rem; }
+    .hero .inner { grid-template-columns: 1fr; gap: 3rem; padding-top: 3rem; padding-bottom: 3.5rem; }
+    .split { grid-template-columns: 1fr; gap: 2.5rem; }
+    .grid-3, .grid-2 { grid-template-columns: 1fr; }
+    .section .inner { padding-top: 3.75rem; padding-bottom: 3.75rem; }
+    .nav-links { display: none; }
+    .cta::before { display: none; }
+  }
+  @media (max-width: 420px) {
+    .actions { flex-direction: column; align-items: stretch; }
+    .btn-primary, .btn-secondary { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div hx-boost="false">
+
+<!-- ══════════════  NAV  ══════════════ -->
+<nav>
+  <div class="inner">
+    <a class="nav-logo" href="./" aria-label="mermaider home">
+      <svg class="nav-lockup" xmlns="http://www.w3.org/2000/svg" viewBox="-6 0 384 96" role="img" aria-label="mermaider">
+        <defs>
+          <linearGradient gradientUnits="userSpaceOnUse" id="fg-Ldarka" x1="0" y1="0" x2="120" y2="96">
+            <stop offset="0.46" stop-color="#7FE0FF"/><stop offset="0.54" stop-color="#D66FFF"/>
+          </linearGradient>
+          <radialGradient id="fi-Ldarka" cx="0.3" cy="0.16" r="1.1">
+            <stop offset="0" stop-color="#2B3B4A"/><stop offset="0.5" stop-color="#1B2732"/><stop offset="1" stop-color="#121B24"/>
+          </radialGradient>
+          <clipPath id="cl-Ldarka"><path d="M178 84 C158 52 122 38 94 44 C78 48 62 60 56 76 L6 30 L18 96 L6 162 L56 116 C62 132 78 144 94 148 C122 155 158 140 178 108 L156 96 Z"/></clipPath>
+        </defs>
+        <g transform="translate(0 6) scale(0.44)">
+          <g>
+            <animateTransform attributeName="transform" type="translate" values="0 0; 14 0; 0 0" dur="3.2s" calcMode="spline" keySplines="0.4 0 0.6 1; 0.4 0 0.6 1" repeatCount="indefinite"/>
+            <g clip-path="url(#cl-Ldarka)"><path d="M178 84 C158 52 122 38 94 44 C78 48 62 60 56 76 L6 30 L18 96 L6 162 L56 116 C62 132 78 144 94 148 C122 155 158 140 178 108 L156 96 Z" fill="url(#fi-Ldarka)" stroke="#FFFFFF" stroke-opacity="0.2" stroke-width="21.7" stroke-linejoin="round" stroke-linecap="round"/></g>
+            <path d="M178 84 C158 52 122 38 94 44 C78 48 62 60 56 76 L6 30 L18 96 L6 162 L56 116 C62 132 78 144 94 148 C122 155 158 140 178 108 L156 96 Z" fill="none" stroke="url(#fg-Ldarka)" stroke-width="14" stroke-linejoin="round" stroke-linecap="round"/>
+            <path d="M42 96 H94" fill="none" stroke="#7FE0FF" stroke-width="6" stroke-linecap="round"/>
+            <circle cx="42" cy="96" r="10" fill="#7FE0FF"/>
+            <circle cx="94" cy="96" r="12" fill="#B6D9FF"/>
+            <circle cx="136" cy="80" r="10" fill="#E19BFF">
+              <animate attributeName="opacity" values="1; 1; 0.1; 1" keyTimes="0; 0.7; 0.78; 0.88" dur="3.2s" repeatCount="indefinite"/>
+            </circle>
+          </g>
+        </g>
+        <text x="96" y="59.9" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, monospace" font-size="32" font-weight="700" letter-spacing="-1" fill="#FFFFFF">mermaider</text>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">features</a></li>
+      <li><a href="#diagrams">diagram types</a></li>
+      <li><a href="getting-started/">docs</a></li>
+    </ul>
+    <a class="nav-cta" href="https://github.com/nullean/mermaider">github →</a>
+  </div>
+</nav>
+
+<!-- ══════════════  HERO  ══════════════ -->
+<section class="hero">
+  <div class="inner">
+    <div>
+      <span class="badge"><span class="badge-dot"></span> .NET · no JavaScript · AOT-safe</span>
+      <h1>Mermaid diagrams<br/>in <em>pure .NET</em>.</h1>
+      <p class="hero-sub">
+        Fast, low-allocation rendering with a <strong>normalized design language</strong>,
+        themeable CSS variables, and <strong>allowlist SVG sanitization</strong> —
+        no JavaScript runtime, no headless browser, no subprocess.
+      </p>
+      <div class="pkg-commands">
+        <div class="pkg-row">
+          <button class="pkg-cmd" data-pkg="Mermaider" onclick="copyPkg(this)">
+            <span class="pkg-cmd-text"><span class="pkg-cmd-dim">dotnet add package </span>Mermaider</span>
+            <span class="pkg-cmd-icon" aria-hidden="true">⎘</span>
+          </button>
+          <a class="pkg-nuget" href="https://www.nuget.org/packages/Mermaider" target="_blank" rel="noopener" title="View on NuGet">nuget ↗</a>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn-primary" href="getting-started/">get started →</a>
+        <a class="btn-secondary" href="https://github.com/nullean/mermaider">view on github</a>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:1.5rem;align-items:flex-start">
+      <div class="code-panel" style="flex:1;min-width:0">
+        <div class="code-panel-head">usage</div>
+<pre><span class="c-type">string</span> svg = <span class="c-type">MermaidRenderer</span>.<span class="c-key">RenderSvg</span>(<span class="c-str">"""
+    flowchart LR
+      A[Parse] --&gt; B[Layout]
+      B --&gt; C[Render SVG]
+"""</span>);
+<span class="c-com">// drop svg directly into your HTML</span></pre>
+      </div>
+      <img src="screenshots/flowchart.svg" alt="Rendered flowchart" style="flex-shrink:0;width:160px;height:auto;display:block;margin-top:0.25rem"/>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- ══════════════  FEATURES  ══════════════ -->
+<section class="section reveal" id="features">
+  <div class="inner">
+    <p class="section-label">// what you get</p>
+    <h2 class="section-title">Everything Mermaid.<br/>Zero JavaScript.</h2>
+    <p class="section-sub">
+      Mermaider parses Mermaid diagram syntax and renders it directly to SVG in-process —
+      no interop, no spawned process, no browser dependency.
+    </p>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-kicker">no javascript</div>
+        <div class="card-title">Pure .NET</div>
+        <p class="card-body">
+          Built entirely in C#. No JS runtime dependency, no Puppeteer, no Node subprocess.
+          Ships as a NuGet package that targets net8.0+.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-kicker">flowchart · sequence · class · er · …</div>
+        <div class="card-title">All major<br/>diagram types</div>
+        <p class="card-body">
+          Flowchart, sequence, class, ER, state, architecture, C4, gitgraph, gantt, pie,
+          mindmap, and more — the full Mermaid feature surface.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-kicker">zero allocation</div>
+        <div class="card-title">Built for<br/>throughput</div>
+        <p class="card-body">
+          <code>ObjectPool&lt;StringBuilder&gt;</code> for SVG assembly,
+          <code>ReadOnlySpan&lt;char&gt;</code> throughout the text pipeline,
+          SIMD character lookups via <code>SearchValues&lt;char&gt;</code>.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-kicker blue">xss-safe</div>
+        <div class="card-title">Sanitized<br/>by default</div>
+        <p class="card-body">
+          Every SVG output passes through an allowlist sanitizer before leaving the library.
+          Strict mode strips all diagram-source styling, eliminating the injection surface entirely.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-kicker blue">css custom properties</div>
+        <div class="card-title">Themeable</div>
+        <p class="card-body">
+          Colors are CSS custom properties — override <code>--bg</code>, <code>--fg</code>,
+          <code>--accent</code> to match any design system. Themes are computed at render time,
+          no post-processing needed.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-kicker blue">aot + trimming</div>
+        <div class="card-title">AOT-ready</div>
+        <p class="card-body">
+          All regex patterns are source-generated with <code>[GeneratedRegex]</code>.
+          No reflection-based dispatch. Trims cleanly and publishes as a native binary.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- ══════════════  WHY  ══════════════ -->
+<section class="section reveal" id="why">
+  <div class="inner">
+    <p class="section-label">// why mermaider</p>
+    <h2 class="section-title">Purpose-built for<br/>.NET servers.</h2>
+    <p class="section-sub">
+      Mermaider exists because every other option either requires a JavaScript runtime or
+      produces inconsistent output across diagram types. These four properties are non-negotiable.
+    </p>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-kicker">one token system · 24 types</div>
+        <div class="card-title">Single design<br/>language</div>
+        <p class="card-body">
+          Every diagram type — flowchart, sequence, class, ER, architecture, gantt, pie, and all
+          the rest — renders using the same CSS custom-property token system. Set <code>--bg</code>,
+          <code>--fg</code>, and <code>--accent</code> once; every diagram adapts. No per-type
+          theme overrides, no inconsistent defaults slipping through.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-kicker">allowlist · strict mode · resource limits</div>
+        <div class="card-title">Safety by<br/>default</div>
+        <p class="card-body">
+          Every SVG output passes through an allowlist sanitizer before it reaches the caller — no
+          opt-in required. Strict mode removes all diagram-source styling from the stylesheet, so
+          untrusted diagram authors cannot override your design system. Resource limits with a
+          cooperative render deadline bound CPU and memory for arbitrary inputs. All regex patterns
+          carry a 2-second timeout for ReDoS protection.
+        </p>
+        <a class="card-more" href="security/">security docs →</a>
+      </div>
+      <div class="card">
+        <div class="card-kicker">3.4 µs · 16 KB · ObjectPool · spans · SIMD</div>
+        <div class="card-title">Fast and<br/>low-allocation</div>
+        <p class="card-body">
+          The SVG renderer pools <code>StringBuilder</code> instances via
+          <code>ObjectPool&lt;StringBuilder&gt;</code> and never allocates one per render.
+          The text pipeline operates on <code>ReadOnlySpan&lt;char&gt;</code> throughout;
+          character-class lookups use <code>SearchValues&lt;char&gt;</code> for SIMD acceleration.
+          Immutable lookup tables are <code>FrozenDictionary</code>. A 6-node flowchart completes
+          in 3.4 µs and allocates 16 KB — 73× faster than MSAGL, 35× fewer allocations.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-kicker">O(V+E) · rectilinear routing · CSR adjacency</div>
+        <div class="card-title">Own Sugiyama<br/>layout engine</div>
+        <p class="card-body">
+          Mermaider ships a complete, zero-dependency Sugiyama implementation: cycle removal,
+          longest-path layering, barycenter crossing minimization, coordinate assignment, and
+          rectilinear edge routing with rounded corners and shared trunk segments. All three
+          historically O(N³) phases were rewritten using a CSR adjacency index and now run in
+          O(V+E). The engine is also published as a standalone <code>Sugiyama</code> NuGet package.
+        </p>
+        <a class="card-more" href="layout/">layout docs →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- ══════════════  DIAGRAM GALLERY  ══════════════ -->
+<section class="section reveal gallery-section" id="diagrams">
+  <div class="inner">
+    <p class="section-label">// diagram types</p>
+    <h2 class="section-title">Every diagram Mermaid supports.</h2>
+    <p class="section-sub">
+      Pass any Mermaid syntax string, get back a complete inline-embeddable SVG.
+      All diagram types share the same themeable CSS variable system. Click any to enlarge.
+    </p>
+
+    <div class="diagram-grid">
+      <div class="diagram-card" onclick="openDiagram('screenshots/flowchart.svg','flowchart')"><div class="diagram-card-name">flowchart</div><div class="diagram-card-preview"><img src="screenshots/flowchart.svg" alt="Flowchart" loading="lazy"/></div></div>
+      <div class="diagram-card" onclick="openDiagram('screenshots/sequence.svg','sequence')"><div class="diagram-card-name">sequence</div><div class="diagram-card-preview"><img src="screenshots/sequence.svg" alt="Sequence" loading="lazy"/></div></div>
+      <div class="diagram-card" onclick="openDiagram('screenshots/class.svg','class')"><div class="diagram-card-name">class</div><div class="diagram-card-preview"><img src="screenshots/class.svg" alt="Class" loading="lazy"/></div></div>
+      <div class="diagram-card" onclick="openDiagram('screenshots/er.svg','entity-relationship')"><div class="diagram-card-name">entity-relationship</div><div class="diagram-card-preview"><img src="screenshots/er.svg" alt="ER" loading="lazy"/></div></div>
+      <div class="diagram-card" onclick="openDiagram('screenshots/state.svg','state')"><div class="diagram-card-name">state</div><div class="diagram-card-preview"><img src="screenshots/state.svg" alt="State" loading="lazy"/></div></div>
+      <div class="diagram-card" onclick="openDiagram('screenshots/architecture.svg','architecture')"><div class="diagram-card-name">architecture</div><div class="diagram-card-preview"><img src="screenshots/architecture.svg" alt="Architecture" loading="lazy"/></div></div>
+      <div class="diagram-card" onclick="openDiagram('screenshots/c4.svg','C4')"><div class="diagram-card-name">C4</div><div class="diagram-card-preview"><img src="screenshots/c4.svg" alt="C4" loading="lazy"/></div></div>
+      <div class="diagram-card" onclick="openDiagram('screenshots/gitgraph.svg','gitgraph')"><div class="diagram-card-name">gitgraph</div><div class="diagram-card-preview"><img src="screenshots/gitgraph.svg" alt="Git graph" loading="lazy"/></div></div>
+      <div class="diagram-card" onclick="openDiagram('screenshots/mindmap.svg','mindmap')"><div class="diagram-card-name">mindmap</div><div class="diagram-card-preview"><img src="screenshots/mindmap.svg" alt="Mindmap" loading="lazy"/></div></div>
+      <div class="diagram-card" onclick="openDiagram('screenshots/pie.svg','pie')"><div class="diagram-card-name">pie</div><div class="diagram-card-preview"><img src="screenshots/pie.svg" alt="Pie" loading="lazy"/></div></div>
+      <div class="diagram-card" onclick="openDiagram('screenshots/xychart.svg','xychart')"><div class="diagram-card-name">xychart</div><div class="diagram-card-preview"><img src="screenshots/xychart.svg" alt="XY chart" loading="lazy"/></div></div>
+      <div class="diagram-card" onclick="openDiagram('screenshots/gantt-example.svg','gantt')"><div class="diagram-card-name">gantt</div><div class="diagram-card-preview"><img src="screenshots/gantt-example.svg" alt="Gantt" loading="lazy"/></div></div>
+      <div class="diagram-card" onclick="openDiagram('screenshots/kanban.svg','kanban')"><div class="diagram-card-name">kanban</div><div class="diagram-card-preview"><img src="screenshots/kanban.svg" alt="Kanban" loading="lazy"/></div></div>
+      <div class="diagram-card" onclick="openDiagram('screenshots/timeline.svg','timeline')"><div class="diagram-card-name">timeline</div><div class="diagram-card-preview"><img src="screenshots/timeline.svg" alt="Timeline" loading="lazy"/></div></div>
+      <div class="diagram-card" onclick="openDiagram('screenshots/sankey.svg','sankey')"><div class="diagram-card-name">sankey</div><div class="diagram-card-preview"><img src="screenshots/sankey.svg" alt="Sankey" loading="lazy"/></div></div>
+      <div class="diagram-card" onclick="openDiagram('screenshots/treemap.svg','treemap')"><div class="diagram-card-name">treemap</div><div class="diagram-card-preview"><img src="screenshots/treemap.svg" alt="Treemap" loading="lazy"/></div></div>
+      <div class="diagram-card" onclick="openDiagram('screenshots/block.svg','block')"><div class="diagram-card-name">block</div><div class="diagram-card-preview"><img src="screenshots/block.svg" alt="Block" loading="lazy"/></div></div>
+      <div class="diagram-card" onclick="openDiagram('screenshots/quadrant.svg','quadrant')"><div class="diagram-card-name">quadrant</div><div class="diagram-card-preview"><img src="screenshots/quadrant.svg" alt="Quadrant" loading="lazy"/></div></div>
+      <div class="diagram-card" onclick="openDiagram('screenshots/requirement.svg','requirement')"><div class="diagram-card-name">requirement</div><div class="diagram-card-preview"><img src="screenshots/requirement.svg" alt="Requirement" loading="lazy"/></div></div>
+      <div class="diagram-card" onclick="openDiagram('screenshots/radar.svg','radar')"><div class="diagram-card-name">radar</div><div class="diagram-card-preview"><img src="screenshots/radar.svg" alt="Radar" loading="lazy"/></div></div>
+      <div class="diagram-card" onclick="openDiagram('screenshots/venn.svg','venn')"><div class="diagram-card-name">venn</div><div class="diagram-card-preview"><img src="screenshots/venn.svg" alt="Venn" loading="lazy"/></div></div>
+      <div class="diagram-card" onclick="openDiagram('screenshots/treeview.svg','treeview')"><div class="diagram-card-name">treeview</div><div class="diagram-card-preview"><img src="screenshots/treeview.svg" alt="Treeview" loading="lazy"/></div></div>
+      <div class="diagram-card" onclick="openDiagram('screenshots/packet.svg','packet')"><div class="diagram-card-name">packet</div><div class="diagram-card-preview"><img src="screenshots/packet.svg" alt="Packet" loading="lazy"/></div></div>
+      <div class="diagram-card" onclick="openDiagram('screenshots/journey-example.svg','journey')"><div class="diagram-card-name">journey</div><div class="diagram-card-preview"><img src="screenshots/journey-example.svg" alt="Journey" loading="lazy"/></div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- ══════════════  QUICK START  ══════════════ -->
+<section class="section reveal" id="quickstart">
+  <div class="inner">
+    <p class="section-label">// quick start</p>
+    <h2 class="section-title">One package.<br/>Then pass a string.</h2>
+    <p class="section-sub">
+      One NuGet reference. No configuration files, no external processes, no runtime setup.
+      One call to <code>RenderSvg</code>, one SVG string back.
+    </p>
+
+    <div class="split">
+      <div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">01</div>
+            <div>
+              <div class="step-title">Add the package</div>
+              <p class="step-body">
+                <code>dotnet add package Mermaider</code> — targets net8.0 and later.
+                No transitive JS or native dependencies.
+              </p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">02</div>
+            <div>
+              <div class="step-title">Create a renderer</div>
+              <p class="step-body">
+                Construct a <code>MermaidRenderer</code>, optionally passing
+                <code>RenderOptions</code> to configure colors, strict mode, or resource limits.
+                The renderer is thread-safe and designed to be shared.
+              </p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">03</div>
+            <div>
+              <div class="step-title">Embed the SVG</div>
+              <p class="step-body">
+                The returned string is a complete, sanitized SVG. Write it directly into your
+                HTML response — no file system, no temp files, no process to clean up.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="code-panel">
+          <div class="code-panel-head">basic usage</div>
+<pre><span class="c-kw">using</span> <span class="c-ns">Mermaider</span>;
+
+<span class="c-type">string</span> svg = <span class="c-type">MermaidRenderer</span>.<span class="c-key">RenderSvg</span>(<span class="c-str">"""
+    graph TD
+      A[Start] --&gt; B{Check}
+      B --&gt; |yes| C[Done]
+      B --&gt; |no|  D[Retry]
+"""</span>);
+
+<span class="c-com">// embed it directly in HTML</span>
+Response.<span class="c-key">Write</span>(svg);</pre>
+        </div>
+
+        <div class="code-panel">
+          <div class="code-panel-head">strict mode + theming</div>
+<pre><span class="c-kw">var</span> options = <span class="c-kw">new</span> <span class="c-type">RenderOptions</span>
+{
+    Bg = <span class="c-str">"#0D1117"</span>, Fg = <span class="c-str">"#E6EDF3"</span>,
+    Strict = <span class="c-kw">new</span> <span class="c-type">StrictStylingOptions</span>()
+};
+
+<span class="c-type">string</span> svg = <span class="c-type">MermaidRenderer</span>.<span class="c-key">RenderSvg</span>(diagram, options);</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════  CTA  ══════════════ -->
+<section class="section cta reveal">
+  <div class="inner">
+    <h2>One package.<br/>Pure .NET.<br/><em>Every diagram.</em></h2>
+    <p>No runtime, no subprocess. Just a NuGet package that turns Mermaid syntax into production-ready SVG.</p>
+    <div class="actions">
+      <a class="btn-primary" href="getting-started/">get started →</a>
+      <a class="btn-secondary" href="https://github.com/nullean/mermaider">view on github</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════  FOOTER  ══════════════ -->
+<footer>
+  <div class="inner">
+    <span style="display:flex;align-items:center;gap:1rem">
+      <a class="nullean-link" href="https://nullean.net" title="nullean.net">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 36" width="120" height="36" role="img" aria-label="nullean.net">
+          <defs>
+            <linearGradient id="nullBorder" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#1F9E9E"/>
+              <stop offset="1" stop-color="#923A3A"/>
+            </linearGradient>
+          </defs>
+          <rect width="120" height="36" rx="6" fill="url(#nullBorder)"/>
+          <rect x="1" y="1" width="118" height="34" rx="5" fill="#080C0C"/>
+          <text x="12" y="23" font-family="JetBrains Mono, ui-monospace, monospace" font-size="13" font-weight="700" fill="#1F9E9E">&gt; nullean_</text>
+        </svg>
+      </a>
+      <span>Mermaider — MIT licensed</span>
+    </span>
+    <span>
+      <a href="getting-started/">get started</a> ·
+      <a href="#diagrams">diagram types</a> ·
+      <a href="https://github.com/nullean/mermaider">github</a>
+    </span>
+  </div>
+</footer>
+
+<!-- ══════════════  DIAGRAM POPUP  ══════════════ -->
+<div class="diagram-popup" id="diagramPopup" onclick="closeDiagram(event)">
+  <div class="diagram-popup-inner" onclick="event.stopPropagation()">
+    <div class="diagram-popup-bar">
+      <span id="popupLabel"></span>
+      <button class="diagram-popup-close" onclick="closeDiagram()">close ✕</button>
+    </div>
+    <div class="diagram-popup-img">
+      <img id="popupImg" src="" alt=""/>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openDiagram(src, label) {
+    document.getElementById('popupImg').src = src;
+    document.getElementById('popupImg').alt = label + ' diagram';
+    document.getElementById('popupLabel').textContent = label;
+    document.getElementById('diagramPopup').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDiagram(e) {
+    if (e && e.target !== document.getElementById('diagramPopup')) return;
+    document.getElementById('diagramPopup').classList.remove('open');
+    document.getElementById('popupImg').src = '';
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeDiagram();
+  });
+
+  function copyPkg(btn) {
+    var pkg = btn.getAttribute('data-pkg');
+    var text = 'dotnet add package ' + pkg;
+    var icon = btn.querySelector('.pkg-cmd-icon');
+    navigator.clipboard.writeText(text).then(function() {
+      btn.classList.add('copied');
+      icon.textContent = '✓';
+      setTimeout(function() { btn.classList.remove('copied'); icon.textContent = '⎘'; }, 1800);
+    });
+  }
+
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(function(el) { el.classList.add('visible'); });
+  } else {
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.08 });
+    els.forEach(function(el) { io.observe(el); });
+  }
+</script>
+</div><!-- /hx-boost="false" -->
+</body>
+</html>
