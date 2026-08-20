@@ -158,3 +158,9 @@ let Setup (parsed:ParseResults<Arguments>) (subCommand:Arguments) =
         (Some [Release.Name])
         (Some [CreateReleaseOnGithub.Name; ])
         <| fun _ -> publish parsed
+
+    cmd Docs.Name None None
+        <| fun _ ->
+            Documentation.build ()
+            let port = parsed.TryGetResult Port |> Option.defaultValue 8000
+            Documentation.serve port

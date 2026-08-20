@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192" role="img" aria-label="mermaider">
+  <defs>
+    <linearGradient gradientUnits="userSpaceOnUse" id="fg-mdarks" x1="0" y1="0" x2="192" y2="192">
+      <stop offset="0.46" stop-color="#7FE0FF"></stop><stop offset="0.54" stop-color="#D66FFF"></stop>
+    </linearGradient>
+    <radialGradient id="fi-mdarks" cx="0.3" cy="0.16" r="1.1">
+      <stop offset="0" stop-color="#2B3B4A"></stop><stop offset="0.5" stop-color="#1B2732"></stop><stop offset="1" stop-color="#121B24"></stop>
+    </radialGradient>
+  </defs>
+  <rect x="0" y="0" width="192" height="192" rx="12" fill="url(#fg-mdarks)"></rect>
+  <rect x="9" y="9" width="174" height="174" rx="5" fill="url(#fi-mdarks)"></rect>
+  <rect x="10" y="10" width="172" height="172" rx="4.5" fill="none" stroke="#121B24" stroke-width="2"></rect>
+  <rect x="12.5" y="12.5" width="167" height="167" rx="3.5" fill="none" stroke="#FFFFFF" stroke-opacity="0.16" stroke-width="1"></rect>
+  <rect x="36" y="36" width="42" height="42" rx="6" fill="none" stroke="#7FE0FF" stroke-width="9.8"></rect>
+  <path d="M57 78 V128 H88" fill="none" stroke="#B6D9FF" stroke-width="9.8" stroke-linecap="round"></path>
+  <path d="M106 128 L90 119 L90 137 Z" fill="#B6D9FF"></path>
+  <path d="M138 103 L163 128 L138 153 L113 128 Z" fill="none" stroke="#E19BFF" stroke-width="9.8" stroke-linejoin="round"></path>
+</svg>
