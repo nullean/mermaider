@@ -56,7 +56,7 @@ var options = new RenderOptions
 string svg = MermaidRenderer.RenderSvg(diagram, options);
 ```
 
-See [Theming](../theming/) for the full color token reference, and [Security](../security/) for strict mode and sanitization options.
+See [Theming](../theming/index.md) for the full color token reference, and [Security](../security/index.md) for strict mode and sanitization options.
 
 ## Exceptions
 
