@@ -74,9 +74,16 @@ internal static class LightweightLayoutEngine
 			SameRankConstraints = sameRankConstraints,
 		};
 
-		var maxLabelH = layoutEdges.Where(e => e.LabelHeight > 0).Select(e => e.LabelHeight).DefaultIfEmpty(0).Max();
-		var effectiveLayerSpacing = maxLabelH > 0
-			? Math.Max(layerSpacing, maxLabelH + 76)
+		// The layer gap runs along the flow axis, so the label has to be measured along that axis too:
+		// on LR/RL a label sized by its height overhangs the nodes either side and they paint over it.
+		var horizontal = direction is LayoutDirection.LR or LayoutDirection.RL;
+		var maxLabelExtent = layoutEdges
+			.Select(e => horizontal ? e.LabelWidth : e.LabelHeight)
+			.Where(v => v > 0)
+			.DefaultIfEmpty(0)
+			.Max();
+		var effectiveLayerSpacing = maxLabelExtent > 0
+			? Math.Max(layerSpacing, maxLabelExtent + 76)
 			: layerSpacing;
 
 		var layoutOptions = new LayoutOptions
