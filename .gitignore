@@ -51,3 +51,6 @@ BenchmarkDotNet.Artifacts/
 
 # Verify
 *.received.*
+
+# Claude Code personal settings
+.claude/settings.local.json
