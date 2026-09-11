@@ -70,7 +70,7 @@ internal static class NodeSizing
 					height = width;
 					break;
 				}
-			case NodeShape.Hexagon or NodeShape.Trapezoid or NodeShape.TrapezoidAlt:
+			case NodeShape.Hexagon or NodeShape.Trapezoid or NodeShape.TrapezoidAlt or NodeShape.Parallelogram or NodeShape.ParallelogramAlt:
 				width += RenderConstants.NodePadding.Horizontal;
 				break;
 			case NodeShape.Asymmetric:

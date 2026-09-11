@@ -27,6 +27,8 @@ internal static class EnumNames
 		NodeShape.Asymmetric => "asymmetric",
 		NodeShape.Trapezoid => "trapezoid",
 		NodeShape.TrapezoidAlt => "trapezoidalt",
+		NodeShape.Parallelogram => "parallelogram",
+		NodeShape.ParallelogramAlt => "parallelogramalt",
 		NodeShape.StateStart => "statestart",
 		NodeShape.StateEnd => "stateend",
 		NodeShape.ForkJoin => "forkjoin",

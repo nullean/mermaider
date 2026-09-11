@@ -63,6 +63,12 @@ internal static partial class FlowchartParser
 	[GeneratedRegex(@"^([\w-]+)\[/(.+?)\\\]", RegexOptions.None, TimeoutMs)]
 	private static partial Regex TrapezoidPattern();
 
+	[GeneratedRegex(@"^([\w-]+)\[/(.+?)/\]", RegexOptions.None, TimeoutMs)]
+	private static partial Regex ParallelogramPattern();
+
+	[GeneratedRegex(@"^([\w-]+)\[\\(.+?)\\\]", RegexOptions.None, TimeoutMs)]
+	private static partial Regex ParallelogramAltPattern();
+
 	[GeneratedRegex(@"^([\w-]+)\[\\(.+?)/\]", RegexOptions.None, TimeoutMs)]
 	private static partial Regex TrapezoidAltPattern();
 
@@ -91,6 +97,8 @@ internal static partial class FlowchartParser
 		(CirclePattern, NodeShape.Circle),
 		(SubroutinePattern, NodeShape.Subroutine),
 		(CylinderPattern, NodeShape.Cylinder),
+		(ParallelogramPattern, NodeShape.Parallelogram),
+		(ParallelogramAltPattern, NodeShape.ParallelogramAlt),
 		(TrapezoidPattern, NodeShape.Trapezoid),
 		(TrapezoidAltPattern, NodeShape.TrapezoidAlt),
 		(AsymmetricPattern, NodeShape.Asymmetric),

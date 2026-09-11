@@ -403,6 +403,12 @@ internal static class SvgRenderer
 			case NodeShape.Trapezoid:
 				AppendTrapezoid(sb, x, y, w, h, fill, stroke, sw);
 				break;
+			case NodeShape.Parallelogram:
+				AppendParallelogram(sb, x, y, w, h, fill, stroke, sw, leansRight: true);
+				break;
+			case NodeShape.ParallelogramAlt:
+				AppendParallelogram(sb, x, y, w, h, fill, stroke, sw, leansRight: false);
+				break;
 			case NodeShape.TrapezoidAlt:
 				AppendTrapezoidAlt(sb, x, y, w, h, fill, stroke, sw);
 				break;
@@ -562,6 +568,23 @@ internal static class SvgRenderer
 			.Append(x + w).Append(',').Append(y).Append(' ')
 			.Append(x + w - inset).Append(',').Append(y + h).Append(' ')
 			.Append(x + inset).Append(',').Append(y + h)
+			.Append("\" fill=\"").Append(fill)
+			.Append("\" stroke=\"").Append(stroke)
+			.Append("\" stroke-width=\"").Append(sw).Append("\" />");
+	}
+
+	/// <summary>A rectangle sheared along the x axis: <c>[/text/]</c> leans right, <c>[\text\]</c> leans left.</summary>
+	private static void AppendParallelogram(StringBuilder sb, double x, double y, double w, double h, string fill, string stroke, string sw, bool leansRight)
+	{
+		var lean = w * 0.15;
+		var (topLeft, topRight, bottomRight, bottomLeft) = leansRight
+			? (x + lean, x + w, x + w - lean, x)
+			: (x, x + w - lean, x + w, x + lean);
+		_ = sb.Append("<polygon points=\"")
+			.Append(topLeft).Append(',').Append(y).Append(' ')
+			.Append(topRight).Append(',').Append(y).Append(' ')
+			.Append(bottomRight).Append(',').Append(y + h).Append(' ')
+			.Append(bottomLeft).Append(',').Append(y + h)
 			.Append("\" fill=\"").Append(fill)
 			.Append("\" stroke=\"").Append(stroke)
 			.Append("\" stroke-width=\"").Append(sw).Append("\" />");

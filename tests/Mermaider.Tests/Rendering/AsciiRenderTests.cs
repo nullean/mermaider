@@ -135,6 +135,26 @@ public class AsciiRenderTests
 	}
 
 	[Test]
+	public void A_parallelogram_is_a_shape_of_its_own_rather_than_a_rectangle_with_slashes_in_the_label()
+	{
+		var leaning = MermaidRenderer.Parse("flowchart LR\n  a[/Volumes/] --> b[end]");
+		leaning.Nodes["a"].Label.Should().Be("Volumes", "the slashes are the shape, not the text");
+		leaning.Nodes["a"].Shape.Should().Be(NodeShape.Parallelogram);
+
+		var other = MermaidRenderer.Parse(@"flowchart LR
+  a[\Volumes\] --> b[end]");
+		other.Nodes["a"].Shape.Should().Be(NodeShape.ParallelogramAlt);
+
+		// the two trapezoids are the ones that mix the slashes, and they still are what they were
+		MermaidRenderer.Parse(@"flowchart LR
+  a[/Volumes\] --> b[end]").Nodes["a"].Shape.Should().Be(NodeShape.Trapezoid);
+		MermaidRenderer.Parse(@"flowchart LR
+  a[\Volumes/] --> b[end]").Nodes["a"].Shape.Should().Be(NodeShape.TrapezoidAlt);
+
+		MermaidRenderer.RenderSvg("flowchart LR\n  a[/Volumes/] --> b[end]").Should().Contain("<polygon");
+	}
+
+	[Test]
 	public void A_box_series_renders_in_svg_as_a_box_with_whiskers()
 	{
 		var svg = MermaidRenderer.RenderSvg("""

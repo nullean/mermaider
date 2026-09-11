@@ -15,6 +15,12 @@ public enum NodeShape
 	Asymmetric,
 	Trapezoid,
 	TrapezoidAlt,
+
+	/// <summary><c>[/text/]</c>, leaning right.</summary>
+	Parallelogram,
+
+	/// <summary><c>[\text\]</c>, leaning left.</summary>
+	ParallelogramAlt,
 	StateStart,
 	StateEnd,
 	ForkJoin
