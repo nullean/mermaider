@@ -63,11 +63,6 @@ internal static class LightweightErLayoutEngine
 			layoutEdges.Add(new LayoutEdge(rel.Entity1, rel.Entity2, labelW, labelH));
 		}
 
-		var maxLabelW = layoutEdges.Count > 0
-			? layoutEdges.Max(e => e.LabelWidth)
-			: 0;
-		var effectiveLayerSpacing = Math.Max(LayerSpacing, maxLabelW + 40);
-
 		var layoutDir = diagram.Direction switch
 		{
 			Direction.TD or Direction.TB => LayoutDirection.TD,
@@ -75,6 +70,19 @@ internal static class LightweightErLayoutEngine
 			Direction.BT => LayoutDirection.BT,
 			_ => LayoutDirection.LR,
 		};
+
+		// The layer gap runs along the flow axis, so the label has to be measured along that axis too:
+		// on LR/RL a label sized by its height overhangs the entities either side and they paint over it.
+		var horizontal = layoutDir is LayoutDirection.LR or LayoutDirection.RL;
+		var maxLabelExtent = layoutEdges
+			.Select(e => horizontal ? e.LabelWidth : e.LabelHeight)
+			.Where(v => v > 0)
+			.DefaultIfEmpty(0)
+			.Max();
+		var effectiveLayerSpacing = maxLabelExtent > 0
+			? Math.Max(LayerSpacing, maxLabelExtent + 40)
+			: LayerSpacing;
+
 		var layoutGraph = new LayoutGraph(layoutDir, layoutNodes, layoutEdges, []);
 		var result = SugiyamaLayout.Compute(layoutGraph, new LayoutOptions
 		{

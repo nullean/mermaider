@@ -61,7 +61,7 @@ internal static class EdgeRouter
 		SnapSharedHorizontalTrunks(results);
 
 		if (inputEdges is not null)
-			ResolveOverlappingLabels(results, inputEdges);
+			ResolveOverlappingLabels(results, inputEdges, useSideRouting);
 
 		return results;
 	}
@@ -120,7 +120,7 @@ internal static class EdgeRouter
 	private static bool SameY(LayoutPoint a, LayoutPoint b) => Math.Abs(a.Y - b.Y) < 0.5;
 	private static long Quantize(double value) => (long)Math.Round(value * 2, MidpointRounding.AwayFromZero);
 
-	private static void ResolveOverlappingLabels(List<RoutedEdge> routes, IReadOnlyList<LayoutEdge> inputEdges)
+	private static void ResolveOverlappingLabels(List<RoutedEdge> routes, IReadOnlyList<LayoutEdge> inputEdges, bool useSideRouting)
 	{
 		const double labelGap = 4;
 		var labeled = new List<(int Index, double X, double Y, double W, double H)>();
@@ -133,7 +133,13 @@ internal static class EdgeRouter
 			var e = inputEdges[r.OriginalIndex];
 			if (e.LabelWidth <= 0 || e.LabelHeight <= 0)
 				continue;
-			labeled.Add((i, lp.X, lp.Y, e.LabelWidth, e.LabelHeight));
+			// This runs pre-DirectionTransform, in canonical (TD) space, where the X axis is
+			// perpendicular to flow and Y runs along it. For LR/RL, DirectionTransform later
+			// maps canonical Y -> visual X and canonical X -> visual Y, so the label's width
+			// and height have to swap roles here to still compare against the right axis.
+			var extentX = useSideRouting ? e.LabelHeight : e.LabelWidth;
+			var extentY = useSideRouting ? e.LabelWidth : e.LabelHeight;
+			labeled.Add((i, lp.X, lp.Y, extentX, extentY));
 		}
 
 		if (labeled.Count < 2)

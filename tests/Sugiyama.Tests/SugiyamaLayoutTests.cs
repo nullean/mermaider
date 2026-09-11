@@ -382,4 +382,30 @@ public class SugiyamaLayoutTests
 		result.Nodes.Should().HaveCount(1);
 		result.Edges.Should().HaveCount(1);
 	}
+
+	[Test]
+	public void Lr_fan_out_labels_close_together_are_shifted_apart()
+	{
+		// A fans out to two siblings (B, C) at the same layer, packed close together, each
+		// with a tall/wide label. ResolveOverlappingLabels runs in canonical (pre-transform)
+		// space, so for an LR/RL result it has to compare label extents against the swapped
+		// axis: without that swap, both labels land at the identical canonical-Y position and
+		// are never recognized as needing to be pulled apart.
+		var graph = new LayoutGraph(
+			LayoutDirection.LR,
+			[new LayoutNode("A", 100, 40), new LayoutNode("B", 100, 40), new LayoutNode("C", 100, 40)],
+			[new LayoutEdge("A", "B", 60, 150), new LayoutEdge("A", "C", 60, 150)],
+			[]);
+
+		var result = SugiyamaLayout.Compute(graph, new LayoutOptions { NodeSpacing = 20, LayerSpacing = 200 });
+
+		var labelB = result.Edges.Single(e => e.OriginalIndex == 0).LabelPosition!.Value;
+		var labelC = result.Edges.Single(e => e.OriginalIndex == 1).LabelPosition!.Value;
+
+		const double labelWidth = 60;
+		const double labelHeight = 150;
+		var overlapsX = Math.Abs(labelB.X - labelC.X) < labelWidth;
+		var overlapsY = Math.Abs(labelB.Y - labelC.Y) < labelHeight;
+		(overlapsX && overlapsY).Should().BeFalse("the two labels must not be shifted onto overlapping visual rects");
+	}
 }
