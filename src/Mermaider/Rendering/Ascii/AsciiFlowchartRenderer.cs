@@ -69,9 +69,26 @@ internal static class AsciiFlowchartRenderer
 
 		var placed = layout.Nodes.ToDictionary(n => n.Id, StringComparer.Ordinal);
 		var boxes = layout.Nodes
-			.Select(n => ((int)Math.Round(n.X), (int)Math.Round(n.Y), (int)Math.Round(n.Width), BoxHeight))
+			.Select(n => (X: (int)Math.Round(n.X), Y: (int)Math.Round(n.Y), Width: (int)Math.Round(n.Width), Height: BoxHeight))
 			.ToList();
-		var canvas = new AsciiCanvas((int)Math.Ceiling(layout.Width) + 2, (int)Math.Ceiling(layout.Height) + 2, options.Ascii);
+
+		// an edge that runs against the flow is drawn in a lane of its own past the end of everything, the way
+		// a feedback line is drawn on paper. Straight through would cross every box between its two ends
+		var backward = new List<LayoutEdgeResult>();
+		foreach (var routed in layout.Edges)
+		{
+			if (routed.OriginalIndex < 0 || routed.OriginalIndex >= original.Count)
+				continue;
+			var edge = graph.Edges[original[routed.OriginalIndex]];
+			if (placed.TryGetValue(edge.Source, out var from) && placed.TryGetValue(edge.Target, out var to) && Backward(from, to, across))
+				backward.Add(routed);
+		}
+
+		var lanes = backward.Count * 2;
+		var canvas = new AsciiCanvas(
+			(int)Math.Ceiling(layout.Width) + 2 + (across ? 0 : lanes),
+			(int)Math.Ceiling(layout.Height) + 2 + (across ? lanes : 0),
+			options.Ascii);
 		foreach (var node in layout.Nodes)
 		{
 			var x = (int)Math.Round(node.X);
@@ -81,11 +98,20 @@ internal static class AsciiFlowchartRenderer
 			canvas.Centred(x + 1, width - 2, y + 1, labels.GetValueOrDefault(node.Id, node.Id));
 		}
 
+		var lane = across
+			? boxes.Max(b => b.Y + b.Height) + 1
+			: boxes.Max(b => b.X + b.Width) + 1;
 		foreach (var routed in layout.Edges)
 		{
 			if (routed.OriginalIndex < 0 || routed.OriginalIndex >= original.Count)
 				continue;
 			var edge = graph.Edges[original[routed.OriginalIndex]];
+			if (backward.Contains(routed))
+			{
+				Feedback(canvas, placed[edge.Source], placed[edge.Target], edge, across, lane + (backward.IndexOf(routed) * 2), options, boxes);
+				continue;
+			}
+
 			Draw(canvas, routed, edge, across, options, placed, boxes);
 		}
 
@@ -103,6 +129,53 @@ internal static class AsciiFlowchartRenderer
 	/// inside it. A frame that enclosed a stranger would be a lie about the diagram, and leaving it out costs
 	/// only the grouping line.
 	/// </summary>
+	/// <summary>Whether an edge runs against the flow, which on a grid is the one thing a straight line cannot do quietly.</summary>
+	private static bool Backward(LayoutNodeResult from, LayoutNodeResult to, bool across) =>
+		across ? to.X + to.Width <= from.X : to.Y + to.Height <= from.Y;
+
+	/// <summary>
+	/// An edge against the flow, drawn out of the near side of its source, along a lane past everything, and
+	/// back into the near side of its target. One lane each, so two of them never share a line, and the way a
+	/// feedback edge is drawn on paper for the same reason: straight through would cross every box between
+	/// its two ends.
+	/// </summary>
+	private static void Feedback(
+		AsciiCanvas canvas,
+		LayoutNodeResult from,
+		LayoutNodeResult to,
+		MermaidEdge edge,
+		bool across,
+		int lane,
+		AsciiOptions options,
+		IReadOnlyList<(int X, int Y, int Width, int Height)> boxes)
+	{
+		var (fromX, fromY, fromWidth) = ((int)Math.Round(from.X), (int)Math.Round(from.Y), (int)Math.Round(from.Width));
+		var (toX, toY, toWidth) = ((int)Math.Round(to.X), (int)Math.Round(to.Y), (int)Math.Round(to.Width));
+		if (across)
+		{
+			// the lane itself is past everything, but the risers down to it are not: they leave from the middle
+			// of a box and whatever is under that box is in the way
+			var leaves = Clear(fromX + (fromWidth / 2), fromY, lane, boxes, column: true);
+			var arrives = Clear(toX + (toWidth / 2), toY, lane, boxes, column: true);
+			canvas.Vertical(leaves, fromY + BoxHeight - 1, lane);
+			canvas.Horizontal(leaves, arrives, lane);
+			canvas.Vertical(arrives, lane, toY + BoxHeight - 1);
+			if (edge.HasArrowEnd)
+				canvas.Glyph(arrives, toY + BoxHeight, canvas.Arrow('^'));
+			if (options.EdgeLabels && edge.Label is { Length: > 0 } label)
+				canvas.Text(Math.Min(leaves, arrives) + 2, lane, AsciiCanvas.Fit(Flatten(label), Math.Abs(arrives - leaves) - 3));
+			return;
+		}
+
+		var leaving = Clear(fromY + 1, fromX, lane, boxes, column: false);
+		var arriving = Clear(toY + 1, toX, lane, boxes, column: false);
+		canvas.Horizontal(fromX + fromWidth - 1, lane, leaving);
+		canvas.Vertical(lane, leaving, arriving);
+		canvas.Horizontal(lane, toX + toWidth - 1, arriving);
+		if (edge.HasArrowEnd)
+			canvas.Glyph(toX + toWidth, arriving, canvas.Arrow('<'));
+	}
+
 	private static void Draw(AsciiCanvas canvas, MermaidSubgraph subgraph, Dictionary<string, LayoutNodeResult> placed, AsciiOptions options)
 	{
 		foreach (var child in subgraph.Children)
@@ -237,9 +310,11 @@ internal static class AsciiFlowchartRenderer
 				var blocked = false;
 				foreach (var box in boxes)
 				{
+					// the border counts as blocked. A line that lands on one reads as joining the box, which is
+					// what an arrival is; a line that is only passing must not claim to be one
 					var crosses = column
-						? candidate > box.X && candidate < box.X + box.Width - 1 && high > box.Y && low < box.Y + box.Height - 1
-						: candidate > box.Y && candidate < box.Y + box.Height - 1 && high > box.X && low < box.X + box.Width - 1;
+						? candidate >= box.X && candidate <= box.X + box.Width - 1 && high > box.Y && low < box.Y + box.Height - 1
+						: candidate >= box.Y && candidate <= box.Y + box.Height - 1 && high > box.X && low < box.X + box.Width - 1;
 					if (crosses)
 					{
 						blocked = true;

@@ -53,6 +53,26 @@ public class AsciiRenderTests
 	}
 
 	[Test]
+	public void An_edge_against_the_flow_is_drawn_in_a_lane_of_its_own_past_everything()
+	{
+		var text = MermaidRenderer.RenderAscii("""
+			flowchart LR
+			  A[Order] --> B[Refund]
+			  B --> C[Ledger]
+			  C -->|"settled"| A
+			""");
+
+		var rows = Lines(text);
+		var boxes = rows.Select((line, i) => (line, i)).Where(r => r.line.Contains("│ ", StringComparison.Ordinal)).Select(r => r.i).ToList();
+		var lane = rows.Select((line, i) => (line, i)).Single(r => r.line.Contains("settled", StringComparison.Ordinal)).i;
+
+		// the feedback line runs past every box rather than through the ones between its two ends
+		lane.Should().BeGreaterThan(boxes.Max(), "the lane is past the end of the drawing");
+		text.Should().Contain("▲", "it arrives from below");
+		rows.Should().Contain(r => r.Contains("┤ Refund ├", StringComparison.Ordinal), "the box in the middle is joined at its borders, not crossed");
+	}
+
+	[Test]
 	public void Plain_ascii_uses_nothing_a_terminal_could_refuse()
 	{
 		var text = MermaidRenderer.RenderAscii(Flow, new AsciiOptions { Ascii = true });
