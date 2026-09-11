@@ -82,6 +82,27 @@ public class AsciiRenderTests
 			((int)character).Should().BeLessThan(128, $"'{character}' is not ASCII");
 	}
 
+	/// <summary>
+	/// A label too long for its box is cut, and what marks the cut has to obey the same rule as everything
+	/// else: an ellipsis is one character and not an ASCII one, so in plain mode it is three dots.
+	/// </summary>
+	[Test]
+	public void A_truncated_label_stays_within_the_character_set_it_was_asked_for()
+	{
+		const string Long = """
+			flowchart LR
+			  A["a label far too long to fit inside any box this narrow"] --> B[end]
+			""";
+
+		var narrow = new AsciiOptions { Width = 40 };
+		MermaidRenderer.RenderAscii(Long, narrow).Should().Contain("…", "the cut is marked");
+
+		var plain = MermaidRenderer.RenderAscii(Long, narrow with { Ascii = true });
+		plain.Should().Contain("...", "three dots, because one ellipsis is not ASCII");
+		foreach (var character in plain)
+			((int)character).Should().BeLessThan(128, $"'{character}' is not ASCII");
+	}
+
 	[Test]
 	public void A_box_series_is_drawn_as_one_box_and_whisker_per_category()
 	{

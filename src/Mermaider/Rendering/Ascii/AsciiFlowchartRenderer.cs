@@ -25,7 +25,7 @@ internal static class AsciiFlowchartRenderer
 		{
 			if (!graph.Nodes.TryGetValue(id, out var node))
 				continue;
-			var label = AsciiCanvas.Fit(Flatten(node.Label ?? id), widest);
+			var label = AsciiCanvas.Fit(Flatten(node.Label ?? id), widest, options.Ascii);
 			labels[id] = label;
 			nodes.Add(new LayoutNode(id, label.Length + Padding, BoxHeight));
 		}
@@ -163,7 +163,7 @@ internal static class AsciiFlowchartRenderer
 			if (edge.HasArrowEnd)
 				canvas.Glyph(arrives, toY + BoxHeight, canvas.Arrow('^'));
 			if (options.EdgeLabels && edge.Label is { Length: > 0 } label)
-				canvas.Text(Math.Min(leaves, arrives) + 2, lane, AsciiCanvas.Fit(Flatten(label), Math.Abs(arrives - leaves) - 3));
+				canvas.Text(Math.Min(leaves, arrives) + 2, lane, AsciiCanvas.Fit(Flatten(label), Math.Abs(arrives - leaves) - 3, options.Ascii));
 			return;
 		}
 
@@ -199,7 +199,7 @@ internal static class AsciiFlowchartRenderer
 
 		canvas.Frame(left, top, right - left + 1, bottom - top + 1, options.Ascii ? '-' : '┄', options.Ascii ? ':' : '┆');
 		if (subgraph.Label is { Length: > 0 } label)
-			canvas.Text(left + 2, top, $" {AsciiCanvas.Fit(Flatten(label), Math.Max(0, right - left - 5))} ");
+			canvas.Text(left + 2, top, $" {AsciiCanvas.Fit(Flatten(label), Math.Max(0, right - left - 5), options.Ascii)} ");
 	}
 
 	/// <summary>
@@ -288,7 +288,7 @@ internal static class AsciiFlowchartRenderer
 		{
 			// in the gap the edge leaves through, on its own row, so it reads as part of the arrow. The gap is
 			// the one place on the line that is guaranteed to be clear of a box
-			Label(canvas, points, across, Flatten(label), boxes);
+			Label(canvas, points, across, Flatten(label), boxes, options.Ascii);
 		}
 	}
 
@@ -334,7 +334,7 @@ internal static class AsciiFlowchartRenderer
 	/// An edge's label, written into the gap between the source and whatever is next along the line. Anything
 	/// that does not fit in that gap is truncated rather than allowed to run over a box.
 	/// </summary>
-	private static void Label(AsciiCanvas canvas, List<(int X, int Y)> points, bool across, string label, IReadOnlyList<(int X, int Y, int Width, int Height)> boxes)
+	private static void Label(AsciiCanvas canvas, List<(int X, int Y)> points, bool across, string label, IReadOnlyList<(int X, int Y, int Width, int Height)> boxes, bool ascii)
 	{
 		var (fromX, fromY) = points[0];
 		var (toX, toY) = points[1];
@@ -344,7 +344,7 @@ internal static class AsciiFlowchartRenderer
 		if (room < 3 || (!across && Math.Abs(toY - fromY) < 2))
 			return;
 
-		var text = AsciiCanvas.Fit(label, room);
+		var text = AsciiCanvas.Fit(label, room, ascii);
 		foreach (var box in boxes)
 		{
 			if (y >= box.Y && y < box.Y + box.Height && x + text.Length > box.X && x <= box.X + box.Width)

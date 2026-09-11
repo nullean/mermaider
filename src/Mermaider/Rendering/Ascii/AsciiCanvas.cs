@@ -63,17 +63,24 @@ internal sealed class AsciiCanvas
 	/// <summary>Centres text in a span, truncating with an ellipsis rather than running over the edge.</summary>
 	public void Centred(int x, int width, int y, string value)
 	{
-		var text = Fit(value, width);
+		var text = Fit(value, width, _ascii);
 		Text(x + Math.Max(0, (width - text.Length) / 2), y, text);
 	}
 
-	public static string Fit(string value, int width)
+	/// <summary>
+	/// Text cut to a width, with an ellipsis where it was cut. In plain mode the ellipsis is three dots and
+	/// therefore three cells, which is the whole reason this takes the flag: a single character that is not
+	/// ASCII would defeat the option somebody chose plain for.
+	/// </summary>
+	public static string Fit(string value, int width, bool ascii = false)
 	{
 		if (width <= 0)
 			return string.Empty;
 		if (value.Length <= width)
 			return value;
-		return width <= 1 ? value[..1] : value[..(width - 1)] + "…";
+		if (!ascii)
+			return width <= 1 ? value[..1] : value[..(width - 1)] + "…";
+		return width <= 3 ? value[..width] : value[..(width - 3)] + "...";
 	}
 
 	public void Horizontal(int from, int to, int y)

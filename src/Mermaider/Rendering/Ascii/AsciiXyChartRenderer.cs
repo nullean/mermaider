@@ -87,8 +87,8 @@ internal static class AsciiXyChartRenderer
 		var axis = top + height;
 		canvas.Vertical(gutter, top, axis);
 		canvas.Horizontal(gutter, gutter + (categories * step), axis);
-		canvas.Text(0, top, AsciiCanvas.Fit(Number(high), gutter));
-		canvas.Text(0, axis, AsciiCanvas.Fit(Number(low), gutter));
+		canvas.Text(0, top, AsciiCanvas.Fit(Number(high), gutter, options.Ascii));
+		canvas.Text(0, axis, AsciiCanvas.Fit(Number(low), gutter, options.Ascii));
 
 		var marks = new[] { '#', '*', '+', 'x', 'o' };
 		var mark = 0;
