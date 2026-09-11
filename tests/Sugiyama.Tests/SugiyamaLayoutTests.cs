@@ -408,4 +408,60 @@ public class SugiyamaLayoutTests
 		var overlapsY = Math.Abs(labelB.Y - labelC.Y) < labelHeight;
 		(overlapsX && overlapsY).Should().BeFalse("the two labels must not be shifted onto overlapping visual rects");
 	}
+
+	// ====================================================================
+	// Negated-axis direction transform regression tests
+	// ====================================================================
+
+	private static LayoutGraph ThreeNodeChain(LayoutDirection direction) => new(
+		direction,
+		// Deliberately unequal widths: a chain where every node is the same size can't
+		// distinguish "mirrored correctly" from "mirrored using the wrong node's size".
+		[new LayoutNode("A", 93.056, 52.8), new LayoutNode("B", 106.736, 52.8), new LayoutNode("C", 87.584, 52.8)],
+		[new LayoutEdge("A", "B"), new LayoutEdge("B", "C")],
+		[]);
+
+	[Test]
+	public void RL_total_width_mirrors_LR()
+	{
+		// DirectionTransform maps a node's canonical top-left corner straight through for
+		// LR, but RL negates one axis — the corner with the smaller canonical coordinate
+		// then has the *larger* visual one, so naively transforming just the stored corner
+		// silently keeps the wrong corner as the node's emitted position. With nodes of
+		// unequal width that shows up as the whole diagram being a different total width
+		// depending on which node ends up "outermost", not just a left/right flip.
+		var options = new LayoutOptions { Padding = 40, NodeSpacing = 56, LayerSpacing = 56 };
+		var lr = SugiyamaLayout.Compute(ThreeNodeChain(LayoutDirection.LR), options);
+		var rl = SugiyamaLayout.Compute(ThreeNodeChain(LayoutDirection.RL), options);
+
+		rl.Width.Should().Be(lr.Width, "RL is a mirror image of LR and must occupy the same bounding box");
+	}
+
+	[Test]
+	public void BT_edges_touch_their_node_boundaries()
+	{
+		// Same corner-selection bug as RL, on the axis BT negates: the edge point computed
+		// by the router (in canonical space) is correct, but the node it should meet was
+		// being placed one node-height away from it.
+		var options = new LayoutOptions { Padding = 40, NodeSpacing = 56, LayerSpacing = 56 };
+		var input = ThreeNodeChain(LayoutDirection.BT);
+		var result = SugiyamaLayout.Compute(input, options);
+
+		var nodesById = result.Nodes.ToDictionary(n => n.Id);
+		foreach (var edge in result.Edges)
+		{
+			var inputEdge = input.Edges[edge.OriginalIndex];
+			var source = nodesById[inputEdge.Source];
+			var target = nodesById[inputEdge.Target];
+
+			var startY = edge.Points[0].Y;
+			var endY = edge.Points[^1].Y;
+
+			var startOnSource = Math.Abs(startY - source.Y) < 0.5 || Math.Abs(startY - (source.Y + source.Height)) < 0.5;
+			var endOnTarget = Math.Abs(endY - target.Y) < 0.5 || Math.Abs(endY - (target.Y + target.Height)) < 0.5;
+
+			startOnSource.Should().BeTrue($"edge {inputEdge.Source}->{inputEdge.Target} should start on its source node's boundary, not {startY}");
+			endOnTarget.Should().BeTrue($"edge {inputEdge.Source}->{inputEdge.Target} should end on its target node's boundary, not {endY}");
+		}
+	}
 }

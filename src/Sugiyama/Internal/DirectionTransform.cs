@@ -14,18 +14,30 @@ internal static class DirectionTransform
 		if (direction == Direction.TD)
 			return;
 
+		// A node's stored (X, Y) is its canonical top-left corner. RL and BT negate one
+		// axis, which turns "top-left" into a different corner visually: the corner with
+		// the *smaller* canonical coordinate ends up with the *larger* visual one once the
+		// node's own extent is added back in. Transforming just the stored corner silently
+		// keeps the wrong corner as the emitted (X, Y), offsetting every real node — and,
+		// via Normalize's shared min-based offset below, every edge point too — by the
+		// node's own width or height. TransformBox derives the correct min corner (and,
+		// for LR/RL, the swapped width/height) directly per direction, so TD/LR still
+		// reduce to a plain reassignment with no extra floating-point error.
 		for (var i = 0; i < graph.NodeCount; i++)
 		{
-			var (x, y) = Transform(graph.X[i], graph.Y[i], direction);
+			var isReal = i < graph.RealNodeCount;
+			var w = isReal ? graph.NodeWidths[i] : 0;
+			var h = isReal ? graph.NodeHeights[i] : 0;
+
+			var (x, y, nw, nh) = TransformBox(graph.X[i], graph.Y[i], w, h, direction);
 			graph.X[i] = x;
 			graph.Y[i] = y;
-		}
 
-		// For LR/RL, swap node width/height for real nodes
-		if (direction is Direction.LR or Direction.RL)
-		{
-			for (var i = 0; i < graph.RealNodeCount; i++)
-				(graph.NodeWidths[i], graph.NodeHeights[i]) = (graph.NodeHeights[i], graph.NodeWidths[i]);
+			if (isReal)
+			{
+				graph.NodeWidths[i] = nw;
+				graph.NodeHeights[i] = nh;
+			}
 		}
 
 		foreach (var route in routes)
@@ -51,6 +63,21 @@ internal static class DirectionTransform
 			Direction.RL => (-y, x),
 			Direction.BT => (x, -y),
 			_ => (x, y),
+		};
+
+	/// <summary>
+	/// Transform a canonical top-left corner (x, y, w, h) to the visual top-left corner
+	/// for the given direction. On the axis a direction negates, the far corner
+	/// (coordinate + extent) becomes the new min, so that axis's output is
+	/// -(coordinate + extent) instead of a plain reassignment.
+	/// </summary>
+	private static (double X, double Y, double W, double H) TransformBox(double x, double y, double w, double h, Direction direction) =>
+		direction switch
+		{
+			Direction.LR => (y, x, h, w),
+			Direction.RL => (-(y + h), x, h, w),
+			Direction.BT => (x, -(y + h), w, h),
+			_ => (x, y, w, h),
 		};
 
 	/// <summary>
