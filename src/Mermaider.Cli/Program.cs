@@ -25,6 +25,9 @@ string? inputFile = null;
 string? outputFile = null;
 string? themeName = null;
 var transparent = true;
+var ascii = false;
+var plain = false;
+var width = 120;
 
 for (var i = 0; i < args.Length; i++)
 {
@@ -44,6 +47,16 @@ for (var i = 0; i < args.Length; i++)
 			break;
 		case "--no-transparent":
 			transparent = false;
+			break;
+		case "--ascii":
+			ascii = true;
+			break;
+		case "--plain":
+			ascii = true;
+			plain = true;
+			break;
+		case "--width" when i + 1 < args.Length:
+			_ = int.TryParse(args[++i], out width);
 			break;
 		default:
 			if (!args[i].StartsWith('-') && inputFile == null)
@@ -83,7 +96,9 @@ var options = BuildOptions(themeName, transparent);
 
 try
 {
-	var svg = MermaidRenderer.RenderSvg(input, options);
+	var svg = ascii
+		? MermaidRenderer.RenderAscii(input, new AsciiOptions { Ascii = plain, Width = width < 20 ? 120 : width })
+		: MermaidRenderer.RenderSvg(input, options);
 
 	if (outputFile != null)
 	{
@@ -152,6 +167,9 @@ static void PrintHelp() => Console.WriteLine("""
 		OPTIONS:
 		  -i, --input <file>     Input .mmd file (or pass as positional arg)
 		  -o, --output <file>    Output .svg file (default: stdout)
+		  --ascii                 Draw the diagram as text instead of SVG
+		  --plain                 As --ascii, with no characters above ASCII
+		  --width <n>             How wide text output may be (default 120)
 		  -t, --theme <name>     Theme name (use --list-themes to see options)
 		  --transparent           Transparent background (default)
 		  --no-transparent        Opaque background (uses --bg color)

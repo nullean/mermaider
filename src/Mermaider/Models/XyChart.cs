@@ -21,4 +21,11 @@ public enum XySeriesType
 {
 	Bar,
 	Line,
+
+	/// <summary>
+	/// A box-and-whisker summary of one category: five values, in the order min, q1, median, q3, max.
+	/// Each <c>box</c> series is one box, placed at the x-axis category with the same index, so a chart of
+	/// three categories has three <c>box</c> lines. A series with fewer than five values is ignored.
+	/// </summary>
+	Box,
 }

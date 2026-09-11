@@ -228,6 +228,46 @@ internal static class XyChartSvgRenderer
 			}
 		}
 
+		// Box-and-whisker. Each box series is one category's five-number summary, so the Nth box line sits at
+		// the Nth category; the values are sorted before drawing, so an unordered summary still reads right.
+		var boxOrdinal = 0;
+		for (var si = 0; si < chart.Series.Count; si++)
+		{
+			var series = chart.Series[si];
+			if (series.Type != XySeriesType.Box)
+				continue;
+			var category = boxOrdinal++;
+			if (series.Values.Count < 5 || category >= catCount)
+				continue;
+
+			var five = series.Values.Take(5).OrderBy(v => v).ToArray();
+			var color = seriesColors[si];
+			var thickness = Math.Max(4, groupSize * 0.45);
+			var center = CategoryPos(category, catCount, horizontal ? plotY : plotX, horizontal ? plotH : plotW);
+			var at = new double[5];
+			for (var k = 0; k < 5; k++)
+			{
+				at[k] = horizontal
+					? ValueToX(five[k], vMin, vMax, plotX, plotW)
+					: ValueToY(five[k], vMin, vMax, plotY, plotH);
+			}
+
+			AppendWhisker(sb, color, horizontal, center, at[0], at[1]);
+			AppendWhisker(sb, color, horizontal, center, at[3], at[4]);
+			AppendCap(sb, color, horizontal, center, at[0], thickness * 0.5);
+			AppendCap(sb, color, horizontal, center, at[4], thickness * 0.5);
+
+			var low = Math.Min(at[1], at[3]);
+			var span = Math.Max(1, Math.Abs(at[3] - at[1]));
+			var boxX = horizontal ? low : center - (thickness * 0.5);
+			var boxY = horizontal ? center - (thickness * 0.5) : low;
+			_ = sb.Append("\n<rect x=\"").Append(boxX.SvgFormat()).Append("\" y=\"").Append(boxY.SvgFormat())
+				.Append("\" width=\"").Append((horizontal ? span : thickness).SvgFormat())
+				.Append("\" height=\"").Append((horizontal ? thickness : span).SvgFormat())
+				.Append("\" fill=\"").Append(color).Append("\" opacity=\"0.35\" stroke=\"").Append(color).Append("\" stroke-width=\"1.5\" />");
+			AppendCap(sb, color, horizontal, center, at[2], thickness);
+		}
+
 		for (var si = 0; si < chart.Series.Count; si++)
 		{
 			var series = chart.Series[si];
@@ -324,6 +364,27 @@ internal static class XyChartSvgRenderer
 		if (chart.XCategories is { Count: > 0 } cats && index < cats.Count)
 			return cats[index];
 		return (index + 1).ToString(CultureInfo.InvariantCulture);
+	}
+
+	/// <summary>The line from a quartile out to its extreme, along the value axis.</summary>
+	private static void AppendWhisker(StringBuilder sb, string color, bool horizontal, double center, double from, double to)
+	{
+		var (x1, y1) = horizontal ? (from, center) : (center, from);
+		var (x2, y2) = horizontal ? (to, center) : (center, to);
+		_ = sb.Append("\n<line x1=\"").Append(x1.SvgFormat()).Append("\" y1=\"").Append(y1.SvgFormat())
+			.Append("\" x2=\"").Append(x2.SvgFormat()).Append("\" y2=\"").Append(y2.SvgFormat())
+			.Append("\" stroke=\"").Append(color).Append("\" stroke-width=\"1.5\" />");
+	}
+
+	/// <summary>A tick across the category axis: the end of a whisker, or the median across the box.</summary>
+	private static void AppendCap(StringBuilder sb, string color, bool horizontal, double center, double at, double width)
+	{
+		var half = width * 0.5;
+		var (x1, y1) = horizontal ? (at, center - half) : (center - half, at);
+		var (x2, y2) = horizontal ? (at, center + half) : (center + half, at);
+		_ = sb.Append("\n<line x1=\"").Append(x1.SvgFormat()).Append("\" y1=\"").Append(y1.SvgFormat())
+			.Append("\" x2=\"").Append(x2.SvgFormat()).Append("\" y2=\"").Append(y2.SvgFormat())
+			.Append("\" stroke=\"").Append(color).Append("\" stroke-width=\"2\" />");
 	}
 
 	private static (double Min, double Max) ResolveYRange(XyChart chart)

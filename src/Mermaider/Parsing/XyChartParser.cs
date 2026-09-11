@@ -20,7 +20,7 @@ internal static partial class XyChartParser
 	[GeneratedRegex(@"^y-axis\s+(.+)$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex YAxisPattern();
 
-	[GeneratedRegex(@"^(bar|line)(?:\s+(.+?))?\s*\[(.+)\]\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	[GeneratedRegex(@"^(bar|line|box)(?:\s+(.+?))?\s*\[(.+)\]\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex SeriesPattern();
 
 	internal static XyChart Parse(string[] lines)
@@ -86,9 +86,12 @@ internal static partial class XyChartParser
 			if (!sMatch.Success)
 				continue;
 
-			var type = sMatch.Groups[1].Value.Equals("bar", StringComparison.OrdinalIgnoreCase)
-				? XySeriesType.Bar
-				: XySeriesType.Line;
+			var type = sMatch.Groups[1].Value.ToLowerInvariant() switch
+			{
+				"bar" => XySeriesType.Bar,
+				"box" => XySeriesType.Box,
+				_ => XySeriesType.Line,
+			};
 			string? name = null;
 			if (sMatch.Groups[2].Success)
 			{

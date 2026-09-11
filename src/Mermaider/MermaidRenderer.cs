@@ -4,6 +4,7 @@ using Mermaider.Layout;
 using Mermaider.Models;
 using Mermaider.Parsing;
 using Mermaider.Rendering;
+using Mermaider.Rendering.Ascii;
 
 namespace Mermaider;
 
@@ -107,6 +108,37 @@ public static class MermaidRenderer
 		var diagramType = DiagramDetector.Detect(cleaned.AsSpan());
 
 		return ParseInternal(lines, diagramType);
+	}
+
+	/// <summary>
+	/// Render Mermaid diagram text as characters, for a terminal, a log or a pull-request comment.
+	/// <para>
+	/// Flowcharts and state diagrams are laid out by the same Sugiyama engine the SVG path uses, with sizes
+	/// measured in character cells rather than pixels. An xy chart is plotted on a grid, and one made only of
+	/// <c>box</c> series is drawn as box-and-whisker rows, which is what a distribution wants when it has to
+	/// sit beside a table of numbers.
+	/// </para>
+	/// </summary>
+	/// <param name="text">Mermaid source text.</param>
+	/// <param name="options">How it is drawn: width, plain ASCII rather than box-drawing characters, and what to leave out.</param>
+	/// <returns>The diagram as lines of text, newline terminated.</returns>
+	/// <exception cref="MermaidParseException">Thrown when the input cannot be parsed.</exception>
+	/// <exception cref="NotSupportedException">Thrown for a diagram type that has no text rendering.</exception>
+	public static string RenderAscii(string text, AsciiOptions? options = null)
+	{
+		var (cleaned, _) = DiagramPreprocessor.Process(text);
+		var lines = PreprocessLines(cleaned);
+		if (lines.Length == 0)
+			throw new MermaidParseException("Empty mermaid diagram");
+
+		var diagramType = DiagramDetector.Detect(cleaned.AsSpan());
+		var settings = options ?? AsciiOptions.Default;
+		return diagramType switch
+		{
+			DiagramType.Flowchart or DiagramType.State => AsciiFlowchartRenderer.Render(ParseInternal(lines, diagramType), settings),
+			DiagramType.XyChart => AsciiXyChartRenderer.Render(XyChartParser.Parse(lines), settings),
+			_ => throw new NotSupportedException($"Diagram type '{diagramType}' has no text rendering; RenderSvg does."),
+		};
 	}
 
 	internal static MermaidGraph ParseInternal(string[] lines, DiagramType diagramType) =>

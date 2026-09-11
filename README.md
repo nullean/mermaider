@@ -30,6 +30,7 @@
   - [Font sizing](#font-sizing)
 - [Strict Styling](#strict-styling)
 - [SVG Sanitization](#svg-sanitization)
+- [Text output](#text-output)
 - [CLI](#cli)
 - [MSAGL Layout Provider](#msagl-layout-provider)
 - [AOT Support](#aot-support)
@@ -443,6 +444,51 @@ To reject instead, call `SvgSanitizer.Sanitize(untrustedSvg, SanitizeMode.Block)
 `MermaidSvgException`. A well-formed document with violations is always returned stripped by the
 non-throwing overload; safe siblings are preserved.
 
+## <a name="text-output"></a>Text output
+
+`MermaidRenderer.RenderAscii(text, options?)` draws a diagram as characters, for a terminal, a log or a
+pull-request comment. Flowcharts and state diagrams go through the same Sugiyama layout as the SVG path, with
+node sizes measured in character cells rather than pixels, so the layout lands on the grid rather than being
+divided down onto it.
+
+```csharp
+var text = MermaidRenderer.RenderAscii("""
+    flowchart LR
+      A[(OrderEvents)] -->|"2/s"| B{{Orders}}
+      B --> C[Order]
+    """);
+```
+
+```
+                     ┌────────┐             ┌───────┐
+  ┌─────────────┐    │ Orders │             │ Order │
+  │ OrderEvents ├─2/s┤        ├────────────▶┤       │
+  └─────────────┘    └────────┘             └───────┘
+```
+
+`AsciiOptions.Ascii` drops to plain ASCII for a terminal that cannot be trusted with box-drawing characters;
+`Width` bounds label truncation, `Groups` and `EdgeLabels` leave parts out.
+
+xy charts are plotted on the same grid. A `box` series — five numbers, a min/q1/median/q3/max summary — is
+drawn as a box-and-whisker row per category, in text and in SVG:
+
+```
+xychart-beta
+    title "Effect latency (s)"
+    x-axis [checkout, search]
+    box [0.01, 0.04, 0.08, 0.2, 1.4]
+    box [0.02, 0.03, 0.05, 0.09, 0.3]
+```
+
+```
+Effect latency (s)
+
+checkout ├▐┃━━▌────────────────────────────────┤
+search   ├┃▌─────┤
+         ──────────────────────────────────────
+         0.01                                1.4
+```
+
 ## CLI
 
 ```bash
@@ -452,6 +498,8 @@ echo 'graph TD
   A --> B' | mermaid > diagram.svg
 
 mermaid input.mmd -o output.svg --theme github-dark
+mermaid input.mmd --ascii          # draw it as text
+mermaid input.mmd --plain --width 80
 mermaid --list-themes
 ```
 
