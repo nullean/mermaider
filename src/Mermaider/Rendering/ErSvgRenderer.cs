@@ -63,11 +63,19 @@ internal static class ErSvgRenderer
 
 		// Max type text width across all attributes — used to align the name column
 		var typeColWidth = 0.0;
+		var keyColWidth = 0.0;
 		foreach (var a in entity.Attributes)
 		{
 			var w = TextMetrics.EstimateMonoTextWidth(a.Type, RenderConstants.FontSizes.Member);
 			if (w > typeColWidth)
 				typeColWidth = w;
+			if (a.Keys.Count > 0)
+			{
+				var keyText = string.Join(",", a.Keys);
+				var kw = TextMetrics.MeasureTextWidth(keyText, RenderConstants.FontSizes.KeyBadge, RenderConstants.FontWeights.KeyBadge);
+				if (kw > keyColWidth)
+					keyColWidth = kw;
+			}
 		}
 
 		_ = sb.Append("\n<g class=\"entity\" data-id=\"");
@@ -135,6 +143,19 @@ internal static class ErSvgRenderer
 				_ = sb.Append("  <line x1=\"").Append(x).Append("\" y1=\"").Append(sepY)
 					.Append("\" x2=\"").Append(x + width).Append("\" y2=\"").Append(sepY)
 					.Append("\" stroke=\"var(--_node-stroke)\" stroke-width=\"0.5\" opacity=\"0.3\" />\n");
+			}
+			// Vertical column dividers (type | name | key)
+			var attrBottom = y + height;
+			var typeDivX = x + 8 + typeColWidth + 5;
+			_ = sb.Append("  <line x1=\"").Append(typeDivX).Append("\" y1=\"").Append(attrTop)
+				.Append("\" x2=\"").Append(typeDivX).Append("\" y2=\"").Append(attrBottom)
+				.Append("\" stroke=\"var(--_node-stroke)\" stroke-width=\"1\" opacity=\"0.5\" />\n");
+			if (keyColWidth > 0)
+			{
+				var keyDivX = x + width - 8 - keyColWidth - 5;
+				_ = sb.Append("  <line x1=\"").Append(keyDivX).Append("\" y1=\"").Append(attrTop)
+					.Append("\" x2=\"").Append(keyDivX).Append("\" y2=\"").Append(attrBottom)
+					.Append("\" stroke=\"var(--_node-stroke)\" stroke-width=\"1\" opacity=\"0.5\" />\n");
 			}
 			// 5. Entity name + attribute text
 			_ = sb.Append("  ");

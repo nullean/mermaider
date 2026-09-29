@@ -38,6 +38,8 @@
   <rect x="56.68000000000001" y="78" width="166.64" height="26" fill="var(--_group-hdr)" />
   <line x1="56.68000000000001" y1="78" x2="223.32" y2="78" stroke="var(--_node-stroke)" stroke-width="2" />
   <line x1="56.68000000000001" y1="104" x2="223.32" y2="104" stroke="var(--_node-stroke)" stroke-width="0.5" opacity="0.3" />
+  <line x1="120.08000000000001" y1="78" x2="120.08000000000001" y2="130" stroke="var(--_node-stroke)" stroke-width="1" opacity="0.5" />
+  <line x1="191.24" y1="78" x2="191.24" y2="130" stroke="var(--_node-stroke)" stroke-width="1" opacity="0.5" />
   <text x="140" y="59" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Customer Account</text>
   <text class="mono" x="64.68" y="91" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="125.08000000000001" y="91" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="215.32" y="91" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
   <text class="mono" x="64.68" y="117" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">string</tspan></text><text class="mono" x="125.08000000000001" y="117" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">name</tspan></text>
@@ -49,6 +51,8 @@
   <rect x="40" y="288" width="200" height="26" fill="var(--_group-hdr)" />
   <line x1="40" y1="288" x2="240" y2="288" stroke="var(--_node-stroke)" stroke-width="2" />
   <line x1="40" y1="314" x2="240" y2="314" stroke="var(--_node-stroke)" stroke-width="0.5" opacity="0.3" />
+  <line x1="78.2" y1="288" x2="78.2" y2="340" stroke="var(--_node-stroke)" stroke-width="1" opacity="0.5" />
+  <line x1="207.92000000000002" y1="288" x2="207.92000000000002" y2="340" stroke="var(--_node-stroke)" stroke-width="1" opacity="0.5" />
   <text x="140" y="269" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Order</text>
   <text class="mono" x="48" y="301" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="83.2" y="301" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="232" y="301" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
   <text class="mono" x="48" y="327" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="83.2" y="327" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">customer_id</tspan></text><text x="232" y="327" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">FK</text>
