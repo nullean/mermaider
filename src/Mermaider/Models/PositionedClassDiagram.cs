@@ -7,6 +7,16 @@ public sealed record PositionedClassDiagram
 	public required IReadOnlyList<PositionedClassNode> Classes { get; init; }
 	public required IReadOnlyList<PositionedClassRelationship> Relationships { get; init; }
 	public IReadOnlyList<PositionedGraphNote> Notes { get; init; } = [];
+	public IReadOnlyList<PositionedClassNamespace> Namespaces { get; init; } = [];
+}
+
+public sealed record PositionedClassNamespace
+{
+	public required string Name { get; init; }
+	public required double X { get; init; }
+	public required double Y { get; init; }
+	public required double Width { get; init; }
+	public required double Height { get; init; }
 }
 
 public sealed record PositionedClassNode

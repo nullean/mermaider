@@ -39,6 +39,9 @@ internal static class ClassSvgRenderer
 		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 		AppendMarkerDefs(sb);
 
+		foreach (var ns in diagram.Namespaces)
+			AppendNamespaceBox(sb, ns);
+
 		foreach (var rel in diagram.Relationships)
 			AppendRelationship(sb, rel);
 
@@ -345,6 +348,20 @@ internal static class ClassSvgRenderer
 		if (Math.Abs(dx) > Math.Abs(dy))
 			return (dx > 0 ? 14 : -14, -10);
 		return (-14, dy > 0 ? 14 : -14);
+	}
+
+	private static void AppendNamespaceBox(StringBuilder sb, PositionedClassNamespace ns)
+	{
+		_ = sb.Append("\n<g class=\"ns-box\">\n");
+		_ = sb.Append("  <rect x=\"").Append(ns.X).Append("\" y=\"").Append(ns.Y)
+			.Append("\" width=\"").Append(ns.Width).Append("\" height=\"").Append(ns.Height)
+			.Append("\" rx=\"4\" ry=\"4\"")
+			.Append(" fill=\"var(--_ns-fill,rgba(0,0,0,0.03))\" stroke=\"var(--_ns-stroke,var(--_accent-stroke))\" stroke-width=\"1\" stroke-dasharray=\"6 3\" />\n");
+		_ = sb.Append("  <text x=\"").Append(ns.X + 8).Append("\" y=\"").Append(ns.Y + 14)
+			.Append("\" font-size=\"").Append(RenderConstants.FontSizes.EdgeLabel)
+			.Append("\" fill=\"var(--_text-muted)\" font-style=\"italic\">");
+		MultilineUtils.AppendEscapedXml(sb, ns.Name.AsSpan());
+		_ = sb.Append("</text>\n</g>");
 	}
 
 	private static readonly string NoteTextAttrs =

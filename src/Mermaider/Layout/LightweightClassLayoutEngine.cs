@@ -172,6 +172,36 @@ internal static class LightweightClassLayoutEngine
 			}
 		}
 
+		const double nsPad = 12;
+		var positionedNs = new List<PositionedClassNamespace>(diagram.Namespaces.Count);
+		foreach (var ns in diagram.Namespaces)
+		{
+			var minX = double.MaxValue;
+			var minY = double.MaxValue;
+			var maxNsX = double.MinValue;
+			var maxNsY = double.MinValue;
+			foreach (var clsId in ns.ClassIds)
+			{
+				var positioned = positionedClasses.FirstOrDefault(c => c.Id == clsId);
+				if (positioned is null)
+					continue;
+				minX = Math.Min(minX, positioned.X);
+				minY = Math.Min(minY, positioned.Y);
+				maxNsX = Math.Max(maxNsX, positioned.X + positioned.Width);
+				maxNsY = Math.Max(maxNsY, positioned.Y + positioned.Height);
+			}
+			if (minX == double.MaxValue)
+				continue;
+			positionedNs.Add(new PositionedClassNamespace
+			{
+				Name = ns.Name,
+				X = minX - nsPad,
+				Y = minY - nsPad - 20,
+				Width = maxNsX - minX + (nsPad * 2),
+				Height = maxNsY - minY + (nsPad * 2) + 20,
+			});
+		}
+
 		return new PositionedClassDiagram
 		{
 			Width = maxX,
@@ -179,6 +209,7 @@ internal static class LightweightClassLayoutEngine
 			Classes = positionedClasses,
 			Relationships = positionedRels,
 			Notes = notes,
+			Namespaces = positionedNs,
 		};
 	}
 
