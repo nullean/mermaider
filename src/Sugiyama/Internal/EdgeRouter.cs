@@ -631,10 +631,18 @@ internal static class EdgeRouter
 
 		const double t = 0.5;
 		var x = points[bestStart].X + ((points[bestEnd].X - points[bestStart].X) * t);
-		var y = (srcBottom + tgtTop) / 2.0;
+		var y = points[bestStart].Y + ((points[bestEnd].Y - points[bestStart].Y) * t);
 
-		y = Math.Max(y, srcBottom + MinGapFromNode);
-		y = Math.Min(y, tgtTop - MinGapFromNode);
+		// For non-bent edges, clamp Y between the source and target nodes.
+		// Back-edges route around the diagram so clamping is only valid when the
+		// label Y already falls within the src→tgt band.
+		var yLo = Math.Min(srcBottom, tgtTop);
+		var yHi = Math.Max(srcBottom, tgtTop);
+		if (y >= yLo && y <= yHi)
+		{
+			y = Math.Max(y, srcBottom + MinGapFromNode);
+			y = Math.Min(y, tgtTop - MinGapFromNode);
+		}
 
 		return new LayoutPoint(x, y);
 	}
