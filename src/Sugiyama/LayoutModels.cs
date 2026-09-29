@@ -83,6 +83,13 @@ public sealed record LayoutOptions
 	/// Default: int.MaxValue (no limit).
 	/// </summary>
 	public int MaxNodeCount { get; init; } = int.MaxValue;
+
+	/// <summary>
+	/// When true, fan-out nodes use bottom exit instead of side exit for direct
+	/// left-facing connections. Prevents routing conflicts in ER diagrams where
+	/// ancestor paths route through the same left-side corridor. Default: false.
+	/// </summary>
+	public bool StrictTopDownFanout { get; init; }
 }
 
 // ====================================================================

@@ -65,7 +65,7 @@ public static class SugiyamaLayout
 		}
 
 		var useSideRouting = input.Direction is LayoutDirection.LR or LayoutDirection.RL;
-		var routes = EdgeRouter.Run(buf, useSideRouting, input.Edges);
+		var routes = EdgeRouter.Run(buf, useSideRouting, input.Edges, options.StrictTopDownFanout);
 
 		if (input.Subgraphs.Count > 0)
 			RerouteSubgraphCrossingEdges(buf, routes, input);

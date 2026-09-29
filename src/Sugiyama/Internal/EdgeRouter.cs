@@ -34,7 +34,8 @@ internal static class EdgeRouter
 
 	internal static List<RoutedEdge> Run(
 		GraphBuffer graph, bool useSideRouting = false,
-		IReadOnlyList<LayoutEdge>? inputEdges = null)
+		IReadOnlyList<LayoutEdge>? inputEdges = null,
+		bool strictTopDownFanout = false)
 	{
 		var edgeChains = BuildEdgeChains(graph);
 		var results = new List<RoutedEdge>(edgeChains.Count);
@@ -43,7 +44,7 @@ internal static class EdgeRouter
 		{
 			var points = reversed && chain[0] < graph.RealNodeCount && chain[^1] < graph.RealNodeCount
 				? RouteBackEdge(graph, chain[0], chain[^1])
-				: RouteChain(graph, chain, useSideRouting);
+				: RouteChain(graph, chain, useSideRouting, strictTopDownFanout);
 
 			var src = chain[0];
 			var tgt = chain[^1];
@@ -225,7 +226,7 @@ internal static class EdgeRouter
 	private const double SnapThreshold = 16;
 
 	private static List<LayoutPoint> RouteChain(
-		GraphBuffer graph, List<int> chain, bool useSideRouting)
+		GraphBuffer graph, List<int> chain, bool useSideRouting, bool strictTopDownFanout = false)
 	{
 		var points = new List<LayoutPoint>(chain.Count * 2);
 
@@ -238,7 +239,7 @@ internal static class EdgeRouter
 
 			if (i == 0)
 			{
-				AddSourcePort(graph, points, chain, node, cx, cy, isReal, useSideRouting);
+				AddSourcePort(graph, points, chain, node, cx, cy, isReal, useSideRouting, strictTopDownFanout);
 			}
 			else if (i == chain.Count - 1)
 			{
@@ -336,7 +337,8 @@ internal static class EdgeRouter
 	/// </summary>
 	private static void AddSourcePort(
 		GraphBuffer graph, List<LayoutPoint> points, List<int> chain,
-		int node, double cx, double cy, bool isReal, bool useSideRouting)
+		int node, double cx, double cy, bool isReal, bool useSideRouting,
+		bool strictTopDownFanout = false)
 	{
 		if (!isReal || chain.Count < 2)
 		{
@@ -391,8 +393,15 @@ internal static class EdgeRouter
 			// the target (node right-edge is already past the target center, or vice-versa).
 			// Both cases mean side-routing would draw across another node or produce a
 			// hairpin jog; a straight bottom-exit and corridor route is cleaner.
+			// Also fall back for direct (no-virtual-node) left-facing connections: the
+			// horizontal segment at center-y crosses ancestor paths that also route through
+			// the same left-side corridor.
 			var exitOvershoot = goRight ? sideX > tgtCX : sideX < tgtCX;
-			if (exitOvershoot || ExitCrossesSibling(graph, node, sideX, tgtCX))
+			// In strict top-down mode (e.g. ER diagrams), use bottom exit for direct
+			// left-facing connections to avoid crossing ancestor paths that route through
+			// the same left-side corridor.
+			var directLeftCrossing = strictTopDownFanout && !goRight && nextNode < graph.RealNodeCount;
+			if (exitOvershoot || ExitCrossesSibling(graph, node, sideX, tgtCX) || directLeftCrossing)
 			{
 				points.Add(new LayoutPoint(cx, graph.Y[node] + graph.NodeHeights[node]));
 			}

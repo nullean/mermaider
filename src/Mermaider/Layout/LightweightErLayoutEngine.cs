@@ -97,7 +97,8 @@ internal static class LightweightErLayoutEngine
 		{
 			Padding = Padding,
 			NodeSpacing = NodeSpacing,
-			LayerSpacing = effectiveLayerSpacing
+			LayerSpacing = effectiveLayerSpacing,
+			StrictTopDownFanout = true,
 		});
 
 		return ExtractPositioned(result, diagram, layoutEdgeRelIndices);
