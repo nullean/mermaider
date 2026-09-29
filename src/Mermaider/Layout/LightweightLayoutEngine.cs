@@ -39,14 +39,9 @@ internal static class LightweightLayoutEngine
 		for (var ei = 0; ei < graph.Edges.Count; ei++)
 		{
 			var edge = graph.Edges[ei];
-			if (edge.Style == Models.EdgeStyle.Invisible)
-			{
-				sameRankConstraints.Add((edge.Source, edge.Target));
-				continue;
-			}
 
 			double labelW = 0, labelH = 0;
-			if (edge.Label is { Length: > 0 })
+			if (edge.Style != Models.EdgeStyle.Invisible && edge.Label is { Length: > 0 })
 			{
 				var metrics = TextMetrics.MeasureMultiline(
 					edge.Label.AsSpan(),
