@@ -998,7 +998,7 @@ public static class SugiyamaLayout
 			if (nodeIndex.TryGetValue(edge.Source, out var from) &&
 				nodeIndex.TryGetValue(edge.Target, out var to))
 			{
-				buf.Edges.Add(new GraphEdge(from, to, i));
+				buf.Edges.Add(new GraphEdge(from, to, i, MinLength: input.Edges[i].MinLength));
 			}
 		}
 

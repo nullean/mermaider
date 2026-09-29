@@ -288,13 +288,13 @@ public class SugiyamaLayoutTests
 
 		var result = SugiyamaLayout.Compute(graph);
 
-		var o  = result.Nodes.First(n => n.Id == "O");
-		var oRight  = o.X + o.Width;
+		var o = result.Nodes.First(n => n.Id == "O");
+		var oRight = o.X + o.Width;
 		var oBottom = o.Y + o.Height;
 
 		// No edge point from VX's outgoing edges should lie inside O's bounding box.
 		var vxEdges = result.Edges
-			.Where(e => e.OriginalIndex == 3 || e.OriginalIndex == 4) // VX→AX, VX→AU
+			.Where(e => e.OriginalIndex is 3 or 4) // VX→AX, VX→AU
 			.ToList();
 
 		foreach (var edge in vxEdges)

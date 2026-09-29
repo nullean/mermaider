@@ -176,4 +176,4 @@ internal sealed class GraphBuffer : IDisposable
 	}
 }
 
-internal readonly record struct GraphEdge(int From, int To, int OriginalIndex, bool IsVirtual = false, bool Reversed = false);
+internal readonly record struct GraphEdge(int From, int To, int OriginalIndex, bool IsVirtual = false, bool Reversed = false, int MinLength = 1);

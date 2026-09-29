@@ -31,7 +31,7 @@ public sealed record LayoutGraph(
 public sealed record LayoutNode(string Id, double Width, double Height);
 
 /// <summary>A directed edge between two nodes.</summary>
-public sealed record LayoutEdge(string Source, string Target, double LabelWidth = 0, double LabelHeight = 0);
+public sealed record LayoutEdge(string Source, string Target, double LabelWidth = 0, double LabelHeight = 0, int MinLength = 1);
 
 /// <summary>A subgraph grouping a set of node IDs with optional children.</summary>
 public sealed record LayoutSubgraph(

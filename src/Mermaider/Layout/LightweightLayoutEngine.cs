@@ -56,7 +56,7 @@ internal static class LightweightLayoutEngine
 				labelH = metrics.Height + 6;
 			}
 			layoutEdgeToOriginal.Add(ei);
-			layoutEdges.Add(new LayoutEdge(edge.Source, edge.Target, labelW, labelH));
+			layoutEdges.Add(new LayoutEdge(edge.Source, edge.Target, labelW, labelH, edge.MinLength));
 		}
 
 		var layoutSubgraphs = graph.Subgraphs.Select(MapSubgraph).ToList();

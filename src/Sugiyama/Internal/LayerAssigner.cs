@@ -14,6 +14,7 @@ internal static class LayerAssigner
 		AssignLayers(graph);
 		EnforceSameRankConstraints(graph);
 		PushDownSources(graph);
+		EnforceMinLengths(graph);
 		InsertVirtualNodes(graph);
 		graph.RebuildAdjacency();
 		BuildLayerArrays(graph);
@@ -57,6 +58,48 @@ internal static class LayerAssigner
 			}
 		}
 
+		graph.LayerCount = maxLayer + 1;
+	}
+
+	private static void EnforceMinLengths(GraphBuffer graph)
+	{
+		var hasMinLength = false;
+		foreach (var e in graph.Edges)
+		{
+			if (e.MinLength > 1)
+			{
+				hasMinLength = true;
+				break;
+			}
+		}
+
+		if (!hasMinLength)
+			return;
+
+		// Iteratively push target nodes deeper until all min-length constraints are satisfied.
+		// A single forward pass over the topologically-ordered edge list converges because
+		// AssignLayers already produced a valid topological order.
+		var changed = true;
+		while (changed)
+		{
+			changed = false;
+			foreach (var e in graph.Edges)
+			{
+				if (e.MinLength <= 1)
+					continue;
+				var required = graph.Layers[e.From] + e.MinLength;
+				if (graph.Layers[e.To] < required)
+				{
+					graph.Layers[e.To] = required;
+					changed = true;
+				}
+			}
+		}
+
+		var maxLayer = 0;
+		for (var i = 0; i < graph.NodeCount; i++)
+			if (graph.Layers[i] > maxLayer)
+				maxLayer = graph.Layers[i];
 		graph.LayerCount = maxLayer + 1;
 	}
 

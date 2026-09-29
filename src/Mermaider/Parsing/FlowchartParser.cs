@@ -307,7 +307,7 @@ internal static partial class FlowchartParser
 				redirections[e] = (
 					src != edge.Source ? edge.Source : null,
 					tgt != edge.Target ? edge.Target : null);
-				edges[e] = new MermaidEdge(src, tgt, edge.Label, edge.Style, edge.HasArrowStart, edge.HasArrowEnd);
+				edges[e] = new MermaidEdge(src, tgt, edge.Label, edge.Style, edge.HasArrowStart, edge.HasArrowEnd, edge.MinLength);
 			}
 		}
 
@@ -398,6 +398,7 @@ internal static partial class FlowchartParser
 
 			var style = ArrowStyleFromOp(arrowOp);
 			var hasArrowEnd = arrowOp.EndsWith('>');
+			var minLength = MinLengthFromOp(arrowOp);
 
 			var (nextIds, nextRest) = ConsumeNodeGroup(remaining, nodes, classAssignments, subgraphStack);
 			if (nextIds.Count == 0)
@@ -409,7 +410,7 @@ internal static partial class FlowchartParser
 			{
 				foreach (var targetId in nextIds)
 				{
-					edges.Add(new MermaidEdge(sourceId, targetId, edgeLabel, style, hasArrowStart, hasArrowEnd));
+					edges.Add(new MermaidEdge(sourceId, targetId, edgeLabel, style, hasArrowStart, hasArrowEnd, minLength));
 				}
 			}
 
@@ -532,6 +533,33 @@ internal static partial class FlowchartParser
 		if (op.Contains('='))
 			return EdgeStyle.Thick;
 		return EdgeStyle.Solid;
+	}
+
+	private static int MinLengthFromOp(string op)
+	{
+		if (!op.EndsWith('>'))
+			return 1;
+		var inner = op[..^1]; // strip trailing '>'
+		if (inner.Length == 0)
+			return 1;
+
+		// Plain dashes: --, ---, ----
+		if (inner.All(c => c == '-'))
+			return Math.Max(1, inner.Length / 2);
+
+		// Thick arrows: ==, ===, ====
+		if (inner.All(c => c == '='))
+			return Math.Max(1, inner.Length / 2);
+
+		// Dotted: -.- or -...- format (dash + dots + dash)
+		if (inner.Length >= 3 && inner[0] == '-' && inner[^1] == '-')
+		{
+			var mid = inner[1..^1];
+			if (mid.All(c => c == '.'))
+				return (int)Math.Ceiling(mid.Length / 2.0);
+		}
+
+		return 1;
 	}
 
 	private static void CollectSubgraphMap(IReadOnlyList<MermaidSubgraph> sgs, Dictionary<string, MermaidSubgraph> map)
