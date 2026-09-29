@@ -1172,6 +1172,7 @@ public static partial class DiagramExamples
 		..CreateRequirementExamples(),
 		..CreateTreeViewExamples(),
 		..CreateRealWorldExamples(),
+		..CreateDocsBuilderErdExamples(),
 	];
 
 	public static DiagramExample[] ByCategory(DiagramCategory category) =>

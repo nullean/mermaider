@@ -17,7 +17,7 @@ internal static class LightweightErLayoutEngine
 	private const double RowHeight = 26;
 	private const double MinWidth = 160;
 	private static readonly double AttrFontSize = RenderConstants.FontSizes.Member;
-	private const double NodeSpacing = 120;
+	private const double NodeSpacing = 40;
 	private const double LayerSpacing = 120;
 
 	internal static PositionedErDiagram Layout(ErDiagram diagram)
@@ -33,13 +33,17 @@ internal static class LightweightErLayoutEngine
 			var maxAttrW = 0.0;
 			foreach (var attr in entity.Attributes)
 			{
-				var attrText = $"{attr.Type}  {attr.Name}{(attr.Keys.Count > 0 ? "  " + string.Join(",", attr.Keys) : "")}";
+				// All three columns: type  name  PK/FK — key is now an inline column
+				var keyText = attr.Keys.Count > 0 ? "  " + string.Join(",", attr.Keys) : "";
+				var attrText = $"{attr.Type}  {attr.Name}{keyText}";
 				var w = TextMetrics.EstimateMonoTextWidth(attrText, AttrFontSize);
 				if (w > maxAttrW)
 					maxAttrW = w;
 			}
 			var width = Math.Max(MinWidth, Math.Max(headerTextW + (BoxPadX * 2), maxAttrW + (BoxPadX * 2)));
-			var height = HeaderHeight + (Math.Max(entity.Attributes.Count, 1) * RowHeight);
+			var height = entity.Attributes.Count == 0
+				? HeaderHeight * 2
+				: HeaderHeight + (entity.Attributes.Count * RowHeight);
 			entitySizes[entity.Id] = (width, height);
 		}
 
@@ -51,8 +55,12 @@ internal static class LightweightErLayoutEngine
 		}
 
 		var layoutEdges = new List<LayoutEdge>(diagram.Relationships.Count);
-		foreach (var rel in diagram.Relationships)
+		var layoutEdgeRelIndices = new List<int>(diagram.Relationships.Count);
+		for (var i = 0; i < diagram.Relationships.Count; i++)
 		{
+			var rel = diagram.Relationships[i];
+			if (rel.Entity1 == rel.Entity2)
+				continue; // self-loops carry no layout info; skip to avoid Sugiyama height inflation
 			double labelW = 0, labelH = 0;
 			if (rel.Label.Length > 0)
 			{
@@ -61,14 +69,15 @@ internal static class LightweightErLayoutEngine
 				labelH = metrics.Height + 6;
 			}
 			layoutEdges.Add(new LayoutEdge(rel.Entity1, rel.Entity2, labelW, labelH));
+			layoutEdgeRelIndices.Add(i);
 		}
 
 		var layoutDir = diagram.Direction switch
 		{
-			Direction.TD or Direction.TB => LayoutDirection.TD,
+			Direction.LR => LayoutDirection.LR,
 			Direction.RL => LayoutDirection.RL,
 			Direction.BT => LayoutDirection.BT,
-			_ => LayoutDirection.LR,
+			_ => LayoutDirection.TD, // default TD matches mermaid.js behaviour
 		};
 
 		// The layer gap runs along the flow axis, so the label has to be measured along that axis too:
@@ -91,10 +100,10 @@ internal static class LightweightErLayoutEngine
 			LayerSpacing = effectiveLayerSpacing
 		});
 
-		return ExtractPositioned(result, diagram);
+		return ExtractPositioned(result, diagram, layoutEdgeRelIndices);
 	}
 
-	private static PositionedErDiagram ExtractPositioned(LayoutResult result, ErDiagram diagram)
+	private static PositionedErDiagram ExtractPositioned(LayoutResult result, ErDiagram diagram, IReadOnlyList<int> layoutEdgeRelIndices)
 	{
 		var nodeLookup = result.Nodes.ToDictionary(n => n.Id);
 		var positionedEntities = new List<PositionedErEntity>(diagram.Entities.Count);
@@ -117,11 +126,12 @@ internal static class LightweightErLayoutEngine
 			});
 		}
 
-		var positionedRels = new List<PositionedErRelationship>(diagram.Relationships.Count);
-		for (var i = 0; i < diagram.Relationships.Count; i++)
+		// layoutEdgeRelIndices[edgeIdx] → index in diagram.Relationships; self-loops were filtered out
+		var positionedRels = new List<PositionedErRelationship>(layoutEdgeRelIndices.Count);
+		for (var edgeIdx = 0; edgeIdx < layoutEdgeRelIndices.Count; edgeIdx++)
 		{
-			var rel = diagram.Relationships[i];
-			var edge = result.Edges.FirstOrDefault(e => e.OriginalIndex == i);
+			var rel = diagram.Relationships[layoutEdgeRelIndices[edgeIdx]];
+			var edge = result.Edges.FirstOrDefault(e => e.OriginalIndex == edgeIdx);
 			if (edge is null)
 				continue;
 
@@ -138,6 +148,40 @@ internal static class LightweightErLayoutEngine
 			});
 		}
 
+		OffsetParallelEdges(positionedRels);
+
+		// Synthesize arc paths for self-loop relationships (same entity on both ends).
+		// These are filtered from Sugiyama layout; we place them as a right-side loop.
+		foreach (var rel in diagram.Relationships)
+		{
+			if (rel.Entity1 != rel.Entity2)
+				continue;
+			if (!nodeLookup.TryGetValue(rel.Entity1, out var n))
+				continue;
+			var loopR = Math.Max(30.0, n.Height * 0.3);
+			var exitY = n.Y + (n.Height * 0.35);
+			var entryY = n.Y + (n.Height * 0.65);
+			var sideX = n.X + n.Width;
+			var loopX = sideX + loopR;
+			var loopPoints = new List<Point>
+			{
+				new(sideX, exitY),
+				new(loopX, exitY),
+				new(loopX, entryY),
+				new(sideX, entryY),
+			};
+			positionedRels.Add(new PositionedErRelationship
+			{
+				Entity1 = rel.Entity1,
+				Entity2 = rel.Entity2,
+				Cardinality1 = rel.Cardinality1,
+				Cardinality2 = rel.Cardinality2,
+				Label = rel.Label,
+				Identifying = rel.Identifying,
+				Points = loopPoints,
+			});
+		}
+
 		return new PositionedErDiagram
 		{
 			Width = result.Width,
@@ -145,5 +189,49 @@ internal static class LightweightErLayoutEngine
 			Entities = positionedEntities,
 			Relationships = positionedRels,
 		};
+	}
+
+	private static void OffsetParallelEdges(List<PositionedErRelationship> rels)
+	{
+		const double parallelStep = 20.0;
+
+		var groups = new Dictionary<(string, string), List<int>>();
+		for (var i = 0; i < rels.Count; i++)
+		{
+			var rel = rels[i];
+			var key = string.Compare(rel.Entity1, rel.Entity2, StringComparison.Ordinal) <= 0
+				? (rel.Entity1, rel.Entity2)
+				: (rel.Entity2, rel.Entity1);
+			if (!groups.TryGetValue(key, out var list))
+				groups[key] = list = [];
+			list.Add(i);
+		}
+
+		foreach (var (_, indices) in groups)
+		{
+			if (indices.Count <= 1)
+				continue;
+
+			var sample = rels[indices[0]];
+			if (sample.Points.Count < 2)
+				continue;
+			var dx = sample.Points[^1].X - sample.Points[0].X;
+			var dy = sample.Points[^1].Y - sample.Points[0].Y;
+			var len = Math.Sqrt((dx * dx) + (dy * dy));
+			if (len < 0.001)
+				continue;
+			var perpX = -dy / len;
+			var perpY = dx / len;
+
+			for (var i = 0; i < indices.Count; i++)
+			{
+				var offset = (i - ((indices.Count - 1) / 2.0)) * parallelStep;
+				if (Math.Abs(offset) < 0.001)
+					continue;
+				var rel = rels[indices[i]];
+				var newPoints = rel.Points.Select(p => new Point(p.X + (perpX * offset), p.Y + (perpY * offset))).ToList();
+				rels[indices[i]] = rel with { Points = newPoints };
+			}
+		}
 	}
 }

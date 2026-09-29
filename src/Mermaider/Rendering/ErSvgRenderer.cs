@@ -16,7 +16,6 @@ internal static class ErSvgRenderer
 	private static readonly string AttrFontSize = RenderConstants.FsVar.S;
 	private static readonly int AttrFontWeight = RenderConstants.FontWeights.Member;
 	private static readonly string KeyFontSize = RenderConstants.FsVar.Xs;
-	private static readonly int KeyFontSizePx = RenderConstants.FontSizes.KeyBadge;
 	private static readonly int KeyFontWeight = RenderConstants.FontWeights.KeyBadge;
 
 	internal static string Render(PositionedErDiagram diagram, SvgRenderContext context)
@@ -62,6 +61,15 @@ internal static class ErSvgRenderer
 		var headerHeight = entity.HeaderHeight;
 		var rowHeight = entity.RowHeight;
 
+		// Max type text width across all attributes — used to align the name column
+		var typeColWidth = 0.0;
+		foreach (var a in entity.Attributes)
+		{
+			var w = TextMetrics.EstimateMonoTextWidth(a.Type, RenderConstants.FontSizes.Member);
+			if (w > typeColWidth)
+				typeColWidth = w;
+		}
+
 		_ = sb.Append("\n<g class=\"entity\" data-id=\"");
 		MultilineUtils.AppendEscapedAttr(sb, entity.Id.AsSpan());
 		_ = sb.Append("\" data-label=\"");
@@ -69,53 +77,91 @@ internal static class ErSvgRenderer
 		_ = sb.Append("\">\n");
 
 		var r = RenderConstants.Radii.Rectangle;
-		_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
-			.Append("\" width=\"").Append(width).Append("\" height=\"").Append(height)
-			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"var(--_node-fill)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
-			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
-
-		_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
-			.Append("\" width=\"").Append(width).Append("\" height=\"").Append(headerHeight)
-			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"var(--_group-hdr)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
-			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
-
-		_ = sb.Append("  ");
-		MultilineUtils.AppendMultilineText(
-			sb, entity.Label, x + (width / 2), y + (headerHeight / 2),
-			RenderConstants.FontSizes.NodeLabel,
-			EntityHeaderAttrs);
-		_ = sb.Append('\n');
-
-		var attrTop = y + headerHeight;
-		_ = sb.Append("  <line x1=\"").Append(x).Append("\" y1=\"").Append(attrTop)
-			.Append("\" x2=\"").Append(x + width).Append("\" y2=\"").Append(attrTop)
-			.Append("\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
-			.Append(RenderConstants.StrokeWidths.InnerBox).Append("\" />\n");
 
 		if (entity.Attributes.Count == 0)
 		{
-			_ = sb.Append("  <text x=\"").Append(x + (width / 2)).Append("\" y=\"").Append(attrTop + (rowHeight / 2))
-				.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
-				.Append("\" font-size=\"").Append(AttrFontSize)
-				.Append("\" fill=\"var(--_text-muted)\" font-style=\"italic\">(no attributes)</text>\n");
+			// No attributes: plain box — entire box is the header
+			_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
+				.Append("\" width=\"").Append(width).Append("\" height=\"").Append(height)
+				.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
+				.Append("\" fill=\"var(--_accent-stroke)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
+				.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
+			_ = sb.Append("  ");
+			MultilineUtils.AppendMultilineText(
+				sb, entity.Label, x + (width / 2), y + (height / 2),
+				RenderConstants.FontSizes.NodeLabel,
+				EntityHeaderAttrs);
+			_ = sb.Append('\n');
 		}
 		else
 		{
+			// Render order:
+			// 1. Background fill (no stroke — border painted last so fills don't obscure it)
+			// 2. Header fill
+			// 3. Even-row shading fills
+			// 4. Separator lines on top of fills
+			// 5. Text
+			// 6. Outer border stroke-only (covers fill overflow at rounded corners)
+
+			// 1. Background
+			_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
+				.Append("\" width=\"").Append(width).Append("\" height=\"").Append(height)
+				.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
+				.Append("\" fill=\"var(--_node-fill)\" />\n");
+			// 2. Header fill
+			_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
+				.Append("\" width=\"").Append(width).Append("\" height=\"").Append(headerHeight)
+				.Append("\" fill=\"var(--_accent-stroke)\" />\n");
+			// 3. Even-row shading
+			var attrTop = y + headerHeight;
+			for (var i = 0; i < entity.Attributes.Count; i++)
+			{
+				if (i % 2 == 0)
+				{
+					var rowTop = attrTop + (i * rowHeight);
+					_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(rowTop)
+						.Append("\" width=\"").Append(width).Append("\" height=\"").Append(rowHeight)
+						.Append("\" fill=\"var(--_group-hdr)\" />\n");
+				}
+			}
+			// 4. Separators (header + between rows) — all on top of fills
+			_ = sb.Append("  <line x1=\"").Append(x).Append("\" y1=\"").Append(attrTop)
+				.Append("\" x2=\"").Append(x + width).Append("\" y2=\"").Append(attrTop)
+				.Append("\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
+				.Append(RenderConstants.StrokeWidths.InnerBox).Append("\" />\n");
+			for (var i = 0; i < entity.Attributes.Count - 1; i++)
+			{
+				var sepY = attrTop + ((i + 1) * rowHeight);
+				_ = sb.Append("  <line x1=\"").Append(x).Append("\" y1=\"").Append(sepY)
+					.Append("\" x2=\"").Append(x + width).Append("\" y2=\"").Append(sepY)
+					.Append("\" stroke=\"var(--_node-stroke)\" stroke-width=\"0.5\" opacity=\"0.3\" />\n");
+			}
+			// 5. Entity name + attribute text
+			_ = sb.Append("  ");
+			MultilineUtils.AppendMultilineText(
+				sb, entity.Label, x + (width / 2), y + (headerHeight / 2),
+				RenderConstants.FontSizes.NodeLabel,
+				EntityHeaderAttrs);
+			_ = sb.Append('\n');
 			for (var i = 0; i < entity.Attributes.Count; i++)
 			{
 				var rowY = attrTop + (i * rowHeight) + (rowHeight / 2);
 				_ = sb.Append("  ");
-				AppendAttribute(sb, entity.Attributes[i], x, rowY, width);
+				AppendAttribute(sb, entity.Attributes[i], x, rowY, width, typeColWidth);
 				_ = sb.Append('\n');
 			}
+			// 6. Outer border on top — uniform rounded border over all fills
+			_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
+				.Append("\" width=\"").Append(width).Append("\" height=\"").Append(height)
+				.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
+				.Append("\" fill=\"none\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
+				.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
 		}
 
 		_ = sb.Append("</g>");
 	}
 
-	private static void AppendAttribute(StringBuilder sb, ErAttributeInfo attr, double boxX, double y, double boxWidth)
+	private static void AppendAttribute(StringBuilder sb, ErAttributeInfo attr, double boxX, double y, double boxWidth, double typeColWidth)
 	{
 		var hasComment = attr.Comment is { Length: > 0 };
 		if (hasComment)
@@ -125,21 +171,8 @@ internal static class ErSvgRenderer
 			_ = sb.Append("</title>");
 		}
 
-		var keyWidth = 0.0;
-		if (attr.Keys.Count > 0)
-		{
-			var keyText = string.Join(",", attr.Keys);
-			keyWidth = TextMetrics.MeasureTextWidth(keyText, KeyFontSizePx, KeyFontWeight) + 8;
-			_ = sb.Append("<rect x=\"").Append(boxX + 6).Append("\" y=\"").Append(y - 7)
-				.Append("\" width=\"").Append(keyWidth).Append("\" height=\"14\" rx=\"7\" ry=\"7\" fill=\"var(--_key-badge)\" />");
-			_ = sb.Append("<text x=\"").Append(boxX + 6 + (keyWidth / 2)).Append("\" y=\"").Append(y)
-				.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
-				.Append("\" font-size=\"").Append(KeyFontSize)
-				.Append("\" font-weight=\"").Append(KeyFontWeight)
-				.Append("\" fill=\"var(--_text-sec)\">").Append(keyText).Append("</text>");
-		}
-
-		var typeX = boxX + 8 + (keyWidth > 0 ? keyWidth + 6 : 0);
+		// Type: left-aligned
+		var typeX = boxX + 8;
 		_ = sb.Append("<text class=\"mono\" x=\"").Append(typeX).Append("\" y=\"").Append(y)
 			.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(AttrFontSize)
@@ -148,14 +181,27 @@ internal static class ErSvgRenderer
 		MultilineUtils.AppendEscapedXml(sb, attr.Type.AsSpan());
 		_ = sb.Append("</tspan></text>");
 
-		var nameX = boxX + boxWidth - 8;
+		// Name: left-aligned, second column aligned to max type width across the entity
+		var nameX = boxX + 8 + typeColWidth + 10;
 		_ = sb.Append("<text class=\"mono\" x=\"").Append(nameX).Append("\" y=\"").Append(y)
-			.Append("\" text-anchor=\"end\" dy=\"").Append(RenderConstants.TextBaselineShift)
+			.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(AttrFontSize)
 			.Append("\" font-weight=\"").Append(AttrFontWeight)
 			.Append("\"><tspan fill=\"var(--_text)\">");
 		MultilineUtils.AppendEscapedXml(sb, attr.Name.AsSpan());
 		_ = sb.Append("</tspan></text>");
+
+		// Key: third column, right-aligned inside the box
+		if (attr.Keys.Count > 0)
+		{
+			var keyText = string.Join(",", attr.Keys);
+			var keyX = boxX + boxWidth - 8;
+			_ = sb.Append("<text x=\"").Append(keyX).Append("\" y=\"").Append(y)
+				.Append("\" text-anchor=\"end\" dy=\"").Append(RenderConstants.TextBaselineShift)
+				.Append("\" font-size=\"").Append(KeyFontSize)
+				.Append("\" font-weight=\"").Append(KeyFontWeight)
+				.Append("\" fill=\"var(--_accent-text)\">").Append(keyText).Append("</text>");
+		}
 
 		if (hasComment)
 			_ = sb.Append("</g>");

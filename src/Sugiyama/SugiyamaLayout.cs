@@ -61,6 +61,7 @@ public static class SugiyamaLayout
 		{
 			CompactDisconnectedSubgraphNodes(buf, input, options.NodeSpacing);
 			FixSubgraphSpacing(buf, input);
+			FixSubgraphXSpacing(buf, input); // fixes secondary-axis (X) overlap for LR/RL layouts
 		}
 
 		var useSideRouting = input.Direction is LayoutDirection.LR or LayoutDirection.RL;
@@ -895,6 +896,82 @@ public static class SugiyamaLayout
 		}
 		foreach (var child in sg.Children)
 			CollectSubgraphYBounds(child, nodeIndex, buf, ref minY, ref maxY);
+	}
+
+	/// <summary>
+	/// Fixes secondary-axis (X) overlap between subgraphs that share the same Sugiyama layer.
+	/// <para>
+	/// <c>FixSubgraphSpacing</c> handles the primary axis (Y = depth); this handles the secondary
+	/// axis (X = within-layer position) — which is what causes subgraph boxes to overlap
+	/// vertically in LR diagrams.  For each layer we scan nodes in X order and, whenever we
+	/// cross a subgraph boundary, ensure the gap is wide enough for both subgraph headers +
+	/// padding.  Nodes are shifted per-layer so that cross-layer relationships are not disturbed.
+	/// </para>
+	/// </summary>
+	private static void FixSubgraphXSpacing(GraphBuffer buf, LayoutGraph input)
+	{
+		const double groupPadding = 16.0;
+		const double headerHeight = 28.0;
+		const double clearance = 8.0;
+		var minGap = ((groupPadding + headerHeight) * 2) + clearance;
+
+		var nodeIndex = new Dictionary<string, int>(buf.RealNodeCount);
+		for (var i = 0; i < buf.RealNodeCount; i++)
+			nodeIndex[buf.NodeIds[i]] = i;
+
+		// Map node index → top-level subgraph ID
+		var nodeSubgraph = new Dictionary<int, string>(buf.RealNodeCount);
+		foreach (var sg in input.Subgraphs)
+			MapNodesToTopSubgraph(sg, sg.Id, nodeIndex, nodeSubgraph);
+
+		for (var layer = 0; layer < buf.LayerCount; layer++)
+		{
+			// Collect real nodes in this layer that belong to a subgraph, sorted by X
+			var layerNodes = new List<int>();
+			foreach (var n in buf.LayerNodes[layer])
+			{
+				if (n < buf.RealNodeCount && nodeSubgraph.ContainsKey(n))
+					layerNodes.Add(n);
+			}
+
+			if (layerNodes.Count < 2)
+				continue;
+
+			layerNodes.Sort((a, b) => buf.X[a].CompareTo(buf.X[b]));
+
+			for (var pos = 0; pos < layerNodes.Count - 1; pos++)
+			{
+				var curr = layerNodes[pos];
+				var next = layerNodes[pos + 1];
+
+				if (!nodeSubgraph.TryGetValue(curr, out var sgA) ||
+					!nodeSubgraph.TryGetValue(next, out var sgB) ||
+					sgA == sgB)
+					continue;
+
+				var actualGap = buf.X[next] - (buf.X[curr] + buf.NodeWidths[curr]);
+				if (actualGap >= minGap)
+					continue;
+
+				var push = minGap - actualGap;
+				for (var j = pos + 1; j < layerNodes.Count; j++)
+					buf.X[layerNodes[j]] += push;
+			}
+		}
+	}
+
+	private static void MapNodesToTopSubgraph(
+		LayoutSubgraph sg, string topId,
+		Dictionary<string, int> nodeIndex,
+		Dictionary<int, string> nodeSubgraph)
+	{
+		foreach (var nodeId in sg.NodeIds)
+		{
+			if (nodeIndex.TryGetValue(nodeId, out var idx))
+				_ = nodeSubgraph.TryAdd(idx, topId);
+		}
+		foreach (var child in sg.Children)
+			MapNodesToTopSubgraph(child, topId, nodeIndex, nodeSubgraph);
 	}
 
 	// ========================================================================

@@ -18,6 +18,7 @@ internal static class CoordinateAssigner
 		AssignPrimaryAxis(graph, layerSpacing);
 		AssignSecondaryAxis(graph, nodeSpacing);
 		PlaceBySubtreeWidth(graph, nodeSpacing);
+		CompactOrphanedNodes(graph, nodeSpacing);
 		AlignToConnections(graph, nodeSpacing);
 		NormalizeX(graph);
 	}
@@ -178,6 +179,50 @@ internal static class CoordinateAssigner
 				var minX = graph.X[prev] + prevW + nodeSpacing;
 				if (graph.X[curr] < minX)
 					graph.X[curr] = minX;
+			}
+		}
+	}
+
+	/// <summary>
+	/// After subtree placement, detect nodes stranded far from their layer-peers and
+	/// pull them adjacent to their nearest right-neighbour. These orphans arise when a
+	/// node's only connections are in a cluster far to the right, leaving it at the
+	/// leftmost slot (x≈0) while its neighbours sit hundreds of pixels away.
+	/// Threshold: gap > 10 × nodeSpacing (conservative — catches real orphans, not
+	/// intentional wide subtree spreads).
+	/// </summary>
+	private static void CompactOrphanedNodes(GraphBuffer graph, double nodeSpacing)
+	{
+		var threshold = nodeSpacing * 10;
+		for (var layer = 0; layer < graph.LayerCount; layer++)
+		{
+			var nodes = graph.LayerNodes[layer];
+			if (nodes.Length < 2)
+				continue;
+
+			for (var pos = 0; pos < nodes.Length - 1; pos++)
+			{
+				var curr = nodes[pos];
+				var next = nodes[pos + 1];
+				if (curr >= graph.RealNodeCount)
+					continue;
+
+				var currW = graph.NodeWidths[curr];
+				var gap = graph.X[next] - (graph.X[curr] + currW);
+				if (gap <= threshold)
+					continue;
+
+				// Pull curr to be adjacent to next, respecting any left neighbour
+				var newX = graph.X[next] - nodeSpacing - currW;
+				if (pos > 0)
+				{
+					var prev = nodes[pos - 1];
+					var prevW = prev < graph.RealNodeCount ? graph.NodeWidths[prev] : 0;
+					newX = Math.Max(newX, graph.X[prev] + prevW + nodeSpacing);
+				}
+
+				if (newX > graph.X[curr])
+					graph.X[curr] = newX;
 			}
 		}
 	}

@@ -96,7 +96,16 @@ internal static class CrossingMinimizer
 		Array.Sort(nodes, (a, b) =>
 		{
 			var cmp = barycenters[a].CompareTo(barycenters[b]);
-			return cmp != 0 ? cmp : graph.NodePositionInLayer[a].CompareTo(graph.NodePositionInLayer[b]);
+			if (cmp != 0)
+				return cmp;
+			// On a tie prefer virtual nodes first: they represent skip-layer edge chains and
+			// should be placed on the same side as their ultimate source, not pushed past real
+			// nodes whose coordinates are not yet finalised.
+			var aVirt = a >= graph.RealNodeCount;
+			var bVirt = b >= graph.RealNodeCount;
+			if (aVirt != bVirt)
+				return aVirt ? -1 : 1;
+			return graph.NodePositionInLayer[a].CompareTo(graph.NodePositionInLayer[b]);
 		});
 
 		for (var pos = 0; pos < nodes.Length; pos++)
