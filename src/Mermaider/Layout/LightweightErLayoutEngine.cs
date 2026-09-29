@@ -149,6 +149,7 @@ internal static class LightweightErLayoutEngine
 		}
 
 		OffsetParallelEdges(positionedRels);
+		SpreadConvergentPorts(positionedRels, positionedEntities);
 
 		// Synthesize arc paths for self-loop relationships (same entity on both ends).
 		// These are filtered from Sugiyama layout; we place them as a right-side loop.
@@ -189,6 +190,138 @@ internal static class LightweightErLayoutEngine
 			Entities = positionedEntities,
 			Relationships = positionedRels,
 		};
+	}
+
+	/// <summary>
+	/// When multiple edges converge on the same entity port (same entry/exit x and y),
+	/// spread their attachment points across the entity's top or bottom edge so each
+	/// edge has a distinct anchor.  Edges that already use different x positions are
+	/// left unchanged.
+	/// </summary>
+	private static void SpreadConvergentPorts(
+		List<PositionedErRelationship> rels,
+		List<PositionedErEntity> entities)
+	{
+		const double portMarginFraction = 0.15;
+		const double snapY = 4.0;
+
+		var entityByName = entities.ToDictionary(e => e.Id);
+
+		// ---------- top-entry (edges entering Entity2 from above) ----------
+		// Group by entity2; find edges whose last point Y ≈ entity.Y
+		var topGroups = new Dictionary<string, List<int>>();
+		for (var i = 0; i < rels.Count; i++)
+		{
+			var rel = rels[i];
+			if (rel.Points.Count < 2)
+				continue;
+			if (!entityByName.TryGetValue(rel.Entity2, out var ent))
+				continue;
+			var lastPt = rel.Points[^1];
+			if (Math.Abs(lastPt.Y - ent.Y) > snapY)
+				continue;
+			if (!topGroups.TryGetValue(rel.Entity2, out var list))
+				topGroups[rel.Entity2] = list = [];
+			list.Add(i);
+		}
+
+		foreach (var (entityId, indices) in topGroups)
+		{
+			if (indices.Count < 2)
+				continue;
+			if (!entityByName.TryGetValue(entityId, out var ent))
+				continue;
+
+			// Sort by source entity center-x so leftmost source gets leftmost port
+			indices.Sort((a, b) =>
+			{
+				var approachA = rels[a].Points.Count >= 2 ? rels[a].Points[^2].X : rels[a].Points[^1].X;
+				var approachB = rels[b].Points.Count >= 2 ? rels[b].Points[^2].X : rels[b].Points[^1].X;
+				return approachA.CompareTo(approachB);
+			});
+
+			var margin = ent.Width * portMarginFraction;
+			var usable = ent.Width - (margin * 2);
+
+			for (var i = 0; i < indices.Count; i++)
+			{
+				var t = indices.Count > 1 ? (double)i / (indices.Count - 1) : 0.5;
+				var newX = ent.X + margin + (t * usable);
+
+				var rel = rels[indices[i]];
+				var pts = new List<Point>(rel.Points);
+				var last = pts[^1];
+				var secondLast = pts[^2];
+
+				if (Math.Abs(last.X - newX) < 1)
+					continue;
+
+				pts[^1] = new Point(newX, last.Y);
+				// If the second-to-last point is on the same vertical as the old last,
+				// move it too so the final descent remains straight.
+				if (Math.Abs(secondLast.X - last.X) < 1)
+					pts[^2] = new Point(newX, secondLast.Y);
+
+				rels[indices[i]] = rel with { Points = pts };
+			}
+		}
+
+		// ---------- bottom-exit (edges leaving Entity1 from below) ----------
+		// Group by entity1; find edges whose first point Y ≈ entity.Y + entity.Height
+		var bottomGroups = new Dictionary<string, List<int>>();
+		for (var i = 0; i < rels.Count; i++)
+		{
+			var rel = rels[i];
+			if (rel.Points.Count < 2)
+				continue;
+			if (!entityByName.TryGetValue(rel.Entity1, out var ent))
+				continue;
+			var firstPt = rel.Points[0];
+			if (Math.Abs(firstPt.Y - (ent.Y + ent.Height)) > snapY)
+				continue;
+			if (!bottomGroups.TryGetValue(rel.Entity1, out var list))
+				bottomGroups[rel.Entity1] = list = [];
+			list.Add(i);
+		}
+
+		foreach (var (entityId, indices) in bottomGroups)
+		{
+			if (indices.Count < 2)
+				continue;
+			if (!entityByName.TryGetValue(entityId, out var ent))
+				continue;
+
+			// Sort by target entity center-x
+			indices.Sort((a, b) =>
+			{
+				var approachA = rels[a].Points.Count >= 2 ? rels[a].Points[1].X : rels[a].Points[0].X;
+				var approachB = rels[b].Points.Count >= 2 ? rels[b].Points[1].X : rels[b].Points[0].X;
+				return approachA.CompareTo(approachB);
+			});
+
+			var margin = ent.Width * portMarginFraction;
+			var usable = ent.Width - (margin * 2);
+
+			for (var i = 0; i < indices.Count; i++)
+			{
+				var t = indices.Count > 1 ? (double)i / (indices.Count - 1) : 0.5;
+				var newX = ent.X + margin + (t * usable);
+
+				var rel = rels[indices[i]];
+				var pts = new List<Point>(rel.Points);
+				var first = pts[0];
+				var second = pts[1];
+
+				if (Math.Abs(first.X - newX) < 1)
+					continue;
+
+				pts[0] = new Point(newX, first.Y);
+				if (Math.Abs(second.X - first.X) < 1)
+					pts[1] = new Point(newX, second.Y);
+
+				rels[indices[i]] = rel with { Points = pts };
+			}
+		}
 	}
 
 	private static void OffsetParallelEdges(List<PositionedErRelationship> rels)
