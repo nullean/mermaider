@@ -64,6 +64,10 @@ public sealed record PositionedGraphNote
 	public required double Y { get; init; }
 	public required double Width { get; init; }
 	public required double Height { get; init; }
+	/// <summary>Start of the dashed connector line (on the note box edge).</summary>
+	public Point? LineFrom { get; init; }
+	/// <summary>End of the dashed connector line (on the target node edge).</summary>
+	public Point? LineTo { get; init; }
 }
 
 /// <summary>A 2D point. Value type to avoid heap allocations.</summary>

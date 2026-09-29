@@ -619,8 +619,14 @@ internal static class SvgRenderer
 
 	private static void AppendNote(StringBuilder sb, PositionedGraphNote note)
 	{
-		_ = sb.Append("\n<g class=\"note\">\n");
-		_ = sb.Append("  <rect x=\"").Append(note.X).Append("\" y=\"").Append(note.Y)
+		_ = sb.Append("\n<g class=\"note\">");
+		if (note.LineFrom is { } lf && note.LineTo is { } lt)
+		{
+			_ = sb.Append("\n  <line x1=\"").Append(lf.X).Append("\" y1=\"").Append(lf.Y)
+				.Append("\" x2=\"").Append(lt.X).Append("\" y2=\"").Append(lt.Y)
+				.Append("\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.5\" stroke-dasharray=\"4 3\" />");
+		}
+		_ = sb.Append("\n  <rect x=\"").Append(note.X).Append("\" y=\"").Append(note.Y)
 			.Append("\" width=\"").Append(note.Width).Append("\" height=\"").Append(note.Height)
 			.Append("\" rx=\"6\" ry=\"6\"")
 			.Append(" fill=\"var(--_accent-fill)\" stroke=\"var(--_accent-stroke)\" stroke-width=\"")

@@ -503,11 +503,20 @@ internal static class LightweightLayoutEngine
 			var noteW = Math.Max(NoteWidth, textW);
 			var noteH = RenderConstants.FontSizes.EdgeLabel + (NoteVPad * 2);
 
-			var noteX = note.Position == GraphNotePosition.Left
+			var leftNote = note.Position == GraphNotePosition.Left;
+			var noteX = leftNote
 				? target.X - noteW - NoteGap
 				: target.X + target.Width + NoteGap;
 
 			var noteY = target.Y + ((target.Height - noteH) / 2);
+			var midNoteY = noteY + (noteH / 2);
+
+			var lineFrom = leftNote
+				? new Point(noteX + noteW, midNoteY)
+				: new Point(noteX, midNoteY);
+			var lineTo = leftNote
+				? new Point(target.X, target.Y + (target.Height / 2))
+				: new Point(target.X + target.Width, target.Y + (target.Height / 2));
 
 			notes.Add(new PositionedGraphNote
 			{
@@ -516,6 +525,8 @@ internal static class LightweightLayoutEngine
 				Y = noteY,
 				Width = noteW,
 				Height = noteH,
+				LineFrom = lineFrom,
+				LineTo = lineTo,
 			});
 
 			maxX = Math.Max(maxX, noteX + noteW + NoteGap);

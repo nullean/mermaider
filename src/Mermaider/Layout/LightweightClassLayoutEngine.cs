@@ -161,7 +161,16 @@ internal static class LightweightClassLayoutEngine
 			{
 				var noteX = target.X + target.Width + 10;
 				var noteY = target.Y;
-				notes.Add(new PositionedGraphNote { Text = note.Text, X = noteX, Y = noteY, Width = noteW, Height = noteH });
+				notes.Add(new PositionedGraphNote
+				{
+					Text = note.Text,
+					X = noteX,
+					Y = noteY,
+					Width = noteW,
+					Height = noteH,
+					LineFrom = new Point(noteX, noteY + (noteH / 2)),
+					LineTo = new Point(target.X + target.Width, target.Y + (target.Height / 2)),
+				});
 				maxX = Math.Max(maxX, noteX + noteW + 10);
 				maxY = Math.Max(maxY, noteY + noteH + 10);
 			}
