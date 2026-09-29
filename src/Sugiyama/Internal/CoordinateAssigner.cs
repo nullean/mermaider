@@ -167,6 +167,39 @@ internal static class CoordinateAssigner
 			}
 		}
 
+		// --- 3.5: Push unplaced real nodes to the rightmost end of their layer ---
+		// A real node is "unplaced" if it has no parent in the previous layer (e.g. a
+		// source pushed down by PushDownSources, or a node whose parents are all in
+		// non-adjacent layers).  Leaving it at its AssignSecondaryAxis position can place
+		// it to the LEFT of nodes that were correctly placed, causing AlignToConnections
+		// to clamp those nodes to a far-left position via the right-neighbour max-X constraint.
+		for (var layer = 1; layer < graph.LayerCount; layer++)
+		{
+			var nodes = graph.LayerNodes[layer];
+			var rightmostEnd = double.MinValue;
+			foreach (var node in nodes)
+			{
+				if (node >= graph.RealNodeCount || !placed[node])
+					continue;
+				var end = graph.X[node] + graph.NodeWidths[node];
+				if (end > rightmostEnd)
+					rightmostEnd = end;
+			}
+
+			if (rightmostEnd == double.MinValue)
+				continue; // all nodes unplaced (or only virtual) — nothing to anchor to
+
+			var nextX = rightmostEnd + nodeSpacing;
+			foreach (var node in nodes) // iterate in crossing-minimiser order so order is preserved
+			{
+				if (node >= graph.RealNodeCount || placed[node])
+					continue;
+				graph.X[node] = nextX;
+				nextX += graph.NodeWidths[node] + nodeSpacing;
+				placed[node] = true;
+			}
+		}
+
 		// --- 4. Enforce minimum spacing within each layer ---
 		// Fixes any remaining overlaps from multi-parent conflicts or orphaned nodes.
 		for (var layer = 0; layer < graph.LayerCount; layer++)
@@ -194,7 +227,7 @@ internal static class CoordinateAssigner
 	/// </summary>
 	private static void CompactOrphanedNodes(GraphBuffer graph, double nodeSpacing)
 	{
-		var threshold = nodeSpacing * 10;
+		var threshold = nodeSpacing * 7;
 		for (var layer = 0; layer < graph.LayerCount; layer++)
 		{
 			var nodes = graph.LayerNodes[layer];
@@ -390,9 +423,19 @@ internal static class CoordinateAssigner
 			if (posInLayer < nodes.Length - 1)
 			{
 				var next = nodes[posInLayer + 1];
-				var maxX = graph.X[next] - nodeSpacing - nodeW;
-				if (target > maxX)
-					target = maxX;
+				// Don't clamp against a pushed-down source (real node in layer > 0 with no incoming edges).
+				// Clamping here strands the current node at the wrong far-left position.
+				// The pushed-down source's own position is corrected by the minX constraint once
+				// the current node has moved to its correct position in a later sweep pass.
+				var nextIsPushedSource = next < graph.RealNodeCount
+					&& graph.Layers[next] > 0
+					&& graph.InAdjStart[next + 1] - graph.InAdjStart[next] == 0;
+				if (!nextIsPushedSource)
+				{
+					var maxX = graph.X[next] - nodeSpacing - nodeW;
+					if (target > maxX)
+						target = maxX;
+				}
 			}
 
 			graph.X[node] = target;

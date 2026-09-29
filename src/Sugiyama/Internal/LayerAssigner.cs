@@ -13,6 +13,7 @@ internal static class LayerAssigner
 		graph.RebuildAdjacency();
 		AssignLayers(graph);
 		EnforceSameRankConstraints(graph);
+		PushDownSources(graph);
 		InsertVirtualNodes(graph);
 		graph.RebuildAdjacency();
 		BuildLayerArrays(graph);
@@ -77,6 +78,41 @@ internal static class LayerAssigner
 			if (graph.Layers[i] > maxLayer)
 				maxLayer = graph.Layers[i];
 		}
+		graph.LayerCount = maxLayer + 1;
+	}
+
+	/// <summary>
+	/// For source nodes (no incoming edges) that have all their children two or more
+	/// layers away, push them down to sit directly above their nearest child.
+	/// This mirrors mermaid.js behaviour: isolated sources with deep connections appear
+	/// adjacent to where they connect, not stranded at layer 0.
+	/// </summary>
+	private static void PushDownSources(GraphBuffer graph)
+	{
+		for (var node = 0; node < graph.RealNodeCount; node++)
+		{
+			if (graph.InAdjStart[node + 1] - graph.InAdjStart[node] > 0)
+				continue; // has incoming edges — not a source
+
+			var minChildLayer = int.MaxValue;
+			for (var j = graph.OutAdjStart[node]; j < graph.OutAdjStart[node + 1]; j++)
+			{
+				var child = graph.OutAdjNeighbor[j];
+				if (child < graph.RealNodeCount && graph.Layers[child] < minChildLayer)
+					minChildLayer = graph.Layers[child];
+			}
+
+			if (minChildLayer is int.MaxValue or <= 1)
+				continue; // no real children, or already adjacent
+
+			graph.Layers[node] = minChildLayer - 1;
+		}
+
+		// Recompute LayerCount in case sources moved to higher layers
+		var maxLayer = 0;
+		for (var i = 0; i < graph.NodeCount; i++)
+			if (graph.Layers[i] > maxLayer)
+				maxLayer = graph.Layers[i];
 		graph.LayerCount = maxLayer + 1;
 	}
 
