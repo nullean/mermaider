@@ -20,6 +20,7 @@ internal static class CoordinateAssigner
 		PlaceBySubtreeWidth(graph, nodeSpacing);
 		CompactOrphanedNodes(graph, nodeSpacing);
 		AlignToConnections(graph, nodeSpacing);
+		CompactOrphanedNodes(graph, nodeSpacing);
 		NormalizeX(graph);
 	}
 
