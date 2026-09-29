@@ -12,7 +12,7 @@
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
     --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
-    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
     --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
     --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
@@ -48,28 +48,34 @@
 
 <path class="class-relationship" data-from="Repository~T~" data-to="UserRepo" data-type="inheritance" data-marker-at="from" d="M359.8,88 L359.8,148" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
 <g class="class-node" data-id="Repository" data-label="Repository&lt;T&gt;">
-  <rect x="40" y="40" width="184" height="108" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <rect x="40" y="40" width="184" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="40" y="40" width="184" height="108" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
+  <rect x="40" y="40" width="184" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="40" y="46" width="184" height="26" fill="var(--_group-hdr)" stroke="none" />
   <text x="132" y="56" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Repository&lt;T&gt;</text>
-  <line x1="40" y1="72" x2="224" y2="72" stroke="var(--_node-stroke)" stroke-width="2" />
-  <line x1="40" y1="80" x2="224" y2="80" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="40" y1="72" x2="224" y2="72" stroke="var(--_line)" stroke-width="1.5" />
+  <line x1="40" y1="80" x2="224" y2="80" stroke="var(--_line)" stroke-width="1.5" />
   <text class="mono" x="48" y="94" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">getById(id)</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">T</tspan></text>
   <text class="mono" x="48" y="114" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">save(entity)</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
   <text class="mono" x="48" y="134" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">findAll()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">List~T~</tspan></text>
+  <rect x="40" y="40" width="184" height="108" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="UserRepo" data-label="UserRepo">
-  <rect x="272" y="148" width="175.6" height="68" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <rect x="272" y="148" width="175.6" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="272" y="148" width="175.6" height="68" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
+  <rect x="272" y="148" width="175.6" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="272" y="154" width="175.6" height="26" fill="var(--_group-hdr)" stroke="none" />
   <text x="359.8" y="164" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">UserRepo</text>
-  <line x1="272" y1="180" x2="447.6" y2="180" stroke="var(--_node-stroke)" stroke-width="2" />
-  <line x1="272" y1="188" x2="447.6" y2="188" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="272" y1="180" x2="447.6" y2="180" stroke="var(--_line)" stroke-width="1.5" />
+  <line x1="272" y1="188" x2="447.6" y2="188" stroke="var(--_line)" stroke-width="1.5" />
   <text class="mono" x="280" y="202" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">getById(id)</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">User</tspan></text>
+  <rect x="272" y="148" width="175.6" height="68" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="Repository~T~" data-label="Repository~T~">
-  <rect x="295.88" y="40" width="127.84" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <rect x="295.88" y="40" width="127.84" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="295.88" y="40" width="127.84" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
+  <rect x="295.88" y="40" width="127.84" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="295.88" y="46" width="127.84" height="26" fill="var(--_group-hdr)" stroke="none" />
   <text x="359.8" y="56" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Repository~T~</text>
-  <line x1="295.88" y1="72" x2="423.72" y2="72" stroke="var(--_node-stroke)" stroke-width="2" />
-  <line x1="295.88" y1="80" x2="423.72" y2="80" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="295.88" y1="72" x2="423.72" y2="72" stroke="var(--_line)" stroke-width="1.5" />
+  <line x1="295.88" y1="80" x2="423.72" y2="80" stroke="var(--_line)" stroke-width="1.5" />
+  <rect x="295.88" y="40" width="127.84" height="48" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 </svg>

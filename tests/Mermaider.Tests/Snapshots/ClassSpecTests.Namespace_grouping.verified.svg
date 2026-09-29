@@ -12,7 +12,7 @@
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
     --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
-    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
     --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
     --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
@@ -57,30 +57,36 @@
 <path class="class-relationship" data-from="User" data-to="Order" data-type="association" data-marker-at="to" d="M123.6,128 L123.6,188" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
 <path class="class-relationship" data-from="Order" data-to="Database" data-type="association" data-marker-at="to" d="M123.6,276 L123.6,336" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
 <g class="class-node" data-id="User" data-label="User">
-  <rect x="52.599999999999994" y="40" width="142" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <rect x="52.599999999999994" y="40" width="142" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="52.599999999999994" y="40" width="142" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
+  <rect x="52.599999999999994" y="40" width="142" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="52.599999999999994" y="46" width="142" height="26" fill="var(--_group-hdr)" stroke="none" />
   <text x="123.6" y="56" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">User</text>
-  <line x1="52.599999999999994" y1="72" x2="194.6" y2="72" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="52.599999999999994" y1="72" x2="194.6" y2="72" stroke="var(--_line)" stroke-width="1.5" />
   <text class="mono" x="60.599999999999994" y="86" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">name</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">String</tspan></text>
-  <line x1="52.599999999999994" y1="100" x2="194.6" y2="100" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="52.599999999999994" y1="100" x2="194.6" y2="100" stroke="var(--_line)" stroke-width="1.5" />
   <text class="mono" x="60.599999999999994" y="114" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">login()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
+  <rect x="52.599999999999994" y="40" width="142" height="88" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="Order" data-label="Order">
-  <rect x="48.39999999999999" y="188" width="150.4" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <rect x="48.39999999999999" y="188" width="150.4" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="48.39999999999999" y="188" width="150.4" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
+  <rect x="48.39999999999999" y="188" width="150.4" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="48.39999999999999" y="194" width="150.4" height="26" fill="var(--_group-hdr)" stroke="none" />
   <text x="123.6" y="204" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Order</text>
-  <line x1="48.39999999999999" y1="220" x2="198.8" y2="220" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="48.39999999999999" y1="220" x2="198.8" y2="220" stroke="var(--_line)" stroke-width="1.5" />
   <text class="mono" x="56.39999999999999" y="234" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">id</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">int</tspan></text>
-  <line x1="48.39999999999999" y1="248" x2="198.8" y2="248" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="48.39999999999999" y1="248" x2="198.8" y2="248" stroke="var(--_line)" stroke-width="1.5" />
   <text class="mono" x="56.39999999999999" y="262" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">submit()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
+  <rect x="48.39999999999999" y="188" width="150.4" height="88" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="Database" data-label="Database">
-  <rect x="40" y="336" width="167.2" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <rect x="40" y="336" width="167.2" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="40" y="336" width="167.2" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
+  <rect x="40" y="336" width="167.2" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="40" y="342" width="167.2" height="26" fill="var(--_group-hdr)" stroke="none" />
   <text x="123.6" y="352" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Database</text>
-  <line x1="40" y1="368" x2="207.2" y2="368" stroke="var(--_node-stroke)" stroke-width="2" />
-  <line x1="40" y1="376" x2="207.2" y2="376" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="40" y1="368" x2="207.2" y2="368" stroke="var(--_line)" stroke-width="1.5" />
+  <line x1="40" y1="376" x2="207.2" y2="376" stroke="var(--_line)" stroke-width="1.5" />
   <text class="mono" x="48" y="390" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">connect()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
   <text class="mono" x="48" y="410" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">query(sql)</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
+  <rect x="40" y="336" width="167.2" height="88" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 </svg>

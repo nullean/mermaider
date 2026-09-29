@@ -32,7 +32,7 @@ internal static partial class RendererStylesheetAllowlist
 		"    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));",
 		"    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));",
 		"    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));",
-		"    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));",
+		"    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));",
 		"    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));",
 		"    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));",
 		"    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));",

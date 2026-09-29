@@ -139,17 +139,21 @@ internal static class ClassSvgRenderer
 		_ = sb.Append(">\n");
 
 		var r = RenderConstants.Radii.Rectangle;
+		// 1. Background fill — no stroke so section lines aren't buried under box border
 		_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
 			.Append("\" width=\"").Append(width).Append("\" height=\"").Append(height)
 			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"var(--_node-fill)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
-			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
+			.Append("\" fill=\"var(--_node-fill)\" stroke=\"none\" />\n");
 
+		// 2. Header fill — no stroke; use rect (not rounded) so bottom edge doesn't compete with separator
 		_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
 			.Append("\" width=\"").Append(width).Append("\" height=\"").Append(headerHeight)
 			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"var(--_group-hdr)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
-			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
+			.Append("\" fill=\"var(--_group-hdr)\" stroke=\"none\" />\n");
+		// Square off the bottom corners of the header fill
+		_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y + r)
+			.Append("\" width=\"").Append(width).Append("\" height=\"").Append(headerHeight - r)
+			.Append("\" fill=\"var(--_group-hdr)\" stroke=\"none\" />\n");
 
 		var nameY = y + (headerHeight / 2);
 		if (cls.Annotation != null)
@@ -175,8 +179,7 @@ internal static class ClassSvgRenderer
 		var attrTop = y + headerHeight;
 		_ = sb.Append("  <line x1=\"").Append(x).Append("\" y1=\"").Append(attrTop)
 			.Append("\" x2=\"").Append(x + width).Append("\" y2=\"").Append(attrTop)
-			.Append("\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
-			.Append(RenderConstants.StrokeWidths.InnerBox).Append("\" />\n");
+			.Append("\" stroke=\"var(--_line)\" stroke-width=\"1.5\" />\n");
 
 		const double memberRowH = 20;
 		const double boxPadX = 8;
@@ -191,8 +194,7 @@ internal static class ClassSvgRenderer
 		var methodTop = attrTop + attrHeight;
 		_ = sb.Append("  <line x1=\"").Append(x).Append("\" y1=\"").Append(methodTop)
 			.Append("\" x2=\"").Append(x + width).Append("\" y2=\"").Append(methodTop)
-			.Append("\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
-			.Append(RenderConstants.StrokeWidths.InnerBox).Append("\" />\n");
+			.Append("\" stroke=\"var(--_line)\" stroke-width=\"1.5\" />\n");
 
 		for (var i = 0; i < cls.Methods.Count; i++)
 		{
@@ -201,6 +203,13 @@ internal static class ClassSvgRenderer
 			AppendMember(sb, cls.Methods[i], x + boxPadX, memberY);
 			_ = sb.Append('\n');
 		}
+
+		// Outer border drawn last so fills cannot cover the rounded corners
+		_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
+			.Append("\" width=\"").Append(width).Append("\" height=\"").Append(height)
+			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
+			.Append("\" fill=\"none\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
+			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
 
 		_ = sb.Append("</g>");
 	}
