@@ -86,6 +86,8 @@ internal static class LightweightClassLayoutEngine
 			Padding = Padding,
 			NodeSpacing = NodeSpacing,
 			LayerSpacing = LayerSpacing,
+			NaturalBackEdgeRouting = true,
+			ForceBottomExitFanOut = true,
 		});
 
 		return ExtractPositioned(result, diagram, classSizes);

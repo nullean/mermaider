@@ -35,16 +35,21 @@ internal static class EdgeRouter
 	internal static List<RoutedEdge> Run(
 		GraphBuffer graph, bool useSideRouting = false,
 		IReadOnlyList<LayoutEdge>? inputEdges = null,
-		bool strictTopDownFanout = false)
+		bool strictTopDownFanout = false,
+		bool naturalBackEdgeRouting = false,
+		bool forceBottomExitFanOut = false)
 	{
 		var edgeChains = BuildEdgeChains(graph);
 		var results = new List<RoutedEdge>(edgeChains.Count);
 
 		foreach (var (origIdx, reversed, chain) in edgeChains)
 		{
-			var points = reversed && chain[0] < graph.RealNodeCount && chain[^1] < graph.RealNodeCount
-				? RouteBackEdge(graph, chain[0], chain[^1])
-				: RouteChain(graph, chain, useSideRouting, strictTopDownFanout);
+			var isDirectBackEdge = reversed && chain[0] < graph.RealNodeCount && chain[^1] < graph.RealNodeCount;
+			var points = isDirectBackEdge && naturalBackEdgeRouting
+				? RouteNaturalBackEdge(graph, chain[0], chain[^1])
+				: isDirectBackEdge
+					? RouteBackEdge(graph, chain[0], chain[^1])
+					: RouteChain(graph, chain, useSideRouting, strictTopDownFanout, forceBottomExitFanOut);
 
 			var src = chain[0];
 			var tgt = chain[^1];
@@ -226,7 +231,7 @@ internal static class EdgeRouter
 	private const double SnapThreshold = 16;
 
 	private static List<LayoutPoint> RouteChain(
-		GraphBuffer graph, List<int> chain, bool useSideRouting, bool strictTopDownFanout = false)
+		GraphBuffer graph, List<int> chain, bool useSideRouting, bool strictTopDownFanout = false, bool forceBottomExitFanOut = false)
 	{
 		var points = new List<LayoutPoint>(chain.Count * 2);
 
@@ -239,7 +244,7 @@ internal static class EdgeRouter
 
 			if (i == 0)
 			{
-				AddSourcePort(graph, points, chain, node, cx, cy, isReal, useSideRouting, strictTopDownFanout);
+				AddSourcePort(graph, points, chain, node, cx, cy, isReal, useSideRouting, strictTopDownFanout, forceBottomExitFanOut);
 			}
 			else if (i == chain.Count - 1)
 			{
@@ -338,7 +343,7 @@ internal static class EdgeRouter
 	private static void AddSourcePort(
 		GraphBuffer graph, List<LayoutPoint> points, List<int> chain,
 		int node, double cx, double cy, bool isReal, bool useSideRouting,
-		bool strictTopDownFanout = false)
+		bool strictTopDownFanout = false, bool forceBottomExitFanOut = false)
 	{
 		if (!isReal || chain.Count < 2)
 		{
@@ -401,7 +406,7 @@ internal static class EdgeRouter
 			// left-facing connections to avoid crossing ancestor paths that route through
 			// the same left-side corridor.
 			var directLeftCrossing = strictTopDownFanout && !goRight && nextNode < graph.RealNodeCount;
-			if (exitOvershoot || ExitCrossesSibling(graph, node, sideX, tgtCX) || directLeftCrossing)
+			if (forceBottomExitFanOut || exitOvershoot || ExitCrossesSibling(graph, node, sideX, tgtCX) || directLeftCrossing)
 			{
 				points.Add(new LayoutPoint(cx, graph.Y[node] + graph.NodeHeights[node]));
 			}
@@ -574,6 +579,33 @@ internal static class EdgeRouter
 	/// In canonical TD form: exits source right side, jogs right, goes down,
 	/// enters target right side.
 	/// </summary>
+	/// <summary>
+	/// Routes a single-layer reversed back-edge straight between the two nodes.
+	/// In TD layout: exits source bottom-center, enters target top-center, with an
+	/// L-bend at the midpoint when the nodes are horizontally offset.
+	/// After <c>points.Reverse()</c> in <see cref="Run"/>, this produces an upward
+	/// inheritance arrow from child-top to parent-bottom.
+	/// </summary>
+	private static List<LayoutPoint> RouteNaturalBackEdge(GraphBuffer graph, int source, int target)
+	{
+		var srcCX = graph.X[source] + (graph.NodeWidths[source] / 2.0);
+		var srcBottom = graph.Y[source] + graph.NodeHeights[source];
+		var tgtCX = graph.X[target] + (graph.NodeWidths[target] / 2.0);
+		var tgtTop = graph.Y[target];
+		var midY = (srcBottom + tgtTop) / 2.0;
+
+		if (Math.Abs(srcCX - tgtCX) < 1.0)
+			return [new(srcCX, srcBottom), new(srcCX, tgtTop)];
+
+		return
+		[
+			new(srcCX, srcBottom),
+			new(srcCX, midY),
+			new(tgtCX, midY),
+			new(tgtCX, tgtTop),
+		];
+	}
+
 	private static List<LayoutPoint> RouteBackEdge(GraphBuffer graph, int source, int target)
 	{
 		const double detourGap = 36;

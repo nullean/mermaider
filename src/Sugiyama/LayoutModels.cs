@@ -90,6 +90,20 @@ public sealed record LayoutOptions
 	/// ancestor paths route through the same left-side corridor. Default: false.
 	/// </summary>
 	public bool StrictTopDownFanout { get; init; }
+
+	/// <summary>
+	/// When true, single-layer reversed back-edges (e.g. class inheritance) route
+	/// straight up from child-top to parent-bottom instead of detouring around the
+	/// right side. Default: false.
+	/// </summary>
+	public bool NaturalBackEdgeRouting { get; init; }
+
+	/// <summary>
+	/// When true, fan-out nodes always exit from the bottom center regardless of
+	/// target direction (left or right). Produces the classic inheritance-tree look
+	/// for class diagrams. Default: false.
+	/// </summary>
+	public bool ForceBottomExitFanOut { get; init; }
 }
 
 // ====================================================================
