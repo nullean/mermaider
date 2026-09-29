@@ -81,6 +81,7 @@ internal static class LightweightLayoutEngine
 			? Math.Max(layerSpacing, maxLabelExtent + 76)
 			: layerSpacing;
 
+		var isStateDiagram = graph.Nodes.Values.Any(n => n.Shape is Models.NodeShape.StateStart or Models.NodeShape.StateEnd);
 		var layoutOptions = new LayoutOptions
 		{
 			Padding = padding,
@@ -88,6 +89,7 @@ internal static class LightweightLayoutEngine
 			LayerSpacing = effectiveLayerSpacing,
 			CancellationToken = ct,
 			MaxNodeCount = maxNodesAfterLayout,
+			ForceBottomExitFanOut = isStateDiagram,
 		};
 
 		LayoutResult result;
