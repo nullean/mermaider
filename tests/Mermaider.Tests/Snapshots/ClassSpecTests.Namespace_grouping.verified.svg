@@ -47,11 +47,11 @@
 </defs>
 
 <g class="ns-box">
-  <rect x="36.39999999999999" y="8" width="174.40000000000003" height="280" rx="4" ry="4" stroke-width="1" stroke-dasharray="6 3" />
+  <rect x="36.39999999999999" y="8" width="174.40000000000003" height="280" rx="4" ry="4" fill="var(--_group-fill)" stroke="var(--_accent-stroke)" stroke-width="1" stroke-dasharray="6 3" />
   <text x="44.39999999999999" y="22" font-size="14" fill="var(--_text-muted)" font-style="italic">Domain</text>
 </g>
 <g class="ns-box">
-  <rect x="28" y="304" width="191.2" height="132" rx="4" ry="4" stroke-width="1" stroke-dasharray="6 3" />
+  <rect x="28" y="304" width="191.2" height="132" rx="4" ry="4" fill="var(--_group-fill)" stroke="var(--_accent-stroke)" stroke-width="1" stroke-dasharray="6 3" />
   <text x="36" y="318" font-size="14" fill="var(--_text-muted)" font-style="italic">Infrastructure</text>
 </g>
 <path class="class-relationship" data-from="User" data-to="Order" data-type="association" data-marker-at="to" d="M123.6,128 L123.6,188" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />

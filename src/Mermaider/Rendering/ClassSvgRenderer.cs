@@ -356,7 +356,7 @@ internal static class ClassSvgRenderer
 		_ = sb.Append("  <rect x=\"").Append(ns.X).Append("\" y=\"").Append(ns.Y)
 			.Append("\" width=\"").Append(ns.Width).Append("\" height=\"").Append(ns.Height)
 			.Append("\" rx=\"4\" ry=\"4\"")
-			.Append(" fill=\"var(--_ns-fill,rgba(0,0,0,0.03))\" stroke=\"var(--_ns-stroke,var(--_accent-stroke))\" stroke-width=\"1\" stroke-dasharray=\"6 3\" />\n");
+			.Append(" fill=\"var(--_group-fill)\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1\" stroke-dasharray=\"6 3\" />\n");
 		_ = sb.Append("  <text x=\"").Append(ns.X + 8).Append("\" y=\"").Append(ns.Y + 14)
 			.Append("\" font-size=\"").Append(RenderConstants.FontSizes.EdgeLabel)
 			.Append("\" fill=\"var(--_text-muted)\" font-style=\"italic\">");

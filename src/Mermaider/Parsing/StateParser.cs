@@ -289,6 +289,31 @@ internal static partial class StateParser
 			}
 		}
 
+		// Redirect edges that reference composite state IDs to their entry/exit nodes,
+		// so the Sugiyama engine can order composites correctly (First above Second, etc.)
+		if (compositeStateIds.Count > 0)
+		{
+			var compositeMap = new Dictionary<string, MermaidSubgraph>();
+			foreach (var sg in subgraphs)
+				compositeMap[sg.Id] = sg;
+
+			for (var i = 0; i < edges.Count; i++)
+			{
+				var edge = edges[i];
+				var src = edge.Source;
+				var tgt = edge.Target;
+
+				if (compositeMap.TryGetValue(src, out var srcSg))
+					src = FindCompositeExitNode(srcSg, nodes) ?? src;
+
+				if (compositeMap.TryGetValue(tgt, out var tgtSg))
+					tgt = FindCompositeEntryNode(tgtSg, nodes) ?? tgt;
+
+				if (src != edge.Source || tgt != edge.Target)
+					edges[i] = new MermaidEdge(src, tgt, edge.Label, edge.Style, edge.HasArrowStart, edge.HasArrowEnd);
+			}
+		}
+
 		return new MermaidGraph
 		{
 			Direction = direction,
@@ -332,6 +357,26 @@ internal static partial class StateParser
 			if (!current.NodeIds.Contains(id))
 				current.NodeIds.Add(id);
 		}
+	}
+
+	private static string? FindCompositeEntryNode(MermaidSubgraph sg, Dictionary<string, MermaidNode> nodes)
+	{
+		foreach (var id in sg.NodeIds)
+		{
+			if (nodes.TryGetValue(id, out var n) && n.Shape == NodeShape.StateStart)
+				return id;
+		}
+		return sg.NodeIds.Count > 0 ? sg.NodeIds[0] : null;
+	}
+
+	private static string? FindCompositeExitNode(MermaidSubgraph sg, Dictionary<string, MermaidNode> nodes)
+	{
+		foreach (var id in sg.NodeIds)
+		{
+			if (nodes.TryGetValue(id, out var n) && n.Shape == NodeShape.StateEnd)
+				return id;
+		}
+		return sg.NodeIds.Count > 0 ? sg.NodeIds[^1] : null;
 	}
 
 	private static IReadOnlyDictionary<string, string> ParseStyleProps(string propsStr)
