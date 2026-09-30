@@ -491,8 +491,21 @@ public static class SugiyamaLayout
 				continue;
 
 			var srcBottom = buf.Y[srcIdx] + buf.NodeHeights[srcIdx];
-			if (subgraphTopY.TryGetValue(tgtSg, out var sgTop) && srcBottom > sgTop)
+			if (!subgraphTopY.TryGetValue(tgtSg, out var sgTop))
 				continue;
+			// Source is below subgraph top (already adjacent/inside) — no reroute needed.
+			if (srcBottom > sgTop)
+				continue;
+			// Target is the topmost node of the subgraph AND source is vertically aligned
+			// with it — the edge enters straight from the top and needs no side-routing.
+			// (Example: composite-state [*] → inner [*] where both share the same center X.)
+			if (Math.Abs(buf.Y[tgtIdx] - sgTop) < 1)
+			{
+				var srcCXLocal = buf.X[srcIdx] + (buf.NodeWidths[srcIdx] / 2.0);
+				var tgtCXLocal = buf.X[tgtIdx] + (buf.NodeWidths[tgtIdx] / 2.0);
+				if (Math.Abs(srcCXLocal - tgtCXLocal) <= 8.0)
+					continue;
+			}
 
 			if (!crossingEdgesBySource.TryGetValue(srcIdx, out var list))
 			{
