@@ -55,7 +55,7 @@ public static class SugiyamaLayout
 		CrossingMinimizer.Run(buf, options.CrossingIterations, options.CancellationToken);
 		CoordinateAssigner.Run(buf, options.NodeSpacing, options.LayerSpacing);
 		SpreadFanOutChildren(buf, options.NodeSpacing);
-		SpreadForkBranches(buf, options.NodeSpacing);
+		SpreadForkBranches(buf, options.NodeSpacing, BuildNodeSubgraphMap(buf, input.Subgraphs));
 
 		if (input.Subgraphs.Count > 0)
 		{
@@ -691,12 +691,40 @@ public static class SugiyamaLayout
 		}
 	}
 
+	private static Dictionary<int, string>? BuildNodeSubgraphMap(GraphBuffer buf, IReadOnlyList<LayoutSubgraph> subgraphs)
+	{
+		if (subgraphs.Count == 0)
+			return null;
+
+		var idToSg = new Dictionary<string, string>();
+		CollectSubgraphMembership(subgraphs, idToSg, parentId: null);
+
+		var result = new Dictionary<int, string>();
+		for (var i = 0; i < buf.RealNodeCount; i++)
+		{
+			if (idToSg.TryGetValue(buf.NodeIds[i], out var sg))
+				result[i] = sg;
+		}
+		return result;
+	}
+
+	private static void CollectSubgraphMembership(IReadOnlyList<LayoutSubgraph> subgraphs, Dictionary<string, string> result, string? parentId)
+	{
+		foreach (var sg in subgraphs)
+		{
+			var effectiveId = parentId ?? sg.Id;
+			foreach (var nodeId in sg.NodeIds)
+				_ = result.TryAdd(nodeId, effectiveId);
+			CollectSubgraphMembership(sg.Children, result, effectiveId);
+		}
+	}
+
 	// ========================================================================
 	// Fork branch spread — when S→A→B and S→B exist, push A to the side
 	// so the two paths are visually distinct (matching Mermaid.js fork layout)
 	// ========================================================================
 
-	private static void SpreadForkBranches(GraphBuffer buf, double nodeSpacing)
+	private static void SpreadForkBranches(GraphBuffer buf, double nodeSpacing, Dictionary<int, string>? nodeSubgraph = null)
 	{
 		var realOutgoing = BuildRealOutgoing(buf);
 
@@ -724,6 +752,16 @@ public static class SugiyamaLayout
 			else
 			{
 				continue;
+			}
+
+			// Don't spread when source and convergence are in different subgraphs — cross-subgraph
+			// fork patterns would misalign nodes that belong together within the source subgraph.
+			if (nodeSubgraph != null)
+			{
+				_ = nodeSubgraph.TryGetValue(source, out var srcSg);
+				_ = nodeSubgraph.TryGetValue(convergence, out var convSg);
+				if (srcSg != convSg)
+					continue;
 			}
 
 			// Don't spread when the intermediate node has a back-edge returning to the source
