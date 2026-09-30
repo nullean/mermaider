@@ -82,6 +82,7 @@ internal static class LightweightLayoutEngine
 			: layerSpacing;
 
 		var isStateDiagram = graph.Nodes.Values.Any(n => n.Shape is Models.NodeShape.StateStart or Models.NodeShape.StateEnd);
+
 		var layoutOptions = new LayoutOptions
 		{
 			Padding = padding,
@@ -398,6 +399,23 @@ internal static class LightweightLayoutEngine
 					{
 						points.RemoveRange(i + 1, points.Count - i - 1);
 						points.Add(hit.Value);
+						return true;
+					}
+				}
+			}
+
+			// Fallback: source is inside the box — clip at the exit point
+			for (var i = 0; i < points.Count - 1; i++)
+			{
+				var p0 = points[i];
+				var p1 = points[i + 1];
+				if (IsInsideBox(p0, bx, by, bw, bh) && !IsInsideBox(p1, bx, by, bw, bh))
+				{
+					var hit = IntersectSegmentRect(p0, p1, bx, by, bw, bh);
+					if (hit != null)
+					{
+						points.RemoveRange(0, i + 1);
+						points.Insert(0, hit.Value);
 						return true;
 					}
 				}

@@ -291,6 +291,7 @@ internal static partial class StateParser
 
 		// Redirect edges that reference composite state IDs to their entry/exit nodes,
 		// so the Sugiyama engine can order composites correctly (First above Second, etc.)
+		var redirections = new Dictionary<int, (string? SourceSg, string? TargetSg)>();
 		if (compositeStateIds.Count > 0)
 		{
 			var compositeMap = new Dictionary<string, MermaidSubgraph>();
@@ -303,14 +304,19 @@ internal static partial class StateParser
 				var src = edge.Source;
 				var tgt = edge.Target;
 
-				if (compositeMap.TryGetValue(src, out var srcSg))
-					src = FindCompositeExitNode(srcSg, nodes) ?? src;
+				if (compositeMap.TryGetValue(src, out _))
+					src = FindCompositeExitNode(compositeMap[src], nodes) ?? src;
 
-				if (compositeMap.TryGetValue(tgt, out var tgtSg))
-					tgt = FindCompositeEntryNode(tgtSg, nodes) ?? tgt;
+				if (compositeMap.TryGetValue(tgt, out _))
+					tgt = FindCompositeEntryNode(compositeMap[tgt], nodes) ?? tgt;
 
 				if (src != edge.Source || tgt != edge.Target)
+				{
+					redirections[i] = (
+						src != edge.Source ? edge.Source : null,
+						tgt != edge.Target ? edge.Target : null);
 					edges[i] = new MermaidEdge(src, tgt, edge.Label, edge.Style, edge.HasArrowStart, edge.HasArrowEnd);
+				}
 			}
 		}
 
@@ -324,6 +330,7 @@ internal static partial class StateParser
 			Notes = notes,
 			ClassDefs = classDefs,
 			ClassAssignments = classAssignments,
+			SubgraphEdgeRedirections = redirections,
 			NodeStyles = nodeStyles.ToDictionary(
 				kvp => kvp.Key,
 				kvp => (IReadOnlyDictionary<string, string>)kvp.Value),
