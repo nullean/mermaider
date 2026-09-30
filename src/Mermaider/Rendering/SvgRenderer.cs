@@ -232,16 +232,32 @@ internal static class SvgRenderer
 			var y2 = points[2].Y;
 			var x3 = points[3].X;
 			var y3 = points[3].Y;
-			var isZBend = Math.Abs(x0 - x1) < 1.0
+			var isVerticalZBend = Math.Abs(x0 - x1) < 1.0
 				&& Math.Abs(y1 - y2) < 1.0
 				&& Math.Abs(x2 - x3) < 1.0
 				&& Math.Abs(x0 - x2) > 1.0;
-			if (isZBend)
+			if (isVerticalZBend)
 			{
 				var ym = (y0 + y3) / 2.0;
 				_ = sb.Append('M').Append(x0).Append(',').Append(y0)
 					.Append(" C").Append(x0).Append(',').Append(ym)
 					.Append(' ').Append(x3).Append(',').Append(ym)
+					.Append(' ').Append(x3).Append(',').Append(y3);
+				return;
+			}
+			// Only apply to downward-going cross-column paths (y increases = forward edges
+			// in TD/subgraph) with distinct source and target X (degenerate when x0==x3).
+			var isHorizontalZBend = Math.Abs(y0 - y1) < 1.0
+				&& Math.Abs(x1 - x2) < 1.0
+				&& Math.Abs(y2 - y3) < 1.0
+				&& y2 > y0 + 1.0
+				&& Math.Abs(x0 - x3) > 1.0;
+			if (isHorizontalZBend)
+			{
+				var xm = (x0 + x3) / 2.0;
+				_ = sb.Append('M').Append(x0).Append(',').Append(y0)
+					.Append(" C").Append(xm).Append(',').Append(y0)
+					.Append(' ').Append(xm).Append(',').Append(y3)
 					.Append(' ').Append(x3).Append(',').Append(y3);
 				return;
 			}
