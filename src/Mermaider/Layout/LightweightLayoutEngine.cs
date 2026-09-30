@@ -88,6 +88,11 @@ internal static class LightweightLayoutEngine
 			? BuildInnerSubgraphNodeMap(graph.Subgraphs)
 			: null;
 
+		var isStateDiagram = graph.Nodes.Values.Any(n => n.Shape is Models.NodeShape.StateStart or Models.NodeShape.StateEnd);
+
+		// State diagrams use tighter layer spacing to match mermaid.js proportions (~53px center-to-center vs flowchart ~100px)
+		var baseLayerSpacing = isStateDiagram ? Math.Min(30, layerSpacing) : layerSpacing;
+
 		var maxLabelExtent = layoutEdges
 			.Select(
 				e =>
@@ -102,11 +107,11 @@ internal static class LightweightLayoutEngine
 			.Where(v => v > 0)
 			.DefaultIfEmpty(0)
 			.Max();
+		// For state diagrams, edge labels sit on the path and need less clearance than flowchart labels
+		var labelClearance = isStateDiagram ? 8 : 16;
 		var effectiveLayerSpacing = maxLabelExtent > 0
-			? Math.Max(layerSpacing, maxLabelExtent + 16)
-			: layerSpacing;
-
-		var isStateDiagram = graph.Nodes.Values.Any(n => n.Shape is Models.NodeShape.StateStart or Models.NodeShape.StateEnd);
+			? Math.Max(baseLayerSpacing, maxLabelExtent + labelClearance)
+			: baseLayerSpacing;
 
 		var layoutOptions = new LayoutOptions
 		{
