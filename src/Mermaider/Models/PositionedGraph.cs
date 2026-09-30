@@ -5,6 +5,8 @@ public sealed record PositionedGraph
 {
 	public required double Width { get; init; }
 	public required double Height { get; init; }
+	/// <summary>Leftmost X coordinate in the diagram (negative when left-side notes extend beyond x=0).</summary>
+	public double MinX { get; init; }
 	public required IReadOnlyList<PositionedNode> Nodes { get; init; }
 	public required IReadOnlyList<PositionedEdge> Edges { get; init; }
 	public required IReadOnlyList<PositionedGroup> Groups { get; init; }

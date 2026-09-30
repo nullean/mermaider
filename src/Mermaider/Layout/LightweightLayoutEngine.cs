@@ -493,6 +493,7 @@ internal static class LightweightLayoutEngine
 			nodeLookup[n.Id] = n;
 
 		var notes = new List<PositionedGraphNote>(graph.Notes.Count);
+		var minX = 0.0;
 		var maxX = positioned.Width;
 		var maxY = positioned.Height;
 
@@ -532,12 +533,14 @@ internal static class LightweightLayoutEngine
 				LineTo = lineTo,
 			});
 
+			minX = Math.Min(minX, noteX - NoteGap);
 			maxX = Math.Max(maxX, noteX + noteW + NoteGap);
 			maxY = Math.Max(maxY, noteY + noteH + NoteGap);
 		}
 
 		return positioned with
 		{
+			MinX = minX,
 			Width = maxX,
 			Height = maxY,
 			Notes = notes,

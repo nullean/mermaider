@@ -34,11 +34,14 @@ internal static class StyleBlock
 	internal static void AppendSvgOpenTag(
 		StringBuilder sb, double width, double height,
 		DiagramColors colors, bool transparent,
-		AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+		AccessibilityInfo? accessibility = null, DiagramType? diagramType = null,
+		double minX = 0)
 	{
-		_ = sb.Append("<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 ")
-			.Append(width).Append(' ').Append(height)
-			.Append("\" width=\"").Append(width)
+		var viewWidth = width - minX;
+		_ = sb.Append("<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"")
+			.Append(minX).Append(" 0 ")
+			.Append(viewWidth).Append(' ').Append(height)
+			.Append("\" width=\"").Append(viewWidth)
 			.Append("\" height=\"").Append(height).Append('"');
 
 		if (accessibility?.HasContent == true)
