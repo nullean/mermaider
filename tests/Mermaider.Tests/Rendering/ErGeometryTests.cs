@@ -53,6 +53,179 @@ public partial class ErGeometryTests
 		}
 	}
 
+	/// <summary>
+	/// Regression: BuildErPath collapsed every multi-waypoint path down to a 2-point S/J
+	/// bezier using only the first and last points, regardless of how many waypoints
+	/// Sugiyama actually routed through to dodge an intervening entity. A skip-layer edge
+	/// (CodexSite→CodexGroup, "groups") was routed with an 8-point detour hugging the far
+	/// left of the canvas specifically to avoid the unrelated Registry entity sitting
+	/// between them — the simplified curve discarded every one of those waypoints and drew
+	/// a straight-ish bezier directly through Registry's box instead. Long waypoint lists
+	/// (see MaxWaypointsForCurveSimplification) must now render the full route, so this
+	/// checks no point *or midpoint of a segment* on such a path lands inside an entity
+	/// other than the edge's own two endpoints.
+	/// </summary>
+	[Test]
+	public void Skip_layer_edge_does_not_pass_through_an_unrelated_entity()
+	{
+		const string diagram = """
+			erDiagram
+			  CodexSite ||--|| Registry : "environment = registry"
+			  CodexSite ||--o{ CodexGroup : "groups"
+			  CodexSite ||--o{ CodexDocumentationSet : "from LinkRegistry"
+			  CodexDocumentationSet ||--|| DocumentationSet : "docset"
+			  CodexDocumentationSet }o--o| CodexGroup : "codex.group"
+			  Registry ||--|| LinkRegistry : "git: elastic/codex-link-index/{registry}"
+			""";
+		var svg = MermaidRenderer.RenderSvg(diagram);
+		var entities = ParseEntityBoxes(svg);
+
+		foreach (Match m in EdgePattern().Matches(svg))
+		{
+			var entity1 = m.Groups[1].Value;
+			var entity2 = m.Groups[2].Value;
+			var d = m.Groups[4].Value;
+			var points = NumericPairPattern().Matches(d)
+				.Select(pm => new Pt(
+					double.Parse(pm.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture),
+					double.Parse(pm.Groups[2].Value, System.Globalization.CultureInfo.InvariantCulture)))
+				.ToList();
+			if (points.Count < 3)
+				continue; // simplified 2-point curves have no intermediate waypoints to check
+
+			foreach (var (entityId, box) in entities)
+			{
+				if (string.Equals(entityId, entity1, StringComparison.Ordinal)) continue;
+				if (string.Equals(entityId, entity2, StringComparison.Ordinal)) continue;
+				var shrunk = box.Shrink(2.0);
+
+				// Check every waypoint and every segment midpoint — a rectilinear route can
+				// clear a box at its corner waypoints while still cutting through it mid-segment.
+				for (var i = 0; i < points.Count; i++)
+				{
+					shrunk.Contains(points[i]).Should().BeFalse(
+						$"edge {entity1}->{entity2} waypoint ({points[i].X:F1},{points[i].Y:F1}) passes through unrelated entity '{entityId}' box {box}");
+					if (i == 0) continue;
+					var mid = new Pt((points[i - 1].X + points[i].X) / 2, (points[i - 1].Y + points[i].Y) / 2);
+					shrunk.Contains(mid).Should().BeFalse(
+						$"edge {entity1}->{entity2} segment midpoint ({mid.X:F1},{mid.Y:F1}) passes through unrelated entity '{entityId}' box {box}");
+				}
+			}
+		}
+	}
+
+	/// <summary>
+	/// Regression: BuildErPath's curve-shape heuristics key off whether the edge's start
+	/// and end X/Y differ. A self-loop's synthesized 4-point path starts and ends on the
+	/// same entity edge (same X), which used to false-match the "cross-row S-curve" branch
+	/// and collapse the loop into a zero-width straight line with the "manages"-style label
+	/// sitting directly on the entity boundary instead of out at the visible loop.
+	/// </summary>
+	[Test]
+	public void Self_loop_paths_have_a_visible_bulge()
+	{
+		const string diagram = """
+			erDiagram
+			  EMPLOYEE ||--o{ EMPLOYEE : "manages"
+			""";
+		var svg = MermaidRenderer.RenderSvg(diagram);
+		var edges = ParseEdges(svg);
+		var selfLoop = edges.Should().ContainSingle(e => e.Entity1 == e.Entity2).Subject;
+
+		// The path's own points (not just first/last) must include an X well away from the
+		// shared start/end X — otherwise the loop rendered as a degenerate straight line.
+		var edgePath = EdgePattern().Match(svg).Groups[4].Value;
+		var xs = NumericPairPattern().Matches(edgePath).Select(m => double.Parse(m.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture)).ToList();
+		var spread = xs.Max() - xs.Min();
+		spread.Should().BeGreaterThan(10.0,
+			$"self-loop path 'd={edgePath}' should bulge out visibly, not collapse to a near-vertical line (X spread was {spread:F1}px)");
+
+		// The label must sit out at the bulge, not back on the entity's edge (start.X).
+		var labels = ParseLabelPositions(svg);
+		var label = labels.Should().ContainSingle(l => l.Text == "manages").Subject;
+		Math.Abs(label.Position.X - selfLoop.Start.X).Should().BeGreaterThan(10.0,
+			$"self-loop label 'manages' at x={label.Position.X:F1} should be offset from the entity edge at x={selfLoop.Start.X:F1}, not sitting on top of it");
+	}
+
+	/// <summary>
+	/// Regression: PushOutOfEntityBoxes resolved overlap one entity at a time. When a
+	/// label's midpoint lands above a tightly-packed row of several entities, the cheapest
+	/// escape from entity A can land inside neighbouring entity B, whose cheapest escape
+	/// lands right back inside A — an infinite bounce, since the gaps between row entities
+	/// were narrower than the label. Escaping the *combined* bounding box of every
+	/// currently-overlapping entity in one move fixes this.
+	/// </summary>
+	[Test]
+	public void Label_escapes_a_packed_row_of_entities_in_one_move()
+	{
+		const string diagram = """
+			erDiagram
+			  ApiDeclaration ||--o{ ApiSpecVersion : "renders"
+			  OpenApiRepository ||--|| ApiVersionIndex : "index.json"
+			  ApiDeclaration }o--|| Product : "product"
+			  Repository ||--o{ OpenApiSpec : "publishes"
+			""";
+		var svg = MermaidRenderer.RenderSvg(diagram);
+		var entities = ParseEntityBoxes(svg);
+		var labels = ParseLabelPositions(svg);
+
+		foreach (var label in labels)
+		{
+			foreach (var (entityId, box) in entities)
+			{
+				var shrunk = box.Shrink(LabelInEntityTolerance);
+				shrunk.Contains(label.Position)
+					.Should().BeFalse(
+						$"label '{label.Text}' at ({label.Position.X:F1},{label.Position.Y:F1}) overlaps entity '{entityId}' box {box}");
+			}
+		}
+	}
+
+	/// <summary>
+	/// Regression: label-vs-label pairwise separation needs roughly N-1 full passes to
+	/// propagate end-to-end for a chain of N overlapping labels (fixing the outermost pair
+	/// can reintroduce a smaller overlap on the pair just inside it). 8 iterations converged
+	/// for 2-3 way conflicts but left a 4-way convergence (several edges landing on the same
+	/// entity from different sources, all at the same layer) visibly overlapping.
+	/// </summary>
+	[Test]
+	public void Many_labels_converging_on_one_entity_do_not_overlap()
+	{
+		const string diagram = """
+			erDiagram
+			  Repository ||--o{ OpenApiSpec : "publishes, per branch"
+			  OpenApiRepository ||--o{ OpenApiSpec : "org/repo/branch/spec"
+			  OpenApiRepository ||--|| ApiVersionIndex : "index.json"
+			  ApiDeclaration }o--|| OpenApiSpec : "repository + spec"
+			""";
+		var svg = MermaidRenderer.RenderSvg(diagram);
+		var labels = ParseLabelPositions(svg);
+
+		for (var i = 0; i < labels.Count; i++)
+		{
+			for (var j = i + 1; j < labels.Count; j++)
+			{
+				var a = labels[i];
+				var b = labels[j];
+				var (aw, ah) = MeasureLabel(a.Text);
+				var (bw, bh) = MeasureLabel(b.Text);
+				var overlaps = Math.Abs(a.Position.X - b.Position.X) < ((aw + bw) / 2)
+					&& Math.Abs(a.Position.Y - b.Position.Y) < ((ah + bh) / 2);
+				overlaps.Should().BeFalse(
+					$"label '{a.Text}' at ({a.Position.X:F1},{a.Position.Y:F1}) overlaps label '{b.Text}' at ({b.Position.X:F1},{b.Position.Y:F1})");
+			}
+		}
+	}
+
+	private static (double w, double h) MeasureLabel(string text)
+	{
+		var metrics = Mermaider.Text.TextMetrics.MeasureMultiline(
+			text.AsSpan(),
+			Mermaider.Rendering.RenderConstants.FontSizes.EdgeLabel,
+			Mermaider.Rendering.RenderConstants.FontWeights.EdgeLabel);
+		return (metrics.Width + 8, metrics.Height + 6);
+	}
+
 	[Test]
 	[MethodDataSource(nameof(PublicErSlugs))]
 	public void Edge_endpoints_connect_to_entity_boxes(string slug)
@@ -230,6 +403,36 @@ public partial class ErGeometryTests
 		var dx = a.X - b.X;
 		var dy = a.Y - b.Y;
 		return Math.Sqrt(dx * dx + dy * dy);
+	}
+
+	/// <summary>
+	/// Regression: AlignToConnections's median-pull can ping-pong two siblings that share a
+	/// child — the child is pulled toward one sibling, that sibling is pulled back toward
+	/// the child's shifted position, overshooting into the other sibling — leaving two
+	/// entity boxes in the same layer literally overlapping (e.g. DocumentationSetNavigation
+	/// and TocItem in a docs-builder navigation diagram). No two entity boxes in a rendered
+	/// diagram should ever intersect.
+	/// </summary>
+	[Test]
+	[MethodDataSource(nameof(PublicErSlugs))]
+	public void Entity_boxes_do_not_overlap(string slug)
+	{
+		var source = DiagramExamples.All.First(d => d.Slug == slug).Source;
+		var svg = MermaidRenderer.RenderSvg(source);
+		var entities = ParseEntityBoxes(svg).ToList();
+
+		for (var i = 0; i < entities.Count; i++)
+		{
+			for (var j = i + 1; j < entities.Count; j++)
+			{
+				var (idA, boxA) = entities[i];
+				var (idB, boxB) = entities[j];
+				var overlaps = (boxA.X < boxB.X + boxB.W) && (boxA.X + boxA.W > boxB.X)
+					&& (boxA.Y < boxB.Y + boxB.H) && (boxA.Y + boxA.H > boxB.Y);
+				overlaps.Should().BeFalse(
+					$"entity '{idA}' box {boxA} overlaps entity '{idB}' box {boxB} in '{slug}'");
+			}
+		}
 	}
 
 	[Test]

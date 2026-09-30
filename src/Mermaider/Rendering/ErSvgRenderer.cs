@@ -48,7 +48,7 @@ internal static class ErSvgRenderer
 		foreach (var rel in diagram.Relationships)
 			AppendCardinality(sb, rel);
 
-		var labelPositions = ResolveErLabelPositions(diagram.Relationships, diagram.Entities);
+		var labelPositions = ResolveErLabelPositions(diagram.Relationships, diagram.Entities, diagram.Width);
 		for (var i = 0; i < diagram.Relationships.Count; i++)
 			AppendRelationshipLabel(sb, diagram.Relationships[i], labelPositions[i]);
 
@@ -63,6 +63,27 @@ internal static class ErSvgRenderer
 	{
 		var p0 = points[0];
 		var pN = points[^1];
+
+		// Long waypoint lists mean BuildErPath renders the full route (see
+		// MaxWaypointsForCurveSimplification) rather than a simplified 2-point curve — the
+		// label needs to follow suit and sit on that actual route, not at the arithmetic
+		// center of just the first/last point (which can land back inside whatever
+		// intervening entity the route was bent around to avoid).
+		if (points.Count > MaxWaypointsForCurveSimplification)
+			return PathLengthMidpoint(points);
+
+		// Self-loop signature (see BuildSelfLoopPath): exit/entry share an X (the entity's
+		// edge) while the two middle waypoints bulge out to a shared, different X (the loop
+		// radius). The generic checks below key off p0/pN X/Y deltas and would otherwise
+		// treat this as a same-column S-curve, placing the label back on the entity's edge
+		// instead of out at the visible loop. Put it at the bulge's horizontal center instead.
+		if (points.Count == 4)
+		{
+			var c1 = points[1];
+			var c2 = points[2];
+			if (Math.Abs(p0.X - pN.X) < 0.5 && Math.Abs(c1.X - c2.X) < 0.5 && Math.Abs(c1.X - p0.X) > 4.0)
+				return new Point(c1.X, (p0.Y + pN.Y) / 2);
+		}
 
 		if (points.Count >= 3)
 		{
@@ -93,10 +114,37 @@ internal static class ErSvgRenderer
 		return new Point((p0.X + pN.X) / 2, (p0.Y + pN.Y) / 2);
 	}
 
+	// Picks the midpoint of the single LONGEST straight segment in a multi-bend avoidance
+	// route. A cumulative-path-length midpoint (the technique flowchart edges use — see
+	// SvgRenderer.EdgeMidpoint) sounds appealing but can land right next to a corner, in the
+	// narrow corridor a dogleg route uses to squeeze past an obstacle; there's no room for a
+	// label there, and PushOutOfEntityBoxes then has nowhere to push it but further out —
+	// observed shoving a label to a negative X, off the left edge of the canvas entirely.
+	// The longest segment is, by construction, the most open straight run in the route, so a
+	// label centered on it has the best chance of landing somewhere with real clearance.
+	private static Point PathLengthMidpoint(IReadOnlyList<Point> points)
+	{
+		var bestLenSq = -1.0;
+		var best = points[^1];
+		for (var i = 1; i < points.Count; i++)
+		{
+			var dx = points[i].X - points[i - 1].X;
+			var dy = points[i].Y - points[i - 1].Y;
+			var lenSq = (dx * dx) + (dy * dy);
+			if (lenSq <= bestLenSq)
+				continue;
+
+			bestLenSq = lenSq;
+			best = new Point((points[i - 1].X + points[i].X) / 2, (points[i - 1].Y + points[i].Y) / 2);
+		}
+
+		return best;
+	}
+
 	// Computes final label positions from bezier midpoints and resolves any remaining overlaps —
 	// both against other labels and against entity boxes a long/skip-layer edge happens to pass near.
 	private static Point?[] ResolveErLabelPositions(
-		IReadOnlyList<PositionedErRelationship> rels, IReadOnlyList<PositionedErEntity> entities)
+		IReadOnlyList<PositionedErRelationship> rels, IReadOnlyList<PositionedErEntity> entities, double canvasWidth)
 	{
 		var positions = new Point?[rels.Count];
 		var sizes = new (double w, double h)[rels.Count];
@@ -115,8 +163,16 @@ internal static class ErSvgRenderer
 			sizes[i] = (metrics.Width + 8, metrics.Height + 6);
 		}
 
-		const int maxIterations = 8;
+		// A chain of N labels overlapping the same corridor (common when several edges
+		// converge on the same entity from different sources) needs roughly N-1 full
+		// passes for the pairwise push to propagate end-to-end: fixing the outermost pair
+		// can reintroduce a smaller overlap on the pair just inside it, which then needs
+		// its own pass to resolve. 8 was enough for 2-3 way conflicts but left dense
+		// diagrams (docs-builder-style, 4+ edges converging on one entity) with visibly
+		// overlapping labels after the loop was cut off mid-convergence.
+		const int maxIterations = 40;
 		const double labelPad = 4.0;
+		const double edgeMargin = 4.0;
 		for (var iter = 0; iter < maxIterations; iter++)
 		{
 			var moved = false;
@@ -129,6 +185,26 @@ internal static class ErSvgRenderer
 				// only push a label away from entities it does *not* belong to.
 				var rel = rels[i];
 				var pushed = PushOutOfEntityBoxes(positions[i]!.Value, w, h, entities, rel.Entity1, rel.Entity2);
+
+				// Keep long-avoidance-route labels inside the canvas, as part of the same
+				// fixed-point loop as entity-avoidance and pairwise separation below (not a
+				// standalone pass afterward — clamping only at the very end can undo the
+				// pairwise push's separation). Scoped to PathLengthMidpoint's longest-segment
+				// pick (rel.Points.Count > MaxWaypointsForCurveSimplification): that heuristic
+				// can land in a narrow corridor near the canvas edge with nowhere to push but
+				// off-canvas. Short/simple edges and self-loops keep their original
+				// unclamped placement — their natural midpoint can legitimately sit a few
+				// pixels past the nominal canvas width (e.g. a self-loop bulge control point),
+				// which was already working fine and isn't the bug this clamp targets.
+				if (rel.Points.Count > MaxWaypointsForCurveSimplification)
+				{
+					var halfW = w / 2;
+					var minX = halfW + edgeMargin;
+					var maxX = canvasWidth - halfW - edgeMargin;
+					if (maxX >= minX)
+						pushed = pushed with { X = Math.Clamp(pushed.X, minX, maxX) };
+				}
+
 				if (pushed != positions[i]!.Value)
 				{
 					positions[i] = pushed;
@@ -191,23 +267,55 @@ internal static class ErSvgRenderer
 	{
 		const double margin = 6.0;
 		var isSelfLoop = string.Equals(entity1, entity2, StringComparison.Ordinal);
-		foreach (var e in entities)
+
+		// Resolve against the UNION of every entity currently overlapping the label, not
+		// one entity at a time. A per-entity minimal push can bounce a label back and
+		// forth forever when it sits above a tightly-packed row of several entities: the
+		// cheapest escape from entity A lands inside neighbouring entity B, whose cheapest
+		// escape lands right back inside A (this happened for a skip-layer edge's label
+		// landing on a row with three adjacent entities — the gaps between them were
+		// narrower than the label, so no single-entity horizontal push could ever clear
+		// the whole row). Computing one push against the combined bounding box of every
+		// overlapping entity always escapes the entire obstacle in a single move.
+		for (var guard = 0; guard < 8; guard++)
 		{
-			if (isSelfLoop && string.Equals(e.Id, entity1, StringComparison.Ordinal))
-				continue;
-
-			var left = e.X - margin;
-			var right = e.X + e.Width + margin;
-			var top = e.Y - margin;
-			var bottom = e.Y + e.Height + margin;
-
 			var lx = pos.X - (w / 2);
 			var rx = pos.X + (w / 2);
 			var ty = pos.Y - (h / 2);
 			var by = pos.Y + (h / 2);
 
-			if (rx <= left || lx >= right || by <= top || ty >= bottom)
-				continue; // no overlap with this entity
+			var left = double.MaxValue;
+			var right = double.MinValue;
+			var top = double.MaxValue;
+			var bottom = double.MinValue;
+			var anyOverlap = false;
+
+			foreach (var e in entities)
+			{
+				if (isSelfLoop && string.Equals(e.Id, entity1, StringComparison.Ordinal))
+					continue;
+
+				var eLeft = e.X - margin;
+				var eRight = e.X + e.Width + margin;
+				var eTop = e.Y - margin;
+				var eBottom = e.Y + e.Height + margin;
+
+				if (rx <= eLeft || lx >= eRight || by <= eTop || ty >= eBottom)
+					continue; // no overlap with this entity
+
+				anyOverlap = true;
+				if (eLeft < left)
+					left = eLeft;
+				if (eRight > right)
+					right = eRight;
+				if (eTop < top)
+					top = eTop;
+				if (eBottom > bottom)
+					bottom = eBottom;
+			}
+
+			if (!anyOverlap)
+				break;
 
 			var pushLeft = rx - left;
 			var pushRight = right - lx;
@@ -420,21 +528,34 @@ internal static class ErSvgRenderer
 			_ = sb.Append('"');
 		}
 		_ = sb.Append(" d=\"");
-		BuildErPath(sb, rel.Points);
+		if (string.Equals(rel.Entity1, rel.Entity2, StringComparison.Ordinal) && rel.Points.Count == 4)
+			BuildSelfLoopPath(sb, rel.Points);
+		else
+			BuildErPath(sb, rel.Points);
 		_ = sb.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.Connector).Append('"').Append(dashArray).Append(" />");
 	}
 
 	// ER-specific path builder: converts cross-column paths to smooth S-curves (or J-curves for
-	// side-exit connections) regardless of intermediate waypoint complexity. This ensures all
-	// ER edges from the same entity use a consistent curvy style rather than a mix of S-curves
-	// and rectilinear staircases.
+	// side-exit connections). This ensures typical ER edges (a direct hop to an adjacent or
+	// nearby layer) use a consistent curvy style rather than a mix of S-curves and
+	// rectilinear staircases.
+	//
+	// Edges the Sugiyama router had to bend AROUND an intervening entity (e.g. a source
+	// exiting sideways, running past a neighbour's column, then re-entering toward a target
+	// several layers down) carry many more waypoints than a direct hop — the extra bends are
+	// the whole point of the route. Collapsing those down to a 2-point S-curve between just
+	// the first and last waypoint discards that avoidance entirely and draws a straight line
+	// through whatever the route was bent around to avoid. Past this waypoint count, only
+	// the full waypoint-respecting rounded path (used as the fallback below anyway) is safe.
+	private const int MaxWaypointsForCurveSimplification = 5;
+
 	private static void BuildErPath(StringBuilder sb, IReadOnlyList<Point> points)
 	{
 		if (points.Count < 2)
 			return;
 
-		if (points.Count >= 3)
+		if (points.Count is >= 3 and <= MaxWaypointsForCurveSimplification)
 		{
 			var p0 = points[0];
 			var p1 = points[1];
@@ -492,6 +613,26 @@ internal static class ErSvgRenderer
 		}
 
 		SvgRenderer.BuildRoundedPath(sb, points, CornerRadius);
+	}
+
+	// Self-loop paths carry 4 waypoints from LightweightErLayoutEngine's loop synthesis:
+	// [exit, bulge-out-near-exit, bulge-out-near-entry, entry], where exit.X == entry.X
+	// (both on the entity's edge) and the two middle points sit further out at the loop
+	// radius. BuildErPath's generic heuristics all key off "does X or Y change between the
+	// endpoints and their neighbour" — since exit.X == entry.X here, the S-curve branch
+	// matches and draws a straight vertical line with no bulge at all, silently discarding
+	// the loop shape. Drawing the two middle waypoints directly as the cubic's control
+	// points reproduces the intended loop unconditionally.
+	private static void BuildSelfLoopPath(StringBuilder sb, IReadOnlyList<Point> points)
+	{
+		var p0 = points[0];
+		var c1 = points[1];
+		var c2 = points[2];
+		var p3 = points[3];
+		_ = sb.Append('M').Append(p0.X).Append(',').Append(p0.Y)
+			.Append(" C").Append(c1.X).Append(',').Append(c1.Y)
+			.Append(' ').Append(c2.X).Append(',').Append(c2.Y)
+			.Append(' ').Append(p3.X).Append(',').Append(p3.Y);
 	}
 
 	private static void AppendRelationshipLabel(StringBuilder sb, PositionedErRelationship rel, Point? resolvedPosition)

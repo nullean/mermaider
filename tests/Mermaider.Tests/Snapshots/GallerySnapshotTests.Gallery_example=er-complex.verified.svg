@@ -32,7 +32,7 @@
 </defs>
 
 <path class="er-relationship" data-entity1="USER" data-entity2="POST" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="writes" d="M122.39999999999999,136 L122.39999999999999,216" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="USER" data-entity2="COMMENT" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="writes" d="M256.8,136 C256.8,287 39.98,287 39.98,438" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="USER" data-entity2="COMMENT" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="writes" d="M256.8,136 L256.8,170 Q256.8,176 250.8,176 L92.6,176 Q86.6,176 86.6,182 L86.6,321 Q86.6,327 80.6,327 L45.98,327 Q39.98,327 39.98,333 L39.98,438" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="POST" data-entity2="COMMENT" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="has" d="M189.6,358 C189.6,398 133.22,398 133.22,438" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="POST" data-entity2="TAG" data-cardinality1="zeromany" data-cardinality2="zeromany" data-identifying="true" data-label="tagged" d="M264.6,287 C292.6,287 292.6,362.5 292.6,438" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="entity" data-id="USER" data-label="USER">
@@ -124,10 +124,10 @@
 <line x1="292.6" y1="434" x2="292.6" y2="422" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="299.6" y1="434" x2="292.6" y2="422" stroke="var(--_line)" stroke-width="2.5" />
 <circle cx="292.6" cy="418" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<rect x="99.20599999999999" y="163.9" width="46.388000000000005" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="122.39999999999999" y="176" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">writes</text>
-<rect x="62.21199999999999" y="274.9" width="46.388000000000005" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="85.40599999999999" y="287" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">writes</text>
+<rect x="95.66199999999998" y="163.9" width="46.388000000000005" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="118.85599999999998" y="176" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">writes</text>
+<rect x="152.05" y="163.9" width="46.388000000000005" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="175.244" y="176" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">writes</text>
 <rect x="145.01999999999998" y="385.9" width="32.78" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="161.41" y="398" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">has</text>
 <rect x="270.6" y="350.4" width="50.92400000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />

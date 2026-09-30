@@ -20,6 +20,20 @@ internal static class CoordinateAssigner
 		PlaceBySubtreeWidth(graph, nodeSpacing, interLayerCompact);
 		CompactOrphanedNodes(graph, nodeSpacing);
 		AlignToConnections(graph, nodeSpacing);
+		// AlignToConnections pulls each node toward the median of its neighbours in an
+		// adjacent layer. For a node with real children shared with a sibling (e.g. two
+		// parents both pointing at the same grandchild), this can ping-pong: the sibling
+		// is pulled toward the shared child, the shared child is pulled toward the
+		// sibling, and the original node is then pulled toward the shared child's new
+		// (shifted) position — overshooting back into the sibling it started next to.
+		// A final ordinal-order overlap sweep guarantees no two entities in the same
+		// layer ever end up occupying the same horizontal space, regardless of how many
+		// median-pull passes ran. ER-only (interLayerCompact): flowchart/class/state
+		// layouts don't exhibit this ping-pong (their multi-parent shapes are rarer and
+		// the existing spacing passes already keep them apart) and a blanket safety net
+		// there risks masking real spacing decisions with a forced push.
+		if (interLayerCompact)
+			EnforceMinimumSpacingAfterAlign(graph, nodeSpacing);
 		CompactOrphanedNodes(graph, nodeSpacing);
 		NormalizeX(graph);
 	}
@@ -271,6 +285,44 @@ internal static class CoordinateAssigner
 				var minX = graph.X[prev] + prevW + nodeSpacing;
 				if (graph.X[curr] < minX)
 					graph.X[curr] = minX;
+			}
+		}
+	}
+
+	/// <summary>
+	/// ER-only (interLayerCompact) overlap guard for after AlignToConnections. Walks nodes
+	/// left-to-right (crossing-minimizer order) per layer and pushes each node right so it
+	/// never starts before the previous node's right edge + nodeSpacing.
+	///
+	/// AlignToConnections's median-pull can ping-pong two siblings that share a child:
+	/// the child is pulled toward one sibling, that sibling is then pulled back toward the
+	/// child's shifted position, overshooting into the other sibling. Unlike step 4 above
+	/// (which never needs to run more than once, right after initial placement), a fixed
+	/// overlap here is applied as a rigid shift carried forward to every later sibling in
+	/// the layer rather than resetting each one down to the bare minimum gap — resetting
+	/// would collapse every gap from the fix point onward to exactly nodeSpacing, destroying
+	/// wider gaps median-pull deliberately created earlier in the same layer.
+	/// </summary>
+	private static void EnforceMinimumSpacingAfterAlign(GraphBuffer graph, double nodeSpacing)
+	{
+		for (var layer = 0; layer < graph.LayerCount; layer++)
+		{
+			var nodes = graph.LayerNodes[layer];
+			var shift = 0.0;
+			for (var pos = 1; pos < nodes.Length; pos++)
+			{
+				var prev = nodes[pos - 1];
+				var curr = nodes[pos];
+				if (shift > 0)
+					graph.X[curr] += shift;
+
+				var prevW = prev < graph.RealNodeCount ? graph.NodeWidths[prev] : 0;
+				var minX = graph.X[prev] + prevW + nodeSpacing;
+				if (graph.X[curr] < minX)
+				{
+					shift += minX - graph.X[curr];
+					graph.X[curr] = minX;
+				}
 			}
 		}
 	}
