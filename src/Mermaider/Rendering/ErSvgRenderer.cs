@@ -56,8 +56,44 @@ internal static class ErSvgRenderer
 		return sb;
 	}
 
-	// Computes final label positions by starting from Sugiyama positions (or arc midpoints) and
-	// pushing overlapping labels apart horizontally so they don't obscure each other.
+	// Computes the visual midpoint of the rendered bezier curve, matching BuildErPath's detection
+	// logic. This distributes labels naturally across the height/width of each edge rather than
+	// clustering them near the target node (as Sugiyama's LabelPosition does).
+	private static Point ComputeRenderedMidpoint(IReadOnlyList<Point> points)
+	{
+		var p0 = points[0];
+		var pN = points[^1];
+
+		if (points.Count >= 3)
+		{
+			var p1 = points[1];
+			var pN1 = points[^2];
+			var dx0 = Math.Abs(p1.X - p0.X);
+			var dy0 = Math.Abs(p1.Y - p0.Y);
+			var dxN = Math.Abs(pN.X - pN1.X);
+			var dyN = Math.Abs(pN.Y - pN1.Y);
+
+			// S-curve TD/BT: midpoint at arithmetic center
+			if (dx0 < 4.0 && dxN < 4.0 && Math.Abs(p0.X - pN.X) > 4.0)
+				return new Point((p0.X + pN.X) / 2, (p0.Y + pN.Y) / 2);
+
+			// J-curve (horizontal exit, vertical entry): label on vertical segment
+			if (dy0 < 4.0 && dxN < 4.0 && dx0 > 4.0)
+				return new Point(pN.X, (p0.Y + pN.Y) / 2);
+
+			// J-curve rotated (vertical exit, horizontal entry): label on horizontal segment
+			if (dx0 < 4.0 && dyN < 4.0 && dy0 > 4.0)
+				return new Point((p0.X + pN.X) / 2, pN.Y);
+
+			// S-curve LR/RL: midpoint at arithmetic center
+			if (dy0 < 4.0 && dyN < 4.0 && Math.Abs(p0.Y - pN.Y) > 4.0)
+				return new Point((p0.X + pN.X) / 2, (p0.Y + pN.Y) / 2);
+		}
+
+		return new Point((p0.X + pN.X) / 2, (p0.Y + pN.Y) / 2);
+	}
+
+	// Computes final label positions from bezier midpoints and resolves any remaining overlaps.
 	private static Point?[] ResolveErLabelPositions(IReadOnlyList<PositionedErRelationship> rels)
 	{
 		var positions = new Point?[rels.Count];
@@ -68,7 +104,7 @@ internal static class ErSvgRenderer
 			var rel = rels[i];
 			if (rel.Label.Length == 0 || rel.Points.Count < 2)
 				continue;
-			var pos = rel.LabelPosition ?? ArcMidpoint(rel.Points);
+			var pos = ComputeRenderedMidpoint(rel.Points);
 			var metrics = TextMetrics.MeasureMultiline(
 				rel.Label.AsSpan(),
 				RenderConstants.FontSizes.EdgeLabel,
@@ -403,7 +439,7 @@ internal static class ErSvgRenderer
 		if (rel.Label.Length == 0 || rel.Points.Count < 2)
 			return;
 
-		var mid = resolvedPosition ?? rel.LabelPosition ?? ArcMidpoint(rel.Points);
+		var mid = resolvedPosition ?? ComputeRenderedMidpoint(rel.Points);
 		var metrics = TextMetrics.MeasureMultiline(
 			rel.Label.AsSpan(),
 			RenderConstants.FontSizes.EdgeLabel,
