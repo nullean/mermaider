@@ -38,8 +38,8 @@
 </defs>
 
 <path class="edge" data-from="_start" data-to="isPositive" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M176.136,124.19999999999999 L176.136,164.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="isPositive" data-to="Positive" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="if n &gt; 0" d="M176.136,222.6 L176.136,266.7 Q176.136,272.7 170.136,272.7 L104.384,272.7 Q98.384,272.7 98.384,278.7 L98.384,322.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="isPositive" data-to="Negative" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="if n &lt; 0" d="M176.136,222.6 L176.136,266.7 Q176.136,272.7 182.136,272.7 L247.888,272.7 Q253.888,272.7 253.888,278.7 L253.888,322.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="isPositive" data-to="Positive" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="if n &gt; 0" d="M176.136,222.6 C176.136,272.7 98.384,272.7 98.384,322.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="isPositive" data-to="Negative" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="if n &lt; 0" d="M176.136,222.6 C176.136,272.7 253.888,272.7 253.888,322.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="isPositive" data-to="Positive" data-label="if n &gt; 0">
   <rect x="73.568" y="282.65" width="49.632" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="98.384" y="297.75" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">if n &gt; 0</text>

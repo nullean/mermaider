@@ -219,6 +219,34 @@ internal static class SvgRenderer
 		if (points.Count < 2)
 			return;
 
+		// 4-point Z/S-bend cross-column edge: render as a smooth cubic bezier so that
+		// crossing edges (e.g. E→H and F→G) appear as curves that cross cleanly in the
+		// middle, matching mermaid.js visual style instead of two parallel horizontal bars.
+		if (points.Count == 4)
+		{
+			var x0 = points[0].X;
+			var y0 = points[0].Y;
+			var x1 = points[1].X;
+			var y1 = points[1].Y;
+			var x2 = points[2].X;
+			var y2 = points[2].Y;
+			var x3 = points[3].X;
+			var y3 = points[3].Y;
+			var isZBend = Math.Abs(x0 - x1) < 1.0
+				&& Math.Abs(y1 - y2) < 1.0
+				&& Math.Abs(x2 - x3) < 1.0
+				&& Math.Abs(x0 - x2) > 1.0;
+			if (isZBend)
+			{
+				var ym = (y0 + y3) / 2.0;
+				_ = sb.Append('M').Append(x0).Append(',').Append(y0)
+					.Append(" C").Append(x0).Append(',').Append(ym)
+					.Append(' ').Append(x3).Append(',').Append(ym)
+					.Append(' ').Append(x3).Append(',').Append(y3);
+				return;
+			}
+		}
+
 		_ = sb.Append('M').Append(points[0].X).Append(',').Append(points[0].Y);
 
 		if (points.Count == 2)
