@@ -806,6 +806,10 @@ public static class SugiyamaLayout
 		{
 			if (e.From >= buf.RealNodeCount)
 				continue;
+			// Reversed back-edges are cycle-breaking artefacts; they must not be
+			// treated as real forward connections for fork/fan-out detection.
+			if (e.Reversed)
+				continue;
 
 			var finalTarget = e.To;
 			if (finalTarget >= buf.RealNodeCount)
