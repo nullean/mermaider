@@ -44,12 +44,12 @@
 <path class="edge" data-from="Closed" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M133.47199999999998,523 L133.47199999999998,563" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Active" data-to="Closed" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="close" d="M133.47199999999998,217 L133.47199999999998,261.1 Q133.47199999999998,267.1 127.47199999999998,267.1 L46,267.1 Q40,267.1 40,273.1 L40,387.7 Q40,393.7 46,393.7 L127.47200000000001,393.7 Q133.472,393.7 133.472,399.7 L133.472,470.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="Active" data-to="Inactive" data-label="disable">
-  <rect x="104.49799999999998" y="252.00000000000003" width="57.948000000000015" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="133.47199999999998" y="267.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">disable</text>
+  <rect x="114.49799999999998" y="252.00000000000003" width="57.948000000000015" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="143.47199999999998" y="267.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">disable</text>
 </g>
 <g class="edge-label" data-from="Inactive" data-to="Active" data-label="reactivate">
-  <rect x="96.18199999999997" y="280.19999999999993" width="74.58000000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="133.47199999999998" y="295.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">reactivate</text>
+  <rect x="86.18199999999999" y="280.19999999999993" width="74.58000000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="123.472" y="295.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">reactivate</text>
 </g>
 <g class="edge-label" data-from="Inactive" data-to="Closed" data-label="close">
   <rect x="109.79" y="405" width="47.36400000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />

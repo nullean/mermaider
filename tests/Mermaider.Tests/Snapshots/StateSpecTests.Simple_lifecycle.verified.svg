@@ -44,16 +44,16 @@
 <path class="edge" data-from="Published" data-to="Archived" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="archive" d="M105.68,523 L105.68,623.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Archived" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M105.68,676 L105.68,716" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="Draft" data-to="Review" data-label="submit">
-  <rect x="79.73" y="252.00000000000003" width="51.90000000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="105.68" y="267.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">submit</text>
+  <rect x="89.73" y="252.00000000000003" width="51.90000000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="115.68" y="267.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">submit</text>
 </g>
 <g class="edge-label" data-from="Review" data-to="Published" data-label="approve">
   <rect x="72.926" y="405" width="65.50800000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="105.68" y="420.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">approve</text>
 </g>
 <g class="edge-label" data-from="Review" data-to="Draft" data-label="reject">
-  <rect x="81.242" y="280.19999999999993" width="48.876000000000005" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="105.68" y="295.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">reject</text>
+  <rect x="71.242" y="280.19999999999993" width="48.876000000000005" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="95.68" y="295.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">reject</text>
 </g>
 <g class="edge-label" data-from="Published" data-to="Archived" data-label="archive">
   <rect x="75.194" y="558" width="60.972" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />

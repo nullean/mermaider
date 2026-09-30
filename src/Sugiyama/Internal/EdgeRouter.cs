@@ -236,10 +236,14 @@ internal static class EdgeRouter
 				var downPts = edges[downIdx].Points;
 				downPts[0] = new LayoutPoint(downPts[0].X + parallelOffset, downPts[0].Y);
 				downPts[1] = new LayoutPoint(downPts[1].X + parallelOffset, downPts[1].Y);
+				if (edges[downIdx].LabelPosition is { } dlp)
+					edges[downIdx].SetLabelPosition(new LayoutPoint(dlp.X + parallelOffset, dlp.Y));
 
 				var upPts = edges[upIdx].Points;
 				upPts[0] = new LayoutPoint(upPts[0].X - parallelOffset, upPts[0].Y);
 				upPts[1] = new LayoutPoint(upPts[1].X - parallelOffset, upPts[1].Y);
+				if (edges[upIdx].LabelPosition is { } ulp)
+					edges[upIdx].SetLabelPosition(new LayoutPoint(ulp.X - parallelOffset, ulp.Y));
 
 				_ = paired.Add(downIdx);
 				_ = paired.Add(upIdx);

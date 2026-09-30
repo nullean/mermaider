@@ -46,12 +46,12 @@
 <text x="112.064" y="267.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">initialized</text>
 </g>
 <g class="edge-label" data-from="Ready" data-to="Processing" data-label="request">
-  <rect x="81.57799999999999" y="405" width="60.972" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="112.064" y="420.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">request</text>
+  <rect x="91.57799999999999" y="405" width="60.972" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="122.064" y="420.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">request</text>
 </g>
 <g class="edge-label" data-from="Processing" data-to="Ready" data-label="done">
-  <rect x="89.89399999999999" y="433.20000000000005" width="44.34" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="112.064" y="448.30000000000007" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">done</text>
+  <rect x="79.89399999999999" y="433.20000000000005" width="44.34" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="102.064" y="448.30000000000007" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">done</text>
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
   <circle cx="112.064" cy="112.19999999999999" r="10" fill="var(--_text)" stroke="none" />
