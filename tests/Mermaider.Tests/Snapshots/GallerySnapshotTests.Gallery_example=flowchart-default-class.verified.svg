@@ -1,0 +1,77 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 453.896 886.288" width="453.896" height="886.288" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+  <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
+    <polygon points="12 0, 0 6, 12 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+
+<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M221.704,92.8 L221.704,193" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M221.704,245.8 L221.704,346" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="C" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M221.704,398.8 L221.704,499" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="D" data-to="E" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" d="M124.56,596.144 L102.56,596.144 Q96.56,596.144 96.56,602.144 L96.56,694.816 L96.56,694.816 L96.56,793.488" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="D" data-to="F" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="No" d="M318.848,596.144 L340.84800000000007,596.144 Q346.84800000000007,596.144 346.84800000000007,602.144 L346.84800000000007,694.816 L346.84800000000007,694.816 L346.84800000000007,793.488" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<g class="edge-label" data-from="D" data-to="E" data-label="Yes">
+  <rect x="77.414" y="700.188" width="38.292" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="96.56" y="715.288" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Yes</text>
+</g>
+<g class="edge-label" data-from="D" data-to="F" data-label="No">
+  <rect x="331.4820000000001" y="700.188" width="30.732000000000006" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="346.84800000000007" y="715.288" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">No</text>
+</g>
+<g class="node" data-id="A" data-label="All nodes" data-shape="rectangle">
+  <rect x="159.216" y="40" width="124.976" height="52.8" rx="6" ry="6" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" />
+  <text x="221.704" y="66.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="#1b5e20" dy="5.6">All nodes</text>
+</g>
+<g class="node" data-id="B" data-label="Get the" data-shape="rectangle">
+  <rect x="168.336" y="193" width="106.73599999999999" height="52.8" rx="6" ry="6" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" />
+  <text x="221.704" y="219.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="#1b5e20" dy="5.6">Get the</text>
+</g>
+<g class="node" data-id="C" data-label="Default style" data-shape="rectangle">
+  <rect x="149.184" y="346" width="145.04000000000002" height="52.8" rx="6" ry="6" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" />
+  <text x="221.704" y="372.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="#1b5e20" dy="5.6">Default style</text>
+</g>
+<g class="node" data-id="D" data-label="Unless overridden" data-shape="diamond">
+  <polygon points="221.704,499 318.848,596.144 221.704,693.288 124.56,596.144" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" />
+  <text x="221.704" y="596.144" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="#1b5e20" dy="5.6">Unless overridden</text>
+</g>
+<g class="node" data-id="E" data-label="Special" data-shape="rectangle">
+  <rect x="40" y="793.488" width="113.12" height="52.8" rx="6" ry="6" fill="#fff3e0" stroke="#e65100" stroke-width="2" />
+  <text x="96.56" y="819.888" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="#bf360c" dy="5.6">Special</text>
+</g>
+<g class="node" data-id="F" data-label="Still default" data-shape="rectangle">
+  <rect x="279.8" y="793.488" width="134.096" height="52.8" rx="6" ry="6" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" />
+  <text x="346.848" y="819.888" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="#1b5e20" dy="5.6">Still default</text>
+</g>
+</svg>

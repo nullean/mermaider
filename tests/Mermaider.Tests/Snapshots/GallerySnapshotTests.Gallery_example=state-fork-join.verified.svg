@@ -1,0 +1,87 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 474.9440000000001 654.4" width="474.9440000000001" height="654.4" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+  <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
+    <polygon points="12 0, 0 6, 12 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+
+<path class="edge" data-from="_start" data-to="Ready" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M237.472,80 L237.472,120" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Ready" data-to="fork_point" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M237.472,172.8 L237.472,228.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="fork_point" data-to="TaskA" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M237.472,236.8 C237.472,264.8 93.824,264.8 93.824,292.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="fork_point" data-to="TaskB" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M237.47199999999998,236.8 L237.47199999999998,292.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="fork_point" data-to="TaskC" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M237.472,236.8 C237.472,264.8 381.12000000000006,264.8 381.12000000000006,292.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="TaskA" data-to="join_point" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M93.824,345.6 C93.824,373.6 237.472,373.6 237.472,401.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="TaskB" data-to="join_point" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M237.472,345.6 L237.472,401.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="TaskC" data-to="join_point" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M381.12000000000006,345.6 C381.12000000000006,373.6 237.472,373.6 237.472,401.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="join_point" data-to="Complete" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M237.472,409.6 L237.472,465.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Complete" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M237.472,518.4000000000001 L237.472,558.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<g class="node" data-id="_start" data-label="" data-shape="statestart">
+  <circle cx="237.472" cy="68" r="10" fill="var(--_text)" stroke="none" />
+  
+</g>
+<g class="node" data-id="Ready" data-label="Ready" data-shape="rounded">
+  <rect x="184.56" y="120" width="105.824" height="52.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="237.472" y="146.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Ready</text>
+</g>
+<g class="node" data-id="fork_point" data-label="" data-shape="forkjoin">
+  <rect x="177.472" y="228.8" width="120" height="8" rx="2" ry="2" fill="var(--_text)" stroke="none" />
+  
+</g>
+<g class="node" data-id="join_point" data-label="" data-shape="forkjoin">
+  <rect x="177.472" y="401.6" width="120" height="8" rx="2" ry="2" fill="var(--_text)" stroke="none" />
+  
+</g>
+<g class="node" data-id="TaskA" data-label="TaskA" data-shape="rounded">
+  <rect x="40" y="292.8" width="107.648" height="52.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="93.824" y="319.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">TaskA</text>
+</g>
+<g class="node" data-id="TaskB" data-label="TaskB" data-shape="rounded">
+  <rect x="183.648" y="292.8" width="107.648" height="52.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="237.47199999999998" y="319.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">TaskB</text>
+</g>
+<g class="node" data-id="TaskC" data-label="TaskC" data-shape="rounded">
+  <rect x="327.29600000000005" y="292.8" width="107.648" height="52.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="381.12000000000006" y="319.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">TaskC</text>
+</g>
+<g class="node" data-id="Complete" data-label="Complete" data-shape="rounded">
+  <rect x="175.44" y="465.6" width="124.06400000000001" height="52.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="237.472" y="492" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Complete</text>
+</g>
+<g class="node" data-id="_end" data-label="" data-shape="stateend">
+  <circle cx="237.472" cy="570.4" r="10" fill="none" stroke="var(--_text)" stroke-width="4" />
+<circle cx="237.472" cy="570.4" r="6" fill="var(--_text)" stroke="none" />
+  
+</g>
+</svg>

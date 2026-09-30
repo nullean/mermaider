@@ -1,0 +1,104 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1243.492 717.4319999999999" width="1243.492" height="717.4319999999999" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+  <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
+    <polygon points="12 0, 0 6, 12 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+
+<path class="edge" data-from="navYml" data-to="v1Map" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="GetTocMappings" d="M537.5600000000002,92.8 C537.5600000000002,142.9 281.304,142.9 281.304,193" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="navV2Yml" data-to="v2Map" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="GetV2TocMappings" d="M745.5040000000001,92.8 L745.5040000000001,193" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="v1Map" data-to="valV1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M154.52,219.4 L132.52,219.4 Q126.52000000000001,219.4 126.52000000000001,225.4 L126.52000000000001,282.7 L126.52000000000001,282.7 L126.52000000000001,346" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="v2Map" data-to="valV2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M745.5040000000001,245.8 C745.5040000000001,295.9 1114.2360000000003,295.9 1114.2360000000003,346" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="v1Map" data-to="flag" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M281.304,245.8 C281.304,295.9 920.5640000000002,295.9 920.5640000000002,346" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="v2Map" data-to="flag" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M745.5040000000001,245.8 C745.5040000000001,295.9 920.5640000000002,295.9 920.5640000000002,346" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="flag" data-to="provV1" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="false" d="M920.5640000000002,482.832 C920.5640000000002,532.932 219.22,532.932 219.22,583.0319999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="flag" data-to="provV2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="true" d="M920.5640000000002,482.832 C920.5640000000002,532.932 534.3240000000001,532.932 534.3240000000001,583.0319999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<g class="edge-label" data-from="navYml" data-to="v1Map" data-label="GetTocMappings">
+  <rect x="222.46799999999996" y="152.85" width="117.67200000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="281.304" y="167.95" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">GetTocMappings</text>
+</g>
+<g class="edge-label" data-from="navV2Yml" data-to="v2Map" data-label="GetV2TocMappings">
+  <rect x="678.3520000000001" y="127.80000000000001" width="134.304" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="745.5040000000001" y="142.9" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">GetV2TocMappings</text>
+</g>
+<g class="edge-label" data-from="flag" data-to="provV1" data-label="false">
+  <rect x="197.80599999999998" y="542.882" width="42.828" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="219.22" y="557.982" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">false</text>
+</g>
+<g class="edge-label" data-from="flag" data-to="provV2" data-label="true">
+  <rect x="515.1780000000001" y="542.882" width="38.292" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="534.3240000000001" y="557.982" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">true</text>
+</g>
+<g class="node" data-id="navYml" data-label="navigation.yml" data-shape="rectangle">
+  <rect x="457.2880000000001" y="40" width="160.544" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="537.5600000000002" y="66.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">navigation.yml</text>
+</g>
+<g class="node" data-id="v1Map" data-label="V1 NavigationTocMappings" data-shape="rectangle">
+  <rect x="154.52" y="193" width="253.56799999999998" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="281.304" y="219.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V1 NavigationTocMappings</text>
+</g>
+<g class="node" data-id="navV2Yml" data-label="navigation-v2.yml" data-shape="rectangle">
+  <rect x="653.8320000000001" y="40" width="183.344" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="745.5040000000001" y="66.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">navigation-v2.yml</text>
+</g>
+<g class="node" data-id="v2Map" data-label="V2 NavigationTocMappings" data-shape="rectangle">
+  <rect x="615.9840000000002" y="193" width="259.03999999999996" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="745.5040000000001" y="219.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V2 NavigationTocMappings</text>
+</g>
+<g class="node" data-id="valV1" data-label="V1 validation" data-shape="parallelogram">
+  <polygon points="65.956,346 213.04000000000002,346 187.084,398.8 40,398.8" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="126.52000000000001" y="372.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V1 validation</text>
+</g>
+<g class="node" data-id="valV2" data-label="V2 validation" data-shape="parallelogram">
+  <polygon points="1051.7568,346 1203.492,346 1176.7151999999999,398.8 1024.98,398.8" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="1114.236" y="372.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V2 validation</text>
+</g>
+<g class="node" data-id="flag" data-label="nav-v2 flag" data-shape="diamond">
+  <polygon points="920.5640000000001,346 988.98,414.416 920.5640000000001,482.832 852.1480000000001,414.416" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="920.5640000000001" y="414.416" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">nav-v2 flag</text>
+</g>
+<g class="node" data-id="provV1" data-label="GlobalNavigationPathProvider
+with V1 mappings → V1 paths +
+V1 sidebar" data-shape="rectangle">
+  <rect x="79.668" y="583.0319999999999" width="279.104" height="94.4" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="219.22" y="630.232" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="219.22" dy="-15.200000000000001">GlobalNavigationPathProvider</tspan><tspan x="219.22" dy="20.8">with V1 mappings → V1 paths +</tspan><tspan x="219.22" dy="20.8">V1 sidebar</tspan></text>
+</g>
+<g class="node" data-id="provV2" data-label="GlobalNavigationPathProvider
+with V2 mappings → V2 paths +
+V2 sidebar" data-shape="rectangle">
+  <rect x="394.77200000000005" y="583.0319999999999" width="279.104" height="94.4" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="534.3240000000001" y="630.232" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="534.3240000000001" dy="-15.200000000000001">GlobalNavigationPathProvider</tspan><tspan x="534.3240000000001" dy="20.8">with V2 mappings → V2 paths +</tspan><tspan x="534.3240000000001" dy="20.8">V2 sidebar</tspan></text>
+</g>
+</svg>

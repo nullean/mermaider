@@ -1,0 +1,85 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 456.70399999999995 681.3039999999999" width="456.70399999999995" height="681.3039999999999" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+  <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
+    <polygon points="12 0, 0 6, 12 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+
+<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Get money" d="M240.20799999999997,92.8 L240.20799999999997,193" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M240.20799999999997,245.8 L240.20799999999997,346" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="C" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="One" d="M169.05599999999998,417.152 L100.73599999999999,417.152 Q94.73599999999999,417.152 94.73599999999999,423.152 L94.73599999999999,502.828 L94.73599999999999,502.828 L94.73599999999999,588.5039999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="C" data-to="E" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Two" d="M240.20799999999997,488.304 L240.20799999999997,588.5039999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="C" data-to="F" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Three" d="M311.35999999999996,417.152 L367.82399999999996,417.152 Q373.82399999999996,417.152 373.82399999999996,423.152 L373.82399999999996,502.828 L373.82399999999996,502.828 L373.82399999999996,588.5039999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<g class="edge-label" data-from="A" data-to="B" data-label="Get money">
+  <rect x="202.53999999999996" y="127.80000000000001" width="75.336" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="240.20799999999997" y="142.9" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Get money</text>
+</g>
+<g class="edge-label" data-from="C" data-to="D" data-label="One">
+  <rect x="75.58999999999999" y="495.20399999999995" width="38.292" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="94.73599999999999" y="510.304" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">One</text>
+</g>
+<g class="edge-label" data-from="C" data-to="E" data-label="Two">
+  <rect x="220.30599999999998" y="523.304" width="39.804" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="240.20799999999997" y="538.404" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Two</text>
+</g>
+<g class="edge-label" data-from="C" data-to="F" data-label="Three">
+  <rect x="347.87399999999997" y="495.20399999999995" width="51.900000000000006" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="373.82399999999996" y="510.304" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Three</text>
+</g>
+<g class="node" data-id="A" data-label="Christmas" data-shape="rectangle">
+  <rect x="174.52799999999996" y="40" width="131.36" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="240.20799999999997" y="66.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Christmas</text>
+</g>
+<g class="node" data-id="B" data-label="Go shopping" data-shape="rounded">
+  <rect x="165.86399999999998" y="193" width="148.688" height="52.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="240.20799999999997" y="219.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Go shopping</text>
+</g>
+<g class="node" data-id="C" data-label="Let me think" data-shape="diamond">
+  <polygon points="240.20799999999997,346 311.35999999999996,417.152 240.20799999999997,488.304 169.05599999999998,417.152" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="240.20799999999997" y="417.152" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Let me think</text>
+</g>
+<g class="node" data-id="D" data-label="Laptop" data-shape="rectangle">
+  <rect x="40" y="588.5039999999999" width="109.472" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="94.73599999999999" y="614.9039999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Laptop</text>
+</g>
+<g class="node" data-id="E" data-label="iPhone" data-shape="rectangle">
+  <rect x="185.47199999999998" y="588.5039999999999" width="109.472" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="240.20799999999997" y="614.9039999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">iPhone</text>
+</g>
+<g class="node" data-id="F" data-label="Car" data-shape="rectangle">
+  <rect x="330.94399999999996" y="588.5039999999999" width="85.75999999999999" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="373.82399999999996" y="614.9039999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Car</text>
+</g>
+</svg>

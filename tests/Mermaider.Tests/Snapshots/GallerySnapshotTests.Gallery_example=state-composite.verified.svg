@@ -1,0 +1,121 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 217.824 1506.0000000000002" width="217.824" height="1506.0000000000002" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+  <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
+    <polygon points="12 0, 0 6, 12 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+
+<g class="subgraph" data-id="First" data-label="First">
+  <rect x="40" y="120.19999999999999" width="137.824" height="667.2" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+</g>
+
+<g class="subgraph" data-id="Second" data-label="Second">
+  <rect x="40" y="827.6" width="137.824" height="514.2000000000002" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+</g>
+
+<path class="edge" data-from="_start" data-to="_start2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M108.912,124.19999999999999 L108.912,164.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="_start2" data-to="Inner1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M108.912,248.39999999999998 L108.912,288.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Inner1" data-to="Inner2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="next" d="M108.912,341.2 L108.912,441.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Inner2" data-to="Inner3" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="next" d="M108.912,494.2 L108.912,594.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Inner3" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M108.912,647.1999999999999 L108.912,687.1999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="_end" data-to="_start3" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M108.912,787.4000000000001 L108.912,827.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="_start3" data-to="Inner4" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M108.912,955.8000000000001 L108.912,995.8000000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Inner4" data-to="Inner5" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="process" d="M108.912,1048.6 L108.912,1148.8000000000002" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Inner5" data-to="_end2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M108.912,1201.6000000000001 L108.912,1241.6000000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="_end2" data-to="_end3" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M108.912,1325.8000000000002 L108.912,1305.6000000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <rect x="40" y="120.19999999999999" width="137.824" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <text x="52" y="135.2" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">First</text>
+  <rect x="40" y="827.6" width="137.824" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <text x="52" y="842.6" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Second</text>
+
+<g class="edge-label" data-from="Inner1" data-to="Inner2" data-label="next">
+  <rect x="89.01" y="376.19999999999993" width="39.804" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="108.912" y="391.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">next</text>
+</g>
+<g class="edge-label" data-from="Inner2" data-to="Inner3" data-label="next">
+  <rect x="89.01" y="529.1999999999999" width="39.804" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="108.912" y="544.3" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">next</text>
+</g>
+<g class="edge-label" data-from="Inner4" data-to="Inner5" data-label="process">
+  <rect x="76.158" y="1083.6000000000001" width="65.50800000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="108.912" y="1098.7" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">process</text>
+</g>
+<g class="node" data-id="_start" data-label="" data-shape="statestart">
+  <circle cx="108.912" cy="112.19999999999999" r="10" fill="var(--_text)" stroke="none" />
+  
+</g>
+<g class="node" data-id="_start2" data-label="" data-shape="statestart">
+  <circle cx="108.912" cy="236.39999999999998" r="10" fill="var(--_text)" stroke="none" />
+  
+</g>
+<g class="node" data-id="Inner1" data-label="Inner1" data-shape="rounded">
+  <rect x="58.736" y="288.4" width="100.352" height="52.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="108.912" y="314.79999999999995" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Inner1</text>
+</g>
+<g class="node" data-id="Inner2" data-label="Inner2" data-shape="rounded">
+  <rect x="56" y="441.4" width="105.824" height="52.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="108.912" y="467.79999999999995" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Inner2</text>
+</g>
+<g class="node" data-id="Inner3" data-label="Inner3" data-shape="rounded">
+  <rect x="56" y="594.4" width="105.824" height="52.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="108.912" y="620.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Inner3</text>
+</g>
+<g class="node" data-id="_end" data-label="" data-shape="stateend">
+  <circle cx="108.912" cy="699.1999999999999" r="10" fill="none" stroke="var(--_text)" stroke-width="4" />
+<circle cx="108.912" cy="699.1999999999999" r="6" fill="var(--_text)" stroke="none" />
+  
+</g>
+<g class="node" data-id="_start3" data-label="" data-shape="statestart">
+  <circle cx="108.912" cy="943.8000000000001" r="10" fill="var(--_text)" stroke="none" />
+  
+</g>
+<g class="node" data-id="Inner4" data-label="Inner4" data-shape="rounded">
+  <rect x="56" y="995.8000000000001" width="105.824" height="52.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="108.912" y="1022.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Inner4</text>
+</g>
+<g class="node" data-id="Inner5" data-label="Inner5" data-shape="rounded">
+  <rect x="56" y="1148.8000000000002" width="105.824" height="52.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="108.912" y="1175.2000000000003" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Inner5</text>
+</g>
+<g class="node" data-id="_end2" data-label="" data-shape="stateend">
+  <circle cx="108.912" cy="1253.6000000000001" r="10" fill="none" stroke="var(--_text)" stroke-width="4" />
+<circle cx="108.912" cy="1253.6000000000001" r="6" fill="var(--_text)" stroke="none" />
+  
+</g>
+<g class="node" data-id="_end3" data-label="" data-shape="stateend">
+  <circle cx="108.912" cy="1317.6000000000001" r="10" fill="none" stroke="var(--_text)" stroke-width="4" />
+<circle cx="108.912" cy="1317.6000000000001" r="6" fill="var(--_text)" stroke="none" />
+  
+</g>
+</svg>

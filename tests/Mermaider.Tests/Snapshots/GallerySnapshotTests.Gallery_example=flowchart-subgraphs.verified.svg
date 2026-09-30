@@ -1,0 +1,85 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412.48 545.2" width="412.48" height="545.2" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+  <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
+    <polygon points="12 0, 0 6, 12 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+
+<g class="subgraph" data-id="Backend" data-label="Backend">
+  <rect x="40" y="269.6" width="332.48" height="235.59999999999997" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+</g>
+
+<g class="subgraph" data-id="Frontend" data-label="Frontend">
+  <rect x="130.94400000000002" y="40" width="164.272" height="221.60000000000002" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+</g>
+
+<path class="edge" data-from="API" data-to="DB" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M147.856,340 L125.856,340 Q119.856,340 119.856,346 L119.856,381.2 L119.856,381.2 L119.856,422.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="API" data-to="Cache" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M278.30400000000003,340 L300.30400000000003,340 Q306.30400000000003,340 306.30400000000003,346 L306.30400000000003,381.2 L306.30400000000003,381.2 L306.30400000000003,422.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="UI" data-to="State" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M213.08,136.8 L213.08,192.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="State" data-to="API" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M213.08,245.6 L213.08,313.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="UI" data-to="API" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M213.08,136.8 L213.08,158.8 Q213.08,164.8 207.08,164.8 L130.168,164.8 Q124.168,164.8 124.168,170.8 L124.168,247.2 Q124.168,253.2 130.168,253.2 L207.08,253.2 Q213.08,253.2 213.08,259.2 L213.08,313.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <rect x="40" y="269.6" width="332.48" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <text x="52" y="284.6" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Backend</text>
+  <rect x="130.94400000000002" y="40" width="164.272" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <text x="142.94400000000002" y="55" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Frontend</text>
+
+<g class="node" data-id="API" data-label="REST API" data-shape="rectangle">
+  <rect x="147.856" y="313.6" width="130.448" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="213.07999999999998" y="340" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">REST API</text>
+</g>
+<g class="node" data-id="DB" data-label="Database" data-shape="cylinder">
+  <rect x="56" y="429.4" width="127.712" height="52.8" fill="var(--_node-fill)" stroke="none" />
+<line x1="56" y1="429.4" x2="56" y2="482.2" stroke="var(--_node-stroke)" stroke-width="2" />
+<line x1="183.712" y1="429.4" x2="183.712" y2="482.2" stroke="var(--_node-stroke)" stroke-width="2" />
+<ellipse cx="119.856" cy="482.2" rx="63.856" ry="7" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+<ellipse cx="119.856" cy="429.4" rx="63.856" ry="7" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="119.856" y="455.79999999999995" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Database</text>
+</g>
+<g class="node" data-id="Cache" data-label="Redis" data-shape="cylinder">
+  <rect x="256.12800000000004" y="429.4" width="100.35199999999999" height="52.8" fill="var(--_node-fill)" stroke="none" />
+<line x1="256.12800000000004" y1="429.4" x2="256.12800000000004" y2="482.2" stroke="var(--_node-stroke)" stroke-width="2" />
+<line x1="356.48" y1="429.4" x2="356.48" y2="482.2" stroke="var(--_node-stroke)" stroke-width="2" />
+<ellipse cx="306.30400000000003" cy="482.2" rx="50.175999999999995" ry="7" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+<ellipse cx="306.30400000000003" cy="429.4" rx="50.175999999999995" ry="7" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="306.30400000000003" y="455.79999999999995" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Redis</text>
+</g>
+<g class="node" data-id="UI" data-label="React App" data-shape="rectangle">
+  <rect x="146.94400000000002" y="84" width="132.272" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="213.08" y="110.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">React App</text>
+</g>
+<g class="node" data-id="State" data-label="Redux" data-shape="rectangle">
+  <rect x="160.168" y="192.8" width="105.824" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="213.08" y="219.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Redux</text>
+</g>
+</svg>

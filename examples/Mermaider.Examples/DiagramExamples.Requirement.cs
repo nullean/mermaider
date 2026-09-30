@@ -1,4 +1,4 @@
-namespace Mermaider.Gallery;
+namespace Mermaider.Examples;
 
 public static partial class DiagramExamples
 {

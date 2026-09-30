@@ -6,6 +6,8 @@ using Mermaider.Layout;
 using Mermaider.Layout.Msagl;
 using Mermaider.Models;
 using Mermaider.Theming;
+using DiagramCategory = Mermaider.Examples.DiagramCategory;
+using DiagramExample = Mermaider.Examples.DiagramExample;
 
 var msaglProvider = new MsaglLayoutProvider();
 

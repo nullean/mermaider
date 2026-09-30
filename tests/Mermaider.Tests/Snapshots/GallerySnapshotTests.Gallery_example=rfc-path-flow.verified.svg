@@ -1,0 +1,91 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 764.4999999999999 672" width="764.4999999999999" height="672" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+  <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
+    <polygon points="12 0, 0 6, 12 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+
+<path class="edge" data-from="navYml" data-to="getToc" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M327.756,92.8 L327.756,169.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="perRepo" data-to="docSetNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M592.2439999999999,113.6 L592.2439999999999,169.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="getToc" data-to="tocMappings" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M327.756,243.2 L327.756,299.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="docSetNav" data-to="tocNodes" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M590.42,243.2 L590.42,299.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="tocMappings" data-to="siteNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M327.756,352 L327.756,408" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="tocNodes" data-to="siteNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M590.42,352 C590.42,380 327.756,380 327.756,408" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="siteNav" data-to="pathProvider" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M213.73999999999995,455.2 L185.552,455.2 Q179.552,455.2 179.552,461.2 L179.552,506.79999999999995 L179.552,506.79999999999995 L179.552,558.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="siteNav" data-to="sidebar" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M441.77199999999993,455.2 L469.96,455.2 Q475.96,455.2 475.96,461.2 L475.96,506.79999999999995 L475.96,506.79999999999995 L475.96,558.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<g class="node" data-id="navYml" data-label="**navigation.yml**" data-shape="rectangle">
+  <rect x="229.24399999999997" y="40" width="197.024" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text text-anchor="middle" font-size="var(--fs-m)" fill="var(--_text)"><tspan x="327.756" y="66.4" dy="0.35em"><tspan font-weight="bold">navigation.yml</tspan></tspan></text>
+</g>
+<g class="node" data-id="getToc" data-label="GetTocMappings()
+URI → path_prefix" data-shape="rectangle">
+  <rect x="231.52399999999994" y="169.6" width="192.464" height="73.6" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="327.756" y="206.39999999999998" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="327.756" dy="-4.800000000000001">GetTocMappings()</tspan><tspan x="327.756" dy="20.8">URI → path_prefix</tspan></text>
+</g>
+<g class="node" data-id="perRepo" data-label="**Per-repo
+docset.yml + toc.yml**" data-shape="rectangle">
+  <rect x="483.69999999999993" y="40" width="217.08800000000002" height="73.6" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text text-anchor="middle" font-size="var(--fs-m)" fill="var(--_text)"><tspan x="592.2439999999999" y="66.4" dy="0.35em"><tspan font-weight="bold">Per-repo</tspan></tspan><tspan x="592.2439999999999" y="87.2" dy="0.35em"><tspan font-weight="bold">docset.yml + toc.yml</tspan></tspan></text>
+</g>
+<g class="node" data-id="docSetNav" data-label="DocumentationSetNavigation
+URI → node tree" data-shape="rectangle">
+  <rect x="459.98799999999994" y="169.6" width="264.51199999999994" height="73.6" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="592.2439999999999" y="206.39999999999998" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="592.2439999999999" dy="-4.800000000000001">DocumentationSetNavigation</tspan><tspan x="592.2439999999999" dy="20.8">URI → node tree</tspan></text>
+</g>
+<g class="node" data-id="tocMappings" data-label="NavigationTocMappings" data-shape="rectangle">
+  <rect x="209.63599999999997" y="299.2" width="236.23999999999998" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="327.756" y="325.59999999999997" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">NavigationTocMappings</text>
+</g>
+<g class="node" data-id="tocNodes" data-label="TableOfContentNodes" data-shape="rectangle">
+  <rect x="481.876" y="299.2" width="217.08799999999997" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="590.42" y="325.59999999999997" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">TableOfContentNodes</text>
+</g>
+<g class="node" data-id="siteNav" data-label="SiteNavigation
+merges nodes via
+navigation.yml URI keys" data-shape="rectangle">
+  <rect x="213.73999999999995" y="408" width="228.032" height="94.4" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="327.756" y="455.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="327.756" dy="-15.200000000000001">SiteNavigation</tspan><tspan x="327.756" dy="20.8">merges nodes via</tspan><tspan x="327.756" dy="20.8">navigation.yml URI keys</tspan></text>
+</g>
+<g class="node" data-id="pathProvider" data-label="GlobalNavigationPathProvider
+determines output file paths" data-shape="rectangle">
+  <rect x="40" y="558.4" width="279.104" height="73.6" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="179.552" y="595.1999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="179.552" dy="-4.800000000000001">GlobalNavigationPathProvider</tspan><tspan x="179.552" dy="20.8">determines output file paths</tspan></text>
+</g>
+<g class="node" data-id="sidebar" data-label="Sidebar HTML rendering
+determines sidebar tree" data-shape="rectangle">
+  <rect x="355.104" y="558.4" width="241.71199999999996" height="73.6" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="475.96" y="595.1999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="475.96" dy="-4.800000000000001">Sidebar HTML rendering</tspan><tspan x="475.96" dy="20.8">determines sidebar tree</tspan></text>
+</g>
+</svg>

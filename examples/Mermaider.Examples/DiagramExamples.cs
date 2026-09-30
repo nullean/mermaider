@@ -1,4 +1,4 @@
-namespace Mermaider.Gallery;
+namespace Mermaider.Examples;
 
 public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Gantt, Journey, C4, Sankey, XyChart, Requirement, Packet, Kanban, Architecture, Block, TreeView, RealWorld }
 
@@ -1172,7 +1172,6 @@ public static partial class DiagramExamples
 		..CreateRequirementExamples(),
 		..CreateTreeViewExamples(),
 		..CreateRealWorldExamples(),
-		..CreateDocsBuilderErdExamples(),
 	];
 
 	public static DiagramExample[] ByCategory(DiagramCategory category) =>
