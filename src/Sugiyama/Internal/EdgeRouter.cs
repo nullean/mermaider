@@ -519,6 +519,15 @@ internal static class EdgeRouter
 			var directLeftCrossing = strictTopDownFanout && !goRight && nextNode < graph.RealNodeCount;
 			if (forceBottomExitFanOut || exitOvershoot || ExitCrossesSibling(graph, node, sideX, tgtCX) || directLeftCrossing)
 			{
+				// Special case: when forcing bottom exit and the target is directly below (same X),
+				// this edge's path would collide with sibling edges that exit bottom-center and
+				// then route sideways. Route it out the bottom-left corner instead to separate them.
+				// Only apply to skip edges (chain passes through virtual nodes = chain.Count > 2).
+				if (forceBottomExitFanOut && chain.Count > 2 && Math.Abs(tgtCX - cx) <= SideEntryThreshold)
+				{
+					points.Add(new LayoutPoint(graph.X[node], graph.Y[node] + graph.NodeHeights[node]));
+					return;
+				}
 				points.Add(new LayoutPoint(cx, graph.Y[node] + graph.NodeHeights[node]));
 			}
 			else
@@ -529,6 +538,25 @@ internal static class EdgeRouter
 		}
 		else
 		{
+			// When forcing bottom-center exit: if this edge goes straight down (target directly
+			// below the source at the same X) and there are other forward edges from this source
+			// that route sideways, they all share the same bottom-center exit point and their
+			// horizontal routing corridors will visually cross the straight vertical path.
+			// Exit from the bottom-left corner instead to create a separate routing corridor.
+			// Only reroute skip edges (chain has virtual nodes = spans >1 layer).
+			// Direct edges (chain.Count == 2) go straight to their neighbour and should not detour.
+			if (forceBottomExitFanOut && chain.Count > 2 && HasSidewaysForwardSibling(graph, node, cx))
+			{
+				var finalTarget = chain[^1];
+				var finalTgtCX = finalTarget < graph.RealNodeCount
+					? graph.X[finalTarget] + (graph.NodeWidths[finalTarget] / 2.0)
+					: graph.X[finalTarget];
+				if (Math.Abs(finalTgtCX - cx) <= SideEntryThreshold)
+				{
+					points.Add(new LayoutPoint(graph.X[node], graph.Y[node] + graph.NodeHeights[node]));
+					return;
+				}
+			}
 			points.Add(new LayoutPoint(cx, graph.Y[node] + graph.NodeHeights[node]));
 		}
 	}
@@ -580,6 +608,29 @@ internal static class EdgeRouter
 		if (target < graph.RealNodeCount)
 			return target;
 		return -1;
+	}
+
+	/// <summary>
+	/// Returns true when the source node has at least one other forward edge whose final target
+	/// is significantly to the left or right of srcCX (i.e., it will route sideways from the
+	/// same bottom-center exit point, conflicting with a straight-down edge from that same node).
+	/// </summary>
+	private static bool HasSidewaysForwardSibling(GraphBuffer graph, int node, double srcCX)
+	{
+		if (node >= graph.RealNodeCount)
+			return false;
+		foreach (var e in graph.Edges)
+		{
+			if (e.From != node || e.Reversed)
+				continue;
+			var finalTarget = ResolveVirtualChain(graph, e);
+			if (finalTarget >= graph.RealNodeCount)
+				continue;
+			var tgtCX = graph.X[finalTarget] + (graph.NodeWidths[finalTarget] / 2.0);
+			if (Math.Abs(tgtCX - srcCX) > SideEntryThreshold)
+				return true;
+		}
+		return false;
 	}
 
 	private static bool HasFanOut(GraphBuffer graph, int node)

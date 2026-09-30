@@ -42,7 +42,7 @@
 <path class="edge" data-from="Inactive" data-to="Active" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="reactivate" d="M240.20799999999997,317.2 L240.20799999999997,288.1 Q240.20799999999997,282.1 234.20799999999997,282.1 L100.73599999999999,282.1 Q94.73599999999999,282.1 94.73599999999999,276.1 L94.73599999999999,217" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Inactive" data-to="Closed" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="close" d="M240.20799999999997,370 L240.20799999999997,414.1 Q240.20799999999997,420.1 234.20799999999997,420.1 L100.736,420.1 Q94.736,420.1 94.736,426.1 L94.736,470.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Closed" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M94.73599999999999,523 L94.73599999999999,563" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Active" data-to="Closed" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="close" d="M94.73599999999999,217 L94.736,470.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Active" data-to="Closed" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="close" d="M42.73599999999999,217 L42.73599999999999,261.1 Q42.73599999999999,267.1 48.73599999999999,267.1 L88.736,267.1 Q94.736,267.1 94.736,273.1 L94.736,470.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="Active" data-to="Inactive" data-label="disable">
   <rect x="211.23399999999995" y="277.04999999999995" width="57.948000000000015" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="240.20799999999997" y="292.15" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">disable</text>
@@ -56,8 +56,8 @@
 <text x="94.736" y="445.15" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">close</text>
 </g>
 <g class="edge-label" data-from="Active" data-to="Closed" data-label="close">
-  <rect x="71.054" y="328.5" width="47.36400000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="94.736" y="343.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">close</text>
+  <rect x="71.054" y="353.54999999999995" width="47.36400000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="94.736" y="368.65" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">close</text>
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
   <circle cx="94.73599999999999" cy="112.19999999999999" r="10" fill="var(--_text)" stroke="none" />
