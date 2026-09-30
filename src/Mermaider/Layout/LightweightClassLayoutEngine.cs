@@ -213,6 +213,19 @@ internal static class LightweightClassLayoutEngine
 			});
 		}
 
+		// Equalize namespace box widths so vertically stacked namespaces span the same X range.
+		if (positionedNs.Count > 1)
+		{
+			var unifiedX = positionedNs.Min(n => n.X);
+			var unifiedRight = positionedNs.Max(n => n.X + n.Width);
+			var unifiedWidth = unifiedRight - unifiedX;
+			for (var i = 0; i < positionedNs.Count; i++)
+			{
+				var n = positionedNs[i];
+				positionedNs[i] = n with { X = unifiedX, Width = unifiedWidth };
+			}
+		}
+
 		return new PositionedClassDiagram
 		{
 			Width = maxX,
