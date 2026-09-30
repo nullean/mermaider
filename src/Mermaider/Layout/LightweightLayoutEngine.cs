@@ -40,13 +40,15 @@ internal static class LightweightLayoutEngine
 		{
 			var edge = graph.Edges[ei];
 
+			// Invisible edges (~~~) affect layout but are not drawn; treat them as zero-label layout edges
+			// so the target is placed below the source (matching mermaid.js behavior).
+			double labelW = 0, labelH = 0;
 			if (edge.Style == Models.EdgeStyle.Invisible)
 			{
-				sameRankConstraints.Add((edge.Source, edge.Target));
+				layoutEdgeToOriginal.Add(ei);
+				layoutEdges.Add(new LayoutEdge(edge.Source, edge.Target, 0, 0, edge.MinLength));
 				continue;
 			}
-
-			double labelW = 0, labelH = 0;
 			if (edge.Label is { Length: > 0 })
 			{
 				var metrics = TextMetrics.MeasureMultiline(
