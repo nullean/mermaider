@@ -89,34 +89,6 @@ internal static class LightweightLayoutEngine
 
 		var isStateDiagram = graph.Nodes.Values.Any(n => n.Shape is Models.NodeShape.StateStart or Models.NodeShape.StateEnd);
 
-		// State diagrams: co-rank bidirectional pairs that share a common direct successor.
-		// This puts peer states (e.g. Active↔Inactive that both → Closed) on the same layer
-		// without forcing sequential states (e.g. Draft→Review→Published) to the same layer.
-		if (isStateDiagram && sameRankConstraints.Count == 0)
-		{
-			var successors = new Dictionary<string, HashSet<string>>();
-			foreach (var e in graph.Edges)
-			{
-				if (!successors.TryGetValue(e.Source, out var set))
-					successors[e.Source] = set = [];
-				_ = set.Add(e.Target);
-			}
-			var edgeSet = new HashSet<(string, string)>(
-				graph.Edges.Select(e => (e.Source, e.Target)));
-			foreach (var e in graph.Edges)
-			{
-				if (e.Source == e.Target)
-					continue;
-				if (!edgeSet.Contains((e.Target, e.Source)))
-					continue;
-				// Bidirectional pair — only co-rank if they share a common direct successor
-				var srcSucc = successors.TryGetValue(e.Source, out var ss) ? ss : null;
-				var tgtSucc = successors.TryGetValue(e.Target, out var ts) ? ts : null;
-				if (srcSucc != null && tgtSucc != null && srcSucc.Overlaps(tgtSucc))
-					sameRankConstraints.Add((e.Source, e.Target));
-			}
-		}
-
 		var layoutOptions = new LayoutOptions
 		{
 			Padding = padding,
