@@ -8,14 +8,14 @@ namespace Sugiyama.Internal;
 /// </summary>
 internal static class LayerAssigner
 {
-	internal static void Run(GraphBuffer graph)
+	internal static void Run(GraphBuffer graph, bool naturalBackEdgeRouting = false)
 	{
 		graph.RebuildAdjacency();
 		AssignLayers(graph);
 		EnforceSameRankConstraints(graph);
 		PushDownSources(graph);
 		EnforceMinLengths(graph);
-		InsertVirtualNodes(graph);
+		InsertVirtualNodes(graph, naturalBackEdgeRouting);
 		graph.RebuildAdjacency();
 		BuildLayerArrays(graph);
 	}
@@ -175,7 +175,7 @@ internal static class LayerAssigner
 		graph.LayerCount = maxLayer + 1;
 	}
 
-	private static void InsertVirtualNodes(GraphBuffer graph)
+	private static void InsertVirtualNodes(GraphBuffer graph, bool naturalBackEdgeRouting = false)
 	{
 		var edgeCount = graph.Edges.Count;
 		var newEdges = new List<GraphEdge>();
@@ -186,6 +186,13 @@ internal static class LayerAssigner
 			var span = graph.Layers[e.To] - graph.Layers[e.From];
 
 			if (span <= 1)
+				continue;
+
+			// When natural back-edge routing is active, reversed back-edges route
+			// directly from source bottom to target top via RouteNaturalBackEdge,
+			// so virtual nodes would only distort the crossing minimizer and
+			// coordinate assigner without helping the actual edge routing.
+			if (naturalBackEdgeRouting && e.Reversed)
 				continue;
 
 			graph.Edges.RemoveAt(i);
