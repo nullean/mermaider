@@ -32,7 +32,7 @@
 </defs>
 
 <path class="er-relationship" data-entity1="USER" data-entity2="POST" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="writes" d="M328,111 L442,111 Q448,111 448,117 L448,206.5 L448,206.5 L448,302" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="USER" data-entity2="COMMENT" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="writes" d="M128,111 L124,111 Q120,111 120,115 L120,296 Q120,302 120,308 L120,440 Q120,446 114,446 L70,446 Q64,446 64,452 L64,590" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="USER" data-entity2="COMMENT" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="writes" d="M128,111 L124,111 Q120,111 120,115 L120,440 Q120,446 114,446 L70,446 Q64,446 64,452 L64,590" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="POST" data-entity2="COMMENT" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="has" d="M448,470 L448,524 Q448,530 442,530 L182,530 Q176,530 176,536 L176,590" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="POST" data-entity2="TAG" data-cardinality1="zeromany" data-cardinality2="zeromany" data-identifying="true" data-label="tagged" d="M528,386 L550,386 Q556,386 556,392 L556,488 L556,488 L556,590" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="entity" data-id="USER" data-label="USER">

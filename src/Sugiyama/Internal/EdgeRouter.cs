@@ -65,6 +65,7 @@ internal static class EdgeRouter
 
 		SnapNearAlignedDoglegs(results);
 		SnapSharedHorizontalTrunks(results);
+		OffsetCrossingTrunks(results);
 
 		if (inputEdges is not null)
 			ResolveOverlappingLabels(results, inputEdges, useSideRouting);
@@ -118,6 +119,70 @@ internal static class EdgeRouter
 				var points = edge.Points;
 				points[0] = new LayoutPoint(snappedX, points[0].Y);
 				points[1] = new LayoutPoint(snappedX, points[1].Y);
+			}
+		}
+	}
+
+	/// <summary>
+	/// When two edges share the same horizontal bus segment but travel in opposite horizontal
+	/// directions (e.g., E→H going right and F→G going left across the same Y level), they
+	/// render as one indistinguishable line. Offset each pair by ±CrossingOffset so both
+	/// crossings are visible as distinct paths.
+	/// </summary>
+	private static void OffsetCrossingTrunks(List<RoutedEdge> edges)
+	{
+		const double crossingOffset = 15.0;
+
+		// Collect edges that have a Z/S bend: [src, hBend1, hBend2, tgt]
+		// where src.X == hBend1.X (vertical start), hBend1.Y == hBend2.Y (horizontal bus),
+		// hBend2.X == tgt.X (vertical end).
+		var bent = new List<(int Idx, double BusY, double XA, double XB)>();
+		for (var i = 0; i < edges.Count; i++)
+		{
+			var pts = edges[i].Points;
+			if (pts.Count != 4)
+				continue;
+			if (!SameX(pts[0], pts[1]) || !SameY(pts[1], pts[2]) || !SameX(pts[2], pts[3]))
+				continue;
+			if (Math.Abs(pts[1].X - pts[2].X) < 1)
+				continue;
+			bent.Add((i, pts[1].Y, pts[1].X, pts[2].X));
+		}
+
+		// Find counter-pairs: same busY, opposite direction, overlapping X span.
+		var paired = new HashSet<int>();
+		for (var i = 0; i < bent.Count; i++)
+		{
+			if (paired.Contains(bent[i].Idx))
+				continue;
+			for (var j = i + 1; j < bent.Count; j++)
+			{
+				if (paired.Contains(bent[j].Idx))
+					continue;
+				var a = bent[i];
+				var b = bent[j];
+				if (!SameY(new LayoutPoint(0, a.BusY), new LayoutPoint(0, b.BusY)))
+					continue;
+				var aGoesRight = a.XB > a.XA;
+				var bGoesRight = b.XB > b.XA;
+				if (aGoesRight == bGoesRight)
+					continue;
+				var overlapLeft = Math.Max(Math.Min(a.XA, a.XB), Math.Min(b.XA, b.XB));
+				var overlapRight = Math.Min(Math.Max(a.XA, a.XB), Math.Max(b.XA, b.XB));
+				if (overlapRight - overlapLeft < 1)
+					continue;
+
+				var ptsA = edges[a.Idx].Points;
+				ptsA[1] = new LayoutPoint(ptsA[1].X, ptsA[1].Y - crossingOffset);
+				ptsA[2] = new LayoutPoint(ptsA[2].X, ptsA[2].Y - crossingOffset);
+
+				var ptsB = edges[b.Idx].Points;
+				ptsB[1] = new LayoutPoint(ptsB[1].X, ptsB[1].Y + crossingOffset);
+				ptsB[2] = new LayoutPoint(ptsB[2].X, ptsB[2].Y + crossingOffset);
+
+				_ = paired.Add(a.Idx);
+				_ = paired.Add(b.Idx);
+				break;
 			}
 		}
 	}

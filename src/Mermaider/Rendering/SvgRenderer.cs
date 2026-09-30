@@ -247,6 +247,12 @@ internal static class SvgRenderer
 				continue;
 			}
 
+			// Skip rounded corner when segments are collinear (cross product ≈ 0 means
+			// virtual-node waypoints on straight lines don't emit spurious Q commands).
+			var cross = (dx1 * dy2) - (dy1 * dx2);
+			if (Math.Abs(cross) < 0.1)
+				continue;
+
 			var r = Math.Min(radius, Math.Min(len1 / 2, len2 / 2));
 
 			if (r < 0.1)
