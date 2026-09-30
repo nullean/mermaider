@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 479.888 459.2" width="479.888" height="459.2" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 479.888 427.2" width="479.888" height="427.2" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -37,28 +37,28 @@
   </marker>
 </defs>
 
-<path class="edge" data-from="A" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M159.672,66.4 L137.672,66.4 Q131.672,66.4 131.672,72.4 L131.672,107.6 L131.672,107.6 L131.672,148.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="B" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M349.616,201.6 L349.616,257.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="D" data-to="E" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M349.616,310.4 L349.616,366.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="C" data-to="E" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M131.672,201.6 L131.672,223.6 Q131.672,229.6 137.672,229.6 L238.744,229.6 Q244.744,229.6 244.744,235.6 L244.744,306 Q244.744,312 250.744,312 L343.616,312 Q349.616,312 349.616,318 L349.616,366.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M159.672,62.4 L137.672,62.4 Q131.672,62.4 131.672,68.4 L131.672,101.6 L131.672,101.6 L131.672,140.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="B" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M349.616,185.6 L349.616,241.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="D" data-to="E" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M349.616,286.4 L349.616,342.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="C" data-to="E" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M131.672,185.6 L131.672,207.6 Q131.672,213.6 137.672,213.6 L238.744,213.6 Q244.744,213.6 244.744,219.6 L244.744,286 Q244.744,292 250.744,292 L343.616,292 Q349.616,292 349.616,298 L349.616,342.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="A" data-label="Positioned Left" data-shape="rectangle">
-  <rect x="159.672" y="40" width="165.10399999999998" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="242.224" y="66.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Positioned Left</text>
+  <rect x="159.672" y="40" width="165.10399999999998" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="242.224" y="62.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Positioned Left</text>
 </g>
 <g class="node" data-id="B" data-label="Positioned Right" data-shape="rectangle">
-  <rect x="265.664" y="148.8" width="174.224" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="352.77599999999995" y="175.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Positioned Right</text>
+  <rect x="265.664" y="140.8" width="174.224" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="352.77599999999995" y="163.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Positioned Right</text>
 </g>
 <g class="node" data-id="C" data-label="Connected Below" data-shape="rectangle">
-  <rect x="40" y="148.8" width="183.344" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="131.672" y="175.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Connected Below</text>
+  <rect x="40" y="140.8" width="183.344" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="131.672" y="163.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Connected Below</text>
 </g>
 <g class="node" data-id="D" data-label="Also Below" data-shape="rectangle">
-  <rect x="280.744" y="257.6" width="137.74399999999997" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="349.616" y="284" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Also Below</text>
+  <rect x="280.744" y="241.6" width="137.74399999999997" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="349.616" y="264" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Also Below</text>
 </g>
 <g class="node" data-id="E" data-label="Merged" data-shape="rectangle">
-  <rect x="291.688" y="366.4" width="115.856" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="349.616" y="392.79999999999995" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Merged</text>
+  <rect x="291.688" y="342.4" width="115.856" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="349.616" y="364.79999999999995" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Merged</text>
 </g>
 </svg>

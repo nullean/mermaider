@@ -38,7 +38,7 @@ internal static class RenderConstants
 	internal static class NodePadding
 	{
 		internal const int Horizontal = 28;
-		internal const int Vertical = 16;
+		internal const int Vertical = 12;
 		internal const int DiamondExtra = 0;
 	}
 

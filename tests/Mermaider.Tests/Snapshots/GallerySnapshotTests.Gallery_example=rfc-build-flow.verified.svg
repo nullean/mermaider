@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1647.5759999999996 1160.4080000000001" width="1647.5759999999996" height="1160.4080000000001" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1647.5759999999996 907.408" width="1647.5759999999996" height="907.408" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -38,123 +38,123 @@
 </defs>
 
 <g class="subgraph" data-id="config" data-label="Config">
-  <rect x="201.50399999999996" y="40" width="918.8599999999999" height="112.8" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <rect x="201.50399999999996" y="40" width="918.8599999999999" height="104.8" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="repos" data-label="Per-repo checkouts">
-  <rect x="539.81" y="40" width="921.002" height="133.6" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <rect x="539.81" y="40" width="921.002" height="125.6" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
 </g>
 
-<path class="edge" data-from="navYml" data-to="v1SiteNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M297.77599999999995,136.8 C297.77599999999995,197.3 784.2279999999998,197.3 784.2279999999998,257.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="docsetV1" data-to="v1SiteNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M655.2339999999999,136.8 C655.2339999999999,197.3 784.2279999999998,197.3 784.2279999999998,257.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="navV2Yml" data-to="v2SiteNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1012.6919999999998,136.8 L1012.6919999999998,257.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="docsetV2" data-to="v2SiteNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1322.5879999999997,157.59999999999997 C1322.5879999999997,207.7 1012.6919999999998,207.7 1012.6919999999998,257.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="docsetV1" data-to="v2SiteNav" data-style="dotted" data-arrow-start="false" data-arrow-end="true" data-label="V1 fallback" d="M655.2339999999999,136.8 C655.2339999999999,197.3 1012.6919999999998,197.3 1012.6919999999998,257.8" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="v1SiteNav" data-to="v1Map" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M784.2279999999998,310.6 C784.2279999999998,360.70000000000005 720.3879999999998,360.70000000000005 720.3879999999998,410.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="v2SiteNav" data-to="v2Map" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1012.6919999999998,310.6 L1012.6919999999998,410.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="v1Map" data-to="valV1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M720.3879999999998,463.6 C720.3879999999998,513.7 854.4519999999997,513.7 854.4519999999997,563.8000000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="v2Map" data-to="valV2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1012.6919999999998,463.6 L1012.6919999999998,563.8000000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="valV1" data-to="errV1" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="fail" d="M794.6999999999997,623.552 L114.87199999999999,623.552 Q108.87199999999999,623.552 108.87199999999999,629.552 L108.87199999999999,706.264 L108.87199999999999,706.264 L108.87199999999999,788.976" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="valV2" data-to="errV2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="fail" d="M1012.6919999999998,688.7760000000001 C1012.6919999999998,738.876 1538.7039999999997,738.876 1538.7039999999997,788.976" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="valV1" data-to="flag" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="pass" d="M854.4519999999997,683.3040000000001 C854.4519999999997,736.1400000000001 1365.4159999999995,736.1400000000001 1365.4159999999995,788.976" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="valV2" data-to="flag" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="pass" d="M1012.6919999999998,688.7760000000001 C1012.6919999999998,738.876 1365.4159999999995,738.876 1365.4159999999995,788.976" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="flag" data-to="emitV1" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="false" d="M1365.4159999999995,925.808 C1365.4159999999995,975.908 340.52799999999996,975.908 340.52799999999996,1026.008" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="flag" data-to="emitV2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="true" d="M1365.4159999999995,925.808 C1365.4159999999995,975.908 632.8319999999999,975.908 632.8319999999999,1026.008" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <rect x="201.50399999999996" y="40" width="918.8599999999999" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+<path class="edge" data-from="navYml" data-to="v1SiteNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M297.77599999999995,128.8 C297.77599999999995,167.2 784.2279999999998,167.2 784.2279999999998,205.59999999999997" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="docsetV1" data-to="v1SiteNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M655.2339999999999,128.8 C655.2339999999999,167.2 784.2279999999998,167.2 784.2279999999998,205.59999999999997" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="navV2Yml" data-to="v2SiteNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1012.6919999999998,128.8 L1012.6919999999998,205.59999999999997" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="docsetV2" data-to="v2SiteNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1322.5879999999997,149.59999999999997 C1322.5879999999997,177.59999999999997 1012.6919999999998,177.59999999999997 1012.6919999999998,205.59999999999997" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="docsetV1" data-to="v2SiteNav" data-style="dotted" data-arrow-start="false" data-arrow-end="true" data-label="V1 fallback" d="M655.2339999999999,128.8 C655.2339999999999,167.2 1012.6919999999998,167.2 1012.6919999999998,205.59999999999997" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="v1SiteNav" data-to="v1Map" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M784.2279999999998,250.39999999999998 C784.2279999999998,278.4 720.3879999999998,278.4 720.3879999999998,306.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="v2SiteNav" data-to="v2Map" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1012.6919999999998,250.39999999999998 L1012.6919999999998,306.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="v1Map" data-to="valV1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M720.3879999999998,351.2 C720.3879999999998,379.2 854.4519999999997,379.2 854.4519999999997,407.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="v2Map" data-to="valV2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1012.6919999999998,351.2 L1012.6919999999998,407.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="valV1" data-to="errV1" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="fail" d="M794.6999999999997,466.952 L114.87199999999999,466.952 Q108.87199999999999,466.952 108.87199999999999,472.952 L108.87199999999999,527.5640000000001 L108.87199999999999,527.5640000000001 L108.87199999999999,588.176" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="valV2" data-to="errV2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="fail" d="M1012.6919999999998,532.1759999999999 C1012.6919999999998,560.1759999999999 1538.7039999999997,560.1759999999999 1538.7039999999997,588.176" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="valV1" data-to="flag" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="pass" d="M854.4519999999997,526.704 C854.4519999999997,557.44 1365.4159999999995,557.44 1365.4159999999995,588.176" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="valV2" data-to="flag" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="pass" d="M1012.6919999999998,532.1759999999999 C1012.6919999999998,560.1759999999999 1365.4159999999995,560.1759999999999 1365.4159999999995,588.176" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="flag" data-to="emitV1" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="false" d="M1365.4159999999995,725.008 C1365.4159999999995,753.008 340.52799999999996,753.008 340.52799999999996,781.008" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="flag" data-to="emitV2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="true" d="M1365.4159999999995,725.008 C1365.4159999999995,753.008 632.8319999999999,753.008 632.8319999999999,781.008" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <rect x="201.50399999999996" y="40" width="918.8599999999999" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
   <text x="213.50399999999996" y="55" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Config</text>
   <rect x="539.81" y="40" width="921.002" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
   <text x="551.81" y="55" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Per-repo checkouts</text>
 
 <g class="edge-label" data-from="docsetV1" data-to="v2SiteNav" data-label="V1 fallback">
-  <rect x="975.0239999999998" y="212.45000000000002" width="75.33600000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="1012.6919999999998" y="227.55" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">V1 fallback</text>
+  <rect x="975.0239999999998" y="168.49999999999997" width="75.33600000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="1012.6919999999998" y="183.59999999999997" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">V1 fallback</text>
 </g>
 <g class="edge-label" data-from="valV1" data-to="errV1" data-label="fail">
-  <rect x="93.50599999999999" y="691.164" width="30.732" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="108.87199999999999" y="706.264" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">fail</text>
+  <rect x="93.50599999999999" y="533.6039999999999" width="30.732" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="108.87199999999999" y="548.704" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">fail</text>
 </g>
 <g class="edge-label" data-from="valV2" data-to="errV2" data-label="fail">
-  <rect x="1523.3379999999997" y="748.8259999999999" width="30.732" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="1538.7039999999997" y="763.9259999999999" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">fail</text>
+  <rect x="1523.3379999999997" y="551.076" width="30.732" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="1538.7039999999997" y="566.176" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">fail</text>
 </g>
 <g class="edge-label" data-from="valV1" data-to="flag" data-label="pass">
-  <rect x="1343.2459999999994" y="747.458" width="44.34" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="1365.4159999999995" y="762.558" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">pass</text>
+  <rect x="1343.2459999999994" y="551.076" width="44.34" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="1365.4159999999995" y="566.176" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">pass</text>
 </g>
 <g class="edge-label" data-from="valV2" data-to="flag" data-label="pass">
-  <rect x="1343.2459999999994" y="748.8259999999999" width="44.34" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="1365.4159999999995" y="763.9259999999999" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">pass</text>
+  <rect x="1343.2459999999994" y="579.2760000000001" width="44.34" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="1365.4159999999995" y="594.3760000000001" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">pass</text>
 </g>
 <g class="edge-label" data-from="flag" data-to="emitV1" data-label="false">
-  <rect x="319.114" y="985.8580000000001" width="42.828" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="340.52799999999996" y="1000.9580000000001" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">false</text>
+  <rect x="319.114" y="743.908" width="42.828" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="340.52799999999996" y="759.008" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">false</text>
 </g>
 <g class="edge-label" data-from="flag" data-to="emitV2" data-label="true">
-  <rect x="613.6859999999999" y="985.8580000000001" width="38.292" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="632.8319999999999" y="1000.9580000000001" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">true</text>
+  <rect x="613.6859999999999" y="743.908" width="38.292" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="632.8319999999999" y="759.008" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">true</text>
 </g>
 <g class="node" data-id="navYml" data-label="navigation.yml" data-shape="rectangle">
-  <rect x="217.50399999999996" y="84" width="160.544" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="297.77599999999995" y="110.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">navigation.yml</text>
+  <rect x="217.50399999999996" y="84" width="160.544" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="297.77599999999995" y="106.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">navigation.yml</text>
 </g>
 <g class="node" data-id="navV2Yml" data-label="navigation-v2.yml" data-shape="rectangle">
-  <rect x="921.0199999999998" y="84" width="183.344" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="1012.6919999999998" y="110.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">navigation-v2.yml</text>
+  <rect x="921.0199999999998" y="84" width="183.344" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="1012.6919999999998" y="106.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">navigation-v2.yml</text>
 </g>
 <g class="node" data-id="docsetV1" data-label="docset.yml + toc.yml" data-shape="rectangle">
-  <rect x="555.81" y="84" width="198.848" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="655.2339999999999" y="110.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">docset.yml + toc.yml</text>
+  <rect x="555.81" y="84" width="198.848" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="655.2339999999999" y="106.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">docset.yml + toc.yml</text>
 </g>
 <g class="node" data-id="docsetV2" data-label="docset-v2.yml + toc-v2.yml
 (if present)" data-shape="rectangle">
-  <rect x="1200.3639999999998" y="84" width="244.44799999999998" height="73.6" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="1322.5879999999997" y="120.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="1322.5879999999997" dy="-4.800000000000001">docset-v2.yml + toc-v2.yml</tspan><tspan x="1322.5879999999997" dy="20.8">(if present)</tspan></text>
+  <rect x="1200.3639999999998" y="84" width="244.44799999999998" height="65.6" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="1322.5879999999997" y="116.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="1322.5879999999997" dy="-4.800000000000001">docset-v2.yml + toc-v2.yml</tspan><tspan x="1322.5879999999997" dy="20.8">(if present)</tspan></text>
 </g>
 <g class="node" data-id="v1SiteNav" data-label="V1 SiteNavigation" data-shape="rectangle">
-  <rect x="694.3799999999998" y="257.8" width="179.69600000000003" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="784.2279999999998" y="284.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V1 SiteNavigation</text>
+  <rect x="694.3799999999998" y="205.59999999999997" width="179.69600000000003" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="784.2279999999998" y="227.99999999999997" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V1 SiteNavigation</text>
 </g>
 <g class="node" data-id="v2SiteNav" data-label="V2 SiteNavigationV2" data-shape="rectangle">
-  <rect x="910.0759999999998" y="257.8" width="205.232" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="1012.6919999999998" y="284.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V2 SiteNavigationV2</text>
+  <rect x="910.0759999999998" y="205.59999999999997" width="205.232" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="1012.6919999999998" y="227.99999999999997" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V2 SiteNavigationV2</text>
 </g>
 <g class="node" data-id="v1Map" data-label="V1 NavigationTocMappings" data-shape="rectangle">
-  <rect x="593.6039999999998" y="410.8" width="253.56799999999998" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="720.3879999999998" y="437.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V1 NavigationTocMappings</text>
+  <rect x="593.6039999999998" y="306.4" width="253.56799999999998" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="720.3879999999998" y="328.79999999999995" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V1 NavigationTocMappings</text>
 </g>
 <g class="node" data-id="v2Map" data-label="V2 NavigationTocMappings" data-shape="rectangle">
-  <rect x="883.1719999999998" y="410.8" width="259.03999999999996" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="1012.6919999999998" y="437.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V2 NavigationTocMappings</text>
+  <rect x="883.1719999999998" y="306.4" width="259.03999999999996" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="1012.6919999999998" y="328.79999999999995" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V2 NavigationTocMappings</text>
 </g>
 <g class="node" data-id="valV1" data-label="V1 valid?" data-shape="diamond">
-  <polygon points="854.4519999999997,563.8000000000001 914.2039999999996,623.552 854.4519999999997,683.304 794.6999999999997,623.552" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="854.4519999999997" y="623.552" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V1 valid?</text>
+  <polygon points="854.4519999999997,407.2 914.2039999999996,466.952 854.4519999999997,526.704 794.6999999999997,466.952" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="854.4519999999997" y="466.952" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V1 valid?</text>
 </g>
 <g class="node" data-id="valV2" data-label="V2 valid?" data-shape="diamond">
-  <polygon points="1012.6919999999998,563.8000000000001 1075.1799999999998,626.2880000000001 1012.6919999999998,688.7760000000002 950.2039999999997,626.2880000000001" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="1012.6919999999998" y="626.2880000000001" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V2 valid?</text>
+  <polygon points="1012.6919999999998,407.2 1075.1799999999998,469.688 1012.6919999999998,532.176 950.2039999999997,469.688" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="1012.6919999999998" y="469.688" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V2 valid?</text>
 </g>
 <g class="node" data-id="errV1" data-label="Build error" data-shape="stadium">
-  <rect x="40" y="788.976" width="137.74399999999997" height="52.8" rx="26.4" ry="26.4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="108.87199999999999" y="815.376" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Build error</text>
+  <rect x="40" y="588.176" width="137.74399999999997" height="44.8" rx="22.4" ry="22.4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="108.87199999999999" y="610.576" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Build error</text>
 </g>
 <g class="node" data-id="errV2" data-label="Build error" data-shape="stadium">
-  <rect x="1469.8319999999997" y="788.976" width="137.74399999999997" height="52.8" rx="26.4" ry="26.4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="1538.7039999999997" y="815.376" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Build error</text>
+  <rect x="1469.8319999999997" y="588.176" width="137.74399999999997" height="44.8" rx="22.4" ry="22.4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="1538.7039999999997" y="610.576" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Build error</text>
 </g>
 <g class="node" data-id="flag" data-label="nav-v2 flag" data-shape="diamond">
-  <polygon points="1365.4159999999995,788.9760000000001 1433.8319999999994,857.392 1365.4159999999995,925.808 1296.9999999999995,857.392" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="1365.4159999999995" y="857.392" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">nav-v2 flag</text>
+  <polygon points="1365.4159999999995,588.1760000000002 1433.8319999999994,656.5920000000001 1365.4159999999995,725.008 1296.9999999999995,656.5920000000001" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="1365.4159999999995" y="656.5920000000001" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">nav-v2 flag</text>
 </g>
 <g class="node" data-id="emitV1" data-label="V1 NavigationTocMappings
 injected
 → V1 paths + V1 sidebar" data-shape="rectangle">
-  <rect x="213.74399999999997" y="1026.008" width="253.56799999999998" height="94.4" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="340.52799999999996" y="1073.208" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="340.52799999999996" dy="-15.200000000000001">V1 NavigationTocMappings</tspan><tspan x="340.52799999999996" dy="20.8">injected</tspan><tspan x="340.52799999999996" dy="20.8">→ V1 paths + V1 sidebar</tspan></text>
+  <rect x="213.74399999999997" y="781.008" width="253.56799999999998" height="86.4" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="340.52799999999996" y="824.2080000000001" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="340.52799999999996" dy="-15.200000000000001">V1 NavigationTocMappings</tspan><tspan x="340.52799999999996" dy="20.8">injected</tspan><tspan x="340.52799999999996" dy="20.8">→ V1 paths + V1 sidebar</tspan></text>
 </g>
 <g class="node" data-id="emitV2" data-label="V2 NavigationTocMappings
 injected
 → V2 paths + V2 sidebar" data-shape="rectangle">
-  <rect x="503.31199999999995" y="1026.008" width="259.03999999999996" height="94.4" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="632.8319999999999" y="1073.208" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="632.8319999999999" dy="-15.200000000000001">V2 NavigationTocMappings</tspan><tspan x="632.8319999999999" dy="20.8">injected</tspan><tspan x="632.8319999999999" dy="20.8">→ V2 paths + V2 sidebar</tspan></text>
+  <rect x="503.31199999999995" y="781.008" width="259.03999999999996" height="86.4" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="632.8319999999999" y="824.2080000000001" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="632.8319999999999" dy="-15.200000000000001">V2 NavigationTocMappings</tspan><tspan x="632.8319999999999" dy="20.8">injected</tspan><tspan x="632.8319999999999" dy="20.8">→ V2 paths + V2 sidebar</tspan></text>
 </g>
 </svg>

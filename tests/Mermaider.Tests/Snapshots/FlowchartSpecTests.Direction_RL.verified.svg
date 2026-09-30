@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 479.376 146.4" width="479.376" height="146.4" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 479.376 142.4" width="479.376" height="142.4" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -37,18 +37,18 @@
   </marker>
 </defs>
 
-<path class="edge" data-from="End" data-to="Middle" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M351.792,66.4 L295.792,66.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Middle" data-to="Start" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M189.05599999999998,66.4 L133.05599999999998,66.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="End" data-to="Middle" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M351.792,62.4 L295.792,62.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Middle" data-to="Start" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M189.05599999999998,62.4 L133.05599999999998,62.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="End" data-label="End" data-shape="rectangle">
-  <rect x="351.792" y="40" width="87.584" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="395.58399999999995" y="66.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">End</text>
+  <rect x="351.792" y="40" width="87.584" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="395.58399999999995" y="62.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">End</text>
 </g>
 <g class="node" data-id="Middle" data-label="Middle" data-shape="rectangle">
-  <rect x="189.05599999999998" y="40" width="106.73599999999999" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="242.42399999999998" y="66.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Middle</text>
+  <rect x="189.05599999999998" y="40" width="106.73599999999999" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="242.42399999999998" y="62.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Middle</text>
 </g>
 <g class="node" data-id="Start" data-label="Start" data-shape="rectangle">
-  <rect x="40" y="40" width="93.056" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="86.52799999999999" y="66.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Start</text>
+  <rect x="40" y="40" width="93.056" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="86.52799999999999" y="62.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Start</text>
 </g>
 </svg>

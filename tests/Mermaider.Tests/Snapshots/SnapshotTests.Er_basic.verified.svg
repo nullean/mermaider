@@ -47,20 +47,20 @@
   <rect x="40" y="40" width="174.79999999999998" height="90" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="entity" data-id="ORDER" data-label="ORDER">
-  <rect x="47.39999999999999" y="250" width="160" height="90" rx="6" ry="6" fill="var(--_node-fill)" />
-  <rect x="47.39999999999999" y="250" width="160" height="38" fill="var(--_accent-stroke)" />
-  <rect x="47.39999999999999" y="288" width="160" height="26" fill="var(--_group-hdr)" />
-  <line x1="47.39999999999999" y1="288" x2="207.39999999999998" y2="288" stroke="var(--_node-stroke)" stroke-width="2" />
-  <line x1="47.39999999999999" y1="314" x2="207.39999999999998" y2="314" stroke="var(--_node-stroke)" stroke-width="1" opacity="0.5" />
-  <line x1="94" y1="288" x2="94" y2="340" stroke="var(--_node-stroke)" stroke-width="1" />
-  <line x1="175.32" y1="288" x2="175.32" y2="340" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="56.8" y="250" width="141.2" height="90" rx="6" ry="6" fill="var(--_node-fill)" />
+  <rect x="56.8" y="250" width="141.2" height="38" fill="var(--_accent-stroke)" />
+  <rect x="56.8" y="288" width="141.2" height="26" fill="var(--_group-hdr)" />
+  <line x1="56.8" y1="288" x2="198" y2="288" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="56.8" y1="314" x2="198" y2="314" stroke="var(--_node-stroke)" stroke-width="1" opacity="0.5" />
+  <line x1="103.4" y1="288" x2="103.4" y2="340" stroke="var(--_node-stroke)" stroke-width="1" />
+  <line x1="165.92000000000002" y1="288" x2="165.92000000000002" y2="340" stroke="var(--_node-stroke)" stroke-width="1" />
   <text x="127.39999999999999" y="269" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ORDER</text>
-  <text class="mono" x="55.39999999999999" y="301" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="99" y="301" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="199.39999999999998" y="301" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
-  <text class="mono" x="55.39999999999999" y="327" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">date</tspan></text><text class="mono" x="99" y="327" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">created</tspan></text>
-  <rect x="47.39999999999999" y="250" width="160" height="90" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text class="mono" x="64.8" y="301" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="108.4" y="301" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="190" y="301" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
+  <text class="mono" x="64.8" y="327" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">date</tspan></text><text class="mono" x="108.4" y="327" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">created</tspan></text>
+  <rect x="56.8" y="250" width="141.2" height="90" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="entity" data-id="LINE_ITEM" data-label="LINE_ITEM">
-  <rect x="47.39999999999999" y="460" width="160" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="67.39999999999999" y="460" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
   <text x="127.39999999999999" y="498" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">LINE_ITEM</text>
 </g>
 <line x1="133.39999999999998" y1="134" x2="121.39999999999999" y2="134" stroke="var(--_line)" stroke-width="2.5" />

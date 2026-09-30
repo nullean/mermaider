@@ -20,7 +20,7 @@ internal static class LightweightClassLayoutEngine
 	private const double EmptySectionHeight = 8;
 	private const double MinWidth = 60;
 	private static readonly double MemberFontSize = RenderConstants.FontSizes.Member;
-	private const double NodeSpacing = 40;
+	private const double NodeSpacing = 20;
 	private const double LayerSpacing = 60;
 
 	private const double LollipopSize = 20;

@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 336.304 459.2" width="336.304" height="459.2" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 336.304 427.2" width="336.304" height="427.2" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -37,23 +37,23 @@
   </marker>
 </defs>
 
-<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M168.152,92.8 L168.152,148.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M168.152,201.6 L168.152,257.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="C" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M168.152,310.4 L168.152,366.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M168.152,84.8 L168.152,140.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M168.152,185.6 L168.152,241.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="C" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M168.152,286.4 L168.152,342.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="A" data-label="The **cat** in the hat" data-shape="rectangle">
-  <rect x="61.43199999999999" y="40" width="213.44" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text text-anchor="middle" font-size="var(--fs-m)" fill="var(--_text)"><tspan x="168.152" y="66.4" dy="0.35em">The <tspan font-weight="bold">cat</tspan> in the hat</tspan></text>
+  <rect x="61.43199999999999" y="40" width="213.44" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text text-anchor="middle" font-size="var(--fs-m)" fill="var(--_text)"><tspan x="168.152" y="62.4" dy="0.35em">The <tspan font-weight="bold">cat</tspan> in the hat</tspan></text>
 </g>
 <g class="node" data-id="B" data-label="*Italic* emphasis" data-shape="rectangle">
-  <rect x="77.392" y="148.8" width="181.51999999999998" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text text-anchor="middle" font-size="var(--fs-m)" fill="var(--_text)"><tspan x="168.152" y="175.20000000000002" dy="0.35em"><tspan font-style="italic">Italic</tspan> emphasis</tspan></text>
+  <rect x="77.392" y="140.8" width="181.51999999999998" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text text-anchor="middle" font-size="var(--fs-m)" fill="var(--_text)"><tspan x="168.152" y="163.20000000000002" dy="0.35em"><tspan font-style="italic">Italic</tspan> emphasis</tspan></text>
 </g>
 <g class="node" data-id="C" data-label="**Bold** and *italic* mixed" data-shape="rectangle">
-  <rect x="40" y="257.6" width="256.304" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text text-anchor="middle" font-size="var(--fs-m)" fill="var(--_text)"><tspan x="168.152" y="284" dy="0.35em"><tspan font-weight="bold">Bold</tspan> and <tspan font-style="italic">italic</tspan> mixed</tspan></text>
+  <rect x="40" y="241.6" width="256.304" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text text-anchor="middle" font-size="var(--fs-m)" fill="var(--_text)"><tspan x="168.152" y="264" dy="0.35em"><tspan font-weight="bold">Bold</tspan> and <tspan font-style="italic">italic</tspan> mixed</tspan></text>
 </g>
 <g class="node" data-id="D" data-label="Normal label" data-shape="rectangle">
-  <rect x="94.71999999999998" y="366.4" width="146.864" height="52.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="168.152" y="392.79999999999995" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Normal label</text>
+  <rect x="94.71999999999998" y="342.4" width="146.864" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="168.152" y="364.79999999999995" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Normal label</text>
 </g>
 </svg>

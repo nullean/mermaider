@@ -103,7 +103,7 @@ internal static class LightweightLayoutEngine
 			.DefaultIfEmpty(0)
 			.Max();
 		var effectiveLayerSpacing = maxLabelExtent > 0
-			? Math.Max(layerSpacing, maxLabelExtent + 76)
+			? Math.Max(layerSpacing, maxLabelExtent + 16)
 			: layerSpacing;
 
 		var isStateDiagram = graph.Nodes.Values.Any(n => n.Shape is Models.NodeShape.StateStart or Models.NodeShape.StateEnd);

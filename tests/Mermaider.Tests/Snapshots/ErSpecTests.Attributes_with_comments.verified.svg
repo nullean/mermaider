@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 222" width="240" height="222" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 229.6 222" width="229.6" height="222" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -32,21 +32,21 @@
 </defs>
 
 <g class="entity" data-id="PRODUCT" data-label="PRODUCT">
-  <rect x="40" y="40" width="160" height="142" rx="6" ry="6" fill="var(--_node-fill)" />
-  <rect x="40" y="40" width="160" height="38" fill="var(--_accent-stroke)" />
-  <rect x="40" y="78" width="160" height="26" fill="var(--_group-hdr)" />
-  <rect x="40" y="130" width="160" height="26" fill="var(--_group-hdr)" />
-  <line x1="40" y1="78" x2="200" y2="78" stroke="var(--_node-stroke)" stroke-width="2" />
-  <line x1="40" y1="104" x2="200" y2="104" stroke="var(--_node-stroke)" stroke-width="1" opacity="0.5" />
-  <line x1="40" y1="130" x2="200" y2="130" stroke="var(--_node-stroke)" stroke-width="1" opacity="0.5" />
-  <line x1="40" y1="156" x2="200" y2="156" stroke="var(--_node-stroke)" stroke-width="1" opacity="0.5" />
+  <rect x="40" y="40" width="149.6" height="142" rx="6" ry="6" fill="var(--_node-fill)" />
+  <rect x="40" y="40" width="149.6" height="38" fill="var(--_accent-stroke)" />
+  <rect x="40" y="78" width="149.6" height="26" fill="var(--_group-hdr)" />
+  <rect x="40" y="130" width="149.6" height="26" fill="var(--_group-hdr)" />
+  <line x1="40" y1="78" x2="189.6" y2="78" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="40" y1="104" x2="189.6" y2="104" stroke="var(--_node-stroke)" stroke-width="1" opacity="0.5" />
+  <line x1="40" y1="130" x2="189.6" y2="130" stroke="var(--_node-stroke)" stroke-width="1" opacity="0.5" />
+  <line x1="40" y1="156" x2="189.6" y2="156" stroke="var(--_node-stroke)" stroke-width="1" opacity="0.5" />
   <line x1="111.8" y1="78" x2="111.8" y2="182" stroke="var(--_node-stroke)" stroke-width="1" />
-  <line x1="167.92000000000002" y1="78" x2="167.92000000000002" y2="182" stroke="var(--_node-stroke)" stroke-width="1" />
-  <text x="120" y="59" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">PRODUCT</text>
-  <g><title>Auto-increment</title><text class="mono" x="48" y="91" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="116.8" y="91" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="192" y="91" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text></g>
+  <line x1="157.51999999999998" y1="78" x2="157.51999999999998" y2="182" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="114.8" y="59" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">PRODUCT</text>
+  <g><title>Auto-increment</title><text class="mono" x="48" y="91" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="116.8" y="91" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="181.6" y="91" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text></g>
   <g><title>Required</title><text class="mono" x="48" y="117" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">string</tspan></text><text class="mono" x="116.8" y="117" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">name</tspan></text></g>
   <g><title>In USD</title><text class="mono" x="48" y="143" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">decimal</tspan></text><text class="mono" x="116.8" y="143" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">price</tspan></text></g>
   <g><title>Non-negative</title><text class="mono" x="48" y="169" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="116.8" y="169" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">stock</tspan></text></g>
-  <rect x="40" y="40" width="160" height="142" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="40" y="40" width="149.6" height="142" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 </svg>

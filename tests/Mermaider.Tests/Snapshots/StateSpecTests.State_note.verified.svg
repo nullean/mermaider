@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 329.472 321.6" width="329.472" height="321.6" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 329.472 305.6" width="329.472" height="305.6" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -38,22 +38,22 @@
 </defs>
 
 <path class="edge" data-from="_start" data-to="Active" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M97.472,80 L97.472,120" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Active" data-to="Inactive" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M97.472,172.8 L97.472,228.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Active" data-to="Inactive" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M97.472,164.8 L97.472,220.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
   <circle cx="97.472" cy="68" r="10" fill="var(--_text)" stroke="none" />
   
 </g>
 <g class="node" data-id="Active" data-label="Active" data-shape="rounded">
-  <rect x="45.471999999999994" y="120" width="104" height="52.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="97.472" y="146.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Active</text>
+  <rect x="45.471999999999994" y="120" width="104" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="97.472" y="142.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Active</text>
 </g>
 <g class="node" data-id="Inactive" data-label="Inactive" data-shape="rounded">
-  <rect x="40" y="228.8" width="114.94399999999999" height="52.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="97.472" y="255.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Inactive</text>
+  <rect x="40" y="220.8" width="114.94399999999999" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="97.472" y="243.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Inactive</text>
 </g>
 <g class="note">
-  <line x1="179.47199999999998" y1="146.4" x2="149.47199999999998" y2="146.4" stroke="var(--_accent-stroke)" stroke-width="1.5" stroke-dasharray="4 3" />
-  <rect x="179.47199999999998" y="131.4" width="120" height="30" rx="6" ry="6" fill="var(--_accent-fill)" stroke="var(--_accent-stroke)" stroke-width="2" />
-  <text x="239.47199999999998" y="146.4" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_accent-text)" dy="4.8999999999999995">Important state</text>
+  <line x1="179.47199999999998" y1="142.4" x2="149.47199999999998" y2="142.4" stroke="var(--_accent-stroke)" stroke-width="1.5" stroke-dasharray="4 3" />
+  <rect x="179.47199999999998" y="127.4" width="120" height="30" rx="6" ry="6" fill="var(--_accent-fill)" stroke="var(--_accent-stroke)" stroke-width="2" />
+  <text x="239.47199999999998" y="142.4" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_accent-text)" dy="4.8999999999999995">Important state</text>
 </g>
 </svg>

@@ -15,7 +15,7 @@ internal static class LightweightErLayoutEngine
 	private const double BoxPadX = 16;
 	private const double HeaderHeight = 38;
 	private const double RowHeight = 26;
-	private const double MinWidth = 160;
+	private const double MinWidth = 120;
 	private static readonly double AttrFontSize = RenderConstants.FontSizes.Member;
 	private const double NodeSpacing = 40;
 	private const double LayerSpacing = 120;

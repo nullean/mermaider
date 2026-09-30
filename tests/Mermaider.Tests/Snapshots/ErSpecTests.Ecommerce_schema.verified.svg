@@ -84,22 +84,22 @@
   <rect x="40" y="512" width="191.6" height="116" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="entity" data-id="PRODUCT" data-label="PRODUCT">
-  <rect x="55.8" y="748" width="160" height="142" rx="6" ry="6" fill="var(--_node-fill)" />
-  <rect x="55.8" y="748" width="160" height="38" fill="var(--_accent-stroke)" />
-  <rect x="55.8" y="786" width="160" height="26" fill="var(--_group-hdr)" />
-  <rect x="55.8" y="838" width="160" height="26" fill="var(--_group-hdr)" />
-  <line x1="55.8" y1="786" x2="215.8" y2="786" stroke="var(--_node-stroke)" stroke-width="2" />
-  <line x1="55.8" y1="812" x2="215.8" y2="812" stroke="var(--_node-stroke)" stroke-width="1" opacity="0.5" />
-  <line x1="55.8" y1="838" x2="215.8" y2="838" stroke="var(--_node-stroke)" stroke-width="1" opacity="0.5" />
-  <line x1="55.8" y1="864" x2="215.8" y2="864" stroke="var(--_node-stroke)" stroke-width="1" opacity="0.5" />
-  <line x1="127.6" y1="786" x2="127.6" y2="890" stroke="var(--_node-stroke)" stroke-width="1" />
-  <line x1="183.72000000000003" y1="786" x2="183.72000000000003" y2="890" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="61" y="748" width="149.6" height="142" rx="6" ry="6" fill="var(--_node-fill)" />
+  <rect x="61" y="748" width="149.6" height="38" fill="var(--_accent-stroke)" />
+  <rect x="61" y="786" width="149.6" height="26" fill="var(--_group-hdr)" />
+  <rect x="61" y="838" width="149.6" height="26" fill="var(--_group-hdr)" />
+  <line x1="61" y1="786" x2="210.6" y2="786" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="61" y1="812" x2="210.6" y2="812" stroke="var(--_node-stroke)" stroke-width="1" opacity="0.5" />
+  <line x1="61" y1="838" x2="210.6" y2="838" stroke="var(--_node-stroke)" stroke-width="1" opacity="0.5" />
+  <line x1="61" y1="864" x2="210.6" y2="864" stroke="var(--_node-stroke)" stroke-width="1" opacity="0.5" />
+  <line x1="132.8" y1="786" x2="132.8" y2="890" stroke="var(--_node-stroke)" stroke-width="1" />
+  <line x1="178.51999999999998" y1="786" x2="178.51999999999998" y2="890" stroke="var(--_node-stroke)" stroke-width="1" />
   <text x="135.8" y="767" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">PRODUCT</text>
-  <text class="mono" x="63.8" y="799" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="132.6" y="799" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="207.8" y="799" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
-  <text class="mono" x="63.8" y="825" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">string</tspan></text><text class="mono" x="132.6" y="825" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">name</tspan></text>
-  <text class="mono" x="63.8" y="851" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">decimal</tspan></text><text class="mono" x="132.6" y="851" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">price</tspan></text>
-  <text class="mono" x="63.8" y="877" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="132.6" y="877" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">stock</tspan></text>
-  <rect x="55.8" y="748" width="160" height="142" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text class="mono" x="69" y="799" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="137.8" y="799" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="202.6" y="799" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
+  <text class="mono" x="69" y="825" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">string</tspan></text><text class="mono" x="137.8" y="825" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">name</tspan></text>
+  <text class="mono" x="69" y="851" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">decimal</tspan></text><text class="mono" x="137.8" y="851" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">price</tspan></text>
+  <text class="mono" x="69" y="877" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="137.8" y="877" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">stock</tspan></text>
+  <rect x="61" y="748" width="149.6" height="142" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="entity" data-id="CATEGORY" data-label="CATEGORY">
   <rect x="40" y="1010" width="191.6" height="116" rx="6" ry="6" fill="var(--_node-fill)" />
