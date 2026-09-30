@@ -148,6 +148,22 @@ internal static class LayerAssigner
 			if (minChildLayer is int.MaxValue or <= 1)
 				continue; // no real children, or already adjacent
 
+			// Don't push down if there's another source node at layer 0 —
+			// sibling sources should stay at the same layer for visual coherence.
+			var hasSiblingSource = false;
+			for (var other = 0; other < graph.RealNodeCount; other++)
+			{
+				if (other == node || graph.Layers[other] != 0)
+					continue;
+				if (graph.InAdjStart[other + 1] - graph.InAdjStart[other] == 0)
+				{
+					hasSiblingSource = true;
+					break;
+				}
+			}
+			if (hasSiblingSource)
+				continue;
+
 			graph.Layers[node] = minChildLayer - 1;
 		}
 
