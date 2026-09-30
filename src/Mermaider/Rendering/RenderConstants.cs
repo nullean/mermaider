@@ -39,7 +39,7 @@ internal static class RenderConstants
 	{
 		internal const int Horizontal = 28;
 		internal const int Vertical = 16;
-		internal const int DiamondExtra = 28;
+		internal const int DiamondExtra = 0;
 	}
 
 	internal static class Radii
