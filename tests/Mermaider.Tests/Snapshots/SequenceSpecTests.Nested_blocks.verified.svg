@@ -41,15 +41,15 @@
   <rect x="310" y="240" width="80" height="60" rx="8" ry="8" fill="none" stroke="var(--_line)" stroke-width="1.75" />
   <rect x="310" y="240" width="46.66" height="18" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_line)" stroke-width="1.75" />
   <text x="316" y="249" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">loop</text>
-  <rect x="295.59" y="238" width="108.82000000000002" height="22" rx="4" ry="4" fill="var(--_text)" />
-  <text x="350" y="249" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--bg)">Retry on failure</text>
+  <rect x="364.65999999999997" y="238" width="108.82000000000002" height="22" rx="4" ry="4" fill="var(--_text)" />
+  <text x="419.07" y="249" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--bg)">Retry on failure</text>
 </g>
 <g class="block" data-type="alt" data-label="Cache Hit">
   <rect x="30" y="88" width="360" height="342" rx="8" ry="8" fill="none" stroke="var(--_line)" stroke-width="1.75" />
   <rect x="30" y="88" width="33.22" height="18" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_line)" stroke-width="1.75" />
   <text x="36" y="97" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">alt</text>
-  <rect x="172.6" y="86" width="74.80000000000001" height="22" rx="4" ry="4" fill="var(--_text)" />
-  <text x="210" y="97" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--bg)">Cache Hit</text>
+  <rect x="71.22" y="86" width="74.80000000000001" height="22" rx="4" ry="4" fill="var(--_text)" />
+  <text x="108.62" y="97" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--bg)">Cache Hit</text>
   <line x1="30" y1="162" x2="390" y2="162" stroke="var(--_line)" stroke-width="1.75" />
   <rect x="165.418" y="165" width="89.164" height="22" rx="4" ry="4" fill="var(--_text)" />
   <text x="210" y="176" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--bg)">Cache Miss</text>

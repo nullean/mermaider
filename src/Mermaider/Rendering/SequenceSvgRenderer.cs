@@ -315,7 +315,13 @@ internal static class SequenceSvgRenderer
 
 		if (block.Label.Length > 0)
 		{
-			AppendConditionBadge(sb, block.Label, block.X + (block.Width / 2), block.Y + (tabHeight / 2));
+			// Place the condition badge right of the type tab so it never overlaps it.
+			var labelW = TextMetrics.MeasureTextWidth(
+				block.Label,
+				RenderConstants.FontSizes.EdgeLabel,
+				RenderConstants.FontWeights.EdgeLabel) + 16;
+			var badgeCx = block.X + tabWidth + 8 + (labelW / 2);
+			AppendConditionBadge(sb, block.Label, badgeCx, block.Y + (tabHeight / 2));
 		}
 
 		foreach (var divider in block.Dividers)

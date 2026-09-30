@@ -41,8 +41,8 @@
   <rect x="30" y="88" width="220" height="134" rx="8" ry="8" fill="none" stroke="var(--_line)" stroke-width="1.75" />
   <rect x="30" y="88" width="33.22" height="18" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_line)" stroke-width="1.75" />
   <text x="36" y="97" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">alt</text>
-  <rect x="103.734" y="86" width="72.53200000000001" height="22" rx="4" ry="4" fill="var(--_text)" />
-  <text x="140" y="97" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--bg)">Success</text>
+  <rect x="71.22" y="86" width="72.53200000000001" height="22" rx="4" ry="4" fill="var(--_text)" />
+  <text x="107.486" y="97" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--bg)">Success</text>
   <line x1="30" y1="162" x2="250" y2="162" stroke="var(--_line)" stroke-width="1.75" />
   <rect x="109.026" y="165" width="61.94800000000001" height="22" rx="4" ry="4" fill="var(--_text)" />
   <text x="140" y="176" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--bg)">Failure</text>
@@ -51,8 +51,8 @@
   <rect x="30" y="240" width="220" height="60" rx="8" ry="8" fill="none" stroke="var(--_line)" stroke-width="1.75" />
   <rect x="30" y="240" width="46.66" height="18" rx="6" ry="6" fill="var(--_group-hdr)" stroke="var(--_line)" stroke-width="1.75" />
   <text x="36" y="249" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">loop</text>
-  <rect x="114.318" y="238" width="51.36400000000001" height="22" rx="4" ry="4" fill="var(--_text)" />
-  <text x="140" y="249" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--bg)">Retry</text>
+  <rect x="84.66" y="238" width="51.36400000000001" height="22" rx="4" ry="4" fill="var(--_text)" />
+  <text x="110.342" y="249" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--bg)">Retry</text>
 </g>
 <line class="lifeline" data-actor="A" x1="70" y1="70" x2="70" y2="400" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
 <line class="lifeline" data-actor="B" x1="210" y1="70" x2="210" y2="400" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
