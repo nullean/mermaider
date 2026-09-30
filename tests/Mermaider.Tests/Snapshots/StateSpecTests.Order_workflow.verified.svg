@@ -48,27 +48,27 @@
 <path class="edge" data-from="Returned" data-to="Refunded" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="process_refund" d="M273.91999999999996,676 L273.91999999999996,716" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Refunded" data-to="_end3" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M273.91999999999996,829 L273.91999999999996,869" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="Pending" data-to="Confirmed" data-label="payment_ok">
-  <rect x="204.57399999999996" y="246.00000000000003" width="98.67600000000002" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="210.57399999999996" y="252.00000000000003" width="86.67600000000002" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="253.91199999999998" y="267.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">payment_ok</text>
 </g>
 <g class="edge-label" data-from="Pending" data-to="Cancelled" data-label="timeout">
-  <rect x="344.14599999999996" y="246.00000000000003" width="66.924" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="350.14599999999996" y="252.00000000000003" width="54.92400000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="377.60799999999995" y="267.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">timeout</text>
 </g>
 <g class="edge-label" data-from="Confirmed" data-to="Shipped" data-label="dispatch">
-  <rect x="153.31" y="399" width="77.50800000000001" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="159.31" y="405" width="65.50800000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="192.064" y="420.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">dispatch</text>
 </g>
 <g class="edge-label" data-from="Shipped" data-to="Delivered" data-label="deliver">
-  <rect x="114.198" y="552" width="68.436" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="120.198" y="558" width="56.436" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="148.416" y="573.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">deliver</text>
 </g>
 <g class="edge-label" data-from="Shipped" data-to="Returned" data-label="return_request">
-  <rect x="176.546" y="552" width="118.33200000000001" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="182.546" y="558" width="106.33200000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="235.712" y="573.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">return_request</text>
 </g>
 <g class="edge-label" data-from="Returned" data-to="Refunded" data-label="process_refund">
-  <rect x="211.72999999999996" y="705" width="124.38" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="217.72999999999996" y="711" width="112.38" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="273.91999999999996" y="726.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">process_refund</text>
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="statestart">

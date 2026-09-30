@@ -42,19 +42,19 @@
 <path class="edge" data-from="B" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Done" d="M74.672,245.8 L74.672,346" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="C" data-to="A" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Retry" d="M214.688,219.4 L244.688,219.4 Q250.688,219.4 250.688,213.4 L250.688,72.4 Q250.688,66.4 244.688,66.4 L214.688,66.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="A" data-to="B" data-label="Yes">
-  <rect x="102.198" y="121.80000000000001" width="50.292" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="108.198" y="127.80000000000001" width="38.292" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="127.344" y="142.9" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Yes</text>
 </g>
 <g class="edge-label" data-from="A" data-to="C" data-label="No">
-  <rect x="158.64999999999998" y="121.80000000000001" width="42.732000000000006" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="164.64999999999998" y="127.80000000000001" width="30.732000000000006" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="180.016" y="142.9" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">No</text>
 </g>
 <g class="edge-label" data-from="B" data-to="D" data-label="Done">
-  <rect x="45.745999999999995" y="274.79999999999995" width="57.852000000000004" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="51.745999999999995" y="280.79999999999995" width="45.852000000000004" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="74.672" y="295.9" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Done</text>
 </g>
 <g class="edge-label" data-from="C" data-to="A" data-label="Retry">
-  <rect x="221.00599999999997" y="121.80000000000001" width="59.36400000000001" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="227.00599999999997" y="127.80000000000001" width="47.36400000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="250.688" y="142.9" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Retry</text>
 </g>
 <g class="node" data-id="A" data-label="A" data-shape="rectangle">

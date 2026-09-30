@@ -44,19 +44,19 @@
 <path class="edge" data-from="Closed" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M94.73599999999999,523 L94.73599999999999,563" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Active" data-to="Closed" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="close" d="M94.73599999999999,217 L94.736,311.2 Q94.736,317.2 94.736,323.2 L94.736,470.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="Active" data-to="Inactive" data-label="disable">
-  <rect x="132.498" y="246.00000000000003" width="69.94800000000001" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="138.49799999999996" y="252.00000000000003" width="57.948000000000015" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="167.47199999999998" y="267.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">disable</text>
 </g>
 <g class="edge-label" data-from="Inactive" data-to="Active" data-label="reactivate">
-  <rect x="124.18199999999997" y="274.19999999999993" width="86.58000000000001" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="130.18199999999996" y="280.19999999999993" width="74.58000000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="167.47199999999998" y="295.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">reactivate</text>
 </g>
 <g class="edge-label" data-from="Inactive" data-to="Closed" data-label="close">
-  <rect x="137.78999999999996" y="399" width="59.36400000000001" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="143.78999999999996" y="405" width="47.36400000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="167.47199999999998" y="420.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">close</text>
 </g>
 <g class="edge-label" data-from="Active" data-to="Closed" data-label="close">
-  <rect x="65.054" y="322.5" width="59.36400000000001" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="71.054" y="328.5" width="47.36400000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="94.736" y="343.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">close</text>
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="statestart">

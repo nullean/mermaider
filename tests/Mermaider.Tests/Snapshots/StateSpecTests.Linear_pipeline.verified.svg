@@ -44,19 +44,19 @@
 <path class="edge" data-from="Stored" data-to="Published" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="notify" d="M105.68,676 L105.68,776.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Published" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M105.68,829 L105.68,869" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="Received" data-to="Validated" data-label="validate">
-  <rect x="69.194" y="246.00000000000003" width="72.97200000000001" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="75.194" y="252.00000000000003" width="60.972" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="105.68" y="267.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">validate</text>
 </g>
 <g class="edge-label" data-from="Validated" data-to="Enriched" data-label="enrich">
-  <rect x="72.97400000000002" y="399" width="65.41199999999999" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="78.97400000000002" y="405" width="53.41199999999999" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="105.68" y="420.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">enrich</text>
 </g>
 <g class="edge-label" data-from="Enriched" data-to="Stored" data-label="persist">
-  <rect x="71.462" y="552" width="68.436" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="77.462" y="558" width="56.43600000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="105.68" y="573.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">persist</text>
 </g>
 <g class="edge-label" data-from="Stored" data-to="Published" data-label="notify">
-  <rect x="76.754" y="705" width="57.852" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="82.754" y="711" width="45.852" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="105.68" y="726.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">notify</text>
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="statestart">

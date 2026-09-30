@@ -42,15 +42,15 @@
 <path class="edge" data-from="Ready" data-to="Processing" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="request" d="M112.064,370 L112.064,470.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Processing" data-to="Ready" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="done" d="M112.064,470.2 L112.064,370" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="Booting" data-to="Ready" data-label="initialized">
-  <rect x="71.04199999999999" y="246.00000000000003" width="82.04400000000001" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="77.04199999999999" y="252.00000000000003" width="70.04400000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="112.064" y="267.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">initialized</text>
 </g>
 <g class="edge-label" data-from="Ready" data-to="Processing" data-label="request">
-  <rect x="75.57799999999999" y="399" width="72.97200000000001" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="81.57799999999999" y="405" width="60.972" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="112.064" y="420.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">request</text>
 </g>
 <g class="edge-label" data-from="Processing" data-to="Ready" data-label="done">
-  <rect x="83.89399999999999" y="427.20000000000005" width="56.34" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="89.89399999999999" y="433.20000000000005" width="44.34" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="112.064" y="448.30000000000007" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">done</text>
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="statestart">

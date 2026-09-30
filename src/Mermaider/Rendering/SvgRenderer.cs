@@ -14,7 +14,7 @@ namespace Mermaider.Rendering;
 internal static class SvgRenderer
 {
 	private static readonly string EdgeLabelBgAttrs =
-		$"rx=\"{Radii.EdgeLabel}\" ry=\"{Radii.EdgeLabel}\" fill=\"var(--bg)\" stroke=\"var(--_inner-stroke)\" stroke-width=\"1\"";
+		$"rx=\"{Radii.EdgeLabel}\" ry=\"{Radii.EdgeLabel}\" fill=\"var(--bg)\" stroke=\"none\"";
 
 	private static readonly string EdgeLabelAttrs = TextAttrs.EdgeLabelCenterFill + "var(--_text)\"";
 
@@ -278,7 +278,7 @@ internal static class SvgRenderer
 			FontSizes.EdgeLabel,
 			FontWeights.EdgeLabel);
 
-		const double labelPad = 12.0;
+		const double labelPad = 6.0;
 		var labelX = mid.X;
 
 		var labelColor = InlineStyleValue(edge.InlineStyle, "color");

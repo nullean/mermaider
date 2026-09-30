@@ -30,7 +30,7 @@ internal static class EdgeRouter
 		}
 	}
 
-	private const double MinGapFromNode = 42;
+	private const double MinGapFromNode = 22;
 
 	internal static List<RoutedEdge> Run(
 		GraphBuffer graph, bool useSideRouting = false,

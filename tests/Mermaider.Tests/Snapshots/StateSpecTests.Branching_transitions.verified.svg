@@ -45,23 +45,23 @@
 <path class="edge" data-from="Failed" data-to="_end2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="abort" d="M92,523 L92,567.1 Q92,573.1 98,573.1 L106.98199999999997,573.1 Q112.03199999999998,573.1 112.03199999999998,568.05 L112.03199999999998,563" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Failed" data-to="Idle" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="retry" d="M92,470.2 L92,349.6 Q92,343.6 98,343.6 L186.064,343.6 Q192.064,343.6 192.064,337.6 L192.064,217" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="Idle" data-to="Processing" data-label="submit">
-  <rect x="235.12999999999997" y="246.00000000000003" width="63.90000000000001" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="241.12999999999997" y="252.00000000000003" width="51.90000000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="267.08" y="267.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">submit</text>
 </g>
 <g class="edge-label" data-from="Processing" data-to="Success" data-label="ok">
-  <rect x="371.518" y="399" width="41.22" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="377.518" y="405" width="29.220000000000002" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="392.128" y="420.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">ok</text>
 </g>
 <g class="edge-label" data-from="Processing" data-to="Failed" data-label="error">
-  <rect x="187.36599999999996" y="399" width="59.36400000000001" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="193.36599999999996" y="405" width="47.36400000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="217.04799999999997" y="420.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">error</text>
 </g>
 <g class="edge-label" data-from="Failed" data-to="_end2" data-label="abort">
-  <rect x="63.074" y="543.9" width="57.852000000000004" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
-<text x="92" y="565" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">abort</text>
+  <rect x="69.074" y="532.9499999999999" width="45.852000000000004" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="92" y="548.05" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">abort</text>
 </g>
 <g class="edge-label" data-from="Failed" data-to="Idle" data-label="retry">
-  <rect x="163.894" y="259.2" width="56.34" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <rect x="169.894" y="265.2" width="44.34" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="192.064" y="280.3" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">retry</text>
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
