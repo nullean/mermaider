@@ -99,6 +99,7 @@ internal static class LightweightErLayoutEngine
 			NodeSpacing = NodeSpacing,
 			LayerSpacing = effectiveLayerSpacing,
 			StrictTopDownFanout = true,
+			MaxComponentsPerRow = 2,
 		});
 
 		return ExtractPositioned(result, diagram, layoutEdgeRelIndices);

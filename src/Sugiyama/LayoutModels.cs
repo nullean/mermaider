@@ -104,6 +104,13 @@ public sealed record LayoutOptions
 	/// for class diagrams. Default: false.
 	/// </summary>
 	public bool ForceBottomExitFanOut { get; init; }
+
+	/// <summary>
+	/// Maximum number of components to tile in the primary direction before wrapping
+	/// to a new row (for TD/BT) or column (for LR/RL). 0 means unlimited (default).
+	/// Useful for ER diagrams with many disconnected entity pairs.
+	/// </summary>
+	public int MaxComponentsPerRow { get; init; }
 }
 
 // ====================================================================

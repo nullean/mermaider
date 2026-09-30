@@ -229,6 +229,7 @@ public static class SugiyamaLayout
 		// For TD/BT tile horizontally; for LR/RL tile vertically
 		var tileHorizontally = direction is LayoutDirection.TD or LayoutDirection.BT;
 		var padding = options.Padding;
+		var maxPerRow = options.MaxComponentsPerRow > 0 ? options.MaxComponentsPerRow : components.Count;
 
 		var allNodes = new List<LayoutNodeResult>();
 		var allEdges = new List<LayoutEdgeResult>();
@@ -236,15 +237,32 @@ public static class SugiyamaLayout
 
 		// Each component's result includes full padding on all sides.
 		// When tiling, collapse adjacent paddings into a single componentSpacing gap.
-		var offset = 0.0;
-		var maxExtent = 0.0;
+
+		// Track row/column offsets for grid wrapping
+		var primaryOffset = 0.0;   // offset along the primary tiling axis
+		var secondaryOffset = 0.0; // offset along the perpendicular axis (for new rows)
+		var rowMaxExtent = 0.0;    // tallest component in the current row
+		var colInRow = 0;          // how many components placed in the current row
+
+		// Track overall extents for computing final canvas size
+		var totalPrimary = 0.0;
+		var totalSecondary = 0.0;
 
 		for (var c = 0; c < components.Count; c++)
 		{
 			var (result, edgeMap) = components[c];
 
-			var shiftX = tileHorizontally ? offset : 0.0;
-			var shiftY = tileHorizontally ? 0.0 : offset;
+			// Wrap to a new row/column when the per-row limit is reached
+			if (colInRow > 0 && colInRow >= maxPerRow)
+			{
+				secondaryOffset += rowMaxExtent - (2 * padding) + options.ComponentSpacing;
+				primaryOffset = 0.0;
+				rowMaxExtent = 0.0;
+				colInRow = 0;
+			}
+
+			var shiftX = tileHorizontally ? primaryOffset : secondaryOffset;
+			var shiftY = tileHorizontally ? secondaryOffset : primaryOffset;
 
 			foreach (var node in result.Nodes)
 				allNodes.Add(node with { X = node.X + shiftX, Y = node.Y + shiftY });
@@ -266,28 +284,35 @@ public static class SugiyamaLayout
 			foreach (var group in result.Groups)
 				allGroups.Add(ShiftGroup(group, shiftX, shiftY));
 
-			// Advance by content + componentSpacing, collapsing double-padding between adjacent components
-			var size = tileHorizontally ? result.Width : result.Height;
-			offset += size - (2 * padding) + options.ComponentSpacing;
+			// Advance primary offset, collapsing double-padding between adjacent components
+			var primarySize = tileHorizontally ? result.Width : result.Height;
+			primaryOffset += primarySize - (2 * padding) + options.ComponentSpacing;
 
-			var perpendicular = tileHorizontally ? result.Height : result.Width;
-			if (perpendicular > maxExtent)
-				maxExtent = perpendicular;
+			var perpendicularSize = tileHorizontally ? result.Height : result.Width;
+			if (perpendicularSize > rowMaxExtent)
+				rowMaxExtent = perpendicularSize;
+
+			colInRow++;
+
+			// Track max primary extent across all rows
+			var rowEndPrimary = primaryOffset - options.ComponentSpacing + (2 * padding);
+			if (rowEndPrimary > totalPrimary)
+				totalPrimary = rowEndPrimary;
 		}
 
-		// Undo the last componentSpacing and restore the outer padding
-		var totalTile = offset - options.ComponentSpacing + (2 * padding);
+		// Total secondary = all completed rows + final partial row
+		totalSecondary = secondaryOffset + rowMaxExtent;
 
 		double totalWidth, totalHeight;
 		if (tileHorizontally)
 		{
-			totalWidth = Math.Max(0, totalTile);
-			totalHeight = maxExtent;
+			totalWidth = Math.Max(0, totalPrimary);
+			totalHeight = Math.Max(0, totalSecondary);
 		}
 		else
 		{
-			totalWidth = maxExtent;
-			totalHeight = Math.Max(0, totalTile);
+			totalWidth = Math.Max(0, totalSecondary);
+			totalHeight = Math.Max(0, totalPrimary);
 		}
 
 		return new LayoutResult(totalWidth, totalHeight, allNodes, allEdges, allGroups);
