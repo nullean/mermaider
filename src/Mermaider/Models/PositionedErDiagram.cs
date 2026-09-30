@@ -30,4 +30,5 @@ public sealed record PositionedErRelationship
 	public required string Label { get; init; }
 	public required bool Identifying { get; init; }
 	public required IReadOnlyList<Point> Points { get; init; }
+	public Point? LabelPosition { get; init; }
 }

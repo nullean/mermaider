@@ -18,7 +18,7 @@ internal static class LightweightErLayoutEngine
 	private const double MinWidth = 120;
 	private static readonly double AttrFontSize = RenderConstants.FontSizes.Member;
 	private const double NodeSpacing = 20;
-	private const double LayerSpacing = 120;
+	private const double LayerSpacing = 80;
 
 	internal static PositionedErDiagram Layout(ErDiagram diagram)
 	{
@@ -138,6 +138,7 @@ internal static class LightweightErLayoutEngine
 				continue;
 
 			var points = edge.Points.Select(p => new Point(p.X, p.Y)).ToList();
+			Point? labelPos = edge.LabelPosition is { } lp ? new Point(lp.X, lp.Y) : null;
 			positionedRels.Add(new PositionedErRelationship
 			{
 				Entity1 = rel.Entity1,
@@ -147,6 +148,7 @@ internal static class LightweightErLayoutEngine
 				Label = rel.Label,
 				Identifying = rel.Identifying,
 				Points = points,
+				LabelPosition = labelPos,
 			});
 		}
 

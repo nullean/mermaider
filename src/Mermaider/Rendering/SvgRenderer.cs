@@ -232,10 +232,10 @@ internal static class SvgRenderer
 			var y2 = points[2].Y;
 			var x3 = points[3].X;
 			var y3 = points[3].Y;
-			var isVerticalZBend = Math.Abs(x0 - x1) < 1.0
-				&& Math.Abs(y1 - y2) < 1.0
-				&& Math.Abs(x2 - x3) < 1.0
-				&& Math.Abs(x0 - x2) > 1.0;
+			var isVerticalZBend = Math.Abs(x0 - x1) < 3.0
+				&& Math.Abs(y1 - y2) < 3.0
+				&& Math.Abs(x2 - x3) < 3.0
+				&& Math.Abs(x0 - x2) > 3.0;
 			if (isVerticalZBend)
 			{
 				var ym = (y0 + y3) / 2.0;

@@ -48,11 +48,83 @@ internal static class ErSvgRenderer
 		foreach (var rel in diagram.Relationships)
 			AppendCardinality(sb, rel);
 
-		foreach (var rel in diagram.Relationships)
-			AppendRelationshipLabel(sb, rel);
+		var labelPositions = ResolveErLabelPositions(diagram.Relationships);
+		for (var i = 0; i < diagram.Relationships.Count; i++)
+			AppendRelationshipLabel(sb, diagram.Relationships[i], labelPositions[i]);
 
 		_ = sb.Append("\n</svg>");
 		return sb;
+	}
+
+	// Computes final label positions by starting from Sugiyama positions (or arc midpoints) and
+	// pushing overlapping labels apart horizontally so they don't obscure each other.
+	private static Point?[] ResolveErLabelPositions(IReadOnlyList<PositionedErRelationship> rels)
+	{
+		var positions = new Point?[rels.Count];
+		var sizes = new (double w, double h)[rels.Count];
+
+		for (var i = 0; i < rels.Count; i++)
+		{
+			var rel = rels[i];
+			if (rel.Label.Length == 0 || rel.Points.Count < 2)
+				continue;
+			var pos = rel.LabelPosition ?? ArcMidpoint(rel.Points);
+			var metrics = TextMetrics.MeasureMultiline(
+				rel.Label.AsSpan(),
+				RenderConstants.FontSizes.EdgeLabel,
+				RenderConstants.FontWeights.EdgeLabel);
+			positions[i] = pos;
+			sizes[i] = (metrics.Width + 8, metrics.Height + 6);
+		}
+
+		const int maxIterations = 8;
+		const double labelPad = 4.0;
+		for (var iter = 0; iter < maxIterations; iter++)
+		{
+			var moved = false;
+			for (var a = 0; a < rels.Count - 1; a++)
+			{
+				if (positions[a] is null)
+					continue;
+				var pa = positions[a]!.Value;
+				var (wa, ha) = sizes[a];
+				for (var b = a + 1; b < rels.Count; b++)
+				{
+					if (positions[b] is null)
+						continue;
+					var pb = positions[b]!.Value;
+					var (wb, hb) = sizes[b];
+
+					var ax0 = pa.X - (wa / 2) - labelPad;
+					var ax1 = pa.X + (wa / 2) + labelPad;
+					var ay0 = pa.Y - (ha / 2) - labelPad;
+					var ay1 = pa.Y + (ha / 2) + labelPad;
+
+					var bx0 = pb.X - (wb / 2) - labelPad;
+					var bx1 = pb.X + (wb / 2) + labelPad;
+					var by0 = pb.Y - (hb / 2) - labelPad;
+					var by1 = pb.Y + (hb / 2) + labelPad;
+
+					if (ax1 <= bx0 || bx1 <= ax0 || ay1 <= by0 || by1 <= ay0)
+						continue; // no overlap
+
+					// Push apart horizontally to resolve overlap while keeping labels
+					// within their layer corridor (avoids pushing into entity boxes).
+					var overlapX = Math.Min(ax1 - bx0, bx1 - ax0);
+					var shiftX = (overlapX / 2.0) + 1.0;
+					positions[a] = new Point(pa.X - shiftX, pa.Y);
+					positions[b] = new Point(pb.X + shiftX, pb.Y);
+					pa = positions[a]!.Value;
+					pb = positions[b]!.Value;
+					moved = true;
+				}
+			}
+
+			if (!moved)
+				break;
+		}
+
+		return positions;
 	}
 
 	private static void AppendEntityBox(StringBuilder sb, PositionedErEntity entity)
@@ -252,17 +324,86 @@ internal static class ErSvgRenderer
 			_ = sb.Append('"');
 		}
 		_ = sb.Append(" d=\"");
-		SvgRenderer.BuildRoundedPath(sb, rel.Points, CornerRadius);
+		BuildErPath(sb, rel.Points);
 		_ = sb.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.Connector).Append('"').Append(dashArray).Append(" />");
 	}
 
-	private static void AppendRelationshipLabel(StringBuilder sb, PositionedErRelationship rel)
+	// ER-specific path builder: converts cross-column paths to smooth S-curves (or J-curves for
+	// side-exit connections) regardless of intermediate waypoint complexity. This ensures all
+	// ER edges from the same entity use a consistent curvy style rather than a mix of S-curves
+	// and rectilinear staircases.
+	private static void BuildErPath(StringBuilder sb, IReadOnlyList<Point> points)
+	{
+		if (points.Count < 2)
+			return;
+
+		if (points.Count >= 3)
+		{
+			var p0 = points[0];
+			var p1 = points[1];
+			var pN = points[^1];
+			var pN1 = points[^2];
+
+			var dx0 = Math.Abs(p1.X - p0.X);
+			var dy0 = Math.Abs(p1.Y - p0.Y);
+			var dxN = Math.Abs(pN.X - pN1.X);
+			var dyN = Math.Abs(pN.Y - pN1.Y);
+
+			// Cross-column vertical exit and entry (TD/BT): S-curve M p0 C p0.x,midY pN.x,midY pN
+			if (dx0 < 4.0 && dxN < 4.0 && Math.Abs(p0.X - pN.X) > 4.0)
+			{
+				var ym = (p0.Y + pN.Y) / 2.0;
+				_ = sb.Append('M').Append(p0.X).Append(',').Append(p0.Y)
+					.Append(" C").Append(p0.X).Append(',').Append(ym)
+					.Append(' ').Append(pN.X).Append(',').Append(ym)
+					.Append(' ').Append(pN.X).Append(',').Append(pN.Y);
+				return;
+			}
+
+			// Horizontal exit then vertical entry (TD side-exit, e.g. StrictTopDownFanout): J-curve
+			if (dy0 < 4.0 && dxN < 4.0 && dx0 > 4.0)
+			{
+				var ym = (p0.Y + pN.Y) / 2.0;
+				_ = sb.Append('M').Append(p0.X).Append(',').Append(p0.Y)
+					.Append(" C").Append(pN.X).Append(',').Append(p0.Y)
+					.Append(' ').Append(pN.X).Append(',').Append(ym)
+					.Append(' ').Append(pN.X).Append(',').Append(pN.Y);
+				return;
+			}
+
+			// Vertical exit then horizontal entry (LR side-exit): J-curve rotated
+			if (dx0 < 4.0 && dyN < 4.0 && dy0 > 4.0)
+			{
+				var xm = (p0.X + pN.X) / 2.0;
+				_ = sb.Append('M').Append(p0.X).Append(',').Append(p0.Y)
+					.Append(" C").Append(p0.X).Append(',').Append(pN.Y)
+					.Append(' ').Append(xm).Append(',').Append(pN.Y)
+					.Append(' ').Append(pN.X).Append(',').Append(pN.Y);
+				return;
+			}
+
+			// Cross-row horizontal exit and entry (LR/RL): S-curve
+			if (dy0 < 4.0 && dyN < 4.0 && Math.Abs(p0.Y - pN.Y) > 4.0)
+			{
+				var xm = (p0.X + pN.X) / 2.0;
+				_ = sb.Append('M').Append(p0.X).Append(',').Append(p0.Y)
+					.Append(" C").Append(xm).Append(',').Append(p0.Y)
+					.Append(' ').Append(xm).Append(',').Append(pN.Y)
+					.Append(' ').Append(pN.X).Append(',').Append(pN.Y);
+				return;
+			}
+		}
+
+		SvgRenderer.BuildRoundedPath(sb, points, CornerRadius);
+	}
+
+	private static void AppendRelationshipLabel(StringBuilder sb, PositionedErRelationship rel, Point? resolvedPosition)
 	{
 		if (rel.Label.Length == 0 || rel.Points.Count < 2)
 			return;
 
-		var mid = ArcMidpoint(rel.Points);
+		var mid = resolvedPosition ?? rel.LabelPosition ?? ArcMidpoint(rel.Points);
 		var metrics = TextMetrics.MeasureMultiline(
 			rel.Label.AsSpan(),
 			RenderConstants.FontSizes.EdgeLabel,
