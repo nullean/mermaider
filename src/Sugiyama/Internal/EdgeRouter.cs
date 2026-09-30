@@ -394,10 +394,56 @@ internal static class EdgeRouter
 			return;
 		}
 
-		var midY = (prevPoint.Y + portY) / 2.0;
+		var midY = FindClearBusY(graph, prevPoint.Y, portY, prevPoint.X, cx, node);
 		points.Add(new LayoutPoint(prevPoint.X, midY));
 		points.Add(new LayoutPoint(cx, midY));
 		points.Add(new LayoutPoint(cx, portY));
+	}
+
+	/// <summary>
+	/// Find a horizontal bus Y between yStart and yEnd that doesn't pass through
+	/// any real node whose X range overlaps [xA, xB] (excluding the target node).
+	/// Falls back to the geometric midpoint when no obstacle is found.
+	/// </summary>
+	private static double FindClearBusY(GraphBuffer graph, double yStart, double yEnd, double xA, double xB, int excludeNode)
+	{
+		var xMin = Math.Min(xA, xB);
+		var xMax = Math.Max(xA, xB);
+		var midY = (yStart + yEnd) / 2.0;
+
+		// Collect Y ranges of real nodes that the horizontal bus would cross.
+		var blockers = new List<(double Top, double Bottom)>();
+		for (var i = 0; i < graph.RealNodeCount; i++)
+		{
+			if (i == excludeNode)
+				continue;
+			var nodeLeft = graph.X[i];
+			var nodeRight = nodeLeft + graph.NodeWidths[i];
+			if (nodeRight <= xMin || nodeLeft >= xMax)
+				continue;
+			var nodeTop = graph.Y[i];
+			var nodeBottom = nodeTop + graph.NodeHeights[i];
+			if (nodeTop >= yEnd || nodeBottom <= yStart)
+				continue;
+			if (midY > nodeTop && midY < nodeBottom)
+				blockers.Add((nodeTop, nodeBottom));
+		}
+
+		if (blockers.Count == 0)
+			return midY;
+
+		// Try a gap below the last blocker (between blocker.bottom and yEnd).
+		blockers.Sort((a, b) => a.Top.CompareTo(b.Top));
+		var lastBottom = blockers[^1].Bottom;
+		if (lastBottom < yEnd - 1)
+			return (lastBottom + yEnd) / 2.0;
+
+		// Try a gap above the first blocker (between yStart and blocker.top).
+		var firstTop = blockers[0].Top;
+		if (firstTop > yStart + 1)
+			return (yStart + firstTop) / 2.0;
+
+		return midY;
 	}
 
 	/// <summary>
@@ -657,10 +703,23 @@ internal static class EdgeRouter
 		var srcBottom = graph.Y[source] + graph.NodeHeights[source];
 		var tgtCX = graph.X[target] + (graph.NodeWidths[target] / 2.0);
 		var tgtTop = graph.Y[target];
-		var midY = (srcBottom + tgtTop) / 2.0;
 
 		if (Math.Abs(srcCX - tgtCX) < 1.0)
 			return [new(srcCX, srcBottom), new(srcCX, tgtTop)];
+
+		var midY = (srcBottom + tgtTop) / 2.0;
+
+		// If the midY horizontal bus would pass through any intermediate node's Y range,
+		// fall back to side routing which detours around the right edge of the diagram.
+		for (var i = 0; i < graph.RealNodeCount; i++)
+		{
+			if (i == source || i == target)
+				continue;
+			var nodeTop = graph.Y[i];
+			var nodeBottom = nodeTop + graph.NodeHeights[i];
+			if (midY > nodeTop && midY < nodeBottom)
+				return RouteBackEdge(graph, source, target);
+		}
 
 		return
 		[
