@@ -33,6 +33,7 @@ public sealed record PositionedClassNode
 	public required double HeaderHeight { get; init; }
 	public required double AttrHeight { get; init; }
 	public required double MethodHeight { get; init; }
+	public bool IsLollipopTarget { get; init; }
 }
 
 public sealed record PositionedClassRelationship

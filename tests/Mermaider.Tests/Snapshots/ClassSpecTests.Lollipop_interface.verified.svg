@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 236" width="200" height="236" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 228" width="200" height="228" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -46,7 +46,7 @@
   </marker>
 </defs>
 
-<path class="class-relationship" data-from="Shape" data-to="Drawable" data-type="lollipop" data-marker-at="to" d="M100,88 L100,148" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-lollipop)" />
+<path class="class-relationship" data-from="Shape" data-to="Drawable" data-type="lollipop" data-marker-at="to" d="M100,88 L100,148" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="class-node" data-id="Shape" data-label="Shape">
   <rect x="40" y="40" width="120" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
   <rect x="40" y="40" width="120" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
@@ -56,13 +56,9 @@
   <line x1="40" y1="80" x2="160" y2="80" stroke="var(--_line)" stroke-width="1.5" />
   <rect x="40" y="40" width="120" height="48" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
-<g class="class-node" data-id="Drawable" data-label="Drawable">
-  <rect x="40" y="148" width="120" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
-  <rect x="40" y="148" width="120" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
-  <rect x="40" y="154" width="120" height="26" fill="var(--_group-hdr)" stroke="none" />
-  <text x="100" y="164" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Drawable</text>
-  <line x1="40" y1="180" x2="160" y2="180" stroke="var(--_line)" stroke-width="1.5" />
-  <line x1="40" y1="188" x2="160" y2="188" stroke="var(--_line)" stroke-width="1.5" />
-  <rect x="40" y="148" width="120" height="48" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+<g class="class-node lollipop" data-id="Drawable">
+  <circle cx="100" cy="158" r="8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+  <text x="100" y="180" text-anchor="middle" dy="0.35em" font-size="16" font-weight="500" fill="var(--_text)">Drawable</text>
 </g>
+
 </svg>

@@ -23,15 +23,36 @@ internal static class LightweightClassLayoutEngine
 	private const double NodeSpacing = 40;
 	private const double LayerSpacing = 60;
 
+	private const double LollipopSize = 20;
+
 	internal static PositionedClassDiagram Layout(ClassDiagram diagram)
 	{
 		if (diagram.Classes.Count == 0)
 			return new PositionedClassDiagram { Width = 0, Height = 0, Classes = [], Relationships = [] };
 
+		// A class is a lollipop target if it only appears as the To side of Lollipop relationships
+		// and never as the From side of any relationship or the To side of a non-lollipop relationship.
+		var lollipopTargets = new HashSet<string>(
+			diagram.Relationships
+				.Where(r => r.Type == ClassRelationType.Lollipop)
+				.Select(r => r.To));
+		foreach (var rel in diagram.Relationships)
+		{
+			if (rel.Type != ClassRelationType.Lollipop)
+				_ = lollipopTargets.Remove(rel.To);
+			_ = lollipopTargets.Remove(rel.From);
+		}
+
 		var classSizes = new Dictionary<string, (double Width, double Height, double HeaderHeight, double AttrHeight, double MethodHeight)>();
 
 		foreach (var cls in diagram.Classes)
 		{
+			if (lollipopTargets.Contains(cls.Id))
+			{
+				classSizes[cls.Id] = (LollipopSize, LollipopSize, LollipopSize, 0, 0);
+				continue;
+			}
+
 			var headerHeight = cls.Annotation != null
 				? HeaderBaseHeight + AnnotationHeight
 				: HeaderBaseHeight;
@@ -90,13 +111,14 @@ internal static class LightweightClassLayoutEngine
 			ForceBottomExitFanOut = true,
 		});
 
-		return ExtractPositioned(result, diagram, classSizes);
+		return ExtractPositioned(result, diagram, classSizes, lollipopTargets);
 	}
 
 	private static PositionedClassDiagram ExtractPositioned(
 		LayoutResult result,
 		ClassDiagram diagram,
-		Dictionary<string, (double Width, double Height, double HeaderHeight, double AttrHeight, double MethodHeight)> classSizes)
+		Dictionary<string, (double Width, double Height, double HeaderHeight, double AttrHeight, double MethodHeight)> classSizes,
+		HashSet<string> lollipopTargets)
 	{
 		var nodeLookup = result.Nodes.ToDictionary(n => n.Id);
 		var positionedClasses = new List<PositionedClassNode>(diagram.Classes.Count);
@@ -120,6 +142,7 @@ internal static class LightweightClassLayoutEngine
 				HeaderHeight = size.HeaderHeight,
 				AttrHeight = size.AttrHeight,
 				MethodHeight = size.MethodHeight,
+				IsLollipopTarget = lollipopTargets.Contains(cls.Id),
 			});
 		}
 

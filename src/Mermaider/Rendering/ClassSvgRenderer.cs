@@ -46,7 +46,12 @@ internal static class ClassSvgRenderer
 			AppendRelationship(sb, rel);
 
 		foreach (var cls in diagram.Classes)
-			AppendClassBox(sb, cls);
+		{
+			if (cls.IsLollipopTarget)
+				AppendLollipopNode(sb, cls);
+			else
+				AppendClassBox(sb, cls);
+		}
 
 		foreach (var rel in diagram.Relationships)
 			AppendRelationshipLabels(sb, rel);
@@ -117,6 +122,28 @@ internal static class ClassSvgRenderer
 		_ = sb.Append("  </marker>\n");
 
 		_ = sb.Append("</defs>\n");
+	}
+
+	private const double LollipopRadius = 8.0;
+
+	private static void AppendLollipopNode(StringBuilder sb, PositionedClassNode cls)
+	{
+		var cx = cls.X + (cls.Width / 2);
+		var cy = cls.Y + (cls.Height / 2);
+		_ = sb.Append("\n<g class=\"class-node lollipop\" data-id=\"");
+		MultilineUtils.AppendEscapedAttr(sb, cls.Id.AsSpan());
+		_ = sb.Append("\">\n");
+		_ = sb.Append("  <circle cx=\"").Append(cx).Append("\" cy=\"").Append(cy)
+			.Append("\" r=\"").Append(LollipopRadius)
+			.Append("\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"1.5\" />\n");
+		_ = sb.Append("  <text x=\"").Append(cx).Append("\" y=\"").Append(cy + LollipopRadius + 14)
+			.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
+			.Append("\" font-size=\"").Append(RenderConstants.FontSizes.NodeLabel)
+			.Append("\" font-weight=\"").Append(RenderConstants.FontWeights.NodeLabel)
+			.Append("\" fill=\"var(--_text)\">");
+		MultilineUtils.AppendEscapedXml(sb, cls.Label.AsSpan());
+		_ = sb.Append("</text>\n");
+		_ = sb.Append("</g>\n");
 	}
 
 	private static void AppendClassBox(StringBuilder sb, PositionedClassNode cls)
@@ -289,7 +316,7 @@ internal static class ClassSvgRenderer
 			ClassRelationType.Composition => "cls-composition",
 			ClassRelationType.Aggregation => "cls-aggregation",
 			ClassRelationType.Association or ClassRelationType.Dependency => "cls-arrow",
-			ClassRelationType.Lollipop => "cls-lollipop",
+			// Lollipop: no marker — the target node itself renders as a circle
 			_ => null,
 		};
 		if (markerId == null)
