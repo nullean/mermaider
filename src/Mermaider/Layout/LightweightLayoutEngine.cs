@@ -484,7 +484,7 @@ internal static class LightweightLayoutEngine
 	private const double NoteWidth = 120;
 	private const double NoteHPad = 10;
 	private const double NoteVPad = 8;
-	private const double NoteGap = 10;
+	private const double NoteGap = 30;
 
 	private static PositionedGraph AttachNotes(PositionedGraph positioned, MermaidGraph graph)
 	{
