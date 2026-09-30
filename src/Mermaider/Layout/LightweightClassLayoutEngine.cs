@@ -12,7 +12,7 @@ namespace Mermaider.Layout;
 internal static class LightweightClassLayoutEngine
 {
 	private const double Padding = 40;
-	private const double BoxPadX = 8;
+	private const double BoxPadX = 4;
 	private const double HeaderBaseHeight = 32;
 	private const double AnnotationHeight = 16;
 	private const double MemberRowHeight = 20;

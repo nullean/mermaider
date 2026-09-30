@@ -11,8 +11,8 @@ namespace Mermaider.Layout;
 /// </summary>
 internal static class LightweightErLayoutEngine
 {
-	private const double Padding = 40;
-	private const double BoxPadX = 16;
+	private const double Padding = 20;
+	private const double BoxPadX = 12;
 	private const double HeaderHeight = 38;
 	private const double RowHeight = 26;
 	private const double MinWidth = 120;
