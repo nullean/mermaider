@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 144" width="380" height="144" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 144" width="260" height="144" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -46,23 +46,23 @@
   </marker>
 </defs>
 
-<path class="class-relationship" data-from="A" data-to="B" data-type="association" data-marker-at="to" d="M160,64 L220,64" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
+<path class="class-relationship" data-from="A" data-to="B" data-type="association" data-marker-at="to" d="M100,64 L160,64" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
 <g class="class-node" data-id="A" data-label="A">
-  <rect x="40" y="40" width="120" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
-  <rect x="40" y="40" width="120" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
-  <rect x="40" y="46" width="120" height="26" fill="var(--_group-hdr)" stroke="none" />
-  <text x="100" y="56" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">A</text>
-  <line x1="40" y1="72" x2="160" y2="72" stroke="var(--_line)" stroke-width="1.5" />
-  <line x1="40" y1="80" x2="160" y2="80" stroke="var(--_line)" stroke-width="1.5" />
-  <rect x="40" y="40" width="120" height="48" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="40" y="40" width="60" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
+  <rect x="40" y="40" width="60" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="40" y="46" width="60" height="26" fill="var(--_group-hdr)" stroke="none" />
+  <text x="70" y="56" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">A</text>
+  <line x1="40" y1="72" x2="100" y2="72" stroke="var(--_line)" stroke-width="1.5" />
+  <line x1="40" y1="80" x2="100" y2="80" stroke="var(--_line)" stroke-width="1.5" />
+  <rect x="40" y="40" width="60" height="48" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="B" data-label="B">
-  <rect x="220" y="40" width="120" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
-  <rect x="220" y="40" width="120" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
-  <rect x="220" y="46" width="120" height="26" fill="var(--_group-hdr)" stroke="none" />
-  <text x="280" y="56" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">B</text>
-  <line x1="220" y1="72" x2="340" y2="72" stroke="var(--_line)" stroke-width="1.5" />
-  <line x1="220" y1="80" x2="340" y2="80" stroke="var(--_line)" stroke-width="1.5" />
-  <rect x="220" y="40" width="120" height="48" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="160" y="40" width="60" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
+  <rect x="160" y="40" width="60" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="160" y="46" width="60" height="26" fill="var(--_group-hdr)" stroke="none" />
+  <text x="190" y="56" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">B</text>
+  <line x1="160" y1="72" x2="220" y2="72" stroke="var(--_line)" stroke-width="1.5" />
+  <line x1="160" y1="80" x2="220" y2="80" stroke="var(--_line)" stroke-width="1.5" />
+  <rect x="160" y="40" width="60" height="48" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 </svg>
