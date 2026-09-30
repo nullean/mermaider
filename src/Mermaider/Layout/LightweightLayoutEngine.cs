@@ -90,6 +90,7 @@ internal static class LightweightLayoutEngine
 			CancellationToken = ct,
 			MaxNodeCount = maxNodesAfterLayout,
 			ForceBottomExitFanOut = isStateDiagram,
+			NaturalBackEdgeRouting = isStateDiagram,
 		};
 
 		LayoutResult result;

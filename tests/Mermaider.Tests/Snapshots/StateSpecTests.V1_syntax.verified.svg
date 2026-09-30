@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 328.20799999999997 526.4000000000001" width="328.20799999999997" height="526.4000000000001" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 252.20799999999997 526.4000000000001" width="252.20799999999997" height="526.4000000000001" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -40,7 +40,7 @@
 <path class="edge" data-from="_start" data-to="Still" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M156.10399999999998,80 L156.10399999999998,120" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Still" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M156.10399999999998,172.8 L156.10399999999998,194.8 Q156.10399999999998,200.8 150.10399999999998,200.8 L58,200.8 Q52,200.8 52,206.8 L52,212.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Still" data-to="Moving" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M156.10399999999998,172.8 L156.10399999999998,212.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Moving" data-to="Still" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M212.20799999999997,255.20000000000002 L242.20799999999997,255.20000000000002 Q248.20799999999997,255.20000000000002 248.20799999999997,249.20000000000002 L248.20799999999997,152.4 Q248.20799999999997,146.4 242.20799999999997,146.4 L198.07199999999997,146.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Moving" data-to="Still" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M156.10399999999998,228.8 L156.10399999999998,172.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Moving" data-to="Crash" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M156.10399999999998,281.6 L156.10399999999998,337.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Crash" data-to="_end2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M156.10399999999998,390.40000000000003 L156.10399999999998,430.40000000000003" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="_start" data-label="" data-shape="statestart">

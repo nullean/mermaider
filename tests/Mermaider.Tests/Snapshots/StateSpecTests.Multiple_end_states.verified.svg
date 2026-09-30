@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 413.67999999999995 703.2" width="413.67999999999995" height="703.2" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 337.67999999999995 703.2" width="337.67999999999995" height="703.2" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -39,7 +39,7 @@
 
 <path class="edge" data-from="_start" data-to="Active" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M94.73599999999999,124.19999999999999 L94.73599999999999,164.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Active" data-to="Inactive" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="disable" d="M94.73599999999999,217 L94.73599999999999,261.1 Q94.73599999999999,267.1 100.73599999999999,267.1 L234.20799999999997,267.1 Q240.20799999999997,267.1 240.20799999999997,273.1 L240.20799999999997,317.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Inactive" data-to="Active" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="reactivate" d="M297.67999999999995,343.59999999999997 L327.67999999999995,343.59999999999997 Q333.67999999999995,343.59999999999997 333.67999999999995,337.59999999999997 L333.67999999999995,196.6 Q333.67999999999995,190.6 327.67999999999995,190.6 L146.736,190.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Inactive" data-to="Active" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="reactivate" d="M240.20799999999997,317.2 L240.20799999999997,273.1 Q240.20799999999997,267.1 234.20799999999997,267.1 L100.73599999999999,267.1 Q94.73599999999999,267.1 94.73599999999999,261.1 L94.73599999999999,217" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Inactive" data-to="Closed" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="close" d="M240.20799999999997,370 L240.20799999999997,414.1 Q240.20799999999997,420.1 234.20799999999997,420.1 L100.736,420.1 Q94.736,420.1 94.736,426.1 L94.736,470.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Closed" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M94.73599999999999,523 L94.73599999999999,563" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Active" data-to="Closed" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="close" d="M94.73599999999999,217 L94.736,311.2 Q94.736,317.2 94.736,323.2 L94.736,470.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
@@ -48,8 +48,8 @@
 <text x="167.47199999999998" y="267.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">disable</text>
 </g>
 <g class="edge-label" data-from="Inactive" data-to="Active" data-label="reactivate">
-  <rect x="196.91799999999995" y="169.5" width="86.58000000000001" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
-<text x="240.20799999999997" y="190.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">reactivate</text>
+  <rect x="124.18199999999997" y="274.19999999999993" width="86.58000000000001" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+<text x="167.47199999999998" y="295.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">reactivate</text>
 </g>
 <g class="edge-label" data-from="Inactive" data-to="Closed" data-label="close">
   <rect x="137.78999999999996" y="399" width="59.36400000000001" height="42.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
