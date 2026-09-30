@@ -13,11 +13,11 @@ namespace Sugiyama.Internal;
 /// </summary>
 internal static class CoordinateAssigner
 {
-	internal static void Run(GraphBuffer graph, double nodeSpacing, double layerSpacing)
+	internal static void Run(GraphBuffer graph, double nodeSpacing, double layerSpacing, bool interLayerCompact = false)
 	{
 		AssignPrimaryAxis(graph, layerSpacing);
 		AssignSecondaryAxis(graph, nodeSpacing);
-		PlaceBySubtreeWidth(graph, nodeSpacing);
+		PlaceBySubtreeWidth(graph, nodeSpacing, interLayerCompact);
 		CompactOrphanedNodes(graph, nodeSpacing);
 		AlignToConnections(graph, nodeSpacing);
 		CompactOrphanedNodes(graph, nodeSpacing);
@@ -79,7 +79,7 @@ internal static class CoordinateAssigner
 	/// Virtual nodes keep their AssignSecondaryAxis positions; AlignToConnections
 	/// fine-tunes them afterward.
 	/// </summary>
-	private static void PlaceBySubtreeWidth(GraphBuffer graph, double nodeSpacing)
+	private static void PlaceBySubtreeWidth(GraphBuffer graph, double nodeSpacing, bool interLayerCompact = false)
 	{
 		var outEdges = BuildOutEdges(graph);
 
@@ -127,9 +127,101 @@ internal static class CoordinateAssigner
 			placed[node] = true;
 		}
 
-		// --- 3. Top-down: spread each parent's children symmetrically in its slot ---
-		for (var layer = 0; layer < graph.LayerCount - 1; layer++)
+		// --- 3. Top-down: spread children with interleaved per-layer spacing enforcement.
+		//
+		// The original code placed all layers first, then enforced spacing globally.
+		// This caused a subtle bug: when a parent node's position is shifted rightward by
+		// spacing enforcement AFTER its children were placed, the children remain at the
+		// wrong (pre-shift) positions.  Example: Assembly at x=251 places PublishEnvironment
+		// at x=225, then PublishEnvironment spreads FeatureFlag etc. near x=0; spacing
+		// enforcement then pushes PublishEnvironment to x=1124 — too late for its children.
+		//
+		// Fix: enforce spacing in layer L BEFORE it spreads children to layer L+1.
+		// Layer 0 is exempt (step 2 already places it with sequential currentX so it is
+		// gap-free by construction).
+		for (var layer = 0; layer < graph.LayerCount; layer++)
 		{
+			// 3a: Finalize this layer's positions before using them to center children.
+			//     Only when interLayerCompact is set (ER diagrams): for DAGs with shared
+			//     children, the first parent to claim a node may be placed too far left,
+			//     stranding that node's descendants at x≈0 relative to the parent that
+			//     placed them.  Running spacing enforcement + compaction inline — before
+			//     spreading children — ensures parents are at their correct positions first.
+			//     Not enabled for flowcharts/class diagrams: wide intentional subtree spread
+			//     there is correct and must not be compacted mid-pass.
+			if (interLayerCompact && layer > 0)
+			{
+				var layerNodes = graph.LayerNodes[layer];
+
+				// (a) Push right: remove overlaps created by multi-parent placement
+				for (var pos = 1; pos < layerNodes.Length; pos++)
+				{
+					var prev = layerNodes[pos - 1];
+					var curr = layerNodes[pos];
+					var prevW = prev < graph.RealNodeCount ? graph.NodeWidths[prev] : 0;
+					var minX = graph.X[prev] + prevW + nodeSpacing;
+					if (graph.X[curr] < minX)
+						graph.X[curr] = minX;
+				}
+
+				// (b) Pull left: compact any node stranded far from its right neighbour
+				var compactThreshold = nodeSpacing * 7;
+				for (var pos = 0; pos < layerNodes.Length - 1; pos++)
+				{
+					var curr = layerNodes[pos];
+					var next = layerNodes[pos + 1];
+					if (curr >= graph.RealNodeCount)
+						continue;
+
+					var currW = graph.NodeWidths[curr];
+					var gap = graph.X[next] - (graph.X[curr] + currW);
+					if (gap <= compactThreshold)
+						continue;
+
+					var newX = graph.X[next] - nodeSpacing - currW;
+					if (pos > 0)
+					{
+						var prevNode = layerNodes[pos - 1];
+						var prevW = prevNode < graph.RealNodeCount ? graph.NodeWidths[prevNode] : 0;
+						newX = Math.Max(newX, graph.X[prevNode] + prevW + nodeSpacing);
+					}
+
+					if (newX > graph.X[curr])
+						graph.X[curr] = newX;
+				}
+			}
+
+			// 3b: Push unplaced real nodes (no parent placed them) to the rightmost end
+			//     of this layer so they don't straddle placed siblings.
+			{
+				var layerNodes = graph.LayerNodes[layer];
+				var rightmostEnd = double.MinValue;
+				foreach (var node in layerNodes)
+				{
+					if (node >= graph.RealNodeCount || !placed[node])
+						continue;
+					var end = graph.X[node] + graph.NodeWidths[node];
+					if (end > rightmostEnd)
+						rightmostEnd = end;
+				}
+				if (rightmostEnd != double.MinValue)
+				{
+					var nextX = rightmostEnd + nodeSpacing;
+					foreach (var node in layerNodes)
+					{
+						if (node >= graph.RealNodeCount || placed[node])
+							continue;
+						graph.X[node] = nextX;
+						nextX += graph.NodeWidths[node] + nodeSpacing;
+						placed[node] = true;
+					}
+				}
+			}
+
+			// 3c: Spread this layer's children into layer+1 using now-final parent positions.
+			if (layer >= graph.LayerCount - 1)
+				continue;
+
 			foreach (var parent in graph.LayerNodes[layer])
 			{
 				if (parent >= graph.RealNodeCount || !placed[parent])
@@ -167,41 +259,7 @@ internal static class CoordinateAssigner
 			}
 		}
 
-		// --- 3.5: Push unplaced real nodes to the rightmost end of their layer ---
-		// A real node is "unplaced" if it has no parent in the previous layer (e.g. a
-		// source pushed down by PushDownSources, or a node whose parents are all in
-		// non-adjacent layers).  Leaving it at its AssignSecondaryAxis position can place
-		// it to the LEFT of nodes that were correctly placed, causing AlignToConnections
-		// to clamp those nodes to a far-left position via the right-neighbour max-X constraint.
-		for (var layer = 1; layer < graph.LayerCount; layer++)
-		{
-			var nodes = graph.LayerNodes[layer];
-			var rightmostEnd = double.MinValue;
-			foreach (var node in nodes)
-			{
-				if (node >= graph.RealNodeCount || !placed[node])
-					continue;
-				var end = graph.X[node] + graph.NodeWidths[node];
-				if (end > rightmostEnd)
-					rightmostEnd = end;
-			}
-
-			if (rightmostEnd == double.MinValue)
-				continue; // all nodes unplaced (or only virtual) — nothing to anchor to
-
-			var nextX = rightmostEnd + nodeSpacing;
-			foreach (var node in nodes) // iterate in crossing-minimiser order so order is preserved
-			{
-				if (node >= graph.RealNodeCount || placed[node])
-					continue;
-				graph.X[node] = nextX;
-				nextX += graph.NodeWidths[node] + nodeSpacing;
-				placed[node] = true;
-			}
-		}
-
-		// --- 4. Enforce minimum spacing within each layer ---
-		// Fixes any remaining overlaps from multi-parent conflicts or orphaned nodes.
+		// --- 4. Final safety enforcement pass (catches multi-parent conflicts remaining) ---
 		for (var layer = 0; layer < graph.LayerCount; layer++)
 		{
 			var nodes = graph.LayerNodes[layer];

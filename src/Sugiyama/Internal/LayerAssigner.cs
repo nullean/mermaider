@@ -8,12 +8,14 @@ namespace Sugiyama.Internal;
 /// </summary>
 internal static class LayerAssigner
 {
-	internal static void Run(GraphBuffer graph, bool naturalBackEdgeRouting = false)
+	internal static void Run(GraphBuffer graph, bool naturalBackEdgeRouting = false, bool tightSourceLayering = false)
 	{
 		graph.RebuildAdjacency();
 		AssignLayers(graph);
 		EnforceSameRankConstraints(graph);
-		PushDownSources(graph);
+		PushDownSources(graph, tightSourceLayering);
+		if (tightSourceLayering)
+			SqueezeIntermediateNodes(graph);
 		EnforceMinLengths(graph);
 		InsertVirtualNodes(graph, naturalBackEdgeRouting);
 		graph.RebuildAdjacency();
@@ -127,10 +129,17 @@ internal static class LayerAssigner
 	/// <summary>
 	/// For source nodes (no incoming edges) that have all their children two or more
 	/// layers away, push them down to sit directly above their nearest child.
-	/// This mirrors mermaid.js behaviour: isolated sources with deep connections appear
-	/// adjacent to where they connect, not stranded at layer 0.
+	/// <para>
+	/// When <paramref name="tightSourceLayering"/> is true each source is pushed
+	/// independently — sibling sources at different depths may land at different layers,
+	/// keeping each entity close to what it connects to. This is the ER-diagram mode.
+	/// </para>
+	/// <para>
+	/// When false (default), a source is only pushed when no other source sits at layer 0,
+	/// preserving visual alignment of top-level nodes in flowcharts and class diagrams.
+	/// </para>
 	/// </summary>
-	private static void PushDownSources(GraphBuffer graph)
+	private static void PushDownSources(GraphBuffer graph, bool tightSourceLayering)
 	{
 		for (var node = 0; node < graph.RealNodeCount; node++)
 		{
@@ -148,26 +157,88 @@ internal static class LayerAssigner
 			if (minChildLayer is int.MaxValue or <= 1)
 				continue; // no real children, or already adjacent
 
-			// Don't push down if there's another source node at layer 0 —
-			// sibling sources should stay at the same layer for visual coherence.
-			var hasSiblingSource = false;
-			for (var other = 0; other < graph.RealNodeCount; other++)
+			if (!tightSourceLayering)
 			{
-				if (other == node || graph.Layers[other] != 0)
-					continue;
-				if (graph.InAdjStart[other + 1] - graph.InAdjStart[other] == 0)
+				// Conservative mode: don't push if any sibling source is still at layer 0 —
+				// top-level nodes in flowcharts and class diagrams should stay aligned.
+				var hasSiblingSource = false;
+				for (var other = 0; other < graph.RealNodeCount; other++)
 				{
-					hasSiblingSource = true;
-					break;
+					if (other == node || graph.Layers[other] != 0)
+						continue;
+					if (graph.InAdjStart[other + 1] - graph.InAdjStart[other] == 0)
+					{
+						hasSiblingSource = true;
+						break;
+					}
 				}
+				if (hasSiblingSource)
+					continue;
 			}
-			if (hasSiblingSource)
-				continue;
 
 			graph.Layers[node] = minChildLayer - 1;
 		}
 
 		// Recompute LayerCount in case sources moved to higher layers
+		var maxLayer = 0;
+		for (var i = 0; i < graph.NodeCount; i++)
+			if (graph.Layers[i] > maxLayer)
+				maxLayer = graph.Layers[i];
+		graph.LayerCount = maxLayer + 1;
+	}
+
+	/// <summary>
+	/// Pull intermediate nodes (those with both in-edges and out-edges) closer to their
+	/// successors, reducing long edge spans that create crossing wires. For each such node,
+	/// if its nearest successor is more than one layer away, move the node to
+	/// (minSuccessorLayer - 1) — provided that doesn't violate the predecessor constraint
+	/// (node must be at least maxPredecessorLayer + 1). Iterates until stable.
+	/// </summary>
+	private static void SqueezeIntermediateNodes(GraphBuffer graph)
+	{
+		var changed = true;
+		var iter = 0;
+		while (changed && iter++ < 10)
+		{
+			changed = false;
+			for (var node = 0; node < graph.RealNodeCount; node++)
+			{
+				var inCount = graph.InAdjStart[node + 1] - graph.InAdjStart[node];
+				var outCount = graph.OutAdjStart[node + 1] - graph.OutAdjStart[node];
+				if (inCount == 0 || outCount == 0)
+					continue; // source or sink — handled elsewhere
+
+				// Earliest valid layer: one below the deepest predecessor
+				var maxPredLayer = 0;
+				for (var j = graph.InAdjStart[node]; j < graph.InAdjStart[node + 1]; j++)
+				{
+					var pred = graph.InAdjNeighbor[j];
+					if (pred < graph.RealNodeCount && graph.Layers[pred] > maxPredLayer)
+						maxPredLayer = graph.Layers[pred];
+				}
+				var minValidLayer = maxPredLayer + 1;
+
+				// Target layer: one above the nearest real successor
+				var minSuccLayer = int.MaxValue;
+				for (var j = graph.OutAdjStart[node]; j < graph.OutAdjStart[node + 1]; j++)
+				{
+					var succ = graph.OutAdjNeighbor[j];
+					if (succ < graph.RealNodeCount && graph.Layers[succ] < minSuccLayer)
+						minSuccLayer = graph.Layers[succ];
+				}
+
+				if (minSuccLayer == int.MaxValue)
+					continue;
+
+				var targetLayer = minSuccLayer - 1;
+				if (targetLayer <= graph.Layers[node] || targetLayer < minValidLayer)
+					continue; // already tight or constraint would be violated
+
+				graph.Layers[node] = targetLayer;
+				changed = true;
+			}
+		}
+
 		var maxLayer = 0;
 		for (var i = 0; i < graph.NodeCount; i++)
 			if (graph.Layers[i] > maxLayer)

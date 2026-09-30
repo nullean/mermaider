@@ -111,6 +111,13 @@ public sealed record LayoutOptions
 	/// Useful for ER diagrams with many disconnected entity pairs.
 	/// </summary>
 	public int MaxComponentsPerRow { get; init; }
+
+	/// <summary>
+	/// When true, each source node (no incoming edges) is pushed independently to sit
+	/// directly above its nearest child, regardless of whether sibling sources exist.
+	/// Keeps ER entities close to what they connect to. Default: false.
+	/// </summary>
+	public bool TightSourceLayering { get; init; }
 }
 
 // ====================================================================

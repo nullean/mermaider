@@ -17,7 +17,7 @@ internal static class LightweightErLayoutEngine
 	private const double RowHeight = 26;
 	private const double MinWidth = 120;
 	private static readonly double AttrFontSize = RenderConstants.FontSizes.Member;
-	private const double NodeSpacing = 20;
+	private const double NodeSpacing = 28;
 	private const double LayerSpacing = 80;
 
 	internal static PositionedErDiagram Layout(ErDiagram diagram)
@@ -88,9 +88,23 @@ internal static class LightweightErLayoutEngine
 			.Where(v => v > 0)
 			.DefaultIfEmpty(0)
 			.Max();
-		var effectiveLayerSpacing = maxLabelExtent > 0
-			? Math.Max(LayerSpacing, maxLabelExtent + 40)
-			: LayerSpacing;
+
+		// Estimate the worst-case number of labeled edges sharing one inter-layer gap:
+		// that's the max out-degree (fan-out) from any single entity.
+		// Each label needs ~(labelH + 4)px of space in the gap direction.
+		var labelStep = horizontal ? 30.0 : 26.0; // px per stacked label
+		var maxFanOut = layoutEdges
+			.Where(e => e.LabelHeight > 0)
+			.GroupBy(e => e.Source)
+			.Select(g => g.Count())
+			.DefaultIfEmpty(0)
+			.Max();
+		double minSpacingForFanOut = 0;
+		if (maxFanOut > 1)
+			minSpacingForFanOut = (maxFanOut * labelStep) + 20;
+
+		var effectiveLayerSpacing = Math.Max(LayerSpacing,
+			Math.Max((maxLabelExtent > 0) ? (maxLabelExtent + 40) : 0, minSpacingForFanOut));
 
 		var layoutGraph = new LayoutGraph(layoutDir, layoutNodes, layoutEdges, []);
 		var result = SugiyamaLayout.Compute(layoutGraph, new LayoutOptions
@@ -98,8 +112,10 @@ internal static class LightweightErLayoutEngine
 			Padding = Padding,
 			NodeSpacing = NodeSpacing,
 			LayerSpacing = effectiveLayerSpacing,
+			CrossingIterations = 8,
 			StrictTopDownFanout = true,
 			MaxComponentsPerRow = 2,
+			TightSourceLayering = true,
 		});
 
 		return ExtractPositioned(result, diagram, layoutEdgeRelIndices);
@@ -262,9 +278,18 @@ internal static class LightweightErLayoutEngine
 
 				pts[^1] = new Point(newX, last.Y);
 				// If the second-to-last point is on the same vertical as the old last,
-				// move it too so the final descent remains straight.
+				// move it too so the final descent remains straight — but only when the
+				// new x still falls within the source entity's horizontal bounds.
+				// For a 2-point edge, pts[^2] is the source exit; pulling it outside
+				// the source entity box makes the line look disconnected.
 				if (Math.Abs(secondLast.X - last.X) < 1)
-					pts[^2] = new Point(newX, secondLast.Y);
+				{
+					var srcOk = pts.Count > 2 // waypoint, not entity exit — always safe
+						|| !entityByName.TryGetValue(rel.Entity1, out var srcEnt)
+						|| (newX >= srcEnt.X && newX <= srcEnt.X + srcEnt.Width);
+					if (srcOk)
+						pts[^2] = new Point(newX, secondLast.Y);
+				}
 
 				rels[indices[i]] = rel with { Points = pts };
 			}
@@ -320,8 +345,16 @@ internal static class LightweightErLayoutEngine
 					continue;
 
 				pts[0] = new Point(newX, first.Y);
+				// Only pull the next waypoint to the new x if it stays within the
+				// target entity's horizontal bounds (for 2-point edges, pts[1] is the entry).
 				if (Math.Abs(second.X - first.X) < 1)
-					pts[1] = new Point(newX, second.Y);
+				{
+					var tgtOk = pts.Count > 2
+						|| !entityByName.TryGetValue(rel.Entity2, out var tgtEnt)
+						|| (newX >= tgtEnt.X && newX <= tgtEnt.X + tgtEnt.Width);
+					if (tgtOk)
+						pts[1] = new Point(newX, second.Y);
+				}
 
 				rels[indices[i]] = rel with { Points = pts };
 			}
