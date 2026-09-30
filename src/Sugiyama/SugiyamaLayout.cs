@@ -41,7 +41,7 @@ public static class SugiyamaLayout
 		}
 
 		CycleRemover.Run(buf);
-		LayerAssigner.Run(buf, options.NaturalBackEdgeRouting);
+		LayerAssigner.Run(buf, options.NaturalBackEdgeRouting, options.TightSourceLayering);
 
 		options.CancellationToken.ThrowIfCancellationRequested();
 		if (buf.NodeCount > options.MaxNodeCount)
@@ -53,9 +53,18 @@ public static class SugiyamaLayout
 			PromoteDisconnectedSubgraphNodes(buf, input);
 
 		CrossingMinimizer.Run(buf, options.CrossingIterations, options.CancellationToken);
-		CoordinateAssigner.Run(buf, options.NodeSpacing, options.LayerSpacing);
+		CoordinateAssigner.Run(buf, options.NodeSpacing, options.LayerSpacing, options.TightSourceLayering);
 		SpreadFanOutChildren(buf, options.NodeSpacing);
-		SpreadForkBranches(buf, options.NodeSpacing, BuildNodeSubgraphMap(buf, input.Subgraphs));
+
+		// SpreadForkBranches assumes a flowchart/state-diagram "fork" — source → intermediate →
+		// convergence plus source → convergence — and shoves the intermediate branch sideways so
+		// the two paths read as visually distinct. In ER diagrams the exact same edge shape is just
+		// an ordinary multi-parent relationship (e.g. USER→POST→COMMENT with USER→COMMENT too), and
+		// applying the heuristic there shoves the entire intermediate subtree ~200px away from its
+		// sibling for no reason. TightSourceLayering is exclusively opted into by the ER layout
+		// engine, so it doubles as the signal to skip this flowchart-only heuristic.
+		if (!options.TightSourceLayering)
+			SpreadForkBranches(buf, options.NodeSpacing, BuildNodeSubgraphMap(buf, input.Subgraphs));
 
 		if (input.Subgraphs.Count > 0)
 		{

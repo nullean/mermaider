@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Mermaider.Examples;
 
 namespace Mermaider.Tests.Snapshots;
@@ -12,8 +13,11 @@ namespace Mermaider.Tests.Snapshots;
 [Skip("Run manually to refresh mermaid.js reference SVGs")]
 public class MmdcReferenceTests
 {
+	private static string GetSourceDirectory([CallerFilePath] string path = "") =>
+		Path.GetDirectoryName(path)!;
+
 	private static readonly string ReferenceDir =
-		Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "Snapshots", "Reference", "mermaidjs");
+		Path.Combine(GetSourceDirectory(), "Reference", "mermaidjs");
 
 	[Test]
 	[MethodDataSource(nameof(AllExamples))]

@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Mermaider.Examples;
 
 namespace Mermaider.Tests.Snapshots;
@@ -8,10 +9,12 @@ namespace Mermaider.Tests.Snapshots;
 // Output lands in tests/Mermaider.Tests/Snapshots/Reference/mermaidjs/{slug}.svg
 public static class MmdcReferenceGenerator
 {
+	private static string GetSourceDirectory([CallerFilePath] string path = "") =>
+		Path.GetDirectoryName(path)!;
+
 	public static async Task RunAsync(string[] slugFilter, CancellationToken ct = default)
 	{
-		var outDir = Path.Combine(
-			AppContext.BaseDirectory, "..", "..", "..", "Snapshots", "Reference", "mermaidjs");
+		var outDir = Path.Combine(GetSourceDirectory(), "Reference", "mermaidjs");
 		Directory.CreateDirectory(outDir);
 
 		var examples = DiagramExamples.All

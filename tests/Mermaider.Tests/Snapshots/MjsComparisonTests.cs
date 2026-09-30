@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using Mermaider.Examples;
 
@@ -15,11 +16,17 @@ namespace Mermaider.Tests.Snapshots;
 public partial class MjsComparisonTests
 {
 	private const int TimeoutMs = 2000;
-	private static readonly string ReferenceDir =
-		Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "Snapshots", "Reference", "mermaidjs");
 
-	private static readonly string SnapshotDir =
-		Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "Snapshots");
+	// Resolved from the compiled source location rather than AppContext.BaseDirectory —
+	// with <UseArtifactsOutput> the runtime output tree no longer mirrors the source tree
+	// by a fixed number of "..", so a build-output-relative path silently pointed nowhere.
+	private static string GetSourceDirectory([CallerFilePath] string path = "") =>
+		Path.GetDirectoryName(path)!;
+
+	private static readonly string ReferenceDir =
+		Path.Combine(GetSourceDirectory(), "Reference", "mermaidjs");
+
+	private static readonly string SnapshotDir = GetSourceDirectory();
 
 	[Test]
 	[Skip("Individual slug comparisons — run Summary() for the full table")]

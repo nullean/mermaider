@@ -48,7 +48,7 @@ internal static class ErSvgRenderer
 		foreach (var rel in diagram.Relationships)
 			AppendCardinality(sb, rel);
 
-		var labelPositions = ResolveErLabelPositions(diagram.Relationships);
+		var labelPositions = ResolveErLabelPositions(diagram.Relationships, diagram.Entities);
 		for (var i = 0; i < diagram.Relationships.Count; i++)
 			AppendRelationshipLabel(sb, diagram.Relationships[i], labelPositions[i]);
 
@@ -93,8 +93,10 @@ internal static class ErSvgRenderer
 		return new Point((p0.X + pN.X) / 2, (p0.Y + pN.Y) / 2);
 	}
 
-	// Computes final label positions from bezier midpoints and resolves any remaining overlaps.
-	private static Point?[] ResolveErLabelPositions(IReadOnlyList<PositionedErRelationship> rels)
+	// Computes final label positions from bezier midpoints and resolves any remaining overlaps —
+	// both against other labels and against entity boxes a long/skip-layer edge happens to pass near.
+	private static Point?[] ResolveErLabelPositions(
+		IReadOnlyList<PositionedErRelationship> rels, IReadOnlyList<PositionedErEntity> entities)
 	{
 		var positions = new Point?[rels.Count];
 		var sizes = new (double w, double h)[rels.Count];
@@ -118,6 +120,22 @@ internal static class ErSvgRenderer
 		for (var iter = 0; iter < maxIterations; iter++)
 		{
 			var moved = false;
+			for (var i = 0; i < rels.Count; i++)
+			{
+				if (positions[i] is null)
+					continue;
+				var (w, h) = sizes[i];
+				// Self-loop labels intentionally sit right at their own entity's edge —
+				// only push a label away from entities it does *not* belong to.
+				var rel = rels[i];
+				var pushed = PushOutOfEntityBoxes(positions[i]!.Value, w, h, entities, rel.Entity1, rel.Entity2);
+				if (pushed != positions[i]!.Value)
+				{
+					positions[i] = pushed;
+					moved = true;
+				}
+			}
+
 			for (var a = 0; a < rels.Count - 1; a++)
 			{
 				if (positions[a] is null)
@@ -161,6 +179,48 @@ internal static class ErSvgRenderer
 		}
 
 		return positions;
+	}
+
+	// Pushes a label out of any entity box it overlaps, moving it the shortest distance
+	// (along whichever axis clears the box first) so it lands just outside the nearest edge.
+	// Guards against edges that pass near/through an unrelated entity — e.g. a long "skip
+	// layer" edge whose bezier midpoint happens to fall inside an intervening entity's box.
+	// Self-loop labels intentionally sit at their own entity's edge, so that entity is skipped.
+	private static Point PushOutOfEntityBoxes(
+		Point pos, double w, double h, IReadOnlyList<PositionedErEntity> entities, string entity1, string entity2)
+	{
+		const double margin = 6.0;
+		var isSelfLoop = string.Equals(entity1, entity2, StringComparison.Ordinal);
+		foreach (var e in entities)
+		{
+			if (isSelfLoop && string.Equals(e.Id, entity1, StringComparison.Ordinal))
+				continue;
+
+			var left = e.X - margin;
+			var right = e.X + e.Width + margin;
+			var top = e.Y - margin;
+			var bottom = e.Y + e.Height + margin;
+
+			var lx = pos.X - (w / 2);
+			var rx = pos.X + (w / 2);
+			var ty = pos.Y - (h / 2);
+			var by = pos.Y + (h / 2);
+
+			if (rx <= left || lx >= right || by <= top || ty >= bottom)
+				continue; // no overlap with this entity
+
+			var pushLeft = rx - left;
+			var pushRight = right - lx;
+			var pushUp = by - top;
+			var pushDown = bottom - ty;
+			var minPush = Math.Min(Math.Min(pushLeft, pushRight), Math.Min(pushUp, pushDown));
+
+			pos = minPush == pushUp ? pos with { Y = pos.Y - pushUp }
+				: minPush == pushDown ? pos with { Y = pos.Y + pushDown }
+				: minPush == pushLeft ? pos with { X = pos.X - pushLeft }
+				: pos with { X = pos.X + pushRight };
+		}
+		return pos;
 	}
 
 	private static void AppendEntityBox(StringBuilder sb, PositionedErEntity entity)
