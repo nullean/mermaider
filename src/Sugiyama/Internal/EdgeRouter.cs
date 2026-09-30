@@ -644,10 +644,8 @@ internal static class EdgeRouter
 		if (points.Count < 2)
 			return null;
 
-		var bestStart = 0;
-		var bestEnd = 1;
-		var bestLen = 0.0;
-
+		// Collect all straight-line segments from the edge path.
+		var segments = new List<(int Start, int End, double Len, bool IsVertical)>();
 		var runStart = 0;
 		for (var i = 1; i < points.Count; i++)
 		{
@@ -660,14 +658,29 @@ internal static class EdgeRouter
 				var rdx = points[i].X - points[runStart].X;
 				var rdy = points[i].Y - points[runStart].Y;
 				var runLen = Math.Sqrt((rdx * rdx) + (rdy * rdy));
-				if (runLen > bestLen)
-				{
-					bestLen = runLen;
-					bestStart = runStart;
-					bestEnd = i;
-				}
+				segments.Add((runStart, i, runLen, Math.Abs(rdy) >= Math.Abs(rdx)));
 				runStart = i;
 			}
+		}
+
+		// Prefer placing the label on a vertical (flow-direction) segment so that fan-out
+		// edges from a shared source each get a label on their own descent column at unique
+		// X positions, rather than all clustering on the shared horizontal spread.
+		// Among vertical segments use the last one (nearest the target) which is always
+		// unique per edge in a fan-out. Fall back to the longest segment if there are none.
+		int bestStart, bestEnd;
+		var verticals = segments.Where(s => s.IsVertical && s.Len > 1.0).ToList();
+		if (verticals.Count > 0)
+		{
+			var last = verticals[^1];
+			bestStart = last.Start;
+			bestEnd = last.End;
+		}
+		else
+		{
+			var best = segments.MaxBy(s => s.Len);
+			bestStart = best.Start;
+			bestEnd = best.End;
 		}
 
 		const double t = 0.5;
