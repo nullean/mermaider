@@ -38,9 +38,9 @@
 </defs>
 
 <path class="edge" data-from="_start" data-to="Draft" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M105.68,124.19999999999999 L105.68,164.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Draft" data-to="Review" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="submit" d="M105.68,217 L105.68,317.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Draft" data-to="Review" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="submit" d="M115.68,217 L115.68,317.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Review" data-to="Published" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="approve" d="M105.68,370 L105.68,470.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Review" data-to="Draft" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="reject" d="M105.68,317.2 L105.68,217" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Review" data-to="Draft" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="reject" d="M95.68,317.2 L95.68,217" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Published" data-to="Archived" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="archive" d="M105.68,523 L105.68,623.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Archived" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M105.68,676 L105.68,716" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="Draft" data-to="Review" data-label="submit">

@@ -726,6 +726,21 @@ public static class SugiyamaLayout
 				continue;
 			}
 
+			// Don't spread when the intermediate node has a back-edge returning to the source
+			// (bidirectional pairs like Active↔Inactive with disable/reactivate should stay
+			// vertically aligned rather than being pushed sideways).
+			var hasBidirectionalReturn = false;
+			foreach (var e in buf.Edges)
+			{
+				if (e.Reversed && ((e.From == source && e.To == intermediate) || (e.From == intermediate && e.To == source)))
+				{
+					hasBidirectionalReturn = true;
+					break;
+				}
+			}
+			if (hasBidirectionalReturn)
+				continue;
+
 			var srcCX = buf.X[source] + (buf.NodeWidths[source] / 2.0);
 			var intCX = buf.X[intermediate] + (buf.NodeWidths[intermediate] / 2.0);
 

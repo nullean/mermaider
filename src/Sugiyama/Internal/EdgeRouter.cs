@@ -66,6 +66,7 @@ internal static class EdgeRouter
 		SnapNearAlignedDoglegs(results);
 		SnapSharedHorizontalTrunks(results);
 		OffsetCrossingTrunks(results);
+		OffsetParallelVerticalEdges(results);
 
 		if (inputEdges is not null)
 			ResolveOverlappingLabels(results, inputEdges, useSideRouting);
@@ -182,6 +183,66 @@ internal static class EdgeRouter
 
 				_ = paired.Add(a.Idx);
 				_ = paired.Add(b.Idx);
+				break;
+			}
+		}
+	}
+
+	/// <summary>
+	/// When two straight vertical edges travel between the same Y range in opposite directions
+	/// (bidirectional pairs like A→B and B→A along the same column), they render as a single
+	/// indistinguishable line. Offset each by ±ParallelOffset so both arrows are visible.
+	/// </summary>
+	private static void OffsetParallelVerticalEdges(List<RoutedEdge> edges)
+	{
+		const double parallelOffset = 10.0;
+
+		var verticals = new List<(int Idx, double X, double YMin, double YMax, bool GoesDown)>();
+		for (var i = 0; i < edges.Count; i++)
+		{
+			var pts = edges[i].Points;
+			if (pts.Count != 2)
+				continue;
+			if (!SameX(pts[0], pts[1]))
+				continue;
+			verticals.Add((i, pts[0].X, Math.Min(pts[0].Y, pts[1].Y), Math.Max(pts[0].Y, pts[1].Y), pts[1].Y > pts[0].Y));
+		}
+
+		var paired = new HashSet<int>();
+		for (var i = 0; i < verticals.Count; i++)
+		{
+			if (paired.Contains(verticals[i].Idx))
+				continue;
+			for (var j = i + 1; j < verticals.Count; j++)
+			{
+				if (paired.Contains(verticals[j].Idx))
+					continue;
+				var a = verticals[i];
+				var b = verticals[j];
+				if (Math.Abs(a.X - b.X) > 0.5)
+					continue;
+				if (a.GoesDown == b.GoesDown)
+					continue;
+				// Only offset true bidirectional pairs: one edge's start Y == other's end Y and vice versa.
+				// Avoids matching unrelated edges that travel the same column at different Y ranges.
+				var aPts = edges[a.Idx].Points;
+				var bPts = edges[b.Idx].Points;
+				if (Math.Abs(aPts[0].Y - bPts[1].Y) > 2 || Math.Abs(aPts[1].Y - bPts[0].Y) > 2)
+					continue;
+
+				var downIdx = a.GoesDown ? a.Idx : b.Idx;
+				var upIdx = a.GoesDown ? b.Idx : a.Idx;
+
+				var downPts = edges[downIdx].Points;
+				downPts[0] = new LayoutPoint(downPts[0].X + parallelOffset, downPts[0].Y);
+				downPts[1] = new LayoutPoint(downPts[1].X + parallelOffset, downPts[1].Y);
+
+				var upPts = edges[upIdx].Points;
+				upPts[0] = new LayoutPoint(upPts[0].X - parallelOffset, upPts[0].Y);
+				upPts[1] = new LayoutPoint(upPts[1].X - parallelOffset, upPts[1].Y);
+
+				_ = paired.Add(downIdx);
+				_ = paired.Add(upIdx);
 				break;
 			}
 		}
