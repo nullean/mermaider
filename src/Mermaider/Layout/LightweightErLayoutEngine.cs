@@ -17,7 +17,7 @@ internal static class LightweightErLayoutEngine
 	private const double RowHeight = 26;
 	private const double MinWidth = 120;
 	private static readonly double AttrFontSize = RenderConstants.FontSizes.Member;
-	private const double NodeSpacing = 40;
+	private const double NodeSpacing = 20;
 	private const double LayerSpacing = 120;
 
 	internal static PositionedErDiagram Layout(ErDiagram diagram)
