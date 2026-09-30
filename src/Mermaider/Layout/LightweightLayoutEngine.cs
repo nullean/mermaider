@@ -80,8 +80,25 @@ internal static class LightweightLayoutEngine
 		// The layer gap runs along the flow axis, so the label has to be measured along that axis too:
 		// on LR/RL a label sized by its height overhangs the nodes either side and they paint over it.
 		var horizontal = direction is LayoutDirection.LR or LayoutDirection.RL;
+
+		// When a diagram has subgraphs, exclude edges that are entirely within the same subgraph
+		// from the global spacing calculation. Inner edge labels (e.g. state transition labels)
+		// would otherwise inflate layer spacing for every node including outer ones.
+		var innerSubgraphNodeMap = graph.Subgraphs.Count > 0
+			? BuildInnerSubgraphNodeMap(graph.Subgraphs)
+			: null;
+
 		var maxLabelExtent = layoutEdges
-			.Select(e => horizontal ? e.LabelWidth : e.LabelHeight)
+			.Select(
+				e =>
+				{
+					if (innerSubgraphNodeMap != null
+						&& innerSubgraphNodeMap.TryGetValue(e.Source, out var srcSg)
+						&& innerSubgraphNodeMap.TryGetValue(e.Target, out var tgtSg)
+						&& srcSg == tgtSg)
+						return 0.0;
+					return horizontal ? e.LabelWidth : e.LabelHeight;
+				})
 			.Where(v => v > 0)
 			.DefaultIfEmpty(0)
 			.Max();
@@ -131,6 +148,25 @@ internal static class LightweightLayoutEngine
 
 	private static LayoutSubgraph MapSubgraph(MermaidSubgraph sg) =>
 		new(sg.Id, sg.Label, sg.NodeIds, sg.Children.Select(MapSubgraph).ToList());
+
+	// Returns nodeId → subgraphId for every node that belongs to a leaf-level subgraph.
+	// Used to exclude intra-subgraph edge labels from the global layer-spacing calculation.
+	private static Dictionary<string, string> BuildInnerSubgraphNodeMap(
+		IEnumerable<MermaidSubgraph> subgraphs)
+	{
+		var map = new Dictionary<string, string>();
+		foreach (var sg in subgraphs)
+			CollectSubgraphNodes(sg, map);
+		return map;
+	}
+
+	private static void CollectSubgraphNodes(MermaidSubgraph sg, Dictionary<string, string> map)
+	{
+		foreach (var id in sg.NodeIds)
+			map[id] = sg.Id;
+		foreach (var child in sg.Children)
+			CollectSubgraphNodes(child, map);
+	}
 
 	private static void CompactStartEndNodes(LayoutResult result, MermaidGraph graph)
 	{
