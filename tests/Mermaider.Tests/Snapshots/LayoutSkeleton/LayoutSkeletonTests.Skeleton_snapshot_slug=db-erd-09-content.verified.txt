@@ -1,0 +1,15 @@
+﻿Layer 0: DocumentationSet, InternalLink
+Layer 1: DocumentationFile, Page
+Layer 2: FrontMatter, Anchor, Link
+Layer 3: Applicability
+Layer 4: CrossLink, IncludeDirective
+Layer 5: CrossLinkUri, Snippet
+Edges:
+  CrossLink --repo://path--> CrossLinkUri [Bottom->Top]
+  DocumentationSet --files--> DocumentationFile [Bottom->Top]
+  FrontMatter --applies_to--> Applicability [Bottom->Top]
+  IncludeDirective --include--> Snippet [Bottom->Top]
+  InternalLink --target--> Page [Bottom->Top]
+  Page --anchors--> Anchor [Bottom->Top]
+  Page --front matter--> FrontMatter [Bottom->Top]
+  Page --links--> Link [Right->Top]

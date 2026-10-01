@@ -1,0 +1,11 @@
+﻿Layer 0: A
+Layer 1: B
+Layer 2: C
+Layer 3: D
+Layer 4: E, F
+Edges:
+  A ----> B [Bottom->Top]
+  B ----> C [Bottom->Top]
+  C ----> D [Bottom->Top]
+  D --Yes--> E [Left->Top]
+  D --No--> F [Right->Top]

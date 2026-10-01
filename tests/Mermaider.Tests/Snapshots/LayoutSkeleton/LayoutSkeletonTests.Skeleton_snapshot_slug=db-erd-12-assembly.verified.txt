@@ -1,0 +1,10 @@
+﻿Layer 0: Assembly, Build
+Layer 1: Repository, PublishEnvironment, AssembledDocumentationSet, CloudfrontRedirectMap, SyncPlan
+Layer 2: SearchIndex
+Edges:
+  Assembly --environments--> PublishEnvironment [Right->Top]
+  Assembly --references--> Repository [Bottom->Top]
+  Build --assembles--> AssembledDocumentationSet [Bottom->Top]
+  Build --redirects.json--> CloudfrontRedirectMap [Bottom->Top]
+  Build --deploy--> SyncPlan [Right->Top]
+  PublishEnvironment --index suffix--> SearchIndex [Bottom->Top]

@@ -1,0 +1,8 @@
+﻿Layer 0: SiteNavigation
+Layer 1: TocItem, SiteMount, Phantom
+Layer 2: NavigationNode
+Edges:
+  SiteMount --re-homes--> NavigationNode [Bottom->Top]
+  SiteNavigation --phantoms--> Phantom [Right->Top]
+  SiteNavigation --toc--> SiteMount [Bottom->Top]
+  TocItem --mirrors--> NavigationNode [Bottom->Top]

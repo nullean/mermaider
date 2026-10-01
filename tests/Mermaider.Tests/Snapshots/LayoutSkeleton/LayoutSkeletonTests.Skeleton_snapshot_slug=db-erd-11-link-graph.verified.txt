@@ -1,0 +1,9 @@
+﻿Layer 0: Registry
+Layer 1: LinkRegistry
+Layer 2: DocumentationSet, LinkRegistryEntry
+Layer 3: LinkManifest
+Edges:
+  DocumentationSet --per branch--> LinkManifest [Bottom->Top]
+  LinkRegistry --repository, branch--> LinkRegistryEntry [Bottom->Top]
+  LinkRegistryEntry --path--> LinkManifest [Bottom->Top]
+  Registry --link-index.json--> LinkRegistry [Bottom->Top]

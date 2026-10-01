@@ -1,0 +1,8 @@
+﻿Layer 0: A, E, G
+Layer 1: B, C, D, F, H
+Edges:
+  A --solid--> B [Top->Left]
+  A --dotted--> C [Right->Left]
+  A --thick--> D [Bottom->Left]
+  E ----> F [Right->Left]
+  G ----> H [Right->Left]

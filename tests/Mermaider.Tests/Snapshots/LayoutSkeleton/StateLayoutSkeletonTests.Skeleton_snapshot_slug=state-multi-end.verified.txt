@@ -1,0 +1,12 @@
+﻿Layer 0: _start
+Layer 1: Active
+Layer 2: Inactive
+Layer 3: Closed
+Layer 4: _end
+Edges:
+  Active --close--> Closed [Bottom->Top]
+  Active --disable--> Inactive [Bottom->Top]
+  Closed ----> _end [Bottom->Top]
+  Inactive --reactivate--> Active [Top->Bottom]
+  Inactive --close--> Closed [Bottom->Top]
+  _start ----> Active [Bottom->Top]

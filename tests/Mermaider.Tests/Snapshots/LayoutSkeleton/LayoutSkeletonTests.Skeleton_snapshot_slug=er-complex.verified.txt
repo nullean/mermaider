@@ -1,0 +1,8 @@
+﻿Layer 0: USER
+Layer 1: POST
+Layer 2: COMMENT, TAG
+Edges:
+  POST --has--> COMMENT [Bottom->Top]
+  POST --tagged--> TAG [Right->Top]
+  USER --writes--> COMMENT [Bottom->Top]
+  USER --writes--> POST [Bottom->Top]

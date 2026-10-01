@@ -1,0 +1,13 @@
+﻿Layer 0: UI
+Layer 1: State
+Layer 2: API
+Layer 3: DB, Cache
+Groups:
+- Frontend (layer=0 order=0) members=[UI, State]
+- Backend (layer=1 order=0) members=[API, DB, Cache]
+Edges:
+  API ----> Cache [Right->Top]
+  API ----> DB [Left->Top]
+  State ----> API [Bottom->Top]
+  UI ----> API [Bottom->Top]
+  UI ----> State [Bottom->Top]

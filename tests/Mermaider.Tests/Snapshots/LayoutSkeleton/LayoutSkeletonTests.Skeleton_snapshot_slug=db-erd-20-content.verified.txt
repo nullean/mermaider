@@ -1,0 +1,34 @@
+﻿Layer 0: DocumentationSet, InternalLink, IncludeDirective, PageCardDirective, CrossLink
+Layer 1: DocumentationFile, Page, CrossLinkUri
+Layer 2: Snippet, Heading, FrontMatter, Directive, Link, ChangelogDirective
+Layer 3: Anchor, Applicability, Cta, PageSubstitution, LegacyPage, ListingGroup, Product
+Layer 4: ApplicabilityEntry
+Layer 5: VersionSpec
+Layer 6: ImageLink, SettingsDirective, RelatedLearningDirective
+Layer 7: Image, SettingsReference, RelatedLearningLink
+Edges:
+  Applicability --per key--> ApplicabilityEntry [Bottom->Top]
+  ApplicabilityEntry --version--> VersionSpec [Bottom->Top]
+  ChangelogDirective --argument--> Product [Bottom->Top]
+  CrossLink --repo://path--> CrossLinkUri [Bottom->Top]
+  DocumentationSet --files--> DocumentationFile [Bottom->Top]
+  FrontMatter --applies_to--> Applicability [Bottom->Top]
+  FrontMatter --cta.id--> Cta [Bottom->Top]
+  FrontMatter --mapped_pages--> LegacyPage [Bottom->Top]
+  FrontMatter --listing.group--> ListingGroup [Bottom->Top]
+  FrontMatter --sub--> PageSubstitution [Bottom->Top]
+  FrontMatter --products--> Product [Bottom->Top]
+  Heading --slug--> Anchor [Bottom->Top]
+  ImageLink --src--> Image [Bottom->Top]
+  IncludeDirective --path--> Snippet [Bottom->Top]
+  InternalLink --#anchor--> Anchor [Bottom->Top]
+  InternalLink --path--> Page [Bottom->Top]
+  Page --collected--> Anchor [Left->Top]
+  Page --contains--> Directive [Right->Top]
+  Page ----- yaml -----> FrontMatter [Bottom->Top]
+  Page --## text--> Heading [Bottom->Top]
+  Page --contains--> Link [Right->Top]
+  PageCardDirective --local link--> Page [Bottom->Top]
+  RelatedLearningDirective --ids--> RelatedLearningLink [Bottom->Top]
+  SettingsDirective --path--> SettingsReference [Bottom->Top]
+  Snippet --contributes--> Anchor [Bottom->Top]

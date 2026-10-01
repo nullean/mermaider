@@ -1,0 +1,15 @@
+﻿Layer 0: _start
+Layer 1: Evaluate
+Layer 2: checkResult
+Layer 3: Positive, Negative, Neutral
+Layer 4: _end, Retry, _end2
+Edges:
+  Evaluate ----> checkResult [Bottom->Top]
+  Negative ----> Retry [Bottom->Top]
+  Neutral ----> _end2 [Bottom->Top]
+  Positive ----> _end [Bottom->Top]
+  Retry ----> Evaluate [Top->Bottom]
+  _start ----> Evaluate [Bottom->Top]
+  checkResult --if score < 0--> Negative [Bottom->Top]
+  checkResult --if score = 0--> Neutral [Bottom->Top]
+  checkResult --if score > 0--> Positive [Bottom->Top]

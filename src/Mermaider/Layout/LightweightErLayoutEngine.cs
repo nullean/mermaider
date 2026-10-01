@@ -107,6 +107,9 @@ internal static class LightweightErLayoutEngine
 			Math.Max((maxLabelExtent > 0) ? (maxLabelExtent + 40) : 0, minSpacingForFanOut));
 
 		var layoutGraph = new LayoutGraph(layoutDir, layoutNodes, layoutEdges, []);
+		var componentCount = CountConnectedComponents(layoutNodes, layoutEdges);
+		// 1-3 components: one row; 4+: grid with ceil(sqrt(n)) per row
+		var maxPerRow = componentCount <= 3 ? componentCount : (int)Math.Ceiling(Math.Sqrt(componentCount));
 		var result = SugiyamaLayout.Compute(layoutGraph, new LayoutOptions
 		{
 			Padding = Padding,
@@ -114,11 +117,45 @@ internal static class LightweightErLayoutEngine
 			LayerSpacing = effectiveLayerSpacing,
 			CrossingIterations = 8,
 			StrictTopDownFanout = true,
-			MaxComponentsPerRow = 2,
+			MaxComponentsPerRow = maxPerRow,
 			TightSourceLayering = true,
 		});
 
 		return ExtractPositioned(result, diagram, layoutEdgeRelIndices);
+	}
+
+	private static int CountConnectedComponents(List<LayoutNode> nodes, List<LayoutEdge> edges)
+	{
+		var adj = new Dictionary<string, HashSet<string>>(nodes.Count);
+		foreach (var n in nodes)
+			adj[n.Id] = [];
+		foreach (var e in edges)
+		{
+			if (adj.TryGetValue(e.Source, out var s))
+				_ = s.Add(e.Target);
+			if (adj.TryGetValue(e.Target, out var t))
+				_ = t.Add(e.Source);
+		}
+		var visited = new HashSet<string>(nodes.Count);
+		var count = 0;
+		var stack = new Stack<string>();
+		foreach (var n in nodes)
+		{
+			if (!visited.Add(n.Id))
+				continue;
+			count++;
+			stack.Push(n.Id);
+			while (stack.Count > 0)
+			{
+				var cur = stack.Pop();
+				foreach (var nb in adj[cur])
+				{
+					if (visited.Add(nb))
+						stack.Push(nb);
+				}
+			}
+		}
+		return count;
 	}
 
 	private static PositionedErDiagram ExtractPositioned(LayoutResult result, ErDiagram diagram, IReadOnlyList<int> layoutEdgeRelIndices)

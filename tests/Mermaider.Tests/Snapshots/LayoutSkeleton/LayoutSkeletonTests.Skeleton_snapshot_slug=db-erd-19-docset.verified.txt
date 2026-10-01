@@ -1,0 +1,30 @@
+﻿Layer 0: NestedTocItem, DocumentationSet, FileItem
+Layer 1: TableOfContents, CrossLinkDeclaration, Substitution, ApiDeclaration, ReleaseNotesSubscription, Redirect, CodexGroup, FeatureToggle, HintSuppression, Page
+Layer 2: TocItem, Repository, Registry, Product
+Layer 3: Cta
+Layer 4: FolderItem, CrossLinkItem
+Layer 5: IndexFileItem, CrossLinkUri
+Edges:
+  ApiDeclaration --product--> Product [Bottom->Top]
+  CrossLinkDeclaration --registry:// prefix--> Registry [Bottom->Top]
+  CrossLinkDeclaration --repository name--> Repository [Bottom->Top]
+  CrossLinkItem --crosslink--> CrossLinkUri [Bottom->Top]
+  DocumentationSet --api--> ApiDeclaration [Bottom->Top]
+  DocumentationSet --codex.group--> CodexGroup [Right->Top]
+  DocumentationSet --cross_links--> CrossLinkDeclaration [Bottom->Top]
+  DocumentationSet --cta--> Cta [Bottom->Top]
+  DocumentationSet --default_cta--> Cta [Bottom->Top]
+  DocumentationSet --features--> FeatureToggle [Right->Top]
+  DocumentationSet --suppress--> HintSuppression [Right->Top]
+  DocumentationSet --products--> Product [Left->Top]
+  DocumentationSet --redirects.yml--> Redirect [Right->Top]
+  DocumentationSet --release_notes--> ReleaseNotesSubscription [Bottom->Top]
+  DocumentationSet --subs--> Substitution [Bottom->Top]
+  DocumentationSet --toc--> TableOfContents [Bottom->Top]
+  FileItem --file--> Page [Bottom->Top]
+  FolderItem --index--> IndexFileItem [Bottom->Top]
+  NestedTocItem --toc.yml in folder--> TableOfContents [Bottom->Top]
+  ReleaseNotesSubscription --product--> Product [Bottom->Top]
+  TableOfContents --toc entries--> TocItem [Bottom->Top]
+  TocItem --default_cta--> Cta [Bottom->Top]
+  TocItem --children--> TocItem [Right->Right] (self)

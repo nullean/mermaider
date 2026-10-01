@@ -1,0 +1,14 @@
+﻿Layer 0: LegacyPage, QueryRule
+Layer 1: LegacyUrlMapping, SearchDocument
+Layer 2: Product
+Layer 3: VersioningSystem, Repository, ProductFeatures
+Layer 4: SemVersion
+Edges:
+  LegacyPage --matched by base URL--> LegacyUrlMapping [Bottom->Top]
+  LegacyUrlMapping --product--> Product [Bottom->Top]
+  Product --features--> ProductFeatures [Right->Top]
+  Product --repository (defaults to id)--> Repository [Bottom->Top]
+  Product --versioning (defaults to id)--> VersioningSystem [Bottom->Top]
+  QueryRule --actions.ids = path--> SearchDocument [Bottom->Top]
+  VersioningSystem --base--> SemVersion [Bottom->Top]
+  VersioningSystem --current--> SemVersion [Bottom->Top]

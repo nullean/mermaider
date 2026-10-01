@@ -1,0 +1,7 @@
+﻿Layer 0: LegacyUrlMapping
+Layer 1: Product
+Layer 2: VersioningSystem, Repository
+Edges:
+  LegacyUrlMapping --product--> Product [Bottom->Top]
+  Product --repository--> Repository [Right->Top]
+  Product --versioning--> VersioningSystem [Bottom->Top]

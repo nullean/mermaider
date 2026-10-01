@@ -1,0 +1,139 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1009.5360000000001 620" width="1009.5360000000001" height="620" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+</defs>
+
+<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="TableOfContents" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="toc" d="M477.27360000000004,96 C477.27360000000004,184 93.392,184 93.392,272" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="TableOfContents" data-entity2="TocItem" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="entries" d="M93.392,348 L93.392,524" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="Redirect" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="redirects.yml" d="M531.84,96 C531.84,184 254.784,184 254.784,272" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="CrossLinkDeclaration" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="cross_links" d="M586.4064000000001,96 C586.4064000000001,184 437.152,184 437.152,272" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="ApiDeclaration" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="api" d="M609.792,58 C626.528,58 626.528,165 626.528,272" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="zeromany" data-identifying="true" data-label="products" d="M609.792,58 C781.5360000000001,58 781.5360000000001,165 781.5360000000001,272" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="Registry" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="registry" d="M609.792,58 C929.5360000000001,58 929.5360000000001,165 929.5360000000001,272" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="TocItem" data-entity2="TocItem" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="children" d="M153.392,550.6 C183.392,550.6 183.392,573.4 153.392,573.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<g class="entity" data-id="DocumentationSet" data-label="DocumentationSet">
+  <rect x="453.88800000000003" y="20" width="155.904" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="531.84" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">DocumentationSet</text>
+</g>
+<g class="entity" data-id="TableOfContents" data-label="TableOfContents">
+  <rect x="20" y="272" width="146.784" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="93.392" y="310" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">TableOfContents</text>
+</g>
+<g class="entity" data-id="TocItem" data-label="TocItem">
+  <rect x="33.391999999999996" y="524" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="93.392" y="562" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">TocItem</text>
+</g>
+<g class="entity" data-id="Redirect" data-label="Redirect">
+  <rect x="194.784" y="272" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="254.784" y="310" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Redirect</text>
+</g>
+<g class="entity" data-id="CrossLinkDeclaration" data-label="CrossLinkDeclaration">
+  <rect x="342.784" y="272" width="188.73600000000002" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="437.152" y="310" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">CrossLinkDeclaration</text>
+</g>
+<g class="entity" data-id="ApiDeclaration" data-label="ApiDeclaration">
+  <rect x="559.52" y="272" width="134.01600000000002" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="626.528" y="310" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ApiDeclaration</text>
+</g>
+<g class="entity" data-id="Product" data-label="Product">
+  <rect x="721.5360000000001" y="272" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="781.5360000000001" y="310" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Product</text>
+</g>
+<g class="entity" data-id="Registry" data-label="Registry">
+  <rect x="869.5360000000001" y="272" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="929.5360000000001" y="310" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Registry</text>
+</g>
+<line x1="483.27360000000004" y1="100" x2="471.27360000000004" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="483.27360000000004" y1="104" x2="471.27360000000004" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="87.392" y1="268" x2="99.392" y2="268" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="87.392" y1="264" x2="99.392" y2="264" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="99.392" y1="352" x2="87.392" y2="352" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="99.392" y1="356" x2="87.392" y2="356" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="86.392" y1="520" x2="93.392" y2="508" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="93.392" y1="520" x2="93.392" y2="508" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="100.392" y1="520" x2="93.392" y2="508" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="93.392" cy="504" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="537.84" y1="100" x2="525.84" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="537.84" y1="104" x2="525.84" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="247.784" y1="268" x2="254.784" y2="256" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="254.784" y1="268" x2="254.784" y2="256" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="261.784" y1="268" x2="254.784" y2="256" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="254.784" cy="252" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="592.4064000000001" y1="100" x2="580.4064000000001" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="592.4064000000001" y1="104" x2="580.4064000000001" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="430.152" y1="268" x2="437.152" y2="256" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="437.152" y1="268" x2="437.152" y2="256" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="444.152" y1="268" x2="437.152" y2="256" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="437.152" cy="252" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="613.792" y1="52" x2="613.792" y2="64" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="617.792" y1="52" x2="617.792" y2="64" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="619.528" y1="268" x2="626.528" y2="256" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="626.528" y1="268" x2="626.528" y2="256" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="633.528" y1="268" x2="626.528" y2="256" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="626.528" cy="252" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="613.792" y1="51" x2="625.792" y2="58" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="613.792" y1="58" x2="625.792" y2="58" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="613.792" y1="65" x2="625.792" y2="58" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="629.792" cy="58" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="774.5360000000001" y1="268" x2="781.5360000000001" y2="256" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="781.5360000000001" y1="268" x2="781.5360000000001" y2="256" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="788.5360000000001" y1="268" x2="781.5360000000001" y2="256" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="781.5360000000001" cy="252" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="613.792" y1="51" x2="625.792" y2="58" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="613.792" y1="58" x2="625.792" y2="58" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="613.792" y1="65" x2="625.792" y2="58" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="629.792" cy="58" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="923.5360000000001" y1="268" x2="935.5360000000001" y2="268" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="923.5360000000001" y1="264" x2="935.5360000000001" y2="264" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="929.5360000000001" cy="260" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="157.392" y1="544.6" x2="157.392" y2="556.6" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="161.392" y1="544.6" x2="161.392" y2="556.6" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="157.392" y1="566.4" x2="169.392" y2="573.4" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="157.392" y1="573.4" x2="169.392" y2="573.4" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="157.392" y1="580.4" x2="169.392" y2="573.4" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="173.392" cy="573.4" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<rect x="271.2108" y="171.9" width="28.244000000000003" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="285.3328" y="184" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">toc</text>
+<rect x="67.17399999999999" y="423.9" width="52.436" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="93.392" y="436" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">entries</text>
+<rect x="348.95000000000005" y="171.9" width="88.72399999999999" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="393.312" y="184" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">redirects.yml</text>
+<rect x="470.44120000000004" y="171.9" width="82.67600000000002" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="511.77920000000006" y="184" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">cross_links</text>
+<rect x="612.4060000000001" y="152.9" width="28.244000000000003" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="626.528" y="165" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">api</text>
+<rect x="749.2700000000001" y="152.9" width="64.53200000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="781.5360000000001" y="165" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">products</text>
+<rect x="900.2940000000001" y="152.9" width="58.484" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="929.5360000000001" y="165" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">registry</text>
+<rect x="155.392" y="549.9" width="59.996" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="185.39" y="562" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">children</text>
+</svg>

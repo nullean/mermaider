@@ -1,0 +1,6 @@
+﻿Layer 0: CUSTOMER
+Layer 1: ORDER
+Layer 2: LINE_ITEM
+Edges:
+  CUSTOMER --places--> ORDER [Bottom->Top]
+  ORDER --contains--> LINE_ITEM [Bottom->Top]

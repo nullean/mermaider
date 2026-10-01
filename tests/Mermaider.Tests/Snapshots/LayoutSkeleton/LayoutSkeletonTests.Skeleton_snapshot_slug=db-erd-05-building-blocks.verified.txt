@@ -1,0 +1,30 @@
+﻿Layer 0: Assembly
+Layer 1: Repository, SearchIndex, Catalog
+Layer 2: SiteNavigation, DocumentationSet
+Layer 3: Navigation, Content, ApiReference
+Layer 4: CodexSite, LinkManifest, OpenApiSpec, ReleaseNotes
+Layer 5: LinkRegistry, OpenApiRepository
+Layer 6: Registry
+Edges:
+  ApiReference --spec + repository--> OpenApiSpec [Bottom->Top]
+  Assembly --pins commits from--> LinkRegistry [Bottom->Top]
+  Assembly --references--> Repository [Bottom->Top]
+  Assembly --per environment--> SearchIndex [Right->Top]
+  Assembly --navigation.yml--> SiteNavigation [Bottom->Top]
+  Catalog --products, versioning--> DocumentationSet [Bottom->Top]
+  Catalog --products--> ReleaseNotes [Bottom->Top]
+  CodexSite --discovers members from--> LinkRegistry [Bottom->Top]
+  CodexSite --environment--> Registry [Bottom->Top]
+  Content --cross-links resolve through--> LinkManifest [Bottom->Top]
+  Content --{changelog} directive--> ReleaseNotes [Bottom->Top]
+  DocumentationSet --api--> ApiReference [Bottom->Top]
+  DocumentationSet --contains--> Content [Bottom->Top]
+  DocumentationSet --one per branch--> LinkManifest [Bottom->Top]
+  DocumentationSet --table of contents--> Navigation [Bottom->Top]
+  LinkManifest --indexed by--> LinkRegistry [Bottom->Top]
+  LinkRegistry --one per registry--> Registry [Bottom->Top]
+  OpenApiSpec --published to--> OpenApiRepository [Bottom->Top]
+  Repository --≤1 per Registry--> DocumentationSet [Bottom->Top]
+  Repository --publishes--> OpenApiSpec [Bottom->Top]
+  Repository --changelog.yml--> ReleaseNotes [Bottom->Top]
+  SiteNavigation --mounts--> Navigation [Bottom->Top]

@@ -1,0 +1,11 @@
+﻿Layer 0: SearchIndex, Page, DocumentInference
+Layer 1: SearchDocument, DocumentationDocument
+Layer 2: Product, ParentDocument, AppliesToEntry
+Edges:
+  DocumentInference --decides product--> DocumentationDocument [Bottom->Top]
+  DocumentationDocument --applies_to--> AppliesToEntry [Right->Top]
+  DocumentationDocument --parents (breadcrumbs)--> ParentDocument [Bottom->Top]
+  DocumentationDocument --product--> Product [Bottom->Top]
+  DocumentationDocument --related_products--> Product [Bottom->Top]
+  Page --exported--> DocumentationDocument [Bottom->Top]
+  SearchIndex --contains--> SearchDocument [Bottom->Top]

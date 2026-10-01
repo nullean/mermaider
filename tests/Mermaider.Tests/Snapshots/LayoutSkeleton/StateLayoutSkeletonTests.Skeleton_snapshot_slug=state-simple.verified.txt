@@ -1,0 +1,12 @@
+﻿Layer 0: _start
+Layer 1: Idle
+Layer 2: Processing
+Layer 3: Success, Failed
+Layer 4: _end
+Edges:
+  Failed --retry--> Idle [Right->Right]
+  Idle --submit--> Processing [Bottom->Top]
+  Processing --error--> Failed [Bottom->Top]
+  Processing --ok--> Success [Bottom->Top]
+  Success ----> _end [Bottom->Top]
+  _start ----> Idle [Bottom->Top]

@@ -1,0 +1,17 @@
+﻿Layer 0: Registry, Checkout
+Layer 1: LinkRegistry, LinkRegistrySnapshot
+Layer 2: DocumentationSet, LinkRegistryEntry
+Layer 3: LinkManifest
+Layer 4: GitOrigin, LinkManifestPage, Redirect, CrossLinkUri
+Layer 5: Anchor
+Edges:
+  Checkout --link-index.snapshot.json--> LinkRegistrySnapshot [Bottom->Top]
+  DocumentationSet --per branch--> LinkManifest [Bottom->Top]
+  LinkManifest --cross_links (outbound)--> CrossLinkUri [Right->Top]
+  LinkManifest --origin--> GitOrigin [Bottom->Top]
+  LinkManifest --links--> LinkManifestPage [Bottom->Top]
+  LinkManifest --redirects--> Redirect [Right->Top]
+  LinkManifestPage --anchors--> Anchor [Bottom->Top]
+  LinkRegistry --repository, branch--> LinkRegistryEntry [Bottom->Top]
+  LinkRegistryEntry --path--> LinkManifest [Bottom->Top]
+  Registry --link-index.json--> LinkRegistry [Bottom->Top]

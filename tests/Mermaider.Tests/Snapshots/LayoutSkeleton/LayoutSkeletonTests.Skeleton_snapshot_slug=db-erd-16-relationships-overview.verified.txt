@@ -1,0 +1,23 @@
+﻿Layer 0: Assembly
+Layer 1: Repository, PublishEnvironment
+Layer 2: ChangelogConfiguration, DocumentationSet, CodexSite
+Layer 3: TableOfContents, DocumentationFile, Product, Registry
+Layer 4: VersioningSystem, LinkRegistry, Bundle
+Layer 5: LinkRegistryEntry
+Layer 6: LinkManifest
+Edges:
+  Assembly --environments--> PublishEnvironment [Right->Top]
+  Assembly --references--> Repository [Bottom->Top]
+  CodexSite --environment--> Registry [Bottom->Top]
+  DocumentationSet --contains--> DocumentationFile [Bottom->Top]
+  DocumentationSet --one per branch--> LinkManifest [Bottom->Top]
+  DocumentationSet --products--> Product [Bottom->Top]
+  DocumentationSet --registry--> Registry [Bottom->Top]
+  DocumentationSet --toc--> TableOfContents [Bottom->Top]
+  LinkRegistry --repo, branch--> LinkRegistryEntry [Bottom->Top]
+  LinkRegistryEntry --path--> LinkManifest [Bottom->Top]
+  Product --released in--> Bundle [Bottom->Top]
+  Product --versioning--> VersioningSystem [Bottom->Top]
+  Registry --publishes into--> LinkRegistry [Bottom->Top]
+  Repository --changelog.yml--> ChangelogConfiguration [Bottom->Top]
+  Repository --holds (≤1 per Registry)--> DocumentationSet [Bottom->Top]

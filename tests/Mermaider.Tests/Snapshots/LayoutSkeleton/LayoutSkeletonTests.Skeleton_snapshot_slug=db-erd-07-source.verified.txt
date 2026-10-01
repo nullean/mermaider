@@ -1,0 +1,9 @@
+﻿Layer 0: Checkout, PublishEnvironment
+Layer 1: Repository, LinkRegistryEntry, ContentSource
+Layer 2: DocumentationSet, ContentSourceBranches
+Edges:
+  Checkout --pinned commit--> LinkRegistryEntry [Right->Top]
+  Checkout --clones--> Repository [Bottom->Top]
+  PublishEnvironment --content_source--> ContentSource [Bottom->Top]
+  Repository --current, next, edge--> ContentSourceBranches [Right->Top]
+  Repository --≤1 per Registry--> DocumentationSet [Bottom->Top]

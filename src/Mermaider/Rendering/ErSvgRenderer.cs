@@ -148,6 +148,9 @@ internal static class ErSvgRenderer
 	{
 		var positions = new Point?[rels.Count];
 		var sizes = new (double w, double h)[rels.Count];
+		var entityLookup = new Dictionary<string, PositionedErEntity>(entities.Count, StringComparer.Ordinal);
+		foreach (var e in entities)
+			entityLookup[e.Id] = e;
 
 		for (var i = 0; i < rels.Count; i++)
 		{
@@ -185,6 +188,15 @@ internal static class ErSvgRenderer
 				// only push a label away from entities it does *not* belong to.
 				var rel = rels[i];
 				var pushed = PushOutOfEntityBoxes(positions[i]!.Value, w, h, entities, rel.Entity1, rel.Entity2);
+
+				// Pairwise separation (below) can push a self-loop label back into its entity's
+				// right side. Clamp to keep it strictly to the right of the entity box.
+				if (rel.Entity1 == rel.Entity2 && entityLookup.TryGetValue(rel.Entity1, out var selfEnt))
+				{
+					var minX = selfEnt.X + selfEnt.Width + (w / 2) + 2;
+					if (pushed.X < minX)
+						pushed = pushed with { X = minX };
+				}
 
 				// Keep long-avoidance-route labels inside the canvas, as part of the same
 				// fixed-point loop as entity-avoidance and pairwise separation below (not a
@@ -238,12 +250,24 @@ internal static class ErSvgRenderer
 					if (ax1 <= bx0 || bx1 <= ax0 || ay1 <= by0 || by1 <= ay0)
 						continue; // no overlap
 
-					// Push apart horizontally to resolve overlap while keeping labels
-					// within their layer corridor (avoids pushing into entity boxes).
+					// Push apart horizontally to resolve overlap.
+					// Always push in the direction that increases separation: if a is to the
+					// left of b, push a further left and b further right; if a is to the right
+					// of b (index order differs from position order), reverse the push direction.
+					// Without this, the fixed-point loop can invert label order, sending labels
+					// far from their edges in the wrong direction.
 					var overlapX = Math.Min(ax1 - bx0, bx1 - ax0);
 					var shiftX = (overlapX / 2.0) + 1.0;
-					positions[a] = new Point(pa.X - shiftX, pa.Y);
-					positions[b] = new Point(pb.X + shiftX, pb.Y);
+					if (pa.X <= pb.X)
+					{
+						positions[a] = new Point(pa.X - shiftX, pa.Y);
+						positions[b] = new Point(pb.X + shiftX, pb.Y);
+					}
+					else
+					{
+						positions[a] = new Point(pa.X + shiftX, pa.Y);
+						positions[b] = new Point(pb.X - shiftX, pb.Y);
+					}
 					pa = positions[a]!.Value;
 					pb = positions[b]!.Value;
 					moved = true;

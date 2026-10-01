@@ -1,0 +1,19 @@
+﻿Layer 0: Assembly, Build
+Layer 1: BuildType, PublishEnvironment, AssembledDocumentationSet, GenerationState, BuildStamp, CloudfrontRedirectMap, SyncPlan
+Layer 2: FeatureFlag, AnalyticsIntegration, SearchIndex, DocumentationSet, RedirectStore, Redirect
+Edges:
+  AssembledDocumentationSet --docset--> DocumentationSet [Bottom->Top]
+  Assembly --environments--> PublishEnvironment [Bottom->Top]
+  Build --assembles--> AssembledDocumentationSet [Bottom->Top]
+  Build --assembler only--> BuildStamp [Right->Top]
+  Build --type--> BuildType [Bottom->Top]
+  Build --redirects.json--> CloudfrontRedirectMap [Right->Top]
+  Build --per docset--> GenerationState [Bottom->Top]
+  Build --environment--> PublishEnvironment [Bottom->Top]
+  Build --deploy plan--> SyncPlan [Right->Top]
+  CloudfrontRedirectMap --derived from--> Redirect [Bottom->Top]
+  CloudfrontRedirectMap --deployed to--> RedirectStore [Bottom->Top]
+  PublishEnvironment --google_tag_manager, optimizely--> AnalyticsIntegration [Bottom->Top]
+  PublishEnvironment --feature_flags--> FeatureFlag [Bottom->Top]
+  PublishEnvironment --KVS--> RedirectStore [Bottom->Top]
+  PublishEnvironment --index name suffix--> SearchIndex [Right->Top]

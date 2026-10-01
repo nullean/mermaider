@@ -1,0 +1,8 @@
+﻿Layer 0: PERSON
+Layer 1: ADDRESS, ORDER, PHONE
+Layer 2: LINE_ITEM
+Edges:
+  ORDER --contains--> LINE_ITEM [Bottom->Top]
+  PERSON ----> ADDRESS [Bottom->Top]
+  PERSON --places--> ORDER [Bottom->Top]
+  PERSON ----> PHONE [Right->Top]

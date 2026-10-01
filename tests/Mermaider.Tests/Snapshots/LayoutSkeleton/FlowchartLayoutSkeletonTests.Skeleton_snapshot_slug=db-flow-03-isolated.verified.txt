@@ -1,0 +1,26 @@
+﻿Layer 0: OpenApiRepo, Bundles, Checkout, Vocab
+Layer 1: DocSet
+Layer 2: Toc, Redirects
+Layer 3: Nav
+Layer 4: Html, Manifest, State
+Layer 5: LinkReg
+Layer 6: Content
+Groups:
+- External (layer=0 order=0) members=[LinkReg, OpenApiRepo, Bundles]
+- Build (layer=0 order=1) members=[DocSet, Toc, Content, Nav]
+- Outputs (layer=0 order=2) members=[Html, Manifest, Redirects, State]
+- Inputs (layer=0 order=3) members=[Checkout, Vocab]
+Edges:
+  Bundles --release_notes--> Content [Top->Left]
+  Checkout ----> DocSet [Bottom->Left]
+  Content ----> Nav [Bottom->Bottom]
+  DocSet ----> Content [Top->Left]
+  DocSet ----> Redirects [Bottom->Left]
+  DocSet ----> Toc [Top->Left]
+  LinkReg --cross_links--> Content [Right->Left]
+  Manifest --published on push--> LinkReg [Right->Left]
+  Nav ----> Html [Top->Left]
+  Nav ----> Manifest [Bottom->Left]
+  OpenApiRepo --api--> Content [Right->Left]
+  Toc ----> Nav [Right->Left]
+  Vocab ----> DocSet [Top->Left]

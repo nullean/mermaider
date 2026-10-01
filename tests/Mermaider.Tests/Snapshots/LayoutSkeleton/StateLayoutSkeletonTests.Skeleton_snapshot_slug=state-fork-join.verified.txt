@@ -1,0 +1,18 @@
+﻿Layer 0: _start
+Layer 1: Ready
+Layer 2: fork_point
+Layer 3: TaskA, TaskB, TaskC
+Layer 4: join_point
+Layer 5: Complete
+Layer 6: _end
+Edges:
+  Complete ----> _end [Bottom->Top]
+  Ready ----> fork_point [Bottom->Top]
+  TaskA ----> join_point [Bottom->Top]
+  TaskB ----> join_point [Bottom->Top]
+  TaskC ----> join_point [Bottom->Top]
+  _start ----> Ready [Bottom->Top]
+  fork_point ----> TaskA [Bottom->Top]
+  fork_point ----> TaskB [Bottom->Top]
+  fork_point ----> TaskC [Bottom->Top]
+  join_point ----> Complete [Bottom->Top]

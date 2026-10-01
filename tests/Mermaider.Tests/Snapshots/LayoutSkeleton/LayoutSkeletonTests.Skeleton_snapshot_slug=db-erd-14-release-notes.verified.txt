@@ -1,0 +1,14 @@
+﻿Layer 0: Repository, Bundle
+Layer 1: ChangelogConfiguration, BundledEntry, BundleAmend
+Layer 2: ChangelogEntry
+Layer 3: ProductRelease
+Layer 4: Product
+Layer 5: BundleRegistry
+Edges:
+  Bundle --amend-N--> BundleAmend [Right->Top]
+  Bundle --entries--> BundledEntry [Bottom->Top]
+  BundledEntry --name + checksum--> ChangelogEntry [Bottom->Top]
+  ChangelogEntry --products--> ProductRelease [Bottom->Top]
+  Product --registry.json--> BundleRegistry [Bottom->Top]
+  ProductRelease --product--> Product [Bottom->Top]
+  Repository --changelog.yml--> ChangelogConfiguration [Bottom->Top]

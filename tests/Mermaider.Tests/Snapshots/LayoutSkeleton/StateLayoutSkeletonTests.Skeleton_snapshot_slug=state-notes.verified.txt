@@ -1,0 +1,10 @@
+﻿Layer 0: _start
+Layer 1: Active
+Layer 2: Paused, Done
+Layer 3: _end
+Edges:
+  Active --finish--> Done [Bottom->Top]
+  Active --pause--> Paused [Bottom->Top]
+  Done ----> _end [Bottom->Top]
+  Paused --resume--> Active [Top->Bottom]
+  _start ----> Active [Bottom->Top]

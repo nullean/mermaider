@@ -1,0 +1,152 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 663.552 936" width="663.552" height="936" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+</defs>
+
+<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="DocumentationFile" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="files" d="M99.77600000000001,96 L99.77600000000001,194" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Page" data-entity2="FrontMatter" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="front matter" d="M393.552,270 C393.552,319 287.552,319 287.552,368" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Page" data-entity2="Anchor" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="anchors" d="M477.552,270 L477.552,368" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Page" data-entity2="Link" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="links" d="M495.552,232 C583.552,232 583.552,300 583.552,368" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="InternalLink" data-entity2="Page" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="target" d="M435.552,96 L435.552,194" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="CrossLink" data-entity2="CrossLinkUri" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="repo://path" d="M83.36000000000001,742 L83.36000000000001,840" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="IncludeDirective" data-entity2="Snippet" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="include" d="M267.20000000000005,742 L267.20000000000005,840" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="FrontMatter" data-entity2="Applicability" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="applies_to" d="M287.552,444 L287.552,542" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<g class="entity" data-id="DocumentationSet" data-label="DocumentationSet">
+  <rect x="21.824000000000012" y="20" width="155.904" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="99.77600000000001" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">DocumentationSet</text>
+</g>
+<g class="entity" data-id="DocumentationFile" data-label="DocumentationFile">
+  <rect x="20" y="194" width="159.55200000000002" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="99.77600000000001" y="232" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">DocumentationFile</text>
+</g>
+<g class="entity" data-id="Page" data-label="Page">
+  <rect x="375.552" y="194" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="435.552" y="232" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Page</text>
+</g>
+<g class="entity" data-id="FrontMatter" data-label="FrontMatter">
+  <rect x="227.55200000000002" y="368" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="287.552" y="406" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">FrontMatter</text>
+</g>
+<g class="entity" data-id="Anchor" data-label="Anchor">
+  <rect x="375.552" y="368" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="435.552" y="406" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Anchor</text>
+</g>
+<g class="entity" data-id="Link" data-label="Link">
+  <rect x="523.552" y="368" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="583.552" y="406" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Link</text>
+</g>
+<g class="entity" data-id="InternalLink" data-label="InternalLink">
+  <rect x="375.552" y="20" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="435.552" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">InternalLink</text>
+</g>
+<g class="entity" data-id="CrossLink" data-label="CrossLink">
+  <rect x="23.360000000000007" y="666" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="83.36000000000001" y="704" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">CrossLink</text>
+</g>
+<g class="entity" data-id="CrossLinkUri" data-label="CrossLinkUri">
+  <rect x="20" y="840" width="126.72000000000001" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="83.36000000000001" y="878" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">CrossLinkUri</text>
+</g>
+<g class="entity" data-id="IncludeDirective" data-label="IncludeDirective">
+  <rect x="194.72000000000003" y="666" width="144.96" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="267.20000000000005" y="704" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">IncludeDirective</text>
+</g>
+<g class="entity" data-id="Snippet" data-label="Snippet">
+  <rect x="207.20000000000005" y="840" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="267.20000000000005" y="878" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Snippet</text>
+</g>
+<g class="entity" data-id="Applicability" data-label="Applicability">
+  <rect x="227.55200000000002" y="542" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="287.552" y="580" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Applicability</text>
+</g>
+<line x1="105.77600000000001" y1="100" x2="93.77600000000001" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="105.77600000000001" y1="104" x2="93.77600000000001" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="92.77600000000001" y1="190" x2="99.77600000000001" y2="178" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="99.77600000000001" y1="190" x2="99.77600000000001" y2="178" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="106.77600000000001" y1="190" x2="99.77600000000001" y2="178" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="99.77600000000001" cy="174" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="399.552" y1="274" x2="387.552" y2="274" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="399.552" y1="278" x2="387.552" y2="278" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="281.552" y1="364" x2="293.552" y2="364" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="281.552" y1="360" x2="293.552" y2="360" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="287.552" cy="356" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="483.552" y1="274" x2="471.552" y2="274" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="483.552" y1="278" x2="471.552" y2="278" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="470.552" y1="364" x2="477.552" y2="352" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="477.552" y1="364" x2="477.552" y2="352" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="484.552" y1="364" x2="477.552" y2="352" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="477.552" cy="348" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="499.552" y1="226" x2="499.552" y2="238" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="503.552" y1="226" x2="503.552" y2="238" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="576.552" y1="364" x2="583.552" y2="352" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="583.552" y1="364" x2="583.552" y2="352" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="590.552" y1="364" x2="583.552" y2="352" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="583.552" cy="348" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="442.552" y1="100" x2="435.552" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="435.552" y1="100" x2="435.552" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="428.552" y1="100" x2="435.552" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="435.552" cy="116" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="429.552" y1="190" x2="441.552" y2="190" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="429.552" y1="186" x2="441.552" y2="186" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="90.36000000000001" y1="746" x2="83.36000000000001" y2="758" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="83.36000000000001" y1="746" x2="83.36000000000001" y2="758" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="76.36000000000001" y1="746" x2="83.36000000000001" y2="758" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="83.36000000000001" cy="762" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="77.36000000000001" y1="836" x2="89.36000000000001" y2="836" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="77.36000000000001" y1="832" x2="89.36000000000001" y2="832" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="274.20000000000005" y1="746" x2="267.20000000000005" y2="758" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="267.20000000000005" y1="746" x2="267.20000000000005" y2="758" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="260.20000000000005" y1="746" x2="267.20000000000005" y2="758" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="267.20000000000005" cy="762" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="261.20000000000005" y1="836" x2="273.20000000000005" y2="836" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="261.20000000000005" y1="832" x2="273.20000000000005" y2="832" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="293.552" y1="448" x2="281.552" y2="448" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="293.552" y1="452" x2="281.552" y2="452" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="281.552" y1="538" x2="293.552" y2="538" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="281.552" y1="534" x2="293.552" y2="534" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="287.552" cy="530" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<rect x="82.63000000000001" y="132.9" width="34.292" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="99.77600000000001" y="145" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">files</text>
+<rect x="302.61600000000004" y="306.9" width="75.872" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="340.552" y="319" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">front matter</text>
+<rect x="446.798" y="306.9" width="61.50800000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="477.552" y="319" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">anchors</text>
+<rect x="564.138" y="287.9" width="38.828" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="583.552" y="300" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">links</text>
+<rect x="413.11400000000003" y="132.9" width="44.876000000000005" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="435.552" y="145" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">target</text>
+<rect x="45.80200000000001" y="778.9" width="75.11600000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="83.36000000000001" y="791" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">repo://path</text>
+<rect x="240.22600000000006" y="778.9" width="53.94800000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="267.20000000000005" y="791" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">include</text>
+<rect x="251.50600000000003" y="480.9" width="72.092" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="287.552" y="493" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">applies_to</text>
+</svg>

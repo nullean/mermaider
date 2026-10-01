@@ -1,0 +1,13 @@
+﻿Layer 0: Assembly, PublishEnvironment, Checkout
+Layer 1: NarrativeRepository, Repository, ContentSource, DocumentationSet, LinkRegistryEntry
+Layer 2: ContentSourceBranches, GitOrigin
+Edges:
+  Assembly --narrative--> NarrativeRepository [Bottom->Top]
+  Assembly --references--> Repository [Right->Top]
+  Checkout --resolves to--> DocumentationSet [Bottom->Top]
+  Checkout --pinned CommitSha--> LinkRegistryEntry [Right->Top]
+  Checkout --repository--> Repository [Bottom->Top]
+  ContentSource --selects branch--> ContentSourceBranches [Bottom->Top]
+  DocumentationSet --origin--> GitOrigin [Bottom->Top]
+  PublishEnvironment --content_source--> ContentSource [Bottom->Top]
+  Repository --current / next / edge--> ContentSourceBranches [Bottom->Top]

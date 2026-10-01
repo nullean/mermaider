@@ -1,0 +1,10 @@
+﻿Layer 0: A, E
+Layer 1: F, G, H
+Layer 2: D, C, B
+Edges:
+  A ----> B [Right->Top]
+  A ----> C [Bottom->Top]
+  A ----> D [Left->Top]
+  E --text--> F [Left->Top]
+  E --dotted text--> G [Bottom->Top]
+  E --thick text--> H [Right->Top]

@@ -1,0 +1,19 @@
+﻿Layer 0: Repository, ApiDeclaration, OpenApiRepository, Page, SearchIndex
+Layer 1: OpenApiSpec, ApiVersionIndex, Product, SearchDocument
+Layer 2: ApiSpecVersion
+Layer 3: ApiTag, ApiSupplementalDoc
+Layer 4: ApiOperation
+Edges:
+  ApiDeclaration --renders--> ApiSpecVersion [Bottom->Top]
+  ApiDeclaration --spec + repository--> OpenApiSpec [Bottom->Top]
+  ApiDeclaration --product--> Product [Bottom->Top]
+  ApiSpecVersion --tags--> ApiTag [Bottom->Top]
+  ApiSupplementalDoc --op-{id}--> ApiOperation [Bottom->Top]
+  ApiTag --operations--> ApiOperation [Bottom->Top]
+  ApiVersionIndex --lists--> ApiSpecVersion [Bottom->Top]
+  OpenApiRepository --index.json--> ApiVersionIndex [Right->Top]
+  OpenApiRepository --org/repo/branch/spec--> OpenApiSpec [Bottom->Top]
+  OpenApiSpec --per version--> ApiSpecVersion [Bottom->Top]
+  Page --exported--> SearchDocument [Bottom->Top]
+  Repository --publishes--> OpenApiSpec [Bottom->Top]
+  SearchIndex --contains--> SearchDocument [Bottom->Top]

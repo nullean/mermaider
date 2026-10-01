@@ -1,0 +1,10 @@
+﻿Layer 0: CodexSite
+Layer 1: Registry, CodexDocumentationSet
+Layer 2: CodexGroup, LinkRegistry, DocumentationSet
+Edges:
+  CodexDocumentationSet --codex.group--> CodexGroup [Bottom->Top]
+  CodexDocumentationSet --docset--> DocumentationSet [Right->Top]
+  CodexSite --from LinkRegistry--> CodexDocumentationSet [Right->Top]
+  CodexSite --groups--> CodexGroup [Left->Top]
+  CodexSite --environment = registry--> Registry [Bottom->Top]
+  Registry --git: elastic/codex-link-index/{registry}--> LinkRegistry [Bottom->Top]

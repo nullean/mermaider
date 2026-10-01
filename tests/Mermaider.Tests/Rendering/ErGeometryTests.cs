@@ -16,7 +16,8 @@ public partial class ErGeometryTests
 	private const double SnapTolerance = 30.0;  // px — edge endpoints must be within this of entity edge
 	private const double LabelInEntityTolerance = 4.0; // px — label center must be outside entity box by at least this
 
-	// ── public ER examples only (never private db-erd diagrams) ──────────────────
+	// ── every ER example in the shared catalog, including the docs-builder diagrams ──
+	// (merged into DiagramExamples.All — see examples/Mermaider.Examples/DiagramExamples.DocsBuilderErd.cs)
 	public static IEnumerable<string> PublicErSlugs() =>
 		DiagramExamples.All
 			.Where(d => d.Category == DiagramCategory.Er)
@@ -302,7 +303,7 @@ public partial class ErGeometryTests
 				continue; // label text appears nowhere as an edge label — skip
 
 			// At least one matching edge must have its midpoint within a generous radius of the label.
-			// We use 2× the distance between the two entity centers as the max allowed distance.
+			// We use 1× the distance between the two entity centers as the max allowed distance.
 			var anySane = matchingEdges.Any(edge =>
 			{
 				if (!entities.TryGetValue(edge.Entity1, out var box1)) return true;
@@ -310,6 +311,16 @@ public partial class ErGeometryTests
 
 				var c1 = box1.Center;
 				var c2 = box2.Center;
+
+				// Self-loops render as a right-side arc; label is at (entity.right + loopR, entityMidY).
+				// Use the entity's right-edge center as edgeMid, with a wider threshold.
+				if (edge.Entity1 == edge.Entity2)
+				{
+					var selfMid = new Pt(box1.X + box1.W, c1.Y);
+					var selfThreshold = box1.W + 60;
+					return Distance(label.Position, selfMid) <= selfThreshold;
+				}
+
 				var edgeMid = new Pt((c1.X + c2.X) / 2, (c1.Y + c2.Y) / 2);
 				var entityDist = Distance(c1, c2);
 				var labelDist = Distance(label.Position, edgeMid);

@@ -1,0 +1,25 @@
+﻿Layer 0: _start
+Layer 1: _start2
+Layer 2: Inner1
+Layer 3: Inner2
+Layer 4: Inner3
+Layer 5: _end
+Layer 6: _start3
+Layer 7: Inner4
+Layer 8: Inner5
+Layer 9: _end2
+Layer 10: _end3
+Groups:
+- First (layer=0 order=0) members=[_start2, Inner1, Inner2, Inner3, _end]
+- Second (layer=1 order=0) members=[_start3, Inner4, Inner5, _end2]
+Edges:
+  Inner1 --next--> Inner2 [Bottom->Top]
+  Inner2 --next--> Inner3 [Bottom->Top]
+  Inner3 ----> _end [Bottom->Top]
+  Inner4 --process--> Inner5 [Bottom->Top]
+  Inner5 ----> _end2 [Bottom->Top]
+  _end ----> _start3 [Left->Left]
+  _end2 ----> _end3 [Left->Top]
+  _start ----> _start2 [Bottom->Top]
+  _start2 ----> Inner1 [Bottom->Top]
+  _start3 ----> Inner4 [Bottom->Top]
