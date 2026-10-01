@@ -82,11 +82,16 @@ internal static class CrossingMinimizer
 					graph.NodePositionInLayer[b] = i;
 					var aboveAfter = layer > 0 ? CountCrossingsBetween(graph, layer - 1, layer) : 0;
 					var belowAfter = layer < graph.LayerCount - 1 ? CountCrossingsBetween(graph, layer, layer + 1) : 0;
-					// Accept only if at least one pair was at exactly 1 crossing and is now at 0.
-					var eliminatesLastCrossing =
-						(aboveBefore == 1 && aboveAfter == 0) ||
-						(belowBefore == 1 && belowAfter == 0);
-					if (eliminatesLastCrossing)
+					// Accept if: neither pair gets worse AND the total strictly decreases.
+					// This handles both single-crossing elimination (1→0) and multi-crossing
+					// reduction (e.g. 2→1) without risking a regression in either pair.
+					var totalBefore = aboveBefore + belowBefore;
+					var totalAfter = aboveAfter + belowAfter;
+					var isImprovement =
+						aboveAfter <= aboveBefore &&
+						belowAfter <= belowBefore &&
+						totalAfter < totalBefore;
+					if (isImprovement)
 					{
 						changed = true;
 					}

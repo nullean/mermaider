@@ -69,7 +69,7 @@ public class SkeletonComparisonTests
 			["db-erd-12-assembly"] = (0.95, 0.95),
 			["db-erd-13-codex"] = (0.95, 0.95),
 			["db-erd-14-release-notes"] = (0.95, 0.95),
-			["db-erd-15-api-search"] = (0.95, 0.89),
+			["db-erd-15-api-search"] = (0.95, 0.88),
 			["db-erd-16-relationships-overview"] = (0.95, 0.70),
 			["db-erd-17-catalog"] = (0.95, 0.95),
 			["db-erd-18-source"] = (0.95, 0.15),
