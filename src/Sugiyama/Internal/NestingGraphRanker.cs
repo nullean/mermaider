@@ -164,9 +164,14 @@ internal static class NestingGraphRanker
 		// ---- 4b. Cross-cluster border edges (dagre's nesting-graph intra-cluster ordering):
 		// for each real edge (u→v) that crosses top-level cluster boundaries, add
 		// clusterOf(u)_bottom → clusterOf(v)_top so that the source cluster's rank range
-		// is fully below the target cluster's range. Only safe when the resulting cluster-level
-		// graph is a DAG; if it has a cycle (e.g. ExternalCluster↔BuildCluster in db-flow-03)
-		// the border edges would create cycles in the augmented graph and are omitted.
+		// is fully below the target cluster's range.
+		//
+		// Safety rule: only add border(A→B) when no direct B→A edge exists at the cluster
+		// level. If both A→B and B→A cluster edges exist, adding either border constraint
+		// would conflict with the real edges in the opposite direction and produce topological
+		// inversions (e.g. db-flow-01 Build↔Outputs: adding Outputs_bottom→Build_top
+		// conflicts with Assembler→Site etc. going the other way). One-directional cluster
+		// pairs (db-flow-03 Outputs→External, db-flow-04 Repos→Registries) are safe.
 		if (topLevelGroups.Count > 1)
 		{
 			// Map every real node to its enclosing top-level group (recursively).
@@ -181,17 +186,22 @@ internal static class NestingGraphRanker
 			foreach (var g in topLevelGroups)
 				MapGroup(g, g);
 
-			// Build cluster-level adjacency to check for cycles via topological sort.
 			var clusterIndex = new Dictionary<Group, int>(topLevelGroups.Count);
 			for (var i = 0; i < topLevelGroups.Count; i++)
 				clusterIndex[topLevelGroups[i]] = i;
 
-			var n = topLevelGroups.Count;
-			var clusterInDeg = new int[n];
-			var clusterAdj = new List<int>[n];
-			for (var i = 0; i < n; i++)
-				clusterAdj[i] = [];
+			// Collect unique cluster-level directed edges to detect bidirectional pairs.
+			var clusterEdgeSet = new HashSet<(int, int)>();
+			foreach (var e in edges)
+			{
+				if (!nodeToGroup.TryGetValue(e.From, out var sg) ||
+					!nodeToGroup.TryGetValue(e.To, out var tg) ||
+					sg == tg)
+					continue;
+				_ = clusterEdgeSet.Add((clusterIndex[sg], clusterIndex[tg]));
+			}
 
+			// Add border edges only for unidirectional cluster pairs (no reverse exists).
 			foreach (var e in edges)
 			{
 				if (!nodeToGroup.TryGetValue(e.From, out var sg) ||
@@ -200,38 +210,11 @@ internal static class NestingGraphRanker
 					continue;
 				var si = clusterIndex[sg];
 				var ti = clusterIndex[tg];
-				clusterAdj[si].Add(ti);
-				clusterInDeg[ti]++;
-			}
-
-			// Kahn's topological sort — if it succeeds, cluster-level graph is a DAG.
-			var queue = new Queue<int>();
-			for (var i = 0; i < n; i++)
-				if (clusterInDeg[i] == 0)
-					queue.Enqueue(i);
-			var visited = 0;
-			while (queue.Count > 0)
-			{
-				var u = queue.Dequeue();
-				visited++;
-				foreach (var v in clusterAdj[u])
-					if (--clusterInDeg[v] == 0)
-						queue.Enqueue(v);
-			}
-
-			if (visited == n)
-			{
-				// DAG: safe to add cluster-level border constraints.
-				foreach (var e in edges)
-				{
-					if (!nodeToGroup.TryGetValue(e.From, out var sg) ||
-						!nodeToGroup.TryGetValue(e.To, out var tg) ||
-						sg == tg)
-						continue;
-					var (_, srcBottom) = groupBorders[sg];
-					var (tgtTop, _) = groupBorders[tg];
-					augmented.Add(new NetworkSimplexRanker.SimplexEdge(srcBottom, tgtTop, weight, MinLength: 1));
-				}
+				if (clusterEdgeSet.Contains((ti, si)))
+					continue; // bidirectional — adding border would conflict
+				var (_, srcBottom) = groupBorders[sg];
+				var (tgtTop, _) = groupBorders[tg];
+				augmented.Add(new NetworkSimplexRanker.SimplexEdge(srcBottom, tgtTop, weight, MinLength: 1));
 			}
 		}
 

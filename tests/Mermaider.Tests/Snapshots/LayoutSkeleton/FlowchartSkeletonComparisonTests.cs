@@ -17,19 +17,19 @@ public class FlowchartSkeletonComparisonTests
 	private static readonly IReadOnlyDictionary<string, (double MinLayerAgreement, double MinWithinLayerOrderAgreement)> Baselines =
 		new Dictionary<string, (double, double)>(StringComparer.Ordinal)
 		{
-			// db-flow-01-system: NestingGraphRanker places cluster siblings at different ranks
-			// than dagre's cluster-rank contraction (dagre collapses each cluster to a single
-			// rank for cross-cluster edges, pulling co-cluster siblings onto one shared rank).
-			// db-flow-03-isolated: alphabetical subgraph NodeOrder (matching dagre's insertion
-			// order) corrects the cycle-break for the LinkReg→Content back-edge but leaves
-			// External subgraph members (OpenApiRepo, Bundles) at rank 1 instead of dagre's
-			// rank 5 — dagre's NestingGraph cross-cluster border edges force the entire External
-			// group after Outputs (Manifest→LinkReg pulls External's rank range up); Mermaider
-			// does not yet add these cross-cluster border edges, so OpenApiRepo/Bundles stay at
-			// their minimum-span position (rank 1). Known NestingGraphRanker limitation.
-			// db-flow-04-composing: same cluster-containment gap as db-flow-01.
-			["db-flow-01-system"] = (0.70, 0.45),
-			["db-flow-03-isolated"] = (0.75, 0.70),
+			// db-flow-01-system: Build↔Outputs form a bidirectional cluster pair (Isolated→Links
+			// goes Build→Outputs while SpecIndex→Isolated goes Outputs→Build). The bidirectional
+			// check in NestingGraphRanker skips border edges for this pair, so Build and Outputs
+			// are ordered only by real edge weights. Border edges for Reference/Sources→Authoring
+			// and Authoring→Build/Outputs are added safely (one-directional). 73% layer agreement.
+			// db-flow-03-isolated: Build↔External is bidirectional (Content→LinkReg reversed and
+			// Bundles→Content forward both cross that boundary) so those border edges are skipped.
+			// Outputs→External (Manifest→LinkReg) is one-directional, so Outputs_bottom→External_top
+			// IS added — this correctly places OpenApiRepo and Bundles at layer 5 (matching mjs).
+			// Remaining gap: Content ends up at layer 6 (mjs: 2) because the network simplex
+			// minimizes span across the reversed-edge chain. 79% layer agreement.
+			["db-flow-01-system"] = (0.71, 0.50),
+			["db-flow-03-isolated"] = (0.77, 0.70),
 			// db-flow-04-composing: cross-cluster border edges (Repos_bottom→Registries_top,
 			// Registries_bottom→{Assembler,CodexB}_top) fix AsmCfg/CdxCfg to layer 2 (matching
 			// dagre). The cluster-level graph is a DAG so border edges are safe to add.
