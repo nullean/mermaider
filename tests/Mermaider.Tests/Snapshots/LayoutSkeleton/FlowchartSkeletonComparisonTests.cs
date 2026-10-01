@@ -50,15 +50,27 @@ public class FlowchartSkeletonComparisonTests
 			// disconnected* components (A fans out to B/C/D; a separate unconnected E-F pair; a
 			// separate unconnected G-H pair — no edges between components at all).
 			// SugiyamaLayout.ArrangeComponents lays out each disconnected component as its own
-			// independent full-height column tiled side-by-side (see that method's comments);
-			// dagre instead runs ONE rank assignment across the whole graph, so components with
-			// no edge between them can end up sharing ranks instead of being stacked into
-			// separate columns. This is the same disconnected-component-packing root cause
-			// already documented for several ER diagrams above — a real fix means replacing
-			// per-component tiling with a single graph-wide rank pass, a change shared by every
-			// Sugiyama-based diagram type (flowchart/class/ER) with high regression risk against
-			// long-standing, snapshot-locked layout output, so it is documented here rather than
-			// attempted.
+			// independent full-height column tiled side-by-side.
+			//
+			// This LOOKS like the same root cause as several ER diagrams above (see
+			// SkeletonComparisonTests), where setting SeparateComponents = false — unifying rank
+			// assignment across all components via one network-simplex pass, same as dagre's
+			// always-on nesting-graph root — fixed layer agreement for every affected diagram.
+			// It was tried here too, and reverted: confirmed against the mermaid.js reference
+			// SVG for flowchart-long-edges, dagre's ACTUAL output tiles A-{B,C,D} and E-{F,G,H}
+			// as two visually separate groups, side by side — exactly what Mermaider's existing
+			// per-component tiling already produces. Unifying ranking here just interleaves the
+			// two groups' children into shared ranks with no connectivity to justify it, which
+			// EdgeRouter then has to route around, producing new edge crossings with no IR
+			// benefit. The ER case differs: those diagrams have many SMALL disconnected pieces of
+			// DIFFERING depth relative to one large main component, where dagre's root-anchoring
+			// naturally slots a 2-node pair into the main component's existing layer range rather
+			// than giving it a same-sized independent column — there's no equivalent "small piece
+			// nested into a big one" shape here, just same-sized independent trees, so dagre's
+			// own x-coordinate/ordering phase (not rank unification) is what keeps them visually
+			// separate. A real fix for flowchart/class would need to replicate THAT (clustering
+			// connected subsets during crossing-minimization/ordering), not rank unification —
+			// still real work, still not attempted; left documented rather than faked.
 			["flowchart-edges"] = (0.70, 0.95),
 			["flowchart-long-edges"] = (0.60, 0.50),
 
