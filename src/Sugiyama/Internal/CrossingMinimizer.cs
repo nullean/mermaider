@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading;
 
 namespace Sugiyama.Internal;
@@ -30,6 +31,130 @@ internal static class CrossingMinimizer
 
 		ct.ThrowIfCancellationRequested();
 		EnforceSameRankOrder(graph);
+
+		// Post-barycenter greedy refinement: escape local minima by trying adjacent swaps.
+		// Accepts a swap only when it strictly reduces the combined permutation crossing count
+		// across the two affected layer pairs (L-1:L and L:L+1). Iterates until stable.
+		LocalSwapRefinement(graph, ct);
+	}
+
+	/// <summary>
+	/// Greedy adjacent-swap pass. For every pair of adjacent real nodes in a layer, swaps
+	/// them if the combined crossing count for the two adjoining layer pairs decreases.
+	/// Operates only on real nodes; virtual nodes are not swapped (they track their chain).
+	/// </summary>
+	private static void LocalSwapRefinement(GraphBuffer graph, CancellationToken ct)
+	{
+		if (graph.LayerCount <= 1)
+			return;
+
+		bool changed;
+		do
+		{
+			changed = false;
+			for (var layer = 0; layer < graph.LayerCount; layer++)
+			{
+				ct.ThrowIfCancellationRequested();
+				var nodes = graph.LayerNodes[layer];
+				if (nodes.Length <= 1)
+					continue;
+
+				for (var i = 0; i < nodes.Length - 1; i++)
+				{
+					var a = nodes[i];
+					var b = nodes[i + 1];
+					// Only swap real nodes; virtual node ordering is determined by their chain.
+					if (a >= graph.RealNodeCount || b >= graph.RealNodeCount)
+						continue;
+
+					// Conservative acceptance: a swap is accepted only if it eliminates the last
+					// crossing in at least one of the two touching layer pairs. This avoids partial
+					// improvements (e.g. 3→2) that risk diverging from MJS ordering, while still
+					// allowing swaps that eliminate the sole remaining crossing in a pair.
+					var aboveBefore = layer > 0 ? CountCrossingsBetween(graph, layer - 1, layer) : 0;
+					var belowBefore = layer < graph.LayerCount - 1 ? CountCrossingsBetween(graph, layer, layer + 1) : 0;
+					if (aboveBefore == 0 && belowBefore == 0)
+						continue;
+					// Perform the swap
+					nodes[i] = b;
+					nodes[i + 1] = a;
+					graph.NodePositionInLayer[a] = i + 1;
+					graph.NodePositionInLayer[b] = i;
+					var aboveAfter = layer > 0 ? CountCrossingsBetween(graph, layer - 1, layer) : 0;
+					var belowAfter = layer < graph.LayerCount - 1 ? CountCrossingsBetween(graph, layer, layer + 1) : 0;
+					// Accept only if at least one pair was at exactly 1 crossing and is now at 0.
+					var eliminatesLastCrossing =
+						(aboveBefore == 1 && aboveAfter == 0) ||
+						(belowBefore == 1 && belowAfter == 0);
+					if (eliminatesLastCrossing)
+					{
+						changed = true;
+					}
+					else
+					{
+						// Revert
+						nodes[i] = a;
+						nodes[i + 1] = b;
+						graph.NodePositionInLayer[a] = i;
+						graph.NodePositionInLayer[b] = i + 1;
+					}
+				}
+			}
+		} while (changed);
+	}
+
+	/// <summary>
+	/// Counts permutation crossings touching the given layer: crossings between (layer-1, layer)
+	/// and between (layer, layer+1). Edges between same-layer nodes are ignored.
+	/// </summary>
+	private static int CrossingsForLayer(GraphBuffer graph, int layer)
+	{
+		var total = 0;
+		if (layer > 0)
+			total += CountCrossingsBetween(graph, layer - 1, layer);
+		if (layer < graph.LayerCount - 1)
+			total += CountCrossingsBetween(graph, layer, layer + 1);
+		return total;
+	}
+
+	/// <summary>
+	/// O(E²) permutation crossing count between two adjacent layers using the in/out adjacency.
+	/// Only counts edges whose endpoints are strictly in the two specified layers.
+	/// </summary>
+	private static int CountCrossingsBetween(GraphBuffer graph, int upper, int lower)
+	{
+		// Collect all edges from upper → lower as (pos_upper, pos_lower) pairs
+		var edges = CollectEdgePairs(graph, upper, lower);
+		var n = edges.Count;
+		var crossings = 0;
+		for (var i = 0; i < n; i++)
+		{
+			for (var j = i + 1; j < n; j++)
+			{
+				var (a, b) = edges[i];
+				var (c, d) = edges[j];
+				if ((a < c && b > d) || (a > c && b < d))
+					crossings++;
+			}
+		}
+		return crossings;
+	}
+
+	private static List<(int, int)> CollectEdgePairs(GraphBuffer graph, int upper, int lower)
+	{
+		var edges = new List<(int, int)>();
+		var nodes = graph.LayerNodes[upper];
+		foreach (var node in nodes)
+		{
+			for (var j = graph.OutAdjStart[node]; j < graph.OutAdjStart[node + 1]; j++)
+			{
+				var to = graph.OutAdjNeighbor[j];
+				if (graph.Layers[to] != lower)
+					continue;
+				edges.Add((graph.NodePositionInLayer[node], graph.NodePositionInLayer[to]));
+			}
+		}
+		return edges;
 	}
 
 	private static void EnforceSameRankOrder(GraphBuffer graph)

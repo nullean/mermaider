@@ -41,7 +41,7 @@ public static class SugiyamaLayout
 		}
 
 		CycleRemover.Run(buf);
-		LayerAssigner.Run(buf, options.NaturalBackEdgeRouting, options.TightSourceLayering);
+		LayerAssigner.Run(buf, options.NaturalBackEdgeRouting, options.TightSourceLayering, options.TightenIntermediateLayers);
 
 		options.CancellationToken.ThrowIfCancellationRequested();
 		if (buf.NodeCount > options.MaxNodeCount)

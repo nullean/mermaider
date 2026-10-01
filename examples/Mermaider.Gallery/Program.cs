@@ -563,7 +563,13 @@ string MermaidJsScript() => """
 
 	  if (mjsContainers.length > 0) {
 	    try {
-	      const { default: mermaid } = await import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs');
+	      // Pinned to the exact version installed locally (node_modules/mermaid) and used by mmdc to
+	      // generate the mermaid.js reference SVGs the skeleton-comparison tests are calibrated
+	      // against (tests/Mermaider.Tests/Snapshots/LayoutSkeleton/SkeletonComparisonTests.cs).
+	      // mermaid.js's dagre-based ER layout changed meaningfully between major versions — comparing
+	      // against a different version here than the one calibration used makes this compare view
+	      // show differences that have nothing to do with Mermaider's own layout quality.
+	      const { default: mermaid } = await import('https://cdn.jsdelivr.net/npm/mermaid@12.0.0/dist/mermaid.esm.min.mjs');
 	      mermaid.initialize({ startOnLoad: false, theme: 'default', securityLevel: 'loose' });
 	      let i = 0;
 	      for (const el of mjsContainers) {

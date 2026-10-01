@@ -6,7 +6,13 @@ public sealed record DiagramExample(string Slug, string Title, DiagramCategory C
 
 public static partial class DiagramExamples
 {
-	public static readonly DiagramExample[] All =
+	// Method (not a field) so static-initializer ordering across the two partial-class
+	// files below is never in question — method bodies don't run until called, so `All`'s
+	// own initializer can safely call both regardless of which file the compiler processes
+	// first.
+	public static readonly DiagramExample[] All = [.. CoreExamples(), .. DocsBuilderErdExamples()];
+
+	private static DiagramExample[] CoreExamples() =>
 	[
 		// ── Flowchart ──────────────────────────────────────────────────
 
