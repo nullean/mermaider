@@ -42,7 +42,7 @@ public partial class ErEdgeCrossingTests
 			["db-erd-22-link-graph"]               = 0,
 			["db-erd-23-publishing"]               = 1,
 			["db-erd-24-codex"]                    = 1,
-			["db-erd-25-release-notes"]            = 5,
+			["db-erd-25-release-notes"]            = 1,
 			["db-erd-26-api-reference"]            = 1,
 			["db-erd-27-search"]                   = 0,
 			["er-aliases"]                         = 0,

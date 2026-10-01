@@ -628,11 +628,30 @@ internal static class ErSvgRenderer
 			if (dy0 < 4.0 && dyN < 4.0 && Math.Abs(p0.Y - pN.Y) > 4.0)
 			{
 				var xm = (p0.X + pN.X) / 2.0;
-				_ = sb.Append('M').Append(p0.X).Append(',').Append(p0.Y)
-					.Append(" C").Append(xm).Append(',').Append(p0.Y)
-					.Append(' ').Append(xm).Append(',').Append(pN.Y)
-					.Append(' ').Append(pN.X).Append(',').Append(pN.Y);
-				return;
+				// If intermediate waypoints deviate significantly from xm, the path
+				// encodes a meaningful detour (e.g. a back-edge bypass routed to the
+				// diagram's far right). Collapsing it to a simple S-curve would draw
+				// a straight line through whatever the detour was routing around.
+				// Threshold: endpoint spread + 20 px — normal S-curve intermediates
+				// sit near xm, while detour intermediates sit at maxRight+gap >> xm.
+				var detourThreshold = Math.Abs(p0.X - pN.X) + 20.0;
+				var hasDetour = false;
+				for (var wi = 1; wi < points.Count - 1; wi++)
+				{
+					if (Math.Abs(points[wi].X - xm) > detourThreshold)
+					{
+						hasDetour = true;
+						break;
+					}
+				}
+				if (!hasDetour)
+				{
+					_ = sb.Append('M').Append(p0.X).Append(',').Append(p0.Y)
+						.Append(" C").Append(xm).Append(',').Append(p0.Y)
+						.Append(' ').Append(xm).Append(',').Append(pN.Y)
+						.Append(' ').Append(pN.X).Append(',').Append(pN.Y);
+					return;
+				}
 			}
 		}
 
