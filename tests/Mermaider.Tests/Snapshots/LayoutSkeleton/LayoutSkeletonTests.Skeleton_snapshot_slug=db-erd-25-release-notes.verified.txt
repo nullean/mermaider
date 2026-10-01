@@ -19,7 +19,7 @@ Edges:
   BundledProduct --product--> Product [Right->Right]
   ChangelogConfiguration --bundle.profiles--> BundleProfile [Bottom->Top]
   ChangelogConfiguration --pivot--> Pivot [Bottom->Top]
-  ChangelogConfiguration --products--> ProductDefaults [Bottom->Top]
+  ChangelogConfiguration --products--> ProductDefaults [Right->Top]
   ChangelogConfiguration --bundle.releases--> ReleaseTrigger [Bottom->Top]
   ChangelogConfiguration --rules--> Rules [Right->Top]
   ChangelogEntry --products--> ProductRelease [Bottom->Top]

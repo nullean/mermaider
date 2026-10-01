@@ -7,7 +7,7 @@ Layer 5: LinkRegistry, OpenApiRepository
 Layer 6: Registry
 Edges:
   ApiReference --spec + repository--> OpenApiSpec [Bottom->Top]
-  Assembly --pins commits from--> LinkRegistry [Bottom->Top]
+  Assembly --pins commits from--> LinkRegistry [Right->Top]
   Assembly --references--> Repository [Right->Top]
   Assembly --per environment--> SearchIndex [Right->Top]
   Assembly --navigation.yml--> SiteNavigation [Bottom->Top]

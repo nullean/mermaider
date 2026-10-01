@@ -35,6 +35,15 @@ internal static class CoordinateAssigner
 		if (interLayerCompact)
 			EnforceMinimumSpacingAfterAlign(graph, nodeSpacing);
 		CompactOrphanedNodes(graph, nodeSpacing);
+		// Virtual nodes for skip-layer edges may land far outside their chain's X range
+		// due to the virtual-first tiebreaker placing them leftmost on barycenter ties.
+		// Pull them back toward the chain's source–target midpoint so routing stays within
+		// the natural corridor and avoids horizontal detours that create visual crossings.
+		// ER-only: flowcharts and other diagram types use different routing conventions
+		// (side-exits, LR orientation) where adjusting virtual node X can unexpectedly
+		// change port selection and route direction.
+		if (interLayerCompact)
+			CenterVirtualNodes(graph, nodeSpacing);
 		NormalizeX(graph);
 	}
 
@@ -367,6 +376,97 @@ internal static class CoordinateAssigner
 
 				if (newX > graph.X[curr])
 					graph.X[curr] = newX;
+			}
+		}
+	}
+
+	/// <summary>
+	/// Post-placement pass: pull virtual nodes toward the X midpoint of their chain
+	/// (lerp between chain-source X and chain-target X) when AlignToConnections left
+	/// them outside that range due to the virtual-first tiebreaker.
+	///
+	/// Only moves a virtual node right (toward the corridor), never left, and never
+	/// past the real node immediately to the right of it in its layer (spacing is
+	/// preserved). Does not move real nodes.
+	/// </summary>
+	private static void CenterVirtualNodes(GraphBuffer graph, double nodeSpacing)
+	{
+		// Build a map from virtual node → (chain source real-node, chain target real-node).
+		// All edges in the same original-index chain share source/target.
+		var chainOf = new (int Src, int Tgt)[graph.NodeCount];
+		for (var i = 0; i < graph.NodeCount; i++)
+			chainOf[i] = (-1, -1);
+
+		// Precompute chain endpoints: for each virtual node, walk in/out edges
+		// until reaching a real node (virtual chains are linear — one in, one out).
+		for (var v = graph.RealNodeCount; v < graph.NodeCount; v++)
+		{
+			// Walk backward (in-edges) to real source
+			var cur = v;
+			while (cur >= graph.RealNodeCount)
+			{
+				var start = graph.InAdjStart[cur];
+				if (start >= graph.InAdjStart[cur + 1])
+					break;
+				cur = graph.InAdjNeighbor[start];
+			}
+			var chainSrc = cur < graph.RealNodeCount ? cur : -1;
+
+			// Walk forward (out-edges) to real target
+			cur = v;
+			while (cur >= graph.RealNodeCount)
+			{
+				var start = graph.OutAdjStart[cur];
+				if (start >= graph.OutAdjStart[cur + 1])
+					break;
+				cur = graph.OutAdjNeighbor[start];
+			}
+			var chainTgt = cur < graph.RealNodeCount ? cur : -1;
+
+			if (chainSrc >= 0 && chainTgt >= 0)
+				chainOf[v] = (chainSrc, chainTgt);
+		}
+
+		for (var layer = 0; layer < graph.LayerCount; layer++)
+		{
+			var nodes = graph.LayerNodes[layer];
+			for (var pos = 0; pos < nodes.Length; pos++)
+			{
+				var v = nodes[pos];
+				if (v < graph.RealNodeCount)
+					continue;
+				var (srcNode, tgtNode) = chainOf[v];
+				if (srcNode < 0 || tgtNode < 0)
+					continue;
+
+				var srcX = graph.X[srcNode] + (graph.NodeWidths[srcNode] / 2.0);
+				var tgtX = graph.X[tgtNode] + (graph.NodeWidths[tgtNode] / 2.0);
+				var minChain = Math.Min(srcX, tgtX);
+				var maxChain = Math.Max(srcX, tgtX);
+
+				// Only move the virtual node if it is outside the chain X corridor.
+				if (graph.X[v] >= minChain && graph.X[v] <= maxChain)
+					continue;
+
+				// Target: midpoint of chain corridor.
+				var targetX = (srcX + tgtX) / 2.0;
+				if (targetX <= graph.X[v])
+					continue; // only pull right (toward corridor), never left
+
+				// Clamp: don't push past the next real node in this layer.
+				if (pos + 1 < nodes.Length)
+				{
+					var nextNode = nodes[pos + 1];
+					if (nextNode < graph.RealNodeCount)
+					{
+						var maxX = graph.X[nextNode] - nodeSpacing;
+						if (targetX > maxX)
+							targetX = maxX;
+					}
+				}
+
+				if (targetX > graph.X[v])
+					graph.X[v] = targetX;
 			}
 		}
 	}

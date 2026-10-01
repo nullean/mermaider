@@ -36,7 +36,7 @@ public partial class ErEdgeCrossingTests
 			["db-erd-16-relationships-overview"]   = 0,
 			["db-erd-17-catalog"]                  = 0,
 			["db-erd-18-source"]                   = 1,
-			["db-erd-19-docset"]                   = 3,
+			["db-erd-19-docset"]                   = 2,
 			["db-erd-20-content"]                  = 0,
 			["db-erd-21-navigation"]               = 0,
 			["db-erd-22-link-graph"]               = 0,
