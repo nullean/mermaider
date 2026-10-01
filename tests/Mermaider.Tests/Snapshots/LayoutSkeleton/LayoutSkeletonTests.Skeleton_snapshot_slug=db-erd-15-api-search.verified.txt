@@ -11,7 +11,7 @@ Edges:
   ApiSupplementalDoc --op-{id}--> ApiOperation [Bottom->Top]
   ApiTag --operations--> ApiOperation [Bottom->Top]
   ApiVersionIndex --lists--> ApiSpecVersion [Bottom->Top]
-  OpenApiRepository --index.json--> ApiVersionIndex [Right->Top]
+  OpenApiRepository --index.json--> ApiVersionIndex [Bottom->Top]
   OpenApiRepository --org/repo/branch/spec--> OpenApiSpec [Bottom->Top]
   OpenApiSpec --per version--> ApiSpecVersion [Bottom->Top]
   Page --exported--> SearchDocument [Bottom->Top]

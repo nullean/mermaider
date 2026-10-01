@@ -1,7 +1,5 @@
-﻿Layer 0: A, C
-Layer 1: B, D
-Layer 2: E, G
-Layer 3: F, H
+﻿Layer 0: A, C, E, G
+Layer 1: B, D, F, H
 Edges:
   A --one-to-one--> B [Bottom->Top]
   C --one-to-zero-or-many--> D [Bottom->Top]

@@ -65,8 +65,19 @@ public sealed record LayoutOptions
 	public double ComponentSpacing { get; init; } = 48;
 
 	/// <summary>
-	/// When true (default), disconnected graph components are laid out independently and tiled.
-	/// When false, all nodes share a unified layout grid.
+	/// When true (default), disconnected graph components are laid out independently (each its
+	/// own local rank-0..N range) and then tiled into a grid by <c>ArrangeComponents</c>. When
+	/// false, every node — across every weakly-connected component — goes through one shared
+	/// <c>LayerAssigner</c>/network-simplex pass, matching dagre's actual behavior: dagre's
+	/// <c>lib/nesting-graph.ts</c> unconditionally connects every top-level node to an implicit
+	/// dummy root before ranking (not just for explicit subgraphs/clusters), so independent
+	/// pieces land in the same layer range as the main component instead of being stacked
+	/// underneath it or isolated in their own grid cell. ER (<c>LightweightErLayoutEngine</c>)
+	/// sets this to <c>false</c> for exactly this reason — see
+	/// <c>SkeletonComparisonTests</c>'s class remarks for the before/after IR-agreement numbers.
+	/// Flowchart/class/state keep the default (<c>true</c>): their disconnected-component shapes
+	/// differ enough (and are far less common) that switching needs its own calibration pass
+	/// before being changed — see the <c>er-fix</c>/<c>final-verify-2</c> plan.
 	/// </summary>
 	public bool SeparateComponents { get; init; } = true;
 

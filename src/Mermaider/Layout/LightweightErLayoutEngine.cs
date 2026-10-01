@@ -119,6 +119,7 @@ internal static class LightweightErLayoutEngine
 			StrictTopDownFanout = true,
 			MaxComponentsPerRow = maxPerRow,
 			TightSourceLayering = true,
+			SeparateComponents = false,
 		});
 
 		return ExtractPositioned(result, diagram, layoutEdgeRelIndices);

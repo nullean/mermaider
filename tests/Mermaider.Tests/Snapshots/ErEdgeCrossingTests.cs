@@ -36,16 +36,19 @@ public partial class ErEdgeCrossingTests
 			["db-erd-16-relationships-overview"]   = 0,
 			["db-erd-17-catalog"]                  = 0,
 			["db-erd-18-source"]                   = 1,
-			["db-erd-19-docset"]                   = 2,
-			// Network-simplex ranking (dagre's real default) moved several entities into a
-			// denser arrangement that also raised layer/order IR agreement with mermaid.js
-			// (69%/63%, up from a worse pre-network-simplex baseline); CrossingMinimizer's
-			// barycenter+pairwise-swap heuristic doesn't fully resolve the resulting tangle
-			// around Heading/Anchor/Product the way dagre's median+resolve-conflicts ordering
-			// would. Visual inspection confirms a dense-but-correct layout, not degenerate
-			// output. Revisit once ordering gets a fuller dagre-equivalent port.
-			["db-erd-20-content"]                  = 7,
-			["db-erd-21-navigation"]               = 0,
+			// Unifying rank assignment across disconnected components (SeparateComponents = false
+			// — see LayoutOptions and SkeletonComparisonTests class remarks) raised layer IR
+			// agreement with mermaid.js to 100% for all three of db-erd-19/20/21 (was 71%/69%/95%),
+			// by threading each diagram's previously-isolated pieces (CrossLinkItem/CrossLinkUri,
+			// IncludeDirective/Snippet, Phantom/TableOfContents) back into the main component's
+			// layer range, same as dagre. CrossingMinimizer's barycenter+pairwise-swap heuristic
+			// doesn't always resolve the resulting denser layer the way dagre's median+resolve-
+			// conflicts ordering would, costing 1-2 extra visual crossings each. Visual inspection
+			// confirms dense-but-correct layouts, not degenerate output. Revisit once ordering gets
+			// a fuller dagre-equivalent port.
+			["db-erd-19-docset"]                   = 3,
+			["db-erd-20-content"]                  = 9,
+			["db-erd-21-navigation"]               = 1,
 			["db-erd-22-link-graph"]               = 0,
 			["db-erd-23-publishing"]               = 1,
 			["db-erd-24-codex"]                    = 1,

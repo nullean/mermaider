@@ -1,11 +1,9 @@
-﻿Layer 0: DocumentationSet, InternalLink, PageCardDirective, CrossLink
-Layer 1: DocumentationFile, Page, IncludeDirective, CrossLinkUri
+﻿Layer 0: DocumentationSet, InternalLink, CrossLink, PageCardDirective, ImageLink, SettingsDirective, RelatedLearningDirective
+Layer 1: DocumentationFile, CrossLinkUri, Page, Image, IncludeDirective, SettingsReference, RelatedLearningLink
 Layer 2: FrontMatter, Directive, Heading, Link, Snippet, ChangelogDirective
 Layer 3: Applicability, Cta, PageSubstitution, LegacyPage, ListingGroup, Anchor, Product
 Layer 4: ApplicabilityEntry
 Layer 5: VersionSpec
-Layer 6: ImageLink, SettingsDirective, RelatedLearningDirective
-Layer 7: Image, SettingsReference, RelatedLearningLink
 Edges:
   Applicability --per key--> ApplicabilityEntry [Bottom->Top]
   ApplicabilityEntry --version--> VersionSpec [Bottom->Top]
@@ -27,7 +25,7 @@ Edges:
   Page --contains--> Directive [Bottom->Top]
   Page ----- yaml -----> FrontMatter [Bottom->Top]
   Page --## text--> Heading [Bottom->Top]
-  Page --contains--> Link [Right->Top]
+  Page --contains--> Link [Bottom->Top]
   PageCardDirective --local link--> Page [Bottom->Top]
   RelatedLearningDirective --ids--> RelatedLearningLink [Bottom->Top]
   SettingsDirective --path--> SettingsReference [Bottom->Top]

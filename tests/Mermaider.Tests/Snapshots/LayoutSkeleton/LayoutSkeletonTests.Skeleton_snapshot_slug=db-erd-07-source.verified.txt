@@ -1,5 +1,5 @@
-﻿Layer 0: Checkout, PublishEnvironment
-Layer 1: Repository, LinkRegistryEntry, ContentSource
+﻿Layer 0: PublishEnvironment, Checkout
+Layer 1: ContentSource, Repository, LinkRegistryEntry
 Layer 2: DocumentationSet, ContentSourceBranches
 Edges:
   Checkout --pinned commit--> LinkRegistryEntry [Right->Top]

@@ -33,20 +33,28 @@ namespace Mermaider.Tests.Snapshots.LayoutSkeleton;
 //
 // With real extraction, scores genuinely range from ~57% to 100% (layer) and 0% to 100% (order).
 // TopologicalInversions()==0 for every diagram confirms Mermaider's own layering stays internally
-// consistent even where it disagrees with mermaid.js — the divergence traces to two structural,
-// non-bug differences between dagre and our Sugiyama implementation:
-//   (a) disconnected-component packing — dagre tucks a disconnected subgraph's layers in
-//       side-by-side with the main component's existing layer range; Sugiyama stacks it as new
-//       layers underneath (e.g. db-erd-09-content: mermaid.js packs CrossLink/IncludeDirective
-//       and CrossLinkUri/Snippet into layers 0-1 alongside the main cluster; Mermaider gives them
-//       their own layers 4-5 below everything).
-//   (b) unconstrained sibling order — when two entities share a parent with no other edge fixing
-//       their relative order (e.g. er-complex's COMMENT/TAG, both children of POST), dagre and
-//       Sugiyama can tie-break oppositely; nothing in the diagram prefers one order over the
-//       other.
-// Neither is "more correct" — they're different, both-valid answers to an underspecified layout
-// question. Per-slug floors document today's actual divergence instead of pretending it doesn't
-// exist.
+// consistent even where it disagrees with mermaid.js.
+//
+// Disconnected-component packing (formerly divergence (a) here) is FIXED: dagre always connects
+// every top-level node to an implicit dummy root before ranking (lib/nesting-graph.ts's run() is
+// unconditional, not just for explicit subgraphs/clusters), which is what lets independent
+// weakly-connected pieces land in the SAME layer range as the main component instead of getting
+// stacked as new layers underneath it. ER's LightweightErLayoutEngine now sets
+// LayoutOptions.SeparateComponents = false so the whole graph — main component plus every
+// disconnected piece — goes through one NetworkSimplexRanker/NestingGraphRanker pass together
+// (see that flag's doc comment in LayoutModels.cs), matching dagre's actual behavior instead of
+// Mermaider's previous bespoke grid-tiling heuristic (SugiyamaLayout.ArrangeComponents). This
+// raised layer agreement to 100% for nearly every previously-affected diagram (db-erd-07/09/12
+// among others), at the cost of a few extra visual edge crossings on 3 diagrams where a
+// disconnected piece's un-pinned horizontal position now threads through a busier main-component
+// layer (see ErEdgeCrossingTests) — a trade the IR comparison shows is net-positive structurally.
+//
+// The remaining divergence is (b) unconstrained sibling order — when two entities share a parent
+// with no other edge fixing their relative order (e.g. er-complex's COMMENT/TAG, both children of
+// POST), dagre and Sugiyama can tie-break oppositely; nothing in the diagram prefers one order
+// over the other. This is not "more correct" either way — it's a both-valid answer to an
+// underspecified layout question. Per-slug floors document today's actual divergence instead of
+// pretending it doesn't exist.
 public class SkeletonComparisonTests
 {
 	// (MinLayerAgreement, MinWithinLayerOrderAgreement) per slug, floored a few points below the
@@ -61,9 +69,9 @@ public class SkeletonComparisonTests
 			["db-erd-02-shared-vocab"] = (0.95, 0.65),
 			["db-erd-05-building-blocks"] = (0.90, 0.25),
 			["db-erd-06-catalog"] = (0.95, 0.95),
-			["db-erd-07-source"] = (0.95, 0.35),
+			["db-erd-07-source"] = (0.95, 0.95),
 			["db-erd-08-docset"] = (0.95, 0.95),
-			["db-erd-09-content"] = (0.50, 0.55), // disconnected-component packing differs — see class remarks
+			["db-erd-09-content"] = (0.95, 0.95),
 			["db-erd-10-navigation"] = (0.95, 0.95),
 			["db-erd-11-link-graph"] = (0.95, 0.95),
 			["db-erd-12-assembly"] = (0.95, 0.95),
@@ -73,9 +81,13 @@ public class SkeletonComparisonTests
 			["db-erd-16-relationships-overview"] = (0.95, 0.80),
 			["db-erd-17-catalog"] = (0.95, 0.95),
 			["db-erd-18-source"] = (0.95, 0.15),
-			["db-erd-19-docset"] = (0.68, 0.50),
-			["db-erd-20-content"] = (0.65, 0.58), // disconnected-component packing differs — see class remarks
-			["db-erd-21-navigation"] = (0.90, 0.95),
+			// Unifying rank assignment across disconnected components (dagre always connects every
+			// top-level node to a dummy root — see SugiyamaLayout's SeparateComponents=false comment)
+			// fixed layer agreement to 100% for both, at the cost of within-layer order agreement —
+			// an explicitly-documented both-valid tie-break dimension (see class remarks), not a bug.
+			["db-erd-19-docset"] = (0.95, 0.25),
+			["db-erd-20-content"] = (0.95, 0.50),
+			["db-erd-21-navigation"] = (0.90, 0.78),
 			["db-erd-22-link-graph"] = (0.95, 0.95),
 			["db-erd-23-publishing"] = (0.95, 0.25),
 			["db-erd-24-codex"] = (0.95, 0.70),
