@@ -1,7 +1,7 @@
-﻿Layer 0: DocumentationSet, InternalLink, IncludeDirective, PageCardDirective, CrossLink
-Layer 1: DocumentationFile, Page, CrossLinkUri
-Layer 2: Snippet, Heading, FrontMatter, Directive, Link, ChangelogDirective
-Layer 3: Anchor, Applicability, Cta, PageSubstitution, LegacyPage, ListingGroup, Product
+﻿Layer 0: DocumentationSet, InternalLink, PageCardDirective, CrossLink
+Layer 1: DocumentationFile, Page, IncludeDirective, CrossLinkUri
+Layer 2: FrontMatter, Directive, Heading, Link, Snippet, ChangelogDirective
+Layer 3: Applicability, Cta, PageSubstitution, LegacyPage, ListingGroup, Anchor, Product
 Layer 4: ApplicabilityEntry
 Layer 5: VersionSpec
 Layer 6: ImageLink, SettingsDirective, RelatedLearningDirective
@@ -23,8 +23,8 @@ Edges:
   IncludeDirective --path--> Snippet [Bottom->Top]
   InternalLink --#anchor--> Anchor [Bottom->Top]
   InternalLink --path--> Page [Bottom->Top]
-  Page --collected--> Anchor [Left->Top]
-  Page --contains--> Directive [Right->Top]
+  Page --collected--> Anchor [Bottom->Top]
+  Page --contains--> Directive [Bottom->Top]
   Page ----- yaml -----> FrontMatter [Bottom->Top]
   Page --## text--> Heading [Bottom->Top]
   Page --contains--> Link [Right->Top]

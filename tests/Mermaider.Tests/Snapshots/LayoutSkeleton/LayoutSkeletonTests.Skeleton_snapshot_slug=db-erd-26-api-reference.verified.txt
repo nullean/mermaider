@@ -1,6 +1,6 @@
-﻿Layer 0: ApiDeclaration, OpenApiRepository, Repository
-Layer 1: Product, ApiVersionIndex, OpenApiSpec
-Layer 2: ApiSpecVersion
+﻿Layer 0: OpenApiRepository
+Layer 1: Repository, ApiDeclaration, ApiVersionIndex
+Layer 2: OpenApiSpec, Product, ApiSpecVersion
 Layer 3: ApiSupplementalDoc, ApiTagGroup, ApiSchema
 Layer 4: ApiTag
 Layer 5: ApiEndpoint
@@ -8,7 +8,7 @@ Layer 6: ApiOperation
 Layer 7: DocumentationDocument
 Edges:
   ApiDeclaration --renders--> ApiSpecVersion [Bottom->Top]
-  ApiDeclaration --api/{key}/--> ApiSupplementalDoc [Left->Top]
+  ApiDeclaration --api/{key}/--> ApiSupplementalDoc [Bottom->Top]
   ApiDeclaration --repository + spec--> OpenApiSpec [Bottom->Top]
   ApiDeclaration --product--> Product [Bottom->Top]
   ApiEndpoint --operations--> ApiOperation [Bottom->Top]
@@ -20,6 +20,6 @@ Edges:
   ApiTag --endpoints--> ApiEndpoint [Bottom->Top]
   ApiTagGroup --tags--> ApiTag [Bottom->Top]
   ApiVersionIndex --org/repo, spec, moniker--> ApiSpecVersion [Bottom->Top]
-  OpenApiRepository --index.json--> ApiVersionIndex [Bottom->Top]
-  OpenApiRepository --org/repo/branch/spec--> OpenApiSpec [Right->Top]
+  OpenApiRepository --index.json--> ApiVersionIndex [Right->Top]
+  OpenApiRepository --org/repo/branch/spec--> OpenApiSpec [Left->Top]
   Repository --publishes, per branch--> OpenApiSpec [Bottom->Top]
