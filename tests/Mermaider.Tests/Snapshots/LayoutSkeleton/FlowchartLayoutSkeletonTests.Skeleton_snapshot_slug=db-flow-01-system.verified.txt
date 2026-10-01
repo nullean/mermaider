@@ -10,8 +10,8 @@ Groups:
 - Reference (layer=0 order=0) members=[Catalog]
 - Sources (layer=0 order=1) members=[Repo]
 - Authoring (layer=1 order=0) members=[DocSet, OpenApi, Changelog]
-- Outputs (layer=1 order=1) members=[Site, Links, SpecIndex, Search, Notes]
-- Build (layer=1 order=2) members=[Isolated, Assembler, Codex]
+- Outputs (layer=2 order=0) members=[Site, Links, SpecIndex, Search, Notes]
+- Build (layer=2 order=1) members=[Isolated, Assembler, Codex]
 Edges:
   Assembler ----> Search [Top->Left]
   Assembler ----> Site [Top->Left]

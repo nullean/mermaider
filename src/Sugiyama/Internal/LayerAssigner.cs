@@ -84,14 +84,21 @@ internal static class LayerAssigner
 
 		// Iteratively push target nodes deeper until all min-length constraints are satisfied.
 		// A single forward pass over the topologically-ordered edge list converges because
-		// AssignLayers already produced a valid topological order.
+		// AssignLayers already produced a valid topological order — except for a self-loop
+		// (From == To), whose "required" layer is trivially unsatisfiable (it is always
+		// strictly ahead of the node's own current layer by definition), which would otherwise
+		// push that node's layer forever. A self-loop carries no real rank-span constraint
+		// (both endpoints are the same node), so it is excluded outright. The iteration cap is
+		// defense-in-depth against any other unforeseen non-convergent case.
 		var changed = true;
-		while (changed)
+		var iterations = 0;
+		var maxIterations = (graph.NodeCount * 2) + 10;
+		while (changed && iterations++ < maxIterations)
 		{
 			changed = false;
 			foreach (var e in graph.Edges)
 			{
-				if (e.MinLength <= 1)
+				if (e.MinLength <= 1 || e.From == e.To)
 					continue;
 				var required = graph.Layers[e.From] + e.MinLength;
 				if (graph.Layers[e.To] < required)

@@ -146,7 +146,18 @@ internal static class LayoutSkeletonBuilder
 				var start2 = RankStart(boxes[j]);
 				var end2 = start2 + RankExtent(boxes[j]);
 				var overlap = Math.Min(end1, end2) - Math.Max(start1, start2);
-				if (overlap > 0 && !noMerge.Contains((i, j)))
+				// Same-rank siblings placed by a real layered-graph engine share (near enough)
+				// the same rank-axis band, so their extents overlap substantially regardless of
+				// size mismatch (a short entity centered in a tall row's band is still mostly
+				// contained in it). Adjacent *different* ranks can still show a sliver of overlap
+				// when the engine reserves a thin, mostly-virtual-node rank for an edge label and
+				// the inter-rank gap ends up smaller than a real node's own extent (confirmed via
+				// flowchart-edges/long-edges: dagre's label-carrying rank sits close enough to the
+				// next real rank that two real nodes on adjacent ranks touch by a few px). Require
+				// the overlap to cover at least half of the smaller box's extent so a few-pixel
+				// graze doesn't merge two genuinely different ranks into one skeleton layer.
+				var minExtent = Math.Min(RankExtent(boxes[i]), RankExtent(boxes[j]));
+				if (overlap > 0.5 * minExtent && !noMerge.Contains((i, j)))
 					Union(i, j);
 			}
 		}

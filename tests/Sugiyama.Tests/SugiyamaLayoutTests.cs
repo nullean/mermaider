@@ -464,4 +464,29 @@ public class SugiyamaLayoutTests
 			endOnTarget.Should().BeTrue($"edge {inputEdge.Source}->{inputEdge.Target} should end on its target node's boundary, not {endY}");
 		}
 	}
+
+	// A self-loop (From == To) with an explicit MinLength > 1 — e.g. a flowchart `A ---->
+	// A`-style long arrow onto itself — made EnforceMinLengths' convergence loop push the
+	// node's own layer forever: "required" is always graph.Layers[node] + MinLength, which by
+	// construction is always greater than the node's current layer, so the push-and-recheck
+	// loop never reaches a fixed point. This diagram must complete (not hang) and must still
+	// place the self-looping node at a valid, finite layer.
+	[Test]
+	[Timeout(5_000)]
+	public void Self_loop_with_min_length_does_not_hang(CancellationToken ct)
+	{
+		var graph = new LayoutGraph(
+			LayoutDirection.TD,
+			[new LayoutNode("A", 100, 40), new LayoutNode("B", 100, 40)],
+			[
+				new LayoutEdge("A", "A", MinLength: 3),
+				new LayoutEdge("A", "B"),
+			],
+			[]);
+
+		var result = SugiyamaLayout.Compute(graph, new LayoutOptions { CancellationToken = ct });
+
+		result.Nodes.Should().HaveCount(2);
+		double.IsFinite(result.Nodes.First(n => n.Id == "A").Y).Should().BeTrue();
+	}
 }
