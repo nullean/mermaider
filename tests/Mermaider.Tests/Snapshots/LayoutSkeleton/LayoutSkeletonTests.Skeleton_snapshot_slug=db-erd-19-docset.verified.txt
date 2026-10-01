@@ -1,5 +1,5 @@
 ﻿Layer 0: NestedTocItem, DocumentationSet, FileItem
-Layer 1: TableOfContents, CrossLinkDeclaration, Substitution, ApiDeclaration, ReleaseNotesSubscription, Redirect, CodexGroup, FeatureToggle, HintSuppression, Page
+Layer 1: TableOfContents, Substitution, CrossLinkDeclaration, Redirect, ApiDeclaration, ReleaseNotesSubscription, CodexGroup, FeatureToggle, HintSuppression, Page
 Layer 2: TocItem, Repository, Registry, Product
 Layer 3: Cta
 Layer 4: FolderItem, CrossLinkItem
@@ -16,9 +16,9 @@ Edges:
   DocumentationSet --default_cta--> Cta [Bottom->Top]
   DocumentationSet --features--> FeatureToggle [Right->Top]
   DocumentationSet --suppress--> HintSuppression [Right->Top]
-  DocumentationSet --products--> Product [Left->Top]
-  DocumentationSet --redirects.yml--> Redirect [Right->Top]
-  DocumentationSet --release_notes--> ReleaseNotesSubscription [Bottom->Top]
+  DocumentationSet --products--> Product [Bottom->Top]
+  DocumentationSet --redirects.yml--> Redirect [Bottom->Top]
+  DocumentationSet --release_notes--> ReleaseNotesSubscription [Right->Top]
   DocumentationSet --subs--> Substitution [Bottom->Top]
   DocumentationSet --toc--> TableOfContents [Bottom->Top]
   FileItem --file--> Page [Bottom->Top]

@@ -22,7 +22,7 @@ public partial class ErEdgeCrossingTests
 		new Dictionary<string, int>(StringComparer.Ordinal)
 		{
 			["db-erd-02-shared-vocab"]            = 2,
-			["db-erd-05-building-blocks"]          = 11,
+			["db-erd-05-building-blocks"]          = 5,
 			["db-erd-06-catalog"]                  = 0,
 			["db-erd-07-source"]                   = 0,
 			["db-erd-08-docset"]                   = 0,
@@ -36,7 +36,7 @@ public partial class ErEdgeCrossingTests
 			["db-erd-16-relationships-overview"]   = 0,
 			["db-erd-17-catalog"]                  = 0,
 			["db-erd-18-source"]                   = 1,
-			["db-erd-19-docset"]                   = 4,
+			["db-erd-19-docset"]                   = 3,
 			["db-erd-20-content"]                  = 0,
 			["db-erd-21-navigation"]               = 0,
 			["db-erd-22-link-graph"]               = 0,

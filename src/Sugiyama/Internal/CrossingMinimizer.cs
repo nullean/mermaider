@@ -18,6 +18,16 @@ internal static class CrossingMinimizer
 
 		var barycenters = new double[graph.NodeCount];
 
+		// Track the best ordering seen across sweeps by total crossing count, not just
+		// whichever sweep happened to run last — a single barycenter sweep direction can
+		// locally improve each layer pair in isolation while making the graph-wide total
+		// worse, and an unlucky final sweep can otherwise discard a better ordering an
+		// earlier sweep already found. Mirrors dagre's order/index.ts, which runs up to
+		// several non-improving sweeps before giving up and keeps the best-by-crossing-count
+		// layering it ever saw, rather than trusting monotonic improvement from the heuristic.
+		var bestCrossings = int.MaxValue;
+		int[]? bestOrder = null;
+
 		for (var iter = 0; iter < iterations; iter++)
 		{
 			ct.ThrowIfCancellationRequested();
@@ -27,7 +37,17 @@ internal static class CrossingMinimizer
 			ct.ThrowIfCancellationRequested();
 			for (var layer = graph.LayerCount - 2; layer >= 0; layer--)
 				SweepLayer(graph, layer, barycenters, useInEdges: false);
+
+			var total = TotalCrossings(graph);
+			if (total >= bestCrossings)
+				continue;
+			bestCrossings = total;
+			bestOrder ??= new int[graph.NodeCount];
+			Array.Copy(graph.NodePositionInLayer, bestOrder, graph.NodeCount);
 		}
+
+		if (bestOrder is not null)
+			RestoreOrder(graph, bestOrder);
 
 		ct.ThrowIfCancellationRequested();
 		EnforceSameRankOrder(graph);
@@ -38,10 +58,42 @@ internal static class CrossingMinimizer
 		LocalSwapRefinement(graph, ct);
 	}
 
+	private static int TotalCrossings(GraphBuffer graph)
+	{
+		var total = 0;
+		for (var layer = 0; layer < graph.LayerCount - 1; layer++)
+			total += CountCrossingsBetween(graph, layer, layer + 1);
+		return total;
+	}
+
+	/// <summary>Restores a snapshot taken from <see cref="GraphBuffer.NodePositionInLayer"/>.</summary>
+	private static void RestoreOrder(GraphBuffer graph, int[] positionSnapshot)
+	{
+		Array.Copy(positionSnapshot, graph.NodePositionInLayer, graph.NodeCount);
+		for (var layer = 0; layer < graph.LayerCount; layer++)
+		{
+			var nodes = graph.LayerNodes[layer];
+			Array.Sort(nodes, (a, b) => positionSnapshot[a].CompareTo(positionSnapshot[b]));
+		}
+	}
+
 	/// <summary>
-	/// Greedy adjacent-swap pass. For every pair of adjacent real nodes in a layer, swaps
-	/// them if the combined crossing count for the two adjoining layer pairs decreases.
-	/// Operates only on real nodes; virtual nodes are not swapped (they track their chain).
+	/// Layers larger than this fall back to adjacent-only swaps in <see cref="LocalSwapRefinement"/>:
+	/// the full pairwise search below is O(layer_size² × E) per pass, fine for the handful-to-dozens
+	/// of siblings real diagrams have per layer, but a guardrail against quadratic blowup on
+	/// adversarial input with one very wide layer (<c>ResourceLimits.MaxElements</c> bounds total
+	/// node count, not per-layer count).
+	/// </summary>
+	private const int FullPairwiseSwapLayerSizeLimit = 60;
+
+	/// <summary>
+	/// Greedy swap pass. For every pair of real nodes in a layer — not just adjacent ones —
+	/// swaps them if doing so doesn't worsen either adjoining layer pair's crossing count and
+	/// strictly reduces their combined total. Checking every pair (not only neighbors) matters
+	/// because a two-node exchange that helps is sometimes only reachable by swapping nodes
+	/// separated by others that must stay put (an adjacent-only pass can't reach that swap at
+	/// all, regardless of how many times it repeats). Operates only on real nodes; virtual
+	/// nodes are not swapped (they track their chain).
 	/// </summary>
 	private static void LocalSwapRefinement(GraphBuffer graph, CancellationToken ct)
 	{
@@ -59,50 +111,67 @@ internal static class CrossingMinimizer
 				if (nodes.Length <= 1)
 					continue;
 
+				var aboveBefore = layer > 0 ? CountCrossingsBetween(graph, layer - 1, layer) : 0;
+				var belowBefore = layer < graph.LayerCount - 1 ? CountCrossingsBetween(graph, layer, layer + 1) : 0;
+				if (aboveBefore == 0 && belowBefore == 0)
+					continue;
+
+				var maxJump = nodes.Length <= FullPairwiseSwapLayerSizeLimit ? nodes.Length : 2;
+
 				for (var i = 0; i < nodes.Length - 1; i++)
 				{
 					var a = nodes[i];
-					var b = nodes[i + 1];
-					// Only swap real nodes; virtual node ordering is determined by their chain.
-					if (a >= graph.RealNodeCount || b >= graph.RealNodeCount)
+					if (a >= graph.RealNodeCount)
 						continue;
 
-					// Conservative acceptance: a swap is accepted only if it eliminates the last
-					// crossing in at least one of the two touching layer pairs. This avoids partial
-					// improvements (e.g. 3→2) that risk diverging from MJS ordering, while still
-					// allowing swaps that eliminate the sole remaining crossing in a pair.
-					var aboveBefore = layer > 0 ? CountCrossingsBetween(graph, layer - 1, layer) : 0;
-					var belowBefore = layer < graph.LayerCount - 1 ? CountCrossingsBetween(graph, layer, layer + 1) : 0;
+					var jLimit = Math.Min(nodes.Length, i + maxJump);
+					for (var j = i + 1; j < jLimit; j++)
+					{
+						var b = nodes[j];
+						if (b >= graph.RealNodeCount)
+							continue;
+
+						nodes[i] = b;
+						nodes[j] = a;
+						graph.NodePositionInLayer[a] = j;
+						graph.NodePositionInLayer[b] = i;
+
+						var aboveAfter = layer > 0 ? CountCrossingsBetween(graph, layer - 1, layer) : 0;
+						var belowAfter = layer < graph.LayerCount - 1 ? CountCrossingsBetween(graph, layer, layer + 1) : 0;
+
+						// Accept if: neither touching pair gets worse AND the total strictly
+						// decreases. This handles both single-crossing elimination (1→0) and
+						// multi-crossing reduction (e.g. 2→1) without risking a regression in
+						// either pair.
+						var isImprovement =
+							aboveAfter <= aboveBefore &&
+							belowAfter <= belowBefore &&
+							aboveAfter + belowAfter < aboveBefore + belowBefore;
+
+						if (isImprovement)
+						{
+							changed = true;
+							aboveBefore = aboveAfter;
+							belowBefore = belowAfter;
+							// nodes[i] now holds b, not a — refresh so subsequent j iterations for
+							// this i swap against the node actually sitting there.
+							a = b;
+						}
+						else
+						{
+							// Revert
+							nodes[i] = a;
+							nodes[j] = b;
+							graph.NodePositionInLayer[a] = i;
+							graph.NodePositionInLayer[b] = j;
+						}
+
+						if (aboveBefore == 0 && belowBefore == 0)
+							break;
+					}
+
 					if (aboveBefore == 0 && belowBefore == 0)
-						continue;
-					// Perform the swap
-					nodes[i] = b;
-					nodes[i + 1] = a;
-					graph.NodePositionInLayer[a] = i + 1;
-					graph.NodePositionInLayer[b] = i;
-					var aboveAfter = layer > 0 ? CountCrossingsBetween(graph, layer - 1, layer) : 0;
-					var belowAfter = layer < graph.LayerCount - 1 ? CountCrossingsBetween(graph, layer, layer + 1) : 0;
-					// Accept if: neither pair gets worse AND the total strictly decreases.
-					// This handles both single-crossing elimination (1→0) and multi-crossing
-					// reduction (e.g. 2→1) without risking a regression in either pair.
-					var totalBefore = aboveBefore + belowBefore;
-					var totalAfter = aboveAfter + belowAfter;
-					var isImprovement =
-						aboveAfter <= aboveBefore &&
-						belowAfter <= belowBefore &&
-						totalAfter < totalBefore;
-					if (isImprovement)
-					{
-						changed = true;
-					}
-					else
-					{
-						// Revert
-						nodes[i] = a;
-						nodes[i + 1] = b;
-						graph.NodePositionInLayer[a] = i;
-						graph.NodePositionInLayer[b] = i + 1;
-					}
+						break;
 				}
 			}
 		} while (changed);
