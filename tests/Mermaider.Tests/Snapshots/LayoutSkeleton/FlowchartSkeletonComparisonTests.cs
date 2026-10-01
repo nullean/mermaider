@@ -30,7 +30,10 @@ public class FlowchartSkeletonComparisonTests
 			// db-flow-04-composing: same cluster-containment gap as db-flow-01.
 			["db-flow-01-system"] = (0.70, 0.45),
 			["db-flow-03-isolated"] = (0.75, 0.70),
-			["db-flow-04-composing"] = (0.85, 0.65),
+			// db-flow-04-composing: cross-cluster border edges (Repos_bottom→Registries_top,
+			// Registries_bottom→{Assembler,CodexB}_top) fix AsmCfg/CdxCfg to layer 2 (matching
+			// dagre). The cluster-level graph is a DAG so border edges are safe to add.
+			["db-flow-04-composing"] = (0.92, 0.70),
 
 			// flowchart-network and flowchart-styled-sub: alphabetical subgraph NodeOrder now
 			// matches dagre's node-insertion order, so CycleRemover picks the same back-edge to

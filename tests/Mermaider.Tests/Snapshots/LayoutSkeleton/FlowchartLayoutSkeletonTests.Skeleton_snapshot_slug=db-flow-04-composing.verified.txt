@@ -1,13 +1,15 @@
-﻿Layer 0: AsmCfg, R1, R2, R3, R4
-Layer 1: Env, S3Reg, CdxCfg, CodexReg
-Layer 2: AsmClone, CdxClone
-Layer 3: AsmBuild, CdxBuild
-Layer 4: AsmOut, CdxOut
+﻿Layer 0: R1, R2, R3, R4
+Layer 1: S3Reg, CodexReg
+Layer 2: AsmCfg, CdxCfg
+Layer 3: Env, CdxClone
+Layer 4: AsmClone, CdxBuild
+Layer 5: AsmBuild, CdxOut
+Layer 6: AsmOut
 Groups:
-- Assembler (layer=0 order=0) members=[AsmCfg, Env, AsmClone, AsmBuild, AsmOut]
-- Repos (layer=0 order=1) members=[R1, R2, R3, R4]
-- Registries (layer=0 order=2) members=[S3Reg, CodexReg]
-- CodexB (layer=0 order=3) members=[CdxCfg, CdxClone, CdxBuild, CdxOut]
+- Repos (layer=0 order=0) members=[R1, R2, R3, R4]
+- Registries (layer=1 order=0) members=[S3Reg, CodexReg]
+- Assembler (layer=2 order=0) members=[AsmCfg, Env, AsmClone, AsmBuild, AsmOut]
+- CodexB (layer=2 order=1) members=[CdxCfg, CdxClone, CdxBuild, CdxOut]
 Edges:
   AsmBuild ----> AsmOut [Bottom->Top]
   AsmCfg ----> Env [Bottom->Top]
