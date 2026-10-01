@@ -1,47 +1,67 @@
 namespace Sugiyama.Internal;
 
 /// <summary>
-/// Phase 2: Assign each node to a discrete integer layer via <see cref="NetworkSimplexRanker"/>
-/// — dagre's actual default rank-assignment algorithm — then insert virtual nodes for edges
+/// Phase 2: Assign each node to a discrete integer layer using longest-path layering
+/// (Kahn's algorithm for topological order). Then insert virtual nodes for edges
 /// that span more than one layer.
-/// <para>
-/// This used to be plain longest-path ("ASAP") layering plus several ad-hoc post-passes
-/// (push sources down toward their nearest child, squeeze intermediate nodes toward their
-/// successors) that existed specifically to approximate what network simplex produces as a
-/// natural consequence of minimizing total weighted edge length. Those heuristics are gone now
-/// that the real algorithm is in place; tight-source-layering-equivalent
-/// behavior for X-coordinate assignment and component separation is unaffected — those are a
-/// separate concern in <see cref="CoordinateAssigner"/> and <c>SugiyamaLayout</c>.
-/// </para>
+/// Complexity: O(V + E) via CSR adjacency
 /// </summary>
 internal static class LayerAssigner
 {
-	internal static void Run(GraphBuffer graph, bool naturalBackEdgeRouting = false)
+	internal static void Run(
+		GraphBuffer graph, bool naturalBackEdgeRouting = false, bool tightSourceLayering = false,
+		bool tightenIntermediateLayers = false)
 	{
 		graph.RebuildAdjacency();
-		AssignLayersViaNetworkSimplex(graph);
+		AssignLayers(graph);
 		EnforceSameRankConstraints(graph);
+		PushDownSources(graph, tightSourceLayering);
+		if (tightSourceLayering || tightenIntermediateLayers)
+		{
+			PushDownSourcesAfterDeepSqueeze(graph);
+		}
 		EnforceMinLengths(graph);
 		InsertVirtualNodes(graph, naturalBackEdgeRouting);
 		graph.RebuildAdjacency();
 		BuildLayerArrays(graph);
 	}
 
-	private static void AssignLayersViaNetworkSimplex(GraphBuffer graph)
+	private static void AssignLayers(GraphBuffer graph)
 	{
 		var n = graph.NodeCount;
-		var simplexEdges = new List<NetworkSimplexRanker.SimplexEdge>(graph.Edges.Count);
-		foreach (var e in graph.Edges)
-			simplexEdges.Add(new NetworkSimplexRanker.SimplexEdge(e.From, e.To, Weight: 1, e.MinLength));
+		var inDegree = graph.RentInt(n);
 
-		var ranks = NetworkSimplexRanker.Rank(n, simplexEdges);
+		// Use CSR in-adjacency for fast in-degree
+		for (var i = 0; i < n; i++)
+			inDegree[i] = graph.InAdjStart[i + 1] - graph.InAdjStart[i];
 
-		var maxLayer = 0;
+		var queue = new Queue<int>(n);
 		for (var i = 0; i < n; i++)
 		{
-			graph.Layers[i] = ranks[i];
-			if (ranks[i] > maxLayer)
-				maxLayer = ranks[i];
+			if (inDegree[i] == 0)
+			{
+				queue.Enqueue(i);
+				graph.Layers[i] = 0;
+			}
+		}
+
+		var maxLayer = 0;
+		while (queue.Count > 0)
+		{
+			var node = queue.Dequeue();
+			// Use CSR out-adjacency instead of scanning all edges
+			for (var j = graph.OutAdjStart[node]; j < graph.OutAdjStart[node + 1]; j++)
+			{
+				var target = graph.OutAdjNeighbor[j];
+				var newLayer = graph.Layers[node] + 1;
+				if (newLayer > graph.Layers[target])
+					graph.Layers[target] = newLayer;
+				inDegree[target]--;
+				if (inDegree[target] == 0)
+					queue.Enqueue(target);
+				if (newLayer > maxLayer)
+					maxLayer = newLayer;
+			}
 		}
 
 		graph.LayerCount = maxLayer + 1;
@@ -114,6 +134,193 @@ internal static class LayerAssigner
 			if (graph.Layers[i] > maxLayer)
 				maxLayer = graph.Layers[i];
 		}
+		graph.LayerCount = maxLayer + 1;
+	}
+
+	/// <summary>
+	/// For source nodes (no incoming edges) that have all their children two or more
+	/// layers away, push them down to sit directly above their nearest child.
+	/// <para>
+	/// When <paramref name="tightSourceLayering"/> is true each source is pushed
+	/// independently — sibling sources at different depths may land at different layers,
+	/// keeping each entity close to what it connects to. This is the ER-diagram mode.
+	/// </para>
+	/// <para>
+	/// When false (default), a source is only pushed when no other source sits at layer 0,
+	/// preserving visual alignment of top-level nodes in flowcharts and class diagrams.
+	/// </para>
+	/// </summary>
+	private static void PushDownSources(GraphBuffer graph, bool tightSourceLayering, int adjacentThreshold = 1)
+	{
+		for (var node = 0; node < graph.RealNodeCount; node++)
+		{
+			if (graph.InAdjStart[node + 1] - graph.InAdjStart[node] > 0)
+				continue; // has incoming edges — not a source
+
+			var minChildLayer = int.MaxValue;
+			for (var j = graph.OutAdjStart[node]; j < graph.OutAdjStart[node + 1]; j++)
+			{
+				var child = graph.OutAdjNeighbor[j];
+				if (child < graph.RealNodeCount && graph.Layers[child] < minChildLayer)
+					minChildLayer = graph.Layers[child];
+			}
+
+			if (minChildLayer == int.MaxValue || minChildLayer <= adjacentThreshold)
+				continue; // no real children, or nearest child is close enough already
+
+			if (!tightSourceLayering)
+			{
+				// Conservative mode: don't push if any sibling source is still at layer 0 —
+				// top-level nodes in flowcharts and class diagrams should stay aligned.
+				var hasSiblingSource = false;
+				for (var other = 0; other < graph.RealNodeCount; other++)
+				{
+					if (other == node || graph.Layers[other] != 0)
+						continue;
+					if (graph.InAdjStart[other + 1] - graph.InAdjStart[other] == 0)
+					{
+						hasSiblingSource = true;
+						break;
+					}
+				}
+				if (hasSiblingSource)
+					continue;
+			}
+
+			graph.Layers[node] = minChildLayer - 1;
+		}
+
+		// Recompute LayerCount in case sources moved to higher layers
+		var maxLayer = 0;
+		for (var i = 0; i < graph.NodeCount; i++)
+			if (graph.Layers[i] > maxLayer)
+				maxLayer = graph.Layers[i];
+		graph.LayerCount = maxLayer + 1;
+	}
+
+	/// <summary>
+	/// Second-pass push for ER diagrams: captures each source's pre-squeeze nearest-child layer,
+	/// runs SqueezeIntermediateNodes, then pushes any source whose nearest child moved more than
+	/// 3 layers deeper during squeezing. This handles "transit" sources like EntryPool in
+	/// db-erd-25, whose only path to their real targets runs through intermediate nodes that
+	/// compress significantly, without disturbing sources like IncludeDirective whose children
+	/// move only 1 layer (Snippet: layer 1 → 2).
+	/// </summary>
+	private static void PushDownSourcesAfterDeepSqueeze(GraphBuffer graph)
+	{
+		const int deepSqueezeThreshold = 3;
+
+		// Capture each source's nearest-real-child layer BEFORE squeezing
+		var preSqueezeMin = new int[graph.RealNodeCount];
+		for (var node = 0; node < graph.RealNodeCount; node++)
+		{
+			preSqueezeMin[node] = int.MaxValue;
+			if (graph.InAdjStart[node + 1] - graph.InAdjStart[node] > 0)
+				continue; // not a source
+			for (var j = graph.OutAdjStart[node]; j < graph.OutAdjStart[node + 1]; j++)
+			{
+				var child = graph.OutAdjNeighbor[j];
+				if (child < graph.RealNodeCount && graph.Layers[child] < preSqueezeMin[node])
+					preSqueezeMin[node] = graph.Layers[child];
+			}
+		}
+
+		SqueezeIntermediateNodes(graph);
+
+		// Push sources whose children moved far (>deepSqueezeThreshold layers) during squeezing
+		var changed = false;
+		for (var node = 0; node < graph.RealNodeCount; node++)
+		{
+			if (graph.InAdjStart[node + 1] - graph.InAdjStart[node] > 0)
+				continue; // not a source
+			if (preSqueezeMin[node] == int.MaxValue)
+				continue; // no real children
+
+			var postMin = int.MaxValue;
+			for (var j = graph.OutAdjStart[node]; j < graph.OutAdjStart[node + 1]; j++)
+			{
+				var child = graph.OutAdjNeighbor[j];
+				if (child < graph.RealNodeCount && graph.Layers[child] < postMin)
+					postMin = graph.Layers[child];
+			}
+
+			if (postMin == int.MaxValue || postMin - preSqueezeMin[node] <= deepSqueezeThreshold)
+				continue;
+
+			var targetLayer = postMin - 1;
+			if (targetLayer > graph.Layers[node])
+			{
+				graph.Layers[node] = targetLayer;
+				changed = true;
+			}
+		}
+
+		if (!changed)
+			return;
+
+		var maxLayer = 0;
+		for (var i = 0; i < graph.NodeCount; i++)
+			if (graph.Layers[i] > maxLayer)
+				maxLayer = graph.Layers[i];
+		graph.LayerCount = maxLayer + 1;
+	}
+
+	/// <summary>
+	/// Pull intermediate nodes (those with both in-edges and out-edges) closer to their
+	/// successors, reducing long edge spans that create crossing wires. For each such node,
+	/// if its nearest successor is more than one layer away, move the node to
+	/// (minSuccessorLayer - 1) — provided that doesn't violate the predecessor constraint
+	/// (node must be at least maxPredecessorLayer + 1). Iterates until stable.
+	/// </summary>
+	private static void SqueezeIntermediateNodes(GraphBuffer graph)
+	{
+		var changed = true;
+		var iter = 0;
+		while (changed && iter++ < 10)
+		{
+			changed = false;
+			for (var node = 0; node < graph.RealNodeCount; node++)
+			{
+				var inCount = graph.InAdjStart[node + 1] - graph.InAdjStart[node];
+				var outCount = graph.OutAdjStart[node + 1] - graph.OutAdjStart[node];
+				if (inCount == 0 || outCount == 0)
+					continue; // source or sink — handled elsewhere
+
+				// Earliest valid layer: one below the deepest predecessor
+				var maxPredLayer = 0;
+				for (var j = graph.InAdjStart[node]; j < graph.InAdjStart[node + 1]; j++)
+				{
+					var pred = graph.InAdjNeighbor[j];
+					if (pred < graph.RealNodeCount && graph.Layers[pred] > maxPredLayer)
+						maxPredLayer = graph.Layers[pred];
+				}
+				var minValidLayer = maxPredLayer + 1;
+
+				// Target layer: one above the nearest real successor
+				var minSuccLayer = int.MaxValue;
+				for (var j = graph.OutAdjStart[node]; j < graph.OutAdjStart[node + 1]; j++)
+				{
+					var succ = graph.OutAdjNeighbor[j];
+					if (succ < graph.RealNodeCount && graph.Layers[succ] < minSuccLayer)
+						minSuccLayer = graph.Layers[succ];
+				}
+
+				if (minSuccLayer == int.MaxValue)
+					continue;
+
+				var targetLayer = minSuccLayer - 1;
+				if (targetLayer <= graph.Layers[node] || targetLayer < minValidLayer)
+					continue; // already tight or constraint would be violated
+
+				graph.Layers[node] = targetLayer;
+				changed = true;
+			}
+		}
+
+		var maxLayer = 0;
+		for (var i = 0; i < graph.NodeCount; i++)
+			if (graph.Layers[i] > maxLayer)
+				maxLayer = graph.Layers[i];
 		graph.LayerCount = maxLayer + 1;
 	}
 

@@ -119,6 +119,25 @@ public sealed record LayoutOptions
 	/// </summary>
 	public bool TightSourceLayering { get; init; }
 
+	/// <summary>
+	/// When true, an intermediate node (has both predecessors and successors) whose nearest
+	/// successor is more than one layer away gets pushed down to sit directly above it,
+	/// provided that doesn't violate any predecessor's constraint. Independent of
+	/// <see cref="TightSourceLayering"/> (which also gates source-node push-down and
+	/// coordinate-assignment behavior this does not touch).
+	/// <para>
+	/// Longest-path layering (this engine's default) places every node at the *earliest*
+	/// valid layer — "ASAP" scheduling. dagre (mermaid.js's layout engine) instead uses
+	/// network-simplex ranking, which minimizes total edge length across the whole graph and
+	/// therefore often leaves slack nodes *later* than their earliest valid layer when that
+	/// reduces the length of their own outgoing edges. Without this pass, a node with only
+	/// one weak downstream dependency (e.g. a side-branch that rejoins the main flow) lands
+	/// noticeably earlier than mermaid.js places it — not wrong, just a different, allowed
+	/// topological layering that reads as a placement disagreement in side-by-side comparison.
+	/// Default: false.
+	/// </para>
+	/// </summary>
+	public bool TightenIntermediateLayers { get; init; }
 }
 
 // ====================================================================
