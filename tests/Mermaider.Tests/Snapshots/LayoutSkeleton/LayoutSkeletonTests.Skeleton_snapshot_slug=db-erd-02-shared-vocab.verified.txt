@@ -1,6 +1,6 @@
 ﻿Layer 0: Applicability, ProductRelease
 Layer 1: ApplicabilityEntry, Product, ChangelogLifecycle
-Layer 2: VersionSpec, VersioningSystem, Repository, ProductLifecycle
+Layer 2: VersionSpec, VersioningSystem, ProductLifecycle, Repository
 Layer 3: SemVersion
 Edges:
   Applicability --per key--> ApplicabilityEntry [Bottom->Top]

@@ -163,16 +163,101 @@ internal static class LayerAssigner
 
 	internal static void BuildLayerArrays(GraphBuffer graph)
 	{
-		var layers = new List<int>[graph.LayerCount];
+		// dagre's initOrder uses DFS from sources (nodes sorted by id) to establish the
+		// initial within-layer ordering seen by the crossing minimizer. Replicating this
+		// lets the barycenter sweeps start from a position closer to dagre's, increasing
+		// the probability of converging to the same local minimum.
+		//
+		// Implementation: collect all nodes with no in-edges from strictly-lower-ranked
+		// nodes (true topological sources of the DAG, ignoring back-edges), sort them by
+		// NodeIndex (matches dagre's "sort by id" since our ids are creation-order integers),
+		// then DFS outward layer by layer. A node is placed in the order its DFS subtree is
+		// first entered. Unvisited nodes in each layer (unreachable from any source in DFS,
+		// e.g. isolated components) are appended at the end in NodeIndex order.
+		var layerArrays = new List<int>[graph.LayerCount];
 		for (var i = 0; i < graph.LayerCount; i++)
-			layers[i] = [];
+			layerArrays[i] = [];
 
+		var placed = new bool[graph.NodeCount];
+
+		// Find topological sources: nodes whose in-neighbors are all at equal or higher
+		// layers (i.e., no genuine predecessor from a lower layer).
+		var sources = new List<int>();
+		for (var v = 0; v < graph.NodeCount; v++)
+		{
+			var hasLowerPredecessor = false;
+			for (var j = graph.InAdjStart[v]; j < graph.InAdjStart[v + 1]; j++)
+			{
+				if (graph.Layers[graph.InAdjNeighbor[j]] < graph.Layers[v])
+				{
+					hasLowerPredecessor = true;
+					break;
+				}
+			}
+			if (!hasLowerPredecessor)
+				sources.Add(v);
+		}
+		// Sort sources by NodeIndex (matches dagre's "sort by id").
+		sources.Sort();
+
+		// Iterative DFS: place each DFS-discovered node into its layer immediately.
+		// Stack holds nodes to visit; we process each layer in strictly forward order
+		// so virtual-node chains get placed consecutively.
+		var stack = new Stack<int>(sources.Count);
+		for (var i = sources.Count - 1; i >= 0; i--)
+			stack.Push(sources[i]);
+
+		var neighbors = new List<int>(); // reused scratch buffer for sorted child lists
+
+		while (stack.Count > 0)
+		{
+			var v = stack.Pop();
+			if (placed[v])
+				continue;
+			placed[v] = true;
+			layerArrays[graph.Layers[v]].Add(v);
+
+			// Push out-neighbors that are at a strictly higher layer (DAG edges only).
+			// Dagre iterates g.successors(v) in sorted nodeId order, so we sort by
+			// NodeIndex and push in reverse so the smallest-index neighbour pops first.
+			var lo = graph.OutAdjStart[v];
+			var hi = graph.OutAdjStart[v + 1];
+			// Collect eligible out-neighbours, sort by NodeIndex, push reversed.
+			var childStart = neighbors.Count;
+			for (var j = lo; j < hi; j++)
+			{
+				var w = graph.OutAdjNeighbor[j];
+				if (!placed[w] && graph.Layers[w] > graph.Layers[v])
+					neighbors.Add(w);
+			}
+			// Insertion sort (few children per node in practice).
+			for (var k = childStart + 1; k < neighbors.Count; k++)
+			{
+				var key = neighbors[k];
+				var m = k - 1;
+				while (m >= childStart && neighbors[m] > key)
+				{
+					neighbors[m + 1] = neighbors[m];
+					m--;
+				}
+				neighbors[m + 1] = key;
+			}
+			for (var k = neighbors.Count - 1; k >= childStart; k--)
+				stack.Push(neighbors[k]);
+			neighbors.RemoveRange(childStart, neighbors.Count - childStart);
+		}
+
+		// Append any nodes not reached by DFS (disconnected components, back-edge targets
+		// with no lower-layer predecessor) in stable NodeIndex order.
 		for (var i = 0; i < graph.NodeCount; i++)
-			layers[graph.Layers[i]].Add(i);
+		{
+			if (!placed[i])
+				layerArrays[graph.Layers[i]].Add(i);
+		}
 
 		graph.LayerNodes = new int[graph.LayerCount][];
 		for (var i = 0; i < graph.LayerCount; i++)
-			graph.LayerNodes[i] = layers[i].ToArray();
+			graph.LayerNodes[i] = layerArrays[i].ToArray();
 
 		graph.NodePositionInLayer = graph.RentInt(graph.NodeCount);
 		for (var layer = 0; layer < graph.LayerCount; layer++)
