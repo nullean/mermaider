@@ -16,10 +16,13 @@ namespace Sugiyama.Internal;
 /// </summary>
 internal static class LayerAssigner
 {
-	internal static void Run(GraphBuffer graph, bool naturalBackEdgeRouting = false)
+	internal static void Run(
+		GraphBuffer graph, bool naturalBackEdgeRouting = false,
+		IReadOnlyList<int>? topLevelLooseNodes = null,
+		IReadOnlyList<NestingGraphRanker.Group>? topLevelGroups = null)
 	{
 		graph.RebuildAdjacency();
-		AssignLayersViaNetworkSimplex(graph);
+		AssignLayersViaNetworkSimplex(graph, topLevelLooseNodes, topLevelGroups);
 		EnforceSameRankConstraints(graph);
 		EnforceMinLengths(graph);
 		InsertVirtualNodes(graph, naturalBackEdgeRouting);
@@ -27,14 +30,19 @@ internal static class LayerAssigner
 		BuildLayerArrays(graph);
 	}
 
-	private static void AssignLayersViaNetworkSimplex(GraphBuffer graph)
+	private static void AssignLayersViaNetworkSimplex(
+		GraphBuffer graph,
+		IReadOnlyList<int>? topLevelLooseNodes,
+		IReadOnlyList<NestingGraphRanker.Group>? topLevelGroups)
 	{
 		var n = graph.NodeCount;
 		var simplexEdges = new List<NetworkSimplexRanker.SimplexEdge>(graph.Edges.Count);
 		foreach (var e in graph.Edges)
 			simplexEdges.Add(new NetworkSimplexRanker.SimplexEdge(e.From, e.To, Weight: 1, e.MinLength));
 
-		var ranks = NetworkSimplexRanker.Rank(n, simplexEdges);
+		var ranks = topLevelGroups is { Count: > 0 }
+			? NestingGraphRanker.Rank(n, simplexEdges, topLevelLooseNodes ?? [], topLevelGroups)
+			: NetworkSimplexRanker.Rank(n, simplexEdges);
 
 		var maxLayer = 0;
 		for (var i = 0; i < n; i++)

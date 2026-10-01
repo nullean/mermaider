@@ -101,7 +101,19 @@ internal static class LightweightClassLayoutEngine
 			Direction.BT => LayoutDirection.BT,
 			_ => LayoutDirection.TD,
 		};
-		var layoutGraph = new LayoutGraph(layoutDir, layoutNodes, layoutEdges, []);
+		// Namespaces are flat (no nesting) in Mermaid's class-diagram grammar, so each becomes a
+		// single top-level LayoutSubgraph with no children. Feeding this into the Sugiyama
+		// engine (rather than leaving Subgraphs empty, as before) lets NestingGraphRanker keep
+		// each namespace's members rank-compact during layout itself — previously, namespace
+		// boxes were purely a post-hoc bounding-box wrap around wherever Sugiyama happened to
+		// place the member nodes, with nothing preventing a member of one namespace from
+		// sharing a rank with (and rendering inside the box of) a sibling namespace's member.
+		var namespaceSubgraphs = diagram.Namespaces.Count == 0
+			? []
+			: diagram.Namespaces
+				.Select(ns => new LayoutSubgraph(ns.Name, ns.Name, ns.ClassIds, []))
+				.ToList();
+		var layoutGraph = new LayoutGraph(layoutDir, layoutNodes, layoutEdges, namespaceSubgraphs);
 		var result = SugiyamaLayout.Compute(layoutGraph, new LayoutOptions
 		{
 			Padding = Padding,

@@ -41,7 +41,15 @@ public static class SugiyamaLayout
 		}
 
 		CycleRemover.Run(buf);
-		LayerAssigner.Run(buf, options.NaturalBackEdgeRouting);
+		if (input.Subgraphs.Count > 0)
+		{
+			var (looseNodes, groups) = BuildNestingGroups(input, buf);
+			LayerAssigner.Run(buf, options.NaturalBackEdgeRouting, looseNodes, groups);
+		}
+		else
+		{
+			LayerAssigner.Run(buf, options.NaturalBackEdgeRouting);
+		}
 
 		options.CancellationToken.ThrowIfCancellationRequested();
 		if (buf.NodeCount > options.MaxNodeCount)
@@ -1113,6 +1121,55 @@ public static class SugiyamaLayout
 		}
 
 		return buf;
+	}
+
+	// ========================================================================
+	// Nesting-graph group tree (int-indexed) for subgraph-aware ranking
+	// ========================================================================
+
+	/// <summary>
+	/// Converts the string-keyed <see cref="LayoutSubgraph"/> tree into the int-indexed
+	/// <see cref="NestingGraphRanker.Group"/> tree <see cref="LayerAssigner"/> needs, plus the
+	/// list of real node indices that belong to no subgraph at all (dagre's top-level loose
+	/// nodes, which still need a direct root edge for nesting-graph's connectivity guarantee).
+	/// </summary>
+	private static (List<int> LooseNodes, List<NestingGraphRanker.Group> Groups) BuildNestingGroups(
+		LayoutGraph input, GraphBuffer buf)
+	{
+		var nodeIndex = new Dictionary<string, int>(buf.RealNodeCount);
+		for (var i = 0; i < buf.RealNodeCount; i++)
+			nodeIndex[buf.NodeIds[i]] = i;
+
+		var claimed = new HashSet<int>(buf.RealNodeCount);
+		var groups = new List<NestingGraphRanker.Group>(input.Subgraphs.Count);
+		foreach (var sg in input.Subgraphs)
+			groups.Add(BuildNestingGroup(sg, nodeIndex, claimed));
+
+		var loose = new List<int>(buf.RealNodeCount);
+		for (var i = 0; i < buf.RealNodeCount; i++)
+		{
+			if (!claimed.Contains(i))
+				loose.Add(i);
+		}
+
+		return (loose, groups);
+	}
+
+	private static NestingGraphRanker.Group BuildNestingGroup(
+		LayoutSubgraph sg, Dictionary<string, int> nodeIndex, HashSet<int> claimed)
+	{
+		var group = new NestingGraphRanker.Group();
+		foreach (var id in sg.NodeIds)
+		{
+			// claimed.Add returns false for a node already claimed by an earlier subgraph
+			// (overlapping subgraph membership) — first occurrence wins, matching the
+			// TryAdd-based "first wins" convention used elsewhere (CollectSubgraphMembership).
+			if (nodeIndex.TryGetValue(id, out var idx) && claimed.Add(idx))
+				group.OwnNodes.Add(idx);
+		}
+		foreach (var child in sg.Children)
+			group.Children.Add(BuildNestingGroup(child, nodeIndex, claimed));
+		return group;
 	}
 
 	// ========================================================================

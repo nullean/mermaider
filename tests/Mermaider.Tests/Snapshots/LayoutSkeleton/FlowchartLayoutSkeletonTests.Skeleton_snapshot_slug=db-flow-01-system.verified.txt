@@ -1,31 +1,31 @@
 ﻿Layer 0: Repo
 Layer 1: Catalog, OpenApi
-Layer 2: DocSet
+Layer 2: Changelog, DocSet
 Layer 3: SpecIndex
 Layer 4: Isolated
-Layer 5: Changelog, Links
+Layer 5: Links
 Layer 6: Notes, Codex, Assembler
 Layer 7: Site, Search
 Groups:
 - Sources (layer=0 order=0) members=[Repo]
 - Reference (layer=1 order=0) members=[Catalog]
 - Authoring (layer=1 order=1) members=[DocSet, OpenApi, Changelog]
-- Outputs (layer=1 order=2) members=[Site, Links, SpecIndex, Search, Notes]
-- Build (layer=1 order=3) members=[Isolated, Assembler, Codex]
+- Outputs (layer=2 order=0) members=[Site, Links, SpecIndex, Search, Notes]
+- Build (layer=2 order=1) members=[Isolated, Assembler, Codex]
 Edges:
-  Assembler ----> Search [Top->Left]
+  Assembler ----> Search [Bottom->Left]
   Assembler ----> Site [Top->Left]
   Catalog ----> DocSet [Right->Left]
-  Changelog ----> Notes [Top->Left]
+  Changelog ----> Notes [Right->Left]
   Codex ----> Site [Top->Left]
   DocSet ----> Assembler [Bottom->Left]
-  DocSet ----> Codex [Right->Left]
+  DocSet ----> Codex [Top->Left]
   DocSet ----> Isolated [Top->Left]
-  DocSet --api: spec + repository--> SpecIndex [Bottom->Left]
+  DocSet --api: spec + repository--> SpecIndex [Right->Left]
   Isolated ----> Links [Bottom->Left]
   Isolated ----> Site [Top->Left]
   Links ----> Assembler [Bottom->Left]
-  Links ----> Codex [Top->Left]
+  Links ----> Codex [Bottom->Left]
   Notes ----> Site [Bottom->Left]
   OpenApi --api: local spec--> DocSet [Top->Left]
   OpenApi --published per version--> SpecIndex [Top->Left]
