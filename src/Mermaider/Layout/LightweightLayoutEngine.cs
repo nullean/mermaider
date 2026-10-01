@@ -36,6 +36,12 @@ internal static class LightweightLayoutEngine
 		var layoutEdges = new List<LayoutEdge>(graph.Edges.Count);
 		var layoutEdgeToOriginal = new List<int>(graph.Edges.Count);
 		var sameRankConstraints = new List<(string A, string B)>();
+		// dagre inserts a virtual label node for labeled FLOWCHART edges, consuming one extra rank.
+		// Only apply in flat (no-subgraph) non-state diagrams:
+		//   - subgraphs: NestingGraphRanker border-node constraints conflict with the extra minLength
+		//   - state diagrams: state transitions are already spaced correctly without the bonus
+		var isStateDiagramEarly = graph.Nodes.Values.Any(n => n.Shape is Models.NodeShape.StateStart or Models.NodeShape.StateEnd);
+		var applyLabelMinLength = graph.Subgraphs.Count == 0 && !isStateDiagramEarly;
 		for (var ei = 0; ei < graph.Edges.Count; ei++)
 		{
 			var edge = graph.Edges[ei];
@@ -49,6 +55,7 @@ internal static class LightweightLayoutEngine
 				layoutEdges.Add(new LayoutEdge(edge.Source, edge.Target, 0, 0, edge.MinLength));
 				continue;
 			}
+			var minLength = edge.MinLength;
 			if (edge.Label is { Length: > 0 })
 			{
 				var metrics = TextMetrics.MeasureMultiline(
@@ -57,9 +64,11 @@ internal static class LightweightLayoutEngine
 					RenderConstants.FontWeights.EdgeLabel);
 				labelW = metrics.Width + 8;
 				labelH = metrics.Height + 6;
+				if (applyLabelMinLength)
+					minLength++;
 			}
 			layoutEdgeToOriginal.Add(ei);
-			layoutEdges.Add(new LayoutEdge(edge.Source, edge.Target, labelW, labelH, edge.MinLength));
+			layoutEdges.Add(new LayoutEdge(edge.Source, edge.Target, labelW, labelH, minLength));
 		}
 
 		var layoutSubgraphs = graph.Subgraphs.Select(MapSubgraph).ToList();
@@ -88,10 +97,8 @@ internal static class LightweightLayoutEngine
 			? BuildInnerSubgraphNodeMap(graph.Subgraphs)
 			: null;
 
-		var isStateDiagram = graph.Nodes.Values.Any(n => n.Shape is Models.NodeShape.StateStart or Models.NodeShape.StateEnd);
-
 		// State diagrams use tighter layer spacing to match mermaid.js proportions (~53px center-to-center vs flowchart ~100px)
-		var baseLayerSpacing = isStateDiagram ? Math.Min(30, layerSpacing) : layerSpacing;
+		var baseLayerSpacing = isStateDiagramEarly ? Math.Min(30, layerSpacing) : layerSpacing;
 
 		var maxLabelExtent = layoutEdges
 			.Select(
@@ -108,7 +115,7 @@ internal static class LightweightLayoutEngine
 			.DefaultIfEmpty(0)
 			.Max();
 		// For state diagrams, edge labels sit on the path and need less clearance than flowchart labels
-		var labelClearance = isStateDiagram ? 8 : 16;
+		var labelClearance = isStateDiagramEarly ? 8 : 16;
 		var effectiveLayerSpacing = maxLabelExtent > 0
 			? Math.Max(baseLayerSpacing, maxLabelExtent + labelClearance)
 			: baseLayerSpacing;
@@ -120,8 +127,8 @@ internal static class LightweightLayoutEngine
 			LayerSpacing = effectiveLayerSpacing,
 			CancellationToken = ct,
 			MaxNodeCount = maxNodesAfterLayout,
-			ForceBottomExitFanOut = isStateDiagram,
-			NaturalBackEdgeRouting = isStateDiagram,
+			ForceBottomExitFanOut = isStateDiagramEarly,
+			NaturalBackEdgeRouting = isStateDiagramEarly,
 		};
 
 		LayoutResult result;
