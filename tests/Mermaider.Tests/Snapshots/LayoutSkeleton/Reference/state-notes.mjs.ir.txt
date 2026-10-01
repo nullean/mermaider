@@ -1,0 +1,8 @@
+N	Active	0	0
+N	Paused	1	0
+N	Done	1	1
+E	Active	Done	finish	Bottom	Top	False
+E	Active	Paused	pause	Bottom	Top	False
+E	Done	_end		Bottom	Top	False
+E	Paused	Active	resume	Top	Bottom	False
+E	_start	Active		Bottom	Top	False

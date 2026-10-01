@@ -1,0 +1,14 @@
+N	F	0	0
+N	E	0	1
+N	A	1	0
+N	B	2	0
+N	C	3	0
+N	D	4	0
+E	A	B		Bottom	Top	False
+E	B	C		Bottom	Top	False
+E	B	D		Bottom	Top	False
+E	C	D		Bottom	Top	False
+E	D	E		Bottom	Top	False
+E	E	A		Bottom	Top	False
+G	bar	-	0	0	E,F
+G	foo	-	1	0	C,D

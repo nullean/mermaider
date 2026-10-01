@@ -1,0 +1,26 @@
+N	Repository	0	0
+N	OpenApiRepository	0	1
+N	ApiDeclaration	0	2
+N	Page	0	3
+N	SearchIndex	0	4
+N	OpenApiSpec	1	0
+N	ApiVersionIndex	1	1
+N	Product	1	2
+N	SearchDocument	1	3
+N	ApiSpecVersion	2	0
+N	ApiTag	3	0
+N	ApiSupplementalDoc	3	1
+N	ApiOperation	4	0
+E	ApiDeclaration	ApiSpecVersion	renders	Bottom	Top	False
+E	ApiDeclaration	OpenApiSpec	spec + repository	Bottom	Top	False
+E	ApiDeclaration	Product	product	Bottom	Top	False
+E	ApiSpecVersion	ApiTag	tags	Bottom	Top	False
+E	ApiSupplementalDoc	ApiOperation	op-{id}	Bottom	Top	False
+E	ApiTag	ApiOperation	operations	Bottom	Top	False
+E	ApiVersionIndex	ApiSpecVersion	lists	Bottom	Top	False
+E	OpenApiRepository	ApiVersionIndex	index.json	Bottom	Top	False
+E	OpenApiRepository	OpenApiSpec	org/repo/branch/spec	Bottom	Top	False
+E	OpenApiSpec	ApiSpecVersion	per version	Bottom	Top	False
+E	Page	SearchDocument	exported	Bottom	Top	False
+E	Repository	OpenApiSpec	publishes	Bottom	Top	False
+E	SearchIndex	SearchDocument	contains	Bottom	Top	False

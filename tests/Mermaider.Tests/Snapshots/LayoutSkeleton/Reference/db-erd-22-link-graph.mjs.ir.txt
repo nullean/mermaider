@@ -1,0 +1,22 @@
+N	Registry	0	0
+N	Checkout	0	1
+N	LinkRegistry	1	0
+N	LinkRegistrySnapshot	1	1
+N	DocumentationSet	2	0
+N	LinkRegistryEntry	2	1
+N	LinkManifest	3	0
+N	GitOrigin	4	0
+N	LinkManifestPage	4	1
+N	Redirect	4	2
+N	CrossLinkUri	4	3
+N	Anchor	5	0
+E	Checkout	LinkRegistrySnapshot	link-index.snapshot.json	Bottom	Top	False
+E	DocumentationSet	LinkManifest	per branch	Bottom	Top	False
+E	LinkManifest	CrossLinkUri	cross_links (outbound)	Bottom	Top	False
+E	LinkManifest	GitOrigin	origin	Bottom	Top	False
+E	LinkManifest	LinkManifestPage	links	Bottom	Top	False
+E	LinkManifest	Redirect	redirects	Bottom	Top	False
+E	LinkManifestPage	Anchor	anchors	Bottom	Top	False
+E	LinkRegistry	LinkRegistryEntry	repository, branch	Bottom	Top	False
+E	LinkRegistryEntry	LinkManifest	path	Bottom	Top	False
+E	Registry	LinkRegistry	link-index.json	Bottom	Top	False

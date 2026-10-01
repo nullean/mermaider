@@ -1,0 +1,15 @@
+N	Evaluate	0	0
+N	checkResult	1	0
+N	Positive	2	0
+N	Neutral	2	1
+N	Negative	2	2
+N	Retry	3	0
+E	Evaluate	checkResult		Bottom	Top	False
+E	Negative	Retry		Bottom	Top	False
+E	Neutral	_end2		Bottom	Top	False
+E	Positive	_end		Bottom	Top	False
+E	Retry	Evaluate		Top	Bottom	False
+E	_start	Evaluate		Bottom	Top	False
+E	checkResult	Negative	if score < 0	Bottom	Top	False
+E	checkResult	Neutral	if score = 0	Bottom	Top	False
+E	checkResult	Positive	if score > 0	Bottom	Top	False

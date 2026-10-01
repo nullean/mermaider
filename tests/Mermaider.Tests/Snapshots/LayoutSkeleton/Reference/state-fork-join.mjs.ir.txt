@@ -1,0 +1,17 @@
+N	Ready	0	0
+N	fork_point	1	0
+N	TaskA	2	0
+N	TaskB	2	1
+N	TaskC	2	2
+N	join_point	3	0
+N	Complete	4	0
+E	Complete	_end		Bottom	Top	False
+E	Ready	fork_point		Bottom	Top	False
+E	TaskA	join_point		Bottom	Top	False
+E	TaskB	join_point		Bottom	Top	False
+E	TaskC	join_point		Bottom	Top	False
+E	_start	Ready		Bottom	Top	False
+E	fork_point	TaskA		Bottom	Top	False
+E	fork_point	TaskB		Bottom	Top	False
+E	fork_point	TaskC		Bottom	Top	False
+E	join_point	Complete		Bottom	Top	False

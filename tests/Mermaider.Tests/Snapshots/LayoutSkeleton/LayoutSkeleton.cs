@@ -10,6 +10,18 @@ namespace Mermaider.Tests.Snapshots.LayoutSkeleton;
 /// </summary>
 internal enum EdgeSide { Top, Bottom, Left, Right }
 
+/// <summary>Returns the mirror of a side along the order axis (Left↔Right for TB/BT layouts,
+/// Top↔Bottom for LR/RL). Used by mirror-tolerant comparisons.</summary>
+internal static class EdgeSideExtensions
+{
+	public static EdgeSide MirrorLR(this EdgeSide s) => s switch
+	{
+		EdgeSide.Left  => EdgeSide.Right,
+		EdgeSide.Right => EdgeSide.Left,
+		_              => s,
+	};
+}
+
 /// <summary>
 /// One entity, reduced to just the facts that matter for placement/ordering comparisons:
 /// which layer (rank) it sits in, and its left-to-right position among siblings in that
@@ -100,6 +112,161 @@ internal sealed record LayoutSkeleton(
 			}
 		}
 
+		return sb.ToString();
+	}
+
+	// ── Stable text serialization ──────────────────────────────────────────────────────────────
+	//
+	// Committed `.mjs.ir.txt` files let the skeleton comparison tests run without any SVG or
+	// local node/mmdc installation. The format is intentionally simple and line-per-record so
+	// git diffs stay legible:
+	//
+	//   N\t{Id}\t{Layer}\t{OrderInLayer}
+	//   E\t{From}\t{To}\t{LabelEscaped}\t{FromSide}\t{ToSide}\t{IsSelfLoop}
+	//   G\t{Id}\t{ParentId|-}\t{Layer}\t{OrderInLayer}\t{Member1,Member2,...}
+	//
+	// Label escaping: \\ → \\\\, \t → \\t, \r → \\r, \n → \\n. All other chars are literal.
+	// Records are written in a stable order so committed files produce clean diffs.
+
+	/// <summary>Serializes this skeleton to a compact stable-text format suitable for committing.
+	/// Round-trips through <see cref="Parse"/>.</summary>
+	public string Serialize()
+	{
+		var sb = new StringBuilder();
+		// Nodes: stable order by layer then order-in-layer then id
+		foreach (var n in Nodes.OrderBy(n => n.Layer).ThenBy(n => n.OrderInLayer).ThenBy(n => n.Id, StringComparer.Ordinal))
+			sb.Append('N').Append('\t').Append(n.Id).Append('\t').Append(n.Layer).Append('\t').Append(n.OrderInLayer).AppendLine();
+
+		// Edges: stable order by From then To then label
+		foreach (var e in Edges.OrderBy(e => e.From, StringComparer.Ordinal).ThenBy(e => e.To, StringComparer.Ordinal).ThenBy(e => e.Label, StringComparer.Ordinal))
+		{
+			sb.Append('E').Append('\t').Append(e.From).Append('\t').Append(e.To).Append('\t')
+			  .Append(EscapeLabel(e.Label)).Append('\t')
+			  .Append(e.FromSide).Append('\t').Append(e.ToSide).Append('\t').Append(e.IsSelfLoop)
+			  .AppendLine();
+		}
+
+		// Groups: stable order by layer then order-in-layer then id
+		foreach (var g in Groups.OrderBy(g => g.Layer).ThenBy(g => g.OrderInLayer).ThenBy(g => g.Id, StringComparer.Ordinal))
+		{
+			sb.Append('G').Append('\t').Append(g.Id).Append('\t').Append(g.ParentId ?? "-").Append('\t')
+			  .Append(g.Layer).Append('\t').Append(g.OrderInLayer).Append('\t')
+			  .Append(string.Join(",", g.MemberNodeIds.OrderBy(m => m, StringComparer.Ordinal)))
+			  .AppendLine();
+		}
+
+		return sb.ToString();
+	}
+
+	/// <summary>Parses a skeleton previously produced by <see cref="Serialize"/>.</summary>
+	/// <exception cref="FormatException">If the content is malformed.</exception>
+	public static LayoutSkeleton Parse(string content)
+	{
+		var nodes = new List<SkeletonNode>();
+		var edges = new List<SkeletonEdge>();
+		var groups = new List<SkeletonGroup>();
+
+		var lineNum = 0;
+		foreach (var raw in content.Split('\n'))
+		{
+			lineNum++;
+			var line = raw.TrimEnd('\r');
+			if (line.Length == 0)
+				continue;
+
+			var parts = line.Split('\t');
+			try
+			{
+				switch (parts[0])
+				{
+					case "N":
+						Expect(parts, 4, "N");
+						nodes.Add(new SkeletonNode(
+							parts[1],
+							int.Parse(parts[2], System.Globalization.CultureInfo.InvariantCulture),
+							int.Parse(parts[3], System.Globalization.CultureInfo.InvariantCulture),
+							CenterX: 0, CenterY: 0, Width: 0, Height: 0)); // geometry not persisted
+						break;
+
+					case "E":
+						Expect(parts, 7, "E");
+						edges.Add(new SkeletonEdge(
+							parts[1], parts[2],
+							UnescapeLabel(parts[3]),
+							Enum.Parse<EdgeSide>(parts[4]),
+							Enum.Parse<EdgeSide>(parts[5]),
+							bool.Parse(parts[6])));
+						break;
+
+					case "G":
+						Expect(parts, 6, "G");
+						var parentId = parts[2] == "-" ? null : parts[2];
+						var members = parts[5].Length > 0
+							? (IReadOnlyList<string>)parts[5].Split(',')
+							: [];
+						groups.Add(new SkeletonGroup(
+							parts[1], parentId, members,
+							int.Parse(parts[3], System.Globalization.CultureInfo.InvariantCulture),
+							int.Parse(parts[4], System.Globalization.CultureInfo.InvariantCulture),
+							CenterX: 0, CenterY: 0, Width: 0, Height: 0)); // geometry not persisted
+						break;
+
+					default:
+						throw new FormatException($"Unknown record type '{parts[0]}'");
+				}
+			}
+			catch (Exception ex) when (ex is not FormatException)
+			{
+				throw new FormatException($"Parse error at line {lineNum}: {line}", ex);
+			}
+		}
+
+		return new LayoutSkeleton(nodes, edges, groups);
+	}
+
+	private static void Expect(string[] parts, int count, string type)
+	{
+		if (parts.Length != count)
+			throw new FormatException($"{type} record expects {count} tab-separated fields, got {parts.Length}");
+	}
+
+	private static string EscapeLabel(string s)
+	{
+		if (s.Length == 0)
+			return s;
+		var sb = new StringBuilder(s.Length + 4);
+		foreach (var c in s)
+		{
+			switch (c)
+			{
+				case '\\': sb.Append(@"\\"); break;
+				case '\t': sb.Append(@"\t"); break;
+				case '\r': sb.Append(@"\r"); break;
+				case '\n': sb.Append(@"\n"); break;
+				default:   sb.Append(c);    break;
+			}
+		}
+		return sb.ToString();
+	}
+
+	private static string UnescapeLabel(string s)
+	{
+		if (!s.Contains('\\'))
+			return s;
+		var sb = new StringBuilder(s.Length);
+		var i = 0;
+		while (i < s.Length)
+		{
+			if (s[i] == '\\' && i + 1 < s.Length)
+			{
+				sb.Append(s[i + 1] switch { '\\' => '\\', 't' => '\t', 'r' => '\r', 'n' => '\n', var c => c });
+				i += 2;
+			}
+			else
+			{
+				sb.Append(s[i++]);
+			}
+		}
 		return sb.ToString();
 	}
 }

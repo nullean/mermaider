@@ -1,0 +1,9 @@
+N	SiteNavigation	0	0
+N	TocItem	1	0
+N	SiteMount	1	1
+N	Phantom	1	2
+N	NavigationNode	2	0
+E	SiteMount	NavigationNode	re-homes	Bottom	Top	False
+E	SiteNavigation	Phantom	phantoms	Bottom	Top	False
+E	SiteNavigation	SiteMount	toc	Bottom	Top	False
+E	TocItem	NavigationNode	mirrors	Bottom	Top	False

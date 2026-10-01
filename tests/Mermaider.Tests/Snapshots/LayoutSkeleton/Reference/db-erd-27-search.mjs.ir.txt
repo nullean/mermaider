@@ -1,0 +1,15 @@
+N	SearchIndex	0	0
+N	Page	0	1
+N	DocumentInference	0	2
+N	SearchDocument	1	0
+N	DocumentationDocument	1	1
+N	Product	2	0
+N	ParentDocument	2	1
+N	AppliesToEntry	2	2
+E	DocumentInference	DocumentationDocument	decides product	Bottom	Top	False
+E	DocumentationDocument	AppliesToEntry	applies_to	Bottom	Top	False
+E	DocumentationDocument	ParentDocument	parents (breadcrumbs)	Bottom	Top	False
+E	DocumentationDocument	Product	product	Bottom	Top	False
+E	DocumentationDocument	Product	related_products	Bottom	Top	False
+E	Page	DocumentationDocument	exported	Bottom	Top	False
+E	SearchIndex	SearchDocument	contains	Bottom	Top	False

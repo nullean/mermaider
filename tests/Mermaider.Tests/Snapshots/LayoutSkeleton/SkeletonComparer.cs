@@ -123,6 +123,134 @@ internal static class SkeletonComparer
 		return total == 0 ? 1.0 : (double)agree / total;
 	}
 
+	/// <summary>
+	/// Like <see cref="WithinLayerOrderAgreement"/> but tolerates a full left-to-right mirror of
+	/// <paramref name="actual"/>'s within-layer ordering. Returns the better of the two scores.
+	///
+	/// <para>This matters because a mirrored layout is visually just as valid as the original:
+	/// when two siblings share no edge fixing their relative order (e.g. er-complex's COMMENT/TAG,
+	/// both children of POST with no edge between them), dagre and Sugiyama can legitimately
+	/// pick opposite tie-breaks. <see cref="WithinLayerOrderAgreement"/> calls that 0% agreement;
+	/// this method recognises it as 100%. Reporting both lets the caller see which diagrams have
+	/// a real ordering defect (raw is low, mirror-tolerant is also low) versus a harmless
+	/// tie-break difference (raw is low, mirror-tolerant is high).</para>
+	/// </summary>
+	public static double MirrorToleratedOrderAgreement(LayoutSkeleton reference, LayoutSkeleton actual)
+	{
+		var raw = WithinLayerOrderAgreement(reference, actual);
+		if (raw >= 1.0)
+			return raw; // already perfect, no need to check the mirror
+
+		// Build a mirrored copy of actual's nodes: within each reference layer, flip OrderInLayer.
+		// We invert on per-reference-layer maxima so the flip is local to each layer (the reference
+		// determines which nodes share a layer; actual may disagree, so we use actual's real
+		// OrderInLayer values and invert each independently per reference-defined layer group).
+		var refById = reference.Nodes.ToDictionary(n => n.Id, StringComparer.Ordinal);
+		var actualById = actual.Nodes.ToDictionary(n => n.Id, StringComparer.Ordinal);
+		var commonIds = refById.Keys.Where(actualById.ContainsKey).ToList();
+
+		// Group common ids by their reference layer, then for each group compute the max actual
+		// OrderInLayer so we can invert as maxOrder - order.
+		var byRefLayer = commonIds
+			.GroupBy(id => refById[id].Layer)
+			.ToDictionary(g => g.Key, g => g.ToList());
+
+		// Build a mirrored actual dictionary: id → mirrored OrderInLayer within its ref-layer group.
+		var mirroredOrder = new Dictionary<string, int>(StringComparer.Ordinal);
+		foreach (var (_, ids) in byRefLayer)
+		{
+			var maxActualOrder = ids.Max(id => actualById.TryGetValue(id, out var n) ? n.OrderInLayer : 0);
+			foreach (var id in ids)
+			{
+				if (actualById.TryGetValue(id, out var n))
+					mirroredOrder[id] = maxActualOrder - n.OrderInLayer;
+			}
+		}
+
+		// Score using the mirrored orders.
+		var total = 0;
+		var agree = 0;
+		for (var i = 0; i < commonIds.Count; i++)
+		{
+			for (var j = i + 1; j < commonIds.Count; j++)
+			{
+				var refA = refById[commonIds[i]];
+				var refB = refById[commonIds[j]];
+				if (refA.Layer != refB.Layer)
+					continue;
+
+				total++;
+				var refSign = Math.Sign(refA.OrderInLayer - refB.OrderInLayer);
+				var mirroredSign = Math.Sign(
+					(mirroredOrder.TryGetValue(commonIds[i], out var mo_i) ? mo_i : 0) -
+					(mirroredOrder.TryGetValue(commonIds[j], out var mo_j) ? mo_j : 0));
+				if (refSign == mirroredSign)
+					agree++;
+			}
+		}
+
+		var mirror = total == 0 ? 1.0 : (double)agree / total;
+		return Math.Max(raw, mirror);
+	}
+
+	/// <summary>
+	/// Fraction (0..1) of edges — matched by (From, To, Label) between the two skeletons —
+	/// whose (FromSide, ToSide) attachment pair agrees. Only edges present in both skeletons
+	/// (matched by identity) are counted; extras on either side are ignored. Returns 1.0 when
+	/// no edges are shared (trivially nothing to disagree on).
+	///
+	/// <para>The comparison is mirror-aware: if the actual skeleton's OrderInLayer is a
+	/// left-to-right mirror of the reference's (detected by checking whether the mirror-tolerant
+	/// score substantially exceeds the raw score), Left and Right sides are swapped in actual
+	/// before comparing. This ensures a mirrored-but-otherwise-correct layout gets full credit
+	/// for side agreement too, not a 0% side score that misrepresents a purely cosmetic
+	/// tie-break difference.</para>
+	/// </summary>
+	public static double SideAgreement(LayoutSkeleton reference, LayoutSkeleton actual)
+	{
+		// Determine whether actual is mirrored relative to reference.
+		var raw = WithinLayerOrderAgreement(reference, actual);
+		var tolerant = MirrorToleratedOrderAgreement(reference, actual);
+		var isMirrored = tolerant - raw > 0.1 && tolerant > 0.5;
+
+		// Index actual edges by (From, To, Label) for O(1) lookup.
+		var actualEdges = actual.Edges.ToDictionary(
+			e => (e.From, e.To, e.Label),
+			e => e,
+			TupleStringComparer.Instance);
+
+		var total = 0;
+		var agree = 0;
+		foreach (var refEdge in reference.Edges)
+		{
+			if (!actualEdges.TryGetValue((refEdge.From, refEdge.To, refEdge.Label), out var actualEdge))
+				continue; // edge not in both — skip
+
+			total++;
+			var actualFrom = isMirrored ? actualEdge.FromSide.MirrorLR() : actualEdge.FromSide;
+			var actualTo   = isMirrored ? actualEdge.ToSide.MirrorLR()   : actualEdge.ToSide;
+			if (actualFrom == refEdge.FromSide && actualTo == refEdge.ToSide)
+				agree++;
+		}
+
+		return total == 0 ? 1.0 : (double)agree / total;
+	}
+
+	// Equality comparer for (string, string, string) tuples using ordinal string comparison.
+	private sealed class TupleStringComparer : IEqualityComparer<(string, string, string)>
+	{
+		public static readonly TupleStringComparer Instance = new();
+		public bool Equals((string, string, string) x, (string, string, string) y) =>
+			StringComparer.Ordinal.Equals(x.Item1, y.Item1) &&
+			StringComparer.Ordinal.Equals(x.Item2, y.Item2) &&
+			StringComparer.Ordinal.Equals(x.Item3, y.Item3);
+		public int GetHashCode((string, string, string) obj) =>
+			HashCode.Combine(
+				StringComparer.Ordinal.GetHashCode(obj.Item1),
+				StringComparer.Ordinal.GetHashCode(obj.Item2),
+				StringComparer.Ordinal.GetHashCode(obj.Item3));
+	}
+
 	private static double PairwiseAgreement(LayoutSkeleton reference, LayoutSkeleton actual, Func<SkeletonNode, int> rank)
 	{
 		var refById = reference.Nodes.ToDictionary(n => n.Id, StringComparer.Ordinal);

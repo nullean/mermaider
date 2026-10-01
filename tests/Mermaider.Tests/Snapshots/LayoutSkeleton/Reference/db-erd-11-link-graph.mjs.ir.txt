@@ -1,0 +1,9 @@
+N	Registry	0	0
+N	LinkRegistry	1	0
+N	DocumentationSet	2	0
+N	LinkRegistryEntry	2	1
+N	LinkManifest	3	0
+E	DocumentationSet	LinkManifest	per branch	Bottom	Top	False
+E	LinkRegistry	LinkRegistryEntry	repository, branch	Bottom	Top	False
+E	LinkRegistryEntry	LinkManifest	path	Bottom	Top	False
+E	Registry	LinkRegistry	link-index.json	Bottom	Top	False

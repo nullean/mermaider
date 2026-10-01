@@ -1,0 +1,8 @@
+N	USER	0	0
+N	POST	1	0
+N	TAG	2	0
+N	COMMENT	2	1
+E	POST	COMMENT	has	Bottom	Top	False
+E	POST	TAG	tagged	Bottom	Top	False
+E	USER	COMMENT	writes	Bottom	Top	False
+E	USER	POST	writes	Bottom	Top	False

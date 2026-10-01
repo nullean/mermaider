@@ -1,0 +1,39 @@
+N	Catalog	0	0
+N	Repo	0	1
+N	OpenApi	1	0
+N	Changelog	1	1
+N	DocSet	2	0
+N	Links	3	0
+N	SpecIndex	3	1
+N	Notes	3	2
+N	Search	3	3
+N	Site	4	0
+N	Codex	5	0
+N	Isolated	5	1
+N	Assembler	5	2
+E	Assembler	Search		Right	Left	False
+E	Assembler	Site		Right	Left	False
+E	Catalog	DocSet		Right	Left	False
+E	Changelog	Notes		Right	Left	False
+E	Codex	Site		Right	Left	False
+E	DocSet	Assembler		Right	Left	False
+E	DocSet	Codex		Right	Left	False
+E	DocSet	Isolated		Right	Left	False
+E	DocSet	SpecIndex	api: spec + repository	Right	Left	False
+E	Isolated	Links		Right	Left	False
+E	Isolated	Site		Right	Left	False
+E	Links	Assembler		Right	Left	False
+E	Links	Codex		Right	Left	False
+E	Notes	Site		Right	Left	False
+E	OpenApi	DocSet	api: local spec	Right	Left	False
+E	OpenApi	SpecIndex	published per version	Right	Left	False
+E	Repo	Changelog		Right	Left	False
+E	Repo	DocSet		Right	Left	False
+E	Repo	OpenApi		Right	Left	False
+E	SpecIndex	Assembler		Right	Left	False
+E	SpecIndex	Isolated		Right	Left	False
+G	Reference	-	0	0	Catalog
+G	Sources	-	0	1	Repo
+G	Authoring	-	1	0	Changelog,DocSet,OpenApi
+G	Outputs	-	2	0	Links,Notes,Search,Site,SpecIndex
+G	Build	-	3	0	Assembler,Codex,Isolated

@@ -90,21 +90,23 @@ public class FlowchartSkeletonComparisonTests
 	private static string GetSourceDirectory([CallerFilePath] string path = "") =>
 		Path.GetDirectoryName(path)!;
 
-	private static readonly string ReferenceDir =
+	private static readonly string IrReferenceDir =
+		Path.Combine(GetSourceDirectory(), "Reference");
+
+	private static readonly string SvgReferenceDir =
 		Path.Combine(GetSourceDirectory(), "..", "Reference", "mermaidjs");
 
 	public static IEnumerable<string> FlowchartSlugsWithReferences()
 	{
-		if (!Directory.Exists(ReferenceDir))
+		if (!Directory.Exists(IrReferenceDir))
 			return [];
 		var slugs = DiagramExamples.All
 			.Where(d => d.Category == DiagramCategory.Flowchart)
 			.Select(d => d.Slug)
 			.ToHashSet(StringComparer.Ordinal);
-		return Directory.EnumerateFiles(ReferenceDir, "*.svg")
-			.Select(Path.GetFileNameWithoutExtension)
-			.Where(slug => slug is not null && slugs.Contains(slug))
-			.Select(slug => slug!)
+		return Directory.EnumerateFiles(IrReferenceDir, "*.mjs.ir.txt")
+			.Select(p => Path.GetFileName(p)[..^".mjs.ir.txt".Length])
+			.Where(slug => slugs.Contains(slug))
 			.Order(StringComparer.Ordinal);
 	}
 
@@ -124,11 +126,16 @@ public class FlowchartSkeletonComparisonTests
 		var (graph, positioned) = BuildMermaider(example);
 		var mermaiderSkeleton = MermaiderGraphSkeletonExtractor.Extract(graph, positioned);
 
-		var svg = await File.ReadAllTextAsync(Path.Combine(ReferenceDir, $"{slug}.svg"));
-		var mjsSkeleton = MermaidJsFlowchartSkeletonExtractor.Extract(svg, example.Source);
+		var irPath = Path.Combine(IrReferenceDir, $"{slug}.mjs.ir.txt");
+		if (!File.Exists(irPath))
+			throw new InvalidOperationException(
+				$"Missing committed IR reference for '{slug}' at {irPath}. " +
+				"Run MmdcReferenceTests.Generate_reference to regenerate.");
+		var mjsSkeleton = LayoutSkeleton.Parse(await File.ReadAllTextAsync(irPath));
 
 		var layerAgreement = SkeletonComparer.LayerAgreement(mjsSkeleton, mermaiderSkeleton);
 		var orderAgreement = SkeletonComparer.WithinLayerOrderAgreement(mjsSkeleton, mermaiderSkeleton);
+		var mirrorOrder = SkeletonComparer.MirrorToleratedOrderAgreement(mjsSkeleton, mermaiderSkeleton);
 
 		// Default floor for any flowchart slug not explicitly calibrated in Baselines —
 		// intentionally strict (90%) so a newly-added flowchart example that regresses or was
@@ -138,16 +145,16 @@ public class FlowchartSkeletonComparisonTests
 		layerAgreement.Should().BeGreaterThanOrEqualTo(minLayer,
 			$"'{slug}' entity layer placement regressed vs its calibrated baseline (got {layerAgreement:P0})");
 		orderAgreement.Should().BeGreaterThanOrEqualTo(minOrder,
-			$"'{slug}' within-layer ordering regressed vs its calibrated baseline (got {orderAgreement:P0})");
+			$"'{slug}' within-layer ordering regressed vs its calibrated baseline (got {orderAgreement:P0}); mirror-tolerant={mirrorOrder:P0}");
 	}
 
 	[Test]
 	public async Task Calibration_report()
 	{
-		if (!Directory.Exists(ReferenceDir))
+		if (!Directory.Exists(IrReferenceDir))
 			return;
 
-		var rows = new List<(string Slug, double LayerAgreement, double OrderAgreement, int Inversions, string? Error)>();
+		var rows = new List<(string Slug, double Layer, double Order, double Mirror, double Sides, int Inversions, string? Error)>();
 		foreach (var slug in FlowchartSlugsWithReferences())
 		{
 			var example = DiagramExamples.All.Single(e => e.Slug == slug);
@@ -157,33 +164,43 @@ public class FlowchartSkeletonComparisonTests
 
 			try
 			{
-				var svg = await File.ReadAllTextAsync(Path.Combine(ReferenceDir, $"{slug}.svg"));
-				var mjsSkeleton = MermaidJsFlowchartSkeletonExtractor.Extract(svg, example.Source);
-				var layerAgreement = SkeletonComparer.LayerAgreement(mjsSkeleton, mermaiderSkeleton);
-				var orderAgreement = SkeletonComparer.WithinLayerOrderAgreement(mjsSkeleton, mermaiderSkeleton);
-				rows.Add((slug, layerAgreement, orderAgreement, inversions, null));
+				var irPath = Path.Combine(IrReferenceDir, $"{slug}.mjs.ir.txt");
+				var mjsSkeleton = LayoutSkeleton.Parse(await File.ReadAllTextAsync(irPath));
+				var layer = SkeletonComparer.LayerAgreement(mjsSkeleton, mermaiderSkeleton);
+				var order = SkeletonComparer.WithinLayerOrderAgreement(mjsSkeleton, mermaiderSkeleton);
+				var mirror = SkeletonComparer.MirrorToleratedOrderAgreement(mjsSkeleton, mermaiderSkeleton);
+				var sides = SkeletonComparer.SideAgreement(mjsSkeleton, mermaiderSkeleton);
+				rows.Add((slug, layer, order, mirror, sides, inversions, null));
 			}
 			catch (Exception ex)
 			{
-				rows.Add((slug, -1, -1, inversions, ex.Message));
+				rows.Add((slug, -1, -1, -1, -1, inversions, ex.Message));
 			}
 		}
 
 		var sb = new StringBuilder();
-		sb.AppendLine($"# Flowchart layout skeleton agreement vs mermaid.js — {rows.Count} diagrams");
+		sb.AppendLine(System.Globalization.CultureInfo.InvariantCulture,
+			$"# Flowchart layout skeleton agreement vs mermaid.js — {rows.Count} diagrams");
 		sb.AppendLine();
-		sb.AppendLine("| Slug | Layer agreement | Order agreement | Own inversions |");
-		sb.AppendLine("|---|---|---|---|");
+		sb.AppendLine("| Slug | Layer | Order | Order (mirror-tol.) | Sides | Own inversions |");
+		sb.AppendLine("|---|---|---|---|---|---|");
 		foreach (var r in rows.OrderBy(r => r.Slug, StringComparer.Ordinal))
 		{
 			var cell = r.Error is null
-				? $"| {r.Slug} | {r.LayerAgreement:P0} | {r.OrderAgreement:P0} | {r.Inversions} |"
-				: $"| {r.Slug} | error: {r.Error} | — | {r.Inversions} |";
+				? FormattableString.Invariant($"| {r.Slug} | {r.Layer:P0} | {r.Order:P0} | {r.Mirror:P0} | {r.Sides:P0} | {r.Inversions} |")
+				: $"| {r.Slug} | error: {r.Error} | — | — | — | {r.Inversions} |";
 			sb.AppendLine(cell);
 		}
 
-		var reportPath = Path.Combine(ReferenceDir, "skeleton-comparison-report-flowchart.md");
-		await File.WriteAllTextAsync(reportPath, sb.ToString());
-		Console.WriteLine($"Flowchart skeleton comparison report written to {reportPath}");
+		if (Directory.Exists(SvgReferenceDir))
+		{
+			var reportPath = Path.Combine(SvgReferenceDir, "skeleton-comparison-report-flowchart.md");
+			await File.WriteAllTextAsync(reportPath, sb.ToString());
+			Console.WriteLine($"Flowchart skeleton comparison report written to {reportPath}");
+		}
+		else
+		{
+			Console.WriteLine(sb.ToString());
+		}
 	}
 }

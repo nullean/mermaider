@@ -1,0 +1,9 @@
+N	Active	0	0
+N	Inactive	1	0
+N	Closed	2	0
+E	Active	Closed	close	Bottom	Top	False
+E	Active	Inactive	disable	Bottom	Top	False
+E	Closed	_end		Bottom	Top	False
+E	Inactive	Active	reactivate	Top	Bottom	False
+E	Inactive	Closed	close	Bottom	Top	False
+E	_start	Active		Bottom	Top	False

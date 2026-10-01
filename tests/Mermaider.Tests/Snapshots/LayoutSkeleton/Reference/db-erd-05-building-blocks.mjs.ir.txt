@@ -1,0 +1,38 @@
+N	Assembly	0	0
+N	Repository	1	0
+N	SearchIndex	1	1
+N	Catalog	1	2
+N	SiteNavigation	1	3
+N	DocumentationSet	2	0
+N	Content	3	0
+N	ApiReference	3	1
+N	Navigation	3	2
+N	ReleaseNotes	4	0
+N	OpenApiSpec	4	1
+N	CodexSite	4	2
+N	LinkManifest	4	3
+N	OpenApiRepository	5	0
+N	LinkRegistry	5	1
+N	Registry	6	0
+E	ApiReference	OpenApiSpec	spec + repository	Bottom	Top	False
+E	Assembly	LinkRegistry	pins commits from	Bottom	Top	False
+E	Assembly	Repository	references	Bottom	Top	False
+E	Assembly	SearchIndex	per environment	Bottom	Top	False
+E	Assembly	SiteNavigation	navigation.yml	Bottom	Top	False
+E	Catalog	DocumentationSet	products, versioning	Bottom	Top	False
+E	Catalog	ReleaseNotes	products	Bottom	Top	False
+E	CodexSite	LinkRegistry	discovers members from	Bottom	Top	False
+E	CodexSite	Registry	environment	Bottom	Top	False
+E	Content	LinkManifest	cross-links resolve through	Bottom	Top	False
+E	Content	ReleaseNotes	{changelog} directive	Bottom	Top	False
+E	DocumentationSet	ApiReference	api	Bottom	Top	False
+E	DocumentationSet	Content	contains	Bottom	Top	False
+E	DocumentationSet	LinkManifest	one per branch	Bottom	Top	False
+E	DocumentationSet	Navigation	table of contents	Bottom	Top	False
+E	LinkManifest	LinkRegistry	indexed by	Bottom	Top	False
+E	LinkRegistry	Registry	one per registry	Bottom	Top	False
+E	OpenApiSpec	OpenApiRepository	published to	Bottom	Top	False
+E	Repository	DocumentationSet	≤1 per Registry	Bottom	Top	False
+E	Repository	OpenApiSpec	publishes	Bottom	Top	False
+E	Repository	ReleaseNotes	changelog.yml	Bottom	Top	False
+E	SiteNavigation	Navigation	mounts	Bottom	Top	False

@@ -1,0 +1,16 @@
+N	router	0	0
+N	compute2	1	0
+N	lb2	1	1
+N	compute1	1	2
+N	lb1	1	3
+N	nat	2	0
+N	internet	3	0
+E	compute1	nat		Bottom	Top	False
+E	compute2	nat		Bottom	Top	False
+E	internet	router		Top	Top	False
+E	nat	internet		Bottom	Top	False
+E	router	compute1		Bottom	Right	False
+E	router	compute2		Bottom	Right	False
+G	subnet2	project	0	0	compute2,lb2
+G	project	-	0	1	nat,router
+G	subnet1	project	0	2	compute1,lb1

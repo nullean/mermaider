@@ -1,0 +1,30 @@
+N	OpenApiRepository	0	0
+N	Repository	1	0
+N	ApiDeclaration	1	1
+N	ApiVersionIndex	1	2
+N	OpenApiSpec	2	0
+N	Product	2	1
+N	ApiSpecVersion	2	2
+N	ApiSupplementalDoc	3	0
+N	ApiTagGroup	3	1
+N	ApiSchema	3	2
+N	ApiTag	4	0
+N	ApiEndpoint	5	0
+N	ApiOperation	6	0
+N	DocumentationDocument	7	0
+E	ApiDeclaration	ApiSpecVersion	renders	Bottom	Top	False
+E	ApiDeclaration	ApiSupplementalDoc	api/{key}/	Bottom	Top	False
+E	ApiDeclaration	OpenApiSpec	repository + spec	Bottom	Top	False
+E	ApiDeclaration	Product	product	Bottom	Top	False
+E	ApiEndpoint	ApiOperation	operations	Bottom	Top	False
+E	ApiOperation	DocumentationDocument	search export	Bottom	Top	False
+E	ApiSpecVersion	ApiSchema	components	Bottom	Top	False
+E	ApiSpecVersion	ApiTagGroup	x-tagGroups	Bottom	Top	False
+E	ApiSupplementalDoc	ApiOperation	op-{operationId}	Bottom	Top	False
+E	ApiSupplementalDoc	ApiTag	tag-{slug}	Bottom	Top	False
+E	ApiTag	ApiEndpoint	endpoints	Bottom	Top	False
+E	ApiTagGroup	ApiTag	tags	Bottom	Top	False
+E	ApiVersionIndex	ApiSpecVersion	org/repo, spec, moniker	Bottom	Top	False
+E	OpenApiRepository	ApiVersionIndex	index.json	Bottom	Top	False
+E	OpenApiRepository	OpenApiSpec	org/repo/branch/spec	Bottom	Top	False
+E	Repository	OpenApiSpec	publishes, per branch	Bottom	Top	False

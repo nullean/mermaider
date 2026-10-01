@@ -1,0 +1,19 @@
+N	Checkout	0	0
+N	Assembly	0	1
+N	PublishEnvironment	0	2
+N	LinkRegistryEntry	1	0
+N	DocumentationSet	1	1
+N	Repository	1	2
+N	NarrativeRepository	1	3
+N	ContentSource	1	4
+N	GitOrigin	2	0
+N	ContentSourceBranches	2	1
+E	Assembly	NarrativeRepository	narrative	Bottom	Top	False
+E	Assembly	Repository	references	Bottom	Top	False
+E	Checkout	DocumentationSet	resolves to	Bottom	Top	False
+E	Checkout	LinkRegistryEntry	pinned CommitSha	Bottom	Top	False
+E	Checkout	Repository	repository	Bottom	Top	False
+E	ContentSource	ContentSourceBranches	selects branch	Bottom	Top	False
+E	DocumentationSet	GitOrigin	origin	Bottom	Top	False
+E	PublishEnvironment	ContentSource	content_source	Bottom	Top	False
+E	Repository	ContentSourceBranches	current / next / edge	Bottom	Top	False

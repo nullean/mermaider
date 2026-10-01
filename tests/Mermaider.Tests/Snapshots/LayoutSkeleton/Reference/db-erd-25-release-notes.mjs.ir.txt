@@ -1,0 +1,44 @@
+N	Repository	0	0
+N	ChangelogConfiguration	1	0
+N	Rules	2	0
+N	ReleaseTrigger	2	1
+N	Pivot	2	2
+N	ProductDefaults	3	0
+N	BundleProfile	4	0
+N	Product	5	0
+N	BundleRegistry	6	0
+N	Bundle	7	0
+N	ChangelogMarker	8	0
+N	EntryPool	8	1
+N	BundledEntry	8	2
+N	BundleAmend	8	3
+N	NotesIndex	8	4
+N	BundleNotesAmend	8	5
+N	BundledProduct	8	6
+N	ChangelogEntry	9	0
+N	ChangelogNote	9	1
+N	ProductRelease	10	0
+E	Bundle	BundleAmend	amend-N	Bottom	Top	False
+E	Bundle	BundleNotesAmend	amend-notes	Bottom	Top	False
+E	Bundle	BundledEntry	entries	Bottom	Top	False
+E	Bundle	BundledProduct	products	Bottom	Top	False
+E	BundleProfile	Product	product	Bottom	Top	False
+E	BundleRegistry	Bundle	bundles[]	Bottom	Top	False
+E	BundledEntry	ChangelogEntry	file.name + checksum	Bottom	Top	False
+E	BundledProduct	Product	product	Top	Bottom	False
+E	ChangelogConfiguration	BundleProfile	bundle.profiles	Bottom	Top	False
+E	ChangelogConfiguration	Pivot	pivot	Bottom	Top	False
+E	ChangelogConfiguration	ProductDefaults	products	Bottom	Top	False
+E	ChangelogConfiguration	ReleaseTrigger	bundle.releases	Bottom	Top	False
+E	ChangelogConfiguration	Rules	rules	Bottom	Top	False
+E	ChangelogEntry	ProductRelease	products	Bottom	Top	False
+E	ChangelogMarker	ChangelogEntry	link	Bottom	Top	False
+E	ChangelogNote	ProductRelease	products (versions)	Bottom	Top	False
+E	EntryPool	ChangelogEntry	changelog/{org}/{repo}/{branch}/	Bottom	Top	False
+E	EntryPool	ChangelogNote	note-*.yml	Bottom	Top	False
+E	NotesIndex	ChangelogNote	notes[]	Bottom	Top	False
+E	Product	BundleRegistry	bundle/{product}/registry.json	Bottom	Top	False
+E	ProductDefaults	Product	available, default	Bottom	Top	False
+E	ProductRelease	Product	product	Top	Bottom	False
+E	ReleaseTrigger	BundleProfile	profile name	Bottom	Top	False
+E	Repository	ChangelogConfiguration	changelog.yml	Bottom	Top	False

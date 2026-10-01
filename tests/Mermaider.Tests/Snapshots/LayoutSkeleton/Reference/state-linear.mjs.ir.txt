@@ -1,0 +1,7 @@
+N	Draft	0	0
+N	Review	1	0
+N	Published	2	0
+E	Draft	Review	submit	Bottom	Top	False
+E	Published	_end		Bottom	Top	False
+E	Review	Published	approve	Bottom	Top	False
+E	_start	Draft		Bottom	Top	False

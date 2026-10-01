@@ -1,0 +1,21 @@
+N	Applicability	0	0
+N	ProductRelease	0	1
+N	ApplicabilityEntry	1	0
+N	ChangelogLifecycle	1	1
+N	Product	1	2
+N	VersionSpec	2	0
+N	ProductLifecycle	2	1
+N	VersioningSystem	2	2
+N	Repository	2	3
+N	SemVersion	3	0
+E	Applicability	ApplicabilityEntry	per key	Bottom	Top	False
+E	ApplicabilityEntry	ProductLifecycle	lifecycle	Bottom	Top	False
+E	ApplicabilityEntry	VersionSpec	version	Bottom	Top	False
+E	ApplicabilityEntry	VersioningSystem	key resolves to	Bottom	Top	False
+E	ChangelogLifecycle	ProductLifecycle	maps to	Bottom	Top	False
+E	Product	Repository	repository	Bottom	Top	False
+E	Product	VersioningSystem	versioning	Bottom	Top	False
+E	ProductRelease	ChangelogLifecycle	lifecycle	Bottom	Top	False
+E	ProductRelease	Product	product	Bottom	Top	False
+E	VersioningSystem	SemVersion	base	Bottom	Top	False
+E	VersioningSystem	SemVersion	current	Bottom	Top	False

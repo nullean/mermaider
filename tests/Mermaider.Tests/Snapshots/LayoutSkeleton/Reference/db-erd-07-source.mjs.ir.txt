@@ -1,0 +1,12 @@
+N	PublishEnvironment	0	0
+N	Checkout	0	1
+N	ContentSource	1	0
+N	Repository	1	1
+N	LinkRegistryEntry	1	2
+N	DocumentationSet	2	0
+N	ContentSourceBranches	2	1
+E	Checkout	LinkRegistryEntry	pinned commit	Bottom	Top	False
+E	Checkout	Repository	clones	Bottom	Top	False
+E	PublishEnvironment	ContentSource	content_source	Bottom	Top	False
+E	Repository	ContentSourceBranches	current, next, edge	Bottom	Top	False
+E	Repository	DocumentationSet	≤1 per Registry	Bottom	Top	False

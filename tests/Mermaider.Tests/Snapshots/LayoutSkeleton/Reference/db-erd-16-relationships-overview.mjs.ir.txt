@@ -1,0 +1,30 @@
+N	Assembly	0	0
+N	PublishEnvironment	1	0
+N	Repository	1	1
+N	ChangelogConfiguration	2	0
+N	DocumentationSet	2	1
+N	CodexSite	2	2
+N	TableOfContents	3	0
+N	Product	3	1
+N	DocumentationFile	3	2
+N	Registry	3	3
+N	VersioningSystem	4	0
+N	Bundle	4	1
+N	LinkRegistry	4	2
+N	LinkRegistryEntry	5	0
+N	LinkManifest	6	0
+E	Assembly	PublishEnvironment	environments	Bottom	Top	False
+E	Assembly	Repository	references	Bottom	Top	False
+E	CodexSite	Registry	environment	Bottom	Top	False
+E	DocumentationSet	DocumentationFile	contains	Bottom	Top	False
+E	DocumentationSet	LinkManifest	one per branch	Bottom	Top	False
+E	DocumentationSet	Product	products	Bottom	Top	False
+E	DocumentationSet	Registry	registry	Bottom	Top	False
+E	DocumentationSet	TableOfContents	toc	Bottom	Top	False
+E	LinkRegistry	LinkRegistryEntry	repo, branch	Bottom	Top	False
+E	LinkRegistryEntry	LinkManifest	path	Bottom	Top	False
+E	Product	Bundle	released in	Bottom	Top	False
+E	Product	VersioningSystem	versioning	Bottom	Top	False
+E	Registry	LinkRegistry	publishes into	Bottom	Top	False
+E	Repository	ChangelogConfiguration	changelog.yml	Bottom	Top	False
+E	Repository	DocumentationSet	holds (≤1 per Registry)	Bottom	Top	False
