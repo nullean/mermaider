@@ -329,7 +329,7 @@ internal static partial class FlowchartParser
 		{
 			Direction = direction,
 			Nodes = nodes,
-			NodeOrder = nodes.Keys.ToList(),
+			NodeOrder = BuildSubgraphFirstNodeOrder(nodes, subgraphMap),
 			Edges = edges,
 			Subgraphs = subgraphs,
 			ClassDefs = classDefs,
@@ -343,6 +343,33 @@ internal static partial class FlowchartParser
 			DefaultEdgeStyle = defaultEdgeStyle,
 			SubgraphEdgeRedirections = redirections
 		};
+	}
+
+	// Subgraph members come first (alphabetical by subgraph ID), matching dagre's
+	// node-insertion order so the DFS cycle-breaker picks the same back-edges.
+	private static List<string> BuildSubgraphFirstNodeOrder(
+		Dictionary<string, MermaidNode> nodes,
+		Dictionary<string, MermaidSubgraph> subgraphMap)
+	{
+		var order = new List<string>(nodes.Count);
+		var seen = new HashSet<string>(StringComparer.Ordinal);
+
+		foreach (var sg in subgraphMap.Values.OrderBy(sg => sg.Id, StringComparer.Ordinal))
+		{
+			foreach (var nodeId in sg.NodeIds)
+			{
+				if (nodes.ContainsKey(nodeId) && seen.Add(nodeId))
+					order.Add(nodeId);
+			}
+		}
+
+		foreach (var nodeId in nodes.Keys)
+		{
+			if (seen.Add(nodeId))
+				order.Add(nodeId);
+		}
+
+		return order;
 	}
 
 	// ========================================================================

@@ -1,15 +1,15 @@
-﻿Layer 0: A
-Layer 1: B
-Layer 2: C
-Layer 3: D
-Layer 4: E, F
+﻿Layer 0: E, F
+Layer 1: A
+Layer 2: B
+Layer 3: C
+Layer 4: D
 Groups:
-- foo (layer=0 order=0) members=[C, D]
-- bar (layer=1 order=0) members=[E, F]
+- bar (layer=0 order=0) members=[E, F]
+- foo (layer=1 order=0) members=[C, D]
 Edges:
   A ----> B [Bottom->Top]
   B ----> C [Bottom->Top]
   B ----> D [Right->Right]
   C ----> D [Bottom->Top]
-  D ----> E [Bottom->Top]
-  E ----> A [Right->Right]
+  D ----> E [Right->Right]
+  E ----> A [Bottom->Top]

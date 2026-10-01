@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 669.256 558.4000000000001" width="669.256" height="558.4000000000001" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412.464 848" width="412.464" height="848" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -38,57 +38,57 @@
 </defs>
 
 <g class="subgraph" data-id="cloud" data-label="Cloud VPC">
-  <rect x="40" y="138" width="545.256" height="380.40000000000003" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <rect x="97.536" y="40" width="230.928" height="768" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="pub" data-label="Public Subnet">
-  <rect x="56" y="182" width="407.72" height="306.40000000000003" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <rect x="113.536" y="184.8" width="198.928" height="391.6" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="priv" data-label="Private Subnet">
-  <rect x="161.992" y="282.8" width="407.264" height="219.60000000000002" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <rect x="119.464" y="84" width="187.072" height="708" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
 </g>
 
-<path class="edge" data-from="internet" data-to="lb" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M364.256,170 L364.256,226" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="lb" data-to="app1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M280.79200000000003,248.4 L258.79200000000003,248.4 Q252.792,248.4 252.792,254.4 L252.792,287.6 L252.792,287.6 L252.792,326.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="lb" data-to="app2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M447.72,248.4 L469.72,248.4 Q475.72,248.4 475.72,254.4 L475.72,287.6 L475.72,287.6 L475.72,326.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="app1" data-to="db" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M327.592,349.2 L358.256,349.2 Q364.256,349.2 364.256,355.2 L364.256,388.4 L364.256,388.4 L364.256,427.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="app2" data-to="db" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M475.72,371.6 C475.72,399.6 364.256,399.6 364.256,427.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="app1" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M177.992,349.2 L155.992,349.2 Q149.992,349.2 149.992,355.2 L149.992,388.4 L149.992,388.4 L149.992,427.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="app2" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M475.72,371.6 C475.72,399.6 149.992,399.6 149.992,427.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="nat" data-to="internet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M227.98399999999998,450 L583.256,450 Q589.256,450 589.256,444 L589.256,111 Q589.256,105 583.256,105 L429.256,105" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <rect x="40" y="138" width="545.256" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
-  <text x="52" y="153" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Cloud VPC</text>
-  <rect x="56" y="182" width="407.72" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
-  <text x="68" y="197" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Public Subnet</text>
-  <rect x="161.992" y="282.8" width="407.264" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
-  <text x="173.992" y="297.8" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Private Subnet</text>
+<path class="edge" data-from="internet" data-to="lb" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M213,459.6 L213,515.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="lb" data-to="app2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M213,560.4000000000001 L213,616.4000000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="app2" data-to="db" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M213,661.2 L213,717.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="app1" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M213,172.8 L213,228.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="nat" data-to="internet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M213,273.6 L213,329.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="app2" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M290.536,638.8 L326.464,638.8 Q332.464,638.8 332.464,632.8 L332.464,257.2 Q332.464,251.2 326.464,251.2 L290.99199999999996,251.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="app1" data-to="db" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M213,172.8 L213,194.8 Q213,200.8 207,200.8 L46,200.8 Q40,200.8 40,206.8 L40,416.6 Q40,422.6 46,422.6 L51.536,422.6 Q57.536,422.6 57.536,428.6 L57.536,560 Q57.536,566 63.536,566 L93.464,566 Q99.464,566 99.464,572 L99.464,660.8000000000001 Q99.464,666.8000000000001 105.464,666.8000000000001 L207,666.8000000000001 Q213,666.8000000000001 213,672.8000000000001 L213,717.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="lb" data-to="app1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M296.464,538 L326.464,538 Q332.464,538 332.464,532 L332.464,156.4 Q332.464,150.4 326.464,150.4 L287.8,150.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <rect x="97.536" y="40" width="230.928" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <text x="109.536" y="55" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Cloud VPC</text>
+  <rect x="113.536" y="184.8" width="198.928" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <text x="125.536" y="199.8" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Public Subnet</text>
+  <rect x="119.464" y="84" width="187.072" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <text x="131.464" y="99" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Private Subnet</text>
 
-<g class="node" data-id="internet" data-label="Internet" data-shape="circle">
-  <circle cx="364.256" cy="105" r="65" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="364.256" y="105" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Internet</text>
-</g>
-<g class="node" data-id="lb" data-label="Load Balancer" data-shape="stadium">
-  <rect x="280.79200000000003" y="226" width="166.928" height="44.8" rx="22.4" ry="22.4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="364.25600000000003" y="248.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Load Balancer</text>
-</g>
-<g class="node" data-id="nat" data-label="NAT Gateway" data-shape="stadium">
-  <rect x="72" y="427.6" width="155.98399999999998" height="44.8" rx="22.4" ry="22.4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="149.992" y="450" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">NAT Gateway</text>
-</g>
 <g class="node" data-id="app1" data-label="App Server 1" data-shape="rectangle">
-  <rect x="177.992" y="326.8" width="149.60000000000002" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="252.792" y="349.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">App Server 1</text>
+  <rect x="138.2" y="128" width="149.60000000000002" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="213" y="150.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">App Server 1</text>
 </g>
 <g class="node" data-id="app2" data-label="App Server 2" data-shape="rectangle">
-  <rect x="398.18399999999997" y="326.8" width="155.072" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="475.71999999999997" y="349.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">App Server 2</text>
+  <rect x="135.464" y="616.4000000000001" width="155.072" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="213" y="638.8000000000001" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">App Server 2</text>
 </g>
 <g class="node" data-id="db" data-label="Database" data-shape="cylinder">
-  <rect x="300.4" y="434.6" width="127.712" height="44.8" fill="var(--_node-fill)" stroke="none" />
-<line x1="300.4" y1="434.6" x2="300.4" y2="479.40000000000003" stroke="var(--_node-stroke)" stroke-width="2" />
-<line x1="428.11199999999997" y1="434.6" x2="428.11199999999997" y2="479.40000000000003" stroke="var(--_node-stroke)" stroke-width="2" />
-<ellipse cx="364.256" cy="479.40000000000003" rx="63.856" ry="7" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-<ellipse cx="364.256" cy="434.6" rx="63.856" ry="7" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="364.256" y="457" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Database</text>
+  <rect x="149.144" y="724.2" width="127.712" height="44.8" fill="var(--_node-fill)" stroke="none" />
+<line x1="149.144" y1="724.2" x2="149.144" y2="769" stroke="var(--_node-stroke)" stroke-width="2" />
+<line x1="276.856" y1="724.2" x2="276.856" y2="769" stroke="var(--_node-stroke)" stroke-width="2" />
+<ellipse cx="213" cy="769" rx="63.856" ry="7" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+<ellipse cx="213" cy="724.2" rx="63.856" ry="7" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="213" y="746.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Database</text>
+</g>
+<g class="node" data-id="lb" data-label="Load Balancer" data-shape="stadium">
+  <rect x="129.536" y="515.6" width="166.928" height="44.8" rx="22.4" ry="22.4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="213" y="538" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Load Balancer</text>
+</g>
+<g class="node" data-id="nat" data-label="NAT Gateway" data-shape="stadium">
+  <rect x="135.008" y="228.8" width="155.98399999999998" height="44.8" rx="22.4" ry="22.4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="213" y="251.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">NAT Gateway</text>
+</g>
+<g class="node" data-id="internet" data-label="Internet" data-shape="circle">
+  <circle cx="213" cy="394.6" r="65" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="213" y="394.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Internet</text>
 </g>
 </svg>

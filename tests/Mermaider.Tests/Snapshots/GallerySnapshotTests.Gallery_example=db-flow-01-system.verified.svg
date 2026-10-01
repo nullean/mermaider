@@ -100,14 +100,6 @@
   <rect x="1516.518" y="221.70000000000002" width="145.644" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
 <text x="1589.3400000000001" y="236.8" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">published per version</text>
 </g>
-<g class="node" data-id="Catalog" data-label="Products, versioning systems" data-shape="rectangle">
-  <rect x="736.796" y="214.4" width="273.632" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="873.6120000000001" y="236.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Products, versioning systems</text>
-</g>
-<g class="node" data-id="Repo" data-label="Repositories (Git)" data-shape="rectangle">
-  <rect x="56" y="295.2" width="181.52" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="146.76" y="317.59999999999997" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Repositories (Git)</text>
-</g>
 <g class="node" data-id="DocSet" data-label="Documentation sets" data-shape="rectangle">
   <rect x="1168.0720000000001" y="214.4" width="197.936" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
   <text x="1267.0400000000002" y="236.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Documentation sets</text>
@@ -151,5 +143,13 @@
 <g class="node" data-id="Notes" data-label="Release note bundles" data-shape="rectangle">
   <rect x="3701.4519999999998" y="145.14999999999995" width="213.44" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
   <text x="3808.1719999999996" y="167.54999999999995" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Release note bundles</text>
+</g>
+<g class="node" data-id="Catalog" data-label="Products, versioning systems" data-shape="rectangle">
+  <rect x="736.796" y="214.4" width="273.632" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="873.6120000000001" y="236.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Products, versioning systems</text>
+</g>
+<g class="node" data-id="Repo" data-label="Repositories (Git)" data-shape="rectangle">
+  <rect x="56" y="295.2" width="181.52" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="146.76" y="317.59999999999997" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Repositories (Git)</text>
 </g>
 </svg>
