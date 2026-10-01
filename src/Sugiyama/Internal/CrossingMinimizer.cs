@@ -6,7 +6,7 @@ namespace Sugiyama.Internal;
 /// Phase 3: Minimize edge crossings using the barycenter heuristic.
 /// Sweeps top-down then bottom-up for a configurable number of iterations.
 /// All sorting is in-place on flat arrays — no LINQ, no allocations per sweep.
-/// Complexity: O(iterations × E) — O(E) per sweep via CSR adjacency
+/// Complexity: O(iterations × E) per layer
 /// </summary>
 internal static class CrossingMinimizer
 {
@@ -28,6 +28,7 @@ internal static class CrossingMinimizer
 				SweepLayer(graph, layer, barycenters, useInEdges: false);
 		}
 
+		ct.ThrowIfCancellationRequested();
 		EnforceSameRankOrder(graph);
 	}
 

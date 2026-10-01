@@ -1,12 +1,12 @@
-﻿Layer 0: EntryPool, NotesIndex, Repository
+﻿Layer 0: Repository
 Layer 1: ChangelogConfiguration
 Layer 2: ReleaseTrigger, Pivot, Rules
 Layer 3: ProductDefaults, BundleProfile
 Layer 4: Product
 Layer 5: BundleRegistry
 Layer 6: Bundle
-Layer 7: ChangelogMarker, BundledEntry, BundledProduct, BundleAmend, BundleNotesAmend
-Layer 8: ChangelogNote, ChangelogEntry
+Layer 7: ChangelogMarker, BundledEntry, EntryPool, BundledProduct, NotesIndex, BundleAmend, BundleNotesAmend
+Layer 8: ChangelogEntry, ChangelogNote
 Layer 9: ProductRelease
 Edges:
   Bundle --amend-N--> BundleAmend [Right->Top]
