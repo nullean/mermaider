@@ -70,17 +70,19 @@ public class SkeletonComparisonTests
 			["db-erd-13-codex"] = (0.95, 0.95),
 			["db-erd-14-release-notes"] = (0.95, 0.95),
 			["db-erd-15-api-search"] = (0.95, 0.88),
-			["db-erd-16-relationships-overview"] = (0.95, 0.70),
+			["db-erd-16-relationships-overview"] = (0.95, 0.80),
 			["db-erd-17-catalog"] = (0.95, 0.95),
 			["db-erd-18-source"] = (0.95, 0.15),
-			["db-erd-19-docset"] = (0.65, 0.45),
-			["db-erd-20-content"] = (0.50, 0.25), // disconnected-component packing differs — see class remarks
-			["db-erd-21-navigation"] = (0.75, 0.40),
+			["db-erd-19-docset"] = (0.68, 0.50),
+			["db-erd-20-content"] = (0.65, 0.58), // disconnected-component packing differs — see class remarks
+			["db-erd-21-navigation"] = (0.90, 0.95),
 			["db-erd-22-link-graph"] = (0.95, 0.95),
 			["db-erd-23-publishing"] = (0.95, 0.25),
 			["db-erd-24-codex"] = (0.95, 0.70),
-			["db-erd-25-release-notes"] = (0.78, 0.60),
-			["db-erd-26-api-reference"] = (0.85, 0.25),
+			// Network simplex (dagre's real default rank assigner, replacing longest-path +
+			// heuristics) measurably improved both of these: 78%/60% -> 99%/76%, 85%/25% -> 100%/100%.
+			["db-erd-25-release-notes"] = (0.95, 0.72),
+			["db-erd-26-api-reference"] = (0.95, 0.95),
 			["db-erd-27-search"] = (0.95, 0.95),
 			["er-aliases"] = (0.95, 0.95),
 			["er-basic"] = (0.95, 0.95),
