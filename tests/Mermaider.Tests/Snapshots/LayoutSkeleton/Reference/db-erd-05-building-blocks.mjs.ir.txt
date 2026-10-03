@@ -14,25 +14,38 @@ N	LinkManifest	4	3
 N	OpenApiRepository	5	0
 N	LinkRegistry	5	1
 N	Registry	6	0
-E	ApiReference	OpenApiSpec	spec + repository	Bottom	Top	False
-E	Assembly	LinkRegistry	pins commits from	Bottom	Top	False
-E	Assembly	Repository	references	Bottom	Top	False
-E	Assembly	SearchIndex	per environment	Bottom	Top	False
-E	Assembly	SiteNavigation	navigation.yml	Bottom	Top	False
-E	Catalog	DocumentationSet	products, versioning	Bottom	Top	False
-E	Catalog	ReleaseNotes	products	Bottom	Top	False
-E	CodexSite	LinkRegistry	discovers members from	Bottom	Top	False
-E	CodexSite	Registry	environment	Bottom	Top	False
-E	Content	LinkManifest	cross-links resolve through	Bottom	Top	False
-E	Content	ReleaseNotes	{changelog} directive	Bottom	Top	False
-E	DocumentationSet	ApiReference	api	Bottom	Top	False
-E	DocumentationSet	Content	contains	Bottom	Top	False
-E	DocumentationSet	LinkManifest	one per branch	Bottom	Top	False
-E	DocumentationSet	Navigation	table of contents	Bottom	Top	False
-E	LinkManifest	LinkRegistry	indexed by	Bottom	Top	False
-E	LinkRegistry	Registry	one per registry	Bottom	Top	False
-E	OpenApiSpec	OpenApiRepository	published to	Bottom	Top	False
-E	Repository	DocumentationSet	≤1 per Registry	Bottom	Top	False
-E	Repository	OpenApiSpec	publishes	Bottom	Top	False
-E	Repository	ReleaseNotes	changelog.yml	Bottom	Top	False
-E	SiteNavigation	Navigation	mounts	Bottom	Top	False
+E	ApiReference	OpenApiSpec	spec + repository	Bottom	Top	False	D L D
+E	Assembly	LinkRegistry	pins commits from	Bottom	Top	False	D R D L D
+E	Assembly	Repository	references	Bottom	Top	False	D L D
+E	Assembly	SearchIndex	per environment	Bottom	Top	False	D L D
+E	Assembly	SiteNavigation	navigation.yml	Bottom	Top	False	D R D
+E	Catalog	DocumentationSet	products, versioning	Bottom	Top	False	D R D
+E	Catalog	ReleaseNotes	products	Bottom	Top	False	D L D L D
+E	CodexSite	LinkRegistry	discovers members from	Bottom	Top	False	D R D
+E	CodexSite	Registry	environment	Bottom	Top	False	D L D R D
+E	Content	LinkManifest	cross-links resolve through	Bottom	Top	False	D R D R D
+E	Content	ReleaseNotes	{changelog} directive	Bottom	Top	False	D L D L D
+E	DocumentationSet	ApiReference	api	Bottom	Top	False	D L D
+E	DocumentationSet	Content	contains	Bottom	Top	False	D L D
+E	DocumentationSet	LinkManifest	one per branch	Bottom	Top	False	D R D L D
+E	DocumentationSet	Navigation	table of contents	Bottom	Top	False	D R D R D
+E	LinkManifest	LinkRegistry	indexed by	Bottom	Top	False	D R D
+E	LinkRegistry	Registry	one per registry	Bottom	Top	False	D L D
+E	OpenApiSpec	OpenApiRepository	published to	Bottom	Top	False	D
+E	Repository	DocumentationSet	≤1 per Registry	Bottom	Top	False	D R D R D
+E	Repository	OpenApiSpec	publishes	Bottom	Top	False	D R D
+E	Repository	ReleaseNotes	changelog.yml	Bottom	Top	False	D L D R D
+E	SiteNavigation	Navigation	mounts	Bottom	Top	False	D L D
+P	Assembly	Bottom	2,3,4,1
+P	Catalog	Bottom	6,5
+P	CodexSite	Bottom	8,7
+P	Content	Bottom	10,9
+P	DocumentationSet	Bottom	12,11,13,14
+P	DocumentationSet	Top	18,5
+P	LinkManifest	Top	9,13
+P	LinkRegistry	Top	7,15,1
+P	Navigation	Top	14,21
+P	OpenApiSpec	Top	19,0
+P	Registry	Top	8,16
+P	ReleaseNotes	Top	20,6,10
+P	Repository	Bottom	20,19,18

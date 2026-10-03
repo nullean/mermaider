@@ -13,16 +13,22 @@ Groups:
 - External (layer=1 order=1) members=[LinkReg, OpenApiRepo, Bundles]
 - Outputs (layer=1 order=2) members=[Html, Manifest, Redirects, State]
 Edges:
-  Bundles --release_notes--> Content [Top->Left]
-  Checkout ----> DocSet [Bottom->Left]
-  Content ----> Nav [Bottom->Left]
-  DocSet ----> Content [Top->Left]
-  DocSet ----> Redirects [Top->Left]
-  DocSet ----> Toc [Right->Left]
-  LinkReg --cross_links--> Content [Bottom->Bottom]
-  Manifest --published on push--> LinkReg [Right->Left]
-  Nav ----> Html [Right->Left]
-  Nav ----> Manifest [Bottom->Left]
-  OpenApiRepo --api--> Content [Right->Left]
-  Toc ----> Nav [Right->Left]
-  Vocab ----> DocSet [Top->Left]
+  Bundles --release_notes--> Content [Top->Left] [U R]
+  Checkout ----> DocSet [Bottom->Left] [D R]
+  Content ----> Nav [Bottom->Left] [U L]
+  DocSet ----> Content [Top->Left] [U R D R]
+  DocSet ----> Redirects [Top->Left] [U R D R U R]
+  DocSet ----> Toc [Right->Left] [R]
+  LinkReg --cross_links--> Content [Bottom->Bottom] [D L U]
+  Manifest --published on push--> LinkReg [Right->Left] [R]
+  Nav ----> Html [Right->Left] [R]
+  Nav ----> Manifest [Bottom->Left] [D R]
+  OpenApiRepo --api--> Content [Right->Left] [R]
+  Toc ----> Nav [Right->Left] [R]
+  Vocab ----> DocSet [Top->Left] [U R]
+Ports:
+  Content Bottom: edge2,edge6
+  Content Left: edge10,edge0,edge3
+  DocSet Left: edge1,edge12
+  DocSet Top: edge4,edge3
+  Nav Left: edge11,edge2

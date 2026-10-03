@@ -2,6 +2,6 @@
 Layer 1: Product
 Layer 2: VersioningSystem, Repository
 Edges:
-  LegacyUrlMapping --product--> Product [Bottom->Top]
-  Product --repository--> Repository [Right->Top]
-  Product --versioning--> VersioningSystem [Bottom->Top]
+  LegacyUrlMapping --product--> Product [Bottom->Top] [D]
+  Product --repository--> Repository [Right->Top] [R D]
+  Product --versioning--> VersioningSystem [Bottom->Top] [D L D]

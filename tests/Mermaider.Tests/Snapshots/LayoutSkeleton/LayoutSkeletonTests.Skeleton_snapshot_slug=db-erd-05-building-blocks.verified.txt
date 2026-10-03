@@ -6,25 +6,39 @@ Layer 4: CodexSite, LinkManifest, OpenApiSpec, ReleaseNotes
 Layer 5: LinkRegistry, OpenApiRepository
 Layer 6: Registry
 Edges:
-  ApiReference --spec + repository--> OpenApiSpec [Bottom->Top]
-  Assembly --pins commits from--> LinkRegistry [Right->Top]
-  Assembly --references--> Repository [Right->Top]
-  Assembly --per environment--> SearchIndex [Right->Top]
-  Assembly --navigation.yml--> SiteNavigation [Bottom->Top]
-  Catalog --products, versioning--> DocumentationSet [Bottom->Top]
-  Catalog --products--> ReleaseNotes [Bottom->Top]
-  CodexSite --discovers members from--> LinkRegistry [Bottom->Top]
-  CodexSite --environment--> Registry [Bottom->Top]
-  Content --cross-links resolve through--> LinkManifest [Bottom->Top]
-  Content --{changelog} directive--> ReleaseNotes [Bottom->Top]
-  DocumentationSet --api--> ApiReference [Bottom->Top]
-  DocumentationSet --contains--> Content [Bottom->Top]
-  DocumentationSet --one per branch--> LinkManifest [Bottom->Top]
-  DocumentationSet --table of contents--> Navigation [Bottom->Top]
-  LinkManifest --indexed by--> LinkRegistry [Bottom->Top]
-  LinkRegistry --one per registry--> Registry [Bottom->Top]
-  OpenApiSpec --published to--> OpenApiRepository [Bottom->Top]
-  Repository --≤1 per Registry--> DocumentationSet [Bottom->Top]
-  Repository --publishes--> OpenApiSpec [Bottom->Top]
-  Repository --changelog.yml--> ReleaseNotes [Bottom->Top]
-  SiteNavigation --mounts--> Navigation [Bottom->Top]
+  ApiReference --spec + repository--> OpenApiSpec [Bottom->Top] [D]
+  Assembly --pins commits from--> LinkRegistry [Right->Top] [R D L D L D R D]
+  Assembly --references--> Repository [Right->Top] [R D]
+  Assembly --per environment--> SearchIndex [Right->Top] [R D]
+  Assembly --navigation.yml--> SiteNavigation [Bottom->Top] [D L D]
+  Catalog --products, versioning--> DocumentationSet [Bottom->Top] [D R D]
+  Catalog --products--> ReleaseNotes [Bottom->Top] [D R D L D]
+  CodexSite --discovers members from--> LinkRegistry [Bottom->Top] [D R D]
+  CodexSite --environment--> Registry [Bottom->Top] [D R D]
+  Content --cross-links resolve through--> LinkManifest [Bottom->Top] [D]
+  Content --{changelog} directive--> ReleaseNotes [Bottom->Top] [D R D]
+  DocumentationSet --api--> ApiReference [Bottom->Top] [D L D]
+  DocumentationSet --contains--> Content [Bottom->Top] [D L D]
+  DocumentationSet --one per branch--> LinkManifest [Bottom->Top] [D L D L D]
+  DocumentationSet --table of contents--> Navigation [Bottom->Top] [D L D]
+  LinkManifest --indexed by--> LinkRegistry [Bottom->Top] [D L D]
+  LinkRegistry --one per registry--> Registry [Bottom->Top] [D]
+  OpenApiSpec --published to--> OpenApiRepository [Bottom->Top] [D]
+  Repository --≤1 per Registry--> DocumentationSet [Bottom->Top] [D R D]
+  Repository --publishes--> OpenApiSpec [Bottom->Top] [D R D L D R D]
+  Repository --changelog.yml--> ReleaseNotes [Bottom->Top] [D R D]
+  SiteNavigation --mounts--> Navigation [Bottom->Top] [D]
+Ports:
+  Assembly Right: edge2,edge1,edge3
+  Catalog Bottom: edge5,edge6
+  CodexSite Bottom: edge8,edge7
+  Content Bottom: edge10,edge9
+  DocumentationSet Bottom: edge12,edge14,edge13,edge11
+  DocumentationSet Top: edge5,edge18
+  LinkManifest Top: edge13,edge9
+  LinkRegistry Top: edge15,edge1,edge7
+  Navigation Top: edge14,edge21
+  OpenApiSpec Top: edge19,edge0
+  Registry Top: edge16,edge8
+  ReleaseNotes Top: edge6,edge20,edge10
+  Repository Bottom: edge18,edge20,edge19

@@ -25,7 +25,7 @@ internal static class MermaiderGraphSkeletonExtractor
 
 		var edges = positioned.Edges
 			.Where(e => e.Points.Count >= 2)
-			.Select(e => (e.Source, e.Target, e.Label ?? "", Start: e.Points[0], End: e.Points[^1]))
+			.Select(e => (e.Source, e.Target, e.Label ?? "", (IReadOnlyList<Point>)e.Points))
 			.ToList();
 
 		var groups = new List<(string Id, string? ParentId, IReadOnlyList<string> MemberNodeIds, double X, double Y, double W, double H)>();

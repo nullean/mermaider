@@ -7,9 +7,12 @@ Groups:
   - subnet1 (layer=0 order=0) members=[compute1, lb1]
   - subnet2 (layer=0 order=2) members=[compute2, lb2]
 Edges:
-  compute1 ----> nat [Bottom->Top]
-  compute2 ----> nat [Bottom->Top]
-  internet ----> router [Right->Right]
-  nat ----> internet [Bottom->Top]
-  router ----> compute1 [Left->Top]
-  router ----> compute2 [Right->Top]
+  compute1 ----> nat [Bottom->Top] [D R D]
+  compute2 ----> nat [Bottom->Top] [D L D]
+  internet ----> router [Right->Right] [R U L]
+  nat ----> internet [Bottom->Top] [D]
+  router ----> compute1 [Left->Top] [L D]
+  router ----> compute2 [Right->Top] [R D]
+Ports:
+  nat Top: edge0,edge1
+  router Right: edge5,edge2

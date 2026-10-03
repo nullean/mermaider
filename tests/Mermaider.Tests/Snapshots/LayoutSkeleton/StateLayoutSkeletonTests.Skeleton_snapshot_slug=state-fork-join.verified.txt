@@ -6,13 +6,16 @@ Layer 4: join_point
 Layer 5: Complete
 Layer 6: _end
 Edges:
-  Complete ----> _end [Bottom->Top]
-  Ready ----> fork_point [Bottom->Top]
-  TaskA ----> join_point [Bottom->Top]
-  TaskB ----> join_point [Bottom->Top]
-  TaskC ----> join_point [Bottom->Top]
-  _start ----> Ready [Bottom->Top]
-  fork_point ----> TaskA [Bottom->Top]
-  fork_point ----> TaskB [Bottom->Top]
-  fork_point ----> TaskC [Bottom->Top]
-  join_point ----> Complete [Bottom->Top]
+  Complete ----> _end [Bottom->Top] [D]
+  Ready ----> fork_point [Bottom->Top] [D]
+  TaskA ----> join_point [Bottom->Top] [D R D]
+  TaskB ----> join_point [Bottom->Top] [D]
+  TaskC ----> join_point [Bottom->Top] [D L D]
+  _start ----> Ready [Bottom->Top] [D]
+  fork_point ----> TaskA [Bottom->Top] [D L D]
+  fork_point ----> TaskB [Bottom->Top] [D]
+  fork_point ----> TaskC [Bottom->Top] [D R D]
+  join_point ----> Complete [Bottom->Top] [D]
+Ports:
+  fork_point Bottom: edge7,edge6,edge8
+  join_point Top: edge2,edge3,edge4

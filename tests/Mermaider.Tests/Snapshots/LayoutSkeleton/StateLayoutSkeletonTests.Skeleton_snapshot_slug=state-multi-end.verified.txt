@@ -4,9 +4,13 @@ Layer 2: Inactive
 Layer 3: Closed
 Layer 4: _end
 Edges:
-  Active --close--> Closed [Bottom->Top]
-  Active --disable--> Inactive [Bottom->Top]
-  Closed ----> _end [Bottom->Top]
-  Inactive --reactivate--> Active [Top->Bottom]
-  Inactive --close--> Closed [Bottom->Top]
-  _start ----> Active [Bottom->Top]
+  Active --close--> Closed [Bottom->Top] [D L D R D]
+  Active --disable--> Inactive [Bottom->Top] [D]
+  Closed ----> _end [Bottom->Top] [D]
+  Inactive --reactivate--> Active [Top->Bottom] [U]
+  Inactive --close--> Closed [Bottom->Top] [D]
+  _start ----> Active [Bottom->Top] [D]
+Ports:
+  Active Bottom: edge3,edge0,edge1
+  Closed Top: edge4,edge0
+  Inactive Top: edge3,edge1

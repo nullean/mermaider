@@ -2,7 +2,7 @@
 Layer 1: Registry, CodexDocumentationSet
 Layer 2: DocumentationSet, CodexGroup
 Edges:
-  CodexDocumentationSet --codex.group--> CodexGroup [Right->Top]
-  CodexDocumentationSet --docset--> DocumentationSet [Bottom->Top]
-  CodexSite --from LinkRegistry--> CodexDocumentationSet [Right->Top]
-  CodexSite --environment--> Registry [Bottom->Top]
+  CodexDocumentationSet --codex.group--> CodexGroup [Right->Top] [R D]
+  CodexDocumentationSet --docset--> DocumentationSet [Bottom->Top] [D L D]
+  CodexSite --from LinkRegistry--> CodexDocumentationSet [Right->Top] [R D]
+  CodexSite --environment--> Registry [Bottom->Top] [D L D]

@@ -5,13 +5,17 @@ Layer 3: LinkManifest
 Layer 4: GitOrigin, LinkManifestPage, Redirect, CrossLinkUri
 Layer 5: Anchor
 Edges:
-  Checkout --link-index.snapshot.json--> LinkRegistrySnapshot [Bottom->Top]
-  DocumentationSet --per branch--> LinkManifest [Bottom->Top]
-  LinkManifest --cross_links (outbound)--> CrossLinkUri [Right->Top]
-  LinkManifest --origin--> GitOrigin [Bottom->Top]
-  LinkManifest --links--> LinkManifestPage [Bottom->Top]
-  LinkManifest --redirects--> Redirect [Right->Top]
-  LinkManifestPage --anchors--> Anchor [Bottom->Top]
-  LinkRegistry --repository, branch--> LinkRegistryEntry [Bottom->Top]
-  LinkRegistryEntry --path--> LinkManifest [Bottom->Top]
-  Registry --link-index.json--> LinkRegistry [Bottom->Top]
+  Checkout --link-index.snapshot.json--> LinkRegistrySnapshot [Bottom->Top] [D]
+  DocumentationSet --per branch--> LinkManifest [Bottom->Top] [D]
+  LinkManifest --cross_links (outbound)--> CrossLinkUri [Right->Top] [R D]
+  LinkManifest --origin--> GitOrigin [Bottom->Top] [D L D]
+  LinkManifest --links--> LinkManifestPage [Bottom->Top] [D L D]
+  LinkManifest --redirects--> Redirect [Right->Top] [R D]
+  LinkManifestPage --anchors--> Anchor [Bottom->Top] [D]
+  LinkRegistry --repository, branch--> LinkRegistryEntry [Bottom->Top] [D R D]
+  LinkRegistryEntry --path--> LinkManifest [Bottom->Top] [D L D]
+  Registry --link-index.json--> LinkRegistry [Bottom->Top] [D]
+Ports:
+  LinkManifest Bottom: edge3,edge4
+  LinkManifest Right: edge5,edge2
+  LinkManifest Top: edge1,edge8

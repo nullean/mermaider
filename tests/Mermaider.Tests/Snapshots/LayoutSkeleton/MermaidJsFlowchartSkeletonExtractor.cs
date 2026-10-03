@@ -69,7 +69,7 @@ internal static partial class MermaidJsFlowchartSkeletonExtractor
 		CollectGroups(graph.Subgraphs, clusterBoxById, parentId: null, groups);
 
 		var edgePointsById = ExtractEdgePoints(svg);
-		var edges = new List<(string From, string To, string Label, Point Start, Point End)>();
+		var edges = new List<(string From, string To, string Label, IReadOnlyList<Point> Points)>();
 		var dupIndex = new Dictionary<(string, string), int>();
 		for (var ei = 0; ei < graph.Edges.Count; ei++)
 		{
@@ -101,7 +101,7 @@ internal static partial class MermaidJsFlowchartSkeletonExtractor
 					$"mermaid.js flowchart SVG has no edge with data-id '{dataId}' — expected one for declaration-order " +
 					$"edge {e.Source} -> {e.Target} (duplicate index {idx}).");
 			}
-			edges.Add((e.Source, e.Target, e.Label ?? "", pts.Start, pts.End));
+			edges.Add((e.Source, e.Target, e.Label ?? "", pts));
 		}
 
 		return LayoutSkeletonBuilder.Build(boxes, edges, groups, graph.Direction);
@@ -269,16 +269,16 @@ internal static partial class MermaidJsFlowchartSkeletonExtractor
 		return boxes;
 	}
 
-	private static Dictionary<string, (Point Start, Point End)> ExtractEdgePoints(string svg)
+	private static Dictionary<string, IReadOnlyList<Point>> ExtractEdgePoints(string svg)
 	{
-		var result = new Dictionary<string, (Point Start, Point End)>(StringComparer.Ordinal);
+		var result = new Dictionary<string, IReadOnlyList<Point>>(StringComparer.Ordinal);
 		foreach (Match m in EdgePattern().Matches(svg))
 		{
 			var dataId = m.Groups[1].Value;
 			var points = DecodePoints(m.Groups[2].Value);
 			if (points.Count < 2)
 				continue;
-			result[dataId] = (points[0], points[^1]);
+			result[dataId] = points;
 		}
 		return result;
 	}

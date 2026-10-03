@@ -2,5 +2,5 @@
 Layer 1: ORDER
 Layer 2: LINE_ITEM
 Edges:
-  CUSTOMER --places--> ORDER [Bottom->Top]
-  ORDER --contains--> LINE_ITEM [Bottom->Top]
+  CUSTOMER --places--> ORDER [Bottom->Top] [D]
+  ORDER --contains--> LINE_ITEM [Bottom->Top] [D]

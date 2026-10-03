@@ -12,19 +12,27 @@ N	ApiTag	4	0
 N	ApiEndpoint	5	0
 N	ApiOperation	6	0
 N	DocumentationDocument	7	0
-E	ApiDeclaration	ApiSpecVersion	renders	Bottom	Top	False
-E	ApiDeclaration	ApiSupplementalDoc	api/{key}/	Bottom	Top	False
-E	ApiDeclaration	OpenApiSpec	repository + spec	Bottom	Top	False
-E	ApiDeclaration	Product	product	Bottom	Top	False
-E	ApiEndpoint	ApiOperation	operations	Bottom	Top	False
-E	ApiOperation	DocumentationDocument	search export	Bottom	Top	False
-E	ApiSpecVersion	ApiSchema	components	Bottom	Top	False
-E	ApiSpecVersion	ApiTagGroup	x-tagGroups	Bottom	Top	False
-E	ApiSupplementalDoc	ApiOperation	op-{operationId}	Bottom	Top	False
-E	ApiSupplementalDoc	ApiTag	tag-{slug}	Bottom	Top	False
-E	ApiTag	ApiEndpoint	endpoints	Bottom	Top	False
-E	ApiTagGroup	ApiTag	tags	Bottom	Top	False
-E	ApiVersionIndex	ApiSpecVersion	org/repo, spec, moniker	Bottom	Top	False
-E	OpenApiRepository	ApiVersionIndex	index.json	Bottom	Top	False
-E	OpenApiRepository	OpenApiSpec	org/repo/branch/spec	Bottom	Top	False
-E	Repository	OpenApiSpec	publishes, per branch	Bottom	Top	False
+E	ApiDeclaration	ApiSpecVersion	renders	Bottom	Top	False	D R D R D
+E	ApiDeclaration	ApiSupplementalDoc	api/{key}/	Bottom	Top	False	D R D
+E	ApiDeclaration	OpenApiSpec	repository + spec	Bottom	Top	False	D L D L D
+E	ApiDeclaration	Product	product	Bottom	Top	False	D L D
+E	ApiEndpoint	ApiOperation	operations	Bottom	Top	False	D L D
+E	ApiOperation	DocumentationDocument	search export	Bottom	Top	False	D
+E	ApiSpecVersion	ApiSchema	components	Bottom	Top	False	D R D
+E	ApiSpecVersion	ApiTagGroup	x-tagGroups	Bottom	Top	False	D L D
+E	ApiSupplementalDoc	ApiOperation	op-{operationId}	Bottom	Top	False	D R D
+E	ApiSupplementalDoc	ApiTag	tag-{slug}	Bottom	Top	False	D R D R D
+E	ApiTag	ApiEndpoint	endpoints	Bottom	Top	False	D
+E	ApiTagGroup	ApiTag	tags	Bottom	Top	False	D L D
+E	ApiVersionIndex	ApiSpecVersion	org/repo, spec, moniker	Bottom	Top	False	D L D
+E	OpenApiRepository	ApiVersionIndex	index.json	Bottom	Top	False	D R D
+E	OpenApiRepository	OpenApiSpec	org/repo/branch/spec	Bottom	Top	False	D L D R D
+E	Repository	OpenApiSpec	publishes, per branch	Bottom	Top	False	D
+P	ApiDeclaration	Bottom	2,3,1,0
+P	ApiOperation	Top	8,4
+P	ApiSpecVersion	Bottom	7,6
+P	ApiSpecVersion	Top	0,12
+P	ApiSupplementalDoc	Bottom	8,9
+P	ApiTag	Top	9,11
+P	OpenApiRepository	Bottom	14,13
+P	OpenApiSpec	Top	14,15,2

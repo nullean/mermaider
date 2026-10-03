@@ -1,5 +1,5 @@
 N	CUSTOMER	0	0
 N	ORDER	1	0
 N	LINE_ITEM	2	0
-E	CUSTOMER	ORDER	places	Bottom	Top	False
-E	ORDER	LINE_ITEM	contains	Bottom	Top	False
+E	CUSTOMER	ORDER	places	Bottom	Top	False	D
+E	ORDER	LINE_ITEM	contains	Bottom	Top	False	D

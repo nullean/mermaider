@@ -6,10 +6,12 @@ N	E	4	0
 N	F	5	0
 N	G	6	0
 N	H	7	0
-E	A	B		Right	Left	False
-E	B	C		Right	Left	False
-E	C	D		Right	Bottom	False
-E	D	E		Bottom	Left	False
-E	E	F		Right	Left	False
-E	F	G		Right	Bottom	False
-E	G	H		Bottom	Bottom	False
+E	A	B		Right	Left	False	R
+E	B	C		Right	Left	False	R
+E	C	D		Right	Bottom	False	R
+E	D	E		Bottom	Left	False	R
+E	E	F		Right	Left	False	R
+E	F	G		Right	Bottom	False	R
+E	G	H		Bottom	Bottom	False	R
+P	D	Bottom	2,3
+P	G	Bottom	5,6

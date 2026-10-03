@@ -8,12 +8,16 @@ N	NarrativeRepository	1	3
 N	ContentSource	1	4
 N	GitOrigin	2	0
 N	ContentSourceBranches	2	1
-E	Assembly	NarrativeRepository	narrative	Bottom	Top	False
-E	Assembly	Repository	references	Bottom	Top	False
-E	Checkout	DocumentationSet	resolves to	Bottom	Top	False
-E	Checkout	LinkRegistryEntry	pinned CommitSha	Bottom	Top	False
-E	Checkout	Repository	repository	Bottom	Top	False
-E	ContentSource	ContentSourceBranches	selects branch	Bottom	Top	False
-E	DocumentationSet	GitOrigin	origin	Bottom	Top	False
-E	PublishEnvironment	ContentSource	content_source	Bottom	Top	False
-E	Repository	ContentSourceBranches	current / next / edge	Bottom	Top	False
+E	Assembly	NarrativeRepository	narrative	Bottom	Top	False	D R D
+E	Assembly	Repository	references	Bottom	Top	False	D L D L D
+E	Checkout	DocumentationSet	resolves to	Bottom	Top	False	D
+E	Checkout	LinkRegistryEntry	pinned CommitSha	Bottom	Top	False	D L D
+E	Checkout	Repository	repository	Bottom	Top	False	D R D R D
+E	ContentSource	ContentSourceBranches	selects branch	Bottom	Top	False	D L D
+E	DocumentationSet	GitOrigin	origin	Bottom	Top	False	D
+E	PublishEnvironment	ContentSource	content_source	Bottom	Top	False	D
+E	Repository	ContentSourceBranches	current / next / edge	Bottom	Top	False	D R D
+P	Assembly	Bottom	1,0
+P	Checkout	Bottom	3,2,4
+P	ContentSourceBranches	Top	8,5
+P	Repository	Top	4,1

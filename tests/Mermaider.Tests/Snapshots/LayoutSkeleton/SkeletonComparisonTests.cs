@@ -177,7 +177,7 @@ public class SkeletonComparisonTests
 		if (!Directory.Exists(IrReferenceDir))
 			return; // no references yet — run MmdcReferenceTests first
 
-		var rows = new List<(string Slug, double Layer, double Order, double Mirror, double Sides, int Inversions, string? Error)>();
+		var rows = new List<(string Slug, double Layer, double Order, double Mirror, double Sides, double Routes, double Ports, int Inversions, string? Error)>();
 		foreach (var slug in ErSlugsWithReferences())
 		{
 			var example = DiagramExamples.All.Single(e => e.Slug == slug);
@@ -192,11 +192,13 @@ public class SkeletonComparisonTests
 				var order = SkeletonComparer.WithinLayerOrderAgreement(mjsSkeleton, mermaiderSkeleton);
 				var mirror = SkeletonComparer.MirrorToleratedOrderAgreement(mjsSkeleton, mermaiderSkeleton);
 				var sides = SkeletonComparer.SideAgreement(mjsSkeleton, mermaiderSkeleton);
-				rows.Add((slug, layer, order, mirror, sides, inversions, null));
+				var routes = SkeletonComparer.RouteShapeAgreement(mjsSkeleton, mermaiderSkeleton);
+				var ports = SkeletonComparer.PortOrderAgreement(mjsSkeleton, mermaiderSkeleton);
+				rows.Add((slug, layer, order, mirror, sides, routes, ports, inversions, null));
 			}
 			catch (Exception ex)
 			{
-				rows.Add((slug, -1, -1, -1, -1, inversions, ex.Message));
+				rows.Add((slug, -1, -1, -1, -1, -1, -1, inversions, ex.Message));
 			}
 		}
 
@@ -204,13 +206,13 @@ public class SkeletonComparisonTests
 		sb.AppendLine(System.Globalization.CultureInfo.InvariantCulture,
 			$"# ER layout skeleton agreement vs mermaid.js — {rows.Count} diagrams");
 		sb.AppendLine();
-		sb.AppendLine("| Slug | Layer | Order | Order (mirror-tol.) | Sides | Own inversions |");
-		sb.AppendLine("|---|---|---|---|---|---|");
+		sb.AppendLine("| Slug | Layer | Order | Order (mirror-tol.) | Sides | Routes | Ports | Own inversions |");
+		sb.AppendLine("|---|---|---|---|---|---|---|---|");
 		foreach (var r in rows.OrderBy(r => r.Slug, StringComparer.Ordinal))
 		{
 			var cell = r.Error is null
-				? FormattableString.Invariant($"| {r.Slug} | {r.Layer:P0} | {r.Order:P0} | {r.Mirror:P0} | {r.Sides:P0} | {r.Inversions} |")
-				: $"| {r.Slug} | error: {r.Error} | — | — | — | {r.Inversions} |";
+				? FormattableString.Invariant($"| {r.Slug} | {r.Layer:P0} | {r.Order:P0} | {r.Mirror:P0} | {r.Sides:P0} | {r.Routes:P0} | {r.Ports:P0} | {r.Inversions} |")
+				: $"| {r.Slug} | error: {r.Error} | — | — | — | — | — | {r.Inversions} |";
 			sb.AppendLine(cell);
 		}
 

@@ -65,7 +65,10 @@ internal static partial class MermaidJsSkeletonExtractor
 				$"{diagram.Entities.Count} entities. Missing: {string.Join(", ", missing)}.");
 		}
 
-		var geometricEdges = ExtractEdgesInDeclarationOrder(svg);
+		var geometricEdges = ExtractEdgesWithPoints(svg)
+			.OrderBy(e => e.Index)
+			.Select(e => e.Points)
+			.ToList();
 
 		if (geometricEdges.Count != relationships.Count)
 		{
@@ -74,13 +77,9 @@ internal static partial class MermaidJsSkeletonExtractor
 				$"{relationships.Count} relationship(s) — cannot align edges by declaration order.");
 		}
 
-		var edges = new List<(string Entity1, string Entity2, string Label, Point Start, Point End)>(relationships.Count);
-		for (var i = 0; i < relationships.Count; i++)
-		{
-			var rel = relationships[i];
-			var (start, end) = geometricEdges[i];
-			edges.Add((rel.Entity1, rel.Entity2, rel.Label, start, end));
-		}
+		var edges = relationships
+			.Select((rel, i) => (rel.Entity1, rel.Entity2, rel.Label, (IReadOnlyList<Point>)geometricEdges[i]))
+			.ToList();
 
 		return LayoutSkeletonBuilder.Build(boxes, edges);
 	}
@@ -121,22 +120,21 @@ internal static partial class MermaidJsSkeletonExtractor
 	private static double ParseDouble(string s) =>
 		double.Parse(s, System.Globalization.CultureInfo.InvariantCulture);
 
-	// Returns (Start, End) point pairs ordered by mermaid.js's own global edge index (the
+	// Returns (Index, full polyline) pairs ordered by mermaid.js's own global edge index (the
 	// trailing _{N} in data-id), which is the 0-based declaration order of relationships in
 	// the diagram source.
-	private static List<(Point Start, Point End)> ExtractEdgesInDeclarationOrder(string svg)
+	private static List<(int Index, IReadOnlyList<Point> Points)> ExtractEdgesWithPoints(string svg)
 	{
-		var indexed = new List<(int Index, Point Start, Point End)>();
+		var indexed = new List<(int Index, IReadOnlyList<Point> Points)>();
 		foreach (Match m in EdgePattern().Matches(svg))
 		{
 			var index = int.Parse(m.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture);
 			var points = DecodePoints(m.Groups[2].Value);
 			if (points.Count < 2)
 				continue;
-			indexed.Add((index, points[0], points[^1]));
+			indexed.Add((index, points));
 		}
-
-		return indexed.OrderBy(e => e.Index).Select(e => (e.Start, e.End)).ToList();
+		return indexed;
 	}
 
 	private static List<Point> DecodePoints(string base64)

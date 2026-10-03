@@ -27,28 +27,34 @@ N	ListingGroup	3	5
 N	Anchor	3	6
 N	ApplicabilityEntry	4	0
 N	VersionSpec	5	0
-E	Applicability	ApplicabilityEntry	per key	Bottom	Top	False
-E	ApplicabilityEntry	VersionSpec	version	Bottom	Top	False
-E	ChangelogDirective	Product	argument	Bottom	Top	False
-E	CrossLink	CrossLinkUri	repo://path	Bottom	Top	False
-E	DocumentationSet	DocumentationFile	files	Bottom	Top	False
-E	FrontMatter	Applicability	applies_to	Bottom	Top	False
-E	FrontMatter	Cta	cta.id	Bottom	Top	False
-E	FrontMatter	LegacyPage	mapped_pages	Bottom	Top	False
-E	FrontMatter	ListingGroup	listing.group	Bottom	Top	False
-E	FrontMatter	PageSubstitution	sub	Bottom	Top	False
-E	FrontMatter	Product	products	Bottom	Top	False
-E	Heading	Anchor	slug	Bottom	Top	False
-E	ImageLink	Image	src	Bottom	Top	False
-E	IncludeDirective	Snippet	path	Bottom	Top	False
-E	InternalLink	Anchor	#anchor	Bottom	Top	False
-E	InternalLink	Page	path	Bottom	Top	False
-E	Page	Anchor	collected	Bottom	Top	False
-E	Page	Directive	contains	Bottom	Top	False
-E	Page	FrontMatter	--- yaml ---	Bottom	Top	False
-E	Page	Heading	## text	Bottom	Top	False
-E	Page	Link	contains	Bottom	Top	False
-E	PageCardDirective	Page	local link	Bottom	Top	False
-E	RelatedLearningDirective	RelatedLearningLink	ids	Bottom	Top	False
-E	SettingsDirective	SettingsReference	path	Bottom	Top	False
-E	Snippet	Anchor	contributes	Bottom	Top	False
+E	Applicability	ApplicabilityEntry	per key	Bottom	Top	False	D
+E	ApplicabilityEntry	VersionSpec	version	Bottom	Top	False	D
+E	ChangelogDirective	Product	argument	Bottom	Top	False	D R D
+E	CrossLink	CrossLinkUri	repo://path	Bottom	Top	False	D
+E	DocumentationSet	DocumentationFile	files	Bottom	Top	False	D
+E	FrontMatter	Applicability	applies_to	Bottom	Top	False	D L D
+E	FrontMatter	Cta	cta.id	Bottom	Top	False	D L D
+E	FrontMatter	LegacyPage	mapped_pages	Bottom	Top	False	D L D
+E	FrontMatter	ListingGroup	listing.group	Bottom	Top	False	D R D
+E	FrontMatter	PageSubstitution	sub	Bottom	Top	False	D R D
+E	FrontMatter	Product	products	Bottom	Top	False	D L D L D
+E	Heading	Anchor	slug	Bottom	Top	False	D R D
+E	ImageLink	Image	src	Bottom	Top	False	D
+E	IncludeDirective	Snippet	path	Bottom	Top	False	D
+E	InternalLink	Anchor	#anchor	Bottom	Top	False	D R D R D
+E	InternalLink	Page	path	Bottom	Top	False	D L D L D
+E	Page	Anchor	collected	Bottom	Top	False	D R D R D
+E	Page	Directive	contains	Bottom	Top	False	D L D
+E	Page	FrontMatter	--- yaml ---	Bottom	Top	False	D L D
+E	Page	Heading	## text	Bottom	Top	False	D R D
+E	Page	Link	contains	Bottom	Top	False	D R D
+E	PageCardDirective	Page	local link	Bottom	Top	False	D R D
+E	RelatedLearningDirective	RelatedLearningLink	ids	Bottom	Top	False	D
+E	SettingsDirective	SettingsReference	path	Bottom	Top	False	D
+E	Snippet	Anchor	contributes	Bottom	Top	False	D L D
+P	Anchor	Top	11,16,14,24
+P	FrontMatter	Bottom	10,6,5,7,9,8
+P	InternalLink	Bottom	15,14
+P	Page	Bottom	18,17,20,19,16
+P	Page	Top	21,15
+P	Product	Top	2,10

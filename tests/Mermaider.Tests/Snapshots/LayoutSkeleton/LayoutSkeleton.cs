@@ -33,12 +33,25 @@ internal sealed record SkeletonNode(
 	string Id, int Layer, int OrderInLayer, double CenterX, double CenterY, double Width, double Height);
 
 /// <summary>
-/// One relationship, reduced to its endpoints' entity ids and which side of each entity's
-/// box it attaches to. Does not carry the edge's interior routing/waypoints — that stays out
-/// of scope for skeleton comparisons (see AGENTS.md / the ER layout skeleton plan).
+/// One relationship, reduced to its endpoints' entity ids, which side of each entity's
+/// box it attaches to, and the run-length route signature of the edge polyline. The route
+/// signature encodes the dominant direction of each polyline segment: D=down, U=up, R=right,
+/// L=left, run-length encoded and space-separated (e.g. "D R D" for a typical ELK orthogonal
+/// TB edge). Empty string for self-loops or degenerate paths. Interior waypoints are not
+/// stored — use the signature to compare routing strategy between engines.
 /// </summary>
 internal sealed record SkeletonEdge(
-	string From, string To, string Label, EdgeSide FromSide, EdgeSide ToSide, bool IsSelfLoop);
+	string From, string To, string Label, EdgeSide FromSide, EdgeSide ToSide, bool IsSelfLoop,
+	string RouteSig);
+
+/// <summary>
+/// Port attachment order: which edges attach to a particular side of a node, ordered by
+/// their attachment coordinate (left-to-right for Top/Bottom, top-to-bottom for Left/Right).
+/// EdgeIndices are 0-based indices into the stable-sorted <see cref="LayoutSkeleton.Edges"/>
+/// list (same order as <see cref="LayoutSkeleton.Serialize"/> writes them). Only ports with
+/// at least two edges are recorded — a single-edge port has no order to compare.
+/// </summary>
+internal sealed record SkeletonPort(string NodeId, EdgeSide Side, IReadOnlyList<int> EdgeIndices);
 
 /// <summary>
 /// One subgraph/cluster, reduced to the same ordinal facts as <see cref="SkeletonNode"/> (which
@@ -57,7 +70,8 @@ internal sealed record SkeletonGroup(
 
 /// <summary>
 /// Renderer-agnostic snapshot of a diagram's layout structure: which layer each entity/node is
-/// in, its order within that layer, which side each edge attaches to, and (for diagram types
+/// in, its order within that layer, which side each edge attaches to, the route signature of
+/// each edge's polyline, port attachment order per (node, side) pair, and (for diagram types
 /// that have them) subgraph/cluster containment and placement. Both Mermaider's own model
 /// (<see cref="MermaiderSkeletonExtractor"/> for ER, <see cref="MermaiderGraphSkeletonExtractor"/>
 /// for flowchart/state) and a real mermaid.js SVG (<see cref="MermaidJsSkeletonExtractor"/>,
@@ -65,15 +79,17 @@ internal sealed record SkeletonGroup(
 /// project onto this same shape via <see cref="LayoutSkeletonBuilder"/>, so
 /// <see cref="SkeletonComparer"/> can compare "did we make the same placement/ordering/
 /// containment decisions" without caring about exact pixels or SVG syntax. <see cref="Groups"/>
-/// is empty for diagram types without subgraphs (ER).
+/// is empty for diagram types without subgraphs (ER). <see cref="Ports"/> is empty when all
+/// nodes have at most one edge per side (no attachment ordering to compare).
 /// </summary>
 internal sealed record LayoutSkeleton(
-	IReadOnlyList<SkeletonNode> Nodes, IReadOnlyList<SkeletonEdge> Edges, IReadOnlyList<SkeletonGroup> Groups)
+	IReadOnlyList<SkeletonNode> Nodes, IReadOnlyList<SkeletonEdge> Edges,
+	IReadOnlyList<SkeletonGroup> Groups, IReadOnlyList<SkeletonPort> Ports)
 {
 	/// <summary>
 	/// Human-readable layer-by-layer dump: entities per layer in left-to-right order, then
-	/// every edge with its label and attachment sides. Meant to be eyeballed directly in a
-	/// test failure or a Verify snapshot diff — no SVG viewer required.
+	/// every edge with its label, attachment sides and route signature, then ports. Meant to
+	/// be eyeballed directly in a test failure or a Verify snapshot diff — no SVG viewer required.
 	/// </summary>
 	public string ToAsciiArt()
 	{
@@ -106,10 +122,19 @@ internal sealed record LayoutSkeleton(
 			foreach (var e in Edges.OrderBy(e => e.From, StringComparer.Ordinal).ThenBy(e => e.To, StringComparer.Ordinal))
 			{
 				var loopMark = e.IsSelfLoop ? " (self)" : "";
+				var routeMark = e.RouteSig.Length > 0 ? $" [{e.RouteSig}]" : "";
 				sb.Append("  ").Append(e.From).Append(" --").Append(e.Label).Append("--> ").Append(e.To)
-					.Append(" [").Append(e.FromSide).Append("->").Append(e.ToSide).Append(']').Append(loopMark)
+					.Append(" [").Append(e.FromSide).Append("->").Append(e.ToSide).Append(']').Append(loopMark).Append(routeMark)
 					.AppendLine();
 			}
+		}
+
+		if (Ports.Count > 0)
+		{
+			sb.AppendLine("Ports:");
+			foreach (var p in Ports.OrderBy(p => p.NodeId, StringComparer.Ordinal).ThenBy(p => p.Side.ToString(), StringComparer.Ordinal))
+				sb.Append("  ").Append(p.NodeId).Append(' ').Append(p.Side).Append(": ")
+					.AppendLine(string.Join(",", p.EdgeIndices.Select(i => $"edge{i}")));
 		}
 
 		return sb.ToString();
@@ -122,10 +147,12 @@ internal sealed record LayoutSkeleton(
 	// git diffs stay legible:
 	//
 	//   N\t{Id}\t{Layer}\t{OrderInLayer}
-	//   E\t{From}\t{To}\t{LabelEscaped}\t{FromSide}\t{ToSide}\t{IsSelfLoop}
+	//   E\t{From}\t{To}\t{LabelEscaped}\t{FromSide}\t{ToSide}\t{IsSelfLoop}\t{RouteSig|-}
+	//   P\t{NodeId}\t{Side}\t{idx1,idx2,...}
 	//   G\t{Id}\t{ParentId|-}\t{Layer}\t{OrderInLayer}\t{Member1,Member2,...}
 	//
 	// Label escaping: \\ → \\\\, \t → \\t, \r → \\r, \n → \\n. All other chars are literal.
+	// RouteSig: "-" represents an empty string (self-loop or degenerate).
 	// Records are written in a stable order so committed files produce clean diffs.
 
 	/// <summary>Serializes this skeleton to a compact stable-text format suitable for committing.
@@ -140,9 +167,20 @@ internal sealed record LayoutSkeleton(
 		// Edges: stable order by From then To then label
 		foreach (var e in Edges.OrderBy(e => e.From, StringComparer.Ordinal).ThenBy(e => e.To, StringComparer.Ordinal).ThenBy(e => e.Label, StringComparer.Ordinal))
 		{
+			var routeSig = e.RouteSig.Length > 0 ? e.RouteSig : "-";
 			sb.Append('E').Append('\t').Append(e.From).Append('\t').Append(e.To).Append('\t')
 			  .Append(EscapeLabel(e.Label)).Append('\t')
 			  .Append(e.FromSide).Append('\t').Append(e.ToSide).Append('\t').Append(e.IsSelfLoop)
+			  .Append('\t').Append(routeSig)
+			  .AppendLine();
+		}
+
+		// Ports: stable order by NodeId then Side; only ports with ≥2 edges
+		foreach (var p in Ports.OrderBy(p => p.NodeId, StringComparer.Ordinal).ThenBy(p => p.Side.ToString(), StringComparer.Ordinal))
+		{
+			if (p.EdgeIndices.Count < 2) continue;
+			sb.Append('P').Append('\t').Append(p.NodeId).Append('\t').Append(p.Side).Append('\t')
+			  .Append(string.Join(",", p.EdgeIndices))
 			  .AppendLine();
 		}
 
@@ -164,6 +202,7 @@ internal sealed record LayoutSkeleton(
 	{
 		var nodes = new List<SkeletonNode>();
 		var edges = new List<SkeletonEdge>();
+		var ports = new List<SkeletonPort>();
 		var groups = new List<SkeletonGroup>();
 
 		var lineNum = 0;
@@ -189,13 +228,23 @@ internal sealed record LayoutSkeleton(
 						break;
 
 					case "E":
-						Expect(parts, 7, "E");
+						Expect(parts, 8, "E");
+						var routeSig = parts[7] == "-" ? "" : parts[7];
 						edges.Add(new SkeletonEdge(
 							parts[1], parts[2],
 							UnescapeLabel(parts[3]),
 							Enum.Parse<EdgeSide>(parts[4]),
 							Enum.Parse<EdgeSide>(parts[5]),
-							bool.Parse(parts[6])));
+							bool.Parse(parts[6]),
+							routeSig));
+						break;
+
+					case "P":
+						Expect(parts, 4, "P");
+						var indices = parts[3].Length > 0
+							? (IReadOnlyList<int>)parts[3].Split(',').Select(s => int.Parse(s, System.Globalization.CultureInfo.InvariantCulture)).ToList()
+							: [];
+						ports.Add(new SkeletonPort(parts[1], Enum.Parse<EdgeSide>(parts[2]), indices));
 						break;
 
 					case "G":
@@ -221,7 +270,7 @@ internal sealed record LayoutSkeleton(
 			}
 		}
 
-		return new LayoutSkeleton(nodes, edges, groups);
+		return new LayoutSkeleton(nodes, edges, groups, ports);
 	}
 
 	private static void Expect(string[] parts, int count, string type)

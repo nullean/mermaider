@@ -3,7 +3,8 @@ N	B	1	0
 N	D	2	0
 N	C	2	1
 N	E	3	0
-E	A	C		Bottom	Top	False
-E	B	D		Bottom	Top	False
-E	C	E		Bottom	Top	False
-E	D	E		Bottom	Top	False
+E	A	C		Bottom	Top	False	D R D
+E	B	D		Bottom	Top	False	D
+E	C	E		Bottom	Top	False	D L D
+E	D	E		Bottom	Top	False	D R D
+P	E	Top	3,2

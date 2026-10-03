@@ -13,19 +13,22 @@ N	AsmBuild	5	0
 N	CdxBuild	5	1
 N	CdxOut	6	0
 N	AsmOut	7	0
-E	AsmBuild	AsmOut		Bottom	Top	False
-E	AsmCfg	Env		Bottom	Top	False
-E	AsmClone	AsmBuild		Bottom	Top	False
-E	CdxBuild	CdxOut		Bottom	Top	False
-E	CdxCfg	CdxClone		Bottom	Top	False
-E	CdxClone	CdxBuild		Bottom	Top	False
-E	CodexReg	CdxClone		Bottom	Top	False
-E	Env	AsmClone		Bottom	Top	False
-E	R1	S3Reg	links.json	Bottom	Top	False
-E	R2	S3Reg	links.json	Bottom	Top	False
-E	R3	S3Reg	links.json	Bottom	Top	False
-E	R4	CodexReg	links.json	Bottom	Top	False
-E	S3Reg	AsmClone		Bottom	Top	False
+E	AsmBuild	AsmOut		Bottom	Top	False	D
+E	AsmCfg	Env		Bottom	Top	False	D
+E	AsmClone	AsmBuild		Bottom	Top	False	D
+E	CdxBuild	CdxOut		Bottom	Top	False	D
+E	CdxCfg	CdxClone		Bottom	Top	False	D R D
+E	CdxClone	CdxBuild		Bottom	Top	False	D
+E	CodexReg	CdxClone		Bottom	Top	False	D R D L D
+E	Env	AsmClone		Bottom	Top	False	D R D
+E	R1	S3Reg	links.json	Bottom	Top	False	D R D
+E	R2	S3Reg	links.json	Bottom	Top	False	D L D
+E	R3	S3Reg	links.json	Bottom	Top	False	D R D R D
+E	R4	CodexReg	links.json	Bottom	Top	False	D L D L D
+E	S3Reg	AsmClone		Bottom	Top	False	D L D L D
+P	AsmClone	Top	7,12
+P	CdxClone	Top	4,6
+P	S3Reg	Top	10,8,9
 G	Repos	-	0	0	R1,R2,R3,R4
 G	Registries	-	1	0	CodexReg,S3Reg
 G	Assembler	-	2	0	AsmBuild,AsmCfg,AsmClone,AsmOut,Env

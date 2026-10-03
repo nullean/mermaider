@@ -3,8 +3,8 @@ Layer 1: B
 Layer 2: C
 Layer 3: F, E, D
 Edges:
-  A --Get money--> B [Bottom->Top]
-  B ----> C [Bottom->Top]
-  C --One--> D [Right->Top]
-  C --Two--> E [Bottom->Top]
-  C --Three--> F [Left->Top]
+  A --Get money--> B [Bottom->Top] [D]
+  B ----> C [Bottom->Top] [D]
+  C --One--> D [Right->Top] [R D]
+  C --Two--> E [Bottom->Top] [D]
+  C --Three--> F [Left->Top] [L D]

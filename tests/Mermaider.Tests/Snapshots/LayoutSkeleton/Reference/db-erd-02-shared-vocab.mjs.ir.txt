@@ -8,14 +8,21 @@ N	ProductLifecycle	2	1
 N	VersioningSystem	2	2
 N	Repository	2	3
 N	SemVersion	3	0
-E	Applicability	ApplicabilityEntry	per key	Bottom	Top	False
-E	ApplicabilityEntry	ProductLifecycle	lifecycle	Bottom	Top	False
-E	ApplicabilityEntry	VersionSpec	version	Bottom	Top	False
-E	ApplicabilityEntry	VersioningSystem	key resolves to	Bottom	Top	False
-E	ChangelogLifecycle	ProductLifecycle	maps to	Bottom	Top	False
-E	Product	Repository	repository	Bottom	Top	False
-E	Product	VersioningSystem	versioning	Bottom	Top	False
-E	ProductRelease	ChangelogLifecycle	lifecycle	Bottom	Top	False
-E	ProductRelease	Product	product	Bottom	Top	False
-E	VersioningSystem	SemVersion	base	Bottom	Top	False
-E	VersioningSystem	SemVersion	current	Bottom	Top	False
+E	Applicability	ApplicabilityEntry	per key	Bottom	Top	False	D
+E	ApplicabilityEntry	ProductLifecycle	lifecycle	Bottom	Top	False	D R D
+E	ApplicabilityEntry	VersionSpec	version	Bottom	Top	False	D L D
+E	ApplicabilityEntry	VersioningSystem	key resolves to	Bottom	Top	False	D R D R D
+E	ChangelogLifecycle	ProductLifecycle	maps to	Bottom	Top	False	D L D L D
+E	Product	Repository	repository	Bottom	Top	False	D
+E	Product	VersioningSystem	versioning	Bottom	Top	False	D L D L D
+E	ProductRelease	ChangelogLifecycle	lifecycle	Bottom	Top	False	D L D
+E	ProductRelease	Product	product	Bottom	Top	False	D R D
+E	VersioningSystem	SemVersion	base	Bottom	Top	False	D R D
+E	VersioningSystem	SemVersion	current	Bottom	Top	False	D
+P	ApplicabilityEntry	Bottom	2,1,3
+P	Product	Bottom	6,5
+P	ProductLifecycle	Top	1,4
+P	ProductRelease	Bottom	7,8
+P	SemVersion	Top	9,10
+P	VersioningSystem	Bottom	9,10
+P	VersioningSystem	Top	3,6

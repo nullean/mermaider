@@ -251,6 +251,130 @@ internal static class SkeletonComparer
 				StringComparer.Ordinal.GetHashCode(obj.Item3));
 	}
 
+	/// <summary>
+	/// Alias for <see cref="WithinLayerOrderAgreement"/> with an unambiguous name: this is the
+	/// exact (non-mirror-tolerant) within-layer order score. Use this in reports and assertions
+	/// where you want to see real ordering differences without mirror-tolerance hiding them.
+	/// </summary>
+	public static double ExactOrderAgreement(LayoutSkeleton reference, LayoutSkeleton actual) =>
+		WithinLayerOrderAgreement(reference, actual);
+
+	/// <summary>
+	/// Fraction (0..1) of non-self-loop edges — matched by (From, To, Label) between the two
+	/// skeletons — whose <see cref="SkeletonEdge.RouteSig"/> agrees. Edges with an empty
+	/// RouteSig on either side are excluded. Returns 1.0 when no comparable edges exist.
+	///
+	/// <para>This is the key metric for detecting wrong orthogonal routing: in a TB layout, every
+	/// normal forward edge should have RouteSig "D", "D R D", "D L D", etc. A mismatch means
+	/// the engine is routing edges in the wrong direction or using different waypoints.</para>
+	/// </summary>
+	public static double RouteShapeAgreement(LayoutSkeleton reference, LayoutSkeleton actual)
+	{
+		var actualEdges = actual.Edges.ToDictionary(
+			e => (e.From, e.To, e.Label),
+			e => e,
+			TupleStringComparer.Instance);
+
+		var total = 0;
+		var agree = 0;
+		foreach (var refEdge in reference.Edges)
+		{
+			if (refEdge.IsSelfLoop || refEdge.RouteSig.Length == 0) continue;
+			if (!actualEdges.TryGetValue((refEdge.From, refEdge.To, refEdge.Label), out var actualEdge)) continue;
+			if (actualEdge.IsSelfLoop || actualEdge.RouteSig.Length == 0) continue;
+
+			total++;
+			if (string.Equals(refEdge.RouteSig, actualEdge.RouteSig, StringComparison.Ordinal))
+				agree++;
+		}
+		return total == 0 ? 1.0 : (double)agree / total;
+	}
+
+	/// <summary>
+	/// Fraction (0..1) of (node, side) port groups — where both skeletons have ≥2 edges on that
+	/// side — whose pairwise attachment order agrees. Edges are matched by (From, To, Label)
+	/// identity so index differences between the two skeletons don't matter. Returns 1.0 when
+	/// no comparable port groups exist.
+	///
+	/// <para>Port order captures which edge connects leftmost vs rightmost on a given entity side.
+	/// A disagreement here means our engine puts edges on the same side but routes them in the
+	/// wrong order, which produces visible crossing differences at entity boundaries.</para>
+	/// </summary>
+	public static double PortOrderAgreement(LayoutSkeleton reference, LayoutSkeleton actual)
+	{
+		// Build an (from,to,label) → position-in-port lookup for actual.
+		// Index actual ports by (nodeId, side).
+		var actualPortMap = actual.Ports.ToDictionary(
+			p => (p.NodeId, p.Side),
+			EqualityComparer<(string, EdgeSide)>.Default);
+
+		// Map sorted edge index → edge key for each skeleton.
+		(string From, string To, string Label)[] BuildSortedKeyMap(IReadOnlyList<SkeletonEdge> edgeList) =>
+			edgeList
+				.OrderBy(e => e.From, StringComparer.Ordinal)
+				.ThenBy(e => e.To, StringComparer.Ordinal)
+				.ThenBy(e => e.Label, StringComparer.Ordinal)
+				.Select(e => (e.From, e.To, e.Label))
+				.ToArray();
+
+		var refKeyMap  = BuildSortedKeyMap(reference.Edges);
+		var actKeyMap  = BuildSortedKeyMap(actual.Edges);
+
+		// Actual edge key → position in actual port (for fast lookup).
+		Dictionary<(string, string, string), int> BuildActualPortPositions(SkeletonPort? port)
+		{
+			var dict = new Dictionary<(string, string, string), int>(TupleStringComparer.Instance);
+			if (port is null) return dict;
+			for (var pos = 0; pos < port.EdgeIndices.Count; pos++)
+			{
+				var idx = port.EdgeIndices[pos];
+				if (idx >= 0 && idx < actKeyMap.Length)
+					dict[actKeyMap[idx]] = pos;
+			}
+			return dict;
+		}
+
+		var total = 0;
+		var agree = 0;
+
+		foreach (var refPort in reference.Ports)
+		{
+			if (!actualPortMap.TryGetValue((refPort.NodeId, refPort.Side), out var actualPort))
+				continue;
+			if (actualPort.EdgeIndices.Count < 2) continue;
+
+			// Build ref port's ordered list of edge keys
+			var refKeys = refPort.EdgeIndices
+				.Where(i => i >= 0 && i < refKeyMap.Length)
+				.Select(i => refKeyMap[i])
+				.ToList();
+
+			var actPositions = BuildActualPortPositions(actualPort);
+
+			// Find keys common to both ports
+			var commonKeys = refKeys.Where(k => actPositions.ContainsKey(k)).ToList();
+			if (commonKeys.Count < 2) continue;
+
+			var refPositions = refKeys
+				.Select((k, pos) => (k, pos))
+				.Where(x => actPositions.ContainsKey(x.k))
+				.ToDictionary(x => x.k, x => x.pos, TupleStringComparer.Instance);
+
+			for (var i = 0; i < commonKeys.Count; i++)
+			{
+				for (var j = i + 1; j < commonKeys.Count; j++)
+				{
+					total++;
+					var refSign = Math.Sign(refPositions[commonKeys[i]] - refPositions[commonKeys[j]]);
+					var actSign = Math.Sign(actPositions[commonKeys[i]] - actPositions[commonKeys[j]]);
+					if (refSign == actSign) agree++;
+				}
+			}
+		}
+
+		return total == 0 ? 1.0 : (double)agree / total;
+	}
+
 	private static double PairwiseAgreement(LayoutSkeleton reference, LayoutSkeleton actual, Func<SkeletonNode, int> rank)
 	{
 		var refById = reference.Nodes.ToDictionary(n => n.Id, StringComparer.Ordinal);

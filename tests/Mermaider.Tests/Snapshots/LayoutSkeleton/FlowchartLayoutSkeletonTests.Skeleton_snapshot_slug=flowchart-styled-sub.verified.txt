@@ -7,9 +7,11 @@ Groups:
 - bar (layer=0 order=0) members=[E, F]
 - foo (layer=1 order=0) members=[C, D]
 Edges:
-  A ----> B [Bottom->Top]
-  B ----> C [Bottom->Top]
-  B ----> D [Right->Right]
-  C ----> D [Bottom->Top]
-  D ----> E [Right->Right]
-  E ----> A [Bottom->Top]
+  A ----> B [Bottom->Top] [D]
+  B ----> C [Bottom->Top] [D]
+  B ----> D [Right->Right] [R D L]
+  C ----> D [Bottom->Top] [D]
+  D ----> E [Right->Right] [R U L]
+  E ----> A [Bottom->Top] [D R D]
+Ports:
+  D Right: edge4,edge2

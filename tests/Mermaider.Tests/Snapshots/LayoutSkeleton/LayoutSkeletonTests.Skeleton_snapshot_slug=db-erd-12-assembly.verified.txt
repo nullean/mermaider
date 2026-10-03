@@ -2,9 +2,12 @@
 Layer 1: Repository, PublishEnvironment, AssembledDocumentationSet, CloudfrontRedirectMap, SyncPlan
 Layer 2: SearchIndex
 Edges:
-  Assembly --environments--> PublishEnvironment [Bottom->Top]
-  Assembly --references--> Repository [Bottom->Top]
-  Build --assembles--> AssembledDocumentationSet [Bottom->Top]
-  Build --redirects.json--> CloudfrontRedirectMap [Bottom->Top]
-  Build --deploy--> SyncPlan [Right->Top]
-  PublishEnvironment --index suffix--> SearchIndex [Bottom->Top]
+  Assembly --environments--> PublishEnvironment [Bottom->Top] [D L D]
+  Assembly --references--> Repository [Bottom->Top] [D L D]
+  Build --assembles--> AssembledDocumentationSet [Bottom->Top] [D L D]
+  Build --redirects.json--> CloudfrontRedirectMap [Bottom->Top] [D]
+  Build --deploy--> SyncPlan [Right->Top] [R D]
+  PublishEnvironment --index suffix--> SearchIndex [Bottom->Top] [D]
+Ports:
+  Assembly Bottom: edge1,edge0
+  Build Bottom: edge2,edge3

@@ -11,16 +11,22 @@ N	ApiSpecVersion	2	0
 N	ApiTag	3	0
 N	ApiSupplementalDoc	3	1
 N	ApiOperation	4	0
-E	ApiDeclaration	ApiSpecVersion	renders	Bottom	Top	False
-E	ApiDeclaration	OpenApiSpec	spec + repository	Bottom	Top	False
-E	ApiDeclaration	Product	product	Bottom	Top	False
-E	ApiSpecVersion	ApiTag	tags	Bottom	Top	False
-E	ApiSupplementalDoc	ApiOperation	op-{id}	Bottom	Top	False
-E	ApiTag	ApiOperation	operations	Bottom	Top	False
-E	ApiVersionIndex	ApiSpecVersion	lists	Bottom	Top	False
-E	OpenApiRepository	ApiVersionIndex	index.json	Bottom	Top	False
-E	OpenApiRepository	OpenApiSpec	org/repo/branch/spec	Bottom	Top	False
-E	OpenApiSpec	ApiSpecVersion	per version	Bottom	Top	False
-E	Page	SearchDocument	exported	Bottom	Top	False
-E	Repository	OpenApiSpec	publishes	Bottom	Top	False
-E	SearchIndex	SearchDocument	contains	Bottom	Top	False
+E	ApiDeclaration	ApiSpecVersion	renders	Bottom	Top	False	D R D L D
+E	ApiDeclaration	OpenApiSpec	spec + repository	Bottom	Top	False	D L D L D
+E	ApiDeclaration	Product	product	Bottom	Top	False	D
+E	ApiSpecVersion	ApiTag	tags	Bottom	Top	False	D
+E	ApiSupplementalDoc	ApiOperation	op-{id}	Bottom	Top	False	D L D
+E	ApiTag	ApiOperation	operations	Bottom	Top	False	D R D
+E	ApiVersionIndex	ApiSpecVersion	lists	Bottom	Top	False	D L D
+E	OpenApiRepository	ApiVersionIndex	index.json	Bottom	Top	False	D R D R D
+E	OpenApiRepository	OpenApiSpec	org/repo/branch/spec	Bottom	Top	False	D L D
+E	OpenApiSpec	ApiSpecVersion	per version	Bottom	Top	False	D R D
+E	Page	SearchDocument	exported	Bottom	Top	False	D R D
+E	Repository	OpenApiSpec	publishes	Bottom	Top	False	D R D
+E	SearchIndex	SearchDocument	contains	Bottom	Top	False	D L D
+P	ApiDeclaration	Bottom	1,2,0
+P	ApiOperation	Top	5,4
+P	ApiSpecVersion	Top	9,6,0
+P	OpenApiRepository	Bottom	8,7
+P	OpenApiSpec	Top	11,8,1
+P	SearchDocument	Top	10,12

@@ -73,7 +73,7 @@ internal static partial class MermaidJsStateSkeletonExtractor
 
 		var edgePointsByIndex = ExtractEdgePointsByIndex(svg);
 		var svgIndexOfEdge = MapEdgesToCombinedSvgIndex(lines, graph.Edges.Count);
-		var edges = new List<(string From, string To, string Label, Point Start, Point End)>();
+		var edges = new List<(string From, string To, string Label, IReadOnlyList<Point> Points)>();
 		for (var i = 0; i < graph.Edges.Count; i++)
 		{
 			var e = graph.Edges[i];
@@ -87,7 +87,7 @@ internal static partial class MermaidJsStateSkeletonExtractor
 					$"mermaid.js state SVG has no edge{svgIndex} — expected one for declaration-order edge " +
 					$"{e.Source} -> {e.Target} (transition #{i}).");
 			}
-			edges.Add((e.Source, e.Target, e.Label ?? "", pts.Start, pts.End));
+			edges.Add((e.Source, e.Target, e.Label ?? "", pts));
 		}
 
 		return LayoutSkeletonBuilder.Build(boxes, edges, groups, graph.Direction);
@@ -184,16 +184,16 @@ internal static partial class MermaidJsStateSkeletonExtractor
 		return boxes;
 	}
 
-	private static Dictionary<int, (Point Start, Point End)> ExtractEdgePointsByIndex(string svg)
+	private static Dictionary<int, IReadOnlyList<Point>> ExtractEdgePointsByIndex(string svg)
 	{
-		var result = new Dictionary<int, (Point Start, Point End)>();
+		var result = new Dictionary<int, IReadOnlyList<Point>>();
 		foreach (Match m in EdgePattern().Matches(svg))
 		{
 			var index = int.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture);
 			var points = DecodePoints(m.Groups[2].Value);
 			if (points.Count < 2)
 				continue;
-			result[index] = (points[0], points[^1]);
+			result[index] = points;
 		}
 		return result;
 	}

@@ -11,19 +11,24 @@ N	State	4	3
 N	OpenApiRepo	5	0
 N	LinkReg	5	1
 N	Bundles	5	2
-E	Bundles	Content	release_notes	Right	Left	False
-E	Checkout	DocSet		Right	Left	False
-E	Content	Nav		Right	Left	False
-E	DocSet	Content		Right	Left	False
-E	DocSet	Redirects		Right	Left	False
-E	DocSet	Toc		Right	Left	False
-E	LinkReg	Content	cross_links	Right	Left	False
-E	Manifest	LinkReg	published on push	Right	Left	False
-E	Nav	Html		Right	Left	False
-E	Nav	Manifest		Right	Left	False
-E	OpenApiRepo	Content	api	Right	Left	False
-E	Toc	Nav		Right	Left	False
-E	Vocab	DocSet		Right	Left	False
+E	Bundles	Content	release_notes	Right	Left	False	R D L U R U R
+E	Checkout	DocSet		Right	Left	False	R D R
+E	Content	Nav		Right	Left	False	R U R
+E	DocSet	Content		Right	Left	False	R D R
+E	DocSet	Redirects		Right	Left	False	R U R U R
+E	DocSet	Toc		Right	Left	False	R
+E	LinkReg	Content	cross_links	Right	Left	False	R D L U R D R
+E	Manifest	LinkReg	published on push	Right	Left	False	R D R
+E	Nav	Html		Right	Left	False	R U R
+E	Nav	Manifest		Right	Left	False	R D R
+E	OpenApiRepo	Content	api	Right	Left	False	R U L U R U R
+E	Toc	Nav		Right	Left	False	R D R
+E	Vocab	DocSet		Right	Left	False	R U R
+P	Content	Left	3,6,0,10
+P	DocSet	Left	1,12
+P	DocSet	Right	4,5,3
+P	Nav	Left	11,2
+P	Nav	Right	8,9
 G	Inputs	-	0	0	Checkout,Vocab
 G	Build	-	1	0	Content,DocSet,Nav,Toc
 G	Outputs	-	2	0	Html,Manifest,Redirects,State

@@ -13,18 +13,24 @@ N	Bundle	4	1
 N	LinkRegistry	4	2
 N	LinkRegistryEntry	5	0
 N	LinkManifest	6	0
-E	Assembly	PublishEnvironment	environments	Bottom	Top	False
-E	Assembly	Repository	references	Bottom	Top	False
-E	CodexSite	Registry	environment	Bottom	Top	False
-E	DocumentationSet	DocumentationFile	contains	Bottom	Top	False
-E	DocumentationSet	LinkManifest	one per branch	Bottom	Top	False
-E	DocumentationSet	Product	products	Bottom	Top	False
-E	DocumentationSet	Registry	registry	Bottom	Top	False
-E	DocumentationSet	TableOfContents	toc	Bottom	Top	False
-E	LinkRegistry	LinkRegistryEntry	repo, branch	Bottom	Top	False
-E	LinkRegistryEntry	LinkManifest	path	Bottom	Top	False
-E	Product	Bundle	released in	Bottom	Top	False
-E	Product	VersioningSystem	versioning	Bottom	Top	False
-E	Registry	LinkRegistry	publishes into	Bottom	Top	False
-E	Repository	ChangelogConfiguration	changelog.yml	Bottom	Top	False
-E	Repository	DocumentationSet	holds (≤1 per Registry)	Bottom	Top	False
+E	Assembly	PublishEnvironment	environments	Bottom	Top	False	D L D
+E	Assembly	Repository	references	Bottom	Top	False	D R D
+E	CodexSite	Registry	environment	Bottom	Top	False	D L D
+E	DocumentationSet	DocumentationFile	contains	Bottom	Top	False	D R D
+E	DocumentationSet	LinkManifest	one per branch	Bottom	Top	False	D L D R D
+E	DocumentationSet	Product	products	Bottom	Top	False	D L D
+E	DocumentationSet	Registry	registry	Bottom	Top	False	D R D R D
+E	DocumentationSet	TableOfContents	toc	Bottom	Top	False	D L D
+E	LinkRegistry	LinkRegistryEntry	repo, branch	Bottom	Top	False	D
+E	LinkRegistryEntry	LinkManifest	path	Bottom	Top	False	D L D
+E	Product	Bundle	released in	Bottom	Top	False	D R D
+E	Product	VersioningSystem	versioning	Bottom	Top	False	D L D
+E	Registry	LinkRegistry	publishes into	Bottom	Top	False	D
+E	Repository	ChangelogConfiguration	changelog.yml	Bottom	Top	False	D L D
+E	Repository	DocumentationSet	holds (≤1 per Registry)	Bottom	Top	False	D R D
+P	Assembly	Bottom	0,1
+P	DocumentationSet	Bottom	7,5,4,3,6
+P	LinkManifest	Top	4,9
+P	Product	Bottom	11,10
+P	Registry	Top	6,2
+P	Repository	Bottom	13,14

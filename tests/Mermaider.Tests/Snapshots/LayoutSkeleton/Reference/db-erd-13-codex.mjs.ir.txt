@@ -3,7 +3,9 @@ N	Registry	1	0
 N	CodexDocumentationSet	1	1
 N	DocumentationSet	2	0
 N	CodexGroup	2	1
-E	CodexDocumentationSet	CodexGroup	codex.group	Bottom	Top	False
-E	CodexDocumentationSet	DocumentationSet	docset	Bottom	Top	False
-E	CodexSite	CodexDocumentationSet	from LinkRegistry	Bottom	Top	False
-E	CodexSite	Registry	environment	Bottom	Top	False
+E	CodexDocumentationSet	CodexGroup	codex.group	Bottom	Top	False	D R D
+E	CodexDocumentationSet	DocumentationSet	docset	Bottom	Top	False	D L D
+E	CodexSite	CodexDocumentationSet	from LinkRegistry	Bottom	Top	False	D R D
+E	CodexSite	Registry	environment	Bottom	Top	False	D L D
+P	CodexDocumentationSet	Bottom	1,0
+P	CodexSite	Bottom	3,2

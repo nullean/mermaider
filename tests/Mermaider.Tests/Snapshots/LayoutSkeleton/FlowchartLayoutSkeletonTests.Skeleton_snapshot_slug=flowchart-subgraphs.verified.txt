@@ -6,8 +6,11 @@ Groups:
 - Frontend (layer=0 order=0) members=[UI, State]
 - Backend (layer=1 order=0) members=[API, DB, Cache]
 Edges:
-  API ----> Cache [Right->Top]
-  API ----> DB [Left->Top]
-  State ----> API [Bottom->Top]
-  UI ----> API [Bottom->Top]
-  UI ----> State [Bottom->Top]
+  API ----> Cache [Right->Top] [R D]
+  API ----> DB [Left->Top] [L D]
+  State ----> API [Bottom->Top] [D]
+  UI ----> API [Bottom->Top] [D L D R D]
+  UI ----> State [Bottom->Top] [D]
+Ports:
+  API Top: edge2,edge3
+  UI Bottom: edge4,edge3

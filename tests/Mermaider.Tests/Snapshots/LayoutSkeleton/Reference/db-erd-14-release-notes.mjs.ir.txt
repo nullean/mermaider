@@ -7,10 +7,11 @@ N	ChangelogEntry	2	0
 N	ProductRelease	3	0
 N	Product	4	0
 N	BundleRegistry	5	0
-E	Bundle	BundleAmend	amend-N	Bottom	Top	False
-E	Bundle	BundledEntry	entries	Bottom	Top	False
-E	BundledEntry	ChangelogEntry	name + checksum	Bottom	Top	False
-E	ChangelogEntry	ProductRelease	products	Bottom	Top	False
-E	Product	BundleRegistry	registry.json	Bottom	Top	False
-E	ProductRelease	Product	product	Bottom	Top	False
-E	Repository	ChangelogConfiguration	changelog.yml	Bottom	Top	False
+E	Bundle	BundleAmend	amend-N	Bottom	Top	False	D R D
+E	Bundle	BundledEntry	entries	Bottom	Top	False	D L D
+E	BundledEntry	ChangelogEntry	name + checksum	Bottom	Top	False	D
+E	ChangelogEntry	ProductRelease	products	Bottom	Top	False	D
+E	Product	BundleRegistry	registry.json	Bottom	Top	False	D
+E	ProductRelease	Product	product	Bottom	Top	False	D
+E	Repository	ChangelogConfiguration	changelog.yml	Bottom	Top	False	D
+P	Bundle	Bottom	1,0

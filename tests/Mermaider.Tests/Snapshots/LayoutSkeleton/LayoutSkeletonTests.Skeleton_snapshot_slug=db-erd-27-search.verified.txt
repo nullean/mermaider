@@ -2,10 +2,14 @@
 Layer 1: SearchDocument, DocumentationDocument
 Layer 2: Product, ParentDocument, AppliesToEntry
 Edges:
-  DocumentInference --decides product--> DocumentationDocument [Bottom->Top]
-  DocumentationDocument --applies_to--> AppliesToEntry [Right->Top]
-  DocumentationDocument --parents (breadcrumbs)--> ParentDocument [Bottom->Top]
-  DocumentationDocument --product--> Product [Bottom->Top]
-  DocumentationDocument --related_products--> Product [Bottom->Top]
-  Page --exported--> DocumentationDocument [Bottom->Top]
-  SearchIndex --contains--> SearchDocument [Bottom->Top]
+  DocumentInference --decides product--> DocumentationDocument [Bottom->Top] [D L D]
+  DocumentationDocument --applies_to--> AppliesToEntry [Right->Top] [R D]
+  DocumentationDocument --parents (breadcrumbs)--> ParentDocument [Bottom->Top] [D]
+  DocumentationDocument --product--> Product [Bottom->Top] [D L D]
+  DocumentationDocument --related_products--> Product [Bottom->Top] [D L D]
+  Page --exported--> DocumentationDocument [Bottom->Top] [D]
+  SearchIndex --contains--> SearchDocument [Bottom->Top] [D]
+Ports:
+  DocumentationDocument Bottom: edge2,edge4,edge3
+  DocumentationDocument Top: edge5,edge0
+  Product Top: edge4,edge3

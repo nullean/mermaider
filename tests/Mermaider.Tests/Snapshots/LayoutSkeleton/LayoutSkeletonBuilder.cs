@@ -3,7 +3,7 @@ using Mermaider.Models;
 namespace Mermaider.Tests.Snapshots.LayoutSkeleton;
 
 /// <summary>
-/// Turns raw entity boxes + edge endpoints into a <see cref="LayoutSkeleton"/>. This is the
+/// Turns raw entity boxes + edge polylines into a <see cref="LayoutSkeleton"/>. This is the
 /// one piece of logic both <see cref="MermaiderSkeletonExtractor"/> and
 /// <see cref="MermaidJsSkeletonExtractor"/> share — whatever renderer the boxes/edges came
 /// from, the same clustering rules decide layers and order, so comparisons are apples-to-apples.
@@ -12,7 +12,7 @@ internal static class LayoutSkeletonBuilder
 {
 	public static LayoutSkeleton Build(
 		IReadOnlyList<(string Id, double X, double Y, double W, double H)> boxes,
-		IReadOnlyList<(string From, string To, string Label, Point Start, Point End)> edges,
+		IReadOnlyList<(string From, string To, string Label, IReadOnlyList<Point> Points)> edges,
 		IReadOnlyList<(string Id, string? ParentId, IReadOnlyList<string> MemberNodeIds, double X, double Y, double W, double H)>? groups = null,
 		Direction direction = Direction.TB)
 	{
@@ -52,14 +52,21 @@ internal static class LayoutSkeletonBuilder
 		foreach (var e in edges)
 		{
 			var isSelfLoop = string.Equals(e.From, e.To, StringComparison.Ordinal);
-			var fromSide = indexById.TryGetValue(e.From, out var fi) ? ClassifySide(e.Start, boxes[fi]) : EdgeSide.Bottom;
-			var toSide = indexById.TryGetValue(e.To, out var ti) ? ClassifySide(e.End, boxes[ti]) : EdgeSide.Top;
-			skeletonEdges.Add(new SkeletonEdge(e.From, e.To, e.Label, fromSide, toSide, isSelfLoop));
+			var pts = e.Points;
+			var fromSide = indexById.TryGetValue(e.From, out var fi2) && pts.Count >= 1
+				? ClassifySide(pts[0], boxes[fi2])
+				: EdgeSide.Bottom;
+			var toSide = indexById.TryGetValue(e.To, out var ti2) && pts.Count >= 2
+				? ClassifySide(pts[^1], boxes[ti2])
+				: EdgeSide.Top;
+			var routeSig = isSelfLoop ? "" : ComputeRouteSig(pts);
+			skeletonEdges.Add(new SkeletonEdge(e.From, e.To, e.Label, fromSide, toSide, isSelfLoop, routeSig));
 		}
 
 		var skeletonGroups = BuildGroups(groups, direction);
+		var ports = BuildPorts(skeletonEdges, edges.Select(e => e.Points).ToList());
 
-		return new LayoutSkeleton(nodes, skeletonEdges, skeletonGroups);
+		return new LayoutSkeleton(nodes, skeletonEdges, skeletonGroups, ports);
 	}
 
 	// Groups get their own independent layer/order assignment (same box-overlap clustering
@@ -85,6 +92,102 @@ internal static class LayoutSkeletonBuilder
 				g.X + (g.W / 2), g.Y + (g.H / 2), g.W, g.H));
 		}
 		return result;
+	}
+
+	// Compute port attachment order: for each (node, side) with ≥2 edges, order edges by
+	// their attachment coordinate (X for Top/Bottom, Y for Left/Right). Edge indices reference
+	// the stable-sorted position of each edge in the serialized edge list.
+	private static List<SkeletonPort> BuildPorts(
+		IReadOnlyList<SkeletonEdge> skeletonEdges,
+		IReadOnlyList<IReadOnlyList<Point>> polylines)
+	{
+		// Build stable-sorted edge index map: maps original edge index → sorted position
+		// matching Serialize() order (From, To, Label).
+		var sortedEdgeMap = skeletonEdges
+			.Select((e, i) => (e, i))
+			.OrderBy(x => x.e.From, StringComparer.Ordinal)
+			.ThenBy(x => x.e.To, StringComparer.Ordinal)
+			.ThenBy(x => x.e.Label, StringComparer.Ordinal)
+			.Select((x, sortedIdx) => (OrigIdx: x.i, SortedIdx: sortedIdx))
+			.ToDictionary(x => x.OrigIdx, x => x.SortedIdx);
+
+		// Bucket: (nodeId, side) → list of (sortedEdgeIndex, attachmentCoord)
+		var buckets = new Dictionary<(string NodeId, EdgeSide Side), List<(int SortedIdx, double AttachCoord)>>();
+
+		void AddToBucket(string nodeId, EdgeSide side, int sortedIdx, Point attachPoint)
+		{
+			var key = (nodeId, side);
+			if (!buckets.TryGetValue(key, out var list))
+				buckets[key] = list = [];
+			var coord = side is EdgeSide.Left or EdgeSide.Right ? attachPoint.Y : attachPoint.X;
+			list.Add((sortedIdx, coord));
+		}
+
+		for (var origIdx = 0; origIdx < skeletonEdges.Count; origIdx++)
+		{
+			var e = skeletonEdges[origIdx];
+			if (e.IsSelfLoop) continue;
+			var pts = polylines[origIdx];
+			if (pts.Count < 2) continue;
+			var sortedIdx = sortedEdgeMap[origIdx];
+			AddToBucket(e.From, e.FromSide, sortedIdx, pts[0]);
+			AddToBucket(e.To, e.ToSide, sortedIdx, pts[^1]);
+		}
+
+		var result = new List<SkeletonPort>();
+		foreach (var kv in buckets
+			.OrderBy(kv => kv.Key.NodeId, StringComparer.Ordinal)
+			.ThenBy(kv => kv.Key.Side.ToString(), StringComparer.Ordinal))
+		{
+			if (kv.Value.Count < 2) continue; // single edge: no order to compare
+			var sortedEdgeIndices = kv.Value.OrderBy(x => x.AttachCoord).Select(x => x.SortedIdx).ToList();
+			result.Add(new SkeletonPort(kv.Key.NodeId, kv.Key.Side, sortedEdgeIndices));
+		}
+		return result;
+	}
+
+	// Computes a run-length direction sequence from a polyline. Each segment is classified as
+	// D(own), U(p), R(ight), or L(eft) based on its dominant axis. Consecutive equal directions
+	// are merged. Returns "" for degenerate inputs (< 2 points, or all near-zero segments).
+	private static string ComputeRouteSig(IReadOnlyList<Point> points)
+	{
+		if (points.Count < 2)
+			return "";
+
+		const double Epsilon = 0.5;
+		var dirs = new List<char>(points.Count - 1);
+		for (var i = 0; i < points.Count - 1; i++)
+		{
+			var dx = points[i + 1].X - points[i].X;
+			var dy = points[i + 1].Y - points[i].Y;
+			if (Math.Abs(dy) >= Math.Abs(dx))
+			{
+				if (dy > Epsilon)       dirs.Add('D');
+				else if (dy < -Epsilon) dirs.Add('U');
+				// else: near-zero — skip degenerate segment
+			}
+			else
+			{
+				if (dx > Epsilon)       dirs.Add('R');
+				else if (dx < -Epsilon) dirs.Add('L');
+			}
+		}
+
+		if (dirs.Count == 0) return "";
+
+		// Run-length encode: merge consecutive equal directions, join with spaces.
+		var sb = new System.Text.StringBuilder(dirs.Count * 2);
+		var cur = dirs[0];
+		for (var i = 1; i < dirs.Count; i++)
+		{
+			if (dirs[i] == cur) continue;
+			if (sb.Length > 0) sb.Append(' ');
+			sb.Append(cur);
+			cur = dirs[i];
+		}
+		if (sb.Length > 0) sb.Append(' ');
+		sb.Append(cur);
+		return sb.ToString();
 	}
 
 	// Union-find clustering: two entities belong to the same layer whenever their extents along

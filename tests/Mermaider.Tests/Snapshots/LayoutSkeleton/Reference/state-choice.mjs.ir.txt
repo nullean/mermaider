@@ -4,12 +4,15 @@ N	Positive	2	0
 N	Neutral	2	1
 N	Negative	2	2
 N	Retry	3	0
-E	Evaluate	checkResult		Bottom	Top	False
-E	Negative	Retry		Bottom	Top	False
-E	Neutral	_end2		Bottom	Top	False
-E	Positive	_end		Bottom	Top	False
-E	Retry	Evaluate		Top	Bottom	False
-E	_start	Evaluate		Bottom	Top	False
-E	checkResult	Negative	if score < 0	Bottom	Top	False
-E	checkResult	Neutral	if score = 0	Bottom	Top	False
-E	checkResult	Positive	if score > 0	Bottom	Top	False
+E	Evaluate	checkResult		Bottom	Top	False	D L D
+E	Negative	Retry		Bottom	Top	False	D R D
+E	Neutral	_end2		Bottom	Top	False	D L D
+E	Positive	_end		Bottom	Top	False	D R D
+E	Retry	Evaluate		Top	Bottom	False	U R U L U
+E	_start	Evaluate		Bottom	Top	False	D
+E	checkResult	Negative	if score < 0	Bottom	Top	False	D R D
+E	checkResult	Neutral	if score = 0	Bottom	Top	False	D
+E	checkResult	Positive	if score > 0	Bottom	Top	False	D L D
+P	Evaluate	Bottom	0,4
+P	Retry	Top	1,4
+P	checkResult	Bottom	8,7,6

@@ -6,10 +6,13 @@ N	DocumentationDocument	1	1
 N	Product	2	0
 N	ParentDocument	2	1
 N	AppliesToEntry	2	2
-E	DocumentInference	DocumentationDocument	decides product	Bottom	Top	False
-E	DocumentationDocument	AppliesToEntry	applies_to	Bottom	Top	False
-E	DocumentationDocument	ParentDocument	parents (breadcrumbs)	Bottom	Top	False
-E	DocumentationDocument	Product	product	Bottom	Top	False
-E	DocumentationDocument	Product	related_products	Bottom	Top	False
-E	Page	DocumentationDocument	exported	Bottom	Top	False
-E	SearchIndex	SearchDocument	contains	Bottom	Top	False
+E	DocumentInference	DocumentationDocument	decides product	Bottom	Top	False	D L D
+E	DocumentationDocument	AppliesToEntry	applies_to	Bottom	Top	False	D R D
+E	DocumentationDocument	ParentDocument	parents (breadcrumbs)	Bottom	Top	False	D R D
+E	DocumentationDocument	Product	product	Bottom	Top	False	D L D R D
+E	DocumentationDocument	Product	related_products	Bottom	Top	False	D L D L D
+E	Page	DocumentationDocument	exported	Bottom	Top	False	D
+E	SearchIndex	SearchDocument	contains	Bottom	Top	False	D
+P	DocumentationDocument	Bottom	3,4,2,1
+P	DocumentationDocument	Top	5,0
+P	Product	Top	3,4

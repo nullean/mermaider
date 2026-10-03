@@ -19,7 +19,7 @@ internal static class MermaiderSkeletonExtractor
 
 		var edges = diagram.Relationships
 			.Where(r => r.Points.Count >= 2)
-			.Select(r => (r.Entity1, r.Entity2, r.Label, Start: r.Points[0], End: r.Points[^1]))
+			.Select(r => (r.Entity1, r.Entity2, r.Label, (IReadOnlyList<Point>)r.Points))
 			.ToList();
 
 		return LayoutSkeletonBuilder.Build(boxes, edges);

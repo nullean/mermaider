@@ -10,11 +10,12 @@ N	FrontMatter	2	0
 N	Anchor	2	1
 N	Link	2	2
 N	Applicability	3	0
-E	CrossLink	CrossLinkUri	repo://path	Bottom	Top	False
-E	DocumentationSet	DocumentationFile	files	Bottom	Top	False
-E	FrontMatter	Applicability	applies_to	Bottom	Top	False
-E	IncludeDirective	Snippet	include	Bottom	Top	False
-E	InternalLink	Page	target	Bottom	Top	False
-E	Page	Anchor	anchors	Bottom	Top	False
-E	Page	FrontMatter	front matter	Bottom	Top	False
-E	Page	Link	links	Bottom	Top	False
+E	CrossLink	CrossLinkUri	repo://path	Bottom	Top	False	D
+E	DocumentationSet	DocumentationFile	files	Bottom	Top	False	D
+E	FrontMatter	Applicability	applies_to	Bottom	Top	False	D
+E	IncludeDirective	Snippet	include	Bottom	Top	False	D
+E	InternalLink	Page	target	Bottom	Top	False	D
+E	Page	Anchor	anchors	Bottom	Top	False	D
+E	Page	FrontMatter	front matter	Bottom	Top	False	D L D
+E	Page	Link	links	Bottom	Top	False	D R D
+P	Page	Bottom	6,5,7

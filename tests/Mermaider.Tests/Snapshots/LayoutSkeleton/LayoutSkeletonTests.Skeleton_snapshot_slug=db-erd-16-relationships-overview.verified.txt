@@ -6,18 +6,23 @@ Layer 4: VersioningSystem, Bundle, LinkRegistry
 Layer 5: LinkRegistryEntry
 Layer 6: LinkManifest
 Edges:
-  Assembly --environments--> PublishEnvironment [Right->Top]
-  Assembly --references--> Repository [Bottom->Top]
-  CodexSite --environment--> Registry [Bottom->Top]
-  DocumentationSet --contains--> DocumentationFile [Bottom->Top]
-  DocumentationSet --one per branch--> LinkManifest [Bottom->Top]
-  DocumentationSet --products--> Product [Right->Top]
-  DocumentationSet --registry--> Registry [Bottom->Top]
-  DocumentationSet --toc--> TableOfContents [Bottom->Top]
-  LinkRegistry --repo, branch--> LinkRegistryEntry [Bottom->Top]
-  LinkRegistryEntry --path--> LinkManifest [Bottom->Top]
-  Product --released in--> Bundle [Right->Top]
-  Product --versioning--> VersioningSystem [Bottom->Top]
-  Registry --publishes into--> LinkRegistry [Bottom->Top]
-  Repository --changelog.yml--> ChangelogConfiguration [Bottom->Top]
-  Repository --holds (≤1 per Registry)--> DocumentationSet [Bottom->Top]
+  Assembly --environments--> PublishEnvironment [Right->Top] [R D]
+  Assembly --references--> Repository [Bottom->Top] [D L D]
+  CodexSite --environment--> Registry [Bottom->Top] [D]
+  DocumentationSet --contains--> DocumentationFile [Bottom->Top] [D L D]
+  DocumentationSet --one per branch--> LinkManifest [Bottom->Top] [D L D R D R D R D]
+  DocumentationSet --products--> Product [Right->Top] [R D]
+  DocumentationSet --registry--> Registry [Bottom->Top] [D R D]
+  DocumentationSet --toc--> TableOfContents [Bottom->Top] [D L D]
+  LinkRegistry --repo, branch--> LinkRegistryEntry [Bottom->Top] [D]
+  LinkRegistryEntry --path--> LinkManifest [Bottom->Top] [D]
+  Product --released in--> Bundle [Right->Top] [R D]
+  Product --versioning--> VersioningSystem [Bottom->Top] [D L D]
+  Registry --publishes into--> LinkRegistry [Bottom->Top] [D]
+  Repository --changelog.yml--> ChangelogConfiguration [Bottom->Top] [D L D]
+  Repository --holds (≤1 per Registry)--> DocumentationSet [Bottom->Top] [D R D]
+Ports:
+  DocumentationSet Bottom: edge6,edge4,edge7,edge3
+  LinkManifest Top: edge9,edge4
+  Registry Top: edge6,edge2
+  Repository Bottom: edge14,edge13

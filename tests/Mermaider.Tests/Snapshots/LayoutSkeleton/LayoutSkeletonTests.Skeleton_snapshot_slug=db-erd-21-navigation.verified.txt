@@ -4,16 +4,22 @@ Layer 2: NavigationNode, SiteMount
 Layer 3: Phantom, TocNavigation, HomeProvider
 Layer 4: TableOfContents
 Edges:
-  DocumentationSet --builds--> DocumentationSetNavigation [Bottom->Top]
-  DocumentationSetNavigation --tree--> NavigationNode [Bottom->Top]
-  FileNavigation --model--> Page [Bottom->Top]
-  Phantom --toc--> TableOfContents [Bottom->Top]
-  SiteMount --re-homes subtree--> HomeProvider [Bottom->Top]
+  DocumentationSet --builds--> DocumentationSetNavigation [Bottom->Top] [D]
+  DocumentationSetNavigation --tree--> NavigationNode [Bottom->Top] [D]
+  FileNavigation --model--> Page [Bottom->Top] [D R D]
+  Phantom --toc--> TableOfContents [Bottom->Top] [D R D]
+  SiteMount --re-homes subtree--> HomeProvider [Bottom->Top] [D R D]
   SiteMount --children--> SiteMount [Right->Right] (self)
-  SiteMount --toc: repo://path--> TocNavigation [Bottom->Top]
-  SiteNavigation --phantoms--> Phantom [Bottom->Top]
-  SiteNavigation --toc--> SiteMount [Bottom->Top]
-  SiteNavigation --section (preview)--> SiteSection [Bottom->Top]
-  SiteSection --children--> SiteMount [Bottom->Top]
-  TocItem --mirrors--> NavigationNode [Bottom->Top]
-  TocNavigation --toc.yml--> TableOfContents [Bottom->Top]
+  SiteMount --toc: repo://path--> TocNavigation [Bottom->Top] [D R D]
+  SiteNavigation --phantoms--> Phantom [Bottom->Top] [D L D]
+  SiteNavigation --toc--> SiteMount [Bottom->Top] [D R D L D]
+  SiteNavigation --section (preview)--> SiteSection [Bottom->Top] [D R D]
+  SiteSection --children--> SiteMount [Bottom->Top] [D L D]
+  TocItem --mirrors--> NavigationNode [Bottom->Top] [D L D]
+  TocNavigation --toc.yml--> TableOfContents [Bottom->Top] [D L D]
+Ports:
+  NavigationNode Top: edge1,edge11
+  SiteMount Bottom: edge6,edge4
+  SiteMount Top: edge8,edge10
+  SiteNavigation Bottom: edge8,edge9,edge7
+  TableOfContents Top: edge12,edge3

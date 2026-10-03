@@ -4,9 +4,12 @@ N	CodexDocumentationSet	1	1
 N	LinkRegistry	2	0
 N	CodexGroup	2	1
 N	DocumentationSet	2	2
-E	CodexDocumentationSet	CodexGroup	codex.group	Bottom	Top	False
-E	CodexDocumentationSet	DocumentationSet	docset	Bottom	Top	False
-E	CodexSite	CodexDocumentationSet	from LinkRegistry	Bottom	Top	False
-E	CodexSite	CodexGroup	groups	Bottom	Top	False
-E	CodexSite	Registry	environment = registry	Bottom	Top	False
-E	Registry	LinkRegistry	git: elastic/codex-link-index/{registry}	Bottom	Top	False
+E	CodexDocumentationSet	CodexGroup	codex.group	Bottom	Top	False	D L D L D
+E	CodexDocumentationSet	DocumentationSet	docset	Bottom	Top	False	D R D
+E	CodexSite	CodexDocumentationSet	from LinkRegistry	Bottom	Top	False	D R D
+E	CodexSite	CodexGroup	groups	Bottom	Top	False	D R D
+E	CodexSite	Registry	environment = registry	Bottom	Top	False	D L D
+E	Registry	LinkRegistry	git: elastic/codex-link-index/{registry}	Bottom	Top	False	D
+P	CodexDocumentationSet	Bottom	0,1
+P	CodexGroup	Top	3,0
+P	CodexSite	Bottom	4,3,2

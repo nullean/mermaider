@@ -3,10 +3,13 @@ N	State	1	0
 N	API	2	0
 N	DB	3	0
 N	Cache	3	1
-E	API	Cache		Bottom	Top	False
-E	API	DB		Bottom	Top	False
-E	State	API		Bottom	Top	False
-E	UI	API		Bottom	Top	False
-E	UI	State		Bottom	Top	False
+E	API	Cache		Bottom	Top	False	D R D
+E	API	DB		Bottom	Top	False	D L D
+E	State	API		Bottom	Top	False	D L D
+E	UI	API		Bottom	Top	False	D L D R D
+E	UI	State		Bottom	Top	False	D R D
+P	API	Bottom	1,0
+P	API	Top	3,2
+P	UI	Bottom	3,4
 G	Frontend	-	0	0	State,UI
 G	Backend	-	1	0	API,Cache,DB

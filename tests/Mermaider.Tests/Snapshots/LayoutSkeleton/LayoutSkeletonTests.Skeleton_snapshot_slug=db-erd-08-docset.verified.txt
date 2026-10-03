@@ -2,11 +2,14 @@
 Layer 1: TableOfContents, Redirect, CrossLinkDeclaration, ApiDeclaration, Product, Registry
 Layer 2: TocItem
 Edges:
-  DocumentationSet --api--> ApiDeclaration [Right->Top]
-  DocumentationSet --cross_links--> CrossLinkDeclaration [Bottom->Top]
-  DocumentationSet --products--> Product [Right->Top]
-  DocumentationSet --redirects.yml--> Redirect [Bottom->Top]
-  DocumentationSet --registry--> Registry [Right->Top]
-  DocumentationSet --toc--> TableOfContents [Bottom->Top]
-  TableOfContents --entries--> TocItem [Bottom->Top]
+  DocumentationSet --api--> ApiDeclaration [Right->Top] [R D]
+  DocumentationSet --cross_links--> CrossLinkDeclaration [Bottom->Top] [D L D]
+  DocumentationSet --products--> Product [Right->Top] [R D]
+  DocumentationSet --redirects.yml--> Redirect [Bottom->Top] [D L D]
+  DocumentationSet --registry--> Registry [Right->Top] [R D]
+  DocumentationSet --toc--> TableOfContents [Bottom->Top] [D L D]
+  TableOfContents --entries--> TocItem [Bottom->Top] [D]
   TocItem --children--> TocItem [Right->Right] (self)
+Ports:
+  DocumentationSet Bottom: edge5,edge3,edge1
+  DocumentationSet Right: edge0,edge2,edge4

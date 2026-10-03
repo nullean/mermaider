@@ -2,7 +2,9 @@
 Layer 1: ADDRESS, ORDER, PHONE
 Layer 2: LINE_ITEM
 Edges:
-  ORDER --contains--> LINE_ITEM [Bottom->Top]
-  PERSON ----> ADDRESS [Bottom->Top]
-  PERSON --places--> ORDER [Bottom->Top]
-  PERSON ----> PHONE [Right->Top]
+  ORDER --contains--> LINE_ITEM [Bottom->Top] [D]
+  PERSON ----> ADDRESS [Bottom->Top] [D L D]
+  PERSON --places--> ORDER [Bottom->Top] [D]
+  PERSON ----> PHONE [Right->Top] [R D]
+Ports:
+  PERSON Bottom: edge1,edge2

@@ -2,5 +2,5 @@
 Layer 1: ord
 Layer 2: li
 Edges:
-  cust --places--> ord [Bottom->Top]
-  ord --contains--> li [Bottom->Top]
+  cust --places--> ord [Bottom->Top] [D]
+  ord --contains--> li [Bottom->Top] [D]

@@ -7,19 +7,27 @@ Layer 5: ApiEndpoint
 Layer 6: ApiOperation
 Layer 7: DocumentationDocument
 Edges:
-  ApiDeclaration --renders--> ApiSpecVersion [Bottom->Top]
-  ApiDeclaration --api/{key}/--> ApiSupplementalDoc [Bottom->Top]
-  ApiDeclaration --repository + spec--> OpenApiSpec [Bottom->Top]
-  ApiDeclaration --product--> Product [Bottom->Top]
-  ApiEndpoint --operations--> ApiOperation [Bottom->Top]
-  ApiOperation --search export--> DocumentationDocument [Bottom->Top]
-  ApiSpecVersion --components--> ApiSchema [Bottom->Top]
-  ApiSpecVersion --x-tagGroups--> ApiTagGroup [Bottom->Top]
-  ApiSupplementalDoc --op-{operationId}--> ApiOperation [Bottom->Top]
-  ApiSupplementalDoc --tag-{slug}--> ApiTag [Bottom->Top]
-  ApiTag --endpoints--> ApiEndpoint [Bottom->Top]
-  ApiTagGroup --tags--> ApiTag [Bottom->Top]
-  ApiVersionIndex --org/repo, spec, moniker--> ApiSpecVersion [Bottom->Top]
-  OpenApiRepository --index.json--> ApiVersionIndex [Right->Top]
-  OpenApiRepository --org/repo/branch/spec--> OpenApiSpec [Left->Top]
-  Repository --publishes, per branch--> OpenApiSpec [Bottom->Top]
+  ApiDeclaration --renders--> ApiSpecVersion [Bottom->Top] [D L D]
+  ApiDeclaration --api/{key}/--> ApiSupplementalDoc [Bottom->Top] [D L D R D]
+  ApiDeclaration --repository + spec--> OpenApiSpec [Bottom->Top] [D L D]
+  ApiDeclaration --product--> Product [Bottom->Top] [D L D]
+  ApiEndpoint --operations--> ApiOperation [Bottom->Top] [D]
+  ApiOperation --search export--> DocumentationDocument [Bottom->Top] [D]
+  ApiSpecVersion --components--> ApiSchema [Bottom->Top] [D R D]
+  ApiSpecVersion --x-tagGroups--> ApiTagGroup [Bottom->Top] [D R D]
+  ApiSupplementalDoc --op-{operationId}--> ApiOperation [Bottom->Top] [D R D R D]
+  ApiSupplementalDoc --tag-{slug}--> ApiTag [Bottom->Top] [D R D]
+  ApiTag --endpoints--> ApiEndpoint [Bottom->Top] [D]
+  ApiTagGroup --tags--> ApiTag [Bottom->Top] [D L D]
+  ApiVersionIndex --org/repo, spec, moniker--> ApiSpecVersion [Bottom->Top] [D L D]
+  OpenApiRepository --index.json--> ApiVersionIndex [Right->Top] [R D]
+  OpenApiRepository --org/repo/branch/spec--> OpenApiSpec [Left->Top] [L D]
+  Repository --publishes, per branch--> OpenApiSpec [Bottom->Top] [D L D]
+Ports:
+  ApiDeclaration Bottom: edge2,edge3,edge0,edge1
+  ApiOperation Top: edge4,edge8
+  ApiSpecVersion Bottom: edge7,edge6
+  ApiSpecVersion Top: edge0,edge12
+  ApiSupplementalDoc Bottom: edge8,edge9
+  ApiTag Top: edge11,edge9
+  OpenApiSpec Top: edge15,edge14,edge2

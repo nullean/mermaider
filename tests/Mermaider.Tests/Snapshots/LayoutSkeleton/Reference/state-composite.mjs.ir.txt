@@ -3,15 +3,15 @@ N	Inner2	1	0
 N	Inner3	2	0
 N	Inner4	3	0
 N	Inner5	4	0
-E	Inner1	Inner2	next	Bottom	Top	False
-E	Inner2	Inner3	next	Bottom	Top	False
-E	Inner3	_end		Bottom	Top	False
-E	Inner4	Inner5	process	Bottom	Top	False
-E	Inner5	_end2		Bottom	Top	False
-E	_end	_start3		Bottom	Top	False
-E	_end2	_end3		Bottom	Top	False
-E	_start	_start2		Bottom	Top	False
-E	_start2	Inner1		Bottom	Top	False
-E	_start3	Inner4		Bottom	Top	False
+E	Inner1	Inner2	next	Bottom	Top	False	D
+E	Inner2	Inner3	next	Bottom	Top	False	D
+E	Inner3	_end		Bottom	Top	False	D
+E	Inner4	Inner5	process	Bottom	Top	False	D
+E	Inner5	_end2		Bottom	Top	False	D
+E	_end	_start3		Bottom	Top	False	D
+E	_end2	_end3		Bottom	Top	False	D
+E	_start	_start2		Bottom	Top	False	D
+E	_start2	Inner1		Bottom	Top	False	D
+E	_start3	Inner4		Bottom	Top	False	D
 G	First	-	0	0	Inner1,Inner2,Inner3,_end,_start2
 G	Second	-	1	0	Inner4,Inner5,_end2,_start3

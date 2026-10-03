@@ -6,9 +6,11 @@ N	AssembledDocumentationSet	1	2
 N	CloudfrontRedirectMap	1	3
 N	SyncPlan	1	4
 N	SearchIndex	2	0
-E	Assembly	PublishEnvironment	environments	Bottom	Top	False
-E	Assembly	Repository	references	Bottom	Top	False
-E	Build	AssembledDocumentationSet	assembles	Bottom	Top	False
-E	Build	CloudfrontRedirectMap	redirects.json	Bottom	Top	False
-E	Build	SyncPlan	deploy	Bottom	Top	False
-E	PublishEnvironment	SearchIndex	index suffix	Bottom	Top	False
+E	Assembly	PublishEnvironment	environments	Bottom	Top	False	D R D
+E	Assembly	Repository	references	Bottom	Top	False	D L D
+E	Build	AssembledDocumentationSet	assembles	Bottom	Top	False	D L D
+E	Build	CloudfrontRedirectMap	redirects.json	Bottom	Top	False	D
+E	Build	SyncPlan	deploy	Bottom	Top	False	D R D
+E	PublishEnvironment	SearchIndex	index suffix	Bottom	Top	False	D
+P	Assembly	Bottom	1,0
+P	Build	Bottom	2,3,4

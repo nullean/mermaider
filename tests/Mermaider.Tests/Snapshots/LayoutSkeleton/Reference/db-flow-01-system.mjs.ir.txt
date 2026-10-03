@@ -11,27 +11,40 @@ N	Site	4	0
 N	Codex	5	0
 N	Isolated	5	1
 N	Assembler	5	2
-E	Assembler	Search		Right	Left	False
-E	Assembler	Site		Right	Left	False
-E	Catalog	DocSet		Right	Left	False
-E	Changelog	Notes		Right	Left	False
-E	Codex	Site		Right	Left	False
-E	DocSet	Assembler		Right	Left	False
-E	DocSet	Codex		Right	Left	False
-E	DocSet	Isolated		Right	Left	False
-E	DocSet	SpecIndex	api: spec + repository	Right	Left	False
-E	Isolated	Links		Right	Left	False
-E	Isolated	Site		Right	Left	False
-E	Links	Assembler		Right	Left	False
-E	Links	Codex		Right	Left	False
-E	Notes	Site		Right	Left	False
-E	OpenApi	DocSet	api: local spec	Right	Left	False
-E	OpenApi	SpecIndex	published per version	Right	Left	False
-E	Repo	Changelog		Right	Left	False
-E	Repo	DocSet		Right	Left	False
-E	Repo	OpenApi		Right	Left	False
-E	SpecIndex	Assembler		Right	Left	False
-E	SpecIndex	Isolated		Right	Left	False
+E	Assembler	Search		Right	Left	False	R D L U R
+E	Assembler	Site		Right	Left	False	R D L U R U R
+E	Catalog	DocSet		Right	Left	False	R D R
+E	Changelog	Notes		Right	Left	False	R D R D R
+E	Codex	Site		Right	Left	False	R U L D R D R
+E	DocSet	Assembler		Right	Left	False	R U R D R
+E	DocSet	Codex		Right	Left	False	R U R D R
+E	DocSet	Isolated		Right	Left	False	R U R D R
+E	DocSet	SpecIndex	api: spec + repository	Right	Left	False	R D R D R
+E	Isolated	Links		Right	Left	False	R U R U L D R
+E	Isolated	Site		Right	Left	False	R D L U R U R
+E	Links	Assembler		Right	Left	False	R D R U R
+E	Links	Codex		Right	Left	False	R U R U R
+E	Notes	Site		Right	Left	False	R D R
+E	OpenApi	DocSet	api: local spec	Right	Left	False	R U R
+E	OpenApi	SpecIndex	published per version	Right	Left	False	R D R U R
+E	Repo	Changelog		Right	Left	False	R D R
+E	Repo	DocSet		Right	Left	False	R U R
+E	Repo	OpenApi		Right	Left	False	R U R
+E	SpecIndex	Assembler		Right	Left	False	R U R
+E	SpecIndex	Isolated		Right	Left	False	R U R U R
+P	Assembler	Left	5,11,19
+P	Assembler	Right	0,1
+P	Codex	Left	6,12
+P	DocSet	Left	2,17,14
+P	DocSet	Right	6,7,5,8
+P	Isolated	Left	7,20
+P	Isolated	Right	9,10
+P	Links	Right	12,11
+P	OpenApi	Right	14,15
+P	Repo	Right	17,18,16
+P	Site	Left	4,13,10,1
+P	SpecIndex	Left	8,15
+P	SpecIndex	Right	20,19
 G	Reference	-	0	0	Catalog
 G	Sources	-	0	1	Repo
 G	Authoring	-	1	0	Changelog,DocSet,OpenApi

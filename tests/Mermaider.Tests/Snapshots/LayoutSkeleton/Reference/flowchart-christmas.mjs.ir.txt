@@ -4,8 +4,9 @@ N	C	2	0
 N	D	3	0
 N	E	3	1
 N	F	3	2
-E	A	B	Get money	Bottom	Top	False
-E	B	C		Bottom	Left	False
-E	C	D	One	Left	Top	False
-E	C	E	Two	Left	Top	False
-E	C	F	Three	Left	Top	False
+E	A	B	Get money	Bottom	Top	False	D
+E	B	C		Bottom	Left	False	D
+E	C	D	One	Left	Top	False	D L D
+E	C	E	Two	Left	Top	False	D
+E	C	F	Three	Left	Top	False	D R D
+P	C	Left	1,2,4,3

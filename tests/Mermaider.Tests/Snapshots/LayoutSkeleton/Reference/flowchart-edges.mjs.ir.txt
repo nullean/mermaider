@@ -6,8 +6,9 @@ N	H	1	1
 N	B	2	0
 N	C	2	1
 N	D	2	2
-E	A	B	solid	Right	Left	False
-E	A	C	dotted	Right	Left	False
-E	A	D	thick	Right	Left	False
-E	E	F		Right	Left	False
-E	G	H		Right	Left	False
+E	A	B	solid	Right	Left	False	R U R
+E	A	C	dotted	Right	Left	False	R
+E	A	D	thick	Right	Left	False	R D R
+E	E	F		Right	Left	False	R
+E	G	H		Right	Left	False	R
+P	A	Right	0,1,2

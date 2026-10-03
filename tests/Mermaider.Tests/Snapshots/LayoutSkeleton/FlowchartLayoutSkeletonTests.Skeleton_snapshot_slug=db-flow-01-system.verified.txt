@@ -13,24 +13,34 @@ Groups:
 - Outputs (layer=2 order=0) members=[Site, Links, SpecIndex, Search, Notes]
 - Build (layer=2 order=1) members=[Isolated, Assembler, Codex]
 Edges:
-  Assembler ----> Search [Bottom->Left]
-  Assembler ----> Site [Top->Left]
-  Catalog ----> DocSet [Right->Left]
-  Changelog ----> Notes [Right->Left]
-  Codex ----> Site [Top->Left]
-  DocSet ----> Assembler [Bottom->Left]
-  DocSet ----> Codex [Top->Left]
-  DocSet ----> Isolated [Top->Left]
-  DocSet --api: spec + repository--> SpecIndex [Right->Left]
-  Isolated ----> Links [Bottom->Left]
-  Isolated ----> Site [Top->Left]
-  Links ----> Assembler [Bottom->Left]
-  Links ----> Codex [Bottom->Left]
-  Notes ----> Site [Bottom->Left]
-  OpenApi --api: local spec--> DocSet [Right->Left]
-  OpenApi --published per version--> SpecIndex [Bottom->Left]
-  Repo ----> Changelog [Top->Left]
-  Repo ----> DocSet [Top->Left]
-  Repo ----> OpenApi [Top->Left]
-  SpecIndex ----> Assembler [Bottom->Left]
-  SpecIndex ----> Isolated [Right->Left]
+  Assembler ----> Search [Bottom->Left] [D R]
+  Assembler ----> Site [Top->Left] [U R]
+  Catalog ----> DocSet [Right->Left] [R D R]
+  Changelog ----> Notes [Right->Left] [R D R D R]
+  Codex ----> Site [Top->Left] [U R]
+  DocSet ----> Assembler [Bottom->Left] [D R U R D R]
+  DocSet ----> Codex [Top->Left] [U R D R U R D R]
+  DocSet ----> Isolated [Top->Left] [U R D R]
+  DocSet --api: spec + repository--> SpecIndex [Right->Left] [R]
+  Isolated ----> Links [Bottom->Left] [U R]
+  Isolated ----> Site [Top->Left] [U R D R]
+  Links ----> Assembler [Bottom->Left] [D R]
+  Links ----> Codex [Bottom->Left] [D R]
+  Notes ----> Site [Bottom->Left] [D R]
+  OpenApi --api: local spec--> DocSet [Right->Left] [R]
+  OpenApi --published per version--> SpecIndex [Bottom->Left] [D R U R]
+  Repo ----> Changelog [Top->Left] [U R]
+  Repo ----> DocSet [Top->Left] [U R D R]
+  Repo ----> OpenApi [Top->Left] [U R]
+  SpecIndex ----> Assembler [Bottom->Left] [D R U R D R]
+  SpecIndex ----> Isolated [Right->Left] [R]
+Ports:
+  Assembler Left: edge11,edge5,edge19
+  Codex Left: edge12,edge6
+  DocSet Left: edge14,edge17,edge2
+  DocSet Top: edge6,edge7
+  Isolated Left: edge20,edge7
+  Links Bottom: edge11,edge12
+  Repo Top: edge18,edge16,edge17
+  Site Left: edge1,edge4,edge13,edge10
+  SpecIndex Left: edge8,edge15

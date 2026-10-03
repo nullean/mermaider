@@ -6,11 +6,12 @@ N	ApiDeclaration	1	3
 N	Product	1	4
 N	Registry	1	5
 N	TocItem	2	0
-E	DocumentationSet	ApiDeclaration	api	Bottom	Top	False
-E	DocumentationSet	CrossLinkDeclaration	cross_links	Bottom	Top	False
-E	DocumentationSet	Product	products	Bottom	Top	False
-E	DocumentationSet	Redirect	redirects.yml	Bottom	Top	False
-E	DocumentationSet	Registry	registry	Bottom	Top	False
-E	DocumentationSet	TableOfContents	toc	Bottom	Top	False
-E	TableOfContents	TocItem	entries	Bottom	Top	False
-E	TocItem	TocItem	children	Left	Left	True
+E	DocumentationSet	ApiDeclaration	api	Bottom	Top	False	D R D
+E	DocumentationSet	CrossLinkDeclaration	cross_links	Bottom	Top	False	D L D
+E	DocumentationSet	Product	products	Bottom	Top	False	D R D
+E	DocumentationSet	Redirect	redirects.yml	Bottom	Top	False	D L D
+E	DocumentationSet	Registry	registry	Bottom	Top	False	D R D
+E	DocumentationSet	TableOfContents	toc	Bottom	Top	False	D L D
+E	TableOfContents	TocItem	entries	Bottom	Top	False	D
+E	TocItem	TocItem	children	Left	Left	True	-
+P	DocumentationSet	Bottom	5,3,1,0,2,4
