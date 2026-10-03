@@ -11,7 +11,8 @@ namespace Sugiyama.Internal;
 /// </summary>
 internal static class CrossingMinimizer
 {
-	internal static void Run(GraphBuffer graph, int iterations = 4, CancellationToken ct = default)
+	internal static void Run(GraphBuffer graph, int iterations = 4, bool useModelOrderForVirtuals = false,
+		CancellationToken ct = default)
 	{
 		if (graph.LayerCount <= 1)
 			return;
@@ -32,11 +33,11 @@ internal static class CrossingMinimizer
 		{
 			ct.ThrowIfCancellationRequested();
 			for (var layer = 1; layer < graph.LayerCount; layer++)
-				SweepLayer(graph, layer, barycenters, useInEdges: true);
+				SweepLayer(graph, layer, barycenters, useInEdges: true, useModelOrderForVirtuals);
 
 			ct.ThrowIfCancellationRequested();
 			for (var layer = graph.LayerCount - 2; layer >= 0; layer--)
-				SweepLayer(graph, layer, barycenters, useInEdges: false);
+				SweepLayer(graph, layer, barycenters, useInEdges: false, useModelOrderForVirtuals);
 
 			var total = TotalCrossings(graph);
 			if (total >= bestCrossings)
@@ -254,7 +255,8 @@ internal static class CrossingMinimizer
 		}
 	}
 
-	private static void SweepLayer(GraphBuffer graph, int layer, double[] barycenters, bool useInEdges)
+	private static void SweepLayer(GraphBuffer graph, int layer, double[] barycenters, bool useInEdges,
+		bool useModelOrderForVirtuals)
 	{
 		var nodes = graph.LayerNodes[layer];
 		if (nodes.Length <= 1)
@@ -298,13 +300,33 @@ internal static class CrossingMinimizer
 			var cmp = barycenters[a].CompareTo(barycenters[b]);
 			if (cmp != 0)
 				return cmp;
-			// On a tie prefer virtual nodes first: they represent skip-layer edge chains and
-			// should be placed on the same side as their ultimate source, not pushed past real
-			// nodes whose coordinates are not yet finalised.
 			var aVirt = a >= graph.RealNodeCount;
 			var bVirt = b >= graph.RealNodeCount;
-			if (aVirt != bVirt)
+			if (useModelOrderForVirtuals && (aVirt || bVirt))
+			{
+				// Apply ELK's considerModelOrder.NODES_AND_EDGES for virtual-vs-real ties:
+				// virtual chain nodes carry OriginalEdgeIndex as model order, real nodes carry
+				// NodeIndex. When model orders equal, real nodes sort before virtual nodes.
+				// When both are real, fall through to stable sort by current position.
+				var aOrder = aVirt && graph.VirtualNodeModelOrder != null
+					? graph.VirtualNodeModelOrder[a - graph.RealNodeCount]
+					: a;
+				var bOrder = bVirt && graph.VirtualNodeModelOrder != null
+					? graph.VirtualNodeModelOrder[b - graph.RealNodeCount]
+					: b;
+				var orderCmp = aOrder.CompareTo(bOrder);
+				if (orderCmp != 0)
+					return orderCmp;
+				// Same model order: real before virtual.
+				if (aVirt != bVirt)
+					return aVirt ? 1 : -1;
+			}
+			else if (aVirt != bVirt)
+			{
+				// Virtual-first tiebreaker (default for ER): virtual nodes sort before real
+				// nodes on ties, anchoring long-edge chains to the left and reducing crossings.
 				return aVirt ? -1 : 1;
+			}
 			return graph.NodePositionInLayer[a].CompareTo(graph.NodePositionInLayer[b]);
 		});
 

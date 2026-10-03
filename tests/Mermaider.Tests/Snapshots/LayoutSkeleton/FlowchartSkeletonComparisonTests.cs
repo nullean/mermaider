@@ -22,14 +22,18 @@ public class FlowchartSkeletonComparisonTests
 			// check in NestingGraphRanker skips border edges for this pair, so Build and Outputs
 			// are ordered only by real edge weights. Border edges for Reference/Sources→Authoring
 			// and Authoring→Build/Outputs are added safely (one-directional). 73% layer agreement.
+			// Order: 36% — LR-direction with complex subgraph clusters; the ELK model-order virtual-
+			// node tiebreaker (UseModelOrderForVirtualNodes) trades order quality here for large
+			// gains in TD simple diagrams (+24% average). Accepted regression.
 			// db-flow-03-isolated: Build↔External is bidirectional (Content→LinkReg reversed and
 			// Bundles→Content forward both cross that boundary) so those border edges are skipped.
 			// Outputs→External (Manifest→LinkReg) is one-directional, so Outputs_bottom→External_top
 			// IS added — this correctly places OpenApiRepo and Bundles at layer 5 (matching mjs).
 			// Remaining gap: Content ends up at layer 6 (mjs: 2) because the network simplex
 			// minimizes span across the reversed-edge chain. 79% layer agreement.
-			["db-flow-01-system"] = (0.71, 0.50),
-			["db-flow-03-isolated"] = (0.77, 0.70),
+			// Order: 55% — same accepted regression as db-flow-01 due to model-order tiebreaker.
+			["db-flow-01-system"] = (0.71, 0.32),
+			["db-flow-03-isolated"] = (0.77, 0.50),
 			// db-flow-04-composing: cross-cluster border edges (Repos_bottom→Registries_top,
 			// Registries_bottom→{Assembler,CodexB}_top) fix AsmCfg/CdxCfg to layer 2 (matching
 			// dagre). The cluster-level graph is a DAG so border edges are safe to add.

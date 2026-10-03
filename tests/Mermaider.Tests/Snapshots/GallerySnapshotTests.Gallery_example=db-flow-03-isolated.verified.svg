@@ -42,37 +42,37 @@
 </g>
 
 <g class="subgraph" data-id="External" data-label="Read from outside, never checked out">
-  <rect x="3908.148" y="101.6" width="1341.7240000000002" height="254.4" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <rect x="3908.148" y="101.6" width="1341.7240000000002" height="173.6" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Build" data-label="Isolated build">
-  <rect x="450.41999999999996" y="91.19999999999999" width="4119.972000000001" height="136" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <rect x="450.41999999999996" y="85.60000000000001" width="4119.972000000001" height="131.2" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Outputs" data-label="Outputs">
-  <rect x="2453.8160000000003" y="112" width="2508.7560000000008" height="324.8" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <rect x="2453.8160000000003" y="96" width="2508.7560000000008" height="340.8" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
 </g>
 
-<path class="edge" data-from="Checkout" data-to="DocSet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M193.72799999999998,149.6 L193.72799999999998,172.4 Q193.72799999999998,178.4 199.72799999999998,178.4 L330.07399999999996,178.4 L330.07399999999996,178.4 L466.41999999999996,178.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Vocab" data-to="DocSet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M185.976,185.6 L185.976,182 Q185.976,178.4 189.576,178.4 L326.198,178.4 L326.198,178.4 L466.41999999999996,178.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="DocSet" data-to="Toc" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M655.236,178.4 L790.2,178.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Toc" data-to="Nav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M970.808,178.4 L1105.772,178.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Content" data-to="Nav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M4435.816000000001,200.79999999999998 L4435.816000000001,184.4 Q4435.816000000001,178.4 4429.816000000001,178.4 L1105.772,178.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Checkout" data-to="DocSet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M193.72799999999998,149.6 L193.72799999999998,156.4 Q193.72799999999998,162.4 199.72799999999998,162.4 L330.07399999999996,162.4 L330.07399999999996,162.4 L466.41999999999996,162.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Vocab" data-to="DocSet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M185.976,185.6 L185.976,168.4 Q185.976,162.4 191.976,162.4 L326.198,162.4 L326.198,162.4 L466.41999999999996,162.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="DocSet" data-to="Toc" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M655.236,162.4 L790.2,162.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Toc" data-to="Nav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M970.808,162.4 L1105.772,162.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Content" data-to="Nav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M4554.392000000001,162.4 L1105.772,162.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="OpenApiRepo" data-to="Content" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="api" d="M4125.732,168 L4317.240000000001,168" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Bundles" data-to="Content" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="release_notes" d="M4053.212,200.8 L4053.212,174 Q4053.212,168 4059.212,168 L4185.226000000001,168 L4185.226000000001,168 L4317.240000000001,168" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Nav" data-to="Html" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1272.6999999999998,178.4 L2469.8160000000003,178.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Manifest" data-to="LinkReg" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="published on push" d="M4922.860000000001,317.6 L5081.536,317.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="DocSet" data-to="Redirects" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M560.828,145.60000000000002 L560.828,126 Q560.828,120 566.828,120 L3190.982,120 Q3196.982,120 3196.982,126 L3196.982,275.6 Q3196.982,281.6 3202.982,281.6 L4114.694,281.6 Q4120.694,281.6 4120.694,275.6 L4120.694,242.79999999999998 Q4120.694,236.79999999999998 4126.694,236.79999999999998 L4503.298000000001,236.79999999999998 L4503.298000000001,236.79999999999998 L4689.356000000001,236.79999999999998" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Nav" data-to="Manifest" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1189.2359999999999,200.8 L1189.2359999999999,311.6 Q1189.2359999999999,317.6 1195.2359999999999,317.6 L4503.298000000001,317.6 L4503.298000000001,317.6 L4689.356000000001,317.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="LinkReg" data-to="Content" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="cross_links" d="M5157.704,340 C5157.704,270.4 4435.816000000001,270.4 4435.816000000001,200.79999999999998" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="DocSet" data-to="Content" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M560.828,145.60000000000002 L560.828,90 Q560.828,84 566.828,84 L3190.982,84 Q3196.982,84 3196.982,90 L3196.982,162 Q3196.982,168 3202.982,168 L4317.240000000001,168" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <rect x="40" y="40" width="307.45599999999996" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+<path class="edge" data-from="Nav" data-to="Html" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1272.6999999999998,162.4 L2469.8160000000003,162.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Manifest" data-to="LinkReg" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="published on push" d="M4922.860000000001,236.79999999999998 L5081.536,236.79999999999998" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="DocSet" data-to="Redirects" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M560.828,195.2 L560.828,311.6 Q560.828,317.6 566.828,317.6 L4503.298000000001,317.6 L4503.298000000001,317.6 L4689.356000000001,317.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Nav" data-to="Manifest" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1189.2359999999999,184.8 L1189.2359999999999,275.6 Q1189.2359999999999,281.6 1195.2359999999999,281.6 L4114.694,281.6 Q4120.694,281.6 4120.694,275.6 L4120.694,242.79999999999998 Q4120.694,236.79999999999998 4126.694,236.79999999999998 L4503.298000000001,236.79999999999998 L4503.298000000001,236.79999999999998 L4689.356000000001,236.79999999999998" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="LinkReg" data-to="Content" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="cross_links" d="M5157.704,259.2 C5157.704,230 4435.816000000001,230 4435.816000000001,200.79999999999998" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="DocSet" data-to="Content" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M560.828,129.60000000000002 L560.828,110 Q560.828,104 566.828,104 L3190.982,104 Q3196.982,104 3196.982,110 L3196.982,162 Q3196.982,168 3202.982,168 L4317.240000000001,168" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <rect x="40" y="40" width="307.45599999999996" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
   <text x="52" y="55" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Inputs</text>
   <rect x="3908.148" y="101.6" width="1341.7240000000002" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
   <text x="3920.148" y="116.6" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Read from outside, never checked out</text>
-  <rect x="450.41999999999996" y="91.19999999999999" width="4119.972000000001" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
-  <text x="462.41999999999996" y="106.19999999999999" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Isolated build</text>
-  <rect x="2453.8160000000003" y="112" width="2508.7560000000008" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
-  <text x="2465.8160000000003" y="127" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Outputs</text>
+  <rect x="450.41999999999996" y="85.60000000000001" width="4119.972000000001" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <text x="462.41999999999996" y="100.60000000000001" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Isolated build</text>
+  <rect x="2453.8160000000003" y="96" width="2508.7560000000008" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <text x="2465.8160000000003" y="111" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Outputs</text>
 
 <g class="edge-label" data-from="OpenApiRepo" data-to="Content" data-label="api">
   <rect x="4255.174" y="152.9" width="32.244" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
@@ -83,8 +83,8 @@
 <text x="4204.276" y="168" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">release_notes</text>
 </g>
 <g class="edge-label" data-from="Manifest" data-to="LinkReg" data-label="published on push">
-  <rect x="4940.716" y="302.5" width="122.964" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="5002.198" y="317.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">published on push</text>
+  <rect x="4940.716" y="221.7" width="122.964" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
+<text x="5002.198" y="236.79999999999998" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">published on push</text>
 </g>
 <g class="edge-label" data-from="LinkReg" data-to="Content" data-label="cross_links">
   <rect x="4753.4220000000005" y="441.7" width="86.67600000000002" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
@@ -92,12 +92,12 @@
 </g>
 <g class="node" data-id="DocSet" data-label="Documentation set
 (docset.yml)" data-shape="rectangle">
-  <rect x="466.41999999999996" y="145.60000000000002" width="188.81600000000003" height="65.6" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="560.828" y="178.40000000000003" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="560.828" dy="-4.800000000000001">Documentation set</tspan><tspan x="560.828" dy="20.8">(docset.yml)</tspan></text>
+  <rect x="466.41999999999996" y="129.60000000000002" width="188.81600000000003" height="65.6" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="560.828" y="162.40000000000003" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="560.828" dy="-4.800000000000001">Documentation set</tspan><tspan x="560.828" dy="20.8">(docset.yml)</tspan></text>
 </g>
 <g class="node" data-id="Toc" data-label="Table of contents" data-shape="rectangle">
-  <rect x="790.2" y="156" width="180.608" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="880.504" y="178.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Table of contents</text>
+  <rect x="790.2" y="140" width="180.608" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="880.504" y="162.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Table of contents</text>
 </g>
 <g class="node" data-id="Content" data-label="Content: pages, snippets,
 images" data-shape="rectangle">
@@ -105,12 +105,12 @@ images" data-shape="rectangle">
   <text x="4435.816000000001" y="168" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="4435.816000000001" dy="-4.800000000000001">Content: pages, snippets,</tspan><tspan x="4435.816000000001" dy="20.8">images</tspan></text>
 </g>
 <g class="node" data-id="Nav" data-label="Navigation tree" data-shape="rectangle">
-  <rect x="1105.772" y="156" width="166.928" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="1189.2359999999999" y="178.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Navigation tree</text>
+  <rect x="1105.772" y="140" width="166.928" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="1189.2359999999999" y="162.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Navigation tree</text>
 </g>
 <g class="node" data-id="LinkReg" data-label="Link registry" data-shape="rectangle">
-  <rect x="5081.536" y="295.2" width="152.336" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="5157.704" y="317.59999999999997" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Link registry</text>
+  <rect x="5081.536" y="214.39999999999998" width="152.336" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="5157.704" y="236.79999999999998" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Link registry</text>
 </g>
 <g class="node" data-id="OpenApiRepo" data-label="OpenAPI repository" data-shape="rectangle">
   <rect x="3924.148" y="145.6" width="201.58400000000003" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
@@ -130,16 +130,16 @@ branch)" data-shape="rectangle">
   <text x="185.976" y="208" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Shared vocabulary (config/)</text>
 </g>
 <g class="node" data-id="Html" data-label="HTML, llms.txt, Pagefind" data-shape="rectangle">
-  <rect x="2469.8160000000003" y="156" width="228.944" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="2584.2880000000005" y="178.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">HTML, llms.txt, Pagefind</text>
+  <rect x="2469.8160000000003" y="140" width="228.944" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="2584.2880000000005" y="162.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">HTML, llms.txt, Pagefind</text>
 </g>
 <g class="node" data-id="Manifest" data-label="Link manifest (links.json)" data-shape="rectangle">
-  <rect x="4689.356000000001" y="295.2" width="233.50400000000002" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="4806.108000000001" y="317.59999999999997" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Link manifest (links.json)</text>
+  <rect x="4689.356000000001" y="214.39999999999998" width="233.50400000000002" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="4806.108000000001" y="236.79999999999998" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Link manifest (links.json)</text>
 </g>
 <g class="node" data-id="Redirects" data-label="redirects.json" data-shape="rectangle">
-  <rect x="4689.356000000001" y="214.39999999999998" width="160.544" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="4769.628000000001" y="236.79999999999998" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">redirects.json</text>
+  <rect x="4689.356000000001" y="295.2" width="160.544" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="4769.628000000001" y="317.59999999999997" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">redirects.json</text>
 </g>
 <g class="node" data-id="State" data-label="Generation state (.doc.state)" data-shape="rectangle">
   <rect x="4689.356000000001" y="376" width="257.21599999999995" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />

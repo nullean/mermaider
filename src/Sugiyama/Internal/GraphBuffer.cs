@@ -31,6 +31,12 @@ internal sealed class GraphBuffer : IDisposable
 	/// <summary>Pairs of node indices that must share the same layer. A is placed left of B.</summary>
 	internal List<(int A, int B)> SameRankPairs = [];
 
+	/// <summary>
+	/// Model order (OriginalEdgeIndex) for each virtual node, indexed by (virtualNodeId - RealNodeCount).
+	/// Populated by SplitLongEdges; null if no virtual nodes were added.
+	/// </summary>
+	internal int[]? VirtualNodeModelOrder;
+
 	internal double[] X;
 	internal double[] Y;
 

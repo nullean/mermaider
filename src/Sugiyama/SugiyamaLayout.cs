@@ -60,7 +60,8 @@ public static class SugiyamaLayout
 		if (input.Subgraphs.Count > 0)
 			PromoteDisconnectedSubgraphNodes(buf, input);
 
-		CrossingMinimizer.Run(buf, options.CrossingIterations, options.CancellationToken);
+		CrossingMinimizer.Run(buf, options.CrossingIterations, options.UseModelOrderForVirtualNodes,
+			options.CancellationToken);
 		CoordinateAssigner.Run(buf, options.NodeSpacing, options.LayerSpacing, options.TightSourceLayering);
 		SpreadFanOutChildren(buf, options.NodeSpacing);
 

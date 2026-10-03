@@ -129,6 +129,7 @@ internal static class LightweightLayoutEngine
 			MaxNodeCount = maxNodesAfterLayout,
 			ForceBottomExitFanOut = isStateDiagramEarly,
 			NaturalBackEdgeRouting = isStateDiagramEarly,
+			UseModelOrderForVirtualNodes = true,
 		};
 
 		LayoutResult result;

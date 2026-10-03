@@ -130,6 +130,15 @@ public sealed record LayoutOptions
 	/// </summary>
 	public bool TightSourceLayering { get; init; }
 
+	/// <summary>
+	/// When true, the crossing minimizer uses ELK's considerModelOrder.NODES_AND_EDGES
+	/// tiebreaker for virtual-vs-real node comparisons: virtual chain nodes are ordered by
+	/// their originating edge's model index. Matches ELK's initial ordering for flowchart
+	/// and state diagrams. Default: false (uses virtual-first tiebreaker, which produces
+	/// fewer crossings for dense ER diagrams).
+	/// </summary>
+	public bool UseModelOrderForVirtualNodes { get; init; }
+
 }
 
 // ====================================================================

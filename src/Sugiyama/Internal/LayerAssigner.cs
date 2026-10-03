@@ -153,6 +153,17 @@ internal static class LayerAssigner
 				var vNode = graph.AddVirtualNode();
 				graph.Layers[vNode] = layer;
 				newEdges.Add(new GraphEdge(prev, vNode, e.OriginalIndex, IsVirtual: true, Reversed: e.Reversed));
+				// Record the edge's OriginalIndex as the model order for this virtual node.
+				// CrossingMinimizer uses this to sort virtual nodes relative to real nodes.
+				var vIdx = vNode - graph.RealNodeCount;
+				if (graph.VirtualNodeModelOrder == null || vIdx >= graph.VirtualNodeModelOrder.Length)
+				{
+					var existingLen = graph.VirtualNodeModelOrder?.Length ?? 0;
+					var newArr = new int[Math.Max(vIdx + 1, (existingLen * 2) + 4)];
+					graph.VirtualNodeModelOrder?.CopyTo(newArr, 0);
+					graph.VirtualNodeModelOrder = newArr;
+				}
+				graph.VirtualNodeModelOrder[vIdx] = e.OriginalIndex;
 				prev = vNode;
 			}
 			newEdges.Add(new GraphEdge(prev, e.To, e.OriginalIndex, IsVirtual: prev != e.From, Reversed: e.Reversed));
