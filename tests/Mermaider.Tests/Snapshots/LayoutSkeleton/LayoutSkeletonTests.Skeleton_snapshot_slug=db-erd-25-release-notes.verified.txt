@@ -1,42 +1,42 @@
 ﻿Layer 0: Repository
 Layer 1: ChangelogConfiguration
-Layer 2: ReleaseTrigger, Pivot, Rules
-Layer 3: ProductDefaults, BundleProfile
+Layer 2: Pivot, ReleaseTrigger, Rules
+Layer 3: BundleProfile, ProductDefaults
 Layer 4: Product
 Layer 5: BundleRegistry
 Layer 6: Bundle
-Layer 7: BundledProduct, BundledEntry, ChangelogMarker, EntryPool, NotesIndex, BundleAmend, BundleNotesAmend
+Layer 7: BundledEntry, ChangelogMarker, EntryPool, BundleAmend, NotesIndex, BundleNotesAmend, BundledProduct
 Layer 8: ChangelogEntry, ChangelogNote
 Layer 9: ProductRelease
 Edges:
   Bundle --amend-N--> BundleAmend [Bottom->Top] [D R D]
   Bundle --amend-notes--> BundleNotesAmend [Bottom->Top] [D R D]
   Bundle --entries--> BundledEntry [Bottom->Top] [D L D]
-  Bundle --products--> BundledProduct [Bottom->Top] [D L D]
-  BundleProfile --product--> Product [Bottom->Top] [D]
+  Bundle --products--> BundledProduct [Bottom->Top] [D R D]
+  BundleProfile --product--> Product [Bottom->Top] [D R D]
   BundleRegistry --bundles[]--> Bundle [Bottom->Top] [D]
-  BundledEntry --file.name + checksum--> ChangelogEntry [Bottom->Top] [D]
+  BundledEntry --file.name + checksum--> ChangelogEntry [Bottom->Top] [D R D]
   BundledProduct --product--> Product [Right->Right] [R U L]
-  ChangelogConfiguration --bundle.profiles--> BundleProfile [Bottom->Top] [D L D R D]
-  ChangelogConfiguration --pivot--> Pivot [Bottom->Top] [D]
-  ChangelogConfiguration --products--> ProductDefaults [Bottom->Top] [D R D R D]
+  ChangelogConfiguration --bundle.profiles--> BundleProfile [Bottom->Top] [D L D]
+  ChangelogConfiguration --pivot--> Pivot [Bottom->Top] [D L D]
+  ChangelogConfiguration --products--> ProductDefaults [Bottom->Top] [D R D L D]
   ChangelogConfiguration --bundle.releases--> ReleaseTrigger [Bottom->Top] [D L D]
   ChangelogConfiguration --rules--> Rules [Bottom->Top] [D R D]
   ChangelogEntry --products--> ProductRelease [Bottom->Top] [D R D]
-  ChangelogMarker --link--> ChangelogEntry [Bottom->Top] [D L D]
+  ChangelogMarker --link--> ChangelogEntry [Bottom->Top] [D R D]
   ChangelogNote --products (versions)--> ProductRelease [Bottom->Top] [D R D]
   EntryPool --changelog/{org}/{repo}/{branch}/--> ChangelogEntry [Bottom->Top] [D L D]
-  EntryPool --note-*.yml--> ChangelogNote [Bottom->Top] [D L D]
+  EntryPool --note-*.yml--> ChangelogNote [Bottom->Top] [D R D]
   NotesIndex --notes[]--> ChangelogNote [Bottom->Top] [D L D]
-  Product --bundle/{product}/registry.json--> BundleRegistry [Bottom->Top] [D]
-  ProductDefaults --available, default--> Product [Bottom->Top] [D R D]
+  Product --bundle/{product}/registry.json--> BundleRegistry [Bottom->Top] [D L D]
+  ProductDefaults --available, default--> Product [Bottom->Top] [D L D]
   ProductRelease --product--> Product [Right->Right] [R U L]
   ReleaseTrigger --profile name--> BundleProfile [Bottom->Top] [D R D]
-  Repository --changelog.yml--> ChangelogConfiguration [Bottom->Top] [D]
+  Repository --changelog.yml--> ChangelogConfiguration [Bottom->Top] [D L D]
 Ports:
-  Bundle Bottom: edge3,edge2,edge0,edge1
+  Bundle Bottom: edge2,edge0,edge1,edge3
   BundleProfile Top: edge8,edge22
-  ChangelogConfiguration Bottom: edge9,edge12,edge8,edge11,edge10
+  ChangelogConfiguration Bottom: edge9,edge8,edge11,edge10,edge12
   ChangelogEntry Top: edge16,edge14,edge6
   ChangelogNote Top: edge17,edge18
   EntryPool Bottom: edge16,edge17

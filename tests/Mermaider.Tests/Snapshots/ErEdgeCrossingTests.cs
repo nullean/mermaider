@@ -22,7 +22,11 @@ public partial class ErEdgeCrossingTests
 		new Dictionary<string, int>(StringComparer.Ordinal)
 		{
 			["db-erd-02-shared-vocab"]            = 2,
-			["db-erd-05-building-blocks"]          = 5,
+			// UseRealFirstTiebreaker (ELK real-before-virtual seeding) changes the layer ordering in
+			// this dense 22-node graph, landing in a different local minimum with more crossings
+			// than virtual-first. The order agreement with mjs improved (25%→56%), so this trade-off
+			// is accepted. ELK's actual crossing count for this diagram is not tracked.
+			["db-erd-05-building-blocks"]          = 14,
 			["db-erd-06-catalog"]                  = 0,
 			["db-erd-07-source"]                   = 0,
 			["db-erd-08-docset"]                   = 0,
@@ -52,9 +56,11 @@ public partial class ErEdgeCrossingTests
 			["db-erd-22-link-graph"]               = 0,
 			["db-erd-23-publishing"]               = 1,
 			["db-erd-24-codex"]                    = 1,
-			["db-erd-25-release-notes"]            = 1,
+			["db-erd-25-release-notes"]            = 2,
+			// +1 crossing from BK BALANCED: the new X positions move edges through different
+			// corridors, trading one crossing elimination elsewhere for one new crossing here.
 			// Network simplex brought this diagram to 100%/100% layer+order IR agreement with
-			// mermaid.js (previously lower); the 1-crossing increase is a routing-corridor
+			// mermaid.js (previously lower); the earlier 1-crossing increase was a routing-corridor
 			// side effect of the new rank assignment, not a node-ordering defect.
 			["db-erd-26-api-reference"]            = 2,
 			["db-erd-27-search"]                   = 0,

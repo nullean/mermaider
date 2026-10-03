@@ -2,7 +2,7 @@
 Layer 1: PublishEnvironment, BuildType, AssembledDocumentationSet, GenerationState, BuildStamp, CloudfrontRedirectMap, SyncPlan
 Layer 2: FeatureFlag, AnalyticsIntegration, SearchIndex, DocumentationSet, RedirectStore, Redirect
 Edges:
-  AssembledDocumentationSet --docset--> DocumentationSet [Bottom->Top] [D]
+  AssembledDocumentationSet --docset--> DocumentationSet [Bottom->Top] [D L D]
   Assembly --environments--> PublishEnvironment [Bottom->Top] [D L D]
   Build --assembles--> AssembledDocumentationSet [Bottom->Top] [D L D]
   Build --assembler only--> BuildStamp [Bottom->Top] [D R D]
@@ -18,8 +18,8 @@ Edges:
   PublishEnvironment --KVS--> RedirectStore [Bottom->Top] [D R D]
   PublishEnvironment --index name suffix--> SearchIndex [Bottom->Top] [D R D]
 Ports:
-  Build Bottom: edge4,edge7,edge2,edge6,edge3,edge5,edge8
-  CloudfrontRedirectMap Bottom: edge9,edge10
+  Build Bottom: edge7,edge4,edge2,edge6,edge3,edge5,edge8
+  CloudfrontRedirectMap Bottom: edge10,edge9
   PublishEnvironment Bottom: edge12,edge11,edge14,edge13
   PublishEnvironment Top: edge1,edge7
   RedirectStore Top: edge13,edge10

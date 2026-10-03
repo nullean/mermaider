@@ -9,6 +9,6 @@ Edges:
   DocumentationSet --registry--> Registry [Bottom->Top] [D R D]
   DocumentationSet --toc--> TableOfContents [Bottom->Top] [D L D]
   TableOfContents --entries--> TocItem [Bottom->Top] [D]
-  TocItem --children--> TocItem [Right->Right] (self)
+  TocItem --children--> TocItem [Left->Left] (self)
 Ports:
   DocumentationSet Bottom: edge5,edge3,edge1,edge0,edge2,edge4

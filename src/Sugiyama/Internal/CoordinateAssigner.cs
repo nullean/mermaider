@@ -17,6 +17,17 @@ internal static class CoordinateAssigner
 	{
 		AssignPrimaryAxis(graph, layerSpacing);
 		AssignSecondaryAxis(graph, nodeSpacing);
+
+		if (interLayerCompact)
+		{
+			// BK BALANCED: produces the same X positions as ELK's bk.fixedAlignment=BALANCED,
+			// which is what mermaid.js uses. Replaces the Reingold-Tilford subtree-width +
+			// median-pull approach for ER diagrams.
+			BkCoordinateAssigner.Run(graph, nodeSpacing);
+			NormalizeX(graph);
+			return;
+		}
+
 		PlaceBySubtreeWidth(graph, nodeSpacing, interLayerCompact);
 		CompactOrphanedNodes(graph, nodeSpacing);
 		AlignToConnections(graph, nodeSpacing);
@@ -34,7 +45,12 @@ internal static class CoordinateAssigner
 		// there risks masking real spacing decisions with a forced push.
 		if (interLayerCompact)
 			EnforceMinimumSpacingAfterAlign(graph, nodeSpacing);
-		CompactOrphanedNodes(graph, nodeSpacing);
+		// After AlignToConnections, nodes with children are centered over their subtrees.
+		// Skip compaction for such nodes when they're already bracketed by their children
+		// (positioned within their children's X range) — compacting them rightward would
+		// undo the median pull and produce wrong route directions for disconnected components
+		// whose roots have unequal subtree widths (e.g. two isolated ER entity trees).
+		CompactOrphanedNodes(graph, nodeSpacing, skipBracketedNodes: interLayerCompact);
 		// Virtual nodes for skip-layer edges may land far outside their chain's X range
 		// due to the virtual-first tiebreaker placing them leftmost on barycenter ties.
 		// Pull them back toward the chain's source–target midpoint so routing stays within
@@ -344,11 +360,12 @@ internal static class CoordinateAssigner
 	/// Threshold: gap > 10 × nodeSpacing (conservative — catches real orphans, not
 	/// intentional wide subtree spreads).
 	/// </summary>
-	private static void CompactOrphanedNodes(GraphBuffer graph, double nodeSpacing)
+	private static void CompactOrphanedNodes(GraphBuffer graph, double nodeSpacing, bool skipBracketedNodes = false)
 	{
 		var threshold = nodeSpacing * 7;
 		for (var layer = 0; layer < graph.LayerCount; layer++)
 		{
+			var nextLayer = layer + 1;
 			var nodes = graph.LayerNodes[layer];
 			if (nodes.Length < 2)
 				continue;
@@ -364,6 +381,36 @@ internal static class CoordinateAssigner
 				var gap = graph.X[next] - (graph.X[curr] + currW);
 				if (gap <= threshold)
 					continue;
+
+				// Skip when a layer-0 root node has a real child substantially to its LEFT in
+				// the next layer: that child was placed there by PlaceBySubtreeWidth and defines
+				// the left boundary of this node's subtree corridor. Compacting the node rightward
+				// would slide it out of its corridor and reverse AlignToConnections's median pull.
+				// This pattern arises in graphs with disconnected components whose roots have
+				// different subtree widths — the left root has children on both sides but gets
+				// compacted toward the (wider) right component. Restricted to layer 0 so that
+				// non-root nodes in deeper layers (which may need rightward compaction for correct
+				// routing when node order doesn't match mjs) are still handled. Only on second call.
+				if (skipBracketedNodes && layer == 0 && layer + 1 < graph.LayerCount)
+				{
+					var currCX = graph.X[curr] + (currW / 2.0);
+					var hasLeftChild = false;
+					for (var oi = graph.OutAdjStart[curr]; oi < graph.OutAdjStart[curr + 1]; oi++)
+					{
+						var nb = graph.OutAdjNeighbor[oi];
+						if (nb < graph.RealNodeCount && graph.Layers[nb] == layer + 1)
+						{
+							var cx = graph.X[nb] + (graph.NodeWidths[nb] / 2.0);
+							if (cx < currCX - nodeSpacing)
+							{
+								hasLeftChild = true;
+								break;
+							}
+						}
+					}
+					if (hasLeftChild)
+						continue;
+				}
 
 				// Pull curr to be adjacent to next, respecting any left neighbour
 				var newX = graph.X[next] - nodeSpacing - currW;

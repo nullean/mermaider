@@ -1,39 +1,39 @@
-﻿Layer 0: DocumentationSet, InternalLink, CrossLink, PageCardDirective, ImageLink, SettingsDirective, RelatedLearningDirective
-Layer 1: DocumentationFile, CrossLinkUri, Page, Image, SettingsReference, IncludeDirective, RelatedLearningLink
-Layer 2: FrontMatter, Directive, Heading, Link, Snippet, ChangelogDirective
-Layer 3: Applicability, Cta, PageSubstitution, LegacyPage, ListingGroup, Anchor, Product
+﻿Layer 0: DocumentationSet, CrossLink, PageCardDirective, ImageLink, InternalLink, SettingsDirective, RelatedLearningDirective
+Layer 1: DocumentationFile, CrossLinkUri, Page, Image, IncludeDirective, SettingsReference, RelatedLearningLink
+Layer 2: Directive, Link, FrontMatter, ChangelogDirective, Heading, Snippet
+Layer 3: Applicability, Cta, PageSubstitution, LegacyPage, ListingGroup, Product, Anchor
 Layer 4: ApplicabilityEntry
 Layer 5: VersionSpec
 Edges:
-  Applicability --per key--> ApplicabilityEntry [Bottom->Top] [D L D]
+  Applicability --per key--> ApplicabilityEntry [Bottom->Top] [D]
   ApplicabilityEntry --version--> VersionSpec [Bottom->Top] [D]
-  ChangelogDirective --argument--> Product [Bottom->Top] [D L D]
-  CrossLink --repo://path--> CrossLinkUri [Bottom->Top] [D R D]
-  DocumentationSet --files--> DocumentationFile [Bottom->Top] [D R D]
+  ChangelogDirective --argument--> Product [Bottom->Top] [D R D]
+  CrossLink --repo://path--> CrossLinkUri [Bottom->Top] [D]
+  DocumentationSet --files--> DocumentationFile [Bottom->Top] [D]
   FrontMatter --applies_to--> Applicability [Bottom->Top] [D L D]
   FrontMatter --cta.id--> Cta [Bottom->Top] [D L D]
-  FrontMatter --mapped_pages--> LegacyPage [Bottom->Top] [D R D]
+  FrontMatter --mapped_pages--> LegacyPage [Bottom->Top] [D L D]
   FrontMatter --listing.group--> ListingGroup [Bottom->Top] [D R D]
   FrontMatter --sub--> PageSubstitution [Bottom->Top] [D L D]
   FrontMatter --products--> Product [Bottom->Top] [D R D]
   Heading --slug--> Anchor [Bottom->Top] [D R D]
-  ImageLink --src--> Image [Bottom->Top] [D]
-  IncludeDirective --path--> Snippet [Bottom->Top] [D]
-  InternalLink --#anchor--> Anchor [Bottom->Top] [D R D R D R D]
-  InternalLink --path--> Page [Bottom->Top] [D R D]
-  Page --collected--> Anchor [Bottom->Top] [D R D R D]
-  Page --contains--> Directive [Bottom->Top] [D R D]
+  ImageLink --src--> Image [Bottom->Top] [D R D]
+  IncludeDirective --path--> Snippet [Bottom->Top] [D L D]
+  InternalLink --#anchor--> Anchor [Bottom->Top] [D R D L D]
+  InternalLink --path--> Page [Bottom->Top] [D L D]
+  Page --collected--> Anchor [Bottom->Top] [D R D L D]
+  Page --contains--> Directive [Bottom->Top] [D L D]
   Page ----- yaml -----> FrontMatter [Bottom->Top] [D R D]
   Page --## text--> Heading [Bottom->Top] [D R D]
   Page --contains--> Link [Bottom->Top] [D R D]
   PageCardDirective --local link--> Page [Bottom->Top] [D R D]
-  RelatedLearningDirective --ids--> RelatedLearningLink [Bottom->Top] [D]
+  RelatedLearningDirective --ids--> RelatedLearningLink [Bottom->Top] [D L D]
   SettingsDirective --path--> SettingsReference [Bottom->Top] [D L D]
-  Snippet --contributes--> Anchor [Bottom->Top] [D L D]
+  Snippet --contributes--> Anchor [Bottom->Top] [D R D]
 Ports:
   Anchor Top: edge16,edge11,edge14,edge24
-  FrontMatter Bottom: edge5,edge10,edge6,edge9,edge7,edge8
+  FrontMatter Bottom: edge5,edge6,edge9,edge7,edge8,edge10
   InternalLink Bottom: edge15,edge14
-  Page Bottom: edge18,edge19,edge16,edge17,edge20
+  Page Bottom: edge17,edge20,edge18,edge19,edge16
   Page Top: edge15,edge21
   Product Top: edge10,edge2

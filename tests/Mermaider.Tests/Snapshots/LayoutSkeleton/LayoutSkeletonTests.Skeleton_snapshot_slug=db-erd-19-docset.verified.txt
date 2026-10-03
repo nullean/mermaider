@@ -1,5 +1,5 @@
 ﻿Layer 0: NestedTocItem, DocumentationSet, FileItem, FolderItem, CrossLinkItem
-Layer 1: TableOfContents, Substitution, CrossLinkDeclaration, Redirect, ApiDeclaration, ReleaseNotesSubscription, CodexGroup, FeatureToggle, HintSuppression, Page, IndexFileItem, CrossLinkUri
+Layer 1: TableOfContents, Substitution, Redirect, CrossLinkDeclaration, ApiDeclaration, ReleaseNotesSubscription, CodexGroup, FeatureToggle, HintSuppression, Page, IndexFileItem, CrossLinkUri
 Layer 2: TocItem, Repository, Registry, Product
 Layer 3: Cta
 Edges:
@@ -7,28 +7,28 @@ Edges:
   CrossLinkDeclaration --registry:// prefix--> Registry [Bottom->Top] [D R D]
   CrossLinkDeclaration --repository name--> Repository [Bottom->Top] [D L D]
   CrossLinkItem --crosslink--> CrossLinkUri [Bottom->Top] [D]
-  DocumentationSet --api--> ApiDeclaration [Bottom->Top] [D L D]
-  DocumentationSet --codex.group--> CodexGroup [Bottom->Top] [D L D]
+  DocumentationSet --api--> ApiDeclaration [Bottom->Top] [D R D]
+  DocumentationSet --codex.group--> CodexGroup [Bottom->Top] [D R D]
   DocumentationSet --cross_links--> CrossLinkDeclaration [Bottom->Top] [D L D]
-  DocumentationSet --cta--> Cta [Bottom->Top] [D L D R D]
+  DocumentationSet --cta--> Cta [Bottom->Top] [D L D L D]
   DocumentationSet --default_cta--> Cta [Bottom->Top] [D L D L D]
-  DocumentationSet --features--> FeatureToggle [Bottom->Top] [D L D]
-  DocumentationSet --suppress--> HintSuppression [Bottom->Top] [D L D]
-  DocumentationSet --products--> Product [Bottom->Top] [D L D R D]
+  DocumentationSet --features--> FeatureToggle [Bottom->Top] [D R D]
+  DocumentationSet --suppress--> HintSuppression [Bottom->Top] [D R D]
+  DocumentationSet --products--> Product [Bottom->Top] [D R D L D]
   DocumentationSet --redirects.yml--> Redirect [Bottom->Top] [D L D]
-  DocumentationSet --release_notes--> ReleaseNotesSubscription [Bottom->Top] [D L D]
+  DocumentationSet --release_notes--> ReleaseNotesSubscription [Bottom->Top] [D R D]
   DocumentationSet --subs--> Substitution [Bottom->Top] [D L D]
   DocumentationSet --toc--> TableOfContents [Bottom->Top] [D L D]
   FileItem --file--> Page [Bottom->Top] [D]
   FolderItem --index--> IndexFileItem [Bottom->Top] [D]
-  NestedTocItem --toc.yml in folder--> TableOfContents [Bottom->Top] [D L D]
-  ReleaseNotesSubscription --product--> Product [Bottom->Top] [D L D]
+  NestedTocItem --toc.yml in folder--> TableOfContents [Bottom->Top] [D R D]
+  ReleaseNotesSubscription --product--> Product [Bottom->Top] [D]
   TableOfContents --toc entries--> TocItem [Bottom->Top] [D]
-  TocItem --default_cta--> Cta [Bottom->Top] [D]
-  TocItem --children--> TocItem [Right->Right] (self)
+  TocItem --default_cta--> Cta [Bottom->Top] [D R D]
+  TocItem --children--> TocItem [Left->Left] (self)
 Ports:
   CrossLinkDeclaration Bottom: edge2,edge1
   Cta Top: edge7,edge21,edge8
-  DocumentationSet Bottom: edge15,edge14,edge6,edge12,edge4,edge7,edge8,edge13,edge11,edge5,edge9,edge10
+  DocumentationSet Bottom: edge15,edge14,edge7,edge8,edge12,edge6,edge4,edge13,edge11,edge5,edge9,edge10
   Product Top: edge0,edge19,edge11
   TableOfContents Top: edge15,edge18

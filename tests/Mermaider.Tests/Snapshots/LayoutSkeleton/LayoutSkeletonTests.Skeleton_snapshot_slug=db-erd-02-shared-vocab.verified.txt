@@ -6,16 +6,16 @@ Edges:
   Applicability --per key--> ApplicabilityEntry [Bottom->Top] [D]
   ApplicabilityEntry --lifecycle--> ProductLifecycle [Bottom->Top] [D R D]
   ApplicabilityEntry --version--> VersionSpec [Bottom->Top] [D L D]
-  ApplicabilityEntry --key resolves to--> VersioningSystem [Bottom->Top] [D]
+  ApplicabilityEntry --key resolves to--> VersioningSystem [Bottom->Top] [D R D]
   ChangelogLifecycle --maps to--> ProductLifecycle [Bottom->Top] [D L D]
   Product --repository--> Repository [Bottom->Top] [D R D]
   Product --versioning--> VersioningSystem [Bottom->Top] [D L D]
   ProductRelease --lifecycle--> ChangelogLifecycle [Bottom->Top] [D R D]
   ProductRelease --product--> Product [Bottom->Top] [D L D]
-  VersioningSystem --base--> SemVersion [Bottom->Top] [D]
+  VersioningSystem --base--> SemVersion [Bottom->Top] [D R D]
   VersioningSystem --current--> SemVersion [Bottom->Top] [D]
 Ports:
-  ApplicabilityEntry Bottom: edge1,edge2,edge3
+  ApplicabilityEntry Bottom: edge2,edge3,edge1
   Product Bottom: edge6,edge5
   ProductLifecycle Top: edge1,edge4
   ProductRelease Bottom: edge8,edge7
