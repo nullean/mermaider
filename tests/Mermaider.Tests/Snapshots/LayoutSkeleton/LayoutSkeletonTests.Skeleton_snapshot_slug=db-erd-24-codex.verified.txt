@@ -3,11 +3,12 @@ Layer 1: Registry, CodexDocumentationSet
 Layer 2: LinkRegistry, CodexGroup, DocumentationSet
 Edges:
   CodexDocumentationSet --codex.group--> CodexGroup [Bottom->Top] [D L D]
-  CodexDocumentationSet --docset--> DocumentationSet [Right->Top] [R D]
-  CodexSite --from LinkRegistry--> CodexDocumentationSet [Right->Top] [R D]
-  CodexSite --groups--> CodexGroup [Bottom->Top] [D]
+  CodexDocumentationSet --docset--> DocumentationSet [Bottom->Top] [D R D]
+  CodexSite --from LinkRegistry--> CodexDocumentationSet [Bottom->Top] [D R D]
+  CodexSite --groups--> CodexGroup [Bottom->Top] [D R D]
   CodexSite --environment = registry--> Registry [Bottom->Top] [D L D]
   Registry --git: elastic/codex-link-index/{registry}--> LinkRegistry [Bottom->Top] [D L D]
 Ports:
+  CodexDocumentationSet Bottom: edge1,edge0
   CodexGroup Top: edge3,edge0
-  CodexSite Bottom: edge3,edge4
+  CodexSite Bottom: edge3,edge4,edge2

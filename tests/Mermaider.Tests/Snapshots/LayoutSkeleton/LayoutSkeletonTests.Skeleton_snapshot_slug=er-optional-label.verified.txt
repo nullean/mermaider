@@ -5,6 +5,6 @@ Edges:
   ORDER --contains--> LINE_ITEM [Bottom->Top] [D]
   PERSON ----> ADDRESS [Bottom->Top] [D L D]
   PERSON --places--> ORDER [Bottom->Top] [D]
-  PERSON ----> PHONE [Right->Top] [R D]
+  PERSON ----> PHONE [Bottom->Top] [D R D]
 Ports:
-  PERSON Bottom: edge1,edge2
+  PERSON Bottom: edge1,edge3,edge2

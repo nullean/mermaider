@@ -35,8 +35,8 @@
 <path class="er-relationship" data-entity1="Assembly" data-entity2="PublishEnvironment" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="environments" d="M624.04,96 C624.04,145 254.16,145 254.16,194" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="PublishEnvironment" data-entity2="SearchIndex" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="index suffix" d="M254.16,270 L254.16,368" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="Build" data-entity2="AssembledDocumentationSet" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="assembles" d="M688.04,96 C688.04,145 486.4,145 486.4,194" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Build" data-entity2="CloudfrontRedirectMap" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="redirects.json" d="M772.04,96 L772.04,194" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Build" data-entity2="SyncPlan" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="deploy" d="M790.04,58 C915.6,58 915.6,126 915.6,194" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Build" data-entity2="CloudfrontRedirectMap" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="redirects.json" d="M730.04,96 L730.04,194" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Build" data-entity2="SyncPlan" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="deploy" d="M772.04,96 C772.04,145 915.6,145 915.6,194" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="entity" data-id="Assembly" data-label="Assembly">
   <rect x="522.04" y="20" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
   <text x="582.04" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Assembly</text>
@@ -90,12 +90,12 @@
 <line x1="479.4" y1="190" x2="486.4" y2="178" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="486.4" y1="190" x2="486.4" y2="178" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="493.4" y1="190" x2="486.4" y2="178" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="736.04" y1="100" x2="724.04" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="736.04" y1="104" x2="724.04" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="724.04" y1="190" x2="736.04" y2="190" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="724.04" y1="186" x2="736.04" y2="186" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="778.04" y1="100" x2="766.04" y2="100" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="778.04" y1="104" x2="766.04" y2="104" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="766.04" y1="190" x2="778.04" y2="190" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="766.04" y1="186" x2="778.04" y2="186" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="794.04" y1="52" x2="794.04" y2="64" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="798.04" y1="52" x2="798.04" y2="64" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="909.6" y1="190" x2="921.6" y2="190" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="909.6" y1="186" x2="921.6" y2="186" stroke="var(--_line)" stroke-width="2.5" />
 <circle cx="915.6" cy="182" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
@@ -107,8 +107,8 @@
 <text x="254.16" y="319" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">index suffix</text>
 <rect x="549.662" y="132.9" width="75.11600000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="587.22" y="145" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">assembles</text>
-<rect x="724.654" y="132.9" width="94.772" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="772.04" y="145" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">redirects.json</text>
-<rect x="890.138" y="113.9" width="50.92400000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="915.6" y="126" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">deploy</text>
+<rect x="682.654" y="132.9" width="94.772" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="730.04" y="145" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">redirects.json</text>
+<rect x="818.358" y="132.9" width="50.92400000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="843.8199999999999" y="145" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">deploy</text>
 </svg>

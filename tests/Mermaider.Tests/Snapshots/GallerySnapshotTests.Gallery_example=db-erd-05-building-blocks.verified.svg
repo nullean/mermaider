@@ -40,9 +40,9 @@
 <path class="er-relationship" data-entity1="DocumentationSet" data-entity2="LinkManifest" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="one per branch" d="M508.41279999999995,496 L508.41279999999995,552 Q508.41279999999995,558 502.41279999999995,558 L409.6199999999999,558 Q403.6199999999999,558 403.6199999999999,564 L403.6199999999999,714 Q403.6199999999999,720 397.6199999999999,720 L280.8984,720 Q274.8984,720 274.8984,726 L274.8984,820" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="LinkManifest" data-entity2="LinkRegistry" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="indexed by" d="M317.01599999999996,896 C317.01599999999996,958 186.49519999999976,958 186.49519999999976,1020" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="LinkRegistry" data-entity2="Registry" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="one per registry" d="M186.9319999999998,1096 L186.9319999999998,1220" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Assembly" data-entity2="Repository" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="references" d="M220.36799999999994,58 C317.18399999999997,58 317.18399999999997,139 317.18399999999997,220" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Assembly" data-entity2="LinkRegistry" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="pins commits from" d="M220.36799999999994,58 L224.64999999999986,58 Q228.93199999999976,58 228.93199999999976,62.28199999999991 L228.93199999999976,133 Q228.93199999999976,139 222.93199999999976,139 L200.64999999999986,139 Q194.64999999999986,139 194.64999999999986,145 L194.64999999999986,314 Q194.64999999999986,320 188.64999999999986,320 L26,320 Q20,320 20,326 L20,414 Q20,420 20.155467783533545,425.9979854758313 L25.028532216466424,614.0020145241687 Q25.18399999999997,620 25.18399999999997,626 L25.18399999999997,714 Q25.18399999999997,720 31.18399999999997,720 L222.84799999999996,720 Q228.84799999999996,720 228.84799999999996,726 L228.84799999999996,920 L228.93199999999976,920 L228.93199999999976,1020" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Assembly" data-entity2="SiteNavigation" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="navigation.yml" d="M160.36799999999994,96 L160.36799999999994,152 Q160.36799999999994,158 154.36799999999994,158 L119.18399999999997,158 Q113.18399999999997,158 113.18399999999997,164 L113.18399999999997,320 L113.184,320 L113.184,420" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Assembly" data-entity2="Repository" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="references" d="M118.36799999999994,96 C118.36799999999994,158 317.18399999999997,158 317.18399999999997,220" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Assembly" data-entity2="LinkRegistry" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="pins commits from" d="M146.36799999999994,96 L146.36799999999994,152 Q146.36799999999994,158 152.36799999999994,158 L188.64999999999986,158 Q194.64999999999986,158 194.64999999999986,164 L194.64999999999986,314 Q194.64999999999986,320 188.64999999999986,320 L26,320 Q20,320 20,326 L20,414 Q20,420 20.155467783533545,425.9979854758313 L25.028532216466424,614.0020145241687 Q25.18399999999997,620 25.18399999999997,626 L25.18399999999997,714 Q25.18399999999997,720 31.18399999999997,720 L222.84799999999996,720 Q228.84799999999996,720 228.84799999999996,726 L228.84799999999996,920 L228.93199999999976,920 L228.93199999999976,1020" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Assembly" data-entity2="SiteNavigation" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="navigation.yml" d="M174.36799999999994,96 L174.36799999999994,152 Q174.36799999999994,158 168.36799999999994,158 L119.18399999999997,158 Q113.18399999999997,158 113.18399999999997,164 L113.18399999999997,320 L113.184,320 L113.184,420" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="SiteNavigation" data-entity2="Navigation" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="mounts" d="M155.18399999999997,496 L155.18399999999997,620" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="CodexSite" data-entity2="Registry" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="environment" d="M98.84799999999996,896 C98.84799999999996,1058 270.9319999999998,1058 270.9319999999998,1220" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="CodexSite" data-entity2="LinkRegistry" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="discovers members from" d="M182.84799999999996,896 C182.84799999999996,958 271.36879999999974,958 271.36879999999974,1020" fill="none" stroke="var(--_line)" stroke-width="2.25" />
@@ -52,7 +52,7 @@
 <path class="er-relationship" data-entity1="OpenApiSpec" data-entity2="OpenApiRepository" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="published to" d="M468.54399999999987,896 L468.54399999999987,1020" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="DocumentationSet" data-entity2="ApiReference" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="api" d="M544.7904,496 C544.7904,558 468.544,558 468.544,620" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="ApiReference" data-entity2="OpenApiSpec" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="spec + repository" d="M512.896,696 L512.896,820" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Assembly" data-entity2="SearchIndex" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="per environment" d="M220.36799999999994,58 C613.808,58 613.808,139 613.808,220" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Assembly" data-entity2="SearchIndex" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="per environment" d="M202.36799999999994,96 C202.36799999999994,158 613.808,158 613.808,220" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="entity" data-id="Catalog" data-label="Catalog">
   <rect x="405.18399999999997" y="220" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
   <text x="465.18399999999997" y="258" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Catalog</text>
@@ -165,19 +165,19 @@
 <line x1="192.9319999999998" y1="1104" x2="180.9319999999998" y2="1104" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="180.9319999999998" y1="1216" x2="192.9319999999998" y2="1216" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="180.9319999999998" y1="1212" x2="192.9319999999998" y2="1212" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="224.36799999999994" y1="52" x2="224.36799999999994" y2="64" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="228.36799999999994" y1="52" x2="228.36799999999994" y2="64" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="124.36799999999994" y1="100" x2="112.36799999999994" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="124.36799999999994" y1="104" x2="112.36799999999994" y2="104" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="310.18399999999997" y1="216" x2="317.18399999999997" y2="204" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="317.18399999999997" y1="216" x2="317.18399999999997" y2="204" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="324.18399999999997" y1="216" x2="317.18399999999997" y2="204" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="224.36799999999994" y1="51" x2="236.36799999999994" y2="58" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="224.36799999999994" y1="58" x2="236.36799999999994" y2="58" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="224.36799999999994" y1="65" x2="236.36799999999994" y2="58" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="240.36799999999994" cy="58" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="153.36799999999994" y1="100" x2="146.36799999999994" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="146.36799999999994" y1="100" x2="146.36799999999994" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="139.36799999999994" y1="100" x2="146.36799999999994" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="146.36799999999994" cy="116" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="222.93199999999976" y1="1016" x2="234.93199999999976" y2="1016" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="222.93199999999976" y1="1012" x2="234.93199999999976" y2="1012" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="166.36799999999994" y1="100" x2="154.36799999999994" y2="100" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="166.36799999999994" y1="104" x2="154.36799999999994" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="180.36799999999994" y1="100" x2="168.36799999999994" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="180.36799999999994" y1="104" x2="168.36799999999994" y2="104" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="107.184" y1="416" x2="119.184" y2="416" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="107.184" y1="412" x2="119.184" y2="412" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="161.18399999999997" y1="500" x2="149.18399999999997" y2="500" stroke="var(--_line)" stroke-width="2.5" />
@@ -235,8 +235,8 @@
 <circle cx="512.896" cy="716" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="506.89599999999996" y1="816" x2="518.896" y2="816" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="506.89599999999996" y1="812" x2="518.896" y2="812" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="224.36799999999994" y1="52" x2="224.36799999999994" y2="64" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="228.36799999999994" y1="52" x2="228.36799999999994" y2="64" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="208.36799999999994" y1="100" x2="196.36799999999994" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="208.36799999999994" y1="104" x2="196.36799999999994" y2="104" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="606.808" y1="216" x2="613.808" y2="204" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="613.808" y1="216" x2="613.808" y2="204" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="620.808" y1="216" x2="613.808" y2="204" stroke="var(--_line)" stroke-width="2.5" />
@@ -259,8 +259,8 @@
 <text x="302.59099999999984" y="958" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">indexed by</text>
 <rect x="133.4979999999998" y="1145.9" width="106.86800000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="186.9319999999998" y="1158" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">one per registry</text>
-<rect x="278.114" y="126.9" width="78.14" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="317.18399999999997" y="139" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">references</text>
+<rect x="178.70599999999996" y="145.9" width="78.14" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="217.77599999999995" y="158" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">references</text>
 <rect x="70.55799999999995" y="707.9" width="112.91600000000003" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="127.01599999999996" y="720" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">pins commits from</text>
 <rect x="65.79799999999997" y="257.9" width="94.772" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
@@ -283,6 +283,6 @@
 <text x="506.6672" y="558" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">api</text>
 <rect x="535.17645" y="745.9" width="115.94" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="593.1464500000001" y="758" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">spec + repository</text>
-<rect x="559.996" y="126.9" width="107.624" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="613.808" y="139" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">per environment</text>
+<rect x="354.27599999999995" y="145.9" width="107.624" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="408.08799999999997" y="158" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">per environment</text>
 </svg>

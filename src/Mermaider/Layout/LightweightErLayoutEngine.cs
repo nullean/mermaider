@@ -117,6 +117,7 @@ internal static class LightweightErLayoutEngine
 			LayerSpacing = effectiveLayerSpacing,
 			CrossingIterations = 8,
 			StrictTopDownFanout = true,
+			ForceBottomExitFanOut = true,
 			MaxComponentsPerRow = maxPerRow,
 			TightSourceLayering = true,
 			SeparateComponents = false,
@@ -290,12 +291,16 @@ internal static class LightweightErLayoutEngine
 			if (!entityByName.TryGetValue(entityId, out var ent))
 				continue;
 
-			// Sort by source entity center-x so leftmost source gets leftmost port
+			// Sort by source entity center-x so leftmost source gets leftmost port.
+			// Tiebreak by edge index (model order) to give deterministic, ELK-matching port
+			// assignment when multiple edges share the same approach X (e.g. two edges to the
+			// same source entity).
 			indices.Sort((a, b) =>
 			{
 				var approachA = rels[a].Points.Count >= 2 ? rels[a].Points[^2].X : rels[a].Points[^1].X;
 				var approachB = rels[b].Points.Count >= 2 ? rels[b].Points[^2].X : rels[b].Points[^1].X;
-				return approachA.CompareTo(approachB);
+				var cmp = approachA.CompareTo(approachB);
+				return cmp != 0 ? cmp : a.CompareTo(b);
 			});
 
 			var margin = ent.Width * portMarginFraction;
@@ -358,12 +363,13 @@ internal static class LightweightErLayoutEngine
 			if (!entityByName.TryGetValue(entityId, out var ent))
 				continue;
 
-			// Sort by target entity center-x
+			// Sort by target entity center-x. Tiebreak by edge index (model order).
 			indices.Sort((a, b) =>
 			{
 				var approachA = rels[a].Points.Count >= 2 ? rels[a].Points[1].X : rels[a].Points[0].X;
 				var approachB = rels[b].Points.Count >= 2 ? rels[b].Points[1].X : rels[b].Points[0].X;
-				return approachA.CompareTo(approachB);
+				var cmp = approachA.CompareTo(approachB);
+				return cmp != 0 ? cmp : a.CompareTo(b);
 			});
 
 			var margin = ent.Width * portMarginFraction;
@@ -428,8 +434,11 @@ internal static class LightweightErLayoutEngine
 			var len = Math.Sqrt((dx * dx) + (dy * dy));
 			if (len < 0.001)
 				continue;
-			var perpX = -dy / len;
-			var perpY = dx / len;
+			// Perpendicular direction: RIGHT relative to edge travel direction, so that
+			// lower-indexed (earlier model-order) edges are offset LEFT and higher-indexed
+			// edges offset RIGHT — matching ELK's model-order port assignment.
+			var perpX = dy / len;
+			var perpY = -dx / len;
 
 			for (var i = 0; i < indices.Count; i++)
 			{

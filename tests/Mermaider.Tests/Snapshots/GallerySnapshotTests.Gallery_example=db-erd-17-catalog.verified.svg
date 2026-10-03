@@ -32,12 +32,12 @@
 </defs>
 
 <path class="er-relationship" data-entity1="Product" data-entity2="VersioningSystem" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="versioning (defaults to id)" d="M225.55200000000002,444 C225.55200000000002,493 99.776,493 99.776,542" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Product" data-entity2="Repository" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="repository (defaults to id)" d="M309.552,444 L309.552,542" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Product" data-entity2="ProductFeatures" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="features" d="M327.552,406 C431.68,406 431.68,474 431.68,542" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Product" data-entity2="Repository" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="repository (defaults to id)" d="M267.552,444 L267.552,542" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Product" data-entity2="ProductFeatures" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="features" d="M309.552,444 C309.552,493 431.68,493 431.68,542" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="LegacyUrlMapping" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="product" d="M209.68000000000006,270 C209.68000000000006,319 267.552,319 267.552,368" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="LegacyPage" data-entity2="LegacyUrlMapping" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="matched by base URL" d="M209.68000000000006,96 L209.68000000000006,194" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="VersioningSystem" data-entity2="SemVersion" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="base" d="M155.61919999999998,618 L155.61919999999998,716" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="VersioningSystem" data-entity2="SemVersion" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="current" d="M43.9328,618 L43.9328,716" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="VersioningSystem" data-entity2="SemVersion" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="base" d="M43.9328,618 L43.9328,716" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="VersioningSystem" data-entity2="SemVersion" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="current" d="M155.61919999999998,618 L155.61919999999998,716" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="QueryRule" data-entity2="SearchDocument" data-cardinality1="zeromany" data-cardinality2="zeromany" data-identifying="true" data-label="actions.ids = path" d="M397.68800000000005,96 L397.68800000000005,194" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="entity" data-id="Product" data-label="Product">
   <rect x="207.55200000000002" y="368" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
@@ -82,15 +82,15 @@
 <line x1="93.776" y1="538" x2="105.776" y2="538" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="93.776" y1="534" x2="105.776" y2="534" stroke="var(--_line)" stroke-width="2.5" />
 <circle cx="99.776" cy="530" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="316.552" y1="448" x2="309.552" y2="460" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="309.552" y1="448" x2="309.552" y2="460" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="302.552" y1="448" x2="309.552" y2="460" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="309.552" cy="464" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="303.552" y1="538" x2="315.552" y2="538" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="303.552" y1="534" x2="315.552" y2="534" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="309.552" cy="530" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="331.552" y1="400" x2="331.552" y2="412" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="335.552" y1="400" x2="335.552" y2="412" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="274.552" y1="448" x2="267.552" y2="460" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="267.552" y1="448" x2="267.552" y2="460" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="260.552" y1="448" x2="267.552" y2="460" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="267.552" cy="464" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="261.552" y1="538" x2="273.552" y2="538" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="261.552" y1="534" x2="273.552" y2="534" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="267.552" cy="530" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="315.552" y1="448" x2="303.552" y2="448" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="315.552" y1="452" x2="303.552" y2="452" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="425.68" y1="538" x2="437.68" y2="538" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="425.68" y1="534" x2="437.68" y2="534" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="216.68000000000006" y1="274" x2="209.68000000000006" y2="286" stroke="var(--_line)" stroke-width="2.5" />
@@ -105,14 +105,14 @@
 <circle cx="209.68000000000006" cy="116" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="203.68000000000006" y1="190" x2="215.68000000000006" y2="190" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="203.68000000000006" y1="186" x2="215.68000000000006" y2="186" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="161.61919999999998" y1="622" x2="149.61919999999998" y2="622" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="161.61919999999998" y1="626" x2="149.61919999999998" y2="626" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="149.61919999999998" y1="712" x2="161.61919999999998" y2="712" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="149.61919999999998" y1="708" x2="161.61919999999998" y2="708" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="49.9328" y1="622" x2="37.9328" y2="622" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="49.9328" y1="626" x2="37.9328" y2="626" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="37.9328" y1="712" x2="49.9328" y2="712" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="37.9328" y1="708" x2="49.9328" y2="708" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="161.61919999999998" y1="622" x2="149.61919999999998" y2="622" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="161.61919999999998" y1="626" x2="149.61919999999998" y2="626" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="149.61919999999998" y1="712" x2="161.61919999999998" y2="712" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="149.61919999999998" y1="708" x2="161.61919999999998" y2="708" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="404.68800000000005" y1="100" x2="397.68800000000005" y2="112" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="397.68800000000005" y1="100" x2="397.68800000000005" y2="112" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="390.68800000000005" y1="100" x2="397.68800000000005" y2="112" stroke="var(--_line)" stroke-width="2.5" />
@@ -121,20 +121,20 @@
 <line x1="397.68800000000005" y1="190" x2="397.68800000000005" y2="178" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="404.68800000000005" y1="190" x2="397.68800000000005" y2="178" stroke="var(--_line)" stroke-width="2.5" />
 <circle cx="397.68800000000005" cy="174" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<rect x="72.51299999999995" y="480.9" width="157.52000000000004" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="151.27299999999997" y="493" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">versioning (defaults to id)</text>
-<rect x="240.03300000000002" y="480.9" width="156.008" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="318.03700000000003" y="493" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">repository (defaults to id)</text>
-<rect x="404.588" y="461.9" width="59.996" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="434.586" y="474" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">features</text>
+<rect x="38.62974999999996" y="480.9" width="157.52000000000004" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="117.38974999999998" y="493" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">versioning (defaults to id)</text>
+<rect x="204.71612499999998" y="480.9" width="156.008" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="282.720125" y="493" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">repository (defaults to id)</text>
+<rect x="370.724125" y="480.9" width="59.996" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="400.722125" y="493" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">features</text>
 <rect x="210.13000000000005" y="306.9" width="56.972" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="238.61600000000004" y="319" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">product</text>
 <rect x="139.99200000000008" y="132.9" width="139.37599999999998" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="209.68000000000006" y="145" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">matched by base URL</text>
-<rect x="135.44919999999996" y="654.9" width="40.34" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="155.61919999999998" y="667" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">base</text>
-<rect x="16.2028" y="654.9" width="55.46" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="43.9328" y="667" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">current</text>
+<rect x="23.7628" y="654.9" width="40.34" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="43.9328" y="667" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">base</text>
+<rect x="127.88919999999997" y="654.9" width="55.46" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="155.61919999999998" y="667" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">current</text>
 <rect x="341.23" y="132.9" width="112.91600000000003" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="397.68800000000005" y="145" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">actions.ids = path</text>
 </svg>

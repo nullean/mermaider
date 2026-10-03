@@ -10,6 +10,6 @@ Edges:
   InternalLink --target--> Page [Bottom->Top] [D]
   Page --anchors--> Anchor [Bottom->Top] [D]
   Page --front matter--> FrontMatter [Bottom->Top] [D L D]
-  Page --links--> Link [Right->Top] [R D]
+  Page --links--> Link [Bottom->Top] [D R D]
 Ports:
-  Page Bottom: edge6,edge5
+  Page Bottom: edge6,edge5,edge7

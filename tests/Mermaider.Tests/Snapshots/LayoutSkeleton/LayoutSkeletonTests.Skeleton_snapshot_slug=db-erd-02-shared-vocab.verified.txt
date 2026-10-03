@@ -10,7 +10,7 @@ Edges:
   ChangelogLifecycle --maps to--> ProductLifecycle [Bottom->Top] [D L D]
   Product --repository--> Repository [Bottom->Top] [D R D]
   Product --versioning--> VersioningSystem [Bottom->Top] [D L D]
-  ProductRelease --lifecycle--> ChangelogLifecycle [Right->Top] [R D]
+  ProductRelease --lifecycle--> ChangelogLifecycle [Bottom->Top] [D R D]
   ProductRelease --product--> Product [Bottom->Top] [D L D]
   VersioningSystem --base--> SemVersion [Bottom->Top] [D]
   VersioningSystem --current--> SemVersion [Bottom->Top] [D]
@@ -18,6 +18,7 @@ Ports:
   ApplicabilityEntry Bottom: edge1,edge2,edge3
   Product Bottom: edge6,edge5
   ProductLifecycle Top: edge1,edge4
-  SemVersion Top: edge10,edge9
-  VersioningSystem Bottom: edge10,edge9
+  ProductRelease Bottom: edge8,edge7
+  SemVersion Top: edge9,edge10
+  VersioningSystem Bottom: edge9,edge10
   VersioningSystem Top: edge6,edge3

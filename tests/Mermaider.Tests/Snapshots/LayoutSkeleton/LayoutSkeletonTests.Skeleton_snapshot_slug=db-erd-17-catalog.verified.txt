@@ -6,13 +6,13 @@ Layer 4: SemVersion
 Edges:
   LegacyPage --matched by base URL--> LegacyUrlMapping [Bottom->Top] [D]
   LegacyUrlMapping --product--> Product [Bottom->Top] [D R D]
-  Product --features--> ProductFeatures [Right->Top] [R D]
+  Product --features--> ProductFeatures [Bottom->Top] [D R D]
   Product --repository (defaults to id)--> Repository [Bottom->Top] [D]
   Product --versioning (defaults to id)--> VersioningSystem [Bottom->Top] [D L D]
   QueryRule --actions.ids = path--> SearchDocument [Bottom->Top] [D]
   VersioningSystem --base--> SemVersion [Bottom->Top] [D]
   VersioningSystem --current--> SemVersion [Bottom->Top] [D]
 Ports:
-  Product Bottom: edge4,edge3
-  SemVersion Top: edge7,edge6
-  VersioningSystem Bottom: edge7,edge6
+  Product Bottom: edge4,edge3,edge2
+  SemVersion Top: edge6,edge7
+  VersioningSystem Bottom: edge6,edge7

@@ -3,9 +3,10 @@ Layer 1: POST
 Layer 2: COMMENT, TAG
 Edges:
   POST --has--> COMMENT [Bottom->Top] [D L D]
-  POST --tagged--> TAG [Right->Top] [R D]
+  POST --tagged--> TAG [Bottom->Top] [D R D]
   USER --writes--> COMMENT [Bottom->Top] [D L D L D]
   USER --writes--> POST [Bottom->Top] [D]
 Ports:
   COMMENT Top: edge2,edge0
+  POST Bottom: edge0,edge1
   USER Bottom: edge3,edge2

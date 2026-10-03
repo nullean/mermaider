@@ -7,9 +7,9 @@ Layer 5: LinkRegistry, OpenApiRepository
 Layer 6: Registry
 Edges:
   ApiReference --spec + repository--> OpenApiSpec [Bottom->Top] [D]
-  Assembly --pins commits from--> LinkRegistry [Right->Top] [R D L D L D R D]
-  Assembly --references--> Repository [Right->Top] [R D]
-  Assembly --per environment--> SearchIndex [Right->Top] [R D]
+  Assembly --pins commits from--> LinkRegistry [Bottom->Top] [D R D L D R D]
+  Assembly --references--> Repository [Bottom->Top] [D R D]
+  Assembly --per environment--> SearchIndex [Bottom->Top] [D R D]
   Assembly --navigation.yml--> SiteNavigation [Bottom->Top] [D L D]
   Catalog --products, versioning--> DocumentationSet [Bottom->Top] [D R D]
   Catalog --products--> ReleaseNotes [Bottom->Top] [D R D L D]
@@ -29,7 +29,7 @@ Edges:
   Repository --changelog.yml--> ReleaseNotes [Bottom->Top] [D R D]
   SiteNavigation --mounts--> Navigation [Bottom->Top] [D]
 Ports:
-  Assembly Right: edge2,edge1,edge3
+  Assembly Bottom: edge2,edge1,edge4,edge3
   Catalog Bottom: edge5,edge6
   CodexSite Bottom: edge8,edge7
   Content Bottom: edge10,edge9

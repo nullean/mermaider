@@ -28,7 +28,7 @@ Edges:
   TocItem --children--> TocItem [Right->Right] (self)
 Ports:
   CrossLinkDeclaration Bottom: edge2,edge1
-  Cta Top: edge8,edge21,edge7
-  DocumentationSet Bottom: edge15,edge14,edge6,edge12,edge4,edge8,edge7,edge13,edge11,edge5,edge9,edge10
+  Cta Top: edge7,edge21,edge8
+  DocumentationSet Bottom: edge15,edge14,edge6,edge12,edge4,edge7,edge8,edge13,edge11,edge5,edge9,edge10
   Product Top: edge0,edge19,edge11
   TableOfContents Top: edge15,edge18
