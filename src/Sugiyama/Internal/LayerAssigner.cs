@@ -19,7 +19,8 @@ internal static class LayerAssigner
 	internal static void Run(
 		GraphBuffer graph, bool naturalBackEdgeRouting = false,
 		IReadOnlyList<int>? topLevelLooseNodes = null,
-		IReadOnlyList<NestingGraphRanker.Group>? topLevelGroups = null)
+		IReadOnlyList<NestingGraphRanker.Group>? topLevelGroups = null,
+		bool reverseSourceOrder = false)
 	{
 		graph.RebuildAdjacency();
 		AssignLayersViaNetworkSimplex(graph, topLevelLooseNodes, topLevelGroups);
@@ -27,7 +28,7 @@ internal static class LayerAssigner
 		EnforceMinLengths(graph);
 		InsertVirtualNodes(graph, naturalBackEdgeRouting);
 		graph.RebuildAdjacency();
-		BuildLayerArrays(graph);
+		BuildLayerArrays(graph, reverseSourceOrder);
 	}
 
 	private static void AssignLayersViaNetworkSimplex(
@@ -172,7 +173,7 @@ internal static class LayerAssigner
 		graph.Edges.AddRange(newEdges);
 	}
 
-	internal static void BuildLayerArrays(GraphBuffer graph)
+	internal static void BuildLayerArrays(GraphBuffer graph, bool reverseSourceOrder = false)
 	{
 		// dagre's initOrder uses DFS from sources (nodes sorted by id) to establish the
 		// initial within-layer ordering seen by the crossing minimizer. Replicating this
@@ -208,8 +209,13 @@ internal static class LayerAssigner
 			if (!hasLowerPredecessor)
 				sources.Add(v);
 		}
-		// Sort sources by NodeIndex (matches dagre's "sort by id").
-		sources.Sort();
+		// Sort sources by NodeIndex (matches dagre's "sort by id"), or descending when
+		// reverseSourceOrder is enabled to start the crossing minimizer from the opposite
+		// symmetric local minimum (matches ELK's converged ordering on mirror-symmetric ER graphs).
+		if (reverseSourceOrder)
+			sources.Sort((a, b) => b.CompareTo(a));
+		else
+			sources.Sort();
 
 		// Iterative DFS: place each DFS-discovered node into its layer immediately.
 		// Stack holds nodes to visit; we process each layer in strictly forward order

@@ -44,11 +44,11 @@ public static class SugiyamaLayout
 		if (input.Subgraphs.Count > 0)
 		{
 			var (looseNodes, groups) = BuildNestingGroups(input, buf);
-			LayerAssigner.Run(buf, options.NaturalBackEdgeRouting, looseNodes, groups);
+			LayerAssigner.Run(buf, options.NaturalBackEdgeRouting, looseNodes, groups, options.ReverseSourceOrder);
 		}
 		else
 		{
-			LayerAssigner.Run(buf, options.NaturalBackEdgeRouting);
+			LayerAssigner.Run(buf, options.NaturalBackEdgeRouting, reverseSourceOrder: options.ReverseSourceOrder);
 		}
 
 		options.CancellationToken.ThrowIfCancellationRequested();
@@ -61,7 +61,7 @@ public static class SugiyamaLayout
 			PromoteDisconnectedSubgraphNodes(buf, input);
 
 		CrossingMinimizer.Run(buf, options.CrossingIterations, options.UseModelOrderForVirtualNodes,
-			options.CancellationToken);
+			options.UseModelOrderForRealNodes, options.UseRealFirstTiebreaker, options.CancellationToken);
 		CoordinateAssigner.Run(buf, options.NodeSpacing, options.LayerSpacing, options.TightSourceLayering);
 		SpreadFanOutChildren(buf, options.NodeSpacing);
 

@@ -121,6 +121,7 @@ internal static class LightweightErLayoutEngine
 			MaxComponentsPerRow = maxPerRow,
 			TightSourceLayering = true,
 			SeparateComponents = false,
+			UseRealFirstTiebreaker = true,
 		});
 
 		return ExtractPositioned(result, diagram, layoutEdgeRelIndices);
@@ -207,11 +208,21 @@ internal static class LightweightErLayoutEngine
 			});
 		}
 
+		// Collapse multi-hop paths (through virtual nodes) to 2-point before spread so that
+		// SpreadConvergentPorts sees the source exit X as the approach, not V.cx (which BK
+		// BALANCED aligns with the target, making all multi-hop approaches identical).
+		// After spread, an entity-clearance check reverts any collapse that would route through
+		// an intermediate entity box — preserving the original virtual-node routing.
+		var savedMultiHop = CollapseMultiHopPaths(positionedRels);
+
 		OffsetParallelEdges(positionedRels);
 		SpreadConvergentPorts(positionedRels, positionedEntities);
+		RestoreUnsafeCollapses(positionedRels, savedMultiHop, positionedEntities);
+		InsertOrthogonalBends(positionedRels);
 
 		// Synthesize arc paths for self-loop relationships (same entity on both ends).
-		// These are filtered from Sugiyama layout; we place them as a right-side loop.
+		// These are filtered from Sugiyama layout; we place them as a left-side loop.
+		// ELK routes ER self-loops from the Left side (Left→Left) so we match that behaviour.
 		foreach (var rel in diagram.Relationships)
 		{
 			if (rel.Entity1 != rel.Entity2)
@@ -221,8 +232,8 @@ internal static class LightweightErLayoutEngine
 			var loopR = Math.Max(30.0, n.Height * 0.3);
 			var exitY = n.Y + (n.Height * 0.35);
 			var entryY = n.Y + (n.Height * 0.65);
-			var sideX = n.X + n.Width;
-			var loopX = sideX + loopR;
+			var sideX = n.X;
+			var loopX = sideX - loopR;
 			var loopPoints = new List<Point>
 			{
 				new(sideX, exitY),
@@ -291,14 +302,15 @@ internal static class LightweightErLayoutEngine
 			if (!entityByName.TryGetValue(entityId, out var ent))
 				continue;
 
-			// Sort by source entity center-x so leftmost source gets leftmost port.
-			// Tiebreak by edge index (model order) to give deterministic, ELK-matching port
-			// assignment when multiple edges share the same approach X (e.g. two edges to the
-			// same source entity).
+			// Sort by source exit X (first point). This reflects where each edge is coming from
+			// geometrically: left sources get left entries, right sources get right entries.
+			// Using pts[0].X is essential for correctness after multi-hop collapse: collapsed
+			// paths have pts[^2].X = pts[0].X (source exit), while direct 4-point paths have
+			// pts[^2].X = entity.cx, making mixed comparisons degenerate without this.
 			indices.Sort((a, b) =>
 			{
-				var approachA = rels[a].Points.Count >= 2 ? rels[a].Points[^2].X : rels[a].Points[^1].X;
-				var approachB = rels[b].Points.Count >= 2 ? rels[b].Points[^2].X : rels[b].Points[^1].X;
+				var approachA = rels[a].Points[0].X;
+				var approachB = rels[b].Points[0].X;
 				var cmp = approachA.CompareTo(approachB);
 				return cmp != 0 ? cmp : a.CompareTo(b);
 			});
@@ -320,19 +332,12 @@ internal static class LightweightErLayoutEngine
 					continue;
 
 				pts[^1] = new Point(newX, last.Y);
-				// If the second-to-last point is on the same vertical as the old last,
-				// move it too so the final descent remains straight — but only when the
-				// new x still falls within the source entity's horizontal bounds.
-				// For a 2-point edge, pts[^2] is the source exit; pulling it outside
-				// the source entity box makes the line look disconnected.
-				if (Math.Abs(secondLast.X - last.X) < 1)
-				{
-					var srcOk = pts.Count > 2 // waypoint, not entity exit — always safe
-						|| !entityByName.TryGetValue(rel.Entity1, out var srcEnt)
-						|| (newX >= srcEnt.X && newX <= srcEnt.X + srcEnt.Width);
-					if (srcOk)
-						pts[^2] = new Point(newX, secondLast.Y);
-				}
+				// Pull the source-exit waypoint along only when there is an intermediate
+				// waypoint (pts.Count > 2). For 2-point paths the bottom-exit spread owns
+				// the source end; letting the two spreads act independently allows the
+				// natural D-R-D / D-L-D fan to form between nodes of different widths.
+				if (pts.Count > 2 && Math.Abs(secondLast.X - last.X) < 1)
+					pts[^2] = new Point(newX, secondLast.Y);
 
 				rels[indices[i]] = rel with { Points = pts };
 			}
@@ -363,11 +368,14 @@ internal static class LightweightErLayoutEngine
 			if (!entityByName.TryGetValue(entityId, out var ent))
 				continue;
 
-			// Sort by target entity center-x. Tiebreak by edge index (model order).
+			// Sort by target entity center-x (last point = destination X, consistent for
+			// both straight D routes and bent D-L-D / D-R-D routes). Tiebreak by edge index.
 			indices.Sort((a, b) =>
 			{
-				var approachA = rels[a].Points.Count >= 2 ? rels[a].Points[1].X : rels[a].Points[0].X;
-				var approachB = rels[b].Points.Count >= 2 ? rels[b].Points[1].X : rels[b].Points[0].X;
+				var ptsA = rels[a].Points;
+				var ptsB = rels[b].Points;
+				var approachA = ptsA.Count >= 1 ? ptsA[^1].X : 0;
+				var approachB = ptsB.Count >= 1 ? ptsB[^1].X : 0;
 				var cmp = approachA.CompareTo(approachB);
 				return cmp != 0 ? cmp : a.CompareTo(b);
 			});
@@ -389,19 +397,125 @@ internal static class LightweightErLayoutEngine
 					continue;
 
 				pts[0] = new Point(newX, first.Y);
-				// Only pull the next waypoint to the new x if it stays within the
-				// target entity's horizontal bounds (for 2-point edges, pts[1] is the entry).
-				if (Math.Abs(second.X - first.X) < 1)
-				{
-					var tgtOk = pts.Count > 2
-						|| !entityByName.TryGetValue(rel.Entity2, out var tgtEnt)
-						|| (newX >= tgtEnt.X && newX <= tgtEnt.X + tgtEnt.Width);
-					if (tgtOk)
-						pts[1] = new Point(newX, second.Y);
-				}
+				// Pull the destination-entry waypoint along only when there is an intermediate
+				// waypoint (pts.Count > 2). For 2-point paths the top-entry spread owns the
+				// destination end; letting both spreads act independently produces the natural
+				// D-R-D / D-L-D fan between nodes of different widths.
+				if (pts.Count > 2 && Math.Abs(second.X - first.X) < 1)
+					pts[1] = new Point(newX, second.Y);
 
 				rels[indices[i]] = rel with { Points = pts };
 			}
+		}
+	}
+
+	/// <summary>
+	/// Converts 2-point slanted edges (exit X ≠ entry X) into 4-point orthogonal paths.
+	/// A straight diagonal line is classified as a single "D" segment, but ELK routes these
+	/// as D-R-D or D-L-D with an explicit horizontal bend. Inserting waypoints at the mid-Y
+	/// of the inter-layer gap reproduces that classification so route-shape metrics are correct.
+	/// </summary>
+	/// <summary>
+	/// Collapse multi-hop paths (≥5 points, passing through virtual nodes) to 2-point so
+	/// SpreadConvergentPorts sees the source exit X as the approach key, not V.cx (which BK
+	/// BALANCED aligns with the target, making all multi-hop approaches degenerate).
+	/// Returns the saved original paths keyed by rel index for possible restoration.
+	/// </summary>
+	private static Dictionary<int, List<Point>> CollapseMultiHopPaths(List<PositionedErRelationship> rels)
+	{
+		var saved = new Dictionary<int, List<Point>>();
+		for (var i = 0; i < rels.Count; i++)
+		{
+			var rel = rels[i];
+			if (rel.Points.Count < 5)
+				continue;
+			saved[i] = rel.Points.ToList();
+			rels[i] = rel with { Points = [rel.Points[0], rel.Points[^1]] };
+		}
+		return saved;
+	}
+
+	/// <summary>
+	/// For each collapsed multi-hop path, check whether the 4-point orthogonal path that
+	/// InsertOrthogonalBends would produce passes through any intermediate entity box.
+	/// If it does, restore the original multi-hop routing to avoid entity passthrough.
+	/// </summary>
+	private static void RestoreUnsafeCollapses(
+		List<PositionedErRelationship> rels,
+		Dictionary<int, List<Point>> savedMultiHop,
+		List<PositionedErEntity> entities)
+	{
+		foreach (var (i, original) in savedMultiHop)
+		{
+			var rel = rels[i];
+			if (rel.Points.Count != 2)
+			{
+				// SpreadConvergentPorts may have already reverted it somehow — keep as-is
+				continue;
+			}
+			if (!IsOrthogonalPathEntitySafe(rel.Points, entities))
+				rels[i] = rel with { Points = original };
+		}
+	}
+
+	/// <summary>
+	/// Returns true if the 4-point orthogonal path that InsertOrthogonalBends would produce
+	/// from <paramref name="twoPoints"/> does not pass through any entity box.
+	/// The four segments are: vertical down from exit, horizontal bus at midY, vertical down to entry.
+	/// </summary>
+	private static bool IsOrthogonalPathEntitySafe(
+		IReadOnlyList<Point> twoPoints,
+		IReadOnlyList<PositionedErEntity> entities)
+	{
+		var exit = twoPoints[0];
+		var entry = twoPoints[1];
+		var midY = (exit.Y + entry.Y) / 2.0;
+		var xMin = Math.Min(exit.X, entry.X);
+		var xMax = Math.Max(exit.X, entry.X);
+		const double eps = 1.0;
+
+		foreach (var e in entities)
+		{
+			var eLeft = e.X + eps;
+			var eRight = e.X + e.Width - eps;
+			var eTop = e.Y + eps;
+			var eBottom = e.Y + e.Height - eps;
+
+			// Only consider entities in intermediate Y range (between exit and entry)
+			if (eBottom <= exit.Y || eTop >= entry.Y)
+				continue;
+
+			// Vertical segment at exit.X from exit.Y to midY
+			if (exit.X > eLeft && exit.X < eRight && midY > eTop && exit.Y < eBottom)
+				return false;
+
+			// Horizontal bus at midY spanning xMin..xMax
+			if (midY > eTop && midY < eBottom && xMax > eLeft && xMin < eRight)
+				return false;
+
+			// Vertical segment at entry.X from midY to entry.Y
+			if (entry.X > eLeft && entry.X < eRight && entry.Y > eTop && midY < eBottom)
+				return false;
+		}
+		return true;
+	}
+
+	private static void InsertOrthogonalBends(List<PositionedErRelationship> rels, double minHorizDelta = 2.0)
+	{
+		for (var i = 0; i < rels.Count; i++)
+		{
+			var rel = rels[i];
+			if (rel.Points.Count != 2)
+				continue;
+			var a = rel.Points[0];
+			var b = rel.Points[^1];
+			if (Math.Abs(b.X - a.X) < minHorizDelta)
+				continue;
+			var midY = (a.Y + b.Y) / 2.0;
+			rels[i] = rel with
+			{
+				Points = [a, new Point(a.X, midY), new Point(b.X, midY), b]
+			};
 		}
 	}
 

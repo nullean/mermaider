@@ -36,11 +36,11 @@
 <path class="er-relationship" data-entity1="TocItem" data-entity2="NavigationNode" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="mirrors" d="M340.51199999999994,270 C340.51199999999994,319 259.7151999999999,319 259.7151999999999,368" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="FileNavigation" data-entity2="Page" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="model" d="M829.8879999999999,96 L829.8879999999999,194" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="TocNavigation" data-entity2="TableOfContents" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="toc.yml" d="M414.51199999999994,618 C414.51199999999994,667 525.1375999999999,667 525.1375999999999,716" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="SiteNavigation" data-entity2="SiteMount" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="toc" d="M530.8832,96 C530.8832,232 460.51199999999994,232 460.51199999999994,368" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="SiteSection" data-entity2="SiteMount" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="children" d="M502.51199999999994,270 C502.51199999999994,319 544.512,319 544.512,368" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="SiteNavigation" data-entity2="SiteSection" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="section (preview)" d="M576.512,96 C576.512,145 488.51199999999994,145 488.51199999999994,194" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="SiteNavigation" data-entity2="SiteMount" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="toc" d="M576.512,96 C576.512,232 502.51199999999994,232 502.51199999999994,368" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="SiteSection" data-entity2="SiteMount" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="children" d="M502.51199999999994,270 C502.51199999999994,319 460.51199999999994,319 460.51199999999994,368" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="SiteNavigation" data-entity2="SiteSection" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="section (preview)" d="M530.8832,96 C530.8832,145 488.51199999999994,145 488.51199999999994,194" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="SiteMount" data-entity2="TocNavigation" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="toc: repo://path" d="M460.51199999999994,444 C460.51199999999994,493 414.51199999999994,493 414.51199999999994,542" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="SiteNavigation" data-entity2="Phantom" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="phantoms" d="M622.1408,96 L622.1408,139 Q622.1408,145 628.1408,145 L730.704,145 Q736.704,145 736.704,151 L736.704,451.048 Q736.704,455 740.656,455 L740.656,455 Q744.608,455 744.608,458.952 L744.608,542" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="SiteNavigation" data-entity2="Phantom" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="phantoms" d="M622.1408,96 C622.1408,319 744.608,319 744.608,542" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="Phantom" data-entity2="TableOfContents" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="toc" d="M744.608,618 C744.608,667 627.8863999999999,667 627.8863999999999,716" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="SiteMount" data-entity2="HomeProvider" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="re-homes subtree" d="M544.512,444 C544.512,493 590.512,493 590.512,542" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="SiteMount" data-entity2="SiteMount" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="children" d="M442.51199999999994,394.6 C412.51199999999994,394.6 412.51199999999994,417.4 442.51199999999994,417.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
@@ -120,19 +120,19 @@
 <line x1="420.51199999999994" y1="626" x2="408.51199999999994" y2="626" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="519.1375999999999" y1="712" x2="531.1375999999999" y2="712" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="519.1375999999999" y1="708" x2="531.1375999999999" y2="708" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="536.8832" y1="100" x2="524.8832" y2="100" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="536.8832" y1="104" x2="524.8832" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="582.512" y1="100" x2="570.512" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="582.512" y1="104" x2="570.512" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="495.51199999999994" y1="364" x2="502.51199999999994" y2="352" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="502.51199999999994" y1="364" x2="502.51199999999994" y2="352" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="509.51199999999994" y1="364" x2="502.51199999999994" y2="352" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="508.51199999999994" y1="274" x2="496.51199999999994" y2="274" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="508.51199999999994" y1="278" x2="496.51199999999994" y2="278" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="453.51199999999994" y1="364" x2="460.51199999999994" y2="352" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="460.51199999999994" y1="364" x2="460.51199999999994" y2="352" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="467.51199999999994" y1="364" x2="460.51199999999994" y2="352" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="508.51199999999994" y1="274" x2="496.51199999999994" y2="274" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="508.51199999999994" y1="278" x2="496.51199999999994" y2="278" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="537.512" y1="364" x2="544.512" y2="352" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="544.512" y1="364" x2="544.512" y2="352" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="551.512" y1="364" x2="544.512" y2="352" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="544.512" cy="348" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="582.512" y1="100" x2="570.512" y2="100" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="582.512" y1="104" x2="570.512" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="460.51199999999994" cy="348" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="536.8832" y1="100" x2="524.8832" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="536.8832" y1="104" x2="524.8832" y2="104" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="481.51199999999994" y1="190" x2="488.51199999999994" y2="178" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="488.51199999999994" y1="190" x2="488.51199999999994" y2="178" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="495.51199999999994" y1="190" x2="488.51199999999994" y2="178" stroke="var(--_line)" stroke-width="2.5" />
@@ -175,16 +175,16 @@
 <text x="829.8879999999999" y="145" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">model</text>
 <rect x="444.36279999999994" y="654.9" width="50.92400000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="469.8247999999999" y="667" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">toc.yml</text>
-<rect x="459.88179999999994" y="163.8" width="28.244000000000003" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="474.00379999999996" y="175.9" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">toc</text>
-<rect x="493.51399999999995" y="306.9" width="59.996" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="523.512" y="319" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">children</text>
-<rect x="498.12579999999997" y="132.9" width="112.16" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="554.2058" y="145" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">section (preview)</text>
+<rect x="554.512" y="219.9" width="28.244000000000003" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="568.6339999999999" y="232" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">toc</text>
+<rect x="451.51399999999995" y="306.9" width="59.996" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="481.51199999999994" y="319" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">children</text>
+<rect x="453.6176" y="132.9" width="112.16" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="509.69759999999997" y="145" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">section (preview)</text>
 <rect x="388.23599999999993" y="480.9" width="98.552" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="437.51199999999994" y="493" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">toc: repo://path</text>
-<rect x="696.3319999999999" y="268.9" width="67.55600000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="730.1099999999999" y="281" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">phantoms</text>
+<rect x="649.5963999999999" y="306.9" width="67.55600000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="683.3743999999999" y="319" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">phantoms</text>
 <rect x="672.1252" y="654.9" width="28.244000000000003" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="686.2471999999999" y="667" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">toc</text>
 <rect x="509.5419999999999" y="480.9" width="115.94000000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />

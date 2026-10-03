@@ -19,7 +19,7 @@ Edges:
   ApiSupplementalDoc --tag-{slug}--> ApiTag [Bottom->Top] [D L D]
   ApiTag --endpoints--> ApiEndpoint [Bottom->Top] [D]
   ApiTagGroup --tags--> ApiTag [Bottom->Top] [D L D]
-  ApiVersionIndex --org/repo, spec, moniker--> ApiSpecVersion [Bottom->Top] [D R D]
+  ApiVersionIndex --org/repo, spec, moniker--> ApiSpecVersion [Bottom->Top] [D L D]
   OpenApiRepository --index.json--> ApiVersionIndex [Bottom->Top] [D L D]
   OpenApiRepository --org/repo/branch/spec--> OpenApiSpec [Bottom->Top] [D L D L D]
   Repository --publishes, per branch--> OpenApiSpec [Bottom->Top] [D L D]
@@ -27,7 +27,7 @@ Ports:
   ApiDeclaration Bottom: edge2,edge0,edge1,edge3
   ApiOperation Top: edge4,edge8
   ApiSpecVersion Bottom: edge7,edge6
-  ApiSpecVersion Top: edge0,edge12
+  ApiSpecVersion Top: edge12,edge0
   ApiSupplementalDoc Bottom: edge9,edge8
   ApiTag Top: edge11,edge9
   OpenApiRepository Bottom: edge14,edge13

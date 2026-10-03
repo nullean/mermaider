@@ -32,8 +32,8 @@
 </defs>
 
 <path class="er-relationship" data-entity1="USER" data-entity2="POST" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="writes" d="M112.60000000000001,136 C112.60000000000001,176 99.20000000000002,176 99.20000000000002,216" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="USER" data-entity2="COMMENT" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="writes" d="M247,136 L247,170 Q247,176 253,176 L267,176 Q273,176 273,182 L273,321 Q273,327 267,327 L232.38000000000002,327 Q226.38000000000002,327 226.38000000000002,333 L226.38000000000002,438" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="POST" data-entity2="COMMENT" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="has" d="M151.70000000000002,358 C151.70000000000002,398 319.62,398 319.62,438" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="USER" data-entity2="COMMENT" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="writes" d="M247,136 C247,287 319.62,287 319.62,438" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="POST" data-entity2="COMMENT" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="has" d="M151.70000000000002,358 C151.70000000000002,398 226.38000000000002,398 226.38000000000002,438" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="POST" data-entity2="TAG" data-cardinality1="zeromany" data-cardinality2="zeromany" data-identifying="true" data-label="tagged" d="M46.70000000000002,358 C46.70000000000002,398 99.2,398 99.2,438" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="entity" data-id="USER" data-label="USER">
   <rect x="83.80000000000001" y="20" width="192" height="116" rx="6" ry="6" fill="var(--_node-fill)" />
@@ -106,16 +106,16 @@
 <circle cx="99.20000000000002" cy="196" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="253" y1="140" x2="241" y2="140" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="253" y1="144" x2="241" y2="144" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="219.38000000000002" y1="434" x2="226.38000000000002" y2="422" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="226.38000000000002" y1="434" x2="226.38000000000002" y2="422" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="233.38000000000002" y1="434" x2="226.38000000000002" y2="422" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="226.38000000000002" cy="418" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="157.70000000000002" y1="362" x2="145.70000000000002" y2="362" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="157.70000000000002" y1="366" x2="145.70000000000002" y2="366" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="312.62" y1="434" x2="319.62" y2="422" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="319.62" y1="434" x2="319.62" y2="422" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="326.62" y1="434" x2="319.62" y2="422" stroke="var(--_line)" stroke-width="2.5" />
 <circle cx="319.62" cy="418" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="157.70000000000002" y1="362" x2="145.70000000000002" y2="362" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="157.70000000000002" y1="366" x2="145.70000000000002" y2="366" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="219.38000000000002" y1="434" x2="226.38000000000002" y2="422" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="226.38000000000002" y1="434" x2="226.38000000000002" y2="422" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="233.38000000000002" y1="434" x2="226.38000000000002" y2="422" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="226.38000000000002" cy="418" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="53.70000000000002" y1="362" x2="46.70000000000002" y2="374" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="46.70000000000002" y1="362" x2="46.70000000000002" y2="374" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="39.70000000000002" y1="362" x2="46.70000000000002" y2="374" stroke="var(--_line)" stroke-width="2.5" />
@@ -126,10 +126,10 @@
 <circle cx="99.2" cy="418" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
 <rect x="82.706" y="163.9" width="46.388000000000005" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="105.9" y="176" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">writes</text>
-<rect x="249.80599999999998" y="259.4" width="46.388000000000005" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="273" y="271.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">writes</text>
-<rect x="219.27000000000004" y="385.9" width="32.78" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="235.66000000000003" y="398" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">has</text>
+<rect x="260.116" y="274.9" width="46.388000000000005" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="283.31" y="287" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">writes</text>
+<rect x="172.65000000000003" y="385.9" width="32.78" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="189.04000000000002" y="398" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">has</text>
 <rect x="47.488000000000014" y="385.9" width="50.92400000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="72.95000000000002" y="398" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">tagged</text>
 </svg>

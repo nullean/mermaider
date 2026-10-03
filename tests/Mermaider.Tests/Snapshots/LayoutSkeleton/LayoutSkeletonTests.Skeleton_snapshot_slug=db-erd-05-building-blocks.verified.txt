@@ -6,25 +6,25 @@ Layer 4: OpenApiSpec, LinkManifest, ReleaseNotes, CodexSite
 Layer 5: OpenApiRepository, LinkRegistry
 Layer 6: Registry
 Edges:
-  ApiReference --spec + repository--> OpenApiSpec [Bottom->Top] [D R D]
+  ApiReference --spec + repository--> OpenApiSpec [Bottom->Top] [D L D]
   Assembly --pins commits from--> LinkRegistry [Bottom->Top] [D R D L D]
   Assembly --references--> Repository [Bottom->Top] [D L D]
   Assembly --per environment--> SearchIndex [Bottom->Top] [D]
   Assembly --navigation.yml--> SiteNavigation [Bottom->Top] [D R D R D]
   Catalog --products, versioning--> DocumentationSet [Bottom->Top] [D L D]
-  Catalog --products--> ReleaseNotes [Bottom->Top] [D R D R D L D]
+  Catalog --products--> ReleaseNotes [Bottom->Top] [D R D]
   CodexSite --discovers members from--> LinkRegistry [Bottom->Top] [D L D]
-  CodexSite --environment--> Registry [Bottom->Top] [D L D L D]
+  CodexSite --environment--> Registry [Bottom->Top] [D L D]
   Content --cross-links resolve through--> LinkManifest [Bottom->Top] [D L D]
   Content --{changelog} directive--> ReleaseNotes [Bottom->Top] [D R D]
   DocumentationSet --api--> ApiReference [Bottom->Top] [D L D]
   DocumentationSet --contains--> Content [Bottom->Top] [D R D]
-  DocumentationSet --one per branch--> LinkManifest [Bottom->Top] [D R D R D]
+  DocumentationSet --one per branch--> LinkManifest [Bottom->Top] [D R D]
   DocumentationSet --table of contents--> Navigation [Bottom->Top] [D R D]
   LinkManifest --indexed by--> LinkRegistry [Bottom->Top] [D R D]
   LinkRegistry --one per registry--> Registry [Bottom->Top] [D R D]
   OpenApiSpec --published to--> OpenApiRepository [Bottom->Top] [D]
-  Repository --≤1 per Registry--> DocumentationSet [Bottom->Top] [D R D]
+  Repository --≤1 per Registry--> DocumentationSet [Bottom->Top] [D L D]
   Repository --publishes--> OpenApiSpec [Bottom->Top] [D L D L D]
   Repository --changelog.yml--> ReleaseNotes [Bottom->Top] [D R D L D]
   SiteNavigation --mounts--> Navigation [Bottom->Top] [D R D]
@@ -34,11 +34,11 @@ Ports:
   CodexSite Bottom: edge7,edge8
   Content Bottom: edge9,edge10
   DocumentationSet Bottom: edge11,edge13,edge12,edge14
-  DocumentationSet Top: edge5,edge18
+  DocumentationSet Top: edge18,edge5
   LinkManifest Top: edge13,edge9
   LinkRegistry Top: edge15,edge1,edge7
   Navigation Top: edge14,edge21
-  OpenApiSpec Top: edge19,edge0
+  OpenApiSpec Top: edge0,edge19
   Registry Top: edge16,edge8
-  ReleaseNotes Top: edge6,edge20,edge10
-  Repository Bottom: edge19,edge18,edge20
+  ReleaseNotes Top: edge20,edge10,edge6
+  Repository Bottom: edge18,edge20,edge19

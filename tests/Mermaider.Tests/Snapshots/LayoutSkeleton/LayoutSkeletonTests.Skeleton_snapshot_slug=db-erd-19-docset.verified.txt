@@ -21,14 +21,14 @@ Edges:
   DocumentationSet --toc--> TableOfContents [Bottom->Top] [D L D]
   FileItem --file--> Page [Bottom->Top] [D]
   FolderItem --index--> IndexFileItem [Bottom->Top] [D]
-  NestedTocItem --toc.yml in folder--> TableOfContents [Bottom->Top] [D R D]
-  ReleaseNotesSubscription --product--> Product [Bottom->Top] [D]
+  NestedTocItem --toc.yml in folder--> TableOfContents [Bottom->Top] [D L D]
+  ReleaseNotesSubscription --product--> Product [Bottom->Top] [D R D]
   TableOfContents --toc entries--> TocItem [Bottom->Top] [D]
   TocItem --default_cta--> Cta [Bottom->Top] [D R D]
   TocItem --children--> TocItem [Left->Left] (self)
 Ports:
   CrossLinkDeclaration Bottom: edge2,edge1
-  Cta Top: edge7,edge21,edge8
-  DocumentationSet Bottom: edge15,edge14,edge7,edge8,edge12,edge6,edge4,edge13,edge11,edge5,edge9,edge10
-  Product Top: edge0,edge19,edge11
-  TableOfContents Top: edge15,edge18
+  Cta Top: edge21,edge7,edge8
+  DocumentationSet Bottom: edge15,edge14,edge12,edge6,edge7,edge8,edge11,edge4,edge13,edge5,edge9,edge10
+  Product Top: edge0,edge11,edge19
+  TableOfContents Top: edge18,edge15

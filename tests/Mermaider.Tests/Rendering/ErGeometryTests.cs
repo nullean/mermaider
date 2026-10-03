@@ -502,7 +502,7 @@ public partial class ErGeometryTests
 
 	// Any consecutive pair of numbers in a path d string (for last-point extraction)
 	[GeneratedRegex(
-		@"([\d.]+)[,\s]([\d.]+)",
+		@"(-?[\d.]+)[,\s](-?[\d.]+)",
 		RegexOptions.None, TimeoutMs)]
 	private static partial Regex NumericPairPattern();
 

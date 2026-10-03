@@ -117,6 +117,16 @@ public sealed record LayoutOptions
 	public bool ForceBottomExitFanOut { get; init; }
 
 	/// <summary>
+	/// When true, topological sources (L0 nodes, no predecessors) are seeded in
+	/// DESCENDING node-index order for the DFS initial layer ordering, instead of the
+	/// default ascending order. The crossing minimizer then sorts from this reversed
+	/// starting point, which can converge to a different symmetric local minimum on
+	/// graphs where two orderings have identical crossing counts. Used to match ELK's
+	/// converged output on ER mirror-diagrams. Default: false.
+	/// </summary>
+	public bool ReverseSourceOrder { get; init; }
+
+	/// <summary>
 	/// Maximum number of components to tile in the primary direction before wrapping
 	/// to a new row (for TD/BT) or column (for LR/RL). 0 means unlimited (default).
 	/// Useful for ER diagrams with many disconnected entity pairs.
@@ -138,6 +148,24 @@ public sealed record LayoutOptions
 	/// fewer crossings for dense ER diagrams).
 	/// </summary>
 	public bool UseModelOrderForVirtualNodes { get; init; }
+
+	/// <summary>
+	/// When true, the crossing minimizer uses node model index (node ID, which equals
+	/// insertion order) as the tiebreaker for real-vs-real barycenter ties. Matches ELK's
+	/// considerModelOrder.NODES_AND_EDGES behavior for real nodes. Default: false (uses
+	/// stable sort by current layer position).
+	/// </summary>
+	public bool UseModelOrderForRealNodes { get; init; }
+
+	/// <summary>
+	/// When true, the barycenter tiebreaker places real nodes before virtual (long-edge dummy)
+	/// nodes in the same layer. Matches ELK's NODES_AND_EDGES initial-ordering behaviour, where
+	/// real nodes are seeded before long-edge dummies within each layer. Improves ER diagrams
+	/// that have skip-layer edges introducing virtual nodes (e.g. er-complex). Default: false
+	/// (virtual-first, the historical behaviour that worked well before skip-layer edges were
+	/// common in the corpus).
+	/// </summary>
+	public bool UseRealFirstTiebreaker { get; init; }
 
 }
 

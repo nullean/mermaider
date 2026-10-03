@@ -33,12 +33,12 @@
 
 <path class="er-relationship" data-entity1="VersioningSystem" data-entity2="SemVersion" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="base" d="M204.7328,444 C204.7328,493 234.07999999999998,493 234.07999999999998,542" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="VersioningSystem" data-entity2="SemVersion" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="current" d="M316.4192,444 L318.08,542" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Product" data-entity2="VersioningSystem" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="versioning" d="M402.15999999999997,270 C402.15999999999997,319 204.7328,319 204.7328,368" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Product" data-entity2="VersioningSystem" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="versioning" d="M402.15999999999997,270 C402.15999999999997,319 316.4192,319 316.4192,368" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="Product" data-entity2="Repository" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="repository" d="M486.15999999999997,270 C486.15999999999997,319 618.6400000000001,319 618.6400000000001,368" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="Applicability" data-entity2="ApplicabilityEntry" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="per key" d="M186.57600000000002,96 L186.57600000000002,194" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="ApplicabilityEntry" data-entity2="ProductLifecycle" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="lifecycle" d="M240.50400000000002,270 C240.50400000000002,319 401.2224,319 401.2224,368" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="ApplicabilityEntry" data-entity2="VersionSpec" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="version" d="M132.648,270 C132.648,319 81.536,319 81.536,368" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ApplicabilityEntry" data-entity2="VersioningSystem" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="key resolves to" d="M186.57600000000002,270 C186.57600000000002,319 316.4192,319 316.4192,368" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="ApplicabilityEntry" data-entity2="VersioningSystem" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="key resolves to" d="M186.57600000000002,270 C186.57600000000002,319 204.7328,319 204.7328,368" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="ProductRelease" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="product" d="M493.904,96 C493.904,145 444.15999999999997,145 444.15999999999997,194" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="ProductRelease" data-entity2="ChangelogLifecycle" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="lifecycle" d="M595.376,96 C595.376,145 645.12,145 645.12,194" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="ChangelogLifecycle" data-entity2="ProductLifecycle" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="maps to" d="M645.12,270 C645.12,319 507.8016,319 507.8016,368" fill="none" stroke="var(--_line)" stroke-width="2.25" />
@@ -94,9 +94,9 @@
 <line x1="402.15999999999997" y1="274" x2="402.15999999999997" y2="286" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="395.15999999999997" y1="274" x2="402.15999999999997" y2="286" stroke="var(--_line)" stroke-width="2.5" />
 <circle cx="402.15999999999997" cy="290" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="198.7328" y1="364" x2="210.7328" y2="364" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="198.7328" y1="360" x2="210.7328" y2="360" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="204.7328" cy="356" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="310.4192" y1="364" x2="322.4192" y2="364" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="310.4192" y1="360" x2="322.4192" y2="360" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="316.4192" cy="356" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="493.15999999999997" y1="274" x2="486.15999999999997" y2="286" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="486.15999999999997" y1="274" x2="486.15999999999997" y2="286" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="479.15999999999997" y1="274" x2="486.15999999999997" y2="286" stroke="var(--_line)" stroke-width="2.5" />
@@ -127,8 +127,8 @@
 <line x1="186.57600000000002" y1="274" x2="186.57600000000002" y2="286" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="179.57600000000002" y1="274" x2="186.57600000000002" y2="286" stroke="var(--_line)" stroke-width="2.5" />
 <circle cx="186.57600000000002" cy="290" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="310.4192" y1="364" x2="322.4192" y2="364" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="310.4192" y1="360" x2="322.4192" y2="360" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="198.7328" y1="364" x2="210.7328" y2="364" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="198.7328" y1="360" x2="210.7328" y2="360" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="500.904" y1="100" x2="493.904" y2="112" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="493.904" y1="100" x2="493.904" y2="112" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="486.904" y1="100" x2="493.904" y2="112" stroke="var(--_line)" stroke-width="2.5" />
@@ -151,18 +151,18 @@
 <text x="219.4064" y="493" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">base</text>
 <rect x="289.51959999999997" y="480.9" width="55.46" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="317.2496" y="493" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">current</text>
-<rect x="261.0335" y="306.9" width="75.11600000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="298.5915" y="319" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">versioning</text>
+<rect x="341.29639999999995" y="306.9" width="75.11600000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="378.85439999999994" y="319" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">versioning</text>
 <rect x="490.55140000000006" y="306.9" width="73.60400000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="527.3534000000001" y="319" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">repository</text>
 <rect x="158.46800000000002" y="132.9" width="56.216" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="186.57600000000002" y="145" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">per key</text>
-<rect x="346.1495" y="306.9" width="59.99600000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="376.1475" y="319" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">lifecycle</text>
+<rect x="271.3004" y="306.9" width="59.99600000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="301.2984" y="319" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">lifecycle</text>
 <rect x="78.606" y="306.9" width="56.972" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="107.092" y="319" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">version</text>
-<rect x="149.90220000000002" y="306.9" width="102.33200000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="201.06820000000002" y="319" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">key resolves to</text>
+<rect x="144.4884" y="306.9" width="102.33200000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="195.6544" y="319" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">key resolves to</text>
 <rect x="440.546" y="132.9" width="56.972" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="469.032" y="145" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">product</text>
 <rect x="590.25" y="132.9" width="59.99600000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />

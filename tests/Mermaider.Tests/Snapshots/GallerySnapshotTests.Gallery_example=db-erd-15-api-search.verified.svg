@@ -38,7 +38,7 @@
 <path class="er-relationship" data-entity1="ApiVersionIndex" data-entity2="ApiSpecVersion" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="lists" d="M368.03200000000004,270 C368.03200000000004,319 329.696,319 329.696,368" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="ApiDeclaration" data-entity2="OpenApiSpec" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="spec + repository" d="M395.1264,96 C395.1264,145 134.38399999999996,145 134.38399999999996,194" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="ApiDeclaration" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="product" d="M488.9376,96 C488.9376,145 537.04,145 537.04,194" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ApiDeclaration" data-entity2="ApiSpecVersion" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="renders" d="M442.03200000000004,96 L442.03200000000004,139 Q442.03200000000004,145 448.03200000000004,145 L546.2560000000001,145 Q552.2560000000001,145 552.2560000000001,151 L552.2560000000001,275 Q552.2560000000001,281 546.2560000000001,281 L387.07040000000006,281 Q381.07040000000006,281 381.07040000000006,287 L381.07040000000006,368" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="ApiDeclaration" data-entity2="ApiSpecVersion" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="renders" d="M442.03200000000004,96 L442.03200000000004,139 Q442.03200000000004,145 448.03200000000004,145 L546.2560000000001,145 Q552.2560000000001,145 552.2560000000001,151 L552.2560000000001,275 Q552.2560000000001,281 546.2560000000001,281 L335.696,281 Q329.696,281 329.696,287 L329.696,368" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="ApiSpecVersion" data-entity2="ApiTag" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="tags" d="M329.69599999999997,444 L329.69599999999997,542" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="ApiTag" data-entity2="ApiOperation" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="operations" d="M329.69599999999997,618 C329.69599999999997,667 473.61120000000005,667 473.61120000000005,716" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="ApiSupplementalDoc" data-entity2="ApiOperation" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="op-{id}" d="M590.0480000000001,618 C590.0480000000001,667 558.4848000000001,667 558.4848000000001,716" fill="none" stroke="var(--_line)" stroke-width="2.25" />
@@ -138,10 +138,10 @@
 <line x1="531.04" y1="186" x2="543.04" y2="186" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="448.03200000000004" y1="100" x2="436.03200000000004" y2="100" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="448.03200000000004" y1="104" x2="436.03200000000004" y2="104" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="374.07040000000006" y1="364" x2="381.07040000000006" y2="352" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="381.07040000000006" y1="364" x2="381.07040000000006" y2="352" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="388.07040000000006" y1="364" x2="381.07040000000006" y2="352" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="381.07040000000006" cy="348" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="322.696" y1="364" x2="329.696" y2="352" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="329.696" y1="364" x2="329.696" y2="352" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="336.696" y1="364" x2="329.696" y2="352" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="329.696" cy="348" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="335.69599999999997" y1="448" x2="323.69599999999997" y2="448" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="335.69599999999997" y1="452" x2="323.69599999999997" y2="452" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="322.69599999999997" y1="538" x2="329.69599999999997" y2="526" stroke="var(--_line)" stroke-width="2.5" />
@@ -186,8 +186,8 @@
 <text x="277.9833" y="145" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">spec + repository</text>
 <rect x="484.5028" y="132.9" width="56.972" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="512.9888" y="145" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">product</text>
-<rect x="436.6652000000001" y="276" width="59.996" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="466.6632000000001" y="288.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">renders</text>
+<rect x="410.97800000000007" y="276" width="59.996" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="440.97600000000006" y="288.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">renders</text>
 <rect x="311.794" y="480.9" width="35.804" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="329.69599999999997" y="493" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">tags</text>
 <rect x="364.0956" y="654.9" width="75.11600000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />

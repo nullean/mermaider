@@ -19,7 +19,7 @@ Edges:
   Heading --slug--> Anchor [Bottom->Top] [D R D]
   ImageLink --src--> Image [Bottom->Top] [D R D]
   IncludeDirective --path--> Snippet [Bottom->Top] [D L D]
-  InternalLink --#anchor--> Anchor [Bottom->Top] [D R D L D]
+  InternalLink --#anchor--> Anchor [Bottom->Top] [D R D]
   InternalLink --path--> Page [Bottom->Top] [D L D]
   Page --collected--> Anchor [Bottom->Top] [D R D L D]
   Page --contains--> Directive [Bottom->Top] [D L D]
@@ -31,9 +31,9 @@ Edges:
   SettingsDirective --path--> SettingsReference [Bottom->Top] [D L D]
   Snippet --contributes--> Anchor [Bottom->Top] [D R D]
 Ports:
-  Anchor Top: edge16,edge11,edge14,edge24
+  Anchor Top: edge11,edge16,edge14,edge24
   FrontMatter Bottom: edge5,edge6,edge9,edge7,edge8,edge10
   InternalLink Bottom: edge15,edge14
-  Page Bottom: edge17,edge20,edge18,edge19,edge16
-  Page Top: edge15,edge21
+  Page Bottom: edge17,edge20,edge18,edge16,edge19
+  Page Top: edge21,edge15
   Product Top: edge10,edge2

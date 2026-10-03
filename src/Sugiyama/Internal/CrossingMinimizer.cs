@@ -12,7 +12,7 @@ namespace Sugiyama.Internal;
 internal static class CrossingMinimizer
 {
 	internal static void Run(GraphBuffer graph, int iterations = 4, bool useModelOrderForVirtuals = false,
-		CancellationToken ct = default)
+		bool useModelOrderForRealNodes = false, bool useRealFirstTiebreaker = false, CancellationToken ct = default)
 	{
 		if (graph.LayerCount <= 1)
 			return;
@@ -33,11 +33,11 @@ internal static class CrossingMinimizer
 		{
 			ct.ThrowIfCancellationRequested();
 			for (var layer = 1; layer < graph.LayerCount; layer++)
-				SweepLayer(graph, layer, barycenters, useInEdges: true, useModelOrderForVirtuals);
+				SweepLayer(graph, layer, barycenters, useInEdges: true, useModelOrderForVirtuals, useModelOrderForRealNodes, useRealFirstTiebreaker);
 
 			ct.ThrowIfCancellationRequested();
 			for (var layer = graph.LayerCount - 2; layer >= 0; layer--)
-				SweepLayer(graph, layer, barycenters, useInEdges: false, useModelOrderForVirtuals);
+				SweepLayer(graph, layer, barycenters, useInEdges: false, useModelOrderForVirtuals, useModelOrderForRealNodes, useRealFirstTiebreaker);
 
 			var total = TotalCrossings(graph);
 			if (total >= bestCrossings)
@@ -256,7 +256,7 @@ internal static class CrossingMinimizer
 	}
 
 	private static void SweepLayer(GraphBuffer graph, int layer, double[] barycenters, bool useInEdges,
-		bool useModelOrderForVirtuals)
+		bool useModelOrderForVirtuals, bool useModelOrderForRealNodes, bool useRealFirstTiebreaker = false)
 	{
 		var nodes = graph.LayerNodes[layer];
 		if (nodes.Length <= 1)
@@ -323,10 +323,21 @@ internal static class CrossingMinimizer
 			}
 			else if (aVirt != bVirt)
 			{
-				// Virtual-first tiebreaker (default for ER): virtual nodes sort before real
-				// nodes on ties, anchoring long-edge chains to the left and reducing crossings.
+				if (useRealFirstTiebreaker)
+				{
+					// Real-first: real nodes sort before virtual (long-edge dummy) nodes on
+					// barycenter ties. Matches ELK's NODES_AND_EDGES behaviour where real nodes
+					// are seeded before long-edge dummies in the initial layer ordering.
+					return aVirt ? 1 : -1;
+				}
+				// Virtual-first tiebreaker (default): virtual nodes sort before real nodes on ties,
+				// anchoring long-edge chains to the left and reducing crossings.
 				return aVirt ? -1 : 1;
 			}
+			// Real vs real: optionally use node model index (ELK NODES_AND_EDGES behavior),
+			// otherwise stable-sort by current layer position.
+			if (useModelOrderForRealNodes && !aVirt && !bVirt)
+				return a.CompareTo(b);
 			return graph.NodePositionInLayer[a].CompareTo(graph.NodePositionInLayer[b]);
 		});
 

@@ -11,15 +11,15 @@ Edges:
   SiteMount --re-homes subtree--> HomeProvider [Bottom->Top] [D R D]
   SiteMount --children--> SiteMount [Left->Left] (self)
   SiteMount --toc: repo://path--> TocNavigation [Bottom->Top] [D L D]
-  SiteNavigation --phantoms--> Phantom [Bottom->Top] [D R D R D]
+  SiteNavigation --phantoms--> Phantom [Bottom->Top] [D R D]
   SiteNavigation --toc--> SiteMount [Bottom->Top] [D L D]
   SiteNavigation --section (preview)--> SiteSection [Bottom->Top] [D L D]
-  SiteSection --children--> SiteMount [Bottom->Top] [D R D]
+  SiteSection --children--> SiteMount [Bottom->Top] [D L D]
   TocItem --mirrors--> NavigationNode [Bottom->Top] [D L D]
   TocNavigation --toc.yml--> TableOfContents [Bottom->Top] [D R D]
 Ports:
   NavigationNode Top: edge1,edge11
   SiteMount Bottom: edge6,edge4
-  SiteMount Top: edge8,edge10
-  SiteNavigation Bottom: edge8,edge9,edge7
+  SiteMount Top: edge10,edge8
+  SiteNavigation Bottom: edge9,edge8,edge7
   TableOfContents Top: edge12,edge3

@@ -5,10 +5,10 @@ Edges:
   CodexDocumentationSet --codex.group--> CodexGroup [Bottom->Top] [D R D]
   CodexDocumentationSet --docset--> DocumentationSet [Bottom->Top] [D R D]
   CodexSite --from LinkRegistry--> CodexDocumentationSet [Bottom->Top] [D]
-  CodexSite --groups--> CodexGroup [Bottom->Top] [D R D L D]
+  CodexSite --groups--> CodexGroup [Bottom->Top] [D R D]
   CodexSite --environment = registry--> Registry [Bottom->Top] [D L D]
   Registry --git: elastic/codex-link-index/{registry}--> LinkRegistry [Bottom->Top] [D]
 Ports:
   CodexDocumentationSet Bottom: edge1,edge0
   CodexGroup Top: edge3,edge0
-  CodexSite Bottom: edge4,edge2,edge3
+  CodexSite Bottom: edge4,edge3,edge2
