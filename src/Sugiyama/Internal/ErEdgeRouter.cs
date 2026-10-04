@@ -300,15 +300,30 @@ internal static class ErEdgeRouter
 					col = nextX;
 			}
 
+			var toVirtual = i < chain.Count - 1;
 			if (!double.IsNaN(col))
 			{
 				var yTop = bottomA + Stub;
 				var yBot = topB - Stub;
 				if (yTop > yBot)
 					yTop = yBot = (bottomA + topB) / 2;
-				requests.Add((col, yTop));
-				requests.Add((nextX, yBot));
-				labelPos ??= new LayoutPoint(col, (bottomA + topB) / 2);
+				if (toVirtual)
+				{
+					// Long edge: jog straight to the virtual-node column right below the source (like ELK), not along the next
+					// layer's tops, so the line never looks attached to a node it merely passes. The label rides that column.
+					requests.Add((nextX, yTop));
+					labelPos ??= new LayoutPoint(nextX, (bottomA + topB) / 2);
+				}
+				else
+				{
+					requests.Add((col, yTop));
+					requests.Add((nextX, yBot));
+					labelPos ??= new LayoutPoint(col, (bottomA + topB) / 2);
+				}
+			}
+			else if (toVirtual)
+			{
+				requests.Add((nextX, bottomA + Stub));
 			}
 			else
 			{

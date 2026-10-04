@@ -34,6 +34,7 @@ internal static class BkCoordinateAssigner
 		internal int[] DummyOfGraphEdge = [];
 		internal int[] FirstHalf = [];
 		internal int[] SecondHalf = [];
+		internal HashSet<int> NoAlign = [];
 	}
 
 	internal static void Run(GraphBuffer graph, double nodeSpacing)
@@ -246,6 +247,9 @@ internal static class BkCoordinateAssigner
 			if (d >= 0)
 			{
 				lg.FirstHalf[ei] = lg.Edges.Count;
+				// Long edge: the gap dummy aligns with its virtual node (one straight column carrying the label), not the source port.
+				if (e.To >= graph.RealNodeCount)
+					_ = lg.NoAlign.Add(lg.Edges.Count);
 				lg.Edges.Add((e.From, d, e.OriginalIndex));
 				lg.SecondHalf[ei] = lg.Edges.Count;
 				lg.Edges.Add((d, e.To, e.OriginalIndex));
@@ -265,8 +269,11 @@ internal static class BkCoordinateAssigner
 			lg.InNb[i] = [];
 			lg.OutNb[i] = [];
 		}
-		foreach (var (from, to, _) in lg.Edges)
+		for (var ei = 0; ei < lg.Edges.Count; ei++)
 		{
+			if (lg.NoAlign.Contains(ei))
+				continue;
+			var (from, to, _) = lg.Edges[ei];
 			lg.OutNb[from].Add(to);
 			lg.InNb[to].Add(from);
 		}

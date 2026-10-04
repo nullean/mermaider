@@ -18,7 +18,7 @@ internal static class LightweightErLayoutEngine
 	private const double MinWidth = 120;
 	private static readonly double AttrFontSize = RenderConstants.FontSizes.Member;
 	private const double NodeSpacing = 20;
-	private const double LayerSpacing = 48;
+	private const double LayerSpacing = 56;
 
 	internal static PositionedErDiagram Layout(ErDiagram diagram)
 	{
@@ -40,7 +40,10 @@ internal static class LightweightErLayoutEngine
 				if (w > maxAttrW)
 					maxAttrW = w;
 			}
-			var width = Math.Max(MinWidth, Math.Max(headerTextW + (BoxPadX * 2), maxAttrW + (BoxPadX * 2)));
+			// Edge anchors are spread evenly along a node side; keep them at least ~18px apart so crow's-foot markers don't overlap.
+			var degree = diagram.Relationships.Count(r => r.Entity1 != r.Entity2 && (r.Entity1 == entity.Id || r.Entity2 == entity.Id));
+			var anchorWidth = degree > 4 ? (degree * 18) + 24 : 0;
+			var width = Math.Max(Math.Max(MinWidth, anchorWidth), Math.Max(headerTextW + (BoxPadX * 2), maxAttrW + (BoxPadX * 2)));
 			var height = entity.Attributes.Count == 0
 				? HeaderHeight * 2
 				: HeaderHeight + (entity.Attributes.Count * RowHeight);
@@ -81,7 +84,7 @@ internal static class LightweightErLayoutEngine
 		};
 
 		// Labels sit on their own column in the gap (never stacked), so the gap only has to fit one label plus the stubs and
-		// crow's-foot markers: the Sugiyama layout sizes each gap from its labels (label extent + 48) and uses LayerSpacing
+		// crow's-foot markers: the Sugiyama layout sizes each gap from its labels (label extent + 56) and uses LayerSpacing
 		// for gaps that carry none.
 		var horizontal = layoutDir is LayoutDirection.LR or LayoutDirection.RL;
 		_ = horizontal;

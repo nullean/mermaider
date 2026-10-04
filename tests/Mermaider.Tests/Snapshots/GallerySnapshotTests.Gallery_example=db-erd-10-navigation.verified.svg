@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 412.4" width="440" height="412.4" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 428.4" width="440" height="428.4" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -31,57 +31,57 @@
 <defs>
 </defs>
 
-<path class="er-relationship" data-entity1="TocItem" data-entity2="NavigationNode" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="mirrors" d="M80,244.2 L80,301.4 Q80,306.4 85,306.4 L121.44799999999998,306.4 Q126.44799999999998,306.4 126.44799999999998,311.4 L126.44799999999998,316.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="SiteNavigation" data-entity2="SiteMount" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="toc" d="M268.27200000000005,96 L268.27200000000005,101 Q268.27200000000005,106 263.27200000000005,106 L225,106 Q220,106 220,111 L220,168.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="SiteMount" data-entity2="NavigationNode" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="re-homes" d="M220,244.2 L220,301.4 Q220,306.4 215,306.4 L178.552,306.4 Q173.552,306.4 173.552,311.4 L173.552,316.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="SiteNavigation" data-entity2="Phantom" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="phantoms" d="M311.728,96 L311.728,101 Q311.728,106 316.728,106 L355,106 Q360,106 360,111 L360,168.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="TocItem" data-entity2="NavigationNode" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="mirrors" d="M80,252.2 L80,317.4 Q80,322.4 85,322.4 L121.44799999999998,322.4 Q126.44799999999998,322.4 126.44799999999998,327.4 L126.44799999999998,332.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="SiteNavigation" data-entity2="SiteMount" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="toc" d="M268.27200000000005,96 L268.27200000000005,101 Q268.27200000000005,106 263.27200000000005,106 L225,106 Q220,106 220,111 L220,176.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="SiteMount" data-entity2="NavigationNode" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="re-homes" d="M220,252.2 L220,317.4 Q220,322.4 215,322.4 L178.552,322.4 Q173.552,322.4 173.552,327.4 L173.552,332.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="SiteNavigation" data-entity2="Phantom" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="phantoms" d="M311.728,96 L311.728,101 Q311.728,106 316.728,106 L355,106 Q360,106 360,111 L360,176.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="entity" data-id="TocItem" data-label="TocItem">
-  <rect x="20" y="168.2" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="80" y="206.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">TocItem</text>
+  <rect x="20" y="176.2" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="80" y="214.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">TocItem</text>
 </g>
 <g class="entity" data-id="NavigationNode" data-label="NavigationNode">
-  <rect x="79.34399999999998" y="316.4" width="141.312" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="150" y="354.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">NavigationNode</text>
+  <rect x="79.34399999999998" y="332.4" width="141.312" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="150" y="370.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">NavigationNode</text>
 </g>
 <g class="entity" data-id="SiteNavigation" data-label="SiteNavigation">
   <rect x="224.81600000000003" y="20" width="130.368" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
   <text x="290" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">SiteNavigation</text>
 </g>
 <g class="entity" data-id="SiteMount" data-label="SiteMount">
-  <rect x="160" y="168.2" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="220" y="206.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">SiteMount</text>
+  <rect x="160" y="176.2" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="220" y="214.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">SiteMount</text>
 </g>
 <g class="entity" data-id="Phantom" data-label="Phantom">
-  <rect x="300" y="168.2" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="360" y="206.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Phantom</text>
+  <rect x="300" y="176.2" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="360" y="214.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Phantom</text>
 </g>
-<line x1="86" y1="248.2" x2="74" y2="248.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="86" y1="252.2" x2="74" y2="252.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="120.44799999999998" y1="312.4" x2="132.44799999999998" y2="312.4" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="120.44799999999998" y1="308.4" x2="132.44799999999998" y2="308.4" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="86" y1="256.2" x2="74" y2="256.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="86" y1="260.2" x2="74" y2="260.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="120.44799999999998" y1="328.4" x2="132.44799999999998" y2="328.4" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="120.44799999999998" y1="324.4" x2="132.44799999999998" y2="324.4" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="274.27200000000005" y1="100" x2="262.27200000000005" y2="100" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="274.27200000000005" y1="104" x2="262.27200000000005" y2="104" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="213" y1="164.2" x2="220" y2="152.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="220" y1="164.2" x2="220" y2="152.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="227" y1="164.2" x2="220" y2="152.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="227" y1="248.2" x2="220" y2="260.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="220" y1="248.2" x2="220" y2="260.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="213" y1="248.2" x2="220" y2="260.2" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="220" cy="264.2" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="167.552" y1="312.4" x2="179.552" y2="312.4" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="167.552" y1="308.4" x2="179.552" y2="308.4" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="213" y1="172.2" x2="220" y2="160.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="220" y1="172.2" x2="220" y2="160.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="227" y1="172.2" x2="220" y2="160.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="227" y1="256.2" x2="220" y2="268.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="220" y1="256.2" x2="220" y2="268.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="213" y1="256.2" x2="220" y2="268.2" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="220" cy="272.2" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="167.552" y1="328.4" x2="179.552" y2="328.4" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="167.552" y1="324.4" x2="179.552" y2="324.4" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="317.728" y1="100" x2="305.728" y2="100" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="317.728" y1="104" x2="305.728" y2="104" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="353" y1="164.2" x2="360" y2="152.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="360" y1="164.2" x2="360" y2="152.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="367" y1="164.2" x2="360" y2="152.2" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="360" cy="148.2" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<rect x="52.269999999999996" y="268.19999999999993" width="55.46" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="80" y="280.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">mirrors</text>
-<rect x="205.878" y="120" width="28.244000000000003" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="220" y="132.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">toc</text>
-<rect x="186.6" y="268.19999999999993" width="66.80000000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="220" y="280.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">re-homes</text>
-<rect x="326.222" y="120" width="67.55600000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="360" y="132.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">phantoms</text>
+<line x1="353" y1="172.2" x2="360" y2="160.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="360" y1="172.2" x2="360" y2="160.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="367" y1="172.2" x2="360" y2="160.2" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="360" cy="156.2" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<rect x="52.269999999999996" y="280.19999999999993" width="55.46" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="80" y="292.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">mirrors</text>
+<rect x="205.878" y="124" width="28.244000000000003" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="220" y="136.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">toc</text>
+<rect x="186.6" y="280.19999999999993" width="66.80000000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="220" y="292.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">re-homes</text>
+<rect x="326.222" y="124" width="67.55600000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="360" y="136.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">phantoms</text>
 </svg>
