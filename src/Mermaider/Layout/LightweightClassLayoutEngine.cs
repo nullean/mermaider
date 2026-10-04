@@ -114,7 +114,7 @@ internal static class LightweightClassLayoutEngine
 				.Select(ns => new LayoutSubgraph(ns.Name, ns.Name, ns.ClassIds, []))
 				.ToList();
 		var layoutGraph = new LayoutGraph(layoutDir, layoutNodes, layoutEdges, namespaceSubgraphs);
-		var result = SugiyamaLayout.Compute(layoutGraph, new LayoutOptions
+		var result = HierarchicalLayout.Compute(layoutGraph, new LayoutOptions
 		{
 			Padding = Padding,
 			NodeSpacing = NodeSpacing,

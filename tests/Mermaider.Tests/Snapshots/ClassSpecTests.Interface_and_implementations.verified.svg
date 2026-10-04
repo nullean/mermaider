@@ -46,8 +46,8 @@
   </marker>
 </defs>
 
-<path class="class-relationship" data-from="ILogger" data-to="ConsoleLogger" data-type="realization" data-marker-at="from" d="M244,144 C244,174 128,174 128,204" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-start="url(#cls-inherit)" />
-<path class="class-relationship" data-from="ILogger" data-to="FileLogger" data-type="realization" data-marker-at="from" d="M244,144 C244,174 360,174 360,204" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="ILogger" data-to="ConsoleLogger" data-type="realization" data-marker-at="from" d="M214.5,144 L214.5,176 Q214.5,182 208.5,182 L134,182 Q128,182 128,188 L128,204" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="ILogger" data-to="FileLogger" data-type="realization" data-marker-at="from" d="M273.5,144 L273.5,176 Q273.5,182 279.5,182 L354,182 Q360,182 360,188 L360,204" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-start="url(#cls-inherit)" />
 <g class="class-node" data-id="ILogger" data-label="ILogger" data-annotation="interface">
   <rect x="156" y="40" width="176" height="104" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
   <rect x="156" y="40" width="176" height="48" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />

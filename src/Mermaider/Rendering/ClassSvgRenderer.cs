@@ -13,6 +13,9 @@ internal static class ClassSvgRenderer
 	private static readonly string RelLabelAttrs =
 		RenderConstants.TextAttrs.ClassRelLabelFill + "var(--_text-muted)\"";
 
+	private static readonly string PillLabelAttrs =
+		RenderConstants.TextAttrs.ClassRelLabelFill + "var(--_text)\"";
+
 	private static readonly string MemberFontSize = RenderConstants.FsVar.S;
 	private static readonly int MemberFontWeight = RenderConstants.FontWeights.Member;
 	private static readonly string AnnotationFontSize = RenderConstants.FsVar.Xs;
@@ -303,7 +306,10 @@ internal static class ClassSvgRenderer
 			_ = sb.Append('"');
 		}
 		_ = sb.Append(" d=\"");
-		SvgRenderer.BuildRoundedPath(sb, rel.Points, 6);
+		if (SvgRenderer.IsOrthogonal(rel.Points))
+			SvgRenderer.BuildOrthogonalPath(sb, rel.Points, 6);
+		else
+			SvgRenderer.BuildRoundedPath(sb, rel.Points, 6);
 		_ = sb.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.Connector).Append('"').Append(dashArray).Append(markers).Append(" />");
 	}
@@ -337,11 +343,18 @@ internal static class ClassSvgRenderer
 		if (rel.Label != null)
 		{
 			var pos = rel.LabelPosition ?? Midpoint(rel.Points);
-			_ = sb.Append('\n');
+			var metrics = TextMetrics.MeasureMultiline(rel.Label.AsSpan(), RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel);
+			var bgW = ErSvgRenderer.LabelBoxWidth(metrics.Width);
+			var bgH = metrics.Height + ErSvgRenderer.LabelPadY;
+			var lr = Math.Min(RenderConstants.Radii.EdgeLabel, bgH / 2);
+			_ = sb.Append("\n<rect x=\"").Append(pos.X - (bgW / 2)).Append("\" y=\"").Append(pos.Y - (bgH / 2))
+				.Append("\" width=\"").Append(bgW).Append("\" height=\"").Append(bgH)
+				.Append("\" rx=\"").Append(lr).Append("\" ry=\"").Append(lr)
+				.Append("\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"").Append(RenderConstants.StrokeWidths.Connector).Append("\" />\n");
 			MultilineUtils.AppendMultilineText(
-				sb, rel.Label, pos.X, pos.Y - 8,
+				sb, rel.Label, pos.X, pos.Y,
 				RenderConstants.FontSizes.EdgeLabel,
-				RelLabelAttrs);
+				PillLabelAttrs);
 		}
 
 		if (rel.FromCardinality != null)

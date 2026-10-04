@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450.4 512" width="450.4" height="512" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 494.4 604" width="494.4" height="604" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -47,56 +47,56 @@
 </defs>
 
 <g class="ns-box">
-  <rect x="44" y="188" width="362.4" height="280" rx="4" ry="4" fill="var(--_group-fill)" stroke="var(--_accent-stroke)" stroke-width="1" stroke-dasharray="6 3" />
-  <text x="52" y="202" font-size="14" fill="var(--_text-muted)" font-style="italic">Domain</text>
+  <rect x="52" y="272" width="390.4" height="280" rx="4" ry="4" fill="var(--_group-fill)" stroke="var(--_accent-stroke)" stroke-width="1" stroke-dasharray="6 3" />
+  <text x="60" y="286" font-size="14" fill="var(--_text-muted)" font-style="italic">Domain</text>
 </g>
 <g class="ns-box">
-  <rect x="44" y="52" width="362.4" height="112" rx="4" ry="4" fill="var(--_group-fill)" stroke="var(--_accent-stroke)" stroke-width="1" stroke-dasharray="6 3" />
-  <text x="52" y="66" font-size="14" fill="var(--_text-muted)" font-style="italic">Infrastructure</text>
+  <rect x="52" y="64" width="390.4" height="112" rx="4" ry="4" fill="var(--_group-fill)" stroke="var(--_accent-stroke)" stroke-width="1" stroke-dasharray="6 3" />
+  <text x="60" y="78" font-size="14" fill="var(--_text-muted)" font-style="italic">Infrastructure</text>
 </g>
-<path class="class-relationship" data-from="Order" data-to="Product" data-type="association" data-marker-at="to" d="M310.59999999999997,308 L310.59999999999997,368" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
-<path class="class-relationship" data-from="OrderRepo" data-to="Order" data-type="realization" data-marker-at="to" d="M310.59999999999997,152 L310.59999999999997,220" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#cls-inherit)" />
-<path class="class-relationship" data-from="ProductRepo" data-to="Product" data-type="realization" data-marker-at="to" d="M131.39999999999998,152 L131.39999999999998,180 Q131.39999999999998,186 137.39999999999998,186 L217.59999999999997,186 Q223.59999999999997,186 223.59999999999997,192 L223.59999999999997,332 Q223.59999999999997,338 229.59999999999997,338 L304.59999999999997,338 Q310.59999999999997,338 310.59999999999997,344 L310.59999999999997,368" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#cls-inherit)" />
+<path class="class-relationship" data-from="Order" data-to="Product" data-type="association" data-marker-at="to" d="M247,392 L247,424 Q247,430 241,430 L231,430 Q225,430 225,436 L225,452" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
+<path class="class-relationship" data-from="OrderRepo" data-to="Order" data-type="realization" data-marker-at="to" d="M148,164 L148,276 Q148,282 154,282 L241,282 Q247,282 247,288 L247,304" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#cls-inherit)" />
+<path class="class-relationship" data-from="ProductRepo" data-to="Product" data-type="realization" data-marker-at="to" d="M355,164 L355,424 Q355,430 349,430 L275.5,430 Q269.5,430 269.5,436 L269.5,452" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#cls-inherit)" />
 <g class="class-node" data-id="Order" data-label="Order">
-  <rect x="243.59999999999997" y="220" width="134" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
-  <rect x="243.59999999999997" y="220" width="134" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
-  <rect x="243.59999999999997" y="226" width="134" height="26" fill="var(--_group-hdr)" stroke="none" />
-  <text x="310.59999999999997" y="236" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Order</text>
-  <line x1="243.59999999999997" y1="252" x2="377.59999999999997" y2="252" stroke="var(--_line)" stroke-width="1.5" />
-  <text class="mono" x="251.59999999999997" y="266" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">id</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">int</tspan></text>
-  <line x1="243.59999999999997" y1="280" x2="377.59999999999997" y2="280" stroke="var(--_line)" stroke-width="1.5" />
-  <text class="mono" x="251.59999999999997" y="294" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">place()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
-  <rect x="243.59999999999997" y="220" width="134" height="88" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="180.2" y="304" width="134" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
+  <rect x="180.2" y="304" width="134" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="180.2" y="310" width="134" height="26" fill="var(--_group-hdr)" stroke="none" />
+  <text x="247.2" y="320" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Order</text>
+  <line x1="180.2" y1="336" x2="314.2" y2="336" stroke="var(--_line)" stroke-width="1.5" />
+  <text class="mono" x="188.2" y="350" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">id</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">int</tspan></text>
+  <line x1="180.2" y1="364" x2="314.2" y2="364" stroke="var(--_line)" stroke-width="1.5" />
+  <text class="mono" x="188.2" y="378" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">place()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
+  <rect x="180.2" y="304" width="134" height="88" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="Product" data-label="Product">
-  <rect x="243.59999999999997" y="368" width="134" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
-  <rect x="243.59999999999997" y="368" width="134" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
-  <rect x="243.59999999999997" y="374" width="134" height="26" fill="var(--_group-hdr)" stroke="none" />
-  <text x="310.59999999999997" y="384" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Product</text>
-  <line x1="243.59999999999997" y1="400" x2="377.59999999999997" y2="400" stroke="var(--_line)" stroke-width="1.5" />
-  <text class="mono" x="251.59999999999997" y="414" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">name</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">String</tspan></text>
-  <text class="mono" x="251.59999999999997" y="434" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">price</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">double</tspan></text>
-  <line x1="243.59999999999997" y1="448" x2="377.59999999999997" y2="448" stroke="var(--_line)" stroke-width="1.5" />
-  <rect x="243.59999999999997" y="368" width="134" height="88" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="180.2" y="452" width="134" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
+  <rect x="180.2" y="452" width="134" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="180.2" y="458" width="134" height="26" fill="var(--_group-hdr)" stroke="none" />
+  <text x="247.2" y="468" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Product</text>
+  <line x1="180.2" y1="484" x2="314.2" y2="484" stroke="var(--_line)" stroke-width="1.5" />
+  <text class="mono" x="188.2" y="498" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">name</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">String</tspan></text>
+  <text class="mono" x="188.2" y="518" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">price</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">double</tspan></text>
+  <line x1="180.2" y1="532" x2="314.2" y2="532" stroke="var(--_line)" stroke-width="1.5" />
+  <rect x="180.2" y="452" width="134" height="88" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="OrderRepo" data-label="OrderRepo">
-  <rect x="226.79999999999998" y="84" width="167.6" height="68" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
-  <rect x="226.79999999999998" y="84" width="167.6" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
-  <rect x="226.79999999999998" y="90" width="167.6" height="26" fill="var(--_group-hdr)" stroke="none" />
-  <text x="310.59999999999997" y="100" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">OrderRepo</text>
-  <line x1="226.79999999999998" y1="116" x2="394.4" y2="116" stroke="var(--_line)" stroke-width="1.5" />
-  <line x1="226.79999999999998" y1="124" x2="394.4" y2="124" stroke="var(--_line)" stroke-width="1.5" />
-  <text class="mono" x="234.79999999999998" y="138" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">save(Order)</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
-  <rect x="226.79999999999998" y="84" width="167.6" height="68" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="64" y="96" width="167.6" height="68" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
+  <rect x="64" y="96" width="167.6" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="64" y="102" width="167.6" height="26" fill="var(--_group-hdr)" stroke="none" />
+  <text x="147.8" y="112" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">OrderRepo</text>
+  <line x1="64" y1="128" x2="231.6" y2="128" stroke="var(--_line)" stroke-width="1.5" />
+  <line x1="64" y1="136" x2="231.6" y2="136" stroke="var(--_line)" stroke-width="1.5" />
+  <text class="mono" x="72" y="150" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">save(Order)</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
+  <rect x="64" y="96" width="167.6" height="68" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="ProductRepo" data-label="ProductRepo">
-  <rect x="56" y="84" width="150.79999999999998" height="68" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
-  <rect x="56" y="84" width="150.79999999999998" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
-  <rect x="56" y="90" width="150.79999999999998" height="26" fill="var(--_group-hdr)" stroke="none" />
-  <text x="131.39999999999998" y="100" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ProductRepo</text>
-  <line x1="56" y1="116" x2="206.79999999999998" y2="116" stroke="var(--_line)" stroke-width="1.5" />
-  <line x1="56" y1="124" x2="206.79999999999998" y2="124" stroke="var(--_line)" stroke-width="1.5" />
-  <text class="mono" x="64" y="138" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">findAll()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">List</tspan></text>
-  <rect x="56" y="84" width="150.79999999999998" height="68" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="279.6" y="96" width="150.79999999999998" height="68" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
+  <rect x="279.6" y="96" width="150.79999999999998" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="279.6" y="102" width="150.79999999999998" height="26" fill="var(--_group-hdr)" stroke="none" />
+  <text x="355" y="112" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ProductRepo</text>
+  <line x1="279.6" y1="128" x2="430.4" y2="128" stroke="var(--_line)" stroke-width="1.5" />
+  <line x1="279.6" y1="136" x2="430.4" y2="136" stroke="var(--_line)" stroke-width="1.5" />
+  <text class="mono" x="287.6" y="150" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">findAll()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">List</tspan></text>
+  <rect x="279.6" y="96" width="150.79999999999998" height="68" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 </svg>

@@ -296,7 +296,7 @@ internal static class SvgRenderer
 		_ = sb.Append(" />");
 	}
 
-	private static bool IsOrthogonal(IReadOnlyList<Point> pts)
+	internal static bool IsOrthogonal(IReadOnlyList<Point> pts)
 	{
 		for (var i = 1; i < pts.Count; i++)
 		{

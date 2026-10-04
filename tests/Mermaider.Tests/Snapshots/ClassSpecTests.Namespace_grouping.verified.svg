@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 271.2 532" width="271.2" height="532" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 287.2 624" width="287.2" height="624" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -47,46 +47,46 @@
 </defs>
 
 <g class="ns-box">
-  <rect x="44" y="52" width="183.2" height="280" rx="4" ry="4" fill="var(--_group-fill)" stroke="var(--_accent-stroke)" stroke-width="1" stroke-dasharray="6 3" />
-  <text x="52" y="66" font-size="14" fill="var(--_text-muted)" font-style="italic">Domain</text>
+  <rect x="52" y="64" width="183.2" height="280" rx="4" ry="4" fill="var(--_group-fill)" stroke="var(--_accent-stroke)" stroke-width="1" stroke-dasharray="6 3" />
+  <text x="60" y="78" font-size="14" fill="var(--_text-muted)" font-style="italic">Domain</text>
 </g>
 <g class="ns-box">
-  <rect x="44" y="356" width="183.2" height="132" rx="4" ry="4" fill="var(--_group-fill)" stroke="var(--_accent-stroke)" stroke-width="1" stroke-dasharray="6 3" />
-  <text x="52" y="370" font-size="14" fill="var(--_text-muted)" font-style="italic">Infrastructure</text>
+  <rect x="52" y="440" width="183.2" height="132" rx="4" ry="4" fill="var(--_group-fill)" stroke="var(--_accent-stroke)" stroke-width="1" stroke-dasharray="6 3" />
+  <text x="60" y="454" font-size="14" fill="var(--_text-muted)" font-style="italic">Infrastructure</text>
 </g>
-<path class="class-relationship" data-from="User" data-to="Order" data-type="association" data-marker-at="to" d="M135.6,172 L135.6,232" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
-<path class="class-relationship" data-from="Order" data-to="Database" data-type="association" data-marker-at="to" d="M135.6,320 L135.6,388" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
+<path class="class-relationship" data-from="User" data-to="Order" data-type="association" data-marker-at="to" d="M143.5,184 L143.5,244" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
+<path class="class-relationship" data-from="Order" data-to="Database" data-type="association" data-marker-at="to" d="M143.5,332 L143.5,472" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
 <g class="class-node" data-id="User" data-label="User">
-  <rect x="68.6" y="84" width="134" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
-  <rect x="68.6" y="84" width="134" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
-  <rect x="68.6" y="90" width="134" height="26" fill="var(--_group-hdr)" stroke="none" />
-  <text x="135.6" y="100" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">User</text>
-  <line x1="68.6" y1="116" x2="202.6" y2="116" stroke="var(--_line)" stroke-width="1.5" />
-  <text class="mono" x="76.6" y="130" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">name</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">String</tspan></text>
-  <line x1="68.6" y1="144" x2="202.6" y2="144" stroke="var(--_line)" stroke-width="1.5" />
-  <text class="mono" x="76.6" y="158" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">login()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
-  <rect x="68.6" y="84" width="134" height="88" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="76.6" y="96" width="134" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
+  <rect x="76.6" y="96" width="134" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="76.6" y="102" width="134" height="26" fill="var(--_group-hdr)" stroke="none" />
+  <text x="143.6" y="112" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">User</text>
+  <line x1="76.6" y1="128" x2="210.6" y2="128" stroke="var(--_line)" stroke-width="1.5" />
+  <text class="mono" x="84.6" y="142" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">name</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">String</tspan></text>
+  <line x1="76.6" y1="156" x2="210.6" y2="156" stroke="var(--_line)" stroke-width="1.5" />
+  <text class="mono" x="84.6" y="170" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">login()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
+  <rect x="76.6" y="96" width="134" height="88" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="Order" data-label="Order">
-  <rect x="64.39999999999999" y="232" width="142.4" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
-  <rect x="64.39999999999999" y="232" width="142.4" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
-  <rect x="64.39999999999999" y="238" width="142.4" height="26" fill="var(--_group-hdr)" stroke="none" />
-  <text x="135.6" y="248" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Order</text>
-  <line x1="64.39999999999999" y1="264" x2="206.8" y2="264" stroke="var(--_line)" stroke-width="1.5" />
-  <text class="mono" x="72.39999999999999" y="278" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">id</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">int</tspan></text>
-  <line x1="64.39999999999999" y1="292" x2="206.8" y2="292" stroke="var(--_line)" stroke-width="1.5" />
-  <text class="mono" x="72.39999999999999" y="306" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">submit()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
-  <rect x="64.39999999999999" y="232" width="142.4" height="88" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="72.39999999999999" y="244" width="142.4" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
+  <rect x="72.39999999999999" y="244" width="142.4" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="72.39999999999999" y="250" width="142.4" height="26" fill="var(--_group-hdr)" stroke="none" />
+  <text x="143.6" y="260" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Order</text>
+  <line x1="72.39999999999999" y1="276" x2="214.8" y2="276" stroke="var(--_line)" stroke-width="1.5" />
+  <text class="mono" x="80.39999999999999" y="290" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">id</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">int</tspan></text>
+  <line x1="72.39999999999999" y1="304" x2="214.8" y2="304" stroke="var(--_line)" stroke-width="1.5" />
+  <text class="mono" x="80.39999999999999" y="318" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">submit()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
+  <rect x="72.39999999999999" y="244" width="142.4" height="88" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="Database" data-label="Database">
-  <rect x="56" y="388" width="159.2" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
-  <rect x="56" y="388" width="159.2" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
-  <rect x="56" y="394" width="159.2" height="26" fill="var(--_group-hdr)" stroke="none" />
-  <text x="135.6" y="404" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Database</text>
-  <line x1="56" y1="420" x2="215.2" y2="420" stroke="var(--_line)" stroke-width="1.5" />
-  <line x1="56" y1="428" x2="215.2" y2="428" stroke="var(--_line)" stroke-width="1.5" />
-  <text class="mono" x="64" y="442" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">connect()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
-  <text class="mono" x="64" y="462" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">query(sql)</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
-  <rect x="56" y="388" width="159.2" height="88" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="64" y="472" width="159.2" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
+  <rect x="64" y="472" width="159.2" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="64" y="478" width="159.2" height="26" fill="var(--_group-hdr)" stroke="none" />
+  <text x="143.6" y="488" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Database</text>
+  <line x1="64" y1="504" x2="223.2" y2="504" stroke="var(--_line)" stroke-width="1.5" />
+  <line x1="64" y1="512" x2="223.2" y2="512" stroke="var(--_line)" stroke-width="1.5" />
+  <text class="mono" x="72" y="526" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">connect()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
+  <text class="mono" x="72" y="546" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">query(sql)</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
+  <rect x="64" y="472" width="159.2" height="88" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 </svg>
