@@ -76,6 +76,25 @@ public static class SugiyamaLayout
 				if (flow > 0)
 					gaps[buf.Layers[e.From]] = Math.Max(gaps[buf.Layers[e.From]], flow + 56);
 			}
+			// A node fanning many edges into one gap needs a lane per extra edge for its horizontal runs (see ErEdgeRouter slotting).
+			var outDeg = new Dictionary<(int Node, int Gap), int>();
+			var inDeg = new Dictionary<(int Node, int Gap), int>();
+			foreach (var e in buf.Edges)
+			{
+				var gap = buf.Layers[e.From];
+				if (gap >= gaps.Length || buf.Layers[e.To] != gap + 1)
+					continue;
+				outDeg[(e.From, gap)] = outDeg.GetValueOrDefault((e.From, gap)) + 1;
+				inDeg[(e.To, gap)] = inDeg.GetValueOrDefault((e.To, gap)) + 1;
+			}
+			for (var gap = 0; gap < gaps.Length; gap++)
+			{
+				var fan = Math.Max(
+					outDeg.Where(kv => kv.Key.Gap == gap).Select(kv => kv.Value).DefaultIfEmpty(0).Max(),
+					inDeg.Where(kv => kv.Key.Gap == gap).Select(kv => kv.Value).DefaultIfEmpty(0).Max());
+				if (fan > 2)
+					gaps[gap] += (fan - 2) * 8;
+			}
 			buf.GapSpacing = gaps;
 		}
 
