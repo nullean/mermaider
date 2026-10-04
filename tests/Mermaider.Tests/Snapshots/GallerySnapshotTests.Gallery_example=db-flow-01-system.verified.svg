@@ -38,23 +38,23 @@
 </defs>
 
 <g class="subgraph" data-id="Reference" data-label="Reference data (config/)">
-  <rect x="40" y="132.80000000000018" width="321.632" height="124.8" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="40" y="132.80000000000018" width="321.632" height="124.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Sources" data-label="Sources">
-  <rect x="40" y="293.60000000000036" width="229.52" height="124.8" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="40" y="293.60000000000036" width="229.52" height="124.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Authoring" data-label="Authoring (in each repository)">
-  <rect x="577.5446400000001" y="86.39999999999964" width="582.74032" height="217.6" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="577.5446400000001" y="86.39999999999964" width="582.74032" height="217.6" rx="8" ry="8" fill="color-mix(in srgb, #e15759 6%, var(--bg))" stroke="#DF4E50" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Build" data-label="Build">
-  <rect x="2301.43824" y="40" width="222.22400000000002" height="310.4" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="2301.43824" y="40" width="222.22400000000002" height="310.4" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 6%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Outputs" data-label="Outputs">
-  <rect x="1376.1976" y="339.99999999999966" width="709.328" height="217.6" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="1376.1976" y="339.99999999999966" width="709.328" height="217.6" rx="8" ry="8" fill="color-mix(in srgb, #59a14f 6%, var(--bg))" stroke="#559A4C" stroke-width="1.75" />
 </g>
 
 <path class="edge" data-from="Catalog" data-to="DocSet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M337.632,211 L859,211 Q865,211 865,205 L865,171 Q865,165 871,165 L938.34896,165" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
@@ -77,15 +77,10 @@
 <path class="edge" data-from="Isolated" data-to="Site" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M2325.43824,123 L1826,123 Q1820,123 1820,129 L1820,402.97080000000005 Q1820,407 1815.9708,407 L1811.9416,407" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Assembler" data-to="Search" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M2325.43824,226 L2089.5,226 Q2083.5,226 2083.5,232 L2083.5,505 Q2083.5,511 2077.5,511 L2028.6935999999998,511" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Changelog" data-to="Notes" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M792.1846400000001,257.5 L1372,257.5 Q1378,257.5 1378,263.5 L1378,412.5 Q1378,418.5 1384,418.5 L1400.1976,418.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Notes" data-to="Site" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1613.6376,418.5 L1669.6376,418.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <rect x="40" y="132.80000000000018" width="321.632" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
-  <text x="52" y="147.80000000000018" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Reference data (config/)</text>
-  <rect x="40" y="293.60000000000036" width="229.52" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+<path class="edge" data-from="Notes" data-to="Site" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1613.6376,418.5 L1669.6376,418.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="52" y="147.80000000000018" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Reference data (config/)</text>
   <text x="52" y="308.60000000000036" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Sources</text>
-  <rect x="577.5446400000001" y="86.39999999999964" width="582.74032" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
   <text x="589.5446400000001" y="101.39999999999964" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Authoring (in each repository)</text>
-  <rect x="2301.43824" y="40" width="222.22400000000002" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
   <text x="2313.43824" y="55" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Build</text>
-  <rect x="1376.1976" y="339.99999999999966" width="709.328" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
   <text x="1388.1976" y="354.99999999999966" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Outputs</text>
 
 <g class="edge-label" data-from="OpenApi" data-to="SpecIndex" data-label="published per version">

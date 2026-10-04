@@ -83,7 +83,6 @@ internal static class SvgRenderer
 		internal string NodeStroke(string id) => ColorUtils.AdjustLightness(Color(nodeCluster[id]), -0.12);
 		internal bool Has(string id) => nodeCluster.ContainsKey(id);
 		internal string GroupFill(string id, int depth) => $"color-mix(in srgb, {Color(GroupCluster(id))} {6 + (depth * 3)}%, var(--bg))";
-		internal string GroupHeader(string id, int depth) => $"color-mix(in srgb, {Color(GroupCluster(id))} {18 + (depth * 4)}%, var(--bg))";
 		internal string GroupStroke(string id) => ColorUtils.AdjustLightness(Color(GroupCluster(id)), -0.02);
 		private int GroupCluster(string id) => groupCluster.GetValueOrDefault(id);
 		private string Color(int cluster) => colors.PaletteAt(cluster);
@@ -142,11 +141,16 @@ internal static class SvgRenderer
 			nodeCluster[n.Id] = i;
 		}
 
+		// Subgraphs alternate through the palette in document order and never take the colour of a step they hold.
 		var groupCluster = new Dictionary<string, int>(StringComparer.Ordinal);
+		var ordinal = 0;
 		void AssignGroups(PositionedGroup g)
 		{
-			var first = graph.Nodes.FirstOrDefault(n => Inside(n, g));
-			groupCluster[g.Id] = first is not null ? nodeCluster[first.Id] : 0;
+			var held = graph.Nodes.Where(n => Inside(n, g)).Select(n => nodeCluster[n.Id]).ToHashSet();
+			var colour = ordinal++;
+			for (var guard = 0; held.Contains(colour) && guard < 32; guard++)
+				colour++;
+			groupCluster[g.Id] = colour;
 			foreach (var c in g.Children)
 				AssignGroups(c);
 		}
@@ -221,15 +225,8 @@ internal static class SvgRenderer
 
 	private static void AppendGroupHeader(StringBuilder sb, PositionedGroup group, FlowPalette? palette, int depth)
 	{
+		// the subgraph is one plain box: the label sits on it, there is no separate header band
 		var headerHeight = FontSizes.GroupHeader + 16;
-		var r = Radii.Group;
-
-		_ = sb.Append("  <rect x=\"").Append(group.X).Append("\" y=\"").Append(group.Y)
-			.Append("\" width=\"").Append(group.Width).Append("\" height=\"").Append(headerHeight)
-			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"").Append(palette?.GroupHeader(group.Id, depth) ?? "var(--_group-hdr)").Append("\" stroke=\"").Append(palette?.GroupStroke(group.Id) ?? "var(--_group-stroke)").Append("\" stroke-width=\"")
-			.Append(StrokeWidths.OuterBox).Append("\" />\n");
-
 		_ = sb.Append("  ");
 		MultilineUtils.AppendMultilineText(
 			sb, group.Label,

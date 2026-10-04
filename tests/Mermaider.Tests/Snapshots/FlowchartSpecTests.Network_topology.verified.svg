@@ -38,15 +38,15 @@
 </defs>
 
 <g class="subgraph" data-id="cloud" data-label="Cloud VPC">
-  <rect x="40" y="226" width="502.912" height="500.4" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="40" y="226" width="502.912" height="500.4" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="pub" data-label="Public Subnet">
-  <rect x="64" y="282" width="418.912" height="124.8" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 9%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="64" y="282" width="418.912" height="124.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 9%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="priv" data-label="Private Subnet">
-  <rect x="79.12" y="462.8" width="388.672" height="239.6" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 9%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="79.12" y="462.8" width="388.672" height="239.6" rx="8" ry="8" fill="color-mix(in srgb, #e15759 9%, var(--bg))" stroke="#DF4E50" stroke-width="1.75" />
 </g>
 
 <path class="edge" data-from="internet" data-to="lb" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M291.5,170 L291.5,310 Q291.5,316 285.5,316 L177.5,316 Q171.5,316 171.5,322 L171.5,338" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
@@ -56,11 +56,8 @@
 <path class="edge" data-from="app2" data-to="db" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M366.5,563.5999999999999 L366.5,579.5 Q366.5,585.5 360.5,585.5 L299.5,585.5 Q293.5,585.5 293.5,591.5 L293.5,619.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="app1" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M203,518.8 L203,421 Q203,415 209,415 L349,415 Q355,415 355,409 L355,382.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="app2" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M392,518.8 L392,411 Q392,405 398,405 L401,405 Q407,405 407,399 L407,382.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="nat" data-to="internet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M381,338 L381,198 Q381,192 375,192 L297.5,192 Q291.5,192 291.5,186 L291.5,170" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <rect x="40" y="226" width="502.912" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
-  <text x="52" y="241" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Cloud VPC</text>
-  <rect x="64" y="282" width="418.912" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+<path class="edge" data-from="nat" data-to="internet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M381,338 L381,198 Q381,192 375,192 L297.5,192 Q291.5,192 291.5,186 L291.5,170" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="52" y="241" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Cloud VPC</text>
   <text x="76" y="297" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Public Subnet</text>
-  <rect x="79.12" y="462.8" width="388.672" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
   <text x="91.12" y="477.8" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Private Subnet</text>
 
 <g class="node" data-id="internet" data-label="Internet" data-shape="circle">

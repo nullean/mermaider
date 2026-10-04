@@ -38,19 +38,19 @@
 </defs>
 
 <g class="subgraph" data-id="Repos" data-label="Repositories (each with its own isolated build)">
-  <rect x="281.25599999999986" y="40" width="439.88800000000003" height="217.6" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="281.25599999999986" y="40" width="439.88800000000003" height="217.6" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Registries" data-label="Link registries">
-  <rect x="224.712" y="415.4" width="552.9759999999999" height="166.4" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="224.712" y="415.4" width="552.9759999999999" height="166.4" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Assembler" data-label="Assembler">
-  <rect x="40" y="739.6" width="313.424" height="611.2" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="40" y="739.6" width="313.424" height="611.2" rx="8" ry="8" fill="color-mix(in srgb, #e15759 6%, var(--bg))" stroke="#DF4E50" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="CodexB" data-label="Codex">
-  <rect x="648.9759999999999" y="739.6" width="313.424" height="468.8" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="648.9759999999999" y="739.6" width="313.424" height="468.8" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 6%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
 </g>
 
 <path class="edge" data-from="R1" data-to="S3Reg" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="links.json" d="M384.5,140.8 L384.5,166 Q384.5,172 378.5,172 L298,172 Q292,172 292,178 L292,443.5 Q292,449.5 298,449.5 L354,449.5 Q360,449.5 360,455.5 L360,471.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
@@ -65,13 +65,9 @@
 <path class="edge" data-from="CodexReg" data-to="CdxClone" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M636.5,557.8 L636.5,863 Q636.5,869 642.5,869 L755.5,869 Q761.5,869 761.5,875 L761.5,896.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="CdxCfg" data-to="CdxClone" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M805.5,840.4 L805.5,868.5 Q805.5,874.5 811.5,874.5 L844,874.5 Q850,874.5 850,880.5 L850,896.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="CdxClone" data-to="CdxBuild" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M805.5,962 L805.5,1018" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="CdxBuild" data-to="CdxOut" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M805.5,1083.6 L805.5,1139.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <rect x="281.25599999999986" y="40" width="439.88800000000003" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
-  <text x="293.25599999999986" y="55" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Repositories (each with its own isolated build)</text>
-  <rect x="224.712" y="415.4" width="552.9759999999999" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+<path class="edge" data-from="CdxBuild" data-to="CdxOut" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M805.5,1083.6 L805.5,1139.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="293.25599999999986" y="55" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Repositories (each with its own isolated build)</text>
   <text x="236.712" y="430.4" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Link registries</text>
-  <rect x="40" y="739.6" width="313.424" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
   <text x="52" y="754.6" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Assembler</text>
-  <rect x="648.9759999999999" y="739.6" width="313.424" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
   <text x="660.9759999999999" y="754.6" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Codex</text>
 
 <g class="edge-label" data-from="R1" data-to="S3Reg" data-label="links.json">

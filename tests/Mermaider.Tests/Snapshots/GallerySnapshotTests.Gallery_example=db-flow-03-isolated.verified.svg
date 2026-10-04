@@ -38,19 +38,19 @@
 </defs>
 
 <g class="subgraph" data-id="Inputs" data-label="Inputs">
-  <rect x="40" y="76" width="323.45599999999996" height="238.39999999999998" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="40" y="76" width="323.45599999999996" height="238.39999999999998" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="External" data-label="Read from outside, never checked out">
-  <rect x="2278.68752" y="40" width="306.128" height="310.4" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="2278.68752" y="40" width="306.128" height="310.4" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Build" data-label="Isolated build">
-  <rect x="555.3278399999999" y="66.79999999999995" width="752.896" height="256.79999999999995" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="555.3278399999999" y="66.79999999999995" width="752.896" height="256.79999999999995" rx="8" ry="8" fill="color-mix(in srgb, #e15759 6%, var(--bg))" stroke="#DF4E50" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Outputs" data-label="Outputs">
-  <rect x="1500.09568" y="86.39999999999998" width="586.72" height="217.6" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="1500.09568" y="86.39999999999998" width="586.72" height="217.6" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 6%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
 </g>
 
 <path class="edge" data-from="Checkout" data-to="DocSet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M339.45599999999996,165 L551.5,165 Q557.5,165 557.5,171 L557.5,189 Q557.5,195 563.5,195 L579.3278399999999,195" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
@@ -65,13 +65,9 @@
 <path class="edge" data-from="Nav" data-to="Html" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1284.2238399999997,198.5 L1486,198.5 Q1492,198.5 1492,192.5 L1492,171 Q1492,165 1498,165 L1524.09568,165" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Nav" data-to="Manifest" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1284.2238399999997,213.5 L1496,213.5 Q1502,213.5 1502,219.5 L1502,251.5 Q1502,257.5 1508,257.5 L1524.09568,257.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="DocSet" data-to="Redirects" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M768.14384,206 L1089.5,206 Q1095.5,206 1095.5,200 L1095.5,138 Q1095.5,132 1101.5,132 L1773.5,132 Q1779.5,132 1779.5,138 L1779.5,159 Q1779.5,165 1785.5,165 L1805.5996799999998,165" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Manifest" data-to="LinkReg" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="published on push" d="M1757.5996799999998,257.5 L1791.5,257.5 Q1797.5,257.5 1797.5,251.5 L1797.5,117 Q1797.5,111 1803.5,111 L2302.68752,111" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <rect x="40" y="76" width="323.45599999999996" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
-  <text x="52" y="91" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Inputs</text>
-  <rect x="2278.68752" y="40" width="306.128" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+<path class="edge" data-from="Manifest" data-to="LinkReg" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="published on push" d="M1757.5996799999998,257.5 L1791.5,257.5 Q1797.5,257.5 1797.5,251.5 L1797.5,117 Q1797.5,111 1803.5,111 L2302.68752,111" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="52" y="91" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Inputs</text>
   <text x="2290.68752" y="55" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Read from outside, never checked out</text>
-  <rect x="555.3278399999999" y="66.79999999999995" width="752.896" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
   <text x="567.3278399999999" y="81.79999999999995" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Isolated build</text>
-  <rect x="1500.09568" y="86.39999999999998" width="586.72" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
   <text x="1512.09568" y="101.39999999999998" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Outputs</text>
 
 <g class="edge-label" data-from="LinkReg" data-to="Content" data-label="cross_links">

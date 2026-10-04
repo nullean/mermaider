@@ -38,18 +38,16 @@
 </defs>
 
 <g class="subgraph" data-id="Backend" data-label="Backend">
-  <rect x="45.47200000000001" y="321.6" width="131.93599999999998" height="225.6" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="45.47200000000001" y="321.6" width="131.93599999999998" height="225.6" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Frontend" data-label="Frontend">
-  <rect x="40" y="40" width="142.88" height="225.6" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="40" y="40" width="142.88" height="225.6" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
 </g>
 
 <path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M111.5,422.40000000000003 L111.5,478.40000000000003" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="C" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M99.5,140.8 L99.5,169 Q99.5,175 105.5,175 L105.5,175 Q111.5,175 111.5,181 L111.5,196.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="C" data-to="A" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M123.5,140.8 L123.5,169 Q123.5,175 129.5,175 L161,175 Q167,175 167,181 L167,349.5 Q167,355.5 161,355.5 L117.5,355.5 Q111.5,355.5 111.5,361.5 L111.5,377.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <rect x="45.47200000000001" y="321.6" width="131.93599999999998" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
-  <text x="57.47200000000001" y="336.6" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Backend</text>
-  <rect x="40" y="40" width="142.88" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+<path class="edge" data-from="C" data-to="A" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M123.5,140.8 L123.5,169 Q123.5,175 129.5,175 L161,175 Q167,175 167,181 L167,349.5 Q167,355.5 161,355.5 L117.5,355.5 Q111.5,355.5 111.5,361.5 L111.5,377.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="57.47200000000001" y="336.6" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Backend</text>
   <text x="52" y="55" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Frontend</text>
 
 <g class="node" data-id="A" data-label="API" data-shape="rectangle">

@@ -38,23 +38,23 @@
 </defs>
 
 <g class="subgraph" data-id="inputs" data-label="Inputs">
-  <rect x="203.096" y="40" width="523.7919999999999" height="300.8" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="203.096" y="40" width="523.7919999999999" height="300.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="navAssembly" data-label="Navigation Assembly">
-  <rect x="119.19200000000001" y="419.25" width="691.5999999999999" height="267.2" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="119.19200000000001" y="419.25" width="691.5999999999999" height="267.2" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="dualVal" data-label="Dual Validation — both must pass">
-  <rect x="846.7919999999999" y="764.9" width="636.8799999999999" height="187.2" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="846.7919999999999" y="764.9" width="636.8799999999999" height="187.2" rx="8" ry="8" fill="color-mix(in srgb, #e15759 6%, var(--bg))" stroke="#DF4E50" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="contentProc" data-label="Content Processing — per file">
-  <rect x="171.63199999999995" y="1030.55" width="586.72" height="321.6" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="171.63199999999995" y="1030.55" width="586.72" height="321.6" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 6%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="outputLayer" data-label="Output">
-  <rect x="40" y="1430.6" width="849.9839999999999" height="166.4" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="40" y="1430.6" width="849.9839999999999" height="166.4" rx="8" ry="8" fill="color-mix(in srgb, #59a14f 6%, var(--bg))" stroke="#559A4C" stroke-width="1.75" />
 </g>
 
 <path class="edge" data-from="navYml" data-to="v1Nav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M590.5,140.8 L590.5,195.5 Q590.5,201.5 584.5,201.5 L424.5,201.5 Q418.5,201.5 418.5,207.5 L418.5,419.25" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
@@ -66,15 +66,10 @@
 <path class="edge" data-from="valV1" data-to="relLinks" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="both pass" d="M1004.5,952.0999999999999 L1004.5,1037.5 Q1004.5,1043.5 998.5,1043.5 L758.352,1043.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="repoCheckouts" data-to="relLinks" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label=".md source files" d="M621.5,316.8 L621.5,405 Q621.5,411 627.5,411 L813,411 Q819,411 819,417 L819,1058.5 Q819,1064.5 813,1064.5 L758.352,1064.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="assemblerYml" data-to="pathProvider" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="nav-v2 flag" d="M345,161.6 L345,195.5 Q345,201.5 339,201.5 L117,201.5 Q111,201.5 111,207.5 L111,1430.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="relLinks" data-to="pathProvider" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M171.63199999999995,1204 L163,1204 Q157,1204 157,1210 L157,1430.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <rect x="203.096" y="40" width="523.7919999999999" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
-  <text x="215.096" y="55" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Inputs</text>
-  <rect x="119.19200000000001" y="419.25" width="691.5999999999999" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+<path class="edge" data-from="relLinks" data-to="pathProvider" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M171.63199999999995,1204 L163,1204 Q157,1204 157,1210 L157,1430.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="215.096" y="55" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Inputs</text>
   <text x="131.192" y="434.25" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Navigation Assembly</text>
-  <rect x="846.7919999999999" y="764.9" width="636.8799999999999" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
   <text x="858.7919999999999" y="779.9" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Dual Validation — both must pass</text>
-  <rect x="171.63199999999995" y="1030.55" width="586.72" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
   <text x="183.63199999999995" y="1045.55" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Content Processing — per file</text>
-  <rect x="40" y="1430.6" width="849.9839999999999" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
   <text x="52" y="1445.6" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Output</text>
 
 <g class="edge-label" data-from="valV1" data-to="relLinks" data-label="both pass">

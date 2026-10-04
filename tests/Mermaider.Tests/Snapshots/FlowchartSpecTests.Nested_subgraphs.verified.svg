@@ -38,25 +38,22 @@
 </defs>
 
 <g class="subgraph" data-id="Outer" data-label="Deployment">
-  <rect x="40" y="140.8" width="390.88" height="305.6" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="40" y="140.8" width="390.88" height="305.6" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Inner1" data-label="Cluster A">
-  <rect x="64" y="196.8" width="147.44" height="225.6" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 9%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="64" y="196.8" width="147.44" height="225.6" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 9%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Inner2" data-label="Cluster B">
-  <rect x="259.44" y="196.8" width="147.44" height="225.6" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 9%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <rect x="259.44" y="196.8" width="147.44" height="225.6" rx="8" ry="8" fill="color-mix(in srgb, #e15759 9%, var(--bg))" stroke="#DF4E50" stroke-width="1.75" />
 </g>
 
 <path class="edge" data-from="A1" data-to="A2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M137.5,297.6 L137.5,353.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="B1" data-to="B2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M333,297.6 L333,353.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="LB" data-to="A1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M207.5,84.8 L207.5,196.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="LB" data-to="B1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M263.5,84.8 L263.5,196.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <rect x="40" y="140.8" width="390.88" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
-  <text x="52" y="155.8" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Deployment</text>
-  <rect x="64" y="196.8" width="147.44" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+<path class="edge" data-from="LB" data-to="B1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M263.5,84.8 L263.5,196.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="52" y="155.8" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Deployment</text>
   <text x="76" y="211.8" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Cluster A</text>
-  <rect x="259.44" y="196.8" width="147.44" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
   <text x="271.44" y="211.8" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Cluster B</text>
 
 <g class="node" data-id="LB" data-label="Load Balancer" data-shape="rectangle">
