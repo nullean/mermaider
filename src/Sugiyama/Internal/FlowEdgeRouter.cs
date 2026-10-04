@@ -23,7 +23,7 @@ internal static class FlowEdgeRouter
 	private const double Stub = 22;
 	private const double Margin = 8;
 	private const double BendCost = 28;
-	private const double CrossCost = 55;
+	private const double CrossCost = 140;
 	private const double OverlapCost = 40;
 	private const double ForeignGroupCost = 450;
 	private const double LeaveGroupCost = 45;
@@ -88,13 +88,26 @@ internal static class FlowEdgeRouter
 		var placedLabels = new List<(double X0, double Y0, double X1, double Y1)>();
 		var polylines = new Dictionary<int, List<LayoutPoint>>();
 
-		foreach (var p in plans.OrderBy(p => Math.Abs(p.SPort.X - p.TPort.X) + Math.Abs(p.SPort.Y - p.TPort.Y)))
+		var ordered = plans.OrderBy(p => Math.Abs(p.SPort.X - p.TPort.X) + Math.Abs(p.SPort.Y - p.TPort.Y)).ToList();
+		var segsOf = new Dictionary<int, List<Seg>>();
+		// pass 0 routes greedily; later passes rip each edge up and re-route it against all the others
+		for (var pass = 0; pass < 3; pass++)
 		{
-			var pts = grid.Find(p, groups, routed) ?? Fallback(p);
-			pts = Simplify(pts);
-			polylines[p.Edge.Index] = pts;
-			for (var i = 0; i < pts.Count - 1; i++)
-				routed.Add(new Seg(pts[i].X, pts[i].Y, pts[i + 1].X, pts[i + 1].Y));
+			foreach (var p in ordered)
+			{
+				if (segsOf.TryGetValue(p.Edge.Index, out var old))
+					_ = routed.RemoveAll(old.Contains);
+				var pts = grid.Find(p, groups, routed) ?? Fallback(p);
+				pts = Simplify(pts);
+				polylines[p.Edge.Index] = pts;
+				var mine = new List<Seg>();
+				for (var i = 0; i < pts.Count - 1; i++)
+					mine.Add(new Seg(pts[i].X, pts[i].Y, pts[i + 1].X, pts[i + 1].Y));
+				segsOf[p.Edge.Index] = mine;
+				routed.AddRange(mine);
+			}
+			if (plans.Count > 60)
+				break;
 		}
 
 		foreach (var p in plans)

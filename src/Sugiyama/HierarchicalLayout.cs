@@ -132,7 +132,7 @@ public static class HierarchicalLayout
 				.Select(g => g.Count())
 				.DefaultIfEmpty(0)
 				.Max();
-			if (busiestPair > 1)
+			if (busiestPair > 1 && !horizontalFlow)
 				labelExtent *= busiestPair;
 			var levelOptions = options with
 			{
