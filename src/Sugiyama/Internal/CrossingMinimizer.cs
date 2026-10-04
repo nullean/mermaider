@@ -30,8 +30,8 @@ internal static class CrossingMinimizer
 		Optimize(graph, iterations, useModelOrderForVirtuals, useModelOrderForRealNodes, useRealFirstTiebreaker, ct);
 		if (restarts <= 0)
 			return;
-		const int maxTied = 24;
-		const int slack = 2;
+		const int maxTied = 64;
+		const int slack = 3;
 		var totals = new List<int>();
 		if (tiedBest is not null)
 		{
@@ -142,6 +142,69 @@ internal static class CrossingMinimizer
 		// Accepts a swap only when it strictly reduces the combined permutation crossing count
 		// across the two affected layer pairs (L-1:L and L:L+1). Iterates until stable.
 		LocalSwapRefinement(graph, ct);
+		InsertionRefinement(graph, ct);
+	}
+
+	/// <summary>
+	/// Move any node (virtual ones included) to any position in its layer and keep the move when it strictly lowers the crossings
+	/// of the two adjoining layer pairs. Escapes local minima the adjacent/pair swaps above cannot.
+	/// </summary>
+	private static void InsertionRefinement(GraphBuffer graph, CancellationToken ct)
+	{
+		bool changed;
+		var rounds = 0;
+		do
+		{
+			changed = false;
+			for (var layer = 0; layer < graph.LayerCount; layer++)
+			{
+				ct.ThrowIfCancellationRequested();
+				var nodes = graph.LayerNodes[layer];
+				if (nodes.Length is <= 1 or > FullPairwiseSwapLayerSizeLimit)
+					continue;
+
+				for (var from = 0; from < nodes.Length; from++)
+				{
+					var baseline = CrossingsForLayer(graph, layer);
+					if (baseline == 0)
+						break;
+
+					var bestTo = from;
+					var bestCrossings = baseline;
+					for (var to = 0; to < nodes.Length; to++)
+					{
+						if (to == from)
+							continue;
+						MoveNode(graph, nodes, from, to);
+						var c = CrossingsForLayer(graph, layer);
+						MoveNode(graph, nodes, to, from);
+						if (c >= bestCrossings)
+							continue;
+						bestCrossings = c;
+						bestTo = to;
+					}
+
+					if (bestTo == from)
+						continue;
+					MoveNode(graph, nodes, from, bestTo);
+					changed = true;
+				}
+			}
+		} while (changed && ++rounds < 8);
+	}
+
+	private static void MoveNode(GraphBuffer graph, int[] nodes, int from, int to)
+	{
+		var node = nodes[from];
+		if (from < to)
+			Array.Copy(nodes, from + 1, nodes, from, to - from);
+		else
+			Array.Copy(nodes, to, nodes, to + 1, from - to);
+		nodes[to] = node;
+		var lo = Math.Min(from, to);
+		var hi = Math.Max(from, to);
+		for (var i = lo; i <= hi; i++)
+			graph.NodePositionInLayer[nodes[i]] = i;
 	}
 
 	private static int TotalCrossings(GraphBuffer graph)

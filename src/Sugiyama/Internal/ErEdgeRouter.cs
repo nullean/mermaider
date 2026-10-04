@@ -12,8 +12,6 @@ internal static class ErEdgeRouter
 
 	internal static List<EdgeRouter.RoutedEdge> Run(GraphBuffer graph, IReadOnlyList<LayoutEdge> inputEdges, bool useSideRouting)
 	{
-		_ = inputEdges;
-		_ = useSideRouting;
 		var edges = graph.Edges;
 		var next = new Dictionary<(int From, int Orig), int>();
 		var starts = new List<int>();
@@ -27,6 +25,7 @@ internal static class ErEdgeRouter
 		}
 
 		var results = new List<EdgeRouter.RoutedEdge>(starts.Count);
+		var chains = new List<List<int>>(starts.Count);
 		foreach (var first in starts)
 		{
 			var chain = new List<int> { first };
@@ -41,10 +40,102 @@ internal static class ErEdgeRouter
 			if (edges[first].Reversed)
 				points.Reverse();
 			results.Add(new EdgeRouter.RoutedEdge(edges[first].OriginalIndex, edges[first].Reversed, points, labelPos));
+			chains.Add(chain);
 		}
 
+		ReduceCrossingsByVariants(graph, results, chains, inputEdges, useSideRouting);
 		SlotHorizontalRuns(graph, results);
 		return results;
+	}
+
+	/// <summary>
+	/// For short (single-gap) edges that cross another edge, try moving the single horizontal run to the top or bottom of the gap
+	/// (vertical at the exit or entry port instead of a separate label column). Keep a variant only if it strictly reduces that edge's
+	/// crossings and its label stays clear of every other edge and label.
+	/// </summary>
+	private static void ReduceCrossingsByVariants(
+		GraphBuffer g, List<EdgeRouter.RoutedEdge> routes, List<List<int>> chains, IReadOnlyList<LayoutEdge> input, bool horizontalFlow)
+	{
+		bool Shares(int a, int b)
+		{
+			var ea = input[routes[a].OriginalIndex];
+			var eb = input[routes[b].OriginalIndex];
+			return ea.Source == eb.Source || ea.Target == eb.Target || ea.Source == eb.Target || ea.Target == eb.Source;
+		}
+
+		int CrossingsOf(int idx, List<LayoutPoint> pts)
+		{
+			var n = 0;
+			for (var o = 0; o < routes.Count; o++)
+			{
+				if (o != idx && !Shares(idx, o) && PathsCross(pts, routes[o].Points))
+					n++;
+			}
+			return n;
+		}
+
+		(double W, double H) LabelSize(int idx)
+		{
+			var e = input[routes[idx].OriginalIndex];
+			return horizontalFlow ? (e.LabelHeight, e.LabelWidth) : (e.LabelWidth, e.LabelHeight);
+		}
+
+		bool LabelClear(int idx, LayoutPoint at)
+		{
+			var (w, h) = LabelSize(idx);
+			double x0 = at.X - (w / 2), x1 = at.X + (w / 2), y0 = at.Y - (h / 2), y1 = at.Y + (h / 2);
+			for (var o = 0; o < routes.Count; o++)
+			{
+				if (o == idx)
+					continue;
+				if (routes[o].LabelPosition is { } lp)
+				{
+					var (ow, oh) = LabelSize(o);
+					if (x1 + 4 > lp.X - (ow / 2) && x0 - 4 < lp.X + (ow / 2) && y1 + 4 > lp.Y - (oh / 2) && y0 - 4 < lp.Y + (oh / 2))
+						return false;
+				}
+				var pts = routes[o].Points;
+				for (var k = 0; k < pts.Count - 1; k++)
+				{
+					double sx0 = Math.Min(pts[k].X, pts[k + 1].X), sx1 = Math.Max(pts[k].X, pts[k + 1].X);
+					double sy0 = Math.Min(pts[k].Y, pts[k + 1].Y), sy1 = Math.Max(pts[k].Y, pts[k + 1].Y);
+					if (sx1 > x0 + 1 && sx0 < x1 - 1 && sy1 > y0 + 1 && sy0 < y1 - 1)
+						return false;
+				}
+			}
+			return true;
+		}
+
+		for (var pass = 0; pass < 3; pass++)
+		{
+			var improved = false;
+			for (var i = 0; i < routes.Count; i++)
+			{
+				if (chains[i].Count != 1 || routes[i].OriginalIndex >= input.Count)
+					continue;
+				var current = CrossingsOf(i, routes[i].Points);
+				if (current == 0)
+					continue;
+
+				for (var variant = 1; variant <= 2; variant++)
+				{
+					var pts = Route(g, chains[i], out var label, variant);
+					if (routes[i].Reversed)
+						pts.Reverse();
+					var hasLabel = input[routes[i].OriginalIndex].LabelWidth > 0;
+					if (CrossingsOf(i, pts) >= current || (hasLabel && (label is null || !LabelClear(i, label.Value))))
+						continue;
+					routes[i].ReplacePoints(pts);
+					if (hasLabel)
+						routes[i].SetLabelPosition(label!.Value);
+					improved = true;
+					break;
+				}
+			}
+
+			if (!improved)
+				break;
+		}
 	}
 
 	/// <summary>Number of edge pairs (sharing no endpoint) whose routes cross.</summary>
@@ -130,12 +221,33 @@ internal static class ErEdgeRouter
 			}
 		}
 
+		const int bandBase = 100000;
+		var minHeight = new double[g.LayerCount];
+		for (var li = 0; li < g.LayerCount; li++)
+		{
+			minHeight[li] = double.MaxValue;
+			foreach (var v in g.LayerNodes[li])
+			{
+				if (v < g.RealNodeCount)
+					minHeight[li] = Math.Min(minHeight[li], g.NodeHeights[v]);
+			}
+			if (minHeight[li] == double.MaxValue)
+				minHeight[li] = 30;
+		}
+
 		int GapOf(double y)
 		{
 			for (var li = 0; li < g.LayerCount - 1; li++)
 			{
 				if (y >= layerBottom[li] - 0.5 && y <= layerTop[li + 1] + 0.5)
-					return li;
+					return y >= layerTop[li + 1] - 0.5 ? bandBase + li + 1 : li;
+			}
+
+			// A long edge's jog between virtual columns sits a few px below its layer's top: slot it inside that band.
+			for (var li = 0; li < g.LayerCount; li++)
+			{
+				if (y > layerTop[li] + 0.5 && y < layerTop[li] + 16)
+					return bandBase + li;
 			}
 			return -1;
 		}
@@ -248,8 +360,20 @@ internal static class ErEdgeRouter
 			}
 
 			var gap = members[0].Gap;
-			var lo = layerBottom[gap] + 4;
-			var hi = layerTop[gap + 1] - 4;
+			double lo;
+			double hi;
+			if (gap >= bandBase)
+			{
+				var band = gap - bandBase;
+				lo = layerTop[band] + 3;
+				hi = layerTop[band] + Math.Max(12, Math.Min(34, minHeight[band] - 3));
+			}
+			else
+			{
+				lo = layerBottom[gap] + 4;
+				hi = layerTop[gap + 1] - 4;
+			}
+
 			var baseY = members.Average(m => m.Y);
 			var step = Math.Min(slotStep, Math.Max(2, (hi - lo) / (n + 1)));
 			var first = baseY - (step * (n - 1) / 2);
@@ -268,7 +392,7 @@ internal static class ErEdgeRouter
 
 	private static double CentreX(GraphBuffer g, int node) => g.X[node] + (node < g.RealNodeCount ? g.NodeWidths[node] / 2.0 : 0);
 
-	private static List<LayoutPoint> Route(GraphBuffer g, List<int> chain, out LayoutPoint? labelPos)
+	private static List<LayoutPoint> Route(GraphBuffer g, List<int> chain, out LayoutPoint? labelPos, int variant = 0)
 	{
 		var edges = g.Edges;
 		var src = edges[chain[0]].From;
@@ -290,6 +414,10 @@ internal static class ErEdgeRouter
 			var topB = g.Y[b];
 			var col = g.ColumnX.Length > chain[i] ? g.ColumnX[chain[i]] : double.NaN;
 			var nextX = i == chain.Count - 1 ? entryX : CentreX(g, b);
+
+			// Variants for single-gap edges: 1 = vertical at the exit port (one run at the bottom), 2 = vertical at the entry port (one run at the top).
+			if (variant != 0 && chain.Count == 1)
+				col = variant == 1 ? srcPortX : entryX;
 
 			// A jog of a few px reads as a slanted line once corners are rounded: run straight instead.
 			if (!double.IsNaN(col))

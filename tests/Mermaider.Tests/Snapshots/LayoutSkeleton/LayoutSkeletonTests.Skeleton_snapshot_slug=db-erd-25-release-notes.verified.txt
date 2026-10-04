@@ -16,7 +16,7 @@ Edges:
   BundleProfile --product--> Product [Bottom->Top] [D R D]
   BundleRegistry --bundles[]--> Bundle [Bottom->Top] [D]
   BundledEntry --file.name + checksum--> ChangelogEntry [Bottom->Top] [D R D]
-  BundledProduct --product--> Product [Top->Bottom] [U L U L U]
+  BundledProduct --product--> Product [Top->Bottom] [U L U]
   ChangelogConfiguration --bundle.profiles--> BundleProfile [Bottom->Top] [D R D L D]
   ChangelogConfiguration --pivot--> Pivot [Bottom->Top] [D L D]
   ChangelogConfiguration --products--> ProductDefaults [Bottom->Top] [D R D]
@@ -30,7 +30,7 @@ Edges:
   NotesIndex --notes[]--> ChangelogNote [Bottom->Top] [D]
   Product --bundle/{product}/registry.json--> BundleRegistry [Bottom->Top] [D]
   ProductDefaults --available, default--> Product [Bottom->Top] [D L D]
-  ProductRelease --product--> Product [Top->Bottom] [U R U R U R U L U L U L U]
+  ProductRelease --product--> Product [Top->Bottom] [U R U L U]
   ReleaseTrigger --profile name--> BundleProfile [Bottom->Top] [D R D]
   Repository --changelog.yml--> ChangelogConfiguration [Bottom->Top] [D]
 Ports:

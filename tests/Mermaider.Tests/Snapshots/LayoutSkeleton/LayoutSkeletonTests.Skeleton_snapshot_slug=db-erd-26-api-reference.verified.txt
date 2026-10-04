@@ -15,7 +15,7 @@ Edges:
   ApiOperation --search export--> DocumentationDocument [Bottom->Top] [D]
   ApiSpecVersion --components--> ApiSchema [Bottom->Top] [D R D]
   ApiSpecVersion --x-tagGroups--> ApiTagGroup [Bottom->Top] [D L D]
-  ApiSupplementalDoc --op-{operationId}--> ApiOperation [Bottom->Top] [D R D L D L D]
+  ApiSupplementalDoc --op-{operationId}--> ApiOperation [Bottom->Top] [D R D L D]
   ApiSupplementalDoc --tag-{slug}--> ApiTag [Bottom->Top] [D L D]
   ApiTag --endpoints--> ApiEndpoint [Bottom->Top] [D]
   ApiTagGroup --tags--> ApiTag [Bottom->Top] [D R D]

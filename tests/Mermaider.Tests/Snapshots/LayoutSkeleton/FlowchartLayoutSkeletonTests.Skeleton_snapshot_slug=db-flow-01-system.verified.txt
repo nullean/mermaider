@@ -18,7 +18,7 @@ Edges:
   Catalog ----> DocSet [Bottom->Left] [D R U R]
   Changelog ----> Notes [Right->Left] [R D R]
   Codex ----> Site [Right->Left] [R]
-  DocSet ----> Assembler [Top->Left] [U R D R D R]
+  DocSet ----> Assembler [Bottom->Left] [D R U R D R D R]
   DocSet ----> Codex [Bottom->Left] [D R U R D R]
   DocSet ----> Isolated [Bottom->Left] [D R U R]
   DocSet --api: spec + repository--> SpecIndex [Right->Left] [R]
@@ -37,7 +37,7 @@ Edges:
 Ports:
   Assembler Left: edge11,edge5,edge19
   Codex Left: edge12,edge6
-  DocSet Bottom: edge6,edge7
+  DocSet Bottom: edge6,edge5,edge7
   DocSet Left: edge14,edge17,edge2
   Isolated Left: edge20,edge7
   Repo Bottom: edge16,edge17

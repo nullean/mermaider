@@ -30,7 +30,7 @@ function metrics(edges) {
       if (aH && bH && Math.abs(p[1] - r[1]) < 1.5 && Math.min(Math.max(p[0], q[0]), Math.max(r[0], s[0])) - Math.max(Math.min(p[0], q[0]), Math.min(r[0], s[0])) > 6) ov = true;
       if (aV && bV && Math.abs(p[0] - r[0]) < 1.5 && Math.min(Math.max(p[1], q[1]), Math.max(r[1], s[1])) - Math.max(Math.min(p[1], q[1]), Math.min(r[1], s[1])) > 6) ov = true;
     }
-    if (hit) crossings++; if (ov) overlaps++;
+    if (hit) crossings++; if (ov) { overlaps++; if (process.env.DETAIL && !metrics.quiet) console.log("  overlap", a.s + ">" + a.t, JSON.stringify(a.p.map(q => q.map(Math.round))), "\n          ", b.s + ">" + b.t, JSON.stringify(b.p.map(q => q.map(Math.round)))); }
   }
   return { crossings, overlaps, bends: bends / Math.max(1, edges.length), length };
 }

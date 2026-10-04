@@ -99,6 +99,8 @@ internal static class BkCoordinateAssigner
 			}
 		}
 
+		StraightenLongEdges(graph, lg, x, nodeSpacing);
+
 		// Normalise so the leftmost graph node is at 0 (columns follow in the same frame).
 		var minGraphX = double.MaxValue;
 		for (var i = 0; i < lg.OrigN; i++)
@@ -119,6 +121,110 @@ internal static class BkCoordinateAssigner
 			graph.ColumnX[ei] = d >= 0 ? x[d] + (lg.W[d] / 2) : double.NaN;
 			graph.PortOutOff[ei] = lg.FirstHalf[ei] >= 0 ? lg.OutOff[lg.FirstHalf[ei]] : 0;
 			graph.PortInOff[ei] = lg.SecondHalf[ei] >= 0 ? lg.InOff[lg.SecondHalf[ei]] : 0;
+		}
+	}
+
+	/// <summary>
+	/// Averaging the four layouts and re-spacing can leave a long edge's dummies/virtual nodes at slightly different x, which
+	/// draws zigzags. Move each chain onto one x (the median of its centres) whenever every member can move there without
+	/// violating the spacing to its layer neighbours.
+	/// </summary>
+	private static void StraightenLongEdges(GraphBuffer graph, Lg g, double[] x, double nodeSpacing)
+	{
+		var next = new Dictionary<(int From, int Orig), int>();
+		var starts = new List<int>();
+		for (var ei = 0; ei < graph.Edges.Count; ei++)
+		{
+			var e = graph.Edges[ei];
+			if (e.From >= graph.RealNodeCount)
+				next[(e.From, e.OriginalIndex)] = ei;
+			else if (e.To >= graph.RealNodeCount)
+				starts.Add(ei);
+		}
+
+		var chains = new List<List<int>>();
+		foreach (var first in starts)
+		{
+			var members = new List<int>();
+			var ei = first;
+			while (true)
+			{
+				var d = g.DummyOfGraphEdge[ei];
+				if (d >= 0)
+					members.Add(d);
+				var to = graph.Edges[ei].To;
+				if (to < graph.RealNodeCount)
+					break;
+				members.Add(to);
+				if (!next.TryGetValue((to, graph.Edges[first].OriginalIndex), out ei))
+					break;
+			}
+			if (members.Count > 1)
+				chains.Add(members);
+		}
+
+		// Feasible centre range for a run of chain members, from their (non-run) layer neighbours in actual x-order.
+		bool TryRange(List<int> run, out double lo, out double hi)
+		{
+			var set = new HashSet<int>(run);
+			lo = double.MinValue;
+			hi = double.MaxValue;
+			foreach (var m in run)
+			{
+				var layer = g.LayerNodes[g.Layer[m]].OrderBy(n => x[n]).ThenBy(n => g.Pos[n]).ToArray();
+				var pos = Array.IndexOf(layer, m);
+				if (pos > 0 && !set.Contains(layer[pos - 1]))
+				{
+					var l = layer[pos - 1];
+					lo = Math.Max(lo, x[l] + g.W[l] + Gap(g, l, m, nodeSpacing) + (g.W[m] / 2));
+				}
+				if (pos < layer.Length - 1 && !set.Contains(layer[pos + 1]))
+				{
+					var r = layer[pos + 1];
+					hi = Math.Min(hi, x[r] - Gap(g, m, r, nodeSpacing) - (g.W[m] / 2));
+				}
+			}
+			return lo <= hi;
+		}
+
+		for (var pass = 0; pass < 3; pass++)
+		{
+			var moved = false;
+			foreach (var members in chains)
+			{
+				// Longest feasible contiguous run first (a node blocking one layer must not leave the whole chain zigzagging);
+				// the first run always starts at the label dummy so its column and the long vertical coincide.
+				var i = 0;
+				while (i < members.Count - 1)
+				{
+					var advanced = false;
+					for (var j = members.Count - 1; j > i; j--)
+					{
+						var run = members.GetRange(i, j - i + 1);
+						var centres = run.Select(m => x[m] + (g.W[m] / 2)).OrderBy(c => c).ToList();
+						if (centres[^1] - centres[0] < 0.5)
+						{
+							i = j;
+							advanced = true;
+							break;
+						}
+						if (!TryRange(run, out var lo, out var hi))
+							continue;
+						var snapped = Math.Clamp(centres[centres.Count / 2], lo, hi);
+						foreach (var m in run)
+							x[m] = snapped - (g.W[m] / 2);
+						moved = true;
+						i = j;
+						advanced = true;
+						break;
+					}
+					if (!advanced)
+						i++;
+				}
+			}
+
+			if (!moved)
+				break;
 		}
 	}
 
