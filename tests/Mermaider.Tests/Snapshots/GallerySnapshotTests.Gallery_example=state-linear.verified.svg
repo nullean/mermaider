@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 211.36 576.2" width="211.36" height="576.2" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 163.36 464.2" width="163.36" height="464.2" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -37,37 +37,37 @@
   </marker>
 </defs>
 
-<path class="edge" data-from="_start" data-to="Draft" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M105.5,64 L105.5,142.45" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Draft" data-to="Review" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="submit" d="M105.5,187.25 L105.5,265.7" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Review" data-to="Published" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="approve" d="M105.5,310.5 L105.5,388.95" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Published" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M105.5,433.75 L105.5,512.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="_start" data-to="Draft" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M81.5,40 L81.5,102.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Draft" data-to="Review" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="submit" d="M81.5,147 L81.5,209.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Review" data-to="Published" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="approve" d="M81.5,254.5 L81.5,317" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Published" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M81.5,362 L81.5,424" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="Draft" data-to="Review" data-label="submit">
-  <rect x="75.228" y="214.25" width="60.54400000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="105.5" y="226.475" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">submit</text>
+  <rect x="51.227999999999994" y="156.05" width="60.54400000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="81.5" y="168.275" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">submit</text>
 </g>
 <g class="edge-label" data-from="Review" data-to="Published" data-label="approve">
-  <rect x="68.01576" y="337.5" width="74.96848000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="105.5" y="349.725" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">approve</text>
+  <rect x="44.01575999999999" y="263.54999999999995" width="74.96848000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="81.5" y="275.775" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">approve</text>
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
-  <circle cx="105.68" cy="52" r="10" fill="var(--_text)" stroke="none" />
+  <circle cx="81.68" cy="28" r="10" fill="var(--_text)" stroke="none" />
   
 </g>
 <g class="node" data-id="Draft" data-label="Draft" data-shape="rounded">
-  <rect x="59.15200000000001" y="142.45" width="93.056" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="105.68" y="164.85" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Draft</text>
+  <rect x="35.15200000000001" y="102.45" width="93.056" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="81.68" y="124.85" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Draft</text>
 </g>
 <g class="node" data-id="Review" data-label="Review" data-shape="rounded">
-  <rect x="50.03200000000001" y="265.7" width="111.29599999999999" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="105.68" y="288.09999999999997" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Review</text>
+  <rect x="26.03200000000001" y="209.7" width="111.29599999999999" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="81.68" y="232.1" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Review</text>
 </g>
 <g class="node" data-id="Published" data-label="Published" data-shape="rounded">
-  <rect x="40" y="388.95" width="131.36" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="105.68" y="411.34999999999997" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Published</text>
+  <rect x="16" y="316.95" width="131.36" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="81.68" y="339.34999999999997" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Published</text>
 </g>
 <g class="node" data-id="_end" data-label="" data-shape="stateend">
-  <circle cx="105.68" cy="524.2" r="10" fill="none" stroke="var(--_text)" stroke-width="4" />
-<circle cx="105.68" cy="524.2" r="6" fill="var(--_text)" stroke="none" />
+  <circle cx="81.68" cy="436.2" r="10" fill="none" stroke="var(--_text)" stroke-width="4" />
+<circle cx="81.68" cy="436.2" r="6" fill="var(--_text)" stroke="none" />
   
 </g>
 </svg>

@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 521.8 552.4" width="521.8" height="552.4" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 521.8 520.4" width="521.8" height="520.4" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -46,10 +46,10 @@
   </marker>
 </defs>
 
-<path class="class-relationship" data-from="Vehicle" data-to="Car" data-type="inheritance" data-marker-at="from" d="M232.5,184 L232.5,232 Q232.5,238 238.5,238 L277,238 Q283,238 283,244 L283,260.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
-<path class="class-relationship" data-from="Vehicle" data-to="Truck" data-type="inheritance" data-marker-at="from" d="M188,184 L188,216 Q188,222 182,222 L121.5,222 Q115.5,222 115.5,228 L115.5,260.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
-<path class="class-relationship" data-from="Electric" data-to="Car" data-type="realization" data-marker-at="from" data-label="optional" d="M389.5,144 L389.5,216 Q389.5,222 383.5,222 L333.5,222 Q327.5,222 327.5,228 L327.5,260.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-start="url(#cls-inherit)" />
-<path class="class-relationship" data-from="Car" data-to="Engine" data-type="composition" data-marker-at="from" d="M305.5,348.2 L305.5,386 L305.5,386 L305.5,424.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-composition)" />
+<path class="class-relationship" data-from="Vehicle" data-to="Car" data-type="inheritance" data-marker-at="from" d="M258,184 L258,244" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="Vehicle" data-to="Truck" data-type="inheritance" data-marker-at="from" d="M167,184 L167,244" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="Electric" data-to="Car" data-type="realization" data-marker-at="from" data-label="optional" d="M335,144 L335,244" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="Car" data-to="Engine" data-type="composition" data-marker-at="from" d="M305.5,332 L305.5,392.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-composition)" />
 <g class="class-node" data-id="Vehicle" data-label="Vehicle" data-annotation="abstract">
   <rect x="143.39999999999998" y="40" width="134" height="144" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
   <rect x="143.39999999999998" y="40" width="134" height="48" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
@@ -65,26 +65,26 @@
   <rect x="143.39999999999998" y="40" width="134" height="144" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="Car" data-label="Car">
-  <rect x="238.39999999999998" y="260.2" width="134" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
-  <rect x="238.39999999999998" y="260.2" width="134" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
-  <rect x="238.39999999999998" y="266.2" width="134" height="26" fill="var(--_group-hdr)" stroke="none" />
-  <text x="305.4" y="276.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Car</text>
-  <line x1="238.39999999999998" y1="292.2" x2="372.4" y2="292.2" stroke="var(--_line)" stroke-width="1.5" />
-  <text class="mono" x="246.39999999999998" y="306.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">doors</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">int</tspan></text>
-  <line x1="238.39999999999998" y1="320.2" x2="372.4" y2="320.2" stroke="var(--_line)" stroke-width="1.5" />
-  <text class="mono" x="246.39999999999998" y="334.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">drive()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
-  <rect x="238.39999999999998" y="260.2" width="134" height="88" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="238.39999999999998" y="244.2" width="134" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
+  <rect x="238.39999999999998" y="244.2" width="134" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="238.39999999999998" y="250.2" width="134" height="26" fill="var(--_group-hdr)" stroke="none" />
+  <text x="305.4" y="260.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Car</text>
+  <line x1="238.39999999999998" y1="276.2" x2="372.4" y2="276.2" stroke="var(--_line)" stroke-width="1.5" />
+  <text class="mono" x="246.39999999999998" y="290.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">doors</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">int</tspan></text>
+  <line x1="238.39999999999998" y1="304.2" x2="372.4" y2="304.2" stroke="var(--_line)" stroke-width="1.5" />
+  <text class="mono" x="246.39999999999998" y="318.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">drive()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
+  <rect x="238.39999999999998" y="244.2" width="134" height="88" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="Truck" data-label="Truck">
-  <rect x="40" y="260.2" width="150.79999999999998" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
-  <rect x="40" y="260.2" width="150.79999999999998" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
-  <rect x="40" y="266.2" width="150.79999999999998" height="26" fill="var(--_group-hdr)" stroke="none" />
-  <text x="115.39999999999999" y="276.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Truck</text>
-  <line x1="40" y1="292.2" x2="190.79999999999998" y2="292.2" stroke="var(--_line)" stroke-width="1.5" />
-  <text class="mono" x="48" y="306.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">payload</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">double</tspan></text>
-  <line x1="40" y1="320.2" x2="190.79999999999998" y2="320.2" stroke="var(--_line)" stroke-width="1.5" />
-  <text class="mono" x="48" y="334.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">haul()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
-  <rect x="40" y="260.2" width="150.79999999999998" height="88" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="40" y="244.2" width="150.79999999999998" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
+  <rect x="40" y="244.2" width="150.79999999999998" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="40" y="250.2" width="150.79999999999998" height="26" fill="var(--_group-hdr)" stroke="none" />
+  <text x="115.39999999999999" y="260.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Truck</text>
+  <line x1="40" y1="276.2" x2="190.79999999999998" y2="276.2" stroke="var(--_line)" stroke-width="1.5" />
+  <text class="mono" x="48" y="290.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">payload</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">double</tspan></text>
+  <line x1="40" y1="304.2" x2="190.79999999999998" y2="304.2" stroke="var(--_line)" stroke-width="1.5" />
+  <text class="mono" x="48" y="318.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">haul()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
+  <rect x="40" y="244.2" width="150.79999999999998" height="88" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="Electric" data-label="Electric" data-annotation="interface">
   <rect x="297.4" y="40" width="184.4" height="104" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
@@ -99,16 +99,16 @@
   <rect x="297.4" y="40" width="184.4" height="104" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="Engine" data-label="Engine">
-  <rect x="224.60000000000002" y="424.4" width="150.79999999999998" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
-  <rect x="224.60000000000002" y="424.4" width="150.79999999999998" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
-  <rect x="224.60000000000002" y="430.4" width="150.79999999999998" height="26" fill="var(--_group-hdr)" stroke="none" />
-  <text x="300" y="440.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Engine</text>
-  <line x1="224.60000000000002" y1="456.4" x2="375.4" y2="456.4" stroke="var(--_line)" stroke-width="1.5" />
-  <text class="mono" x="232.60000000000002" y="470.4" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">horsepower</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">int</tspan></text>
-  <text class="mono" x="232.60000000000002" y="490.4" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">type</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">String</tspan></text>
-  <line x1="224.60000000000002" y1="504.4" x2="375.4" y2="504.4" stroke="var(--_line)" stroke-width="1.5" />
-  <rect x="224.60000000000002" y="424.4" width="150.79999999999998" height="88" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="224.60000000000002" y="392.4" width="150.79999999999998" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
+  <rect x="224.60000000000002" y="392.4" width="150.79999999999998" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="224.60000000000002" y="398.4" width="150.79999999999998" height="26" fill="var(--_group-hdr)" stroke="none" />
+  <text x="300" y="408.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Engine</text>
+  <line x1="224.60000000000002" y1="424.4" x2="375.4" y2="424.4" stroke="var(--_line)" stroke-width="1.5" />
+  <text class="mono" x="232.60000000000002" y="438.4" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">horsepower</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">int</tspan></text>
+  <text class="mono" x="232.60000000000002" y="458.4" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">type</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">String</tspan></text>
+  <line x1="224.60000000000002" y1="472.4" x2="375.4" y2="472.4" stroke="var(--_line)" stroke-width="1.5" />
+  <rect x="224.60000000000002" y="392.4" width="150.79999999999998" height="88" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
-<rect x="354.41984" y="170.775" width="70.16032000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="389.5" y="183" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">optional</text>
+<rect x="299.91984" y="191.675" width="70.16032000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<text x="335" y="203.9" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">optional</text>
 </svg>

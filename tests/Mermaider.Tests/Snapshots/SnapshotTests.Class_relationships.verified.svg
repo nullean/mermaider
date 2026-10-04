@@ -46,12 +46,12 @@
   </marker>
 </defs>
 
-<path class="class-relationship" data-from="A" data-to="B" data-type="inheritance" data-marker-at="from" d="M248.5,88 L248.5,134 Q248.5,140 242.5,140 L74,140 Q70,140 70,144 L70,148" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
-<path class="class-relationship" data-from="A" data-to="C" data-type="composition" data-marker-at="from" d="M257,88 L257,104 Q257,110 251,110 L156,110 Q150,110 150,116 L150,148" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-composition)" />
-<path class="class-relationship" data-from="A" data-to="D" data-type="aggregation" data-marker-at="from" d="M265.5,88 L265.5,120 Q265.5,126 259.5,126 L236,126 Q230,126 230,132 L230,148" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-aggregation)" />
-<path class="class-relationship" data-from="A" data-to="E" data-type="association" data-marker-at="to" d="M274.5,88 L274.5,104 Q274.5,110 280.5,110 L304,110 Q310,110 310,116 L310,148" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
-<path class="class-relationship" data-from="A" data-to="F" data-type="dependency" data-marker-at="to" d="M283,88 L283,120 Q283,126 289,126 L384,126 Q390,126 390,132 L390,148" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#cls-arrow)" />
-<path class="class-relationship" data-from="A" data-to="G" data-type="realization" data-marker-at="to" d="M291.5,88 L291.5,134 Q291.5,140 297.5,140 L466,140 Q470,140 470,144 L470,148" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#cls-inherit)" />
+<path class="class-relationship" data-from="A" data-to="B" data-type="inheritance" data-marker-at="from" d="M250,88 L250,120 Q250,126 244,126 L96,126 Q90,126 90,132 L90,148" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="A" data-to="C" data-type="composition" data-marker-at="from" d="M258,88 L258,104 Q258,110 252,110 L176,110 Q170,110 170,116 L170,148" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-composition)" />
+<path class="class-relationship" data-from="A" data-to="D" data-type="aggregation" data-marker-at="from" d="M266,88 L266,120 Q266,126 260,126 L256,126 Q250,126 250,132 L250,148" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-aggregation)" />
+<path class="class-relationship" data-from="A" data-to="E" data-type="association" data-marker-at="to" d="M274,88 L274,120 Q274,126 280,126 L284,126 Q290,126 290,132 L290,148" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
+<path class="class-relationship" data-from="A" data-to="F" data-type="dependency" data-marker-at="to" d="M282,88 L282,104 Q282,110 288,110 L364,110 Q370,110 370,116 L370,148" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#cls-arrow)" />
+<path class="class-relationship" data-from="A" data-to="G" data-type="realization" data-marker-at="to" d="M290,88 L290,120 Q290,126 296,126 L444,126 Q450,126 450,132 L450,148" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#cls-inherit)" />
 <g class="class-node" data-id="A" data-label="A">
   <rect x="240" y="40" width="60" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
   <rect x="240" y="40" width="60" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />

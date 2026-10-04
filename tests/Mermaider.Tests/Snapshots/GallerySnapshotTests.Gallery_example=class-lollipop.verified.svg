@@ -46,8 +46,8 @@
   </marker>
 </defs>
 
-<path class="class-relationship" data-from="Circle" data-to="Shape" data-type="realization" data-marker-at="to" d="M186.5,148 L186.5,180 Q186.5,186 180.5,186 L117,186 Q111,186 111,192 L111,208" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#cls-inherit)" />
-<path class="class-relationship" data-from="Circle" data-to="Drawable" data-type="lollipop" data-marker-at="to" d="M234,148 L234,180 Q234,186 240,186 L303.5,186 Q309.5,186 309.5,192 L309.5,208" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="class-relationship" data-from="Circle" data-to="Shape" data-type="realization" data-marker-at="to" d="M161,148 L161,208" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#cls-inherit)" />
+<path class="class-relationship" data-from="Circle" data-to="Drawable" data-type="lollipop" data-marker-at="to" d="M271.5,148 L271.5,164 Q271.5,170 277.5,170 L298.5,170 Q304.5,170 304.5,176 L304.5,208" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="class-node" data-id="Shape" data-label="Shape" data-annotation="interface">
   <rect x="40" y="208" width="142.4" height="84" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
   <rect x="40" y="208" width="142.4" height="48" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />

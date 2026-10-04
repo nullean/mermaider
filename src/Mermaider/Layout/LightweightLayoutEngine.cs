@@ -16,9 +16,9 @@ internal static class LightweightLayoutEngine
 	internal static PositionedGraph Layout(MermaidGraph graph, RenderOptions? options = null, StrictStylingOptions? strict = null,
 		int maxNodesAfterLayout = int.MaxValue, CancellationToken ct = default)
 	{
-		var padding = options?.Padding ?? LayoutDefaults.Padding;
+		var padding = options?.Padding ?? 16;
 		var nodeSpacing = options?.NodeSpacing ?? LayoutDefaults.NodeSpacing;
-		var layerSpacing = options?.LayerSpacing ?? LayoutDefaults.LayerSpacing;
+		var layerSpacing = options?.LayerSpacing ?? 40;
 
 		var nodeOrder = graph.NodeOrder.Count > 0
 			? graph.NodeOrder
@@ -32,7 +32,13 @@ internal static class LightweightLayoutEngine
 			var (w, h) = NodeSizing.Estimate(node.Label, node.Shape);
 			layoutNodes.Add(new LayoutNode(id, w, h)
 			{
-				CentrePorts = node.Shape is Models.NodeShape.Diamond or Models.NodeShape.Circle or Models.NodeShape.DoubleCircle or Models.NodeShape.Hexagon,
+				Outline = node.Shape switch
+				{
+					Models.NodeShape.Diamond => PortOutline.Diamond,
+					Models.NodeShape.Circle or Models.NodeShape.DoubleCircle => PortOutline.Ellipse,
+					Models.NodeShape.Hexagon => PortOutline.Centre,
+					_ => PortOutline.Rectangle,
+				},
 			});
 		}
 
@@ -44,7 +50,7 @@ internal static class LightweightLayoutEngine
 		//   - subgraphs: NestingGraphRanker border-node constraints conflict with the extra minLength
 		//   - state diagrams: state transitions are already spaced correctly without the bonus
 		var isStateDiagramEarly = graph.Nodes.Values.Any(n => n.Shape is Models.NodeShape.StateStart or Models.NodeShape.StateEnd);
-		var applyLabelMinLength = graph.Subgraphs.Count == 0 && !isStateDiagramEarly;
+		var applyLabelMinLength = false;
 		for (var ei = 0; ei < graph.Edges.Count; ei++)
 		{
 			var edge = graph.Edges[ei];

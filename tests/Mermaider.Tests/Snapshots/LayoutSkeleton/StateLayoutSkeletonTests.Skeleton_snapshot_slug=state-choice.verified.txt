@@ -4,15 +4,15 @@ Layer 2: checkResult
 Layer 3: Positive, Negative, Neutral
 Layer 4: _end, Retry, _end2
 Edges:
-  Evaluate ----> checkResult [Bottom->Top] [D L D]
-  Negative ----> Retry [Bottom->Top] [D L D]
+  Evaluate ----> checkResult [Bottom->Top] [D]
+  Negative ----> Retry [Bottom->Top] [D]
   Neutral ----> _end2 [Bottom->Top] [D]
   Positive ----> _end [Bottom->Top] [D]
   Retry ----> Evaluate [Top->Bottom] [U R U L U]
   _start ----> Evaluate [Bottom->Top] [D]
   checkResult --if score < 0--> Negative [Bottom->Top] [D]
-  checkResult --if score = 0--> Neutral [Right->Top] [R D]
-  checkResult --if score > 0--> Positive [Left->Top] [L D]
+  checkResult --if score = 0--> Neutral [Right->Top] [D R D]
+  checkResult --if score > 0--> Positive [Left->Top] [D L D]
 Ports:
   Evaluate Bottom: edge4,edge0
   Retry Top: edge1,edge4

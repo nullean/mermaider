@@ -4,13 +4,13 @@ Layer 2: Processing
 Layer 3: Success, Failed
 Layer 4: _end
 Edges:
-  Failed --retry--> Idle [Top->Bottom] [U L U]
+  Failed --retry--> Idle [Top->Bottom] [U R U L U]
   Idle --submit--> Processing [Bottom->Top] [D]
   Processing --error--> Failed [Bottom->Top] [D R D]
-  Processing --ok--> Success [Bottom->Top] [D L D]
-  Success ----> _end [Bottom->Top] [D R D]
+  Processing --ok--> Success [Bottom->Top] [D]
+  Success ----> _end [Bottom->Top] [D]
   _start ----> Idle [Bottom->Top] [D]
 Ports:
-  Failed Top: edge2,edge0
+  Failed Top: edge0,edge2
   Idle Bottom: edge1,edge0
   Processing Bottom: edge3,edge2

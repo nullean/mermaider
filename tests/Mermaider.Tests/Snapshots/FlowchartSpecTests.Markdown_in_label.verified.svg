@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 293.44 225.60000000000002" width="293.44" height="225.60000000000002" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 245.44 161.6" width="245.44" height="161.6" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -37,13 +37,13 @@
   </marker>
 </defs>
 
-<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M146.5,84.8 L146.5,140.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M122.5,61 L122.5,101" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="A" data-label="The **cat** in the hat" data-shape="rectangle">
-  <rect x="40" y="40" width="213.44" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text text-anchor="middle" font-size="var(--fs-m)" fill="var(--_text)"><tspan x="146.72" y="62.4" dy="0.35em">The <tspan font-weight="bold">cat</tspan> in the hat</tspan></text>
+  <rect x="16" y="16" width="213.44" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text text-anchor="middle" font-size="var(--fs-m)" fill="var(--_text)"><tspan x="122.72" y="38.4" dy="0.35em">The <tspan font-weight="bold">cat</tspan> in the hat</tspan></text>
 </g>
 <g class="node" data-id="B" data-label="*Italic* text" data-shape="rectangle">
-  <rect x="77.84799999999998" y="140.8" width="137.74400000000003" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text text-anchor="middle" font-size="var(--fs-m)" fill="var(--_text)"><tspan x="146.72" y="163.20000000000002" dy="0.35em"><tspan font-style="italic">Italic</tspan> text</tspan></text>
+  <rect x="53.847999999999985" y="100.8" width="137.74400000000003" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text text-anchor="middle" font-size="var(--fs-m)" fill="var(--_text)"><tspan x="122.72" y="123.19999999999999" dy="0.35em"><tspan font-style="italic">Italic</tspan> text</tspan></text>
 </g>
 </svg>

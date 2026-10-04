@@ -140,7 +140,7 @@ public static class HierarchicalLayout
 				labelExtent *= busiestPair;
 			var levelOptions = options with
 			{
-				LayerSpacing = labelExtent > 0 ? Math.Max(options.LayerSpacing, labelExtent + (2 * 22) + 8) : options.LayerSpacing,
+				LayerSpacing = labelExtent > 0 ? Math.Max(options.LayerSpacing, labelExtent + 22 + 14) : options.LayerSpacing,
 				Padding = 0,
 				SeparateComponents = true,
 				MaxComponentsPerRow = perRow,
@@ -196,7 +196,7 @@ public static class HierarchicalLayout
 		var pad = options.Padding;
 		var abs = new List<FlowEdgeRouter.Box>();
 		foreach (var (id, r) in root.Nodes)
-			abs.Add(new FlowEdgeRouter.Box(id, r.X + pad, r.Y + pad, r.W, r.H, nodeById[id].CentrePorts));
+			abs.Add(new FlowEdgeRouter.Box(id, r.X + pad, r.Y + pad, r.W, r.H, nodeById[id].Outline));
 		var groupBoxes = new List<FlowEdgeRouter.GroupBox>();
 		void Flatten(GroupRect g)
 		{

@@ -10,8 +10,8 @@ Edges:
   A ----> B [Bottom->Top] [D]
   B ----> C [Bottom->Top] [D R D L D]
   B ----> D [Bottom->Top] [D R D L D]
-  C ----> D [Bottom->Top] [D L D]
-  D ----> E [Bottom->Top] [D L D]
+  C ----> D [Bottom->Top] [D]
+  D ----> E [Bottom->Top] [D R D L D]
   E ----> A [Top->Bottom] [U L D L U R U]
 Ports:
   A Bottom: edge5,edge0

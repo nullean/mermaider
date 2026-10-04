@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 272.832 376.4" width="272.832" height="376.4" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 272.832 344.4" width="272.832" height="344.4" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -46,9 +46,9 @@
   </marker>
 </defs>
 
-<path class="class-relationship" data-from="Customer" data-to="Order" data-type="association" data-marker-at="to" data-label="places" d="M80,88 L80,164.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
-<path class="class-relationship" data-from="Order" data-to="LineItem" data-type="composition" data-marker-at="from" data-label="contains" d="M80,212.2 L80,288.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-composition)" />
-<path class="class-relationship" data-from="Student" data-to="Course" data-type="association" data-marker-at="to" data-label="enrolls" d="M200.5,88 L200.5,164.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
+<path class="class-relationship" data-from="Customer" data-to="Order" data-type="association" data-marker-at="to" data-label="places" d="M80,88 L80,148" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
+<path class="class-relationship" data-from="Order" data-to="LineItem" data-type="composition" data-marker-at="from" data-label="contains" d="M80,196 L80,256.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-composition)" />
+<path class="class-relationship" data-from="Student" data-to="Course" data-type="association" data-marker-at="to" data-label="enrolls" d="M200.5,88 L200.5,148" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
 <g class="class-node" data-id="Customer" data-label="Customer">
   <rect x="40" y="40" width="79.712" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
   <rect x="40" y="40" width="79.712" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
@@ -59,22 +59,22 @@
   <rect x="40" y="40" width="79.712" height="48" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="Order" data-label="Order">
-  <rect x="49.856" y="164.2" width="60" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
-  <rect x="49.856" y="164.2" width="60" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
-  <rect x="49.856" y="170.2" width="60" height="26" fill="var(--_group-hdr)" stroke="none" />
-  <text x="79.856" y="180.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Order</text>
-  <line x1="49.856" y1="196.2" x2="109.856" y2="196.2" stroke="var(--_line)" stroke-width="1.5" />
-  <line x1="49.856" y1="204.2" x2="109.856" y2="204.2" stroke="var(--_line)" stroke-width="1.5" />
-  <rect x="49.856" y="164.2" width="60" height="48" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="49.856" y="148.2" width="60" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
+  <rect x="49.856" y="148.2" width="60" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="49.856" y="154.2" width="60" height="26" fill="var(--_group-hdr)" stroke="none" />
+  <text x="79.856" y="164.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Order</text>
+  <line x1="49.856" y1="180.2" x2="109.856" y2="180.2" stroke="var(--_line)" stroke-width="1.5" />
+  <line x1="49.856" y1="188.2" x2="109.856" y2="188.2" stroke="var(--_line)" stroke-width="1.5" />
+  <rect x="49.856" y="148.2" width="60" height="48" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="LineItem" data-label="LineItem">
-  <rect x="44.56" y="288.4" width="70.592" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
-  <rect x="44.56" y="288.4" width="70.592" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
-  <rect x="44.56" y="294.4" width="70.592" height="26" fill="var(--_group-hdr)" stroke="none" />
-  <text x="79.856" y="304.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">LineItem</text>
-  <line x1="44.56" y1="320.4" x2="115.152" y2="320.4" stroke="var(--_line)" stroke-width="1.5" />
-  <line x1="44.56" y1="328.4" x2="115.152" y2="328.4" stroke="var(--_line)" stroke-width="1.5" />
-  <rect x="44.56" y="288.4" width="70.592" height="48" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="44.56" y="256.4" width="70.592" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
+  <rect x="44.56" y="256.4" width="70.592" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="44.56" y="262.4" width="70.592" height="26" fill="var(--_group-hdr)" stroke="none" />
+  <text x="79.856" y="272.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">LineItem</text>
+  <line x1="44.56" y1="288.4" x2="115.152" y2="288.4" stroke="var(--_line)" stroke-width="1.5" />
+  <line x1="44.56" y1="296.4" x2="115.152" y2="296.4" stroke="var(--_line)" stroke-width="1.5" />
+  <rect x="44.56" y="256.4" width="70.592" height="48" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="Student" data-label="Student">
   <rect x="167.712" y="40" width="65.12" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
@@ -86,24 +86,24 @@
   <rect x="167.712" y="40" width="65.12" height="48" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="Course" data-label="Course">
-  <rect x="167.712" y="164.2" width="65.12" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
-  <rect x="167.712" y="164.2" width="65.12" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
-  <rect x="167.712" y="170.2" width="65.12" height="26" fill="var(--_group-hdr)" stroke="none" />
-  <text x="200.272" y="180.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Course</text>
-  <line x1="167.712" y1="196.2" x2="232.832" y2="196.2" stroke="var(--_line)" stroke-width="1.5" />
-  <line x1="167.712" y1="204.2" x2="232.832" y2="204.2" stroke="var(--_line)" stroke-width="1.5" />
-  <rect x="167.712" y="164.2" width="65.12" height="48" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="167.712" y="148.2" width="65.12" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
+  <rect x="167.712" y="148.2" width="65.12" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="167.712" y="154.2" width="65.12" height="26" fill="var(--_group-hdr)" stroke="none" />
+  <text x="200.272" y="164.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Course</text>
+  <line x1="167.712" y1="180.2" x2="232.832" y2="180.2" stroke="var(--_line)" stroke-width="1.5" />
+  <line x1="167.712" y1="188.2" x2="232.832" y2="188.2" stroke="var(--_line)" stroke-width="1.5" />
+  <rect x="167.712" y="148.2" width="65.12" height="48" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
-<rect x="48.12528" y="113.875" width="63.74944000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="80" y="126.1" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">places</text>
+<rect x="48.12528" y="95.67500000000001" width="63.74944000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<text x="80" y="107.9" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">places</text>
 <text x="66" y="102" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.8999999999999995">1</text>
-<text x="66" y="150.2" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.8999999999999995">*</text>
-<rect x="42.515759999999986" y="238.075" width="74.96848000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="80" y="250.29999999999998" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">contains</text>
-<text x="66" y="226.2" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.8999999999999995">1</text>
-<text x="66" y="274.4" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.8999999999999995">1..*</text>
-<rect x="167.82392" y="113.875" width="65.35216000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="200.5" y="126.1" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">enrolls</text>
+<text x="66" y="134" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.8999999999999995">*</text>
+<rect x="42.515759999999986" y="204.175" width="74.96848000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<text x="80" y="216.4" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">contains</text>
+<text x="66" y="210" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.8999999999999995">1</text>
+<text x="66" y="242.5" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.8999999999999995">1..*</text>
+<rect x="167.82392" y="95.67500000000001" width="65.35216000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<text x="200.5" y="107.9" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">enrolls</text>
 <text x="186.5" y="102" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.8999999999999995">0..*</text>
-<text x="186.5" y="150.2" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.8999999999999995">1..*</text>
+<text x="186.5" y="134" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="4.8999999999999995">1..*</text>
 </svg>

@@ -11,7 +11,7 @@ Groups:
 - Outputs (layer=2 order=0) members=[Html, Manifest, Redirects, State]
 Edges:
   Bundles --release_notes--> Content [Right->Left] [R U R]
-  Checkout ----> DocSet [Right->Left] [R D R]
+  Checkout ----> DocSet [Right->Left] [R]
   Content ----> Nav [Right->Left] [R U R]
   DocSet ----> Content [Right->Left] [R D R]
   DocSet ----> Redirects [Right->Left] [R U R D R]

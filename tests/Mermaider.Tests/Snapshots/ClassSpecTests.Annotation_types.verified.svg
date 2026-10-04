@@ -46,8 +46,8 @@
   </marker>
 </defs>
 
-<path class="class-relationship" data-from="Shape" data-to="Circle" data-type="inheritance" data-marker-at="from" d="M111,124 L111,140 Q111,146 117,146 L172,146 Q178,146 178,152 L178,184" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
-<path class="class-relationship" data-from="Drawable" data-to="Circle" data-type="realization" data-marker-at="from" d="M265,124 L265,156 Q265,162 259,162 L204,162 Q198,162 198,168 L198,184" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="Shape" data-to="Circle" data-type="inheritance" data-marker-at="from" d="M170.5,124 L170.5,184" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="Drawable" data-to="Circle" data-type="realization" data-marker-at="from" d="M212.5,124 L212.5,143.75 Q212.5,146 210.25,146 L210.25,146 Q208,146 208,148.25 L208,184" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-start="url(#cls-inherit)" />
 <g class="class-node" data-id="Shape" data-label="Shape" data-annotation="abstract">
   <rect x="40" y="40" width="142.4" height="84" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
   <rect x="40" y="40" width="142.4" height="48" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />

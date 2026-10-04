@@ -57,8 +57,8 @@ public class FlowchartSkeletonComparisonTests
 			// mirror can't simultaneously fix both. This is a known tie-break difference; the
 			// visual layout is equivalent quality. For unlabeled long-dash edges (----> etc.),
 			// extra dashes are visual-only in mjs v12 and do NOT affect rank (minLength stays 1).
-			["flowchart-edges"] = (1.00, 0.50),
-			["flowchart-long-edges"] = (1.00, 0.50),
+			["flowchart-edges"] = (0.75, 0.50), // a label no longer consumes an extra rank (dagre adds one): tighter than mermaid.js on purpose
+			["flowchart-long-edges"] = (0.65, 0.50),
 
 			// flowchart-invisible's ONLY cross-branch ordering signal is `A ~~~ B`, an invisible
 			// edge used purely to hint left/right placement. The IR intentionally excludes

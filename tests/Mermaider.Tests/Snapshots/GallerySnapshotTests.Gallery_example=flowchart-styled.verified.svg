@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 378.72 326.4" width="378.72" height="326.4" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 330.72 246.39999999999998" width="330.72" height="246.39999999999998" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -37,23 +37,23 @@
   </marker>
 </defs>
 
-<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M175,84.8 L175,140.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M157,185.60000000000002 L157,213.5 Q157,219.5 151,219.5 L97.5,219.5 Q91.5,219.5 91.5,225.5 L91.5,241.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="B" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M193.5,185.60000000000002 L193.5,201.5 Q193.5,207.5 199.5,207.5 L253,207.5 Q259,207.5 259,213.5 L259,241.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M151,61 L151,101" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M108,145.5 L108,185.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="B" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M180.5,145.5 L180.5,185.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="A" data-label="Important" data-shape="rectangle">
-  <rect x="113.19199999999998" y="40" width="124.06400000000001" height="44.8" rx="6" ry="6" fill="#f96" stroke="#333" stroke-width="2px" />
-  <text x="175.224" y="62.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="#fff" dy="5.6">Important</text>
+  <rect x="89.19199999999998" y="16" width="124.06400000000001" height="44.8" rx="6" ry="6" fill="#f96" stroke="#333" stroke-width="2px" />
+  <text x="151.224" y="38.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="#fff" dy="5.6">Important</text>
 </g>
 <g class="node" data-id="B" data-label="Normal" data-shape="rectangle">
-  <rect x="120.48799999999999" y="140.8" width="109.47200000000001" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="175.224" y="163.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Normal</text>
+  <rect x="96.48799999999999" y="100.8" width="109.47200000000001" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="151.224" y="123.19999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Normal</text>
 </g>
 <g class="node" data-id="C" data-label="Muted" data-shape="rectangle">
-  <rect x="40" y="241.6" width="103.088" height="44.8" rx="6" ry="6" fill="#eee" stroke="#ccc" stroke-width="2" />
-  <text x="91.544" y="264" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="#999" dy="5.6">Muted</text>
+  <rect x="16" y="185.6" width="103.088" height="44.8" rx="6" ry="6" fill="#eee" stroke="#ccc" stroke-width="2" />
+  <text x="67.544" y="208" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="#999" dy="5.6">Muted</text>
 </g>
 <g class="node" data-id="D" data-label="Also Important" data-shape="rectangle">
-  <rect x="179.088" y="241.6" width="159.632" height="44.8" rx="6" ry="6" fill="#f96" stroke="#333" stroke-width="2px" />
-  <text x="258.904" y="264" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="#fff" dy="5.6">Also Important</text>
+  <rect x="155.088" y="185.6" width="159.632" height="44.8" rx="6" ry="6" fill="#f96" stroke="#333" stroke-width="2px" />
+  <text x="234.904" y="208" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="#fff" dy="5.6">Also Important</text>
 </g>
 </svg>

@@ -46,8 +46,8 @@
   </marker>
 </defs>
 
-<path class="class-relationship" data-from="Animal" data-to="Dog" data-type="inheritance" data-marker-at="from" d="M179.5,184 L179.5,216 Q179.5,222 173.5,222 L113,222 Q107,222 107,228 L107,244" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
-<path class="class-relationship" data-from="Animal" data-to="Cat" data-type="inheritance" data-marker-at="from" d="M224.5,184 L224.5,216 Q224.5,222 230.5,222 L291,222 Q297,222 297,228 L297,244" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="Animal" data-to="Dog" data-type="inheritance" data-marker-at="from" d="M154.5,184 L154.5,244" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="Animal" data-to="Cat" data-type="inheritance" data-marker-at="from" d="M245.5,184 L245.5,244" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
 <g class="class-node" data-id="Animal" data-label="Animal" data-annotation="abstract">
   <rect x="135" y="40" width="134" height="144" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
   <rect x="135" y="40" width="134" height="48" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />

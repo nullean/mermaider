@@ -6,7 +6,7 @@ Edges:
   Active --finish--> Done [Bottom->Top] [D R D]
   Active --pause--> Paused [Bottom->Top] [D]
   Done ----> _end [Bottom->Top] [D]
-  Paused --resume--> Active [Top->Bottom] [U L U]
+  Paused --resume--> Active [Top->Bottom] [U]
   _start ----> Active [Bottom->Top] [D]
 Ports:
   Active Bottom: edge1,edge3,edge0

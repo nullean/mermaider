@@ -30,8 +30,24 @@ public sealed record LayoutGraph(
 /// <summary>A node with a pre-computed bounding box size.</summary>
 public sealed record LayoutNode(string Id, double Width, double Height)
 {
-	/// <summary>Shapes such as diamonds attach every edge at the middle of a side instead of spreading ports.</summary>
-	public bool CentrePorts { get; init; }
+	/// <summary>Outline edges attach to: ports are spread along the bounding-box side and projected onto this outline.</summary>
+	public PortOutline Outline { get; init; }
+}
+
+/// <summary>Shape of a node's outline as seen by the edge router.</summary>
+public enum PortOutline
+{
+	/// <summary>Box: ports sit on the bounding box.</summary>
+	Rectangle,
+
+	/// <summary>Diamond: ports slide onto the slanted sides.</summary>
+	Diamond,
+
+	/// <summary>Circle/ellipse: ports slide onto the curve.</summary>
+	Ellipse,
+
+	/// <summary>Every edge attaches at the middle of a side (hexagon vertices).</summary>
+	Centre,
 }
 
 /// <summary>A directed edge between two nodes.</summary>

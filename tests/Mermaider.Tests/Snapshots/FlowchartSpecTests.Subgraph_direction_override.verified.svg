@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 915.84 204.8" width="915.84" height="204.8" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 787.8399999999999 156.8" width="787.8399999999999" height="156.8" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -38,42 +38,42 @@
 </defs>
 
 <g class="subgraph" data-id="Vertical" data-label="Vertical">
-  <rect x="40" y="40" width="389.92" height="124.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
+  <rect x="16" y="16" width="357.91999999999996" height="124.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Horizontal" data-label="Horizontal">
-  <rect x="485.92" y="40" width="389.92" height="124.8" rx="8" ry="8" fill="color-mix(in srgb, #e15759 6%, var(--bg))" stroke="#DF4E50" stroke-width="1.75" />
+  <rect x="413.91999999999996" y="16" width="357.91999999999996" height="124.8" rx="8" ry="8" fill="color-mix(in srgb, #e15759 6%, var(--bg))" stroke="#DF4E50" stroke-width="1.75" />
 </g>
 
-<path class="edge" data-from="V1" data-to="V2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M136.992,118.5 L192.992,118.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="V2" data-to="V3" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M271.456,118.5 L327.456,118.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="H1" data-to="H2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M582.912,118.5 L638.912,118.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="H2" data-to="H3" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M717.376,118.5 L773.376,118.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="V1" data-to="H1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M429.92,102.5 L485.92,102.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="52" y="55" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Vertical</text>
-  <text x="497.92" y="55" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Horizontal</text>
+<path class="edge" data-from="V1" data-to="V2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M113,94.5 L153,94.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="V2" data-to="V3" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M231.5,94.5 L271.5,94.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="H1" data-to="H2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M511,94.5 L551,94.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="H2" data-to="H3" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M629.5,94.5 L669.5,94.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="V1" data-to="H1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M374,78.5 L413.91999999999996,78.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="28" y="31" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Vertical</text>
+  <text x="425.91999999999996" y="31" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Horizontal</text>
 
 <g class="node" data-id="V1" data-label="V1" data-shape="rectangle">
-  <rect x="64" y="96" width="72.99199999999999" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="100.496" y="118.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V1</text>
+  <rect x="40" y="72" width="72.99199999999999" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="76.496" y="94.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V1</text>
 </g>
 <g class="node" data-id="V2" data-label="V2" data-shape="rectangle">
-  <rect x="192.992" y="96" width="78.464" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="232.224" y="118.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V2</text>
+  <rect x="152.992" y="72" width="78.464" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="192.224" y="94.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V2</text>
 </g>
 <g class="node" data-id="V3" data-label="V3" data-shape="rectangle">
-  <rect x="327.456" y="96" width="78.464" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="366.688" y="118.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V3</text>
+  <rect x="271.456" y="72" width="78.464" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="310.688" y="94.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V3</text>
 </g>
 <g class="node" data-id="H1" data-label="H1" data-shape="rectangle">
-  <rect x="509.92" y="96" width="72.99199999999999" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="546.416" y="118.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">H1</text>
+  <rect x="437.91999999999996" y="72" width="72.99199999999999" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="474.41599999999994" y="94.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">H1</text>
 </g>
 <g class="node" data-id="H2" data-label="H2" data-shape="rectangle">
-  <rect x="638.912" y="96" width="78.464" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="678.144" y="118.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">H2</text>
+  <rect x="550.9119999999999" y="72" width="78.464" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="590.1439999999999" y="94.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">H2</text>
 </g>
 <g class="node" data-id="H3" data-label="H3" data-shape="rectangle">
-  <rect x="773.376" y="96" width="78.464" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="812.608" y="118.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">H3</text>
+  <rect x="669.376" y="72" width="78.464" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="708.608" y="94.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">H3</text>
 </g>
 </svg>

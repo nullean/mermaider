@@ -8,7 +8,7 @@ namespace Sugiyama.Internal;
 /// </summary>
 internal static class FlowEdgeRouter
 {
-	internal sealed record Box(string Id, double X, double Y, double W, double H, bool CentrePorts, string? Member = null)
+	internal sealed record Box(string Id, double X, double Y, double W, double H, PortOutline Outline, string? Member = null)
 	{
 		/// <summary>Node whose subgraph membership decides which subgraphs the edge may cross (differs from <see cref="Id"/> for subgraph borders).</summary>
 		internal string MemberId => Member ?? Id;
@@ -131,7 +131,7 @@ internal static class FlowEdgeRouter
 		if (groupId is null)
 			return node;
 		var g = groups.FirstOrDefault(x => x.Id == groupId);
-		return g is null || g.NodeIds.Contains(otherEnd) ? node : new Box("\u0002" + groupId, g.X, g.Y, g.W, g.H, false, node.Id);
+		return g is null || g.NodeIds.Contains(otherEnd) ? node : new Box("\u0002" + groupId, g.X, g.Y, g.W, g.H, PortOutline.Rectangle, node.Id);
 	}
 
 	private static (int SSide, int TSide) ChooseSides(Box s, Box t, bool vertical)
@@ -141,26 +141,26 @@ internal static class FlowEdgeRouter
 		var gapY = Math.Max(t.Y - s.Bottom, s.Y - t.Bottom);
 		var gapX = Math.Max(t.X - s.Right, s.X - t.Right);
 		var useVertical = vertical ? gapY >= 0 || gapX < 0 : gapX < 0 && gapY >= 0;
-		var (ss, ts) = useVertical
+		return useVertical
 			? (dy >= 0 ? 1 : 3, dy >= 0 ? 3 : 1)
 			: (dx >= 0 ? 0 : 2, dx >= 0 ? 2 : 0);
-		// diamonds/circles have a vertex on every side: leave through the one that faces a mostly-sideways neighbour
-		if (useVertical && Math.Abs(dx) > Math.Abs(dy) * 0.6)
-		{
-			if (s.CentrePorts)
-				ss = dx >= 0 ? 0 : 2;
-			if (t.CentrePorts)
-				ts = dx >= 0 ? 2 : 0;
-		}
-		return (ss, ts);
 	}
 
+	// Ports sit where the edge can run straight: at the middle of the stretch where both boxes overlap along the side's axis
+	// (else at the other end's centre), clamped to the usable part of the side and kept 14px apart.
 	private static void AssignPorts(List<Plan> plans)
 	{
 		var groups = new Dictionary<(string, int), List<(Plan Plan, bool IsSource, double Key)>>();
+		var boxes = new Dictionary<string, Box>(StringComparer.Ordinal);
 		void Add(Box b, int side, Plan p, bool src, Box other)
 		{
-			var key = side is 1 or 3 ? other.Cx : other.Cy;
+			boxes[b.Id] = b;
+			var alongX = side is 1 or 3;
+			var (lo, hi) = Usable(b, alongX);
+			var (olo, ohi) = Usable(other, alongX);
+			var from = Math.Max(lo, olo);
+			var to = Math.Min(hi, ohi);
+			var key = from <= to ? (from + to) / 2 : alongX ? other.Cx : other.Cy;
 			if (!groups.TryGetValue((b.Id, side), out var l))
 				groups[(b.Id, side)] = l = [];
 			l.Add((p, src, key));
@@ -174,23 +174,56 @@ internal static class FlowEdgeRouter
 
 		foreach (var ((id, side), list) in groups)
 		{
-			var b = plans.SelectMany(p => new[] { p.S, p.T }).First(x => x.Id == id);
+			var b = boxes[id];
+			var alongX = side is 1 or 3;
+			var (lo, hi) = Usable(b, alongX);
 			var sorted = list.OrderBy(i => i.Key).ThenBy(i => i.Plan.Edge.Index).ToList();
+			var pos = sorted.Select(i => b.Outline == PortOutline.Centre ? (lo + hi) / 2 : Math.Clamp(i.Key, lo, hi)).ToArray();
+			if (b.Outline != PortOutline.Centre)
+				Separate(pos, lo, hi, 14);
+			var origin = alongX ? b.X : b.Y;
+			var size = alongX ? b.W : b.H;
 			for (var i = 0; i < sorted.Count; i++)
 			{
-				var f = b.CentrePorts ? 0.5 : (i + 1.0) / (sorted.Count + 1);
-				var pt = side switch
-				{
-					0 => new LayoutPoint(b.Right, Round(b.Y + (b.H * f))),
-					2 => new LayoutPoint(b.X, Round(b.Y + (b.H * f))),
-					1 => new LayoutPoint(Round(b.X + (b.W * f)), b.Bottom),
-					_ => new LayoutPoint(Round(b.X + (b.W * f)), b.Y),
-				};
+				var pt = PortOn(b, side, (pos[i] - origin) / size);
 				if (sorted[i].IsSource)
 					sorted[i].Plan.SPort = pt;
 				else
 					sorted[i].Plan.TPort = pt;
 			}
+		}
+	}
+
+	private static (double Lo, double Hi) Usable(Box b, bool alongX)
+	{
+		var origin = alongX ? b.X : b.Y;
+		var size = alongX ? b.W : b.H;
+		var margin = b.Outline is PortOutline.Diamond or PortOutline.Ellipse ? size * 0.22 : Math.Min(10, size / 4);
+		return (origin + margin, origin + size - margin);
+	}
+
+	private static void Separate(double[] pos, double lo, double hi, double gap)
+	{
+		if (pos.Length > 1 && (hi - lo) < gap * (pos.Length - 1))
+		{
+			for (var i = 0; i < pos.Length; i++)
+				pos[i] = lo + ((hi - lo) * i / (pos.Length - 1));
+			return;
+		}
+
+		for (var i = 1; i < pos.Length; i++)
+			pos[i] = Math.Max(pos[i], pos[i - 1] + gap);
+		for (var i = pos.Length - 2; i >= 0; i--)
+		{
+			if (pos[^1] > hi)
+				pos[i] = Math.Min(pos[i], pos[i + 1] - gap);
+		}
+
+		if (pos.Length > 0 && pos[^1] > hi)
+		{
+			pos[^1] = hi;
+			for (var i = pos.Length - 2; i >= 0; i--)
+				pos[i] = Math.Min(pos[i], pos[i + 1] - gap);
 		}
 	}
 
@@ -208,6 +241,29 @@ internal static class FlowEdgeRouter
 		p.TStub = Math.Max(4, d - half);
 		if (p.SStub + p.TStub > d)
 			p.TStub = d - p.SStub;
+	}
+
+	// Port at fraction f along a bounding-box side, pulled onto the node outline for diamonds and ellipses.
+	private static LayoutPoint PortOn(Box b, int side, double f)
+	{
+		var x = side is 1 or 3 ? b.X + (b.W * f) : (side == 0 ? b.Right : b.X);
+		var y = side is 0 or 2 ? b.Y + (b.H * f) : (side == 1 ? b.Bottom : b.Y);
+		if (b.Outline is PortOutline.Diamond or PortOutline.Ellipse)
+		{
+			if (side is 1 or 3)
+			{
+				var t = Math.Min(1, Math.Abs(x - b.Cx) / (b.W / 2));
+				var depth = b.Outline == PortOutline.Diamond ? 1 - t : Math.Sqrt(Math.Max(0, 1 - (t * t)));
+				y = side == 1 ? b.Cy + (b.H / 2 * depth) : b.Cy - (b.H / 2 * depth);
+			}
+			else
+			{
+				var t = Math.Min(1, Math.Abs(y - b.Cy) / (b.H / 2));
+				var depth = b.Outline == PortOutline.Diamond ? 1 - t : Math.Sqrt(Math.Max(0, 1 - (t * t)));
+				x = side == 0 ? b.Cx + (b.W / 2 * depth) : b.Cx - (b.W / 2 * depth);
+			}
+		}
+		return new LayoutPoint(Round(x), Round(y));
 	}
 
 	private static double Round(double v) => Math.Round(v * 2) / 2;
@@ -329,15 +385,34 @@ internal static class FlowEdgeRouter
 		var bestCost = double.MaxValue;
 		var hw = (e.LabelW / 2) + 2;
 		var hh = (e.LabelH / 2) + 2;
+		var maxLen = Math.Max(1, segs.Max(s => s.Len));
+		var candidates = new List<(double X, double Y, double Cost)>();
 		foreach (var (i, len) in segs.OrderByDescending(s => s.Len).Take(3))
 		{
 			foreach (var f in new[] { 0.5, 0.35, 0.65, 0.25, 0.75, 0.15, 0.85 })
 			{
-				var cx = pts[i].X + ((pts[i + 1].X - pts[i].X) * f);
-				var cy = pts[i].Y + ((pts[i + 1].Y - pts[i].Y) * f);
-				var cost = 0.0;
-				cost += (1 - (len / Math.Max(1, segs.Max(s => s.Len)))) * 30;
-				cost += Math.Abs(f - 0.5) * 20;
+				candidates.Add((
+					pts[i].X + ((pts[i + 1].X - pts[i].X) * f),
+					pts[i].Y + ((pts[i + 1].Y - pts[i].Y) * f),
+					((1 - (len / maxLen)) * 30) + (Math.Abs(f - 0.5) * 20)));
+			}
+		}
+
+		// Sibling labels line up when anchored just before the arrowhead stub of the final run (like mermaid.js).
+		var last = pts.Count - 2;
+		var lastLen = segs[last].Len;
+		var along = Math.Abs(pts[last + 1].X - pts[last].X) > Math.Abs(pts[last + 1].Y - pts[last].Y) ? e.LabelW : e.LabelH;
+		var back = Stub + (along / 2) + 6;
+		if (lastLen >= back + (along / 2) + 6)
+		{
+			var t = back / lastLen;
+			candidates.Add((pts[last + 1].X + ((pts[last].X - pts[last + 1].X) * t), pts[last + 1].Y + ((pts[last].Y - pts[last + 1].Y) * t), -10));
+		}
+
+		foreach (var (cx, cy, baseCost) in candidates)
+		{
+			{
+				var cost = baseCost;
 				var r = (X0: cx - hw, Y0: cy - hh, X1: cx + hw, Y1: cy + hh);
 				foreach (var b in boxes)
 				{
