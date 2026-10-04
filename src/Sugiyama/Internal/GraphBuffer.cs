@@ -40,6 +40,12 @@ internal sealed class GraphBuffer : IDisposable
 	internal double[] X;
 	internal double[] Y;
 
+	// PortAwareLayout (ER): label extent along the secondary axis per ORIGINAL edge index, and BK outputs per graph-edge index.
+	internal double[]? EdgeLabelExtent;
+	internal double[] PortOutOff = [];
+	internal double[] PortInOff = [];
+	internal double[] ColumnX = [];
+
 	// CSR out-adjacency: for node n, out-neighbors are OutAdjNeighbor[OutAdjStart[n]..OutAdjStart[n+1])
 	internal int[] OutAdjStart = [];    // length NodeCount + 1
 	internal int[] OutAdjNeighbor = []; // target node ordinals

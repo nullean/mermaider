@@ -7,33 +7,33 @@ Layer 5: VersionSpec
 Edges:
   Applicability --per key--> ApplicabilityEntry [Bottom->Top] [D]
   ApplicabilityEntry --version--> VersionSpec [Bottom->Top] [D]
-  ChangelogDirective --argument--> Product [Bottom->Top] [D R D]
+  ChangelogDirective --argument--> Product [Bottom->Top] [D R D L D]
   CrossLink --repo://path--> CrossLinkUri [Bottom->Top] [D]
   DocumentationSet --files--> DocumentationFile [Bottom->Top] [D]
   FrontMatter --applies_to--> Applicability [Bottom->Top] [D L D]
   FrontMatter --cta.id--> Cta [Bottom->Top] [D L D]
-  FrontMatter --mapped_pages--> LegacyPage [Bottom->Top] [D L D]
+  FrontMatter --mapped_pages--> LegacyPage [Bottom->Top] [D R D]
   FrontMatter --listing.group--> ListingGroup [Bottom->Top] [D R D]
   FrontMatter --sub--> PageSubstitution [Bottom->Top] [D L D]
-  FrontMatter --products--> Product [Bottom->Top] [D R D]
-  Heading --slug--> Anchor [Bottom->Top] [D R D]
+  FrontMatter --products--> Product [Bottom->Top] [D R D R D]
+  Heading --slug--> Anchor [Bottom->Top] [D R D R D]
   ImageLink --src--> Image [Bottom->Top] [D R D]
   IncludeDirective --path--> Snippet [Bottom->Top] [D L D]
-  InternalLink --#anchor--> Anchor [Bottom->Top] [D R D]
-  InternalLink --path--> Page [Bottom->Top] [D L D]
-  Page --collected--> Anchor [Bottom->Top] [D R D L D]
+  InternalLink --#anchor--> Anchor [Bottom->Top] [D R D L D]
+  InternalLink --path--> Page [Bottom->Top] [D L D L D]
+  Page --collected--> Anchor [Bottom->Top] [D R D R D]
   Page --contains--> Directive [Bottom->Top] [D L D]
-  Page ----- yaml -----> FrontMatter [Bottom->Top] [D R D]
-  Page --## text--> Heading [Bottom->Top] [D R D]
-  Page --contains--> Link [Bottom->Top] [D R D]
+  Page ----- yaml -----> FrontMatter [Bottom->Top] [D]
+  Page --## text--> Heading [Bottom->Top] [D R D R D]
+  Page --contains--> Link [Bottom->Top] [D L D]
   PageCardDirective --local link--> Page [Bottom->Top] [D R D]
   RelatedLearningDirective --ids--> RelatedLearningLink [Bottom->Top] [D L D]
   SettingsDirective --path--> SettingsReference [Bottom->Top] [D L D]
-  Snippet --contributes--> Anchor [Bottom->Top] [D R D]
+  Snippet --contributes--> Anchor [Bottom->Top] [D R D R D]
 Ports:
-  Anchor Top: edge11,edge16,edge14,edge24
+  Anchor Top: edge11,edge24,edge16,edge14
   FrontMatter Bottom: edge5,edge6,edge9,edge7,edge8,edge10
   InternalLink Bottom: edge15,edge14
-  Page Bottom: edge17,edge20,edge18,edge16,edge19
+  Page Bottom: edge17,edge20,edge18,edge19,edge16
   Page Top: edge21,edge15
   Product Top: edge10,edge2

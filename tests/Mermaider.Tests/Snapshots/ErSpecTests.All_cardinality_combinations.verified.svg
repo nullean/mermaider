@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 604 272" width="604" height="272" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 587.5840000000001 272" width="587.5840000000001" height="272" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -32,9 +32,9 @@
 </defs>
 
 <path class="er-relationship" data-entity1="A" data-entity2="B" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="one-to-one" d="M80,96 L80,176" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="C" data-entity2="D" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="one-to-zero-or-one" d="M228,96 L228,176" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="E" data-entity2="F" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="one-to-zero-or-many" d="M376,96 L376,176" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="G" data-entity2="H" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="one-to-one-or-many" d="M524,96 L524,176" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="C" data-entity2="D" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="one-to-zero-or-one" d="M220,96 L220,176" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="E" data-entity2="F" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="one-to-zero-or-many" d="M363.036,96 L363.036,176" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="G" data-entity2="H" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="one-to-one-or-many" d="M507.584,96 L507.584,176" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="entity" data-id="A" data-label="A">
   <rect x="20" y="20" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
   <text x="80" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">A</text>
@@ -44,55 +44,55 @@
   <text x="80" y="214" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">B</text>
 </g>
 <g class="entity" data-id="C" data-label="C">
-  <rect x="168" y="20" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="228" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">C</text>
+  <rect x="160" y="20" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="220" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">C</text>
 </g>
 <g class="entity" data-id="D" data-label="D">
-  <rect x="168" y="176" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="228" y="214" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">D</text>
+  <rect x="160" y="176" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="220" y="214" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">D</text>
 </g>
 <g class="entity" data-id="E" data-label="E">
-  <rect x="316" y="20" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="376" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">E</text>
+  <rect x="303.036" y="20" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="363.036" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">E</text>
 </g>
 <g class="entity" data-id="F" data-label="F">
-  <rect x="316" y="176" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="376" y="214" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">F</text>
+  <rect x="303.036" y="176" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="363.036" y="214" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">F</text>
 </g>
 <g class="entity" data-id="G" data-label="G">
-  <rect x="464" y="20" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="524" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">G</text>
+  <rect x="447.584" y="20" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="507.584" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">G</text>
 </g>
 <g class="entity" data-id="H" data-label="H">
-  <rect x="464" y="176" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="524" y="214" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">H</text>
+  <rect x="447.584" y="176" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="507.584" y="214" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">H</text>
 </g>
 <line x1="86" y1="100" x2="74" y2="100" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="86" y1="104" x2="74" y2="104" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="74" y1="172" x2="86" y2="172" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="74" y1="168" x2="86" y2="168" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="234" y1="100" x2="222" y2="100" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="234" y1="104" x2="222" y2="104" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="222" y1="172" x2="234" y2="172" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="222" y1="168" x2="234" y2="168" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="228" cy="164" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="382" y1="100" x2="370" y2="100" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="382" y1="104" x2="370" y2="104" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="369" y1="172" x2="376" y2="160" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="376" y1="172" x2="376" y2="160" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="383" y1="172" x2="376" y2="160" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="376" cy="156" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="530" y1="100" x2="518" y2="100" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="530" y1="104" x2="518" y2="104" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="517" y1="172" x2="524" y2="160" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="524" y1="172" x2="524" y2="160" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="531" y1="172" x2="524" y2="160" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="226" y1="100" x2="214" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="226" y1="104" x2="214" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="214" y1="172" x2="226" y2="172" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="214" y1="168" x2="226" y2="168" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="220" cy="164" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="369.036" y1="100" x2="357.036" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="369.036" y1="104" x2="357.036" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="356.036" y1="172" x2="363.036" y2="160" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="363.036" y1="172" x2="363.036" y2="160" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="370.036" y1="172" x2="363.036" y2="160" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="363.036" cy="156" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="513.5840000000001" y1="100" x2="501.584" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="513.5840000000001" y1="104" x2="501.584" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="500.584" y1="172" x2="507.584" y2="160" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="507.584" y1="172" x2="507.584" y2="160" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="514.5840000000001" y1="172" x2="507.584" y2="160" stroke="var(--_line)" stroke-width="2.5" />
 <rect x="43.19799999999999" y="123.9" width="73.60400000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="80" y="136" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">one-to-one</text>
-<rect x="166.25" y="123.9" width="123.50000000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="228" y="136" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">one-to-zero-or-one</text>
-<rect x="309.714" y="123.9" width="132.572" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="376" y="136" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">one-to-zero-or-many</text>
-<rect x="460.738" y="123.9" width="126.524" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="524" y="136" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">one-to-one-or-many</text>
+<rect x="158.25" y="123.9" width="123.50000000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="220" y="136" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">one-to-zero-or-one</text>
+<rect x="296.75" y="123.9" width="132.572" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="363.036" y="136" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">one-to-zero-or-many</text>
+<rect x="444.322" y="123.9" width="126.524" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="507.584" y="136" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">one-to-one-or-many</text>
 </svg>

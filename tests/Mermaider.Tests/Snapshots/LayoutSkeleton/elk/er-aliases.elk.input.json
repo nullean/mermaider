@@ -1,0 +1,36 @@
+{
+  "slug": "er-aliases",
+  "nodes": [
+    {
+      "id": "cust",
+      "width": 166.79999999999998,
+      "height": 116
+    },
+    {
+      "id": "ord",
+      "width": 141.6,
+      "height": 116
+    },
+    {
+      "id": "li",
+      "width": 124.8,
+      "height": 116
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "cust",
+      "target": "ord",
+      "labelWidth": 50.92400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "ord",
+      "target": "li",
+      "labelWidth": 61.50800000000002,
+      "labelHeight": 24.2
+    }
+  ]
+}

@@ -7,11 +7,11 @@ Edges:
   LegacyPage --matched by base URL--> LegacyUrlMapping [Bottom->Top] [D]
   LegacyUrlMapping --product--> Product [Bottom->Top] [D]
   Product --features--> ProductFeatures [Bottom->Top] [D R D]
-  Product --repository (defaults to id)--> Repository [Bottom->Top] [D]
+  Product --repository (defaults to id)--> Repository [Bottom->Top] [D R D]
   Product --versioning (defaults to id)--> VersioningSystem [Bottom->Top] [D L D]
   QueryRule --actions.ids = path--> SearchDocument [Bottom->Top] [D]
-  VersioningSystem --base--> SemVersion [Bottom->Top] [D R D]
-  VersioningSystem --current--> SemVersion [Bottom->Top] [D L D]
+  VersioningSystem --base--> SemVersion [Bottom->Top] [D L D R D]
+  VersioningSystem --current--> SemVersion [Bottom->Top] [D R D L D]
 Ports:
   Product Bottom: edge4,edge3,edge2
   SemVersion Top: edge6,edge7

@@ -1,0 +1,55 @@
+{
+  "slug": "er-complex",
+  "nodes": [
+    {
+      "id": "USER",
+      "width": 192,
+      "height": 116
+    },
+    {
+      "id": "POST",
+      "width": 150,
+      "height": 142
+    },
+    {
+      "id": "COMMENT",
+      "width": 133.2,
+      "height": 116
+    },
+    {
+      "id": "TAG",
+      "width": 158.4,
+      "height": 90
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "USER",
+      "target": "POST",
+      "labelWidth": 46.388000000000005,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "USER",
+      "target": "COMMENT",
+      "labelWidth": 46.388000000000005,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e2",
+      "source": "POST",
+      "target": "COMMENT",
+      "labelWidth": 32.78,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "POST",
+      "target": "TAG",
+      "labelWidth": 50.92400000000001,
+      "labelHeight": 24.2
+    }
+  ]
+}

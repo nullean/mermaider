@@ -1,0 +1,60 @@
+{
+  "slug": "db-erd-13-codex",
+  "nodes": [
+    {
+      "id": "CodexSite",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Registry",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "CodexDocumentationSet",
+      "width": 203.32799999999997,
+      "height": 76
+    },
+    {
+      "id": "DocumentationSet",
+      "width": 155.904,
+      "height": 76
+    },
+    {
+      "id": "CodexGroup",
+      "width": 120,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "CodexSite",
+      "target": "Registry",
+      "labelWidth": 84.188,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "CodexSite",
+      "target": "CodexDocumentationSet",
+      "labelWidth": 116.69600000000003,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e2",
+      "source": "CodexDocumentationSet",
+      "target": "DocumentationSet",
+      "labelWidth": 50.92400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "CodexDocumentationSet",
+      "target": "CodexGroup",
+      "labelWidth": 87.21199999999999,
+      "labelHeight": 24.2
+    }
+  ]
+}

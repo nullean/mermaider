@@ -1,0 +1,60 @@
+{
+  "slug": "er-optional-label",
+  "nodes": [
+    {
+      "id": "PERSON",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "ADDRESS",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "PHONE",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "ORDER",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "LINE_ITEM",
+      "width": 120,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "PERSON",
+      "target": "ADDRESS",
+      "labelWidth": 0,
+      "labelHeight": 0
+    },
+    {
+      "id": "e1",
+      "source": "PERSON",
+      "target": "PHONE",
+      "labelWidth": 0,
+      "labelHeight": 0
+    },
+    {
+      "id": "e2",
+      "source": "PERSON",
+      "target": "ORDER",
+      "labelWidth": 50.92400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "ORDER",
+      "target": "LINE_ITEM",
+      "labelWidth": 61.50800000000002,
+      "labelHeight": 24.2
+    }
+  ]
+}

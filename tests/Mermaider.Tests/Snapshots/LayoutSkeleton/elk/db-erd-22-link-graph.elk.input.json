@@ -1,0 +1,137 @@
+{
+  "slug": "db-erd-22-link-graph",
+  "nodes": [
+    {
+      "id": "DocumentationSet",
+      "width": 155.904,
+      "height": 76
+    },
+    {
+      "id": "LinkManifest",
+      "width": 120.336,
+      "height": 76
+    },
+    {
+      "id": "GitOrigin",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "LinkManifestPage",
+      "width": 158.64,
+      "height": 76
+    },
+    {
+      "id": "Anchor",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Redirect",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "CrossLinkUri",
+      "width": 126.72000000000001,
+      "height": 76
+    },
+    {
+      "id": "Registry",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "LinkRegistry",
+      "width": 121.248,
+      "height": 76
+    },
+    {
+      "id": "LinkRegistryEntry",
+      "width": 161.376,
+      "height": 76
+    },
+    {
+      "id": "Checkout",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "LinkRegistrySnapshot",
+      "width": 190.56,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "DocumentationSet",
+      "target": "LinkManifest",
+      "labelWidth": 77.38399999999999,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "LinkManifest",
+      "target": "GitOrigin",
+      "labelWidth": 44.876,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e2",
+      "source": "LinkManifest",
+      "target": "LinkManifestPage",
+      "labelWidth": 38.828,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "LinkManifestPage",
+      "target": "Anchor",
+      "labelWidth": 61.50800000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e4",
+      "source": "LinkManifest",
+      "target": "Redirect",
+      "labelWidth": 66.04400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e5",
+      "source": "LinkManifest",
+      "target": "CrossLinkUri",
+      "labelWidth": 148.44800000000004,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e6",
+      "source": "Registry",
+      "target": "LinkRegistry",
+      "labelWidth": 97.04,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e7",
+      "source": "LinkRegistry",
+      "target": "LinkRegistryEntry",
+      "labelWidth": 122.74400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e8",
+      "source": "LinkRegistryEntry",
+      "target": "LinkManifest",
+      "labelWidth": 35.804,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e9",
+      "source": "Checkout",
+      "target": "LinkRegistrySnapshot",
+      "labelWidth": 156.008,
+      "labelHeight": 24.2
+    }
+  ]
+}

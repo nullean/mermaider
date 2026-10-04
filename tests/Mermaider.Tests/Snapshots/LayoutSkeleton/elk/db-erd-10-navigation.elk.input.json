@@ -1,0 +1,60 @@
+{
+  "slug": "db-erd-10-navigation",
+  "nodes": [
+    {
+      "id": "TocItem",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "NavigationNode",
+      "width": 141.312,
+      "height": 76
+    },
+    {
+      "id": "SiteNavigation",
+      "width": 130.368,
+      "height": 76
+    },
+    {
+      "id": "SiteMount",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Phantom",
+      "width": 120,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "TocItem",
+      "target": "NavigationNode",
+      "labelWidth": 55.46,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "SiteNavigation",
+      "target": "SiteMount",
+      "labelWidth": 28.244000000000003,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e2",
+      "source": "SiteMount",
+      "target": "NavigationNode",
+      "labelWidth": 66.80000000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "SiteNavigation",
+      "target": "Phantom",
+      "labelWidth": 67.55600000000001,
+      "labelHeight": 24.2
+    }
+  ]
+}

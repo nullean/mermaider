@@ -66,20 +66,20 @@
   <rect x="32.599999999999994" y="216" width="141.6" height="116" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="entity" data-id="li" data-label="Line Item">
-  <rect x="40.99999999999999" y="412" width="124.8" height="116" rx="6" ry="6" fill="var(--_node-fill)" />
-  <rect x="40.99999999999999" y="412" width="124.8" height="38" fill="var(--_accent-stroke)" />
-  <rect x="40.99999999999999" y="450" width="124.8" height="26" fill="var(--_group-hdr)" />
-  <rect x="40.99999999999999" y="502" width="124.8" height="26" fill="var(--_group-hdr)" />
-  <line x1="40.99999999999999" y1="450" x2="165.79999999999998" y2="450" stroke="var(--_node-stroke)" stroke-width="2" />
-  <line x1="40.99999999999999" y1="476" x2="165.79999999999998" y2="476" stroke="var(--_node-stroke)" stroke-width="1" opacity="0.5" />
-  <line x1="40.99999999999999" y1="502" x2="165.79999999999998" y2="502" stroke="var(--_node-stroke)" stroke-width="1" opacity="0.5" />
+  <rect x="41" y="412" width="124.8" height="116" rx="6" ry="6" fill="var(--_node-fill)" />
+  <rect x="41" y="412" width="124.8" height="38" fill="var(--_accent-stroke)" />
+  <rect x="41" y="450" width="124.8" height="26" fill="var(--_group-hdr)" />
+  <rect x="41" y="502" width="124.8" height="26" fill="var(--_group-hdr)" />
+  <line x1="41" y1="450" x2="165.8" y2="450" stroke="var(--_node-stroke)" stroke-width="2" />
+  <line x1="41" y1="476" x2="165.8" y2="476" stroke="var(--_node-stroke)" stroke-width="1" opacity="0.5" />
+  <line x1="41" y1="502" x2="165.8" y2="502" stroke="var(--_node-stroke)" stroke-width="1" opacity="0.5" />
   <line x1="96" y1="450" x2="96" y2="528" stroke="var(--_node-stroke)" stroke-width="1" />
-  <line x1="133.71999999999997" y1="450" x2="133.71999999999997" y2="528" stroke="var(--_node-stroke)" stroke-width="1" />
-  <text x="103.39999999999999" y="431" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Line Item</text>
-  <text class="mono" x="48.99999999999999" y="463" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="101" y="463" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="157.79999999999998" y="463" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
-  <text class="mono" x="48.99999999999999" y="489" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="101" y="489" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">qty</tspan></text>
-  <text class="mono" x="48.99999999999999" y="515" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">float</tspan></text><text class="mono" x="101" y="515" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">price</tspan></text>
-  <rect x="40.99999999999999" y="412" width="124.8" height="116" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <line x1="133.72000000000003" y1="450" x2="133.72000000000003" y2="528" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="103.4" y="431" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Line Item</text>
+  <text class="mono" x="49" y="463" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="101" y="463" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="157.8" y="463" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
+  <text class="mono" x="49" y="489" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="101" y="489" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">qty</tspan></text>
+  <text class="mono" x="49" y="515" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">float</tspan></text><text class="mono" x="101" y="515" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">price</tspan></text>
+  <rect x="41" y="412" width="124.8" height="116" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <line x1="109.39999999999999" y1="140" x2="97.39999999999999" y2="140" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="109.39999999999999" y1="144" x2="97.39999999999999" y2="144" stroke="var(--_line)" stroke-width="2.5" />

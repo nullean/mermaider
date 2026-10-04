@@ -1,0 +1,36 @@
+{
+  "slug": "er-direction",
+  "nodes": [
+    {
+      "id": "CUSTOMER",
+      "width": 158.4,
+      "height": 90
+    },
+    {
+      "id": "ORDER",
+      "width": 133.2,
+      "height": 90
+    },
+    {
+      "id": "LINE_ITEM",
+      "width": 133.2,
+      "height": 90
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "CUSTOMER",
+      "target": "ORDER",
+      "labelWidth": 50.92400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "ORDER",
+      "target": "LINE_ITEM",
+      "labelWidth": 61.50800000000002,
+      "labelHeight": 24.2
+    }
+  ]
+}

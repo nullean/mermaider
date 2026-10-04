@@ -5,7 +5,7 @@ Edges:
   Assembly --environments--> PublishEnvironment [Bottom->Top] [D R D]
   Assembly --references--> Repository [Bottom->Top] [D L D]
   Build --assembles--> AssembledDocumentationSet [Bottom->Top] [D L D]
-  Build --redirects.json--> CloudfrontRedirectMap [Bottom->Top] [D R D]
+  Build --redirects.json--> CloudfrontRedirectMap [Bottom->Top] [D]
   Build --deploy--> SyncPlan [Bottom->Top] [D R D]
   PublishEnvironment --index suffix--> SearchIndex [Bottom->Top] [D]
 Ports:

@@ -1,98 +1,375 @@
 namespace Sugiyama.Internal;
 
 /// <summary>
-/// Brandes–Köpf BALANCED horizontal coordinate assignment.
+/// Brandes–Köpf BALANCED horizontal coordinate assignment, port-aware.
 ///
 /// Reference: U. Brandes and B. Köpf, "Fast and Simple Horizontal Coordinate Assignment",
 /// Graph Drawing (GD 2001), LNCS 2265, pp. 31–44.
 ///
-/// Runs four independent alignment+compaction passes (TL, TR, BL, BR) and sets each
-/// node's X to the median of the four results. Produces more balanced, compact
-/// layouts than barycenter/median-pull, and in particular keeps inner segments
-/// (virtual-node chains for skip-layer edges) straight — matching ELK's
-/// elk.layered behaviour with bk.fixedAlignment: BALANCED.
+/// Four alignment+compaction passes (TL, TR, BL, BR), aligned to the smallest layout and combined
+/// by averaging the two median candidates. Edge ends are not at node centres: a node's incident
+/// edges on one side get evenly distributed ports (the i-th of k at width·(i+1)/(k+1)), ordered by
+/// neighbour position, and blocks align connected PORTS (nodes in a block get an "inner shift").
 ///
-/// Variable widths: all separations use left-edge arithmetic — sep(u, v) = width[u] + spacing,
-/// meaning x[v] >= x[u] + width[u] + spacing for adjacent same-layer nodes u, v.
+/// Gaps that carry edge labels get one dummy per edge (width = label extent), exactly like a long-edge
+/// dummy, so edges run port → column → port. Passes are computed as a left-compaction over a mirrored
+/// "view" for the rightward passes.
 /// </summary>
 internal static class BkCoordinateAssigner
 {
+	private sealed class Lg
+	{
+		internal int N;
+		internal int OrigN;
+		internal double[] W = [];
+		internal bool[] Virt = [];
+		internal int[] Layer = [];
+		internal int[][] LayerNodes = [];
+		internal int[] Pos = [];
+		internal List<(int From, int To, int Orig)> Edges = [];
+		internal double[] OutOff = [];
+		internal double[] InOff = [];
+		internal List<int>[] InNb = [];
+		internal List<int>[] OutNb = [];
+		internal int[] DummyOfGraphEdge = [];
+		internal int[] FirstHalf = [];
+		internal int[] SecondHalf = [];
+	}
+
 	internal static void Run(GraphBuffer graph, double nodeSpacing)
 	{
-		var n = graph.NodeCount;
+		var lg = Build(graph);
+		ComputePortOffsets(lg);
+
+		var n = lg.N;
 		var xLayouts = new double[4][];
+		for (var k = 0; k < 4; k++)
+			xLayouts[k] = RunPass(lg, k < 2, (k % 2) == 0, nodeSpacing);
 
-		// 4 passes: (k=0) TL, (k=1) TR, (k=2) BL, (k=3) BR
+		var mins = new double[4];
+		var maxs = new double[4];
+		var smallest = 0;
 		for (var k = 0; k < 4; k++)
 		{
-			var downward = k < 2;
-			var leftward = (k % 2) == 0;
-			var (root, align) = VertAlign(graph, downward, leftward);
-			xLayouts[k] = Compact(graph, root, align, nodeSpacing, leftward);
-		}
-
-		// Normalize each layout: shift so its minimum x = 0
-		for (var k = 0; k < 4; k++)
-		{
-			var minX = double.MaxValue;
+			var lo = double.MaxValue;
+			var hi = double.MinValue;
 			for (var i = 0; i < n; i++)
 			{
-				if (xLayouts[k][i] < minX)
-					minX = xLayouts[k][i];
+				lo = Math.Min(lo, xLayouts[k][i]);
+				hi = Math.Max(hi, xLayouts[k][i] + lg.W[i]);
 			}
-			if (minX != 0)
-			{
-				for (var i = 0; i < n; i++)
-					xLayouts[k][i] -= minX;
-			}
+			mins[k] = lo;
+			maxs[k] = hi;
+			if (hi - lo < maxs[smallest] - mins[smallest])
+				smallest = k;
 		}
 
-		// Balance: median of 4 for each node
+		for (var k = 0; k < 4; k++)
+		{
+			var shift = (k % 2) == 0 ? mins[smallest] - mins[k] : maxs[smallest] - maxs[k];
+			for (var i = 0; i < n; i++)
+				xLayouts[k][i] += shift;
+		}
+
+		var x = new double[n];
 		var tmp = new double[4];
 		for (var i = 0; i < n; i++)
 		{
 			for (var k = 0; k < 4; k++)
 				tmp[k] = xLayouts[k][i];
 			Array.Sort(tmp);
-			graph.X[i] = (tmp[1] + tmp[2]) / 2.0;
+			x[i] = (tmp[1] + tmp[2]) / 2.0;
 		}
 
-		// Post-BALANCED correction: BALANCED averaging of left-edge and right-edge layouts
-		// can produce positions that violate the minimum separation for nodes in long blocks.
-		// Do a single left-to-right sweep per layer to enforce the minimum gap.
-		var layerByX = new List<int>();
+		// Median averaging can violate minimum separation; one sweep per layer restores it.
+		var byX = new List<int>();
+		for (var li = 0; li < lg.LayerNodes.Length; li++)
+		{
+			byX.Clear();
+			byX.AddRange(lg.LayerNodes[li]);
+			byX.Sort((p, q) => x[p].CompareTo(x[q]));
+			for (var idx = 1; idx < byX.Count; idx++)
+			{
+				var prev = byX[idx - 1];
+				var curr = byX[idx];
+				var minX = x[prev] + lg.W[prev] + Gap(lg, prev, curr, nodeSpacing);
+				if (x[curr] < minX)
+					x[curr] = minX;
+			}
+		}
+
+		// Normalise so the leftmost graph node is at 0 (columns follow in the same frame).
+		var minGraphX = double.MaxValue;
+		for (var i = 0; i < lg.OrigN; i++)
+			minGraphX = Math.Min(minGraphX, x[i]);
+		for (var i = 0; i < n; i++)
+			x[i] -= minGraphX;
+
+		for (var i = 0; i < lg.OrigN; i++)
+			graph.X[i] = x[i];
+
+		var ec = graph.Edges.Count;
+		graph.ColumnX = new double[ec];
+		graph.PortOutOff = new double[ec];
+		graph.PortInOff = new double[ec];
+		for (var ei = 0; ei < ec; ei++)
+		{
+			var d = lg.DummyOfGraphEdge[ei];
+			graph.ColumnX[ei] = d >= 0 ? x[d] + (lg.W[d] / 2) : double.NaN;
+			graph.PortOutOff[ei] = lg.FirstHalf[ei] >= 0 ? lg.OutOff[lg.FirstHalf[ei]] : 0;
+			graph.PortInOff[ei] = lg.SecondHalf[ei] >= 0 ? lg.InOff[lg.SecondHalf[ei]] : 0;
+		}
+	}
+
+	private static double Gap(Lg g, int u, int w, double nodeSpacing)
+		=> (g.Virt[u] || g.Virt[w]) ? nodeSpacing * 0.75 : nodeSpacing;
+
+	// ---------------------------------------------------------------- structure
+
+	private static Lg Build(GraphBuffer graph)
+	{
+		var n0 = graph.NodeCount;
+		var edges = graph.Edges;
+		var labelExtent = graph.EdgeLabelExtent;
+
+		// A label belongs to the first segment of its chain (source is a real node).
+		double OwnedLabel(int ei)
+		{
+			var e = edges[ei];
+			if (labelExtent is null || e.From >= graph.RealNodeCount || e.OriginalIndex >= labelExtent.Length)
+				return 0;
+			return labelExtent[e.OriginalIndex];
+		}
+
+		var adjacent = new bool[edges.Count];
+		var gapLabelled = new bool[Math.Max(graph.LayerCount, 1)];
+		for (var ei = 0; ei < edges.Count; ei++)
+		{
+			var e = edges[ei];
+			adjacent[ei] = graph.Layers[e.To] == graph.Layers[e.From] + 1;
+			if (adjacent[ei] && OwnedLabel(ei) > 0)
+				gapLabelled[graph.Layers[e.From]] = true;
+		}
+
+		var newLayer = new int[graph.LayerCount];
+		var dummyLayer = new int[graph.LayerCount];
+		var cursor = 0;
 		for (var li = 0; li < graph.LayerCount; li++)
 		{
-			layerByX.Clear();
-			layerByX.AddRange(graph.LayerNodes[li]);
-			layerByX.Sort((a, b) => graph.X[a].CompareTo(graph.X[b]));
+			newLayer[li] = cursor++;
+			dummyLayer[li] = gapLabelled[li] && li < graph.LayerCount - 1 ? cursor++ : -1;
+		}
 
-			for (var idx = 1; idx < layerByX.Count; idx++)
+		var dummyCount = 0;
+		for (var ei = 0; ei < edges.Count; ei++)
+		{
+			if (adjacent[ei] && dummyLayer[graph.Layers[edges[ei].From]] >= 0)
+				dummyCount++;
+		}
+
+		var lg = new Lg
+		{
+			OrigN = n0,
+			N = n0 + dummyCount,
+		};
+		lg.W = new double[lg.N];
+		lg.Virt = new bool[lg.N];
+		lg.Layer = new int[lg.N];
+		lg.Pos = new int[lg.N];
+		lg.DummyOfGraphEdge = new int[edges.Count];
+		lg.FirstHalf = new int[edges.Count];
+		lg.SecondHalf = new int[edges.Count];
+		Array.Fill(lg.DummyOfGraphEdge, -1);
+		Array.Fill(lg.FirstHalf, -1);
+		Array.Fill(lg.SecondHalf, -1);
+
+		for (var i = 0; i < n0; i++)
+		{
+			lg.W[i] = i < graph.RealNodeCount ? graph.NodeWidths[i] : 0;
+			lg.Virt[i] = i >= graph.RealNodeCount;
+			lg.Layer[i] = newLayer[graph.Layers[i]];
+		}
+
+		var layerCount = cursor;
+		var layerLists = new List<int>[layerCount];
+		for (var li = 0; li < layerCount; li++)
+			layerLists[li] = [];
+		for (var li = 0; li < graph.LayerCount; li++)
+			layerLists[newLayer[li]].AddRange(graph.LayerNodes[li]);
+
+		var nextDummy = n0;
+		var pending = new List<(int Ei, int D)>?[graph.LayerCount];
+		for (var ei = 0; ei < edges.Count; ei++)
+		{
+			var e = edges[ei];
+			if (!adjacent[ei] || dummyLayer[graph.Layers[e.From]] < 0)
+				continue;
+			var d = nextDummy++;
+			lg.W[d] = OwnedLabel(ei);
+			lg.Virt[d] = true;
+			lg.Layer[d] = dummyLayer[graph.Layers[e.From]];
+			lg.DummyOfGraphEdge[ei] = d;
+			(pending[graph.Layers[e.From]] ??= []).Add((ei, d));
+		}
+
+		for (var li = 0; li < graph.LayerCount; li++)
+		{
+			if (pending[li] is not { } list)
+				continue;
+			list.Sort((p, q) =>
 			{
-				var prev = layerByX[idx - 1];
-				var curr = layerByX[idx];
-				var prevWidth = prev < graph.RealNodeCount ? graph.NodeWidths[prev] : 0;
-				var minX = graph.X[prev] + prevWidth + nodeSpacing;
-				if (graph.X[curr] < minX)
-					graph.X[curr] = minX;
+				var ep = edges[p.Ei];
+				var eq = edges[q.Ei];
+				var c = graph.NodePositionInLayer[ep.From].CompareTo(graph.NodePositionInLayer[eq.From]);
+				if (c != 0)
+					return c;
+				c = graph.NodePositionInLayer[ep.To].CompareTo(graph.NodePositionInLayer[eq.To]);
+				return c != 0 ? c : ep.OriginalIndex.CompareTo(eq.OriginalIndex);
+			});
+			foreach (var (_, d) in list)
+				layerLists[dummyLayer[li]].Add(d);
+		}
+
+		lg.LayerNodes = layerLists.Select(l => l.ToArray()).ToArray();
+		for (var li = 0; li < layerCount; li++)
+		{
+			for (var i = 0; i < lg.LayerNodes[li].Length; i++)
+				lg.Pos[lg.LayerNodes[li][i]] = i;
+		}
+
+		for (var ei = 0; ei < edges.Count; ei++)
+		{
+			var e = edges[ei];
+			if (!adjacent[ei])
+				continue;
+			var d = lg.DummyOfGraphEdge[ei];
+			if (d >= 0)
+			{
+				lg.FirstHalf[ei] = lg.Edges.Count;
+				lg.Edges.Add((e.From, d, e.OriginalIndex));
+				lg.SecondHalf[ei] = lg.Edges.Count;
+				lg.Edges.Add((d, e.To, e.OriginalIndex));
+			}
+			else
+			{
+				lg.FirstHalf[ei] = lg.Edges.Count;
+				lg.SecondHalf[ei] = lg.Edges.Count;
+				lg.Edges.Add((e.From, e.To, e.OriginalIndex));
+			}
+		}
+
+		lg.InNb = new List<int>[lg.N];
+		lg.OutNb = new List<int>[lg.N];
+		for (var i = 0; i < lg.N; i++)
+		{
+			lg.InNb[i] = [];
+			lg.OutNb[i] = [];
+		}
+		foreach (var (from, to, _) in lg.Edges)
+		{
+			lg.OutNb[from].Add(to);
+			lg.InNb[to].Add(from);
+		}
+
+		return lg;
+	}
+
+	/// <summary>Justified port offsets (from node left) per edge end; dummies attach at their centre.</summary>
+	private static void ComputePortOffsets(Lg g)
+	{
+		g.OutOff = new double[g.Edges.Count];
+		g.InOff = new double[g.Edges.Count];
+		var outs = new List<int>?[g.N];
+		var ins = new List<int>?[g.N];
+		for (var ei = 0; ei < g.Edges.Count; ei++)
+		{
+			(outs[g.Edges[ei].From] ??= []).Add(ei);
+			(ins[g.Edges[ei].To] ??= []).Add(ei);
+		}
+
+		for (var v = 0; v < g.N; v++)
+		{
+			var w = g.W[v];
+			var attachesAtCentre = v >= g.OrigN;
+			if (outs[v] is { } o)
+			{
+				o.Sort((a, b) =>
+				{
+					var c = g.Pos[g.Edges[a].To].CompareTo(g.Pos[g.Edges[b].To]);
+					return c != 0 ? c : g.Edges[a].Orig.CompareTo(g.Edges[b].Orig);
+				});
+				for (var i = 0; i < o.Count; i++)
+					g.OutOff[o[i]] = attachesAtCentre ? w / 2 : w * (i + 1) / (o.Count + 1);
+			}
+			if (ins[v] is { } inn)
+			{
+				inn.Sort((a, b) =>
+				{
+					var c = g.Pos[g.Edges[a].From].CompareTo(g.Pos[g.Edges[b].From]);
+					return c != 0 ? c : g.Edges[a].Orig.CompareTo(g.Edges[b].Orig);
+				});
+				for (var i = 0; i < inn.Count; i++)
+					g.InOff[inn[i]] = attachesAtCentre ? w / 2 : w * (i + 1) / (inn.Count + 1);
 			}
 		}
 	}
 
-	/// <summary>
-	/// Phase 1: vertical alignment.
-	///
-	/// For each node v, find a median upper (or lower) neighbor u and align u → v (link
-	/// them into the same block). The root[] and align[] arrays together encode a set of
-	/// blocks, each a circular linked list traversable via align[]. root[v] is the "root"
-	/// (canonical representative) of v's block.
-	///
-	/// Type-1 conflicts — a non-inner segment that crosses an inner segment — are avoided
-	/// by marking them during a pre-scan and skipping marked pairs during alignment.
-	/// </summary>
-	private static (int[] root, int[] align) VertAlign(GraphBuffer graph, bool downward, bool leftward)
+	// ---------------------------------------------------------------- passes
+
+	private static double[] RunPass(Lg g, bool downward, bool leftward, double nodeSpacing)
 	{
-		var n = graph.NodeCount;
+		var n = g.N;
+		var view = new int[g.LayerNodes.Length][];
+		var pos = new int[n];
+		for (var li = 0; li < g.LayerNodes.Length; li++)
+		{
+			var src = g.LayerNodes[li];
+			var arr = new int[src.Length];
+			for (var i = 0; i < src.Length; i++)
+				arr[i] = leftward ? src[i] : src[src.Length - 1 - i];
+			view[li] = arr;
+			for (var i = 0; i < arr.Length; i++)
+				pos[arr[i]] = i;
+		}
+
+		var edgeOf = new Dictionary<long, int>();
+		for (var ei = 0; ei < g.Edges.Count; ei++)
+			_ = edgeOf.TryAdd(((long)g.Edges[ei].From * g.N) + g.Edges[ei].To, ei);
+
+		double PortFacing(int a, int b)
+		{
+			var off = edgeOf.TryGetValue(((long)a * g.N) + b, out var e1) ? g.OutOff[e1]
+				: edgeOf.TryGetValue(((long)b * g.N) + a, out var e2) ? g.InOff[e2]
+				: g.W[a] / 2;
+			return leftward ? off : g.W[a] - off;
+		}
+
+		var (root, align) = VertAlign(g, view, pos, downward);
+
+		var inner = new double[n];
+		for (var v = 0; v < n; v++)
+		{
+			if (root[v] != v)
+				continue;
+			var a = v;
+			while (align[a] != v)
+			{
+				var b = align[a];
+				inner[b] = inner[a] + PortFacing(a, b) - PortFacing(b, a);
+				a = b;
+			}
+		}
+
+		var x = Compact(g, view, pos, root, align, inner, nodeSpacing);
+		var result = new double[n];
+		for (var v = 0; v < n; v++)
+			result[v] = leftward ? x[v] : -(x[v] + g.W[v]);
+		return result;
+	}
+
+	private static (int[] root, int[] align) VertAlign(Lg g, int[][] view, int[] pos, bool downward)
+	{
+		var n = g.N;
 		var root = new int[n];
 		var align = new int[n];
 		for (var i = 0; i < n; i++)
@@ -101,70 +378,35 @@ internal static class BkCoordinateAssigner
 			align[i] = i;
 		}
 
-		// Type-1 conflicts are computed in the downward direction (upper→lower layer pairs).
-		// For upward passes we check the reversed pair because u/v roles are swapped.
-		var blocked = MarkType1Conflicts(graph);
-
-		// Iterate layers from second to last (in direction order).
-		// "previous layer" = the layer processed before this one (upper for downward, lower for upward).
-		var li0 = downward ? 1 : graph.LayerCount - 2;
-		var li1 = downward ? graph.LayerCount : -1;
+		var blocked = MarkType1Conflicts(g);
+		var layers = view.Length;
+		var li0 = downward ? 1 : layers - 2;
+		var li1 = downward ? layers : -1;
 		var liStep = downward ? 1 : -1;
 
 		for (var li = li0; li != li1; li += liStep)
 		{
-			var layer = graph.LayerNodes[li];
-			var prevLayerIdx = li - liStep; // "upper" layer in this pass direction
-
-			// r: the position (in prevLayer, in the flipped coord for rightward passes) of the last
-			// aligned neighbor. posU is already flipped for rightward so "must increase" applies
-			// to both directions. Initialize to -1 (below all valid positions) in both cases.
 			var r = -1;
-
-			// Process nodes in layer li in hDir order
-			var ki0 = leftward ? 0 : layer.Length - 1;
-			var ki1 = leftward ? layer.Length : -1;
-			var kiStep = leftward ? 1 : -1;
-
-			for (var ki = ki0; ki != ki1; ki += kiStep)
+			foreach (var v in view[li])
 			{
-				var v = layer[ki];
-
-				// Collect neighbors in prevLayer
-				var neighbors = GetNeighbors(graph, v, prevLayerIdx, downward);
-				if (neighbors.Count == 0)
+				var nb = new List<int>(downward ? g.InNb[v] : g.OutNb[v]);
+				if (nb.Count == 0)
 					continue;
-
-				// Sort by position in prevLayer; flip for right-to-left so median is correct
-				neighbors.Sort((a, b) => graph.NodePositionInLayer[a].CompareTo(graph.NodePositionInLayer[b]));
-				if (!leftward)
-					neighbors.Reverse();
-
-				var d = neighbors.Count;
-				var m1 = (d - 1) / 2; // lower median index (0-based)
-				var m2 = d / 2;       // upper median index (0-based)
-
-				for (var m = m1; m <= m2; m++)
+				nb.Sort((p, q) => pos[p].CompareTo(pos[q]));
+				var d = nb.Count;
+				for (var m = (d - 1) / 2; m <= d / 2; m++)
 				{
 					if (align[v] != v)
-						break; // already aligned in this pass
-
-					var u = neighbors[m];
-					var posU = leftward
-						? graph.NodePositionInLayer[u]
-						: (graph.LayerNodes[prevLayerIdx].Length - 1 - graph.NodePositionInLayer[u]);
-
-					// Skip type-1 conflicts (conflicts stored as upper,lower; reverse for upward passes)
+						break;
+					var u = nb[m];
 					if (downward ? blocked.Contains((u, v)) : blocked.Contains((v, u)))
 						continue;
-
-					// r constraint: posU must increase (rightward passes use flipped positions)
-					if (posU > r)
+					if (pos[u] > r)
 					{
 						align[u] = v;
 						root[v] = root[u];
 						align[v] = root[v];
-						r = posU;
+						r = pos[u];
 					}
 				}
 			}
@@ -173,260 +415,135 @@ internal static class BkCoordinateAssigner
 		return (root, align);
 	}
 
-	/// <summary>
-	/// Phase 2: horizontal compaction.
-	///
-	/// Places each block at the leftmost (or rightmost for rightward passes) valid x
-	/// position. Blocks are placed in topological order determined by the layer ordering.
-	/// A "sink" indirection handles blocks that share the same column class.
-	///
-	/// Returns left-edge x coordinates (not centers).
-	/// </summary>
-	private static double[] Compact(
-		GraphBuffer graph, int[] root, int[] align, double nodeSpacing, bool leftward)
+	private static double[] Compact(Lg g, int[][] view, int[] pos, int[] root, int[] align, double[] inner, double nodeSpacing)
 	{
-		var n = graph.NodeCount;
+		var n = g.N;
 		var x = new double[n];
 		var placed = new bool[n];
 		var sink = new int[n];
 		var shift = new double[n];
-
 		for (var i = 0; i < n; i++)
 		{
 			sink[i] = i;
-			shift[i] = leftward ? double.PositiveInfinity : double.NegativeInfinity;
+			shift[i] = double.PositiveInfinity;
 		}
 
-		// Place each block root (in layer order so neighbors are already placed).
-		var li0 = leftward ? 0 : graph.LayerCount - 1;
-		var li1 = leftward ? graph.LayerCount : -1;
-		var liStep = leftward ? 1 : -1;
-
-		for (var li = li0; li != li1; li += liStep)
+		foreach (var layer in view)
 		{
-			foreach (var v in graph.LayerNodes[li])
+			foreach (var v in layer)
 			{
 				if (root[v] == v && !placed[v])
-					PlaceBlock(graph, root, align, sink, shift, x, placed, nodeSpacing, leftward, v);
+					PlaceBlock(g, view, pos, root, align, inner, sink, shift, x, placed, nodeSpacing, v);
 			}
 		}
 
-		// Assign x from roots + shifts
 		var result = new double[n];
 		for (var v = 0; v < n; v++)
 		{
-			result[v] = x[root[v]];
+			result[v] = x[root[v]] + inner[v];
 			var s = shift[sink[root[v]]];
-			if (leftward ? s < double.PositiveInfinity : s > double.NegativeInfinity)
+			if (s < double.PositiveInfinity)
 				result[v] += s;
 		}
-
-		// For rightward passes: rightward compaction uses right-edge placement convention,
-		// where x[root] + width[v] = right_edge is constant per block.
-		// Convert: left_edge = -(x[root] + width[v]), negate to get a sortable value.
-		if (!leftward)
-		{
-			for (var v = 0; v < n; v++)
-			{
-				var w = v < graph.RealNodeCount ? graph.NodeWidths[v] : 0;
-				result[v] = -(result[v] + w);
-			}
-		}
-
 		return result;
 	}
 
 	private static void PlaceBlock(
-		GraphBuffer graph,
-		int[] root, int[] align,
-		int[] sink, double[] shift,
-		double[] x, bool[] placed,
-		double nodeSpacing, bool leftward,
-		int v)
+		Lg g, int[][] view, int[] pos, int[] root, int[] align, double[] inner,
+		int[] sink, double[] shift, double[] x, bool[] placed, double nodeSpacing, int v)
 	{
 		placed[v] = true;
 
-		// Walk the block (v → align[v] → ... → v, circular)
+		var minInner = 0.0;
+		var t = v;
+		do
+		{
+			minInner = Math.Min(minInner, inner[t]);
+			t = align[t];
+		} while (t != v);
+		x[v] = -minInner;
+
 		var w = v;
 		do
 		{
-			var layer = graph.LayerNodes[graph.Layers[w]];
-			var posW = graph.NodePositionInLayer[w];
-
-			if (leftward)
+			var layer = view[g.Layer[w]];
+			var posW = pos[w];
+			if (posW > 0)
 			{
-				// For left-to-right: ensure x[v] >= x[left_neighbor_root] + sep
-				if (posW > 0)
+				var uNode = layer[posW - 1];
+				var uRoot = root[uNode];
+				if (!placed[uRoot])
+					PlaceBlock(g, view, pos, root, align, inner, sink, shift, x, placed, nodeSpacing, uRoot);
+
+				var sep = g.W[uNode] + Gap(g, uNode, w, nodeSpacing) + inner[uNode] - inner[w];
+				if (sink[v] == v)
+					sink[v] = sink[uRoot];
+
+				if (sink[v] != sink[uRoot])
 				{
-					var uNode = layer[posW - 1];
-					var uRoot = root[uNode];
-					if (!placed[uRoot])
-						PlaceBlock(graph, root, align, sink, shift, x, placed, nodeSpacing, leftward, uRoot);
-
-					var sep = Separation(graph, uNode, nodeSpacing);
-					if (sink[v] == v)
-						sink[v] = sink[uRoot];
-
-					if (sink[v] != sink[uRoot])
-					{
-						var candidate = x[v] - x[uRoot] - sep;
-						if (candidate < shift[sink[uRoot]])
-							shift[sink[uRoot]] = candidate;
-					}
-					else
-					{
-						var minX = x[uRoot] + sep;
-						if (x[v] < minX)
-							x[v] = minX;
-					}
+					var candidate = x[v] - x[uRoot] - sep;
+					if (candidate < shift[sink[uRoot]])
+						shift[sink[uRoot]] = candidate;
+				}
+				else
+				{
+					var minX = x[uRoot] + sep;
+					if (x[v] < minX)
+						x[v] = minX;
 				}
 			}
-			else
-			{
-				// Right-to-left: use right neighbors.
-				// Right-edge convention: x[root] = right_edge. Constraint:
-				// right_edge[v] + spacing <= left_edge[uNode] = right_edge[uNode] - width[uNode]
-				// → x[root_v] >= x[root_uNode] + width[uNode] + spacing = Separation(uNode).
-				if (posW < layer.Length - 1)
-				{
-					var uNode = layer[posW + 1];
-					var uRoot = root[uNode];
-					if (!placed[uRoot])
-						PlaceBlock(graph, root, align, sink, shift, x, placed, nodeSpacing, leftward, uRoot);
-
-					var sep = Separation(graph, uNode, nodeSpacing);
-					if (sink[v] == v)
-						sink[v] = sink[uRoot];
-
-					if (sink[v] != sink[uRoot])
-					{
-						var candidate = x[v] - x[uRoot] - sep;
-						if (candidate < shift[sink[uRoot]])
-							shift[sink[uRoot]] = candidate;
-					}
-					else
-					{
-						var minX = x[uRoot] + sep;
-						if (x[v] < minX)
-							x[v] = minX;
-					}
-				}
-			}
-
 			w = align[w];
 		} while (w != v);
 	}
 
 	/// <summary>
-	/// Minimum separation between left-edge of u and left-edge of v when u is
-	/// immediately to the left of v in the same layer (left-edge convention).
+	/// Type-1 conflicts: a non-inner segment crossing an inner segment (both ends virtual/dummy).
+	/// Stored as (upper, lower) pairs regardless of pass direction.
 	/// </summary>
-	private static double Separation(GraphBuffer graph, int u, double nodeSpacing)
-	{
-		var wU = u < graph.RealNodeCount ? graph.NodeWidths[u] : 0;
-		return wU + nodeSpacing;
-	}
-
-	/// <summary>
-	/// Collect neighbors of v in a specific layer index, using in-edges (downward pass)
-	/// or out-edges (upward pass).
-	/// </summary>
-	private static List<int> GetNeighbors(GraphBuffer graph, int v, int layerIdx, bool downward)
-	{
-		var result = new List<int>();
-		if (downward)
-		{
-			for (var ei = graph.InAdjStart[v]; ei < graph.InAdjStart[v + 1]; ei++)
-			{
-				var u = graph.InAdjNeighbor[ei];
-				if (graph.Layers[u] == layerIdx)
-					result.Add(u);
-			}
-		}
-		else
-		{
-			for (var ei = graph.OutAdjStart[v]; ei < graph.OutAdjStart[v + 1]; ei++)
-			{
-				var u = graph.OutAdjNeighbor[ei];
-				if (graph.Layers[u] == layerIdx)
-					result.Add(u);
-			}
-		}
-
-		return result;
-	}
-
-	/// <summary>
-	/// Mark type-1 conflicts in the downward direction: pairs (u, v) where u is in the
-	/// upper layer (lower index) and v is in the lower layer (higher index), and the
-	/// edge (u, v) would cross an inner segment if aligned.
-	///
-	/// An inner segment is an edge between two virtual nodes (dummies in a long-edge
-	/// chain). A type-1 conflict is a non-inner edge that crosses an inner segment.
-	/// Results are stored as (upper, lower) pairs regardless of pass direction;
-	/// VertAlign reverses the pair for upward passes.
-	/// </summary>
-	private static HashSet<(int U, int V)> MarkType1Conflicts(GraphBuffer graph)
+	private static HashSet<(int U, int V)> MarkType1Conflicts(Lg g)
 	{
 		var blocked = new HashSet<(int, int)>();
-
-		// Always scan downward: upper=layer i, lower=layer i+1
-		for (var upperLi = 0; upperLi < graph.LayerCount - 1; upperLi++)
+		for (var upperLi = 0; upperLi < g.LayerNodes.Length - 1; upperLi++)
 		{
-			var lowerLi = upperLi + 1;
-			var upper = graph.LayerNodes[upperLi];
-			var lower = graph.LayerNodes[lowerLi];
-
-			// For each pair of crossing segments, mark the non-inner one as conflicted.
-			// We scan edges from upper layer to lower layer, tracking the rightmost
-			// inner-segment target position seen so far.
-			var k0 = 0; // leftmost unchecked inner segment position in upper
+			var upper = g.LayerNodes[upperLi];
+			var lower = g.LayerNodes[upperLi + 1];
+			var k0 = 0;
 
 			for (var l1 = 0; l1 < lower.Length; l1++)
 			{
 				var v = lower[l1];
-				var vIsVirtual = v >= graph.RealNodeCount;
-
-				// Find if v is reached by an inner segment (virtual→virtual edge from upper)
 				var innerUpperPos = -1;
-				for (var ei = graph.InAdjStart[v]; ei < graph.InAdjStart[v + 1]; ei++)
+				if (g.Virt[v])
 				{
-					var u = graph.InAdjNeighbor[ei];
-					if (graph.Layers[u] != upperLi)
-						continue;
-					if (vIsVirtual && u >= graph.RealNodeCount)
+					foreach (var u in g.InNb[v])
 					{
-						innerUpperPos = graph.NodePositionInLayer[u];
-						break;
+						if (g.Layer[u] == upperLi && g.Virt[u])
+						{
+							innerUpperPos = g.Pos[u];
+							break;
+						}
 					}
 				}
 
-				// At the last node or at an inner-segment target: close the scan window
 				if (l1 == lower.Length - 1 || innerUpperPos >= 0)
 				{
 					var k1 = innerUpperPos >= 0 ? innerUpperPos : upper.Length - 1;
-
-					// Mark all non-inner edges from upper[k0..k1] to lower that conflict
 					for (var l = k0; l <= l1; l++)
 					{
 						var w = lower[l];
-						for (var ei = graph.InAdjStart[w]; ei < graph.InAdjStart[w + 1]; ei++)
+						foreach (var u in g.InNb[w])
 						{
-							var u = graph.InAdjNeighbor[ei];
-							if (graph.Layers[u] != upperLi)
+							if (g.Layer[u] != upperLi)
 								continue;
-							var posU = graph.NodePositionInLayer[u];
-							// Conflict if u is outside the [k0, k1] window
+							var posU = g.Pos[u];
 							if (posU < k0 || posU > k1)
 								_ = blocked.Add((u, w));
 						}
 					}
-
 					k0 = innerUpperPos >= 0 ? innerUpperPos : k0;
 				}
 			}
 		}
-
 		return blocked;
 	}
 }

@@ -2,20 +2,20 @@
 Layer 1: PublishEnvironment, BuildType, AssembledDocumentationSet, GenerationState, BuildStamp, CloudfrontRedirectMap, SyncPlan
 Layer 2: FeatureFlag, AnalyticsIntegration, SearchIndex, DocumentationSet, RedirectStore, Redirect
 Edges:
-  AssembledDocumentationSet --docset--> DocumentationSet [Bottom->Top] [D L D]
-  Assembly --environments--> PublishEnvironment [Bottom->Top] [D L D]
+  AssembledDocumentationSet --docset--> DocumentationSet [Bottom->Top] [D]
+  Assembly --environments--> PublishEnvironment [Bottom->Top] [D R D]
   Build --assembles--> AssembledDocumentationSet [Bottom->Top] [D L D]
   Build --assembler only--> BuildStamp [Bottom->Top] [D R D]
   Build --type--> BuildType [Bottom->Top] [D L D]
   Build --redirects.json--> CloudfrontRedirectMap [Bottom->Top] [D R D]
-  Build --per docset--> GenerationState [Bottom->Top] [D]
+  Build --per docset--> GenerationState [Bottom->Top] [D L D]
   Build --environment--> PublishEnvironment [Bottom->Top] [D L D]
   Build --deploy plan--> SyncPlan [Bottom->Top] [D R D]
   CloudfrontRedirectMap --derived from--> Redirect [Bottom->Top] [D R D]
-  CloudfrontRedirectMap --deployed to--> RedirectStore [Bottom->Top] [D L D]
+  CloudfrontRedirectMap --deployed to--> RedirectStore [Bottom->Top] [D L D L D]
   PublishEnvironment --google_tag_manager, optimizely--> AnalyticsIntegration [Bottom->Top] [D L D]
   PublishEnvironment --feature_flags--> FeatureFlag [Bottom->Top] [D L D]
-  PublishEnvironment --KVS--> RedirectStore [Bottom->Top] [D R D]
+  PublishEnvironment --KVS--> RedirectStore [Bottom->Top] [D R D R D]
   PublishEnvironment --index name suffix--> SearchIndex [Bottom->Top] [D R D]
 Ports:
   Build Bottom: edge7,edge4,edge2,edge6,edge3,edge5,edge8

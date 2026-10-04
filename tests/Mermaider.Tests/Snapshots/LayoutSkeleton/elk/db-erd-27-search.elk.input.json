@@ -1,0 +1,96 @@
+{
+  "slug": "db-erd-27-search",
+  "nodes": [
+    {
+      "id": "SearchIndex",
+      "width": 121.248,
+      "height": 76
+    },
+    {
+      "id": "SearchDocument",
+      "width": 152.25599999999997,
+      "height": 76
+    },
+    {
+      "id": "Page",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "DocumentationDocument",
+      "width": 203.32799999999997,
+      "height": 76
+    },
+    {
+      "id": "Product",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "ParentDocument",
+      "width": 146.784,
+      "height": 76
+    },
+    {
+      "id": "AppliesToEntry",
+      "width": 141.312,
+      "height": 76
+    },
+    {
+      "id": "DocumentInference",
+      "width": 166.848,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "SearchIndex",
+      "target": "SearchDocument",
+      "labelWidth": 61.50800000000002,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "Page",
+      "target": "DocumentationDocument",
+      "labelWidth": 64.53200000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e2",
+      "source": "DocumentationDocument",
+      "target": "Product",
+      "labelWidth": 56.972,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "DocumentationDocument",
+      "target": "Product",
+      "labelWidth": 114.42800000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e4",
+      "source": "DocumentationDocument",
+      "target": "ParentDocument",
+      "labelWidth": 148.448,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e5",
+      "source": "DocumentationDocument",
+      "target": "AppliesToEntry",
+      "labelWidth": 72.092,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e6",
+      "source": "DocumentInference",
+      "target": "DocumentationDocument",
+      "labelWidth": 107.624,
+      "labelHeight": 24.2
+    }
+  ]
+}

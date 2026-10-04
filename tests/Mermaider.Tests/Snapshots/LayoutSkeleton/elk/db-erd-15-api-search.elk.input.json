@@ -1,0 +1,163 @@
+{
+  "slug": "db-erd-15-api-search",
+  "nodes": [
+    {
+      "id": "Repository",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "OpenApiSpec",
+      "width": 126.72,
+      "height": 76
+    },
+    {
+      "id": "OpenApiRepository",
+      "width": 168.672,
+      "height": 76
+    },
+    {
+      "id": "ApiVersionIndex",
+      "width": 148.608,
+      "height": 76
+    },
+    {
+      "id": "ApiSpecVersion",
+      "width": 146.784,
+      "height": 76
+    },
+    {
+      "id": "ApiDeclaration",
+      "width": 134.01600000000002,
+      "height": 76
+    },
+    {
+      "id": "Product",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "ApiTag",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "ApiOperation",
+      "width": 121.248,
+      "height": 76
+    },
+    {
+      "id": "ApiSupplementalDoc",
+      "width": 175.968,
+      "height": 76
+    },
+    {
+      "id": "Page",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "SearchDocument",
+      "width": 152.25599999999997,
+      "height": 76
+    },
+    {
+      "id": "SearchIndex",
+      "width": 121.248,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "Repository",
+      "target": "OpenApiSpec",
+      "labelWidth": 69.06800000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "OpenApiRepository",
+      "target": "OpenApiSpec",
+      "labelWidth": 145.42399999999998,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e2",
+      "source": "OpenApiRepository",
+      "target": "ApiVersionIndex",
+      "labelWidth": 72.09200000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "OpenApiSpec",
+      "target": "ApiSpecVersion",
+      "labelWidth": 80.408,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e4",
+      "source": "ApiVersionIndex",
+      "target": "ApiSpecVersion",
+      "labelWidth": 34.292,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e5",
+      "source": "ApiDeclaration",
+      "target": "OpenApiSpec",
+      "labelWidth": 115.94,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e6",
+      "source": "ApiDeclaration",
+      "target": "Product",
+      "labelWidth": 56.972,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e7",
+      "source": "ApiDeclaration",
+      "target": "ApiSpecVersion",
+      "labelWidth": 59.996,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e8",
+      "source": "ApiSpecVersion",
+      "target": "ApiTag",
+      "labelWidth": 35.804,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e9",
+      "source": "ApiTag",
+      "target": "ApiOperation",
+      "labelWidth": 75.11600000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e10",
+      "source": "ApiSupplementalDoc",
+      "target": "ApiOperation",
+      "labelWidth": 47.144000000000005,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e11",
+      "source": "Page",
+      "target": "SearchDocument",
+      "labelWidth": 64.53200000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e12",
+      "source": "SearchIndex",
+      "target": "SearchDocument",
+      "labelWidth": 61.50800000000002,
+      "labelHeight": 24.2
+    }
+  ]
+}

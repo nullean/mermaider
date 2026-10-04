@@ -2,14 +2,14 @@
 Layer 1: NarrativeRepository, Repository, ContentSource, DocumentationSet, LinkRegistryEntry
 Layer 2: ContentSourceBranches, GitOrigin
 Edges:
-  Assembly --narrative--> NarrativeRepository [Bottom->Top] [D L D]
+  Assembly --narrative--> NarrativeRepository [Bottom->Top] [D]
   Assembly --references--> Repository [Bottom->Top] [D R D]
   Checkout --resolves to--> DocumentationSet [Bottom->Top] [D]
   Checkout --pinned CommitSha--> LinkRegistryEntry [Bottom->Top] [D R D]
-  Checkout --repository--> Repository [Bottom->Top] [D L D]
-  ContentSource --selects branch--> ContentSourceBranches [Bottom->Top] [D R D]
-  DocumentationSet --origin--> GitOrigin [Bottom->Top] [D R D]
-  PublishEnvironment --content_source--> ContentSource [Bottom->Top] [D R D]
+  Checkout --repository--> Repository [Bottom->Top] [D L D L D]
+  ContentSource --selects branch--> ContentSourceBranches [Bottom->Top] [D L D]
+  DocumentationSet --origin--> GitOrigin [Bottom->Top] [D]
+  PublishEnvironment --content_source--> ContentSource [Bottom->Top] [D]
   Repository --current / next / edge--> ContentSourceBranches [Bottom->Top] [D R D]
 Ports:
   Assembly Bottom: edge0,edge1

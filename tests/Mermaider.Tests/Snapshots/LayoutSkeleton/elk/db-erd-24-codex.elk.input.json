@@ -1,0 +1,79 @@
+{
+  "slug": "db-erd-24-codex",
+  "nodes": [
+    {
+      "id": "CodexSite",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Registry",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "CodexGroup",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "CodexDocumentationSet",
+      "width": 203.32799999999997,
+      "height": 76
+    },
+    {
+      "id": "DocumentationSet",
+      "width": 155.904,
+      "height": 76
+    },
+    {
+      "id": "LinkRegistry",
+      "width": 121.248,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "CodexSite",
+      "target": "Registry",
+      "labelWidth": 144.66800000000003,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "CodexSite",
+      "target": "CodexGroup",
+      "labelWidth": 53.94800000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e2",
+      "source": "CodexSite",
+      "target": "CodexDocumentationSet",
+      "labelWidth": 116.69600000000003,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "CodexDocumentationSet",
+      "target": "DocumentationSet",
+      "labelWidth": 50.92400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e4",
+      "source": "CodexDocumentationSet",
+      "target": "CodexGroup",
+      "labelWidth": 87.21199999999999,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e5",
+      "source": "Registry",
+      "target": "LinkRegistry",
+      "labelWidth": 231.60799999999998,
+      "labelHeight": 24.2
+    }
+  ]
+}

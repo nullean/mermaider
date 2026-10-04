@@ -1,0 +1,120 @@
+{
+  "slug": "db-erd-18-source",
+  "nodes": [
+    {
+      "id": "Assembly",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "NarrativeRepository",
+      "width": 175.96800000000002,
+      "height": 76
+    },
+    {
+      "id": "Repository",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "ContentSourceBranches",
+      "width": 208.79999999999998,
+      "height": 76
+    },
+    {
+      "id": "PublishEnvironment",
+      "width": 172.32,
+      "height": 76
+    },
+    {
+      "id": "ContentSource",
+      "width": 135.84,
+      "height": 76
+    },
+    {
+      "id": "Checkout",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "DocumentationSet",
+      "width": 155.904,
+      "height": 76
+    },
+    {
+      "id": "LinkRegistryEntry",
+      "width": 161.376,
+      "height": 76
+    },
+    {
+      "id": "GitOrigin",
+      "width": 120,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "Assembly",
+      "target": "NarrativeRepository",
+      "labelWidth": 66.04400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "Assembly",
+      "target": "Repository",
+      "labelWidth": 78.14,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e2",
+      "source": "Repository",
+      "target": "ContentSourceBranches",
+      "labelWidth": 128.036,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "PublishEnvironment",
+      "target": "ContentSource",
+      "labelWidth": 105.35600000000002,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e4",
+      "source": "ContentSource",
+      "target": "ContentSourceBranches",
+      "labelWidth": 100.064,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e5",
+      "source": "Checkout",
+      "target": "Repository",
+      "labelWidth": 73.60400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e6",
+      "source": "Checkout",
+      "target": "DocumentationSet",
+      "labelWidth": 77.384,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e7",
+      "source": "Checkout",
+      "target": "LinkRegistryEntry",
+      "labelWidth": 118.208,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e8",
+      "source": "DocumentationSet",
+      "target": "GitOrigin",
+      "labelWidth": 44.876,
+      "labelHeight": 24.2
+    }
+  ]
+}

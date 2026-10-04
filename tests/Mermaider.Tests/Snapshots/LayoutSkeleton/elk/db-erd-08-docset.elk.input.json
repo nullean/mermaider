@@ -1,0 +1,96 @@
+{
+  "slug": "db-erd-08-docset",
+  "nodes": [
+    {
+      "id": "DocumentationSet",
+      "width": 155.904,
+      "height": 76
+    },
+    {
+      "id": "TableOfContents",
+      "width": 146.784,
+      "height": 76
+    },
+    {
+      "id": "TocItem",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Redirect",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "CrossLinkDeclaration",
+      "width": 188.73600000000002,
+      "height": 76
+    },
+    {
+      "id": "ApiDeclaration",
+      "width": 134.01600000000002,
+      "height": 76
+    },
+    {
+      "id": "Product",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Registry",
+      "width": 120,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "DocumentationSet",
+      "target": "TableOfContents",
+      "labelWidth": 28.244000000000003,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "TableOfContents",
+      "target": "TocItem",
+      "labelWidth": 52.436,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "DocumentationSet",
+      "target": "Redirect",
+      "labelWidth": 88.72399999999999,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e4",
+      "source": "DocumentationSet",
+      "target": "CrossLinkDeclaration",
+      "labelWidth": 82.67600000000002,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e5",
+      "source": "DocumentationSet",
+      "target": "ApiDeclaration",
+      "labelWidth": 28.244000000000003,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e6",
+      "source": "DocumentationSet",
+      "target": "Product",
+      "labelWidth": 64.53200000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e7",
+      "source": "DocumentationSet",
+      "target": "Registry",
+      "labelWidth": 58.484,
+      "labelHeight": 24.2
+    }
+  ]
+}

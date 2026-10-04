@@ -167,6 +167,13 @@ public sealed record LayoutOptions
 	/// </summary>
 	public bool UseRealFirstTiebreaker { get; init; }
 
+	/// <summary>
+	/// ER-style layout: ports distributed per node side, BK aligns ports and per-edge gap (label) dummies,
+	/// and edges are routed port → column → port with short jogs next to the nodes.
+	/// </summary>
+	public bool PortAwareLayout { get; init; }
+
+
 }
 
 // ====================================================================

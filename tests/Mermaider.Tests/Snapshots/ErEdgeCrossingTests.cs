@@ -37,7 +37,9 @@ public partial class ErEdgeCrossingTests
 			["db-erd-13-codex"]                    = 0,
 			["db-erd-14-release-notes"]            = 0,
 			["db-erd-15-api-search"]               = 2,
-			["db-erd-16-relationships-overview"]   = 0,
+			// Port-aware layout routes the long DocumentationSet→LinkManifest edge down its own column, which
+				// crosses the CodexSite→Registry jog — the same crossing ELK produces for this graph.
+				["db-erd-16-relationships-overview"]   = 1,
 			["db-erd-17-catalog"]                  = 0,
 			["db-erd-18-source"]                   = 1,
 			// Unifying rank assignment across disconnected components (SeparateComponents = false

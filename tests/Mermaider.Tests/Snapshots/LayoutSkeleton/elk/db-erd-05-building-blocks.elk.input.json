@@ -1,0 +1,241 @@
+{
+  "slug": "db-erd-05-building-blocks",
+  "nodes": [
+    {
+      "id": "Catalog",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "DocumentationSet",
+      "width": 155.904,
+      "height": 76
+    },
+    {
+      "id": "ReleaseNotes",
+      "width": 128.544,
+      "height": 76
+    },
+    {
+      "id": "Repository",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Content",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Navigation",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "LinkManifest",
+      "width": 120.336,
+      "height": 76
+    },
+    {
+      "id": "LinkRegistry",
+      "width": 121.248,
+      "height": 76
+    },
+    {
+      "id": "Registry",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Assembly",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "SiteNavigation",
+      "width": 130.368,
+      "height": 76
+    },
+    {
+      "id": "CodexSite",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "OpenApiSpec",
+      "width": 126.72,
+      "height": 76
+    },
+    {
+      "id": "OpenApiRepository",
+      "width": 168.672,
+      "height": 76
+    },
+    {
+      "id": "ApiReference",
+      "width": 126.72,
+      "height": 76
+    },
+    {
+      "id": "SearchIndex",
+      "width": 121.248,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "Catalog",
+      "target": "DocumentationSet",
+      "labelWidth": 134.84,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "Catalog",
+      "target": "ReleaseNotes",
+      "labelWidth": 64.53200000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e2",
+      "source": "Repository",
+      "target": "DocumentationSet",
+      "labelWidth": 97.79600000000002,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "Repository",
+      "target": "ReleaseNotes",
+      "labelWidth": 96.28399999999999,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e4",
+      "source": "DocumentationSet",
+      "target": "Content",
+      "labelWidth": 61.50800000000002,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e5",
+      "source": "DocumentationSet",
+      "target": "Navigation",
+      "labelWidth": 105.35600000000002,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e6",
+      "source": "DocumentationSet",
+      "target": "LinkManifest",
+      "labelWidth": 102.332,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e7",
+      "source": "LinkManifest",
+      "target": "LinkRegistry",
+      "labelWidth": 75.87199999999999,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e8",
+      "source": "LinkRegistry",
+      "target": "Registry",
+      "labelWidth": 106.86800000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e9",
+      "source": "Assembly",
+      "target": "Repository",
+      "labelWidth": 78.14,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e10",
+      "source": "Assembly",
+      "target": "LinkRegistry",
+      "labelWidth": 112.91600000000003,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e11",
+      "source": "Assembly",
+      "target": "SiteNavigation",
+      "labelWidth": 94.772,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e12",
+      "source": "SiteNavigation",
+      "target": "Navigation",
+      "labelWidth": 52.43600000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e13",
+      "source": "CodexSite",
+      "target": "Registry",
+      "labelWidth": 84.188,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e14",
+      "source": "CodexSite",
+      "target": "LinkRegistry",
+      "labelWidth": 156.76399999999998,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e15",
+      "source": "Content",
+      "target": "LinkManifest",
+      "labelWidth": 177.17600000000004,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e16",
+      "source": "Content",
+      "target": "ReleaseNotes",
+      "labelWidth": 136.35200000000003,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e17",
+      "source": "Repository",
+      "target": "OpenApiSpec",
+      "labelWidth": 69.06800000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e18",
+      "source": "OpenApiSpec",
+      "target": "OpenApiRepository",
+      "labelWidth": 81.92,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e19",
+      "source": "DocumentationSet",
+      "target": "ApiReference",
+      "labelWidth": 28.244000000000003,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e20",
+      "source": "ApiReference",
+      "target": "OpenApiSpec",
+      "labelWidth": 115.94,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e21",
+      "source": "Assembly",
+      "target": "SearchIndex",
+      "labelWidth": 107.624,
+      "labelHeight": 24.2
+    }
+  ]
+}

@@ -1,0 +1,275 @@
+{
+  "slug": "db-erd-25-release-notes",
+  "nodes": [
+    {
+      "id": "Repository",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "ChangelogConfiguration",
+      "width": 201.504,
+      "height": 76
+    },
+    {
+      "id": "Pivot",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Rules",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "BundleProfile",
+      "width": 124.89600000000002,
+      "height": 76
+    },
+    {
+      "id": "ReleaseTrigger",
+      "width": 143.136,
+      "height": 76
+    },
+    {
+      "id": "ProductDefaults",
+      "width": 143.13600000000002,
+      "height": 76
+    },
+    {
+      "id": "Product",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "EntryPool",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "ChangelogEntry",
+      "width": 144.96,
+      "height": 76
+    },
+    {
+      "id": "ChangelogNote",
+      "width": 137.664,
+      "height": 76
+    },
+    {
+      "id": "ProductRelease",
+      "width": 144.96,
+      "height": 76
+    },
+    {
+      "id": "ChangelogMarker",
+      "width": 160.46400000000003,
+      "height": 76
+    },
+    {
+      "id": "Bundle",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "BundledProduct",
+      "width": 144.96,
+      "height": 76
+    },
+    {
+      "id": "BundledEntry",
+      "width": 126.72000000000001,
+      "height": 76
+    },
+    {
+      "id": "BundleAmend",
+      "width": 126.72,
+      "height": 76
+    },
+    {
+      "id": "BundleNotesAmend",
+      "width": 168.672,
+      "height": 76
+    },
+    {
+      "id": "BundleRegistry",
+      "width": 139.488,
+      "height": 76
+    },
+    {
+      "id": "NotesIndex",
+      "width": 120,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "Repository",
+      "target": "ChangelogConfiguration",
+      "labelWidth": 96.28399999999999,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "ChangelogConfiguration",
+      "target": "Pivot",
+      "labelWidth": 38.828,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e2",
+      "source": "ChangelogConfiguration",
+      "target": "Rules",
+      "labelWidth": 41.852000000000004,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "ChangelogConfiguration",
+      "target": "BundleProfile",
+      "labelWidth": 99.30800000000002,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e4",
+      "source": "ChangelogConfiguration",
+      "target": "ReleaseTrigger",
+      "labelWidth": 108.38,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e5",
+      "source": "ReleaseTrigger",
+      "target": "BundleProfile",
+      "labelWidth": 81.92,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e6",
+      "source": "ChangelogConfiguration",
+      "target": "ProductDefaults",
+      "labelWidth": 64.53200000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e7",
+      "source": "ProductDefaults",
+      "target": "Product",
+      "labelWidth": 109.13600000000002,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e8",
+      "source": "BundleProfile",
+      "target": "Product",
+      "labelWidth": 56.972,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e9",
+      "source": "EntryPool",
+      "target": "ChangelogEntry",
+      "labelWidth": 205.148,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e10",
+      "source": "EntryPool",
+      "target": "ChangelogNote",
+      "labelWidth": 69.82400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e11",
+      "source": "ChangelogEntry",
+      "target": "ProductRelease",
+      "labelWidth": 64.53200000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e12",
+      "source": "ChangelogNote",
+      "target": "ProductRelease",
+      "labelWidth": 128.792,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e13",
+      "source": "ProductRelease",
+      "target": "Product",
+      "labelWidth": 56.972,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e14",
+      "source": "ChangelogMarker",
+      "target": "ChangelogEntry",
+      "labelWidth": 31.268,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e15",
+      "source": "Bundle",
+      "target": "BundledProduct",
+      "labelWidth": 64.53200000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e16",
+      "source": "BundledProduct",
+      "target": "Product",
+      "labelWidth": 56.972,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e17",
+      "source": "Bundle",
+      "target": "BundledEntry",
+      "labelWidth": 52.436,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e18",
+      "source": "BundledEntry",
+      "target": "ChangelogEntry",
+      "labelWidth": 135.596,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e19",
+      "source": "Bundle",
+      "target": "BundleAmend",
+      "labelWidth": 62.26400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e20",
+      "source": "Bundle",
+      "target": "BundleNotesAmend",
+      "labelWidth": 86.456,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e21",
+      "source": "Product",
+      "target": "BundleRegistry",
+      "labelWidth": 190.02799999999996,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e22",
+      "source": "BundleRegistry",
+      "target": "Bundle",
+      "labelWidth": 66.04400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e23",
+      "source": "NotesIndex",
+      "target": "ChangelogNote",
+      "labelWidth": 50.92400000000001,
+      "labelHeight": 24.2
+    }
+  ]
+}

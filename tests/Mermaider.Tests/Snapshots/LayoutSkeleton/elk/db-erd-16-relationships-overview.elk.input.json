@@ -1,0 +1,187 @@
+{
+  "slug": "db-erd-16-relationships-overview",
+  "nodes": [
+    {
+      "id": "Repository",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "DocumentationSet",
+      "width": 155.904,
+      "height": 76
+    },
+    {
+      "id": "Registry",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "LinkRegistry",
+      "width": 121.248,
+      "height": 76
+    },
+    {
+      "id": "LinkRegistryEntry",
+      "width": 161.376,
+      "height": 76
+    },
+    {
+      "id": "LinkManifest",
+      "width": 120.336,
+      "height": 76
+    },
+    {
+      "id": "Assembly",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "PublishEnvironment",
+      "width": 172.32,
+      "height": 76
+    },
+    {
+      "id": "CodexSite",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "TableOfContents",
+      "width": 146.784,
+      "height": 76
+    },
+    {
+      "id": "DocumentationFile",
+      "width": 159.55200000000002,
+      "height": 76
+    },
+    {
+      "id": "Product",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "VersioningSystem",
+      "width": 159.552,
+      "height": 76
+    },
+    {
+      "id": "ChangelogConfiguration",
+      "width": 201.504,
+      "height": 76
+    },
+    {
+      "id": "Bundle",
+      "width": 120,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "Repository",
+      "target": "DocumentationSet",
+      "labelWidth": 140.88800000000003,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "DocumentationSet",
+      "target": "Registry",
+      "labelWidth": 58.484,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e2",
+      "source": "Registry",
+      "target": "LinkRegistry",
+      "labelWidth": 92.50399999999999,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "LinkRegistry",
+      "target": "LinkRegistryEntry",
+      "labelWidth": 87.968,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e4",
+      "source": "LinkRegistryEntry",
+      "target": "LinkManifest",
+      "labelWidth": 35.804,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e5",
+      "source": "DocumentationSet",
+      "target": "LinkManifest",
+      "labelWidth": 102.332,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e6",
+      "source": "Assembly",
+      "target": "Repository",
+      "labelWidth": 78.14,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e7",
+      "source": "Assembly",
+      "target": "PublishEnvironment",
+      "labelWidth": 91.748,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e8",
+      "source": "CodexSite",
+      "target": "Registry",
+      "labelWidth": 84.188,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e9",
+      "source": "DocumentationSet",
+      "target": "TableOfContents",
+      "labelWidth": 28.244000000000003,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e10",
+      "source": "DocumentationSet",
+      "target": "DocumentationFile",
+      "labelWidth": 61.50800000000002,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e11",
+      "source": "DocumentationSet",
+      "target": "Product",
+      "labelWidth": 64.53200000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e12",
+      "source": "Product",
+      "target": "VersioningSystem",
+      "labelWidth": 75.11600000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e13",
+      "source": "Repository",
+      "target": "ChangelogConfiguration",
+      "labelWidth": 96.28399999999999,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e14",
+      "source": "Product",
+      "target": "Bundle",
+      "labelWidth": 77.384,
+      "labelHeight": 24.2
+    }
+  ]
+}

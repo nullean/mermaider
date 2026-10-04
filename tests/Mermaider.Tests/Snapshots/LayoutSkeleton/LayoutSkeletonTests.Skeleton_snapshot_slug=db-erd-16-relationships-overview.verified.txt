@@ -23,8 +23,8 @@ Edges:
   Repository --holds (≤1 per Registry)--> DocumentationSet [Bottom->Top] [D R D]
 Ports:
   Assembly Bottom: edge1,edge0
-  DocumentationSet Bottom: edge7,edge3,edge4,edge5,edge6
-  LinkManifest Top: edge4,edge9
+  DocumentationSet Bottom: edge7,edge3,edge5,edge6,edge4
+  LinkManifest Top: edge9,edge4
   Product Bottom: edge11,edge10
   Registry Top: edge6,edge2
   Repository Bottom: edge13,edge14

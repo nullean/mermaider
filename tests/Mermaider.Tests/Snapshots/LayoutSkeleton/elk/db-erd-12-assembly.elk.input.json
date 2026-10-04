@@ -1,0 +1,89 @@
+{
+  "slug": "db-erd-12-assembly",
+  "nodes": [
+    {
+      "id": "Assembly",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Repository",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "PublishEnvironment",
+      "width": 172.32,
+      "height": 76
+    },
+    {
+      "id": "SearchIndex",
+      "width": 121.248,
+      "height": 76
+    },
+    {
+      "id": "Build",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "AssembledDocumentationSet",
+      "width": 236.1599999999999,
+      "height": 76
+    },
+    {
+      "id": "CloudfrontRedirectMap",
+      "width": 195.12,
+      "height": 76
+    },
+    {
+      "id": "SyncPlan",
+      "width": 120,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "Assembly",
+      "target": "Repository",
+      "labelWidth": 78.14,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "Assembly",
+      "target": "PublishEnvironment",
+      "labelWidth": 91.748,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e2",
+      "source": "PublishEnvironment",
+      "target": "SearchIndex",
+      "labelWidth": 77.38400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "Build",
+      "target": "AssembledDocumentationSet",
+      "labelWidth": 75.11600000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e4",
+      "source": "Build",
+      "target": "CloudfrontRedirectMap",
+      "labelWidth": 94.772,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e5",
+      "source": "Build",
+      "target": "SyncPlan",
+      "labelWidth": 50.92400000000001,
+      "labelHeight": 24.2
+    }
+  ]
+}

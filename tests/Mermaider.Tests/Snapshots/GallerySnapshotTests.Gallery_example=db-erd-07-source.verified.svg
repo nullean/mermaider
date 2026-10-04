@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 563.6959999999999 428" width="563.6959999999999" height="428" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 515.456 428" width="515.456" height="428" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -31,75 +31,75 @@
 <defs>
 </defs>
 
-<path class="er-relationship" data-entity1="Repository" data-entity2="DocumentationSet" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="≤1 per Registry" d="M238.32,252 C238.32,292 161.92000000000002,292 161.92000000000002,332" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Repository" data-entity2="ContentSourceBranches" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="current, next, edge" d="M322.32,252 C322.32,292 372.272,292 372.272,332" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="PublishEnvironment" data-entity2="ContentSource" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="content_source" d="M106.15999999999998,96 L106.15999999999998,176" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Checkout" data-entity2="Repository" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="clones" d="M333.0079999999999,96 C333.0079999999999,136 280.32,136 280.32,176" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Checkout" data-entity2="LinkRegistryEntry" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="pinned commit" d="M417.0079999999999,96 C417.0079999999999,136 463.0079999999999,136 463.0079999999999,176" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Repository" data-entity2="DocumentationSet" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="≤1 per Registry" d="M234.08000000000004,252 C234.08000000000004,292 152.904,292 152.904,332" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Repository" data-entity2="ContentSourceBranches" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="current, next, edge" d="M274.08000000000004,252 C274.08000000000004,292 355.256,292 355.256,332" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="PublishEnvironment" data-entity2="ContentSource" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="content_source" d="M106.16,96 L106.16000000000001,176" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Checkout" data-entity2="Repository" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="clones" d="M314.424,96 C314.424,136 254.08000000000004,136 254.08000000000004,176" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Checkout" data-entity2="LinkRegistryEntry" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="pinned commit" d="M354.424,96 C354.424,136 414.76800000000003,136 414.76800000000003,176" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="entity" data-id="Repository" data-label="Repository">
-  <rect x="220.32" y="176" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="280.32" y="214" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Repository</text>
+  <rect x="194.08000000000004" y="176" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="254.08000000000004" y="214" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Repository</text>
 </g>
 <g class="entity" data-id="DocumentationSet" data-label="DocumentationSet">
-  <rect x="83.96800000000002" y="332" width="155.904" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="161.92000000000002" y="370" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">DocumentationSet</text>
+  <rect x="74.952" y="332" width="155.904" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="152.904" y="370" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">DocumentationSet</text>
 </g>
 <g class="entity" data-id="ContentSourceBranches" data-label="ContentSourceBranches">
-  <rect x="267.87199999999996" y="332" width="208.79999999999998" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="372.27199999999993" y="370" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ContentSourceBranches</text>
+  <rect x="250.856" y="332" width="208.79999999999998" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="355.256" y="370" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ContentSourceBranches</text>
 </g>
 <g class="entity" data-id="PublishEnvironment" data-label="PublishEnvironment">
   <rect x="20" y="20" width="172.32" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
   <text x="106.16" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">PublishEnvironment</text>
 </g>
 <g class="entity" data-id="ContentSource" data-label="ContentSource">
-  <rect x="38.23999999999998" y="176" width="135.84" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="106.15999999999998" y="214" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ContentSource</text>
+  <rect x="38.24000000000001" y="176" width="135.84" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="106.16000000000001" y="214" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ContentSource</text>
 </g>
 <g class="entity" data-id="Checkout" data-label="Checkout">
-  <rect x="315.0079999999999" y="20" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="375.0079999999999" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Checkout</text>
+  <rect x="274.424" y="20" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="334.424" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Checkout</text>
 </g>
 <g class="entity" data-id="LinkRegistryEntry" data-label="LinkRegistryEntry">
-  <rect x="382.31999999999994" y="176" width="161.376" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="463.0079999999999" y="214" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">LinkRegistryEntry</text>
+  <rect x="334.08000000000004" y="176" width="161.376" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="414.76800000000003" y="214" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">LinkRegistryEntry</text>
 </g>
-<line x1="244.32" y1="256" x2="232.32" y2="256" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="244.32" y1="260" x2="232.32" y2="260" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="154.92000000000002" y1="328" x2="161.92000000000002" y2="316" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="161.92000000000002" y1="328" x2="161.92000000000002" y2="316" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="168.92000000000002" y1="328" x2="161.92000000000002" y2="316" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="161.92000000000002" cy="312" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="328.32" y1="256" x2="316.32" y2="256" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="328.32" y1="260" x2="316.32" y2="260" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="366.272" y1="328" x2="378.272" y2="328" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="366.272" y1="324" x2="378.272" y2="324" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="113.15999999999998" y1="100" x2="106.15999999999998" y2="112" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="106.15999999999998" y1="100" x2="106.15999999999998" y2="112" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="99.15999999999998" y1="100" x2="106.15999999999998" y2="112" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="106.15999999999998" cy="116" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="100.15999999999998" y1="172" x2="112.15999999999998" y2="172" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="100.15999999999998" y1="168" x2="112.15999999999998" y2="168" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="340.0079999999999" y1="100" x2="333.0079999999999" y2="112" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="333.0079999999999" y1="100" x2="333.0079999999999" y2="112" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="326.0079999999999" y1="100" x2="333.0079999999999" y2="112" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="333.0079999999999" cy="116" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="274.32" y1="172" x2="286.32" y2="172" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="274.32" y1="168" x2="286.32" y2="168" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="424.0079999999999" y1="100" x2="417.0079999999999" y2="112" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="417.0079999999999" y1="100" x2="417.0079999999999" y2="112" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="410.0079999999999" y1="100" x2="417.0079999999999" y2="112" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="417.0079999999999" cy="116" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="457.0079999999999" y1="172" x2="469.0079999999999" y2="172" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="457.0079999999999" y1="168" x2="469.0079999999999" y2="168" stroke="var(--_line)" stroke-width="2.5" />
-<rect x="151.22199999999998" y="279.9" width="97.79600000000002" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="200.12" y="292" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">≤1 per Registry</text>
-<rect x="286.30199999999996" y="279.9" width="121.98800000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="347.296" y="292" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">current, next, edge</text>
-<rect x="53.48199999999997" y="123.9" width="105.35600000000002" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="106.15999999999998" y="136" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">content_source</text>
-<rect x="281.202" y="123.9" width="50.92400000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="306.664" y="136" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">clones</text>
-<rect x="393.7559999999999" y="123.9" width="92.50399999999999" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="440.0079999999999" y="136" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">pinned commit</text>
+<line x1="240.08000000000004" y1="256" x2="228.08000000000004" y2="256" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="240.08000000000004" y1="260" x2="228.08000000000004" y2="260" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="145.904" y1="328" x2="152.904" y2="316" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="152.904" y1="328" x2="152.904" y2="316" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="159.904" y1="328" x2="152.904" y2="316" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="152.904" cy="312" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="280.08000000000004" y1="256" x2="268.08000000000004" y2="256" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="280.08000000000004" y1="260" x2="268.08000000000004" y2="260" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="349.256" y1="328" x2="361.256" y2="328" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="349.256" y1="324" x2="361.256" y2="324" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="113.16" y1="100" x2="106.16" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="106.16" y1="100" x2="106.16" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="99.16" y1="100" x2="106.16" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="106.16" cy="116" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="100.16000000000001" y1="172" x2="112.16000000000001" y2="172" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="100.16000000000001" y1="168" x2="112.16000000000001" y2="168" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="321.424" y1="100" x2="314.424" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="314.424" y1="100" x2="314.424" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="307.424" y1="100" x2="314.424" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="314.424" cy="116" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="248.08000000000004" y1="172" x2="260.08000000000004" y2="172" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="248.08000000000004" y1="168" x2="260.08000000000004" y2="168" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="361.424" y1="100" x2="354.424" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="354.424" y1="100" x2="354.424" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="347.424" y1="100" x2="354.424" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="354.424" cy="116" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="408.76800000000003" y1="172" x2="420.76800000000003" y2="172" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="408.76800000000003" y1="168" x2="420.76800000000003" y2="168" stroke="var(--_line)" stroke-width="2.5" />
+<rect x="144.594" y="279.9" width="97.79600000000002" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="193.49200000000002" y="292" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">≤1 per Registry</text>
+<rect x="253.674" y="279.9" width="121.98800000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="314.668" y="292" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">current, next, edge</text>
+<rect x="53.481999999999985" y="123.9" width="105.35600000000002" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="106.16" y="136" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">content_source</text>
+<rect x="258.79" y="123.9" width="50.92400000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="284.252" y="136" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">clones</text>
+<rect x="338.344" y="123.9" width="92.50399999999999" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="384.596" y="136" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">pinned commit</text>
 </svg>

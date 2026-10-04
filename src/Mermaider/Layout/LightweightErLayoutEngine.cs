@@ -17,7 +17,7 @@ internal static class LightweightErLayoutEngine
 	private const double RowHeight = 26;
 	private const double MinWidth = 120;
 	private static readonly double AttrFontSize = RenderConstants.FontSizes.Member;
-	private const double NodeSpacing = 28;
+	private const double NodeSpacing = 20;
 	private const double LayerSpacing = 80;
 
 	internal static PositionedErDiagram Layout(ErDiagram diagram)
@@ -122,6 +122,7 @@ internal static class LightweightErLayoutEngine
 			TightSourceLayering = true,
 			SeparateComponents = false,
 			UseRealFirstTiebreaker = true,
+			PortAwareLayout = true,
 		});
 
 		return ExtractPositioned(result, diagram, layoutEdgeRelIndices);
@@ -213,12 +214,7 @@ internal static class LightweightErLayoutEngine
 		// BALANCED aligns with the target, making all multi-hop approaches identical).
 		// After spread, an entity-clearance check reverts any collapse that would route through
 		// an intermediate entity box — preserving the original virtual-node routing.
-		var savedMultiHop = CollapseMultiHopPaths(positionedRels);
-
-		OffsetParallelEdges(positionedRels);
-		SpreadConvergentPorts(positionedRels, positionedEntities);
-		RestoreUnsafeCollapses(positionedRels, savedMultiHop, positionedEntities);
-		InsertOrthogonalBends(positionedRels);
+		// PortAwareLayout routes (port → column → port) are final; no post-processing.
 
 		// Synthesize arc paths for self-loop relationships (same entity on both ends).
 		// These are filtered from Sugiyama layout; we place them as a left-side loop.
@@ -321,7 +317,7 @@ internal static class LightweightErLayoutEngine
 			for (var i = 0; i < indices.Count; i++)
 			{
 				var t = indices.Count > 1 ? (double)i / (indices.Count - 1) : 0.5;
-				var newX = ent.X + margin + (t * usable);
+				var newX = ent.X + (ent.Width * (i + 1) / (indices.Count + 1));
 
 				var rel = rels[indices[i]];
 				var pts = new List<Point>(rel.Points);
@@ -386,7 +382,7 @@ internal static class LightweightErLayoutEngine
 			for (var i = 0; i < indices.Count; i++)
 			{
 				var t = indices.Count > 1 ? (double)i / (indices.Count - 1) : 0.5;
-				var newX = ent.X + margin + (t * usable);
+				var newX = ent.X + (ent.Width * (i + 1) / (indices.Count + 1));
 
 				var rel = rels[indices[i]];
 				var pts = new List<Point>(rel.Points);

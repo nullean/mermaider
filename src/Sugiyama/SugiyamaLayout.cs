@@ -62,8 +62,14 @@ public static class SugiyamaLayout
 
 		CrossingMinimizer.Run(buf, options.CrossingIterations, options.UseModelOrderForVirtualNodes,
 			options.UseModelOrderForRealNodes, options.UseRealFirstTiebreaker, options.CancellationToken);
+		if (options.PortAwareLayout)
+		{
+			var horizontalFlow = input.Direction is LayoutDirection.LR or LayoutDirection.RL;
+			buf.EdgeLabelExtent = input.Edges.Select(e => horizontalFlow ? e.LabelHeight : e.LabelWidth).ToArray();
+		}
 		CoordinateAssigner.Run(buf, options.NodeSpacing, options.LayerSpacing, options.TightSourceLayering);
-		SpreadFanOutChildren(buf, options.NodeSpacing);
+		if (!options.PortAwareLayout)
+			SpreadFanOutChildren(buf, options.NodeSpacing);
 
 		// SpreadForkBranches assumes a flowchart/state-diagram "fork" — source → intermediate →
 		// convergence plus source → convergence — and shoves the intermediate branch sideways so
@@ -83,7 +89,9 @@ public static class SugiyamaLayout
 		}
 
 		var useSideRouting = input.Direction is LayoutDirection.LR or LayoutDirection.RL;
-		var routes = EdgeRouter.Run(buf, useSideRouting, input.Edges, options.StrictTopDownFanout, options.NaturalBackEdgeRouting, options.ForceBottomExitFanOut);
+		var routes = options.PortAwareLayout
+			? ErEdgeRouter.Run(buf, input.Edges, useSideRouting)
+			: EdgeRouter.Run(buf, useSideRouting, input.Edges, options.StrictTopDownFanout, options.NaturalBackEdgeRouting, options.ForceBottomExitFanOut);
 
 		if (input.Subgraphs.Count > 0)
 			RerouteSubgraphCrossingEdges(buf, routes, input);
