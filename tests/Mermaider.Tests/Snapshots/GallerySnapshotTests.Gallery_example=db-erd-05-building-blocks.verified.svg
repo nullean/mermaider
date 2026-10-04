@@ -37,7 +37,7 @@
 <path class="er-relationship" data-entity1="Repository" data-entity2="ReleaseNotes" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="changelog.yml" d="M303.69599999999997,296 L303.69599999999997,301 Q303.69599999999997,306 308.69599999999997,306 L380.736,306 Q385.736,306 385.736,311 L385.736,404 Q385.736,409 390.736,409 L510.86,409 Q515.86,409 515.86,414 L515.86,425 Q515.86,430 520.86,430 L655.7260000000001,430 Q660.7260000000001,430 660.7260000000001,435 L660.7260000000001,805 Q660.7260000000001,810 655.7260000000001,810 L647.062,810 Q642.062,810 642.062,815 L642.062,820" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="DocumentationSet" data-entity2="Content" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="contains" d="M304.3224,496 L304.3224,504.5 Q304.3224,509.5 309.3224,509.5 L389.71799999999996,509.5 Q394.71799999999996,509.5 394.71799999999996,514.5 L394.71799999999996,620" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="DocumentationSet" data-entity2="Navigation" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="table of contents" d="M335.5032,496 L335.5032,499.25 Q335.5032,502.5 338.7532,502.5 L546.8264,502.5 Q551.8264,502.5 551.8264,507.5 L551.8264,605 Q551.8264,610 556.8264,610 L763.0420000000001,610 Q768.0420000000001,610 768.0420000000001,615 L768.0420000000001,620" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="LinkManifest" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="one per branch" d="M273.14160000000004,496 L273.14160000000004,504.9942 Q273.14160000000004,506 272.1358,506 L272.1358,506 Q271.13,506 271.13,507.0058 L271.13,805 Q271.13,810 276.13,810 L313.5614,810 Q318.5614,810 318.5614,815 L318.5614,820" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="LinkManifest" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="one per branch" d="M273.14160000000004,496 L273.14160000000004,608.9942 Q273.14160000000004,610 272.1358,610 L272.1358,610 Q271.13,610 271.13,611.0058 L271.13,805 Q271.13,810 276.13,810 L313.5614,810 Q318.5614,810 318.5614,815 L318.5614,820" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="LinkManifest" data-entity2="LinkRegistry" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="indexed by" d="M338.6174,896 L338.6174,1005 Q338.6174,1010 343.6174,1010 L685.421,1010 Q690.421,1010 690.421,1015 L690.421,1020" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="LinkRegistry" data-entity2="Registry" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="one per registry" d="M720.7330000000001,1096 L720.7330000000001,1205 Q720.7330000000001,1210 725.7330000000001,1210 L814.0524,1210 Q819.0524,1210 819.0524,1215 L819.0524,1220" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="Assembly" data-entity2="Repository" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="references" d="M493.914,96 L493.914,99.25 Q493.914,102.5 490.664,102.5 L278.69599999999997,102.5 Q273.69599999999997,102.5 273.69599999999997,107.5 L273.69599999999997,220" fill="none" stroke="var(--_line)" stroke-width="2.25" />
@@ -253,12 +253,12 @@
 <text x="394.71799999999996" y="558" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">contains</text>
 <rect x="499.14840000000004" y="545.9" width="105.35600000000002" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="551.8264" y="558" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">table of contents</text>
-<rect x="219.964" y="545.9" width="102.332" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="271.13" y="558" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">one per branch</text>
-<rect x="300.68139999999994" y="945.9" width="75.87199999999999" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="338.6173999999999" y="958" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">indexed by</text>
-<rect x="667.299" y="1145.9" width="106.86800000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="720.733" y="1158" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">one per registry</text>
+<rect x="221.97560000000004" y="545.9" width="102.332" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="273.14160000000004" y="558" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">one per branch</text>
+<rect x="300.6814" y="945.9" width="75.87199999999999" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="338.6174" y="958" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">indexed by</text>
+<rect x="667.2990000000001" y="1145.9" width="106.86800000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="720.7330000000001" y="1158" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">one per registry</text>
 <rect x="234.62599999999998" y="145.9" width="78.14" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="273.69599999999997" y="158" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">references</text>
 <rect x="632.74" y="145.9" width="112.91600000000003" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
@@ -271,8 +271,8 @@
 <text x="918.0560000000002" y="958" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">environment</text>
 <rect x="704.1980000000001" y="945.9" width="156.76399999999998" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="782.58" y="958" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">discovers members from</text>
-<rect x="286.13" y="745.9" width="177.17600000000004" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="374.718" y="758" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">cross-links resolve through</text>
+<rect x="286.12999999999994" y="745.9" width="177.17600000000004" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="374.71799999999996" y="758" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">cross-links resolve through</text>
 <rect x="478.30600000000004" y="745.9" width="136.35200000000003" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="546.4820000000001" y="758" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">{changelog} directive</text>
 <rect x="127.18600000000002" y="345.9" width="69.06800000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
@@ -281,8 +281,8 @@
 <text x="107.076" y="958" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">published to</text>
 <rect x="176.72000000000003" y="545.9" width="28.244000000000003" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="190.84200000000004" y="558" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">api</text>
-<rect x="25.389999999999986" y="745.9" width="115.94" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="83.35999999999999" y="758" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">spec + repository</text>
+<rect x="25.39" y="745.9" width="115.94" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="83.36" y="758" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">spec + repository</text>
 <rect x="413.467" y="145.9" width="107.624" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="467.279" y="158" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">per environment</text>
 </svg>

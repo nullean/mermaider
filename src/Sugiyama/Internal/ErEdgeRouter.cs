@@ -8,6 +8,7 @@ namespace Sugiyama.Internal;
 internal static class ErEdgeRouter
 {
 	private const double Stub = 10;
+	private const double SnapTolerance = 7;
 
 	internal static List<EdgeRouter.RoutedEdge> Run(GraphBuffer graph, IReadOnlyList<LayoutEdge> inputEdges, bool useSideRouting)
 	{
@@ -289,6 +290,15 @@ internal static class ErEdgeRouter
 			var topB = g.Y[b];
 			var col = g.ColumnX.Length > chain[i] ? g.ColumnX[chain[i]] : double.NaN;
 			var nextX = i == chain.Count - 1 ? entryX : CentreX(g, b);
+
+			// A jog of a few px reads as a slanted line once corners are rounded: run straight instead.
+			if (!double.IsNaN(col))
+			{
+				if (i == 0 && Math.Abs(col - srcPortX) < SnapTolerance)
+					col = srcPortX;
+				else if (i == chain.Count - 1 && Math.Abs(col - nextX) < SnapTolerance)
+					col = nextX;
+			}
 
 			if (!double.IsNaN(col))
 			{

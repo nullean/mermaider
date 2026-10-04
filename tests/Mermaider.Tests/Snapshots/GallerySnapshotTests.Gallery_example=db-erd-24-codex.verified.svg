@@ -31,7 +31,7 @@
 <defs>
 </defs>
 
-<path class="er-relationship" data-entity1="CodexSite" data-entity2="Registry" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="environment = registry" d="M256.788,96 L256.788,101 Q256.788,106 251.788,106 L85.62400000000004,106 Q80.62400000000004,106 75.62400000000004,111 L80.62399999999997,194" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="CodexSite" data-entity2="Registry" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="environment = registry" d="M256.788,96 L256.788,101 Q256.788,106 251.788,106 L85.62399999999997,106 Q80.62399999999997,106 80.62399999999997,111 L80.62399999999997,194" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="CodexSite" data-entity2="CodexGroup" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="groups" d="M316.788,96 L316.788,101 Q316.788,106 321.788,106 L421.455,106 Q426.455,106 426.455,111 L426.455,353.3485 Q426.455,358 421.8035,358 L421.8035,358 Q417.152,358 417.152,362.6515 L417.152,368" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="CodexSite" data-entity2="CodexDocumentationSet" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="from LinkRegistry" d="M286.788,96 L286.78799999999995,194" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="CodexDocumentationSet" data-entity2="DocumentationSet" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="docset" d="M252.89999999999998,270 L252.89999999999998,275 Q252.89999999999998,280 247.89999999999998,280 L244.2,280 Q239.2,280 239.2,285 L239.2,368" fill="none" stroke="var(--_line)" stroke-width="2.25" />
@@ -92,8 +92,8 @@
 <line x1="86.62399999999997" y1="278" x2="74.62399999999997" y2="278" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="74.624" y1="364" x2="86.624" y2="364" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="74.624" y1="360" x2="86.624" y2="360" stroke="var(--_line)" stroke-width="2.5" />
-<rect x="8.29000000000002" y="132.9" width="144.66800000000003" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="80.62400000000004" y="145" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">environment = registry</text>
+<rect x="8.28999999999995" y="132.9" width="144.66800000000003" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="80.62399999999997" y="145" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">environment = registry</text>
 <rect x="399.481" y="132.9" width="53.94800000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="426.455" y="145" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">groups</text>
 <rect x="228.44" y="132.9" width="116.69600000000003" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
@@ -102,6 +102,6 @@
 <text x="239.2" y="319" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">docset</text>
 <rect x="312.158" y="306.9" width="87.21199999999999" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="355.764" y="319" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">codex.group</text>
-<rect x="-35.18000000000001" y="306.9" width="231.60799999999998" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="80.62399999999998" y="319" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">git: elastic/codex-link-index/{registry}</text>
+<rect x="-35.18000000000002" y="306.9" width="231.60799999999998" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="80.62399999999997" y="319" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">git: elastic/codex-link-index/{registry}</text>
 </svg>

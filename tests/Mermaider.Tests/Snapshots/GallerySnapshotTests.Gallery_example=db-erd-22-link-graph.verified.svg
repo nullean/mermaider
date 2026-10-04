@@ -35,7 +35,7 @@
 <path class="er-relationship" data-entity1="LinkManifest" data-entity2="GitOrigin" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="origin" d="M282.87919999999997,696 L282.87919999999997,699.25 Q282.87919999999997,702.5 279.62919999999997,702.5 L85,702.5 Q80,702.5 80,707.5 L80,820" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="LinkManifest" data-entity2="LinkManifestPage" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="links" d="M306.9463999999999,696 L306.9463999999999,704.5 Q306.9463999999999,709.5 301.9463999999999,709.5 L244.32,709.5 Q239.32,709.5 239.32,714.5 L239.32,820" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="LinkManifestPage" data-entity2="Anchor" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="anchors" d="M239.32,896 L239.31999999999996,1020" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="LinkManifest" data-entity2="Redirect" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="redirects" d="M331.01359999999994,696 L331.01359999999994,704.5 Q331.01359999999994,709.5 336.01359999999994,709.5 L393.63999999999993,709.5 Q398.63999999999993,709.5 403.63999999999993,714.5 L398.64,820" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="LinkManifest" data-entity2="Redirect" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="redirects" d="M331.01359999999994,696 L331.01359999999994,704.5 Q331.01359999999994,709.5 336.01359999999994,709.5 L393.64,709.5 Q398.64,709.5 398.64,714.5 L398.64,820" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="LinkManifest" data-entity2="CrossLinkUri" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="cross_links (outbound)" d="M355.08079999999995,696 L355.08079999999995,699.25 Q355.08079999999995,702.5 358.33079999999995,702.5 L537,702.5 Q542,702.5 542,707.5 L542,820" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="Registry" data-entity2="LinkRegistry" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="link-index.json" d="M376.8048,96 L376.8048,220" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="LinkRegistry" data-entity2="LinkRegistryEntry" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="repository, branch" d="M376.8048,296 L376.8048,420" fill="none" stroke="var(--_line)" stroke-width="2.25" />
@@ -146,18 +146,18 @@
 <text x="80" y="758" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">origin</text>
 <rect x="219.906" y="745.9" width="38.828" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="239.32" y="758" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">links</text>
-<rect x="208.56599999999992" y="945.9" width="61.50800000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="239.31999999999994" y="958" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">anchors</text>
-<rect x="365.61799999999994" y="745.9" width="66.04400000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="398.63999999999993" y="758" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">redirects</text>
+<rect x="208.56599999999997" y="945.9" width="61.50800000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="239.32" y="958" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">anchors</text>
+<rect x="365.618" y="745.9" width="66.04400000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="398.64" y="758" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">redirects</text>
 <rect x="467.77599999999995" y="745.9" width="148.44800000000004" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="542" y="758" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">cross_links (outbound)</text>
-<rect x="328.28479999999996" y="145.9" width="97.04" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="376.80479999999994" y="158" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">link-index.json</text>
+<rect x="328.2848" y="145.9" width="97.04" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="376.8048" y="158" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">link-index.json</text>
 <rect x="315.4328" y="345.9" width="122.74400000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="376.8048" y="358" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">repository, branch</text>
-<rect x="358.90279999999996" y="545.9" width="35.804" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="376.80479999999994" y="558" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">path</text>
+<rect x="358.9028" y="545.9" width="35.804" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="376.8048" y="558" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">path</text>
 <rect x="474.7048" y="145.9" width="156.008" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="552.7088" y="158" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">link-index.snapshot.json</text>
 </svg>

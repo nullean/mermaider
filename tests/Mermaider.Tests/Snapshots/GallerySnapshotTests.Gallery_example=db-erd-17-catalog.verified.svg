@@ -31,13 +31,13 @@
 <defs>
 </defs>
 
-<path class="er-relationship" data-entity1="Product" data-entity2="VersioningSystem" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="versioning (defaults to id)" d="M229.60000000000008,444 L229.60000000000008,449 Q229.60000000000008,454 224.60000000000008,454 L104.77600000000001,454 Q99.77600000000001,454 94.77600000000001,459 L99.776,542" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Product" data-entity2="Repository" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="repository (defaults to id)" d="M259.6000000000001,444 L259.6000000000001,449 Q259.6000000000001,454 264.6000000000001,454 L266.54,454 Q271.54,454 276.54,459 L271.5400000000001,542" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Product" data-entity2="VersioningSystem" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="versioning (defaults to id)" d="M229.60000000000008,444 L229.60000000000008,449 Q229.60000000000008,454 224.60000000000008,454 L104.776,454 Q99.776,454 99.776,459 L99.776,542" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Product" data-entity2="Repository" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="repository (defaults to id)" d="M259.6000000000001,444 L259.6000000000001,449 Q259.6000000000001,454 264.6000000000001,454 L266.5400000000001,454 Q271.5400000000001,454 271.5400000000001,459 L271.5400000000001,542" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="Product" data-entity2="ProductFeatures" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="features" d="M289.6000000000001,444 L289.6000000000001,449 Q289.6000000000001,454 294.6000000000001,454 L422.668,454 Q427.668,454 427.668,459 L427.668,542" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="LegacyUrlMapping" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="product" d="M259.6000000000001,270 L259.6000000000001,368" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="LegacyPage" data-entity2="LegacyUrlMapping" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="matched by base URL" d="M259.6,96 L259.6000000000001,194" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="VersioningSystem" data-entity2="SemVersion" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="base" d="M73.184,618 L73.184,625.571 Q73.184,628 70.755,628 L70.755,628 Q68.326,628 68.326,630.429 L68.326,701 Q68.326,706 73.326,706 L74.77600000000002,706 Q79.77600000000002,706 79.77600000000002,711 L79.77600000000002,716" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="VersioningSystem" data-entity2="SemVersion" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="current" d="M126.368,618 L126.368,625.5709999999999 Q126.368,628 128.79700000000003,628 L128.79700000000003,628 Q131.22600000000006,628 131.22600000000006,630.4290000000001 L131.22600000000006,701 Q131.22600000000006,706 126.22600000000006,706 L124.77600000000002,706 Q119.77600000000002,706 119.77600000000002,711 L119.77600000000002,716" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="VersioningSystem" data-entity2="SemVersion" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="base" d="M73.184,618 L73.184,702.704 Q73.184,706 76.48000000000002,706 L76.48000000000002,706 Q79.77600000000002,706 79.77600000000002,709.296 L79.77600000000002,716" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="VersioningSystem" data-entity2="SemVersion" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="current" d="M126.368,618 L126.368,702.7040000000001 Q126.368,706 123.072,706 L123.072,706 Q119.77600000000002,706 119.77600000000002,709.2959999999999 L119.77600000000002,716" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="QueryRule" data-entity2="SearchDocument" data-cardinality1="zeromany" data-cardinality2="zeromany" data-identifying="true" data-label="actions.ids = path" d="M439.608,96 L439.60800000000006,194" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="entity" data-id="Product" data-label="Product">
   <rect x="199.60000000000008" y="368" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
@@ -121,20 +121,20 @@
 <line x1="439.60800000000006" y1="190" x2="439.60800000000006" y2="178" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="446.60800000000006" y1="190" x2="439.60800000000006" y2="178" stroke="var(--_line)" stroke-width="2.5" />
 <circle cx="439.60800000000006" cy="174" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<rect x="21.01599999999999" y="480.9" width="157.52000000000004" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="99.77600000000001" y="493" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">versioning (defaults to id)</text>
-<rect x="193.536" y="480.9" width="156.008" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="271.54" y="493" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">repository (defaults to id)</text>
+<rect x="21.015999999999977" y="480.9" width="157.52000000000004" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="99.776" y="493" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">versioning (defaults to id)</text>
+<rect x="193.53600000000006" y="480.9" width="156.008" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="271.5400000000001" y="493" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">repository (defaults to id)</text>
 <rect x="397.67" y="480.9" width="59.996" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="427.668" y="493" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">features</text>
-<rect x="231.11400000000003" y="306.9" width="56.972" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="259.6" y="319" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">product</text>
-<rect x="189.9120000000001" y="132.9" width="139.37599999999998" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="259.6000000000001" y="145" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">matched by base URL</text>
-<rect x="48.15599999999999" y="654.9" width="40.34" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="68.326" y="667" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">base</text>
-<rect x="103.49600000000005" y="654.9" width="55.46" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="131.22600000000006" y="667" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">current</text>
-<rect x="383.15000000000003" y="132.9" width="112.91600000000003" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="439.60800000000006" y="145" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">actions.ids = path</text>
+<rect x="231.1140000000001" y="306.9" width="56.972" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="259.6000000000001" y="319" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">product</text>
+<rect x="189.91200000000003" y="132.9" width="139.37599999999998" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="259.6" y="145" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">matched by base URL</text>
+<rect x="50.65599999999999" y="654.9" width="40.34" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="70.826" y="667" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">base</text>
+<rect x="100.996" y="654.9" width="55.46" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="128.726" y="667" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">current</text>
+<rect x="383.15" y="132.9" width="112.91600000000003" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="439.608" y="145" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">actions.ids = path</text>
 </svg>
