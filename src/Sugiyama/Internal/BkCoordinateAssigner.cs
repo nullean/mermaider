@@ -107,7 +107,7 @@ internal static class BkCoordinateAssigner
 			x[i] -= minGraphX;
 
 		for (var i = 0; i < lg.OrigN; i++)
-			graph.X[i] = x[i];
+			graph.X[i] = i >= graph.RealNodeCount ? x[i] + (lg.W[i] / 2) : x[i];
 
 		var ec = graph.Edges.Count;
 		graph.ColumnX = new double[ec];
@@ -189,6 +189,15 @@ internal static class BkCoordinateAssigner
 			lg.W[i] = i < graph.RealNodeCount ? graph.NodeWidths[i] : 0;
 			lg.Virt[i] = i >= graph.RealNodeCount;
 			lg.Layer[i] = newLayer[graph.Layers[i]];
+		}
+
+		// A long edge's first virtual node carries its label's width, so the label dummy and the long vertical share one
+		// properly spaced column (the virtual node's position stays its centre in graph.X, see Run).
+		for (var ei = 0; ei < edges.Count; ei++)
+		{
+			var e = edges[ei];
+			if (adjacent[ei] && e.To >= graph.RealNodeCount && dummyLayer[graph.Layers[e.From]] >= 0)
+				lg.W[e.To] = Math.Max(lg.W[e.To], OwnedLabel(ei));
 		}
 
 		var layerCount = cursor;
