@@ -11,8 +11,8 @@ Edges:
   SiteMount --re-homes subtree--> HomeProvider [Bottom->Top] [D R D]
   SiteMount --children--> SiteMount [Left->Left] (self)
   SiteMount --toc: repo://path--> TocNavigation [Bottom->Top] [D L D]
-  SiteNavigation --phantoms--> Phantom [Bottom->Top] [D R D R D R D]
-  SiteNavigation --toc--> SiteMount [Bottom->Top] [D R D L D]
+  SiteNavigation --phantoms--> Phantom [Bottom->Top] [D R D R D]
+  SiteNavigation --toc--> SiteMount [Bottom->Top] [D L D]
   SiteNavigation --section (preview)--> SiteSection [Bottom->Top] [D L D]
   SiteSection --children--> SiteMount [Bottom->Top] [D]
   TocItem --mirrors--> NavigationNode [Bottom->Top] [D L D]

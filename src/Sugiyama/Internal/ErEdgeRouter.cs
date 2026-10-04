@@ -7,8 +7,9 @@ namespace Sugiyama.Internal;
 /// </summary>
 internal static class ErEdgeRouter
 {
-	private const double Stub = 10;
-	private const double SnapTolerance = 7;
+	// The straight run next to a node must contain the whole cardinality marker (up to ~27px) plus a corner.
+	internal const double Stub = 28;
+	private const double SnapTolerance = 14;
 
 	internal static List<EdgeRouter.RoutedEdge> Run(GraphBuffer graph, IReadOnlyList<LayoutEdge> inputEdges, bool useSideRouting)
 	{
@@ -45,6 +46,7 @@ internal static class ErEdgeRouter
 
 		ReduceCrossingsByVariants(graph, results, chains, inputEdges, useSideRouting);
 		SlotHorizontalRuns(graph, results);
+		RemoveTinyJogs(results);
 		return results;
 	}
 
@@ -196,6 +198,50 @@ internal static class ErEdgeRouter
 		var t = (((r.X - p.X) * d2y) - ((r.Y - p.Y) * d2x)) / den;
 		var u = (((r.X - p.X) * d1y) - ((r.Y - p.Y) * d1x)) / den;
 		return t is > 1e-3 and < 1 - 1e-3 && u is > 1e-3 and < 1 - 1e-3;
+	}
+
+	/// <summary>
+	/// A sideways jog of only a few px reads as a bump or kink. Remove it by sliding the neighbouring vertical run (never one that
+	/// holds a port) onto the other side of the jog.
+	/// </summary>
+	private static void RemoveTinyJogs(List<EdgeRouter.RoutedEdge> routes)
+	{
+		const double minJog = 12;
+		foreach (var r in routes)
+		{
+			var pts = r.Points;
+			for (var pass = 0; pass < 3; pass++)
+			{
+				var changed = false;
+				for (var i = 1; i + 2 < pts.Count; i++)
+				{
+					if (Math.Abs(pts[i].Y - pts[i + 1].Y) > 0.01)
+						continue;
+					var dx = pts[i + 1].X - pts[i].X;
+					if (Math.Abs(dx) is < 0.5 or >= minJog)
+						continue;
+
+					if (i + 2 < pts.Count - 1 && Math.Abs(pts[i + 1].X - pts[i + 2].X) < 0.01)
+					{
+						pts[i + 1] = new LayoutPoint(pts[i].X, pts[i + 1].Y);
+						pts[i + 2] = new LayoutPoint(pts[i].X, pts[i + 2].Y);
+						changed = true;
+					}
+					else if (i - 1 > 0 && Math.Abs(pts[i - 1].X - pts[i].X) < 0.01)
+					{
+						pts[i] = new LayoutPoint(pts[i + 1].X, pts[i].Y);
+						pts[i - 1] = new LayoutPoint(pts[i + 1].X, pts[i - 1].Y);
+						changed = true;
+					}
+				}
+				if (!changed)
+					break;
+			}
+
+			var simplified = Simplify(pts);
+			pts.Clear();
+			pts.AddRange(simplified);
+		}
 	}
 
 	private sealed class HRun

@@ -4,7 +4,7 @@ Layer 2: Repository, VersioningSystem, ProductLifecycle, VersionSpec
 Layer 3: SemVersion
 Edges:
   Applicability --per key--> ApplicabilityEntry [Bottom->Top] [D]
-  ApplicabilityEntry --lifecycle--> ProductLifecycle [Bottom->Top] [D L D L D]
+  ApplicabilityEntry --lifecycle--> ProductLifecycle [Bottom->Top] [D L D]
   ApplicabilityEntry --version--> VersionSpec [Bottom->Top] [D R D]
   ApplicabilityEntry --key resolves to--> VersioningSystem [Bottom->Top] [D L D L D]
   ChangelogLifecycle --maps to--> ProductLifecycle [Bottom->Top] [D R D]

@@ -37,7 +37,7 @@ via `color-mix(in srgb, var(--fg) N%, var(--bg))` with the user's optional vars 
 
 **Rule:** renderers reference only `--_*` tokens and `--fs-*`. A literal hex is a bug —
 **except** the sanctioned categorical data palettes for diagram types that encode data via color:
-pie, timeline, gantt, journey, C4 (system fills), sankey, xychart. For all other chrome, use
+pie, timeline, gantt, journey, C4 (system fills), sankey, xychart, ER (one palette colour per connected cluster of entities: darker border, tinted header, plain `--bg` rows). For all other chrome, use
 theme vars so dark-mode and custom themes work automatically.
 
 ## Font scale

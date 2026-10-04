@@ -18,7 +18,7 @@ internal static class LightweightErLayoutEngine
 	private const double MinWidth = 120;
 	private static readonly double AttrFontSize = RenderConstants.FontSizes.Member;
 	private const double NodeSpacing = 20;
-	private const double LayerSpacing = 56;
+	private const double LayerSpacing = 72;
 
 	internal static PositionedErDiagram Layout(ErDiagram diagram)
 	{
@@ -68,8 +68,8 @@ internal static class LightweightErLayoutEngine
 			if (rel.Label.Length > 0)
 			{
 				var metrics = TextMetrics.MeasureMultiline(rel.Label.AsSpan(), RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel);
-				labelW = metrics.Width + 8;
-				labelH = metrics.Height + 6;
+				labelW = metrics.Width + 14;
+				labelH = metrics.Height + 8;
 			}
 			layoutEdges.Add(new LayoutEdge(rel.Entity1, rel.Entity2, labelW, labelH));
 			layoutEdgeRelIndices.Add(i);
@@ -113,6 +113,38 @@ internal static class LightweightErLayoutEngine
 		return ExtractPositioned(result, diagram, layoutEdgeRelIndices);
 	}
 
+	/// <summary>Connected components (clusters) numbered in order of their first entity; every isolated entity is its own cluster.</summary>
+	private static Dictionary<string, int> AssignClusters(ErDiagram diagram)
+	{
+		var parent = diagram.Entities.ToDictionary(e => e.Id, e => e.Id, StringComparer.Ordinal);
+		string Find(string id)
+		{
+			while (parent[id] != id)
+			{
+				parent[id] = parent[parent[id]];
+				id = parent[id];
+			}
+			return id;
+		}
+
+		foreach (var r in diagram.Relationships)
+		{
+			if (parent.ContainsKey(r.Entity1) && parent.ContainsKey(r.Entity2))
+				parent[Find(r.Entity1)] = Find(r.Entity2);
+		}
+
+		var index = new Dictionary<string, int>(StringComparer.Ordinal);
+		var result = new Dictionary<string, int>(StringComparer.Ordinal);
+		foreach (var e in diagram.Entities)
+		{
+			var root = Find(e.Id);
+			if (!index.TryGetValue(root, out var i))
+				index[root] = i = index.Count;
+			result[e.Id] = i;
+		}
+		return result;
+	}
+
 	private static int CountConnectedComponents(List<LayoutNode> nodes, List<LayoutEdge> edges)
 	{
 		var adj = new Dictionary<string, HashSet<string>>(nodes.Count);
@@ -151,6 +183,7 @@ internal static class LightweightErLayoutEngine
 	{
 		var nodeLookup = result.Nodes.ToDictionary(n => n.Id);
 		var positionedEntities = new List<PositionedErEntity>(diagram.Entities.Count);
+		var clusters = AssignClusters(diagram);
 
 		foreach (var entity in diagram.Entities)
 		{
@@ -167,6 +200,7 @@ internal static class LightweightErLayoutEngine
 				Height = n.Height,
 				HeaderHeight = HeaderHeight,
 				RowHeight = RowHeight,
+				Cluster = clusters[entity.Id],
 			});
 		}
 
@@ -234,12 +268,44 @@ internal static class LightweightErLayoutEngine
 			});
 		}
 
-		return new PositionedErDiagram
+		return FitLabelsInCanvas(new PositionedErDiagram
 		{
 			Width = result.Width,
 			Height = result.Height,
 			Entities = positionedEntities,
 			Relationships = positionedRels,
+		});
+	}
+
+	/// <summary>Label boxes can extend past the leftmost/rightmost entity; shift and grow the canvas so none is clipped.</summary>
+	private static PositionedErDiagram FitLabelsInCanvas(PositionedErDiagram d)
+	{
+		var minX = d.Entities.Count > 0 ? d.Entities.Min(e => e.X) : double.MaxValue;
+		var maxX = d.Entities.Count > 0 ? d.Entities.Max(e => e.X + e.Width) : 0;
+		foreach (var r in d.Relationships)
+		{
+			if (r.Label.Length == 0 || r.LabelPosition is not { } lp || string.Equals(r.Entity1, r.Entity2, StringComparison.Ordinal))
+				continue;
+			var m = TextMetrics.MeasureMultiline(r.Label.AsSpan(), RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel);
+			var half = (m.Width + ErSvgRenderer.LabelPadX) / 2;
+			minX = Math.Min(minX, lp.X - half);
+			maxX = Math.Max(maxX, lp.X + half);
+		}
+
+		var shift = minX < Padding ? Padding - minX : 0;
+		var width = Math.Max(d.Width + shift, maxX + shift + Padding);
+		if (shift == 0 && Math.Abs(width - d.Width) < 0.01)
+			return d;
+
+		return d with
+		{
+			Width = width,
+			Entities = d.Entities.Select(e => e with { X = e.X + shift }).ToList(),
+			Relationships = d.Relationships.Select(r => r with
+			{
+				Points = r.Points.Select(p => new Point(p.X + shift, p.Y)).ToList(),
+				LabelPosition = r.LabelPosition is { } lp ? new Point(lp.X + shift, lp.Y) : null,
+			}).ToList(),
 		};
 	}
 

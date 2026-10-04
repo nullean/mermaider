@@ -7,7 +7,7 @@ Edges:
   DocumentationDocument --parents (breadcrumbs)--> ParentDocument [Bottom->Top] [D R D]
   DocumentationDocument --product--> Product [Bottom->Top] [D L D R D]
   DocumentationDocument --related_products--> Product [Bottom->Top] [D L D L D]
-  Page --exported--> DocumentationDocument [Bottom->Top] [D]
+  Page --exported--> DocumentationDocument [Bottom->Top] [D R D]
   SearchIndex --contains--> SearchDocument [Bottom->Top] [D]
 Ports:
   DocumentationDocument Bottom: edge3,edge4,edge2,edge1

@@ -33,27 +33,23 @@
 
 <path class="er-relationship" data-entity1="EMPLOYEE" data-entity2="EMPLOYEE" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="manages" d="M20,60.599999999999994 C-14.799999999999997,60.599999999999994 -14.799999999999997,95.4 20,95.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="entity" data-id="EMPLOYEE" data-label="EMPLOYEE">
-  <rect x="20" y="20" width="183.6" height="116" rx="6" ry="6" fill="var(--_node-fill)" />
-  <rect x="20" y="20" width="183.6" height="38" fill="var(--_accent-stroke)" />
-  <rect x="20" y="58" width="183.6" height="26" fill="var(--_group-hdr)" />
-  <rect x="20" y="110" width="183.6" height="26" fill="var(--_group-hdr)" />
-  <line x1="20" y1="58" x2="203.6" y2="58" stroke="var(--_node-stroke)" stroke-width="2" />
-  <line x1="20" y1="84" x2="203.6" y2="84" stroke="var(--_node-stroke)" stroke-width="1" opacity="0.5" />
-  <line x1="20" y1="110" x2="203.6" y2="110" stroke="var(--_node-stroke)" stroke-width="1" opacity="0.5" />
-  <line x1="83.4" y1="58" x2="83.4" y2="136" stroke="var(--_node-stroke)" stroke-width="1" />
-  <line x1="171.51999999999998" y1="58" x2="171.51999999999998" y2="136" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="20" y="20" width="183.6" height="116" rx="6" ry="6" fill="var(--bg)" />
+  <path d="M20,58 L20,26 Q20,20 26,20 L197.6,20 Q203.6,20 203.6,26 L203.6,58 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
+  <line x1="20" y1="58" x2="203.6" y2="58" stroke="#3B5B7D" stroke-width="1.75" />
+  <line x1="20" y1="84" x2="203.6" y2="84" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
+  <line x1="20" y1="110" x2="203.6" y2="110" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
+  <line x1="83.4" y1="58" x2="83.4" y2="136" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
+  <line x1="171.51999999999998" y1="58" x2="171.51999999999998" y2="136" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <text x="111.8" y="39" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">EMPLOYEE</text>
   <text class="mono" x="28" y="71" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="88.4" y="71" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="195.6" y="71" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
   <text class="mono" x="28" y="97" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">string</tspan></text><text class="mono" x="88.4" y="97" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">name</tspan></text>
   <text class="mono" x="28" y="123" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="88.4" y="123" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">manager_id</tspan></text><text x="195.6" y="123" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">FK</text>
-  <rect x="20" y="20" width="183.6" height="116" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="20" y="20" width="183.6" height="116" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
 </g>
-<line x1="16" y1="66.6" x2="16" y2="54.599999999999994" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="12" y1="66.6" x2="12" y2="54.599999999999994" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="16" y1="102.4" x2="4" y2="95.4" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="16" y1="95.4" x2="4" y2="95.4" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="16" y1="88.4" x2="4" y2="95.4" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="0" cy="95.4" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<rect x="205.59999999999997" y="65.9" width="64.53200000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="237.86599999999999" y="78" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">manages</text>
+<path d="M11,67.1 L11,54.099999999999994" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M6,67.1 L6,54.099999999999994" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M20,102.9 L7,95.4 L20,87.9" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
+<circle cx="-2" cy="95.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<rect x="205.59999999999997" y="65.775" width="66.78200000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<text x="238.99099999999999" y="78" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">manages</text>
 </svg>

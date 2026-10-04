@@ -11,7 +11,7 @@ internal static class ErSvgRenderer
 		RenderConstants.TextAttrs.NodeLabelBoldCenterFill + "var(--_text)\"";
 
 	private static readonly string RelLabelAttrs =
-		RenderConstants.TextAttrs.EdgeLabelCenterFill + "var(--_text-sec)\"";
+		RenderConstants.TextAttrs.EdgeLabelCenterFill + "var(--_text)\"";
 
 	private static readonly string AttrFontSize = RenderConstants.FsVar.S;
 	private static readonly int AttrFontWeight = RenderConstants.FontWeights.Member;
@@ -43,7 +43,7 @@ internal static class ErSvgRenderer
 			AppendRelationshipLine(sb, rel);
 
 		foreach (var entity in diagram.Entities)
-			AppendEntityBox(sb, entity);
+			AppendEntityBox(sb, entity, context.Styles.Colors);
 
 		foreach (var rel in diagram.Relationships)
 			AppendCardinality(sb, rel);
@@ -165,7 +165,7 @@ internal static class ErSvgRenderer
 				RenderConstants.FontSizes.EdgeLabel,
 				RenderConstants.FontWeights.EdgeLabel);
 			positions[i] = pos;
-			sizes[i] = (metrics.Width + 8, metrics.Height + 6);
+			sizes[i] = (metrics.Width + LabelPadX, metrics.Height + LabelPadY);
 		}
 
 		// A chain of N labels overlapping the same corridor (common when several edges
@@ -367,8 +367,13 @@ internal static class ErSvgRenderer
 		return pos;
 	}
 
-	private static void AppendEntityBox(StringBuilder sb, PositionedErEntity entity)
+	private static void AppendEntityBox(StringBuilder sb, PositionedErEntity entity, Mermaider.Theming.DiagramColors colors)
 	{
+		// Each connected cluster gets its own palette colour: darker border, light header, white body rows.
+		var clusterColor = colors.PaletteAt(entity.Cluster);
+		var border = Mermaider.Theming.ColorUtils.AdjustLightness(clusterColor, -0.12);
+		var boxFill = $"color-mix(in srgb, {clusterColor} 16%, var(--bg))";
+		var headerFill = $"color-mix(in srgb, {clusterColor} 24%, var(--bg))";
 		var (x, y, width, height) = (entity.X, entity.Y, entity.Width, entity.Height);
 		var headerHeight = entity.HeaderHeight;
 		var rowHeight = entity.RowHeight;
@@ -404,7 +409,7 @@ internal static class ErSvgRenderer
 			_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
 				.Append("\" width=\"").Append(width).Append("\" height=\"").Append(height)
 				.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-				.Append("\" fill=\"var(--_accent-stroke)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
+				.Append("\" fill=\"").Append(boxFill).Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"")
 				.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
 			_ = sb.Append("  ");
 			MultilineUtils.AppendMultilineText(
@@ -427,47 +432,40 @@ internal static class ErSvgRenderer
 			_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
 				.Append("\" width=\"").Append(width).Append("\" height=\"").Append(height)
 				.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-				.Append("\" fill=\"var(--_node-fill)\" />\n");
-			// 2. Header fill
-			_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
-				.Append("\" width=\"").Append(width).Append("\" height=\"").Append(headerHeight)
-				.Append("\" fill=\"var(--_accent-stroke)\" />\n");
-			// 3. Even-row shading
+				.Append("\" fill=\"var(--bg)\" />\n");
+			// 2. Header fill (rows below stay plain background — no striping)
+			_ = sb.Append("  <path d=\"M").Append(x).Append(',').Append(y + headerHeight)
+				.Append(" L").Append(x).Append(',').Append(y + r)
+				.Append(" Q").Append(x).Append(',').Append(y).Append(' ').Append(x + r).Append(',').Append(y)
+				.Append(" L").Append(x + width - r).Append(',').Append(y)
+				.Append(" Q").Append(x + width).Append(',').Append(y).Append(' ').Append(x + width).Append(',').Append(y + r)
+				.Append(" L").Append(x + width).Append(',').Append(y + headerHeight)
+				.Append(" Z\" fill=\"").Append(headerFill).Append("\" />\n");
 			var attrTop = y + headerHeight;
-			for (var i = 0; i < entity.Attributes.Count; i++)
-			{
-				if (i % 2 == 0)
-				{
-					var rowTop = attrTop + (i * rowHeight);
-					_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(rowTop)
-						.Append("\" width=\"").Append(width).Append("\" height=\"").Append(rowHeight)
-						.Append("\" fill=\"var(--_group-hdr)\" />\n");
-				}
-			}
 			// 4. Separators (header + between rows) — all on top of fills
 			_ = sb.Append("  <line x1=\"").Append(x).Append("\" y1=\"").Append(attrTop)
 				.Append("\" x2=\"").Append(x + width).Append("\" y2=\"").Append(attrTop)
-				.Append("\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
-				.Append(RenderConstants.StrokeWidths.InnerBox).Append("\" />\n");
+				.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"")
+				.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
 			for (var i = 0; i < entity.Attributes.Count - 1; i++)
 			{
 				var sepY = attrTop + ((i + 1) * rowHeight);
 				_ = sb.Append("  <line x1=\"").Append(x).Append("\" y1=\"").Append(sepY)
 					.Append("\" x2=\"").Append(x + width).Append("\" y2=\"").Append(sepY)
-					.Append("\" stroke=\"var(--_node-stroke)\" stroke-width=\"1\" opacity=\"0.5\" />\n");
+					.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"1\" opacity=\"0.35\" />\n");
 			}
 			// Vertical column dividers (type | name | key)
 			var attrBottom = y + height;
 			var typeDivX = x + 8 + typeColWidth + 5;
 			_ = sb.Append("  <line x1=\"").Append(typeDivX).Append("\" y1=\"").Append(attrTop)
 				.Append("\" x2=\"").Append(typeDivX).Append("\" y2=\"").Append(attrBottom)
-				.Append("\" stroke=\"var(--_node-stroke)\" stroke-width=\"1\" />\n");
+				.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"1\" opacity=\"0.35\" />\n");
 			if (keyColWidth > 0)
 			{
 				var keyDivX = x + width - 8 - keyColWidth - 5;
 				_ = sb.Append("  <line x1=\"").Append(keyDivX).Append("\" y1=\"").Append(attrTop)
 					.Append("\" x2=\"").Append(keyDivX).Append("\" y2=\"").Append(attrBottom)
-					.Append("\" stroke=\"var(--_node-stroke)\" stroke-width=\"1\" />\n");
+					.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"1\" opacity=\"0.35\" />\n");
 			}
 			// 5. Entity name + attribute text
 			_ = sb.Append("  ");
@@ -487,7 +485,7 @@ internal static class ErSvgRenderer
 			_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
 				.Append("\" width=\"").Append(width).Append("\" height=\"").Append(height)
 				.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-				.Append("\" fill=\"none\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
+				.Append("\" fill=\"none\" stroke=\"").Append(border).Append("\" stroke-width=\"")
 				.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
 		}
 
@@ -541,6 +539,11 @@ internal static class ErSvgRenderer
 	}
 
 	private const double CornerRadius = 5;
+
+	// 2px clear padding on each side of the label text, plus the border stroke (it straddles the rect edge).
+	// Horizontal gets extra because the text-width estimate runs a little short of the real glyph widths.
+	internal const double LabelPadX = 8 + 2.25;
+	internal const double LabelPadY = 4 + 2.25;
 
 	private const int MaxWaypointsForCurveSimplification = 5;
 
@@ -639,14 +642,15 @@ internal static class ErSvgRenderer
 			RenderConstants.FontSizes.EdgeLabel,
 			RenderConstants.FontWeights.EdgeLabel);
 
-		var bgW = metrics.Width + 8;
-		var bgH = metrics.Height + 6;
+		// 2px padding around the text, border as thick as the lines so the pill reads as part of the line.
+		var bgW = metrics.Width + LabelPadX;
+		var bgH = metrics.Height + LabelPadY;
 
-		var lr = RenderConstants.Radii.EdgeLabel;
+		var lr = Math.Min(RenderConstants.Radii.EdgeLabel, bgH / 2);
 		_ = sb.Append("\n<rect x=\"").Append(mid.X - (bgW / 2)).Append("\" y=\"").Append(mid.Y - (bgH / 2))
 			.Append("\" width=\"").Append(bgW).Append("\" height=\"").Append(bgH)
 			.Append("\" rx=\"").Append(lr).Append("\" ry=\"").Append(lr)
-			.Append("\" fill=\"var(--bg)\" stroke=\"var(--_inner-stroke)\" stroke-width=\"0.5\" />\n");
+			.Append("\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"").Append(RenderConstants.StrokeWidths.Connector).Append("\" />\n");
 		MultilineUtils.AppendMultilineText(
 			sb, rel.Label, mid.X, mid.Y,
 			RenderConstants.FontSizes.EdgeLabel,
@@ -667,63 +671,72 @@ internal static class ErSvgRenderer
 		AppendCrowsFoot(sb, pN, pN1, rel.Cardinality2);
 	}
 
+	// Cardinality markers sit ON the line, measured from the entity edge, in the same weight as the line so they read as part of it:
+	//   One      ||   two bars
+	//   ZeroOne  o|   bar + circle
+	//   Many     |<   crow's foot (apex on the line, prongs fanning to the entity edge) + bar
+	//   ZeroMany o<   crow's foot + circle
+	// The router keeps the first/last segment straight for at least ErEdgeRouter.Stub, so a marker never straddles a bend.
 	private static void AppendCrowsFoot(StringBuilder sb, Point point, Point toward, ErCardinality cardinality)
 	{
-		var sw = RenderConstants.StrokeWidths.Connector + 0.25;
-
-		var dx = point.X - toward.X;
-		var dy = point.Y - toward.Y;
+		var sw = RenderConstants.StrokeWidths.Connector;
+		var dx = toward.X - point.X;
+		var dy = toward.Y - point.Y;
 		var len = Math.Sqrt((dx * dx) + (dy * dy));
 		if (len == 0)
 			return;
-		var ux = dx / len;
-		var uy = dy / len;
-		var px = -uy;
-		var py = ux;
+		var ax = dx / len; // unit vector from the entity edge along the line
+		var ay = dy / len;
+		var nx = -ay;
+		var ny = ax;
 
-		var tipX = point.X - (ux * 4);
-		var tipY = point.Y - (uy * 4);
-		var backX = point.X - (ux * 16);
-		var backY = point.Y - (uy * 16);
+		const double halfBar = 6.5;
+		const double fan = 7.5;
+		const double apex = 13;
+		const double circleR = 4.5;
 
-		var hasOneLine = cardinality is ErCardinality.One or ErCardinality.ZeroOne;
-		var hasCrowsFoot = cardinality is ErCardinality.Many or ErCardinality.ZeroMany;
-		var hasCircle = cardinality is ErCardinality.ZeroOne or ErCardinality.ZeroMany;
+		Point At(double along, double across) => new(point.X + (ax * along) + (nx * across), point.Y + (ay * along) + (ny * across));
 
-		if (hasOneLine)
+		void Bar(double along)
 		{
-			const double halfW = 6;
-			_ = sb.Append("\n<line x1=\"").Append(tipX + (px * halfW)).Append("\" y1=\"").Append(tipY + (py * halfW))
-				.Append("\" x2=\"").Append(tipX - (px * halfW)).Append("\" y2=\"").Append(tipY - (py * halfW))
-				.Append("\" stroke=\"var(--_line)\" stroke-width=\"").Append(sw).Append("\" />");
-			var line2X = tipX - (ux * 4);
-			var line2Y = tipY - (uy * 4);
-			_ = sb.Append("\n<line x1=\"").Append(line2X + (px * halfW)).Append("\" y1=\"").Append(line2Y + (py * halfW))
-				.Append("\" x2=\"").Append(line2X - (px * halfW)).Append("\" y2=\"").Append(line2Y - (py * halfW))
-				.Append("\" stroke=\"var(--_line)\" stroke-width=\"").Append(sw).Append("\" />");
+			var (p, q) = (At(along, -halfBar), At(along, halfBar));
+			_ = sb.Append("\n<path d=\"M").Append(p.X).Append(',').Append(p.Y).Append(" L").Append(q.X).Append(',').Append(q.Y)
+				.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"").Append(sw).Append("\" />");
 		}
 
-		if (hasCrowsFoot)
+		void Circle(double along)
 		{
-			const double fanW = 7;
-			_ = sb.Append("\n<line x1=\"").Append(tipX + (px * fanW)).Append("\" y1=\"").Append(tipY + (py * fanW))
-				.Append("\" x2=\"").Append(backX).Append("\" y2=\"").Append(backY)
-				.Append("\" stroke=\"var(--_line)\" stroke-width=\"").Append(sw).Append("\" />");
-			_ = sb.Append("\n<line x1=\"").Append(tipX).Append("\" y1=\"").Append(tipY)
-				.Append("\" x2=\"").Append(backX).Append("\" y2=\"").Append(backY)
-				.Append("\" stroke=\"var(--_line)\" stroke-width=\"").Append(sw).Append("\" />");
-			_ = sb.Append("\n<line x1=\"").Append(tipX - (px * fanW)).Append("\" y1=\"").Append(tipY - (py * fanW))
-				.Append("\" x2=\"").Append(backX).Append("\" y2=\"").Append(backY)
-				.Append("\" stroke=\"var(--_line)\" stroke-width=\"").Append(sw).Append("\" />");
+			var c = At(along, 0);
+			_ = sb.Append("\n<circle cx=\"").Append(c.X).Append("\" cy=\"").Append(c.Y).Append("\" r=\"").Append(circleR)
+				.Append("\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"").Append(sw).Append("\" />");
 		}
 
-		if (hasCircle)
+		void Foot()
 		{
-			var circleOffset = hasCrowsFoot ? 20 : 12;
-			var circleX = point.X - (ux * circleOffset);
-			var circleY = point.Y - (uy * circleOffset);
-			_ = sb.Append("\n<circle cx=\"").Append(circleX).Append("\" cy=\"").Append(circleY)
-				.Append("\" r=\"4\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"").Append(sw).Append("\" />");
+			var (tip, left, right) = (At(apex, 0), At(0, -fan), At(0, fan));
+			_ = sb.Append("\n<path d=\"M").Append(left.X).Append(',').Append(left.Y).Append(" L").Append(tip.X).Append(',').Append(tip.Y)
+				.Append(" L").Append(right.X).Append(',').Append(right.Y)
+				.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"").Append(sw).Append("\" stroke-linejoin=\"round\" />");
+		}
+
+		switch (cardinality)
+		{
+			case ErCardinality.One:
+				Bar(9);
+				Bar(14);
+				break;
+			case ErCardinality.ZeroOne:
+				Bar(9);
+				Circle(19);
+				break;
+			case ErCardinality.Many:
+				Foot();
+				Bar(18);
+				break;
+			case ErCardinality.ZeroMany:
+				Foot();
+				Circle(22);
+				break;
 		}
 	}
 
