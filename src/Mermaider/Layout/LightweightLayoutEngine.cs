@@ -71,7 +71,12 @@ internal static class LightweightLayoutEngine
 					minLength++;
 			}
 			layoutEdgeToOriginal.Add(ei);
-			layoutEdges.Add(new LayoutEdge(edge.Source, edge.Target, labelW, labelH, minLength));
+			_ = graph.SubgraphEdgeRedirections.TryGetValue(ei, out var redirection);
+			layoutEdges.Add(new LayoutEdge(edge.Source, edge.Target, labelW, labelH, minLength)
+			{
+				SourceGroup = redirection.SourceSubgraph,
+				TargetGroup = redirection.TargetSubgraph,
+			});
 		}
 
 		var layoutSubgraphs = graph.Subgraphs.Select(MapSubgraph).ToList();

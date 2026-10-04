@@ -35,7 +35,14 @@ public sealed record LayoutNode(string Id, double Width, double Height)
 }
 
 /// <summary>A directed edge between two nodes.</summary>
-public sealed record LayoutEdge(string Source, string Target, double LabelWidth = 0, double LabelHeight = 0, int MinLength = 1);
+public sealed record LayoutEdge(string Source, string Target, double LabelWidth = 0, double LabelHeight = 0, int MinLength = 1)
+{
+	/// <summary>When the edge was written against a subgraph (<c>a --&gt; subnet1</c>), the subgraph whose border the edge ends on.</summary>
+	public string? SourceGroup { get; init; }
+
+	/// <summary>See <see cref="SourceGroup"/>.</summary>
+	public string? TargetGroup { get; init; }
+}
 
 /// <summary>A subgraph grouping a set of node IDs with optional children.</summary>
 public sealed record LayoutSubgraph(

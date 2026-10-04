@@ -8,8 +8,10 @@ namespace Sugiyama.Internal;
 /// </summary>
 internal static class FlowEdgeRouter
 {
-	internal sealed record Box(string Id, double X, double Y, double W, double H, bool CentrePorts)
+	internal sealed record Box(string Id, double X, double Y, double W, double H, bool CentrePorts, string? Member = null)
 	{
+		/// <summary>Node whose subgraph membership decides which subgraphs the edge may cross (differs from <see cref="Id"/> for subgraph borders).</summary>
+		internal string MemberId => Member ?? Id;
 		internal double Right => X + W;
 		internal double Bottom => Y + H;
 		internal double Cx => X + (W / 2);
@@ -18,7 +20,7 @@ internal static class FlowEdgeRouter
 
 	internal sealed record GroupBox(string Id, double X, double Y, double W, double H, HashSet<string> NodeIds);
 
-	internal sealed record RouteEdge(int Index, string Source, string Target, double LabelW, double LabelH);
+	internal sealed record RouteEdge(int Index, string Source, string Target, double LabelW, double LabelH, string? SourceGroup = null, string? TargetGroup = null);
 
 	private const double Stub = 22;
 	private const double Margin = 8;
@@ -68,6 +70,8 @@ internal static class FlowEdgeRouter
 				continue;
 			}
 
+			s = GroupEnd(s, e.SourceGroup, e.Target, groups);
+			t = GroupEnd(t, e.TargetGroup, e.Source, groups);
 			if (ReferenceEquals(s, t))
 			{
 				results[e.Index] = SelfLoop(e, s);
@@ -118,6 +122,16 @@ internal static class FlowEdgeRouter
 		}
 
 		return results.Where(r => r is not null).Select(r => r!).ToList();
+	}
+
+	// An edge written against a subgraph attaches to the subgraph's border rather than to the inner node it was mapped to.
+	// (An edge between a subgraph and one of its own members keeps the inner node: there is no border to cross.)
+	private static Box GroupEnd(Box node, string? groupId, string otherEnd, IReadOnlyList<GroupBox> groups)
+	{
+		if (groupId is null)
+			return node;
+		var g = groups.FirstOrDefault(x => x.Id == groupId);
+		return g is null || g.NodeIds.Contains(otherEnd) ? node : new Box("\u0002" + groupId, g.X, g.Y, g.W, g.H, false, node.Id);
 	}
 
 	private static (int SSide, int TSide) ChooseSides(Box s, Box t, bool vertical)
@@ -488,8 +502,8 @@ internal static class FlowEdgeRouter
 			var common = new List<GroupBox>();
 			foreach (var g in groups)
 			{
-				var hasS = g.NodeIds.Contains(p.S.Id);
-				var hasT = g.NodeIds.Contains(p.T.Id);
+				var hasS = g.NodeIds.Contains(p.S.MemberId);
+				var hasT = g.NodeIds.Contains(p.T.MemberId);
 				if (hasS && hasT)
 					common.Add(g);
 				else if (!hasS && !hasT)

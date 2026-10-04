@@ -212,7 +212,7 @@ public static class HierarchicalLayout
 		for (var i = 0; i < input.Edges.Count; i++)
 		{
 			var e = input.Edges[i];
-			routeEdges.Add(new FlowEdgeRouter.RouteEdge(i, e.Source, e.Target, e.LabelWidth, e.LabelHeight));
+			routeEdges.Add(new FlowEdgeRouter.RouteEdge(i, e.Source, e.Target, e.LabelWidth, e.LabelHeight, e.SourceGroup, e.TargetGroup));
 		}
 
 		var routes = FlowEdgeRouter.Route(abs, groupBoxes, routeEdges, input.Direction);
