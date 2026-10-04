@@ -57,6 +57,7 @@ internal static class FlowEdgeRouter
 		internal LayoutPoint TPort;
 		internal double SStub = Stub;
 		internal List<LayoutPoint>? Fixed;
+		internal bool Back => SSide == TSide;
 		internal double TStub = Stub;
 	}
 
@@ -705,6 +706,7 @@ internal static class FlowEdgeRouter
 		private readonly int[] _stamp;
 		private readonly int[] _prev;
 		private int _version;
+		private double _crossCost = CrossCost;
 		private readonly IReadOnlyList<GroupBox> _allGroups;
 
 		internal Grid(IReadOnlyList<Box> boxes, IReadOnlyList<GroupBox> groups, List<Plan> plans)
@@ -827,6 +829,8 @@ internal static class FlowEdgeRouter
 			}
 
 			_version++;
+			// a loop around the outside is worth a long detour: crossing the forward edges is what makes it unreadable
+			_crossCost = p.Back ? CrossCost * 3 : CrossCost;
 			var ny = _ys.Length;
 			var pq = new PriorityQueue<int, double>();
 			var startDir = p.SSide;
@@ -942,11 +946,11 @@ internal static class FlowEdgeRouter
 				{
 					// s is vertical
 					if (s.X0 > Math.Min(x0, x1) + 0.5 && s.X0 < Math.Max(x0, x1) - 0.5 && y0 > Math.Min(s.Y0, s.Y1) + 0.5 && y0 < Math.Max(s.Y0, s.Y1) - 0.5)
-						cost += CrossCost;
+						cost += _crossCost;
 				}
 				else if (s.Y0 > Math.Min(y0, y1) + 0.5 && s.Y0 < Math.Max(y0, y1) - 0.5 && x0 > Math.Min(s.X0, s.X1) + 0.5 && x0 < Math.Max(s.X0, s.X1) - 0.5)
 				{
-					cost += CrossCost;
+					cost += _crossCost;
 				}
 			}
 			return cost;

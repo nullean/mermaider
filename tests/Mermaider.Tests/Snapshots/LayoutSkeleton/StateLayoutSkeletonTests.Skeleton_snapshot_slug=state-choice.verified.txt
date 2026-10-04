@@ -8,7 +8,7 @@ Edges:
   Negative ----> Retry [Bottom->Top] [D]
   Neutral ----> _end2 [Bottom->Top] [D]
   Positive ----> _end [Bottom->Top] [D]
-  Retry ----> Evaluate [Right->Right] [R U L]
+  Retry ----> Evaluate [Right->Right] [R U R U L]
   _start ----> Evaluate [Bottom->Top] [D]
   checkResult --if score < 0--> Negative [Bottom->Top] [D]
   checkResult --if score = 0--> Neutral [Bottom->Top] [D R D]
