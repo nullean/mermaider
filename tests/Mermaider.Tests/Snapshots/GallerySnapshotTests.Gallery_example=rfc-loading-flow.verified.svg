@@ -41,13 +41,13 @@
 <path class="edge" data-from="disk" data-to="uriResolve" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M363.5,105.6 L363.5,139 Q363.5,145 369.5,145 L473.5,145 Q479.5,145 479.5,151 L479.5,184.05" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="v1Load" data-to="v1Nodes" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M160,249.65 L160,304 Q160,310 166,310 L177.5,310 Q183.5,310 183.5,316 L183.5,348.90000000000003" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="uriResolve" data-to="hasV2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M479.5,270.45000000000005 L479.5,304 Q479.5,310 473.5,310 L421.5,310 Q415.5,310 415.5,316 L415.5,348.90000000000003" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="hasV2" data-to="loadV2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" d="M415.5,506.708 L415.5,522.5 Q415.5,528.5 409.5,528.5 L180,528.5 Q174,528.5 174,534.5 L174,663.6080000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="hasV2" data-to="loadV2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" d="M336.60400000000004,428 L180,428 Q174,428 174,434 L174,663.6080000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="hasV2" data-to="loadFallback" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="No" d="M415.5,506.708 L415.5,635.5 Q415.5,641.5 421.5,641.5 L450,641.5 Q456,641.5 456,647.5 L456,663.6080000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="loadV2" data-to="v2Nodes" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M174,750.008 L174,828.4580000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="loadFallback" data-to="v2NodesFallback" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M456,750.008 L456,828.4580000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="hasV2" data-to="loadV2" data-label="Yes">
-  <rect x="271.69024" y="516.275" width="46.11952000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="294.75" y="528.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Yes</text>
+  <rect x="150.94024" y="533.5790000000001" width="46.11952000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="174" y="545.8040000000001" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Yes</text>
 </g>
 <g class="edge-label" data-from="hasV2" data-to="loadFallback" data-label="No">
   <rect x="396.44704" y="561.879" width="38.10592000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />

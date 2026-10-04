@@ -95,7 +95,7 @@ internal static class FlowEdgeRouter
 		foreach (var p in plans)
 		{
 			var pts = polylines[p.Edge.Index];
-			var label = p.Edge.LabelW > 0 ? PlaceLabel(pts, p.Edge, boxes, placedLabels, routed) : null;
+			var label = p.Edge.LabelW > 0 ? PlaceLabel(pts, p.Edge, boxes, groups, placedLabels, routed) : null;
 			results[p.Edge.Index] = new LayoutEdgeResult(p.Edge.Index, pts, label);
 		}
 
@@ -109,9 +109,18 @@ internal static class FlowEdgeRouter
 		var gapY = Math.Max(t.Y - s.Bottom, s.Y - t.Bottom);
 		var gapX = Math.Max(t.X - s.Right, s.X - t.Right);
 		var useVertical = vertical ? gapY >= 0 || gapX < 0 : gapX < 0 && gapY >= 0;
-		return useVertical
+		var (ss, ts) = useVertical
 			? (dy >= 0 ? 1 : 3, dy >= 0 ? 3 : 1)
 			: (dx >= 0 ? 0 : 2, dx >= 0 ? 2 : 0);
+		// diamonds/circles have a vertex on every side: leave through the one that faces a mostly-sideways neighbour
+		if (useVertical && Math.Abs(dx) > Math.Abs(dy) * 0.6)
+		{
+			if (s.CentrePorts)
+				ss = dx >= 0 ? 0 : 2;
+			if (t.CentrePorts)
+				ts = dx >= 0 ? 2 : 0;
+		}
+		return (ss, ts);
 	}
 
 	private static void AssignPorts(List<Plan> plans)
@@ -216,7 +225,7 @@ internal static class FlowEdgeRouter
 	// ---- label placement ------------------------------------------------------------------------------------
 
 	private static LayoutPoint? PlaceLabel(
-		List<LayoutPoint> pts, RouteEdge e, IReadOnlyList<Box> boxes,
+		List<LayoutPoint> pts, RouteEdge e, IReadOnlyList<Box> boxes, IReadOnlyList<GroupBox> groups,
 		List<(double X0, double Y0, double X1, double Y1)> placed, List<Seg> routed)
 	{
 		var segs = new List<(int I, double Len)>();
@@ -244,6 +253,14 @@ internal static class FlowEdgeRouter
 				{
 					if (r.X0 < b.Right && r.X1 > b.X && r.Y0 < b.Bottom && r.Y1 > b.Y)
 						cost += 1000;
+				}
+				foreach (var g in groups)
+				{
+					// a label sitting on a subgraph border/header reads as belonging to neither side
+					var overlaps = r.X0 < g.X + g.W && r.X1 > g.X && r.Y0 < g.Y + g.H && r.Y1 > g.Y;
+					var inside = r.X0 >= g.X && r.X1 <= g.X + g.W && r.Y0 >= g.Y + 36 && r.Y1 <= g.Y + g.H;
+					if (overlaps && !inside && !(r.X0 <= g.X && r.X1 >= g.X + g.W))
+						cost += 90;
 				}
 				foreach (var l in placed)
 				{
