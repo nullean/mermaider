@@ -1,26 +1,26 @@
-﻿Layer 0: Repository, OpenApiRepository, ApiDeclaration, Page, SearchIndex
-Layer 1: OpenApiSpec, ApiVersionIndex, Product, SearchDocument
+﻿Layer 0: OpenApiRepository, Repository, ApiDeclaration, Page, SearchIndex
+Layer 1: ApiVersionIndex, OpenApiSpec, Product, SearchDocument
 Layer 2: ApiSpecVersion
-Layer 3: ApiTag, ApiSupplementalDoc
+Layer 3: ApiSupplementalDoc, ApiTag
 Layer 4: ApiOperation
 Edges:
   ApiDeclaration --renders--> ApiSpecVersion [Bottom->Top] [D L D L D]
   ApiDeclaration --spec + repository--> OpenApiSpec [Bottom->Top] [D L D L D]
   ApiDeclaration --product--> Product [Bottom->Top] [D R D]
   ApiSpecVersion --tags--> ApiTag [Bottom->Top] [D]
-  ApiSupplementalDoc --op-{id}--> ApiOperation [Bottom->Top] [D L D]
-  ApiTag --operations--> ApiOperation [Bottom->Top] [D R D]
-  ApiVersionIndex --lists--> ApiSpecVersion [Bottom->Top] [D]
-  OpenApiRepository --index.json--> ApiVersionIndex [Bottom->Top] [D R D R D]
-  OpenApiRepository --org/repo/branch/spec--> OpenApiSpec [Bottom->Top] [D L D]
-  OpenApiSpec --per version--> ApiSpecVersion [Bottom->Top] [D R D]
+  ApiSupplementalDoc --op-{id}--> ApiOperation [Bottom->Top] [D R D]
+  ApiTag --operations--> ApiOperation [Bottom->Top] [D L D]
+  ApiVersionIndex --lists--> ApiSpecVersion [Bottom->Top] [D R D]
+  OpenApiRepository --index.json--> ApiVersionIndex [Bottom->Top] [D L D]
+  OpenApiRepository --org/repo/branch/spec--> OpenApiSpec [Bottom->Top] [D R D R D]
+  OpenApiSpec --per version--> ApiSpecVersion [Bottom->Top] [D L D]
   Page --exported--> SearchDocument [Bottom->Top] [D R D]
   Repository --publishes--> OpenApiSpec [Bottom->Top] [D R D]
   SearchIndex --contains--> SearchDocument [Bottom->Top] [D L D]
 Ports:
   ApiDeclaration Bottom: edge1,edge0,edge2
-  ApiOperation Top: edge5,edge4
-  ApiSpecVersion Top: edge9,edge6,edge0
-  OpenApiRepository Bottom: edge8,edge7
-  OpenApiSpec Top: edge11,edge8,edge1
+  ApiOperation Top: edge4,edge5
+  ApiSpecVersion Top: edge6,edge9,edge0
+  OpenApiRepository Bottom: edge7,edge8
+  OpenApiSpec Top: edge8,edge11,edge1
   SearchDocument Top: edge10,edge12

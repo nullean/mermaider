@@ -157,7 +157,9 @@ internal static class ErSvgRenderer
 			var rel = rels[i];
 			if (rel.Label.Length == 0 || rel.Points.Count < 2)
 				continue;
-			var pos = ComputeRenderedMidpoint(rel.Points);
+			var pos = rel.LabelPosition is { } routed && !string.Equals(rel.Entity1, rel.Entity2, StringComparison.Ordinal)
+				? routed
+				: ComputeRenderedMidpoint(rel.Points);
 			var metrics = TextMetrics.MeasureMultiline(
 				rel.Label.AsSpan(),
 				RenderConstants.FontSizes.EdgeLabel,
@@ -193,9 +195,19 @@ internal static class ErSvgRenderer
 				// right side. Clamp to keep it strictly to the right of the entity box.
 				if (rel.Entity1 == rel.Entity2 && entityLookup.TryGetValue(rel.Entity1, out var selfEnt))
 				{
-					var minX = selfEnt.X + selfEnt.Width + (w / 2) + 2;
-					if (pushed.X < minX)
-						pushed = pushed with { X = minX };
+					// Loops bulge out of the entity's left side (like ELK): keep the label outside the loop on that side.
+					if (rel.Points.Count == 4 && rel.Points[1].X < selfEnt.X && rel.Points[1].X - w - 4 >= 2)
+					{
+						var maxX = rel.Points[1].X - (w / 2) - 4;
+						if (pushed.X > maxX || positions[i]!.Value.X > maxX)
+							pushed = pushed with { X = maxX };
+					}
+					else
+					{
+						var minX = selfEnt.X + selfEnt.Width + (w / 2) + 2;
+						if (pushed.X < minX)
+							pushed = pushed with { X = minX };
+					}
 				}
 
 				// Keep long-avoidance-route labels inside the canvas, as part of the same
@@ -528,7 +540,9 @@ internal static class ErSvgRenderer
 			_ = sb.Append("</g>");
 	}
 
-	private const double CornerRadius = 6;
+	private const double CornerRadius = 5;
+
+	private const int MaxWaypointsForCurveSimplification = 5;
 
 	private static void AppendRelationshipLine(StringBuilder sb, PositionedErRelationship rel)
 	{
@@ -560,102 +574,38 @@ internal static class ErSvgRenderer
 			.Append(RenderConstants.StrokeWidths.Connector).Append('"').Append(dashArray).Append(" />");
 	}
 
-	// ER-specific path builder: converts cross-column paths to smooth S-curves (or J-curves for
-	// side-exit connections). This ensures typical ER edges (a direct hop to an adjacent or
-	// nearby layer) use a consistent curvy style rather than a mix of S-curves and
-	// rectilinear staircases.
-	//
-	// Edges the Sugiyama router had to bend AROUND an intervening entity (e.g. a source
-	// exiting sideways, running past a neighbour's column, then re-entering toward a target
-	// several layers down) carry many more waypoints than a direct hop — the extra bends are
-	// the whole point of the route. Collapsing those down to a 2-point S-curve between just
-	// the first and last waypoint discards that avoidance entirely and draws a straight line
-	// through whatever the route was bent around to avoid. Past this waypoint count, only
-	// the full waypoint-respecting rounded path (used as the fallback below anyway) is safe.
-	private const int MaxWaypointsForCurveSimplification = 5;
-
+	// ER edges are pure orthogonal polylines (port → column → port, as routed by the layout) with
+	// uniformly rounded corners — no Bezier S/J-curves, so every edge has the same visual style.
 	private static void BuildErPath(StringBuilder sb, IReadOnlyList<Point> points)
 	{
 		if (points.Count < 2)
 			return;
 
-		if (points.Count is >= 3 and <= MaxWaypointsForCurveSimplification)
+		var p = points[0];
+		_ = sb.Append('M').Append(p.X).Append(',').Append(p.Y);
+		for (var i = 1; i < points.Count - 1; i++)
 		{
-			var p0 = points[0];
-			var p1 = points[1];
-			var pN = points[^1];
-			var pN1 = points[^2];
-
-			var dx0 = Math.Abs(p1.X - p0.X);
-			var dy0 = Math.Abs(p1.Y - p0.Y);
-			var dxN = Math.Abs(pN.X - pN1.X);
-			var dyN = Math.Abs(pN.Y - pN1.Y);
-
-			// Cross-column vertical exit and entry (TD/BT): S-curve M p0 C p0.x,midY pN.x,midY pN
-			if (dx0 < 4.0 && dxN < 4.0 && Math.Abs(p0.X - pN.X) > 4.0)
+			var prev = points[i - 1];
+			var cur = points[i];
+			var next = points[i + 1];
+			var inLen = Math.Abs(cur.X - prev.X) + Math.Abs(cur.Y - prev.Y);
+			var outLen = Math.Abs(next.X - cur.X) + Math.Abs(next.Y - cur.Y);
+			var r = Math.Min(CornerRadius, Math.Min(inLen, outLen) / 2);
+			var inDx = Math.Sign(cur.X - prev.X);
+			var inDy = Math.Sign(cur.Y - prev.Y);
+			var outDx = Math.Sign(next.X - cur.X);
+			var outDy = Math.Sign(next.Y - cur.Y);
+			if (r < 0.5 || (inDx == outDx && inDy == outDy))
 			{
-				var ym = (p0.Y + pN.Y) / 2.0;
-				_ = sb.Append('M').Append(p0.X).Append(',').Append(p0.Y)
-					.Append(" C").Append(p0.X).Append(',').Append(ym)
-					.Append(' ').Append(pN.X).Append(',').Append(ym)
-					.Append(' ').Append(pN.X).Append(',').Append(pN.Y);
-				return;
+				_ = sb.Append(" L").Append(cur.X).Append(',').Append(cur.Y);
+				continue;
 			}
-
-			// Horizontal exit then vertical entry (TD side-exit, e.g. StrictTopDownFanout): J-curve
-			if (dy0 < 4.0 && dxN < 4.0 && dx0 > 4.0)
-			{
-				var ym = (p0.Y + pN.Y) / 2.0;
-				_ = sb.Append('M').Append(p0.X).Append(',').Append(p0.Y)
-					.Append(" C").Append(pN.X).Append(',').Append(p0.Y)
-					.Append(' ').Append(pN.X).Append(',').Append(ym)
-					.Append(' ').Append(pN.X).Append(',').Append(pN.Y);
-				return;
-			}
-
-			// Vertical exit then horizontal entry (LR side-exit): J-curve rotated
-			if (dx0 < 4.0 && dyN < 4.0 && dy0 > 4.0)
-			{
-				var xm = (p0.X + pN.X) / 2.0;
-				_ = sb.Append('M').Append(p0.X).Append(',').Append(p0.Y)
-					.Append(" C").Append(p0.X).Append(',').Append(pN.Y)
-					.Append(' ').Append(xm).Append(',').Append(pN.Y)
-					.Append(' ').Append(pN.X).Append(',').Append(pN.Y);
-				return;
-			}
-
-			// Cross-row horizontal exit and entry (LR/RL): S-curve
-			if (dy0 < 4.0 && dyN < 4.0 && Math.Abs(p0.Y - pN.Y) > 4.0)
-			{
-				var xm = (p0.X + pN.X) / 2.0;
-				// If intermediate waypoints deviate significantly from xm, the path
-				// encodes a meaningful detour (e.g. a back-edge bypass routed to the
-				// diagram's far right). Collapsing it to a simple S-curve would draw
-				// a straight line through whatever the detour was routing around.
-				// Threshold: endpoint spread + 20 px — normal S-curve intermediates
-				// sit near xm, while detour intermediates sit at maxRight+gap >> xm.
-				var detourThreshold = Math.Abs(p0.X - pN.X) + 20.0;
-				var hasDetour = false;
-				for (var wi = 1; wi < points.Count - 1; wi++)
-				{
-					if (Math.Abs(points[wi].X - xm) > detourThreshold)
-					{
-						hasDetour = true;
-						break;
-					}
-				}
-				if (!hasDetour)
-				{
-					_ = sb.Append('M').Append(p0.X).Append(',').Append(p0.Y)
-						.Append(" C").Append(xm).Append(',').Append(p0.Y)
-						.Append(' ').Append(xm).Append(',').Append(pN.Y)
-						.Append(' ').Append(pN.X).Append(',').Append(pN.Y);
-					return;
-				}
-			}
+			_ = sb.Append(" L").Append(cur.X - (inDx * r)).Append(',').Append(cur.Y - (inDy * r))
+				.Append(" Q").Append(cur.X).Append(',').Append(cur.Y)
+				.Append(' ').Append(cur.X + (outDx * r)).Append(',').Append(cur.Y + (outDy * r));
 		}
-
-		SvgRenderer.BuildRoundedPath(sb, points, CornerRadius);
+		var last = points[^1];
+		_ = sb.Append(" L").Append(last.X).Append(',').Append(last.Y);
 	}
 
 	// Self-loop paths carry 4 waypoints from LightweightErLayoutEngine's loop synthesis:

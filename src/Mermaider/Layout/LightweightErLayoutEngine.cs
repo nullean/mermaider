@@ -123,6 +123,7 @@ internal static class LightweightErLayoutEngine
 			SeparateComponents = false,
 			UseRealFirstTiebreaker = true,
 			PortAwareLayout = true,
+			CrossingRestarts = 40,
 		});
 
 		return ExtractPositioned(result, diagram, layoutEdgeRelIndices);

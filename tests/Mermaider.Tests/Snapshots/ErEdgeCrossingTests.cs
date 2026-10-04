@@ -17,61 +17,41 @@ namespace Mermaider.Tests.Snapshots;
 /// </summary>
 public partial class ErEdgeCrossingTests
 {
-	/// <summary>Calibrated maximum visual crossings per ER slug (0 = no regressions allowed).</summary>
+	// Calibrated against ELK (elkjs run on the same entity sizes, 7 seeds; see scripts/quality-compare.mjs): every value is
+	// at or within one crossing of ELK's median/max for that diagram. Raise only with a reason; lower when the layout improves.
 	private static readonly IReadOnlyDictionary<string, int> MaxCrossings =
 		new Dictionary<string, int>(StringComparer.Ordinal)
 		{
-			["db-erd-02-shared-vocab"]            = 2,
-			// UseRealFirstTiebreaker (ELK real-before-virtual seeding) changes the layer ordering in
-			// this dense 22-node graph, landing in a different local minimum with more crossings
-			// than virtual-first. The order agreement with mjs improved (25%→56%), so this trade-off
-			// is accepted. ELK's actual crossing count for this diagram is not tracked.
-			["db-erd-05-building-blocks"]          = 14,
-			["db-erd-06-catalog"]                  = 0,
-			["db-erd-07-source"]                   = 0,
-			["db-erd-08-docset"]                   = 0,
-			["db-erd-09-content"]                  = 0,
-			["db-erd-10-navigation"]               = 0,
-			["db-erd-11-link-graph"]               = 0,
-			["db-erd-12-assembly"]                 = 0,
-			["db-erd-13-codex"]                    = 0,
-			["db-erd-14-release-notes"]            = 0,
-			["db-erd-15-api-search"]               = 2,
-			// Port-aware layout routes the long DocumentationSet→LinkManifest edge down its own column, which
-				// crosses the CodexSite→Registry jog — the same crossing ELK produces for this graph.
-				["db-erd-16-relationships-overview"]   = 1,
-			["db-erd-17-catalog"]                  = 0,
-			["db-erd-18-source"]                   = 1,
-			// Unifying rank assignment across disconnected components (SeparateComponents = false
-			// — see LayoutOptions and SkeletonComparisonTests class remarks) raised layer IR
-			// agreement with mermaid.js to 100% for all three of db-erd-19/20/21 (was 71%/69%/95%),
-			// by threading each diagram's previously-isolated pieces (CrossLinkItem/CrossLinkUri,
-			// IncludeDirective/Snippet, Phantom/TableOfContents) back into the main component's
-			// layer range, same as dagre. CrossingMinimizer's barycenter+pairwise-swap heuristic
-			// doesn't always resolve the resulting denser layer the way dagre's median+resolve-
-			// conflicts ordering would, costing 1-2 extra visual crossings each. Visual inspection
-			// confirms dense-but-correct layouts, not degenerate output. Revisit once ordering gets
-			// a fuller dagre-equivalent port.
-			["db-erd-19-docset"]                   = 3,
-			["db-erd-20-content"]                  = 9,
-			["db-erd-21-navigation"]               = 1,
-			["db-erd-22-link-graph"]               = 0,
-			["db-erd-23-publishing"]               = 1,
-			["db-erd-24-codex"]                    = 1,
-			["db-erd-25-release-notes"]            = 2,
-			// +1 crossing from BK BALANCED: the new X positions move edges through different
-			// corridors, trading one crossing elimination elsewhere for one new crossing here.
-			// Network simplex brought this diagram to 100%/100% layer+order IR agreement with
-			// mermaid.js (previously lower); the earlier 1-crossing increase was a routing-corridor
-			// side effect of the new rank assignment, not a node-ordering defect.
-			["db-erd-26-api-reference"]            = 2,
-			["db-erd-27-search"]                   = 0,
-			["er-aliases"]                         = 0,
-			["er-basic"]                           = 0,
-			["er-cardinalities"]                   = 0,
-			["er-complex"]                         = 0,
-			["er-direction"]                       = 0,
-			["er-optional-label"]                  = 0,
+			["db-erd-02-shared-vocab"] = 1,
+			["db-erd-05-building-blocks"] = 5,
+			["db-erd-06-catalog"] = 0,
+			["db-erd-07-source"] = 0,
+			["db-erd-08-docset"] = 0,
+			["db-erd-09-content"] = 0,
+			["db-erd-10-navigation"] = 0,
+			["db-erd-11-link-graph"] = 0,
+			["db-erd-12-assembly"] = 0,
+			["db-erd-13-codex"] = 0,
+			["db-erd-14-release-notes"] = 0,
+			["db-erd-15-api-search"] = 0,
+			["db-erd-16-relationships-overview"] = 1,
+			["db-erd-17-catalog"] = 0,
+			["db-erd-18-source"] = 0,
+			["db-erd-19-docset"] = 0,
+			["db-erd-20-content"] = 1,
+			["db-erd-21-navigation"] = 0,
+			["db-erd-22-link-graph"] = 0,
+			["db-erd-23-publishing"] = 0,
+			["db-erd-24-codex"] = 0,
+			["db-erd-25-release-notes"] = 1,
+			["db-erd-26-api-reference"] = 0,
+			["db-erd-27-search"] = 0,
+			["er-aliases"] = 0,
+			["er-basic"] = 0,
+			["er-cardinalities"] = 0,
+			["er-complex"] = 0,
+			["er-direction"] = 0,
+			["er-optional-label"] = 0,
 		};
 
 	public static IEnumerable<DiagramExample> ErExamples() =>
@@ -162,7 +142,7 @@ public partial class ErEdgeCrossingTests
 		while (i < tokens.Count)
 		{
 			var tok = tokens[i].Value;
-			if (tok is "M" or "L" or "C" or "S")
+			if (tok is "M" or "L" or "Q" or "C" or "S")
 			{
 				cmd = tok[0]; i++; continue;
 			}
@@ -205,7 +185,7 @@ public partial class ErEdgeCrossingTests
 		return pts;
 	}
 
-	[GeneratedRegex(@"[MLCS]|[0-9.-]+", RegexOptions.None, matchTimeoutMilliseconds: 2000)]
+	[GeneratedRegex(@"[MLQCS]|[0-9.-]+", RegexOptions.None, matchTimeoutMilliseconds: 2000)]
 	private static partial Regex PathTokenRe();
 
 	[GeneratedRegex(@"<path[^>]*data-entity1=""([^""]+)""[^>]*data-entity2=""([^""]+)""[^>]*d=""([^""]+)""",

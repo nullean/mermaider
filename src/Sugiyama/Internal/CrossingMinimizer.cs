@@ -12,11 +12,96 @@ namespace Sugiyama.Internal;
 internal static class CrossingMinimizer
 {
 	internal static void Run(GraphBuffer graph, int iterations = 4, bool useModelOrderForVirtuals = false,
-		bool useModelOrderForRealNodes = false, bool useRealFirstTiebreaker = false, CancellationToken ct = default)
+		bool useModelOrderForRealNodes = false, bool useRealFirstTiebreaker = false, int restarts = 0,
+		CancellationToken ct = default)
+		=> Run(graph, iterations, useModelOrderForVirtuals, useModelOrderForRealNodes, useRealFirstTiebreaker, restarts, null, ct);
+
+	/// <summary>
+	/// As above; when <paramref name="tiedBest"/> is supplied it receives every distinct ordering (position snapshots, capped)
+	/// that reached the minimum crossing count, the first being the deterministic model-order result.
+	/// </summary>
+	internal static void Run(GraphBuffer graph, int iterations, bool useModelOrderForVirtuals,
+		bool useModelOrderForRealNodes, bool useRealFirstTiebreaker, int restarts, List<int[]>? tiedBest,
+		CancellationToken ct)
 	{
 		if (graph.LayerCount <= 1)
 			return;
 
+		Optimize(graph, iterations, useModelOrderForVirtuals, useModelOrderForRealNodes, useRealFirstTiebreaker, ct);
+		if (restarts <= 0)
+			return;
+		const int maxTied = 24;
+		const int slack = 2;
+		var totals = new List<int>();
+		if (tiedBest is not null)
+		{
+			tiedBest.Add(Snapshot(graph));
+			totals.Add(TotalCrossings(graph));
+		}
+
+		var bestCrossings = TotalCrossings(graph);
+		if (bestCrossings == 0 && tiedBest is null)
+			return;
+		var bestOrder = new int[graph.NodeCount];
+		Array.Copy(graph.NodePositionInLayer, bestOrder, graph.NodeCount);
+		var rng = new Random(12345);
+		for (var r = 0; r < restarts; r++)
+		{
+			ct.ThrowIfCancellationRequested();
+			for (var layer = 0; layer < graph.LayerCount; layer++)
+			{
+				var nodes = graph.LayerNodes[layer];
+				for (var i = nodes.Length - 1; i > 0; i--)
+				{
+					var j = rng.Next(i + 1);
+					(nodes[i], nodes[j]) = (nodes[j], nodes[i]);
+				}
+				for (var i = 0; i < nodes.Length; i++)
+					graph.NodePositionInLayer[nodes[i]] = i;
+			}
+
+			Optimize(graph, iterations, useModelOrderForVirtuals, useModelOrderForRealNodes, useRealFirstTiebreaker, ct);
+			var total = TotalCrossings(graph);
+			if (total < bestCrossings)
+			{
+				bestCrossings = total;
+				Array.Copy(graph.NodePositionInLayer, bestOrder, graph.NodeCount);
+				if (tiedBest is not null)
+				{
+					for (var k = totals.Count - 1; k >= 0; k--)
+					{
+						if (totals[k] <= bestCrossings + slack)
+							continue;
+						totals.RemoveAt(k);
+						tiedBest.RemoveAt(k);
+					}
+				}
+			}
+
+			if (tiedBest is not null && total <= bestCrossings + slack && tiedBest.Count < maxTied
+				&& !tiedBest.Any(t => t.AsSpan().SequenceEqual(graph.NodePositionInLayer.AsSpan(0, graph.NodeCount))))
+			{
+				tiedBest.Add(Snapshot(graph));
+				totals.Add(total);
+			}
+		}
+
+		RestoreOrder(graph, bestOrder);
+	}
+
+	private static int[] Snapshot(GraphBuffer graph)
+	{
+		var snap = new int[graph.NodeCount];
+		Array.Copy(graph.NodePositionInLayer, snap, graph.NodeCount);
+		return snap;
+	}
+
+	/// <summary>Applies a position snapshot taken by <see cref="Run(GraphBuffer,int,bool,bool,bool,int,List{int[]},CancellationToken)"/>.</summary>
+	internal static void ApplyOrder(GraphBuffer graph, int[] positionSnapshot) => RestoreOrder(graph, positionSnapshot);
+
+	private static void Optimize(GraphBuffer graph, int iterations, bool useModelOrderForVirtuals,
+		bool useModelOrderForRealNodes, bool useRealFirstTiebreaker, CancellationToken ct)
+	{
 		var barycenters = new double[graph.NodeCount];
 
 		// Track the best ordering seen across sweeps by total crossing count, not just

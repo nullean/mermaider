@@ -1,6 +1,6 @@
 ﻿Layer 0: OpenApiRepository
-Layer 1: Repository, ApiVersionIndex, ApiDeclaration
-Layer 2: OpenApiSpec, ApiSpecVersion, Product
+Layer 1: ApiVersionIndex, ApiDeclaration, Repository
+Layer 2: ApiSpecVersion, Product, OpenApiSpec
 Layer 3: ApiTagGroup, ApiSchema, ApiSupplementalDoc
 Layer 4: ApiTag
 Layer 5: ApiEndpoint
@@ -9,8 +9,8 @@ Layer 7: DocumentationDocument
 Edges:
   ApiDeclaration --renders--> ApiSpecVersion [Bottom->Top] [D L D L D]
   ApiDeclaration --api/{key}/--> ApiSupplementalDoc [Bottom->Top] [D R D]
-  ApiDeclaration --repository + spec--> OpenApiSpec [Bottom->Top] [D L D L D]
-  ApiDeclaration --product--> Product [Bottom->Top] [D R D]
+  ApiDeclaration --repository + spec--> OpenApiSpec [Bottom->Top] [D R D R D]
+  ApiDeclaration --product--> Product [Bottom->Top] [D L D]
   ApiEndpoint --operations--> ApiOperation [Bottom->Top] [D R D]
   ApiOperation --search export--> DocumentationDocument [Bottom->Top] [D]
   ApiSpecVersion --components--> ApiSchema [Bottom->Top] [D R D]
@@ -20,15 +20,15 @@ Edges:
   ApiTag --endpoints--> ApiEndpoint [Bottom->Top] [D]
   ApiTagGroup --tags--> ApiTag [Bottom->Top] [D R D]
   ApiVersionIndex --org/repo, spec, moniker--> ApiSpecVersion [Bottom->Top] [D R D]
-  OpenApiRepository --index.json--> ApiVersionIndex [Bottom->Top] [D R D]
-  OpenApiRepository --org/repo/branch/spec--> OpenApiSpec [Bottom->Top] [D L D R D]
-  Repository --publishes, per branch--> OpenApiSpec [Bottom->Top] [D R D]
+  OpenApiRepository --index.json--> ApiVersionIndex [Bottom->Top] [D L D]
+  OpenApiRepository --org/repo/branch/spec--> OpenApiSpec [Bottom->Top] [D R D L D]
+  Repository --publishes, per branch--> OpenApiSpec [Bottom->Top] [D]
 Ports:
-  ApiDeclaration Bottom: edge2,edge0,edge1,edge3
+  ApiDeclaration Bottom: edge0,edge3,edge1,edge2
   ApiOperation Top: edge4,edge8
   ApiSpecVersion Bottom: edge7,edge6
   ApiSpecVersion Top: edge12,edge0
   ApiSupplementalDoc Bottom: edge9,edge8
   ApiTag Top: edge11,edge9
-  OpenApiRepository Bottom: edge14,edge13
-  OpenApiSpec Top: edge15,edge14,edge2
+  OpenApiRepository Bottom: edge13,edge14
+  OpenApiSpec Top: edge2,edge15,edge14

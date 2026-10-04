@@ -1,25 +1,25 @@
 ﻿Layer 0: Assembly, Build
-Layer 1: PublishEnvironment, BuildType, AssembledDocumentationSet, GenerationState, BuildStamp, CloudfrontRedirectMap, SyncPlan
-Layer 2: FeatureFlag, AnalyticsIntegration, SearchIndex, DocumentationSet, RedirectStore, Redirect
+Layer 1: PublishEnvironment, GenerationState, SyncPlan, CloudfrontRedirectMap, BuildStamp, AssembledDocumentationSet, BuildType
+Layer 2: SearchIndex, FeatureFlag, AnalyticsIntegration, RedirectStore, Redirect, DocumentationSet
 Edges:
   AssembledDocumentationSet --docset--> DocumentationSet [Bottom->Top] [D]
   Assembly --environments--> PublishEnvironment [Bottom->Top] [D R D]
-  Build --assembles--> AssembledDocumentationSet [Bottom->Top] [D L D]
+  Build --assembles--> AssembledDocumentationSet [Bottom->Top] [D R D]
   Build --assembler only--> BuildStamp [Bottom->Top] [D R D]
-  Build --type--> BuildType [Bottom->Top] [D L D]
-  Build --redirects.json--> CloudfrontRedirectMap [Bottom->Top] [D R D]
+  Build --type--> BuildType [Bottom->Top] [D R D]
+  Build --redirects.json--> CloudfrontRedirectMap [Bottom->Top] [D L D]
   Build --per docset--> GenerationState [Bottom->Top] [D L D]
-  Build --environment--> PublishEnvironment [Bottom->Top] [D L D]
-  Build --deploy plan--> SyncPlan [Bottom->Top] [D R D]
+  Build --environment--> PublishEnvironment [Bottom->Top] [D L D L D]
+  Build --deploy plan--> SyncPlan [Bottom->Top] [D L D]
   CloudfrontRedirectMap --derived from--> Redirect [Bottom->Top] [D R D]
   CloudfrontRedirectMap --deployed to--> RedirectStore [Bottom->Top] [D L D L D]
-  PublishEnvironment --google_tag_manager, optimizely--> AnalyticsIntegration [Bottom->Top] [D L D]
+  PublishEnvironment --google_tag_manager, optimizely--> AnalyticsIntegration [Bottom->Top] [D R D]
   PublishEnvironment --feature_flags--> FeatureFlag [Bottom->Top] [D L D]
   PublishEnvironment --KVS--> RedirectStore [Bottom->Top] [D R D R D]
-  PublishEnvironment --index name suffix--> SearchIndex [Bottom->Top] [D R D]
+  PublishEnvironment --index name suffix--> SearchIndex [Bottom->Top] [D L D]
 Ports:
-  Build Bottom: edge7,edge4,edge2,edge6,edge3,edge5,edge8
+  Build Bottom: edge7,edge6,edge8,edge5,edge3,edge2,edge4
   CloudfrontRedirectMap Bottom: edge10,edge9
-  PublishEnvironment Bottom: edge12,edge11,edge14,edge13
+  PublishEnvironment Bottom: edge14,edge12,edge11,edge13
   PublishEnvironment Top: edge1,edge7
   RedirectStore Top: edge13,edge10

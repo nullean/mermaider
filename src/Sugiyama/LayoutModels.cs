@@ -173,6 +173,9 @@ public sealed record LayoutOptions
 	/// </summary>
 	public bool PortAwareLayout { get; init; }
 
+	/// <summary>Deterministic random restarts of crossing minimisation; a restart wins only with strictly fewer crossings.</summary>
+	public int CrossingRestarts { get; init; }
+
 
 }
 

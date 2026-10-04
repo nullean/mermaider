@@ -1,18 +1,18 @@
-﻿Layer 0: Assembly, PublishEnvironment, Checkout
-Layer 1: NarrativeRepository, Repository, ContentSource, DocumentationSet, LinkRegistryEntry
-Layer 2: ContentSourceBranches, GitOrigin
+﻿Layer 0: Checkout, Assembly, PublishEnvironment
+Layer 1: LinkRegistryEntry, DocumentationSet, Repository, NarrativeRepository, ContentSource
+Layer 2: GitOrigin, ContentSourceBranches
 Edges:
-  Assembly --narrative--> NarrativeRepository [Bottom->Top] [D]
-  Assembly --references--> Repository [Bottom->Top] [D R D]
+  Assembly --narrative--> NarrativeRepository [Bottom->Top] [D R D]
+  Assembly --references--> Repository [Bottom->Top] [D L D L D]
   Checkout --resolves to--> DocumentationSet [Bottom->Top] [D]
-  Checkout --pinned CommitSha--> LinkRegistryEntry [Bottom->Top] [D R D]
-  Checkout --repository--> Repository [Bottom->Top] [D L D L D]
+  Checkout --pinned CommitSha--> LinkRegistryEntry [Bottom->Top] [D L D]
+  Checkout --repository--> Repository [Bottom->Top] [D R D R D]
   ContentSource --selects branch--> ContentSourceBranches [Bottom->Top] [D L D]
   DocumentationSet --origin--> GitOrigin [Bottom->Top] [D]
   PublishEnvironment --content_source--> ContentSource [Bottom->Top] [D]
   Repository --current / next / edge--> ContentSourceBranches [Bottom->Top] [D R D]
 Ports:
-  Assembly Bottom: edge0,edge1
-  Checkout Bottom: edge4,edge2,edge3
+  Assembly Bottom: edge1,edge0
+  Checkout Bottom: edge3,edge2,edge4
   ContentSourceBranches Top: edge8,edge5
-  Repository Top: edge1,edge4
+  Repository Top: edge4,edge1

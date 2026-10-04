@@ -31,8 +31,8 @@
 <defs>
 </defs>
 
-<path class="er-relationship" data-entity1="PERSON" data-entity2="ADDRESS" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" d="M190,96 C190,136 80,136 80,176" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="PERSON" data-entity2="PHONE" data-cardinality1="one" data-cardinality2="many" data-identifying="true" d="M250,96 C250,136 360,136 360,176" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="PERSON" data-entity2="ADDRESS" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" d="M190,96 L190,101 Q190,106 185,106 L85,106 Q80,106 80,111 L80,176" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="PERSON" data-entity2="PHONE" data-cardinality1="one" data-cardinality2="many" data-identifying="true" d="M250,96 L250,101 Q250,106 255,106 L355,106 Q360,106 360,111 L360,176" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="PERSON" data-entity2="ORDER" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="places" d="M220,96 L220,176" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="ORDER" data-entity2="LINE_ITEM" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="contains" d="M220,252 L220,332" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="entity" data-id="PERSON" data-label="PERSON">

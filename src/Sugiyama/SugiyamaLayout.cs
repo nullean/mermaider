@@ -60,13 +60,17 @@ public static class SugiyamaLayout
 		if (input.Subgraphs.Count > 0)
 			PromoteDisconnectedSubgraphNodes(buf, input);
 
-		CrossingMinimizer.Run(buf, options.CrossingIterations, options.UseModelOrderForVirtualNodes,
-			options.UseModelOrderForRealNodes, options.UseRealFirstTiebreaker, options.CancellationToken);
 		if (options.PortAwareLayout)
 		{
 			var horizontalFlow = input.Direction is LayoutDirection.LR or LayoutDirection.RL;
 			buf.EdgeLabelExtent = input.Edges.Select(e => horizontalFlow ? e.LabelHeight : e.LabelWidth).ToArray();
 		}
+
+		var tied = options.PortAwareLayout && options.CrossingRestarts > 0 ? new List<int[]>() : null;
+		CrossingMinimizer.Run(buf, options.CrossingIterations, options.UseModelOrderForVirtualNodes,
+			options.UseModelOrderForRealNodes, options.UseRealFirstTiebreaker, options.CrossingRestarts, tied, options.CancellationToken);
+		if (tied is { Count: > 1 })
+			ChooseOrderByRoutedGeometry(buf, input, options, tied);
 		CoordinateAssigner.Run(buf, options.NodeSpacing, options.LayerSpacing, options.TightSourceLayering);
 		if (!options.PortAwareLayout)
 			SpreadFanOutChildren(buf, options.NodeSpacing);
@@ -652,6 +656,31 @@ public static class SugiyamaLayout
 	// Fan-out spread — push children of fan-out nodes apart so side-exit
 	// edges have visible horizontal legs and connect to child top-centers
 	// ========================================================================
+
+	// Orderings with the same permutation-crossing count can still route very differently (a jog crossing another edge's
+	// column is invisible to the permutation count). Lay out and route each tied candidate, keep the best geometry.
+	private static void ChooseOrderByRoutedGeometry(
+		GraphBuffer buf, LayoutGraph input, LayoutOptions options, List<int[]> candidates)
+	{
+		// Candidate 0 is the deterministic model-order result: only a strictly lower routed-crossing count may replace it
+		// (bends/length are ignored so mirror images and near-ties never flip an already-optimal ordering).
+		var best = 0;
+		var bestCrossings = int.MaxValue;
+		for (var i = 0; i < candidates.Count; i++)
+		{
+			options.CancellationToken.ThrowIfCancellationRequested();
+			CrossingMinimizer.ApplyOrder(buf, candidates[i]);
+			CoordinateAssigner.Run(buf, options.NodeSpacing, options.LayerSpacing, options.TightSourceLayering);
+			var routes = ErEdgeRouter.Run(buf, input.Edges, useSideRouting: false);
+			var crossings = ErEdgeRouter.CountCrossings(routes, input.Edges);
+			if (crossings >= bestCrossings)
+				continue;
+			bestCrossings = crossings;
+			best = i;
+		}
+
+		CrossingMinimizer.ApplyOrder(buf, candidates[best]);
+	}
 
 	private static void SpreadFanOutChildren(GraphBuffer buf, double nodeSpacing)
 	{

@@ -31,10 +31,10 @@
 <defs>
 </defs>
 
-<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="LinkManifest" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="per branch" d="M97.952,408 C97.952,448 167.21599999999998,448 167.21599999999998,488" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="LinkManifest" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="per branch" d="M97.952,408 L97.952,473 Q97.952,478 102.952,478 L162.21599999999998,478 Q167.21599999999998,478 167.21599999999998,483 L167.21599999999998,488" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="Registry" data-entity2="LinkRegistry" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="link-index.json" d="M276.592,96 L276.592,176" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="LinkRegistry" data-entity2="LinkRegistryEntry" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="repository, branch" d="M276.592,252 L276.592,332" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="LinkRegistryEntry" data-entity2="LinkManifest" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="path" d="M276.592,408 C276.592,448 207.32799999999997,448 207.32799999999997,488" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="LinkRegistryEntry" data-entity2="LinkManifest" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="path" d="M276.592,408 L276.592,473 Q276.592,478 271.592,478 L212.32799999999997,478 Q207.32799999999997,478 207.32799999999997,483 L207.32799999999997,488" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="entity" data-id="DocumentationSet" data-label="DocumentationSet">
   <rect x="20" y="332" width="155.904" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
   <text x="97.952" y="370" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">DocumentationSet</text>
@@ -75,12 +75,12 @@
 <line x1="282.592" y1="416" x2="270.592" y2="416" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="201.32799999999997" y1="484" x2="213.32799999999997" y2="484" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="201.32799999999997" y1="480" x2="213.32799999999997" y2="480" stroke="var(--_line)" stroke-width="2.5" />
-<rect x="93.89200000000001" y="435.9" width="77.38399999999999" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="132.584" y="448" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">per branch</text>
+<rect x="59.260000000000005" y="435.9" width="77.38399999999999" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="97.952" y="448" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">per branch</text>
 <rect x="228.07199999999997" y="123.9" width="97.04" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="276.592" y="136" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">link-index.json</text>
 <rect x="215.21999999999997" y="279.9" width="122.74400000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
 <text x="276.592" y="292" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">repository, branch</text>
-<rect x="224.058" y="435.9" width="35.804" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="241.95999999999998" y="448" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">path</text>
+<rect x="258.69" y="435.9" width="35.804" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="276.592" y="448" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">path</text>
 </svg>
