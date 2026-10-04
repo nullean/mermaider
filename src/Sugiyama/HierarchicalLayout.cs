@@ -132,6 +132,7 @@ public static class HierarchicalLayout
 				SeparateComponents = true,
 				MaxComponentsPerRow = perRow,
 				PortAwareLayout = false,
+				CrossingRestarts = Math.Max(options.CrossingRestarts, 16),
 			};
 			var flat = SugiyamaLayout.Compute(
 				new LayoutGraph(input.Direction, itemNodes, itemEdges, []), levelOptions);

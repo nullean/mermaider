@@ -83,8 +83,8 @@ const pad = (s, n) => String(s).padEnd(n);
 console.log(pad("slug", 28), pad("nodes/edges/sg", 15), pad("sgOverlap", 10), pad("straddle", 9), pad("thruNode", 9), pad("thruSg", 7), pad("crossings", 10), pad("bends/e", 8), pad("curved", 7), pad("size", 12), "aspect");
 let bad = 0;
 for (const r of rows) {
-  const flags = [r.sgOverlap, r.straddle, r.throughNode, r.throughSg].some(v => v > 0) || r.aspect > 4 || r.curved > 0;
+  const flags = [r.sgOverlap, r.straddle, r.throughNode, r.throughSg].some(v => v > 0) || (r.aspect > 4 && (r.sgs > 0 || r.edges > r.nodes - 1)) || r.curved > 0;
   if (flags) bad++;
   console.log(pad(r.slug, 28), pad(`${r.nodes}/${r.edges}/${r.sgs}`, 15), pad(r.sgOverlap, 10), pad(r.straddle, 9), pad(r.throughNode, 9), pad(r.throughSg, 7), pad(r.crossings, 10), pad(r.bendsPerEdge.toFixed(1), 8), pad(r.curved, 7), pad(`${Math.round(r.w)}x${Math.round(r.h)}`, 12), r.aspect.toFixed(1) + (flags ? "  <-- needs work" : ""));
 }
-console.log(`diagrams with a violation (overlap/straddle/through/curved/aspect>4): ${bad}/${rows.length}`);
+console.log(`diagrams with a violation (overlap/straddle/through/curved/aspect>4 unless a plain chain): ${bad}/${rows.length}`);
