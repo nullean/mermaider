@@ -157,15 +157,13 @@ internal static class ErSvgRenderer
 			var rel = rels[i];
 			if (rel.Label.Length == 0 || rel.Points.Count < 2)
 				continue;
-			var pos = rel.LabelPosition is { } routed && !string.Equals(rel.Entity1, rel.Entity2, StringComparison.Ordinal)
-				? routed
-				: ComputeRenderedMidpoint(rel.Points);
+			var pos = rel.LabelPosition is { } routed ? routed : ComputeRenderedMidpoint(rel.Points);
 			var metrics = TextMetrics.MeasureMultiline(
 				rel.Label.AsSpan(),
 				RenderConstants.FontSizes.EdgeLabel,
 				RenderConstants.FontWeights.EdgeLabel);
 			positions[i] = pos;
-			sizes[i] = (metrics.Width + LabelPadX, metrics.Height + LabelPadY);
+			sizes[i] = (LabelBoxWidth(metrics.Width), metrics.Height + LabelPadY);
 		}
 
 		// A chain of N labels overlapping the same corridor (common when several edges
@@ -190,25 +188,6 @@ internal static class ErSvgRenderer
 				// only push a label away from entities it does *not* belong to.
 				var rel = rels[i];
 				var pushed = PushOutOfEntityBoxes(positions[i]!.Value, w, h, entities, rel.Entity1, rel.Entity2);
-
-				// Pairwise separation (below) can push a self-loop label back into its entity's
-				// right side. Clamp to keep it strictly to the right of the entity box.
-				if (rel.Entity1 == rel.Entity2 && entityLookup.TryGetValue(rel.Entity1, out var selfEnt))
-				{
-					// Loops bulge out of the entity's left side (like ELK): keep the label outside the loop on that side.
-					if (rel.Points.Count == 4 && rel.Points[1].X < selfEnt.X && rel.Points[1].X - w - 4 >= 2)
-					{
-						var maxX = rel.Points[1].X - (w / 2) - 4;
-						if (pushed.X > maxX || positions[i]!.Value.X > maxX)
-							pushed = pushed with { X = maxX };
-					}
-					else
-					{
-						var minX = selfEnt.X + selfEnt.Width + (w / 2) + 2;
-						if (pushed.X < minX)
-							pushed = pushed with { X = minX };
-					}
-				}
 
 				// Keep long-avoidance-route labels inside the canvas, as part of the same
 				// fixed-point loop as entity-avoidance and pairwise separation below (not a
@@ -262,6 +241,15 @@ internal static class ErSvgRenderer
 					if (ax1 <= bx0 || bx1 <= ax0 || ay1 <= by0 || by1 <= ay0)
 						continue; // no overlap
 
+					// First try sliding the two labels apart along their own vertical runs: they stay on their edges.
+					if (TrySeparateVertically(rels[a], rels[b], ref pa, ref pb, ha, hb))
+					{
+						positions[a] = pa;
+						positions[b] = pb;
+						moved = true;
+						continue;
+					}
+
 					// Push apart horizontally to resolve overlap.
 					// Always push in the direction that increases separation: if a is to the
 					// left of b, push a further left and b further right; if a is to the right
@@ -291,6 +279,53 @@ internal static class ErSvgRenderer
 		}
 
 		return positions;
+	}
+
+	// Vertical extent (label-centre range) of the longest vertical segment of the route at x, or null if the route has none there.
+	private static (double Min, double Max)? VerticalRun(IReadOnlyList<Point> pts, double x, double labelHeight)
+	{
+		(double Min, double Max)? best = null;
+		var bestLen = 0.0;
+		for (var i = 0; i < pts.Count - 1; i++)
+		{
+			if (Math.Abs(pts[i].X - pts[i + 1].X) > 0.5 || Math.Abs(pts[i].X - x) > 2)
+				continue;
+			var lo = Math.Min(pts[i].Y, pts[i + 1].Y) + (labelHeight / 2) + 6;
+			var hi = Math.Max(pts[i].Y, pts[i + 1].Y) - (labelHeight / 2) - 6;
+			if (hi - lo > bestLen)
+			{
+				bestLen = hi - lo;
+				best = (lo, hi);
+			}
+		}
+		return best;
+	}
+
+	private static bool TrySeparateVertically(
+		PositionedErRelationship ra, PositionedErRelationship rb, ref Point pa, ref Point pb, double ha, double hb)
+	{
+		if (VerticalRun(ra.Points, pa.X, ha) is not { } runA || VerticalRun(rb.Points, pb.X, hb) is not { } runB)
+			return false;
+
+		var need = ((ha + hb) / 2) + 2 - Math.Abs(pa.Y - pb.Y);
+		if (need <= 0)
+			return false;
+
+		var aUp = pa.Y <= pb.Y;
+		var roomA = aUp ? pa.Y - runA.Min : runA.Max - pa.Y;
+		var roomB = aUp ? runB.Max - pb.Y : pb.Y - runB.Min;
+		if (roomA < 0 || roomB < 0)
+			return false;
+
+		var ta = Math.Min(need / 2, roomA);
+		var tb = Math.Min(need - ta, roomB);
+		ta = Math.Min(need - tb, roomA);
+		if (ta + tb < need - 0.5)
+			return false;
+
+		pa = pa with { Y = pa.Y + (aUp ? -ta : ta) };
+		pb = pb with { Y = pb.Y + (aUp ? tb : -tb) };
+		return true;
 	}
 
 	// Pushes a label out of any entity box it overlaps, moving it the shortest distance
@@ -460,13 +495,7 @@ internal static class ErSvgRenderer
 			_ = sb.Append("  <line x1=\"").Append(typeDivX).Append("\" y1=\"").Append(attrTop)
 				.Append("\" x2=\"").Append(typeDivX).Append("\" y2=\"").Append(attrBottom)
 				.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"1\" opacity=\"0.35\" />\n");
-			if (keyColWidth > 0)
-			{
-				var keyDivX = x + width - 8 - keyColWidth - 5;
-				_ = sb.Append("  <line x1=\"").Append(keyDivX).Append("\" y1=\"").Append(attrTop)
-					.Append("\" x2=\"").Append(keyDivX).Append("\" y2=\"").Append(attrBottom)
-					.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"1\" opacity=\"0.35\" />\n");
-			}
+			// No divider before the key column: name and PK/UK read as one column, so the table looks like two (type | name).
 			// 5. Entity name + attribute text
 			_ = sb.Append("  ");
 			MultilineUtils.AppendMultilineText(
@@ -542,7 +571,13 @@ internal static class ErSvgRenderer
 
 	// 2px clear padding on each side of the label text, plus the border stroke (it straddles the rect edge).
 	// Horizontal gets extra because the text-width estimate runs a little short of the real glyph widths.
-	internal const double LabelPadX = 8 + 2.25;
+	internal const double LabelPadX = 16 + 2.25;
+
+	/// <summary>The text-width estimate runs ~6% short of real glyph widths; labels and headers are widened by this factor.</summary>
+	internal const double TextWidthCorrection = 1.06;
+
+	/// <summary>Width of the label pill for a measured text width: corrected text plus horizontal padding.</summary>
+	internal static double LabelBoxWidth(double measuredTextWidth) => (measuredTextWidth * TextWidthCorrection) + LabelPadX;
 	internal const double LabelPadY = 4 + 2.25;
 
 	private const int MaxWaypointsForCurveSimplification = 5;
@@ -569,10 +604,7 @@ internal static class ErSvgRenderer
 			_ = sb.Append('"');
 		}
 		_ = sb.Append(" d=\"");
-		if (string.Equals(rel.Entity1, rel.Entity2, StringComparison.Ordinal) && rel.Points.Count == 4)
-			BuildSelfLoopPath(sb, rel.Points);
-		else
-			BuildErPath(sb, rel.Points);
+		BuildErPath(sb, rel.Points);
 		_ = sb.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.Connector).Append('"').Append(dashArray).Append(" />");
 	}
@@ -611,26 +643,6 @@ internal static class ErSvgRenderer
 		_ = sb.Append(" L").Append(last.X).Append(',').Append(last.Y);
 	}
 
-	// Self-loop paths carry 4 waypoints from LightweightErLayoutEngine's loop synthesis:
-	// [exit, bulge-out-near-exit, bulge-out-near-entry, entry], where exit.X == entry.X
-	// (both on the entity's edge) and the two middle points sit further out at the loop
-	// radius. BuildErPath's generic heuristics all key off "does X or Y change between the
-	// endpoints and their neighbour" — since exit.X == entry.X here, the S-curve branch
-	// matches and draws a straight vertical line with no bulge at all, silently discarding
-	// the loop shape. Drawing the two middle waypoints directly as the cubic's control
-	// points reproduces the intended loop unconditionally.
-	private static void BuildSelfLoopPath(StringBuilder sb, IReadOnlyList<Point> points)
-	{
-		var p0 = points[0];
-		var c1 = points[1];
-		var c2 = points[2];
-		var p3 = points[3];
-		_ = sb.Append('M').Append(p0.X).Append(',').Append(p0.Y)
-			.Append(" C").Append(c1.X).Append(',').Append(c1.Y)
-			.Append(' ').Append(c2.X).Append(',').Append(c2.Y)
-			.Append(' ').Append(p3.X).Append(',').Append(p3.Y);
-	}
-
 	private static void AppendRelationshipLabel(StringBuilder sb, PositionedErRelationship rel, Point? resolvedPosition)
 	{
 		if (rel.Label.Length == 0 || rel.Points.Count < 2)
@@ -643,7 +655,7 @@ internal static class ErSvgRenderer
 			RenderConstants.FontWeights.EdgeLabel);
 
 		// 2px padding around the text, border as thick as the lines so the pill reads as part of the line.
-		var bgW = metrics.Width + LabelPadX;
+		var bgW = LabelBoxWidth(metrics.Width);
 		var bgH = metrics.Height + LabelPadY;
 
 		var lr = Math.Min(RenderConstants.Radii.EdgeLabel, bgH / 2);

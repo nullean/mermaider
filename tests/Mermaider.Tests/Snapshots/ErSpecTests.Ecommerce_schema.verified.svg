@@ -42,7 +42,6 @@
   <line x1="28.400000000000006" y1="84" x2="195.2" y2="84" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <line x1="28.400000000000006" y1="110" x2="195.2" y2="110" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <line x1="91.80000000000001" y1="58" x2="91.80000000000001" y2="136" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="163.12" y1="58" x2="163.12" y2="136" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <text x="111.8" y="39" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">CUSTOMER</text>
   <text class="mono" x="36.400000000000006" y="71" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="96.80000000000001" y="71" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="187.2" y="71" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
   <text class="mono" x="36.400000000000006" y="97" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">string</tspan></text><text class="mono" x="96.80000000000001" y="97" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">name</tspan></text>
@@ -56,7 +55,6 @@
   <line x1="32.599999999999994" y1="298.2" x2="191" y2="298.2" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <line x1="32.599999999999994" y1="324.2" x2="191" y2="324.2" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <line x1="96" y1="272.2" x2="96" y2="350.2" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="158.92000000000002" y1="272.2" x2="158.92000000000002" y2="350.2" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <text x="111.8" y="253.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ORDER</text>
   <text class="mono" x="40.599999999999994" y="285.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="101" y="285.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="183" y="285.2" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
   <text class="mono" x="40.599999999999994" y="311.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">date</tspan></text><text class="mono" x="101" y="311.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">order_date</tspan></text>
@@ -70,7 +68,6 @@
   <line x1="20" y1="512.4" x2="203.6" y2="512.4" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <line x1="20" y1="538.4" x2="203.6" y2="538.4" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <line x1="91.8" y1="486.4" x2="91.8" y2="564.4" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="171.51999999999998" y1="486.4" x2="171.51999999999998" y2="564.4" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <text x="111.8" y="467.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ORDER_LINE</text>
   <text class="mono" x="28" y="499.4" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="96.8" y="499.4" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="195.6" y="499.4" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
   <text class="mono" x="28" y="525.4" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="96.8" y="525.4" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">quantity</tspan></text>
@@ -85,7 +82,6 @@
   <line x1="41" y1="752.5999999999999" x2="182.6" y2="752.5999999999999" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <line x1="41" y1="778.5999999999999" x2="182.6" y2="778.5999999999999" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <line x1="112.8" y1="700.5999999999999" x2="112.8" y2="804.5999999999999" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="150.51999999999998" y1="700.5999999999999" x2="150.51999999999998" y2="804.5999999999999" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <text x="111.8" y="681.5999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">PRODUCT</text>
   <text class="mono" x="49" y="713.5999999999999" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="117.8" y="713.5999999999999" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="174.6" y="713.5999999999999" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
   <text class="mono" x="49" y="739.5999999999999" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">string</tspan></text><text class="mono" x="117.8" y="739.5999999999999" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">name</tspan></text>
@@ -100,7 +96,6 @@
   <line x1="20" y1="966.8" x2="203.6" y2="966.8" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <line x1="20" y1="992.8" x2="203.6" y2="992.8" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <line x1="83.4" y1="940.8" x2="83.4" y2="1018.8" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="171.51999999999998" y1="940.8" x2="171.51999999999998" y2="1018.8" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <text x="111.8" y="921.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">CATEGORY</text>
   <text class="mono" x="28" y="953.8" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="88.4" y="953.8" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="195.6" y="953.8" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
   <text class="mono" x="28" y="979.8" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">string</tspan></text><text class="mono" x="88.4" y="979.8" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">name</tspan></text><text x="195.6" y="979.8" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">UK</text>
@@ -123,12 +118,12 @@
 <circle cx="111.8" cy="826.5999999999999" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
 <path d="M105.3,893.8 L118.3,893.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path d="M105.3,888.8 L118.3,888.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<rect x="85.213" y="172.875" width="53.17400000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<rect x="79.92527999999999" y="172.875" width="63.74944000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
 <text x="111.8" y="185.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">places</text>
-<rect x="79.92099999999999" y="387.07499999999993" width="63.75800000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<rect x="74.31575999999998" y="387.07499999999993" width="74.96848000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
 <text x="111.8" y="399.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">contains</text>
-<rect x="71.60499999999999" y="601.275" width="80.39" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<rect x="65.5008" y="601.275" width="92.5984" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
 <text x="111.8" y="613.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">references</text>
-<rect x="72.36099999999999" y="841.4749999999999" width="78.87800000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<rect x="66.30215999999999" y="841.4749999999999" width="90.99568000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
 <text x="111.8" y="853.6999999999999" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">belongs_to</text>
 </svg>

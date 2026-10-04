@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 581.424 472.4" width="581.424" height="472.4" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 630.22592 472.4" width="630.22592" height="472.4" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -31,70 +31,70 @@
 <defs>
 </defs>
 
-<path class="er-relationship" data-entity1="CodexSite" data-entity2="Registry" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="environment = registry" d="M305.127,96 L305.127,119 Q305.127,124 300.127,124 L141.92899999999997,124 Q136.92899999999997,124 136.92899999999997,129 L136.92899999999997,202.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="CodexSite" data-entity2="CodexGroup" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="groups" d="M365.127,96 L365.127,115.5 Q365.127,120.5 370.127,120.5 L528.3249999999999,120.5 Q533.3249999999999,120.5 533.3249999999999,125.5 L533.3249999999999,343.4 Q533.3249999999999,348.4 528.3249999999999,348.4 L491.147,348.4 Q486.147,348.4 486.147,353.4 L486.147,376.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="CodexSite" data-entity2="CodexDocumentationSet" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="from LinkRegistry" d="M335.127,96 L335.127,122.5 Q335.127,127.5 340.127,127.5 L372.171,127.5 Q377.171,127.5 377.171,132.5 L377.171,202.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="CodexDocumentationSet" data-entity2="DocumentationSet" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="docset" d="M343.283,278.2 L343.283,301.2 Q343.283,306.2 338.283,306.2 L313.195,306.2 Q308.195,306.2 308.195,311.2 L308.195,376.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="CodexDocumentationSet" data-entity2="CodexGroup" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="codex.group" d="M411.05899999999997,278.2 L411.05899999999997,301.2 Q411.05899999999997,306.2 416.05899999999997,306.2 L441.147,306.2 Q446.147,306.2 446.147,311.2 L446.147,376.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Registry" data-entity2="LinkRegistry" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="git: elastic/codex-link-index/{registry}" d="M136.92899999999997,278.2 L136.92899999999992,376.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="CodexSite" data-entity2="Registry" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="environment = registry" d="M332.19286,96 L332.19286,119 Q332.19286,124 327.19286,124 L152.63724,124 Q147.63724,124 147.63724,129 L147.63724,202.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="CodexSite" data-entity2="CodexGroup" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="groups" d="M392.19286,96 L392.19286,115.5 Q392.19286,120.5 397.19286,120.5 L571.74848,120.5 Q576.74848,120.5 576.74848,125.5 L576.74848,343.4 Q576.74848,348.4 571.74848,348.4 L527.49128,348.4 Q522.49128,348.4 522.49128,353.4 L522.49128,376.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="CodexSite" data-entity2="CodexDocumentationSet" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="from LinkRegistry" d="M362.19286,96 L362.19286,122.5 Q362.19286,127.5 367.19286,127.5 L403.9619999999999,127.5 Q408.9619999999999,127.5 408.9619999999999,132.5 L408.9619999999999,202.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="CodexDocumentationSet" data-entity2="DocumentationSet" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="docset" d="M373.2807199999999,278.2 L373.2807199999999,301.2 Q373.2807199999999,306.2 368.2807199999999,306.2 L342.14919999999995,306.2 Q337.14919999999995,306.2 337.14919999999995,311.2 L337.14919999999995,376.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="CodexDocumentationSet" data-entity2="CodexGroup" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="codex.group" d="M444.6432799999999,278.2 L444.6432799999999,301.2 Q444.6432799999999,306.2 449.6432799999999,306.2 L475.77479999999997,306.2 Q480.77479999999997,306.2 480.77479999999997,311.2 L480.77479999999997,376.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Registry" data-entity2="LinkRegistry" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="git: elastic/codex-link-index/{registry}" d="M147.63724,278.2 L147.63723999999996,376.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="entity" data-id="CodexSite" data-label="CodexSite">
-  <rect x="275.127" y="20" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="335.127" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">CodexSite</text>
+  <rect x="302.19286" y="20" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+  <text x="362.19286" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">CodexSite</text>
 </g>
 <g class="entity" data-id="Registry" data-label="Registry">
-  <rect x="76.92899999999997" y="202.2" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="136.92899999999997" y="240.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Registry</text>
+  <rect x="87.63723999999999" y="202.2" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+  <text x="147.63724" y="240.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Registry</text>
 </g>
 <g class="entity" data-id="CodexGroup" data-label="CodexGroup">
-  <rect x="406.147" y="376.4" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="466.147" y="414.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">CodexGroup</text>
+  <rect x="439.05832" y="376.4" width="125.14944" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+  <text x="501.63304" y="414.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">CodexGroup</text>
 </g>
 <g class="entity" data-id="CodexDocumentationSet" data-label="CodexDocumentationSet">
-  <rect x="275.507" y="202.2" width="203.32799999999997" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="377.171" y="240.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">CodexDocumentationSet</text>
+  <rect x="301.91815999999994" y="202.2" width="214.08767999999998" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+  <text x="408.96199999999993" y="240.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">CodexDocumentationSet</text>
 </g>
 <g class="entity" data-id="DocumentationSet" data-label="DocumentationSet">
-  <rect x="230.243" y="376.4" width="155.904" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="308.195" y="414.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">DocumentationSet</text>
+  <rect x="255.24007999999995" y="376.4" width="163.81824" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+  <text x="337.14919999999995" y="414.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">DocumentationSet</text>
 </g>
 <g class="entity" data-id="LinkRegistry" data-label="LinkRegistry">
-  <rect x="76.30499999999994" y="376.4" width="121.248" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="136.92899999999995" y="414.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">LinkRegistry</text>
+  <rect x="84.09579999999994" y="376.4" width="127.08288000000002" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+  <text x="147.63723999999996" y="414.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">LinkRegistry</text>
 </g>
-<path d="M311.627,105 L298.627,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M311.627,110 L298.627,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M130.42899999999997,193.2 L143.42899999999997,193.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M130.42899999999997,188.2 L143.42899999999997,188.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M371.627,105 L358.627,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M371.627,110 L358.627,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M478.647,376.4 L486.147,363.4 L493.647,376.4" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="486.147" cy="354.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M341.627,105 L328.627,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M341.627,110 L328.627,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M369.671,202.2 L377.171,189.2 L384.671,202.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="377.171" cy="180.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M349.783,287.2 L336.783,287.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M349.783,292.2 L336.783,292.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M301.695,367.4 L314.695,367.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M301.695,362.4 L314.695,362.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M418.55899999999997,278.2 L411.05899999999997,291.2 L403.55899999999997,278.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="411.05899999999997" cy="300.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M439.647,367.4 L452.647,367.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<circle cx="446.147" cy="357.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M143.42899999999997,287.2 L130.42899999999997,287.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M143.42899999999997,292.2 L130.42899999999997,292.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M130.42899999999992,367.4 L143.42899999999992,367.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M130.42899999999992,362.4 L143.42899999999992,362.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<rect x="63.469999999999956" y="136.875" width="146.91800000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="136.92899999999997" y="149.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">environment = registry</text>
-<rect x="505.22599999999994" y="136.875" width="56.19800000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="533.3249999999999" y="149.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">groups</text>
-<rect x="317.698" y="136.875" width="118.94600000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="377.171" y="149.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">from LinkRegistry</text>
-<rect x="281.608" y="315.07499999999993" width="53.17400000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="308.195" y="327.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">docset</text>
-<rect x="401.416" y="315.07499999999993" width="89.46199999999999" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="446.147" y="327.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">codex.group</text>
-<rect x="19.999999999999986" y="315.07499999999993" width="233.85799999999998" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="136.92899999999997" y="327.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">git: elastic/codex-link-index/{registry}</text>
+<path d="M338.69286,105 L325.69286,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M338.69286,110 L325.69286,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M141.13724,193.2 L154.13724,193.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M141.13724,188.2 L154.13724,188.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M398.69286,105 L385.69286,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M398.69286,110 L385.69286,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M514.99128,376.4 L522.49128,363.4 L529.99128,376.4" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
+<circle cx="522.49128" cy="354.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M368.69286,105 L355.69286,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M368.69286,110 L355.69286,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M401.4619999999999,202.2 L408.9619999999999,189.2 L416.4619999999999,202.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
+<circle cx="408.9619999999999" cy="180.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M379.7807199999999,287.2 L366.7807199999999,287.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M379.7807199999999,292.2 L366.7807199999999,292.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M330.64919999999995,367.4 L343.64919999999995,367.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M330.64919999999995,362.4 L343.64919999999995,362.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M452.1432799999999,278.2 L444.6432799999999,291.2 L437.1432799999999,278.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
+<circle cx="444.6432799999999" cy="300.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M474.27479999999997,367.4 L487.27479999999997,367.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<circle cx="480.77479999999997" cy="357.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M154.13724,287.2 L141.13724,287.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M154.13724,292.2 L141.13724,292.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M141.13723999999996,367.4 L154.13723999999996,367.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M141.13723999999996,362.4 L154.13723999999996,362.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<rect x="66.07819999999997" y="136.875" width="163.11808000000005" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<text x="147.63724" y="149.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">environment = registry</text>
+<rect x="543.27104" y="136.875" width="66.95488" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<text x="576.74848" y="149.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">groups</text>
+<rect x="342.2281199999999" y="136.875" width="133.46776000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<text x="408.9619999999999" y="149.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">from LinkRegistry</text>
+<rect x="305.2744799999999" y="315.07499999999993" width="63.74944000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<text x="337.14919999999995" y="327.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">docset</text>
+<rect x="429.66744" y="315.07499999999993" width="102.21471999999999" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<text x="480.77479999999997" y="327.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">codex.group</text>
+<rect x="20" y="315.07499999999993" width="255.27447999999998" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<text x="147.63724" y="327.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">git: elastic/codex-link-index/{registry}</text>
 </svg>

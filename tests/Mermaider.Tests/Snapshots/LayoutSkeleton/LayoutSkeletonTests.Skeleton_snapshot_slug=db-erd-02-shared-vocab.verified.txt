@@ -13,7 +13,7 @@ Edges:
   ProductRelease --lifecycle--> ChangelogLifecycle [Bottom->Top] [D R D]
   ProductRelease --product--> Product [Bottom->Top] [D L D]
   VersioningSystem --base--> SemVersion [Bottom->Top] [D R D]
-  VersioningSystem --current--> SemVersion [Bottom->Top] [D L D]
+  VersioningSystem --current--> SemVersion [Bottom->Top] [D R D L D]
 Ports:
   ApplicabilityEntry Bottom: edge3,edge1,edge2
   Product Bottom: edge5,edge6

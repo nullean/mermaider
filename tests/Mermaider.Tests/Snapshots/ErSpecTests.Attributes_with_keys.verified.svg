@@ -41,7 +41,6 @@
   <line x1="20" y1="136" x2="220.4" y2="136" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <line x1="20" y1="162" x2="220.4" y2="162" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <line x1="83.4" y1="58" x2="83.4" y2="188" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="188.32" y1="58" x2="188.32" y2="188" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <text x="120.2" y="39" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">USER</text>
   <text class="mono" x="28" y="71" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="88.4" y="71" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="212.4" y="71" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
   <text class="mono" x="28" y="97" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">string</tspan></text><text class="mono" x="88.4" y="97" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">username</tspan></text><text x="212.4" y="97" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">UK</text>
@@ -58,7 +57,6 @@
   <line x1="24.20000000000001" y1="376.2" x2="216.20000000000002" y2="376.2" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <line x1="24.20000000000001" y1="402.2" x2="216.20000000000002" y2="402.2" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <line x1="104.4" y1="324.2" x2="104.4" y2="428.2" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="184.12" y1="324.2" x2="184.12" y2="428.2" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <text x="120.20000000000002" y="305.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">SESSION</text>
   <text class="mono" x="32.20000000000001" y="337.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="109.4" y="337.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="208.20000000000002" y="337.2" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
   <text class="mono" x="32.20000000000001" y="363.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="109.4" y="363.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">user_id</tspan></text><text x="208.20000000000002" y="363.2" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">FK</text>
@@ -70,6 +68,6 @@
 <path d="M126.7,202 L113.7,202" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path d="M112.70000000000002,286.2 L120.20000000000002,273.2 L127.70000000000002,286.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
 <circle cx="120.20000000000002" cy="264.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<rect x="102.685" y="224.875" width="35.03" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<rect x="97.9416" y="224.875" width="44.5168" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
 <text x="120.2" y="237.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">has</text>
 </svg>

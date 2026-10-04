@@ -13,7 +13,7 @@ Edges:
   ApiDeclaration --product--> Product [Bottom->Top] [D R D]
   ApiEndpoint --operations--> ApiOperation [Bottom->Top] [D]
   ApiOperation --search export--> DocumentationDocument [Bottom->Top] [D]
-  ApiSpecVersion --components--> ApiSchema [Bottom->Top] [D R D]
+  ApiSpecVersion --components--> ApiSchema [Bottom->Top] [D R D L D]
   ApiSpecVersion --x-tagGroups--> ApiTagGroup [Bottom->Top] [D L D]
   ApiSupplementalDoc --op-{operationId}--> ApiOperation [Bottom->Top] [D L D R D R D]
   ApiSupplementalDoc --tag-{slug}--> ApiTag [Bottom->Top] [D R D]

@@ -39,7 +39,6 @@
   <line x1="20" y1="58" x2="186.79999999999998" y2="58" stroke="#3B5B7D" stroke-width="1.75" />
   <line x1="20" y1="84" x2="186.79999999999998" y2="84" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <line x1="83.4" y1="58" x2="83.4" y2="110" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="154.71999999999997" y1="58" x2="154.71999999999997" y2="110" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <text x="103.39999999999999" y="39" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">CUSTOMER</text>
   <text class="mono" x="28" y="71" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">string</tspan></text><text class="mono" x="88.4" y="71" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">name</tspan></text><text x="178.79999999999998" y="71" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
   <text class="mono" x="28" y="97" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">string</tspan></text><text class="mono" x="88.4" y="97" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">email</tspan></text><text x="178.79999999999998" y="97" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">UK</text>
@@ -51,7 +50,6 @@
   <line x1="36.79999999999999" y1="246.2" x2="169.99999999999997" y2="246.2" stroke="#3B5B7D" stroke-width="1.75" />
   <line x1="36.79999999999999" y1="272.2" x2="169.99999999999997" y2="272.2" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <line x1="83.39999999999999" y1="246.2" x2="83.39999999999999" y2="298.2" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="137.91999999999996" y1="246.2" x2="137.91999999999996" y2="298.2" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <text x="103.39999999999998" y="227.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ORDER</text>
   <text class="mono" x="44.79999999999999" y="259.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="88.39999999999999" y="259.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="161.99999999999997" y="259.2" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
   <text class="mono" x="44.79999999999999" y="285.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">date</tspan></text><text class="mono" x="88.39999999999999" y="285.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">created</tspan></text>
@@ -69,8 +67,8 @@
 <path d="M109.89999999999998,312.2 L96.89999999999998,312.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path d="M95.9,396.4 L103.4,383.4 L110.9,396.4" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
 <path d="M96.9,378.4 L109.9,378.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<rect x="76.81299999999999" y="146.875" width="53.17400000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<rect x="71.52527999999998" y="146.875" width="63.74944000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
 <text x="103.39999999999999" y="159.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">places</text>
-<rect x="71.52099999999997" y="335.07499999999993" width="63.75800000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<rect x="65.91575999999996" y="335.07499999999993" width="74.96848000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
 <text x="103.39999999999998" y="347.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">contains</text>
 </svg>

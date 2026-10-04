@@ -25,7 +25,7 @@ Edges:
   LinkRegistry --one per registry--> Registry [Bottom->Top] [D]
   OpenApiSpec --published to--> OpenApiRepository [Bottom->Top] [D]
   Repository --≤1 per Registry--> DocumentationSet [Bottom->Top] [D R D L D]
-  Repository --publishes--> OpenApiSpec [Bottom->Top] [D R D R D L D]
+  Repository --publishes--> OpenApiSpec [Bottom->Top] [D R D L D R D L D]
   Repository --changelog.yml--> ReleaseNotes [Bottom->Top] [D R D L D R D L D]
   SiteNavigation --mounts--> Navigation [Bottom->Top] [D R D]
 Ports:

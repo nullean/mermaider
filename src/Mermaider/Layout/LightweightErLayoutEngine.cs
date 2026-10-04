@@ -43,7 +43,7 @@ internal static class LightweightErLayoutEngine
 			// Edge anchors are spread evenly along a node side; keep them at least ~18px apart so crow's-foot markers don't overlap.
 			var degree = diagram.Relationships.Count(r => r.Entity1 != r.Entity2 && (r.Entity1 == entity.Id || r.Entity2 == entity.Id));
 			var anchorWidth = degree > 4 ? (degree * 18) + 24 : 0;
-			var width = Math.Max(Math.Max(MinWidth, anchorWidth), Math.Max(headerTextW + (BoxPadX * 2), maxAttrW + (BoxPadX * 2)));
+			var width = Math.Max(Math.Max(MinWidth, anchorWidth), Math.Max((headerTextW * ErSvgRenderer.TextWidthCorrection) + (BoxPadX * 2), maxAttrW + (BoxPadX * 2)));
 			var height = entity.Attributes.Count == 0
 				? HeaderHeight * 2
 				: HeaderHeight + (entity.Attributes.Count * RowHeight);
@@ -68,7 +68,7 @@ internal static class LightweightErLayoutEngine
 			if (rel.Label.Length > 0)
 			{
 				var metrics = TextMetrics.MeasureMultiline(rel.Label.AsSpan(), RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel);
-				labelW = metrics.Width + 14;
+				labelW = ErSvgRenderer.LabelBoxWidth(metrics.Width) + 6;
 				labelH = metrics.Height + 8;
 			}
 			layoutEdges.Add(new LayoutEdge(rel.Entity1, rel.Entity2, labelW, labelH));
@@ -235,27 +235,44 @@ internal static class LightweightErLayoutEngine
 		// an intermediate entity box — preserving the original virtual-node routing.
 		// PortAwareLayout routes (port → column → port) are final; no post-processing.
 
-		// Synthesize arc paths for self-loop relationships (same entity on both ends).
-		// These are filtered from Sugiyama layout; we place them as a left-side loop.
-		// ELK routes ER self-loops from the Left side (Left→Left) so we match that behaviour.
+		// Self-loops carry no layout info (filtered from Sugiyama). Draw each as a rectangular loop out of the side with more free room,
+		// like any other edge: straight stubs for the markers, with the label sitting on the outer vertical so it stays connected.
+		var loopsPerSide = new Dictionary<(string Id, bool Left), int>();
 		foreach (var rel in diagram.Relationships)
 		{
 			if (rel.Entity1 != rel.Entity2)
 				continue;
 			if (!nodeLookup.TryGetValue(rel.Entity1, out var n))
 				continue;
-			var loopR = Math.Max(30.0, n.Height * 0.3);
-			var exitY = n.Y + (n.Height * 0.35);
-			var entryY = n.Y + (n.Height * 0.65);
-			var sideX = n.X;
-			var loopX = sideX - loopR;
-			var loopPoints = new List<Point>
+
+			var freeLeft = double.MaxValue;
+			var freeRight = double.MaxValue;
+			foreach (var other in result.Nodes)
 			{
-				new(sideX, exitY),
-				new(loopX, exitY),
-				new(loopX, entryY),
-				new(sideX, entryY),
-			};
+				if (other.Id == n.Id || other.Y + other.Height <= n.Y || other.Y >= n.Y + n.Height)
+					continue;
+				if (other.X + other.Width <= n.X)
+					freeLeft = Math.Min(freeLeft, n.X - (other.X + other.Width));
+				else if (other.X >= n.X + n.Width)
+					freeRight = Math.Min(freeRight, other.X - (n.X + n.Width));
+			}
+
+			var left = freeLeft >= freeRight;
+			var dir = left ? -1 : 1;
+			var sideX = left ? n.X : n.X + n.Width;
+			// The loop must be deep enough that the label pill (centred on the outer vertical) clears the markers beside the entity.
+			var labelBox = rel.Label.Length > 0
+				? ErSvgRenderer.LabelBoxWidth(TextMetrics.MeasureMultiline(rel.Label.AsSpan(), RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel).Width)
+				: 0;
+			var loopOut = 36 + (labelBox / 2);
+			var nth = loopsPerSide.GetValueOrDefault((n.Id, left));
+			loopsPerSide[(n.Id, left)] = nth + 1;
+			var centreY = n.Y + (n.Height / 2);
+			var halfSpan = Math.Clamp(n.Height * 0.3, 24, 40);
+			var exitY = centreY - halfSpan;
+			var entryY = centreY + halfSpan;
+			var outerX = sideX + (dir * (loopOut + (nth * 24)));
+			var labelPos = rel.Label.Length > 0 ? new Point(outerX, centreY) : (Point?)null;
 			positionedRels.Add(new PositionedErRelationship
 			{
 				Entity1 = rel.Entity1,
@@ -264,7 +281,8 @@ internal static class LightweightErLayoutEngine
 				Cardinality2 = rel.Cardinality2,
 				Label = rel.Label,
 				Identifying = rel.Identifying,
-				Points = loopPoints,
+				Points = [new Point(sideX, exitY), new Point(outerX, exitY), new Point(outerX, entryY), new Point(sideX, entryY)],
+				LabelPosition = labelPos,
 			});
 		}
 
@@ -284,10 +302,10 @@ internal static class LightweightErLayoutEngine
 		var maxX = d.Entities.Count > 0 ? d.Entities.Max(e => e.X + e.Width) : 0;
 		foreach (var r in d.Relationships)
 		{
-			if (r.Label.Length == 0 || r.LabelPosition is not { } lp || string.Equals(r.Entity1, r.Entity2, StringComparison.Ordinal))
+			if (r.Label.Length == 0 || r.LabelPosition is not { } lp)
 				continue;
 			var m = TextMetrics.MeasureMultiline(r.Label.AsSpan(), RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel);
-			var half = (m.Width + ErSvgRenderer.LabelPadX) / 2;
+			var half = ErSvgRenderer.LabelBoxWidth(m.Width) / 2;
 			minX = Math.Min(minX, lp.X - half);
 			maxX = Math.Max(maxX, lp.X + half);
 		}

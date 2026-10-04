@@ -33,16 +33,15 @@
 
 <path class="er-relationship" data-entity1="p" data-entity2="o" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="places" d="M116,110 L116,208.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="entity" data-id="p" data-label="Customer Account">
-  <rect x="36.68000000000001" y="20" width="158.64" height="90" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M36.68000000000001,58 L36.68000000000001,26 Q36.68000000000001,20 42.68000000000001,20 L189.32,20 Q195.32,20 195.32,26 L195.32,58 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <line x1="36.68000000000001" y1="58" x2="195.32" y2="58" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="36.68000000000001" y1="84" x2="195.32" y2="84" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="100.08000000000001" y1="58" x2="100.08000000000001" y2="110" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="163.24" y1="58" x2="163.24" y2="110" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
+  <rect x="32.640800000000006" y="20" width="166.7184" height="90" rx="6" ry="6" fill="var(--bg)" />
+  <path d="M32.640800000000006,58 L32.640800000000006,26 Q32.640800000000006,20 38.640800000000006,20 L193.35920000000002,20 Q199.35920000000002,20 199.35920000000002,26 L199.35920000000002,58 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
+  <line x1="32.640800000000006" y1="58" x2="199.35920000000002" y2="58" stroke="#3B5B7D" stroke-width="1.75" />
+  <line x1="32.640800000000006" y1="84" x2="199.35920000000002" y2="84" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
+  <line x1="96.0408" y1="58" x2="96.0408" y2="110" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <text x="116" y="39" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Customer Account</text>
-  <text class="mono" x="44.68000000000001" y="71" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="105.08000000000001" y="71" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="187.32" y="71" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
-  <text class="mono" x="44.68000000000001" y="97" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">string</tspan></text><text class="mono" x="105.08000000000001" y="97" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">name</tspan></text>
-  <rect x="36.68000000000001" y="20" width="158.64" height="90" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <text class="mono" x="40.640800000000006" y="71" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="101.0408" y="71" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="191.35920000000002" y="71" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
+  <text class="mono" x="40.640800000000006" y="97" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">string</tspan></text><text class="mono" x="101.0408" y="97" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">name</tspan></text>
+  <rect x="32.640800000000006" y="20" width="166.7184" height="90" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
 </g>
 <g class="entity" data-id="o" data-label="Order">
   <rect x="20" y="208.2" width="192" height="90" rx="6" ry="6" fill="var(--bg)" />
@@ -50,7 +49,6 @@
   <line x1="20" y1="246.2" x2="212" y2="246.2" stroke="#3B5B7D" stroke-width="1.75" />
   <line x1="20" y1="272.2" x2="212" y2="272.2" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <line x1="58.2" y1="246.2" x2="58.2" y2="298.2" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="179.92000000000002" y1="246.2" x2="179.92000000000002" y2="298.2" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
   <text x="116" y="227.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Order</text>
   <text class="mono" x="28" y="259.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="63.2" y="259.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="204" y="259.2" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
   <text class="mono" x="28" y="285.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="63.2" y="285.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">customer_id</tspan></text><text x="204" y="285.2" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">FK</text>
@@ -60,6 +58,6 @@
 <path d="M122.5,124 L109.5,124" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path d="M108.5,208.2 L116,195.2 L123.5,208.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
 <circle cx="116" cy="186.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<rect x="89.413" y="146.875" width="53.17400000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<rect x="84.12528" y="146.875" width="63.74944000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
 <text x="116" y="159.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">places</text>
 </svg>

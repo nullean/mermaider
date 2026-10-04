@@ -83,25 +83,11 @@ internal static class BkCoordinateAssigner
 		}
 
 		// Median averaging can violate minimum separation; one sweep per layer restores it.
-		var byX = new List<int>();
-		for (var li = 0; li < lg.LayerNodes.Length; li++)
-		{
-			byX.Clear();
-			byX.AddRange(lg.LayerNodes[li]);
-			byX.Sort((p, q) => x[p].CompareTo(x[q]));
-			for (var idx = 1; idx < byX.Count; idx++)
-			{
-				var prev = byX[idx - 1];
-				var curr = byX[idx];
-				var minX = x[prev] + lg.W[prev] + Gap(lg, prev, curr, nodeSpacing);
-				if (x[curr] < minX)
-					x[curr] = minX;
-			}
-		}
+		_ = EnforceSpacing(lg, x, nodeSpacing);
 
 		StraightenLongEdges(graph, lg, x, nodeSpacing);
+		EqualizeLabelColumns(graph, lg, x, nodeSpacing);
 		CenterSourcesOverChildren(graph, lg, x, nodeSpacing);
-
 		// Normalise so the leftmost graph node is at 0 (columns follow in the same frame).
 		var minGraphX = double.MaxValue;
 		for (var i = 0; i < lg.OrigN; i++)
@@ -273,6 +259,65 @@ internal static class BkCoordinateAssigner
 				if (minLeft <= maxLeft)
 					x[v] = Math.Clamp(target, minLeft, maxLeft);
 			}
+		}
+	}
+
+
+	private static bool EnforceSpacing(Lg lg, double[] x, double nodeSpacing)
+	{
+		var changed = false;
+		var byX = new List<int>();
+		for (var li = 0; li < lg.LayerNodes.Length; li++)
+		{
+			byX.Clear();
+			byX.AddRange(lg.LayerNodes[li]);
+			byX.Sort((p, q) => x[p].CompareTo(x[q]));
+			for (var idx = 1; idx < byX.Count; idx++)
+			{
+				var prev = byX[idx - 1];
+				var curr = byX[idx];
+				var minX = x[prev] + lg.W[prev] + Gap(lg, prev, curr, nodeSpacing);
+				if (x[curr] >= minX)
+					continue;
+				x[curr] = minX;
+				changed = true;
+			}
+		}
+		return changed;
+	}
+
+	/// <summary>
+	/// A long edge's label dummy and its first virtual node must share one centre (the label is drawn on the long vertical). The
+	/// spacing sweep can nudge one of them; put both at the larger centre and re-space (pushing neighbours right) until they agree.
+	/// </summary>
+	private static void EqualizeLabelColumns(GraphBuffer graph, Lg g, double[] x, double nodeSpacing)
+	{
+		var pairs = new List<(int D, int V)>();
+		for (var ei = 0; ei < graph.Edges.Count; ei++)
+		{
+			var e = graph.Edges[ei];
+			var d = g.DummyOfGraphEdge[ei];
+			if (d >= 0 && e.From < graph.RealNodeCount && e.To >= graph.RealNodeCount && g.W[d] > 0)
+				pairs.Add((d, e.To));
+		}
+
+		for (var round = 0; round < 12; round++)
+		{
+			var moved = false;
+			foreach (var (d, v) in pairs)
+			{
+				var cd = x[d] + (g.W[d] / 2);
+				var cv = x[v] + (g.W[v] / 2);
+				if (Math.Abs(cd - cv) < 0.01)
+					continue;
+				var c = Math.Max(cd, cv);
+				x[d] = c - (g.W[d] / 2);
+				x[v] = c - (g.W[v] / 2);
+				moved = true;
+			}
+			if (!moved)
+				break;
+			_ = EnforceSpacing(g, x, nodeSpacing);
 		}
 	}
 

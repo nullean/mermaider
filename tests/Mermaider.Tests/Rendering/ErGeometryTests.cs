@@ -312,13 +312,14 @@ public partial class ErGeometryTests
 				var c1 = box1.Center;
 				var c2 = box2.Center;
 
-				// Self-loops render as a right-side arc; label is at (entity.right + loopR, entityMidY).
-				// Use the entity's right-edge center as edgeMid, with a wider threshold.
+				// Self-loops are rectangular loops out of the left or right side; the label sits on the outer vertical,
+				// 36px plus half the label out from the entity edge.
 				if (edge.Entity1 == edge.Entity2)
 				{
-					var selfMid = new Pt(box1.X + box1.W, c1.Y);
-					var selfThreshold = box1.W + 60;
-					return Distance(label.Position, selfMid) <= selfThreshold;
+					var leftMid = new Pt(box1.X, c1.Y);
+					var rightMid = new Pt(box1.X + box1.W, c1.Y);
+					var selfThreshold = 36 + 150;
+					return Math.Min(Distance(label.Position, leftMid), Distance(label.Position, rightMid)) <= selfThreshold;
 				}
 
 				var edgeMid = new Pt((c1.X + c2.X) / 2, (c1.Y + c2.Y) / 2);

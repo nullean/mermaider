@@ -9,7 +9,7 @@ Edges:
   Build --type--> BuildType [Bottom->Top] [D R D]
   Build --redirects.json--> CloudfrontRedirectMap [Bottom->Top] [D L D]
   Build --per docset--> GenerationState [Bottom->Top] [D L D]
-  Build --environment--> PublishEnvironment [Bottom->Top] [D L D L D]
+  Build --environment--> PublishEnvironment [Bottom->Top] [D L D]
   Build --deploy plan--> SyncPlan [Bottom->Top] [D L D]
   CloudfrontRedirectMap --derived from--> Redirect [Bottom->Top] [D R D]
   CloudfrontRedirectMap --deployed to--> RedirectStore [Bottom->Top] [D L D L D]
