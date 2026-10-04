@@ -125,7 +125,7 @@ internal static class FlowEdgeRouter
 			{
 				if (segsOf.TryGetValue(p.Edge.Index, out var old))
 					_ = routed.RemoveAll(old.Contains);
-				var pts = grid.Find(p, groups, routed) ?? Fallback(p);
+				var pts = Canonical(p, boxes, groups, routed) ?? grid.Find(p, groups, routed) ?? Fallback(p);
 				pts = Straighten(Simplify(pts), p, plans);
 				polylines[p.Edge.Index] = pts;
 				var mine = new List<Seg>();
@@ -375,9 +375,11 @@ internal static class FlowEdgeRouter
 	}
 
 	// The layout's own route (ports aligned to label columns, uniform jogs) is used when nothing is in its way.
-	private static List<LayoutPoint>? AcceptHint(Plan p, IReadOnlyList<Box> boxes, IReadOnlyList<GroupBox> groups)
+	private static List<LayoutPoint>? AcceptHint(Plan p, IReadOnlyList<Box> boxes, IReadOnlyList<GroupBox> groups) =>
+		ValidatePath(p, Simplify(p.Edge.Hint!.ToList()), boxes, groups);
+
+	private static List<LayoutPoint>? ValidatePath(Plan p, List<LayoutPoint> pts, IReadOnlyList<Box> boxes, IReadOnlyList<GroupBox> groups)
 	{
-		var pts = Simplify(p.Edge.Hint!.ToList());
 		if (pts.Count < 2)
 			return null;
 		static bool On(Box b, LayoutPoint q) => q.X >= b.X - 1 && q.X <= b.Right + 1 && q.Y >= b.Y - 1 && q.Y <= b.Bottom + 1;
@@ -416,6 +418,83 @@ internal static class FlowEdgeRouter
 		pts[0] = OntoOutline(p.S, pts[0]);
 		pts[^1] = OntoOutline(p.T, pts[^1]);
 		return pts;
+	}
+
+	// Straight / single-Z candidate between facing ports (jog in the middle of the gap): same shape for every such edge,
+	// accepted only when it is free of obstacles and neither overlaps nor crosses what is routed already.
+	private static List<LayoutPoint>? Canonical(Plan p, IReadOnlyList<Box> boxes, IReadOnlyList<GroupBox> groups, List<Seg> routed)
+	{
+		var verticalFlow = p.SSide is 1 && p.TSide is 3;
+		var horizontalFlow = p.SSide is 0 && p.TSide is 2;
+		if (!verticalFlow && !horizontalFlow)
+			return null;
+		var a = p.SPort;
+		var b = p.TPort;
+		List<LayoutPoint> pts;
+		if (verticalFlow)
+		{
+			if (Math.Abs(a.X - b.X) < 0.5)
+			{
+				pts = [a, b];
+			}
+			else
+			{
+				var lo = a.Y + 12;
+				var hi = b.Y - 22;
+				if (lo > hi)
+					return null;
+				var y = p.Edge.LabelW > 0 ? lo : (lo + hi) / 2;
+				pts = [a, new LayoutPoint(a.X, y), new LayoutPoint(b.X, y), b];
+			}
+		}
+		else if (Math.Abs(a.Y - b.Y) < 0.5)
+		{
+			pts = [a, b];
+		}
+		else
+		{
+			var lo = a.X + 12;
+			var hi = b.X - 22;
+			if (lo > hi)
+				return null;
+			var x = p.Edge.LabelW > 0 ? lo : (lo + hi) / 2;
+			pts = [a, new LayoutPoint(x, a.Y), new LayoutPoint(x, b.Y), b];
+		}
+
+		pts = Simplify(pts);
+		if (ValidatePath(p, pts, boxes, groups) is not { } ok)
+			return null;
+		for (var i = 0; i < ok.Count - 1; i++)
+		{
+			var seg = new Seg(ok[i].X, ok[i].Y, ok[i + 1].X, ok[i + 1].Y);
+			foreach (var r in routed)
+			{
+				if (seg.Horizontal == r.Horizontal)
+				{
+					if (seg.Horizontal && Math.Abs(seg.Y0 - r.Y0) < 6 && Math.Min(Math.Max(seg.X0, seg.X1), Math.Max(r.X0, r.X1)) - Math.Max(Math.Min(seg.X0, seg.X1), Math.Min(r.X0, r.X1)) > 6)
+						return null;
+					if (!seg.Horizontal && Math.Abs(seg.X0 - r.X0) < 6 && Math.Min(Math.Max(seg.Y0, seg.Y1), Math.Max(r.Y0, r.Y1)) - Math.Max(Math.Min(seg.Y0, seg.Y1), Math.Min(r.Y0, r.Y1)) > 6)
+						return null;
+				}
+				else if (SegmentsCross(seg, r))
+				{
+					return null;
+				}
+			}
+		}
+
+		return ok;
+	}
+
+	private static bool SegmentsCross(Seg h, Seg v)
+	{
+		if (!h.Horizontal)
+			(h, v) = (v, h);
+		var hx0 = Math.Min(h.X0, h.X1);
+		var hx1 = Math.Max(h.X0, h.X1);
+		var vy0 = Math.Min(v.Y0, v.Y1);
+		var vy1 = Math.Max(v.Y0, v.Y1);
+		return v.X0 > hx0 + 0.5 && v.X0 < hx1 - 0.5 && h.Y0 > vy0 + 0.5 && h.Y0 < vy1 - 0.5;
 	}
 
 	private static LayoutPoint OntoOutline(Box b, LayoutPoint q)
