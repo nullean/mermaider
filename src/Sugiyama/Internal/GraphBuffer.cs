@@ -42,6 +42,7 @@ internal sealed class GraphBuffer : IDisposable
 
 	// PortAwareLayout (ER): label extent along the secondary axis per ORIGINAL edge index, and BK outputs per graph-edge index.
 	internal double[]? EdgeLabelExtent;
+	internal double[]? GapSpacing;
 	internal double[] PortOutOff = [];
 	internal double[] PortInOff = [];
 	internal double[] ColumnX = [];

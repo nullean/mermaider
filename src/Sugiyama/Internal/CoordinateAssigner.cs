@@ -82,7 +82,7 @@ internal static class CoordinateAssigner
 			foreach (var node in nodes)
 				graph.Y[node] = currentY;
 
-			currentY += maxHeight + layerSpacing;
+			currentY += maxHeight + (graph.GapSpacing is { } gs && layer < gs.Length ? gs[layer] : layerSpacing);
 		}
 	}
 

@@ -18,7 +18,7 @@ internal static class LightweightErLayoutEngine
 	private const double MinWidth = 120;
 	private static readonly double AttrFontSize = RenderConstants.FontSizes.Member;
 	private const double NodeSpacing = 20;
-	private const double LayerSpacing = 80;
+	private const double LayerSpacing = 48;
 
 	internal static PositionedErDiagram Layout(ErDiagram diagram)
 	{
@@ -80,31 +80,12 @@ internal static class LightweightErLayoutEngine
 			_ => LayoutDirection.TD, // default TD matches mermaid.js behaviour
 		};
 
-		// The layer gap runs along the flow axis, so the label has to be measured along that axis too:
-		// on LR/RL a label sized by its height overhangs the entities either side and they paint over it.
+		// Labels sit on their own column in the gap (never stacked), so the gap only has to fit one label plus the stubs and
+		// crow's-foot markers: the Sugiyama layout sizes each gap from its labels (label extent + 48) and uses LayerSpacing
+		// for gaps that carry none.
 		var horizontal = layoutDir is LayoutDirection.LR or LayoutDirection.RL;
-		var maxLabelExtent = layoutEdges
-			.Select(e => horizontal ? e.LabelWidth : e.LabelHeight)
-			.Where(v => v > 0)
-			.DefaultIfEmpty(0)
-			.Max();
-
-		// Estimate the worst-case number of labeled edges sharing one inter-layer gap:
-		// that's the max out-degree (fan-out) from any single entity.
-		// Each label needs ~(labelH + 4)px of space in the gap direction.
-		var labelStep = horizontal ? 30.0 : 26.0; // px per stacked label
-		var maxFanOut = layoutEdges
-			.Where(e => e.LabelHeight > 0)
-			.GroupBy(e => e.Source)
-			.Select(g => g.Count())
-			.DefaultIfEmpty(0)
-			.Max();
-		double minSpacingForFanOut = 0;
-		if (maxFanOut > 1)
-			minSpacingForFanOut = (maxFanOut * labelStep) + 20;
-
-		var effectiveLayerSpacing = Math.Max(LayerSpacing,
-			Math.Max((maxLabelExtent > 0) ? (maxLabelExtent + 40) : 0, minSpacingForFanOut));
+		_ = horizontal;
+		const double effectiveLayerSpacing = LayerSpacing;
 
 		var layoutGraph = new LayoutGraph(layoutDir, layoutNodes, layoutEdges, []);
 		var componentCount = CountConnectedComponents(layoutNodes, layoutEdges);

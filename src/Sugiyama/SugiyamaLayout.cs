@@ -64,6 +64,19 @@ public static class SugiyamaLayout
 		{
 			var horizontalFlow = input.Direction is LayoutDirection.LR or LayoutDirection.RL;
 			buf.EdgeLabelExtent = input.Edges.Select(e => horizontalFlow ? e.LabelHeight : e.LabelWidth).ToArray();
+
+			// Each inter-layer gap fits the tallest label that starts in it (along the flow axis) plus 48 for stubs and markers.
+			var gaps = new double[Math.Max(0, buf.LayerCount - 1)];
+			Array.Fill(gaps, options.LayerSpacing);
+			foreach (var e in buf.Edges)
+			{
+				if (e.From >= buf.RealNodeCount || e.OriginalIndex >= input.Edges.Count || buf.Layers[e.From] >= gaps.Length)
+					continue;
+				var flow = horizontalFlow ? input.Edges[e.OriginalIndex].LabelWidth : input.Edges[e.OriginalIndex].LabelHeight;
+				if (flow > 0)
+					gaps[buf.Layers[e.From]] = Math.Max(gaps[buf.Layers[e.From]], flow + 48);
+			}
+			buf.GapSpacing = gaps;
 		}
 
 		var tied = options.PortAwareLayout && options.CrossingRestarts > 0 ? new List<int[]>() : null;
