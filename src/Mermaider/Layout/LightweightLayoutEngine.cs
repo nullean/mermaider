@@ -30,7 +30,10 @@ internal static class LightweightLayoutEngine
 			if (!graph.Nodes.TryGetValue(id, out var node))
 				continue;
 			var (w, h) = NodeSizing.Estimate(node.Label, node.Shape);
-			layoutNodes.Add(new LayoutNode(id, w, h));
+			layoutNodes.Add(new LayoutNode(id, w, h)
+			{
+				CentrePorts = node.Shape is Models.NodeShape.Diamond or Models.NodeShape.Circle or Models.NodeShape.DoubleCircle or Models.NodeShape.Hexagon,
+			});
 		}
 
 		var layoutEdges = new List<LayoutEdge>(graph.Edges.Count);
@@ -124,7 +127,7 @@ internal static class LightweightLayoutEngine
 		{
 			Padding = padding,
 			NodeSpacing = nodeSpacing,
-			LayerSpacing = effectiveLayerSpacing,
+			LayerSpacing = isStateDiagramEarly ? effectiveLayerSpacing : baseLayerSpacing,
 			CancellationToken = ct,
 			MaxNodeCount = maxNodesAfterLayout,
 			ForceBottomExitFanOut = isStateDiagramEarly,
@@ -135,7 +138,9 @@ internal static class LightweightLayoutEngine
 		LayoutResult result;
 		try
 		{
-			result = SugiyamaLayout.Compute(layoutGraph, layoutOptions);
+			result = isStateDiagramEarly
+					? SugiyamaLayout.Compute(layoutGraph, layoutOptions)
+					: HierarchicalLayout.Compute(layoutGraph, layoutOptions);
 		}
 		catch (InvalidOperationException ex) when (ex.Message.Contains("MaxNodesAfterLayout") || ex.Message.Contains("node count"))
 		{

@@ -1,7 +1,7 @@
-﻿Layer 0: router
-Layer 1: lb1, compute1, compute2, lb2
-Layer 2: nat
-Layer 3: internet
+﻿Layer 0: internet
+Layer 1: router
+Layer 2: compute1, lb1, compute2, lb2
+Layer 3: nat
 Groups:
 - project (layer=0 order=1) members=[router, nat]
   - subnet1 (layer=0 order=0) members=[compute1, lb1]
@@ -9,10 +9,11 @@ Groups:
 Edges:
   compute1 ----> nat [Bottom->Top] [D R D]
   compute2 ----> nat [Bottom->Top] [D L D]
-  internet ----> router [Right->Right] [R U L]
-  nat ----> internet [Bottom->Top] [D]
-  router ----> compute1 [Left->Top] [L D]
-  router ----> compute2 [Right->Top] [R D]
+  internet ----> router [Bottom->Top] [D R D]
+  nat ----> internet [Top->Bottom] [U R U L U]
+  router ----> compute1 [Bottom->Top] [D L]
+  router ----> compute2 [Bottom->Left] [D]
 Ports:
-  nat Top: edge0,edge1
-  router Right: edge5,edge2
+  internet Bottom: edge2,edge3
+  nat Top: edge0,edge3,edge1
+  router Bottom: edge4,edge5

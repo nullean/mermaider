@@ -5,6 +5,8 @@ Layer 3: D, E, F
 Edges:
   A --Get money--> B [Bottom->Top] [D]
   B ----> C [Bottom->Top] [D]
-  C --One--> D [Left->Top] [L D]
+  C --One--> D [Bottom->Top] [D L D]
   C --Two--> E [Bottom->Top] [D]
-  C --Three--> F [Right->Top] [R D]
+  C --Three--> F [Bottom->Top] [D R D]
+Ports:
+  C Bottom: edge2,edge3,edge4

@@ -1,32 +1,33 @@
 ﻿Layer 0: Checkout, Vocab
 Layer 1: DocSet
-Layer 2: Toc
+Layer 2: Toc, Content
 Layer 3: Nav
-Layer 4: Html
-Layer 5: OpenApiRepo, Bundles
-Layer 6: Content
-Layer 7: Manifest, Redirects, State
-Layer 8: LinkReg
+Layer 4: Html, Manifest
+Layer 5: Redirects, State
+Layer 6: LinkReg, OpenApiRepo, Bundles
 Groups:
 - Inputs (layer=0 order=0) members=[Checkout, Vocab]
 - Build (layer=1 order=0) members=[DocSet, Toc, Content, Nav]
-- External (layer=1 order=1) members=[LinkReg, OpenApiRepo, Bundles]
-- Outputs (layer=1 order=2) members=[Html, Manifest, Redirects, State]
+- Outputs (layer=2 order=0) members=[Html, Manifest, Redirects, State]
+- External (layer=3 order=0) members=[LinkReg, OpenApiRepo, Bundles]
 Edges:
-  Bundles --release_notes--> Content [Top->Left] [U R]
-  Checkout ----> DocSet [Bottom->Left] [D R]
-  Content ----> Nav [Right->Left] [L]
-  DocSet ----> Content [Top->Left] [U R D R]
-  DocSet ----> Redirects [Bottom->Left] [D R]
-  DocSet ----> Toc [Right->Left] [R]
-  LinkReg --cross_links--> Content [Bottom->Bottom] [D L U]
-  Manifest --published on push--> LinkReg [Right->Left] [R]
-  Nav ----> Html [Right->Left] [R]
-  Nav ----> Manifest [Bottom->Left] [D R U R]
-  OpenApiRepo --api--> Content [Right->Left] [R]
-  Toc ----> Nav [Right->Left] [R]
-  Vocab ----> DocSet [Top->Left] [U R]
+  Bundles --release_notes--> Content [Left->Right] [L U L]
+  Checkout ----> DocSet [Right->Left] [R D R]
+  Content ----> Nav [Right->Left] [R U R]
+  DocSet ----> Content [Right->Left] [R D R]
+  DocSet ----> Redirects [Right->Left] [R U R D R]
+  DocSet ----> Toc [Right->Left] [R U R]
+  LinkReg --cross_links--> Content [Left->Right] [L U L D L]
+  Manifest --published on push--> LinkReg [Right->Left] [R U R]
+  Nav ----> Html [Right->Left] [R U R]
+  Nav ----> Manifest [Right->Left] [R D R]
+  OpenApiRepo --api--> Content [Left->Right] [L D L U L]
+  Toc ----> Nav [Right->Left] [R D R]
+  Vocab ----> DocSet [Right->Left] [R U R]
 Ports:
-  Content Left: edge10,edge0,edge3
+  Content Right: edge6,edge2,edge10,edge0
   DocSet Left: edge1,edge12
+  DocSet Right: edge5,edge4,edge3
+  LinkReg Left: edge7,edge6
   Nav Left: edge11,edge2
+  Nav Right: edge8,edge9

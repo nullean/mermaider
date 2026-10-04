@@ -28,7 +28,11 @@ public sealed record LayoutGraph(
 }
 
 /// <summary>A node with a pre-computed bounding box size.</summary>
-public sealed record LayoutNode(string Id, double Width, double Height);
+public sealed record LayoutNode(string Id, double Width, double Height)
+{
+	/// <summary>Shapes such as diamonds attach every edge at the middle of a side instead of spreading ports.</summary>
+	public bool CentrePorts { get; init; }
+}
 
 /// <summary>A directed edge between two nodes.</summary>
 public sealed record LayoutEdge(string Source, string Target, double LabelWidth = 0, double LabelHeight = 0, int MinLength = 1);
@@ -175,6 +179,12 @@ public sealed record LayoutOptions
 
 	/// <summary>Deterministic random restarts of crossing minimisation; a restart wins only with strictly fewer crossings.</summary>
 	public int CrossingRestarts { get; init; }
+
+	/// <summary>Padding between a subgraph border and its content (compound layout).</summary>
+	public double GroupPadding { get; init; } = 24;
+
+	/// <summary>Space reserved for a subgraph header above its content (compound layout).</summary>
+	public double GroupHeaderHeight { get; init; } = 32;
 
 
 }

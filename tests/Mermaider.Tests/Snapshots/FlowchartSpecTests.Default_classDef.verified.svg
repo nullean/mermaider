@@ -37,8 +37,8 @@
   </marker>
 </defs>
 
-<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M95.192,84.8 L95.192,140.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M95.192,185.6 L95.192,241.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M95,84.8 L95,140.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M95,185.60000000000002 L95,241.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="A" data-label="Node A" data-shape="rectangle">
   <rect x="40" y="40" width="110.38399999999999" height="44.8" rx="6" ry="6" fill="#f9f" stroke="#333" stroke-width="2" />
   <text x="95.192" y="62.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="#333" dy="5.6">Node A</text>

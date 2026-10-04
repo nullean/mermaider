@@ -37,9 +37,9 @@
   </marker>
 </defs>
 
-<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M122.736,62.4 L100.736,62.4 Q94.736,62.4 94.736,68.4 L94.736,101.6 L94.736,101.6 L94.736,140.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M95.844,185.6 L95.844,241.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="A" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M232.20800000000003,62.4 L254.20800000000003,62.4 Q260.208,62.4 260.208,68.4 L260.208,101.6 L260.208,101.6 L260.208,140.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M159,84.8 L159,113 Q159,119 153,119 L100.5,119 Q94.5,119 94.5,125 L94.5,140.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M94.5,185.60000000000002 L94.5,206.75 Q94.5,207.5 95.25,207.5 L95.25,207.5 Q96,207.5 96,208.25 L96,241.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M195.5,84.8 L195.5,113 Q195.5,119 201.5,119 L254,119 Q260,119 260,125 L260,140.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="A" data-label="Critical" data-shape="rectangle">
   <rect x="122.736" y="40" width="109.472" height="44.8" rx="6" ry="6" fill="#f96" stroke="#333" stroke-width="2" />
   <text x="177.472" y="62.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="#fff" dy="5.6">Critical</text>

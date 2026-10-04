@@ -1,17 +1,20 @@
-﻿Layer 0: E, F
-Layer 1: A
-Layer 2: B
-Layer 3: C
-Layer 4: D
+﻿Layer 0: A
+Layer 1: B
+Layer 2: C
+Layer 3: D
+Layer 4: E, F
 Groups:
-- bar (layer=0 order=0) members=[E, F]
-- foo (layer=1 order=0) members=[C, D]
+- foo (layer=0 order=0) members=[C, D]
+- bar (layer=1 order=0) members=[E, F]
 Edges:
-  A ----> B [Bottom->Top] [D]
-  B ----> C [Bottom->Top] [D]
-  B ----> D [Right->Right] [R D L]
-  C ----> D [Bottom->Top] [D]
-  D ----> E [Right->Right] [R U L]
-  E ----> A [Bottom->Top] [D]
+  A ----> B [Bottom->Top] [D L D]
+  B ----> C [Bottom->Top] [D R D]
+  B ----> D [Bottom->Top] [D R D L D]
+  C ----> D [Bottom->Top] [D L D]
+  D ----> E [Bottom->Top] [D L D]
+  E ----> A [Top->Bottom] [U L U R U]
 Ports:
-  D Right: edge4,edge2
+  A Bottom: edge5,edge0
+  B Bottom: edge1,edge2
+  D Top: edge3,edge2
+  E Top: edge4,edge5

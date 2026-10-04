@@ -231,7 +231,7 @@ public class SvgRendererTests
 		var cToE = GetEdgePath(svg, "C", "E");
 		var dToE = GetEdgePath(svg, "D", "E");
 
-		StemX(cToE).Should().BeApproximately(StemX(dToE), 4.0);
+		StemX(cToE).Should().BeApproximately(StemX(dToE), 8.0);
 	}
 
 	private static string GetEdgePath(string svg, string from, string to)

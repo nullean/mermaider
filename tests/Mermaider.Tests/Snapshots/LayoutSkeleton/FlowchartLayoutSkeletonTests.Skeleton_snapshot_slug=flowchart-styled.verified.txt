@@ -3,5 +3,7 @@ Layer 1: B
 Layer 2: C, D
 Edges:
   A ----> B [Bottom->Top] [D]
-  B ----> C [Left->Top] [L D]
-  B ----> D [Right->Top] [R D]
+  B ----> C [Bottom->Top] [D L D]
+  B ----> D [Bottom->Top] [D R D]
+Ports:
+  B Bottom: edge1,edge2
