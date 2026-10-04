@@ -37,22 +37,22 @@
   </marker>
 </defs>
 
-<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="solid" d="M109.344,132 L295.5,132 Q301.5,132 301.5,126 L301.5,68.5 Q301.5,62.5 307.5,62.5 L339.22656,62.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="solid" d="M109.344,132 L311,132 Q317,132 317,126 L317,68.5 Q317,62.5 323,62.5 L339.22656,62.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="A" data-to="C" data-style="dotted" data-arrow-start="false" data-arrow-end="true" data-label="dotted" d="M109.344,143 L339.22656,143" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="A" data-to="D" data-style="thick" data-arrow-start="false" data-arrow-end="true" data-label="thick" d="M109.344,154.5 L311,154.5 Q317,154.5 317,160.5 L317,218 Q317,224 323,224 L339.22656,224" fill="none" stroke="var(--_line)" stroke-width="4.5" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="D" data-style="thick" data-arrow-start="false" data-arrow-end="true" data-label="thick" d="M109.344,154.5 L295.5,154.5 Q301.5,154.5 301.5,160.5 L301.5,218 Q301.5,224 307.5,224 L339.22656,224" fill="none" stroke="var(--_line)" stroke-width="4.5" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="E" data-to="F" data-style="solid" data-arrow-start="false" data-arrow-end="false" d="M109.344,317 L224.28528,317" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="edge" data-from="G" data-to="H" data-style="solid" data-arrow-start="true" data-arrow-end="true" d="M109.344,409.5 L224.28528,409.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" marker-start="url(#arrowhead-start)" />
 <g class="edge-label" data-from="A" data-to="B" data-label="solid">
-  <rect x="276.03616" y="85.025" width="50.92768" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="301.5" y="97.25" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">solid</text>
+  <rect x="187.70816" y="119.775" width="50.92768" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="213.172" y="132" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">solid</text>
 </g>
 <g class="edge-label" data-from="A" data-to="C" data-label="dotted">
-  <rect x="194.81464" y="130.775" width="58.941280000000006" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="224.28528" y="143" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">dotted</text>
+  <rect x="114.35574399999999" y="130.775" width="58.941280000000006" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="143.826384" y="143" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">dotted</text>
 </g>
 <g class="edge-label" data-from="A" data-to="D" data-label="thick">
-  <rect x="135.79415999999998" y="142.275" width="50.92768" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="161.25799999999998" y="154.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">thick</text>
+  <rect x="276.03616" y="177.025" width="50.92768" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="301.5" y="189.25" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">thick</text>
 </g>
 <g class="node" data-id="A" data-label="A" data-shape="rectangle">
   <rect x="40" y="120.80000000000001" width="69.344" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />

@@ -122,6 +122,10 @@ public static class HierarchicalLayout
 			if (itemNodes.Count == 0)
 				return placed;
 
+			// Mutually-referencing items (a cycle through subgraph boxes) are ordered by the direction carrying more edges;
+			// only the layout copy of the edges is re-oriented.
+			itemEdges = OrientByMajority(itemEdges);
+
 			var perRow = ComponentsPerRow(itemNodes, itemEdges);
 			var horizontalFlow = input.Direction is LayoutDirection.LR or LayoutDirection.RL;
 			var labelExtent = itemEdges.Select(e => horizontalFlow ? e.LabelWidth : e.LabelHeight).DefaultIfEmpty(0).Max();
@@ -187,6 +191,8 @@ public static class HierarchicalLayout
 		var rootNodes = input.Nodes.Select(n => n.Id).Where(id => PathOf(id).Count == 0).ToList();
 		var root = LayoutLevel([], rootNodes, input.Subgraphs, true);
 
+		ReduceCrossingsBySwaps(root.Nodes, input, PathOf);
+
 		var pad = options.Padding;
 		var abs = new List<FlowEdgeRouter.Box>();
 		foreach (var (id, r) in root.Nodes)
@@ -233,6 +239,117 @@ public static class HierarchicalLayout
 			g.Id, g.Label, g.X + pad, g.Y + pad, g.W, g.H, g.Children.Select(ToResult).ToList());
 
 		return new LayoutResult(width + pad, height + pad, nodesOut, routes, root.Groups.Select(ToResult).ToList());
+	}
+
+	/// <summary>
+	/// Each level is laid out on its own, so edges crossing a subgraph border are invisible to its interior ordering.
+	/// Here, on the composed boxes, adjacent same-layer siblings are swapped (span preserved) whenever that lowers the
+	/// number of crossings between straight centre-to-centre edges.
+	/// </summary>
+	private static void ReduceCrossingsBySwaps(
+		Dictionary<string, (double X, double Y, double W, double H)> nodes, LayoutGraph input, Func<string, List<string>> pathOf)
+	{
+		var vertical = input.Direction is LayoutDirection.TD or LayoutDirection.BT;
+		var edges = input.Edges.Where(e => e.Source != e.Target && nodes.ContainsKey(e.Source) && nodes.ContainsKey(e.Target)).ToList();
+		if (edges.Count is < 3 or > 80)
+			return;
+
+		(double X, double Y) C(string id) => (nodes[id].X + (nodes[id].W / 2), nodes[id].Y + (nodes[id].H / 2));
+
+		bool Cross((double X, double Y) a, (double X, double Y) b, (double X, double Y) c, (double X, double Y) d)
+		{
+			static double Orient((double X, double Y) p, (double X, double Y) q, (double X, double Y) r) => ((q.X - p.X) * (r.Y - p.Y)) - ((q.Y - p.Y) * (r.X - p.X));
+			var s1 = Orient(a, b, c) * Orient(a, b, d);
+			var s2 = Orient(c, d, a) * Orient(c, d, b);
+			return s1 < -1e-6 && s2 < -1e-6;
+		}
+
+		int Count()
+		{
+			var n = 0;
+			for (var i = 0; i < edges.Count; i++)
+			{
+				var a = C(edges[i].Source);
+				var b = C(edges[i].Target);
+				for (var j = i + 1; j < edges.Count; j++)
+				{
+					var e = edges[j];
+					if (e.Source == edges[i].Source || e.Target == edges[i].Target || e.Source == edges[i].Target || e.Target == edges[i].Source)
+						continue;
+					if (Cross(a, b, C(e.Source), C(e.Target)))
+						n++;
+				}
+			}
+			return n;
+		}
+
+		var layers = nodes.Keys
+			.GroupBy(id => (string.Join('/', pathOf(id)), Math.Round(vertical ? C(id).Y : C(id).X)))
+			.Where(g => g.Count() > 1)
+			.Select(g => g.ToList())
+			.ToList();
+
+		var best = Count();
+		for (var pass = 0; pass < 4 && best > 0; pass++)
+		{
+			var improved = false;
+			foreach (var layer in layers)
+			{
+				layer.Sort((a, b) => (vertical ? nodes[a].X : nodes[a].Y).CompareTo(vertical ? nodes[b].X : nodes[b].Y));
+				for (var i = 0; i + 1 < layer.Count; i++)
+				{
+					var a = layer[i];
+					var b = layer[i + 1];
+					var na = nodes[a];
+					var nb = nodes[b];
+					var gap = vertical ? nb.X - (na.X + na.W) : nb.Y - (na.Y + na.H);
+					(double X, double Y, double W, double H) sa, sb;
+					if (vertical)
+					{
+						sb = (na.X, nb.Y, nb.W, nb.H);
+						sa = (na.X + nb.W + gap, na.Y, na.W, na.H);
+					}
+					else
+					{
+						sb = (nb.X, na.Y, nb.W, nb.H);
+						sa = (na.X, na.Y + nb.H + gap, na.W, na.H);
+					}
+
+					nodes[a] = sa;
+					nodes[b] = sb;
+					var c = Count();
+					if (c < best)
+					{
+						best = c;
+						improved = true;
+						layer[i] = b;
+						layer[i + 1] = a;
+					}
+					else
+					{
+						nodes[a] = na;
+						nodes[b] = nb;
+					}
+				}
+			}
+
+			if (!improved)
+				break;
+		}
+	}
+
+	/// <summary>Items that reference each other (edges in both directions) are laid out in the direction that carries more edges.</summary>
+	private static List<LayoutEdge> OrientByMajority(List<LayoutEdge> edges)
+	{
+		var counts = new Dictionary<(string, string), int>();
+		foreach (var e in edges)
+			counts[(e.Source, e.Target)] = counts.GetValueOrDefault((e.Source, e.Target)) + 1;
+		return edges.Select(e =>
+		{
+			var forward = counts[(e.Source, e.Target)];
+			var back = counts.GetValueOrDefault((e.Target, e.Source));
+			return back > forward ? e with { Source = e.Target, Target = e.Source } : e;
+		}).ToList();
 	}
 
 	private static GroupRect Shift(GroupRect g, double dx, double dy)

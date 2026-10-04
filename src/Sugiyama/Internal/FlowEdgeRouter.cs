@@ -423,10 +423,12 @@ internal static class FlowEdgeRouter
 					continue;
 				var mid = (s[i] + s[i + 1]) / 2;
 				r.Add(mid);
-				if (gap >= 44)
+				// wide gaps get a lane every 8px so bundles of parallel edges can each take their own line
+				var lanes = Math.Min(10, (int)((gap - 24) / 8));
+				for (var k = 1; k <= lanes / 2; k++)
 				{
-					r.Add(mid - 10);
-					r.Add(mid + 10);
+					r.Add(mid - (8 * k));
+					r.Add(mid + (8 * k));
 				}
 			}
 			return r;

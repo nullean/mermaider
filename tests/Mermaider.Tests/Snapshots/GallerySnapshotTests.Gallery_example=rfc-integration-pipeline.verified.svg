@@ -57,15 +57,15 @@
   <rect x="40" y="1430.6" width="849.9839999999999" height="166.4" rx="8" ry="8" fill="color-mix(in srgb, #edc948 6%, var(--bg))" stroke="#ECC63F" stroke-width="1.75" />
 </g>
 
-<path class="edge" data-from="navYml" data-to="v1Nav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M590.5,140.8 L590.5,195.5 Q590.5,201.5 584.5,201.5 L424.5,201.5 Q418.5,201.5 418.5,207.5 L418.5,419.25" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="navYml" data-to="v1Nav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M590.5,140.8 L590.5,195.5 Q590.5,201.5 596.5,201.5 L714.5,201.5 Q720.5,201.5 720.5,207.5 L720.5,419.25" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="navV2Yml" data-to="v1Nav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M319,254.39999999999998 L319,419.25" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="repoCheckouts" data-to="v1Nav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M540,316.8 L540,419.25" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="v1Nav" data-to="valV1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M810.7919999999999,575 L998.5,575 Q1004.5,575 1004.5,581 L1004.5,764.9" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="v1Nav" data-to="fileLookup" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M261.5,540.85 L261.5,569 Q261.5,575 267.5,575 L299.5,575 Q305.5,575 305.5,581 L305.5,596.85" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="repoCheckouts" data-to="v1Nav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M621.5,316.8 L621.5,419.25" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="v1Nav" data-to="valV1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M698.5,686.45 L698.5,793 Q698.5,799 704.5,799 L846.7919999999999,799" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="v1Nav" data-to="fileLookup" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M610,540.85 L610,569 Q610,575 604,575 L311.5,575 Q305.5,575 305.5,581 L305.5,596.85" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="fileLookup" data-to="relLinks" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M305.5,662.45 L305.5,1030.55" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="valV1" data-to="relLinks" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="both pass" d="M1004.5,952.0999999999999 L1004.5,1037.5 Q1004.5,1043.5 998.5,1043.5 L758.352,1043.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="repoCheckouts" data-to="relLinks" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label=".md source files" d="M621.5,316.8 L621.5,405 Q621.5,411 627.5,411 L813,411 Q819,411 819,417 L819,1058.5 Q819,1064.5 813,1064.5 L758.352,1064.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="assemblerYml" data-to="pathProvider" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="nav-v2 flag" d="M345,161.6 L345,195.5 Q345,201.5 339,201.5 L117,201.5 Q111,201.5 111,207.5 L111,1430.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="valV1" data-to="relLinks" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="both pass" d="M1004.5,952.0999999999999 L1004.5,1058.5 Q1004.5,1064.5 998.5,1064.5 L758.352,1064.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="repoCheckouts" data-to="relLinks" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label=".md source files" d="M540,316.8 L540,405 Q540,411 534,411 L117,411 Q111,411 111,417 L111,1058.5 Q111,1064.5 117,1064.5 L171.63199999999995,1064.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="assemblerYml" data-to="pathProvider" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="nav-v2 flag" d="M345,161.6 L345,195.5 Q345,201.5 339,201.5 L101.5,201.5 Q95.5,201.5 95.5,207.5 L95.5,1430.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="relLinks" data-to="pathProvider" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M171.63199999999995,1204 L163,1204 Q157,1204 157,1210 L157,1430.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="215.096" y="55" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Inputs</text>
   <text x="131.192" y="434.25" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Navigation Assembly</text>
   <text x="858.7919999999999" y="779.9" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Dual Validation — both must pass</text>
@@ -73,16 +73,16 @@
   <text x="52" y="1445.6" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Output</text>
 
 <g class="edge-label" data-from="valV1" data-to="relLinks" data-label="both pass">
-  <rect x="868.75964" y="1031.275" width="82.18072000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="909.85" y="1043.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">both pass</text>
+  <rect x="805.65964" y="1052.275" width="82.18072000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="846.75" y="1064.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">both pass</text>
 </g>
 <g class="edge-label" data-from="repoCheckouts" data-to="relLinks" data-label=".md source files">
-  <rect x="759.87904" y="725.525" width="118.24192000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="819" y="737.75" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">.md source files</text>
+  <rect x="330.72904" y="398.775" width="118.24192000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="389.85" y="411" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">.md source files</text>
 </g>
 <g class="edge-label" data-from="assemblerYml" data-to="pathProvider" data-label="nav-v2 flag">
-  <rect x="66.30351999999999" y="810.275" width="89.39296000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="111" y="822.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">nav-v2 flag</text>
+  <rect x="50.80351999999999" y="1136.525" width="89.39296000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="95.5" y="1148.75" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">nav-v2 flag</text>
 </g>
 <g class="node" data-id="assemblerYml" data-label="assembler.yml
 env config · feature flags" data-shape="rectangle">
@@ -106,8 +106,8 @@ content .md files" data-shape="rectangle">
 </g>
 <g class="node" data-id="v1Nav" data-label="V1 SiteNavigation
 + V1 NavigationTocMappings" data-shape="rectangle">
-  <rect x="172.83199999999997" y="475.25" width="265.424" height="65.6" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="305.544" y="508.05" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="305.544" dy="-4.800000000000001">V1 SiteNavigation</tspan><tspan x="305.544" dy="20.8">+ V1 NavigationTocMappings</tspan></text>
+  <rect x="521.3679999999999" y="475.25" width="265.424" height="65.6" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="654.0799999999999" y="508.05" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="654.0799999999999" dy="-4.800000000000001">V1 SiteNavigation</tspan><tspan x="654.0799999999999" dy="20.8">+ V1 NavigationTocMappings</tspan></text>
 </g>
 <g class="node" data-id="fileLookup" data-label="NavigationDocumentationFileLookup
 file path → output URL" data-shape="rectangle">
@@ -116,8 +116,8 @@ file path → output URL" data-shape="rectangle">
 </g>
 <g class="node" data-id="v2Nav" data-label="V2 SiteNavigationV2
 + V2 NavigationTocMappings" data-shape="rectangle">
-  <rect x="515.896" y="475.25" width="270.89599999999996" height="65.6" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="651.3439999999999" y="508.05" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="651.3439999999999" dy="-4.800000000000001">V2 SiteNavigationV2</tspan><tspan x="651.3439999999999" dy="20.8">+ V2 NavigationTocMappings</tspan></text>
+  <rect x="172.83199999999997" y="475.25" width="270.89599999999996" height="65.6" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="308.28" y="508.05" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="308.28" dy="-4.800000000000001">V2 SiteNavigationV2</tspan><tspan x="308.28" dy="20.8">+ V2 NavigationTocMappings</tspan></text>
 </g>
 <g class="node" data-id="valV1" data-label="V1
 path prefixes · completeness

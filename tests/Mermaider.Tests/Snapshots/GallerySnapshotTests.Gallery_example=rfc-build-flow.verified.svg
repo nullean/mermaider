@@ -47,7 +47,7 @@
 
 <path class="edge" data-from="navYml" data-to="v1SiteNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M613,140.8 L613,236 Q613,242 619,242 L895,242 Q901,242 901,248 L901,264.05" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="docsetV1" data-to="v1SiteNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1075,140.8 L1075,212 Q1075,218 1069,218 L967,218 Q961,218 961,224 L961,264.05" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="navV2Yml" data-to="v2SiteNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M833,140.8 L833,222 Q833,228 839,228 L1102,228 Q1108,228 1108,234 L1108,264.05" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="navV2Yml" data-to="v2SiteNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M833,140.8 L833,220 Q833,226 839,226 L1102,226 Q1108,226 1108,232 L1108,264.05" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="docsetV2" data-to="v2SiteNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1377.5,161.6 L1377.5,236 Q1377.5,242 1371.5,242 L1217,242 Q1211,242 1211,248 L1211,264.05" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="docsetV1" data-to="v2SiteNav" data-style="dotted" data-arrow-start="false" data-arrow-end="true" data-label="V1 fallback" d="M1141,140.8 L1141,236 Q1141,242 1147,242 L1153.5,242 Q1159.5,242 1159.5,248 L1159.5,264.05" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="v1SiteNav" data-to="v1Map" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M931,308.85 L931,359.5 Q931,365.5 925,365.5 L873,365.5 Q867,365.5 867,371.5 L867,387.3" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
@@ -55,10 +55,10 @@
 <path class="edge" data-from="v1Map" data-to="valV1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M867,432.1 L867,510.55" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="v2Map" data-to="valV2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1159.5,432.1 L1159.5,567 Q1159.5,573 1153.5,573 L1087.952,573" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="valV1" data-to="errV1" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="fail" d="M807.4719999999999,570.5 L115,570.5 Q109,570.5 109,576.5 L109,713.976" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="valV2" data-to="errV2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="fail" d="M1087.952,573 L1104,573 Q1110,573 1110,579 L1110,669 Q1110,675 1116,675 L1153.5,675 Q1159.5,675 1159.5,681 L1159.5,713.976" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="valV2" data-to="errV2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="fail" d="M1087.952,573 L1104,573 Q1110,573 1110,579 L1110,686 Q1110,692 1116,692 L1153.5,692 Q1159.5,692 1159.5,698 L1159.5,713.976" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="valV1" data-to="flag" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="pass" d="M867,630.054 L867,669 Q867,675 873,675 L929,675 Q935,675 935,681 L935,713.976" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="valV2" data-to="flag" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="pass" d="M1025.5,635.5260000000001 L1025.5,686 Q1025.5,692 1019.5,692 L941,692 Q935,692 935,698 L935,713.976" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="flag" data-to="emitV1" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="false" d="M866.5599999999998,782.5 L850.5,782.5 Q844.5,782.5 844.5,788.5 L844.5,901.5 Q844.5,907.5 838.5,907.5 L346.5,907.5 Q340.5,907.5 340.5,913.5 L340.5,929.258" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="flag" data-to="emitV1" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="false" d="M866.5599999999998,782.5 L850.5,782.5 Q844.5,782.5 844.5,788.5 L844.5,885 Q844.5,891 838.5,891 L346.5,891 Q340.5,891 340.5,897 L340.5,929.258" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="flag" data-to="emitV2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="true" d="M866.5599999999998,782.5 L639,782.5 Q633,782.5 633,788.5 L633,929.258" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="520.7079999999997" y="55" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Config</text>
   <text x="996.5959999999998" y="55" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Per-repo checkouts</text>
 
@@ -71,8 +71,8 @@
   <text x="458.23599999999993" y="570.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">fail</text>
 </g>
 <g class="edge-label" data-from="valV2" data-to="errV2" data-label="fail">
-  <rect x="1090.94704" y="647.475" width="38.10592" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="1110" y="659.7" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">fail</text>
+  <rect x="1090.94704" y="650.025" width="38.10592" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="1110" y="662.25" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">fail</text>
 </g>
 <g class="edge-label" data-from="valV1" data-to="flag" data-label="pass">
   <rect x="874.7348" y="662.775" width="52.53040000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
@@ -83,8 +83,8 @@
   <text x="980.25" y="692" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">pass</text>
 </g>
 <g class="edge-label" data-from="flag" data-to="emitV1" data-label="false">
-  <rect x="567.03616" y="895.275" width="50.92768" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="592.5" y="907.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">false</text>
+  <rect x="567.03616" y="878.775" width="50.92768" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="592.5" y="891" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">false</text>
 </g>
 <g class="edge-label" data-from="flag" data-to="emitV2" data-label="true">
   <rect x="726.72024" y="770.275" width="46.11952000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
