@@ -127,7 +127,7 @@ internal static class LightweightLayoutEngine
 		{
 			Padding = padding,
 			NodeSpacing = nodeSpacing,
-			LayerSpacing = isStateDiagramEarly ? effectiveLayerSpacing : baseLayerSpacing,
+			LayerSpacing = baseLayerSpacing,
 			CancellationToken = ct,
 			MaxNodeCount = maxNodesAfterLayout,
 			ForceBottomExitFanOut = isStateDiagramEarly,
@@ -138,9 +138,7 @@ internal static class LightweightLayoutEngine
 		LayoutResult result;
 		try
 		{
-			result = isStateDiagramEarly
-					? SugiyamaLayout.Compute(layoutGraph, layoutOptions)
-					: HierarchicalLayout.Compute(layoutGraph, layoutOptions);
+			result = HierarchicalLayout.Compute(layoutGraph, layoutOptions);
 		}
 		catch (InvalidOperationException ex) when (ex.Message.Contains("MaxNodesAfterLayout") || ex.Message.Contains("node count"))
 		{
@@ -152,7 +150,6 @@ internal static class LightweightLayoutEngine
 			throw new MermaidResourceLimitException(
 				nameof(ResourceLimits.MaxRecursionDepth), 0, maxNodesAfterLayout, ex);
 		}
-		CompactStartEndNodes(result, graph);
 		var positioned = MapResult(result, graph, strict, layoutEdgeToOriginal);
 
 		if (graph.SubgraphEdgeRedirections.Count > 0)
@@ -184,92 +181,6 @@ internal static class LightweightLayoutEngine
 			map[id] = sg.Id;
 		foreach (var child in sg.Children)
 			CollectSubgraphNodes(child, map);
-	}
-
-	private static void CompactStartEndNodes(LayoutResult result, MermaidGraph graph)
-	{
-		const double compactGap = 40;
-
-		var nodeIndex = new Dictionary<string, int>(result.Nodes.Count);
-		for (var i = 0; i < result.Nodes.Count; i++)
-			nodeIndex[result.Nodes[i].Id] = i;
-
-		foreach (var (id, mn) in graph.Nodes)
-		{
-			if (mn.Shape is not (Models.NodeShape.StateStart or Models.NodeShape.StateEnd))
-				continue;
-
-			if (!nodeIndex.TryGetValue(id, out var idx))
-				continue;
-
-			var node = result.Nodes[idx];
-			var oldY = node.Y;
-			double newY;
-
-			if (mn.Shape == Models.NodeShape.StateStart)
-			{
-				var closestBelow = double.MaxValue;
-				foreach (var e in graph.Edges)
-				{
-					if (e.Source != id || !nodeIndex.TryGetValue(e.Target, out var ti))
-						continue;
-					closestBelow = Math.Min(closestBelow, result.Nodes[ti].Y);
-				}
-				if (closestBelow >= double.MaxValue)
-					continue;
-				newY = closestBelow - node.Height - compactGap;
-				if (newY <= oldY)
-					continue;
-			}
-			else
-			{
-				var closestAbove = double.MinValue;
-				foreach (var e in graph.Edges)
-				{
-					if (e.Target != id || !nodeIndex.TryGetValue(e.Source, out var si))
-						continue;
-					var srcNode = result.Nodes[si];
-					closestAbove = Math.Max(closestAbove, srcNode.Y + srcNode.Height);
-				}
-				if (closestAbove <= double.MinValue)
-					continue;
-				newY = closestAbove + compactGap;
-				if (newY >= oldY)
-					continue;
-			}
-
-			var nodes = (List<LayoutNodeResult>)result.Nodes;
-			nodes[idx] = new LayoutNodeResult(node.Id, node.X, newY, node.Width, node.Height);
-
-			var deltaY = newY - oldY;
-			var edges = (List<LayoutEdgeResult>)result.Edges;
-			for (var ei = 0; ei < edges.Count; ei++)
-			{
-				var edge = edges[ei];
-				var pts = edge.Points;
-				if (pts.Count == 0)
-					continue;
-
-				if (mn.Shape == Models.NodeShape.StateStart)
-				{
-					var first = pts[0];
-					if (Math.Abs(first.Y - (oldY + node.Height)) < 1)
-					{
-						var newPts = new List<LayoutPoint>(pts) { [0] = new LayoutPoint(first.X, newY + node.Height) };
-						edges[ei] = new LayoutEdgeResult(edge.OriginalIndex, newPts, edge.LabelPosition);
-					}
-				}
-				else
-				{
-					var last = pts[^1];
-					if (Math.Abs(last.Y - oldY) < 1)
-					{
-						var newPts = new List<LayoutPoint>(pts) { [^1] = new LayoutPoint(last.X, newY) };
-						edges[ei] = new LayoutEdgeResult(edge.OriginalIndex, newPts, edge.LabelPosition);
-					}
-				}
-			}
-		}
 	}
 
 	private static PositionedGraph MapResult(LayoutResult result, MermaidGraph graph, StrictStylingOptions? strict, List<int>? layoutEdgeToOriginal = null)

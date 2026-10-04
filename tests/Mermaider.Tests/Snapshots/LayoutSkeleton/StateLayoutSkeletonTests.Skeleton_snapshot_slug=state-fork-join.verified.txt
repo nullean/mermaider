@@ -17,5 +17,5 @@ Edges:
   fork_point ----> TaskC [Bottom->Top] [D R D]
   join_point ----> Complete [Bottom->Top] [D]
 Ports:
-  fork_point Bottom: edge7,edge6,edge8
+  fork_point Bottom: edge6,edge7,edge8
   join_point Top: edge2,edge3,edge4

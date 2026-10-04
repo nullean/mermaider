@@ -125,6 +125,15 @@ public static class HierarchicalLayout
 			var perRow = ComponentsPerRow(itemNodes, itemEdges);
 			var horizontalFlow = input.Direction is LayoutDirection.LR or LayoutDirection.RL;
 			var labelExtent = itemEdges.Select(e => horizontalFlow ? e.LabelWidth : e.LabelHeight).DefaultIfEmpty(0).Max();
+			// labelled edges between the same two items run side by side in one gap: their labels stack along the flow axis
+			var busiestPair = itemEdges
+				.Where(e => e.LabelWidth > 0)
+				.GroupBy(e => string.CompareOrdinal(e.Source, e.Target) < 0 ? (e.Source, e.Target) : (e.Target, e.Source))
+				.Select(g => g.Count())
+				.DefaultIfEmpty(0)
+				.Max();
+			if (busiestPair > 1)
+				labelExtent *= busiestPair;
 			var levelOptions = options with
 			{
 				LayerSpacing = labelExtent > 0 ? Math.Max(options.LayerSpacing, labelExtent + (2 * 22) + 8) : options.LayerSpacing,

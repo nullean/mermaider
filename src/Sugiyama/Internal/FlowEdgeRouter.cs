@@ -47,6 +47,8 @@ internal static class FlowEdgeRouter
 		internal int TSide;
 		internal LayoutPoint SPort;
 		internal LayoutPoint TPort;
+		internal double SStub = Stub;
+		internal double TStub = Stub;
 	}
 
 	internal static List<LayoutEdgeResult> Route(
@@ -77,6 +79,9 @@ internal static class FlowEdgeRouter
 		}
 
 		AssignPorts(plans);
+
+		foreach (var p in plans)
+			ShrinkStubs(p);
 
 		var grid = new Grid(boxes, groups, plans);
 		var routed = new List<Seg>();
@@ -162,6 +167,22 @@ internal static class FlowEdgeRouter
 		}
 	}
 
+	// Facing ports closer than two stubs apart share the gap instead of overshooting each other.
+	private static void ShrinkStubs(Plan p)
+	{
+		var facing = (p.SSide + 2) % 4 == p.TSide;
+		if (!facing)
+			return;
+		var d = p.SSide is 1 or 3 ? Math.Abs(p.TPort.Y - p.SPort.Y) : Math.Abs(p.TPort.X - p.SPort.X);
+		if (d >= (2 * Stub) + 2)
+			return;
+		var half = Math.Max(4, Math.Floor(d / 2 * 2) / 2);
+		p.SStub = half;
+		p.TStub = Math.Max(4, d - half);
+		if (p.SStub + p.TStub > d)
+			p.TStub = d - p.SStub;
+	}
+
 	private static double Round(double v) => Math.Round(v * 2) / 2;
 
 	private static LayoutPoint Out(LayoutPoint p, int side, double d) => new(p.X + (Dx[side] * d), p.Y + (Dy[side] * d));
@@ -180,8 +201,8 @@ internal static class FlowEdgeRouter
 
 	private static List<LayoutPoint> Fallback(Plan p)
 	{
-		var a = Out(p.SPort, p.SSide, Stub);
-		var b = Out(p.TPort, p.TSide, Stub);
+		var a = Out(p.SPort, p.SSide, p.SStub);
+		var b = Out(p.TPort, p.TSide, p.TStub);
 		var pts = new List<LayoutPoint> { p.SPort, a };
 		if (p.SSide is 1 or 3)
 		{
@@ -241,7 +262,7 @@ internal static class FlowEdgeRouter
 		var hh = (e.LabelH / 2) + 2;
 		foreach (var (i, len) in segs.OrderByDescending(s => s.Len).Take(3))
 		{
-			foreach (var f in new[] { 0.5, 0.35, 0.65, 0.25, 0.75 })
+			foreach (var f in new[] { 0.5, 0.35, 0.65, 0.25, 0.75, 0.15, 0.85 })
 			{
 				var cx = pts[i].X + ((pts[i + 1].X - pts[i].X) * f);
 				var cy = pts[i].Y + ((pts[i + 1].Y - pts[i].Y) * f);
@@ -343,9 +364,9 @@ internal static class FlowEdgeRouter
 
 			foreach (var p in plans)
 			{
-				foreach (var (port, side) in new[] { (p.SPort, p.SSide), (p.TPort, p.TSide) })
+				foreach (var (port, side, stub) in new[] { (p.SPort, p.SSide, p.SStub), (p.TPort, p.TSide, p.TStub) })
 				{
-					var o = Out(port, side, Stub);
+					var o = Out(port, side, stub);
 					xs.Add(port.X);
 					xs.Add(o.X);
 					ys.Add(port.Y);
@@ -412,8 +433,8 @@ internal static class FlowEdgeRouter
 
 		internal List<LayoutPoint>? Find(Plan p, IReadOnlyList<GroupBox> groups, List<Seg> routed)
 		{
-			var a = Out(p.SPort, p.SSide, Stub);
-			var b = Out(p.TPort, p.TSide, Stub);
+			var a = Out(p.SPort, p.SSide, p.SStub);
+			var b = Out(p.TPort, p.TSide, p.TStub);
 			var sx = IndexOf(_xs, a.X);
 			var sy = IndexOf(_ys, a.Y);
 			var tx = IndexOf(_xs, b.X);
