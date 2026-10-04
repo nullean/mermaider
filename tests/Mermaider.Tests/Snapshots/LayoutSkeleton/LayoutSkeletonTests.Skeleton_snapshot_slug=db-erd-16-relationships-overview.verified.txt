@@ -15,7 +15,7 @@ Edges:
   DocumentationSet --registry--> Registry [Bottom->Top] [D L D L D]
   DocumentationSet --toc--> TableOfContents [Bottom->Top] [D R D]
   LinkRegistry --repo, branch--> LinkRegistryEntry [Bottom->Top] [D]
-  LinkRegistryEntry --path--> LinkManifest [Bottom->Top] [D R D]
+  LinkRegistryEntry --path--> LinkManifest [Bottom->Top] [D]
   Product --released in--> Bundle [Bottom->Top] [D L D]
   Product --versioning--> VersioningSystem [Bottom->Top] [D R D]
   Registry --publishes into--> LinkRegistry [Bottom->Top] [D]

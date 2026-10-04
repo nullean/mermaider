@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 866.2359999999999 1225.4" width="866.2359999999999" height="1225.4" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 871.4049999999999 1225.4" width="871.4049999999999" height="1225.4" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -31,202 +31,202 @@
 <defs>
 </defs>
 
-<path class="er-relationship" data-entity1="Repository" data-entity2="OpenApiSpec" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="publishes, per branch" d="M678.5239999999999,252.2 L678.5239999999999,348.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="OpenApiRepository" data-entity2="OpenApiSpec" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="org/repo/branch/spec" d="M488.3819999999999,96 L488.3819999999999,101 Q488.3819999999999,106 493.3819999999999,106 L821.2359999999999,106 Q826.2359999999999,106 826.2359999999999,111 L826.2359999999999,333.4 Q826.2359999999999,338.4 821.2359999999999,338.4 L715.2039999999998,338.4 Q710.2039999999998,338.4 710.2039999999998,343.4 L710.2039999999998,348.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="OpenApiRepository" data-entity2="ApiVersionIndex" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="index.json" d="M432.1579999999999,96 L432.1579999999999,101 Q432.1579999999999,106 427.1579999999999,106 L99.304,106 Q94.304,106 94.304,111 L94.304,176.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ApiDeclaration" data-entity2="OpenApiSpec" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="repository + spec" d="M456.9912999999999,252.2 L456.9912999999999,257.2 Q456.9912999999999,262.2 461.9912999999999,262.2 L529.732,262.2 Q534.732,262.2 534.732,267.2 L534.732,333.4 Q534.732,338.4 539.732,338.4 L641.8439999999998,338.4 Q646.8439999999998,338.4 646.8439999999998,343.4 L646.8439999999998,348.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ApiDeclaration" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="product" d="M403.3848999999999,252.2 L403.3848999999999,260.7 Q403.3848999999999,265.7 398.3848999999999,265.7 L321.9999999999999,265.7 Q316.9999999999999,265.7 316.9999999999999,270.7 L316.9999999999999,348.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ApiDeclaration" data-entity2="ApiSpecVersion" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="renders" d="M376.5816999999999,252.2 L376.5816999999999,255.45 Q376.5816999999999,258.7 373.3316999999999,258.7 L220.79399999999995,258.7 Q215.79399999999995,258.7 215.79399999999995,263.7 L215.79399999999995,333.4 Q215.79399999999995,338.4 210.79399999999995,338.4 L184.51299999999992,338.4 Q179.51299999999992,338.4 179.51299999999992,343.4 L179.51299999999992,348.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ApiVersionIndex" data-entity2="ApiSpecVersion" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="org/repo, spec, moniker" d="M94.304,252.2 L94.304,333.4 Q94.304,338.4 99.304,338.4 L125.58499999999992,338.4 Q130.58499999999992,338.4 130.58499999999992,343.4 L130.58499999999992,348.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ApiSpecVersion" data-entity2="ApiTagGroup" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="x-tagGroups" d="M130.58499999999992,424.4 L130.58499999999992,429.4 Q130.58499999999992,434.4 125.58499999999992,434.4 L88.82499999999996,434.4 Q83.82499999999996,434.4 83.82499999999996,439.4 L83.82499999999996,504.59999999999997" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ApiTagGroup" data-entity2="ApiTag" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="tags" d="M83.82499999999996,580.5999999999999 L83.82499999999996,645.8 Q83.82499999999996,650.8 88.82499999999996,650.8 L233.85999999999993,650.8 Q238.85999999999993,650.8 238.85999999999993,655.8 L238.85999999999993,660.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ApiTag" data-entity2="ApiEndpoint" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="endpoints" d="M258.8599999999999,736.8 L258.8599999999999,817" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ApiEndpoint" data-entity2="ApiOperation" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="operations" d="M258.8599999999999,893 L258.8599999999999,958.2 Q258.8599999999999,963.2 263.8599999999999,963.2 L271.15199999999993,963.2 Q276.15199999999993,963.2 276.15199999999993,968.2 L276.15199999999993,973.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ApiSpecVersion" data-entity2="ApiSchema" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="components" d="M179.51299999999992,424.4 L179.51299999999992,429.4 Q179.51299999999992,434.4 184.51299999999992,434.4 L221.27299999999997,434.4 Q226.27299999999997,434.4 226.27299999999997,439.4 L226.27299999999997,504.59999999999997" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ApiSupplementalDoc" data-entity2="ApiOperation" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="op-{operationId}" d="M458.068,580.5999999999999 L458.068,585.5999999999999 Q458.068,590.5999999999999 463.068,590.5999999999999 L494.35599999999994,590.5999999999999 Q499.35599999999994,590.5999999999999 499.35599999999994,595.5999999999999 L499.35599999999994,958.2 Q499.35599999999994,963.2 494.35599999999994,963.2 L321.5679999999999,963.2 Q316.5679999999999,963.2 316.5679999999999,968.2 L316.5679999999999,973.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ApiSupplementalDoc" data-entity2="ApiTag" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="tag-{slug}" d="M399.412,580.5999999999999 L399.412,645.8 Q399.412,650.8 394.412,650.8 L283.8599999999999,650.8 Q278.8599999999999,650.8 278.8599999999999,655.8 L278.8599999999999,660.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ApiDeclaration" data-entity2="ApiSupplementalDoc" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="api/{key}/" d="M430.1880999999999,252.2 L430.1880999999999,261.47595 Q430.1880999999999,262.2 429.46404999999993,262.2 L429.46404999999993,262.2 Q428.73999999999995,262.2 428.73999999999995,262.92404999999997 L428.73999999999995,504.59999999999997" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ApiOperation" data-entity2="DocumentationDocument" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="search export" d="M296.35999999999996,1049.2 L296.3599999999999,1129.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Repository" data-entity2="OpenApiSpec" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="publishes, per branch" d="M167.712,252.2 L167.712,257.2 Q167.712,262.2 172.712,262.2 L235.42399999999998,262.2 Q240.42399999999998,262.2 240.42399999999998,267.2 L240.42399999999998,333.4 Q240.42399999999998,338.4 235.42399999999998,338.4 L228.76799999999992,338.4 Q223.76799999999992,338.4 223.76799999999992,343.4 L223.76799999999992,348.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="OpenApiRepository" data-entity2="OpenApiSpec" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="org/repo/branch/spec" d="M355.99499999999995,96 L355.99499999999995,101 Q355.99499999999995,106 350.99499999999995,106 L25,106 Q20,106 20,111 L20,257.2 Q20,262.2 25,262.2 L87.71199999999999,262.2 Q92.71199999999999,262.2 92.71199999999999,267.2 L92.71199999999999,333.4 Q92.71199999999999,338.4 97.71199999999999,338.4 L187.0879999999999,338.4 Q192.0879999999999,338.4 192.0879999999999,343.4 L192.0879999999999,348.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="OpenApiRepository" data-entity2="ApiVersionIndex" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="index.json" d="M412.21899999999994,96 L412.21899999999994,101 Q412.21899999999994,106 417.21899999999994,106 L815.9259999999999,106 Q820.9259999999999,106 820.9259999999999,111 L820.9259999999999,161.2 Q820.9259999999999,166.2 815.9259999999999,166.2 L753.2139999999998,166.2 Q748.2139999999998,166.2 748.2139999999998,171.2 L748.2139999999998,176.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="ApiDeclaration" data-entity2="OpenApiSpec" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="repository + spec" d="M415.4136999999999,252.2 L415.4136999999999,257.2 Q415.4136999999999,262.2 410.4136999999999,262.2 L389.216,262.2 Q384.216,262.2 384.216,267.2 L384.216,333.4 Q384.216,338.4 379.216,338.4 L260.44799999999987,338.4 Q255.4479999999999,338.4 255.4479999999999,343.4 L255.4479999999999,348.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="ApiDeclaration" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="product" d="M469.0200999999999,252.2 L469.0200999999999,260.7 Q469.0200999999999,265.7 474.0200999999999,265.7 L593.2299999999999,265.7 Q598.2299999999999,265.7 598.2299999999999,270.7 L598.2299999999999,333.4 Q598.2299999999999,338.4 593.2299999999999,338.4 L530.5179999999999,338.4 Q525.5179999999999,338.4 525.5179999999999,343.4 L525.5179999999999,348.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="ApiDeclaration" data-entity2="ApiSpecVersion" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="renders" d="M495.8232999999999,252.2 L495.8232999999999,255.45 Q495.8232999999999,258.7 499.0732999999999,258.7 L694.4359999999999,258.7 Q699.4359999999999,258.7 699.4359999999999,263.7 L699.4359999999999,333.4 Q699.4359999999999,338.4 694.4359999999999,338.4 L668.005,338.4 Q663.005,338.4 663.005,343.4 L663.005,348.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="ApiVersionIndex" data-entity2="ApiSpecVersion" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="org/repo, spec, moniker" d="M748.2139999999998,252.2 L748.2139999999998,257.2 Q748.2139999999998,262.2 753.2139999999998,262.2 L815.9259999999998,262.2 Q820.9259999999998,262.2 820.9259999999998,267.2 L820.9259999999998,333.4 Q820.9259999999998,338.4 815.9259999999998,338.4 L716.933,338.4 Q711.933,338.4 711.933,343.4 L711.933,348.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="ApiSpecVersion" data-entity2="ApiTagGroup" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="x-tagGroups" d="M663.005,424.4 L663.005,429.4 Q663.005,434.4 668.005,434.4 L683.9569999999999,434.4 Q688.9569999999999,434.4 688.9569999999999,439.4 L688.9569999999999,489.59999999999997 Q688.9569999999999,494.59999999999997 683.9569999999999,494.59999999999997 L621.2449999999999,494.59999999999997 Q616.2449999999999,494.59999999999997 616.2449999999999,499.59999999999997 L616.2449999999999,504.59999999999997" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="ApiTagGroup" data-entity2="ApiTag" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="tags" d="M616.2449999999999,580.5999999999999 L616.2449999999999,585.5999999999999 Q616.2449999999999,590.5999999999999 621.2449999999999,590.5999999999999 L683.9569999999999,590.5999999999999 Q688.9569999999999,590.5999999999999 688.9569999999999,595.5999999999999 L688.9569999999999,645.8 Q688.9569999999999,650.8 683.9569999999999,650.8 L570.693,650.8 Q565.693,650.8 565.693,655.8 L565.693,660.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="ApiTag" data-entity2="ApiEndpoint" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="endpoints" d="M545.693,736.8 L545.693,741.8 Q545.693,746.8 550.693,746.8 L613.405,746.8 Q618.405,746.8 618.405,751.8 L618.405,802 Q618.405,807 613.405,807 L550.693,807 Q545.693,807 545.693,812 L545.693,817" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="ApiEndpoint" data-entity2="ApiOperation" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="operations" d="M545.693,893 L545.693,898 Q545.693,903 550.693,903 L613.405,903 Q618.405,903 618.405,908 L618.405,958.2 Q618.405,963.2 613.405,963.2 L550.693,963.2 Q545.693,963.2 545.693,968.2 L545.693,973.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="ApiSpecVersion" data-entity2="ApiSchema" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="components" d="M711.933,424.4 L711.933,429.4 Q711.933,434.4 716.933,434.4 L826.4049999999999,434.4 Q831.4049999999999,434.4 831.4049999999999,439.4 L831.4049999999999,489.59999999999997 Q831.4049999999999,494.59999999999997 826.4049999999999,494.59999999999997 L763.6929999999999,494.59999999999997 Q758.6929999999999,494.59999999999997 758.6929999999999,499.59999999999997 L758.6929999999999,504.59999999999997" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="ApiSupplementalDoc" data-entity2="ApiOperation" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="op-{operationId}" d="M416.4849999999999,580.5999999999999 L416.4849999999999,585.5999999999999 Q416.4849999999999,590.5999999999999 411.4849999999999,590.5999999999999 L380.1969999999999,590.5999999999999 Q375.1969999999999,590.5999999999999 375.1969999999999,595.5999999999999 L375.1969999999999,898 Q375.1969999999999,903 380.1969999999999,903 L442.9089999999999,903 Q447.9089999999999,903 447.9089999999999,908 L447.9089999999999,958.2 Q447.9089999999999,963.2 452.9089999999999,963.2 L500.277,963.2 Q505.277,963.2 505.277,968.2 L505.277,973.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="ApiSupplementalDoc" data-entity2="ApiTag" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="tag-{slug}" d="M475.1409999999999,580.5999999999999 L475.1409999999999,585.5999999999999 Q475.1409999999999,590.5999999999999 480.1409999999999,590.5999999999999 L542.8529999999998,590.5999999999999 Q547.8529999999998,590.5999999999999 547.8529999999998,595.5999999999999 L547.8529999999998,645.8 Q547.8529999999998,650.8 542.8529999999998,650.8 L530.693,650.8 Q525.693,650.8 525.693,655.8 L525.693,660.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="ApiDeclaration" data-entity2="ApiSupplementalDoc" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="api/{key}/" d="M442.2168999999999,252.2 L442.2168999999999,257.2 Q442.2168999999999,262.2 437.2168999999999,262.2 L422.4959999999999,262.2 Q417.4959999999999,262.2 417.4959999999999,267.2 L417.4959999999999,429.4 Q417.4959999999999,434.4 422.4959999999999,434.4 L485.2079999999999,434.4 Q490.2079999999999,434.4 490.2079999999999,439.4 L490.2079999999999,489.59999999999997 Q490.2079999999999,494.59999999999997 485.2079999999999,494.59999999999997 L450.8129999999999,494.59999999999997 Q445.8129999999999,494.59999999999997 445.8129999999999,499.59999999999997 L445.8129999999999,504.59999999999997" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="ApiOperation" data-entity2="DocumentationDocument" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="search export" d="M525.485,1049.2 L525.485,1054.2 Q525.485,1059.2 530.485,1059.2 L593.197,1059.2 Q598.197,1059.2 598.197,1064.2 L598.197,1114.4 Q598.197,1119.4 593.197,1119.4 L530.485,1119.4 Q525.485,1119.4 525.485,1124.4 L525.485,1129.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="entity" data-id="Repository" data-label="Repository">
-  <rect x="618.5239999999999" y="176.2" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="678.5239999999999" y="214.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Repository</text>
+  <rect x="107.71199999999999" y="176.2" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="167.712" y="214.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Repository</text>
 </g>
 <g class="entity" data-id="OpenApiSpec" data-label="OpenApiSpec">
-  <rect x="615.1639999999999" y="348.4" width="126.72" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="678.5239999999999" y="386.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">OpenApiSpec</text>
+  <rect x="160.4079999999999" y="348.4" width="126.72" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="223.76799999999992" y="386.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">OpenApiSpec</text>
 </g>
 <g class="entity" data-id="OpenApiRepository" data-label="OpenApiRepository">
-  <rect x="375.9339999999999" y="20" width="168.672" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="460.2699999999999" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">OpenApiRepository</text>
+  <rect x="299.77099999999996" y="20" width="168.672" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="384.10699999999997" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">OpenApiRepository</text>
 </g>
 <g class="entity" data-id="ApiVersionIndex" data-label="ApiVersionIndex">
-  <rect x="20" y="176.2" width="148.608" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="94.304" y="214.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ApiVersionIndex</text>
+  <rect x="673.9099999999999" y="176.2" width="148.608" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="748.2139999999998" y="214.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ApiVersionIndex</text>
 </g>
 <g class="entity" data-id="ApiDeclaration" data-label="ApiDeclaration">
-  <rect x="349.7784999999999" y="176.2" width="134.01600000000002" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="416.78649999999993" y="214.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ApiDeclaration</text>
+  <rect x="388.6104999999999" y="176.2" width="134.01600000000002" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="455.6184999999999" y="214.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ApiDeclaration</text>
 </g>
 <g class="entity" data-id="Product" data-label="Product">
-  <rect x="256.9999999999999" y="348.4" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="316.9999999999999" y="386.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Product</text>
+  <rect x="465.5179999999999" y="348.4" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="525.5179999999999" y="386.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Product</text>
 </g>
 <g class="entity" data-id="ApiSpecVersion" data-label="ApiSpecVersion">
-  <rect x="81.65699999999991" y="348.4" width="146.784" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="155.04899999999992" y="386.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ApiSpecVersion</text>
+  <rect x="614.077" y="348.4" width="146.784" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="687.469" y="386.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ApiSpecVersion</text>
 </g>
 <g class="entity" data-id="ApiTagGroup" data-label="ApiTagGroup">
-  <rect x="21.376999999999956" y="504.59999999999997" width="124.896" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="83.82499999999996" y="542.5999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ApiTagGroup</text>
+  <rect x="553.7969999999999" y="504.59999999999997" width="124.896" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="616.2449999999999" y="542.5999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ApiTagGroup</text>
 </g>
 <g class="entity" data-id="ApiTag" data-label="ApiTag">
-  <rect x="198.85999999999993" y="660.8" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="258.8599999999999" y="698.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ApiTag</text>
+  <rect x="485.693" y="660.8" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="545.693" y="698.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ApiTag</text>
 </g>
 <g class="entity" data-id="ApiEndpoint" data-label="ApiEndpoint">
-  <rect x="198.85999999999993" y="817" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="258.8599999999999" y="855" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ApiEndpoint</text>
+  <rect x="485.693" y="817" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="545.693" y="855" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ApiEndpoint</text>
 </g>
 <g class="entity" data-id="ApiOperation" data-label="ApiOperation">
-  <rect x="235.73599999999993" y="973.2" width="121.248" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="296.35999999999996" y="1011.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ApiOperation</text>
+  <rect x="464.861" y="973.2" width="121.248" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="525.485" y="1011.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ApiOperation</text>
 </g>
 <g class="entity" data-id="ApiSchema" data-label="ApiSchema">
-  <rect x="166.27299999999997" y="504.59999999999997" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="226.27299999999997" y="542.5999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ApiSchema</text>
+  <rect x="698.6929999999999" y="504.59999999999997" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="758.6929999999999" y="542.5999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ApiSchema</text>
 </g>
 <g class="entity" data-id="ApiSupplementalDoc" data-label="ApiSupplementalDoc">
-  <rect x="340.756" y="504.59999999999997" width="175.968" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="428.73999999999995" y="542.5999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ApiSupplementalDoc</text>
+  <rect x="357.8289999999999" y="504.59999999999997" width="175.968" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="445.8129999999999" y="542.5999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ApiSupplementalDoc</text>
 </g>
 <g class="entity" data-id="DocumentationDocument" data-label="DocumentationDocument">
-  <rect x="194.6959999999999" y="1129.4" width="203.32799999999997" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="296.3599999999999" y="1167.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">DocumentationDocument</text>
+  <rect x="423.821" y="1129.4" width="203.32799999999997" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="525.485" y="1167.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">DocumentationDocument</text>
 </g>
-<line x1="684.5239999999999" y1="256.2" x2="672.5239999999999" y2="256.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="684.5239999999999" y1="260.2" x2="672.5239999999999" y2="260.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="671.5239999999999" y1="344.4" x2="678.5239999999999" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="678.5239999999999" y1="344.4" x2="678.5239999999999" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="685.5239999999999" y1="344.4" x2="678.5239999999999" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="678.5239999999999" cy="328.4" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="494.3819999999999" y1="100" x2="482.3819999999999" y2="100" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="494.3819999999999" y1="104" x2="482.3819999999999" y2="104" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="703.2039999999998" y1="344.4" x2="710.2039999999998" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="710.2039999999998" y1="344.4" x2="710.2039999999998" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="717.2039999999998" y1="344.4" x2="710.2039999999998" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="710.2039999999998" cy="328.4" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="438.1579999999999" y1="100" x2="426.1579999999999" y2="100" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="438.1579999999999" y1="104" x2="426.1579999999999" y2="104" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="88.304" y1="172.2" x2="100.304" y2="172.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="88.304" y1="168.2" x2="100.304" y2="168.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="463.9912999999999" y1="256.2" x2="456.9912999999999" y2="268.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="456.9912999999999" y1="256.2" x2="456.9912999999999" y2="268.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="449.9912999999999" y1="256.2" x2="456.9912999999999" y2="268.2" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="456.9912999999999" cy="272.2" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="640.8439999999998" y1="344.4" x2="652.8439999999998" y2="344.4" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="640.8439999999998" y1="340.4" x2="652.8439999999998" y2="340.4" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="410.3848999999999" y1="256.2" x2="403.3848999999999" y2="268.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="403.3848999999999" y1="256.2" x2="403.3848999999999" y2="268.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="396.3848999999999" y1="256.2" x2="403.3848999999999" y2="268.2" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="403.3848999999999" cy="272.2" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="310.9999999999999" y1="344.4" x2="322.9999999999999" y2="344.4" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="310.9999999999999" y1="340.4" x2="322.9999999999999" y2="340.4" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="382.5816999999999" y1="256.2" x2="370.5816999999999" y2="256.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="382.5816999999999" y1="260.2" x2="370.5816999999999" y2="260.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="172.51299999999992" y1="344.4" x2="179.51299999999992" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="179.51299999999992" y1="344.4" x2="179.51299999999992" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="186.51299999999992" y1="344.4" x2="179.51299999999992" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="179.51299999999992" cy="328.4" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="100.304" y1="256.2" x2="88.304" y2="256.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="100.304" y1="260.2" x2="88.304" y2="260.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="123.58499999999992" y1="344.4" x2="130.58499999999992" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="130.58499999999992" y1="344.4" x2="130.58499999999992" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="137.58499999999992" y1="344.4" x2="130.58499999999992" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="130.58499999999992" cy="328.4" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="136.58499999999992" y1="428.4" x2="124.58499999999992" y2="428.4" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="136.58499999999992" y1="432.4" x2="124.58499999999992" y2="432.4" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="76.82499999999996" y1="500.59999999999997" x2="83.82499999999996" y2="488.59999999999997" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="83.82499999999996" y1="500.59999999999997" x2="83.82499999999996" y2="488.59999999999997" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="90.82499999999996" y1="500.59999999999997" x2="83.82499999999996" y2="488.59999999999997" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="83.82499999999996" cy="484.59999999999997" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="89.82499999999996" y1="584.5999999999999" x2="77.82499999999996" y2="584.5999999999999" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="89.82499999999996" y1="588.5999999999999" x2="77.82499999999996" y2="588.5999999999999" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="231.85999999999993" y1="656.8" x2="238.85999999999993" y2="644.8" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="238.85999999999993" y1="656.8" x2="238.85999999999993" y2="644.8" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="245.85999999999993" y1="656.8" x2="238.85999999999993" y2="644.8" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="238.85999999999993" cy="640.8" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="264.8599999999999" y1="740.8" x2="252.8599999999999" y2="740.8" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="264.8599999999999" y1="744.8" x2="252.8599999999999" y2="744.8" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="251.8599999999999" y1="813" x2="258.8599999999999" y2="801" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="258.8599999999999" y1="813" x2="258.8599999999999" y2="801" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="265.8599999999999" y1="813" x2="258.8599999999999" y2="801" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="258.8599999999999" cy="797" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="264.8599999999999" y1="897" x2="252.8599999999999" y2="897" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="264.8599999999999" y1="901" x2="252.8599999999999" y2="901" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="269.15199999999993" y1="969.2" x2="276.15199999999993" y2="957.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="276.15199999999993" y1="969.2" x2="276.15199999999993" y2="957.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="283.15199999999993" y1="969.2" x2="276.15199999999993" y2="957.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="185.51299999999992" y1="428.4" x2="173.51299999999992" y2="428.4" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="185.51299999999992" y1="432.4" x2="173.51299999999992" y2="432.4" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="219.27299999999997" y1="500.59999999999997" x2="226.27299999999997" y2="488.59999999999997" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="226.27299999999997" y1="500.59999999999997" x2="226.27299999999997" y2="488.59999999999997" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="233.27299999999997" y1="500.59999999999997" x2="226.27299999999997" y2="488.59999999999997" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="226.27299999999997" cy="484.59999999999997" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="465.068" y1="584.5999999999999" x2="458.068" y2="596.5999999999999" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="458.068" y1="584.5999999999999" x2="458.068" y2="596.5999999999999" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="451.068" y1="584.5999999999999" x2="458.068" y2="596.5999999999999" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="458.068" cy="600.5999999999999" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="310.5679999999999" y1="969.2" x2="322.5679999999999" y2="969.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="310.5679999999999" y1="965.2" x2="322.5679999999999" y2="965.2" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="316.5679999999999" cy="961.2" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="406.412" y1="584.5999999999999" x2="399.412" y2="596.5999999999999" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="399.412" y1="584.5999999999999" x2="399.412" y2="596.5999999999999" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="392.412" y1="584.5999999999999" x2="399.412" y2="596.5999999999999" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="399.412" cy="600.5999999999999" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="272.8599999999999" y1="656.8" x2="284.8599999999999" y2="656.8" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="272.8599999999999" y1="652.8" x2="284.8599999999999" y2="652.8" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="278.8599999999999" cy="648.8" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="436.1880999999999" y1="256.2" x2="424.1880999999999" y2="256.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="436.1880999999999" y1="260.2" x2="424.1880999999999" y2="260.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="421.73999999999995" y1="500.59999999999997" x2="428.73999999999995" y2="488.59999999999997" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="428.73999999999995" y1="500.59999999999997" x2="428.73999999999995" y2="488.59999999999997" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="435.73999999999995" y1="500.59999999999997" x2="428.73999999999995" y2="488.59999999999997" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="428.73999999999995" cy="484.59999999999997" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="302.35999999999996" y1="1053.2" x2="290.35999999999996" y2="1053.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="302.35999999999996" y1="1057.2" x2="290.35999999999996" y2="1057.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="290.3599999999999" y1="1125.4" x2="302.3599999999999" y2="1125.4" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="290.3599999999999" y1="1121.4" x2="302.3599999999999" y2="1121.4" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="296.3599999999999" cy="1117.4" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<rect x="607.7019999999999" y="288.19999999999993" width="141.644" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="678.5239999999999" y="300.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">publishes, per branch</text>
-<rect x="716.8119999999999" y="124" width="145.42399999999998" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="789.5239999999999" y="136.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">org/repo/branch/spec</text>
-<rect x="58.257999999999996" y="124" width="72.09200000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="94.304" y="136.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">index.json</text>
-<rect x="476.76199999999994" y="288.19999999999993" width="115.94000000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="534.732" y="300.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">repository + spec</text>
-<rect x="288.5139999999999" y="288.19999999999993" width="56.972" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="316.9999999999999" y="300.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">product</text>
-<rect x="185.79599999999996" y="288.19999999999993" width="59.996" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="215.79399999999995" y="300.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">renders</text>
-<rect x="17.811999999999998" y="288.19999999999993" width="152.984" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="94.304" y="300.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">org/repo, spec, moniker</text>
-<rect x="41.35299999999997" y="452.4" width="84.94399999999997" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="83.82499999999996" y="464.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">x-tagGroups</text>
-<rect x="65.92299999999996" y="608.5999999999999" width="35.804" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="83.82499999999996" y="620.6999999999999" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">tags</text>
-<rect x="224.3259999999999" y="764.8" width="69.06800000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="258.8599999999999" y="776.9" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">endpoints</text>
-<rect x="221.3019999999999" y="921" width="75.11600000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="258.8599999999999" y="933.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">operations</text>
-<rect x="184.93499999999997" y="452.4" width="82.676" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="226.27299999999997" y="464.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">components</text>
-<rect x="447.0559999999999" y="608.5999999999999" width="104.6" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="499.35599999999994" y="620.6999999999999" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">op-{operationId}</text>
-<rect x="366.768" y="608.5999999999999" width="65.28800000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="399.412" y="620.6999999999999" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">tag-{slug}</text>
-<rect x="395.71799999999996" y="288.19999999999993" width="66.04400000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="428.73999999999995" y="300.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">api/{key}/</text>
-<rect x="248.59599999999995" y="1077.2000000000003" width="95.528" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
-<text x="296.35999999999996" y="1089.3000000000002" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">search export</text>
+<line x1="173.712" y1="256.2" x2="161.712" y2="256.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="173.712" y1="260.2" x2="161.712" y2="260.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="216.76799999999992" y1="344.4" x2="223.76799999999992" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="223.76799999999992" y1="344.4" x2="223.76799999999992" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="230.76799999999992" y1="344.4" x2="223.76799999999992" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="223.76799999999992" cy="328.4" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="361.99499999999995" y1="100" x2="349.99499999999995" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="361.99499999999995" y1="104" x2="349.99499999999995" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="185.0879999999999" y1="344.4" x2="192.0879999999999" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="192.0879999999999" y1="344.4" x2="192.0879999999999" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="199.0879999999999" y1="344.4" x2="192.0879999999999" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="192.0879999999999" cy="328.4" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="418.21899999999994" y1="100" x2="406.21899999999994" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="418.21899999999994" y1="104" x2="406.21899999999994" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="742.2139999999998" y1="172.2" x2="754.2139999999998" y2="172.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="742.2139999999998" y1="168.2" x2="754.2139999999998" y2="168.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="422.4136999999999" y1="256.2" x2="415.4136999999999" y2="268.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="415.4136999999999" y1="256.2" x2="415.4136999999999" y2="268.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="408.4136999999999" y1="256.2" x2="415.4136999999999" y2="268.2" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="415.4136999999999" cy="272.2" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="249.4479999999999" y1="344.4" x2="261.44799999999987" y2="344.4" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="249.4479999999999" y1="340.4" x2="261.44799999999987" y2="340.4" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="476.0200999999999" y1="256.2" x2="469.0200999999999" y2="268.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="469.0200999999999" y1="256.2" x2="469.0200999999999" y2="268.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="462.0200999999999" y1="256.2" x2="469.0200999999999" y2="268.2" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="469.0200999999999" cy="272.2" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="519.5179999999999" y1="344.4" x2="531.5179999999999" y2="344.4" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="519.5179999999999" y1="340.4" x2="531.5179999999999" y2="340.4" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="501.8232999999999" y1="256.2" x2="489.8232999999999" y2="256.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="501.8232999999999" y1="260.2" x2="489.8232999999999" y2="260.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="656.005" y1="344.4" x2="663.005" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="663.005" y1="344.4" x2="663.005" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="670.005" y1="344.4" x2="663.005" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="663.005" cy="328.4" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="754.2139999999998" y1="256.2" x2="742.2139999999998" y2="256.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="754.2139999999998" y1="260.2" x2="742.2139999999998" y2="260.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="704.933" y1="344.4" x2="711.933" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="711.933" y1="344.4" x2="711.933" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="718.933" y1="344.4" x2="711.933" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="711.933" cy="328.4" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="669.005" y1="428.4" x2="657.005" y2="428.4" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="669.005" y1="432.4" x2="657.005" y2="432.4" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="609.2449999999999" y1="500.59999999999997" x2="616.2449999999999" y2="488.59999999999997" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="616.2449999999999" y1="500.59999999999997" x2="616.2449999999999" y2="488.59999999999997" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="623.2449999999999" y1="500.59999999999997" x2="616.2449999999999" y2="488.59999999999997" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="616.2449999999999" cy="484.59999999999997" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="622.2449999999999" y1="584.5999999999999" x2="610.2449999999999" y2="584.5999999999999" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="622.2449999999999" y1="588.5999999999999" x2="610.2449999999999" y2="588.5999999999999" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="558.693" y1="656.8" x2="565.693" y2="644.8" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="565.693" y1="656.8" x2="565.693" y2="644.8" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="572.693" y1="656.8" x2="565.693" y2="644.8" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="565.693" cy="640.8" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="551.693" y1="740.8" x2="539.693" y2="740.8" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="551.693" y1="744.8" x2="539.693" y2="744.8" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="538.693" y1="813" x2="545.693" y2="801" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="545.693" y1="813" x2="545.693" y2="801" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="552.693" y1="813" x2="545.693" y2="801" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="545.693" cy="797" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="551.693" y1="897" x2="539.693" y2="897" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="551.693" y1="901" x2="539.693" y2="901" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="538.693" y1="969.2" x2="545.693" y2="957.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="545.693" y1="969.2" x2="545.693" y2="957.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="552.693" y1="969.2" x2="545.693" y2="957.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="717.933" y1="428.4" x2="705.933" y2="428.4" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="717.933" y1="432.4" x2="705.933" y2="432.4" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="751.6929999999999" y1="500.59999999999997" x2="758.6929999999999" y2="488.59999999999997" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="758.6929999999999" y1="500.59999999999997" x2="758.6929999999999" y2="488.59999999999997" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="765.6929999999999" y1="500.59999999999997" x2="758.6929999999999" y2="488.59999999999997" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="758.6929999999999" cy="484.59999999999997" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="423.4849999999999" y1="584.5999999999999" x2="416.4849999999999" y2="596.5999999999999" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="416.4849999999999" y1="584.5999999999999" x2="416.4849999999999" y2="596.5999999999999" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="409.4849999999999" y1="584.5999999999999" x2="416.4849999999999" y2="596.5999999999999" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="416.4849999999999" cy="600.5999999999999" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="499.277" y1="969.2" x2="511.277" y2="969.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="499.277" y1="965.2" x2="511.277" y2="965.2" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="505.277" cy="961.2" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="482.1409999999999" y1="584.5999999999999" x2="475.1409999999999" y2="596.5999999999999" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="475.1409999999999" y1="584.5999999999999" x2="475.1409999999999" y2="596.5999999999999" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="468.1409999999999" y1="584.5999999999999" x2="475.1409999999999" y2="596.5999999999999" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="475.1409999999999" cy="600.5999999999999" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="519.693" y1="656.8" x2="531.693" y2="656.8" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="519.693" y1="652.8" x2="531.693" y2="652.8" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="525.693" cy="648.8" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="448.2168999999999" y1="256.2" x2="436.2168999999999" y2="256.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="448.2168999999999" y1="260.2" x2="436.2168999999999" y2="260.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="438.8129999999999" y1="500.59999999999997" x2="445.8129999999999" y2="488.59999999999997" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="445.8129999999999" y1="500.59999999999997" x2="445.8129999999999" y2="488.59999999999997" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="452.8129999999999" y1="500.59999999999997" x2="445.8129999999999" y2="488.59999999999997" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="445.8129999999999" cy="484.59999999999997" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="531.485" y1="1053.2" x2="519.485" y2="1053.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="531.485" y1="1057.2" x2="519.485" y2="1057.2" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="519.485" y1="1125.4" x2="531.485" y2="1125.4" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="519.485" y1="1121.4" x2="531.485" y2="1121.4" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="525.485" cy="1117.4" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<rect x="151.56699999999992" y="288.19999999999993" width="141.644" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="222.38899999999992" y="300.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">publishes, per branch</text>
+<rect x="4" y="124" width="145.42399999999998" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="76.71199999999999" y="136.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">org/repo/branch/spec</text>
+<rect x="784.8799999999999" y="124" width="72.09200000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="820.9259999999999" y="136.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">index.json</text>
+<rect x="301.40749999999997" y="288.19999999999993" width="115.94000000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="359.3775" y="300.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">repository + spec</text>
+<rect x="569.7439999999999" y="288.19999999999993" width="56.972" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="598.2299999999999" y="300.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">product</text>
+<rect x="645.9883124999999" y="288.19999999999993" width="59.996" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="675.9863124999999" y="300.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">renders</text>
+<rect x="714.4209999999999" y="288.19999999999993" width="152.984" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="790.9129999999999" y="300.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">org/repo, spec, moniker</text>
+<rect x="646.4849999999999" y="452.4" width="84.94399999999997" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="688.9569999999999" y="464.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">x-tagGroups</text>
+<rect x="671.0549999999998" y="608.5999999999999" width="35.804" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="688.9569999999999" y="620.6999999999999" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">tags</text>
+<rect x="583.871" y="764.8" width="69.06800000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="618.405" y="776.9" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">endpoints</text>
+<rect x="580.847" y="921" width="75.11600000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="618.405" y="933.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">operations</text>
+<rect x="784.7289999999999" y="452.4" width="82.676" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="826.0669999999999" y="464.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">components</text>
+<rect x="322.8969999999999" y="608.5999999999999" width="104.6" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="375.1969999999999" y="620.6999999999999" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">op-{operationId}</text>
+<rect x="515.2089999999998" y="608.5999999999999" width="65.28800000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="547.8529999999998" y="620.6999999999999" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">tag-{slug}</text>
+<rect x="427.3475" y="288.19999999999993" width="66.04400000000001" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="460.3695" y="300.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">api/{key}/</text>
+<rect x="550.433" y="1077.2000000000003" width="95.528" height="24.2" rx="10" ry="10" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="0.5" />
+<text x="598.197" y="1089.3000000000002" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.8999999999999995">search export</text>
 </svg>

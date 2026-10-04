@@ -416,6 +416,9 @@ internal static class BkCoordinateAssigner
 					_ = lg.NoAlign.Add(lg.Edges.Count);
 				lg.Edges.Add((e.From, d, e.OriginalIndex));
 				lg.SecondHalf[ei] = lg.Edges.Count;
+				// Last segment of a long edge (virtual -> real): the dummy follows its virtual node, not the target's port.
+				if (e.From >= graph.RealNodeCount && e.To < graph.RealNodeCount)
+					_ = lg.NoAlign.Add(lg.Edges.Count);
 				lg.Edges.Add((d, e.To, e.OriginalIndex));
 			}
 			else

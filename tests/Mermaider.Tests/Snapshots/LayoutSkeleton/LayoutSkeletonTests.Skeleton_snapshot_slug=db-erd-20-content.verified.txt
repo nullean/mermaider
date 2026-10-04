@@ -19,7 +19,7 @@ Edges:
   Heading --slug--> Anchor [Bottom->Top] [D L D]
   ImageLink --src--> Image [Bottom->Top] [D]
   IncludeDirective --path--> Snippet [Bottom->Top] [D]
-  InternalLink --#anchor--> Anchor [Bottom->Top] [D L D L D R D]
+  InternalLink --#anchor--> Anchor [Bottom->Top] [D L D L D]
   InternalLink --path--> Page [Bottom->Top] [D R D]
   Page --collected--> Anchor [Bottom->Top] [D L D L D]
   Page --contains--> Directive [Bottom->Top] [D R D]

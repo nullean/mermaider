@@ -60,7 +60,9 @@ internal static class CrossingMinimizer
 					graph.NodePositionInLayer[nodes[i]] = i;
 			}
 
-			Optimize(graph, iterations, useModelOrderForVirtuals, useModelOrderForRealNodes, useRealFirstTiebreaker, ct);
+			// Odd restarts use plain barycentre sweeps: the model-order tie rules otherwise pull every restart back to the same minimum.
+			var plain = (r & 1) == 1;
+			Optimize(graph, iterations, !plain && useModelOrderForVirtuals, !plain && useModelOrderForRealNodes, !plain && useRealFirstTiebreaker, ct);
 			var total = TotalCrossings(graph);
 			if (total < bestCrossings)
 			{

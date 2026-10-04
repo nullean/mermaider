@@ -15,7 +15,7 @@ Edges:
   OpenApiRepository --org/repo/branch/spec--> OpenApiSpec [Bottom->Top] [D R D]
   OpenApiSpec --per version--> ApiSpecVersion [Bottom->Top] [D L D]
   Page --exported--> SearchDocument [Bottom->Top] [D R D]
-  Repository --publishes--> OpenApiSpec [Bottom->Top] [D R D]
+  Repository --publishes--> OpenApiSpec [Bottom->Top] [D L D]
   SearchIndex --contains--> SearchDocument [Bottom->Top] [D L D]
 Ports:
   ApiDeclaration Bottom: edge1,edge0,edge2
