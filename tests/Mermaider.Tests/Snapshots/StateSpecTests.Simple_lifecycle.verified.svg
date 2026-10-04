@@ -40,7 +40,7 @@
 <path class="edge" data-from="_start" data-to="Draft" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M101.34264,40 L101.34264,70" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Draft" data-to="Review" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="submit" d="M85.83330666666667,114.8 L85.83330666666667,136.8 Q85.83330666666667,142.8 79.83330666666667,142.8 L54.272000000000006,142.8 Q48.272000000000006,142.8 48.272000000000006,148.8 L48.272000000000006,159.25 Q48.272000000000006,165.25 54.272000000000006,165.25 L76.79330666666667,165.25 Q82.79330666666667,165.25 82.79330666666667,171.25 L82.79330666666667,193.25" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Review" data-to="Published" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="approve" d="M101.34264,238.05 L101.34264,316.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Review" data-to="Draft" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="reject" d="M119.89197333333334,193.25 L119.89197333333334,166.77 Q119.89197333333334,165.25 118.37197333333333,165.25 L118.37197333333333,165.25 Q116.85197333333333,165.25 116.85197333333333,163.73 L116.85197333333333,114.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Review" data-to="Draft" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="reject" d="M119.89197333333334,193.25 L119.89197333333334,165.25 L119.89197333333334,165.25 L119.89197333333334,114.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Published" data-to="Archived" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="archive" d="M101.34264,361.3 L101.34264,439.75" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Archived" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M101.34264,484.55 L101.34264,514.55" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="Draft" data-to="Review" data-label="submit">
@@ -52,8 +52,8 @@
   <text x="101.34264" y="277.275" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">approve</text>
 </g>
 <g class="edge-label" data-from="Review" data-to="Draft" data-label="reject">
-  <rect x="91.22269333333334" y="162.82500000000002" width="57.33856000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="119.89197333333334" y="175.05" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">reject</text>
+  <rect x="91.22269333333334" y="127.80000000000001" width="57.33856000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="119.89197333333334" y="140.025" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">reject</text>
 </g>
 <g class="edge-label" data-from="Published" data-to="Archived" data-label="archive">
   <rect x="66.26248" y="388.29999999999995" width="70.16032000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />

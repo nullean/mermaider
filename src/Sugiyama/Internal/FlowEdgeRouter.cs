@@ -85,7 +85,7 @@ internal static class FlowEdgeRouter
 				continue;
 			}
 
-			var (ss, ts) = ChooseSides(s, t, vertical);
+			var (ss, ts) = ChooseSides(s, t, vertical, boxes);
 			plans.Add(new Plan { Edge = e, S = s, T = t, SSide = ss, TSide = ts });
 		}
 
@@ -138,6 +138,10 @@ internal static class FlowEdgeRouter
 				break;
 		}
 
+		foreach (var p in plans.Where(p => p.Fixed is not null))
+			polylines[p.Edge.Index] = Straighten(polylines[p.Edge.Index], p, plans);
+		UniformJogs(plans, polylines);
+
 		foreach (var p in plans)
 		{
 			var pts = polylines[p.Edge.Index];
@@ -158,8 +162,23 @@ internal static class FlowEdgeRouter
 		return g is null || g.NodeIds.Contains(otherEnd) ? node : new Box("\u0002" + groupId, g.X, g.Y, g.W, g.H, PortOutline.Rectangle, node.Id);
 	}
 
-	private static (int SSide, int TSide) ChooseSides(Box s, Box t, bool vertical)
+	private static (int SSide, int TSide) ChooseSides(Box s, Box t, bool vertical, IReadOnlyList<Box> boxes)
 	{
+		// A back edge (target above source in a top-down flow) goes straight up when the way is free; otherwise it leaves
+		// and enters through the side facing the nearer outside edge, so it never shares ports with the forward edges.
+		if (vertical && t.Cy < s.Cy - 1)
+		{
+			var lo = Math.Max(s.X, t.X);
+			var hi = Math.Min(s.Right, t.Right);
+			var blocked = hi - lo < 10 || boxes.Any(b => b.Id != s.MemberId && b.Id != t.MemberId && b.Cy > t.Cy && b.Cy < s.Cy && b.Right > lo && b.X < hi);
+			if (blocked)
+			{
+				var mid = (boxes.Min(b => b.X) + boxes.Max(b => b.Right)) / 2;
+				var side = (s.Cx + t.Cx) / 2 >= mid ? 0 : 2;
+				return (side, side);
+			}
+		}
+
 		var dx = t.Cx - s.Cx;
 		var dy = t.Cy - s.Cy;
 		var gapY = Math.Max(t.Y - s.Bottom, s.Y - t.Bottom);
@@ -403,9 +422,55 @@ internal static class FlowEdgeRouter
 	{
 		if (b.Outline is not (PortOutline.Diamond or PortOutline.Ellipse))
 			return q;
-		var side = q.Y >= b.Cy ? 1 : 3;
-		var projected = PortOn(b, side, Math.Clamp((q.X - b.X) / b.W, 0, 1));
-		return new LayoutPoint(q.X, projected.Y);
+		var onTopBottom = Math.Abs(q.Y - b.Y) < 1.5 || Math.Abs(q.Y - b.Bottom) < 1.5;
+		if (onTopBottom)
+		{
+			var projected = PortOn(b, q.Y >= b.Cy ? 1 : 3, Math.Clamp((q.X - b.X) / b.W, 0, 1));
+			return new LayoutPoint(q.X, projected.Y);
+		}
+
+		var side = PortOn(b, q.X >= b.Cx ? 0 : 2, Math.Clamp((q.Y - b.Y) / b.H, 0, 1));
+		return new LayoutPoint(side.X, q.Y);
+	}
+
+	// Z-bends between the same two layers jog at one shared coordinate (a bus line in the gap), so fans and merges look
+	// uniform and mirror-symmetric instead of each jogging at its own height.
+	private static void UniformJogs(List<Plan> plans, Dictionary<int, List<LayoutPoint>> polylines)
+	{
+		var zs = new List<(Plan Plan, bool Vertical)>();
+		foreach (var p in plans)
+		{
+			var pts = polylines[p.Edge.Index];
+			if (pts.Count != 4)
+				continue;
+			var vertical = Math.Abs(pts[0].X - pts[1].X) < 0.01 && Math.Abs(pts[1].Y - pts[2].Y) < 0.01 && Math.Abs(pts[2].X - pts[3].X) < 0.01;
+			var horizontal = Math.Abs(pts[0].Y - pts[1].Y) < 0.01 && Math.Abs(pts[1].X - pts[2].X) < 0.01 && Math.Abs(pts[2].Y - pts[3].Y) < 0.01;
+			if (vertical && p.T.Cy > p.S.Cy + 1)
+				zs.Add((p, true));
+			else if (horizontal && p.T.Cx > p.S.Cx + 1)
+				zs.Add((p, false));
+		}
+
+		foreach (var grp in zs.GroupBy(z => (z.Vertical, Math.Round((z.Vertical ? z.Plan.S.Cy : z.Plan.S.Cx) / 8), Math.Round((z.Vertical ? z.Plan.T.Cy : z.Plan.T.Cx) / 8))))
+		{
+			var list = grp.ToList();
+			if (list.Count < 2)
+				continue;
+			var vertical = grp.Key.Vertical;
+			var lo = list.Max(z => vertical ? z.Plan.S.Bottom : z.Plan.S.Right) + 12;
+			var hi = list.Min(z => vertical ? z.Plan.T.Y : z.Plan.T.X) - 22;
+			if (lo > hi)
+				continue;
+			// labelled gaps jog right under the source so the pill has the long run; plain gaps jog at the middle
+			var target = list.Any(z => z.Plan.Edge.LabelW > 0) ? lo : (lo + hi) / 2;
+			foreach (var (plan, _) in list)
+			{
+				var pts = polylines[plan.Edge.Index];
+				polylines[plan.Edge.Index] = vertical
+					? [pts[0], new LayoutPoint(pts[1].X, target), new LayoutPoint(pts[2].X, target), pts[3]]
+					: [pts[0], new LayoutPoint(target, pts[1].Y), new LayoutPoint(target, pts[2].Y), pts[3]];
+			}
+		}
 	}
 
 	private static bool PortTaken(List<Plan> plans, Plan self, Box box, int side, double x, double y)

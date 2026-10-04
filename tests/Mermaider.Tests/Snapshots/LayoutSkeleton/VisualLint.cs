@@ -53,7 +53,7 @@ internal static class VisualLint
 		{
 			foreach (var gr in gs)
 			{
-				var titleW = Math.Min(gr.Width, 24 + (gr.Label.Length * 6.6));
+				var titleW = Math.Min(gr.Width, 20 + (gr.Label.Length * 7.8));
 				titles.Add((gr.Id, Tr(gr.X, gr.Y, gr.X + titleW, gr.Y + 28), Tr(gr.X, gr.Y, gr.X + gr.Width, gr.Y + gr.Height)));
 				Groups(gr.Children);
 			}

@@ -85,7 +85,8 @@ public static class HierarchicalLayout
 				childPlaced[child.Id] = cp;
 				var w = cp.Width + (2 * options.GroupPadding);
 				var h = cp.Height + options.GroupHeaderHeight + (2 * options.GroupPadding);
-				w = Math.Max(w, 80);
+				// leave a free column beside the title so edges can enter the box without crossing its text
+				w = Math.Max(w, Math.Max(80, 20 + (subById[child.Id].Label.Length * 7.8) + 44));
 				groupBoxSize[child.Id] = (w, h);
 				itemNodes.Add(new LayoutNode("\u0001sg:" + child.Id, w, h));
 			}
@@ -146,7 +147,6 @@ public static class HierarchicalLayout
 				new LayoutGraph(input.Direction, itemNodes, itemEdges, []), levelOptions);
 
 			// Routes between two plain nodes of this level follow the layout's own columns (uniform jogs, label columns).
-			if (input.Direction == LayoutDirection.TD)
 			{
 				foreach (var fe in flat.Edges)
 				{
@@ -217,7 +217,7 @@ public static class HierarchicalLayout
 		var groupBoxes = new List<FlowEdgeRouter.GroupBox>();
 		void Flatten(GroupRect g)
 		{
-			groupBoxes.Add(new FlowEdgeRouter.GroupBox(g.Id, g.X + pad, g.Y + pad, g.W, g.H, g.NodeIds, Math.Min(g.W, 24 + (g.Label.Length * 6.6))));
+			groupBoxes.Add(new FlowEdgeRouter.GroupBox(g.Id, g.X + pad, g.Y + pad, g.W, g.H, g.NodeIds, Math.Min(g.W, 20 + (g.Label.Length * 7.8))));
 			foreach (var c in g.Children)
 				Flatten(c);
 		}

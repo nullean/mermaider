@@ -38,9 +38,9 @@
 </defs>
 
 <path class="edge" data-from="_start" data-to="Active" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M129.3474,40 L129.3474,70" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Active" data-to="Paused" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="pause" d="M103.34740000000001,114.8 L103.34740000000001,136.8 Q103.34740000000001,142.8 97.34740000000001,142.8 L60.31466666666666,142.8 Q54.31466666666666,142.8 54.31466666666666,148.8 L54.31466666666666,201.25" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Active" data-to="Paused" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="pause" d="M103.34740000000001,114.8 L103.34740000000001,120.8 Q103.34740000000001,126.8 97.34740000000001,126.8 L60.31466666666666,126.8 Q54.31466666666666,126.8 54.31466666666666,132.8 L54.31466666666666,201.25" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Paused" data-to="Active" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="resume" d="M92.62933333333332,201.25 L92.62933333333332,179.25 Q92.62933333333332,173.25 98.62933333333332,173.25 L123.3474,173.25 Q129.3474,173.25 129.3474,167.25 L129.3474,114.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Active" data-to="Done" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="finish" d="M155.3474,114.8 L155.3474,136.8 Q155.3474,142.8 161.3474,142.8 L238.95341333333332,142.8 Q244.95341333333332,142.8 244.95341333333332,148.8 L244.95341333333332,201.25" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Active" data-to="Done" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="finish" d="M155.3474,114.8 L155.3474,120.8 Q155.3474,126.8 161.3474,126.8 L238.95341333333332,126.8 Q244.95341333333332,126.8 244.95341333333332,132.8 L244.95341333333332,201.25" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Done" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M244.95341333333332,246.05 L244.95341333333334,276.05" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="Active" data-to="Paused" data-label="pause">
   <rect x="24.042666666666655" y="145.8" width="60.54400000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
@@ -51,8 +51,8 @@
   <text x="129.3474" y="158.025" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">resume</text>
 </g>
 <g class="edge-label" data-from="Active" data-to="Done" data-label="finish">
-  <rect x="217.8868533333333" y="145.8" width="54.133120000000005" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="244.95341333333332" y="158.025" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">finish</text>
+  <rect x="186.52474866666665" y="114.575" width="54.133120000000005" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="213.59130866666666" y="126.8" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">finish</text>
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
   <circle cx="129.3474" cy="28" r="10" fill="var(--_text)" stroke="none" />

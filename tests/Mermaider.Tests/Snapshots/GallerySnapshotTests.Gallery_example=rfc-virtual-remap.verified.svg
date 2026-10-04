@@ -37,10 +37,10 @@
   </marker>
 </defs>
 
-<path class="edge" data-from="src" data-to="v1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M322.5,71.5 L362.5,71.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="src" data-to="v2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M322.5,133 L362.5,133" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="v1" data-to="v1out" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M601.5,49 L660.5,49" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="v2" data-to="v2out" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M620.5,161 L660.5,161" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="src" data-to="v1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M322.46399999999994,90.4 L336.46399999999994,90.4 Q342.46399999999994,90.4 342.46399999999994,84.4 L342.46399999999994,54.8 Q342.46399999999994,48.8 348.46399999999994,48.8 L362.46399999999994,48.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="src" data-to="v2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M322.46399999999994,119.20000000000002 L336.46399999999994,119.20000000000002 Q342.46399999999994,119.20000000000002 342.46399999999994,125.20000000000002 L342.46399999999994,154.8 Q342.46399999999994,160.8 348.46399999999994,160.8 L362.46399999999994,160.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="v1" data-to="v1out" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M601.4399999999999,48.8 L660.5919999999999,48.79999999999998" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="v2" data-to="v2out" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M620.5919999999999,160.8 L660.5919999999999,160.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="src" data-label="manage-data/ingest/some-page.md
 *(source — unchanged on
 disk)*" data-shape="rectangle">

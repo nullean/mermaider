@@ -6,7 +6,7 @@ Edges:
   A ----> C [Bottom->Top] [D]
   A ----> D [Bottom->Top] [D R D]
   E --text--> F [Bottom->Top] [D L D]
-  E --dotted text--> G [Bottom->Top] [D L D]
+  E --dotted text--> G [Bottom->Top] [D]
   E --thick text--> H [Bottom->Top] [D R D]
 Ports:
   A Bottom: edge0,edge1,edge2
