@@ -12,35 +12,35 @@ Groups:
 - Build (layer=2 order=0) members=[Isolated, Assembler, Codex]
 - Outputs (layer=3 order=0) members=[Site, Links, SpecIndex, Search, Notes]
 Edges:
-  Assembler ----> Search [Right->Left] [R U R]
-  Assembler ----> Site [Right->Left] [R U R]
-  Catalog ----> DocSet [Right->Left] [R U R]
-  Changelog ----> Notes [Right->Left] [R U R]
+  Assembler ----> Search [Right->Left] [R U R D R]
+  Assembler ----> Site [Right->Left] [R U R U R]
+  Catalog ----> DocSet [Right->Left] [R D R]
+  Changelog ----> Notes [Right->Left] [R D R U R]
   Codex ----> Site [Right->Left] [R U R]
-  DocSet ----> Assembler [Right->Left] [R D R]
+  DocSet ----> Assembler [Right->Left] [R U R]
   DocSet ----> Codex [Right->Left] [R D R]
-  DocSet ----> Isolated [Right->Left] [R D R]
-  DocSet --api: spec + repository--> SpecIndex [Right->Left] [R U R D R]
-  Isolated ----> Links [Right->Left] [R U R]
-  Isolated ----> Site [Right->Left] [R U R]
-  Links ----> Assembler [Left->Right] [L D L]
+  DocSet ----> Isolated [Right->Left] [R U R]
+  DocSet --api: spec + repository--> SpecIndex [Right->Left] [R D R U R]
+  Isolated ----> Links [Right->Left] [R D R]
+  Isolated ----> Site [Right->Left] [R U R D R]
+  Links ----> Assembler [Left->Right] [L U L]
   Links ----> Codex [Left->Right] [L D L]
   Notes ----> Site [Right->Left] [R U R]
   OpenApi --api: local spec--> DocSet [Right->Left] [R U R]
-  OpenApi --published per version--> SpecIndex [Right->Left] [R U R D R]
-  Repo ----> Changelog [Right->Left] [R U R]
+  OpenApi --published per version--> SpecIndex [Right->Left] [R D R U R]
+  Repo ----> Changelog [Right->Left] [R]
   Repo ----> DocSet [Right->Left] [R U R]
   Repo ----> OpenApi [Right->Left] [R U R]
   SpecIndex ----> Assembler [Left->Right] [L D L D L]
-  SpecIndex ----> Isolated [Left->Right] [L D L]
+  SpecIndex ----> Isolated [Left->Right] [L U L D L]
 Ports:
   Assembler Right: edge19,edge1,edge11,edge0
   Codex Right: edge4,edge12
-  DocSet Left: edge14,edge2,edge17
-  DocSet Right: edge8,edge7,edge5,edge6
+  DocSet Left: edge2,edge14,edge17
+  DocSet Right: edge7,edge8,edge5,edge6
   Isolated Right: edge20,edge10,edge9
   Links Left: edge9,edge11,edge12
   OpenApi Right: edge15,edge14
   Repo Right: edge17,edge18,edge16
-  Site Left: edge13,edge10,edge1,edge4
-  SpecIndex Left: edge15,edge8,edge20,edge19
+  Site Left: edge10,edge13,edge1,edge4
+  SpecIndex Left: edge20,edge19,edge15,edge8

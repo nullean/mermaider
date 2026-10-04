@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210.688 238.39999999999998" width="210.688" height="238.39999999999998" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 218.688 238.39999999999998" width="218.688" height="238.39999999999998" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -37,23 +37,23 @@
   </marker>
 </defs>
 
-<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M85.5,107 L99.5,107 Q105.5,107 105.5,101 L105.5,57 Q105.5,51 111.5,51 L125.5,51" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="A" data-to="C" data-style="dotted" data-arrow-start="false" data-arrow-end="true" d="M85.5,119 L125.5,119" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="A" data-to="D" data-style="thick" data-arrow-start="false" data-arrow-end="true" d="M85.5,131.5 L99.5,131.5 Q105.5,131.5 105.5,137.5 L105.5,181.5 Q105.5,187.5 111.5,187.5 L125.5,187.5" fill="none" stroke="var(--_line)" stroke-width="4.5" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M85.5,107 L105.5,107 Q111.5,107 111.5,101 L111.5,57 Q111.5,51 117.5,51 L133.5,51" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="C" data-style="dotted" data-arrow-start="false" data-arrow-end="true" d="M85.5,119 L133.5,119" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="D" data-style="thick" data-arrow-start="false" data-arrow-end="true" d="M85.5,131.5 L105.5,131.5 Q111.5,131.5 111.5,137.5 L111.5,181.5 Q111.5,187.5 117.5,187.5 L133.5,187.5" fill="none" stroke="var(--_line)" stroke-width="4.5" marker-end="url(#arrowhead)" />
 <g class="node" data-id="A" data-label="A" data-shape="rectangle">
-  <rect x="16" y="96.79999999999998" width="69.344" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="50.672" y="119.19999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">A</text>
+  <rect x="16" y="96.80000000000001" width="69.344" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="50.672" y="119.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">A</text>
 </g>
 <g class="node" data-id="B" data-label="B" data-shape="rectangle">
-  <rect x="125.344" y="16" width="69.344" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="160.016" y="38.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">B</text>
+  <rect x="133.344" y="16" width="69.344" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="168.016" y="38.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">B</text>
 </g>
 <g class="node" data-id="C" data-label="C" data-shape="rectangle">
-  <rect x="125.344" y="96.8" width="69.344" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="160.016" y="119.19999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">C</text>
+  <rect x="133.344" y="96.8" width="69.344" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="168.016" y="119.19999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">C</text>
 </g>
 <g class="node" data-id="D" data-label="D" data-shape="rectangle">
-  <rect x="125.344" y="177.6" width="69.344" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="160.016" y="200" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">D</text>
+  <rect x="133.344" y="177.6" width="69.344" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="168.016" y="200" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">D</text>
 </g>
 </svg>

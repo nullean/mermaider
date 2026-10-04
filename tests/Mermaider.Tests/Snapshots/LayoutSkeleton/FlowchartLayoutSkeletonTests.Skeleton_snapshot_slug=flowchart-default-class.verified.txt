@@ -7,5 +7,7 @@ Edges:
   A ----> B [Bottom->Top] [D]
   B ----> C [Bottom->Top] [D]
   C ----> D [Bottom->Top] [D]
-  D --Yes--> E [Left->Top] [D L D]
-  D --No--> F [Right->Top] [D R D]
+  D --Yes--> E [Bottom->Top] [D L D]
+  D --No--> F [Bottom->Top] [D R D]
+Ports:
+  D Bottom: edge3,edge4

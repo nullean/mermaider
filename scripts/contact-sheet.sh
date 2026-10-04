@@ -14,8 +14,8 @@ for slug in "$@"; do
   html="$OUT/$slug.html"
   cat > "$html" <<HTML
 <html><body style="margin:0;display:flex;background:#fff;font-family:sans-serif">
-<div style="flex:1;padding:8px;border-right:1px solid #ccc"><div style="font-size:11px;color:#888">MERMAIDER $slug</div><img src="file://$ours" style="max-width:100%"></div>
-<div style="flex:1;padding:8px"><div style="font-size:11px;color:#888">MERMAID.JS</div><img src="file://$ref" style="max-width:100%"></div>
+<div style="flex:1;padding:8px;border-right:1px solid #ccc"><div style="font-size:11px;color:#888">MERMAIDER $slug</div><img src="file://$ours" style="height:var(--h,680px);max-width:100%"></div>
+<div style="flex:1;padding:8px"><div style="font-size:11px;color:#888">MERMAID.JS</div><img src="file://$ref" style="height:var(--h,680px);max-width:100%"></div>
 </body></html>
 HTML
   "$CHROME" --headless --disable-gpu --hide-scrollbars --screenshot="$OUT/$slug.png" --window-size=${SHEET_W:-1800},${SHEET_H:-760} "file://$html" >/dev/null 2>&1

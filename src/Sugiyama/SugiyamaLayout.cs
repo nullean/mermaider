@@ -60,7 +60,7 @@ public static class SugiyamaLayout
 		if (input.Subgraphs.Count > 0)
 			PromoteDisconnectedSubgraphNodes(buf, input);
 
-		if (options.PortAwareLayout)
+		if (options.PortAwareLayout || options.BalancedPlacement)
 		{
 			var horizontalFlow = input.Direction is LayoutDirection.LR or LayoutDirection.RL;
 			buf.EdgeLabelExtent = input.Edges.Select(e => horizontalFlow ? e.LabelHeight : e.LabelWidth).ToArray();
@@ -74,7 +74,7 @@ public static class SugiyamaLayout
 					continue;
 				var flow = horizontalFlow ? input.Edges[e.OriginalIndex].LabelWidth : input.Edges[e.OriginalIndex].LabelHeight;
 				if (flow > 0)
-					gaps[buf.Layers[e.From]] = Math.Max(gaps[buf.Layers[e.From]], flow + (2 * ErEdgeRouter.Stub) + 16);
+					gaps[buf.Layers[e.From]] = Math.Max(gaps[buf.Layers[e.From]], flow + (options.BalancedPlacement ? 44 + 8 : (2 * ErEdgeRouter.Stub) + 16));
 			}
 			// A node fanning many edges into one gap needs a lane per extra edge for its horizontal runs (see ErEdgeRouter slotting).
 			var outDeg = new Dictionary<(int Node, int Gap), int>();
@@ -103,8 +103,8 @@ public static class SugiyamaLayout
 			options.UseModelOrderForRealNodes, options.UseRealFirstTiebreaker, options.CrossingRestarts, tied, options.CancellationToken);
 		if (tied is { Count: > 1 })
 			ChooseOrderByRoutedGeometry(buf, input, options, tied);
-		CoordinateAssigner.Run(buf, options.NodeSpacing, options.LayerSpacing, options.TightSourceLayering);
-		if (!options.PortAwareLayout)
+		CoordinateAssigner.Run(buf, options.NodeSpacing, options.LayerSpacing, options.TightSourceLayering || options.BalancedPlacement);
+		if (!options.PortAwareLayout && !options.BalancedPlacement)
 			SpreadFanOutChildren(buf, options.NodeSpacing);
 
 		// SpreadForkBranches assumes a flowchart/state-diagram "fork" — source → intermediate →
@@ -114,7 +114,7 @@ public static class SugiyamaLayout
 		// applying the heuristic there shoves the entire intermediate subtree ~200px away from its
 		// sibling for no reason. TightSourceLayering is exclusively opted into by the ER layout
 		// engine, so it doubles as the signal to skip this flowchart-only heuristic.
-		if (!options.TightSourceLayering)
+		if (!options.TightSourceLayering && !options.BalancedPlacement)
 			SpreadForkBranches(buf, options.NodeSpacing, BuildNodeSubgraphMap(buf, input.Subgraphs));
 
 		if (input.Subgraphs.Count > 0)
@@ -125,7 +125,7 @@ public static class SugiyamaLayout
 		}
 
 		var useSideRouting = input.Direction is LayoutDirection.LR or LayoutDirection.RL;
-		var routes = options.PortAwareLayout
+		var routes = options.PortAwareLayout || options.BalancedPlacement
 			? ErEdgeRouter.Run(buf, input.Edges, useSideRouting)
 			: EdgeRouter.Run(buf, useSideRouting, input.Edges, options.StrictTopDownFanout, options.NaturalBackEdgeRouting, options.ForceBottomExitFanOut);
 

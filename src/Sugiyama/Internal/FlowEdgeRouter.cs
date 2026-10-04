@@ -20,7 +20,13 @@ internal static class FlowEdgeRouter
 
 	internal sealed record GroupBox(string Id, double X, double Y, double W, double H, HashSet<string> NodeIds, double LabelW = 0);
 
-	internal sealed record RouteEdge(int Index, string Source, string Target, double LabelW, double LabelH, string? SourceGroup = null, string? TargetGroup = null);
+	internal sealed record RouteEdge(int Index, string Source, string Target, double LabelW, double LabelH, string? SourceGroup = null, string? TargetGroup = null)
+	{
+		/// <summary>Route produced by the level layout (ports aligned to label columns); used when it is collision-free.</summary>
+		internal IReadOnlyList<LayoutPoint>? Hint { get; init; }
+
+		internal LayoutPoint? HintLabel { get; init; }
+	}
 
 	private const double Stub = 22;
 	private const double Margin = 8;
@@ -50,6 +56,7 @@ internal static class FlowEdgeRouter
 		internal LayoutPoint SPort;
 		internal LayoutPoint TPort;
 		internal double SStub = Stub;
+		internal List<LayoutPoint>? Fixed;
 		internal double TStub = Stub;
 	}
 
@@ -87,12 +94,29 @@ internal static class FlowEdgeRouter
 		foreach (var p in plans)
 			ShrinkStubs(p);
 
+		foreach (var p in plans.Where(p => p.Edge.Hint is not null))
+		{
+			if (AcceptHint(p, boxes, groups) is { } fixedPts)
+			{
+				p.Fixed = fixedPts;
+				p.SPort = fixedPts[0];
+				p.TPort = fixedPts[^1];
+			}
+		}
+
 		var grid = new Grid(boxes, groups, plans);
 		var routed = new List<Seg>();
 		var placedLabels = new List<(double X0, double Y0, double X1, double Y1)>();
 		var polylines = new Dictionary<int, List<LayoutPoint>>();
 
-		var ordered = plans.OrderBy(p => Math.Abs(p.SPort.X - p.TPort.X) + Math.Abs(p.SPort.Y - p.TPort.Y)).ToList();
+		foreach (var p in plans.Where(p => p.Fixed is not null))
+		{
+			polylines[p.Edge.Index] = p.Fixed!;
+			for (var i = 0; i < p.Fixed!.Count - 1; i++)
+				routed.Add(new Seg(p.Fixed[i].X, p.Fixed[i].Y, p.Fixed[i + 1].X, p.Fixed[i + 1].Y));
+		}
+
+		var ordered = plans.Where(p => p.Fixed is null).OrderBy(p => Math.Abs(p.SPort.X - p.TPort.X) + Math.Abs(p.SPort.Y - p.TPort.Y)).ToList();
 		var segsOf = new Dictionary<int, List<Seg>>();
 		// pass 0 routes greedily; later passes rip each edge up and re-route it against all the others
 		for (var pass = 0; pass < 3; pass++)
@@ -117,7 +141,7 @@ internal static class FlowEdgeRouter
 		foreach (var p in plans)
 		{
 			var pts = polylines[p.Edge.Index];
-			var label = p.Edge.LabelW > 0 ? PlaceLabel(pts, p.Edge, boxes, groups, placedLabels, routed) : null;
+			var label = p.Edge.LabelW > 0 ? PlaceLabel(pts, p.Edge, boxes, groups, placedLabels, routed, p.Fixed is not null ? p.Edge.HintLabel : null) : null;
 			results[p.Edge.Index] = new LayoutEdgeResult(p.Edge.Index, pts, label);
 		}
 
@@ -331,6 +355,59 @@ internal static class FlowEdgeRouter
 		return [pts[0], new LayoutPoint(pts[1].X, y), new LayoutPoint(pts[2].X, y), new LayoutPoint(pts[3].X, y)];
 	}
 
+	// The layout's own route (ports aligned to label columns, uniform jogs) is used when nothing is in its way.
+	private static List<LayoutPoint>? AcceptHint(Plan p, IReadOnlyList<Box> boxes, IReadOnlyList<GroupBox> groups)
+	{
+		var pts = Simplify(p.Edge.Hint!.ToList());
+		if (pts.Count < 2)
+			return null;
+		static bool On(Box b, LayoutPoint q) => q.X >= b.X - 1 && q.X <= b.Right + 1 && q.Y >= b.Y - 1 && q.Y <= b.Bottom + 1;
+		if (!On(p.S, pts[0]) || !On(p.T, pts[^1]))
+			return null;
+
+		var sId = p.S.MemberId;
+		var tId = p.T.MemberId;
+		for (var i = 0; i < pts.Count - 1; i++)
+		{
+			var x0 = Math.Min(pts[i].X, pts[i + 1].X);
+			var x1 = Math.Max(pts[i].X, pts[i + 1].X);
+			var y0 = Math.Min(pts[i].Y, pts[i + 1].Y);
+			var y1 = Math.Max(pts[i].Y, pts[i + 1].Y);
+			foreach (var b in boxes)
+			{
+				var inset = b.Id == sId || b.Id == tId ? 2 : -1;
+				if (x1 > b.X + inset && x0 < b.Right - inset && y1 > b.Y + inset && y0 < b.Bottom - inset)
+					return null;
+			}
+
+			var mx = (x0 + x1) / 2;
+			var my = (y0 + y1) / 2;
+			foreach (var g in groups)
+			{
+				var hasS = g.NodeIds.Contains(sId);
+				var hasT = g.NodeIds.Contains(tId);
+				if (!hasS && !hasT && mx > g.X && mx < g.X + g.W && my > g.Y && my < g.Y + g.H)
+					return null;
+				if (g.LabelW > 0 && x1 > g.X + 2 && x0 < g.X + g.LabelW && y1 > g.Y + 2 && y0 < g.Y + 28)
+					return null;
+			}
+		}
+
+		// ports on diamonds/ellipses slide onto the outline (the first/last run is vertical in a top-down layout)
+		pts[0] = OntoOutline(p.S, pts[0]);
+		pts[^1] = OntoOutline(p.T, pts[^1]);
+		return pts;
+	}
+
+	private static LayoutPoint OntoOutline(Box b, LayoutPoint q)
+	{
+		if (b.Outline is not (PortOutline.Diamond or PortOutline.Ellipse))
+			return q;
+		var side = q.Y >= b.Cy ? 1 : 3;
+		var projected = PortOn(b, side, Math.Clamp((q.X - b.X) / b.W, 0, 1));
+		return new LayoutPoint(q.X, projected.Y);
+	}
+
 	private static bool PortTaken(List<Plan> plans, Plan self, Box box, int side, double x, double y)
 	{
 		foreach (var q in plans)
@@ -372,7 +449,7 @@ internal static class FlowEdgeRouter
 
 	private static LayoutPoint? PlaceLabel(
 		List<LayoutPoint> pts, RouteEdge e, IReadOnlyList<Box> boxes, IReadOnlyList<GroupBox> groups,
-		List<(double X0, double Y0, double X1, double Y1)> placed, List<Seg> routed)
+		List<(double X0, double Y0, double X1, double Y1)> placed, List<Seg> routed, LayoutPoint? preferred = null)
 	{
 		var segs = new List<(int I, double Len)>();
 		for (var i = 0; i < pts.Count - 1; i++)
@@ -397,6 +474,9 @@ internal static class FlowEdgeRouter
 					((1 - (len / maxLen)) * 30) + (Math.Abs(f - 0.5) * 20)));
 			}
 		}
+
+		if (preferred is { } pref)
+			candidates.Add((pref.X, pref.Y, -25));
 
 		// Sibling labels line up when anchored just before the arrowhead stub of the final run (like mermaid.js).
 		var last = pts.Count - 2;

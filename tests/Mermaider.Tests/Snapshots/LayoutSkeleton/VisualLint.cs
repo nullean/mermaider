@@ -295,6 +295,8 @@ internal static class VisualLint
 	{
 		var byId = nodes.ToDictionary(n => n.Id, n => n.R, StringComparer.Ordinal);
 		var zJogs = new List<(string Key, double Y, string Name)>();
+		var outCount = routes.GroupBy(r => r.Edge.Source).ToDictionary(g => g.Key, g => g.Count(), StringComparer.Ordinal);
+		var inCount = routes.GroupBy(r => r.Edge.Target).ToDictionary(g => g.Key, g => g.Count(), StringComparer.Ordinal);
 		foreach (var r in routes)
 		{
 			var name = $"{r.Edge.Source}->{r.Edge.Target}";
@@ -303,7 +305,9 @@ internal static class VisualLint
 			{
 				var forward = t.Cy > s.Cy + 1;
 				var overlapX = Math.Min(s.X1, t.X1) - Math.Max(s.X0, t.X0);
-				var minBends = forward ? (overlapX >= 8 ? 0 : 2) : 4;
+				// a lone edge between two overlapping boxes must be straight; fans and merges may use one uniform Z
+				var lone = outCount.GetValueOrDefault(r.Edge.Source) == 1 && inCount.GetValueOrDefault(r.Edge.Target) == 1;
+				var minBends = forward ? (overlapX >= 8 && lone ? 0 : 2) : 4;
 				if (bends > minBends)
 					v.Add(new Violation(ExtraBend, $"{name} has {bends} bends, {minBends} suffice"));
 

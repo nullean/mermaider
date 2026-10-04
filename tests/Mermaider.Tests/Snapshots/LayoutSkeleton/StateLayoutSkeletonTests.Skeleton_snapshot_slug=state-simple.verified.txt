@@ -7,7 +7,7 @@ Edges:
   Failed --retry--> Idle [Top->Bottom] [U R U L U]
   Idle --submit--> Processing [Bottom->Top] [D]
   Processing --error--> Failed [Bottom->Top] [D R D]
-  Processing --ok--> Success [Bottom->Top] [D]
+  Processing --ok--> Success [Bottom->Top] [D L D]
   Success ----> _end [Bottom->Top] [D]
   _start ----> Idle [Bottom->Top] [D]
 Ports:

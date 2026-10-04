@@ -4,9 +4,10 @@ Layer 2: C, D
 Layer 3: E
 Edges:
   A ----> B [Bottom->Top] [D]
-  B --Yes--> C [Left->Top] [D L D]
-  B --No--> D [Right->Top] [D R D]
+  B --Yes--> C [Bottom->Top] [D L D]
+  B --No--> D [Bottom->Top] [D R D]
   C ----> E [Bottom->Top] [D R D]
   D ----> E [Bottom->Top] [D L D]
 Ports:
+  B Bottom: edge1,edge2
   E Top: edge3,edge4

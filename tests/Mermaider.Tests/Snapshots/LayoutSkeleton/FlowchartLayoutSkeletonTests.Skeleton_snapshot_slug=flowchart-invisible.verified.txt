@@ -3,11 +3,11 @@ Layer 1: B
 Layer 2: D, C
 Layer 3: E
 Edges:
-  A ----> B [Bottom->Top] [D]
+  A ----> B [Bottom->Top] [D L D]
   A ----> C [Bottom->Top] [D R D]
   B ----> D [Bottom->Top] [D]
-  C ----> E [Bottom->Top] [D]
-  D ----> E [Bottom->Top] [D]
+  C ----> E [Bottom->Top] [D L D]
+  D ----> E [Bottom->Top] [D R D]
 Ports:
   A Bottom: edge0,edge1
   E Top: edge4,edge3

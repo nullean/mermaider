@@ -43,15 +43,15 @@
 <path class="edge" data-from="D" data-to="E" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M627,76 L667,76" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="E" data-to="F" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M787,76 L827,76" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="A" data-label="Rectangle" data-shape="rectangle">
-  <rect x="16" y="53.808" width="131.36" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <rect x="16" y="53.80799999999999" width="131.36" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="81.68" y="76.208" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Rectangle</text>
 </g>
 <g class="node" data-id="B" data-label="Rounded" data-shape="rounded">
-  <rect x="187.36" y="53.808" width="124.06400000000001" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <rect x="187.36" y="53.80799999999999" width="124.06400000000001" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="249.39200000000002" y="76.208" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Rounded</text>
 </g>
 <g class="node" data-id="C" data-label="Stadium" data-shape="stadium">
-  <rect x="351.42400000000004" y="53.808" width="114.94399999999999" height="44.8" rx="22.4" ry="22.4" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <rect x="351.42400000000004" y="53.80799999999999" width="114.94399999999999" height="44.8" rx="22.4" ry="22.4" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="408.896" y="76.208" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Stadium</text>
 </g>
 <g class="node" data-id="D" data-label="Diamond" data-shape="diamond">
@@ -63,7 +63,7 @@
   <text x="726.7840000000001" y="76.208" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Circle</text>
 </g>
 <g class="node" data-id="F" data-label="Asymmetric" data-shape="asymmetric">
-  <polygon points="838.7840000000001,53.808 981.0880000000001,53.808 981.0880000000001,98.608 838.7840000000001,98.608 826.7840000000001,76.208" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <polygon points="838.7840000000001,53.80799999999999 981.0880000000001,53.80799999999999 981.0880000000001,98.60799999999999 838.7840000000001,98.60799999999999 826.7840000000001,76.208" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="903.9360000000001" y="76.208" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Asymmetric</text>
 </g>
 </svg>

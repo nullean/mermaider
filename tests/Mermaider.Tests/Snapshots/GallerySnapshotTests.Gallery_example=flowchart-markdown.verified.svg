@@ -37,9 +37,9 @@
   </marker>
 </defs>
 
-<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M144,61 L144,101" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M144,145.5 L144,185.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="C" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M144,230.5 L144,270.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M144.152,60.8 L144.152,100.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M144.152,145.6 L144.152,185.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="C" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M144.152,230.39999999999998 L144.152,270.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="A" data-label="The **cat** in the hat" data-shape="rectangle">
   <rect x="37.43199999999999" y="16" width="213.44" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text text-anchor="middle" font-size="var(--fs-m)" fill="var(--_text)"><tspan x="144.152" y="38.4" dy="0.35em">The <tspan font-weight="bold">cat</tspan> in the hat</tspan></text>
@@ -53,7 +53,7 @@
   <text text-anchor="middle" font-size="var(--fs-m)" fill="var(--_text)"><tspan x="144.152" y="208" dy="0.35em"><tspan font-weight="bold">Bold</tspan> and <tspan font-style="italic">italic</tspan> mixed</tspan></text>
 </g>
 <g class="node" data-id="D" data-label="Normal label" data-shape="rectangle">
-  <rect x="70.71999999999998" y="270.4" width="146.864" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <rect x="70.71999999999997" y="270.4" width="146.864" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="144.152" y="292.79999999999995" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Normal label</text>
 </g>
 </svg>

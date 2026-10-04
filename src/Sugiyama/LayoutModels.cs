@@ -200,6 +200,12 @@ public sealed record LayoutOptions
 	/// </summary>
 	public bool PortAwareLayout { get; init; }
 
+	/// <summary>
+	/// Balanced placement for flowcharts/state diagrams: Brandes–Köpf coordinates (four aligned layouts, median) with a label
+	/// column per labelled edge and per-gap spacing, but without the ER-only router and ER side effects.
+	/// </summary>
+	public bool BalancedPlacement { get; init; }
+
 	/// <summary>Deterministic random restarts of crossing minimisation; a restart wins only with strictly fewer crossings.</summary>
 	public int CrossingRestarts { get; init; }
 

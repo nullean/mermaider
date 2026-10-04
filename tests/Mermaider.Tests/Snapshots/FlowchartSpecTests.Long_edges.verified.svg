@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 312.032 161.6" width="312.032" height="161.6" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 312.032 169.6" width="312.032" height="169.6" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -37,23 +37,23 @@
   </marker>
 </defs>
 
-<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M131.5,61 L131.5,75 Q131.5,81 125.5,81 L81.5,81 Q75.5,81 75.5,87 L75.5,101" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="A" data-to="C" data-style="thick" data-arrow-start="false" data-arrow-end="true" d="M156,61 L156,101" fill="none" stroke="var(--_line)" stroke-width="4.5" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="A" data-to="D" data-style="dotted" data-arrow-start="false" data-arrow-end="true" d="M180.5,61 L180.5,75 Q180.5,81 186.5,81 L230.5,81 Q236.5,81 236.5,87 L236.5,101" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M138.68,60.8 L138.68,78.8 Q138.68,84.8 132.68,84.8 L56.672,84.8 Q50.672,84.8 50.672,90.8 L50.672,108.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="C" data-style="thick" data-arrow-start="false" data-arrow-end="true" d="M156.016,60.8 L156.016,108.8" fill="none" stroke="var(--_line)" stroke-width="4.5" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="D" data-style="dotted" data-arrow-start="false" data-arrow-end="true" d="M173.35199999999998,60.8 L173.35199999999998,78.8 Q173.35199999999998,84.8 179.35199999999998,84.8 L255.36,84.8 Q261.36,84.8 261.36,90.8 L261.36,108.8" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
 <g class="node" data-id="A" data-label="A" data-shape="rectangle">
   <rect x="121.344" y="16" width="69.344" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="156.016" y="38.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">A</text>
 </g>
 <g class="node" data-id="B" data-label="B" data-shape="rectangle">
-  <rect x="16" y="100.8" width="69.344" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="50.672" y="123.19999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">B</text>
+  <rect x="16" y="108.8" width="69.344" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="50.672" y="131.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">B</text>
 </g>
 <g class="node" data-id="C" data-label="C" data-shape="rectangle">
-  <rect x="121.344" y="100.8" width="69.344" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="156.016" y="123.19999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">C</text>
+  <rect x="121.344" y="108.8" width="69.344" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="156.016" y="131.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">C</text>
 </g>
 <g class="node" data-id="D" data-label="D" data-shape="rectangle">
-  <rect x="226.688" y="100.8" width="69.344" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="261.36" y="123.19999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">D</text>
+  <rect x="226.688" y="108.8" width="69.344" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="261.36" y="131.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">D</text>
 </g>
 </svg>

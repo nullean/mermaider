@@ -15,6 +15,9 @@ public static class HierarchicalLayout
 		internal List<GroupRect> Groups = [];
 		internal double Width;
 		internal double Height;
+
+		/// <summary>Level-local routes (port → label column → port) for edges between plain nodes of this level, keyed by input edge index.</summary>
+		internal Dictionary<int, (List<LayoutPoint> Points, LayoutPoint? Label)> Hints = [];
 	}
 
 	private sealed class GroupRect(string id, string label, double x, double y, double w, double h)
@@ -107,8 +110,10 @@ public static class HierarchicalLayout
 			}
 
 			var itemEdges = new List<LayoutEdge>();
-			foreach (var e in input.Edges)
+			var itemOrigin = new List<int>();
+			for (var ei = 0; ei < input.Edges.Count; ei++)
 			{
+				var e = input.Edges[ei];
 				if (!InLevel(e.Source) || !InLevel(e.Target))
 					continue;
 				var a = ItemOf(e.Source);
@@ -116,6 +121,7 @@ public static class HierarchicalLayout
 				if (a == b)
 					continue;
 				itemEdges.Add(e with { Source = a, Target = b });
+				itemOrigin.Add(ei);
 			}
 
 			var placed = new Placed();
@@ -127,28 +133,36 @@ public static class HierarchicalLayout
 			itemEdges = OrientCycles(itemNodes.Select(n => n.Id).ToList(), OrientByMajority(itemEdges));
 
 			var perRow = ComponentsPerRow(itemNodes, itemEdges);
-			var horizontalFlow = input.Direction is LayoutDirection.LR or LayoutDirection.RL;
-			var labelExtent = itemEdges.Select(e => horizontalFlow ? e.LabelWidth : e.LabelHeight).DefaultIfEmpty(0).Max();
-			// labelled edges between the same two items run side by side in one gap: their labels stack along the flow axis
-			var busiestPair = itemEdges
-				.Where(e => e.LabelWidth > 0)
-				.GroupBy(e => string.CompareOrdinal(e.Source, e.Target) < 0 ? (e.Source, e.Target) : (e.Target, e.Source))
-				.Select(g => g.Count())
-				.DefaultIfEmpty(0)
-				.Max();
-			if (busiestPair > 1 && !horizontalFlow)
-				labelExtent *= busiestPair;
 			var levelOptions = options with
 			{
-				LayerSpacing = labelExtent > 0 ? Math.Max(options.LayerSpacing, labelExtent + 22 + 14) : options.LayerSpacing,
 				Padding = 0,
 				SeparateComponents = true,
 				MaxComponentsPerRow = perRow,
 				PortAwareLayout = false,
+				BalancedPlacement = true,
 				CrossingRestarts = Math.Max(options.CrossingRestarts, 16),
 			};
 			var flat = SugiyamaLayout.Compute(
 				new LayoutGraph(input.Direction, itemNodes, itemEdges, []), levelOptions);
+
+			// Routes between two plain nodes of this level follow the layout's own columns (uniform jogs, label columns).
+			if (input.Direction == LayoutDirection.TD)
+			{
+				foreach (var fe in flat.Edges)
+				{
+					if (fe.OriginalIndex >= itemEdges.Count || fe.Points.Count < 2)
+						continue;
+					var item = itemEdges[fe.OriginalIndex];
+					var orig = input.Edges[itemOrigin[fe.OriginalIndex]];
+					if (item.Source.StartsWith("\u0001sg:", StringComparison.Ordinal) || item.Target.StartsWith("\u0001sg:", StringComparison.Ordinal)
+						|| orig.SourceGroup is not null || orig.TargetGroup is not null)
+						continue;
+					var pts = fe.Points.ToList();
+					if (item.Source != orig.Source)
+						pts.Reverse();
+					placed.Hints[itemOrigin[fe.OriginalIndex]] = (pts, fe.LabelPosition);
+				}
+			}
 
 			foreach (var n in flat.Nodes)
 			{
@@ -191,7 +205,10 @@ public static class HierarchicalLayout
 		var rootNodes = input.Nodes.Select(n => n.Id).Where(id => PathOf(id).Count == 0).ToList();
 		var root = LayoutLevel([], rootNodes, input.Subgraphs, true);
 
-		ReduceCrossingsBySwaps(root.Nodes, input, PathOf);
+		var before = root.Nodes.ToDictionary(kv => kv.Key, kv => kv.Value, StringComparer.Ordinal);
+		if (input.Subgraphs.Count > 0)
+			ReduceCrossingsBySwaps(root.Nodes, input, PathOf);
+		var moved = root.Nodes.Where(kv => before[kv.Key] != kv.Value).Select(kv => kv.Key).ToHashSet(StringComparer.Ordinal);
 
 		var pad = options.Padding;
 		var abs = new List<FlowEdgeRouter.Box>();
@@ -212,31 +229,59 @@ public static class HierarchicalLayout
 		for (var i = 0; i < input.Edges.Count; i++)
 		{
 			var e = input.Edges[i];
-			routeEdges.Add(new FlowEdgeRouter.RouteEdge(i, e.Source, e.Target, e.LabelWidth, e.LabelHeight, e.SourceGroup, e.TargetGroup));
+			var hint = root.Hints.TryGetValue(i, out var h) && !moved.Contains(e.Source) && !moved.Contains(e.Target) ? h : default;
+			routeEdges.Add(new FlowEdgeRouter.RouteEdge(i, e.Source, e.Target, e.LabelWidth, e.LabelHeight, e.SourceGroup, e.TargetGroup)
+			{
+				Hint = hint.Points?.Select(p => new LayoutPoint(p.X + pad, p.Y + pad)).ToList(),
+				HintLabel = hint.Label is { } hl ? new LayoutPoint(hl.X + pad, hl.Y + pad) : null,
+			});
 		}
 
 		var routes = FlowEdgeRouter.Route(abs, groupBoxes, routeEdges, input.Direction);
 
-		var nodesOut = abs.Select(b => new LayoutNodeResult(b.Id, b.X, b.Y, b.W, b.H)).ToList();
-		var width = nodesOut.Count > 0 ? nodesOut.Max(n => n.X + n.Width) : 0;
-		var height = nodesOut.Count > 0 ? nodesOut.Max(n => n.Y + n.Height) : 0;
-		foreach (var g in groupBoxes)
+		// Bounds over everything that is drawn: nodes, subgraph boxes, route points and label pills. Content that sticks out
+		// to the left/top (a route hugging a node, a pill centred on it) shifts the whole drawing so nothing is clipped.
+		double minX = double.MaxValue, minY = double.MaxValue, maxX = 0, maxY = 0;
+		void Grow(double x0, double y0, double x1, double y1)
 		{
-			width = Math.Max(width, g.X + g.W);
-			height = Math.Max(height, g.Y + g.H);
+			minX = Math.Min(minX, x0);
+			minY = Math.Min(minY, y0);
+			maxX = Math.Max(maxX, x1);
+			maxY = Math.Max(maxY, y1);
 		}
 
+		foreach (var b in abs)
+			Grow(b.X, b.Y, b.X + b.W, b.Y + b.H);
+		foreach (var g in groupBoxes)
+			Grow(g.X, g.Y, g.X + g.W, g.Y + g.H);
 		foreach (var r in routes)
 		{
 			foreach (var p in r.Points)
+				Grow(p.X, p.Y, p.X, p.Y);
+			if (r.LabelPosition is { } lp && r.OriginalIndex < input.Edges.Count)
 			{
-				width = Math.Max(width, p.X);
-				height = Math.Max(height, p.Y);
+				var e = input.Edges[r.OriginalIndex];
+				Grow(lp.X - (e.LabelWidth / 2), lp.Y - (e.LabelHeight / 2), lp.X + (e.LabelWidth / 2), lp.Y + (e.LabelHeight / 2));
 			}
 		}
 
+		var dx = minX < pad ? pad - minX : 0;
+		var dy = minY < pad ? pad - minY : 0;
+		var width = maxX + dx;
+		var height = maxY + dy;
+		if (dx > 0 || dy > 0)
+		{
+			routes = routes.Select(r => r with
+			{
+				Points = r.Points.Select(p => new LayoutPoint(p.X + dx, p.Y + dy)).ToList(),
+				LabelPosition = r.LabelPosition is { } l ? new LayoutPoint(l.X + dx, l.Y + dy) : null,
+			}).ToList();
+		}
+
+		var nodesOut = abs.Select(b => new LayoutNodeResult(b.Id, b.X + dx, b.Y + dy, b.W, b.H)).ToList();
+
 		LayoutGroupResult ToResult(GroupRect g) => new(
-			g.Id, g.Label, g.X + pad, g.Y + pad, g.W, g.H, g.Children.Select(ToResult).ToList());
+			g.Id, g.Label, g.X + pad + dx, g.Y + pad + dy, g.W, g.H, g.Children.Select(ToResult).ToList());
 
 		return new LayoutResult(width + pad, height + pad, nodesOut, routes, root.Groups.Select(ToResult).ToList());
 	}

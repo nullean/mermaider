@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 716.4999999999999 520" width="716.4999999999999" height="520" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 588.8159999999999 520" width="588.8159999999999" height="520" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -37,40 +37,40 @@
   </marker>
 </defs>
 
-<path class="edge" data-from="navYml" data-to="getToc" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M304,61 L304,121.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="perRepo" data-to="docSetNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M568,81.5 L568,121.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="getToc" data-to="tocMappings" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M304,187 L304,227" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="docSetNav" data-to="tocNodes" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M566.5,187 L566.5,227" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="tocMappings" data-to="siteNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M304,272 L304,312" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="tocNodes" data-to="siteNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M468,272 L468,286 Q468,292 462,292 L414,292 Q408,292 408,298 L408,312" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="siteNav" data-to="pathProvider" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M242.5,398.5 L242.5,438.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="siteNav" data-to="sidebar" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M374.5,398.5 L374.5,438.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="navYml" data-to="getToc" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M171.51199999999994,60.8 L171.51199999999997,121.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="perRepo" data-to="docSetNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M436,81.6 L435.99999999999994,121.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="getToc" data-to="tocMappings" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M171.51199999999997,187.2 L171.51199999999997,227.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="docSetNav" data-to="tocNodes" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M435.99999999999994,187.2 L435.99999999999994,227.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="tocMappings" data-to="siteNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M171.51199999999997,272 L171.51199999999997,286 Q171.51199999999997,292 177.51199999999997,292 L259.75066666666663,292 Q265.75066666666663,292 265.75066666666663,298 L265.75066666666663,312" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="tocNodes" data-to="siteNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M435.99999999999994,272 L435.99999999999994,286 Q435.99999999999994,292 429.99999999999994,292 L347.76133333333325,292 Q341.76133333333325,292 341.76133333333325,298 L341.76133333333325,312" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="siteNav" data-to="pathProvider" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M265.75066666666663,398.4 L265.75066666666663,412.4 Q265.75066666666663,418.4 259.75066666666663,418.4 L161.552,418.4 Q155.552,418.4 155.552,424.4 L155.552,438.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="siteNav" data-to="sidebar" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M341.76133333333325,398.4 L341.76133333333325,412.4 Q341.76133333333325,418.4 347.76133333333325,418.4 L445.96,418.4 Q451.96,418.4 451.96,424.4 L451.96,438.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="navYml" data-label="**navigation.yml**" data-shape="rectangle">
-  <rect x="205.24399999999997" y="16" width="197.024" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text text-anchor="middle" font-size="var(--fs-m)" fill="var(--_text)"><tspan x="303.756" y="38.4" dy="0.35em"><tspan font-weight="bold">navigation.yml</tspan></tspan></text>
+  <rect x="72.99999999999996" y="16" width="197.024" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text text-anchor="middle" font-size="var(--fs-m)" fill="var(--_text)"><tspan x="171.51199999999994" y="38.4" dy="0.35em"><tspan font-weight="bold">navigation.yml</tspan></tspan></text>
 </g>
 <g class="node" data-id="getToc" data-label="GetTocMappings()
 URI → path_prefix" data-shape="rectangle">
-  <rect x="207.52399999999994" y="121.6" width="192.464" height="65.6" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="303.756" y="154.39999999999998" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="303.756" dy="-4.800000000000001">GetTocMappings()</tspan><tspan x="303.756" dy="20.8">URI → path_prefix</tspan></text>
+  <rect x="75.27999999999997" y="121.6" width="192.464" height="65.6" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="171.51199999999997" y="154.39999999999998" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="171.51199999999997" dy="-4.800000000000001">GetTocMappings()</tspan><tspan x="171.51199999999997" dy="20.8">URI → path_prefix</tspan></text>
 </g>
 <g class="node" data-id="perRepo" data-label="**Per-repo
 docset.yml + toc.yml**" data-shape="rectangle">
-  <rect x="459.69999999999993" y="16" width="217.08800000000002" height="65.6" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text text-anchor="middle" font-size="var(--fs-m)" fill="var(--_text)"><tspan x="568.2439999999999" y="38.4" dy="0.35em"><tspan font-weight="bold">Per-repo</tspan></tspan><tspan x="568.2439999999999" y="59.2" dy="0.35em"><tspan font-weight="bold">docset.yml + toc.yml</tspan></tspan></text>
+  <rect x="327.45599999999996" y="16" width="217.08800000000002" height="65.6" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text text-anchor="middle" font-size="var(--fs-m)" fill="var(--_text)"><tspan x="436" y="38.4" dy="0.35em"><tspan font-weight="bold">Per-repo</tspan></tspan><tspan x="436" y="59.2" dy="0.35em"><tspan font-weight="bold">docset.yml + toc.yml</tspan></tspan></text>
 </g>
 <g class="node" data-id="docSetNav" data-label="DocumentationSetNavigation
 URI → node tree" data-shape="rectangle">
-  <rect x="435.98799999999994" y="121.6" width="264.51199999999994" height="65.6" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="568.2439999999999" y="154.39999999999998" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="568.2439999999999" dy="-4.800000000000001">DocumentationSetNavigation</tspan><tspan x="568.2439999999999" dy="20.8">URI → node tree</tspan></text>
+  <rect x="303.74399999999997" y="121.6" width="264.51199999999994" height="65.6" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="435.99999999999994" y="154.39999999999998" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="435.99999999999994" dy="-4.800000000000001">DocumentationSetNavigation</tspan><tspan x="435.99999999999994" dy="20.8">URI → node tree</tspan></text>
 </g>
 <g class="node" data-id="tocMappings" data-label="NavigationTocMappings" data-shape="rectangle">
-  <rect x="185.63599999999997" y="227.2" width="236.23999999999998" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="303.756" y="249.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">NavigationTocMappings</text>
+  <rect x="53.39199999999999" y="227.2" width="236.23999999999998" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="171.51199999999997" y="249.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">NavigationTocMappings</text>
 </g>
 <g class="node" data-id="tocNodes" data-label="TableOfContentNodes" data-shape="rectangle">
-  <rect x="457.876" y="227.2" width="217.08799999999997" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="566.42" y="249.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">TableOfContentNodes</text>
+  <rect x="327.45599999999996" y="227.2" width="217.08799999999997" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="435.99999999999994" y="249.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">TableOfContentNodes</text>
 </g>
 <g class="node" data-id="siteNav" data-label="SiteNavigation
 merges nodes via

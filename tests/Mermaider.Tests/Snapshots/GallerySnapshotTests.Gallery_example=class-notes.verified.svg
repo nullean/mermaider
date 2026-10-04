@@ -46,7 +46,7 @@
   </marker>
 </defs>
 
-<path class="class-relationship" data-from="UserService" data-to="User" data-type="association" data-marker-at="to" d="M136.5,128 L136.5,188" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
+<path class="class-relationship" data-from="UserService" data-to="User" data-type="association" data-marker-at="to" d="M136.39999999999998,128 L136.4,188" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
 <g class="class-node" data-id="UserService" data-label="UserService">
   <rect x="40" y="40" width="192.79999999999998" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
   <rect x="40" y="40" width="192.79999999999998" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
@@ -59,15 +59,15 @@
   <rect x="40" y="40" width="192.79999999999998" height="88" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="User" data-label="User">
-  <rect x="69.39999999999999" y="188" width="134" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
-  <rect x="69.39999999999999" y="188" width="134" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
-  <rect x="69.39999999999999" y="194" width="134" height="26" fill="var(--_group-hdr)" stroke="none" />
-  <text x="136.39999999999998" y="204" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">User</text>
-  <line x1="69.39999999999999" y1="220" x2="203.39999999999998" y2="220" stroke="var(--_line)" stroke-width="1.5" />
-  <text class="mono" x="77.39999999999999" y="234" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">name</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">String</tspan></text>
-  <text class="mono" x="77.39999999999999" y="254" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">email</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">String</tspan></text>
-  <line x1="69.39999999999999" y1="268" x2="203.39999999999998" y2="268" stroke="var(--_line)" stroke-width="1.5" />
-  <rect x="69.39999999999999" y="188" width="134" height="88" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="69.4" y="188" width="134" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
+  <rect x="69.4" y="188" width="134" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="69.4" y="194" width="134" height="26" fill="var(--_group-hdr)" stroke="none" />
+  <text x="136.4" y="204" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">User</text>
+  <line x1="69.4" y1="220" x2="203.4" y2="220" stroke="var(--_line)" stroke-width="1.5" />
+  <text class="mono" x="77.4" y="234" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">name</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">String</tspan></text>
+  <text class="mono" x="77.4" y="254" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">email</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">String</tspan></text>
+  <line x1="69.4" y1="268" x2="203.4" y2="268" stroke="var(--_line)" stroke-width="1.5" />
+  <rect x="69.4" y="188" width="134" height="88" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="note">
   <line x1="242.79999999999998" y1="55" x2="232.79999999999998" y2="84" stroke="var(--_accent-stroke)" stroke-width="1.5" stroke-dasharray="4 3" />
@@ -75,8 +75,8 @@
   <text x="321.512" y="55" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_accent-text)" dy="4.8999999999999995">Handles all user CRUD</text>
 </g>
 <g class="note">
-  <line x1="213.39999999999998" y1="203" x2="203.39999999999998" y2="232" stroke="var(--_accent-stroke)" stroke-width="1.5" stroke-dasharray="4 3" />
-  <rect x="213.39999999999998" y="188" width="130.964" height="30" rx="6" ry="6" fill="var(--_accent-fill)" stroke="var(--_accent-stroke)" stroke-width="2" />
-  <text x="278.88199999999995" y="203" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_accent-text)" dy="4.8999999999999995">Core domain entity</text>
+  <line x1="213.4" y1="203" x2="203.4" y2="232" stroke="var(--_accent-stroke)" stroke-width="1.5" stroke-dasharray="4 3" />
+  <rect x="213.4" y="188" width="130.964" height="30" rx="6" ry="6" fill="var(--_accent-fill)" stroke="var(--_accent-stroke)" stroke-width="2" />
+  <text x="278.882" y="203" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_accent-text)" dy="4.8999999999999995">Core domain entity</text>
 </g>
 </svg>

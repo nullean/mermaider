@@ -37,13 +37,13 @@
   </marker>
 </defs>
 
-<path class="edge" data-from="A" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M175.5,61 L175.5,77 Q175.5,83 181.5,83 L212,83 Q218,83 218,89 L218,185.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="B" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M103,145.5 L103,185.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="C" data-to="E" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M233.5,230.5 L233.5,270.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="D" data-to="E" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M157.5,230.5 L157.5,270.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M228.9013333333333,60.8 L228.9013333333333,82.8 Q228.9013333333333,88.8 234.9013333333333,88.8 L293.65599999999995,88.8 Q299.65599999999995,88.8 299.65599999999995,94.8 L299.65599999999995,185.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="B" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M103.112,145.6 L103.112,185.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="C" data-to="E" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M299.65599999999995,230.39999999999998 L299.65599999999995,244.39999999999998 Q299.65599999999995,250.39999999999998 293.65599999999995,250.39999999999998 L226.69333333333333,250.39999999999998 Q220.69333333333333,250.39999999999998 220.69333333333333,256.4 L220.69333333333333,270.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="D" data-to="E" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M103.112,230.39999999999998 L103.112,244.39999999999998 Q103.112,250.39999999999998 109.112,250.39999999999998 L176.07466666666664,250.39999999999998 Q182.07466666666664,250.39999999999998 182.07466666666664,256.4 L182.07466666666664,270.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="A" data-label="Positioned Left" data-shape="rectangle">
-  <rect x="20.560000000000002" y="16" width="165.10399999999998" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="103.112" y="38.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Positioned Left</text>
+  <rect x="118.83199999999997" y="16" width="165.10399999999998" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="201.38399999999996" y="38.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Positioned Left</text>
 </g>
 <g class="node" data-id="B" data-label="Positioned Right" data-shape="rectangle">
   <rect x="16" y="100.8" width="174.224" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
@@ -58,7 +58,7 @@
   <text x="103.112" y="208" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Also Below</text>
 </g>
 <g class="node" data-id="E" data-label="Merged" data-shape="rectangle">
-  <rect x="143.45599999999996" y="270.4" width="115.856" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="201.38399999999996" y="292.79999999999995" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Merged</text>
+  <rect x="143.456" y="270.4" width="115.856" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="201.384" y="292.79999999999995" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Merged</text>
 </g>
 </svg>

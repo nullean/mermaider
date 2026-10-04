@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412.4 392" width="412.4" height="392" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384.79999999999995 392" width="384.79999999999995" height="392" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -46,21 +46,21 @@
   </marker>
 </defs>
 
-<path class="class-relationship" data-from="Animal" data-to="Dog" data-type="inheritance" data-marker-at="from" d="M154.5,184 L154.5,244" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
-<path class="class-relationship" data-from="Animal" data-to="Cat" data-type="inheritance" data-marker-at="from" d="M245.5,184 L245.5,244" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="Animal" data-to="Dog" data-type="inheritance" data-marker-at="from" d="M165.86666666666665,184 L165.86666666666665,208 Q165.86666666666665,214 159.86666666666665,214 L113,214 Q107,214 107,220 L107,244" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="Animal" data-to="Cat" data-type="inheritance" data-marker-at="from" d="M210.5333333333333,184 L210.5333333333333,208 Q210.5333333333333,214 216.5333333333333,214 L263.4,214 Q269.4,214 269.4,220 L269.4,244" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
 <g class="class-node" data-id="Animal" data-label="Animal" data-annotation="abstract">
-  <rect x="135" y="40" width="134" height="144" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
-  <rect x="135" y="40" width="134" height="48" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
-  <rect x="135" y="46" width="134" height="42" fill="var(--_group-hdr)" stroke="none" />
-  <text x="202" y="52" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="500" font-style="italic" fill="var(--_text-muted)">&lt;&lt;abstract&gt;&gt;</text>
-  <text x="202" y="70" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Animal</text>
-  <line x1="135" y1="88" x2="269" y2="88" stroke="var(--_line)" stroke-width="1.5" />
-  <text class="mono" x="143" y="102" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">name</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">String</tspan></text>
-  <text class="mono" x="143" y="122" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">age</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">int</tspan></text>
-  <line x1="135" y1="136" x2="269" y2="136" stroke="var(--_line)" stroke-width="1.5" />
-  <text class="mono" x="143" y="150" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">eat()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
-  <text class="mono" x="143" y="170" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">sleep()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
-  <rect x="135" y="40" width="134" height="144" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="121.19999999999999" y="40" width="134" height="144" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
+  <rect x="121.19999999999999" y="40" width="134" height="48" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="121.19999999999999" y="46" width="134" height="42" fill="var(--_group-hdr)" stroke="none" />
+  <text x="188.2" y="52" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="500" font-style="italic" fill="var(--_text-muted)">&lt;&lt;abstract&gt;&gt;</text>
+  <text x="188.2" y="70" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Animal</text>
+  <line x1="121.19999999999999" y1="88" x2="255.2" y2="88" stroke="var(--_line)" stroke-width="1.5" />
+  <text class="mono" x="129.2" y="102" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">name</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">String</tspan></text>
+  <text class="mono" x="129.2" y="122" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">age</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">int</tspan></text>
+  <line x1="121.19999999999999" y1="136" x2="255.2" y2="136" stroke="var(--_line)" stroke-width="1.5" />
+  <text class="mono" x="129.2" y="150" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">eat()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
+  <text class="mono" x="129.2" y="170" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">sleep()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
+  <rect x="121.19999999999999" y="40" width="134" height="144" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="Dog" data-label="Dog">
   <rect x="40" y="244" width="134" height="108" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
@@ -75,15 +75,15 @@
   <rect x="40" y="244" width="134" height="108" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="Cat" data-label="Cat">
-  <rect x="221.60000000000002" y="244" width="150.79999999999998" height="108" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
-  <rect x="221.60000000000002" y="244" width="150.79999999999998" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
-  <rect x="221.60000000000002" y="250" width="150.79999999999998" height="26" fill="var(--_group-hdr)" stroke="none" />
-  <text x="297" y="260" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Cat</text>
-  <line x1="221.60000000000002" y1="276" x2="372.4" y2="276" stroke="var(--_line)" stroke-width="1.5" />
-  <text class="mono" x="229.60000000000002" y="290" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">indoor</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">bool</tspan></text>
-  <line x1="221.60000000000002" y1="304" x2="372.4" y2="304" stroke="var(--_line)" stroke-width="1.5" />
-  <text class="mono" x="229.60000000000002" y="318" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">purr()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
-  <text class="mono" x="229.60000000000002" y="338" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">scratch()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
-  <rect x="221.60000000000002" y="244" width="150.79999999999998" height="108" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="194" y="244" width="150.79999999999998" height="108" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
+  <rect x="194" y="244" width="150.79999999999998" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="194" y="250" width="150.79999999999998" height="26" fill="var(--_group-hdr)" stroke="none" />
+  <text x="269.4" y="260" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Cat</text>
+  <line x1="194" y1="276" x2="344.79999999999995" y2="276" stroke="var(--_line)" stroke-width="1.5" />
+  <text class="mono" x="202" y="290" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">indoor</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">bool</tspan></text>
+  <line x1="194" y1="304" x2="344.79999999999995" y2="304" stroke="var(--_line)" stroke-width="1.5" />
+  <text class="mono" x="202" y="318" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">purr()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
+  <text class="mono" x="202" y="338" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-faint)">+ </tspan><tspan fill="var(--_text-sec)">scratch()</tspan><tspan fill="var(--_text-faint)">: </tspan><tspan fill="var(--_text-muted)">void</tspan></text>
+  <rect x="194" y="244" width="150.79999999999998" height="108" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
 </g>
 </svg>
