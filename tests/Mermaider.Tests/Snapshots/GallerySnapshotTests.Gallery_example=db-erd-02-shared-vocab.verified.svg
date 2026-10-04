@@ -39,8 +39,8 @@
 <path class="er-relationship" data-entity1="ApplicabilityEntry" data-entity2="ProductLifecycle" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="lifecycle" d="M608.0169999999999,252.2 L608.0169999999999,257.2 Q608.0169999999999,262.2 603.0169999999999,262.2 L586.8560000000001,262.2 Q581.8560000000001,262.2 581.8560000000001,267.2 L581.8560000000001,325.4 Q581.8560000000001,330.4 576.8560000000001,330.4 L517.3910000000001,330.4 Q512.3910000000001,330.4 512.3910000000001,335.4 L512.3910000000001,340.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="ApplicabilityEntry" data-entity2="VersionSpec" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="version" d="M646.537,252.2 L646.537,257.2 Q646.537,262.2 651.537,262.2 L679.7420000000002,262.2 Q684.7420000000002,262.2 684.7420000000002,267.2 L684.7420000000002,340.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="ApplicabilityEntry" data-entity2="VersioningSystem" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="key resolves to" d="M569.497,252.2 L569.497,257.2 Q569.497,262.2 564.497,262.2 L451.43000000000006,262.2 Q446.43000000000006,262.2 446.43000000000006,267.2 L446.43000000000006,321.9 Q446.43000000000006,326.9 441.43000000000006,326.9 L342.70300000000003,326.9 Q337.70300000000003,326.9 337.70300000000003,331.9 L337.70300000000003,340.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ProductRelease" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="product" d="M183.6,96 L183.6,101 Q183.6,106 178.6,106 L129.68,106 Q124.68,106 124.68,111 L124.68,176.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ProductRelease" data-entity2="ChangelogLifecycle" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="lifecycle" d="M231.92000000000002,96 L231.92000000000002,101 Q231.92000000000002,106 236.92000000000002,106 L347.912,106 Q352.912,106 352.912,111 L352.912,176.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="ProductRelease" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="product" d="M214.63599999999997,96 L214.63599999999997,101 Q214.63599999999997,106 209.63599999999997,106 L129.68,106 Q124.68,106 124.68,111 L124.68,176.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="ProductRelease" data-entity2="ChangelogLifecycle" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="lifecycle" d="M262.95599999999996,96 L262.95599999999996,101 Q262.95599999999996,106 267.95599999999996,106 L347.912,106 Q352.912,106 352.912,111 L352.912,176.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="ChangelogLifecycle" data-entity2="ProductLifecycle" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="maps to" d="M352.912,252.2 L352.912,328.9 Q352.912,333.9 357.912,333.9 L458.38900000000007,333.9 Q461.63900000000007,333.9 461.63900000000007,337.15 L461.63900000000007,340.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="entity" data-id="VersioningSystem" data-label="VersioningSystem">
   <rect x="231.33500000000004" y="340.4" width="159.552" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
@@ -75,8 +75,8 @@
   <text x="684.7420000000002" y="378.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">VersionSpec</text>
 </g>
 <g class="entity" data-id="ProductRelease" data-label="ProductRelease">
-  <rect x="135.28" y="20" width="144.96" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="207.76" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ProductRelease</text>
+  <rect x="166.31599999999997" y="20" width="144.96" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="238.796" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ProductRelease</text>
 </g>
 <g class="entity" data-id="ChangelogLifecycle" data-label="ChangelogLifecycle">
   <rect x="266.75199999999995" y="176.2" width="172.32" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
@@ -129,16 +129,16 @@
 <circle cx="569.497" cy="272.2" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="331.70300000000003" y1="336.4" x2="343.70300000000003" y2="336.4" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="331.70300000000003" y1="332.4" x2="343.70300000000003" y2="332.4" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="190.6" y1="100" x2="183.6" y2="112" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="183.6" y1="100" x2="183.6" y2="112" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="176.6" y1="100" x2="183.6" y2="112" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="183.6" cy="116" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="221.63599999999997" y1="100" x2="214.63599999999997" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="214.63599999999997" y1="100" x2="214.63599999999997" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="207.63599999999997" y1="100" x2="214.63599999999997" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="214.63599999999997" cy="116" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="118.68" y1="172.2" x2="130.68" y2="172.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="118.68" y1="168.2" x2="130.68" y2="168.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="238.92000000000002" y1="100" x2="231.92000000000002" y2="112" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="231.92000000000002" y1="100" x2="231.92000000000002" y2="112" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="224.92000000000002" y1="100" x2="231.92000000000002" y2="112" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="231.92000000000002" cy="116" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="269.95599999999996" y1="100" x2="262.95599999999996" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="262.95599999999996" y1="100" x2="262.95599999999996" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="255.95599999999996" y1="100" x2="262.95599999999996" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="262.95599999999996" cy="116" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="346.912" y1="172.2" x2="358.912" y2="172.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="346.912" y1="168.2" x2="358.912" y2="168.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="359.912" y1="256.2" x2="352.912" y2="268.2" stroke="var(--_line)" stroke-width="2.5" />

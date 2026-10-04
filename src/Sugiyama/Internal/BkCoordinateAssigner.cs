@@ -100,6 +100,7 @@ internal static class BkCoordinateAssigner
 		}
 
 		StraightenLongEdges(graph, lg, x, nodeSpacing);
+		CenterSourcesOverChildren(graph, lg, x, nodeSpacing);
 
 		// Normalise so the leftmost graph node is at 0 (columns follow in the same frame).
 		var minGraphX = double.MaxValue;
@@ -227,6 +228,54 @@ internal static class BkCoordinateAssigner
 				break;
 		}
 	}
+
+	/// <summary>
+	/// A source node (nothing above it) with several children follows only the median child's port, which can leave it far off
+	/// to one side. Centre it over the span of its children when its layer neighbours leave room.
+	/// </summary>
+	private static void CenterSourcesOverChildren(GraphBuffer graph, Lg g, double[] x, double nodeSpacing)
+	{
+		var inDeg = new int[graph.RealNodeCount];
+		var children = new List<int>[graph.RealNodeCount];
+		foreach (var e in graph.Edges)
+		{
+			if (e.To < graph.RealNodeCount)
+				inDeg[e.To]++;
+			if (e.From < graph.RealNodeCount)
+				(children[e.From] ??= []).Add(e.To);
+		}
+
+		for (var pass = 0; pass < 2; pass++)
+		{
+			for (var v = 0; v < graph.RealNodeCount; v++)
+			{
+				if (inDeg[v] != 0 || children[v] is not { Count: >= 2 } kids)
+					continue;
+				var lo = kids.Min(c => x[c] + (g.W[c] / 2));
+				var hi = kids.Max(c => x[c] + (g.W[c] / 2));
+				var target = ((lo + hi) / 2) - (g.W[v] / 2);
+
+				var layer = g.LayerNodes[g.Layer[v]].OrderBy(n => x[n]).ThenBy(n => g.Pos[n]).ToArray();
+				var pos = Array.IndexOf(layer, v);
+				var minLeft = double.MinValue;
+				var maxLeft = double.MaxValue;
+				if (pos > 0)
+				{
+					var l = layer[pos - 1];
+					minLeft = x[l] + g.W[l] + Gap(g, l, v, nodeSpacing);
+				}
+				if (pos < layer.Length - 1)
+				{
+					var r = layer[pos + 1];
+					maxLeft = x[r] - Gap(g, v, r, nodeSpacing) - g.W[v];
+				}
+
+				if (minLeft <= maxLeft)
+					x[v] = Math.Clamp(target, minLeft, maxLeft);
+			}
+		}
+	}
+
 
 	private static double Gap(Lg g, int u, int w, double nodeSpacing)
 		=> (g.Virt[u] || g.Virt[w]) ? nodeSpacing * 0.75 : nodeSpacing;

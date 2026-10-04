@@ -37,8 +37,8 @@
 <path class="er-relationship" data-entity1="LinkRegistry" data-entity2="LinkRegistryEntry" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="repo, branch" d="M100.688,744.8 L100.688,825" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="LinkRegistryEntry" data-entity2="LinkManifest" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="path" d="M100.688,901 L100.688,967.0360000000001 Q100.688,971.2 104.852,971.2 L104.852,971.2 Q109.01599999999999,971.2 109.01599999999999,975.364 L109.01599999999999,981.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="DocumentationSet" data-entity2="LinkManifest" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="one per branch" d="M449.4119999999999,408.4 L449.4119999999999,410.4 Q449.4119999999999,412.4 451.4119999999999,412.4 L809.7360000000001,412.4 Q814.7360000000001,412.4 814.7360000000001,417.4 L814.7360000000001,966.2 Q814.7360000000001,971.2 809.7360000000001,971.2 L154.128,971.2 Q149.128,971.2 149.128,976.2 L149.128,981.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Assembly" data-entity2="Repository" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="references" d="M216.704,96 L216.704,101 Q216.704,106 221.704,106 L277.544,106 Q282.544,106 282.544,111 L282.544,176.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Assembly" data-entity2="PublishEnvironment" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="environments" d="M176.704,96 L176.704,101 Q176.704,106 171.704,106 L121.384,106 Q116.384,106 116.384,111 L116.384,176.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Assembly" data-entity2="Repository" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="references" d="M219.464,96 L219.464,101 Q219.464,106 224.464,106 L277.544,106 Q282.544,106 282.544,111 L282.544,176.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Assembly" data-entity2="PublishEnvironment" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="environments" d="M179.464,96 L179.464,101 Q179.464,106 174.464,106 L121.384,106 Q116.384,106 116.384,111 L116.384,176.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="CodexSite" data-entity2="Registry" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="environment" d="M80.688,408.4 L80.688,512.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="DocumentationSet" data-entity2="TableOfContents" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="toc" d="M397.44399999999996,408.4 L397.44399999999996,421.4 Q397.44399999999996,426.4 402.44399999999996,426.4 L429.234,426.4 Q434.234,426.4 434.234,431.4 L434.234,512.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="DocumentationSet" data-entity2="DocumentationFile" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="contains" d="M371.46,408.4 L371.46,416.9 Q371.46,421.9 366.46,421.9 L266.06600000000003,421.9 Q261.06600000000003,421.9 261.06600000000003,426.9 L261.06600000000003,512.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
@@ -71,8 +71,8 @@
   <text x="129.07199999999997" y="1019.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">LinkManifest</text>
 </g>
 <g class="entity" data-id="Assembly" data-label="Assembly">
-  <rect x="136.704" y="20" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="196.704" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Assembly</text>
+  <rect x="139.464" y="20" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="199.464" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Assembly</text>
 </g>
 <g class="entity" data-id="PublishEnvironment" data-label="PublishEnvironment">
   <rect x="30.224000000000004" y="176.2" width="172.32" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
@@ -139,13 +139,13 @@
 <line x1="149.128" y1="977.2" x2="149.128" y2="965.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="156.128" y1="977.2" x2="149.128" y2="965.2" stroke="var(--_line)" stroke-width="2.5" />
 <circle cx="149.128" cy="961.2" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="222.704" y1="100" x2="210.704" y2="100" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="222.704" y1="104" x2="210.704" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="225.464" y1="100" x2="213.464" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="225.464" y1="104" x2="213.464" y2="104" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="275.544" y1="172.2" x2="282.544" y2="160.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="282.544" y1="172.2" x2="282.544" y2="160.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="289.544" y1="172.2" x2="282.544" y2="160.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="182.704" y1="100" x2="170.704" y2="100" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="182.704" y1="104" x2="170.704" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="185.464" y1="100" x2="173.464" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="185.464" y1="104" x2="173.464" y2="104" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="109.384" y1="172.2" x2="116.384" y2="160.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="116.384" y1="172.2" x2="116.384" y2="160.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="123.384" y1="172.2" x2="116.384" y2="160.2" stroke="var(--_line)" stroke-width="2.5" />

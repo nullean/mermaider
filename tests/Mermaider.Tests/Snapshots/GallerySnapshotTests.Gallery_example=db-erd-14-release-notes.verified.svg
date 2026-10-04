@@ -34,9 +34,9 @@
 <path class="er-relationship" data-entity1="Repository" data-entity2="ChangelogConfiguration" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="changelog.yml" d="M120.75199999999995,96 L120.752,176.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="ChangelogEntry" data-entity2="ProductRelease" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="products" d="M304.864,408.4 L304.864,488.59999999999997" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="ProductRelease" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="product" d="M304.864,564.5999999999999 L304.864,644.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Bundle" data-entity2="BundledEntry" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="entries" d="M358.224,96 L358.224,101 Q358.224,106 353.224,106 L309.86400000000003,106 Q304.86400000000003,106 304.86400000000003,111 L304.86400000000003,176.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Bundle" data-entity2="BundledEntry" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="entries" d="M358.22400000000005,96 L358.22400000000005,101 Q358.22400000000005,106 353.22400000000005,106 L309.86400000000003,106 Q304.86400000000003,106 304.86400000000003,111 L304.86400000000003,176.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="BundledEntry" data-entity2="ChangelogEntry" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="name + checksum" d="M304.86400000000003,252.2 L304.864,332.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Bundle" data-entity2="BundleAmend" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="amend-N" d="M398.224,96 L398.224,101 Q398.224,106 403.224,106 L446.58400000000006,106 Q451.58400000000006,106 451.58400000000006,111 L451.58400000000006,176.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Bundle" data-entity2="BundleAmend" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="amend-N" d="M398.22400000000005,96 L398.22400000000005,101 Q398.22400000000005,106 403.22400000000005,106 L446.58400000000006,106 Q451.58400000000006,106 451.58400000000006,111 L451.58400000000006,176.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="Product" data-entity2="BundleRegistry" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="registry.json" d="M304.864,720.8 L304.86400000000003,801" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="entity" data-id="Repository" data-label="Repository">
   <rect x="60.75199999999995" y="20" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
@@ -59,8 +59,8 @@
   <text x="304.864" y="682.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Product</text>
 </g>
 <g class="entity" data-id="Bundle" data-label="Bundle">
-  <rect x="318.224" y="20" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="378.224" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Bundle</text>
+  <rect x="318.22400000000005" y="20" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="378.22400000000005" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Bundle</text>
 </g>
 <g class="entity" data-id="BundledEntry" data-label="BundledEntry">
   <rect x="241.50400000000002" y="176.2" width="126.72000000000001" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
@@ -90,8 +90,8 @@
 <circle cx="304.864" cy="584.5999999999999" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="298.864" y1="640.8" x2="310.864" y2="640.8" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="298.864" y1="636.8" x2="310.864" y2="636.8" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="364.224" y1="100" x2="352.224" y2="100" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="364.224" y1="104" x2="352.224" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="364.22400000000005" y1="100" x2="352.22400000000005" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="364.22400000000005" y1="104" x2="352.22400000000005" y2="104" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="297.86400000000003" y1="172.2" x2="304.86400000000003" y2="160.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="304.86400000000003" y1="172.2" x2="304.86400000000003" y2="160.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="311.86400000000003" y1="172.2" x2="304.86400000000003" y2="160.2" stroke="var(--_line)" stroke-width="2.5" />
@@ -102,8 +102,8 @@
 <circle cx="304.86400000000003" cy="272.2" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="298.864" y1="328.4" x2="310.864" y2="328.4" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="298.864" y1="324.4" x2="310.864" y2="324.4" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="404.224" y1="100" x2="392.224" y2="100" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="404.224" y1="104" x2="392.224" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="404.22400000000005" y1="100" x2="392.22400000000005" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="404.22400000000005" y1="104" x2="392.22400000000005" y2="104" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="444.58400000000006" y1="172.2" x2="451.58400000000006" y2="160.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="451.58400000000006" y1="172.2" x2="451.58400000000006" y2="160.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="458.58400000000006" y1="172.2" x2="451.58400000000006" y2="160.2" stroke="var(--_line)" stroke-width="2.5" />

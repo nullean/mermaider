@@ -31,17 +31,17 @@
 <defs>
 </defs>
 
-<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="TableOfContents" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="toc" d="M456.15999999999997,96 L456.15999999999997,98 Q456.15999999999997,100 454.15999999999997,100 L98.392,100 Q93.392,100 93.392,105 L93.392,208.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="TableOfContents" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="toc" d="M435.78400000000005,96 L435.78400000000005,98 Q435.78400000000005,100 433.78400000000005,100 L98.392,100 Q93.392,100 93.392,105 L93.392,208.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="TableOfContents" data-entity2="TocItem" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="entries" d="M93.392,284.2 L93.392,364.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="Redirect" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="redirects.yml" d="M478.43199999999996,96 L478.43199999999996,102 Q478.43199999999996,107 473.43199999999996,107 L251.784,107 Q246.784,107 246.784,112 L246.784,208.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="CrossLinkDeclaration" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="cross_links" d="M500.70399999999995,96 L500.70399999999995,109 Q500.70399999999995,114 495.70399999999995,114 L426.152,114 Q421.152,114 421.152,119 L421.152,208.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="ApiDeclaration" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="api" d="M522.976,96 L522.976,109 Q522.976,114 527.976,114 L597.528,114 Q602.528,114 602.528,119 L602.528,208.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="zeromany" data-identifying="true" data-label="products" d="M545.2479999999999,96 L545.2479999999999,102 Q545.2479999999999,107 550.2479999999999,107 L744.5360000000001,107 Q749.5360000000001,107 749.5360000000001,112 L749.5360000000001,208.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="Registry" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="registry" d="M567.52,96 L567.52,98 Q567.52,100 569.52,100 L884.5360000000001,100 Q889.5360000000001,100 889.5360000000001,105 L889.5360000000001,208.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="Redirect" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="redirects.yml" d="M458.05600000000004,96 L458.05600000000004,102 Q458.05600000000004,107 453.05600000000004,107 L251.784,107 Q246.784,107 246.784,112 L246.784,208.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="CrossLinkDeclaration" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="cross_links" d="M480.3280000000001,96 L480.3280000000001,109 Q480.3280000000001,114 475.3280000000001,114 L426.152,114 Q421.152,114 421.152,119 L421.152,208.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="ApiDeclaration" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="api" d="M502.6,96 L502.6,109 Q502.6,114 507.6,114 L597.528,114 Q602.528,114 602.528,119 L602.528,208.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="zeromany" data-identifying="true" data-label="products" d="M524.8720000000001,96 L524.8720000000001,102 Q524.8720000000001,107 529.8720000000001,107 L744.5360000000001,107 Q749.5360000000001,107 749.5360000000001,112 L749.5360000000001,208.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="Registry" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="registry" d="M547.144,96 L547.144,98 Q547.144,100 549.144,100 L884.5360000000001,100 Q889.5360000000001,100 889.5360000000001,105 L889.5360000000001,208.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="TocItem" data-entity2="TocItem" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="children" d="M33.391999999999996,391 C3.391999999999996,391 3.391999999999996,413.79999999999995 33.391999999999996,413.79999999999995" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="entity" data-id="DocumentationSet" data-label="DocumentationSet">
-  <rect x="433.888" y="20" width="155.904" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="511.84" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">DocumentationSet</text>
+  <rect x="413.51200000000006" y="20" width="155.904" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="491.46400000000006" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">DocumentationSet</text>
 </g>
 <g class="entity" data-id="TableOfContents" data-label="TableOfContents">
   <rect x="20" y="208.2" width="146.784" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
@@ -71,8 +71,8 @@
   <rect x="829.5360000000001" y="208.2" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
   <text x="889.5360000000001" y="246.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Registry</text>
 </g>
-<line x1="462.15999999999997" y1="100" x2="450.15999999999997" y2="100" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="462.15999999999997" y1="104" x2="450.15999999999997" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="441.78400000000005" y1="100" x2="429.78400000000005" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="441.78400000000005" y1="104" x2="429.78400000000005" y2="104" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="87.392" y1="204.2" x2="99.392" y2="204.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="87.392" y1="200.2" x2="99.392" y2="200.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="99.392" y1="288.2" x2="87.392" y2="288.2" stroke="var(--_line)" stroke-width="2.5" />
@@ -81,36 +81,36 @@
 <line x1="93.392" y1="360.4" x2="93.392" y2="348.4" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="100.392" y1="360.4" x2="93.392" y2="348.4" stroke="var(--_line)" stroke-width="2.5" />
 <circle cx="93.392" cy="344.4" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="484.43199999999996" y1="100" x2="472.43199999999996" y2="100" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="484.43199999999996" y1="104" x2="472.43199999999996" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="464.05600000000004" y1="100" x2="452.05600000000004" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="464.05600000000004" y1="104" x2="452.05600000000004" y2="104" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="239.784" y1="204.2" x2="246.784" y2="192.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="246.784" y1="204.2" x2="246.784" y2="192.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="253.784" y1="204.2" x2="246.784" y2="192.2" stroke="var(--_line)" stroke-width="2.5" />
 <circle cx="246.784" cy="188.2" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="506.70399999999995" y1="100" x2="494.70399999999995" y2="100" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="506.70399999999995" y1="104" x2="494.70399999999995" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="486.3280000000001" y1="100" x2="474.3280000000001" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="486.3280000000001" y1="104" x2="474.3280000000001" y2="104" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="414.152" y1="204.2" x2="421.152" y2="192.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="421.152" y1="204.2" x2="421.152" y2="192.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="428.152" y1="204.2" x2="421.152" y2="192.2" stroke="var(--_line)" stroke-width="2.5" />
 <circle cx="421.152" cy="188.2" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="528.976" y1="100" x2="516.976" y2="100" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="528.976" y1="104" x2="516.976" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="508.6" y1="100" x2="496.6" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="508.6" y1="104" x2="496.6" y2="104" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="595.528" y1="204.2" x2="602.528" y2="192.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="602.528" y1="204.2" x2="602.528" y2="192.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="609.528" y1="204.2" x2="602.528" y2="192.2" stroke="var(--_line)" stroke-width="2.5" />
 <circle cx="602.528" cy="188.2" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="552.2479999999999" y1="100" x2="545.2479999999999" y2="112" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="545.2479999999999" y1="100" x2="545.2479999999999" y2="112" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="538.2479999999999" y1="100" x2="545.2479999999999" y2="112" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="545.2479999999999" cy="116" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="531.8720000000001" y1="100" x2="524.8720000000001" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="524.8720000000001" y1="100" x2="524.8720000000001" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="517.8720000000001" y1="100" x2="524.8720000000001" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="524.8720000000001" cy="116" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="742.5360000000001" y1="204.2" x2="749.5360000000001" y2="192.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="749.5360000000001" y1="204.2" x2="749.5360000000001" y2="192.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="756.5360000000001" y1="204.2" x2="749.5360000000001" y2="192.2" stroke="var(--_line)" stroke-width="2.5" />
 <circle cx="749.5360000000001" cy="188.2" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="574.52" y1="100" x2="567.52" y2="112" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="567.52" y1="100" x2="567.52" y2="112" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="560.52" y1="100" x2="567.52" y2="112" stroke="var(--_line)" stroke-width="2.5" />
-<circle cx="567.52" cy="116" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="554.144" y1="100" x2="547.144" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="547.144" y1="100" x2="547.144" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="540.144" y1="100" x2="547.144" y2="112" stroke="var(--_line)" stroke-width="2.5" />
+<circle cx="547.144" cy="116" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="883.5360000000001" y1="204.2" x2="895.5360000000001" y2="204.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="883.5360000000001" y1="200.2" x2="895.5360000000001" y2="200.2" stroke="var(--_line)" stroke-width="2.5" />
 <circle cx="889.5360000000001" cy="196.2" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />

@@ -388,7 +388,20 @@ internal static class ErEdgeRouter
 		}
 	}
 
-	private static double BottomOf(GraphBuffer g, int node) => node < g.RealNodeCount ? g.Y[node] + g.NodeHeights[node] : g.Y[node];
+	// A virtual node has no body: its "bottom" is the bottom of the row it passes through, so jogs happen in the gap below
+	// the row instead of inside it (where they would run under the row's entities).
+	private static double BottomOf(GraphBuffer g, int node)
+	{
+		if (node < g.RealNodeCount)
+			return g.Y[node] + g.NodeHeights[node];
+		var bottom = g.Y[node];
+		foreach (var v in g.LayerNodes[g.Layers[node]])
+		{
+			if (v < g.RealNodeCount)
+				bottom = Math.Max(bottom, g.Y[v] + g.NodeHeights[v]);
+		}
+		return bottom;
+	}
 
 	private static double CentreX(GraphBuffer g, int node) => g.X[node] + (node < g.RealNodeCount ? g.NodeWidths[node] / 2.0 : 0);
 

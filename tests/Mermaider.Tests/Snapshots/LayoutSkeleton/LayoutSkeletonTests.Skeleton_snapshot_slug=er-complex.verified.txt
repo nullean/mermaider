@@ -5,7 +5,7 @@ Edges:
   POST --has--> COMMENT [Bottom->Top] [D R D R D]
   POST --tagged--> TAG [Bottom->Top] [D L D]
   USER --writes--> COMMENT [Bottom->Top] [D R D R D]
-  USER --writes--> POST [Bottom->Top] [D]
+  USER --writes--> POST [Bottom->Top] [D L D]
 Ports:
   COMMENT Top: edge0,edge2
   POST Bottom: edge1,edge0

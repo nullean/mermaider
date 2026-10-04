@@ -333,6 +333,47 @@ public partial class ErGeometryTests
 		}
 	}
 
+	/// <summary>
+	/// No relationship line may run under an entity that is not one of its two ends. (Entities are painted after the lines, so a
+	/// line passing through one would silently disappear behind it.) ELK produces zero of these on every example.
+	/// </summary>
+	[Test]
+	[MethodDataSource(nameof(PublicErSlugs))]
+	public void Edges_do_not_pass_under_unrelated_entities(string slug)
+	{
+		var source = DiagramExamples.All.First(d => d.Slug == slug).Source;
+		var svg = MermaidRenderer.RenderSvg(source);
+		var entities = ParseEntityBoxes(svg);
+		const double inset = 2;
+
+		foreach (Match m in EdgePattern().Matches(svg))
+		{
+			var e1 = m.Groups[1].Value;
+			var e2 = m.Groups[2].Value;
+			if (e1 == e2)
+				continue;
+			var pts = NumericPairPattern().Matches(m.Groups[4].Value)
+				.Select(p => new Pt(double.Parse(p.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture), double.Parse(p.Groups[2].Value, System.Globalization.CultureInfo.InvariantCulture)))
+				.ToList();
+
+			foreach (var (id, box) in entities)
+			{
+				if (id == e1 || id == e2)
+					continue;
+				for (var i = 0; i < pts.Count - 1; i++)
+				{
+					var x0 = Math.Min(pts[i].X, pts[i + 1].X);
+					var x1 = Math.Max(pts[i].X, pts[i + 1].X);
+					var y0 = Math.Min(pts[i].Y, pts[i + 1].Y);
+					var y1 = Math.Max(pts[i].Y, pts[i + 1].Y);
+					var crosses = x1 > box.X + inset && x0 < box.X + box.W - inset && y1 > box.Y + inset && y0 < box.Y + box.H - inset;
+					crosses.Should().BeFalse(
+						$"edge {e1}→{e2} in '{slug}' runs under entity '{id}' (segment ({pts[i].X:F0},{pts[i].Y:F0})→({pts[i + 1].X:F0},{pts[i + 1].Y:F0}))");
+				}
+			}
+		}
+	}
+
 	// ── SVG parsers ──────────────────────────────────────────────────────────────
 
 	private static Dictionary<string, BBox> ParseEntityBoxes(string svg)

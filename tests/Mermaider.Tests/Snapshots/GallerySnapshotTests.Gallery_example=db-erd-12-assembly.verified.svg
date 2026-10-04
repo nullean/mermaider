@@ -34,9 +34,9 @@
 <path class="er-relationship" data-entity1="Assembly" data-entity2="Repository" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="references" d="M143.07999999999998,96 L143.07999999999998,101 Q143.07999999999998,106 138.07999999999998,106 L85,106 Q80,106 80,111 L80,184.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="Assembly" data-entity2="PublishEnvironment" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="environments" d="M183.07999999999998,96 L183.07999999999998,101 Q183.07999999999998,106 188.07999999999998,106 L241.16,106 Q246.16,106 246.16,111 L246.16,184.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <path class="er-relationship" data-entity1="PublishEnvironment" data-entity2="SearchIndex" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="index suffix" d="M246.16,260.2 L246.15999999999997,340.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Build" data-entity2="AssembledDocumentationSet" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="assembles" d="M676.04,96 L676.04,101 Q676.04,106 671.04,106 L475.4,106 Q470.4,106 470.4,111 L470.4,184.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Build" data-entity2="CloudfrontRedirectMap" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="redirects.json" d="M706.04,96 L706.04,184.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Build" data-entity2="SyncPlan" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="deploy" d="M736.04,96 L736.04,101 Q736.04,106 741.04,106 L878.5999999999999,106 Q883.5999999999999,106 883.5999999999999,111 L883.5999999999999,184.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Build" data-entity2="AssembledDocumentationSet" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="assembles" d="M647,96 L647,101 Q647,106 642,106 L475.4,106 Q470.4,106 470.4,111 L470.4,184.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Build" data-entity2="CloudfrontRedirectMap" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="redirects.json" d="M677,96 L677,101 Q677,106 682,106 L701.04,106 Q706.04,106 706.04,111 L706.04,184.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Build" data-entity2="SyncPlan" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="deploy" d="M707,96 L707,101 Q707,106 712,106 L878.5999999999999,106 Q883.5999999999999,106 883.5999999999999,111 L883.5999999999999,184.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="entity" data-id="Assembly" data-label="Assembly">
   <rect x="103.07999999999998" y="20" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
   <text x="163.07999999999998" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Assembly</text>
@@ -54,8 +54,8 @@
   <text x="246.15999999999997" y="378.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">SearchIndex</text>
 </g>
 <g class="entity" data-id="Build" data-label="Build">
-  <rect x="646.04" y="20" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="706.04" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Build</text>
+  <rect x="617" y="20" width="120" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="677" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Build</text>
 </g>
 <g class="entity" data-id="AssembledDocumentationSet" data-label="AssembledDocumentationSet">
   <rect x="352.32" y="184.2" width="236.1599999999999" height="76" rx="6" ry="6" fill="var(--_accent-stroke)" stroke="var(--_node-stroke)" stroke-width="1.75" />
@@ -85,17 +85,17 @@
 <line x1="246.15999999999997" y1="336.4" x2="246.15999999999997" y2="324.4" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="253.15999999999997" y1="336.4" x2="246.15999999999997" y2="324.4" stroke="var(--_line)" stroke-width="2.5" />
 <circle cx="246.15999999999997" cy="320.4" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="682.04" y1="100" x2="670.04" y2="100" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="682.04" y1="104" x2="670.04" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="653" y1="100" x2="641" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="653" y1="104" x2="641" y2="104" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="463.4" y1="180.2" x2="470.4" y2="168.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="470.4" y1="180.2" x2="470.4" y2="168.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="477.4" y1="180.2" x2="470.4" y2="168.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="712.04" y1="100" x2="700.04" y2="100" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="712.04" y1="104" x2="700.04" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="683" y1="100" x2="671" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="683" y1="104" x2="671" y2="104" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="700.04" y1="180.2" x2="712.04" y2="180.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="700.04" y1="176.2" x2="712.04" y2="176.2" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="742.04" y1="100" x2="730.04" y2="100" stroke="var(--_line)" stroke-width="2.5" />
-<line x1="742.04" y1="104" x2="730.04" y2="104" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="713" y1="100" x2="701" y2="100" stroke="var(--_line)" stroke-width="2.5" />
+<line x1="713" y1="104" x2="701" y2="104" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="877.5999999999999" y1="180.2" x2="889.5999999999999" y2="180.2" stroke="var(--_line)" stroke-width="2.5" />
 <line x1="877.5999999999999" y1="176.2" x2="889.5999999999999" y2="176.2" stroke="var(--_line)" stroke-width="2.5" />
 <circle cx="883.5999999999999" cy="172.2" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.5" />
