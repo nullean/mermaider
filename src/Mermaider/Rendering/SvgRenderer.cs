@@ -144,13 +144,15 @@ internal static class SvgRenderer
 		// Subgraphs alternate through the palette in document order and never take the colour of a step they hold.
 		var groupCluster = new Dictionary<string, int>(StringComparer.Ordinal);
 		var ordinal = 0;
+		var last = -1;
 		void AssignGroups(PositionedGroup g)
 		{
 			var held = graph.Nodes.Where(n => Inside(n, g)).Select(n => nodeCluster[n.Id]).ToHashSet();
 			var colour = ordinal++;
-			for (var guard = 0; held.Contains(colour) && guard < 32; guard++)
+			for (var guard = 0; (held.Contains(colour) || colour == last) && guard < 32; guard++)
 				colour++;
 			groupCluster[g.Id] = colour;
+			last = colour;
 			foreach (var c in g.Children)
 				AssignGroups(c);
 		}

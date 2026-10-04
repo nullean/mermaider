@@ -42,15 +42,15 @@
 </g>
 
 <g class="subgraph" data-id="External" data-label="Read from outside, never checked out">
-  <rect x="2278.68752" y="40" width="306.128" height="310.4" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
+  <rect x="2278.68752" y="40" width="306.128" height="310.4" rx="8" ry="8" fill="color-mix(in srgb, #e15759 6%, var(--bg))" stroke="#DF4E50" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Build" data-label="Isolated build">
-  <rect x="555.3278399999999" y="66.79999999999995" width="752.896" height="256.79999999999995" rx="8" ry="8" fill="color-mix(in srgb, #e15759 6%, var(--bg))" stroke="#DF4E50" stroke-width="1.75" />
+  <rect x="555.3278399999999" y="66.79999999999995" width="752.896" height="256.79999999999995" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 6%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Outputs" data-label="Outputs">
-  <rect x="1500.09568" y="86.39999999999998" width="586.72" height="217.6" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 6%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
+  <rect x="1500.09568" y="86.39999999999998" width="586.72" height="217.6" rx="8" ry="8" fill="color-mix(in srgb, #59a14f 6%, var(--bg))" stroke="#559A4C" stroke-width="1.75" />
 </g>
 
 <path class="edge" data-from="Checkout" data-to="DocSet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M339.45599999999996,165 L551.5,165 Q557.5,165 557.5,171 L557.5,189 Q557.5,195 563.5,195 L579.3278399999999,195" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
