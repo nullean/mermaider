@@ -13,14 +13,18 @@ function parseMjs(svg) {
   const nodes = [];
   const chunks = svg.split(/(?=<g class="node[ "])/).slice(1);
   for (const ch of chunks) {
-    const head = /^<g class="node[^"]*" id="[^"]*?flowchart-(.+?)-\d+"[^>]*transform="translate\(([-\d.]+),\s*([-\d.]+)\)"/.exec(ch);
+    const head = /^<g class="node[^"]*" id="[^"]*?(?:flowchart|state|classId)-(.+?)-\d+"[^>]*transform="translate\(([-\d.]+),\s*([-\d.]+)\)"/.exec(ch);
     if (!head) continue;
     const [, id, tx, ty] = head;
-    const body = ch.slice(0, ch.indexOf('<g class="label"') > 0 ? ch.indexOf('<g class="label"') : 600);
+    const li = ch.indexOf('<g class="label"'); const body = ch.slice(0, li > 0 ? li : 600);
     const pts = [];
     for (const r of body.matchAll(/<rect[^>]*?x="(-?[\d.]+)" y="(-?[\d.]+)" width="([\d.]+)" height="([\d.]+)"/g)) pts.push([+r[1], +r[2]], [+r[1] + +r[3], +r[2] + +r[4]]);
     for (const r of body.matchAll(/<polygon points="([^"]+)"[^>]*?(?:transform="translate\((-?[\d.]+),\s*(-?[\d.]+)\)")?/g)) { const n = r[1].match(/-?[\d.]+/g).map(Number); const ox = +(r[2] ?? 0), oy = +(r[3] ?? 0); for (let i = 0; i + 1 < n.length; i += 2) pts.push([n[i] + ox, n[i + 1] + oy]); }
     for (const r of body.matchAll(/<(?:circle|ellipse)[^>]*?\br="([\d.]+)"/g)) pts.push([-+r[1], -+r[1]], [+r[1], +r[1]]);
+    if (!pts.length) { // class boxes are drawn as a hand-drawn path: its first straight outline gives the bounds
+      const d = /<path d="(M[^"]*? L[^"]*?)"/.exec(ch.slice(0, 2500));
+      if (d) { const n = d[1].match(/-?[\d.]+/g).map(Number); for (let i = 0; i + 1 < n.length; i += 2) pts.push([n[i], n[i + 1]]); }
+    }
     if (!pts.length) continue;
     const xs = pts.map(p => p[0] + +tx), ys = pts.map(p => p[1] + +ty);
     nodes.push({ id, x0: Math.min(...xs), y0: Math.min(...ys), x1: Math.max(...xs), y1: Math.max(...ys) });
@@ -30,10 +34,11 @@ function parseMjs(svg) {
     subgraphs.push({ id: m[1], x0: +m[2], y0: +m[3], x1: +m[2] + +m[4], y1: +m[3] + +m[5] });
   const ids = nodes.map(n => n.id).concat(subgraphs.map(s => s.id));
   const edges = [];
-  for (const m of svg.matchAll(/<path d="([^"]+)" id="[^"]*?L_(.+?)_\d+"/g)) {
+  for (const m of svg.matchAll(/<path d="([^"]+)" id="[^"]*?(?:(?:L|id)_(.+?)_\d+|edge(\d+))"/g)) {
     const key = m[2];
-    const s = ids.find(a => key.startsWith(a + "_") && ids.includes(key.slice(a.length + 1))); if (!s) continue;
-    const t = key.slice(s.length + 1);
+    let s, t;
+    if (key) { s = ids.find(a => key.startsWith(a + "_") && ids.includes(key.slice(a.length + 1))); if (!s) continue; t = key.slice(s.length + 1); }
+    else { s = "e" + m[3] + "s"; t = "e" + m[3] + "t"; } // state diagrams: edge ids carry no endpoints
     const tok = m[1].match(/[MLQC]|-?[\d.]+(?:e-?\d+)?/g); const p = []; let i = 0, c = "";
     while (i < tok.length) { if (/[MLQC]/.test(tok[i])) { c = tok[i++]; continue; } if (c === "M" || c === "L") { p.push([+tok[i], +tok[i + 1]]); i += 2; } else if (c === "Q") { p.push([+tok[i + 2], +tok[i + 3]]); i += 4; } else if (c === "C") { p.push([+tok[i + 4], +tok[i + 5]]); i += 6; } else i++; }
     edges.push({ s, t, p, curved: false });
@@ -48,7 +53,7 @@ const CYCLIC = new Set(["db-flow-01-system", "db-flow-03-isolated"]);
 const pad = (s, n) => String(s).padEnd(n);
 console.log(pad("slug", 26), pad("cross+overlap ours/mjs", 26), pad("bends/e ours/mjs", 18), pad("area ours/mjs", 22), "violations");
 let worse = 0, total = 0;
-for (const f of fs.readdirSync(ref).filter(f => /^(flowchart|db-flow|rfc)-.*\.svg$/.test(f)).sort()) {
+for (const f of fs.readdirSync(ref).filter(f => /^(flowchart|db-flow|rfc|state|class)-.*\.svg$/.test(f)).sort()) {
   const slug = f.replace(".svg", "");
   if (filter && !slug.includes(filter)) continue;
   const ours = ["received", "verified"].map(k => snap + `GallerySnapshotTests.Gallery_example=${slug}.${k}.svg`).find(p => fs.existsSync(p));

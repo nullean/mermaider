@@ -11,7 +11,7 @@ function bboxOfGroup(body) {
 }
 
 export function parse(svg) {
-  const groups = [...svg.matchAll(/<g class="(subgraph|node)" data-id="([^"]+)"[^>]*>([\s\S]*?)<\/g>/g)];
+  const groups = [...svg.matchAll(/<g class="(subgraph|node|class-node)" data-id="([^"]+)"[^>]*>([\s\S]*?)<\/g>/g)];
   const subgraphs = [], nodes = [];
   for (const g of groups) {
     // subgraph groups can contain nested content; the outer rect is the first rect
@@ -20,12 +20,12 @@ export function parse(svg) {
     else { const b = bboxOfGroup(g[3]); if (b) nodes.push({ id: g[2], ...b }); }
   }
   const edges = [];
-  for (const m of svg.matchAll(/<path class="edge" data-from="([^"]+)" data-to="([^"]+)"[^>]*? d="([^"]+)"/g)) {
+  for (const m of svg.matchAll(/<path class="(?:edge|class-relationship)" data-from="([^"]+)" data-to="([^"]+)"[^>]*? d="([^"]+)"/g)) {
     const t = m[3].match(/[MLQC]|-?[\d.]+/g); const pts = []; let i = 0, c = "";
     while (i < t.length) { if (/[MLQC]/.test(t[i])) { c = t[i++]; continue; } if (c === "M" || c === "L") { pts.push([+t[i], +t[i + 1]]); i += 2; } else if (c === "Q") { pts.push([+t[i], +t[i + 1]]); i += 4; } else if (c === "C") { pts.push([+t[i + 4], +t[i + 5]]); i += 6; } else i++; }
     edges.push({ s: m[1], t: m[2], p: pts, curved: /[CQ]/.test(m[3]) && /C/.test(m[3]) });
   }
-  const vb = /viewBox="0 0 ([\d.]+) ([\d.]+)"/.exec(svg);
+  const vb = /viewBox="-?[\d.]+ -?[\d.]+ ([\d.]+) ([\d.]+)"/.exec(svg);
   return { subgraphs, nodes, edges, w: +vb[1], h: +vb[2] };
 }
 
