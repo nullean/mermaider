@@ -38,15 +38,15 @@
 </defs>
 
 <path class="edge" data-from="_start" data-to="Idle" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M202,64 L202,142.45" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Idle" data-to="Processing" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="submit" d="M188,187.25 L188,220 Q188,226 194,226 L196,226 Q202,226 202,232 L202,265.7" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Idle" data-to="Processing" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="submit" d="M188,187.25 L188,226 L188,226 L188,265.7" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Processing" data-to="Success" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="ok" d="M178,310.5 L178,344 Q178,350 172,350 L108,350 Q102,350 102,356 L102,388.95" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Processing" data-to="Failed" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="error" d="M226,310.5 L226,344 Q226,350 232,350 L279,350 Q285,350 285,356 L285,388.95" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Success" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M102,433.75 L102,484 Q102,490 108,490 L121,490 Q127,490 127,496 L127,512.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Failed" data-to="Idle" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="retry" d="M319.5,388.95 L319.5,232 Q319.5,226 313.5,226 L222,226 Q216,226 216,220 L216,187.25" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Failed" data-to="_end2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="abort" d="M302,433.75 L302,467 Q302,473 296,473 L283,473 Q277,473 277,479 L277,512.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="Idle" data-to="Processing" data-label="submit">
-  <rect x="171.72799999999998" y="233.625" width="60.54400000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="202" y="245.85" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">submit</text>
+  <rect x="157.72799999999998" y="233.625" width="60.54400000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="188" y="245.85" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">submit</text>
 </g>
 <g class="edge-label" data-from="Processing" data-to="Success" data-label="ok">
   <rect x="121.7484" y="337.775" width="36.50320000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />

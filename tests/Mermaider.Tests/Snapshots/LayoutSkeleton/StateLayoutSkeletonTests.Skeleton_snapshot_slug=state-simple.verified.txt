@@ -5,7 +5,7 @@ Layer 3: Success, Failed
 Layer 4: _end
 Edges:
   Failed --retry--> Idle [Top->Bottom] [U L U]
-  Idle --submit--> Processing [Bottom->Top] [D R D]
+  Idle --submit--> Processing [Bottom->Top] [D]
   Processing --error--> Failed [Bottom->Top] [D R D]
   Processing --ok--> Success [Bottom->Top] [D L D]
   Success ----> _end [Bottom->Top] [D R D]

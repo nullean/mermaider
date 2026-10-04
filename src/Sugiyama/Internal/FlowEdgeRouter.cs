@@ -18,7 +18,7 @@ internal static class FlowEdgeRouter
 		internal double Cy => Y + (H / 2);
 	}
 
-	internal sealed record GroupBox(string Id, double X, double Y, double W, double H, HashSet<string> NodeIds);
+	internal sealed record GroupBox(string Id, double X, double Y, double W, double H, HashSet<string> NodeIds, double LabelW = 0);
 
 	internal sealed record RouteEdge(int Index, string Source, string Target, double LabelW, double LabelH, string? SourceGroup = null, string? TargetGroup = null);
 
@@ -102,7 +102,7 @@ internal static class FlowEdgeRouter
 				if (segsOf.TryGetValue(p.Edge.Index, out var old))
 					_ = routed.RemoveAll(old.Contains);
 				var pts = grid.Find(p, groups, routed) ?? Fallback(p);
-				pts = Straighten(Simplify(pts), p);
+				pts = Straighten(Simplify(pts), p, plans);
 				polylines[p.Edge.Index] = pts;
 				var mine = new List<Seg>();
 				for (var i = 0; i < pts.Count - 1; i++)
@@ -250,7 +250,7 @@ internal static class FlowEdgeRouter
 
 	// A short sideways jog between two parallel runs (ports a few px apart) becomes one straight line when the
 	// other node's side can take the port at the same coordinate.
-	private static List<LayoutPoint> Straighten(List<LayoutPoint> pts, Plan p)
+	private static List<LayoutPoint> Straighten(List<LayoutPoint> pts, Plan p, List<Plan> plans)
 	{
 		if (pts.Count != 4)
 			return pts;
@@ -259,20 +259,35 @@ internal static class FlowEdgeRouter
 		if (!vertical && !horizontal)
 			return pts;
 		var jog = vertical ? Math.Abs(pts[0].X - pts[3].X) : Math.Abs(pts[0].Y - pts[3].Y);
-		if (jog is < 0.5 or > 10)
+		if (jog is < 0.5 or > 16)
 			return pts;
 		if (vertical)
 		{
 			var x = pts[0].X;
-			if (x < p.T.X + 8 || x > p.T.Right - 8)
+			if (x < p.T.X + 8 || x > p.T.Right - 8 || PortTaken(plans, p, p.T, p.TSide, x, pts[3].Y))
 				return pts;
 			return [pts[0], new LayoutPoint(x, pts[1].Y), new LayoutPoint(x, pts[2].Y), new LayoutPoint(x, pts[3].Y)];
 		}
 
 		var y = pts[0].Y;
-		if (y < p.T.Y + 8 || y > p.T.Bottom - 8)
+		if (y < p.T.Y + 8 || y > p.T.Bottom - 8 || PortTaken(plans, p, p.T, p.TSide, pts[3].X, y))
 			return pts;
 		return [pts[0], new LayoutPoint(pts[1].X, y), new LayoutPoint(pts[2].X, y), new LayoutPoint(pts[3].X, y)];
+	}
+
+	private static bool PortTaken(List<Plan> plans, Plan self, Box box, int side, double x, double y)
+	{
+		foreach (var q in plans)
+		{
+			if (ReferenceEquals(q, self))
+				continue;
+			foreach (var (b, sd, port) in new[] { (q.S, q.SSide, q.SPort), (q.T, q.TSide, q.TPort) })
+			{
+				if (b.Id == box.Id && sd == side && Math.Abs(port.X - x) + Math.Abs(port.Y - y) < 12)
+					return true;
+			}
+		}
+		return false;
 	}
 
 	private static List<LayoutPoint> Simplify(List<LayoutPoint> pts)
@@ -391,9 +406,11 @@ internal static class FlowEdgeRouter
 		private readonly int[] _stamp;
 		private readonly int[] _prev;
 		private int _version;
+		private readonly IReadOnlyList<GroupBox> _allGroups;
 
 		internal Grid(IReadOnlyList<Box> boxes, IReadOnlyList<GroupBox> groups, List<Plan> plans)
 		{
+			_allGroups = groups;
 			var xs = new List<double>();
 			var ys = new List<double>();
 			foreach (var b in boxes)
@@ -603,6 +620,13 @@ internal static class FlowEdgeRouter
 			{
 				if (!(mx > g.X && mx < g.X + g.W && my > g.Y && my < g.Y + g.H))
 					cost += LeaveGroupCost + len;
+			}
+
+			foreach (var g in _allGroups)
+			{
+				// keep lines off the subgraph's title text
+				if (g.LabelW > 0 && mx > g.X && mx < g.X + g.LabelW && my > g.Y && my < g.Y + 30)
+					cost += 90 + len;
 			}
 
 			var horizontal = nd is 0 or 2;

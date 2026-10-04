@@ -55,7 +55,7 @@
   <text x="60" y="454" font-size="14" fill="var(--_text-muted)" font-style="italic">Infrastructure</text>
 </g>
 <path class="class-relationship" data-from="User" data-to="Order" data-type="association" data-marker-at="to" d="M143.5,184 L143.5,244" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
-<path class="class-relationship" data-from="Order" data-to="Database" data-type="association" data-marker-at="to" d="M143.5,332 L143.5,472" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
+<path class="class-relationship" data-from="Order" data-to="Database" data-type="association" data-marker-at="to" d="M143.5,332 L143.5,402 Q143.5,408 149.5,408 L155,408 Q161,408 161,414 L161,444 Q161,450 155,450 L149.5,450 Q143.5,450 143.5,456 L143.5,472" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
 <g class="class-node" data-id="User" data-label="User">
   <rect x="76.6" y="96" width="134" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
   <rect x="76.6" y="96" width="134" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />

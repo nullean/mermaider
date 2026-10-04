@@ -59,8 +59,8 @@
 <path class="edge" data-from="Toc" data-to="Nav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1004.7518399999999,118.5 L1077.5,118.5 Q1083.5,118.5 1083.5,124.5 L1083.5,165.5 Q1083.5,171.5 1089.5,171.5 L1117.2958399999998,171.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="DocSet" data-to="Content" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M768.14384,195.5 L784,195.5 Q790,195.5 790,201.5 L790,214.5 Q790,220.5 796,220.5 L824.14384,220.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Content" data-to="Nav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1061.29584,240 L1089.5,240 Q1095.5,240 1095.5,234 L1095.5,192.5 Q1095.5,186.5 1101.5,186.5 L1117.2958399999998,186.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="LinkReg" data-to="Content" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="cross_links" d="M216.336,409.5 L784,409.5 Q790,409.5 790,403.5 L790,239.5 Q790,233.5 796,233.5 L824.14384,233.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="OpenApiRepo" data-to="Content" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="api" d="M265.58400000000006,495 L770,495 Q776,495 776,489 L776,252.5 Q776,246.5 782,246.5 L824.14384,246.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="LinkReg" data-to="Content" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="cross_links" d="M216.336,409.5 L770,409.5 Q776,409.5 776,403.5 L776,239.5 Q776,233.5 782,233.5 L824.14384,233.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="OpenApiRepo" data-to="Content" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="api" d="M265.58400000000006,495 L784,495 Q790,495 790,489 L790,252.5 Q790,246.5 796,246.5 L824.14384,246.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Bundles" data-to="Content" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="release_notes" d="M322.128,587.5 L796,587.5 Q802,587.5 802,581.5 L802,265.5 Q802,259.5 808,259.5 L824.14384,259.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Nav" data-to="Html" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1284.2238399999997,171.5 L1496,171.5 Q1502,171.5 1502,165.5 L1502,144 Q1502,138 1508,138 L1524.09568,138" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Nav" data-to="Manifest" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1284.2238399999997,186.5 L1496,186.5 Q1502,186.5 1502,192.5 L1502,217.5 Q1502,223.5 1508,223.5 L1524.09568,223.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
@@ -71,12 +71,12 @@
   <text x="1512.09568" y="74.60000000000002" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Outputs</text>
 
 <g class="edge-label" data-from="LinkReg" data-to="Content" data-label="cross_links">
-  <rect x="454.46472" y="397.275" width="97.40656000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="503.168" y="409.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">cross_links</text>
+  <rect x="447.46472" y="397.275" width="97.40656000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="496.168" y="409.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">cross_links</text>
 </g>
 <g class="edge-label" data-from="OpenApiRepo" data-to="Content" data-label="api">
-  <rect x="500.93768" y="482.775" width="39.70864" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="520.792" y="495" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">api</text>
+  <rect x="507.93768" y="482.775" width="39.70864" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="527.792" y="495" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">api</text>
 </g>
 <g class="edge-label" data-from="Bundles" data-to="Content" data-label="release_notes">
   <rect x="505.34711999999996" y="575.275" width="113.43376" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />

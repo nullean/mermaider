@@ -200,7 +200,7 @@ public static class HierarchicalLayout
 		var groupBoxes = new List<FlowEdgeRouter.GroupBox>();
 		void Flatten(GroupRect g)
 		{
-			groupBoxes.Add(new FlowEdgeRouter.GroupBox(g.Id, g.X + pad, g.Y + pad, g.W, g.H, g.NodeIds));
+			groupBoxes.Add(new FlowEdgeRouter.GroupBox(g.Id, g.X + pad, g.Y + pad, g.W, g.H, g.NodeIds, Math.Min(g.W, 24 + (g.Label.Length * 6.6))));
 			foreach (var c in g.Children)
 				Flatten(c);
 		}
