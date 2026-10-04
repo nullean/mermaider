@@ -30,10 +30,10 @@
 
 <defs>
   <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
   <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
-    <polygon points="12 0, 0 6, 12 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+    <polygon points="12 0, 0 6, 12 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
 </defs>
 
@@ -41,27 +41,27 @@
 <path class="edge" data-from="B" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="No" d="M206.70399999999998,201.92 L208.86399999999998,201.92 Q211.024,201.92 211.024,204.07999999999998 L211.024,347.04 L211.024,347.04 L211.024,375.04" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" d="M84.464,201.92 L82.304,201.92 Q80.144,201.92 80.144,204.07999999999998 L80.144,347.04 L80.144,347.04 L80.144,375.04" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="B" data-to="D" data-label="No">
-  <rect x="195.658" y="273.38" width="30.732000000000006" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="211.024" y="288.48" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">No</text>
+  <rect x="191.97104" y="276.255" width="38.10592000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="211.024" y="288.48" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">No</text>
 </g>
 <g class="edge-label" data-from="B" data-to="C" data-label="Yes">
-  <rect x="60.998000000000005" y="273.38" width="38.292" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="80.144" y="288.48" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Yes</text>
+  <rect x="57.08424" y="276.255" width="46.11952000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="80.144" y="288.48" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Yes</text>
 </g>
 <g class="node" data-id="A" data-label="Start" data-shape="rectangle">
-  <rect x="99.05599999999998" y="40" width="93.056" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="99.05599999999998" y="40" width="93.056" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="145.58399999999997" y="62.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Start</text>
 </g>
 <g class="node" data-id="B" data-label="Decision" data-shape="diamond">
-  <polygon points="145.584,140.8 206.704,201.92000000000002 145.584,263.04 84.464,201.92000000000002" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <polygon points="145.584,140.8 206.704,201.92000000000002 145.584,263.04 84.464,201.92000000000002" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="145.584" y="201.92000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Decision</text>
 </g>
 <g class="node" data-id="C" data-label="OK" data-shape="rectangle">
-  <rect x="40" y="375.04" width="80.288" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="40" y="375.04" width="80.288" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="80.144" y="397.44" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">OK</text>
 </g>
 <g class="node" data-id="D" data-label="Cancel" data-shape="rectangle">
-  <rect x="156.288" y="375.04" width="109.47200000000001" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="156.288" y="375.04" width="109.47200000000001" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="211.024" y="397.44" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Cancel</text>
 </g>
 </svg>

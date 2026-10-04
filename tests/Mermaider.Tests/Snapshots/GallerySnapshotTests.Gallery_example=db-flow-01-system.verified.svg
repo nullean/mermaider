@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3944.7119999999995 488.8" width="3944.7119999999995" height="488.8" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4167.398400000001 488.8" width="4167.398400000001" height="488.8" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -30,126 +30,126 @@
 
 <defs>
   <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
   <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
-    <polygon points="12 0, 0 6, 12 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+    <polygon points="12 0, 0 6, 12 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
 </defs>
 
 <g class="subgraph" data-id="Reference" data-label="Reference data (config/)">
-  <rect x="40" y="40" width="305.632" height="104.8" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <rect x="40" y="40" width="305.632" height="104.8" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Sources" data-label="Sources">
-  <rect x="40" y="180.8" width="213.52" height="104.80000000000001" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <rect x="40" y="180.8" width="213.52" height="104.80000000000001" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Authoring" data-label="Authoring (in each repository)">
-  <rect x="471.276" y="120.8" width="558.1560000000002" height="271.20000000000005" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <rect x="493.54464" y="120.8" width="580.42464" height="271.20000000000005" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Build" data-label="Build">
-  <rect x="2727.508" y="92.79999999999997" width="811.5920000000001" height="213.60000000000005" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <rect x="2883.3884800000005" y="92.79999999999997" width="856.1292800000006" height="213.60000000000005" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Outputs" data-label="Outputs">
-  <rect x="1155.076" y="40.00000000000004" width="2749.6359999999995" height="407.2" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <rect x="1221.8819200000003" y="40.00000000000004" width="2905.5164800000007" height="407.2" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
 </g>
 
-<path class="edge" data-from="Repo" data-to="OpenApi" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M146.76,224.8 L146.76,193.2 Q146.76,187.2 152.76,187.2 L317.018,187.2 L317.018,187.2 L487.276,187.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="OpenApi" data-to="DocSet" data-style="dotted" data-arrow-start="false" data-arrow-end="true" data-label="api: local spec" d="M657.8520000000001,187.20000000000005 L815.4960000000001,187.20000000000005" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="DocSet" data-to="SpecIndex" data-style="dotted" data-arrow-start="false" data-arrow-end="true" data-label="api: spec + repository" d="M1013.432,187.2 L1171.076,187.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="SpecIndex" data-to="Isolated" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1271.868,209.60000000000002 L1271.868,209.59999999999997 L2007.6879999999996,209.59999999999997 L2007.6879999999996,209.59999999999997 L2743.508,209.59999999999997" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Isolated" data-to="Links" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M2895.8439999999996,209.59999999999997 L3053.488,209.59999999999997" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Links" data-to="Assembler" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M3122.3599999999997,187.2 L3122.3599999999997,165.2 Q3122.3599999999997,159.2 3128.3599999999997,159.2 L3235.618,159.2 L3235.618,159.2 L3348.8759999999997,159.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Links" data-to="Codex" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M3122.3599999999997,232 L3122.3599999999997,262 Q3122.3599999999997,268 3128.3599999999997,268 L3235.618,268 L3235.618,268 L3348.8759999999997,268" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Assembler" data-to="Site" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M3435.988,181.59999999999997 L3435.988,262 Q3435.988,268 3441.988,268 L3577.9739999999997,268 L3577.9739999999997,268 L3719.9599999999996,268" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Codex" data-to="Site" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M3492.0919999999996,268 L3719.9599999999996,268" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Assembler" data-to="Search" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M3435.988,136.79999999999995 L3435.988,112.40000000000005 Q3435.988,106.40000000000005 3441.988,106.40000000000005 L3577.9739999999997,106.40000000000005 L3577.9739999999997,106.40000000000005 L3719.9599999999996,106.40000000000005" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Notes" data-to="Site" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M3455.5959999999995,386.40000000000003 L3455.5959999999995,274 Q3455.5959999999995,268 3461.5959999999995,268 L3587.778,268 L3587.778,268 L3719.9599999999996,268" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Changelog" data-to="Notes" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1006.1360000000002,353.6 L1165.076,353.6 Q1171.076,353.6 1177.075972045164,353.58168450793625 L2737.5080279548356,348.8183154920638 Q2743.508,348.8 2749.508,348.8 L3195.182,348.8 Q3201.182,348.8 3201.182,354.8 L3201.182,402.8 Q3201.182,408.8 3207.182,408.8 L3348.8759999999997,408.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Isolated" data-to="Site" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M2819.676,232 L2819.676,401.20000000000005 Q2819.676,407.20000000000005 2825.676,407.20000000000005 L3635.1379999999995,407.20000000000005 Q3641.1379999999995,407.20000000000005 3641.1379999999995,401.20000000000005 L3641.1379999999995,274 Q3641.1379999999995,268 3647.1379999999995,268 L3719.9599999999996,268" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="DocSet" data-to="Codex" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M914.4640000000002,209.60000000000002 L914.4640000000002,275.6 Q914.4640000000002,281.6 920.4640000000002,281.6 L1951.292,281.6 Q1957.292,281.6 1957.292,275.6 L1957.292,157.2 Q1957.292,151.2 1963.292,151.2 L2892.498,151.2 Q2898.498,151.2 2898.498,157.2 L2898.498,262 Q2898.498,268 2904.498,268 L3201.182,268 L3201.182,268 L3348.8759999999997,268" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="DocSet" data-to="Assembler" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M914.4640000000002,209.60000000000002 L914.4640000000002,239.60000000000002 Q914.4640000000002,245.60000000000002 920.4640000000002,245.60000000000002 L1951.292,245.60000000000002 Q1957.292,245.60000000000002 1957.292,239.60000000000002 L1957.292,121.19999999999997 Q1957.292,115.19999999999997 1963.292,115.19999999999997 L2892.498,115.19999999999997 Q2898.498,115.19999999999997 2898.498,121.19999999999997 L2898.498,145.2 Q2898.498,151.2 2904.498,151.2 L3197.182,151.2 Q3201.182,151.2 3201.182,155.2 L3201.182,155.2 Q3201.182,159.2 3205.182,159.2 L3348.8759999999997,159.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="DocSet" data-to="Isolated" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M914.4640000000002,209.60000000000002 L914.4640000000002,311.6 Q914.4640000000002,317.6 920.4640000000002,317.6 L1951.292,317.6 Q1957.292,317.6 1957.292,311.6 L1957.292,215.59999999999997 Q1957.292,209.59999999999997 1963.292,209.59999999999997 L2743.508,209.59999999999997" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="SpecIndex" data-to="Assembler" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1271.868,164.8 L1271.868,85.19999999999997 Q1271.868,79.19999999999997 1277.868,79.19999999999997 L2892.498,79.19999999999997 Q2898.498,79.19999999999997 2898.498,85.19999999999997 L2898.498,109.19999999999997 Q2898.498,115.19999999999997 2904.498,115.19999999999997 L3195.182,115.19999999999997 Q3201.182,115.19999999999997 3201.182,121.19999999999997 L3201.182,153.2 Q3201.182,159.2 3207.182,159.2 L3348.8759999999997,159.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="OpenApi" data-to="SpecIndex" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="published per version" d="M572.5640000000001,164.8 L572.5640000000001,134.8 Q572.5640000000001,128.8 578.5640000000001,128.8 L1086.254,128.8 Q1092.254,128.8 1092.254,134.8 L1092.254,181.2 Q1092.254,187.2 1098.254,187.2 L1171.076,187.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Repo" data-to="Changelog" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M146.76,269.6 L146.76,347.6 Q146.76,353.6 152.76,353.6 L651.386,353.6 L651.386,353.6 L815.4960000000001,353.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Repo" data-to="DocSet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M146.76,269.6 L146.76,275.6 Q146.76,281.6 152.76,281.6 L730.674,281.6 Q736.674,281.6 736.674,275.6 L736.674,193.20000000000005 Q736.674,187.20000000000005 742.674,187.20000000000005 L815.4960000000001,187.20000000000005" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Catalog" data-to="DocSet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M192.81599999999997,128.8 L192.81599999999997,239.60000000000002 Q192.81599999999997,245.60000000000002 198.81599999999997,245.60000000000002 L730.674,245.60000000000002 Q736.674,245.60000000000002 736.674,239.60000000000002 L736.674,193.20000000000005 Q736.674,187.20000000000005 742.674,187.20000000000005 L815.4960000000001,187.20000000000005" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <rect x="40" y="40" width="305.632" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+<path class="edge" data-from="Repo" data-to="OpenApi" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M146.76,224.8 L146.76,193.2 Q146.76,187.2 152.76,187.2 L328.15232,187.2 L328.15232,187.2 L509.54464,187.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="OpenApi" data-to="DocSet" data-style="dotted" data-arrow-start="false" data-arrow-end="true" data-label="api: local spec" d="M680.1206400000001,187.20000000000005 L860.0332800000001,187.20000000000005" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="DocSet" data-to="SpecIndex" data-style="dotted" data-arrow-start="false" data-arrow-end="true" data-label="api: spec + repository" d="M1057.96928,187.2 L1237.8819200000003,187.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="SpecIndex" data-to="Isolated" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1338.6739200000002,209.60000000000002 L1338.6739200000002,209.59999999999997 L2119.0312000000004,209.59999999999997 L2119.0312000000004,209.59999999999997 L2899.3884800000005,209.59999999999997" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Isolated" data-to="Links" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M3051.7244800000003,209.59999999999997 L3231.637120000001,209.59999999999997" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Links" data-to="Assembler" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M3300.5091200000006,187.2 L3300.5091200000006,165.2 Q3300.5091200000006,159.2 3306.5091200000006,159.2 L3424.901440000001,159.2 L3424.901440000001,159.2 L3549.293760000001,159.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Links" data-to="Codex" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M3300.5091200000006,232 L3300.5091200000006,262 Q3300.5091200000006,268 3306.5091200000006,268 L3424.901440000001,268 L3424.901440000001,268 L3549.293760000001,268" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Assembler" data-to="Site" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M3636.405760000001,181.59999999999997 L3636.405760000001,262 Q3636.405760000001,268 3642.405760000001,268 L3789.526080000001,268 L3789.526080000001,268 L3942.646400000001,268" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Codex" data-to="Site" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M3692.509760000001,268 L3942.646400000001,268" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Assembler" data-to="Search" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M3636.405760000001,136.79999999999995 L3636.405760000001,112.40000000000005 Q3636.405760000001,106.40000000000005 3642.405760000001,106.40000000000005 L3789.526080000001,106.40000000000005 L3789.526080000001,106.40000000000005 L3942.646400000001,106.40000000000005" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Notes" data-to="Site" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M3656.0137600000007,386.40000000000003 L3656.0137600000007,274 Q3656.0137600000007,268 3662.0137600000007,268 L3799.330080000001,268 L3799.330080000001,268 L3942.646400000001,268" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Changelog" data-to="Notes" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1050.6732800000002,353.6 L1231.8819200000003,353.6 Q1237.8819200000003,353.6 1243.8818949621584,353.58266640619325 L2893.388505037842,348.8173335938068 Q2899.3884800000005,348.8 2905.3884800000005,348.8 L3384.465440000001,348.8 Q3390.465440000001,348.8 3390.465440000001,354.8 L3390.465440000001,402.8 Q3390.465440000001,408.8 3396.465440000001,408.8 L3549.293760000001,408.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Isolated" data-to="Site" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M2975.5564800000006,232 L2975.5564800000006,401.20000000000005 Q2975.5564800000006,407.20000000000005 2981.5564800000006,407.20000000000005 L3846.6900800000008,407.20000000000005 Q3852.6900800000008,407.20000000000005 3852.6900800000008,401.20000000000005 L3852.6900800000008,274 Q3852.6900800000008,268 3858.6900800000008,268 L3942.646400000001,268" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="DocSet" data-to="Codex" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M959.0012800000002,209.60000000000002 L959.0012800000002,275.6 Q959.0012800000002,281.6 965.0012800000002,281.6 L2062.6352,281.6 Q2068.6352,281.6 2068.6352,275.6 L2068.6352,157.2 Q2068.6352,151.2 2074.6352,151.2 L3059.512800000001,151.2 Q3065.512800000001,151.2 3065.512800000001,157.2 L3065.512800000001,262 Q3065.512800000001,268 3071.512800000001,268 L3390.465440000001,268 L3390.465440000001,268 L3549.293760000001,268" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="DocSet" data-to="Assembler" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M959.0012800000002,209.60000000000002 L959.0012800000002,239.60000000000002 Q959.0012800000002,245.60000000000002 965.0012800000002,245.60000000000002 L2062.6352,245.60000000000002 Q2068.6352,245.60000000000002 2068.6352,239.60000000000002 L2068.6352,121.19999999999997 Q2068.6352,115.19999999999997 2074.6352,115.19999999999997 L3059.512800000001,115.19999999999997 Q3065.512800000001,115.19999999999997 3065.512800000001,121.19999999999997 L3065.512800000001,145.2 Q3065.512800000001,151.2 3071.512800000001,151.2 L3386.465440000001,151.2 Q3390.465440000001,151.2 3390.465440000001,155.2 L3390.465440000001,155.2 Q3390.465440000001,159.2 3394.465440000001,159.2 L3549.293760000001,159.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="DocSet" data-to="Isolated" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M959.0012800000002,209.60000000000002 L959.0012800000002,311.6 Q959.0012800000002,317.6 965.0012800000002,317.6 L2062.6352,317.6 Q2068.6352,317.6 2068.6352,311.6 L2068.6352,215.59999999999997 Q2068.6352,209.59999999999997 2074.6352,209.59999999999997 L2899.3884800000005,209.59999999999997" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="SpecIndex" data-to="Assembler" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1338.6739200000002,164.8 L1338.6739200000002,85.19999999999997 Q1338.6739200000002,79.19999999999997 1344.6739200000002,79.19999999999997 L3059.512800000001,79.19999999999997 Q3065.512800000001,79.19999999999997 3065.512800000001,85.19999999999997 L3065.512800000001,109.19999999999997 Q3065.512800000001,115.19999999999997 3071.512800000001,115.19999999999997 L3384.465440000001,115.19999999999997 Q3390.465440000001,115.19999999999997 3390.465440000001,121.19999999999997 L3390.465440000001,153.2 Q3390.465440000001,159.2 3396.465440000001,159.2 L3549.293760000001,159.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="OpenApi" data-to="SpecIndex" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="published per version" d="M594.8326400000001,164.8 L594.8326400000001,134.8 Q594.8326400000001,128.8 600.8326400000001,128.8 L1141.9256,128.8 Q1147.9256,128.8 1147.9256,134.8 L1147.9256,181.2 Q1147.9256,187.2 1153.9256,187.2 L1237.8819200000003,187.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Repo" data-to="Changelog" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M146.76,269.6 L146.76,347.6 Q146.76,353.6 152.76,353.6 L684.7889600000001,353.6 L684.7889600000001,353.6 L860.0332800000001,353.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Repo" data-to="DocSet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M146.76,269.6 L146.76,275.6 Q146.76,281.6 152.76,281.6 L678.7889600000001,281.6 Q684.7889600000001,281.6 684.7889600000001,275.6 L684.7889600000001,193.20000000000005 Q684.7889600000001,187.20000000000005 690.7889600000001,187.20000000000005 L860.0332800000001,187.20000000000005" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Catalog" data-to="DocSet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M192.81599999999997,128.8 L192.81599999999997,239.60000000000002 Q192.81599999999997,245.60000000000002 198.81599999999997,245.60000000000002 L678.7889600000001,245.60000000000002 Q684.7889600000001,245.60000000000002 684.7889600000001,239.60000000000002 L684.7889600000001,193.20000000000005 Q684.7889600000001,187.20000000000005 690.7889600000001,187.20000000000005 L860.0332800000001,187.20000000000005" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <rect x="40" y="40" width="305.632" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
   <text x="52" y="55" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Reference data (config/)</text>
-  <rect x="40" y="180.8" width="213.52" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <rect x="40" y="180.8" width="213.52" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
   <text x="52" y="195.8" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Sources</text>
-  <rect x="471.276" y="120.8" width="558.1560000000002" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
-  <text x="483.276" y="135.8" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Authoring (in each repository)</text>
-  <rect x="2727.508" y="92.79999999999997" width="811.5920000000001" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
-  <text x="2739.508" y="107.79999999999997" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Build</text>
-  <rect x="1155.076" y="40.00000000000004" width="2749.6359999999995" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
-  <text x="1167.076" y="55.00000000000004" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Outputs</text>
+  <rect x="493.54464" y="120.8" width="580.42464" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <text x="505.54464" y="135.8" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Authoring (in each repository)</text>
+  <rect x="2883.3884800000005" y="92.79999999999997" width="856.1292800000006" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <text x="2895.3884800000005" y="107.79999999999997" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Build</text>
+  <rect x="1221.8819200000003" y="40.00000000000004" width="2905.5164800000007" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+  <text x="1233.8819200000003" y="55.00000000000004" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Outputs</text>
 
 <g class="edge-label" data-from="OpenApi" data-to="DocSet" data-label="api: local spec">
-  <rect x="687.288" y="172.10000000000005" width="98.77199999999999" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="736.674" y="187.20000000000005" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">api: local spec</text>
+  <rect x="714.9628000000001" y="174.97500000000005" width="110.22832" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="770.0769600000001" y="187.20000000000005" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">api: local spec</text>
 </g>
 <g class="edge-label" data-from="DocSet" data-to="SpecIndex" data-label="api: spec + repository">
-  <rect x="1020.5659999999999" y="172.1" width="143.37600000000003" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="1092.254" y="187.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">api: spec + repository</text>
+  <rect x="1069.17132" y="174.975" width="157.50856000000005" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="1147.9256" y="187.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">api: spec + repository</text>
 </g>
 <g class="edge-label" data-from="OpenApi" data-to="SpecIndex" data-label="published per version">
-  <rect x="1163.942" y="172.1" width="145.644" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="1236.7640000000001" y="187.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">published per version</text>
+  <rect x="1234.6798800000001" y="174.975" width="159.91264" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="1314.6362000000001" y="187.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">published per version</text>
 </g>
 <g class="node" data-id="DocSet" data-label="Documentation sets" data-shape="rectangle">
-  <rect x="815.4960000000001" y="164.8" width="197.936" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="914.464" y="187.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Documentation sets</text>
+  <rect x="860.0332800000001" y="164.8" width="197.936" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="959.0012800000001" y="187.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Documentation sets</text>
 </g>
 <g class="node" data-id="OpenApi" data-label="OpenAPI specs" data-shape="rectangle">
-  <rect x="487.276" y="164.8" width="170.57600000000002" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="572.5640000000001" y="187.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">OpenAPI specs</text>
+  <rect x="509.54464" y="164.8" width="170.57600000000002" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="594.8326400000001" y="187.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">OpenAPI specs</text>
 </g>
 <g class="node" data-id="Changelog" data-label="Changelog entries" data-shape="rectangle">
-  <rect x="815.4960000000001" y="331.20000000000005" width="190.64000000000001" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="910.8160000000001" y="353.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Changelog entries</text>
+  <rect x="860.0332800000001" y="331.20000000000005" width="190.64000000000001" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="955.3532800000002" y="353.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Changelog entries</text>
 </g>
 <g class="node" data-id="Isolated" data-label="Isolated build" data-shape="rectangle">
-  <rect x="2743.508" y="187.2" width="152.336" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="2819.676" y="209.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Isolated build</text>
+  <rect x="2899.3884800000005" y="187.2" width="152.336" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="2975.5564800000006" y="209.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Isolated build</text>
 </g>
 <g class="node" data-id="Assembler" data-label="Assembler build" data-shape="rectangle">
-  <rect x="3348.8759999999997" y="136.79999999999995" width="174.22400000000002" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="3435.988" y="159.19999999999996" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Assembler build</text>
+  <rect x="3549.293760000001" y="136.79999999999995" width="174.22400000000002" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="3636.405760000001" y="159.19999999999996" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Assembler build</text>
 </g>
 <g class="node" data-id="Codex" data-label="Codex build" data-shape="rectangle">
-  <rect x="3348.8759999999997" y="245.60000000000002" width="143.216" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="3420.484" y="268" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Codex build</text>
+  <rect x="3549.293760000001" y="245.60000000000002" width="143.216" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="3620.901760000001" y="268" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Codex build</text>
 </g>
 <g class="node" data-id="Site" data-label="HTML sites" data-shape="rectangle">
-  <rect x="3719.9599999999996" y="245.59999999999997" width="142.30399999999997" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="3791.1119999999996" y="267.99999999999994" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">HTML sites</text>
+  <rect x="3942.646400000001" y="245.59999999999997" width="142.30399999999997" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="4013.798400000001" y="267.99999999999994" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">HTML sites</text>
 </g>
 <g class="node" data-id="Links" data-label="Link graph" data-shape="rectangle">
-  <rect x="3053.488" y="187.2" width="137.74399999999997" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="3122.3599999999997" y="209.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Link graph</text>
+  <rect x="3231.637120000001" y="187.2" width="137.74399999999997" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="3300.5091200000006" y="209.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Link graph</text>
 </g>
 <g class="node" data-id="SpecIndex" data-label="OpenAPI repository" data-shape="rectangle">
-  <rect x="1171.076" y="164.8" width="201.58400000000003" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="1271.868" y="187.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">OpenAPI repository</text>
+  <rect x="1237.8819200000003" y="164.8" width="201.58400000000003" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="1338.6739200000002" y="187.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">OpenAPI repository</text>
 </g>
 <g class="node" data-id="Search" data-label="Search indices" data-shape="rectangle">
-  <rect x="3719.9599999999996" y="84.00000000000004" width="168.752" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="3804.336" y="106.40000000000003" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Search indices</text>
+  <rect x="3942.646400000001" y="84.00000000000004" width="168.752" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="4027.022400000001" y="106.40000000000003" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Search indices</text>
 </g>
 <g class="node" data-id="Notes" data-label="Release note bundles" data-shape="rectangle">
-  <rect x="3348.8759999999997" y="386.40000000000003" width="213.44" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="3455.5959999999995" y="408.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Release note bundles</text>
+  <rect x="3549.293760000001" y="386.40000000000003" width="213.44" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="3656.0137600000007" y="408.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Release note bundles</text>
 </g>
 <g class="node" data-id="Catalog" data-label="Products, versioning systems" data-shape="rectangle">
-  <rect x="56" y="84" width="273.632" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="56" y="84" width="273.632" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="192.816" y="106.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Products, versioning systems</text>
 </g>
 <g class="node" data-id="Repo" data-label="Repositories (Git)" data-shape="rectangle">
-  <rect x="56" y="224.8" width="181.52" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="56" y="224.8" width="181.52" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="146.76" y="247.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Repositories (Git)</text>
 </g>
 </svg>

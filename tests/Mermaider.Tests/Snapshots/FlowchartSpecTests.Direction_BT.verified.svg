@@ -30,25 +30,25 @@
 
 <defs>
   <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
   <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
-    <polygon points="12 0, 0 6, 12 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+    <polygon points="12 0, 0 6, 12 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
 </defs>
 
 <path class="edge" data-from="Bottom" data-to="Middle" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M93.368,241.59999999999997 L93.368,185.59999999999997" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Middle" data-to="Top" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M93.368,140.79999999999998 L93.368,84.79999999999998" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="Bottom" data-label="Bottom" data-shape="rectangle">
-  <rect x="40.455999999999996" y="241.59999999999997" width="105.824" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="40.455999999999996" y="241.59999999999997" width="105.824" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="93.368" y="263.99999999999994" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Bottom</text>
 </g>
 <g class="node" data-id="Middle" data-label="Middle" data-shape="rectangle">
-  <rect x="40" y="140.79999999999998" width="106.73599999999999" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="40" y="140.79999999999998" width="106.73599999999999" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="93.368" y="163.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Middle</text>
 </g>
 <g class="node" data-id="Top" data-label="Top" data-shape="rectangle">
-  <rect x="49.57599999999999" y="40" width="87.584" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="49.57599999999999" y="40" width="87.584" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="93.368" y="62.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Top</text>
 </g>
 </svg>

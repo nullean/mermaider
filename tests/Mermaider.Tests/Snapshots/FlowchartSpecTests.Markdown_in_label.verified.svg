@@ -30,20 +30,20 @@
 
 <defs>
   <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
   <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
-    <polygon points="12 0, 0 6, 12 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+    <polygon points="12 0, 0 6, 12 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
 </defs>
 
 <path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M146.72,84.8 L146.72,140.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="A" data-label="The **cat** in the hat" data-shape="rectangle">
-  <rect x="40" y="40" width="213.44" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="40" y="40" width="213.44" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text text-anchor="middle" font-size="var(--fs-m)" fill="var(--_text)"><tspan x="146.72" y="62.4" dy="0.35em">The <tspan font-weight="bold">cat</tspan> in the hat</tspan></text>
 </g>
 <g class="node" data-id="B" data-label="*Italic* text" data-shape="rectangle">
-  <rect x="77.84799999999998" y="140.8" width="137.74400000000003" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="77.84799999999998" y="140.8" width="137.74400000000003" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text text-anchor="middle" font-size="var(--fs-m)" fill="var(--_text)"><tspan x="146.72" y="163.20000000000002" dy="0.35em"><tspan font-style="italic">Italic</tspan> text</tspan></text>
 </g>
 </svg>

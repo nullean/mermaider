@@ -13,9 +13,6 @@ namespace Mermaider.Rendering;
 /// </summary>
 internal static class SvgRenderer
 {
-	private static readonly string EdgeLabelBgAttrs =
-		$"rx=\"{Radii.EdgeLabel}\" ry=\"{Radii.EdgeLabel}\" fill=\"var(--bg)\" stroke=\"none\"";
-
 	private static readonly string EdgeLabelAttrs = TextAttrs.EdgeLabelCenterFill + "var(--_text)\"";
 
 	/// <summary>
@@ -49,8 +46,10 @@ internal static class SvgRenderer
 		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 		AppendArrowDefs(sb);
 
+		var palette = context.DiagramType == DiagramType.Flowchart ? BuildFlowPalette(graph, context.Styles.Colors) : null;
+
 		foreach (var group in graph.Groups)
-			AppendGroupBody(sb, group);
+			AppendGroupBody(sb, group, palette, 0);
 
 		foreach (var edge in graph.Edges)
 		{
@@ -59,7 +58,7 @@ internal static class SvgRenderer
 		}
 
 		foreach (var group in graph.Groups)
-			AppendGroupHeader(sb, group);
+			AppendGroupHeader(sb, group, palette, 0);
 
 		foreach (var edge in graph.Edges)
 		{
@@ -68,13 +67,93 @@ internal static class SvgRenderer
 		}
 
 		foreach (var node in graph.Nodes)
-			AppendNode(sb, node, context.Styles.Strict);
+			AppendNode(sb, node, context.Styles.Strict, palette);
 
 		foreach (var note in graph.Notes)
 			AppendNote(sb, note);
 
 		_ = sb.Append("\n</svg>");
 		return sb;
+	}
+
+	/// <summary>Cluster colours for flowcharts: each connected cluster of nodes (edges + shared subgraph) gets one palette colour.</summary>
+	private sealed class FlowPalette(DiagramColors colors, Dictionary<string, int> nodeCluster, Dictionary<string, int> groupCluster)
+	{
+		internal string NodeFill(string id) => $"color-mix(in srgb, {Color(nodeCluster[id])} 16%, var(--bg))";
+		internal string NodeStroke(string id) => ColorUtils.AdjustLightness(Color(nodeCluster[id]), -0.12);
+		internal bool Has(string id) => nodeCluster.ContainsKey(id);
+		internal string GroupFill(string id, int depth) => $"color-mix(in srgb, {Color(GroupCluster(id))} {6 + (depth * 3)}%, var(--bg))";
+		internal string GroupHeader(string id, int depth) => $"color-mix(in srgb, {Color(GroupCluster(id))} {18 + (depth * 4)}%, var(--bg))";
+		internal string GroupStroke(string id) => ColorUtils.AdjustLightness(Color(GroupCluster(id)), -0.02);
+		private int GroupCluster(string id) => groupCluster.GetValueOrDefault(id);
+		private string Color(int cluster) => colors.PaletteAt(cluster);
+	}
+
+	private static FlowPalette BuildFlowPalette(PositionedGraph graph, DiagramColors colors)
+	{
+		var parent = graph.Nodes.ToDictionary(n => n.Id, n => n.Id, StringComparer.Ordinal);
+		string Find(string id)
+		{
+			while (parent[id] != id)
+			{
+				parent[id] = parent[parent[id]];
+				id = parent[id];
+			}
+			return id;
+		}
+
+		void Union(string a, string b)
+		{
+			if (parent.ContainsKey(a) && parent.ContainsKey(b))
+				parent[Find(a)] = Find(b);
+		}
+
+		foreach (var e in graph.Edges)
+			Union(e.Source, e.Target);
+
+		bool Inside(PositionedNode n, PositionedGroup g) =>
+			n.X + (n.Width / 2) >= g.X && n.X + (n.Width / 2) <= g.X + g.Width && n.Y + (n.Height / 2) >= g.Y && n.Y + (n.Height / 2) <= g.Y + g.Height;
+
+		void UnionGroup(PositionedGroup g, string? anchor)
+		{
+			foreach (var n in graph.Nodes)
+			{
+				if (!Inside(n, g))
+					continue;
+				if (anchor is null)
+					anchor = n.Id;
+				else
+					Union(anchor, n.Id);
+			}
+			foreach (var c in g.Children)
+				UnionGroup(c, anchor);
+		}
+
+		foreach (var g in graph.Groups)
+			UnionGroup(g, null);
+
+		var index = new Dictionary<string, int>(StringComparer.Ordinal);
+		var nodeCluster = new Dictionary<string, int>(StringComparer.Ordinal);
+		foreach (var n in graph.Nodes)
+		{
+			var root = Find(n.Id);
+			if (!index.TryGetValue(root, out var i))
+				index[root] = i = index.Count;
+			nodeCluster[n.Id] = i;
+		}
+
+		var groupCluster = new Dictionary<string, int>(StringComparer.Ordinal);
+		void AssignGroups(PositionedGroup g)
+		{
+			var first = graph.Nodes.FirstOrDefault(n => Inside(n, g));
+			groupCluster[g.Id] = first is not null ? nodeCluster[first.Id] : 0;
+			foreach (var c in g.Children)
+				AssignGroups(c);
+		}
+
+		foreach (var g in graph.Groups)
+			AssignGroups(g);
+		return new FlowPalette(colors, nodeCluster, groupCluster);
 	}
 
 	// ========================================================================
@@ -95,7 +174,7 @@ internal static class SvgRenderer
 			.Append("\" orient=\"auto\">\n");
 		_ = sb.Append("    <polygon points=\"0 0, ").Append(w).Append(' ').Append(h / 2.0)
 			.Append(", 0 ").Append(h)
-			.Append("\" fill=\"var(--_arrow)\" stroke=\"var(--_arrow)\" stroke-width=\"0.75\" stroke-linejoin=\"round\" />\n");
+			.Append("\" fill=\"var(--_line)\" stroke=\"var(--_line)\" stroke-width=\"0.75\" stroke-linejoin=\"round\" />\n");
 		_ = sb.Append("  </marker>\n");
 
 		_ = sb.Append("  <marker id=\"arrowhead-start\" markerUnits=\"userSpaceOnUse\" markerWidth=\"").Append(w)
@@ -104,7 +183,7 @@ internal static class SvgRenderer
 			.Append("\" orient=\"auto\">\n");
 		_ = sb.Append("    <polygon points=\"").Append(w).Append(" 0, 0 ").Append(h / 2.0)
 			.Append(", ").Append(w).Append(' ').Append(h)
-			.Append("\" fill=\"var(--_arrow)\" stroke=\"var(--_arrow)\" stroke-width=\"0.75\" stroke-linejoin=\"round\" />\n");
+			.Append("\" fill=\"var(--_line)\" stroke=\"var(--_line)\" stroke-width=\"0.75\" stroke-linejoin=\"round\" />\n");
 		_ = sb.Append("  </marker>\n");
 		_ = sb.Append("</defs>\n");
 	}
@@ -113,11 +192,11 @@ internal static class SvgRenderer
 	// Group rendering
 	// ========================================================================
 
-	private static void AppendGroupBody(StringBuilder sb, PositionedGroup group)
+	private static void AppendGroupBody(StringBuilder sb, PositionedGroup group, FlowPalette? palette, int depth)
 	{
 		var r = Radii.Group;
-		var fill = InlineStyleValue(group.InlineStyle, "fill") ?? "var(--_group-fill)";
-		var stroke = InlineStyleValue(group.InlineStyle, "stroke") ?? "var(--_group-stroke)";
+		var fill = InlineStyleValue(group.InlineStyle, "fill") ?? palette?.GroupFill(group.Id, depth) ?? "var(--_group-fill)";
+		var stroke = InlineStyleValue(group.InlineStyle, "stroke") ?? palette?.GroupStroke(group.Id) ?? "var(--_group-stroke)";
 		var sw = InlineStyleValue(group.InlineStyle, "stroke-width")
 			?? StrokeWidths.OuterBox.ToString(CultureInfo.InvariantCulture);
 
@@ -137,10 +216,10 @@ internal static class SvgRenderer
 		_ = sb.Append("</g>\n");
 
 		foreach (var child in group.Children)
-			AppendGroupBody(sb, child);
+			AppendGroupBody(sb, child, palette, depth + 1);
 	}
 
-	private static void AppendGroupHeader(StringBuilder sb, PositionedGroup group)
+	private static void AppendGroupHeader(StringBuilder sb, PositionedGroup group, FlowPalette? palette, int depth)
 	{
 		var headerHeight = FontSizes.GroupHeader + 16;
 		var r = Radii.Group;
@@ -148,7 +227,7 @@ internal static class SvgRenderer
 		_ = sb.Append("  <rect x=\"").Append(group.X).Append("\" y=\"").Append(group.Y)
 			.Append("\" width=\"").Append(group.Width).Append("\" height=\"").Append(headerHeight)
 			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"var(--_group-hdr)\" stroke=\"var(--_group-stroke)\" stroke-width=\"")
+			.Append("\" fill=\"").Append(palette?.GroupHeader(group.Id, depth) ?? "var(--_group-hdr)").Append("\" stroke=\"").Append(palette?.GroupStroke(group.Id) ?? "var(--_group-stroke)").Append("\" stroke-width=\"")
 			.Append(StrokeWidths.OuterBox).Append("\" />\n");
 
 		_ = sb.Append("  ");
@@ -160,7 +239,7 @@ internal static class SvgRenderer
 		_ = sb.Append('\n');
 
 		foreach (var child in group.Children)
-			AppendGroupHeader(sb, child);
+			AppendGroupHeader(sb, child, palette, depth + 1);
 	}
 
 	// ========================================================================
@@ -202,7 +281,10 @@ internal static class SvgRenderer
 		}
 
 		_ = sb.Append(" d=\"");
-		BuildRoundedPath(sb, edge.Points, cornerRadius);
+		if (IsOrthogonal(edge.Points))
+			BuildOrthogonalPath(sb, edge.Points, cornerRadius);
+		else
+			BuildRoundedPath(sb, edge.Points, cornerRadius);
 		_ = sb.Append("\" fill=\"none\" stroke=\"").Append(inlineStroke ?? "var(--_line)")
 			.Append("\" stroke-width=\"").Append(strokeWidth).Append('"').Append(dashArray);
 
@@ -212,6 +294,50 @@ internal static class SvgRenderer
 			_ = sb.Append(" marker-start=\"url(#arrowhead-start)\"");
 
 		_ = sb.Append(" />");
+	}
+
+	private static bool IsOrthogonal(IReadOnlyList<Point> pts)
+	{
+		for (var i = 1; i < pts.Count; i++)
+		{
+			if (Math.Abs(pts[i].X - pts[i - 1].X) > 0.5 && Math.Abs(pts[i].Y - pts[i - 1].Y) > 0.5)
+				return false;
+		}
+		return true;
+	}
+
+	/// <summary>Axis-aligned polyline with uniformly rounded corners; no bezier S-curves, so every edge shares one visual style.</summary>
+	internal static void BuildOrthogonalPath(StringBuilder sb, IReadOnlyList<Point> points, double radius)
+	{
+		if (points.Count < 2)
+			return;
+		var p0 = points[0];
+		_ = sb.Append('M').Append(p0.X).Append(',').Append(p0.Y);
+		for (var i = 1; i < points.Count - 1; i++)
+		{
+			var prev = points[i - 1];
+			var cur = points[i];
+			var next = points[i + 1];
+			var inDx = Math.Sign(cur.X - prev.X);
+			var inDy = Math.Sign(cur.Y - prev.Y);
+			var outDx = Math.Sign(next.X - cur.X);
+			var outDy = Math.Sign(next.Y - cur.Y);
+			if (inDx == outDx && inDy == outDy)
+				continue; // collinear point
+			var inLen = Math.Abs(cur.X - prev.X) + Math.Abs(cur.Y - prev.Y);
+			var outLen = Math.Abs(next.X - cur.X) + Math.Abs(next.Y - cur.Y);
+			var r = Math.Min(radius, Math.Min(inLen, outLen) / 2);
+			if (r < 0.5)
+			{
+				_ = sb.Append(" L").Append(cur.X).Append(',').Append(cur.Y);
+				continue;
+			}
+			_ = sb.Append(" L").Append(cur.X - (inDx * r)).Append(',').Append(cur.Y - (inDy * r))
+				.Append(" Q").Append(cur.X).Append(',').Append(cur.Y)
+				.Append(' ').Append(cur.X + (outDx * r)).Append(',').Append(cur.Y + (outDy * r));
+		}
+		var last = points[^1];
+		_ = sb.Append(" L").Append(last.X).Append(',').Append(last.Y);
 	}
 
 	internal static void BuildRoundedPath(StringBuilder sb, IReadOnlyList<Point> points, double radius)
@@ -328,9 +454,6 @@ internal static class SvgRenderer
 			FontSizes.EdgeLabel,
 			FontWeights.EdgeLabel);
 
-		const double labelPad = 6.0;
-		var labelX = mid.X;
-
 		var labelColor = InlineStyleValue(edge.InlineStyle, "color");
 		var textAttrs = labelColor is not null
 			? TextAttrs.EdgeLabelCenterFill + labelColor + "\""
@@ -344,13 +467,15 @@ internal static class SvgRenderer
 		MultilineUtils.AppendEscapedAttr(sb, label.AsSpan());
 		_ = sb.Append("\">\n  ");
 
-		MultilineUtils.AppendMultilineTextWithBackground(
-			sb, label, labelX, mid.Y,
-			metrics.Width, metrics.Height,
-			FontSizes.EdgeLabel,
-			labelPad,
-			textAttrs,
-			EdgeLabelBgAttrs);
+		// Pill on the line: border as thick as the lines, ~2px clear padding (text-width estimate corrected like ER labels).
+		var bgW = ErSvgRenderer.LabelBoxWidth(metrics.Width);
+		var bgH = metrics.Height + ErSvgRenderer.LabelPadY;
+		var lr = Math.Min(Radii.EdgeLabel, bgH / 2);
+		_ = sb.Append("<rect x=\"").Append(mid.X - (bgW / 2)).Append("\" y=\"").Append(mid.Y - (bgH / 2))
+			.Append("\" width=\"").Append(bgW).Append("\" height=\"").Append(bgH)
+			.Append("\" rx=\"").Append(lr).Append("\" ry=\"").Append(lr)
+			.Append("\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"").Append(StrokeWidths.Connector).Append("\" />\n  ");
+		MultilineUtils.AppendMultilineText(sb, label, mid.X, mid.Y, FontSizes.EdgeLabel, textAttrs);
 
 		_ = sb.Append("\n</g>");
 	}
@@ -390,7 +515,7 @@ internal static class SvgRenderer
 	// Node rendering
 	// ========================================================================
 
-	private static void AppendNode(StringBuilder sb, PositionedNode node, StrictStylingOptions? strict = null)
+	private static void AppendNode(StringBuilder sb, PositionedNode node, StrictStylingOptions? strict = null, FlowPalette? palette = null)
 	{
 		_ = sb.Append("\n<g class=\"node");
 		if (node.CssClassName is not null)
@@ -405,17 +530,18 @@ internal static class SvgRenderer
 		MultilineUtils.AppendEscapedAttr(sb, node.Label.AsSpan());
 		_ = sb.Append("\" data-shape=\"").Append(node.Shape.ToLower()).Append("\">\n  ");
 
-		AppendNodeShape(sb, node);
+		AppendNodeShape(sb, node, palette);
 		_ = sb.Append("\n  ");
 		AppendNodeLabel(sb, node);
 		_ = sb.Append("\n</g>");
 	}
 
-	private static void AppendNodeShape(StringBuilder sb, PositionedNode node)
+	private static void AppendNodeShape(StringBuilder sb, PositionedNode node, FlowPalette? palette)
 	{
 		var (x, y, w, h) = (node.X, node.Y, node.Width, node.Height);
-		var fill = InlineStyleValue(node.InlineStyle, "fill") ?? "var(--_node-fill)";
-		var stroke = InlineStyleValue(node.InlineStyle, "stroke") ?? "var(--_node-stroke)";
+		var clustered = palette is not null && palette.Has(node.Id);
+		var fill = InlineStyleValue(node.InlineStyle, "fill") ?? (clustered ? palette!.NodeFill(node.Id) : "var(--_node-fill)");
+		var stroke = InlineStyleValue(node.InlineStyle, "stroke") ?? (clustered ? palette!.NodeStroke(node.Id) : "var(--_node-stroke)");
 		var sw = InlineStyleValue(node.InlineStyle, "stroke-width") ?? StrokeWidths.InnerBox.ToString(CultureInfo.InvariantCulture);
 
 		switch (node.Shape)

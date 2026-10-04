@@ -30,10 +30,10 @@
 
 <defs>
   <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
   <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
-    <polygon points="12 0, 0 6, 12 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+    <polygon points="12 0, 0 6, 12 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
 </defs>
 
@@ -60,16 +60,16 @@
   <text x="52" y="435.40000000000003" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Second</text>
 
 <g class="edge-label" data-from="Inner1" data-to="Inner2" data-label="next">
-  <rect x="89.01" y="185.70000000000002" width="39.804" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="108.912" y="200.8" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">next</text>
+  <rect x="85.05088" y="188.57500000000002" width="47.722240000000006" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="108.912" y="200.8" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">next</text>
 </g>
 <g class="edge-label" data-from="Inner2" data-to="Inner3" data-label="next">
-  <rect x="89.01" y="260.5" width="39.804" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="108.912" y="275.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">next</text>
+  <rect x="85.05088" y="263.375" width="47.722240000000006" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="108.912" y="275.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">next</text>
 </g>
 <g class="edge-label" data-from="Inner4" data-to="Inner5" data-label="process">
-  <rect x="76.158" y="556.1" width="65.50800000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="108.912" y="571.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">process</text>
+  <rect x="71.42776" y="558.975" width="74.96848000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="108.912" y="571.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">process</text>
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
   <circle cx="108.912" cy="52" r="10" fill="var(--_text)" stroke="none" />

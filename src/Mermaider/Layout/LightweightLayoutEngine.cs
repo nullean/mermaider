@@ -62,8 +62,8 @@ internal static class LightweightLayoutEngine
 					edge.Label.AsSpan(),
 					RenderConstants.FontSizes.EdgeLabel,
 					RenderConstants.FontWeights.EdgeLabel);
-				labelW = metrics.Width + 8;
-				labelH = metrics.Height + 6;
+				labelW = ErSvgRenderer.LabelBoxWidth(metrics.Width) + 4;
+				labelH = metrics.Height + ErSvgRenderer.LabelPadY + 2;
 				if (applyLabelMinLength)
 					minLength++;
 			}

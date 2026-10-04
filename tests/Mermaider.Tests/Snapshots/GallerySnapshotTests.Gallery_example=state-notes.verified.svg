@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="-186.496 0 589.6800000000001 330.2" width="589.6800000000001" height="330.2" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="-186.496 0 589.6800000000001 336.95" width="589.6800000000001" height="336.95" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -30,59 +30,59 @@
 
 <defs>
   <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
   <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
-    <polygon points="12 0, 0 6, 12 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+    <polygon points="12 0, 0 6, 12 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
 </defs>
 
-<path class="edge" data-from="_start" data-to="Active" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M97.47200000000001,64 L97.47200000000001,96.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Active" data-to="Paused" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="pause" d="M107.472,141 L107.472,173.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Paused" data-to="Active" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="resume" d="M87.47200000000001,173.2 L87.47200000000001,141" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Active" data-to="Done" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="finish" d="M97.47200000000001,141 C97.47200000000001,157.1 239.296,157.1 239.296,173.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Done" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M239.29599999999996,218 L239.29599999999996,250.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="_start" data-to="Active" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M97.47200000000001,64 L97.47200000000001,98.45" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Active" data-to="Paused" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="pause" d="M107.472,143.25 L107.472,177.7" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Paused" data-to="Active" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="resume" d="M87.47200000000001,177.7 L87.47200000000001,143.25" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Active" data-to="Done" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="finish" d="M97.47200000000001,143.25 L97.47200000000001,154.475 Q97.47200000000001,160.475 103.47200000000001,160.475 L233.296,160.475 Q239.296,160.475 239.296,166.475 L239.296,177.7" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Done" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M239.29599999999996,222.5 L239.29599999999996,256.95" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="Active" data-to="Paused" data-label="pause">
-  <rect x="81.52199999999999" y="136.1" width="51.900000000000006" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="107.472" y="151.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">pause</text>
+  <rect x="77.19999999999999" y="143.475" width="60.54400000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="107.472" y="155.7" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">pause</text>
 </g>
 <g class="edge-label" data-from="Paused" data-to="Active" data-label="resume">
-  <rect x="57.742000000000004" y="164.29999999999998" width="59.46" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="87.47200000000001" y="179.39999999999998" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">resume</text>
+  <rect x="53.193200000000004" y="173.92499999999998" width="68.55760000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="87.47200000000001" y="186.14999999999998" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">resume</text>
 </g>
 <g class="edge-label" data-from="Active" data-to="Done" data-label="finish">
-  <rect x="216.37" y="136.1" width="45.852000000000004" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="239.296" y="151.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">finish</text>
+  <rect x="212.22943999999998" y="143.475" width="54.133120000000005" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="239.296" y="155.7" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">finish</text>
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
   <circle cx="97.47200000000001" cy="52" r="10" fill="var(--_text)" stroke="none" />
   
 </g>
 <g class="node" data-id="Active" data-label="Active" data-shape="rounded">
-  <rect x="45.47200000000001" y="96.2" width="104" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="97.47200000000001" y="118.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Active</text>
+  <rect x="45.47200000000001" y="98.45" width="104" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="97.47200000000001" y="120.85" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Active</text>
 </g>
 <g class="node" data-id="Paused" data-label="Paused" data-shape="rounded">
-  <rect x="40" y="173.2" width="114.94399999999999" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="97.472" y="195.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Paused</text>
+  <rect x="40" y="177.7" width="114.94399999999999" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="97.472" y="200.1" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Paused</text>
 </g>
 <g class="node" data-id="Done" data-label="Done" data-shape="rounded">
-  <rect x="190.944" y="173.2" width="96.704" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="239.296" y="195.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Done</text>
+  <rect x="190.944" y="177.7" width="96.704" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="239.296" y="200.1" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Done</text>
 </g>
 <g class="node" data-id="_end" data-label="" data-shape="stateend">
-  <circle cx="239.29599999999996" cy="262.2" r="10" fill="none" stroke="var(--_text)" stroke-width="4" />
-<circle cx="239.29599999999996" cy="262.2" r="6" fill="var(--_text)" stroke="none" />
+  <circle cx="239.29599999999996" cy="268.95" r="10" fill="none" stroke="var(--_text)" stroke-width="4" />
+<circle cx="239.29599999999996" cy="268.95" r="6" fill="var(--_text)" stroke="none" />
   
 </g>
 <g class="note">
-  <line x1="179.472" y1="118.6" x2="149.472" y2="118.6" stroke="var(--_accent-stroke)" stroke-width="1.5" stroke-dasharray="4 3" />
-  <rect x="179.472" y="103.6" width="193.71200000000002" height="30" rx="6" ry="6" fill="var(--_accent-fill)" stroke="var(--_accent-stroke)" stroke-width="2" />
-  <text x="276.32800000000003" y="118.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_accent-text)" dy="4.8999999999999995">This is the main working state</text>
+  <line x1="179.472" y1="120.85" x2="149.472" y2="120.85" stroke="var(--_accent-stroke)" stroke-width="1.5" stroke-dasharray="4 3" />
+  <rect x="179.472" y="105.85" width="193.71200000000002" height="30" rx="6" ry="6" fill="var(--_accent-fill)" stroke="var(--_accent-stroke)" stroke-width="2" />
+  <text x="276.32800000000003" y="120.85" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_accent-text)" dy="4.8999999999999995">This is the main working state</text>
 </g>
 <g class="note">
-  <line x1="10" y1="195.6" x2="40" y2="195.6" stroke="var(--_accent-stroke)" stroke-width="1.5" stroke-dasharray="4 3" />
-  <rect x="-156.496" y="180.6" width="166.496" height="30" rx="6" ry="6" fill="var(--_accent-fill)" stroke="var(--_accent-stroke)" stroke-width="2" />
-  <text x="-73.248" y="195.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_accent-text)" dy="4.8999999999999995">Temporarily suspended</text>
+  <line x1="10" y1="200.1" x2="40" y2="200.1" stroke="var(--_accent-stroke)" stroke-width="1.5" stroke-dasharray="4 3" />
+  <rect x="-156.496" y="185.1" width="166.496" height="30" rx="6" ry="6" fill="var(--_accent-fill)" stroke="var(--_accent-stroke)" stroke-width="2" />
+  <text x="-73.248" y="200.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_accent-text)" dy="4.8999999999999995">Temporarily suspended</text>
 </g>
 </svg>

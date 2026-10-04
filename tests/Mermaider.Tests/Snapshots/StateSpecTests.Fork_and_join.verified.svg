@@ -30,18 +30,18 @@
 
 <defs>
   <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
   <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
-    <polygon points="12 0, 0 6, 12 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+    <polygon points="12 0, 0 6, 12 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
 </defs>
 
 <path class="edge" data-from="_start" data-to="fork_state" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M162.672,64 L162.672,94" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="fork_state" data-to="A" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M162.672,102 C162.672,117 74.672,117 74.672,132" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="fork_state" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M162.672,102 C162.672,117 250.672,117 250.672,132" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="A" data-to="join_state" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M74.672,176.8 C74.672,191.8 162.672,191.8 162.672,206.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="B" data-to="join_state" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M250.672,176.8 C250.672,191.8 162.672,191.8 162.672,206.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="fork_state" data-to="A" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M162.672,102 L162.672,111 Q162.672,117 156.672,117 L80.672,117 Q74.672,117 74.672,123 L74.672,132" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="fork_state" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M162.672,102 L162.672,111 Q162.672,117 168.672,117 L244.672,117 Q250.672,117 250.672,123 L250.672,132" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="join_state" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M74.672,176.8 L74.672,185.8 Q74.672,191.8 80.672,191.8 L156.672,191.8 Q162.672,191.8 162.672,197.8 L162.672,206.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="B" data-to="join_state" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M250.672,176.8 L250.672,185.8 Q250.672,191.8 244.672,191.8 L168.672,191.8 Q162.672,191.8 162.672,197.8 L162.672,206.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="join_state" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M162.672,214.8 L162.672,244.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="fork_state" data-label="" data-shape="forkjoin">
   <rect x="102.672" y="94" width="120" height="8" rx="2" ry="2" fill="var(--_text)" stroke="none" />

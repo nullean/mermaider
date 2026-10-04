@@ -30,65 +30,65 @@
 
 <defs>
   <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
   <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
-    <polygon points="12 0, 0 6, 12 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+    <polygon points="12 0, 0 6, 12 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
 </defs>
 
 <g class="subgraph" data-id="cloud" data-label="Cloud VPC">
-  <rect x="40" y="40" width="255.98399999999998" height="768" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <rect x="40" y="40" width="255.98399999999998" height="768" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="pub" data-label="Public Subnet">
-  <rect x="56" y="184.8" width="223.98399999999998" height="391.6" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <rect x="56" y="184.8" width="223.98399999999998" height="391.6" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 9%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="priv" data-label="Private Subnet">
-  <rect x="61.928" y="84" width="214.864" height="708" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <rect x="61.928" y="84" width="214.864" height="708" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 9%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
 </g>
 
-<path class="edge" data-from="internet" data-to="lb" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M173,459.6 C173,487.6 155.464,487.6 155.464,515.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="internet" data-to="lb" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M173,459.6 L173,481.6 Q173,487.6 167,487.6 L161.464,487.6 Q155.464,487.6 155.464,493.6 L155.464,515.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="lb" data-to="app2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M155.464,560.4000000000001 L155.464,616.4000000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="app2" data-to="db" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M155.464,661.2 L155.464,717.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="app1" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M185.992,172.8 L185.992,228.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="nat" data-to="internet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M173,273.6 L173,329.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="app2" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M233,638.8 L293.984,638.8 Q299.984,638.8 299.984,632.8 L299.984,257.2 Q299.984,251.2 293.984,251.2 L263.984,251.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="app1" data-to="db" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M185.992,172.8 L185.992,194.8 Q185.992,200.8 191.992,200.8 L304.928,200.8 Q310.928,200.8 310.928,206.8 L310.928,560 Q310.928,566 304.928,566 L275,566 Q269,566 269,572 L269,660.8000000000001 Q269,666.8000000000001 263,666.8000000000001 L161.464,666.8000000000001 Q155.464,666.8000000000001 155.464,672.8000000000001 L155.464,717.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="lb" data-to="app1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M238.928,538 L293.984,538 Q299.984,538 299.984,532 L299.984,156.4 Q299.984,150.4 293.984,150.4 L260.79200000000003,150.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <rect x="40" y="40" width="255.98399999999998" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+<path class="edge" data-from="lb" data-to="app1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M238.928,538 L293.984,538 Q299.984,538 299.984,532 L299.984,156.4 Q299.984,150.4 293.984,150.4 L260.79200000000003,150.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <rect x="40" y="40" width="255.98399999999998" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 18%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
   <text x="52" y="55" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Cloud VPC</text>
-  <rect x="56" y="184.8" width="223.98399999999998" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <rect x="56" y="184.8" width="223.98399999999998" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
   <text x="68" y="199.8" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Public Subnet</text>
-  <rect x="61.928" y="84" width="214.864" height="30" rx="8" ry="8" fill="var(--_group-hdr)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <rect x="61.928" y="84" width="214.864" height="30" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
   <text x="73.928" y="99" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Private Subnet</text>
 
 <g class="node" data-id="app1" data-label="App Server 1" data-shape="rectangle">
-  <rect x="111.19199999999998" y="128" width="149.60000000000002" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="111.19199999999998" y="128" width="149.60000000000002" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="185.992" y="150.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">App Server 1</text>
 </g>
 <g class="node" data-id="app2" data-label="App Server 2" data-shape="rectangle">
-  <rect x="77.928" y="616.4000000000001" width="155.072" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="77.928" y="616.4000000000001" width="155.072" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="155.464" y="638.8000000000001" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">App Server 2</text>
 </g>
 <g class="node" data-id="db" data-label="Database" data-shape="cylinder">
-  <rect x="91.608" y="724.2" width="127.712" height="44.8" fill="var(--_node-fill)" stroke="none" />
-<line x1="91.608" y1="724.2" x2="91.608" y2="769" stroke="var(--_node-stroke)" stroke-width="2" />
-<line x1="219.32" y1="724.2" x2="219.32" y2="769" stroke="var(--_node-stroke)" stroke-width="2" />
-<ellipse cx="155.464" cy="769" rx="63.856" ry="7" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-<ellipse cx="155.464" cy="724.2" rx="63.856" ry="7" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="91.608" y="724.2" width="127.712" height="44.8" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="none" />
+<line x1="91.608" y1="724.2" x2="91.608" y2="769" stroke="#3B5B7D" stroke-width="2" />
+<line x1="219.32" y1="724.2" x2="219.32" y2="769" stroke="#3B5B7D" stroke-width="2" />
+<ellipse cx="155.464" cy="769" rx="63.856" ry="7" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+<ellipse cx="155.464" cy="724.2" rx="63.856" ry="7" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="155.464" y="746.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Database</text>
 </g>
 <g class="node" data-id="lb" data-label="Load Balancer" data-shape="stadium">
-  <rect x="72" y="515.6" width="166.928" height="44.8" rx="22.4" ry="22.4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="72" y="515.6" width="166.928" height="44.8" rx="22.4" ry="22.4" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="155.464" y="538" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Load Balancer</text>
 </g>
 <g class="node" data-id="nat" data-label="NAT Gateway" data-shape="stadium">
-  <rect x="108" y="228.8" width="155.98399999999998" height="44.8" rx="22.4" ry="22.4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="108" y="228.8" width="155.98399999999998" height="44.8" rx="22.4" ry="22.4" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="185.992" y="251.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">NAT Gateway</text>
 </g>
 <g class="node" data-id="internet" data-label="Internet" data-shape="circle">
-  <circle cx="173" cy="394.6" r="65" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <circle cx="173" cy="394.6" r="65" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="173" y="394.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Internet</text>
 </g>
 </svg>

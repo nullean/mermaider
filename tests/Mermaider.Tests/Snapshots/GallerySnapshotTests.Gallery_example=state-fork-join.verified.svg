@@ -30,21 +30,21 @@
 
 <defs>
   <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
   <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
-    <polygon points="12 0, 0 6, 12 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+    <polygon points="12 0, 0 6, 12 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
 </defs>
 
 <path class="edge" data-from="_start" data-to="Ready" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M237.472,64 L237.472,94" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Ready" data-to="fork_point" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M237.472,138.8 L237.472,168.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="fork_point" data-to="TaskA" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M237.472,176.8 C237.472,191.8 93.824,191.8 93.824,206.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="fork_point" data-to="TaskA" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M237.472,176.8 L237.472,185.8 Q237.472,191.8 231.472,191.8 L99.824,191.8 Q93.824,191.8 93.824,197.8 L93.824,206.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="fork_point" data-to="TaskB" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M237.47199999999998,176.8 L237.47199999999998,206.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="fork_point" data-to="TaskC" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M237.472,176.8 C237.472,191.8 381.12000000000006,191.8 381.12000000000006,206.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="TaskA" data-to="join_point" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M93.824,251.60000000000002 C93.824,266.6 237.472,266.6 237.472,281.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="fork_point" data-to="TaskC" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M237.472,176.8 L237.472,185.8 Q237.472,191.8 243.472,191.8 L375.12000000000006,191.8 Q381.12000000000006,191.8 381.12000000000006,197.8 L381.12000000000006,206.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="TaskA" data-to="join_point" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M93.824,251.60000000000002 L93.824,260.6 Q93.824,266.6 99.824,266.6 L231.472,266.6 Q237.472,266.6 237.472,272.6 L237.472,281.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="TaskB" data-to="join_point" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M237.472,251.60000000000002 L237.472,281.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="TaskC" data-to="join_point" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M381.12000000000006,251.60000000000002 C381.12000000000006,266.6 237.472,266.6 237.472,281.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="TaskC" data-to="join_point" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M381.12000000000006,251.60000000000002 L381.12000000000006,260.6 Q381.12000000000006,266.6 375.12000000000006,266.6 L243.472,266.6 Q237.472,266.6 237.472,272.6 L237.472,281.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="join_point" data-to="Complete" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M237.472,289.6 L237.472,319.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Complete" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M237.472,364.40000000000003 L237.472,394.40000000000003" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="_start" data-label="" data-shape="statestart">

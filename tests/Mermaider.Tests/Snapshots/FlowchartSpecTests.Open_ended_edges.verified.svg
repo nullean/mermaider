@@ -30,10 +30,10 @@
 
 <defs>
   <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
   <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
-    <polygon points="12 0, 0 6, 12 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+    <polygon points="12 0, 0 6, 12 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
 </defs>
 
@@ -41,27 +41,27 @@
 <path class="edge" data-from="C" data-to="D" data-style="dotted" data-arrow-start="false" data-arrow-end="false" d="M109.344,172.8 L165.344,172.8" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="4 4" />
 <path class="edge" data-from="E" data-to="F" data-style="thick" data-arrow-start="false" data-arrow-end="false" d="M109.344,283.2 L165.344,283.2" fill="none" stroke="var(--_line)" stroke-width="4.5" />
 <g class="node" data-id="A" data-label="A" data-shape="rectangle">
-  <rect x="40" y="40" width="69.344" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="40" y="40" width="69.344" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="74.672" y="62.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">A</text>
 </g>
 <g class="node" data-id="B" data-label="B" data-shape="rectangle">
-  <rect x="165.344" y="40" width="69.344" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="165.344" y="40" width="69.344" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="200.016" y="62.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">B</text>
 </g>
 <g class="node" data-id="C" data-label="C" data-shape="rectangle">
-  <rect x="40" y="150.4" width="69.344" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="40" y="150.4" width="69.344" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="2" />
   <text x="74.672" y="172.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">C</text>
 </g>
 <g class="node" data-id="D" data-label="D" data-shape="rectangle">
-  <rect x="165.344" y="150.4" width="69.344" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="165.344" y="150.4" width="69.344" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="2" />
   <text x="200.016" y="172.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">D</text>
 </g>
 <g class="node" data-id="E" data-label="E" data-shape="rectangle">
-  <rect x="40" y="260.8" width="69.344" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="40" y="260.8" width="69.344" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #e15759 16%, var(--bg))" stroke="#D52629" stroke-width="2" />
   <text x="74.672" y="283.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">E</text>
 </g>
 <g class="node" data-id="F" data-label="F" data-shape="rectangle">
-  <rect x="165.344" y="260.8" width="69.344" height="44.8" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="165.344" y="260.8" width="69.344" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #e15759 16%, var(--bg))" stroke="#D52629" stroke-width="2" />
   <text x="200.016" y="283.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">F</text>
 </g>
 </svg>

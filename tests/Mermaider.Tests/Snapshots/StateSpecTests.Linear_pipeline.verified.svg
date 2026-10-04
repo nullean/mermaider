@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 211.36 561.2" width="211.36" height="561.2" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 211.36 574.7" width="211.36" height="574.7" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -30,62 +30,62 @@
 
 <defs>
   <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
   <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
-    <polygon points="12 0, 0 6, 12 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+    <polygon points="12 0, 0 6, 12 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
 </defs>
 
-<path class="edge" data-from="_start" data-to="Received" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M105.68,64 L105.68,96.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Received" data-to="Validated" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="validate" d="M105.68,141 L105.68,173.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Validated" data-to="Enriched" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="enrich" d="M105.68,218 L105.68,250.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Enriched" data-to="Stored" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="persist" d="M105.68,295 L105.68,327.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Stored" data-to="Published" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="notify" d="M105.68,372 L105.68,404.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Published" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M105.68,449 L105.68,481.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="_start" data-to="Received" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M105.68,64 L105.68,98.45" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Received" data-to="Validated" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="validate" d="M105.68,143.25 L105.68,177.7" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Validated" data-to="Enriched" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="enrich" d="M105.68,222.5 L105.68,256.95" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Enriched" data-to="Stored" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="persist" d="M105.68,301.75 L105.68,336.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Stored" data-to="Published" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="notify" d="M105.68,381 L105.68,415.45" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Published" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M105.68,460.25 L105.68,494.7" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="Received" data-to="Validated" data-label="validate">
-  <rect x="75.194" y="136.1" width="60.972" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="105.68" y="151.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">validate</text>
+  <rect x="70.59984" y="143.475" width="70.16032000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="105.68" y="155.7" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">validate</text>
 </g>
 <g class="edge-label" data-from="Validated" data-to="Enriched" data-label="enrich">
-  <rect x="78.97400000000002" y="213.1" width="53.41199999999999" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="105.68" y="228.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">enrich</text>
+  <rect x="74.60664000000001" y="222.725" width="62.146719999999995" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="105.68" y="234.95" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">enrich</text>
 </g>
 <g class="edge-label" data-from="Enriched" data-to="Stored" data-label="persist">
-  <rect x="77.462" y="290.09999999999997" width="56.43600000000001" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="105.68" y="305.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">persist</text>
+  <rect x="73.00392" y="301.97499999999997" width="65.35216000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="105.68" y="314.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">persist</text>
 </g>
 <g class="edge-label" data-from="Stored" data-to="Published" data-label="notify">
-  <rect x="82.754" y="367.09999999999997" width="45.852" height="30.2" rx="10" ry="10" fill="var(--bg)" stroke="none" />
-<text x="105.68" y="382.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">notify</text>
+  <rect x="78.61344000000001" y="381.22499999999997" width="54.13312" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="105.68" y="393.45" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">notify</text>
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
   <circle cx="105.68" cy="52" r="10" fill="var(--_text)" stroke="none" />
   
 </g>
 <g class="node" data-id="Received" data-label="Received" data-shape="rounded">
-  <rect x="41.824000000000005" y="96.2" width="127.712" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="105.68" y="118.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Received</text>
+  <rect x="41.824000000000005" y="98.45" width="127.712" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="105.68" y="120.85" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Received</text>
 </g>
 <g class="node" data-id="Validated" data-label="Validated" data-shape="rounded">
-  <rect x="42.736000000000004" y="173.2" width="125.888" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="105.68" y="195.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Validated</text>
+  <rect x="42.736000000000004" y="177.7" width="125.888" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="105.68" y="200.1" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Validated</text>
 </g>
 <g class="node" data-id="Enriched" data-label="Enriched" data-shape="rounded">
-  <rect x="42.736000000000004" y="250.2" width="125.888" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="105.68" y="272.59999999999997" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Enriched</text>
+  <rect x="42.736000000000004" y="256.95" width="125.888" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="105.68" y="279.34999999999997" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Enriched</text>
 </g>
 <g class="node" data-id="Stored" data-label="Stored" data-shape="rounded">
-  <rect x="51.85600000000001" y="327.2" width="107.648" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="105.68" y="349.59999999999997" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Stored</text>
+  <rect x="51.85600000000001" y="336.2" width="107.648" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="105.68" y="358.59999999999997" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Stored</text>
 </g>
 <g class="node" data-id="Published" data-label="Published" data-shape="rounded">
-  <rect x="40" y="404.2" width="131.36" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="105.68" y="426.59999999999997" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Published</text>
+  <rect x="40" y="415.45" width="131.36" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="105.68" y="437.84999999999997" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Published</text>
 </g>
 <g class="node" data-id="_end" data-label="" data-shape="stateend">
-  <circle cx="105.68" cy="493.2" r="10" fill="none" stroke="var(--_text)" stroke-width="4" />
-<circle cx="105.68" cy="493.2" r="6" fill="var(--_text)" stroke="none" />
+  <circle cx="105.68" cy="506.7" r="10" fill="none" stroke="var(--_text)" stroke-width="4" />
+<circle cx="105.68" cy="506.7" r="6" fill="var(--_text)" stroke="none" />
   
 </g>
 </svg>
