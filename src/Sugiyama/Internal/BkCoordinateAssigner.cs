@@ -278,7 +278,8 @@ internal static class BkCoordinateAssigner
 
 
 	private static double Gap(Lg g, int u, int w, double nodeSpacing)
-		=> (g.Virt[u] || g.Virt[w]) ? nodeSpacing * 0.75 : nodeSpacing;
+		=> g.Virt[u] && g.Virt[w] && g.W[u] > 0 && g.W[w] > 0 ? nodeSpacing * 1.2 // two label columns: keep their labels visibly apart
+			: (g.Virt[u] || g.Virt[w]) ? nodeSpacing * 0.75 : nodeSpacing;
 
 	// ---------------------------------------------------------------- structure
 

@@ -114,7 +114,8 @@ internal static class ErEdgeRouter
 				if (chains[i].Count != 1 || routes[i].OriginalIndex >= input.Count)
 					continue;
 				var current = CrossingsOf(i, routes[i].Points);
-				if (current == 0)
+				var bracket = IsBracket(routes[i].Points);
+				if (current == 0 && !bracket)
 					continue;
 
 				for (var variant = 1; variant <= 2; variant++)
@@ -123,7 +124,8 @@ internal static class ErEdgeRouter
 					if (routes[i].Reversed)
 						pts.Reverse();
 					var hasLabel = input[routes[i].OriginalIndex].LabelWidth > 0;
-					if (CrossingsOf(i, pts) >= current || (hasLabel && (label is null || !LabelClear(i, label.Value))))
+					var after = CrossingsOf(i, pts);
+					if (after > current || (after == current && !bracket) || (hasLabel && (label is null || !LabelClear(i, label.Value))))
 						continue;
 					routes[i].ReplacePoints(pts);
 					if (hasLabel)
@@ -157,6 +159,16 @@ internal static class ErEdgeRouter
 			}
 		}
 		return crossings;
+	}
+
+	/// <summary>A route whose label column sits outside both ports (a '[' or ']' shape): two jogs in opposite directions.</summary>
+	private static bool IsBracket(List<LayoutPoint> pts)
+	{
+		if (pts.Count != 6)
+			return false;
+		var first = pts[2].X - pts[1].X;
+		var last = pts[4].X - pts[3].X;
+		return first * last < 0 && Math.Abs(first) > 8 && Math.Abs(last) > 8;
 	}
 
 	private static bool PathsCross(List<LayoutPoint> a, List<LayoutPoint> b)
