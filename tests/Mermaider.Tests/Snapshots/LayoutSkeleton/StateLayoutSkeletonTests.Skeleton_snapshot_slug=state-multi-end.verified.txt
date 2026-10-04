@@ -5,7 +5,7 @@ Layer 3: Closed
 Layer 4: _end
 Edges:
   Active --close--> Closed [Bottom->Top] [D R D L D]
-  Active --disable--> Inactive [Bottom->Top] [D R D]
+  Active --disable--> Inactive [Bottom->Top] [D]
   Closed ----> _end [Bottom->Top] [D]
   Inactive --reactivate--> Active [Top->Bottom] [U L U]
   Inactive --close--> Closed [Bottom->Top] [D R D]

@@ -39,15 +39,15 @@
 
 <path class="edge" data-from="_start" data-to="Booting" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M112,64 L112,168.9" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Booting" data-to="Ready" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="initialized" d="M112,213.7 L112,318.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Ready" data-to="Processing" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="request" d="M94.5,363.40000000000003 L94.5,428.75 Q94.5,432 91.25,432 L91.25,432 Q88,432 88,435.25 L88,468.3" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Processing" data-to="Ready" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="done" d="M136,468.3 L136,388.75 Q136,385.5 132.75,385.5 L132.75,385.5 Q129.5,385.5 129.5,382.25 L129.5,363.40000000000003" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Ready" data-to="Processing" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="request" d="M94.5,363.40000000000003 L94.5,432 L94.5,432 L94.5,468.3" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Processing" data-to="Ready" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="done" d="M136,468.3 L136,385.5 L136,385.5 L136,363.40000000000003" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="Booting" data-to="Ready" data-label="initialized">
   <rect x="72.11167999999999" y="253.92499999999998" width="79.77664000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
   <text x="112" y="266.15" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">initialized</text>
 </g>
 <g class="edge-label" data-from="Ready" data-to="Processing" data-label="request">
-  <rect x="59.41983999999999" y="395.765" width="70.16032000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="94.5" y="407.99" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">request</text>
+  <rect x="59.41983999999999" y="385.475" width="70.16032000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="94.5" y="397.70000000000005" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">request</text>
 </g>
 <g class="edge-label" data-from="Processing" data-to="Ready" data-label="done">
   <rect x="109.73479999999999" y="427.09499999999997" width="52.53040000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />

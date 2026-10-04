@@ -122,9 +122,9 @@ public static class HierarchicalLayout
 			if (itemNodes.Count == 0)
 				return placed;
 
-			// Mutually-referencing items (a cycle through subgraph boxes) are ordered by the direction carrying more edges;
+			// Mutually-referencing items (a cycle through subgraph boxes) are ordered by the order that turns the fewest edges backwards;
 			// only the layout copy of the edges is re-oriented.
-			itemEdges = OrientByMajority(itemEdges);
+			itemEdges = OrientCycles(itemNodes.Select(n => n.Id).ToList(), OrientByMajority(itemEdges));
 
 			var perRow = ComponentsPerRow(itemNodes, itemEdges);
 			var horizontalFlow = input.Direction is LayoutDirection.LR or LayoutDirection.RL;
@@ -338,6 +338,30 @@ public static class HierarchicalLayout
 		}
 	}
 
+	/// <summary>
+	/// Items that reference each other through a cycle are laid out in the order that turns the fewest edges backwards:
+	/// a weighted greedy feedback-arc-set order, used only when it beats declaration order. Only edges
+	/// inside a strongly connected component are re-oriented, and only in the layout copy.
+	/// </summary>
+	private static List<LayoutEdge> OrientCycles(List<string> ids, List<LayoutEdge> edges)
+	{
+		var scc = StronglyConnected(ids, edges);
+		if (!edges.Any(e => scc[e.Source] == scc[e.Target]))
+			return edges;
+
+		var inner = edges.Where(e => scc[e.Source] == scc[e.Target]).ToList();
+		var declared = ids.Select((id, i) => (id, i)).ToDictionary(t => t.id, t => t.i, StringComparer.Ordinal);
+		var greedy = GreedyOrder(ids, inner);
+		int Back(Dictionary<string, int> pos) => inner.Count(e => pos[e.Source] > pos[e.Target]);
+		// Cycles whose edges all weigh the same have no better answer than the default cycle breaking; weighted ones
+		// (several edges one way, few the other) follow whichever order turns the fewest edges backwards.
+		var weighted = inner.GroupBy(e => (e.Source, e.Target)).Any(g => g.Count() > 1);
+		if (!weighted && Back(greedy) >= Back(declared))
+			return edges;
+		var pos = Back(greedy) < Back(declared) ? greedy : declared;
+		return edges.Select(e => scc[e.Source] == scc[e.Target] && pos[e.Source] > pos[e.Target] ? e with { Source = e.Target, Target = e.Source } : e).ToList();
+	}
+
 	/// <summary>Items that reference each other (edges in both directions) are laid out in the direction that carries more edges.</summary>
 	private static List<LayoutEdge> OrientByMajority(List<LayoutEdge> edges)
 	{
@@ -350,6 +374,114 @@ public static class HierarchicalLayout
 			var back = counts.GetValueOrDefault((e.Target, e.Source));
 			return back > forward ? e with { Source = e.Target, Target = e.Source } : e;
 		}).ToList();
+	}
+
+	private static Dictionary<string, int> GreedyOrder(List<string> ids, List<LayoutEdge> edges)
+	{
+		var outW = ids.ToDictionary(i => i, _ => 0, StringComparer.Ordinal);
+		var inW = ids.ToDictionary(i => i, _ => 0, StringComparer.Ordinal);
+		foreach (var e in edges)
+		{
+			outW[e.Source]++;
+			inW[e.Target]++;
+		}
+
+		var remaining = ids.ToHashSet(StringComparer.Ordinal);
+		var left = new List<string>();
+		var right = new List<string>();
+		void Remove(string id)
+		{
+			_ = remaining.Remove(id);
+			foreach (var e in edges)
+			{
+				if (e.Source == id && remaining.Contains(e.Target))
+					inW[e.Target]--;
+				else if (e.Target == id && remaining.Contains(e.Source))
+					outW[e.Source]--;
+			}
+		}
+
+		while (remaining.Count > 0)
+		{
+			var sink = ids.FirstOrDefault(i => remaining.Contains(i) && outW[i] <= 0);
+			if (sink is not null)
+			{
+				right.Add(sink);
+				Remove(sink);
+				continue;
+			}
+
+			var source = ids.FirstOrDefault(i => remaining.Contains(i) && inW[i] <= 0);
+			if (source is not null)
+			{
+				left.Add(source);
+				Remove(source);
+				continue;
+			}
+
+			var pick = ids.Where(remaining.Contains).OrderByDescending(i => outW[i] - inW[i]).First();
+			left.Add(pick);
+			Remove(pick);
+		}
+
+		right.Reverse();
+		var pos = new Dictionary<string, int>(StringComparer.Ordinal);
+		foreach (var id in left.Concat(right))
+			pos[id] = pos.Count;
+		return pos;
+	}
+
+	private static Dictionary<string, int> StronglyConnected(List<string> ids, List<LayoutEdge> edges)
+	{
+		var adj = ids.ToDictionary(i => i, _ => new List<string>(), StringComparer.Ordinal);
+		foreach (var e in edges)
+			adj[e.Source].Add(e.Target);
+
+		var index = new Dictionary<string, int>(StringComparer.Ordinal);
+		var low = new Dictionary<string, int>(StringComparer.Ordinal);
+		var onStack = new HashSet<string>(StringComparer.Ordinal);
+		var stack = new Stack<string>();
+		var comp = new Dictionary<string, int>(StringComparer.Ordinal);
+		var counter = 0;
+		var compId = 0;
+
+		void Visit(string v)
+		{
+			index[v] = low[v] = counter++;
+			stack.Push(v);
+			_ = onStack.Add(v);
+			foreach (var w in adj[v])
+			{
+				if (!index.TryGetValue(w, out var iw))
+				{
+					Visit(w);
+					low[v] = Math.Min(low[v], low[w]);
+				}
+				else if (onStack.Contains(w))
+				{
+					low[v] = Math.Min(low[v], iw);
+				}
+			}
+
+			if (low[v] != index[v])
+				return;
+			string x;
+			do
+			{
+				x = stack.Pop();
+				_ = onStack.Remove(x);
+				comp[x] = compId;
+			}
+			while (x != v);
+			compId++;
+		}
+
+		foreach (var id in ids)
+		{
+			if (!index.ContainsKey(id))
+				Visit(id);
+		}
+		return comp;
 	}
 
 	private static GroupRect Shift(GroupRect g, double dx, double dy)

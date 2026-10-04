@@ -4,7 +4,7 @@ Layer 2: Paused, Done
 Layer 3: _end
 Edges:
   Active --finish--> Done [Bottom->Top] [D R D]
-  Active --pause--> Paused [Bottom->Top] [D R D]
+  Active --pause--> Paused [Bottom->Top] [D]
   Done ----> _end [Bottom->Top] [D]
   Paused --resume--> Active [Top->Bottom] [U L U]
   _start ----> Active [Bottom->Top] [D]

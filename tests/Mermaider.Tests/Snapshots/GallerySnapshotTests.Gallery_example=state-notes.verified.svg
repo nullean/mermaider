@@ -38,7 +38,7 @@
 </defs>
 
 <path class="edge" data-from="_start" data-to="Active" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M97.5,64 L97.5,168.9" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Active" data-to="Paused" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="pause" d="M71.5,213.7 L71.5,293 Q71.5,296.5 75,296.5 L75,296.5 Q78.5,296.5 78.5,300 L78.5,318.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Active" data-to="Paused" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="pause" d="M71.5,213.7 L71.5,296.5 L71.5,296.5 L71.5,318.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Paused" data-to="Active" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="resume" d="M116.5,318.6 L116.5,241.5 Q116.5,235.5 110.5,235.5 L103.5,235.5 Q97.5,235.5 97.5,229.5 L97.5,213.7" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Active" data-to="Done" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="finish" d="M123.5,213.7 L123.5,276 Q123.5,282 129.5,282 L233.5,282 Q239.5,282 239.5,288 L239.5,318.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Done" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M239.5,363.40000000000003 L239.5,468.3" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />

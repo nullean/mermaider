@@ -98,7 +98,7 @@ internal static class FlowEdgeRouter
 				if (segsOf.TryGetValue(p.Edge.Index, out var old))
 					_ = routed.RemoveAll(old.Contains);
 				var pts = grid.Find(p, groups, routed) ?? Fallback(p);
-				pts = Simplify(pts);
+				pts = Straighten(Simplify(pts), p);
 				polylines[p.Edge.Index] = pts;
 				var mine = new List<Seg>();
 				for (var i = 0; i < pts.Count - 1; i++)
@@ -232,6 +232,33 @@ internal static class FlowEdgeRouter
 		pts.Add(b);
 		pts.Add(p.TPort);
 		return pts;
+	}
+
+	// A short sideways jog between two parallel runs (ports a few px apart) becomes one straight line when the
+	// other node's side can take the port at the same coordinate.
+	private static List<LayoutPoint> Straighten(List<LayoutPoint> pts, Plan p)
+	{
+		if (pts.Count != 4)
+			return pts;
+		var vertical = Math.Abs(pts[0].X - pts[1].X) < 0.01 && Math.Abs(pts[2].X - pts[3].X) < 0.01 && Math.Abs(pts[1].Y - pts[2].Y) < 0.01;
+		var horizontal = Math.Abs(pts[0].Y - pts[1].Y) < 0.01 && Math.Abs(pts[2].Y - pts[3].Y) < 0.01 && Math.Abs(pts[1].X - pts[2].X) < 0.01;
+		if (!vertical && !horizontal)
+			return pts;
+		var jog = vertical ? Math.Abs(pts[0].X - pts[3].X) : Math.Abs(pts[0].Y - pts[3].Y);
+		if (jog is < 0.5 or > 10)
+			return pts;
+		if (vertical)
+		{
+			var x = pts[0].X;
+			if (x < p.T.X + 8 || x > p.T.Right - 8)
+				return pts;
+			return [pts[0], new LayoutPoint(x, pts[1].Y), new LayoutPoint(x, pts[2].Y), new LayoutPoint(x, pts[3].Y)];
+		}
+
+		var y = pts[0].Y;
+		if (y < p.T.Y + 8 || y > p.T.Bottom - 8)
+			return pts;
+		return [pts[0], new LayoutPoint(pts[1].X, y), new LayoutPoint(pts[2].X, y), new LayoutPoint(pts[3].X, y)];
 	}
 
 	private static List<LayoutPoint> Simplify(List<LayoutPoint> pts)
@@ -552,6 +579,11 @@ internal static class FlowEdgeRouter
 			{
 				if (mx > g.X && mx < g.X + g.W && my > g.Y && my < g.Y + g.H)
 					cost += ForeignGroupCost + (len * 2);
+				// running alongside a foreign subgraph border reads as belonging to it
+				else if (nd is 0 or 2 && mx > g.X && mx < g.X + g.W && (Math.Abs(my - (g.Y - Margin)) < 0.6 || Math.Abs(my - (g.Y + g.H + Margin)) < 0.6))
+					cost += len * 0.6;
+				else if (nd is 1 or 3 && my > g.Y && my < g.Y + g.H && (Math.Abs(mx - (g.X - Margin)) < 0.6 || Math.Abs(mx - (g.X + g.W + Margin)) < 0.6))
+					cost += len * 0.6;
 			}
 			foreach (var g in common)
 			{
