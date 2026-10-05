@@ -30,58 +30,61 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
-<defs>
-  <marker id="seq-arrow" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
-    <polygon points="0 0, 10 5, 0 10" fill="var(--_line)" />
-  </marker>
-  <marker id="seq-arrow-open" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
-    <polyline points="0 0, 10 5, 0 10" fill="none" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-</defs>
-
-<line class="lifeline" data-actor="A" x1="211.63799999999998" y1="70" x2="211.63799999999998" y2="462" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
-<line class="lifeline" data-actor="B" x1="351.638" y1="70" x2="351.638" y2="462" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="A" x1="211.63799999999998" y1="70" x2="211.63799999999998" y2="422" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
+<line class="lifeline" data-actor="B" x1="351.638" y1="70" x2="351.638" y2="422" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
 <g class="message" data-from="A" data-to="B" data-label="Login request" data-line-style="solid" data-arrow-head="filled" data-self="false">
-  <line x1="211.63799999999998" y1="114" x2="351.638" y2="114" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#seq-arrow)" />
-  <rect x="231.31928" y="85.2" width="100.63744" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="281.638" y="96" font-size="var(--fs-xs)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.199999999999999">Login request</text>
+  <line x1="211.63799999999998" y1="114" x2="351.638" y2="114" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+  <text x="281.638" y="102" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">Login request</text>
 </g>
 <g class="message" data-from="B" data-to="A" data-label="Auth token" data-line-style="dashed" data-arrow-head="filled" data-self="false">
-  <line x1="351.638" y1="202" x2="211.63799999999998" y2="202" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
-  <rect x="241.46983999999998" y="173.2" width="80.33632" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="281.638" y="184" font-size="var(--fs-xs)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.199999999999999">Auth token</text>
+  <line x1="351.638" y1="202" x2="211.63799999999998" y2="202" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ma2e31288-mk-arrow)" />
+  <text x="281.638" y="190" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">Auth token</text>
 </g>
 <g class="message" data-from="A" data-to="B" data-label="GET /data" data-line-style="solid" data-arrow-head="filled" data-self="false">
-  <line x1="211.63799999999998" y1="290" x2="351.638" y2="290" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#seq-arrow)" />
-  <rect x="243.28243999999998" y="261.2" width="76.71112" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="281.638" y="272" font-size="var(--fs-xs)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.199999999999999">GET /data</text>
+  <line x1="211.63799999999998" y1="290" x2="351.638" y2="290" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+  <text x="281.638" y="278" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">GET /data</text>
 </g>
-<g class="note" data-position="right" data-actors="B">
-  <rect x="407.41599999999994" y="124" width="155.386" height="38" rx="6" ry="6" fill="var(--_accent-fill)" stroke="var(--_accent-stroke)" stroke-width="1" />
-  <text x="479.1089999999999" y="143" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_accent-text)" dy="4.199999999999999">Validate credentials</text>
+<g class="sequence-note" data-position="right" data-actors="B">
+<g class="note">
+  <rect x="407.41599999999994" y="124" width="155.386" height="38" rx="4" ry="4" fill="color-mix(in srgb, var(--accent, var(--fg)) 9%, var(--bg))" stroke="color-mix(in srgb, var(--accent, var(--fg)) 42%, var(--bg))" stroke-width="1" />
+  <rect x="407.41599999999994" y="124" width="3" height="38" fill="var(--accent, var(--fg))" />
+  <text x="486.6089999999999" y="143" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="color-mix(in srgb, var(--accent, var(--fg)) 44%, var(--fg))" dy="4.8999999999999995">Validate credentials</text>
 </g>
-<g class="note" data-position="over" data-actors="A,B">
-  <rect x="151.06199999999998" y="212" width="260.354" height="38" rx="6" ry="6" fill="var(--_accent-fill)" stroke="var(--_accent-stroke)" stroke-width="1" />
-  <text x="281.239" y="231" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_accent-text)" dy="4.199999999999999">Subsequent requests use JWT</text>
 </g>
-<g class="note" data-position="left" data-actors="A">
-  <rect x="30" y="300" width="125.06199999999998" height="38" rx="6" ry="6" fill="var(--_accent-fill)" stroke="var(--_accent-stroke)" stroke-width="1" />
-  <text x="98.53099999999999" y="319" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_accent-text)" dy="4.199999999999999">Display results</text>
+<g class="sequence-note" data-position="over" data-actors="A,B">
+<g class="note">
+  <rect x="168.03499999999997" y="212" width="226.408" height="38" rx="4" ry="4" fill="color-mix(in srgb, var(--accent, var(--fg)) 9%, var(--bg))" stroke="color-mix(in srgb, var(--accent, var(--fg)) 42%, var(--bg))" stroke-width="1" />
+  <rect x="168.03499999999997" y="212" width="3" height="38" fill="var(--accent, var(--fg))" />
+  <text x="282.739" y="231" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="color-mix(in srgb, var(--accent, var(--fg)) 44%, var(--fg))" dy="4.8999999999999995">Subsequent requests use JWT</text>
+</g>
+</g>
+<g class="sequence-note" data-position="left" data-actors="A">
+<g class="note">
+  <rect x="30" y="300" width="125.06199999999998" height="38" rx="4" ry="4" fill="color-mix(in srgb, var(--accent, var(--fg)) 9%, var(--bg))" stroke="color-mix(in srgb, var(--accent, var(--fg)) 42%, var(--bg))" stroke-width="1" />
+  <rect x="30" y="300" width="3" height="38" fill="var(--accent, var(--fg))" />
+  <text x="94.03099999999999" y="319" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="color-mix(in srgb, var(--accent, var(--fg)) 44%, var(--fg))" dy="4.8999999999999995">Display results</text>
+</g>
 </g>
 <g class="actor" data-id="A" data-label="Frontend" data-type="participant">
-  <rect x="165.06199999999998" y="30" width="93.152" height="40" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="211.63799999999998" y="50" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Frontend</text>
+  <rect x="165.06199999999998" y="30" width="93.152" height="40" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="211.63799999999998" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Frontend</text>
 </g>
 <g class="actor" data-id="B" data-label="Backend" data-type="participant">
-  <rect x="305.85999999999996" y="30" width="91.556" height="40" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="351.638" y="50" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Backend</text>
+  <rect x="305.85999999999996" y="30" width="91.556" height="40" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="351.638" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Backend</text>
 </g>
-<g class="actor" data-id="A" data-label="Frontend" data-type="participant">
-  <rect x="165.06199999999998" y="422" width="93.152" height="40" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="211.63799999999998" y="442" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Frontend</text>
+<g class="actor-ghost" data-id="A" data-label="Frontend" data-type="participant">
+  <rect x="165.06199999999998" y="422" width="93.152" height="40" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
+  <text x="211.63799999999998" y="442" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-muted)" dy="4.8999999999999995">Frontend</text>
 </g>
-<g class="actor" data-id="B" data-label="Backend" data-type="participant">
-  <rect x="305.85999999999996" y="422" width="91.556" height="40" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="351.638" y="442" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Backend</text>
+<g class="actor-ghost" data-id="B" data-label="Backend" data-type="participant">
+  <rect x="305.85999999999996" y="422" width="91.556" height="40" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
+  <text x="351.638" y="442" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-muted)" dy="4.8999999999999995">Backend</text>
 </g>
+<defs>
+  <linearGradient id="ma2e31288-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 7%, var(--bg))" /></linearGradient>
+  <marker id="ma2e31288-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
+  </marker>
+</defs>
 </svg>

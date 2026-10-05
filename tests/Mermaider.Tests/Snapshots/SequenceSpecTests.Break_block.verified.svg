@@ -30,53 +30,46 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
-<defs>
-  <marker id="seq-arrow" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
-    <polygon points="0 0, 10 5, 0 10" fill="var(--_line)" />
-  </marker>
-  <marker id="seq-arrow-open" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
-    <polyline points="0 0, 10 5, 0 10" fill="none" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-</defs>
-
 <g class="block" data-type="break" data-label="When rate limited">
-  <rect x="30" y="152" width="220.192" height="78" rx="12" ry="12" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
-  <rect x="30" y="152" width="52.35999999999999" height="18" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
-  <text x="36" y="161" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 42%, var(--bg))" dy="4.199999999999999">break</text>
-  <rect x="90.35999999999999" y="150.2" width="115.13824" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="147.92911999999998" y="161" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">When rate limited</text>
+  <rect x="30" y="152" width="220.192" height="78" rx="10" ry="10" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
+  <path d="M30,174 L30,162 Q30,152 40,152 L86.35999999999999,152 L86.35999999999999,174 Z" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
+  <text x="58.17999999999999" y="163" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.199999999999999">break</text>
+  <text x="96.35999999999999" y="163" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">[When rate limited]</text>
 </g>
-<line class="lifeline" data-actor="Client" x1="70" y1="70" x2="70" y2="394" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
-<line class="lifeline" data-actor="Server" x1="210" y1="70" x2="210" y2="394" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="Client" x1="70" y1="70" x2="70" y2="354" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
+<line class="lifeline" data-actor="Server" x1="210" y1="70" x2="210" y2="354" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
 <g class="message" data-from="Client" data-to="Server" data-label="Request" data-line-style="solid" data-arrow-head="filled" data-self="false">
-  <line x1="70" y1="114" x2="210" y2="114" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#seq-arrow)" />
-  <rect x="105.99468" y="85.2" width="68.01064" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="140" y="96" font-size="var(--fs-xs)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.199999999999999">Request</text>
+  <line x1="70" y1="114" x2="210" y2="114" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+  <text x="140" y="102" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">Request</text>
 </g>
 <g class="message" data-from="Server" data-to="Client" data-label="429 Too Many Requests" data-line-style="dashed" data-arrow-head="filled" data-self="false">
-  <line x1="210" y1="210" x2="70" y2="210" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
-  <rect x="60.31716" y="181.2" width="159.36568" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="140" y="192" font-size="var(--fs-xs)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.199999999999999">429 Too Many Requests</text>
+  <line x1="210" y1="210" x2="70" y2="210" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ma2e31288-mk-arrow)" />
+  <text x="140" y="198" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">429 Too Many Requests</text>
 </g>
 <g class="message" data-from="Server" data-to="Client" data-label="200 OK" data-line-style="dashed" data-arrow-head="filled" data-self="false">
-  <line x1="210" y1="260" x2="70" y2="260" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
-  <rect x="109.25736" y="231.2" width="61.485279999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="140" y="242" font-size="var(--fs-xs)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.199999999999999">200 OK</text>
+  <line x1="210" y1="260" x2="70" y2="260" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ma2e31288-mk-arrow)" />
+  <text x="140" y="248" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">200 OK</text>
 </g>
 <g class="actor" data-id="Client" data-label="Client" data-type="participant">
-  <rect x="30" y="30" width="80" height="40" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="70" y="50" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Client</text>
+  <rect x="30" y="30" width="80" height="40" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="70" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Client</text>
 </g>
 <g class="actor" data-id="Server" data-label="Server" data-type="participant">
-  <rect x="169.808" y="30" width="80.384" height="40" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="210" y="50" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Server</text>
+  <rect x="169.808" y="30" width="80.384" height="40" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="210" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Server</text>
 </g>
-<g class="actor" data-id="Client" data-label="Client" data-type="participant">
-  <rect x="30" y="354" width="80" height="40" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="70" y="374" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Client</text>
+<g class="actor-ghost" data-id="Client" data-label="Client" data-type="participant">
+  <rect x="30" y="354" width="80" height="40" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
+  <text x="70" y="374" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-muted)" dy="4.8999999999999995">Client</text>
 </g>
-<g class="actor" data-id="Server" data-label="Server" data-type="participant">
-  <rect x="169.808" y="354" width="80.384" height="40" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="210" y="374" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Server</text>
+<g class="actor-ghost" data-id="Server" data-label="Server" data-type="participant">
+  <rect x="169.808" y="354" width="80.384" height="40" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
+  <text x="210" y="374" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-muted)" dy="4.8999999999999995">Server</text>
 </g>
+<defs>
+  <linearGradient id="ma2e31288-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 7%, var(--bg))" /></linearGradient>
+  <marker id="ma2e31288-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
+  </marker>
+</defs>
 </svg>
