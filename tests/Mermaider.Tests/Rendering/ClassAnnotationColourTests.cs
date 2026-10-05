@@ -37,7 +37,7 @@ public class ClassAnnotationColourTests
 	{
 		var start = svg.IndexOf($"<g class=\"class-node\" data-id=\"{id}\"", StringComparison.Ordinal);
 		var box = svg[start..svg.IndexOf("</g>", start, StringComparison.Ordinal)];
-		return Regex.Match(box, "font-style=\"italic\" fill=\"([^\"]+)\">&lt;&lt;").Groups[1].Value;
+		return Regex.Match(box, "fill=\"([^\"]+)\"[^>]*>«").Groups[1].Value;
 	}
 
 	[Test]
@@ -51,12 +51,16 @@ public class ClassAnnotationColourTests
 	}
 
 	[Test]
-	public void The_modifier_text_is_drawn_in_the_box_border_colour()
+	public void The_modifier_text_is_drawn_in_the_ink_of_the_box_family()
 	{
 		var svg = MermaidRenderer.RenderSvg(Source);
 
-		AnnotationFill(svg, "Shape").Should().Be(Border(svg, "Shape"));
-		AnnotationFill(svg, "Drawable").Should().Be(Border(svg, "Drawable"));
+		// border = family stroke (base 74% → fg), stereotype = family ink (base 44% → fg) of the same base
+		foreach (var id in new[] { "Shape", "Drawable" })
+		{
+			var border = Border(svg, id);
+			AnnotationFill(svg, id).Should().Be(border.Replace(" 74%, var(--fg)", " 44%, var(--fg)", StringComparison.Ordinal));
+		}
 	}
 
 	[Test]

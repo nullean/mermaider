@@ -47,10 +47,9 @@ public class ClassRendererTests
 	{
 		var svg = MermaidRenderer.RenderSvg(SimpleClass);
 
-		svg.Should().Contain("id=\"cls-inherit\"");
-		svg.Should().Contain("id=\"cls-composition\"");
-		svg.Should().Contain("id=\"cls-aggregation\"");
-		svg.Should().Contain("id=\"cls-arrow\"");
+		// the shared marker set (DesignSystem.Marker), one definition per shape used
+		svg.Should().MatchRegex("<marker id=\"[^\"]*mk-triangle");
+		svg.Should().NotMatchRegex("<marker id=\"[^\"]*mk-diamond", "only the markers a diagram uses are defined");
 	}
 
 	[Test]
@@ -65,7 +64,7 @@ public class ClassRendererTests
 			""");
 
 		svg.Should().Contain("data-annotation=\"abstract\"");
-		svg.Should().Contain("&lt;&lt;abstract&gt;&gt;");
+		svg.Should().Contain(">«abstract»<");
 	}
 
 	[Test]

@@ -8,7 +8,7 @@ Edges:
   Applicability --per key--> ApplicabilityEntry [Bottom->Top] [D]
   ApplicabilityEntry --version--> VersionSpec [Bottom->Top] [D]
   ChangelogDirective --argument--> Product [Bottom->Top] [D R D]
-  CrossLink --repo://path--> CrossLinkUri [Bottom->Top] [D L D]
+  CrossLink --repo://path--> CrossLinkUri [Bottom->Top] [D]
   DocumentationSet --files--> DocumentationFile [Bottom->Top] [D]
   FrontMatter --applies_to--> Applicability [Bottom->Top] [D L D]
   FrontMatter --cta.id--> Cta [Bottom->Top] [D R D]

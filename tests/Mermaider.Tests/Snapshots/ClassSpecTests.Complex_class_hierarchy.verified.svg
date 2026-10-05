@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 481.6666666666667 549.6" width="481.6666666666667" height="549.6" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488.1666666666667 585.6" width="488.1666666666667" height="585.6" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -30,91 +30,104 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
-<defs>
-  <marker id="cls-inherit" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
-    <polygon points="0 0, 10 5, 0 10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-  <marker id="cls-composition" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
-    <polygon points="5 0, 10 5, 5 10, 0 5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" />
-  </marker>
-  <marker id="cls-aggregation" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
-    <polygon points="5 0, 10 5, 5 10, 0 5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-  <marker id="cls-arrow" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
-    <polyline points="0 0, 10 5, 0 10" fill="none" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-  <marker id="cls-lollipop" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto-start-reverse">
-    <circle cx="5" cy="5" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-</defs>
-
-<path class="class-relationship" data-from="Vehicle" data-to="Car" data-type="inheritance" data-marker-at="from" d="M160.73333333333335,184 L160.73333333333335,215.8 Q160.73333333333335,223.8 168.73333333333335,223.8 L265.33333333333337,223.8 Q273.33333333333337,223.8 273.33333333333337,231.8 L273.33333333333337,273.6" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-start="url(#cls-inherit)" />
-<path class="class-relationship" data-from="Vehicle" data-to="Truck" data-type="inheritance" data-marker-at="from" d="M106.00000000000003,184 L106.00000000000003,215.8 Q106.00000000000003,223.8 114.00000000000003,223.8 L114.1,223.8 Q122.1,223.8 122.1,231.8 L122.1,273.6" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-start="url(#cls-inherit)" />
-<path class="class-relationship" data-from="Electric" data-to="Car" data-type="realization" data-marker-at="from" data-label="optional" d="M338.5666666666667,144 L338.5666666666667,237.6 Q338.5666666666667,245.6 330.5666666666667,245.6 L330.4666666666667,245.6 Q322.4666666666667,245.6 322.4666666666667,253.6 L322.4666666666667,273.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="4 4" marker-start="url(#cls-inherit)" />
-<path class="class-relationship" data-from="Car" data-to="Engine" data-type="composition" data-marker-at="from" d="M297.90000000000003,361.6 L297.90000000000003,421.6" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-start="url(#cls-composition)" />
+<path class="class-relationship" data-from="Vehicle" data-to="Car" data-type="inheritance" data-marker-at="from" d="M162.4333333333334,204 L162.4333333333334,235.8 Q162.4333333333334,243.8 170.4333333333334,243.8 L268.5333333333333,243.8 Q276.5333333333333,243.8 276.5333333333333,251.8 L276.5333333333333,293.6" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-start="url(#ma2e31288-mk-triangle-s)" />
+<path class="class-relationship" data-from="Vehicle" data-to="Truck" data-type="inheritance" data-marker-at="from" d="M107.10000000000005,204 L107.10000000000005,243.8 L107.10000000000005,243.8 L107.10000000000005,293.6" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-start="url(#ma2e31288-mk-triangle-s)" />
+<path class="class-relationship" data-from="Electric" data-to="Car" data-type="realization" data-marker-at="from" data-label="optional" d="M342.9666666666667,156 L342.9666666666667,265.6 L342.9666666666667,265.6 L342.9666666666667,293.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-start="url(#ma2e31288-mk-triangle-s)" />
+<path class="class-relationship" data-from="Car" data-to="Engine" data-type="composition" data-marker-at="from" d="M301.8,385.6 L301.79999999999995,445.6" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-start="url(#ma2e31288-mk-diamond-s)" />
 <g class="class-node" data-id="Vehicle" data-label="Vehicle" data-annotation="abstract">
-  <rect x="51.26666666666671" y="40" width="164.2" height="144" rx="8" ry="8" fill="var(--bg)" />
-  <path d="M51.26666666666671,88 L51.26666666666671,48 Q51.26666666666671,40 59.26666666666671,40 L207.4666666666667,40 Q215.4666666666667,40 215.4666666666667,48 L215.4666666666667,88 Z" fill="color-mix(in srgb, #86bcb6 22%, var(--bg))" />
-  <text x="133.3666666666667" y="52" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="500" font-style="italic" fill="color-mix(in srgb, #86bcb6 74%, var(--fg))">&lt;&lt;abstract&gt;&gt;</text>
-  <text x="133.3666666666667" y="70" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Vehicle</text>
-  <line x1="51.26666666666671" y1="88" x2="215.4666666666667" y2="88" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.25" />
-  <line x1="51.26666666666671" y1="112" x2="215.4666666666667" y2="112" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1" opacity="0.35" />
-  <line x1="51.26666666666671" y1="160" x2="215.4666666666667" y2="160" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1" opacity="0.35" />
-  <line x1="51.26666666666671" y1="136" x2="215.4666666666667" y2="136" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.25" />
-  <line x1="114.66666666666671" y1="88" x2="114.66666666666671" y2="184" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="59.26666666666671" y="102" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">String</text><text class="mono" x="122.66666666666671" y="102" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">make</tspan></text><text class="mono" x="207.4666666666667" y="102" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #86bcb6 74%, var(--fg))">+</text>
-  <text class="mono" x="59.26666666666671" y="122" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">int</text><text class="mono" x="122.66666666666671" y="122" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">year</tspan></text><text class="mono" x="207.4666666666667" y="122" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #86bcb6 74%, var(--fg))">+</text>
-  <text class="mono" x="59.26666666666671" y="150" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="122.66666666666671" y="150" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">start()</tspan></text><text class="mono" x="207.4666666666667" y="150" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #86bcb6 74%, var(--fg))">+</text>
-  <text class="mono" x="59.26666666666671" y="170" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="122.66666666666671" y="170" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">stop()</tspan></text><text class="mono" x="207.4666666666667" y="170" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #86bcb6 74%, var(--fg))">+</text>
-  <rect x="51.26666666666671" y="40" width="164.2" height="144" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="51.76666666666671" y="40" width="166" height="164" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M51.76666666666671,92 L51.76666666666671,48 Q51.76666666666671,40 59.76666666666671,40 L209.7666666666667,40 Q217.7666666666667,40 217.7666666666667,48 L217.7666666666667,92 Z" fill="url(#ma2e31288-eb-p6)" />
+  <line x1="51.76666666666671" y1="92" x2="217.7666666666667" y2="92" stroke="color-mix(in srgb, #86bcb6 42%, var(--bg))" stroke-width="1" />
+  <rect x="51.76666666666671" y="40" width="166" height="164" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="63.76666666666671" y1="120" x2="205.7666666666667" y2="120" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="63.76666666666671" y1="176" x2="205.7666666666667" y2="176" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="51.76666666666671" y1="148" x2="217.7666666666667" y2="148" stroke="color-mix(in srgb, #86bcb6 42%, var(--bg))" stroke-width="1" />
+  <text x="134.7666666666667" y="56.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #86bcb6 44%, var(--fg))" dy="4.199999999999999">«abstract»</text>
+  <text x="134.7666666666667" y="74.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Vehicle</text>
+  <text x="67.76666666666671" y="106" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">String</text>
+  <text x="122.9666666666667" y="106" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #86bcb6 44%, var(--fg))" dy="4.8999999999999995">+</text>
+  <text x="136.9666666666667" y="106" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">make</text>
+  <text x="67.76666666666671" y="134" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">int</text>
+  <text x="122.9666666666667" y="134" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #86bcb6 44%, var(--fg))" dy="4.8999999999999995">+</text>
+  <text x="136.9666666666667" y="134" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">year</text>
+  <text x="67.76666666666671" y="162" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">void</text>
+  <text x="122.9666666666667" y="162" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #86bcb6 44%, var(--fg))" dy="4.8999999999999995">+</text>
+  <text x="136.9666666666667" y="162" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">start()</text>
+  <text x="67.76666666666671" y="190" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">void</text>
+  <text x="122.9666666666667" y="190" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #86bcb6 44%, var(--fg))" dy="4.8999999999999995">+</text>
+  <text x="136.9666666666667" y="190" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">stop()</text>
 </g>
 <g class="class-node" data-id="Car" data-label="Car">
-  <rect x="224.20000000000002" y="273.6" width="147.4" height="88" rx="8" ry="8" fill="var(--bg)" />
-  <path d="M224.20000000000002,305.6 L224.20000000000002,281.6 Q224.20000000000002,273.6 232.20000000000002,273.6 L363.6,273.6 Q371.6,273.6 371.6,281.6 L371.6,305.6 Z" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" />
-  <text x="297.90000000000003" y="289.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Car</text>
-  <line x1="224.20000000000002" y1="305.6" x2="371.6" y2="305.6" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <line x1="224.20000000000002" y1="333.6" x2="371.6" y2="333.6" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <line x1="270.8" y1="305.6" x2="270.8" y2="361.6" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="232.20000000000002" y="319.6" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">int</text><text class="mono" x="278.8" y="319.6" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">doors</tspan></text><text class="mono" x="363.6" y="319.6" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">+</text>
-  <text class="mono" x="232.20000000000002" y="347.6" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="278.8" y="347.6" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">drive()</tspan></text><text class="mono" x="363.6" y="347.6" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">+</text>
-  <rect x="224.20000000000002" y="273.6" width="147.4" height="88" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="226" y="293.6" width="151.6" height="92" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M226,329.6 L226,301.6 Q226,293.6 234,293.6 L369.6,293.6 Q377.6,293.6 377.6,301.6 L377.6,329.6 Z" fill="url(#ma2e31288-eb-p0)" />
+  <line x1="226" y1="329.6" x2="377.6" y2="329.6" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1" />
+  <rect x="226" y="293.6" width="151.6" height="92" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="226" y1="357.6" x2="377.6" y2="357.6" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1" />
+  <text x="301.8" y="311.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Car</text>
+  <text x="242" y="343.6" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">int</text>
+  <text x="282.8" y="343.6" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">+</text>
+  <text x="296.8" y="343.6" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">doors</text>
+  <text x="242" y="371.6" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">void</text>
+  <text x="282.8" y="371.6" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">+</text>
+  <text x="296.8" y="371.6" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">drive()</text>
 </g>
 <g class="class-node" data-id="Truck" data-label="Truck">
-  <rect x="40" y="273.6" width="164.2" height="88" rx="8" ry="8" fill="var(--bg)" />
-  <path d="M40,305.6 L40,281.6 Q40,273.6 48,273.6 L196.2,273.6 Q204.2,273.6 204.2,281.6 L204.2,305.6 Z" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" />
-  <text x="122.1" y="289.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Truck</text>
-  <line x1="40" y1="305.6" x2="204.2" y2="305.6" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <line x1="40" y1="333.6" x2="204.2" y2="333.6" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <line x1="103.4" y1="305.6" x2="103.4" y2="361.6" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="48" y="319.6" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">double</text><text class="mono" x="111.4" y="319.6" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">payload</tspan></text><text class="mono" x="196.2" y="319.6" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">+</text>
-  <text class="mono" x="48" y="347.6" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="111.4" y="347.6" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">haul()</tspan></text><text class="mono" x="196.2" y="347.6" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">+</text>
-  <rect x="40" y="273.6" width="164.2" height="88" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="40" y="293.6" width="166" height="92" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M40,329.6 L40,301.6 Q40,293.6 48,293.6 L198,293.6 Q206,293.6 206,301.6 L206,329.6 Z" fill="url(#ma2e31288-eb-p0)" />
+  <line x1="40" y1="329.6" x2="206" y2="329.6" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1" />
+  <rect x="40" y="293.6" width="166" height="92" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="40" y1="357.6" x2="206" y2="357.6" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1" />
+  <text x="123" y="311.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Truck</text>
+  <text x="56" y="343.6" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">double</text>
+  <text x="111.19999999999999" y="343.6" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">+</text>
+  <text x="125.19999999999999" y="343.6" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">payload</text>
+  <text x="56" y="371.6" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">void</text>
+  <text x="111.19999999999999" y="371.6" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">+</text>
+  <text x="125.19999999999999" y="371.6" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">haul()</text>
 </g>
 <g class="class-node" data-id="Electric" data-label="Electric" data-annotation="interface">
-  <rect x="235.4666666666667" y="40" width="206.2" height="104" rx="8" ry="8" fill="var(--bg)" />
-  <path d="M235.4666666666667,88 L235.4666666666667,48 Q235.4666666666667,40 243.4666666666667,40 L433.6666666666667,40 Q441.6666666666667,40 441.6666666666667,48 L441.6666666666667,88 Z" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" />
-  <text x="338.5666666666667" y="52" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="500" font-style="italic" fill="color-mix(in srgb, #f28e2b 74%, var(--fg))">&lt;&lt;interface&gt;&gt;</text>
-  <text x="338.5666666666667" y="70" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Electric</text>
-  <line x1="235.4666666666667" y1="88" x2="441.6666666666667" y2="88" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <line x1="235.4666666666667" y1="120" x2="441.6666666666667" y2="120" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1" opacity="0.35" />
-  <line x1="235.4666666666667" y1="96" x2="441.6666666666667" y2="96" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <line x1="282.0666666666667" y1="88" x2="282.0666666666667" y2="144" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="243.4666666666667" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="290.0666666666667" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">charge()</tspan></text><text class="mono" x="433.6666666666667" y="110" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #f28e2b 74%, var(--fg))">+</text>
-  <text class="mono" x="243.4666666666667" y="130" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">int</text><text class="mono" x="290.0666666666667" y="130" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">batteryLevel()</tspan></text><text class="mono" x="433.6666666666667" y="130" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #f28e2b 74%, var(--fg))">+</text>
-  <rect x="235.4666666666667" y="40" width="206.2" height="104" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="237.7666666666667" y="40" width="210.39999999999998" height="116" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M237.7666666666667,92 L237.7666666666667,48 Q237.7666666666667,40 245.7666666666667,40 L440.1666666666667,40 Q448.1666666666667,40 448.1666666666667,48 L448.1666666666667,92 Z" fill="url(#ma2e31288-eb-p1)" />
+  <line x1="237.7666666666667" y1="92" x2="448.1666666666667" y2="92" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1" />
+  <rect x="237.7666666666667" y="40" width="210.39999999999998" height="116" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="249.7666666666667" y1="128" x2="436.1666666666667" y2="128" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="237.7666666666667" y1="100" x2="448.1666666666667" y2="100" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1" />
+  <text x="342.9666666666667" y="56.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.199999999999999">«interface»</text>
+  <text x="342.9666666666667" y="74.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Electric</text>
+  <text x="253.7666666666667" y="114" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">void</text>
+  <text x="294.5666666666667" y="114" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.8999999999999995">+</text>
+  <text x="308.5666666666667" y="114" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">charge()</text>
+  <text x="253.7666666666667" y="142" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">int</text>
+  <text x="294.5666666666667" y="142" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.8999999999999995">+</text>
+  <text x="308.5666666666667" y="142" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">batteryLevel()</text>
 </g>
 <g class="class-node" data-id="Engine" data-label="Engine">
-  <rect x="203.20000000000002" y="421.6" width="189.4" height="88" rx="8" ry="8" fill="var(--bg)" />
-  <path d="M203.20000000000002,453.6 L203.20000000000002,429.6 Q203.20000000000002,421.6 211.20000000000002,421.6 L384.6,421.6 Q392.6,421.6 392.6,429.6 L392.6,453.6 Z" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" />
-  <text x="297.90000000000003" y="437.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Engine</text>
-  <line x1="203.20000000000002" y1="453.6" x2="392.6" y2="453.6" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <line x1="203.20000000000002" y1="477.6" x2="392.6" y2="477.6" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
-  <line x1="203.20000000000002" y1="501.6" x2="392.6" y2="501.6" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <line x1="266.6" y1="453.6" x2="266.6" y2="509.6" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="211.20000000000002" y="467.6" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">int</text><text class="mono" x="274.6" y="467.6" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">horsepower</tspan></text><text class="mono" x="384.6" y="467.6" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">+</text>
-  <text class="mono" x="211.20000000000002" y="487.6" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">String</text><text class="mono" x="274.6" y="487.6" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">type</tspan></text><text class="mono" x="384.6" y="487.6" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">+</text>
-  <rect x="203.20000000000002" y="421.6" width="189.4" height="88" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="206.2" y="445.6" width="191.2" height="100" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M206.2,481.6 L206.2,453.6 Q206.2,445.6 214.2,445.6 L389.4,445.6 Q397.4,445.6 397.4,453.6 L397.4,481.6 Z" fill="url(#ma2e31288-eb-p0)" />
+  <line x1="206.2" y1="481.6" x2="397.4" y2="481.6" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1" />
+  <rect x="206.2" y="445.6" width="191.2" height="100" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="218.2" y1="509.6" x2="385.4" y2="509.6" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="206.2" y1="537.6" x2="397.4" y2="537.6" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1" />
+  <text x="301.79999999999995" y="463.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Engine</text>
+  <text x="222.2" y="495.6" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">int</text>
+  <text x="277.4" y="495.6" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">+</text>
+  <text x="291.4" y="495.6" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">horsepower</text>
+  <text x="222.2" y="523.6" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">String</text>
+  <text x="277.4" y="523.6" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">+</text>
+  <text x="291.4" y="523.6" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">type</text>
 </g>
-<rect x="306.0114266666667" y="198" width="65.11048" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="338.5666666666667" y="208.8" font-size="var(--fs-xs)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.199999999999999">optional</text>
+<g class="edge-label" data-from="Electric" data-to="Car">
+  <rect x="312.8626666666667" y="214" width="60.208" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="342.9666666666667" y="224.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">optional</text>
+</g>
+<defs>
+  <linearGradient id="ma2e31288-eb-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /></linearGradient>
+  <linearGradient id="ma2e31288-eb-p1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 15%, var(--bg))" /></linearGradient>
+  <linearGradient id="ma2e31288-eb-p6" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #86bcb6 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #86bcb6 15%, var(--bg))" /></linearGradient>
+  <marker id="ma2e31288-mk-diamond-s" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="12" refX="0" refY="6" orient="auto">
+    <polygon points="0,6 6,1.5 12,6 6,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
+  </marker>
+  <marker id="ma2e31288-mk-triangle-s" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="0" refY="6" orient="auto">
+    <polygon points="10,0.5 0,6 10,11.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.25" stroke-linejoin="miter" />
+  </marker>
+</defs>
 </svg>

@@ -8,12 +8,12 @@ Layer 6: ApiOperation
 Layer 7: DocumentationDocument
 Edges:
   ApiDeclaration --renders--> ApiSpecVersion [Bottom->Top] [D R D]
-  ApiDeclaration --api/{key}/--> ApiSupplementalDoc [Bottom->Top] [D L D R D]
+  ApiDeclaration --api/{key}/--> ApiSupplementalDoc [Bottom->Top] [D L D R D L D]
   ApiDeclaration --repository + spec--> OpenApiSpec [Bottom->Top] [D L D L D]
   ApiDeclaration --product--> Product [Bottom->Top] [D R D]
   ApiEndpoint --operations--> ApiOperation [Bottom->Top] [D]
   ApiOperation --search export--> DocumentationDocument [Bottom->Top] [D]
-  ApiSpecVersion --components--> ApiSchema [Bottom->Top] [D R D L D]
+  ApiSpecVersion --components--> ApiSchema [Bottom->Top] [D R D]
   ApiSpecVersion --x-tagGroups--> ApiTagGroup [Bottom->Top] [D L D]
   ApiSupplementalDoc --op-{operationId}--> ApiOperation [Bottom->Top] [D L D R D R D]
   ApiSupplementalDoc --tag-{slug}--> ApiTag [Bottom->Top] [D R D]
