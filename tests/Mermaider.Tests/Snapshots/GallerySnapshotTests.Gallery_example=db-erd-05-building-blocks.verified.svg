@@ -26,8 +26,8 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px rgba(24,24,27,.10)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
 <path class="er-relationship" data-entity1="Catalog" data-entity2="DocumentationSet" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="products, versioning" d="M689.50965,219.6 L689.50965,239.6 Q689.50965,247.6 681.50965,247.6 L642.2410066666667,247.6 Q634.2410066666667,247.6 634.2410066666667,255.6 L634.2410066666667,287.2 Q634.2410066666667,295.2 626.2410066666667,295.2 L585.5890866666667,295.2 Q577.5890866666667,295.2 577.5890866666667,303.2 L577.5890866666667,323.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />

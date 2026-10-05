@@ -34,8 +34,9 @@ the Invest quadrant, the gantt active ring, the title mark, PK badges. Nowhere e
 All four are normalised once by `DesignInputs.From(RenderOptions)` (`Theming/StyleSpec.cs`) into
 `NormalizedRenderStyles.Design`, so every renderer sees the same clamped values.
 
-The **shadow colour** is never user-supplied: `StyleBlock.ElevationLines` derives it from the luminance of `--bg`
-(soft zinc on light pages, deeper black on dark ones).
+The **shadow colour** is never user-supplied and never a literal: `StyleBlock.ElevationLines` mixes it from the theme.
+On light pages it is `--fg` at low strength; on dark pages (where `--fg` is light) it is `--bg` deepened, so shadows
+carry the theme's own hue.
 
 CLI: `--style <quiet|blueprint|tonal>`, `--no-gradient`, `--tint <0.5-1.5>`, `--elevation <0|1|2>` (invalid values are
 rejected with an error). Gallery playground: STYLE, GRADIENT, TINT and ELEVATION controls

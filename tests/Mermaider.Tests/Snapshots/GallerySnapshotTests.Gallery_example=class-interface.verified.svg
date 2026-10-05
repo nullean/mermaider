@@ -26,8 +26,8 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px rgba(24,24,27,.10)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
 <path class="class-relationship" data-from="ILogger" data-to="ConsoleLogger" data-type="realization" data-marker-at="from" d="M284.93333333333334,156 L284.93333333333334,178 Q284.93333333333334,186 276.93333333333334,186 L186.79999999999998,186 Q178.79999999999998,186 178.79999999999998,194 L178.79999999999998,216" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-start="url(#md68a0f86-mk-triangle-s)" />

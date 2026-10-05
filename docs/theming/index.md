@@ -27,7 +27,7 @@ var options = new RenderOptions
 | `Style` | `DiagramStyle` | `Quiet` | The preset (above). |
 | `Gradient` | `bool` | `true` | Gradient fills on boxes, containers (a lighter shade of their own colour), bars and pie slices. Off: flat fills. |
 | `Tint` | `double?` | `1` | Scales every tint derived from a colour (node fills, header bands, container bodies, borders). Clamped to 0.5–1.5; lower values keep dark themes from looking muddy. |
-| `Elevation` | `int?` | `1` | Drop-shadow strength, clamped to 0–2. Blueprint never draws shadows. The shadow colour follows the background (lighter on light pages, deeper on dark ones). |
+| `Elevation` | `int?` | `1` | Drop-shadow strength, clamped to 0–2. Blueprint never draws shadows. The shadow colour is mixed from the theme: the foreground at low strength on light pages, the background deepened on dark ones. |
 
 From the CLI: `--style <quiet|blueprint|tonal>`, `--no-gradient`, `--tint <0.5-1.5>`, `--elevation <0|1|2>`.
 

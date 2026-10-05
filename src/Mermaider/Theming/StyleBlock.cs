@@ -73,8 +73,10 @@ internal static class StyleBlock
 		if (elevation <= 0 || (!spec.NodeShadow && !spec.ContainerShadow))
 			return [];
 
-		var shadow = darkBg ? "rgba(0,0,0,.45)" : "rgba(24,24,27,.10)";
-		var ambient = darkBg ? "rgba(0,0,0,.30)" : "rgba(24,24,27,.06)";
+		// Theme-derived: on light pages the shadow is the foreground at low strength; on dark pages the foreground is light
+		// (it would glow), so the shadow is the page colour deepened, which keeps the theme's own hue in it.
+		var shadow = darkBg ? DarkShadow(55) : "color-mix(in srgb, var(--fg) 12%, transparent)";
+		var ambient = darkBg ? DarkShadow(35) : "color-mix(in srgb, var(--fg) 7%, transparent)";
 		var box = spec.Style == DiagramStyle.Tonal
 			? $"drop-shadow(0 2px 6px {shadow})"
 			: $"drop-shadow(0 1px 2px {shadow})";
@@ -88,6 +90,9 @@ internal static class StyleBlock
 			lines.Add($"  {ContainerSelectors} {{ filter: drop-shadow(0 1px 2px {ambient}); }}");
 		return [.. lines];
 	}
+
+	private static string DarkShadow(int strength) =>
+		$"color-mix(in srgb, color-mix(in srgb, var(--bg) 35%, black) {strength}%, transparent)";
 
 	/// <summary>Every elevation line any preset / level / background can produce (the allowlist accepts exactly these).</summary>
 	internal static readonly FrozenSet<string> AllElevationLines =

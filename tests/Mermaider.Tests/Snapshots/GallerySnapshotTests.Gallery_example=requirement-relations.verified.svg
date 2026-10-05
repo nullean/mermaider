@@ -26,8 +26,8 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px rgba(24,24,27,.10)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
 <path class="req-relation" data-type="contains" d="M245.85704,446 L245.85704,466 Q245.85704,474 253.85704,474 L262.19755999999995,474 Q270.19755999999995,474 270.19755999999995,482 L270.19755999999995,508.5 Q270.19755999999995,516.5 278.19755999999995,516.5 L406.0030833333333,516.5 Q414.0030833333333,516.5 414.0030833333333,524.5 L414.0030833333333,548" fill="none" stroke="var(--_line)" stroke-width="1.5" />
