@@ -30,117 +30,104 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
-<defs>
-  <marker id="seq-arrow" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
-    <polygon points="0 0, 10 5, 0 10" fill="var(--_line)" />
-  </marker>
-  <marker id="seq-arrow-open" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
-    <polyline points="0 0, 10 5, 0 10" fill="none" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-</defs>
-
-<line class="lifeline" data-actor="Browser" x1="74.97999999999999" y1="70" x2="74.97999999999999" y2="698" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
-<line class="lifeline" data-actor="CDN" x1="214.98" y1="70" x2="214.98" y2="698" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
-<line class="lifeline" data-actor="LB" x1="359.51099999999997" y1="70" x2="359.51099999999997" y2="698" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
-<line class="lifeline" data-actor="App" x1="504.042" y1="70" x2="504.042" y2="698" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
-<line class="lifeline" data-actor="Cache" x1="644.0419999999999" y1="70" x2="644.0419999999999" y2="698" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
-<line class="lifeline" data-actor="DB" x1="784.0419999999999" y1="70" x2="784.0419999999999" y2="698" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="Browser" x1="74.97999999999999" y1="70" x2="74.97999999999999" y2="658" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
+<line class="lifeline" data-actor="CDN" x1="214.98" y1="70" x2="214.98" y2="658" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
+<line class="lifeline" data-actor="LB" x1="359.51099999999997" y1="70" x2="359.51099999999997" y2="658" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
+<line class="lifeline" data-actor="App" x1="504.042" y1="70" x2="504.042" y2="658" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
+<line class="lifeline" data-actor="Cache" x1="644.0419999999999" y1="70" x2="644.0419999999999" y2="658" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
+<line class="lifeline" data-actor="DB" x1="784.0419999999999" y1="70" x2="784.0419999999999" y2="658" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
 <g class="message" data-from="Browser" data-to="CDN" data-label="Static assets" data-line-style="solid" data-arrow-head="filled" data-self="false">
-  <line x1="74.97999999999999" y1="114" x2="214.98" y2="114" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#seq-arrow)" />
-  <rect x="98.28648" y="85.2" width="93.38703999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="144.98" y="96" font-size="var(--fs-xs)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.199999999999999">Static assets</text>
+  <line x1="74.97999999999999" y1="114" x2="214.98" y2="114" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+  <text x="144.98" y="102" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">Static assets</text>
 </g>
 <g class="message" data-from="Browser" data-to="LB" data-label="API request" data-line-style="solid" data-arrow-head="filled" data-self="false">
-  <line x1="74.97999999999999" y1="164" x2="359.51099999999997" y2="164" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#seq-arrow)" />
-  <rect x="173.45213999999999" y="135.2" width="87.58672" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="217.2455" y="146" font-size="var(--fs-xs)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.199999999999999">API request</text>
+  <line x1="74.97999999999999" y1="164" x2="359.51099999999997" y2="164" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+  <text x="217.2455" y="152" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">API request</text>
 </g>
 <g class="message" data-from="LB" data-to="App" data-label="Forward" data-line-style="solid" data-arrow-head="filled" data-self="false">
-  <line x1="359.51099999999997" y1="214" x2="504.042" y2="214" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#seq-arrow)" />
-  <rect x="396.32109999999994" y="185.2" width="70.9108" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="431.77649999999994" y="196" font-size="var(--fs-xs)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.199999999999999">Forward</text>
+  <line x1="359.51099999999997" y1="214" x2="504.042" y2="214" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+  <text x="431.77649999999994" y="202" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">Forward</text>
 </g>
 <g class="message" data-from="App" data-to="Cache" data-label="Check cache" data-line-style="solid" data-arrow-head="filled" data-self="false">
-  <line x1="504.042" y1="264" x2="644.0419999999999" y2="264" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#seq-arrow)" />
-  <rect x="525.8983999999999" y="235.2" width="96.2872" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="574.0419999999999" y="246" font-size="var(--fs-xs)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.199999999999999">Check cache</text>
+  <line x1="504.042" y1="264" x2="644.0419999999999" y2="264" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+  <text x="574.0419999999999" y="252" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">Check cache</text>
 </g>
 <g class="message" data-from="Cache" data-to="App" data-label="Miss" data-line-style="dashed" data-arrow-head="filled" data-self="false">
-  <line x1="644.0419999999999" y1="314" x2="504.042" y2="314" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
-  <rect x="549.82472" y="285.2" width="48.43456" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="574.0419999999999" y="296" font-size="var(--fs-xs)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.199999999999999">Miss</text>
+  <line x1="644.0419999999999" y1="314" x2="504.042" y2="314" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ma2e31288-mk-arrow)" />
+  <text x="574.0419999999999" y="302" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">Miss</text>
 </g>
 <g class="message" data-from="App" data-to="DB" data-label="Query" data-line-style="solid" data-arrow-head="filled" data-self="false">
-  <line x1="504.042" y1="364" x2="784.0419999999999" y2="364" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#seq-arrow)" />
-  <rect x="615.8369999999999" y="335.2" width="56.41" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="644.0419999999999" y="346" font-size="var(--fs-xs)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.199999999999999">Query</text>
+  <line x1="504.042" y1="364" x2="784.0419999999999" y2="364" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+  <text x="644.0419999999999" y="352" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">Query</text>
 </g>
 <g class="message" data-from="DB" data-to="App" data-label="Result" data-line-style="dashed" data-arrow-head="filled" data-self="false">
-  <line x1="784.0419999999999" y1="414" x2="504.042" y2="414" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
-  <rect x="615.8369999999999" y="385.2" width="56.410000000000004" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="644.0419999999999" y="396" font-size="var(--fs-xs)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.199999999999999">Result</text>
+  <line x1="784.0419999999999" y1="414" x2="504.042" y2="414" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ma2e31288-mk-arrow)" />
+  <text x="644.0419999999999" y="402" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">Result</text>
 </g>
 <g class="message" data-from="App" data-to="Cache" data-label="Store" data-line-style="solid" data-arrow-head="filled" data-self="false">
-  <line x1="504.042" y1="464" x2="644.0419999999999" y2="464" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#seq-arrow)" />
-  <rect x="548.0121199999999" y="435.2" width="52.059760000000004" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="574.0419999999999" y="446" font-size="var(--fs-xs)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.199999999999999">Store</text>
+  <line x1="504.042" y1="464" x2="644.0419999999999" y2="464" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+  <text x="574.0419999999999" y="452" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">Store</text>
 </g>
 <g class="message" data-from="App" data-to="LB" data-label="Response" data-line-style="dashed" data-arrow-head="filled" data-self="false">
-  <line x1="504.042" y1="514" x2="359.51099999999997" y2="514" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
-  <rect x="391.97085999999996" y="485.2" width="79.61128" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="431.77649999999994" y="496" font-size="var(--fs-xs)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.199999999999999">Response</text>
+  <line x1="504.042" y1="514" x2="359.51099999999997" y2="514" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ma2e31288-mk-arrow)" />
+  <text x="431.77649999999994" y="502" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">Response</text>
 </g>
 <g class="message" data-from="LB" data-to="Browser" data-label="Response" data-line-style="dashed" data-arrow-head="filled" data-self="false">
-  <line x1="359.51099999999997" y1="564" x2="74.97999999999999" y2="564" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
-  <rect x="177.43986" y="535.2" width="79.61128" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="217.2455" y="546" font-size="var(--fs-xs)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.199999999999999">Response</text>
+  <line x1="359.51099999999997" y1="564" x2="74.97999999999999" y2="564" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ma2e31288-mk-arrow)" />
+  <text x="217.2455" y="552" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">Response</text>
 </g>
 <g class="actor" data-id="Browser" data-label="Browser" data-type="participant">
-  <rect x="29.999999999999993" y="30" width="89.96" height="40" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="74.97999999999999" y="50" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Browser</text>
+  <rect x="29.999999999999993" y="30" width="89.96" height="40" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="74.97999999999999" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Browser</text>
 </g>
 <g class="actor" data-id="CDN" data-label="CDN" data-type="participant">
-  <rect x="174.98" y="30" width="80" height="40" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="214.98" y="50" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">CDN</text>
+  <rect x="174.98" y="30" width="80" height="40" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="214.98" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">CDN</text>
 </g>
 <g class="actor" data-id="LB" data-label="Load Balancer" data-type="participant">
-  <rect x="294.97999999999996" y="30" width="129.062" height="40" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="359.51099999999997" y="50" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Load Balancer</text>
+  <rect x="294.97999999999996" y="30" width="129.062" height="40" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="359.51099999999997" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Load Balancer</text>
 </g>
 <g class="actor" data-id="App" data-label="App" data-type="participant">
-  <rect x="464.042" y="30" width="80" height="40" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="504.042" y="50" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">App</text>
+  <rect x="464.042" y="30" width="80" height="40" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="504.042" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">App</text>
 </g>
 <g class="actor" data-id="Cache" data-label="Cache" data-type="participant">
-  <rect x="604.0419999999999" y="30" width="80" height="40" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="644.0419999999999" y="50" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Cache</text>
+  <rect x="604.0419999999999" y="30" width="80" height="40" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="644.0419999999999" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Cache</text>
 </g>
 <g class="actor" data-id="DB" data-label="DB" data-type="participant">
-  <rect x="744.0419999999999" y="30" width="80" height="40" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="784.0419999999999" y="50" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">DB</text>
+  <rect x="744.0419999999999" y="30" width="80" height="40" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="784.0419999999999" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">DB</text>
 </g>
-<g class="actor" data-id="Browser" data-label="Browser" data-type="participant">
-  <rect x="29.999999999999993" y="658" width="89.96" height="40" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="74.97999999999999" y="678" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Browser</text>
+<g class="actor-ghost" data-id="Browser" data-label="Browser" data-type="participant">
+  <rect x="29.999999999999993" y="658" width="89.96" height="40" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
+  <text x="74.97999999999999" y="678" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-muted)" dy="4.8999999999999995">Browser</text>
 </g>
-<g class="actor" data-id="CDN" data-label="CDN" data-type="participant">
-  <rect x="174.98" y="658" width="80" height="40" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="214.98" y="678" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">CDN</text>
+<g class="actor-ghost" data-id="CDN" data-label="CDN" data-type="participant">
+  <rect x="174.98" y="658" width="80" height="40" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
+  <text x="214.98" y="678" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-muted)" dy="4.8999999999999995">CDN</text>
 </g>
-<g class="actor" data-id="LB" data-label="Load Balancer" data-type="participant">
-  <rect x="294.97999999999996" y="658" width="129.062" height="40" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="359.51099999999997" y="678" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Load Balancer</text>
+<g class="actor-ghost" data-id="LB" data-label="Load Balancer" data-type="participant">
+  <rect x="294.97999999999996" y="658" width="129.062" height="40" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
+  <text x="359.51099999999997" y="678" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-muted)" dy="4.8999999999999995">Load Balancer</text>
 </g>
-<g class="actor" data-id="App" data-label="App" data-type="participant">
-  <rect x="464.042" y="658" width="80" height="40" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="504.042" y="678" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">App</text>
+<g class="actor-ghost" data-id="App" data-label="App" data-type="participant">
+  <rect x="464.042" y="658" width="80" height="40" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
+  <text x="504.042" y="678" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-muted)" dy="4.8999999999999995">App</text>
 </g>
-<g class="actor" data-id="Cache" data-label="Cache" data-type="participant">
-  <rect x="604.0419999999999" y="658" width="80" height="40" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="644.0419999999999" y="678" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Cache</text>
+<g class="actor-ghost" data-id="Cache" data-label="Cache" data-type="participant">
+  <rect x="604.0419999999999" y="658" width="80" height="40" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
+  <text x="644.0419999999999" y="678" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-muted)" dy="4.8999999999999995">Cache</text>
 </g>
-<g class="actor" data-id="DB" data-label="DB" data-type="participant">
-  <rect x="744.0419999999999" y="658" width="80" height="40" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="784.0419999999999" y="678" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">DB</text>
+<g class="actor-ghost" data-id="DB" data-label="DB" data-type="participant">
+  <rect x="744.0419999999999" y="658" width="80" height="40" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
+  <text x="784.0419999999999" y="678" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-muted)" dy="4.8999999999999995">DB</text>
 </g>
+<defs>
+  <linearGradient id="ma2e31288-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 7%, var(--bg))" /></linearGradient>
+  <marker id="ma2e31288-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
+  </marker>
+</defs>
 </svg>

@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 320" width="512" height="320" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 632 344" width="632" height="344" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -30,32 +30,29 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
-<defs>
-  <marker id="arch-arrow-end" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto">
-    <polygon points="0 0, 10 5, 0 10" fill="var(--_line)" />
-  </marker>
-  <marker id="arch-arrow-start" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="0" refY="5" orient="auto">
-    <polygon points="10 0, 0 5, 10 10" fill="var(--_line)" />
-  </marker>
-</defs>
-
-<path class="architecture-edge" data-source="a" data-target="j" d="M104,64 L250,64" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="architecture-edge" data-source="j" data-target="b" d="M262,64 L408,64" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="architecture-edge" data-source="j" data-target="c" d="M256,70 L256,216" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="architecture-edge" data-source="a" data-target="j" d="M144,70 L310,70" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<circle class="architecture-port" cx="144" cy="70" r="3" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path class="architecture-edge" data-source="j" data-target="b" d="M322,70 L488,70" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<circle class="architecture-port" cx="488" cy="70" r="3" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path class="architecture-edge" data-source="j" data-target="c" d="M316,76 L316,228" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<circle class="architecture-port" cx="316" cy="228" r="3" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
 <g class="architecture-service" data-id="a" data-icon="server">
-  <rect x="24" y="24" width="80" height="80" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <image x="42" y="42" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQiIHk9IjQiIHdpZHRoPSIxNiIgaGVpZ2h0PSI2IiByeD0iMSIgZmlsbD0iIzY0NzQ4YiIvPgo8cmVjdCB4PSI0IiB5PSIxNCIgd2lkdGg9IjE2IiBoZWlnaHQ9IjYiIHJ4PSIxIiBmaWxsPSIjNjQ3NDhiIi8+CjxjaXJjbGUgY3g9IjE3IiBjeT0iNyIgcj0iMSIgZmlsbD0iI2ZmZmZmZiIvPgo8Y2lyY2xlIGN4PSIxNyIgY3k9IjE3IiByPSIxIiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
-  <text x="64" y="120" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">A</text>
+  <rect x="24" y="24" width="120" height="92" rx="12" ry="12" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <g transform="translate(84 56) scale(1.182)" fill="none" stroke="color-mix(in srgb, #4e79a7 44%, var(--fg))" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="-10" y="-9" width="20" height="7" rx="2" /><rect x="-10" y="2" width="20" height="7" rx="2" /><path d="M-5 -5.5 H-4 M-5 5.5 H-4" /></g>
+  <text x="84" y="96" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">A</text>
 </g>
 <g class="architecture-service" data-id="b" data-icon="server">
-  <rect x="408" y="24" width="80" height="80" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <image x="426" y="42" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQiIHk9IjQiIHdpZHRoPSIxNiIgaGVpZ2h0PSI2IiByeD0iMSIgZmlsbD0iIzY0NzQ4YiIvPgo8cmVjdCB4PSI0IiB5PSIxNCIgd2lkdGg9IjE2IiBoZWlnaHQ9IjYiIHJ4PSIxIiBmaWxsPSIjNjQ3NDhiIi8+CjxjaXJjbGUgY3g9IjE3IiBjeT0iNyIgcj0iMSIgZmlsbD0iI2ZmZmZmZiIvPgo8Y2lyY2xlIGN4PSIxNyIgY3k9IjE3IiByPSIxIiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
-  <text x="448" y="120" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">B</text>
+  <rect x="488" y="24" width="120" height="92" rx="12" ry="12" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <g transform="translate(548 56) scale(1.182)" fill="none" stroke="color-mix(in srgb, #4e79a7 44%, var(--fg))" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="-10" y="-9" width="20" height="7" rx="2" /><rect x="-10" y="2" width="20" height="7" rx="2" /><path d="M-5 -5.5 H-4 M-5 5.5 H-4" /></g>
+  <text x="548" y="96" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">B</text>
 </g>
 <g class="architecture-service" data-id="c" data-icon="server">
-  <rect x="216" y="216" width="80" height="80" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <image x="234" y="234" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQiIHk9IjQiIHdpZHRoPSIxNiIgaGVpZ2h0PSI2IiByeD0iMSIgZmlsbD0iIzY0NzQ4YiIvPgo8cmVjdCB4PSI0IiB5PSIxNCIgd2lkdGg9IjE2IiBoZWlnaHQ9IjYiIHJ4PSIxIiBmaWxsPSIjNjQ3NDhiIi8+CjxjaXJjbGUgY3g9IjE3IiBjeT0iNyIgcj0iMSIgZmlsbD0iI2ZmZmZmZiIvPgo8Y2lyY2xlIGN4PSIxNyIgY3k9IjE3IiByPSIxIiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
-  <text x="256" y="312" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">C</text>
+  <rect x="256" y="228" width="120" height="92" rx="12" ry="12" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <g transform="translate(316 260) scale(1.182)" fill="none" stroke="color-mix(in srgb, #4e79a7 44%, var(--fg))" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="-10" y="-9" width="20" height="7" rx="2" /><rect x="-10" y="2" width="20" height="7" rx="2" /><path d="M-5 -5.5 H-4 M-5 5.5 H-4" /></g>
+  <text x="316" y="300" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">C</text>
 </g>
-<circle class="architecture-junction" data-id="j" cx="256" cy="64" r="3" fill="var(--_line)" />
+<circle class="architecture-junction" data-id="j" cx="316" cy="70" r="3.5" fill="var(--_line)" />
+<defs>
+  <linearGradient id="ma2e31288-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 7%, var(--bg))" /></linearGradient>
+</defs>
 </svg>

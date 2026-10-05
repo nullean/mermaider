@@ -34,7 +34,8 @@ public class ArchitectureRendererTests
 	[Test]
 	public void Embeds_icon_as_base64_data_uri()
 	{
-		var svg = MermaidRenderer.RenderSvg(Basic);
+		// vendor artwork keeps its own colours, embedded as an image (default pictograms are drawn as family-ink glyphs)
+		var svg = MermaidRenderer.RenderSvg("architecture-beta\nservice es(elastic:elasticsearch)[Search]");
 
 		svg.Should().Contain("<image ");
 		svg.Should().Contain("href=\"data:image/svg+xml;base64,");
@@ -73,7 +74,7 @@ public class ArchitectureRendererTests
 			a:R --> L:b
 			""");
 
-		svg.Should().Contain("marker-end=\"url(#arch-arrow-end)\"");
+		svg.Should().MatchRegex("marker-end=\"url\\(#m[0-9a-f]{8}-mk-arrow\\)\"");
 	}
 
 	[Test]
@@ -115,6 +116,6 @@ public class ArchitectureRendererTests
 			""");
 
 		svg.Should().Contain("data-icon=\"totally-unknown-icon\"");
-		svg.Should().Contain("<image ");
+		svg.Should().Contain("<circle cx=\"0\" cy=\"0\" r=\"1.5\" />", "an unknown icon falls back to the generic glyph");
 	}
 }

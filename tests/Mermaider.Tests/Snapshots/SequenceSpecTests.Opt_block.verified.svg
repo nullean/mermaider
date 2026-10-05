@@ -30,53 +30,46 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
-<defs>
-  <marker id="seq-arrow" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
-    <polygon points="0 0, 10 5, 0 10" fill="var(--_line)" />
-  </marker>
-  <marker id="seq-arrow-open" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
-    <polyline points="0 0, 10 5, 0 10" fill="none" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-</defs>
-
 <g class="block" data-type="opt" data-label="Extra logging">
-  <rect x="170" y="152" width="80" height="78" rx="12" ry="12" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
-  <rect x="170" y="152" width="35.08" height="18" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
-  <text x="176" y="161" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 42%, var(--bg))" dy="4.199999999999999">opt</text>
-  <rect x="213.07999999999998" y="150.2" width="96.28720000000001" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="261.2236" y="161" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">Extra logging</text>
+  <rect x="170" y="152" width="169.32" height="78" rx="10" ry="10" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
+  <path d="M170,174 L170,162 Q170,152 180,152 L209.07999999999998,152 L209.07999999999998,174 Z" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
+  <text x="189.54" y="163" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.199999999999999">opt</text>
+  <text x="219.07999999999998" y="163" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">[Extra logging]</text>
 </g>
-<line class="lifeline" data-actor="A" x1="70" y1="70" x2="70" y2="424" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
-<line class="lifeline" data-actor="B" x1="210" y1="70" x2="210" y2="424" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="A" x1="70" y1="70" x2="70" y2="384" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
+<line class="lifeline" data-actor="B" x1="210" y1="70" x2="210" y2="384" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
 <g class="message" data-from="A" data-to="B" data-label="Request" data-line-style="solid" data-arrow-head="filled" data-self="false">
-  <line x1="70" y1="114" x2="210" y2="114" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#seq-arrow)" />
-  <rect x="105.99468" y="85.2" width="68.01064" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="140" y="96" font-size="var(--fs-xs)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.199999999999999">Request</text>
+  <line x1="70" y1="114" x2="210" y2="114" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+  <text x="140" y="102" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">Request</text>
 </g>
 <g class="message" data-from="B" data-to="B" data-label="Write to audit log" data-line-style="solid" data-arrow-head="filled" data-self="true">
-  <polyline points="210,210 240,210 240,230 210,230" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#seq-arrow)" />
-  <rect x="248.00000000000003" y="209.2" width="111.51304" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="303.75652" y="220" font-size="var(--fs-xs)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.199999999999999">Write to audit log</text>
+  <polyline points="210,210 240,210 240,230 210,230" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#ma2e31288-mk-arrow)" />
+  <text x="248" y="220" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">Write to audit log</text>
 </g>
 <g class="message" data-from="B" data-to="A" data-label="Response" data-line-style="dashed" data-arrow-head="filled" data-self="false">
-  <line x1="210" y1="290" x2="70" y2="290" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
-  <rect x="100.19436" y="261.2" width="79.61128" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="140" y="272" font-size="var(--fs-xs)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.199999999999999">Response</text>
+  <line x1="210" y1="290" x2="70" y2="290" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ma2e31288-mk-arrow)" />
+  <text x="140" y="278" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">Response</text>
 </g>
 <g class="actor" data-id="A" data-label="A" data-type="participant">
-  <rect x="30" y="30" width="80" height="40" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="70" y="50" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">A</text>
+  <rect x="30" y="30" width="80" height="40" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="70" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">A</text>
 </g>
 <g class="actor" data-id="B" data-label="B" data-type="participant">
-  <rect x="170" y="30" width="80" height="40" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="210" y="50" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">B</text>
+  <rect x="170" y="30" width="80" height="40" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="210" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">B</text>
 </g>
-<g class="actor" data-id="A" data-label="A" data-type="participant">
-  <rect x="30" y="384" width="80" height="40" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="70" y="404" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">A</text>
+<g class="actor-ghost" data-id="A" data-label="A" data-type="participant">
+  <rect x="30" y="384" width="80" height="40" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
+  <text x="70" y="404" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-muted)" dy="4.8999999999999995">A</text>
 </g>
-<g class="actor" data-id="B" data-label="B" data-type="participant">
-  <rect x="170" y="384" width="80" height="40" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="210" y="404" font-size="var(--fs-s)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">B</text>
+<g class="actor-ghost" data-id="B" data-label="B" data-type="participant">
+  <rect x="170" y="384" width="80" height="40" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
+  <text x="210" y="404" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-muted)" dy="4.8999999999999995">B</text>
 </g>
+<defs>
+  <linearGradient id="ma2e31288-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 7%, var(--bg))" /></linearGradient>
+  <marker id="ma2e31288-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
+  </marker>
+</defs>
 </svg>
