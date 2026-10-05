@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 208 280" width="208" height="280" style="--bg:transparent;--fg:#E9ECF1;--accent:#7FE0FF">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 249.83999999999997 372.2" width="249.83999999999997" height="372.2" style="background:#FFFFFF;--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -12,7 +12,7 @@
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
     --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
-    --_group-hdr:     color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
     --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
     --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
@@ -30,26 +30,44 @@
 
 <defs>
   <marker id="req-arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
 </defs>
 
-<line x1="104" y1="98" x2="104" y2="134" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#req-arrow)" />
-<rect x="75.72" y="107" width="56.57" height="18" rx="4" ry="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="0.75" />
-<text x="104" y="116" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text-muted)">satisfies</text>
+<path class="req-relation" d="M124.91999999999999,110 L124.91999999999999,202.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#req-arrow)" />
+<rect x="88.23711999999998" y="143.875" width="73.36576000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<text x="124.92" y="156.1" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">satisfies</text>
 <g class="req-node" data-id="test_req">
-  <rect x="24" y="134" width="160" height="122" rx="6" ry="6" fill="var(--_accent-fill)" stroke="var(--_accent-stroke)" stroke-width="1.75" />
-  <text x="104" y="152" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Requirement</text>
-  <text x="104" y="168" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">test_req</text>
-  <text x="104" y="186" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Id: 1</text>
-  <text x="104" y="202" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Text: the test text.</text>
-  <text x="104" y="218" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Risk: High</text>
-  <text x="104" y="234" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Verification: Test</text>
+  <rect x="24" y="202.2" width="201.84" height="146" rx="6" ry="6" fill="var(--bg)" />
+  <path d="M24,258.2 L24,208.2 Q24,202.2 30,202.2 L219.83999999999997,202.2 Q225.83999999999997,202.2 225.83999999999997,208.2 L225.83999999999997,258.2 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
+
+  <text x="124.92" y="222.2" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#3B5B7D">Requirement</text>
+  <text x="124.92" y="242.2" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">test_req</text>
+  <line x1="24" y1="258.2" x2="225.84" y2="258.2" stroke="#3B5B7D" stroke-width="1.75" />
+  <text x="38" y="271.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Id</text>
+  <text x="129.7" y="271.2" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">1</text>
+  <line x1="24" y1="280.7" x2="225.84" y2="280.7" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
+  <text x="38" y="291.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Text</text>
+  <text x="129.7" y="291.2" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">the test text.</text>
+  <line x1="24" y1="300.7" x2="225.84" y2="300.7" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
+  <text x="38" y="311.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Risk</text>
+  <text x="129.7" y="311.2" dy="0.35em" font-size="var(--fs-s)" fill="#D52629">High</text>
+  <line x1="24" y1="320.7" x2="225.84" y2="320.7" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
+  <text x="38" y="331.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Verification</text>
+  <text x="129.7" y="331.2" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Test</text>
+  <line x1="122.7" y1="258.2" x2="122.7" y2="348.2" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
+  <rect x="24" y="202.2" width="201.84" height="146" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
 </g>
 <g class="req-node" data-id="test_entity">
-  <rect x="24" y="24" width="160" height="74" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <text x="104" y="42" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Element</text>
-  <text x="104" y="58" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">test_entity</text>
-  <text x="104" y="76" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Type: simulation</text>
+  <rect x="44.92" y="24" width="160" height="86" rx="6" ry="6" fill="var(--bg)" />
+  <path d="M44.91999999999999,80 L44.91999999999999,30 Q44.91999999999999,24 50.91999999999999,24 L198.92,24 Q204.92,24 204.92,30 L204.92,80 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
+
+  <text x="124.92" y="44" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#3B5B7D">Element</text>
+  <text x="124.92" y="64" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">test_entity</text>
+  <line x1="44.92" y1="80" x2="204.92" y2="80" stroke="#3B5B7D" stroke-width="1.75" />
+  <text x="58.92" y="93" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Type</text>
+  <text x="110.3" y="93" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">simulation</text>
+  <line x1="103.3" y1="80" x2="103.3" y2="110" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
+  <rect x="44.92" y="24" width="160" height="86" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
 </g>
 </svg>
