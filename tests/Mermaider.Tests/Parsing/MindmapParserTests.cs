@@ -105,18 +105,15 @@ public class MindmapParserTests
 	}
 
 	[Test]
-	public void Parses_cloud_shape()
+	public void Parses_bang_and_cloud_shapes_as_mermaid_does()
 	{
-		var lines = new[]
-		{
-			"mindmap",
-			"  ))Cloud Node((",
-		};
+		var bang = MindmapParser.Parse(["mindmap", "  ))Bang Node(("]);
+		bang.Root.Label.Should().Be("Bang Node");
+		bang.Root.Shape.Should().Be(MindmapShape.Bang);
 
-		var diagram = MindmapParser.Parse(lines);
-
-		diagram.Root.Label.Should().Be("Cloud Node");
-		diagram.Root.Shape.Should().Be(MindmapShape.Cloud);
+		var cloud = MindmapParser.Parse(["mindmap", "  )Cloud Node("]);
+		cloud.Root.Label.Should().Be("Cloud Node");
+		cloud.Root.Shape.Should().Be(MindmapShape.Cloud);
 	}
 
 	[Test]

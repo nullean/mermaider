@@ -37,7 +37,7 @@ internal static class MindmapSvgRenderer
 		var sb = SharedStringBuilderPool.Instance.Get();
 
 		var positioned = new List<PositionedMindmapNode>();
-		_ = LayoutTree(diagram.Root, 40, 40, 0, positioned, context.Styles.Colors.AutoPalette(), context.Limits, null);
+		LayoutBalanced(diagram.Root, positioned, context.Styles.Colors.AutoPalette(), context.Limits);
 
 		var maxX = 0.0;
 		var maxY = 0.0;
@@ -76,9 +76,91 @@ internal static class MindmapSvgRenderer
 		string Label, MindmapShape Shape, string Color,
 		int Depth, double? ParentCx, double? ParentCy);
 
-	private static double LayoutTree(MindmapNode node, double x, double y, int depth, List<PositionedMindmapNode> result, string[] palette, ResourceLimits limits, string? branchColor)
+	// Like mermaid.js, the root sits in the middle and its branches spread to both sides; the sides are balanced by height.
+	private static void LayoutBalanced(MindmapNode root, List<PositionedMindmapNode> result, string[] palette, ResourceLimits limits)
 	{
-		ResourceGuard.CheckRecursionDepth(depth, limits);
+		var (rootLabel, rootW, rootH) = Measure(root, 0);
+		var rootNode = new PositionedMindmapNode(-rootW / 2, -rootH / 2, rootW, rootH, rootLabel, root.Shape, palette[0], 0, null, null);
+
+		// each branch laid out to the right of x = 0 on its own
+		var branches = new List<(List<PositionedMindmapNode> Nodes, double Height)>();
+		for (var i = 0; i < root.Children.Count; i++)
+		{
+			var nodes = new List<PositionedMindmapNode>();
+			var height = LayoutTree(root.Children[i], 0, 0, 1, nodes, palette, limits, palette[(i + 1) % palette.Length]);
+			branches.Add((nodes, height));
+		}
+
+		// contiguous split closest to half the total height: first part right, the rest left
+		var split = 0;
+		var best = double.MaxValue;
+		for (var k = 0; k <= branches.Count; k++)
+		{
+			var right = branches.Take(k).Sum(b => b.Height) + (VerticalGap * Math.Max(0, k - 1));
+			var left = branches.Skip(k).Sum(b => b.Height) + (VerticalGap * Math.Max(0, branches.Count - k - 1));
+			var diff = Math.Abs(right - left);
+			if (k > 0 && k < branches.Count && diff < best)
+			{
+				best = diff;
+				split = k;
+			}
+		}
+
+		if (branches.Count == 1)
+			split = 1;
+
+		result.Add(rootNode);
+		PlaceSide(branches.Take(split).ToList(), +1, rootW, result);
+		PlaceSide(branches.Skip(split).ToList(), -1, rootW, result);
+
+		// normalise to the canvas margin
+		var minX = result.Min(n => n.X);
+		var minY = result.Min(n => n.Y);
+		for (var i = 0; i < result.Count; i++)
+		{
+			var n = result[i];
+			result[i] = n with
+			{
+				X = n.X - minX + 40,
+				Y = n.Y - minY + 40,
+				ParentCx = n.ParentCx - minX + 40,
+				ParentCy = n.ParentCy - minY + 40,
+			};
+		}
+	}
+
+	private static void PlaceSide(List<(List<PositionedMindmapNode> Nodes, double Height)> side, int dir, double rootW, List<PositionedMindmapNode> result)
+	{
+		if (side.Count == 0)
+			return;
+
+		var sideHeight = side.Sum(b => b.Height) + (VerticalGap * (side.Count - 1));
+		var y = -sideHeight / 2;
+		var startX = (rootW / 2) + HorizontalGap;
+		foreach (var (nodes, height) in side)
+		{
+			for (var i = 0; i < nodes.Count; i++)
+			{
+				var n = nodes[i];
+				var x = dir > 0 ? startX + n.X : -startX - n.X - n.W;
+				var px = n.ParentCx is { } pcx ? (dir > 0 ? startX + pcx : -startX - pcx) : (double?)null;
+				var py = n.ParentCy is { } pcy ? pcy + y : (double?)null;
+				// the branch's own node is added last and hangs off the root centre
+				if (i == nodes.Count - 1)
+				{
+					px = 0;
+					py = 0;
+				}
+
+				result.Add(n with { X = x, Y = n.Y + y, ParentCx = px, ParentCy = py });
+			}
+
+			y += height + VerticalGap;
+		}
+	}
+
+	private static (string Label, double W, double H) Measure(MindmapNode node, int depth)
+	{
 		var fontSizePx = depth == 0 ? RootFontSizePx : NodeFontSizePx;
 		var weight = depth == 0 ? 700 : 500;
 		var label = Wrap(node.Label, fontSizePx, weight);
@@ -86,10 +168,18 @@ internal static class MindmapSvgRenderer
 		var w = metrics.Width + (NodePadX * 2);
 		var h = metrics.Height + (NodePadY * 2);
 		if (node.Shape == MindmapShape.Circle)
-		{
-			// the circle has to enclose the text box
 			w = h = Math.Sqrt((w * w) + (h * h));
-		}
+		else if (node.Shape == MindmapShape.Bang)
+			(w, h) = (w * 1.35, h * 1.6);
+		else if (node.Shape == MindmapShape.Cloud)
+			(w, h) = (w * 1.2, h * 1.45);
+		return (label, w, h);
+	}
+
+	private static double LayoutTree(MindmapNode node, double x, double y, int depth, List<PositionedMindmapNode> result, string[] palette, ResourceLimits limits, string? branchColor)
+	{
+		ResourceGuard.CheckRecursionDepth(depth, limits);
+		var (label, w, h) = Measure(node, depth);
 
 		// Same language as the other diagrams: the root takes the default colour, every branch of the root one colour of its own.
 		var color = branchColor ?? palette[0];
@@ -169,6 +259,28 @@ internal static class MindmapSvgRenderer
 			.Append("\" stroke-width=\"").Append(RenderConstants.StrokeWidths.Connector.SvgFormat()).Append("\" />");
 	}
 
+	// A scalloped outline: bumps along an ellipse, each drawn as a quadratic bulging outwards.
+	private static void AppendCloud(StringBuilder sb, double cx, double cy, double rx, double ry, string paint)
+	{
+		const int bumps = 10;
+		const double bulge = 1.28;
+		_ = sb.Append("\n<path d=\"");
+		for (var i = 0; i < bumps; i++)
+		{
+			var a0 = 2 * Math.PI * i / bumps;
+			var a1 = 2 * Math.PI * (i + 1) / bumps;
+			var am = (a0 + a1) / 2;
+			var (x0, y0) = (cx + (Math.Cos(a0) * rx * 0.9), cy + (Math.Sin(a0) * ry * 0.9));
+			var (x1, y1) = (cx + (Math.Cos(a1) * rx * 0.9), cy + (Math.Sin(a1) * ry * 0.9));
+			var (qx, qy) = (cx + (Math.Cos(am) * rx * bulge), cy + (Math.Sin(am) * ry * bulge));
+			if (i == 0)
+				_ = sb.Append('M').Append(x0.SvgFormat()).Append(',').Append(y0.SvgFormat());
+			_ = sb.Append(" Q").Append(qx.SvgFormat()).Append(',').Append(qy.SvgFormat()).Append(' ').Append(x1.SvgFormat()).Append(',').Append(y1.SvgFormat());
+		}
+
+		_ = sb.Append(" Z\" ").Append(paint).Append(" />");
+	}
+
 	private static void AppendNode(StringBuilder sb, PositionedMindmapNode node)
 	{
 		var cx = node.X + (node.W / 2);
@@ -197,6 +309,22 @@ internal static class MindmapSvgRenderer
 					.Append((node.X + inset).SvgFormat()).Append(',').Append((node.Y + node.H).SvgFormat()).Append(' ')
 					.Append(node.X.SvgFormat()).Append(',').Append(cy.SvgFormat())
 					.Append("\" ").Append(paint).Append(" />");
+				break;
+			case MindmapShape.Bang:
+				_ = sb.Append("\n<polygon points=\"");
+				const int spikes = 14;
+				for (var i = 0; i < spikes * 2; i++)
+				{
+					var angle = Math.PI * i / spikes;
+					var k = i % 2 == 0 ? 1.0 : 0.78;
+					_ = sb.Append((cx + (Math.Cos(angle) * node.W / 2 * k)).SvgFormat()).Append(',')
+						.Append((cy + (Math.Sin(angle) * node.H / 2 * k)).SvgFormat()).Append(' ');
+				}
+
+				_ = sb.Append("\" ").Append(paint).Append(" stroke-linejoin=\"round\" />");
+				break;
+			case MindmapShape.Cloud:
+				AppendCloud(sb, cx, cy, node.W / 2, node.H / 2, paint);
 				break;
 			case MindmapShape.Square:
 				_ = sb.Append("\n<rect x=\"").Append(node.X.SvgFormat()).Append("\" y=\"").Append(node.Y.SvgFormat())

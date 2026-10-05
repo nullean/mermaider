@@ -182,4 +182,18 @@ public class VisualLanguageContractTests
 		svg.Should().Contain($"fill=\"{VisualLanguage.Tint(second, VisualLanguage.NodeTint)}\" stroke=\"{VisualLanguage.Border(second)}\"", "the second branch has its own colour");
 		svg.Should().NotContain("opacity=\"0.7\"", "nodes are tinted, not translucent");
 	}
+
+	[Test]
+	public void Mindmap_branches_spread_to_both_sides_of_the_root()
+	{
+		var svg = MermaidRenderer.RenderSvg("mindmap\n  ((Root))\n    A\n      a1\n    B\n      b1\n    C\n      c1\n    D\n      d1");
+
+		var rects = System.Text.RegularExpressions.Regex.Matches(svg, "<rect x=\"([0-9.]+)\"[^>]*\\swidth=\"([0-9.]+)\"");
+		var circle = System.Text.RegularExpressions.Regex.Match(svg, "<circle cx=\"([0-9.]+)\"");
+		var rootX = double.Parse(circle.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture);
+		var centres = rects.Select(m => double.Parse(m.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture)
+			+ (double.Parse(m.Groups[2].Value, System.Globalization.CultureInfo.InvariantCulture) / 2)).ToList();
+		centres.Should().Contain(c => c < rootX, "some branches sit left of the root");
+		centres.Should().Contain(c => c > rootX, "some branches sit right of the root");
+	}
 }
