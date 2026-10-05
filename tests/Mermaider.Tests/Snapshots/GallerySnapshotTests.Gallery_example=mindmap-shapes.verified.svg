@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 829.7000496019258 326.2422192022586" width="829.7000496019258" height="326.2422192022586" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 841.1060879507403 332.38107550465975" width="841.1060879507403" height="332.38107550465975" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -30,45 +30,77 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
+<path class="mindmap-link" d="M634.97,59.1 L690.97,59.1" fill="none" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M476.39,173.62 L496.39,173.62 Q504.39,173.62 504.39,165.62 L504.39,67.1 Q504.39,59.1 512.39,59.1 L532.39,59.1" fill="none" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M624.89,147.3 L680.89,147.3" fill="none" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M476.39,173.62 L496.39,173.62 Q504.39,173.62 504.39,165.62 L504.39,155.3 Q504.39,147.3 512.39,147.3 L532.39,147.3" fill="none" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M623.23,235.5 L679.23,235.5" fill="none" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M476.39,173.62 L496.39,173.62 Q504.39,173.62 504.39,181.62 L504.39,227.5 Q504.39,235.5 512.39,235.5 L532.39,235.5" fill="none" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M208.02,65.37 L152.02,65.37" fill="none" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M366.6,173.62 L346.6,173.62 Q338.6,173.62 338.6,165.62 L338.6,73.37 Q338.6,65.37 330.6,65.37 L310.6,65.37" fill="none" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M206.14,153.57 L150.14,153.57" fill="none" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M366.6,173.62 L346.6,173.62 Q338.6,173.62 338.6,165.62 L338.6,161.57 Q338.6,153.57 330.6,153.57 L310.6,153.57" fill="none" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M213.72,264.69 L157.71,264.69" fill="none" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M366.6,173.62 L346.6,173.62 Q338.6,173.62 338.6,181.62 L338.6,256.69 Q338.6,264.69 330.6,264.69 L310.6,264.69" fill="none" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<g class="node mindmap-node" data-depth="0" data-label="Shapes">
+<circle cx="421.49" cy="173.62" r="54.89" fill="url(#ma2e31288-ng-a)" stroke="color-mix(in srgb, var(--accent, var(--fg)) 74%, var(--fg))" stroke-width="1.75" />
+<text x="421.49454397537016" y="173.62107550465976" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Shapes</text>
+</g>
+<g class="node mindmap-node" data-depth="2" data-label="Plain child">
+<rect x="690.9660879507403" y="40" width="110.14" height="38.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+<text x="746.0360879507404" y="59.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Plain child</text>
+</g>
+<g class="node mindmap-node" data-depth="1" data-label="Rounded">
+<rect x="532.3860879507404" y="40" width="102.58" height="38.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+<text x="583.6760879507403" y="59.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">Rounded</text>
+</g>
+<g class="node mindmap-node" data-depth="2" data-label="Plain child">
+<rect x="680.8860879507404" y="128.2" width="110.14" height="38.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+<text x="735.9560879507404" y="147.29999999999998" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Plain child</text>
+</g>
+<g class="node mindmap-node" data-depth="1" data-label="Square">
+<rect x="532.3860879507404" y="128.2" width="92.5" height="38.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+<text x="578.6360879507404" y="147.29999999999998" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">Square</text>
+</g>
+<g class="node mindmap-node" data-depth="2" data-label="Plain child">
+<rect x="679.2282389600598" y="216.4" width="110.14" height="38.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
+<text x="734.2982389600598" y="235.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Plain child</text>
+</g>
+<g class="node mindmap-node" data-depth="1" data-label="Circle">
+<circle cx="577.81" cy="235.5" r="45.42" fill="url(#ma2e31288-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
+<text x="577.8071634554001" y="235.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">Circle</text>
+</g>
+<g class="node mindmap-node" data-depth="2" data-label="Plain child">
+<rect x="41.88299999999998" y="46.26607550465975" width="110.14" height="38.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
+<text x="96.95299999999997" y="65.36607550465976" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Plain child</text>
+</g>
+<g class="node mindmap-node" data-depth="1" data-label="Hexagon">
+<polygon points="219.48,46.27 299.14,46.27 310.6,65.37 299.14,84.47 219.48,84.47 208.02,65.37" fill="url(#ma2e31288-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" stroke-linejoin="round" />
+<text x="259.313" y="65.36607550465976" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">Hexagon</text>
+</g>
+<g class="node mindmap-node" data-depth="2" data-label="Plain child">
+<rect x="40" y="134.46607550465976" width="110.14" height="38.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p5)" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" />
+<text x="95.07" y="153.56607550465975" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Plain child</text>
+</g>
+<g class="node mindmap-node" data-depth="1" data-label="Bang">
+<polygon points="310.6,153.57 298.09,158.87 305.43,166.83 290.22,168.43 290.94,177.46 276.05,175.04 269.99,183.36 258.37,177.4 246.75,183.36 240.69,175.04 225.81,177.46 226.52,168.43 211.31,166.83 218.65,158.87 206.14,153.57 218.65,148.26 211.31,140.31 226.52,138.7 225.81,129.67 240.69,132.09 246.75,123.77 258.37,129.73 269.99,123.77 276.05,132.09 290.94,129.67 290.22,138.7 305.43,140.31 298.09,148.26 " fill="url(#ma2e31288-ng-p5)" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" stroke-linejoin="round" />
+<text x="258.37149999999997" y="153.56607550465975" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">Bang</text>
+</g>
+<g class="node mindmap-node" data-depth="2" data-label="Plain child">
+<rect x="47.57499999999999" y="245.58607550465976" width="110.14" height="38.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p6)" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.25" />
+<text x="102.64499999999998" y="264.68607550465975" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Plain child</text>
+</g>
+<g class="node mindmap-node" data-depth="1" data-label="Cloud">
+<path d="M305.76,264.69 Q321.13,275.64 297.43,279.34 Q298.61,293.37 275.63,288.39 Q262.16,300.14 248.69,288.39 Q225.71,293.37 226.89,279.34 Q203.19,275.64 218.56,264.69 Q203.19,253.73 226.89,250.04 Q225.71,236.01 248.69,240.98 Q262.16,229.24 275.63,240.98 Q298.61,236.01 297.43,250.04 Q321.13,253.73 305.76,264.69 Z" fill="url(#ma2e31288-ng-p6)" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.25" />
+<text x="262.159" y="264.68607550465975" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">Cloud</text>
+</g>
 <defs>
+  <linearGradient id="ma2e31288-ng-a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="ma2e31288-ng-p1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="ma2e31288-ng-p2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #76b7b2 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #76b7b2 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="ma2e31288-ng-p3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #b07aa1 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #b07aa1 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="ma2e31288-ng-p4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #9c755f 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #9c755f 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="ma2e31288-ng-p5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #bab0ac 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #bab0ac 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="ma2e31288-ng-p6" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #86bcb6 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #86bcb6 7%, var(--bg))" /></linearGradient>
 </defs>
-
-<path d="M 575.4 58.4 C 655.48 58.4 655.48 58.4 735.56 58.4" fill="none" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.5" />
-<path d="M 414.85 170 C 495.12 170 495.12 58.4 575.4 58.4" fill="none" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.5" />
-<path d="M 569.92 145.2 C 647.27 145.2 647.27 145.2 724.62 145.2" fill="none" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.5" />
-<path d="M 414.85 170 C 492.39 170 492.39 145.2 569.92 145.2" fill="none" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.5" />
-<path d="M 568.57 232 C 645.24 232 645.24 232 721.9 232" fill="none" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.5" />
-<path d="M 414.85 170 C 491.71 170 491.71 232 568.57 232" fill="none" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.5" />
-<path d="M 254.3 63.88 C 174.22 63.88 174.22 63.88 94.14 63.88" fill="none" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.5" />
-<path d="M 414.85 170 C 334.58 170 334.58 63.88 254.3 63.88" fill="none" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.5" />
-<path d="M 255.26 150.68 C 175.66 150.68 175.66 150.68 96.05 150.68" fill="none" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.5" />
-<path d="M 414.85 170 C 335.06 170 335.06 150.68 255.26 150.68" fill="none" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.5" />
-<path d="M 258.52 259.56 C 180.55 259.56 180.55 259.56 102.58 259.56" fill="none" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.5" />
-<path d="M 414.85 170 C 336.69 170 336.69 259.56 258.52 259.56" fill="none" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.5" />
-<circle cx="414.85" cy="170" r="54.51" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-<text x="414.8500248009629" y="170.00221920225857" text-anchor="middle" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">Shapes</text>
-<rect x="681.43" y="40" width="108.27" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-<text x="735.5640496019257" y="58.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Plain child</text>
-<rect x="525.36" y="40" width="100.06" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-<text x="575.3960496019258" y="58.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Rounded</text>
-<rect x="670.48" y="126.8" width="108.27" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 11%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
-<text x="724.6200496019258" y="145.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Plain child</text>
-<rect x="525.36" y="126.8" width="89.12" height="36.8" fill="color-mix(in srgb, #76b7b2 11%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
-<text x="569.9240496019258" y="145.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Square</text>
-<rect x="667.77" y="213.6" width="108.27" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #b07aa1 11%, var(--bg))" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
-<text x="721.904488006443" y="232" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Plain child</text>
-<circle cx="568.57" cy="232" r="43.2" fill="color-mix(in srgb, #b07aa1 11%, var(--bg))" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
-<text x="568.5662688041843" y="232" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Circle</text>
-<rect x="40" y="45.48" width="108.27" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #9c755f 11%, var(--bg))" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
-<text x="94.136" y="63.882219202258575" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Plain child</text>
-<polygon points="215.31,45.48 293.3,45.48 304.34,63.88 293.3,82.28 215.31,82.28 204.27,63.88" fill="color-mix(in srgb, #9c755f 11%, var(--bg))" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
-<text x="254.304" y="63.882219202258575" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Hexagon</text>
-<rect x="41.91" y="132.28" width="108.27" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #bab0ac 11%, var(--bg))" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" />
-<text x="96.04959999999997" y="150.68221920225858" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Plain child</text>
-<polygon points="304.34,150.68 292.58,155.79 299.48,163.46 285.19,165 285.86,173.7 271.87,171.37 266.18,179.38 255.26,173.65 244.34,179.38 238.65,171.37 224.66,173.7 225.33,165 211.05,163.46 217.94,155.79 206.19,150.68 217.94,145.57 211.05,137.91 225.33,136.36 224.66,127.67 238.65,129.99 244.34,121.98 255.26,127.72 266.18,121.98 271.87,129.99 285.86,127.67 285.19,136.36 299.48,137.91 292.58,145.57 " fill="color-mix(in srgb, #bab0ac 11%, var(--bg))" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" stroke-linejoin="round" />
-<text x="255.26079999999996" y="150.68221920225858" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Bang</text>
-<rect x="48.44" y="241.16" width="108.27" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #86bcb6 11%, var(--bg))" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.25" />
-<text x="102.57759999999999" y="259.5622192022586" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Plain child</text>
-<path d="M299.75,259.56 Q314.29,270.12 291.88,273.68 Q292.99,287.19 271.27,282.4 Q258.52,293.71 245.78,282.4 Q224.06,287.19 225.17,273.68 Q202.76,270.12 217.29,259.56 Q202.76,249.01 225.17,245.45 Q224.06,231.93 245.78,236.73 Q258.52,225.41 271.27,236.73 Q292.99,231.93 291.88,245.45 Q314.29,249.01 299.75,259.56 Z" fill="color-mix(in srgb, #86bcb6 11%, var(--bg))" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.25" />
-<text x="258.52479999999997" y="259.5622192022586" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Cloud</text>
 </svg>

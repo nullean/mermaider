@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1484 280" width="1484" height="280" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1344 360" width="1344" height="360" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -30,58 +30,97 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
+<g class="diagram-title">
+  <rect x="40" y="35.5" width="9" height="9" rx="2" ry="2" fill="var(--accent, var(--fg))" />
+  <text x="56" y="40" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">Programming Language Milestones</text>
+</g>
+<line x1="120" y1="108" x2="120" y2="304" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="5 4" />
+<line x1="304" y1="108" x2="304" y2="304" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="5 4" />
+<line x1="488" y1="108" x2="488" y2="304" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="5 4" />
+<line x1="672" y1="108" x2="672" y2="304" stroke="color-mix(in srgb, #9c755f 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="5 4" />
+<line x1="856" y1="108" x2="856" y2="304" stroke="color-mix(in srgb, #bab0ac 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="5 4" />
+<line x1="1040" y1="108" x2="1040" y2="304" stroke="color-mix(in srgb, #86bcb6 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="5 4" />
+<line x1="1224" y1="108" x2="1224" y2="304" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="5 4" />
+<path class="timeline-axis" d="M40,148 L1306,148" fill="none" stroke="var(--accent, var(--fg))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<polygon points="1312,148 1303,143.5 1303,152.5" fill="var(--accent, var(--fg))" stroke="var(--accent, var(--fg))" stroke-width="1.5" stroke-linejoin="round" />
+<g class="node timeline-period" data-label="1972">
+  <rect x="40" y="72" width="160" height="36" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="120" y="90" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">1972</text>
+</g>
+<circle cx="120" cy="148" r="6" fill="var(--bg)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="2" />
+<g class="node timeline-event">
+  <rect x="40" y="180" width="160" height="36" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="120" y="198" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">C</text>
+</g>
+<g class="node timeline-period" data-label="1983">
+  <rect x="224" y="72" width="160" height="36" rx="8" ry="8" fill="url(#ma2e31288-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="304" y="90" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">1983</text>
+</g>
+<circle cx="304" cy="148" r="6" fill="var(--bg)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="2" />
+<g class="node timeline-event">
+  <rect x="224" y="180" width="160" height="36" rx="8" ry="8" fill="url(#ma2e31288-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="304" y="198" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">C++</text>
+</g>
+<g class="node timeline-period" data-label="1991">
+  <rect x="408" y="72" width="160" height="36" rx="8" ry="8" fill="url(#ma2e31288-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
+  <text x="488" y="90" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">1991</text>
+</g>
+<circle cx="488" cy="148" r="6" fill="var(--bg)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="2" />
+<g class="node timeline-event">
+  <rect x="408" y="180" width="160" height="36" rx="8" ry="8" fill="url(#ma2e31288-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
+  <text x="488" y="198" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Python</text>
+</g>
+<g class="node timeline-period" data-label="1995">
+  <rect x="592" y="72" width="160" height="36" rx="8" ry="8" fill="url(#ma2e31288-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
+  <text x="672" y="90" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">1995</text>
+</g>
+<circle cx="672" cy="148" r="6" fill="var(--bg)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="2" />
+<g class="node timeline-event">
+  <rect x="592" y="180" width="160" height="36" rx="8" ry="8" fill="url(#ma2e31288-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
+  <text x="672" y="198" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Java</text>
+</g>
+<g class="node timeline-event">
+  <rect x="592" y="224" width="160" height="36" rx="8" ry="8" fill="url(#ma2e31288-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
+  <text x="672" y="242" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">JavaScript</text>
+</g>
+<g class="node timeline-event">
+  <rect x="592" y="268" width="160" height="36" rx="8" ry="8" fill="url(#ma2e31288-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
+  <text x="672" y="286" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Ruby</text>
+</g>
+<g class="node timeline-period" data-label="2009">
+  <rect x="776" y="72" width="160" height="36" rx="8" ry="8" fill="url(#ma2e31288-ng-p5)" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" />
+  <text x="856" y="90" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">2009</text>
+</g>
+<circle cx="856" cy="148" r="6" fill="var(--bg)" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="2" />
+<g class="node timeline-event">
+  <rect x="776" y="180" width="160" height="36" rx="8" ry="8" fill="url(#ma2e31288-ng-p5)" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" />
+  <text x="856" y="198" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Go</text>
+</g>
+<g class="node timeline-period" data-label="2015">
+  <rect x="960" y="72" width="160" height="36" rx="8" ry="8" fill="url(#ma2e31288-ng-p6)" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1040" y="90" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">2015</text>
+</g>
+<circle cx="1040" cy="148" r="6" fill="var(--bg)" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="2" />
+<g class="node timeline-event">
+  <rect x="960" y="180" width="160" height="36" rx="8" ry="8" fill="url(#ma2e31288-ng-p6)" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1040" y="198" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Rust</text>
+</g>
+<g class="node timeline-period" data-label="2016">
+  <rect x="1144" y="72" width="160" height="36" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1224" y="90" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">2016</text>
+</g>
+<circle cx="1224" cy="148" r="6" fill="var(--bg)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="2" />
+<g class="node timeline-event">
+  <rect x="1144" y="180" width="160" height="36" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1224" y="198" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">.NET Core</text>
+</g>
 <defs>
-  <marker id="timeline-arrow" refX="6" refY="3" markerWidth="8" markerHeight="6" orient="auto">
-    <path d="M 0,0 V 6 L8,3 Z" fill="var(--_line)" />
-  </marker>
+  <linearGradient id="ma2e31288-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="ma2e31288-ng-p1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="ma2e31288-ng-p2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #76b7b2 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #76b7b2 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="ma2e31288-ng-p3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #b07aa1 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #b07aa1 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="ma2e31288-ng-p4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #9c755f 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #9c755f 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="ma2e31288-ng-p5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #bab0ac 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #bab0ac 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="ma2e31288-ng-p6" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #86bcb6 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #86bcb6 7%, var(--bg))" /></linearGradient>
 </defs>
-
-<text x="742" y="28" text-anchor="middle" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)">Programming Language Milestones</text>
-<line x1="130" y1="88" x2="130" y2="258" stroke="color-mix(in srgb, #4e79a7 45%, var(--bg))" stroke-width="1.5" stroke-dasharray="4 4" />
-<line x1="334" y1="88" x2="334" y2="258" stroke="color-mix(in srgb, #f28e2b 45%, var(--bg))" stroke-width="1.5" stroke-dasharray="4 4" />
-<line x1="538" y1="88" x2="538" y2="258" stroke="color-mix(in srgb, #76b7b2 45%, var(--bg))" stroke-width="1.5" stroke-dasharray="4 4" />
-<line x1="742" y1="88" x2="742" y2="258" stroke="color-mix(in srgb, #b07aa1 45%, var(--bg))" stroke-width="1.5" stroke-dasharray="4 4" />
-<line x1="946" y1="88" x2="946" y2="258" stroke="color-mix(in srgb, #9c755f 45%, var(--bg))" stroke-width="1.5" stroke-dasharray="4 4" />
-<line x1="1150" y1="88" x2="1150" y2="258" stroke="color-mix(in srgb, #bab0ac 45%, var(--bg))" stroke-width="1.5" stroke-dasharray="4 4" />
-<line x1="1354" y1="88" x2="1354" y2="258" stroke="color-mix(in srgb, #86bcb6 45%, var(--bg))" stroke-width="1.5" stroke-dasharray="4 4" />
-<line x1="28" y1="116" x2="1476" y2="116" stroke="var(--_line)" stroke-width="3" marker-end="url(#timeline-arrow)" />
-<rect x="40" y="52" width="180" height="36" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-<text x="130" y="70" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">1972</text>
-<circle cx="130" cy="116" r="6" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-<rect x="50" y="142" width="160" height="28" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-<text x="130" y="156" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">C</text>
-<rect x="244" y="52" width="180" height="36" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-<text x="334" y="70" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">1983</text>
-<circle cx="334" cy="116" r="6" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-<rect x="254" y="142" width="160" height="28" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-<text x="334" y="156" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">C++</text>
-<rect x="448" y="52" width="180" height="36" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 22%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
-<text x="538" y="70" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">1991</text>
-<circle cx="538" cy="116" r="6" fill="color-mix(in srgb, #76b7b2 22%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
-<rect x="458" y="142" width="160" height="28" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 11%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
-<text x="538" y="156" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Python</text>
-<rect x="652" y="52" width="180" height="36" rx="8" ry="8" fill="color-mix(in srgb, #b07aa1 22%, var(--bg))" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
-<text x="742" y="70" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">1995</text>
-<circle cx="742" cy="116" r="6" fill="color-mix(in srgb, #b07aa1 22%, var(--bg))" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
-<rect x="662" y="142" width="160" height="28" rx="8" ry="8" fill="color-mix(in srgb, #b07aa1 11%, var(--bg))" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
-<text x="742" y="156" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Java</text>
-<rect x="662" y="176" width="160" height="28" rx="8" ry="8" fill="color-mix(in srgb, #b07aa1 11%, var(--bg))" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
-<text x="742" y="190" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">JavaScript</text>
-<rect x="662" y="210" width="160" height="28" rx="8" ry="8" fill="color-mix(in srgb, #b07aa1 11%, var(--bg))" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
-<text x="742" y="224" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Ruby</text>
-<rect x="856" y="52" width="180" height="36" rx="8" ry="8" fill="color-mix(in srgb, #9c755f 22%, var(--bg))" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
-<text x="946" y="70" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">2009</text>
-<circle cx="946" cy="116" r="6" fill="color-mix(in srgb, #9c755f 22%, var(--bg))" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
-<rect x="866" y="142" width="160" height="28" rx="8" ry="8" fill="color-mix(in srgb, #9c755f 11%, var(--bg))" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
-<text x="946" y="156" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Go</text>
-<rect x="1060" y="52" width="180" height="36" rx="8" ry="8" fill="color-mix(in srgb, #bab0ac 22%, var(--bg))" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" />
-<text x="1150" y="70" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">2015</text>
-<circle cx="1150" cy="116" r="6" fill="color-mix(in srgb, #bab0ac 22%, var(--bg))" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" />
-<rect x="1070" y="142" width="160" height="28" rx="8" ry="8" fill="color-mix(in srgb, #bab0ac 11%, var(--bg))" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" />
-<text x="1150" y="156" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Rust</text>
-<rect x="1264" y="52" width="180" height="36" rx="8" ry="8" fill="color-mix(in srgb, #86bcb6 22%, var(--bg))" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.25" />
-<text x="1354" y="70" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">2016</text>
-<circle cx="1354" cy="116" r="6" fill="color-mix(in srgb, #86bcb6 22%, var(--bg))" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.25" />
-<rect x="1274" y="142" width="160" height="28" rx="8" ry="8" fill="color-mix(in srgb, #86bcb6 11%, var(--bg))" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.25" />
-<text x="1354" y="156" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">.NET Core</text>
 </svg>

@@ -7,15 +7,10 @@ namespace Mermaider.Rendering;
 
 internal static class BlockSvgRenderer
 {
-	private const double BasePad = 24;
-	private const double TitleH = 32;
 	private const double MinCellW = 80;
-	private const double MinCellH = 48;
+	private const double MinCellH = 44;
 	private const double CellPadX = 20;
-	private const double CellPadY = 14;
-	private const double FontSizePx = RenderConstants.FontSizes.NodeLabel;
-	private const string LabelFontSize = RenderConstants.FsVar.M;
-	private const string TitleFontSize = RenderConstants.FsVar.L;
+	private const double CellPadY = 12;
 
 	private readonly record struct Cell(BlockNode Node, double X, double Y, double W, double H, int Row, int Span)
 	{
@@ -42,22 +37,23 @@ internal static class BlockSvgRenderer
 	internal static StringBuilder RenderToBuilder(BlockDiagram diagram, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
+		var ds = DesignSystem.For(context);
 
 		var hasTitle = diagram.Title is { Length: > 0 };
-		var titleOffset = hasTitle ? TitleH : 0;
+		var top = DesignSystem.BoardTop(hasTitle);
 		var columns = Math.Max(1, diagram.Columns);
 		var nodeCount = diagram.Nodes.Count;
+		var basePad = DesignSystem.BoardMargin;
 
 		if (nodeCount == 0)
 		{
-			var emptyW = (BasePad * 2) + MinCellW;
-			var emptyH = titleOffset + (BasePad * 2) + MinCellH;
+			var emptyW = (basePad * 2) + Math.Max(MinCellW, hasTitle ? TitleWidth(diagram.Title!) : 0);
+			var emptyH = top + basePad + MinCellH;
 			StyleBlock.AppendSvgOpenTag(sb, emptyW, emptyH, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
 			StyleBlock.AppendStyleBlock(sb, context.Styles);
-			_ = sb.Append("\n<defs>\n</defs>\n");
 			if (hasTitle)
-				AppendTitle(sb, diagram.Title!, emptyW * 0.5);
-			_ = sb.Append("\n</svg>");
+				ds.AppendTitle(sb, basePad, DesignSystem.BoardTitleCy, diagram.Title!);
+			ds.Close(sb);
 			return sb;
 		}
 
@@ -69,15 +65,17 @@ internal static class BlockSvgRenderer
 		{
 			if (edge.Label is not { Length: > 0 } label)
 				continue;
-			var m = TextMetrics.MeasureMultiline(label.AsSpan(), RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel);
+			var m = TextMetrics.MeasureMultiline(label.AsSpan(), DesignSystem.Px(TypeRole.Caption), 500);
 			maxLabelW = Math.Max(maxLabelW, m.Width);
 			maxLabelH = Math.Max(maxLabelH, m.Height);
 		}
 
-		var gapX = !hasEdges ? 16 : Math.Max(36, maxLabelW > 0 ? ErSvgRenderer.LabelBoxWidth(maxLabelW) + 24 : 0);
+		var gapX = !hasEdges ? 16 : Math.Max(36, maxLabelW > 0 ? DesignSystem.LabelBoxWidth(maxLabelW) + 24 : 0);
 		var gapY = !hasEdges ? 16 : Math.Max(36, maxLabelH > 0 ? maxLabelH + 36 : 0);
-		var pad = hasEdges ? Math.Max(BasePad, (gapX / 2) + 8) : BasePad;
+		var pad = hasEdges ? Math.Max(basePad, (gapX / 2) + 8) : basePad;
 
+		var labelPx = DesignSystem.Px(TypeRole.Label);
+		var labelWeight = ds.Weight(TypeRole.Label);
 		var cellW = MinCellW;
 		var cellH = MinCellH;
 		foreach (var node in diagram.Nodes)
@@ -85,8 +83,8 @@ internal static class BlockSvgRenderer
 			if (node.IsSpace)
 				continue;
 			var span = Math.Min(Math.Max(1, node.Span), columns);
-			var metrics = TextMetrics.MeasureMultiline(
-				node.Label.AsSpan(), FontSizePx, RenderConstants.FontWeights.NodeLabel);
+			// measured at the heaviest label weight so the grid does not depend on the preset
+			var metrics = TextMetrics.MeasureMultiline(node.Label.AsSpan(), labelPx, Math.Max(labelWeight, 600));
 			// a block spanning n columns shares its width with the gaps it covers
 			var w = (metrics.Width + (CellPadX * 2) - ((span - 1) * gapX)) / span;
 			var h = metrics.Height + (CellPadY * 2);
@@ -95,7 +93,8 @@ internal static class BlockSvgRenderer
 		}
 
 		var originX = pad;
-		var originY = titleOffset + pad;
+		// below the title row, with room for a route that runs through the channel above the first row
+		var originY = hasTitle ? Math.Max(top + (hasEdges ? gapY / 2 : 0), pad) : pad;
 		var cells = new List<Cell>(nodeCount);
 		var col = 0;
 		var row = 0;
@@ -126,31 +125,29 @@ internal static class BlockSvgRenderer
 
 		var rows = cells.Max(c => c.Row) + 1;
 		var width = (pad * 2) + (columns * cellW) + ((columns - 1) * gapX);
-		var height = titleOffset + (pad * 2) + (rows * cellH) + ((rows - 1) * gapY);
+		if (hasTitle)
+			width = Math.Max(width, (basePad * 2) + TitleWidth(diagram.Title!));
+		var height = originY + pad + (rows * cellH) + ((rows - 1) * gapY);
 
 		var byId = new Dictionary<string, Cell>(StringComparer.Ordinal);
 		foreach (var c in cells.Where(c => !c.Node.IsSpace))
 			_ = byId.TryAdd(c.Node.Id, c);
 
-		// Same language as the other diagrams: connected blocks share a cluster colour.
+		// Same language as the other diagrams: connected blocks share a cluster family.
 		var palette = ClusterPalette.Build(
 			byId.Values.Select(c => new ClusterBox(c.Node.Id, c.X, c.Y, c.W, c.H)).ToList(),
 			diagram.Edges.Where(e => byId.ContainsKey(e.From) && byId.ContainsKey(e.To)).Select(e => (e.From, e.To)),
 			[],
-			context.Styles.Colors);
+			context.Styles.Colors).WithTint(ds.TintStrength);
 
 		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
 		StyleBlock.AppendStyleBlock(sb, context.Styles);
-		_ = sb.Append("\n<defs>\n");
-		_ = sb.Append("<marker id=\"block-arrow\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\">")
-			.Append("<path d=\"M 0 0 L 10 5 L 0 10 z\" fill=\"var(--_line)\" />")
-			.Append("</marker>\n");
-		_ = sb.Append("</defs>\n");
 
 		if (hasTitle)
-			AppendTitle(sb, diagram.Title!, width * 0.5);
+			ds.AppendTitle(sb, basePad, DesignSystem.BoardTitleCy, diagram.Title!);
 
 		var geometry = new Grid(originX, originY, cellW, cellH, gapX, gapY, rows, columns);
+		var labels = new List<(BlockEdge Edge, Point At)>();
 		foreach (var edge in diagram.Edges)
 		{
 			if (!byId.TryGetValue(edge.From, out var from) || !byId.TryGetValue(edge.To, out var to))
@@ -158,72 +155,68 @@ internal static class BlockSvgRenderer
 			if (edge.From.Equals(edge.To, StringComparison.Ordinal))
 				continue;
 
-			AppendEdge(sb, edge, Simplify(Route(from, to, byId.Values, geometry)), context.EdgeRadius);
+			var points = Simplify(Route(from, to, byId.Values, geometry));
+			AppendEdge(sb, ds, edge, points, context.EdgeRadius);
+			if (edge.Label is { Length: > 0 })
+				labels.Add((edge, VisualLanguage.PathMidpoint(points)));
 		}
 
 		foreach (var cell in cells)
 		{
 			if (!cell.Node.IsSpace)
-				AppendBlock(sb, cell, palette);
+				AppendBlock(sb, ds, cell, palette);
 		}
 
-		_ = sb.Append("\n</svg>");
+		// labels last so a pill is never covered by a block or another edge
+		foreach (var (edge, at) in labels)
+		{
+			_ = sb.Append("\n<g class=\"edge-label\" data-from=\"");
+			MultilineUtils.AppendEscapedAttr(sb, edge.From.AsSpan());
+			_ = sb.Append("\" data-to=\"");
+			MultilineUtils.AppendEscapedAttr(sb, edge.To.AsSpan());
+			_ = sb.Append("\">\n  ");
+			ds.AppendEdgeLabel(sb, at.X, at.Y, edge.Label!);
+			_ = sb.Append("\n</g>");
+		}
+
+		ds.Close(sb);
 		return sb;
 	}
 
-	private static void AppendBlock(StringBuilder sb, Cell cell, ClusterPalette palette)
+	private static double TitleWidth(string title) =>
+		DesignSystem.TitleIndent + TextMetrics.MeasureTextWidth(title, DesignSystem.Px(TypeRole.Title), 700);
+
+	private static void AppendBlock(StringBuilder sb, DesignSystem ds, Cell cell, ClusterPalette palette)
 	{
 		var node = cell.Node;
-		var rx = node.Rounded ? RenderConstants.Radii.Rounded : RenderConstants.Radii.Rectangle;
-		_ = sb.Append("\n<rect x=\"").Append(cell.X.SvgFormat()).Append("\" y=\"").Append(cell.Y.SvgFormat())
-			.Append("\" width=\"").Append(cell.W.SvgFormat()).Append("\" height=\"").Append(cell.H.SvgFormat())
-			.Append("\" rx=\"").Append(rx).Append("\" ry=\"").Append(rx)
-			.Append("\" fill=\"").Append(palette.NodeFill(node.Id)).Append("\" stroke=\"").Append(palette.NodeStroke(node.Id))
-			.Append("\" stroke-width=\"").Append(RenderConstants.StrokeWidths.OuterBox.SvgFormat()).Append("\" />");
-
-		_ = sb.Append("\n<text x=\"").Append(cell.Cx.SvgFormat()).Append("\" y=\"").Append(cell.Cy.SvgFormat())
-			.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
-			.Append("\" font-size=\"").Append(LabelFontSize)
-			.Append("\" font-weight=\"").Append(RenderConstants.FontWeights.NodeLabel)
-			.Append("\" fill=\"var(--_text)\">");
-		MultilineUtils.AppendEscapedXml(sb, node.Label.AsSpan());
-		_ = sb.Append("</text>");
-	}
-
-	private static void AppendTitle(StringBuilder sb, string title, double centerX)
-	{
-		_ = sb.Append("\n<text x=\"").Append(centerX.SvgFormat()).Append("\" y=\"22\" text-anchor=\"middle\" font-size=\"")
-			.Append(TitleFontSize).Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
-		MultilineUtils.AppendEscapedXml(sb, title.AsSpan());
-		_ = sb.Append("</text>");
+		var family = palette.Family(node.Id);
+		var radius = node.Rounded ? Math.Min(ds.Spec.NodeRadius + 6, cell.H / 2) : ds.Spec.NodeRadius;
+		_ = sb.Append("\n<g class=\"node\" data-id=\"");
+		MultilineUtils.AppendEscapedAttr(sb, node.Id.AsSpan());
+		_ = sb.Append("\" data-label=\"");
+		MultilineUtils.AppendEscapedAttr(sb, node.Label.AsSpan());
+		_ = sb.Append("\" data-shape=\"").Append(node.Rounded ? "rounded" : "rectangle").Append("\">\n  ");
+		ds.AppendBox(sb, cell.X, cell.Y, cell.W, cell.H, family, radius);
+		_ = sb.Append("\n  ");
+		ds.AppendText(sb, node.Label, cell.Cx, cell.Cy, TypeRole.Label);
+		_ = sb.Append("\n</g>");
 	}
 
 	private readonly record struct Grid(double OriginX, double OriginY, double CellW, double CellH, double GapX, double GapY, int Rows, int Columns);
 
-	private static void AppendEdge(StringBuilder sb, BlockEdge edge, List<Point> points, double cornerRadius)
+	private static void AppendEdge(StringBuilder sb, DesignSystem ds, BlockEdge edge, List<Point> points, double cornerRadius)
 	{
-		_ = sb.Append("\n<path class=\"block-edge\" d=\"");
+		_ = sb.Append("\n<path class=\"block-edge\" data-from=\"");
+		MultilineUtils.AppendEscapedAttr(sb, edge.From.AsSpan());
+		_ = sb.Append("\" data-to=\"");
+		MultilineUtils.AppendEscapedAttr(sb, edge.To.AsSpan());
+		_ = sb.Append("\" d=\"");
 		if (SvgRenderer.IsOrthogonal(points))
 			SvgRenderer.BuildOrthogonalPath(sb, points, cornerRadius);
 		else
 			SvgRenderer.BuildRoundedPath(sb, points, cornerRadius);
-		_ = sb.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"")
-			.Append(RenderConstants.StrokeWidths.Connector.SvgFormat())
-			.Append("\" marker-end=\"url(#block-arrow)\" />");
-
-		if (edge.Label is not { Length: > 0 } label)
-			return;
-
-		var pos = VisualLanguage.PathMidpoint(points);
-		var metrics = TextMetrics.MeasureMultiline(label.AsSpan(), RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel);
-		_ = sb.Append('\n');
-		VisualLanguage.AppendLabelPill(sb, pos.X, pos.Y, metrics.Width, metrics.Height);
-		_ = sb.Append("\n<text x=\"").Append(pos.X.SvgFormat()).Append("\" y=\"").Append(pos.Y.SvgFormat())
-			.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
-			.Append("\" font-size=\"").Append(RenderConstants.FsVar.S)
-			.Append("\" fill=\"var(--_text)\">");
-		MultilineUtils.AppendEscapedXml(sb, label.AsSpan());
-		_ = sb.Append("</text>");
+		_ = sb.Append("\" fill=\"none\" stroke=\"").Append(DesignSystem.EdgeColor).Append("\" stroke-width=\"").Append(ds.EdgeWidth)
+			.Append("\" marker-end=\"").Append(ds.Marker(MarkerShape.Arrow)).Append("\" />");
 	}
 
 	/// <summary>

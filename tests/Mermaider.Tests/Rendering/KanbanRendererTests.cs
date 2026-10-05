@@ -79,8 +79,9 @@ public class KanbanRendererTests
 		svg.Should().Contain("Create parsing tests");
 		svg.Should().Contain("MC-2038");
 		svg.Should().Contain("K.Sveidqvist");
-		// Priority is rendered as a colored left border, not as text
-		svg.Should().Contain(Mermaider.Theming.Themes.Default.RoleColor(Mermaider.Theming.ColorRole.Warning)); // High priority is the warning role colour
+		// Priority is a role dot plus the word, never colour alone
+		svg.Should().Contain(Theming.Themes.Default.RoleColor(Theming.ColorRole.Warning)); // High priority is the warning role
+		svg.Should().Contain(">High</text>");
 	}
 
 	[Test]
@@ -115,7 +116,8 @@ public class KanbanRendererTests
 		var svg = MermaidRenderer.RenderSvg(FullBoard);
 
 		svg.Should().Contain("fill=\"var(--_text)\"");
-		// Columns are tinted groups of their own colour, not a neutral header band
-		svg.Should().Contain($"fill=\"{Mermaider.Rendering.VisualLanguage.GroupFill(Mermaider.Theming.Themes.Default.AutoPaletteAt(0), 0)}\"");
+		// Columns are the shared container in their own family (p1, p2 …), not a neutral header band
+		svg.Should().Contain("<g class=\"kanban-column\"");
+		svg.Should().Contain($"fill=\"{DesignContract.Band(DesignContract.Cluster(1))}\"", "the header strip is the column family band");
 	}
 }
