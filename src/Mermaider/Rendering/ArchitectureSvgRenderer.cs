@@ -1,5 +1,6 @@
 using System.Text;
 using Mermaider.Icons;
+using Mermaider.Layout;
 using Mermaider.Models;
 using Mermaider.Text;
 using Mermaider.Theming;
@@ -9,8 +10,6 @@ namespace Mermaider.Rendering;
 /// <summary>Renders a <see cref="PositionedArchitectureDiagram"/> to SVG via pooled StringBuilder.</summary>
 internal static class ArchitectureSvgRenderer
 {
-	private static readonly string ServiceLabelAttrs = RenderConstants.TextAttrs.NodeLabelCenterFill + "var(--_text)\"";
-
 	internal static string Render(PositionedArchitectureDiagram diagram, SvgRenderContext context)
 	{
 		var sb = RenderToBuilder(diagram, context);
@@ -30,10 +29,10 @@ internal static class ArchitectureSvgRenderer
 		var sb = SharedStringBuilderPool.Instance.Get();
 		StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
 		StyleBlock.AppendStyleBlock(sb, context.Styles);
-		AppendMarkerDefs(sb);
+		var ds = DesignSystem.For(context);
 
-		// Same language as the other diagrams: connected services (and the services sharing a group) share a cluster colour;
-		// groups are tinted boxes whose nesting follows their geometry, titles in the border colour.
+		// Same language as the other diagrams: connected services (and the services sharing a group) share a cluster family;
+		// groups are the shared container, nesting follows their geometry.
 		var groupTree = BuildGroupTree(diagram.Groups);
 		// junctions are members too, so services joined through one share a colour
 		var members = diagram.Services.Select(sv => new ClusterBox(sv.Id, sv.X, sv.Y, sv.Width, sv.Height))
@@ -44,186 +43,137 @@ internal static class ArchitectureSvgRenderer
 			members,
 			diagram.Edges.Where(e => memberIds.Contains(e.SourceId) && memberIds.Contains(e.TargetId)).Select(e => (e.SourceId, e.TargetId)),
 			groupTree.Roots,
-			context.Styles.Colors);
+			context.Styles.Colors).WithTint(ds.TintStrength);
 
-		foreach (var group in diagram.Groups.OrderBy(g => groupTree.Depth[g.Id]))
-			AppendGroup(sb, group, palette, groupTree.Depth[group.Id]);
+		var ordered = diagram.Groups.OrderBy(g => groupTree.Depth[g.Id]).ToList();
+		foreach (var group in ordered)
+			AppendGroupBody(sb, ds, group, palette.GroupFamily(group.Id), groupTree.Depth[group.Id]);
 
+		var serviceIds = diagram.Services.Select(sv => sv.Id).ToHashSet(StringComparer.Ordinal);
 		foreach (var edge in diagram.Edges)
-			AppendEdge(sb, edge, context.EdgeRadius);
+			AppendEdge(sb, ds, edge, context.EdgeRadius, serviceIds);
+
+		foreach (var group in ordered)
+			AppendGroupHeader(sb, ds, group, palette.GroupFamily(group.Id));
 
 		foreach (var service in diagram.Services)
-			AppendService(sb, service, palette, diagram.Edges);
+			AppendService(sb, ds, service, palette.Family(service.Id));
 
 		foreach (var junction in diagram.Junctions)
 			AppendJunction(sb, junction);
 
-		_ = sb.Append("\n</svg>");
+		ds.Close(sb);
 		return sb;
 	}
 
-	private static void AppendMarkerDefs(StringBuilder sb)
+	private static void AppendGroupBody(StringBuilder sb, DesignSystem ds, PositionedArchitectureGroup group, ColorFamily family, int depth)
 	{
-		var s = RenderConstants.ArrowHead.Size;
-		var h = s / 2.0;
-
-		_ = sb.Append("\n<defs>\n");
-		_ = sb.Append("  <marker id=\"arch-arrow-end\" markerUnits=\"userSpaceOnUse\" markerWidth=\"").Append(s)
-			.Append("\" markerHeight=\"").Append(s)
-			.Append("\" refX=\"").Append(s)
-			.Append("\" refY=\"").Append(h)
-			.Append("\" orient=\"auto\">\n");
-		_ = sb.Append("    <polygon points=\"0 0, ").Append(s).Append(' ').Append(h)
-			.Append(", 0 ").Append(s)
-			.Append("\" fill=\"var(--_line)\" />\n");
-		_ = sb.Append("  </marker>\n");
-
-		_ = sb.Append("  <marker id=\"arch-arrow-start\" markerUnits=\"userSpaceOnUse\" markerWidth=\"").Append(s)
-			.Append("\" markerHeight=\"").Append(s)
-			.Append("\" refX=\"0\" refY=\"").Append(h)
-			.Append("\" orient=\"auto\">\n");
-		_ = sb.Append("    <polygon points=\"").Append(s).Append(" 0, 0 ").Append(h)
-			.Append(", ").Append(s).Append(' ').Append(s)
-			.Append("\" fill=\"var(--_line)\" />\n");
-		_ = sb.Append("  </marker>\n");
-		_ = sb.Append("</defs>\n");
+		var attrs = new StringBuilder("data-id=\"");
+		MultilineUtils.AppendEscapedAttr(attrs, group.Id.AsSpan());
+		_ = attrs.Append('"');
+		ds.AppendContainerBody(sb, group.X, group.Y, group.Width, group.Height, family, depth, "architecture-group", attrs.ToString());
 	}
 
-	private const double GroupIconSize = 20;
-	private const double GroupIconInset = 12;
-
-	private static void AppendGroup(StringBuilder sb, PositionedArchitectureGroup group, ClusterPalette palette, int depth)
+	private static void AppendGroupHeader(StringBuilder sb, DesignSystem ds, PositionedArchitectureGroup group, ColorFamily family)
 	{
-		var r = RenderConstants.Radii.Group;
-		_ = sb.Append("\n<g class=\"architecture-group\" data-id=\"");
+		_ = sb.Append("\n<g class=\"architecture-group-title\" data-id=\"");
 		MultilineUtils.AppendEscapedAttr(sb, group.Id.AsSpan());
-		_ = sb.Append("\">\n");
-
-		var stroke = palette.GroupStroke(group.Id);
-		_ = sb.Append("  <rect x=\"").Append(group.X).Append("\" y=\"").Append(group.Y)
-			.Append("\" width=\"").Append(group.Width).Append("\" height=\"").Append(group.Height)
-			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"").Append(palette.GroupFill(group.Id, depth)).Append("\" stroke=\"").Append(stroke)
-			.Append("\" stroke-width=\"").Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n  ");
-
-		var titleX = group.X + RenderConstants.GroupHeaderContentPad + 8;
-		var titleY = group.Y + 20;
-
+		_ = sb.Append("\">");
 		if (group.Icon is { Length: > 0 } icon)
 		{
-			var iconX = group.X + GroupIconInset;
-			var iconY = group.Y + GroupIconInset;
-
-			// Vendor icons are glyph-only (white on transparent) — without a badge behind them
-			// they'd be nearly invisible against the light group card. Give them the same small
-			// gradient badge treatment as service boxes; default-pack icons (already colored,
-			// no gradient entry) render as before, directly on the card.
-			if (IconRegistry.TryGetBadgeGradient(icon, out var gradient))
-			{
-				var gradientId = $"arch-grad-{SanitizeId(group.Id)}";
-				_ = sb.Append("  <defs><linearGradient id=\"").Append(gradientId)
-					.Append("\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"")
-					.Append(gradient.Light).Append("\"/><stop offset=\"1\" stop-color=\"")
-					.Append(gradient.Dark).Append("\"/></linearGradient></defs>\n  ");
-				_ = sb.Append("<rect x=\"").Append(iconX).Append("\" y=\"").Append(iconY)
-					.Append("\" width=\"").Append(GroupIconSize).Append("\" height=\"").Append(GroupIconSize)
-					.Append("\" rx=\"4\" ry=\"4\" fill=\"url(#").Append(gradientId).Append(")\" />\n  ");
-			}
-
-			AppendIcon(sb, icon, iconX, iconY, GroupIconSize, GroupIconSize);
-			titleX = iconX + GroupIconSize + 8;
-			titleY = iconY + (GroupIconSize / 2);
+			ds.AppendContainerHeaderWithIcon(sb, group.X, group.Y, group.Title, family,
+				(b, cx, cy) => AppendIcon(b, ds, icon, cx, cy, DesignSystem.HeaderIconSize, family.Ink));
 		}
-
-		MultilineUtils.AppendMultilineText(
-			sb, group.Title,
-			titleX, titleY,
-			RenderConstants.FontSizes.GroupHeader,
-			RenderConstants.TextAttrs.GroupHeaderFill + stroke + "\"");
+		else
+		{
+			ds.AppendContainerHeader(sb, group.X, group.Y, group.Width, group.Title, family);
+		}
 
 		_ = sb.Append("\n</g>");
 	}
 
-	private static void AppendService(StringBuilder sb, PositionedArchitectureService service, ClusterPalette palette, IReadOnlyList<PositionedArchitectureEdge> edges)
+	/// <summary>Icon centre, from the top of a service card.</summary>
+	private const double IconCenterY = 32;
+
+	/// <summary>Icon slot of a service card.</summary>
+	private const double ServiceIconSize = 26;
+
+	private static void AppendService(StringBuilder sb, DesignSystem ds, PositionedArchitectureService service, ColorFamily family)
 	{
-		var r = RenderConstants.Radii.Rounded;
 		_ = sb.Append("\n<g class=\"architecture-service\" data-id=\"");
 		MultilineUtils.AppendEscapedAttr(sb, service.Id.AsSpan());
 		_ = sb.Append("\" data-icon=\"");
 		MultilineUtils.AppendEscapedAttr(sb, service.Icon.AsSpan());
-		_ = sb.Append("\">\n");
+		_ = sb.Append("\">\n  ");
 
-		// Built-in vendor icons (aws:*, azure:*, gcp:*, elastic:*) paint the whole box with a
-		// gradient — not just the icon glyph — mirroring how those vendors present their own
-		// service icons. Default-pack icons and custom-registered icons render inside the plain
-		// themed node box (fill/stroke unchanged), same as before.
-		if (IconRegistry.TryGetBadgeGradient(service.Icon, out var gradient))
+		// an icon card on the node recipe: the card is the family, vendor / custom artwork keeps its own colours
+		ds.AppendBox(sb, service.X, service.Y, service.Width, service.Height, family, ds.Spec.NodeRadius + 4);
+		_ = sb.Append("\n  ");
+		var cx = service.X + (service.Width / 2);
+		AppendIcon(sb, ds, service.Icon, cx, service.Y + IconCenterY, ServiceIconSize, family.Ink);
+		_ = sb.Append("\n  ");
+
+		var lines = DesignSystem.WrapWords(service.Title, service.Width - (2 * ArchitectureLayout.ServiceTextPad),
+			DesignSystem.Px(TypeRole.Label), ds.Weight(TypeRole.Label));
+		var label = string.Join('\n', lines);
+		ds.AppendText(sb, label, cx, service.Y + (lines.Count > 1 ? 70 : 72), TypeRole.Label);
+		_ = sb.Append("\n</g>");
+	}
+
+	/// <summary>Mermaid's default pictograms, drawn as line glyphs in the family ink (unless a custom icon overrides the name).</summary>
+	private static DesignSystem.Glyph? BuiltInGlyph(string iconName)
+	{
+		var name = string.IsNullOrWhiteSpace(iconName) || !IconRegistry.TryGet(iconName, out _) ? IconRegistry.FallbackName : iconName.ToLowerInvariant();
+		DesignSystem.Glyph? glyph = name switch
 		{
-			var gradientId = $"arch-grad-{SanitizeId(service.Id)}";
-			_ = sb.Append("  <defs><linearGradient id=\"").Append(gradientId)
-				.Append("\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"")
-				.Append(gradient.Light).Append("\"/><stop offset=\"1\" stop-color=\"")
-				.Append(gradient.Dark).Append("\"/></linearGradient></defs>\n");
-
-			_ = sb.Append("  <rect x=\"").Append(service.X).Append("\" y=\"").Append(service.Y)
-				.Append("\" width=\"").Append(service.Width).Append("\" height=\"").Append(service.Height)
-				.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-				.Append("\" fill=\"url(#").Append(gradientId).Append(")\" />\n");
-		}
-		else
-		{
-			_ = sb.Append("  <rect x=\"").Append(service.X).Append("\" y=\"").Append(service.Y)
-				.Append("\" width=\"").Append(service.Width).Append("\" height=\"").Append(service.Height)
-				.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-				.Append("\" fill=\"").Append(palette.NodeFill(service.Id)).Append("\" stroke=\"").Append(palette.NodeStroke(service.Id))
-				.Append("\" stroke-width=\"").Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
-		}
-
-		var iconSize = Math.Min(service.Width, service.Height) * 0.55;
-		AppendIcon(
-			sb, service.Icon,
-			service.X + ((service.Width - iconSize) / 2),
-			service.Y + ((service.Height - iconSize) / 2),
-			iconSize, iconSize);
-
-		// a line passing through the title gets a background so the text stays readable
-		var labelMetrics = TextMetrics.MeasureMultiline(service.Title.AsSpan(), RenderConstants.FontSizes.NodeLabel, RenderConstants.FontWeights.NodeLabel);
-		var labelCx = service.X + (service.Width / 2);
-		var labelCy = service.Y + service.Height + 16;
-		if (edges.Any(e => CrossesBox(e.Points, labelCx - (labelMetrics.Width / 2) - 3, labelCy - (labelMetrics.Height / 2), labelMetrics.Width + 6, labelMetrics.Height)))
-		{
-			_ = sb.Append("  <rect x=\"").Append(labelCx - (labelMetrics.Width / 2) - 3).Append("\" y=\"").Append(labelCy - (labelMetrics.Height / 2))
-				.Append("\" width=\"").Append(labelMetrics.Width + 6).Append("\" height=\"").Append(labelMetrics.Height)
-				.Append("\" rx=\"4\" fill=\"var(--bg)\" />\n");
-		}
-
-		_ = sb.Append("  ");
-		MultilineUtils.AppendMultilineText(
-			sb, service.Title,
-			labelCx, labelCy,
-			RenderConstants.FontSizes.NodeLabel,
-			ServiceLabelAttrs);
-		_ = sb.Append('\n');
-
-		_ = sb.Append("</g>");
+			"cloud" => DesignSystem.Glyph.Cloud,
+			"database" => DesignSystem.Glyph.Database,
+			"disk" => DesignSystem.Glyph.Disk,
+			"server" => DesignSystem.Glyph.Server,
+			"internet" => DesignSystem.Glyph.Internet,
+			"generic" => DesignSystem.Glyph.Generic,
+			_ => null,
+		};
+		if (glyph is null)
+			return null;
+		// a user registration under a default name wins over the built-in glyph
+		return IconRegistry.Resolve(name) == BuiltInIcons.Map[name] ? glyph : null;
 	}
 
 	/// <summary>
-	/// Embeds the resolved icon as a base64 data URI on an &lt;image&gt;. This is the one
-	/// narrow case the SVG sanitizer allows an href through (see <see cref="SvgSanitizer"/>) —
-	/// the icon markup itself was already validated/sanitized when it entered the
-	/// <see cref="IconRegistry"/>, so the payload is guaranteed clean.
+	/// Draws the icon centred at (<paramref name="cx"/>, <paramref name="cy"/>) in a <paramref name="size"/> slot: default
+	/// pictograms as family-ink glyphs, vendor glyphs on their own gradient badge, anything else as the registered artwork.
+	/// Artwork is embedded as a base64 data URI on an &lt;image&gt;, the one narrow case the SVG sanitizer allows an href
+	/// through (see <see cref="SvgSanitizer"/>); the markup was sanitized when it entered the <see cref="IconRegistry"/>.
 	/// </summary>
-	private static void AppendIcon(StringBuilder sb, string iconName, double x, double y, double width, double height)
+	private static void AppendIcon(StringBuilder sb, DesignSystem ds, string iconName, double cx, double cy, double size, string ink)
 	{
+		if (BuiltInGlyph(iconName) is { } glyph)
+		{
+			DesignSystem.AppendGlyph(sb, glyph, cx, cy, ink, size / 22);
+			return;
+		}
+
+		var inner = size;
+		if (IconRegistry.TryGetBadgeGradient(iconName, out var gradient))
+		{
+			// vendor glyphs are white on transparent: they sit on a small badge in the vendor's own colours
+			var fill = ds.DiagonalGradient("vi-" + SanitizeId(iconName.ToLowerInvariant()), gradient.Light, gradient.Dark);
+			_ = sb.Append("<rect x=\"").Append(cx - (size / 2)).Append("\" y=\"").Append(cy - (size / 2))
+				.Append("\" width=\"").Append(size).Append("\" height=\"").Append(size)
+				.Append("\" rx=\"").Append(DesignSystem.Num(size / 4)).Append("\" ry=\"").Append(DesignSystem.Num(size / 4))
+				.Append("\" fill=\"").Append(fill).Append("\" />");
+			inner = size * 0.7;
+		}
+
 		var svg = IconRegistry.Resolve(iconName);
 		var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(svg));
-		_ = sb.Append("  <image x=\"").Append(x).Append("\" y=\"").Append(y)
-			.Append("\" width=\"").Append(width).Append("\" height=\"").Append(height)
-			.Append("\" href=\"data:image/svg+xml;base64,").Append(base64).Append("\" />\n");
+		_ = sb.Append("<image x=\"").Append(cx - (inner / 2)).Append("\" y=\"").Append(cy - (inner / 2))
+			.Append("\" width=\"").Append(inner).Append("\" height=\"").Append(inner)
+			.Append("\" href=\"data:image/svg+xml;base64,").Append(base64).Append("\" />");
 	}
 
-	/// <summary>Strips anything unsafe for an XML <c>id</c> attribute value, keeping gradient ids collision-free per service.</summary>
+	/// <summary>Strips anything unsafe for an XML <c>id</c> attribute value.</summary>
 	private static string SanitizeId(string id)
 	{
 		var buffer = new char[id.Length];
@@ -240,10 +190,10 @@ internal static class ArchitectureSvgRenderer
 		_ = sb.Append("\n<circle class=\"architecture-junction\" data-id=\"");
 		MultilineUtils.AppendEscapedAttr(sb, junction.Id.AsSpan());
 		_ = sb.Append("\" cx=\"").Append(junction.X + 6).Append("\" cy=\"").Append(junction.Y + 6)
-			.Append("\" r=\"3\" fill=\"var(--_line)\" />");
+			.Append("\" r=\"3.5\" fill=\"").Append(DesignSystem.EdgeColor).Append("\" />");
 	}
 
-	private static void AppendEdge(StringBuilder sb, PositionedArchitectureEdge edge, double cornerRadius)
+	private static void AppendEdge(StringBuilder sb, DesignSystem ds, PositionedArchitectureEdge edge, double cornerRadius, HashSet<string> serviceIds)
 	{
 		if (edge.Points.Count < 2)
 			return;
@@ -257,16 +207,26 @@ internal static class ArchitectureSvgRenderer
 			SvgRenderer.BuildOrthogonalPath(sb, edge.Points, cornerRadius);
 		else
 			SvgRenderer.BuildRoundedPath(sb, edge.Points, cornerRadius);
-		_ = sb.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"")
-			.Append(RenderConstants.StrokeWidths.Connector).Append('"');
+		_ = sb.Append("\" fill=\"none\" stroke=\"").Append(DesignSystem.EdgeColor).Append("\" stroke-width=\"").Append(ds.EdgeWidth).Append('"');
 
 		if (edge.SourceArrow)
-			_ = sb.Append(" marker-start=\"url(#arch-arrow-start)\"");
+			_ = sb.Append(" marker-start=\"").Append(ds.Marker(MarkerShape.Arrow, atStart: true)).Append('"');
 		if (edge.TargetArrow)
-			_ = sb.Append(" marker-end=\"url(#arch-arrow-end)\"");
+			_ = sb.Append(" marker-end=\"").Append(ds.Marker(MarkerShape.Arrow)).Append('"');
 
 		_ = sb.Append(" />");
+
+		// a plain end on a service is a small port, so the connection reads as attached to the card's side
+		if (!edge.SourceArrow && serviceIds.Contains(edge.SourceId))
+			AppendPort(sb, ds, edge.Points[0]);
+		if (!edge.TargetArrow && serviceIds.Contains(edge.TargetId))
+			AppendPort(sb, ds, edge.Points[^1]);
 	}
+
+	private static void AppendPort(StringBuilder sb, DesignSystem ds, Point p) =>
+		sb.Append("\n<circle class=\"architecture-port\" cx=\"").Append(p.X).Append("\" cy=\"").Append(p.Y)
+			.Append("\" r=\"3\" fill=\"var(--bg)\" stroke=\"").Append(DesignSystem.EdgeColor)
+			.Append("\" stroke-width=\"").Append(ds.EdgeWidth).Append("\" />");
 
 	private sealed record GroupTree(IReadOnlyList<ClusterGroup> Roots, Dictionary<string, int> Depth);
 
@@ -298,20 +258,5 @@ internal static class ArchitectureSvgRenderer
 
 		var roots = groups.Where(g => parent[g.Id] is null).Select(Build).ToList();
 		return new GroupTree(roots, depth);
-	}
-
-	private static bool CrossesBox(IReadOnlyList<Point> points, double x, double y, double w, double h)
-	{
-		for (var i = 1; i < points.Count; i++)
-		{
-			var minX = Math.Min(points[i - 1].X, points[i].X);
-			var maxX = Math.Max(points[i - 1].X, points[i].X);
-			var minY = Math.Min(points[i - 1].Y, points[i].Y);
-			var maxY = Math.Max(points[i - 1].Y, points[i].Y);
-			if (maxX >= x && minX <= x + w && maxY >= y && minY <= y + h)
-				return true;
-		}
-
-		return false;
 	}
 }

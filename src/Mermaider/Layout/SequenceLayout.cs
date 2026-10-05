@@ -26,6 +26,7 @@ internal static class SequenceLayout
 	private const double NoteGap = 10;
 	private const double NoteFontSize = 14;
 	private const double NestingOffset = 4;
+	private const double BoxHeaderRoom = 16;
 
 	internal static PositionedSequenceDiagram Layout(SequenceDiagram diagram)
 	{
@@ -49,8 +50,11 @@ internal static class SequenceLayout
 		{
 			var textW = TextMetrics.MeasureTextWidth(
 				diagram.Actors[i].Label,
-				RenderConstants.FontSizes.NodeLabel,
+				DesignSystem.Px(TypeRole.Label),
 				RenderConstants.FontWeights.NodeLabel);
+			// an actor carries a person glyph in front of its name
+			if (diagram.Actors[i].Type == SequenceActorType.Actor)
+				textW += SequenceSvgRenderer.GlyphWidth;
 			actorWidths[i] = Math.Max(textW + (ActorPadX * 2), 80);
 		}
 
@@ -70,7 +74,8 @@ internal static class SequenceLayout
 		for (var i = 0; i < diagram.Actors.Count; i++)
 			actorIndex[diagram.Actors[i].Id] = i;
 
-		var actorY = Padding;
+		// boxes put a header strip above the participants
+		var actorY = Padding + (diagram.Boxes.Count > 0 ? BoxHeaderRoom : 0);
 		var actors = new PositionedSequenceActor[diagram.Actors.Count];
 		for (var i = 0; i < diagram.Actors.Count; i++)
 		{
@@ -238,6 +243,20 @@ internal static class SequenceLayout
 			var blockLeft = actorCenterX[minIdx] - (actorWidths[minIdx] / 2);
 			var blockRight = actorCenterX[maxIdx] + (actorWidths[maxIdx] / 2);
 
+			// a frame is at least as wide as its keyword tab plus its condition (and every separator's condition)
+			var tagPx = DesignSystem.Px(TypeRole.Tag);
+			var keyword = block.Type.ToString().ToUpperInvariant();
+			var minWidth = TextMetrics.MeasureTextWidth(keyword, tagPx, 600) + keyword.Length + 20 + 24;
+			if (block.Label.Length > 0)
+				minWidth += TextMetrics.MeasureTextWidth("[" + block.Label + "]", tagPx, 600) + 10;
+			foreach (var d in block.Dividers)
+			{
+				if (d.Label.Length > 0)
+					minWidth = Math.Max(minWidth, TextMetrics.MeasureTextWidth("[" + d.Label + "]", tagPx, 600) + 24);
+			}
+
+			blockRight = Math.Max(blockRight, blockLeft + minWidth);
+
 			var dividers = new List<PositionedBlockDivider>(block.Dividers.Count);
 			foreach (var d in block.Dividers)
 			{
@@ -292,7 +311,8 @@ internal static class SequenceLayout
 					_ = actorIndex.TryGetValue(note.ActorIds[^1], out var lastActorIdx);
 					var spanLeft = actorCenterX[firstActorIdx] - (actorWidths[firstActorIdx] / 2);
 					var spanRight = actorCenterX[lastActorIdx] + (actorWidths[lastActorIdx] / 2);
-					noteW = Math.Max(noteW, spanRight - spanLeft + (NoteHPad * 2));
+					// a spanning note stays inside the frame that wraps the same participants
+					noteW = Math.Max(noteW, spanRight - spanLeft - (NoteHPad * 2));
 					noteX = ((spanLeft + spanRight) / 2) - (noteW / 2);
 				}
 				else
@@ -392,7 +412,8 @@ internal static class SequenceLayout
 		{
 			var aid = diagram.Actors[i].Id;
 			var topY = actors[i].Y + ActorHeight;
-			var bottomY = diagramBottom - Padding;
+			// the lifeline ends at the ghost chip mirrored at the bottom
+			var bottomY = diagramBottom - Padding - ActorHeight;
 
 			if (destroyedAt.TryGetValue(aid, out var dIdx) && dIdx < messages.Count)
 			{
@@ -406,7 +427,7 @@ internal static class SequenceLayout
 		var positionedBoxes = new List<PositionedSequenceBox>(diagram.Boxes.Count);
 		const double boxPadX = 8;
 		const double boxPadY = 6;
-		const double boxHeaderHeight = 20;
+		const double boxHeaderHeight = DesignSystem.StripHeight;
 		var boxRight = 0.0;
 		foreach (var box in diagram.Boxes)
 		{
@@ -429,7 +450,7 @@ internal static class SequenceLayout
 			var boxW = maxX - minX + (boxPadX * 2);
 			if (box.Title.Length > 0)
 			{
-				var titleW = TextMetrics.MeasureTextWidth(box.Title, RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.GroupHeader) + 40;
+				var titleW = TextMetrics.MeasureTextWidth(box.Title, DesignSystem.Px(TypeRole.Subheading), 600) + 40;
 				if (titleW > boxW)
 				{
 					boxX = Math.Max(Padding / 2, boxX - ((titleW - boxW) / 2));
@@ -445,7 +466,7 @@ internal static class SequenceLayout
 				X = boxX,
 				Y = actorY - boxHeaderHeight - boxPadY,
 				Width = boxW,
-				Height = diagramBottom - actorY + boxHeaderHeight + (boxPadY * 2),
+				Height = diagramBottom - Padding - actorY + boxHeaderHeight + (boxPadY * 2),
 			});
 		}
 
