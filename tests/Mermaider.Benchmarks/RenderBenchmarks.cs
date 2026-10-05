@@ -144,7 +144,7 @@ public class PhaseBenchmarks
 	private static readonly PositionedGraph MsaglLayoutResult = MsaglProvider.LayoutFlowchart(ParsedGraph);
 	private static readonly DiagramColors Colors = new() { Bg = "#FFFFFF", Fg = "#27272A" };
 	private static readonly SvgRenderContext RenderContext = new(
-		new NormalizedRenderStyles(Colors, "Inter", null, FontScale.Default, false, null),
+		new NormalizedRenderStyles(Colors, "Inter", null, FontScale.Default, false, null, DesignInputs.Default),
 		new AccessibilityInfo(),
 		DiagramType.Flowchart,
 		6,

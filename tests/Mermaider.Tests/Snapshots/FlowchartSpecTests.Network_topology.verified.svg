@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 498.912 670.4" width="498.912" height="670.4" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440.548 640.6" width="440.548" height="640.6" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,68 +26,75 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px rgba(24,24,27,.10)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
-<defs>
-  <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
-  </marker>
-  <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
-    <polygon points="12 0, 0 6, 12 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
-  </marker>
-</defs>
-
 <g class="subgraph" data-id="cloud" data-label="Cloud VPC">
-  <rect x="16" y="186" width="466.912" height="468.4" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
+  <rect x="16" y="164" width="408.548" height="460.6" rx="12" ry="12" fill="url(#ma2e31288-cw-p1-0)" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1" />
+  <path d="M16,192 L16,176 Q16,164 28,164 L412.548,164 Q424.548,164 424.548,176 L424.548,192 Z" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" />
+  <line x1="16" y1="192" x2="424.548" y2="192" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1" />
 </g>
-
 <g class="subgraph" data-id="pub" data-label="Public Subnet">
-  <rect x="40" y="242" width="418.912" height="124.8" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 9%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
+  <rect x="40" y="220" width="360.548" height="122.2" rx="12" ry="12" fill="url(#ma2e31288-cw-p2-1)" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1" />
+  <path d="M40,248 L40,232 Q40,220 52,220 L388.548,220 Q400.548,220 400.548,232 L400.548,248 Z" fill="color-mix(in srgb, #76b7b2 22%, var(--bg))" />
+  <line x1="40" y1="248" x2="400.548" y2="248" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1" />
 </g>
-
 <g class="subgraph" data-id="priv" data-label="Private Subnet">
-  <rect x="55.119999999999976" y="406.8" width="388.672" height="223.6" rx="8" ry="8" fill="color-mix(in srgb, #b07aa1 9%, var(--bg))" stroke="#AC749C" stroke-width="1.75" />
+  <rect x="53.97999999999999" y="382.2" width="332.588" height="218.4" rx="12" ry="12" fill="url(#ma2e31288-cw-p3-1)" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1" />
+  <path d="M53.97999999999999,410.2 L53.97999999999999,394.2 Q53.97999999999999,382.2 65.97999999999999,382.2 L374.568,382.2 Q386.568,382.2 386.568,394.2 L386.568,410.2 Z" fill="color-mix(in srgb, #b07aa1 22%, var(--bg))" />
+  <line x1="53.97999999999999" y1="410.2" x2="386.568" y2="410.2" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1" />
 </g>
-
-<path class="edge" data-from="internet" data-to="lb" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M217,137.5 L217,298" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="lb" data-to="app1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M154,343 L154,393 Q154,399 160,399 L178.5,399 Q184.5,399 184.5,405 L184.5,435 Q184.5,441 178.5,441 L160,441 Q154,441 154,447 L154,463" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="lb" data-to="app2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M221,343 L221,435 Q221,441 227,441 L268.5,441 Q274.5,441 274.5,447 L274.5,463" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="app1" data-to="db" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M206.5,507.5 L206.5,547.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="app2" data-to="db" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M288.5,507.5 L288.5,547.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="app1" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M228.5,485 L250.5,485 Q256.5,485 256.5,479 L256.5,357 Q256.5,351 262.5,351 L451,351 Q457,351 457,345 L457,326.5 Q457,320.5 451,320.5 L435,320.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="app2" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M349.5,463 L349.5,343" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="nat" data-to="internet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M289,298 L289,157 L289,157 L289,135" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="28" y="201" font-size="var(--fs-s)" font-weight="600" fill="#F18921" dy="4.8999999999999995">Cloud VPC</text>
-  <text x="52" y="257" font-size="var(--fs-s)" font-weight="600" fill="#6FB3AE" dy="4.8999999999999995">Public Subnet</text>
-  <text x="67.11999999999998" y="421.8" font-size="var(--fs-s)" font-weight="600" fill="#AC749C" dy="4.8999999999999995">Private Subnet</text>
-
+<path class="edge" data-from="internet" data-to="lb" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M190.5,115 L190.5,276" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+<path class="edge" data-from="lb" data-to="app1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M139,318 L139,366 Q139,374 147,374 L176,374 Q184,374 184,382 L184,408 Q184,416 176,416 L147,416 Q139,416 139,424 L139,438" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+<path class="edge" data-from="lb" data-to="app2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M191,318 L191,408 Q191,416 199,416 L238,416 Q246,416 246,424 L246,438" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+<path class="edge" data-from="app1" data-to="db" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M184,480.5 L184,520.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+<path class="edge" data-from="app2" data-to="db" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M253,480.5 L253,520.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+<path class="edge" data-from="app1" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M200,459.5 L214,459.5 Q222,459.5 222,451.5 L222,348 Q222,340 230,340 L390.5,340 Q398.5,340 398.5,332 L398.5,305 Q398.5,297 390.5,297 L376.5,297" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+<path class="edge" data-from="app2" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M306,438 L306,318" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+<path class="edge" data-from="nat" data-to="internet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M259,276 L259,137 L259,137 L259,114.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+<rect x="26" y="172" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
+<text x="36" y="178" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.8999999999999995">Cloud VPC</text>
+<rect x="50" y="228" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
+<text x="60" y="234" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.8999999999999995">Public Subnet</text>
+<rect x="63.97999999999999" y="390.2" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
+<text x="73.97999999999999" y="396.2" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #b07aa1 44%, var(--fg))" dy="4.8999999999999995">Private Subnet</text>
 <g class="node" data-id="internet" data-label="Internet" data-shape="circle">
-  <circle cx="249.456" cy="81" r="65" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="249.456" y="81" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Internet</text>
+  <circle cx="220.274" cy="70" r="54" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="220.274" y="70" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Internet</text>
 </g>
 <g class="node" data-id="lb" data-label="Load Balancer" data-shape="stadium">
-  <rect x="64" y="298" width="166.928" height="44.8" rx="22.4" ry="22.4" fill="color-mix(in srgb, var(--fg) 9%, var(--bg))" stroke="#3B5B7D" stroke-width="2.5" />
-  <text x="147.464" y="320.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Load Balancer</text>
+  <rect x="64" y="276" width="137.062" height="42.2" rx="21.1" ry="21.1" fill="url(#ma2e31288-ng-n)" stroke="color-mix(in srgb, var(--_line) 74%, var(--fg))" stroke-width="1.75" />
+  <text x="132.531" y="297.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Load Balancer</text>
 </g>
 <g class="node" data-id="nat" data-label="NAT Gateway" data-shape="stadium">
-  <rect x="278.928" y="298" width="155.98399999999998" height="44.8" rx="22.4" ry="22.4" fill="color-mix(in srgb, var(--fg) 9%, var(--bg))" stroke="#3B5B7D" stroke-width="2.5" />
-  <text x="356.91999999999996" y="320.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">NAT Gateway</text>
+  <rect x="249.062" y="276" width="127.48599999999998" height="42.2" rx="21.1" ry="21.1" fill="url(#ma2e31288-ng-n)" stroke="color-mix(in srgb, var(--_line) 74%, var(--fg))" stroke-width="1.75" />
+  <text x="312.805" y="297.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">NAT Gateway</text>
 </g>
 <g class="node" data-id="app1" data-label="App Server 1" data-shape="rectangle">
-  <rect x="79.11999999999998" y="462.8" width="149.60000000000002" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="153.92" y="485.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">App Server 1</text>
+  <rect x="77.97999999999999" y="438.2" width="121.9" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="138.93" y="459.3" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">App Server 1</text>
 </g>
 <g class="node" data-id="app2" data-label="App Server 2" data-shape="rectangle">
-  <rect x="264.72" y="462.8" width="155.072" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="342.25600000000003" y="485.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">App Server 2</text>
+  <rect x="235.88" y="438.2" width="126.688" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="299.224" y="459.3" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">App Server 2</text>
 </g>
 <g class="node" data-id="db" data-label="Database" data-shape="cylinder">
-  <rect x="184.232" y="554.6" width="127.712" height="44.8" fill="color-mix(in srgb, var(--_text-muted) 18%, var(--bg))" stroke="none" />
-<line x1="184.232" y1="554.6" x2="184.232" y2="599.4" stroke="var(--_text-muted)" stroke-width="2" />
-<line x1="311.944" y1="554.6" x2="311.944" y2="599.4" stroke="var(--_text-muted)" stroke-width="2" />
-<ellipse cx="248.088" cy="599.4" rx="63.856" ry="7" fill="color-mix(in srgb, var(--_text-muted) 18%, var(--bg))" stroke="var(--_text-muted)" stroke-width="2" />
-<ellipse cx="248.088" cy="554.6" rx="63.856" ry="7" fill="color-mix(in srgb, var(--_text-muted) 18%, var(--bg))" stroke="var(--_text-muted)" stroke-width="2" />
-  <text x="248.088" y="577" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Database</text>
+  <rect x="167.70299999999997" y="527.4" width="102.74799999999999" height="42.2" fill="url(#ma2e31288-ng-n)" stroke="none" />
+<line x1="167.70299999999997" y1="527.4" x2="167.70299999999997" y2="569.6" stroke="color-mix(in srgb, var(--_line) 74%, var(--fg))" stroke-width="1.25" />
+<line x1="270.45099999999996" y1="527.4" x2="270.45099999999996" y2="569.6" stroke="color-mix(in srgb, var(--_line) 74%, var(--fg))" stroke-width="1.25" />
+<ellipse cx="219.07699999999997" cy="569.6" rx="51.373999999999995" ry="7" fill="url(#ma2e31288-ng-n)" stroke="color-mix(in srgb, var(--_line) 74%, var(--fg))" stroke-width="1.25" />
+<ellipse cx="219.07699999999997" cy="527.4" rx="51.373999999999995" ry="7" fill="url(#ma2e31288-ng-n)" stroke="color-mix(in srgb, var(--_line) 74%, var(--fg))" stroke-width="1.25" />
+  <text x="219.07699999999997" y="548.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Database</text>
 </g>
+<defs>
+  <linearGradient id="ma2e31288-cw-p1-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /></linearGradient>
+  <linearGradient id="ma2e31288-cw-p2-1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #76b7b2 9%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #76b7b2 9%, var(--bg))" /></linearGradient>
+  <linearGradient id="ma2e31288-cw-p3-1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #b07aa1 9%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #b07aa1 9%, var(--bg))" /></linearGradient>
+  <linearGradient id="ma2e31288-ng-n" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, var(--_line) 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, var(--_line) 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="ma2e31288-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 7%, var(--bg))" /></linearGradient>
+  <marker id="ma2e31288-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
+  </marker>
+</defs>
 </svg>

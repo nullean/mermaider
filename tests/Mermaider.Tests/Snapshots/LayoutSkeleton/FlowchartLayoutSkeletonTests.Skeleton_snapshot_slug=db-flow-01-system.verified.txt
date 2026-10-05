@@ -27,7 +27,7 @@ Edges:
   Notes ----> Site [Right->Left] [R U R]
   OpenApi --api: local spec--> DocSet [Right->Left] [R D R]
   OpenApi --published per version--> SpecIndex [Right->Left] [R D R U R]
-  Repo ----> Changelog [Right->Left] [R]
+  Repo ----> Changelog [Right->Left] [R D R]
   Repo ----> DocSet [Right->Left] [R U R]
   Repo ----> OpenApi [Right->Left] [R U R]
   SpecIndex ----> Assembler [Left->Right] [L U L]

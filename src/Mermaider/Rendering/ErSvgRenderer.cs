@@ -36,7 +36,7 @@ internal static class ErSvgRenderer
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 		StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
+		StyleBlock.AppendStyleBlock(sb, context.Styles);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		foreach (var rel in diagram.Relationships)

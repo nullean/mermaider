@@ -47,7 +47,7 @@ internal static class TimelineSvgRenderer
 		if (totalPeriods == 0)
 		{
 			StyleBlock.AppendSvgOpenTag(sb, 200, 100, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-			StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
+			StyleBlock.AppendStyleBlock(sb, context.Styles);
 			_ = sb.Append("\n</svg>");
 			return sb;
 		}
@@ -68,7 +68,7 @@ internal static class TimelineSvgRenderer
 		var height = bottom + 16;
 
 		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
+		StyleBlock.AppendStyleBlock(sb, context.Styles);
 		_ = sb.Append("\n<defs>\n  <marker id=\"timeline-arrow\" refX=\"6\" refY=\"3\" markerWidth=\"8\" markerHeight=\"6\" orient=\"auto\">")
 			.Append("\n    <path d=\"M 0,0 V 6 L8,3 Z\" fill=\"var(--_line)\" />")
 			.Append("\n  </marker>\n</defs>\n");

@@ -74,7 +74,7 @@ internal static class GanttSvgRenderer
 		{
 			var emptyH = titleOffset + TopPad + BottomPad + 40;
 			StyleBlock.AppendSvgOpenTag(sb, 400, emptyH, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-			StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
+			StyleBlock.AppendStyleBlock(sb, context.Styles);
 			if (hasTitle)
 				AppendTitle(sb, diagram.Title!, 200);
 			_ = sb.Append("\n</svg>");
@@ -102,7 +102,7 @@ internal static class GanttSvgRenderer
 		var chartTop = TopPad + titleOffset;
 
 		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
+		StyleBlock.AppendStyleBlock(sb, context.Styles);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		if (hasTitle)

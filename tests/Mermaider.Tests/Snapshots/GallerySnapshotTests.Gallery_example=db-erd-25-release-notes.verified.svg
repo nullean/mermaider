@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1274.01698 1747.8000000000002" width="1274.01698" height="1747.8000000000002" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200.87042 1724.3999999999996" width="1200.87042" height="1724.3999999999996" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,259 +26,259 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px rgba(24,24,27,.10)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
 <defs>
 </defs>
 
-<path class="er-relationship" data-entity1="Repository" data-entity2="ChangelogConfiguration" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="changelog.yml" d="M482.92364000000003,96 L482.92364,194.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ChangelogConfiguration" data-entity2="Pivot" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="pivot" d="M553.64172,270.2 L553.64172,289.7 Q553.64172,294.7 558.64172,294.7 L692.7794000000001,294.7 Q697.7794000000001,294.7 697.7794000000001,299.7 L697.7794000000001,392.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ChangelogConfiguration" data-entity2="Rules" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="rules" d="M412.20556,270.2 L412.20556,289.7 Q412.20556,294.7 407.20556,294.7 L153.28484000000006,294.7 Q148.28484000000006,294.7 148.28484000000006,299.7 L148.28484000000006,392.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ChangelogConfiguration" data-entity2="BundleProfile" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="bundle.profiles" d="M482.92364,270.2 L482.92364,293.2 Q482.92364,298.2 477.92364,298.2 L459.08724,298.2 Q454.08724,298.2 454.08724,303.2 L454.08724,533.5999999999999 Q454.08724,538.5999999999999 449.08724,538.5999999999999 L352.07684000000006,538.5999999999999 Q347.07684000000006,538.5999999999999 347.07684000000006,543.5999999999999 L347.07684000000006,566.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ChangelogConfiguration" data-entity2="ReleaseTrigger" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="bundle.releases" d="M447.5646,270.2 L447.5646,296.7 Q447.5646,301.7 442.5646,301.7 L308.42692000000005,301.7 Q303.42692000000005,301.7 303.42692000000005,306.7 L303.42692000000005,392.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ReleaseTrigger" data-entity2="BundleProfile" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="profile name" d="M303.42692000000005,468.4 L303.42692000000005,566.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ChangelogConfiguration" data-entity2="ProductDefaults" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="products" d="M518.28268,270.2 L518.28268,296.7 Q518.28268,301.7 523.28268,301.7 L575.6924400000001,301.7 Q580.6924400000001,301.7 580.6924400000001,306.7 L580.6924400000001,533.5999999999999 Q580.6924400000001,538.5999999999999 575.6924400000001,538.5999999999999 L490.8688400000001,538.5999999999999 Q485.8688400000001,538.5999999999999 485.8688400000001,543.5999999999999 L485.8688400000001,566.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ProductDefaults" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="zeromany" data-identifying="true" data-label="available, default" d="M485.8688400000001,642.5999999999999 L485.8688400000001,707.8 Q485.8688400000001,712.8 480.8688400000001,712.8 L430.56036,712.8 Q425.56036,712.8 425.56036,717.8 L425.56036,740.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="BundleProfile" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="product" d="M325.25188,642.5999999999999 L325.25188,707.8 Q325.25188,712.8 330.25188,712.8 L380.56036,712.8 Q385.56036,712.8 385.56036,717.8 L385.56036,740.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="EntryPool" data-entity2="ChangelogEntry" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="changelog/{org}/{repo}/{branch}/" d="M667.4611500000001,1363.4 L667.4611500000001,1386.4 Q667.4611500000001,1391.4 662.4611500000001,1391.4 L631.12696,1391.4 Q626.12696,1391.4 626.12696,1396.4 L626.12696,1436.6000000000001 Q626.12696,1441.6000000000001 621.12696,1441.6000000000001 L494.86634000000004,1441.6000000000001 Q489.86634000000004,1441.6000000000001 489.86634000000004,1446.6000000000001 L489.86634000000004,1469.6000000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="EntryPool" data-entity2="ChangelogNote" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="note-*.yml" d="M707.4611500000001,1363.4 L707.4611500000001,1386.4 Q707.4611500000001,1391.4 712.4611500000001,1391.4 L806.6321200000001,1391.4 Q811.6321200000001,1391.4 811.6321200000001,1396.4 L811.6321200000001,1436.6000000000001 Q811.6321200000001,1441.6000000000001 816.6321200000001,1441.6000000000001 L894.0297200000002,1441.6000000000001 Q899.0297200000002,1441.6000000000001 899.0297200000002,1446.6000000000001 L899.0297200000002,1469.6000000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ChangelogEntry" data-entity2="ProductRelease" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="products" d="M451.81194000000005,1545.6000000000001 L451.81194000000005,1618.8000000000002 Q451.81194000000005,1623.8000000000002 456.81194000000005,1623.8000000000002 L711.7550200000001,1623.8000000000002 Q716.7550200000001,1623.8000000000002 716.7550200000001,1628.8000000000002 L716.7550200000001,1651.8000000000002" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ChangelogNote" data-entity2="ProductRelease" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="products (versions)" d="M923.1103600000001,1545.6000000000001 L923.1103600000001,1615.3000000000002 Q923.1103600000001,1620.3000000000002 918.1103600000001,1620.3000000000002 L759.80942,1620.3000000000002 Q754.80942,1620.3000000000002 754.80942,1625.3000000000002 L754.80942,1651.8000000000002" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ProductRelease" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="product" d="M792.86382,1651.8000000000002 L792.86382,1632.3000000000002 Q792.86382,1627.3000000000002 797.86382,1627.3000000000002 L1229.01698,1627.3000000000002 Q1234.01698,1627.3000000000002 1234.01698,1622.3000000000002 L1234.01698,1206.2 Q1234.01698,1201.2 1229.01698,1201.2 L609.7166000000002,1201.2 Q604.7166000000002,1201.2 604.7166000000002,1196.2 L604.7166000000002,853.3 Q604.7166000000002,848.3 599.7166000000002,848.3 L410.56036,848.3 Q405.56036,848.3 405.56036,843.3 L405.56036,816.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="ChangelogMarker" data-entity2="ChangelogEntry" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="link" d="M461.0564800000001,1363.4 L461.0564800000001,1436.97773 Q461.0564800000001,1441.6000000000001 456.43421000000006,1441.6000000000001 L456.43421000000006,1441.6000000000001 Q451.81194000000005,1441.6000000000001 451.81194000000005,1446.2222700000002 L451.81194000000005,1469.6000000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Bundle" data-entity2="BundledProduct" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="products" d="M411.56036,1173.2 L411.56036,1192.7 Q411.56036,1197.7 416.56036,1197.7 L540.6110600000002,1197.7 Q545.6110600000002,1197.7 545.6110600000002,1202.7 L545.6110600000002,1254.4 Q545.6110600000002,1259.4 550.6110600000002,1259.4 L1112.5385800000001,1259.4 Q1117.5385800000001,1259.4 1117.5385800000001,1264.4 L1117.5385800000001,1287.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="BundledProduct" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="product" d="M1168.2777800000001,1287.4 L1168.2777800000001,1257.4 Q1168.2777800000001,1252.4 1163.2777800000001,1252.4 L1081.7993800000002,1252.4 Q1076.7993800000002,1252.4 1076.7993800000002,1247.4 L1076.7993800000002,846.3 Q1076.7993800000002,841.3 1071.7993800000002,841.3 L440.56036,841.3 Q435.56036,841.3 435.56036,836.3 L435.56036,816.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Bundle" data-entity2="BundledEntry" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="entries" d="M363.56036,1173.2 L363.56036,1199.7 Q363.56036,1204.7 358.56036,1204.7 L288.79392000000007,1204.7 Q283.79392000000007,1204.7 283.79392000000007,1209.7 L283.79392000000007,1287.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="BundledEntry" data-entity2="ChangelogEntry" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="file.name + checksum" d="M283.79392000000007,1363.4 L283.79392000000007,1436.6000000000001 Q283.79392000000007,1441.6000000000001 288.79392000000007,1441.6000000000001 L408.75754,1441.6000000000001 Q413.75754,1441.6000000000001 413.75754,1446.6000000000001 L413.75754,1469.6000000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Bundle" data-entity2="BundleAmend" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="amend-N" d="M387.56036,1173.2 L387.56036,1199.7 Q387.56036,1204.7 392.56036,1204.7 L433.6391800000001,1204.7 Q438.6391800000001,1204.7 438.6391800000001,1209.7 L438.6391800000001,1261.4 Q438.6391800000001,1266.4 443.6391800000001,1266.4 L835.3577800000002,1266.4 Q840.3577800000002,1266.4 840.3577800000002,1271.4 L840.3577800000002,1287.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Bundle" data-entity2="BundleNotesAmend" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="amend-notes" d="M339.56036,1173.2 L339.56036,1192.7 Q339.56036,1197.7 334.56036,1197.7 L113.67616,1197.7 Q108.67616,1197.7 108.67616,1202.7 L108.67616,1287.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Product" data-entity2="BundleRegistry" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="bundle/{product}/registry.json" d="M375.56036,816.8 L375.56036000000006,923" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="BundleRegistry" data-entity2="Bundle" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="bundles[]" d="M375.56036000000006,999 L375.56036,1097.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="NotesIndex" data-entity2="ChangelogNote" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="notes[]" d="M986.7993800000002,1363.4 L986.7993800000002,1436.6000000000001 Q986.7993800000002,1441.6000000000001 981.7993800000002,1441.6000000000001 L952.1910000000001,1441.6000000000001 Q947.1910000000001,1441.6000000000001 947.1910000000001,1446.6000000000001 L947.1910000000001,1469.6000000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Repository" data-entity2="ChangelogConfiguration" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="changelog.yml" d="M451.8522999999999,96 L451.8522999999999,191.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="ChangelogConfiguration" data-entity2="Pivot" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="pivot" d="M514.7306199999999,267.6 L514.7306199999999,287.1 Q514.7306199999999,292.1 519.7306199999999,292.1 L649.2119799999998,292.1 Q654.2119799999998,292.1 654.2119799999998,297.1 L654.2119799999998,387.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="ChangelogConfiguration" data-entity2="Rules" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="rules" d="M388.9739799999999,267.6 L388.9739799999999,287.1 Q388.9739799999999,292.1 383.9739799999999,292.1 L138.68245999999988,292.1 Q133.68245999999988,292.1 133.68245999999988,297.1 L133.68245999999988,387.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="ChangelogConfiguration" data-entity2="BundleProfile" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="bundle.profiles" d="M451.8522999999999,267.6 L451.8522999999999,290.6 Q451.8522999999999,295.6 446.8522999999999,295.6 L425.9947399999999,295.6 Q420.9947399999999,295.6 420.9947399999999,300.6 L420.9947399999999,525.8 Q420.9947399999999,530.8 415.9947399999999,530.8 L325.93177999999995,530.8 Q320.93177999999995,530.8 320.93177999999995,535.8 L320.93177999999995,558.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="ChangelogConfiguration" data-entity2="ReleaseTrigger" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="bundle.releases" d="M420.4131399999999,267.6 L420.4131399999999,294.1 Q420.4131399999999,299.1 415.4131399999999,299.1 L285.93177999999995,299.1 Q280.93177999999995,299.1 280.93177999999995,304.1 L280.93177999999995,387.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="ReleaseTrigger" data-entity2="BundleProfile" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="profile name" d="M280.93177999999995,463.2 L280.93177999999995,558.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="ChangelogConfiguration" data-entity2="ProductDefaults" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="products" d="M483.2914599999999,267.6 L483.2914599999999,294.1 Q483.2914599999999,299.1 488.2914599999999,299.1 L535.03154,299.1 Q540.03154,299.1 540.03154,304.1 L540.03154,525.8 Q540.03154,530.8 535.03154,530.8 L453.18109999999996,530.8 Q448.18109999999996,530.8 448.18109999999996,535.8 L448.18109999999996,558.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="ProductDefaults" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="zeromany" data-identifying="true" data-label="available, default" d="M448.18109999999996,634.8 L448.18109999999996,697.4 Q448.18109999999996,702.4 443.18109999999996,702.4 L399.55643999999995,702.4 Q394.55643999999995,702.4 394.55643999999995,707.4 L394.55643999999995,730.4" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="BundleProfile" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="product" d="M300.93177999999995,634.8 L300.93177999999995,697.4 Q300.93177999999995,702.4 305.93177999999995,702.4 L349.55643999999995,702.4 Q354.55643999999995,702.4 354.55643999999995,707.4 L354.55643999999995,730.4" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="EntryPool" data-entity2="ChangelogEntry" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="changelog/{org}/{repo}/{branch}/" d="M623.13481,1345.1999999999998 L623.13481,1368.1999999999998 Q623.13481,1373.1999999999998 618.13481,1373.1999999999998 L585.5327599999999,1373.1999999999998 Q580.5327599999999,1373.1999999999998 580.5327599999999,1378.1999999999998 L580.5327599999999,1415.7999999999997 Q580.5327599999999,1420.7999999999997 575.5327599999999,1420.7999999999997 L459.47357999999997,1420.7999999999997 Q454.47357999999997,1420.7999999999997 454.47357999999997,1425.7999999999997 L454.47357999999997,1448.7999999999997" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="EntryPool" data-entity2="ChangelogNote" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="note-*.yml" d="M663.13481,1345.1999999999998 L663.13481,1368.1999999999998 Q663.13481,1373.1999999999998 668.13481,1373.1999999999998 L747.86,1373.1999999999998 Q752.86,1373.1999999999998 752.86,1378.1999999999998 L752.86,1415.7999999999997 Q752.86,1420.7999999999997 757.86,1420.7999999999997 L839.2730799999999,1420.7999999999997 Q844.2730799999999,1420.7999999999997 844.2730799999999,1425.7999999999997 L844.2730799999999,1448.7999999999997" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="ChangelogEntry" data-entity2="ProductRelease" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="products" d="M420.42598,1524.7999999999997 L420.42598,1595.3999999999996 Q420.42598,1600.3999999999996 425.42598,1600.3999999999996 L669.9515799999998,1600.3999999999996 Q674.9515799999998,1600.3999999999996 674.9515799999998,1605.3999999999996 L674.9515799999998,1628.3999999999996" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="ChangelogNote" data-entity2="ProductRelease" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="products (versions)" d="M865.8436399999999,1524.7999999999997 L865.8436399999999,1591.8999999999996 Q865.8436399999999,1596.8999999999996 860.8436399999999,1596.8999999999996 L713.9991799999998,1596.8999999999996 Q708.9991799999998,1596.8999999999996 708.9991799999998,1601.8999999999996 L708.9991799999998,1628.3999999999996" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="ProductRelease" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="product" d="M743.0467799999998,1628.3999999999996 L743.0467799999998,1608.8999999999996 Q743.0467799999998,1603.8999999999996 748.0467799999998,1603.8999999999996 L1155.87042,1603.8999999999996 Q1160.87042,1603.8999999999996 1160.87042,1598.8999999999996 L1160.87042,1190.6 Q1160.87042,1185.6 1155.87042,1185.6 L578.6560699999999,1185.6 Q573.6560699999999,1185.6 573.6560699999999,1180.6 L573.6560699999999,842.9 Q573.6560699999999,837.9 568.6560699999999,837.9 L379.55643999999995,837.9 Q374.55643999999995,837.9 374.55643999999995,832.9 L374.55643999999995,806.4" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="ChangelogMarker" data-entity2="ChangelogEntry" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="link" d="M426.69404,1345.1999999999998 L426.69404,1417.6659699999998 Q426.69404,1420.7999999999997 423.56001,1420.7999999999997 L423.56001,1420.7999999999997 Q420.42598,1420.7999999999997 420.42598,1423.9340299999997 L420.42598,1448.7999999999997" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="Bundle" data-entity2="BundledProduct" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="products" d="M380.55643999999995,1157.6 L380.55643999999995,1177.1 Q380.55643999999995,1182.1 385.55643999999995,1182.1 L512.3024399999999,1182.1 Q517.3024399999999,1182.1 517.3024399999999,1187.1 L517.3024399999999,1236.1999999999998 Q517.3024399999999,1241.1999999999998 522.3024399999999,1241.1999999999998 L1050.07682,1241.1999999999998 Q1055.07682,1241.1999999999998 1055.07682,1246.1999999999998 L1055.07682,1269.1999999999998" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="BundledProduct" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="product" d="M1100.47362,1269.1999999999998 L1100.47362,1239.1999999999998 Q1100.47362,1234.1999999999998 1095.47362,1234.1999999999998 L1024.6800199999998,1234.1999999999998 Q1019.6800199999999,1234.1999999999998 1019.6800199999999,1229.1999999999998 L1019.6800199999999,835.9 Q1019.6800199999999,830.9 1014.6800199999999,830.9 L409.55643999999995,830.9 Q404.55643999999995,830.9 404.55643999999995,825.9 L404.55643999999995,806.4" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="Bundle" data-entity2="BundledEntry" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="entries" d="M332.55643999999995,1157.6 L332.55643999999995,1184.1 Q332.55643999999995,1189.1 327.55643999999995,1189.1 L263.18327999999997,1189.1 Q258.18327999999997,1189.1 258.18327999999997,1194.1 L258.18327999999997,1269.1999999999998" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="BundledEntry" data-entity2="ChangelogEntry" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="file.name + checksum" d="M258.18327999999997,1345.1999999999998 L258.18327999999997,1415.7999999999997 Q258.18327999999997,1420.7999999999997 263.18327999999997,1420.7999999999997 L381.37837999999994,1420.7999999999997 Q386.37837999999994,1420.7999999999997 386.37837999999994,1425.7999999999997 L386.37837999999994,1448.7999999999997" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="Bundle" data-entity2="BundleAmend" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="amend-N" d="M356.55643999999995,1157.6 L356.55643999999995,1184.1 Q356.55643999999995,1189.1 361.55643999999995,1189.1 L411.0291199999999,1189.1 Q416.0291199999999,1189.1 416.0291199999999,1194.1 L416.0291199999999,1243.1999999999998 Q416.0291199999999,1248.1999999999998 421.0291199999999,1248.1999999999998 L784.68002,1248.1999999999998 Q789.68002,1248.1999999999998 789.68002,1253.1999999999998 L789.68002,1269.1999999999998" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="Bundle" data-entity2="BundleNotesAmend" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="amend-notes" d="M308.55643999999995,1157.6 L308.55643999999995,1177.1 Q308.55643999999995,1182.1 303.55643999999995,1182.1 L104.09164,1182.1 Q99.09164,1182.1 99.09164,1187.1 L99.09164,1269.1999999999998" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="Product" data-entity2="BundleRegistry" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="bundle/{product}/registry.json" d="M344.55643999999995,806.4 L344.55643999999995,910" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="BundleRegistry" data-entity2="Bundle" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="bundles[]" d="M344.55643999999995,986 L344.55643999999995,1081.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="NotesIndex" data-entity2="ChangelogNote" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="notes[]" d="M929.68002,1345.1999999999998 L929.68002,1415.7999999999997 Q929.68002,1420.7999999999997 924.68002,1420.7999999999997 L892.4141999999999,1420.7999999999997 Q887.4141999999999,1420.7999999999997 887.4141999999999,1425.7999999999997 L887.4141999999999,1448.7999999999997" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <g class="entity" data-id="Repository" data-label="Repository">
-  <rect x="422.92364000000003" y="20" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="482.92364000000003" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Repository</text>
+  <rect x="391.8522999999999" y="20" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="451.8522999999999" y="58" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Repository</text>
 </g>
 <g class="entity" data-id="ChangelogConfiguration" data-label="ChangelogConfiguration">
-  <rect x="376.84652" y="194.2" width="212.15424" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="482.92364" y="232.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ChangelogConfiguration</text>
+  <rect x="357.5348199999999" y="191.6" width="188.63495999999998" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="451.8522999999999" y="229.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">ChangelogConfiguration</text>
 </g>
 <g class="entity" data-id="Pivot" data-label="Pivot">
-  <rect x="637.7794000000001" y="392.4" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="697.7794000000001" y="430.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Pivot</text>
+  <rect x="594.2119799999998" y="387.2" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="654.2119799999998" y="425.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Pivot</text>
 </g>
 <g class="entity" data-id="Rules" data-label="Rules">
-  <rect x="88.28484000000006" y="392.4" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="148.28484000000006" y="430.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Rules</text>
+  <rect x="73.68245999999989" y="387.2" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="133.68245999999988" y="425.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Rules</text>
 </g>
 <g class="entity" data-id="BundleProfile" data-label="BundleProfile">
-  <rect x="259.77700000000004" y="566.5999999999999" width="130.94976000000003" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="325.25188" y="604.5999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">BundleProfile</text>
+  <rect x="240.93177999999995" y="558.8" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="300.93177999999995" y="596.8" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">BundleProfile</text>
 </g>
 <g class="entity" data-id="ReleaseTrigger" data-label="ReleaseTrigger">
-  <rect x="228.28484000000006" y="392.4" width="150.28415999999999" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="303.42692000000005" y="430.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ReleaseTrigger</text>
+  <rect x="213.68245999999994" y="387.2" width="134.49864000000002" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="280.93177999999995" y="425.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">ReleaseTrigger</text>
 </g>
 <g class="entity" data-id="ProductDefaults" data-label="ProductDefaults">
-  <rect x="410.72676000000007" y="566.5999999999999" width="150.28416000000004" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="485.8688400000001" y="604.5999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ProductDefaults</text>
+  <rect x="380.93177999999995" y="558.8" width="134.49864000000002" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="448.18109999999996" y="596.8" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">ProductDefaults</text>
 </g>
 <g class="entity" data-id="Product" data-label="Product">
-  <rect x="345.56036" y="740.8" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="405.56036" y="778.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Product</text>
+  <rect x="314.55643999999995" y="730.4" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="374.55643999999995" y="768.4" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Product</text>
 </g>
 <g class="entity" data-id="EntryPool" data-label="EntryPool">
-  <rect x="627.4611500000001" y="1287.4" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="687.4611500000001" y="1325.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">EntryPool</text>
+  <rect x="583.13481" y="1269.1999999999998" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="643.13481" y="1307.1999999999998" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">EntryPool</text>
 </g>
 <g class="entity" data-id="ChangelogEntry" data-label="ChangelogEntry">
-  <rect x="375.70314" y="1469.6000000000001" width="152.2176" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="451.81194000000005" y="1507.6000000000001" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ChangelogEntry</text>
+  <rect x="352.33077999999995" y="1448.7999999999997" width="136.1904" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="420.42598" y="1486.7999999999997" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">ChangelogEntry</text>
 </g>
 <g class="entity" data-id="ChangelogNote" data-label="ChangelogNote">
-  <rect x="850.8684400000002" y="1469.6000000000001" width="144.48384" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="923.1103600000001" y="1507.6000000000001" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ChangelogNote</text>
+  <rect x="801.1319599999999" y="1448.7999999999997" width="129.42336" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="865.8436399999999" y="1486.7999999999997" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">ChangelogNote</text>
 </g>
 <g class="entity" data-id="ProductRelease" data-label="ProductRelease">
-  <rect x="678.7006200000001" y="1651.8000000000002" width="152.2176" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="754.80942" y="1689.8000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ProductRelease</text>
+  <rect x="640.9039799999998" y="1628.3999999999996" width="136.1904" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="708.9991799999998" y="1666.3999999999996" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">ProductRelease</text>
 </g>
 <g class="entity" data-id="ChangelogMarker" data-label="ChangelogMarker">
-  <rect x="376.73056" y="1287.4" width="168.65184000000005" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="461.0564800000001" y="1325.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ChangelogMarker</text>
+  <rect x="351.40885999999995" y="1269.1999999999998" width="150.57036" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="426.69404" y="1307.1999999999998" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">ChangelogMarker</text>
 </g>
 <g class="entity" data-id="Bundle" data-label="Bundle">
-  <rect x="315.56036" y="1097.2" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="375.56036" y="1135.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Bundle</text>
+  <rect x="284.55643999999995" y="1081.6" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="344.55643999999995" y="1119.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Bundle</text>
 </g>
 <g class="entity" data-id="BundledProduct" data-label="BundledProduct">
-  <rect x="1066.7993800000002" y="1287.4" width="152.2176" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="1142.9081800000001" y="1325.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">BundledProduct</text>
+  <rect x="1009.68002" y="1269.1999999999998" width="136.1904" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1077.77522" y="1307.1999999999998" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">BundledProduct</text>
 </g>
 <g class="entity" data-id="BundledEntry" data-label="BundledEntry">
-  <rect x="217.35232000000005" y="1287.4" width="132.88320000000002" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="283.79392000000007" y="1325.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">BundledEntry</text>
+  <rect x="198.18328" y="1269.1999999999998" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="258.18327999999997" y="1307.1999999999998" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">BundledEntry</text>
 </g>
 <g class="entity" data-id="BundleAmend" data-label="BundleAmend">
-  <rect x="773.9161800000002" y="1287.4" width="132.8832" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="840.3577800000002" y="1325.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">BundleAmend</text>
+  <rect x="729.68002" y="1269.1999999999998" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="789.68002" y="1307.1999999999998" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">BundleAmend</text>
 </g>
 <g class="entity" data-id="BundleNotesAmend" data-label="BundleNotesAmend">
-  <rect x="20" y="1287.4" width="177.35232" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="108.67616" y="1325.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">BundleNotesAmend</text>
+  <rect x="20" y="1269.1999999999998" width="158.18328" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="99.09164" y="1307.1999999999998" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">BundleNotesAmend</text>
 </g>
 <g class="entity" data-id="BundleRegistry" data-label="BundleRegistry">
-  <rect x="302.35172000000006" y="923" width="146.41728" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="375.56036000000006" y="961" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">BundleRegistry</text>
+  <rect x="278.99887999999993" y="910" width="131.11512" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="344.55643999999995" y="948" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">BundleRegistry</text>
 </g>
 <g class="entity" data-id="NotesIndex" data-label="NotesIndex">
-  <rect x="926.7993800000002" y="1287.4" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="986.7993800000002" y="1325.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">NotesIndex</text>
+  <rect x="869.68002" y="1269.1999999999998" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="929.68002" y="1307.1999999999998" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">NotesIndex</text>
 </g>
-<path d="M489.42364000000003,105 L476.42364000000003,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M489.42364000000003,110 L476.42364000000003,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M476.42364,185.2 L489.42364,185.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<circle cx="482.92364" cy="175.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M560.14172,279.2 L547.14172,279.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M560.14172,284.2 L547.14172,284.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M691.2794000000001,383.4 L704.2794000000001,383.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<circle cx="697.7794000000001" cy="373.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M418.70556,279.2 L405.70556,279.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M418.70556,284.2 L405.70556,284.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M141.78484000000006,383.4 L154.78484000000006,383.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<circle cx="148.28484000000006" cy="373.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M489.42364,279.2 L476.42364,279.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M489.42364,284.2 L476.42364,284.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M339.57684000000006,566.5999999999999 L347.07684000000006,553.5999999999999 L354.57684000000006,566.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="347.07684000000006" cy="544.5999999999999" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M454.0646,279.2 L441.0646,279.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M454.0646,284.2 L441.0646,284.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M295.92692000000005,392.4 L303.42692000000005,379.4 L310.92692000000005,392.4" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="303.42692000000005" cy="370.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M310.92692000000005,468.4 L303.42692000000005,481.4 L295.92692000000005,468.4" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="303.42692000000005" cy="490.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M296.92692000000005,557.5999999999999 L309.92692000000005,557.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M296.92692000000005,552.5999999999999 L309.92692000000005,552.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M524.78268,279.2 L511.78268,279.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M524.78268,284.2 L511.78268,284.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M479.3688400000001,557.5999999999999 L492.3688400000001,557.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<circle cx="485.8688400000001" cy="547.5999999999999" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M493.3688400000001,642.5999999999999 L485.8688400000001,655.5999999999999 L478.3688400000001,642.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="485.8688400000001" cy="664.5999999999999" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M418.06036,740.8 L425.56036,727.8 L433.06036,740.8" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="425.56036" cy="718.8" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M332.75188,642.5999999999999 L325.25188,655.5999999999999 L317.75188,642.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="325.25188" cy="664.5999999999999" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M379.06036,731.8 L392.06036,731.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<circle cx="385.56036" cy="721.8" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M673.9611500000001,1372.4 L660.9611500000001,1372.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M673.9611500000001,1377.4 L660.9611500000001,1377.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M482.36634000000004,1469.6000000000001 L489.86634000000004,1456.6000000000001 L497.36634000000004,1469.6000000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="489.86634000000004" cy="1447.6000000000001" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M713.9611500000001,1372.4 L700.9611500000001,1372.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M713.9611500000001,1377.4 L700.9611500000001,1377.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M891.5297200000002,1469.6000000000001 L899.0297200000002,1456.6000000000001 L906.5297200000002,1469.6000000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="899.0297200000002" cy="1447.6000000000001" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M458.31194000000005,1554.6000000000001 L445.31194000000005,1554.6000000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M458.31194000000005,1559.6000000000001 L445.31194000000005,1559.6000000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M709.2550200000001,1651.8000000000002 L716.7550200000001,1638.8000000000002 L724.2550200000001,1651.8000000000002" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<path d="M710.2550200000001,1633.8000000000002 L723.2550200000001,1633.8000000000002" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M929.6103600000001,1554.6000000000001 L916.6103600000001,1554.6000000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M929.6103600000001,1559.6000000000001 L916.6103600000001,1559.6000000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M747.30942,1651.8000000000002 L754.80942,1638.8000000000002 L762.30942,1651.8000000000002" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<path d="M748.30942,1633.8000000000002 L761.30942,1633.8000000000002" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M785.36382,1651.8000000000002 L792.86382,1638.8000000000002 L800.36382,1651.8000000000002" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="792.86382" cy="1629.8000000000002" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M412.06036,825.8 L399.06036,825.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M412.06036,830.8 L399.06036,830.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M468.5564800000001,1363.4 L461.0564800000001,1376.4 L453.5564800000001,1363.4" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="461.0564800000001" cy="1385.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M445.31194000000005,1460.6000000000001 L458.31194000000005,1460.6000000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M445.31194000000005,1455.6000000000001 L458.31194000000005,1455.6000000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M418.06036,1182.2 L405.06036,1182.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M418.06036,1187.2 L405.06036,1187.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M1110.0385800000001,1287.4 L1117.5385800000001,1274.4 L1125.0385800000001,1287.4" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<path d="M1111.0385800000001,1269.4 L1124.0385800000001,1269.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M1160.7777800000001,1287.4 L1168.2777800000001,1274.4 L1175.7777800000001,1287.4" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="1168.2777800000001" cy="1265.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M442.06036,825.8 L429.06036,825.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M442.06036,830.8 L429.06036,830.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M370.06036,1182.2 L357.06036,1182.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M370.06036,1187.2 L357.06036,1187.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M276.29392000000007,1287.4 L283.79392000000007,1274.4 L291.29392000000007,1287.4" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="283.79392000000007" cy="1265.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M291.29392000000007,1363.4 L283.79392000000007,1376.4 L276.29392000000007,1363.4" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="283.79392000000007" cy="1385.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M407.25754,1460.6000000000001 L420.25754,1460.6000000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M407.25754,1455.6000000000001 L420.25754,1455.6000000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M394.06036,1182.2 L381.06036,1182.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M394.06036,1187.2 L381.06036,1187.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M832.8577800000002,1287.4 L840.3577800000002,1274.4 L847.8577800000002,1287.4" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="840.3577800000002" cy="1265.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M346.06036,1182.2 L333.06036,1182.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M346.06036,1187.2 L333.06036,1187.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M102.17616,1278.4 L115.17616,1278.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<circle cx="108.67616" cy="1268.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M382.06036,825.8 L369.06036,825.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M382.06036,830.8 L369.06036,830.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M369.06036000000006,914 L382.06036000000006,914" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<circle cx="375.56036000000006" cy="904" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M382.06036000000006,1008 L369.06036000000006,1008" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M382.06036000000006,1013 L369.06036000000006,1013" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M368.06036,1097.2 L375.56036,1084.2 L383.06036,1097.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="375.56036" cy="1075.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M993.2993800000002,1372.4 L980.2993800000002,1372.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M993.2993800000002,1377.4 L980.2993800000002,1377.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M939.6910000000001,1469.6000000000001 L947.1910000000001,1456.6000000000001 L954.6910000000001,1469.6000000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="947.1910000000001" cy="1447.6000000000001" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<rect x="427.00812" y="132.875" width="111.83104" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="482.92364000000003" y="145.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">changelog.yml</text>
-<rect x="672.3155600000001" y="319.07499999999993" width="50.92768" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="697.7794000000001" y="331.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">pivot</text>
-<rect x="121.21828000000005" y="319.07499999999993" width="54.133120000000005" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="148.28484000000006" y="331.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">rules</text>
-<rect x="396.569" y="319.07499999999993" width="115.03648000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="454.08724" y="331.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">bundle.profiles</text>
-<rect x="241.10052000000005" y="319.07499999999993" width="124.6528" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="303.42692000000005" y="331.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">bundle.releases</text>
-<rect x="255.12432000000004" y="505.275" width="96.60520000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="303.42692000000005" y="517.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">profile name</text>
-<rect x="541.6054800000002" y="319.07499999999993" width="78.17392000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="580.6924400000001" y="331.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">products</text>
-<rect x="423.1417600000001" y="679.4749999999999" width="125.45416000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="485.8688400000001" y="691.6999999999999" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">available, default</text>
-<rect x="290.17172000000005" y="679.4749999999999" width="70.16032000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="325.25188" y="691.6999999999999" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">product</text>
-<rect x="512.5135200000001" y="1404.275" width="227.22688" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="626.12696" y="1416.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">changelog/{org}/{repo}/{branch}/</text>
-<rect x="769.7404000000001" y="1404.275" width="83.78344000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="811.6321200000001" y="1416.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">note-*.yml</text>
-<rect x="412.7249800000001" y="1586.4750000000004" width="78.17392000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="451.81194000000005" y="1598.7000000000003" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">products</text>
-<rect x="849.9656000000001" y="1586.4750000000004" width="146.28952" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="923.1103600000001" y="1598.7000000000003" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">products (versions)</text>
-<rect x="569.6364400000002" y="857.675" width="70.16032000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="604.7166000000002" y="869.9" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">product</text>
-<rect x="439.5994400000001" y="1404.275" width="42.91408" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="461.0564800000001" y="1416.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">link</text>
-<rect x="506.5241000000002" y="1218.0750000000003" width="78.17392000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="545.6110600000002" y="1230.3000000000002" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">products</text>
-<rect x="1041.7192200000002" y="857.675" width="70.16032000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="1076.7993800000002" y="869.9" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">product</text>
-<rect x="251.11784000000006" y="1218.0750000000003" width="65.35216" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="283.79392000000007" y="1230.3000000000002" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">entries</text>
-<rect x="207.04304000000008" y="1404.275" width="153.50176000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="283.79392000000007" y="1416.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">file.name + checksum</text>
-<rect x="400.7542600000001" y="1218.0750000000003" width="75.76984000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="438.6391800000001" y="1230.3000000000002" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">amend-N</text>
-<rect x="57.96947999999999" y="1218.0750000000003" width="101.41336000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="108.67616" y="1230.3000000000002" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">amend-notes</text>
-<rect x="269.96052000000003" y="857.675" width="211.19967999999997" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="375.56036" y="869.9" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">bundle/{product}/registry.json</text>
-<rect x="335.67204000000004" y="1035.875" width="79.77664000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="375.56036000000006" y="1048.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">bundles[]</text>
-<rect x="954.9246600000001" y="1404.275" width="63.74944000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="986.7993800000002" y="1416.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">notes[]</text>
+<path d="M458.3522999999999,105 L445.3522999999999,105" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M458.3522999999999,110 L445.3522999999999,110" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M445.3522999999999,182.6 L458.3522999999999,182.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<circle cx="451.8522999999999" cy="172.6" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M521.2306199999999,276.6 L508.23061999999993,276.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M521.2306199999999,281.6 L508.23061999999993,281.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M647.7119799999998,378.2 L660.7119799999998,378.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<circle cx="654.2119799999998" cy="368.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M395.4739799999999,276.6 L382.4739799999999,276.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M395.4739799999999,281.6 L382.4739799999999,281.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M127.18245999999988,378.2 L140.18245999999988,378.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<circle cx="133.68245999999988" cy="368.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M458.3522999999999,276.6 L445.3522999999999,276.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M458.3522999999999,281.6 L445.3522999999999,281.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M313.43177999999995,558.8 L320.93177999999995,545.8 L328.43177999999995,558.8" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="320.93177999999995" cy="536.8" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M426.9131399999999,276.6 L413.9131399999999,276.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M426.9131399999999,281.6 L413.9131399999999,281.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M273.43177999999995,387.2 L280.93177999999995,374.2 L288.43177999999995,387.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="280.93177999999995" cy="365.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M288.43177999999995,463.2 L280.93177999999995,476.2 L273.43177999999995,463.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="280.93177999999995" cy="485.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M274.43177999999995,549.8 L287.43177999999995,549.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M274.43177999999995,544.8 L287.43177999999995,544.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M489.7914599999999,276.6 L476.7914599999999,276.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M489.7914599999999,281.6 L476.7914599999999,281.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M441.68109999999996,549.8 L454.68109999999996,549.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<circle cx="448.18109999999996" cy="539.8" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M455.68109999999996,634.8 L448.18109999999996,647.8 L440.68109999999996,634.8" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="448.18109999999996" cy="656.8" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M387.05643999999995,730.4 L394.55643999999995,717.4 L402.05643999999995,730.4" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="394.55643999999995" cy="708.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M308.43177999999995,634.8 L300.93177999999995,647.8 L293.43177999999995,634.8" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="300.93177999999995" cy="656.8" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M348.05643999999995,721.4 L361.05643999999995,721.4" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<circle cx="354.55643999999995" cy="711.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M629.63481,1354.1999999999998 L616.63481,1354.1999999999998" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M629.63481,1359.1999999999998 L616.63481,1359.1999999999998" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M446.97357999999997,1448.7999999999997 L454.47357999999997,1435.7999999999997 L461.97357999999997,1448.7999999999997" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="454.47357999999997" cy="1426.7999999999997" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M669.63481,1354.1999999999998 L656.63481,1354.1999999999998" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M669.63481,1359.1999999999998 L656.63481,1359.1999999999998" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M836.7730799999999,1448.7999999999997 L844.2730799999999,1435.7999999999997 L851.7730799999999,1448.7999999999997" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="844.2730799999999" cy="1426.7999999999997" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M426.92598,1533.7999999999997 L413.92598,1533.7999999999997" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M426.92598,1538.7999999999997 L413.92598,1538.7999999999997" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M667.4515799999998,1628.3999999999996 L674.9515799999998,1615.3999999999996 L682.4515799999998,1628.3999999999996" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M668.4515799999998,1610.3999999999996 L681.4515799999998,1610.3999999999996" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M872.3436399999999,1533.7999999999997 L859.3436399999999,1533.7999999999997" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M872.3436399999999,1538.7999999999997 L859.3436399999999,1538.7999999999997" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M701.4991799999998,1628.3999999999996 L708.9991799999998,1615.3999999999996 L716.4991799999998,1628.3999999999996" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M702.4991799999998,1610.3999999999996 L715.4991799999998,1610.3999999999996" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M735.5467799999998,1628.3999999999996 L743.0467799999998,1615.3999999999996 L750.5467799999998,1628.3999999999996" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="743.0467799999998" cy="1606.3999999999996" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M381.05643999999995,815.4 L368.05643999999995,815.4" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M381.05643999999995,820.4 L368.05643999999995,820.4" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M434.19404,1345.1999999999998 L426.69404,1358.1999999999998 L419.19404,1345.1999999999998" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="426.69404" cy="1367.1999999999998" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M413.92598,1439.7999999999997 L426.92598,1439.7999999999997" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M413.92598,1434.7999999999997 L426.92598,1434.7999999999997" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M387.05643999999995,1166.6 L374.05643999999995,1166.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M387.05643999999995,1171.6 L374.05643999999995,1171.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M1047.57682,1269.1999999999998 L1055.07682,1256.1999999999998 L1062.57682,1269.1999999999998" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M1048.57682,1251.1999999999998 L1061.57682,1251.1999999999998" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M1092.97362,1269.1999999999998 L1100.47362,1256.1999999999998 L1107.97362,1269.1999999999998" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="1100.47362" cy="1247.1999999999998" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M411.05643999999995,815.4 L398.05643999999995,815.4" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M411.05643999999995,820.4 L398.05643999999995,820.4" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M339.05643999999995,1166.6 L326.05643999999995,1166.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M339.05643999999995,1171.6 L326.05643999999995,1171.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M250.68327999999997,1269.1999999999998 L258.18327999999997,1256.1999999999998 L265.68327999999997,1269.1999999999998" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="258.18327999999997" cy="1247.1999999999998" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M265.68327999999997,1345.1999999999998 L258.18327999999997,1358.1999999999998 L250.68327999999997,1345.1999999999998" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="258.18327999999997" cy="1367.1999999999998" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M379.87837999999994,1439.7999999999997 L392.87837999999994,1439.7999999999997" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M379.87837999999994,1434.7999999999997 L392.87837999999994,1434.7999999999997" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M363.05643999999995,1166.6 L350.05643999999995,1166.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M363.05643999999995,1171.6 L350.05643999999995,1171.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M782.18002,1269.1999999999998 L789.68002,1256.1999999999998 L797.18002,1269.1999999999998" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="789.68002" cy="1247.1999999999998" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M315.05643999999995,1166.6 L302.05643999999995,1166.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M315.05643999999995,1171.6 L302.05643999999995,1171.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M92.59164,1260.1999999999998 L105.59164,1260.1999999999998" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<circle cx="99.09164" cy="1250.1999999999998" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M351.05643999999995,815.4 L338.05643999999995,815.4" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M351.05643999999995,820.4 L338.05643999999995,820.4" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M338.05643999999995,901 L351.05643999999995,901" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<circle cx="344.55643999999995" cy="891" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M351.05643999999995,995 L338.05643999999995,995" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M351.05643999999995,1000 L338.05643999999995,1000" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M337.05643999999995,1081.6 L344.55643999999995,1068.6 L352.05643999999995,1081.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="344.55643999999995" cy="1059.6" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M936.18002,1354.1999999999998 L923.18002,1354.1999999999998" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M936.18002,1359.1999999999998 L923.18002,1359.1999999999998" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M879.9141999999999,1448.7999999999997 L887.4141999999999,1435.7999999999997 L894.9141999999999,1448.7999999999997" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="887.4141999999999" cy="1426.7999999999997" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<rect x="400.4460199999999" y="133" width="102.81256" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="451.8522999999999" y="143.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">changelog.yml</text>
+<rect x="630.3572199999999" y="316.59999999999997" width="47.70952" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="654.2119799999998" y="327.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">pivot</text>
+<rect x="108.37761999999988" y="316.59999999999997" width="50.609680000000004" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="133.68245999999988" y="327.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">rules</text>
+<rect x="368.1383799999999" y="316.59999999999997" width="105.71272" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="420.9947399999999" y="327.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">bundle.profiles</text>
+<rect x="223.72517999999997" y="316.59999999999997" width="114.41319999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="280.93177999999995" y="327.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">bundle.releases</text>
+<rect x="236.41337999999996" y="500.2" width="89.03679999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="280.93177999999995" y="511" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">profile name</text>
+<rect x="503.8511" y="316.59999999999997" width="72.36088" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="540.03154" y="327.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">products</text>
+<rect x="390.61197999999996" y="671.8" width="115.13824" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="448.18109999999996" y="682.5999999999999" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">available, default</text>
+<rect x="268.37654" y="671.8" width="65.11048" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="300.93177999999995" y="682.5999999999999" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">product</text>
+<rect x="476.9235999999999" y="1386.1999999999998" width="207.21832000000003" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="580.5327599999999" y="1396.9999999999998" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">changelog/{org}/{repo}/{branch}/</text>
+<rect x="714.14192" y="1386.1999999999998" width="77.43616" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="752.86" y="1396.9999999999998" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">note-*.yml</text>
+<rect x="384.24554" y="1565.7999999999997" width="72.36088" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="420.42598" y="1576.5999999999997" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">products</text>
+<rect x="798.8489999999999" y="1565.7999999999997" width="133.98928" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="865.8436399999999" y="1576.5999999999997" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">products (versions)</text>
+<rect x="541.1008299999999" y="847.4000000000001" width="65.11048" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="573.6560699999999" y="858.2" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">product</text>
+<rect x="406.46448" y="1386.1999999999998" width="40.45912" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="426.69404" y="1396.9999999999998" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">link</text>
+<rect x="481.12199999999996" y="1202.6" width="72.36088" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="517.3024399999999" y="1213.3999999999999" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">products</text>
+<rect x="987.1247799999999" y="847.4000000000001" width="65.11048" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="1019.6800199999999" y="858.2" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">product</text>
+<rect x="227.80315999999996" y="1202.6" width="60.76023999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="258.18327999999997" y="1213.3999999999999" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">entries</text>
+<rect x="187.92595999999998" y="1386.1999999999998" width="140.51463999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="258.18327999999997" y="1396.9999999999998" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">file.name + checksum</text>
+<rect x="380.93623999999994" y="1202.6" width="70.18576" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="416.0291199999999" y="1213.3999999999999" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">amend-N</text>
+<rect x="52.398120000000006" y="1202.6" width="93.38703999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="99.09164" y="1213.3999999999999" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">amend-notes</text>
+<rect x="248.19767999999996" y="847.4000000000001" width="192.71751999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="344.55643999999995" y="858.2" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">bundle/{product}/registry.json</text>
+<rect x="307.65095999999994" y="1023" width="73.81096" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="344.55643999999995" y="1033.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">bundles[]</text>
+<rect x="900.02494" y="1386.1999999999998" width="59.310159999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="929.68002" y="1396.9999999999998" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">notes[]</text>
 </svg>

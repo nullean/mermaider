@@ -1,3 +1,4 @@
+using System.Collections.Frozen;
 using System.Globalization;
 using System.Text;
 using Mermaider.Models;
@@ -12,24 +13,87 @@ internal static class StyleBlock
 {
 	private static class Mix
 	{
-		internal const int Text = 100;
-		internal const int TextSec = 55;
-		internal const int TextMuted = 35;
-		internal const int TextFaint = 20;
-		internal const int Line = 32;
+		internal const int TextSec = 72;
+		internal const int TextMuted = 64;
+		internal const int TextFaint = 30;
+		internal const int Line = 50;
+		internal const int LineSoft = 14;
+		internal const int LineStrong = 68;
 		internal const int Arrow = 70;
 		internal const int NodeFill = 10;
 		internal const int NodeStroke = 22;
-		internal const int GroupFill = 3;
+		internal const int GroupFill = 4;
 		internal const int GroupHeader = 15;
 		internal const int GroupStroke = 10;
-		internal const int InnerStroke = 10;
-		internal const int KeyBadge = 8;
+		internal const int InnerStroke = 12;
+		internal const int KeyBadge = 9;
 
 		internal const int AccentFill = 8;
 		internal const int AccentStroke = 20;
 		internal const int AccentText = 65;
 	}
+
+	/// <summary>
+	/// The derived-token declarations inside <c>svg { … }</c>. One source for <see cref="AppendStyleBlock(StringBuilder, string?, StrictStylingOptions?, Rendering.FontScale?, string?, DesignInputs?, bool)"/>
+	/// and the stylesheet allowlist, so they cannot drift.
+	/// </summary>
+	internal static readonly string[] TokenLines =
+	[
+		"    --_text:          var(--fg);",
+		$"    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) {Mix.TextSec}%, var(--bg)));",
+		$"    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) {Mix.TextMuted}%, var(--bg)));",
+		$"    --_text-faint:    color-mix(in srgb, var(--fg) {Mix.TextFaint}%, var(--bg));",
+		$"    --_line:          var(--line, color-mix(in srgb, var(--fg) {Mix.Line}%, var(--bg)));",
+		$"    --_line-soft:     color-mix(in srgb, var(--fg) {Mix.LineSoft}%, var(--bg));",
+		$"    --_line-strong:   color-mix(in srgb, var(--fg) {Mix.LineStrong}%, var(--bg));",
+		$"    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) {Mix.Arrow}%, var(--bg)));",
+		$"    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) {Mix.NodeFill}%, var(--bg)));",
+		$"    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) {Mix.NodeStroke}%, var(--bg)));",
+		$"    --_group-fill:    color-mix(in srgb, var(--fg) {Mix.GroupFill}%, var(--bg));",
+		$"    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) {Mix.GroupHeader}%, var(--bg));",
+		$"    --_group-stroke:  color-mix(in srgb, var(--fg) {Mix.GroupStroke}%, var(--bg));",
+		$"    --_inner-stroke:  color-mix(in srgb, var(--fg) {Mix.InnerStroke}%, var(--bg));",
+		$"    --_key-badge:     color-mix(in srgb, var(--fg) {Mix.KeyBadge}%, var(--bg));",
+		$"    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) {Mix.AccentFill}%, var(--bg));",
+		$"    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) {Mix.AccentStroke}%, var(--bg));",
+		$"    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) {Mix.AccentText}%, var(--bg));",
+	];
+
+	/// <summary>Selectors that cast the box shadow (nodes, cards) and the container shadow.</summary>
+	internal const string BoxSelectors = ".node, .actor, .entity, .class-node, .architecture-service, .kanban-card";
+
+	internal const string ContainerSelectors = ".subgraph, .kanban-column";
+
+	/// <summary>
+	/// The elevation rules for a preset and elevation level. The shadow colour follows the page: soft zinc on light
+	/// backgrounds, deeper black on dark ones. Empty when the preset or the level has no shadows.
+	/// </summary>
+	internal static string[] ElevationLines(StyleSpec spec, int elevation, bool darkBg)
+	{
+		if (elevation <= 0 || (!spec.NodeShadow && !spec.ContainerShadow))
+			return [];
+
+		var shadow = darkBg ? "rgba(0,0,0,.45)" : "rgba(24,24,27,.10)";
+		var ambient = darkBg ? "rgba(0,0,0,.30)" : "rgba(24,24,27,.06)";
+		var box = spec.Style == DiagramStyle.Tonal
+			? $"drop-shadow(0 2px 6px {shadow})"
+			: $"drop-shadow(0 1px 2px {shadow})";
+		if (elevation >= 2)
+			box += $" drop-shadow(0 6px 14px {ambient})";
+
+		var lines = new List<string>(2);
+		if (spec.NodeShadow)
+			lines.Add($"  {BoxSelectors} {{ filter: {box}; }}");
+		if (spec.ContainerShadow)
+			lines.Add($"  {ContainerSelectors} {{ filter: drop-shadow(0 1px 2px {ambient}); }}");
+		return [.. lines];
+	}
+
+	/// <summary>Every elevation line any preset / level / background can produce (the allowlist accepts exactly these).</summary>
+	internal static readonly FrozenSet<string> AllElevationLines =
+		new[] { StyleSpec.Quiet, StyleSpec.Blueprint, StyleSpec.Tonal }
+			.SelectMany(spec => new[] { 1, 2 }.SelectMany(level => new[] { false, true }.SelectMany(dark => ElevationLines(spec, level, dark))))
+			.ToFrozenSet(StringComparer.Ordinal);
 
 	internal static void AppendSvgOpenTag(
 		StringBuilder sb, double width, double height,
@@ -133,7 +197,7 @@ internal static class StyleBlock
 
 	// CSS generic font family keywords must not be quoted in font-family declarations.
 	private static readonly System.Collections.Frozen.FrozenSet<string> GenericFontKeywords =
-		System.Collections.Frozen.FrozenSet.ToFrozenSet(
+		FrozenSet.ToFrozenSet(
 		[
 			"serif", "sans-serif", "monospace", "cursive", "fantasy",
 			"system-ui", "ui-serif", "ui-sans-serif", "ui-monospace", "ui-rounded",
@@ -177,7 +241,10 @@ internal static class StyleBlock
 		}
 	}
 
-	internal static void AppendStyleBlock(StringBuilder sb, string? font = null, StrictStylingOptions? strict = null, Rendering.FontScale? fontScale = null, string? monoFont = null)
+	internal static void AppendStyleBlock(StringBuilder sb, Rendering.NormalizedRenderStyles styles) =>
+		AppendStyleBlock(sb, styles.Font, styles.Strict, styles.FontScale, styles.MonoFont, styles.Design, ColorUtils.IsDark(styles.Colors.Bg));
+
+	internal static void AppendStyleBlock(StringBuilder sb, string? font = null, StrictStylingOptions? strict = null, Rendering.FontScale? fontScale = null, string? monoFont = null, DesignInputs? design = null, bool darkBg = false)
 	{
 		_ = sb.Append("\n<style>\n");
 
@@ -192,22 +259,8 @@ internal static class StyleBlock
 			_ = sb.Append("  .mono { font-family: ").Append(Rendering.RenderConstants.MonoStack).Append("; }\n");
 
 		_ = sb.Append("  svg {\n");
-		_ = sb.Append("    --_text:          var(--fg);\n");
-		_ = sb.Append("    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) ").Append(Mix.TextSec).Append("%, var(--bg)));\n");
-		_ = sb.Append("    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) ").Append(Mix.TextMuted).Append("%, var(--bg)));\n");
-		_ = sb.Append("    --_text-faint:    color-mix(in srgb, var(--fg) ").Append(Mix.TextFaint).Append("%, var(--bg));\n");
-		_ = sb.Append("    --_line:          var(--line, color-mix(in srgb, var(--fg) ").Append(Mix.Line).Append("%, var(--bg)));\n");
-		_ = sb.Append("    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) ").Append(Mix.Arrow).Append("%, var(--bg)));\n");
-		_ = sb.Append("    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) ").Append(Mix.NodeFill).Append("%, var(--bg)));\n");
-		_ = sb.Append("    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) ").Append(Mix.NodeStroke).Append("%, var(--bg)));\n");
-		_ = sb.Append("    --_group-fill:    color-mix(in srgb, var(--fg) ").Append(Mix.GroupFill).Append("%, var(--bg));\n");
-		_ = sb.Append("    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) ").Append(Mix.GroupHeader).Append("%, var(--bg));\n");
-		_ = sb.Append("    --_group-stroke:  color-mix(in srgb, var(--fg) ").Append(Mix.GroupStroke).Append("%, var(--bg));\n");
-		_ = sb.Append("    --_inner-stroke:  color-mix(in srgb, var(--fg) ").Append(Mix.InnerStroke).Append("%, var(--bg));\n");
-		_ = sb.Append("    --_key-badge:     color-mix(in srgb, var(--fg) ").Append(Mix.KeyBadge).Append("%, var(--bg));\n");
-		_ = sb.Append("    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) ").Append(Mix.AccentFill).Append("%, var(--bg));\n");
-		_ = sb.Append("    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) ").Append(Mix.AccentStroke).Append("%, var(--bg));\n");
-		_ = sb.Append("    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) ").Append(Mix.AccentText).Append("%, var(--bg));\n");
+		foreach (var line in TokenLines)
+			_ = sb.Append(line).Append('\n');
 
 		var fs = fontScale ?? Rendering.FontScale.Default;
 		_ = sb.Append("    --fs-xs: ").Append(fs.Xs).Append(";\n");
@@ -215,8 +268,10 @@ internal static class StyleBlock
 		_ = sb.Append("    --fs-m:  ").Append(fs.M).Append(";\n");
 		_ = sb.Append("    --fs-l:  ").Append(fs.L).Append(";\n");
 		_ = sb.Append("  }\n");
-		_ = sb.Append("  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }\n");
-		_ = sb.Append("  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }\n");
+
+		var d = design ?? DesignInputs.Default;
+		foreach (var line in ElevationLines(d.Spec, d.Elevation, darkBg))
+			_ = sb.Append(line).Append('\n');
 
 		if (strict is not null)
 			AppendStrictStylingClasses(sb, strict);

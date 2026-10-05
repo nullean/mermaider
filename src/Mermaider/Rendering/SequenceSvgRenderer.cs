@@ -38,7 +38,7 @@ internal static class SequenceSvgRenderer
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 		StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
+		StyleBlock.AppendStyleBlock(sb, context.Styles);
 		AppendArrowDefs(sb);
 
 		// Same language as the other diagrams: participants that talk to each other share a cluster colour, boxes and

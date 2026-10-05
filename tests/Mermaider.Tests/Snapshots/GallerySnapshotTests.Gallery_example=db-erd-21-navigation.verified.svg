@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880.48576 820.8" width="880.48576" height="820.8" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 837.54304 810.4" width="837.54304" height="810.4" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,154 +26,154 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px rgba(24,24,27,.10)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
 <defs>
 </defs>
 
-<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="DocumentationSetNavigation" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="builds" d="M142.51135999999997,96 L142.51135999999997,202.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="DocumentationSetNavigation" data-entity2="NavigationNode" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="tree" d="M142.51135999999997,278.2 L142.51135999999997,343.4 Q142.51135999999997,348.4 147.51135999999997,348.4 L149.72535999999997,348.4 Q154.72535999999997,348.4 154.72535999999997,353.4 L154.72535999999997,376.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="TocItem" data-entity2="NavigationNode" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="mirrors" d="M345.02272,278.2 L345.02272,343.4 Q345.02272,348.4 340.02272,348.4 L209.17559999999997,348.4 Q204.17559999999997,348.4 204.17559999999997,353.4 L204.17559999999997,376.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="FileNavigation" data-entity2="Page" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="model" d="M792.11072,96 L792.1107200000001,202.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="TocNavigation" data-entity2="TableOfContents" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="toc.yml" d="M425.68095999999997,626.5999999999999 L425.68095999999997,691.8 Q425.68095999999997,696.8 430.68095999999997,696.8 L484.68519999999995,696.8 Q489.68519999999995,696.8 489.68519999999995,701.8 L489.68519999999995,724.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="SiteNavigation" data-entity2="SiteMount" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="toc" d="M579.22188,96 L579.22188,343.4 Q579.22188,348.4 574.22188,348.4 L530.0227199999999,348.4 Q525.0227199999999,348.4 525.0227199999999,353.4 L525.0227199999999,376.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="SiteSection" data-entity2="SiteMount" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="children" d="M485.02272,278.2 L485.02272,376.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="SiteNavigation" data-entity2="SiteSection" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="section (preview)" d="M545.03436,96 L545.03436,119 Q545.03436,124 540.03436,124 L490.02272,124 Q485.02272,124 485.02272,129 L485.02272,202.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="SiteMount" data-entity2="TocNavigation" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="toc: repo://path" d="M485.02272,452.4 L485.02272,475.4 Q485.02272,480.4 480.02272,480.4 L430.68095999999997,480.4 Q425.68095999999997,480.4 425.68095999999997,485.4 L425.68095999999997,550.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="SiteNavigation" data-entity2="Phantom" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="phantoms" d="M613.4094,96 L613.4094,119 Q613.4094,124 618.4094,124 L668.42104,124 Q673.42104,124 673.42104,129 L673.42104,517.5999999999999 Q673.42104,522.5999999999999 678.42104,522.5999999999999 L728.70624,522.5999999999999 Q733.70624,522.5999999999999 733.70624,527.5999999999999 L733.70624,550.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Phantom" data-entity2="TableOfContents" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="toc" d="M733.70624,626.5999999999999 L733.70624,691.8 Q733.70624,696.8 728.70624,696.8 L546.0688799999999,696.8 Q541.0688799999999,696.8 541.0688799999999,701.8 L541.0688799999999,724.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="SiteMount" data-entity2="HomeProvider" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="re-homes subtree" d="M525.0227199999999,452.4 L525.0227199999999,475.4 Q525.0227199999999,480.4 530.0227199999999,480.4 L579.36448,480.4 Q584.36448,480.4 584.36448,485.4 L584.36448,550.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="SiteMount" data-entity2="SiteMount" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="children" d="M565.0227199999999,390.4 L632.7055999999999,390.4 Q637.7055999999999,390.4 637.7055999999999,395.4 L637.7055999999999,433.4 Q637.7055999999999,438.4 632.7055999999999,438.4 L565.0227199999999,438.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="DocumentationSetNavigation" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="builds" d="M128.69744,96 L128.69743999999997,199.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="DocumentationSetNavigation" data-entity2="NavigationNode" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="tree" d="M128.69743999999997,275.6 L128.69743999999997,338.2 Q128.69743999999997,343.2 133.69743999999997,343.2 L134.10414,343.2 Q139.10414,343.2 139.10414,348.2 L139.10414,371.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="TocItem" data-entity2="NavigationNode" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="mirrors" d="M317.39488,275.6 L317.39488,338.2 Q317.39488,343.2 312.39488,343.2 L188.3731,343.2 Q183.3731,343.2 183.3731,348.2 L183.3731,371.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="FileNavigation" data-entity2="Page" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="model" d="M756.21488,96 L756.21488,199.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="TocNavigation" data-entity2="TableOfContents" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="toc.yml" d="M405.2208399999999,618.8 L405.2208399999999,681.4 Q405.2208399999999,686.4 410.2208399999999,686.4 L458.69399999999996,686.4 Q463.69399999999996,686.4 463.69399999999996,691.4 L463.69399999999996,714.4" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="SiteNavigation" data-entity2="SiteMount" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="toc" d="M548.98962,96 L548.98962,338.2 Q548.98962,343.2 543.98962,343.2 L502.39487999999994,343.2 Q497.39487999999994,343.2 497.39487999999994,348.2 L497.39487999999994,371.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="SiteSection" data-entity2="SiteMount" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="children" d="M457.39488,275.6 L457.39487999999994,371.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="SiteNavigation" data-entity2="SiteSection" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="section (preview)" d="M518.32554,96 L518.32554,119 Q518.32554,124 513.32554,124 L462.39488,124 Q457.39488,124 457.39488,129 L457.39488,199.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="SiteMount" data-entity2="TocNavigation" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="toc: repo://path" d="M457.39487999999994,447.2 L457.39487999999994,470.2 Q457.39487999999994,475.2 452.39487999999994,475.2 L410.2208399999999,475.2 Q405.2208399999999,475.2 405.2208399999999,480.2 L405.2208399999999,542.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="SiteNavigation" data-entity2="Phantom" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="phantoms" d="M579.6537,96 L579.6537,119 Q579.6537,124 584.6537,124 L635.58436,124 Q640.58436,124 640.58436,129 L640.58436,298.6 Q640.58436,303.6 635.58436,303.6 L633.4007199999999,303.6 Q628.4007199999999,303.6 628.4007199999999,308.6 L628.4007199999999,509.79999999999995 Q628.4007199999999,514.8 633.4007199999999,514.8 L686.74296,514.8 Q691.74296,514.8 691.74296,519.8 L691.74296,542.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="Phantom" data-entity2="TableOfContents" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="toc" d="M691.74296,618.8 L691.74296,681.4 Q691.74296,686.4 686.74296,686.4 L514.65472,686.4 Q509.65472,686.4 509.65472,691.4 L509.65472,714.4" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="SiteMount" data-entity2="HomeProvider" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="re-homes subtree" d="M497.39487999999994,447.2 L497.39487999999994,470.2 Q497.39487999999994,475.2 502.39487999999994,475.2 L544.5689199999999,475.2 Q549.5689199999999,475.2 549.5689199999999,480.2 L549.5689199999999,542.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="SiteMount" data-entity2="SiteMount" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="children" d="M537.39488,385.2 L602.4001999999999,385.2 Q607.4001999999999,385.2 607.4001999999999,390.2 L607.4001999999999,428.2 Q607.4001999999999,433.2 602.4001999999999,433.2 L537.39488,433.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <g class="entity" data-id="DocumentationSet" data-label="DocumentationSet">
-  <rect x="60.60223999999996" y="20" width="163.81824" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="142.51135999999997" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">DocumentationSet</text>
+  <rect x="55.526959999999995" y="20" width="146.34096" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="128.69744" y="58" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">DocumentationSet</text>
 </g>
 <g class="entity" data-id="DocumentationSetNavigation" data-label="DocumentationSetNavigation">
-  <rect x="20" y="202.2" width="245.02271999999996" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="142.51135999999997" y="240.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">DocumentationSetNavigation</text>
+  <rect x="20" y="199.6" width="217.39487999999992" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="128.69743999999997" y="237.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">DocumentationSetNavigation</text>
 </g>
 <g class="entity" data-id="NavigationNode" data-label="NavigationNode">
-  <rect x="105.27511999999996" y="376.4" width="148.35072000000002" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="179.45047999999997" y="414.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">NavigationNode</text>
+  <rect x="94.83518000000001" y="371.2" width="132.80687999999998" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="161.23862" y="409.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">NavigationNode</text>
 </g>
 <g class="entity" data-id="TocItem" data-label="TocItem">
-  <rect x="285.02272" y="202.2" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="345.02272" y="240.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">TocItem</text>
+  <rect x="257.39488" y="199.6" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="317.39488" y="237.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">TocItem</text>
 </g>
 <g class="entity" data-id="FileNavigation" data-label="FileNavigation">
-  <rect x="723.73568" y="20" width="136.75008000000003" height="76" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-  <text x="792.11072" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">FileNavigation</text>
+  <rect x="694.88672" y="20" width="122.65632000000001" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="756.21488" y="58" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">FileNavigation</text>
 </g>
 <g class="entity" data-id="Page" data-label="Page">
-  <rect x="732.1107200000001" y="202.2" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-  <text x="792.1107200000001" y="240.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Page</text>
+  <rect x="696.21488" y="199.6" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="756.21488" y="237.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Page</text>
 </g>
 <g class="entity" data-id="TocNavigation" data-label="TocNavigation">
-  <rect x="356.33919999999995" y="550.5999999999999" width="138.68352000000002" height="76" rx="6" ry="6" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
-  <text x="425.68095999999997" y="588.5999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">TocNavigation</text>
+  <rect x="343.0467999999999" y="542.8" width="124.34808000000001" height="76" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 11%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="405.2208399999999" y="580.8" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">TocNavigation</text>
 </g>
 <g class="entity" data-id="TableOfContents" data-label="TableOfContents">
-  <rect x="438.3015199999999" y="724.8" width="154.15104000000002" height="76" rx="6" ry="6" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
-  <text x="515.37704" y="762.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">TableOfContents</text>
+  <rect x="417.73328" y="714.4" width="137.88216" height="76" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 11%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="486.67436" y="752.4" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">TableOfContents</text>
 </g>
 <g class="entity" data-id="SiteNavigation" data-label="SiteNavigation">
-  <rect x="510.84684" y="20" width="136.75008000000003" height="76" rx="6" ry="6" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
-  <text x="579.22188" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">SiteNavigation</text>
+  <rect x="487.66146" y="20" width="122.65632000000001" height="76" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 11%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="548.98962" y="58" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">SiteNavigation</text>
 </g>
 <g class="entity" data-id="SiteMount" data-label="SiteMount">
-  <rect x="445.02272" y="376.4" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
-  <text x="505.02272" y="414.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">SiteMount</text>
+  <rect x="417.39487999999994" y="371.2" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 11%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="477.39487999999994" y="409.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">SiteMount</text>
 </g>
 <g class="entity" data-id="SiteSection" data-label="SiteSection">
-  <rect x="425.02272" y="202.2" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
-  <text x="485.02272" y="240.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">SiteSection</text>
+  <rect x="397.39488" y="199.6" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 11%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="457.39488" y="237.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">SiteSection</text>
 </g>
 <g class="entity" data-id="Phantom" data-label="Phantom">
-  <rect x="673.70624" y="550.5999999999999" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
-  <text x="733.70624" y="588.5999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Phantom</text>
+  <rect x="631.74296" y="542.8" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 11%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="691.74296" y="580.8" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Phantom</text>
 </g>
 <g class="entity" data-id="HomeProvider" data-label="HomeProvider">
-  <rect x="515.0227199999999" y="550.5999999999999" width="138.68352000000002" height="76" rx="6" ry="6" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
-  <text x="584.36448" y="588.5999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">HomeProvider</text>
+  <rect x="487.39487999999994" y="542.8" width="124.34808000000001" height="76" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 11%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="549.5689199999999" y="580.8" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">HomeProvider</text>
 </g>
-<path d="M149.01135999999997,105 L136.01135999999997,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M149.01135999999997,110 L136.01135999999997,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M136.01135999999997,193.2 L149.01135999999997,193.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M136.01135999999997,188.2 L149.01135999999997,188.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M149.01135999999997,287.2 L136.01135999999997,287.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M149.01135999999997,292.2 L136.01135999999997,292.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M147.22535999999997,376.4 L154.72535999999997,363.4 L162.22535999999997,376.4" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="154.72535999999997" cy="354.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M351.52272,287.2 L338.52272,287.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M351.52272,292.2 L338.52272,292.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M197.67559999999997,367.4 L210.67559999999997,367.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M197.67559999999997,362.4 L210.67559999999997,362.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M799.61072,95.99999999999999 L792.11072,109 L784.61072,96.00000000000001" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="792.11072" cy="118" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M785.6107200000001,193.2 L798.6107200000001,193.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M785.6107200000001,188.2 L798.6107200000001,188.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M432.18095999999997,635.5999999999999 L419.18095999999997,635.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M432.18095999999997,640.5999999999999 L419.18095999999997,640.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M483.18519999999995,715.8 L496.18519999999995,715.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M483.18519999999995,710.8 L496.18519999999995,710.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M585.72188,105 L572.72188,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M585.72188,110 L572.72188,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M517.5227199999999,376.4 L525.0227199999999,363.4 L532.5227199999999,376.4" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<path d="M518.5227199999999,358.4 L531.5227199999999,358.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M491.52272,287.2 L478.52272,287.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M491.52272,292.2 L478.52272,292.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M477.52272,376.4 L485.02272,363.4 L492.52272,376.4" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="485.02272" cy="354.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M551.53436,105 L538.53436,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M551.53436,110 L538.53436,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M477.52272,202.2 L485.02272,189.2 L492.52272,202.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="485.02272" cy="180.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M492.52272,452.4 L485.02272,465.4 L477.52272,452.4" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="485.02272" cy="474.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M419.18095999999997,541.5999999999999 L432.18095999999997,541.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M419.18095999999997,536.5999999999999 L432.18095999999997,536.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M619.9094,105 L606.9094,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M619.9094,110 L606.9094,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M726.20624,550.5999999999999 L733.70624,537.5999999999999 L741.20624,550.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="733.70624" cy="528.5999999999999" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M741.20624,626.5999999999999 L733.70624,639.5999999999999 L726.20624,626.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="733.70624" cy="648.5999999999999" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M534.5688799999999,715.8 L547.5688799999999,715.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M534.5688799999999,710.8 L547.5688799999999,710.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M531.5227199999999,461.4 L518.5227199999999,461.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M531.5227199999999,466.4 L518.5227199999999,466.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M577.86448,541.5999999999999 L590.86448,541.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M577.86448,536.5999999999999 L590.86448,536.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M574.0227199999999,383.9 L574.0227199999999,396.9" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M579.0227199999999,383.9 L579.0227199999999,396.9" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M565.0227199999999,430.9 L578.0227199999999,438.4 L565.0227199999999,445.9" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="587.0227199999999" cy="438.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<rect x="113.04071999999996" y="136.875" width="58.941280000000006" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="142.51135999999997" y="149.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">builds</text>
-<rect x="119.45159999999996" y="315.07499999999993" width="46.11952000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="142.51135999999997" y="327.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">tree</text>
-<rect x="310.74392" y="315.07499999999993" width="68.55760000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="345.02272" y="327.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">mirrors</text>
-<rect x="763.4414400000001" y="136.875" width="57.33856000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="792.11072" y="149.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">model</text>
-<rect x="393.80623999999995" y="663.4749999999999" width="63.74944000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="425.68095999999997" y="675.6999999999999" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">toc.yml</text>
-<rect x="563.0227199999999" y="136.875" width="39.70864" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="582.87704" y="149.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">toc</text>
-<rect x="448.33984" y="315.07499999999993" width="73.36576" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="485.02272" y="327.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">children</text>
-<rect x="420.69291999999996" y="136.875" width="128.6596" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="485.02272" y="149.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">section (preview)</text>
-<rect x="368.56339999999994" y="489.2749999999999" width="114.23512000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="425.68095999999997" y="501.49999999999994" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">toc: repo://path</text>
-<rect x="632.73136" y="136.875" width="81.37936000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="673.42104" y="149.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">phantoms</text>
-<rect x="713.85192" y="663.4749999999999" width="39.70864" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="733.70624" y="675.6999999999999" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">toc</text>
-<rect x="518.0312799999999" y="489.2749999999999" width="132.6664" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="584.36448" y="501.49999999999994" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">re-homes subtree</text>
-<rect x="601.0227199999999" y="402.17499999999995" width="73.36576" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="637.7055999999999" y="414.4" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">children</text>
+<path d="M135.19744,105 L122.19744,105" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M135.19744,110 L122.19744,110" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M122.19743999999997,190.6 L135.19743999999997,190.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M122.19743999999997,185.6 L135.19743999999997,185.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M135.19743999999997,284.6 L122.19743999999997,284.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M135.19743999999997,289.6 L122.19743999999997,289.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M131.60414,371.2 L139.10414,358.2 L146.60414,371.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="139.10414" cy="349.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M323.89488,284.6 L310.89488,284.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M323.89488,289.6 L310.89488,289.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M176.8731,362.2 L189.8731,362.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M176.8731,357.2 L189.8731,357.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M763.71488,96 L756.21488,109 L748.71488,96" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="756.21488" cy="118" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M749.71488,190.6 L762.71488,190.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M749.71488,185.6 L762.71488,185.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M411.7208399999999,627.8 L398.7208399999999,627.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M411.7208399999999,632.8 L398.7208399999999,632.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M457.19399999999996,705.4 L470.19399999999996,705.4" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M457.19399999999996,700.4 L470.19399999999996,700.4" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M555.48962,105 L542.48962,105" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M555.48962,110 L542.48962,110" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M489.89487999999994,371.2 L497.39487999999994,358.2 L504.89487999999994,371.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M490.89487999999994,353.2 L503.89487999999994,353.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M463.89488,284.6 L450.89488,284.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M463.89488,289.6 L450.89488,289.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M449.89487999999994,371.2 L457.39487999999994,358.2 L464.89487999999994,371.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="457.39487999999994" cy="349.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M524.82554,105 L511.82554000000005,105" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M524.82554,110 L511.82554000000005,110" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M449.89488,199.6 L457.39488,186.6 L464.89488,199.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="457.39488" cy="177.6" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M464.89487999999994,447.2 L457.39487999999994,460.2 L449.89487999999994,447.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="457.39487999999994" cy="469.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M398.7208399999999,533.8 L411.7208399999999,533.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M398.7208399999999,528.8 L411.7208399999999,528.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M586.1537,105 L573.1537,105" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M586.1537,110 L573.1537,110" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M684.24296,542.8 L691.74296,529.8 L699.24296,542.8" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="691.74296" cy="520.8" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M699.24296,618.8 L691.74296,631.8 L684.24296,618.8" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="691.74296" cy="640.8" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M503.15472,705.4 L516.15472,705.4" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M503.15472,700.4 L516.15472,700.4" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M503.89487999999994,456.2 L490.89487999999994,456.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M503.89487999999994,461.2 L490.89487999999994,461.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M543.0689199999999,533.8 L556.0689199999999,533.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M543.0689199999999,528.8 L556.0689199999999,528.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M546.39488,378.7 L546.39488,391.7" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M551.39488,378.7 L551.39488,391.7" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M537.39488,425.7 L550.39488,433.2 L537.39488,440.7" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="559.39488" cy="433.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<rect x="101.21748000000001" y="137" width="54.95991999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="128.69744" y="147.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">builds</text>
+<rect x="107.01779999999997" y="312.59999999999997" width="43.359280000000005" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="128.69743999999997" y="323.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">tree</text>
+<rect x="285.56468" y="312.59999999999997" width="63.660399999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="317.39488" y="323.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">mirrors</text>
+<rect x="729.45996" y="137" width="53.50984" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="756.21488" y="147.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">model</text>
+<rect x="375.5657599999999" y="655.8" width="59.310159999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="405.2208399999999" y="666.5999999999999" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">toc.yml</text>
+<rect x="535.3948800000001" y="137" width="37.55896" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="554.1743600000001" y="147.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">toc</text>
+<rect x="423.38956" y="312.59999999999997" width="68.01064" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="457.39488" y="323.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">children</text>
+<rect x="398.37568" y="137" width="118.0384" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="457.39488" y="147.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">section (preview)</text>
+<rect x="352.7269999999999" y="484.2" width="104.98768" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="405.2208399999999" y="495" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">toc: repo://path</text>
+<rect x="602.9538399999999" y="137" width="75.26104" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="640.58436" y="147.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">phantoms</text>
+<rect x="672.96348" y="655.8" width="37.55896" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="691.74296" y="666.5999999999999" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">toc</text>
+<rect x="488.73711999999995" y="484.2" width="121.6636" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="549.5689199999999" y="495" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">re-homes subtree</text>
+<rect x="573.39488" y="398.4" width="68.01064" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="607.4001999999999" y="409.2" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">children</text>
 </svg>

@@ -45,7 +45,7 @@ internal static class RequirementSvgRenderer
 		if (boxes.Count == 0)
 		{
 			StyleBlock.AppendSvgOpenTag(sb, 200, 100, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-			StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
+			StyleBlock.AppendStyleBlock(sb, context.Styles);
 			_ = sb.Append("\n</svg>");
 			return sb;
 		}
@@ -75,7 +75,7 @@ internal static class RequirementSvgRenderer
 		}
 
 		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
+		StyleBlock.AppendStyleBlock(sb, context.Styles);
 		AppendMarkerDefs(sb);
 
 		if (hasTitle)

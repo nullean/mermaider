@@ -51,7 +51,7 @@ internal static class PieSvgRenderer
 		var width = LegendX + 200;
 
 		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
+		StyleBlock.AppendStyleBlock(sb, context.Styles);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		if (hasTitle)

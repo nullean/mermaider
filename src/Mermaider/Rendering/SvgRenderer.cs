@@ -13,8 +13,6 @@ namespace Mermaider.Rendering;
 /// </summary>
 internal static class SvgRenderer
 {
-	private static readonly string EdgeLabelAttrs = TextAttrs.EdgeLabelCenterFill + "var(--_text)\"";
-
 	/// <summary>
 	/// Reads a user-supplied inline style value (from <c>style</c>/<c>classDef</c>/<c>linkStyle</c>)
 	/// and escapes it for safe emission into a double-quoted SVG attribute. The output sanitizer
@@ -22,8 +20,6 @@ internal static class SvgRenderer
 	/// </summary>
 	private static string? InlineStyleValue(IReadOnlyDictionary<string, string>? style, string key) =>
 		style?.GetValueOrDefault(key) is { } value ? MultilineUtils.EscapeAttr(value) : null;
-
-	private static readonly string GroupHeaderAttrs = TextAttrs.GroupHeaderFill + "var(--_text-sec)\"";
 
 	internal static string Render(PositionedGraph graph, SvgRenderContext context)
 	{
@@ -43,123 +39,103 @@ internal static class SvgRenderer
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 		StyleBlock.AppendSvgOpenTag(sb, graph.Width, graph.Height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType, graph.MinX);
-		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
-		AppendArrowDefs(sb);
+		StyleBlock.AppendStyleBlock(sb, context.Styles);
+		var ds = DesignSystem.For(context);
 
-		var palette = context.DiagramType is DiagramType.Flowchart or DiagramType.State ? ClusterPalette.Build(graph, context.Styles.Colors) : null;
+		var palette = context.DiagramType is DiagramType.Flowchart or DiagramType.State
+			? ClusterPalette.Build(graph, context.Styles.Colors).WithTint(ds.TintStrength)
+			: null;
 
 		foreach (var group in graph.Groups)
-			AppendGroupBody(sb, group, palette, 0);
+			AppendGroupBody(sb, ds, group, palette, 0);
 
 		foreach (var edge in graph.Edges)
 		{
 			if (edge.Style != EdgeStyle.Invisible)
-				AppendEdge(sb, edge, context.EdgeRadius);
+				AppendEdge(sb, ds, edge, context.EdgeRadius);
 		}
 
 		foreach (var group in graph.Groups)
-			AppendGroupHeader(sb, group, palette, 0);
+			AppendGroupHeader(sb, ds, group, palette);
 
 		foreach (var edge in graph.Edges)
 		{
 			if (edge.Style != EdgeStyle.Invisible && edge.Label is not null)
-				AppendEdgeLabel(sb, edge);
+				AppendEdgeLabel(sb, ds, edge);
 		}
 
 		foreach (var node in graph.Nodes)
-			AppendNode(sb, node, context.Styles.Strict, palette);
+			AppendNode(sb, ds, node, context.Styles.Strict, palette);
 
 		foreach (var note in graph.Notes)
-			VisualLanguage.AppendNote(sb, note);
+			ds.AppendNote(sb, note.X, note.Y, note.Width, note.Height, note.Text, note.LineFrom, note.LineTo);
 
-		_ = sb.Append("\n</svg>");
+		ds.Close(sb);
 		return sb;
-	}
-
-	// ========================================================================
-	// Arrow marker defs
-	// ========================================================================
-
-	private static void AppendArrowDefs(StringBuilder sb)
-	{
-		var s = ArrowHead.Size;
-		var w = s;
-		var h = s;
-
-		_ = sb.Append("\n<defs>\n");
-		_ = sb.Append("  <marker id=\"arrowhead\" markerUnits=\"userSpaceOnUse\" markerWidth=\"").Append(w)
-			.Append("\" markerHeight=\"").Append(h)
-			.Append("\" refX=\"").Append(w)
-			.Append("\" refY=\"").Append(h / 2.0)
-			.Append("\" orient=\"auto\">\n");
-		_ = sb.Append("    <polygon points=\"0 0, ").Append(w).Append(' ').Append(h / 2.0)
-			.Append(", 0 ").Append(h)
-			.Append("\" fill=\"var(--_line)\" stroke=\"var(--_line)\" stroke-width=\"0.75\" stroke-linejoin=\"round\" />\n");
-		_ = sb.Append("  </marker>\n");
-
-		_ = sb.Append("  <marker id=\"arrowhead-start\" markerUnits=\"userSpaceOnUse\" markerWidth=\"").Append(w)
-			.Append("\" markerHeight=\"").Append(h)
-			.Append("\" refX=\"0\" refY=\"").Append(h / 2.0)
-			.Append("\" orient=\"auto\">\n");
-		_ = sb.Append("    <polygon points=\"").Append(w).Append(" 0, 0 ").Append(h / 2.0)
-			.Append(", ").Append(w).Append(' ').Append(h)
-			.Append("\" fill=\"var(--_line)\" stroke=\"var(--_line)\" stroke-width=\"0.75\" stroke-linejoin=\"round\" />\n");
-		_ = sb.Append("  </marker>\n");
-		_ = sb.Append("</defs>\n");
 	}
 
 	// ========================================================================
 	// Group rendering
 	// ========================================================================
 
-	private static void AppendGroupBody(StringBuilder sb, PositionedGroup group, ClusterPalette? palette, int depth)
+	private static ColorFamily GroupFamily(DesignSystem ds, PositionedGroup group, ClusterPalette? palette) =>
+		palette?.GroupFamily(group.Id) ?? ds.Neutral;
+
+	private static void AppendGroupBody(StringBuilder sb, DesignSystem ds, PositionedGroup group, ClusterPalette? palette, int depth)
 	{
-		var r = Radii.Group;
-		var fill = InlineStyleValue(group.InlineStyle, "fill") ?? palette?.GroupFill(group.Id, depth) ?? "var(--_group-fill)";
-		var stroke = InlineStyleValue(group.InlineStyle, "stroke") ?? palette?.GroupStroke(group.Id) ?? "var(--_group-stroke)";
-		var sw = InlineStyleValue(group.InlineStyle, "stroke-width")
-			?? StrokeWidths.OuterBox.ToString(CultureInfo.InvariantCulture);
+		var family = GroupFamily(ds, group, palette);
+		var inlineFill = InlineStyleValue(group.InlineStyle, "fill");
+		var inlineStroke = InlineStyleValue(group.InlineStyle, "stroke");
+		var dataAttrs = new StringBuilder("data-id=\"");
+		MultilineUtils.AppendEscapedAttr(dataAttrs, group.Id.AsSpan());
+		_ = dataAttrs.Append("\" data-label=\"");
+		MultilineUtils.AppendEscapedAttr(dataAttrs, group.Label.AsSpan());
+		_ = dataAttrs.Append('"');
 
-		_ = sb.Append("\n<g class=\"subgraph\" data-id=\"");
-		MultilineUtils.AppendEscapedAttr(sb, group.Id.AsSpan());
-		_ = sb.Append("\" data-label=\"");
-		MultilineUtils.AppendEscapedAttr(sb, group.Label.AsSpan());
-		_ = sb.Append("\">\n");
-
-		_ = sb.Append("  <rect x=\"").Append(group.X).Append("\" y=\"").Append(group.Y)
-			.Append("\" width=\"").Append(group.Width).Append("\" height=\"").Append(group.Height)
-			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"").Append(fill)
-			.Append("\" stroke=\"").Append(stroke)
-			.Append("\" stroke-width=\"").Append(sw).Append("\" />\n");
-
-		_ = sb.Append("</g>\n");
+		if (inlineFill is null && inlineStroke is null)
+		{
+			ds.AppendContainerBody(sb, group.X, group.Y, group.Width, group.Height, family, depth, "subgraph", dataAttrs.ToString());
+		}
+		else
+		{
+			// author styling (non-strict): honour fill / stroke on a plain container box
+			var r = DesignSystem.Num(ds.Spec.ContainerRadius);
+			var sw = InlineStyleValue(group.InlineStyle, "stroke-width") ?? "1";
+			_ = sb.Append("\n<g class=\"subgraph\" ").Append(dataAttrs).Append(">\n  <rect x=\"").Append(group.X).Append("\" y=\"").Append(group.Y)
+				.Append("\" width=\"").Append(group.Width).Append("\" height=\"").Append(group.Height)
+				.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
+				.Append("\" fill=\"").Append(inlineFill ?? family.Tint(depth))
+				.Append("\" stroke=\"").Append(inlineStroke ?? family.Edge)
+				.Append("\" stroke-width=\"").Append(sw).Append("\" />\n</g>");
+		}
 
 		foreach (var child in group.Children)
-			AppendGroupBody(sb, child, palette, depth + 1);
+			AppendGroupBody(sb, ds, child, palette, depth + 1);
 	}
 
-	private static void AppendGroupHeader(StringBuilder sb, PositionedGroup group, ClusterPalette? palette, int depth)
+	private static void AppendGroupHeader(StringBuilder sb, DesignSystem ds, PositionedGroup group, ClusterPalette? palette)
 	{
-		// the subgraph is one plain box: the label sits on it, there is no separate header band
-		var headerHeight = FontSizes.GroupHeader + 16;
-		_ = sb.Append("  ");
-		MultilineUtils.AppendMultilineText(
-			sb, group.Label,
-			group.X + 12, group.Y + (headerHeight / 2.0),
-			FontSizes.GroupHeader,
-			palette is not null ? TextAttrs.GroupHeaderFill + (InlineStyleValue(group.InlineStyle, "stroke") ?? palette.GroupStroke(group.Id)) + "\"" : GroupHeaderAttrs);
-		_ = sb.Append('\n');
+		var family = GroupFamily(ds, group, palette);
+		if (InlineStyleValue(group.InlineStyle, "stroke") is { } stroke)
+		{
+			_ = sb.Append('\n');
+			MultilineUtils.AppendMultilineText(sb, group.Label, group.X + 12, group.Y + (DesignSystem.StripHeight / 2),
+				DesignSystem.Px(TypeRole.Subheading), ds.TextAttributes(TypeRole.Subheading, stroke, anchor: "start"));
+		}
+		else
+		{
+			ds.AppendContainerHeader(sb, group.X, group.Y, group.Width, group.Label, family);
+		}
 
 		foreach (var child in group.Children)
-			AppendGroupHeader(sb, child, palette, depth + 1);
+			AppendGroupHeader(sb, ds, child, palette);
 	}
 
 	// ========================================================================
 	// Edge rendering
 	// ========================================================================
 
-	private static void AppendEdge(StringBuilder sb, PositionedEdge edge, double cornerRadius)
+	private static void AppendEdge(StringBuilder sb, DesignSystem ds, PositionedEdge edge, double cornerRadius)
 	{
 		if (edge.Points.Count < 2)
 			return;
@@ -170,12 +146,10 @@ internal static class SvgRenderer
 
 		var dashArray = inlineDashArray is not null
 			? $" stroke-dasharray=\"{inlineDashArray}\""
-			: edge.Style == EdgeStyle.Dotted ? " stroke-dasharray=\"4 4\"" : "";
+			: edge.Style == EdgeStyle.Dotted ? $" stroke-dasharray=\"{DesignSystem.DashArray}\"" : "";
 
 		var strokeWidth = inlineStrokeWidth
-			?? (edge.Style == EdgeStyle.Thick
-				? (StrokeWidths.Connector * 2).ToString(System.Globalization.CultureInfo.InvariantCulture)
-				: StrokeWidths.Connector.ToString(System.Globalization.CultureInfo.InvariantCulture));
+			?? (edge.Style == EdgeStyle.Thick ? ds.ThickEdgeWidth : ds.EdgeWidth);
 
 		_ = sb.Append("\n<path class=\"edge\" data-from=\"");
 		MultilineUtils.AppendEscapedAttr(sb, edge.Source.AsSpan());
@@ -198,13 +172,13 @@ internal static class SvgRenderer
 			BuildOrthogonalPath(sb, edge.Points, cornerRadius);
 		else
 			BuildRoundedPath(sb, edge.Points, cornerRadius);
-		_ = sb.Append("\" fill=\"none\" stroke=\"").Append(inlineStroke ?? "var(--_line)")
+		_ = sb.Append("\" fill=\"none\" stroke=\"").Append(inlineStroke ?? DesignSystem.EdgeColor)
 			.Append("\" stroke-width=\"").Append(strokeWidth).Append('"').Append(dashArray);
 
 		if (edge.HasArrowEnd)
-			_ = sb.Append(" marker-end=\"url(#arrowhead)\"");
+			_ = sb.Append(" marker-end=\"").Append(ds.Marker(MarkerShape.Arrow)).Append('"');
 		if (edge.HasArrowStart)
-			_ = sb.Append(" marker-start=\"url(#arrowhead-start)\"");
+			_ = sb.Append(" marker-start=\"").Append(ds.Marker(MarkerShape.Arrow, atStart: true)).Append('"');
 
 		_ = sb.Append(" />");
 	}
@@ -357,20 +331,10 @@ internal static class SvgRenderer
 		_ = sb.Append(" L").Append(points[^1].X).Append(',').Append(points[^1].Y);
 	}
 
-	private static void AppendEdgeLabel(StringBuilder sb, PositionedEdge edge)
+	private static void AppendEdgeLabel(StringBuilder sb, DesignSystem ds, PositionedEdge edge)
 	{
 		var mid = edge.LabelPosition ?? VisualLanguage.PathMidpoint(edge.Points);
 		var label = edge.Label!;
-
-		var metrics = TextMetrics.MeasureMultiline(
-			label.AsSpan(),
-			FontSizes.EdgeLabel,
-			FontWeights.EdgeLabel);
-
-		var labelColor = InlineStyleValue(edge.InlineStyle, "color");
-		var textAttrs = labelColor is not null
-			? TextAttrs.EdgeLabelCenterFill + labelColor + "\""
-			: EdgeLabelAttrs;
 
 		_ = sb.Append("\n<g class=\"edge-label\" data-from=\"");
 		MultilineUtils.AppendEscapedAttr(sb, edge.Source.AsSpan());
@@ -379,12 +343,7 @@ internal static class SvgRenderer
 		_ = sb.Append("\" data-label=\"");
 		MultilineUtils.AppendEscapedAttr(sb, label.AsSpan());
 		_ = sb.Append("\">\n  ");
-
-		// Pill on the line: border as thick as the lines, ~2px clear padding (text-width estimate corrected like ER labels).
-		VisualLanguage.AppendLabelPill(sb, mid.X, mid.Y, metrics.Width, metrics.Height);
-		_ = sb.Append("\n  ");
-		MultilineUtils.AppendMultilineText(sb, label, mid.X, mid.Y, FontSizes.EdgeLabel, textAttrs);
-
+		ds.AppendEdgeLabel(sb, mid.X, mid.Y, label, InlineStyleValue(edge.InlineStyle, "color"));
 		_ = sb.Append("\n</g>");
 	}
 
@@ -392,7 +351,7 @@ internal static class SvgRenderer
 	// Node rendering
 	// ========================================================================
 
-	private static void AppendNode(StringBuilder sb, PositionedNode node, StrictStylingOptions? strict = null, ClusterPalette? palette = null)
+	private static void AppendNode(StringBuilder sb, DesignSystem ds, PositionedNode node, StrictStylingOptions? strict = null, ClusterPalette? palette = null)
 	{
 		_ = sb.Append("\n<g class=\"node");
 		if (node.CssClassName is not null)
@@ -407,35 +366,45 @@ internal static class SvgRenderer
 		MultilineUtils.AppendEscapedAttr(sb, node.Label.AsSpan());
 		_ = sb.Append("\" data-shape=\"").Append(node.Shape.ToLower()).Append("\">\n  ");
 
-		AppendNodeShape(sb, node, palette);
+		AppendNodeShape(sb, ds, node, palette);
 		_ = sb.Append("\n  ");
-		AppendNodeLabel(sb, node);
+		AppendNodeLabel(sb, ds, node);
 		_ = sb.Append("\n</g>");
 	}
 
-	private static void AppendNodeShape(StringBuilder sb, PositionedNode node, ClusterPalette? palette)
+	/// <summary>
+	/// The family a node is painted in: semantic role class &gt; shape meaning (decision = accent, terminal / data store =
+	/// neutral) &gt; cluster colour &gt; neutral.
+	/// </summary>
+	private static ColorFamily NodeFamily(DesignSystem ds, PositionedNode node, ClusterPalette? palette)
+	{
+		if (palette is null)
+			return ds.Neutral;
+		if (ds.RoleByName(node.SemanticRole) is { } role)
+			return role;
+		if (VisualLanguage.ShapeFamily(node.Shape, ds.TintStrength) is { } shape)
+			return shape;
+		return palette.Has(node.Id) ? palette.Family(node.Id) : ds.Neutral;
+	}
+
+	private static void AppendNodeShape(StringBuilder sb, DesignSystem ds, PositionedNode node, ClusterPalette? palette)
 	{
 		var (x, y, w, h) = (node.X, node.Y, node.Width, node.Height);
-		var clustered = palette is not null && palette.Has(node.Id);
-		// user style / classDef  >  semantic role class  >  shape meaning (decision, terminal, data store)  >  cluster colour  >  default
-		var role = palette is not null ? node.SemanticRole : null;
-		var shapeFill = palette is not null ? VisualLanguage.ShapeFill(node.Shape) : null;
-		var shapeStroke = palette is not null ? VisualLanguage.ShapeStroke(node.Shape) : null;
-		var fill = InlineStyleValue(node.InlineStyle, "fill")
-			?? (role is not null ? palette!.RoleFill(role) : shapeFill ?? (clustered ? palette!.NodeFill(node.Id) : "var(--_node-fill)"));
-		var stroke = InlineStyleValue(node.InlineStyle, "stroke")
-			?? (role is not null ? palette!.RoleStroke(role) : shapeStroke ?? (clustered ? palette!.NodeStroke(node.Id) : "var(--_node-stroke)"));
-		var terminal = palette is not null && node.Shape == NodeShape.Stadium && role is null;
-		var sw = InlineStyleValue(node.InlineStyle, "stroke-width")
-			?? (StrokeWidths.InnerBox + (terminal ? VisualLanguage.TerminalExtraStroke : 0)).ToString(CultureInfo.InvariantCulture);
+		var family = NodeFamily(ds, node, palette);
+		// user style / classDef (non-strict) win over the family
+		var fill = InlineStyleValue(node.InlineStyle, "fill") ?? ds.NodeFill(family);
+		var stroke = InlineStyleValue(node.InlineStyle, "stroke") ?? ds.NodeStroke(family);
+		var terminal = palette is not null && node.Shape == NodeShape.Stadium && node.SemanticRole is null;
+		var sw = InlineStyleValue(node.InlineStyle, "stroke-width") ?? (terminal ? ds.TerminalStrokeWidth : ds.NodeStrokeWidth);
+		var radius = ds.Spec.NodeRadius;
 
 		switch (node.Shape)
 		{
 			case NodeShape.Rectangle:
-				AppendRect(sb, x, y, w, h, Radii.Rectangle.ToString(CultureInfo.InvariantCulture), fill, stroke, sw);
+				AppendRect(sb, x, y, w, h, DesignSystem.Num(radius), fill, stroke, sw);
 				break;
 			case NodeShape.Rounded:
-				AppendRect(sb, x, y, w, h, Radii.Rounded.ToString(CultureInfo.InvariantCulture), fill, stroke, sw);
+				AppendRect(sb, x, y, w, h, DesignSystem.Num(Math.Min(radius + 6, h / 2)), fill, stroke, sw);
 				break;
 			case NodeShape.Stadium:
 				AppendRect(sb, x, y, w, h, (h / 2).ToString(CultureInfo.InvariantCulture), fill, stroke, sw);
@@ -474,10 +443,10 @@ internal static class SvgRenderer
 				AppendTrapezoidAlt(sb, x, y, w, h, fill, stroke, sw);
 				break;
 			case NodeShape.StateStart:
-				AppendStateStart(sb, x, y, w, h);
+				ds.AppendTerminal(sb, x + (w / 2), y + (h / 2), (Math.Min(w, h) / 2) - 2, end: false);
 				break;
 			case NodeShape.StateEnd:
-				AppendStateEnd(sb, x, y, w, h);
+				ds.AppendTerminal(sb, x + (w / 2), y + (h / 2), (Math.Min(w, h) / 2) - 2, end: true);
 				break;
 			case NodeShape.ForkJoin:
 				AppendForkJoin(sb, x, y, w, h);
@@ -651,39 +620,11 @@ internal static class SvgRenderer
 			.Append("\" stroke-width=\"").Append(sw).Append("\" />");
 	}
 
-	private static void AppendStateStart(StringBuilder sb, double x, double y, double w, double h)
-	{
-		var cx = x + (w / 2);
-		var cy = y + (h / 2);
-		var r = (Math.Min(w, h) / 2) - 2;
-		_ = sb.Append("<circle cx=\"").Append(cx).Append("\" cy=\"").Append(cy)
-			.Append("\" r=\"").Append(r)
-			.Append("\" fill=\"var(--_text)\" stroke=\"none\" />");
-	}
-
-	private static void AppendStateEnd(StringBuilder sb, double x, double y, double w, double h)
-	{
-		var cx = x + (w / 2);
-		var cy = y + (h / 2);
-		var outerR = (Math.Min(w, h) / 2) - 2;
-		var innerR = outerR - 4;
-		_ = sb.Append("<circle cx=\"").Append(cx).Append("\" cy=\"").Append(cy)
-			.Append("\" r=\"").Append(outerR)
-			.Append("\" fill=\"none\" stroke=\"var(--_text)\" stroke-width=\"")
-			.Append(StrokeWidths.InnerBox * 2).Append("\" />\n");
-		_ = sb.Append("<circle cx=\"").Append(cx).Append("\" cy=\"").Append(cy)
-			.Append("\" r=\"").Append(innerR)
-			.Append("\" fill=\"var(--_text)\" stroke=\"none\" />");
-	}
-
-	private static void AppendForkJoin(StringBuilder sb, double x, double y, double w, double h)
-	{
-		_ = sb.Append("<rect x=\"").Append(x).Append("\" y=\"").Append(y)
+	private static void AppendForkJoin(StringBuilder sb, double x, double y, double w, double h) => _ = sb.Append("<rect x=\"").Append(x).Append("\" y=\"").Append(y)
 			.Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
-			.Append("\" rx=\"2\" ry=\"2\" fill=\"var(--_text)\" stroke=\"none\" />");
-	}
+			.Append("\" rx=\"2\" ry=\"2\" fill=\"var(--_line-strong)\" stroke=\"none\" />");
 
-	private static void AppendNodeLabel(StringBuilder sb, PositionedNode node)
+	private static void AppendNodeLabel(StringBuilder sb, DesignSystem ds, PositionedNode node)
 	{
 		if (node.Shape is NodeShape.StateStart or NodeShape.StateEnd or NodeShape.ForkJoin && string.IsNullOrEmpty(node.Label))
 			return;
@@ -693,12 +634,9 @@ internal static class SvgRenderer
 		var textColor = InlineStyleValue(node.InlineStyle, "color") ?? "var(--_text)";
 
 		if (node.IsMarkdown)
-			AppendMarkdownLabel(sb, node.Label, cx, cy, FontSizes.NodeLabel, FsVar.M, textColor);
+			AppendMarkdownLabel(sb, node.Label, cx, cy, FontSizes.NodeLabel, FsVar.S, textColor);
 		else
-			MultilineUtils.AppendMultilineText(
-				sb, node.Label, cx, cy,
-				FontSizes.NodeLabel,
-				TextAttrs.NodeLabelCenterFill + textColor + "\"");
+			ds.AppendText(sb, node.Label, cx, cy, TypeRole.Label, textColor);
 	}
 
 	private static void AppendMarkdownLabel(StringBuilder sb, string label, double cx, double cy, int fontSizePx, string fontSizeVar, string fill)
@@ -720,7 +658,7 @@ internal static class SvgRenderer
 			var y = startY + (li * lineHeight);
 
 			_ = sb.Append("<tspan x=\"").Append(cx).Append("\" y=\"").Append(y)
-				.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift).Append("\">");
+				.Append("\" dy=\"").Append(TextBaselineShift).Append("\">");
 
 			if (inBold)
 				_ = sb.Append("<tspan font-weight=\"bold\">");

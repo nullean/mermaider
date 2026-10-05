@@ -12,6 +12,16 @@ internal sealed class ClusterPalette(DiagramColors colors, Dictionary<string, in
 	// Auto colouring never uses a role hue (success / failure / warning), see DiagramColors.AutoPalette.
 	private readonly string[] _palette = colors.AutoPalette();
 
+	/// <summary>Tint strength applied to every family stage (the <c>Tint</c> design input).</summary>
+	internal double TintStrength { get; private set; } = 1.0;
+
+	/// <summary>Applies the <c>Tint</c> design input to every family this palette hands out.</summary>
+	internal ClusterPalette WithTint(double tint)
+	{
+		TintStrength = tint;
+		return this;
+	}
+
 	/// <summary>The role named by a class (<c>success</c>, <c>failure</c>, <c>warning</c>, <c>info</c>), else null.</summary>
 	internal static string? RoleName(string? className) => className switch
 	{
@@ -27,25 +37,48 @@ internal sealed class ClusterPalette(DiagramColors colors, Dictionary<string, in
 		_ => ColorRole.Info,
 	};
 
-	internal string RoleFill(string role) => VisualLanguage.Tint(colors.RoleColor(RoleOf(role)), VisualLanguage.NodeTint);
+	// ---- families: what migrated renderers draw with (DesignSystem.NodeFill / AppendContainerBody / …) ----
 
-	internal string RoleStroke(string role) => VisualLanguage.Border(colors.RoleColor(RoleOf(role)));
+	/// <summary>The cluster family of a node, entity or class.</summary>
+	internal ColorFamily Family(string id) => FamilyAt(nodeCluster[id]);
 
-	internal string NodeFill(string id) => VisualLanguage.Tint(Color(nodeCluster[id]), VisualLanguage.NodeTint);
+	/// <summary>The family of a subgraph / namespace / container (never the colour of a member).</summary>
+	internal ColorFamily GroupFamily(string id) => FamilyAt(GroupCluster(id));
 
-	internal string NodeStroke(string id) => VisualLanguage.Border(Color(nodeCluster[id]));
+	internal ColorFamily RoleFamily(string role)
+	{
+		var r = RoleOf(role);
+		return new ColorFamily(r switch { ColorRole.Success => "s", ColorRole.Failure => "f", ColorRole.Warning => "w", _ => "i" }, colors.RoleColor(r), TintStrength);
+	}
+
+	private ColorFamily FamilyAt(int cluster)
+	{
+		var slot = cluster % _palette.Length;
+		return new ColorFamily("p" + slot.ToString(System.Globalization.CultureInfo.InvariantCulture), _palette[slot], TintStrength);
+	}
+
+	// ---- flat string API (no gradients): the stages a renderer that does not own a DesignSystem can use ----
+
+	internal string RoleFill(string role) => RoleFamily(role).Flat;
+
+	internal string RoleStroke(string role) => RoleFamily(role).Stroke;
+
+	internal string NodeFill(string id) => Family(id).Flat;
+
+	internal string NodeStroke(string id) => Family(id).Stroke;
 
 	internal bool Has(string id) => nodeCluster.ContainsKey(id);
 
-	internal string GroupFill(string id, int depth) => VisualLanguage.GroupFill(Color(GroupCluster(id)), depth);
+	internal string GroupFill(string id, int depth) => GroupFamily(id).Tint(depth);
 
-	internal string GroupStroke(string id) => VisualLanguage.GroupBorder(Color(GroupCluster(id)));
+	internal string GroupStroke(string id) => GroupFamily(id).Edge;
+
+	/// <summary>Container titles are drawn in the family ink (≥ 4.5:1 on the band in both modes).</summary>
+	internal string GroupInk(string id) => GroupFamily(id).Ink;
 
 	private int GroupCluster(string id) => groupCluster.GetValueOrDefault(id);
 
-	private string Color(int cluster) => _palette[cluster % _palette.Length];
-
-	internal string HeaderFill(string id) => VisualLanguage.Tint(Color(nodeCluster[id]), VisualLanguage.HeaderTint);
+	internal string HeaderFill(string id) => Family(id).Band;
 
 	internal static ClusterPalette Build(PositionedGraph graph, DiagramColors colors)
 	{

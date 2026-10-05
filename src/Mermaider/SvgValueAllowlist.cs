@@ -26,7 +26,7 @@ internal static partial class SvgValueAllowlist
 	[GeneratedRegex(@"^(?:rgb|rgba|hsl|hsla|hwb|lab|lch|oklab|oklch|color)\([A-Za-z0-9#%.,/+\-\s]+\)$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex ColorFunctionPattern();
 
-	[GeneratedRegex(@"^var\(--(?:bg|fg|line|accent|muted|surface|border|_text|_text-sec|_text-muted|_text-faint|_line|_arrow|_node-fill|_node-stroke|_group-fill|_group-hdr|_group-stroke|_inner-stroke|_key-badge|_accent-fill|_accent-stroke|_accent-text)\)$", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^var\(--(?:bg|fg|line|accent|muted|surface|border|_text|_text-sec|_text-muted|_text-faint|_line|_line-soft|_line-strong|_arrow|_node-fill|_node-stroke|_group-fill|_group-hdr|_group-stroke|_inner-stroke|_key-badge|_accent-fill|_accent-stroke|_accent-text)\)$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex InternalColorVariablePattern();
 
 	internal static bool IsAllowedLocalReference(string value) =>
@@ -119,7 +119,8 @@ internal static partial class SvgValueAllowlist
 	}
 
 	private static bool IsAllowedBasicColor(string value) =>
-		IsMatch(HexColorPattern(), value)
+		value == "var(--accent, var(--fg))"
+		|| IsMatch(HexColorPattern(), value)
 		|| IsMatch(InternalColorVariablePattern(), value)
 		|| IsMatch(ColorFunctionPattern(), value)
 		|| IsMatch(NamedPaintPattern(), value);

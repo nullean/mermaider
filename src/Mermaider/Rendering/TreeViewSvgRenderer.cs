@@ -49,7 +49,7 @@ internal static class TreeViewSvgRenderer
 		if (flatRows.Count == 0)
 		{
 			StyleBlock.AppendSvgOpenTag(sb, 200, 60, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-			StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
+			StyleBlock.AppendStyleBlock(sb, context.Styles);
 			_ = sb.Append("\n</svg>");
 			return sb;
 		}
@@ -59,7 +59,7 @@ internal static class TreeViewSvgRenderer
 		var totalHeight = Pad + (flatRows.Count * RowHeight) + Pad;
 
 		StyleBlock.AppendSvgOpenTag(sb, totalWidth, totalHeight, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
+		StyleBlock.AppendStyleBlock(sb, context.Styles);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		// Render connector lines first (under everything else)

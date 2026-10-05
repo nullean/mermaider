@@ -36,7 +36,7 @@ internal static class ClassSvgRenderer
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 		StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
+		StyleBlock.AppendStyleBlock(sb, context.Styles);
 		AppendMarkerDefs(sb);
 
 		// Same language as flowcharts and ER: one palette colour per connected cluster of classes, namespaces alternate.

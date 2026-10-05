@@ -18,13 +18,13 @@ Edges:
   CdxCfg ----> CdxClone [Bottom->Top] [D]
   CdxClone ----> CdxBuild [Bottom->Top] [D]
   CodexReg ----> CdxClone [Bottom->Top] [D L D R D]
-  Env ----> AsmClone [Bottom->Top] [D]
-  R1 --links.json--> S3Reg [Bottom->Top] [D L D R D]
+  Env ----> AsmClone [Bottom->Top] [D R D]
+  R1 --links.json--> S3Reg [Bottom->Top] [D]
   R2 --links.json--> S3Reg [Bottom->Top] [D]
   R3 --links.json--> S3Reg [Bottom->Top] [D L D]
   R4 --links.json--> CodexReg [Bottom->Top] [D]
-  S3Reg ----> AsmClone [Bottom->Top] [D R D L D]
+  S3Reg ----> AsmClone [Bottom->Top] [D L D R D]
 Ports:
-  AsmClone Top: edge7,edge12
+  AsmClone Top: edge12,edge7
   CdxClone Top: edge6,edge4
   S3Reg Top: edge8,edge9,edge10

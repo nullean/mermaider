@@ -78,7 +78,7 @@ internal static class JourneySvgRenderer
 			var emptyW = leftMargin + 200;
 			var emptyH = Math.Max(120.0, legendBottom + 16);
 			StyleBlock.AppendSvgOpenTag(sb, emptyW, emptyH, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-			StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
+			StyleBlock.AppendStyleBlock(sb, context.Styles);
 			if (hasTitle)
 				AppendTitle(sb, diagram.Title!, leftMargin);
 			_ = sb.Append("\n</svg>");
@@ -97,7 +97,7 @@ internal static class JourneySvgRenderer
 		var totalHeight = height - viewTop;
 
 		StyleBlock.AppendSvgOpenTag(sb, width, totalHeight, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
+		StyleBlock.AppendStyleBlock(sb, context.Styles);
 
 		// Arrow marker (mermaid arrowhead)
 		_ = sb.Append("\n<defs>\n  <marker id=\"journey-arrow\" refX=\"5\" refY=\"2\" markerWidth=\"6\" markerHeight=\"4\" orient=\"auto\">")

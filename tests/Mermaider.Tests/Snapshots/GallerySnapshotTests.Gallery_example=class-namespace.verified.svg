@@ -4,18 +4,20 @@
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,80 +26,80 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px rgba(24,24,27,.10)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
 <defs>
-  <marker id="cls-inherit" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
+  <marker id="cls-inherit" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
+    <polygon points="0 0, 10 5, 0 10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
   </marker>
-  <marker id="cls-composition" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="6 0, 12 6, 6 12, 0 6" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" />
+  <marker id="cls-composition" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
+    <polygon points="5 0, 10 5, 5 10, 0 5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" />
   </marker>
-  <marker id="cls-aggregation" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="6 0, 12 6, 6 12, 0 6" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
+  <marker id="cls-aggregation" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
+    <polygon points="5 0, 10 5, 5 10, 0 5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
   </marker>
-  <marker id="cls-arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polyline points="0 0, 12 6, 0 12" fill="none" stroke="var(--_line)" stroke-width="2" />
+  <marker id="cls-arrow" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
+    <polyline points="0 0, 10 5, 0 10" fill="none" stroke="var(--_line)" stroke-width="2" />
   </marker>
-  <marker id="cls-lollipop" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto-start-reverse">
-    <circle cx="6" cy="6" r="5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
+  <marker id="cls-lollipop" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto-start-reverse">
+    <circle cx="5" cy="5" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
   </marker>
 </defs>
 
 <g class="ns-box">
-  <rect x="52" y="272" width="417.2" height="280" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
-  <text x="64" y="288" font-size="var(--fs-s)" font-weight="600" fill="#F18921" dy="4.8999999999999995">Domain</text>
+  <rect x="52" y="272" width="417.2" height="280" rx="12" ry="12" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
+  <text x="64" y="288" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 42%, var(--bg))" dy="4.8999999999999995">Domain</text>
 </g>
 <g class="ns-box">
-  <rect x="52" y="64" width="417.2" height="112" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 6%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
-  <text x="64" y="80" font-size="var(--fs-s)" font-weight="600" fill="#6FB3AE" dy="4.8999999999999995">Infrastructure</text>
+  <rect x="52" y="64" width="417.2" height="112" rx="12" ry="12" fill="color-mix(in srgb, #76b7b2 6%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1.25" />
+  <text x="64" y="80" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #76b7b2 42%, var(--bg))" dy="4.8999999999999995">Infrastructure</text>
 </g>
-<path class="class-relationship" data-from="Order" data-to="Product" data-type="association" data-marker-at="to" d="M260.5,392 L260.5,452" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
-<path class="class-relationship" data-from="OrderRepo" data-to="Order" data-type="realization" data-marker-at="to" d="M216,164 L216,234 Q216,240 222,240 L224.5,240 Q230.5,240 230.5,246 L230.5,276 Q230.5,282 224.5,282 L222,282 Q216,282 216,288 L216,304" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="4 4" marker-end="url(#cls-inherit)" />
-<path class="class-relationship" data-from="ProductRepo" data-to="Product" data-type="realization" data-marker-at="to" d="M313.5,164 L313.5,290 Q313.5,296 319.5,296 L336.5,296 Q342.5,296 342.5,302 L342.5,424 Q342.5,430 336.5,430 L319.5,430 Q313.5,430 313.5,436 L313.5,452" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="4 4" marker-end="url(#cls-inherit)" />
+<path class="class-relationship" data-from="Order" data-to="Product" data-type="association" data-marker-at="to" d="M260.5,392 L260.5,452" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#cls-arrow)" />
+<path class="class-relationship" data-from="OrderRepo" data-to="Order" data-type="realization" data-marker-at="to" d="M216,164 L216,232.75 Q216,240 223.25,240 L223.25,240 Q230.5,240 230.5,247.25 L230.5,274.75 Q230.5,282 223.25,282 L223.25,282 Q216,282 216,289.25 L216,304" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#cls-inherit)" />
+<path class="class-relationship" data-from="ProductRepo" data-to="Product" data-type="realization" data-marker-at="to" d="M313.5,164 L313.5,288 Q313.5,296 321.5,296 L334.5,296 Q342.5,296 342.5,304 L342.5,422 Q342.5,430 334.5,430 L321.5,430 Q313.5,430 313.5,438 L313.5,452" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#cls-inherit)" />
 <g class="class-node" data-id="Order" data-label="Order">
-  <rect x="186.89999999999998" y="304" width="147.4" height="88" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M186.89999999999998,336 L186.89999999999998,310 Q186.89999999999998,304 192.89999999999998,304 L328.29999999999995,304 Q334.29999999999995,304 334.29999999999995,310 L334.29999999999995,336 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <text x="260.59999999999997" y="320" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Order</text>
-  <line x1="186.89999999999998" y1="336" x2="334.29999999999995" y2="336" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="186.89999999999998" y1="364" x2="334.29999999999995" y2="364" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="233.49999999999997" y1="336" x2="233.49999999999997" y2="392" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="194.89999999999998" y="350" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">int</text><text class="mono" x="241.49999999999997" y="350" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text class="mono" x="326.29999999999995" y="350" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <text class="mono" x="194.89999999999998" y="378" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="241.49999999999997" y="378" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">place()</tspan></text><text class="mono" x="326.29999999999995" y="378" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <rect x="186.89999999999998" y="304" width="147.4" height="88" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <rect x="186.89999999999998" y="304" width="147.4" height="88" rx="8" ry="8" fill="var(--bg)" />
+  <path d="M186.89999999999998,336 L186.89999999999998,312 Q186.89999999999998,304 194.89999999999998,304 L326.29999999999995,304 Q334.29999999999995,304 334.29999999999995,312 L334.29999999999995,336 Z" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" />
+  <text x="260.59999999999997" y="320" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Order</text>
+  <line x1="186.89999999999998" y1="336" x2="334.29999999999995" y2="336" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="186.89999999999998" y1="364" x2="334.29999999999995" y2="364" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="233.49999999999997" y1="336" x2="233.49999999999997" y2="392" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
+  <text class="mono" x="194.89999999999998" y="350" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">int</text><text class="mono" x="241.49999999999997" y="350" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text class="mono" x="326.29999999999995" y="350" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">+</text>
+  <text class="mono" x="194.89999999999998" y="378" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="241.49999999999997" y="378" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">place()</tspan></text><text class="mono" x="326.29999999999995" y="378" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">+</text>
+  <rect x="186.89999999999998" y="304" width="147.4" height="88" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
 </g>
 <g class="class-node" data-id="Product" data-label="Product">
-  <rect x="186.89999999999998" y="452" width="147.4" height="88" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M186.89999999999998,484 L186.89999999999998,458 Q186.89999999999998,452 192.89999999999998,452 L328.29999999999995,452 Q334.29999999999995,452 334.29999999999995,458 L334.29999999999995,484 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <text x="260.59999999999997" y="468" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Product</text>
-  <line x1="186.89999999999998" y1="484" x2="334.29999999999995" y2="484" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="186.89999999999998" y1="508" x2="334.29999999999995" y2="508" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="186.89999999999998" y1="532" x2="334.29999999999995" y2="532" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="250.29999999999998" y1="484" x2="250.29999999999998" y2="540" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="194.89999999999998" y="498" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">String</text><text class="mono" x="258.29999999999995" y="498" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">name</tspan></text><text class="mono" x="326.29999999999995" y="498" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <text class="mono" x="194.89999999999998" y="518" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">double</text><text class="mono" x="258.29999999999995" y="518" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">price</tspan></text><text class="mono" x="326.29999999999995" y="518" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <rect x="186.89999999999998" y="452" width="147.4" height="88" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <rect x="186.89999999999998" y="452" width="147.4" height="88" rx="8" ry="8" fill="var(--bg)" />
+  <path d="M186.89999999999998,484 L186.89999999999998,460 Q186.89999999999998,452 194.89999999999998,452 L326.29999999999995,452 Q334.29999999999995,452 334.29999999999995,460 L334.29999999999995,484 Z" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" />
+  <text x="260.59999999999997" y="468" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Product</text>
+  <line x1="186.89999999999998" y1="484" x2="334.29999999999995" y2="484" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="186.89999999999998" y1="508" x2="334.29999999999995" y2="508" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
+  <line x1="186.89999999999998" y1="532" x2="334.29999999999995" y2="532" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="250.29999999999998" y1="484" x2="250.29999999999998" y2="540" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
+  <text class="mono" x="194.89999999999998" y="498" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">String</text><text class="mono" x="258.29999999999995" y="498" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">name</tspan></text><text class="mono" x="326.29999999999995" y="498" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">+</text>
+  <text class="mono" x="194.89999999999998" y="518" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">double</text><text class="mono" x="258.29999999999995" y="518" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">price</tspan></text><text class="mono" x="326.29999999999995" y="518" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">+</text>
+  <rect x="186.89999999999998" y="452" width="147.4" height="88" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
 </g>
 <g class="class-node" data-id="OrderRepo" data-label="OrderRepo">
-  <rect x="64" y="96" width="181" height="68" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M64,128 L64,102 Q64,96 70,96 L239,96 Q245,96 245,102 L245,128 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <text x="154.5" y="112" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">OrderRepo</text>
-  <line x1="64" y1="128" x2="245" y2="128" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="64" y1="136" x2="245" y2="136" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="110.6" y1="128" x2="110.6" y2="164" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="72" y="150" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="118.6" y="150" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">save(Order)</tspan></text><text class="mono" x="237" y="150" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <rect x="64" y="96" width="181" height="68" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <rect x="64" y="96" width="181" height="68" rx="8" ry="8" fill="var(--bg)" />
+  <path d="M64,128 L64,104 Q64,96 72,96 L237,96 Q245,96 245,104 L245,128 Z" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" />
+  <text x="154.5" y="112" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">OrderRepo</text>
+  <line x1="64" y1="128" x2="245" y2="128" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="64" y1="136" x2="245" y2="136" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="110.6" y1="128" x2="110.6" y2="164" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
+  <text class="mono" x="72" y="150" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="118.6" y="150" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">save(Order)</tspan></text><text class="mono" x="237" y="150" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">+</text>
+  <rect x="64" y="96" width="181" height="68" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
 </g>
 <g class="class-node" data-id="ProductRepo" data-label="ProductRepo">
-  <rect x="293" y="96" width="164.2" height="68" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M293,128 L293,102 Q293,96 299,96 L451.2,96 Q457.2,96 457.2,102 L457.2,128 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <text x="375.1" y="112" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ProductRepo</text>
-  <line x1="293" y1="128" x2="457.2" y2="128" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="293" y1="136" x2="457.2" y2="136" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="339.6" y1="128" x2="339.6" y2="164" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="301" y="150" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">List</text><text class="mono" x="347.6" y="150" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">findAll()</tspan></text><text class="mono" x="449.2" y="150" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <rect x="293" y="96" width="164.2" height="68" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <rect x="293" y="96" width="164.2" height="68" rx="8" ry="8" fill="var(--bg)" />
+  <path d="M293,128 L293,104 Q293,96 301,96 L449.2,96 Q457.2,96 457.2,104 L457.2,128 Z" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" />
+  <text x="375.1" y="112" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">ProductRepo</text>
+  <line x1="293" y1="128" x2="457.2" y2="128" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="293" y1="136" x2="457.2" y2="136" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="339.6" y1="128" x2="339.6" y2="164" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
+  <text class="mono" x="301" y="150" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">List</text><text class="mono" x="347.6" y="150" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">findAll()</tspan></text><text class="mono" x="449.2" y="150" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">+</text>
+  <rect x="293" y="96" width="164.2" height="68" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
 </g>
 </svg>

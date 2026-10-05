@@ -4,18 +4,20 @@
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,71 +26,71 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px rgba(24,24,27,.10)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
 <defs>
-  <marker id="arch-arrow-end" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" />
+  <marker id="arch-arrow-end" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto">
+    <polygon points="0 0, 10 5, 0 10" fill="var(--_line)" />
   </marker>
-  <marker id="arch-arrow-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
-    <polygon points="12 0, 0 6, 12 12" fill="var(--_line)" />
+  <marker id="arch-arrow-start" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="0" refY="5" orient="auto">
+    <polygon points="10 0, 0 5, 10 10" fill="var(--_line)" />
   </marker>
 </defs>
 
 <g class="architecture-group" data-id="awsNet">
-  <rect x="24" y="24" width="328" height="180" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
+  <rect x="24" y="24" width="328" height="180" rx="12" ry="12" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
     <image x="36" y="36" width="20" height="20" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik03IDE4YTQgNCAwIDAgMS0uNS03Ljk3QTUgNSAwIDAgMSAxNiA4LjVhNC41IDQuNSAwIDAgMSAxIDguOVYxOEg3eiIgZmlsbD0iIzY0NzQ4YiIvPgo8L3N2Zz4=" />
-<text x="64" y="46" font-size="var(--fs-s)" font-weight="600" fill="#F18921" dy="4.8999999999999995">AWS</text>
+<text x="64" y="46" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 42%, var(--bg))" dy="4.8999999999999995">AWS</text>
 </g>
 <g class="architecture-group" data-id="azureNet">
-  <rect x="408" y="24" width="328" height="180" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 6%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
+  <rect x="408" y="24" width="328" height="180" rx="12" ry="12" fill="color-mix(in srgb, #76b7b2 6%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1.25" />
     <image x="420" y="36" width="20" height="20" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik03IDE4YTQgNCAwIDAgMS0uNS03Ljk3QTUgNSAwIDAgMSAxNiA4LjVhNC41IDQuNSAwIDAgMSAxIDguOVYxOEg3eiIgZmlsbD0iIzY0NzQ4YiIvPgo8L3N2Zz4=" />
-<text x="448" y="46" font-size="var(--fs-s)" font-weight="600" fill="#6FB3AE" dy="4.8999999999999995">Azure</text>
+<text x="448" y="46" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #76b7b2 42%, var(--bg))" dy="4.8999999999999995">Azure</text>
 </g>
 <g class="architecture-group" data-id="gcpNet">
-  <rect x="24" y="216" width="328" height="180" rx="8" ry="8" fill="color-mix(in srgb, #b07aa1 6%, var(--bg))" stroke="#AC749C" stroke-width="1.75" />
+  <rect x="24" y="216" width="328" height="180" rx="12" ry="12" fill="color-mix(in srgb, #b07aa1 6%, var(--bg))" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1.25" />
     <image x="36" y="228" width="20" height="20" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik03IDE4YTQgNCAwIDAgMS0uNS03Ljk3QTUgNSAwIDAgMSAxNiA4LjVhNC41IDQuNSAwIDAgMSAxIDguOVYxOEg3eiIgZmlsbD0iIzY0NzQ4YiIvPgo8L3N2Zz4=" />
-<text x="64" y="238" font-size="var(--fs-s)" font-weight="600" fill="#AC749C" dy="4.8999999999999995">GCP</text>
+<text x="64" y="238" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #b07aa1 42%, var(--bg))" dy="4.8999999999999995">GCP</text>
 </g>
-<path class="architecture-edge" data-source="awsVpc" data-target="awsCompute" d="M132,126 L244,126" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="azureVnet" data-target="azureCompute" d="M516,126 L628,126" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="gcpVpc" data-target="gcpCompute" d="M132,318 L244,318" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="awsVpc" data-target="awsCompute" d="M132,126 L244,126" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="architecture-edge" data-source="azureVnet" data-target="azureCompute" d="M516,126 L628,126" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="architecture-edge" data-source="gcpVpc" data-target="gcpCompute" d="M132,318 L244,318" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <g class="architecture-service" data-id="awsVpc" data-icon="aws:networking">
   <defs><linearGradient id="arch-grad-awsVpc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7a55e"/><stop offset="1" stop-color="#c15a00"/></linearGradient></defs>
   <rect x="52" y="86" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-awsVpc)" />
   <image x="70" y="104" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjciIGN5PSI3IiByPSIzIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTciIGN5PSI3IiByPSIzIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTIiIGN5PSIxOCIgcj0iMyIgZmlsbD0iI2ZmZmZmZiIvPjxwYXRoIGQ9Ik04LjcgOS43bDIuNiA1LjZNMTUuMyA5LjdsLTIuNiA1LjZNMTAgN2g0IiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=" />
-  <text x="92" y="182" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">VPC</text>
+  <text x="92" y="182" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">VPC</text>
 </g>
 <g class="architecture-service" data-id="awsCompute" data-icon="aws:compute">
   <defs><linearGradient id="arch-grad-awsCompute" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7a55e"/><stop offset="1" stop-color="#c15a00"/></linearGradient></defs>
   <rect x="244" y="86" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-awsCompute)" />
   <image x="262" y="104" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjYiIHk9IjYiIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgcng9IjIiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMiIgd2lkdGg9IjQiIGhlaWdodD0iNCIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMTgiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMiIgeT0iMTAiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMTgiIHk9IjEwIiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiByeD0iMSIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4=" />
-  <text x="284" y="182" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">EC2</text>
+  <text x="284" y="182" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">EC2</text>
 </g>
 <g class="architecture-service" data-id="azureVnet" data-icon="azure:networking">
   <defs><linearGradient id="arch-grad-azureVnet" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4ea8e8"/><stop offset="1" stop-color="#00548f"/></linearGradient></defs>
   <rect x="436" y="86" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-azureVnet)" />
   <image x="454" y="104" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjciIGN5PSI3IiByPSIzIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTciIGN5PSI3IiByPSIzIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTIiIGN5PSIxOCIgcj0iMyIgZmlsbD0iI2ZmZmZmZiIvPjxwYXRoIGQ9Ik04LjcgOS43bDIuNiA1LjZNMTUuMyA5LjdsLTIuNiA1LjZNMTAgN2g0IiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=" />
-  <text x="476" y="182" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">VNet</text>
+  <text x="476" y="182" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">VNet</text>
 </g>
 <g class="architecture-service" data-id="azureCompute" data-icon="azure:compute">
   <defs><linearGradient id="arch-grad-azureCompute" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4ea8e8"/><stop offset="1" stop-color="#00548f"/></linearGradient></defs>
   <rect x="628" y="86" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-azureCompute)" />
   <image x="646" y="104" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjYiIHk9IjYiIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgcng9IjIiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMiIgd2lkdGg9IjQiIGhlaWdodD0iNCIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMTgiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMiIgeT0iMTAiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMTgiIHk9IjEwIiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiByeD0iMSIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4=" />
-  <text x="668" y="182" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">VM</text>
+  <text x="668" y="182" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">VM</text>
 </g>
 <g class="architecture-service" data-id="gcpVpc" data-icon="gcp:networking">
   <defs><linearGradient id="arch-grad-gcpVpc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#81c995"/><stop offset="1" stop-color="#188038"/></linearGradient></defs>
   <rect x="52" y="278" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-gcpVpc)" />
   <image x="70" y="296" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjciIGN5PSI3IiByPSIzIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTciIGN5PSI3IiByPSIzIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTIiIGN5PSIxOCIgcj0iMyIgZmlsbD0iI2ZmZmZmZiIvPjxwYXRoIGQ9Ik04LjcgOS43bDIuNiA1LjZNMTUuMyA5LjdsLTIuNiA1LjZNMTAgN2g0IiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=" />
-  <text x="92" y="374" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">VPC</text>
+  <text x="92" y="374" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">VPC</text>
 </g>
 <g class="architecture-service" data-id="gcpCompute" data-icon="gcp:compute">
   <defs><linearGradient id="arch-grad-gcpCompute" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#81c995"/><stop offset="1" stop-color="#188038"/></linearGradient></defs>
   <rect x="244" y="278" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-gcpCompute)" />
   <image x="262" y="296" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjYiIHk9IjYiIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgcng9IjIiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMiIgd2lkdGg9IjQiIGhlaWdodD0iNCIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMTgiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMiIgeT0iMTAiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMTgiIHk9IjEwIiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiByeD0iMSIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4=" />
-  <text x="284" y="374" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Compute Engine</text>
+  <text x="284" y="374" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Compute Engine</text>
 </g>
 </svg>

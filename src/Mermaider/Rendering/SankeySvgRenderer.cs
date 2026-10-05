@@ -63,7 +63,7 @@ internal static class SankeySvgRenderer
 		if (diagram.Links.Count == 0)
 		{
 			StyleBlock.AppendSvgOpenTag(sb, 320, 120, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-			StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
+			StyleBlock.AppendStyleBlock(sb, context.Styles);
 			_ = sb.Append("\n</svg>");
 			return sb;
 		}
@@ -73,7 +73,7 @@ internal static class SankeySvgRenderer
 		var height = DefaultHeight;
 
 		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
+		StyleBlock.AppendStyleBlock(sb, context.Styles);
 
 		// Emit gradient defs, one per link
 		_ = sb.Append("\n<defs>");

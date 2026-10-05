@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 995.4959999999999 472.4" width="995.4959999999999" height="472.4" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 925.059 467.2" width="925.059" height="467.2" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,85 +26,85 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px rgba(24,24,27,.10)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
 <defs>
 </defs>
 
-<path class="er-relationship" data-entity1="Assembly" data-entity2="Repository" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="references" d="M145.3048,96 L145.3048,119 Q145.3048,124 140.3048,124 L85,124 Q80,124 80,129 L80,202.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Assembly" data-entity2="PublishEnvironment" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="environments" d="M185.3048,96 L185.3048,119 Q185.3048,124 190.3048,124 L245.6096,124 Q250.6096,124 250.6096,129 L250.6096,202.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="PublishEnvironment" data-entity2="SearchIndex" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="index suffix" d="M250.6096,278.2 L250.60960000000006,376.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Build" data-entity2="AssembledDocumentationSet" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="assembles" d="M670.5799999999999,96 L670.5799999999999,119 Q670.5799999999999,124 665.5799999999999,124 L490.664,124 Q485.664,124 485.664,129 L485.664,202.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Build" data-entity2="CloudfrontRedirectMap" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="redirects.json" d="M700.5799999999999,96 L700.5799999999999,122.5 Q700.5799999999999,127.5 705.5799999999999,127.5 L727.8024,127.5 Q732.8024,127.5 732.8024,132.5 L732.8024,202.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Build" data-entity2="SyncPlan" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="deploy" d="M730.5799999999999,96 L730.5799999999999,115.5 Q730.5799999999999,120.5 735.5799999999999,120.5 L910.4959999999999,120.5 Q915.4959999999999,120.5 915.4959999999999,125.5 L915.4959999999999,202.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Assembly" data-entity2="Repository" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="references" d="M140.39170000000001,96 L140.39170000000001,119 Q140.39170000000001,124 135.39170000000001,124 L85,124 Q80,124 80,129 L80,199.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="Assembly" data-entity2="PublishEnvironment" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="environments" d="M180.39170000000001,96 L180.39170000000001,119 Q180.39170000000001,124 185.39170000000001,124 L235.7834,124 Q240.7834,124 240.7834,129 L240.7834,199.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="PublishEnvironment" data-entity2="SearchIndex" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="index suffix" d="M240.7834,275.6 L240.7834,371.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="Build" data-entity2="AssembledDocumentationSet" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="assembles" d="M618.5074999999999,96 L618.5074999999999,119 Q618.5074999999999,124 613.5074999999999,124 L456.95599999999996,124 Q451.95599999999996,124 451.95599999999996,129 L451.95599999999996,199.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="Build" data-entity2="CloudfrontRedirectMap" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="redirects.json" d="M648.5074999999999,96 L648.5074999999999,119 Q648.5074999999999,124 653.5074999999999,124 L668.7021,124 Q673.7021,124 673.7021,129 L673.7021,199.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="Build" data-entity2="SyncPlan" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="deploy" d="M678.5074999999999,96 L678.5074999999999,119 Q678.5074999999999,124 683.5074999999999,124 L840.059,124 Q845.059,124 845.059,129 L845.059,199.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <g class="entity" data-id="Assembly" data-label="Assembly">
-  <rect x="105.3048" y="20" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="165.3048" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Assembly</text>
+  <rect x="100.39170000000001" y="20" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="160.39170000000001" y="58" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Assembly</text>
 </g>
 <g class="entity" data-id="Repository" data-label="Repository">
-  <rect x="20" y="202.2" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="80" y="240.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Repository</text>
+  <rect x="20" y="199.6" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="80" y="237.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Repository</text>
 </g>
 <g class="entity" data-id="PublishEnvironment" data-label="PublishEnvironment">
-  <rect x="160" y="202.2" width="181.2192" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="250.6096" y="240.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">PublishEnvironment</text>
+  <rect x="160" y="199.6" width="161.5668" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="240.7834" y="237.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">PublishEnvironment</text>
 </g>
 <g class="entity" data-id="SearchIndex" data-label="SearchIndex">
-  <rect x="187.06816000000003" y="376.4" width="127.08288000000002" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="250.60960000000006" y="414.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">SearchIndex</text>
+  <rect x="180.7834" y="371.2" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="240.7834" y="409.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">SearchIndex</text>
 </g>
 <g class="entity" data-id="Build" data-label="Build">
-  <rect x="640.5799999999999" y="20" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-  <text x="700.5799999999999" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Build</text>
+  <rect x="588.5074999999999" y="20" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="648.5074999999999" y="58" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Build</text>
 </g>
 <g class="entity" data-id="AssembledDocumentationSet" data-label="AssembledDocumentationSet">
-  <rect x="361.2192" y="202.2" width="248.88959999999992" height="76" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-  <text x="485.664" y="240.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">AssembledDocumentationSet</text>
+  <rect x="341.5668" y="199.6" width="220.7783999999999" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="451.95599999999996" y="237.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">AssembledDocumentationSet</text>
 </g>
 <g class="entity" data-id="CloudfrontRedirectMap" data-label="CloudfrontRedirectMap">
-  <rect x="630.1088" y="202.2" width="205.3872" height="76" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-  <text x="732.8024" y="240.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">CloudfrontRedirectMap</text>
+  <rect x="582.3452" y="199.6" width="182.7138" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="673.7021" y="237.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">CloudfrontRedirectMap</text>
 </g>
 <g class="entity" data-id="SyncPlan" data-label="SyncPlan">
-  <rect x="855.4959999999999" y="202.2" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-  <text x="915.4959999999999" y="240.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">SyncPlan</text>
+  <rect x="785.059" y="199.6" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="845.059" y="237.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">SyncPlan</text>
 </g>
-<path d="M151.8048,105 L138.8048,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M151.8048,110 L138.8048,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M72.5,202.2 L80,189.2 L87.5,202.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<path d="M73.5,184.2 L86.5,184.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M191.8048,105 L178.8048,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M191.8048,110 L178.8048,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M243.1096,202.2 L250.6096,189.2 L258.1096,202.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<path d="M244.1096,184.2 L257.1096,184.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M257.1096,287.2 L244.1096,287.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M257.1096,292.2 L244.1096,292.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M243.10960000000006,376.4 L250.60960000000006,363.4 L258.10960000000006,376.4" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="250.60960000000006" cy="354.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M677.0799999999999,105 L664.0799999999999,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M677.0799999999999,110 L664.0799999999999,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M478.164,202.2 L485.664,189.2 L493.164,202.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<path d="M479.164,184.2 L492.164,184.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M707.0799999999999,105 L694.0799999999999,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M707.0799999999999,110 L694.0799999999999,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M726.3024,193.2 L739.3024,193.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M726.3024,188.2 L739.3024,188.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M737.0799999999999,105 L724.0799999999999,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M737.0799999999999,110 L724.0799999999999,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M908.9959999999999,193.2 L921.9959999999999,193.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<circle cx="915.4959999999999" cy="183.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<rect x="33.7008" y="136.875" width="92.5984" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="80" y="149.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">references</text>
-<rect x="197.09816" y="136.875" width="107.02288000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="250.6096" y="149.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">environments</text>
-<rect x="204.71107999999998" y="315.07499999999993" width="91.79704000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="250.6096" y="327.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">index suffix</text>
-<rect x="440.96752" y="136.875" width="89.39296000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="485.664" y="149.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">assembles</text>
-<rect x="677.6882400000001" y="136.875" width="110.22832000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="732.8024" y="149.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">redirects.json</text>
-<rect x="883.6212799999998" y="136.875" width="63.74944000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="915.4959999999999" y="149.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">deploy</text>
+<path d="M146.89170000000001,105 L133.89170000000001,105" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M146.89170000000001,110 L133.89170000000001,110" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M72.5,199.6 L80,186.6 L87.5,199.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M73.5,181.6 L86.5,181.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M186.89170000000001,105 L173.89170000000001,105" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M186.89170000000001,110 L173.89170000000001,110" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M233.2834,199.6 L240.7834,186.6 L248.2834,199.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M234.2834,181.6 L247.2834,181.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M247.2834,284.6 L234.2834,284.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M247.2834,289.6 L234.2834,289.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M233.2834,371.2 L240.7834,358.2 L248.2834,371.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="240.7834" cy="349.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M625.0074999999999,105 L612.0074999999999,105" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M625.0074999999999,110 L612.0074999999999,110" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M444.45599999999996,199.6 L451.95599999999996,186.6 L459.45599999999996,199.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M445.45599999999996,181.6 L458.45599999999996,181.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M655.0074999999999,105 L642.0074999999999,105" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M655.0074999999999,110 L642.0074999999999,110" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M667.2021,190.6 L680.2021,190.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M667.2021,185.6 L680.2021,185.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M685.0074999999999,105 L672.0074999999999,105" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M685.0074999999999,110 L672.0074999999999,110" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M838.559,190.6 L851.559,190.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<circle cx="845.059" cy="180.6" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<rect x="37.294200000000004" y="137" width="85.41159999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="80" y="147.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">references</text>
+<rect x="191.55223999999998" y="137" width="98.46232" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="240.7834" y="147.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">environments</text>
+<rect x="198.44011999999998" y="312.59999999999997" width="84.68656000000001" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="240.7834" y="323.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">index suffix</text>
+<rect x="410.70027999999996" y="137" width="82.51144000000001" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="451.95599999999996" y="147.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">assembles</text>
+<rect x="623.02086" y="137" width="101.36247999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="673.7021" y="147.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">redirects.json</text>
+<rect x="815.40392" y="137" width="59.310159999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="845.059" y="147.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">deploy</text>
 </svg>

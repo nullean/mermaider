@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 337.77392 156" width="337.77392" height="156" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.96088 156" width="331.96088" height="156" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,31 +26,31 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px rgba(24,24,27,.10)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
 <defs>
 </defs>
 
-<path class="er-relationship" data-entity1="EMPLOYEE" data-entity2="EMPLOYEE" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="manages" d="M134.17392,43.2 L64.08696,43.2 Q59.086960000000005,43.2 59.086960000000005,48.2 L59.086960000000005,107.8 Q59.086960000000005,112.8 64.08696,112.8 L134.17392,112.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="EMPLOYEE" data-entity2="EMPLOYEE" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="manages" d="M128.36088,43.2 L61.180440000000004,43.2 Q56.180440000000004,43.2 56.180440000000004,48.2 L56.180440000000004,107.8 Q56.180440000000004,112.8 61.180440000000004,112.8 L128.36088,112.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <g class="entity" data-id="EMPLOYEE" data-label="EMPLOYEE">
-  <rect x="134.17392" y="20" width="183.6" height="116" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M134.17392,58 L134.17392,26 Q134.17392,20 140.17392,20 L311.77392,20 Q317.77392,20 317.77392,26 L317.77392,58 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <line x1="134.17392" y1="58" x2="317.77392" y2="58" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="134.17392" y1="84" x2="317.77392" y2="84" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="134.17392" y1="110" x2="317.77392" y2="110" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="197.57392000000002" y1="58" x2="197.57392000000002" y2="136" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="225.97392000000002" y="39" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">EMPLOYEE</text>
-  <text class="mono" x="142.17392" y="71" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="202.57392000000002" y="71" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="309.77392" y="71" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
-  <text class="mono" x="142.17392" y="97" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">string</tspan></text><text class="mono" x="202.57392000000002" y="97" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">name</tspan></text>
-  <text class="mono" x="142.17392" y="123" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="202.57392000000002" y="123" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">manager_id</tspan></text><text x="309.77392" y="123" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">FK</text>
-  <rect x="134.17392" y="20" width="183.6" height="116" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <rect x="128.36088" y="20" width="183.6" height="116" rx="8" ry="8" fill="var(--bg)" />
+  <path d="M128.36088,58 L128.36088,28 Q128.36088,20 136.36088,20 L303.96088,20 Q311.96088,20 311.96088,28 L311.96088,58 Z" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" />
+  <line x1="128.36088" y1="58" x2="311.96088" y2="58" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="128.36088" y1="84" x2="311.96088" y2="84" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
+  <line x1="128.36088" y1="110" x2="311.96088" y2="110" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
+  <line x1="191.76088000000001" y1="58" x2="191.76088000000001" y2="136" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
+  <text x="220.16088000000002" y="39" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">EMPLOYEE</text>
+  <text class="mono" x="136.36088" y="71" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="196.76088000000001" y="71" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="303.96088" y="71" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
+  <text class="mono" x="136.36088" y="97" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">string</tspan></text><text class="mono" x="196.76088000000001" y="97" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">name</tspan></text>
+  <text class="mono" x="136.36088" y="123" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="196.76088000000001" y="123" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">manager_id</tspan></text><text x="303.96088" y="123" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">FK</text>
+  <rect x="128.36088" y="20" width="183.6" height="116" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
 </g>
-<path d="M125.17392000000001,49.7 L125.17392000000001,36.7" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M120.17392000000001,49.7 L120.17392000000001,36.7" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M134.17392,120.3 L121.17392000000001,112.8 L134.17392,105.3" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="112.17392000000001" cy="112.8" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<rect x="20" y="65.775" width="78.17392000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="59.086960000000005" y="78" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">manages</text>
+<path d="M119.36088000000001,49.7 L119.36088000000001,36.7" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M114.36088000000001,49.7 L114.36088000000001,36.7" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M128.36088,120.3 L115.36088000000001,112.8 L128.36088,105.3" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="106.36088000000001" cy="112.8" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<rect x="20.000000000000007" y="67.2" width="72.36088" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="56.180440000000004" y="78" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">manages</text>
 </svg>

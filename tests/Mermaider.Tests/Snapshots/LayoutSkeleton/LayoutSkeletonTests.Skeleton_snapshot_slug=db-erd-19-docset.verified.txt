@@ -11,7 +11,7 @@ Edges:
   DocumentationSet --codex.group--> CodexGroup [Bottom->Top] [D R D]
   DocumentationSet --cross_links--> CrossLinkDeclaration [Bottom->Top] [D L D]
   DocumentationSet --cta--> Cta [Bottom->Top] [D L D L D]
-  DocumentationSet --default_cta--> Cta [Bottom->Top] [D L D L D]
+  DocumentationSet --default_cta--> Cta [Bottom->Top] [D L D L D L D]
   DocumentationSet --features--> FeatureToggle [Bottom->Top] [D R D]
   DocumentationSet --suppress--> HintSuppression [Bottom->Top] [D R D]
   DocumentationSet --products--> Product [Bottom->Top] [D R D L D]

@@ -4,18 +4,20 @@
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,8 +26,8 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px rgba(24,24,27,.10)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
 <defs>
@@ -35,12 +37,12 @@
 </defs>
 
 <text x="640" y="28" text-anchor="middle" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)">History of Social Media</text>
-<rect x="32" y="44" width="400" height="212" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
-<text x="232" y="62" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="#4B74A0">Early Days</text>
-<rect x="440" y="44" width="400" height="212" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
-<text x="640" y="62" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="#F18921">Growth</text>
-<rect x="848" y="44" width="400" height="212" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 6%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
-<text x="1048" y="62" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="#6FB3AE">Modern Era</text>
+<rect x="32" y="44" width="400" height="212" rx="12" ry="12" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1.25" />
+<text x="232" y="62" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 42%, var(--bg))">Early Days</text>
+<rect x="440" y="44" width="400" height="212" rx="12" ry="12" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
+<text x="640" y="62" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 42%, var(--bg))">Growth</text>
+<rect x="848" y="44" width="400" height="212" rx="12" ry="12" fill="color-mix(in srgb, #76b7b2 6%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1.25" />
+<text x="1048" y="62" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #76b7b2 42%, var(--bg))">Modern Era</text>
 <line x1="130" y1="114" x2="130" y2="250" stroke="color-mix(in srgb, #4e79a7 45%, var(--bg))" stroke-width="1.5" stroke-dasharray="4 4" />
 <line x1="334" y1="114" x2="334" y2="250" stroke="color-mix(in srgb, #4e79a7 45%, var(--bg))" stroke-width="1.5" stroke-dasharray="4 4" />
 <line x1="538" y1="114" x2="538" y2="250" stroke="color-mix(in srgb, #f28e2b 45%, var(--bg))" stroke-width="1.5" stroke-dasharray="4 4" />
@@ -48,36 +50,36 @@
 <line x1="946" y1="114" x2="946" y2="250" stroke="color-mix(in srgb, #76b7b2 45%, var(--bg))" stroke-width="1.5" stroke-dasharray="4 4" />
 <line x1="1150" y1="114" x2="1150" y2="250" stroke="color-mix(in srgb, #76b7b2 45%, var(--bg))" stroke-width="1.5" stroke-dasharray="4 4" />
 <line x1="28" y1="142" x2="1272" y2="142" stroke="var(--_line)" stroke-width="3" marker-end="url(#timeline-arrow)" />
-<rect x="40" y="78" width="180" height="36" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+<rect x="40" y="78" width="180" height="36" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
 <text x="130" y="96" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">2002</text>
-<circle cx="130" cy="142" r="6" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<rect x="50" y="168" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+<circle cx="130" cy="142" r="6" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+<rect x="50" y="168" width="160" height="28" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
 <text x="130" y="182" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">LinkedIn</text>
-<rect x="244" y="78" width="180" height="36" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+<rect x="244" y="78" width="180" height="36" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
 <text x="334" y="96" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">2004</text>
-<circle cx="334" cy="142" r="6" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<rect x="254" y="168" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+<circle cx="334" cy="142" r="6" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+<rect x="254" y="168" width="160" height="28" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
 <text x="334" y="182" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Facebook</text>
-<rect x="254" y="202" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+<rect x="254" y="202" width="160" height="28" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
 <text x="334" y="216" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Google</text>
-<rect x="448" y="78" width="180" height="36" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 24%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
+<rect x="448" y="78" width="180" height="36" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
 <text x="538" y="96" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">2006</text>
-<circle cx="538" cy="142" r="6" fill="color-mix(in srgb, #f28e2b 24%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-<rect x="458" y="168" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
+<circle cx="538" cy="142" r="6" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+<rect x="458" y="168" width="160" height="28" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
 <text x="538" y="182" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Twitter</text>
-<rect x="652" y="78" width="180" height="36" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 24%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
+<rect x="652" y="78" width="180" height="36" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
 <text x="742" y="96" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">2010</text>
-<circle cx="742" cy="142" r="6" fill="color-mix(in srgb, #f28e2b 24%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-<rect x="662" y="168" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
+<circle cx="742" cy="142" r="6" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+<rect x="662" y="168" width="160" height="28" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
 <text x="742" y="182" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Instagram</text>
-<rect x="856" y="78" width="180" height="36" rx="6" ry="6" fill="color-mix(in srgb, #76b7b2 24%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
+<rect x="856" y="78" width="180" height="36" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 22%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
 <text x="946" y="96" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">2016</text>
-<circle cx="946" cy="142" r="6" fill="color-mix(in srgb, #76b7b2 24%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
-<rect x="866" y="168" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
+<circle cx="946" cy="142" r="6" fill="color-mix(in srgb, #76b7b2 22%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+<rect x="866" y="168" width="160" height="28" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 11%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
 <text x="946" y="182" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">TikTok</text>
-<rect x="1060" y="78" width="180" height="36" rx="6" ry="6" fill="color-mix(in srgb, #76b7b2 24%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
+<rect x="1060" y="78" width="180" height="36" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 22%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
 <text x="1150" y="96" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">2019</text>
-<circle cx="1150" cy="142" r="6" fill="color-mix(in srgb, #76b7b2 24%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
-<rect x="1070" y="168" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
+<circle cx="1150" cy="142" r="6" fill="color-mix(in srgb, #76b7b2 22%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+<rect x="1070" y="168" width="160" height="28" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 11%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
 <text x="1150" y="182" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Threads</text>
 </svg>

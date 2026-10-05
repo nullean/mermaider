@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 171.208 342.40000000000003" width="171.208" height="342.40000000000003" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 148.18200000000002 334.59999999999997" width="148.18200000000002" height="334.59999999999997" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,44 +26,41 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px rgba(24,24,27,.10)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
-<defs>
-  <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
-  </marker>
-  <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
-    <polygon points="12 0, 0 6, 12 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
-  </marker>
-</defs>
-
-<path class="edge" data-from="_start" data-to="Still" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M76.40266666666668,40 L76.40266666666668,70" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Still" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M55.41866666666668,114.8 L55.41866666666668,136.8 Q55.41866666666668,142.8 49.41866666666668,142.8 L22,142.8 Q16,142.8 16,148.8 L16,281.40000000000003 Q16,287.40000000000003 22,287.40000000000003 L54.044,287.40000000000003 Q60.044,287.40000000000003 60.044,293.40000000000003 L60.044,302.40000000000003" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Still" data-to="Moving" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M76.40266666666668,114.8 L76.40266666666668,133.8 L76.40266666666668,133.8 L76.40266666666668,152.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Moving" data-to="Still" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M117.80533333333334,152.8 L117.80533333333334,139.8 Q117.80533333333334,133.8 111.80533333333334,133.8 L103.38666666666668,133.8 Q97.38666666666668,133.8 97.38666666666668,127.80000000000001 L97.38666666666668,114.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Moving" data-to="Crash" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M99.104,197.60000000000002 L99.104,227.60000000000002" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Crash" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M99,272.5 L99,308.5 Q99,314.5 93,314.5 L76,314.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="_start" data-to="Still" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M68.72733333333333,40 L68.72733333333333,70" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+<path class="edge" data-from="Still" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M52.61633333333334,112.2 L52.61633333333334,132.2 Q52.61633333333334,140.2 44.61633333333334,140.2 L24,140.2 Q16,140.2 16,148.2 L16,271.59999999999997 Q16,279.59999999999997 24,279.59999999999997 L44.351,279.59999999999997 Q51.851,279.59999999999997 51.851,287.09999999999997 L51.851,294.59999999999997" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+<path class="edge" data-from="Still" data-to="Moving" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M68.72733333333333,112.2 L68.72733333333333,131.2 L68.72733333333333,131.2 L68.72733333333333,150.2" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+<path class="edge" data-from="Moving" data-to="Still" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M102.45466666666667,150.2 L102.45466666666667,139.2 Q102.45466666666667,131.2 94.45466666666667,131.2 L92.83833333333334,131.2 Q84.83833333333334,131.2 84.83833333333334,123.19999999999999 L84.83833333333334,112.2" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+<path class="edge" data-from="Moving" data-to="Crash" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M87.59100000000001,192.39999999999998 L87.591,222.39999999999998" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+<path class="edge" data-from="Crash" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M87.5,264.5 L87.5,298.5 Q87.5,306.5 79.5,306.5 L68,306.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
-  <circle cx="76.40266666666668" cy="28" r="10" fill="var(--_text)" stroke="none" />
+  <circle cx="68.72733333333333" cy="28" r="10" fill="var(--accent, var(--fg))" />
   
 </g>
 <g class="node" data-id="Still" data-label="Still" data-shape="rounded">
-  <rect x="34.434666666666686" y="70" width="83.93599999999999" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="76.40266666666668" y="92.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Still</text>
+  <rect x="36.50533333333334" y="70" width="64.44399999999999" height="42.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="68.72733333333333" y="91.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Still</text>
 </g>
 <g class="node" data-id="_end" data-label="" data-shape="stateend">
-  <circle cx="64.044" cy="314.40000000000003" r="10" fill="none" stroke="var(--_text)" stroke-width="4" />
-<circle cx="64.044" cy="314.40000000000003" r="6" fill="var(--_text)" stroke="none" />
+  <circle cx="55.851" cy="306.59999999999997" r="10" fill="none" stroke="var(--accent, var(--fg))" stroke-width="2" />
+<circle cx="55.851" cy="306.59999999999997" r="6" fill="var(--accent, var(--fg))" />
   
 </g>
 <g class="node" data-id="Moving" data-label="Moving" data-shape="rounded">
-  <rect x="43" y="152.8" width="112.208" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="99.104" y="175.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Moving</text>
+  <rect x="43" y="150.2" width="89.182" height="42.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="87.59100000000001" y="171.29999999999998" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Moving</text>
 </g>
 <g class="node" data-id="Crash" data-label="Crash" data-shape="rounded">
-  <rect x="47.104" y="227.60000000000002" width="104" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="99.104" y="250.00000000000003" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Crash</text>
+  <rect x="46.590999999999994" y="222.39999999999998" width="82" height="42.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="87.591" y="243.49999999999997" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Crash</text>
 </g>
+<defs>
+  <linearGradient id="ma2e31288-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 7%, var(--bg))" /></linearGradient>
+  <marker id="ma2e31288-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
+  </marker>
+</defs>
 </svg>

@@ -53,7 +53,7 @@ internal static class BlockSvgRenderer
 			var emptyW = (BasePad * 2) + MinCellW;
 			var emptyH = titleOffset + (BasePad * 2) + MinCellH;
 			StyleBlock.AppendSvgOpenTag(sb, emptyW, emptyH, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-			StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
+			StyleBlock.AppendStyleBlock(sb, context.Styles);
 			_ = sb.Append("\n<defs>\n</defs>\n");
 			if (hasTitle)
 				AppendTitle(sb, diagram.Title!, emptyW * 0.5);
@@ -140,7 +140,7 @@ internal static class BlockSvgRenderer
 			context.Styles.Colors);
 
 		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
+		StyleBlock.AppendStyleBlock(sb, context.Styles);
 		_ = sb.Append("\n<defs>\n");
 		_ = sb.Append("<marker id=\"block-arrow\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\">")
 			.Append("<path d=\"M 0 0 L 10 5 L 0 10 z\" fill=\"var(--_line)\" />")

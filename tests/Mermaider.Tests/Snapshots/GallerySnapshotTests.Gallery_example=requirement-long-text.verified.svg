@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 830.8999999999999 294" width="830.8999999999999" height="294" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 825.8479999999998 294" width="825.8479999999998" height="294" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,59 +26,59 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px rgba(24,24,27,.10)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
 <defs>
-  <marker id="req-arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
+  <marker id="req-arrow" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto">
+    <polygon points="0 0, 10 5, 0 10" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
   </marker>
 </defs>
 
-<path class="req-relation" d="M352.34399999999994,147 L480.3399999999999,147" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#req-arrow)" />
-<rect x="379.6591199999999" y="134.775" width="73.36576000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="416.34" y="147" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">satisfies</text>
+<path class="req-relation" d="M352.34399999999994,147 L475.2879999999999,147" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#req-arrow)" />
+<rect x="379.81067999999993" y="136.2" width="68.01064" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="413.82" y="147" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">satisfies</text>
 <g class="req-node" data-id="a_requirement_with_a_really_long_name_that_wraps">
-  <rect x="480.34" y="24" width="326.56" height="246" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M480.3399999999999,100 L480.3399999999999,30 Q480.3399999999999,24 486.3399999999999,24 L800.8999999999999,24 Q806.8999999999999,24 806.8999999999999,30 L806.8999999999999,100 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
+  <rect x="475.29" y="24" width="326.56" height="246" rx="8" ry="8" fill="var(--bg)" />
+  <path d="M475.2879999999999,100 L475.2879999999999,32 Q475.2879999999999,24 483.2879999999999,24 L793.8479999999998,24 Q801.8479999999998,24 801.8479999999998,32 L801.8479999999998,100 Z" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" />
 
-  <text x="643.62" y="44" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#3B5B7D">Requirement</text>
-  <text x="643.62" y="64" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">a_requirement_with_a_really_long_n</text>
-  <text x="643.62" y="84" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">ame_that_wraps</text>
-  <line x1="480.34" y1="100" x2="806.9" y2="100" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="494.34" y="113" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Id</text>
-  <text x="586.04" y="113" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">LONG-1</text>
-  <line x1="480.34" y1="122.5" x2="806.9" y2="122.5" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="494.34" y="133" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Text</text>
-  <text x="586.04" y="133" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">The system shall keep every</text>
-  <text x="586.04" y="153" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">audit record for at least seven</text>
-  <text x="586.04" y="173" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">years and make it retrievable</text>
-  <text x="586.04" y="193" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">within one business day on</text>
-  <text x="586.04" y="213" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">request.</text>
-  <line x1="480.34" y1="222.5" x2="806.9" y2="222.5" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="494.34" y="233" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Risk</text>
-  <text x="586.04" y="233" dy="0.35em" font-size="var(--fs-s)" fill="#D52629">High</text>
-  <line x1="480.34" y1="242.5" x2="806.9" y2="242.5" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="494.34" y="253" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Verification</text>
-  <text x="586.04" y="253" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Inspection</text>
-  <line x1="579.04" y1="100" x2="579.04" y2="270" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <rect x="480.34" y="24" width="326.56" height="246" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <text x="638.57" y="44" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">Requirement</text>
+  <text x="638.57" y="64" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">a_requirement_with_a_really_long_n</text>
+  <text x="638.57" y="84" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">ame_that_wraps</text>
+  <line x1="475.29" y1="100" x2="801.85" y2="100" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="489.29" y="113" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Id</text>
+  <text x="580.99" y="113" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">LONG-1</text>
+  <line x1="475.29" y1="122.5" x2="801.85" y2="122.5" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
+  <text x="489.29" y="133" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Text</text>
+  <text x="580.99" y="133" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">The system shall keep every</text>
+  <text x="580.99" y="153" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">audit record for at least seven</text>
+  <text x="580.99" y="173" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">years and make it retrievable</text>
+  <text x="580.99" y="193" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">within one business day on</text>
+  <text x="580.99" y="213" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">request.</text>
+  <line x1="475.29" y1="222.5" x2="801.85" y2="222.5" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
+  <text x="489.29" y="233" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Risk</text>
+  <text x="580.99" y="233" dy="0.35em" font-size="var(--fs-s)" fill="color-mix(in srgb, #e15759 74%, var(--fg))">High</text>
+  <line x1="475.29" y1="242.5" x2="801.85" y2="242.5" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
+  <text x="489.29" y="253" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Verification</text>
+  <text x="580.99" y="253" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Inspection</text>
+  <line x1="573.99" y1="100" x2="573.99" y2="270" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
+  <rect x="475.29" y="24" width="326.56" height="246" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
 </g>
 <g class="req-node" data-id="retention_job">
-  <rect x="24" y="84" width="328.34" height="126" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M24,140 L24,90 Q24,84 30,84 L346.34399999999994,84 Q352.34399999999994,84 352.34399999999994,90 L352.34399999999994,140 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
+  <rect x="24" y="84" width="328.34" height="126" rx="8" ry="8" fill="var(--bg)" />
+  <path d="M24,140 L24,92 Q24,84 32,84 L344.34399999999994,84 Q352.34399999999994,84 352.34399999999994,92 L352.34399999999994,140 Z" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" />
 
-  <text x="188.17" y="104" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#3B5B7D">Element</text>
+  <text x="188.17" y="104" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">Element</text>
   <text x="188.17" y="124" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">retention_job</text>
-  <line x1="24" y1="140" x2="352.34" y2="140" stroke="#3B5B7D" stroke-width="1.75" />
+  <line x1="24" y1="140" x2="352.34" y2="140" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <text x="38" y="153" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Type</text>
   <text x="101.98" y="153" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">batch job</text>
-  <line x1="24" y1="162.5" x2="352.34" y2="162.5" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
+  <line x1="24" y1="162.5" x2="352.34" y2="162.5" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
   <text x="38" y="173" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Doc ref</text>
   <text x="101.98" y="173" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">ops/runbooks/retention-and-archival</text>
   <text x="101.98" y="193" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">-policy.md</text>
-  <line x1="94.98" y1="140" x2="94.98" y2="210" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <rect x="24" y="84" width="328.34" height="126" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <line x1="94.98" y1="140" x2="94.98" y2="210" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
+  <rect x="24" y="84" width="328.34" height="126" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
 </g>
 </svg>

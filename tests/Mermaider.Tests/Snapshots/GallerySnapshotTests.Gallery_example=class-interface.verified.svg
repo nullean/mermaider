@@ -4,18 +4,20 @@
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,69 +26,69 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px rgba(24,24,27,.10)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
 <defs>
-  <marker id="cls-inherit" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
+  <marker id="cls-inherit" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
+    <polygon points="0 0, 10 5, 0 10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
   </marker>
-  <marker id="cls-composition" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="6 0, 12 6, 6 12, 0 6" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" />
+  <marker id="cls-composition" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
+    <polygon points="5 0, 10 5, 5 10, 0 5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" />
   </marker>
-  <marker id="cls-aggregation" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="6 0, 12 6, 6 12, 0 6" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
+  <marker id="cls-aggregation" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
+    <polygon points="5 0, 10 5, 5 10, 0 5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
   </marker>
-  <marker id="cls-arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polyline points="0 0, 12 6, 0 12" fill="none" stroke="var(--_line)" stroke-width="2" />
+  <marker id="cls-arrow" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
+    <polyline points="0 0, 10 5, 0 10" fill="none" stroke="var(--_line)" stroke-width="2" />
   </marker>
-  <marker id="cls-lollipop" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto-start-reverse">
-    <circle cx="6" cy="6" r="5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
+  <marker id="cls-lollipop" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto-start-reverse">
+    <circle cx="5" cy="5" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
   </marker>
 </defs>
 
-<path class="class-relationship" data-from="ILogger" data-to="ConsoleLogger" data-type="realization" data-marker-at="from" d="M282.03333333333336,144 L282.03333333333336,168 Q282.03333333333336,174 276.03333333333336,174 L182.7,174 Q176.7,174 176.7,180 L176.7,204" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="4 4" marker-start="url(#cls-inherit)" />
-<path class="class-relationship" data-from="ILogger" data-to="FileLogger" data-type="realization" data-marker-at="from" d="M373.1666666666667,144 L373.1666666666667,168 Q373.1666666666667,174 379.1666666666667,174 L472.5,174 Q478.5,174 478.5,180 L478.5,204" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="4 4" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="ILogger" data-to="ConsoleLogger" data-type="realization" data-marker-at="from" d="M282.03333333333336,144 L282.03333333333336,166 Q282.03333333333336,174 274.03333333333336,174 L184.7,174 Q176.7,174 176.7,182 L176.7,204" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="4 4" marker-start="url(#cls-inherit)" />
+<path class="class-relationship" data-from="ILogger" data-to="FileLogger" data-type="realization" data-marker-at="from" d="M373.1666666666667,144 L373.1666666666667,166 Q373.1666666666667,174 381.1666666666667,174 L470.5,174 Q478.5,174 478.5,182 L478.5,204" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="4 4" marker-start="url(#cls-inherit)" />
 <g class="class-node" data-id="ILogger" data-label="ILogger" data-annotation="interface">
-  <rect x="190.90000000000003" y="40" width="273.4" height="104" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M190.90000000000003,88 L190.90000000000003,46 Q190.90000000000003,40 196.90000000000003,40 L458.3,40 Q464.3,40 464.3,46 L464.3,88 Z" fill="color-mix(in srgb, #f28e2b 24%, var(--bg))" />
-  <text x="327.6" y="52" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="500" font-style="italic" fill="#D36F0D">&lt;&lt;interface&gt;&gt;</text>
-  <text x="327.6" y="70" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ILogger</text>
-  <line x1="190.90000000000003" y1="88" x2="464.3" y2="88" stroke="#D36F0D" stroke-width="1.75" />
-  <line x1="190.90000000000003" y1="120" x2="464.3" y2="120" stroke="#D36F0D" stroke-width="1" opacity="0.35" />
-  <line x1="190.90000000000003" y1="96" x2="464.3" y2="96" stroke="#D36F0D" stroke-width="1.75" />
-  <line x1="237.50000000000003" y1="88" x2="237.50000000000003" y2="144" stroke="#D36F0D" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="198.90000000000003" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="245.50000000000003" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">Log(string message)</tspan></text><text class="mono" x="456.3" y="110" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#D36F0D">+</text>
-  <text class="mono" x="198.90000000000003" y="130" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="245.50000000000003" y="130" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">LogError(Exception ex)</tspan></text><text class="mono" x="456.3" y="130" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#D36F0D">+</text>
-  <rect x="190.90000000000003" y="40" width="273.4" height="104" rx="6" ry="6" fill="none" stroke="#D36F0D" stroke-width="1.75" />
+  <rect x="190.90000000000003" y="40" width="273.4" height="104" rx="8" ry="8" fill="var(--bg)" />
+  <path d="M190.90000000000003,88 L190.90000000000003,48 Q190.90000000000003,40 198.90000000000003,40 L456.3,40 Q464.3,40 464.3,48 L464.3,88 Z" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" />
+  <text x="327.6" y="52" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="500" font-style="italic" fill="color-mix(in srgb, #f28e2b 74%, var(--fg))">&lt;&lt;interface&gt;&gt;</text>
+  <text x="327.6" y="70" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">ILogger</text>
+  <line x1="190.90000000000003" y1="88" x2="464.3" y2="88" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="190.90000000000003" y1="120" x2="464.3" y2="120" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1" opacity="0.35" />
+  <line x1="190.90000000000003" y1="96" x2="464.3" y2="96" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="237.50000000000003" y1="88" x2="237.50000000000003" y2="144" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1" opacity="0.35" />
+  <text class="mono" x="198.90000000000003" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="245.50000000000003" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">Log(string message)</tspan></text><text class="mono" x="456.3" y="110" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #f28e2b 74%, var(--fg))">+</text>
+  <text class="mono" x="198.90000000000003" y="130" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="245.50000000000003" y="130" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">LogError(Exception ex)</tspan></text><text class="mono" x="456.3" y="130" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #f28e2b 74%, var(--fg))">+</text>
+  <rect x="190.90000000000003" y="40" width="273.4" height="104" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
 </g>
 <g class="class-node" data-id="ConsoleLogger" data-label="ConsoleLogger">
-  <rect x="40" y="204" width="273.4" height="108" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M40,236 L40,210 Q40,204 46,204 L307.4,204 Q313.4,204 313.4,210 L313.4,236 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <text x="176.7" y="220" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ConsoleLogger</text>
-  <line x1="40" y1="236" x2="313.4" y2="236" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="40" y1="288" x2="313.4" y2="288" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="40" y1="264" x2="313.4" y2="264" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="86.6" y1="236" x2="86.6" y2="312" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="48" y="250" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">bool</text><text class="mono" x="94.6" y="250" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">_verbose</tspan></text><text class="mono" x="305.4" y="250" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">-</text>
-  <text class="mono" x="48" y="278" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="94.6" y="278" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">Log(string message)</tspan></text><text class="mono" x="305.4" y="278" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <text class="mono" x="48" y="298" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="94.6" y="298" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">LogError(Exception ex)</tspan></text><text class="mono" x="305.4" y="298" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <rect x="40" y="204" width="273.4" height="108" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <rect x="40" y="204" width="273.4" height="108" rx="8" ry="8" fill="var(--bg)" />
+  <path d="M40,236 L40,212 Q40,204 48,204 L305.4,204 Q313.4,204 313.4,212 L313.4,236 Z" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" />
+  <text x="176.7" y="220" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">ConsoleLogger</text>
+  <line x1="40" y1="236" x2="313.4" y2="236" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="40" y1="288" x2="313.4" y2="288" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
+  <line x1="40" y1="264" x2="313.4" y2="264" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="86.6" y1="236" x2="86.6" y2="312" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
+  <text class="mono" x="48" y="250" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">bool</text><text class="mono" x="94.6" y="250" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">_verbose</tspan></text><text class="mono" x="305.4" y="250" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">-</text>
+  <text class="mono" x="48" y="278" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="94.6" y="278" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">Log(string message)</tspan></text><text class="mono" x="305.4" y="278" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">+</text>
+  <text class="mono" x="48" y="298" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="94.6" y="298" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">LogError(Exception ex)</tspan></text><text class="mono" x="305.4" y="298" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">+</text>
+  <rect x="40" y="204" width="273.4" height="108" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
 </g>
 <g class="class-node" data-id="FileLogger" data-label="FileLogger">
-  <rect x="333.4" y="204" width="290.2" height="128" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M333.4,236 L333.4,210 Q333.4,204 339.4,204 L617.5999999999999,204 Q623.5999999999999,204 623.5999999999999,210 L623.5999999999999,236 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <text x="478.5" y="220" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">FileLogger</text>
-  <line x1="333.4" y1="236" x2="623.5999999999999" y2="236" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="333.4" y1="288" x2="623.5999999999999" y2="288" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="333.4" y1="308" x2="623.5999999999999" y2="308" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="333.4" y1="264" x2="623.5999999999999" y2="264" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="396.79999999999995" y1="236" x2="396.79999999999995" y2="332" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="341.4" y="250" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">string</text><text class="mono" x="404.79999999999995" y="250" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">_path</tspan></text><text class="mono" x="615.5999999999999" y="250" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">-</text>
-  <text class="mono" x="341.4" y="278" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="404.79999999999995" y="278" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">Log(string message)</tspan></text><text class="mono" x="615.5999999999999" y="278" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <text class="mono" x="341.4" y="298" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="404.79999999999995" y="298" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">LogError(Exception ex)</tspan></text><text class="mono" x="615.5999999999999" y="298" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <text class="mono" x="341.4" y="318" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="404.79999999999995" y="318" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">Flush()</tspan></text><text class="mono" x="615.5999999999999" y="318" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <rect x="333.4" y="204" width="290.2" height="128" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <rect x="333.4" y="204" width="290.2" height="128" rx="8" ry="8" fill="var(--bg)" />
+  <path d="M333.4,236 L333.4,212 Q333.4,204 341.4,204 L615.5999999999999,204 Q623.5999999999999,204 623.5999999999999,212 L623.5999999999999,236 Z" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" />
+  <text x="478.5" y="220" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">FileLogger</text>
+  <line x1="333.4" y1="236" x2="623.5999999999999" y2="236" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="333.4" y1="288" x2="623.5999999999999" y2="288" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
+  <line x1="333.4" y1="308" x2="623.5999999999999" y2="308" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
+  <line x1="333.4" y1="264" x2="623.5999999999999" y2="264" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="396.79999999999995" y1="236" x2="396.79999999999995" y2="332" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
+  <text class="mono" x="341.4" y="250" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">string</text><text class="mono" x="404.79999999999995" y="250" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">_path</tspan></text><text class="mono" x="615.5999999999999" y="250" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">-</text>
+  <text class="mono" x="341.4" y="278" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="404.79999999999995" y="278" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">Log(string message)</tspan></text><text class="mono" x="615.5999999999999" y="278" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">+</text>
+  <text class="mono" x="341.4" y="298" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="404.79999999999995" y="298" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">LogError(Exception ex)</tspan></text><text class="mono" x="615.5999999999999" y="298" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">+</text>
+  <text class="mono" x="341.4" y="318" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="404.79999999999995" y="318" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">Flush()</tspan></text><text class="mono" x="615.5999999999999" y="318" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">+</text>
+  <rect x="333.4" y="204" width="290.2" height="128" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
 </g>
 </svg>

@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 584.96 100.8" width="584.96" height="100.8" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 551.8399999999999 100" width="551.8399999999999" height="100" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,23 +26,23 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px rgba(24,24,27,.10)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
 <defs>
 <marker id="block-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--_line)" /></marker>
 </defs>
 
-<path class="block-edge" d="M132.24,50.4 L168.24,50.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#block-arrow)" />
-<path class="block-edge" d="M274.48,50.4 L310.48,50.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#block-arrow)" />
-<path class="block-edge" d="M416.72,50.4 L452.72,50.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#block-arrow)" />
-<rect x="26" y="26" width="106.24" height="48.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="79.12" y="50.4" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">Input</text>
-<rect x="168.24" y="26" width="106.24" height="48.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="221.36" y="50.4" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">Process</text>
-<rect x="310.48" y="26" width="106.24" height="48.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="363.6" y="50.4" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">Output</text>
-<rect x="452.72" y="26" width="106.24" height="48.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="505.84" y="50.4" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">Store</text>
+<path class="block-edge" d="M123.96,50 L159.96,50" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#block-arrow)" />
+<path class="block-edge" d="M257.92,50 L293.92,50" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#block-arrow)" />
+<path class="block-edge" d="M391.88,50 L427.88,50" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#block-arrow)" />
+<rect x="26" y="26" width="97.96" height="48" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+<text x="74.98" y="50" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">Input</text>
+<rect x="159.96" y="26" width="97.96" height="48" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+<text x="208.94" y="50" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">Process</text>
+<rect x="293.92" y="26" width="97.96" height="48" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+<text x="342.9" y="50" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">Output</text>
+<rect x="427.88" y="26" width="97.96" height="48" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+<text x="476.86" y="50" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">Store</text>
 </svg>

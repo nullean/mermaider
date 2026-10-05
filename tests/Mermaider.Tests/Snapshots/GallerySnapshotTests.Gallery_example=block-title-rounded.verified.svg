@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 541.184 217.6" width="541.184" height="217.6" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 513.5360000000001 216" width="513.5360000000001" height="216" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,27 +26,27 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px rgba(24,24,27,.10)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
 <defs>
 <marker id="block-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--_line)" /></marker>
 </defs>
 
-<text x="270.59" y="22" text-anchor="middle" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)">Release train</text>
-<path class="block-edge" d="M121.3,82.4 L157.3,82.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#block-arrow)" />
-<path class="block-edge" d="M204.94,106.8 L204.94,142.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#block-arrow)" />
-<path class="block-edge" d="M252.59,167.2 L288.59,167.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#block-arrow)" />
-<path class="block-edge" d="M336.24,142.8 L336.24,130.8 Q336.24,124.8 342.24,124.8 L461.54,124.8 Q467.54,124.8 467.54,118.8 L467.54,106.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#block-arrow)" />
-<rect x="26" y="58" width="95.3" height="48.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="73.65" y="82.4" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">Plan</text>
-<rect x="157.3" y="58" width="95.3" height="48.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="204.94" y="82.4" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">Build</text>
-<rect x="419.89" y="58" width="95.3" height="48.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="467.54" y="82.4" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">Ship</text>
-<rect x="157.3" y="142.8" width="95.3" height="48.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="204.94" y="167.2" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">Test</text>
-<rect x="288.59" y="142.8" width="95.3" height="48.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="336.24" y="167.2" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">Review</text>
+<text x="256.77" y="22" text-anchor="middle" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)">Release train</text>
+<path class="block-edge" d="M114.38,82 L150.38,82" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#block-arrow)" />
+<path class="block-edge" d="M194.58,106 L194.58,142" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#block-arrow)" />
+<path class="block-edge" d="M238.77,166 L274.77,166" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#block-arrow)" />
+<path class="block-edge" d="M318.96,142 L318.96,132 Q318.96,124 326.96,124 L435.34,124 Q443.34,124 443.34,116 L443.34,106" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#block-arrow)" />
+<rect x="26" y="58" width="88.38" height="48" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+<text x="70.19" y="82" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">Plan</text>
+<rect x="150.38" y="58" width="88.38" height="48" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+<text x="194.58" y="82" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">Build</text>
+<rect x="399.15" y="58" width="88.38" height="48" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+<text x="443.34" y="82" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">Ship</text>
+<rect x="150.38" y="142" width="88.38" height="48" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+<text x="194.58" y="166" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">Test</text>
+<rect x="274.77" y="142" width="88.38" height="48" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+<text x="318.96" y="166" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">Review</text>
 </svg>

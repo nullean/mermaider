@@ -89,7 +89,8 @@ internal sealed record NormalizedRenderStyles(
 	string? MonoFont,
 	FontScale FontScale,
 	bool Transparent,
-	StrictStylingOptions? Strict);
+	StrictStylingOptions? Strict,
+	DesignInputs Design);
 
 internal sealed record NormalizedRenderConfiguration(
 	NormalizedRenderStyles Styles,
@@ -182,12 +183,13 @@ internal static class RenderConfigurationNormalizer
 			options?.MonoFont,
 			FontScale.From(options),
 			options?.Transparent ?? true,
-			strict);
+			strict,
+			DesignInputs.From(options));
 
 		return new NormalizedRenderConfiguration(
 			styles,
 			options?.LayoutProvider ?? MermaidRenderer.LayoutProvider,
-			options?.RoundedEdges != false ? 6.0 : 0);
+			options?.RoundedEdges != false ? styles.Design.Spec.EdgeBendRadius : 0);
 	}
 
 	private static DiagramColors BuildColors(RenderOptions? options, DiagramMetadata metadata)

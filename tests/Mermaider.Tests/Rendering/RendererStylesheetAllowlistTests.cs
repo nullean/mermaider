@@ -60,7 +60,8 @@ public class RendererStylesheetAllowlistTests
 			valid.Replace("--_line:", "--_evil:", StringComparison.Ordinal),
 			valid.Replace("--fs-xs: 0.75rem;", "--fs-xs: calc(1rem + 1px);", StringComparison.Ordinal),
 			valid.Replace("--fs-s:  0.875rem;", "--fs-s:  -1rem;", StringComparison.Ordinal),
-			valid.Replace("drop-shadow(0 1px 3px rgba(0,0,0,.07))", "url(https://attacker.invalid/filter)", StringComparison.Ordinal),
+			valid.Replace("drop-shadow(0 1px 2px rgba(24,24,27,.10))", "url(https://attacker.invalid/filter)", StringComparison.Ordinal),
+			valid.Replace("rgba(24,24,27,.10)", "rgba(255,0,0,1)", StringComparison.Ordinal),
 			valid.Replace(".subgraph, .kanban-column", ".subgraph, body", StringComparison.Ordinal),
 			valid.Replace("\n", "\r\n", StringComparison.Ordinal),
 			valid + "  body { display: none; }\n",
@@ -69,6 +70,25 @@ public class RendererStylesheetAllowlistTests
 
 		foreach (var stylesheet in mutations)
 			RendererStylesheetAllowlist.IsAllowed(stylesheet).Should().BeFalse("a fixed renderer stylesheet line was changed");
+	}
+
+	[Test]
+	public void Accepts_every_style_preset_elevation_and_background()
+	{
+		foreach (var style in Enum.GetValues<DiagramStyle>())
+		{
+			foreach (var elevation in new[] { 0, 1, 2 })
+			{
+				foreach (var dark in new[] { false, true })
+				{
+					var design = DesignInputs.From(new RenderOptions { Style = style, Elevation = elevation });
+					var sb = new StringBuilder();
+					StyleBlock.AppendStyleBlock(sb, design: design, darkBg: dark);
+					var stylesheet = ExtractStylesheet(sb.ToString());
+					RendererStylesheetAllowlist.IsAllowed(stylesheet).Should().BeTrue($"{style} at elevation {elevation} (dark: {dark}) is a stylesheet the renderer emits");
+				}
+			}
+		}
 	}
 
 	[Test]
@@ -139,7 +159,11 @@ public class RendererStylesheetAllowlistTests
 	{
 		var sb = new StringBuilder();
 		StyleBlock.AppendStyleBlock(sb, font, strict, fontScale, monoFont);
-		var emitted = sb.ToString();
+		return ExtractStylesheet(sb.ToString());
+	}
+
+	private static string ExtractStylesheet(string emitted)
+	{
 		var start = emitted.IndexOf("<style>", StringComparison.Ordinal) + "<style>".Length;
 		var end = emitted.IndexOf("</style>", StringComparison.Ordinal);
 		return emitted[start..end];

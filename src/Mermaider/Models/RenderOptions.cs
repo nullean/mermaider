@@ -63,6 +63,25 @@ public sealed record RenderOptions
 	public bool Transparent { get; init; } = true;
 
 	/// <summary>
+	/// The visual style preset every diagram type is painted in: <see cref="DiagramStyle.Quiet"/> (tinted, soft gradient),
+	/// <see cref="DiagramStyle.Blueprint"/> (outline-first technical drawing) or <see cref="DiagramStyle.Tonal"/> (filled tonal blocks).
+	/// Presets only change paint; layout and the colour inputs are the same for all three. Default: Quiet.
+	/// </summary>
+	public DiagramStyle Style { get; init; } = DiagramStyle.Quiet;
+
+	/// <summary>Fill boxes, containers and bars with a subtle top-to-bottom gradient. When false every fill is flat. Default: true.</summary>
+	public bool Gradient { get; init; } = true;
+
+	/// <summary>
+	/// Strength of every tint derived from a colour family (node fills, header bands, container bodies, borders), 0.5–1.5.
+	/// Lower values keep dark themes from looking muddy. Default: 1.
+	/// </summary>
+	public double? Tint { get; init; }
+
+	/// <summary>Drop-shadow strength: 0 none, 1 boxes and containers, 2 adds an ambient shadow. Ignored by Blueprint. Default: 1.</summary>
+	public int? Elevation { get; init; }
+
+	/// <summary>
 	/// Override the layout provider for this render call only.
 	/// When <c>null</c>, uses the global provider set via
 	/// <see cref="MermaidRenderer.SetLayoutProvider"/>.

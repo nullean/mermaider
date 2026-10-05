@@ -57,7 +57,7 @@ internal static class QuadrantSvgRenderer
 		var half = ChartSize / 2;
 
 		StyleBlock.AppendSvgOpenTag(sb, totalWidth, totalHeight, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
+		StyleBlock.AppendStyleBlock(sb, context.Styles);
 		_ = sb.Append("\n<defs>\n</defs>\n");
 
 		if (hasTitle)

@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 276.1344 741.8" width="276.1344" height="741.8" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 253.37259999999995 718.4000000000001" width="253.37259999999995" height="718.4000000000001" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,78 +26,69 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px rgba(24,24,27,.10)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
-<defs>
-  <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
-  </marker>
-  <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
-    <polygon points="12 0, 0 6, 12 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
-  </marker>
-</defs>
-
-<path class="edge" data-from="_start" data-to="Running" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M107.82933333333332,40 L107.82933333333332,70" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Running" data-to="Error" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="exception" d="M88.064,114.8 L88.064,209.25" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Error" data-to="Recovering" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="auto_heal" d="M88.064,254.05 L88.064,348.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Recovering" data-to="Running" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="recovered" d="M160,371 L176,371 Q182,371 182,365 L182,160 Q182,154 176,154 L126,154 Q120,154 120,148 L120,129 Q120,123 126,123 L183,123 Q189,123 189,117 L189,98.5 Q189,92.5 183,92.5 L167,92.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Recovering" data-to="Fatal" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="max_retries" d="M88.064,393.3 L88.064,487.75" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Running" data-to="Stopped" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="shutdown" d="M127.59466666666667,114.8 L127.59466666666667,136.8 Q127.59466666666667,142.8 133.59466666666668,142.8 L211.44472,142.8 Q217.44472,142.8 217.44472,148.8 L217.44472,593 Q217.44472,599 211.44472,599 L133.59466666666665,599 Q127.59466666666665,599 127.59466666666665,605 L127.59466666666665,627" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Fatal" data-to="Stopped" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="operator" d="M88.064,532.55 L88.064,627" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Stopped" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M107.82933333333332,671.8 L107.82933333333332,701.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="_start" data-to="Running" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M90.35066666666665,40 L90.35066666666665,70" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+<path class="edge" data-from="Running" data-to="Error" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="exception" d="M74.55599999999998,112.2 L74.55599999999998,204.05" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+<path class="edge" data-from="Error" data-to="Recovering" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="auto_heal" d="M74.55599999999998,246.25 L74.55599999999998,338.1" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+<path class="edge" data-from="Recovering" data-to="Running" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="recovered" d="M133,359 L147,359 Q155,359 155,351 L155,158 Q155,150 147,150 L110.5,150 Q102.5,150 102.5,142 L102.5,142 Q102.5,134 110.5,134 L151.5,134 Q159.5,134 159.5,126 L159.5,99 Q159.5,91 151.5,91 L137.5,91" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+<path class="edge" data-from="Recovering" data-to="Fatal" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="max_retries" d="M74.55599999999998,380.3 L74.55599999999998,472.15000000000003" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+<path class="edge" data-from="Running" data-to="Stopped" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="shutdown" d="M106.14533333333333,112.2 L106.14533333333333,132.2 Q106.14533333333333,140.2 114.14533333333333,140.2 L189.74207999999996,140.2 Q197.74207999999996,140.2 197.74207999999996,148.2 L197.74207999999996,570.2 Q197.74207999999996,578.2 189.74207999999996,578.2 L114.14533333333333,578.2 Q106.14533333333333,578.2 106.14533333333333,586.2 L106.14533333333333,606.2" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+<path class="edge" data-from="Fatal" data-to="Stopped" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="operator" d="M74.55599999999998,514.35 L74.55599999999998,606.2" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+<path class="edge" data-from="Stopped" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M90.35066666666665,648.4000000000001 L90.35066666666665,678.4000000000001" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
 <g class="edge-label" data-from="Running" data-to="Error" data-label="exception">
-  <rect x="46.57295999999999" y="163.9675" width="82.98208000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="88.064" y="176.1925" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">exception</text>
+  <rect x="38.97999999999999" y="153.325" width="71.15199999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="74.55599999999998" y="164.125" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">exception</text>
 </g>
 <g class="edge-label" data-from="Error" data-to="Recovering" data-label="auto_heal">
-  <rect x="46.57295999999999" y="289.04999999999995" width="82.98208000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="88.064" y="301.275" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">auto_heal</text>
+  <rect x="38.97999999999999" y="281.375" width="71.15199999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="74.55599999999998" y="292.175" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">auto_heal</text>
 </g>
 <g class="edge-label" data-from="Recovering" data-to="Running" data-label="recovered">
-  <rect x="137.30352" y="282.825" width="89.39296" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="182" y="295.05" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">recovered</text>
+  <rect x="92.688" y="123.2" width="76.624" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="131" y="134" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">recovered</text>
 </g>
 <g class="edge-label" data-from="Recovering" data-to="Fatal" data-label="max_retries">
-  <rect x="39.36071999999998" y="428.29999999999995" width="97.40656000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="88.064" y="440.525" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">max_retries</text>
+  <rect x="32.823999999999984" y="415.425" width="83.464" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="74.55599999999998" y="426.225" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">max_retries</text>
 </g>
 <g class="edge-label" data-from="Running" data-to="Stopped" data-label="shutdown">
-  <rect x="176.75503999999998" y="427.105" width="81.37936000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="217.44472" y="439.33000000000004" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">shutdown</text>
+  <rect x="162.85007999999996" y="348.40000000000003" width="69.78399999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="197.74207999999996" y="359.20000000000005" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">shutdown</text>
 </g>
 <g class="edge-label" data-from="Fatal" data-to="Stopped" data-label="operator">
-  <rect x="49.77839999999999" y="567.55" width="76.5712" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="88.064" y="579.775" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">operator</text>
+  <rect x="41.71599999999999" y="549.4750000000001" width="65.67999999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="74.55599999999998" y="560.2750000000001" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">operator</text>
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
-  <circle cx="107.82933333333332" cy="28" r="10" fill="var(--_text)" stroke="none" />
+  <circle cx="90.35066666666665" cy="28" r="10" fill="var(--accent, var(--fg))" />
   
 </g>
 <g class="node" data-id="Running" data-label="Running" data-shape="rounded">
-  <rect x="48.53333333333333" y="70" width="118.592" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="107.82933333333332" y="92.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Running</text>
+  <rect x="42.966666666666654" y="70" width="94.768" height="42.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="90.35066666666665" y="91.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Running</text>
 </g>
 <g class="node" data-id="Error" data-label="Error" data-shape="rounded">
-  <rect x="37.888000000000005" y="209.25" width="100.35199999999999" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="88.064" y="231.65" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Error</text>
+  <rect x="35.15199999999999" y="204.05" width="78.80799999999999" height="42.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="74.55599999999998" y="225.15" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Error</text>
 </g>
 <g class="node" data-id="Recovering" data-label="Recovering" data-shape="rounded">
-  <rect x="16" y="348.5" width="144.128" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="88.064" y="370.9" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Recovering</text>
+  <rect x="16" y="338.1" width="117.11199999999998" height="42.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="74.55599999999998" y="359.20000000000005" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Recovering</text>
 </g>
 <g class="node" data-id="Fatal" data-label="Fatal" data-shape="rounded">
-  <rect x="40.623999999999995" y="487.75" width="94.88" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="88.064" y="510.15" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Fatal</text>
+  <rect x="37.54599999999999" y="472.15000000000003" width="74.02" height="42.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="74.55599999999998" y="493.25000000000006" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Fatal</text>
 </g>
 <g class="node" data-id="Stopped" data-label="Stopped" data-shape="rounded">
-  <rect x="48.53333333333333" y="627" width="118.59199999999998" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="107.82933333333332" y="649.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Stopped</text>
+  <rect x="42.966666666666654" y="606.2" width="94.768" height="42.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="90.35066666666665" y="627.3000000000001" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Stopped</text>
 </g>
 <g class="node" data-id="_end" data-label="" data-shape="stateend">
-  <circle cx="107.82933333333332" cy="713.8" r="10" fill="none" stroke="var(--_text)" stroke-width="4" />
-<circle cx="107.82933333333332" cy="713.8" r="6" fill="var(--_text)" stroke="none" />
+  <circle cx="90.35066666666665" cy="690.4000000000001" r="10" fill="none" stroke="var(--accent, var(--fg))" stroke-width="2" />
+<circle cx="90.35066666666665" cy="690.4000000000001" r="6" fill="var(--accent, var(--fg))" />
   
 </g>
+<defs>
+  <linearGradient id="ma2e31288-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 7%, var(--bg))" /></linearGradient>
+  <marker id="ma2e31288-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
+  </marker>
+</defs>
 </svg>

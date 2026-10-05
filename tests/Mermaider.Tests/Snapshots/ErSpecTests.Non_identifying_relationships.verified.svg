@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 290.2" width="440" height="290.2" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 287.6" width="440" height="287.6" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,56 +26,56 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px rgba(24,24,27,.10)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
 <defs>
 </defs>
 
-<path class="er-relationship" data-entity1="PARENT" data-entity2="CHILD" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="has" d="M80,96 L80,194.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="CATEGORY" data-entity2="PRODUCT" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="false" data-label="classifies" d="M220,96 L220,194.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" />
-<path class="er-relationship" data-entity1="TEAM" data-entity2="MEMBER" data-cardinality1="many" data-cardinality2="many" data-identifying="false" data-label="includes" d="M360,96 L360,194.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" />
+<path class="er-relationship" data-entity1="PARENT" data-entity2="CHILD" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="has" d="M80,96 L80,191.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="CATEGORY" data-entity2="PRODUCT" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="false" data-label="classifies" d="M220,96 L220,191.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="6 4" />
+<path class="er-relationship" data-entity1="TEAM" data-entity2="MEMBER" data-cardinality1="many" data-cardinality2="many" data-identifying="false" data-label="includes" d="M360,96 L360,191.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="6 4" />
 <g class="entity" data-id="PARENT" data-label="PARENT">
-  <rect x="20" y="20" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="80" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">PARENT</text>
+  <rect x="20" y="20" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="80" y="58" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">PARENT</text>
 </g>
 <g class="entity" data-id="CHILD" data-label="CHILD">
-  <rect x="20" y="194.2" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="80" y="232.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">CHILD</text>
+  <rect x="20" y="191.6" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="80" y="229.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">CHILD</text>
 </g>
 <g class="entity" data-id="CATEGORY" data-label="CATEGORY">
-  <rect x="160" y="20" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-  <text x="220" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">CATEGORY</text>
+  <rect x="160" y="20" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="220" y="58" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">CATEGORY</text>
 </g>
 <g class="entity" data-id="PRODUCT" data-label="PRODUCT">
-  <rect x="160" y="194.2" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-  <text x="220" y="232.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">PRODUCT</text>
+  <rect x="160" y="191.6" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="220" y="229.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">PRODUCT</text>
 </g>
 <g class="entity" data-id="TEAM" data-label="TEAM">
-  <rect x="300" y="20" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
-  <text x="360" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">TEAM</text>
+  <rect x="300" y="20" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 11%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="360" y="58" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">TEAM</text>
 </g>
 <g class="entity" data-id="MEMBER" data-label="MEMBER">
-  <rect x="300" y="194.2" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
-  <text x="360" y="232.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">MEMBER</text>
+  <rect x="300" y="191.6" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 11%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="360" y="229.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">MEMBER</text>
 </g>
-<path d="M86.5,105 L73.5,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M86.5,110 L73.5,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M72.5,194.2 L80,181.2 L87.5,194.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<path d="M73.5,176.2 L86.5,176.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M226.5,105 L213.5,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M226.5,110 L213.5,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M212.5,194.2 L220,181.2 L227.5,194.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="220" cy="172.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M367.5,96 L360,109 L352.5,96" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<path d="M366.5,114 L353.5,114" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M352.5,194.2 L360,181.2 L367.5,194.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<path d="M353.5,176.2 L366.5,176.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<rect x="57.7416" y="132.875" width="44.5168" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="80" y="145.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">has</text>
-<rect x="179.31032" y="132.875" width="81.37936000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="220" y="145.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">classifies</text>
-<rect x="322.51576" y="132.875" width="74.96848000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="360" y="145.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">includes</text>
+<path d="M86.5,105 L73.5,105" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M86.5,110 L73.5,110" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M72.5,191.6 L80,178.6 L87.5,191.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M73.5,173.6 L86.5,173.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M226.5,105 L213.5,105" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M226.5,110 L213.5,110" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M212.5,191.6 L220,178.6 L227.5,191.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="220" cy="169.6" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M367.5,96 L360,109 L352.5,96" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M366.5,114 L353.5,114" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M352.5,191.6 L360,178.6 L367.5,191.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M353.5,173.6 L366.5,173.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<rect x="59.0454" y="133" width="41.9092" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="80" y="143.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">has</text>
+<rect x="182.36948" y="133" width="75.26104000000001" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="220" y="143.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">classifies</text>
+<rect x="325.26964" y="133" width="69.46072" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
+<text x="360" y="143.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">includes</text>
 </svg>

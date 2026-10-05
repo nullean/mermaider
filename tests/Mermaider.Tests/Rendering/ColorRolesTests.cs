@@ -8,6 +8,9 @@ namespace Mermaider.Tests.Rendering;
 /// <summary>Semantic colour roles (success, failure, warning, info) and the role-aware automatic palette.</summary>
 public class ColorRolesTests
 {
+	/// <summary>The gradient start stage of a node painted in <paramref name="color"/> (the default Quiet preset).</summary>
+	private static string NodeTop(string color) => new ColorFamily("x", color).Top;
+
 	private static double Hue(string hex)
 	{
 		ColorUtils.TryHueSaturation(hex, out var hue, out _).Should().BeTrue();
@@ -63,9 +66,9 @@ public class ColorRolesTests
 	{
 		var svg = MermaidRenderer.RenderSvg("flowchart TD\n  A:::success --> B:::failure --> C");
 
-		svg.Should().Contain(VisualLanguage.Tint(CategoricalPalette.Green, VisualLanguage.NodeTint));
+		svg.Should().Contain(NodeTop(CategoricalPalette.Green));
 		svg.Should().Contain(VisualLanguage.Border(CategoricalPalette.Green));
-		svg.Should().Contain(VisualLanguage.Tint(CategoricalPalette.Red, VisualLanguage.NodeTint));
+		svg.Should().Contain(NodeTop(CategoricalPalette.Red));
 	}
 
 	[Test]
@@ -73,7 +76,7 @@ public class ColorRolesTests
 	{
 		var svg = MermaidRenderer.RenderSvg("flowchart TD\n  A:::warning --> B", new RenderOptions { Warning = "#ff8800" });
 
-		svg.Should().Contain(VisualLanguage.Tint("#ff8800", VisualLanguage.NodeTint));
+		svg.Should().Contain(NodeTop("#ff8800"));
 	}
 
 	[Test]
@@ -82,7 +85,7 @@ public class ColorRolesTests
 		var svg = MermaidRenderer.RenderSvg("flowchart TD\n  classDef success fill:#123456\n  A:::success --> B");
 
 		svg.Should().Contain("fill=\"#123456\"");
-		svg.Should().NotContain(VisualLanguage.Tint(CategoricalPalette.Green, VisualLanguage.NodeTint));
+		svg.Should().NotContain(NodeTop(CategoricalPalette.Green));
 	}
 
 	[Test]
@@ -93,7 +96,7 @@ public class ColorRolesTests
 			new RenderOptions { Success = "red\" onload=\"alert(1)" });
 
 		svg.Should().NotContain("onload");
-		svg.Should().Contain(VisualLanguage.Tint(CategoricalPalette.Green, VisualLanguage.NodeTint));
+		svg.Should().Contain(NodeTop(CategoricalPalette.Green));
 	}
 
 	[Test]
@@ -103,7 +106,7 @@ public class ColorRolesTests
 
 		var svg = MermaidRenderer.RenderSvg("flowchart TD\n  A:::success --> B", strict);
 
-		svg.Should().NotContain(VisualLanguage.Tint(CategoricalPalette.Green, VisualLanguage.NodeTint), "the class was not allow-listed, so it was stripped");
+		svg.Should().NotContain(NodeTop(CategoricalPalette.Green), "the class was not allow-listed, so it was stripped");
 	}
 
 	[Test]
@@ -123,7 +126,7 @@ public class ColorRolesTests
 	{
 		var svg = MermaidRenderer.RenderSvg("flowchart TD\n  A --> B", new RenderOptions { Default = "#7f3fbf" });
 
-		svg.Should().Contain(VisualLanguage.Tint("#7f3fbf", VisualLanguage.NodeTint));
+		svg.Should().Contain(NodeTop("#7f3fbf"));
 	}
 
 	[Test]
@@ -132,6 +135,6 @@ public class ColorRolesTests
 		var svg = MermaidRenderer.RenderSvg("flowchart TD\n  A --> B", new RenderOptions { Default = "red\" onload=\"x" });
 
 		svg.Should().NotContain("onload");
-		svg.Should().Contain(VisualLanguage.Tint(CategoricalPalette.Blue, VisualLanguage.NodeTint));
+		svg.Should().Contain(NodeTop(CategoricalPalette.Blue));
 	}
 }
