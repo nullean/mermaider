@@ -18,7 +18,7 @@ that switch on the preset's **`StyleSpec`**. Renderers never pick a colour, rati
 Only `--bg` and `--fg` are required. Plus, from `RenderOptions` / `DiagramColors`: the data palette (12 colours,
 brightened on dark themes), and the optional roles `Default`, `Success`, `Failure`, `Warning`, `Info`. The zinc themes set `Default` (the colour of an ordinary box) to a cool slate (`#64748b` / `#94a3b8`) so the blue accent (`#3b82f6` / `#60a5fa`) is the one saturated "look here" colour.
 
-`--accent` is the **"look here"** colour: terminals, decisions, the note rail, the container mark and wash, activation
+`--accent` is the **"look here"** colour: terminals, decisions, the note rail, activation
 bars, the in-scope C4 system, the mindmap root, story lines (timeline axis, journey curve), the hottest treemap tile,
 the Invest quadrant, the gantt active ring, the title mark, PK badges. Nowhere else.
 
@@ -27,7 +27,7 @@ the Invest quadrant, the gantt active ring, the title mark, PK badges. Nowhere e
 | Input | Values | Default | Effect |
 |---|---|---|---|
 | `Style` | `DiagramStyle.Quiet` / `Blueprint` / `Tonal` | `Quiet` | Picks the `StyleSpec` (knob table, §6). Paint only; layout is identical in all three. |
-| `Gradient` | `bool` | `true` | On: node top → bot gradient, container accent wash, bar / ribbon gradients. Off: every fill is the family `Flat` / `Tint` stage. |
+| `Gradient` | `bool` | `true` | On: node top → bot gradient, container wash (a lighter shade of the container's own colour into its tint), bar / ribbon / pie gradients. Off: every fill is the family `Flat` / `Tint` stage. |
 | `Tint` | `double` 0.5 – 1.5 | `1` | Multiplies every bg-side family ratio (top, bot, flat, band, soft, tint, edge, wash). Lower keeps dark themes from looking muddy. Clamped; non-finite → 1. |
 | `Elevation` | `int` 0 / 1 / 2 | `1` | 0 no shadows · 1 box + container shadows · 2 adds an ambient shadow. Clamped. Blueprint never casts shadows. |
 
@@ -168,7 +168,7 @@ Radii, outline width, edge width and bend radius are preset knobs (§6). The ren
 | radius node / container | 8 / 12 | 2 / 4 | 14 / 22 |
 | node outline | 1.25 family `Stroke` | 1.25 family `Stroke` | none |
 | node fill (`FillKind`) | `Gradient`: `Top` → `Bot` (or `Flat`) | `Knockout`: `--bg` | `Soft` |
-| container (`ContainerKind`) | `Strip`: wash body, 28px band strip, accent mark | `Tab`: dashed outline, caps tab in the border | `Chip`: soft block, chip header + accent dot, no border |
+| container (`ContainerKind`) | `Strip`: same-hue wash body, 28px band strip, ink title | `Tab`: dashed outline, caps tab in the border | `Chip`: soft block, chip header + family dot, no border |
 | entity (`EntityKind`) | `Band`: band header, hairlines, centred name | `Plain`: accent top rule, left name | `Card`: soft header, zebra rows, no outline |
 | edge width / bend radius | 1.5 / 8 | 1 / 0 | 2 / 16 |
 | markers (`MarkerKind`) | `Filled`, line colour | `Thin`, accent | `Chunky`, round-joined |

@@ -8,7 +8,7 @@ Three presets restyle all 24 diagram types, light and dark. They only change pai
 
 | Preset | Look |
 |---|---|
-| `DiagramStyle.Quiet` (default) | Calm: tinted boxes with a soft top-to-bottom gradient, containers with a 28px header strip and an accent mark, outlined label pills, rounded bends. |
+| `DiagramStyle.Quiet` (default) | Calm: tinted boxes with a soft top-to-bottom gradient, containers with a 28px header strip in their own colour, outlined label pills, rounded bends. |
 | `DiagramStyle.Blueprint` | Technical drawing: outline-first boxes on the page colour, square corners, dashed containers with a caps tab, mono captions with a halo, thin accent arrowheads, no shadows. |
 | `DiagramStyle.Tonal` | Friendly tonal blocks: soft filled boxes without outlines, generous radii, chip headers, filled label chips, chunky markers, soft elevation. |
 
@@ -25,7 +25,7 @@ var options = new RenderOptions
 | Option | Type | Default | Effect |
 |---|---|---|---|
 | `Style` | `DiagramStyle` | `Quiet` | The preset (above). |
-| `Gradient` | `bool` | `true` | Gradient fills on boxes, containers (an accent wash) and bars. Off: flat fills. |
+| `Gradient` | `bool` | `true` | Gradient fills on boxes, containers (a lighter shade of their own colour), bars and pie slices. Off: flat fills. |
 | `Tint` | `double?` | `1` | Scales every tint derived from a colour (node fills, header bands, container bodies, borders). Clamped to 0.5–1.5; lower values keep dark themes from looking muddy. |
 | `Elevation` | `int?` | `1` | Drop-shadow strength, clamped to 0–2. Blueprint never draws shadows. The shadow colour follows the background (lighter on light pages, deeper on dark ones). |
 
