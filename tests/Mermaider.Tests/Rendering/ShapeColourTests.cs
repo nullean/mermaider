@@ -7,7 +7,7 @@ namespace Mermaider.Tests.Rendering;
 /// <summary>Shapes with a conventional meaning (decision, terminal, data store) are tinted under user styling and above the cluster colour.</summary>
 public class ShapeColourTests
 {
-	private static string Cluster0 => Themes.Default.PaletteAt(0);
+	private static string Cluster0 => Themes.Default.AutoPaletteAt(0);
 
 	private static string NodeRect(string svg, string id)
 	{

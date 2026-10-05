@@ -16,7 +16,7 @@ that switch on the preset's **`StyleSpec`**. Renderers never pick a colour, rati
 ```
 
 Only `--bg` and `--fg` are required. Plus, from `RenderOptions` / `DiagramColors`: the data palette (12 colours,
-brightened on dark themes), and the optional roles `Default`, `Success`, `Failure`, `Warning`, `Info`.
+brightened on dark themes), and the optional roles `Default`, `Success`, `Failure`, `Warning`, `Info`. The zinc themes set `Default` (the colour of an ordinary box) to a cool slate (`#64748b` / `#94a3b8`) so the blue accent (`#3b82f6` / `#60a5fa`) is the one saturated "look here" colour.
 
 `--accent` is the **"look here"** colour: terminals, decisions, the note rail, the container mark and wash, activation
 bars, the in-scope C4 system, the mindmap root, story lines (timeline axis, journey curve), the hottest treemap tile,

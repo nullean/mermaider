@@ -42,7 +42,7 @@ internal sealed partial class DesignSystem
 		{
 			_ = sb.Append("\n  <line x1=\"").Append(x).Append("\" y1=\"").Append(y + headerHeight)
 				.Append("\" x2=\"").Append(x + w).Append("\" y2=\"").Append(y + headerHeight)
-				.Append("\" stroke=\"").Append(family.Edge).Append("\" stroke-width=\"1\" />");
+				.Append("\" stroke=\"").Append(family.Stroke).Append("\" stroke-width=\"").Append(NodeStrokeWidth).Append("\" />");
 		}
 
 		_ = sb.Append("\n  <rect x=\"").Append(x).Append("\" y=\"").Append(y)

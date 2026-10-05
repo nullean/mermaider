@@ -11,6 +11,9 @@ public class ColorRolesTests
 	/// <summary>The gradient start stage of a node painted in <paramref name="color"/> (the default Quiet preset).</summary>
 	private static string NodeTop(string color) => new ColorFamily("x", color).Top;
 
+	/// <summary>The zinc themes' default box colour: a cool slate that lets the blue accent stand out.</summary>
+	private const string DefaultBox = "#64748b";
+
 	private static double Hue(string hex)
 	{
 		ColorUtils.TryHueSaturation(hex, out var hue, out _).Should().BeTrue();
@@ -30,7 +33,9 @@ public class ColorRolesTests
 				ColorUtils.HueDistance(Hue(c), reserved).Should().BeGreaterThan(DiagramColors.RoleHueWindow, $"{c} is too close to the {role} role");
 		}
 
-		auto.Should().Contain(CategoricalPalette.Blue).And.Contain(CategoricalPalette.Orange).And.Contain(CategoricalPalette.Teal).And.Contain(CategoricalPalette.Purple);
+		auto[0].Should().Be(DefaultBox, "the default box colour comes first");
+		auto.Should().Contain(CategoricalPalette.Orange).And.Contain(CategoricalPalette.Teal).And.Contain(CategoricalPalette.Purple);
+		auto.Should().NotContain(CategoricalPalette.Blue, "the palette blue is a near-duplicate of the slate default box colour");
 		auto.Should().NotContain(CategoricalPalette.Red).And.NotContain(CategoricalPalette.Green).And.NotContain(CategoricalPalette.Yellow);
 	}
 
@@ -47,10 +52,10 @@ public class ColorRolesTests
 	public void A_custom_data_palette_is_filtered_and_falls_back_when_nothing_is_left()
 	{
 		var mixed = Themes.Default with { DataPalette = ["#ff0000", "#0000ff", "#00ff00"] };
-		mixed.AutoPalette().Should().BeEquivalentTo(["#0000ff"]);
+		mixed.AutoPalette().Should().BeEquivalentTo([DefaultBox, "#0000ff"], "the theme's default box colour leads, role hues are dropped");
 
 		var onlyRoles = Themes.Default with { DataPalette = ["#ff0000", "#00ff00"] };
-		onlyRoles.AutoPalette().Should().BeEquivalentTo(["#ff0000", "#00ff00"], "an unusable palette is used as given instead of drawing nothing");
+		onlyRoles.AutoPalette().Should().BeEquivalentTo([DefaultBox, "#ff0000", "#00ff00"], "an unusable palette is used as given (after the default box colour) instead of drawing nothing");
 	}
 
 	[Test]
@@ -112,8 +117,8 @@ public class ColorRolesTests
 	[Test]
 	public void The_default_role_is_the_first_colour_boxes_use()
 	{
-		Themes.Default.RoleColor(ColorRole.Default).Should().Be(CategoricalPalette.Blue);
-		Themes.Default.AutoPalette()[0].Should().Be(CategoricalPalette.Blue);
+		Themes.Default.RoleColor(ColorRole.Default).Should().Be(DefaultBox);
+		Themes.Default.AutoPalette()[0].Should().Be(DefaultBox);
 
 		var custom = Themes.Default with { Default = CategoricalPalette.Teal };
 		custom.AutoPalette()[0].Should().Be(CategoricalPalette.Teal);
@@ -135,6 +140,6 @@ public class ColorRolesTests
 		var svg = MermaidRenderer.RenderSvg("flowchart TD\n  A --> B", new RenderOptions { Default = "red\" onload=\"x" });
 
 		svg.Should().NotContain("onload");
-		svg.Should().Contain(NodeTop(CategoricalPalette.Blue));
+		svg.Should().Contain(NodeTop(DefaultBox));
 	}
 }

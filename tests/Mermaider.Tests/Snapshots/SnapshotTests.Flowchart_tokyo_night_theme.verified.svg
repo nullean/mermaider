@@ -30,23 +30,23 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.30)); }
 </style>
 
-<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M48,58.2 L48,98.2" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m486595dc-mk-arrow)" />
-<path class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M48,140.4 L48,180.4" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m486595dc-mk-arrow)" />
+<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M48,58.2 L48,98.2" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m2eb30192-mk-arrow)" />
+<path class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M48,140.4 L48,180.4" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m2eb30192-mk-arrow)" />
 <g class="node" data-id="A" data-label="A" data-shape="rectangle">
-  <rect x="16" y="16" width="64" height="42.2" rx="8" ry="8" fill="url(#m486595dc-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="16" y="16" width="64" height="42.2" rx="8" ry="8" fill="url(#m2eb30192-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="48" y="37.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">A</text>
 </g>
 <g class="node" data-id="B" data-label="B" data-shape="rectangle">
-  <rect x="16" y="98.2" width="64" height="42.2" rx="8" ry="8" fill="url(#m486595dc-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="16" y="98.2" width="64" height="42.2" rx="8" ry="8" fill="url(#m2eb30192-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="48" y="119.3" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">B</text>
 </g>
 <g class="node" data-id="C" data-label="C" data-shape="rectangle">
-  <rect x="16" y="180.4" width="64" height="42.2" rx="8" ry="8" fill="url(#m486595dc-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="16" y="180.4" width="64" height="42.2" rx="8" ry="8" fill="url(#m2eb30192-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="48" y="201.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">C</text>
 </g>
 <defs>
-  <linearGradient id="m486595dc-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 7%, var(--bg))" /></linearGradient>
-  <marker id="m486595dc-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+  <linearGradient id="m2eb30192-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+  <marker id="m2eb30192-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
     <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
   </marker>
 </defs>

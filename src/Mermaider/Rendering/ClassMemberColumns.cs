@@ -17,7 +17,7 @@ internal static class EntityGrid
 	/// <summary>Space between the type (or key) column and the name (or value) column.</summary>
 	internal const double ColumnGap = 12;
 
-	/// <summary>Gutter before the name holding the visibility sign (class members only).</summary>
+	/// <summary>Column at the right edge holding the visibility sign (class members only), like UML tools align modifiers.</summary>
 	internal const double SignGutter = 14;
 
 	/// <summary>Space between the name and a right-aligned key badge.</summary>
@@ -45,12 +45,15 @@ internal static class EntityGrid
 	}
 
 	/// <summary>Offset of the name column from the box's left edge.</summary>
-	internal static double NameOffset(double typeWidth, bool signs) =>
-		Pad + (typeWidth > 0 ? typeWidth + ColumnGap : 0) + (signs ? SignGutter : 0);
+	internal static double NameOffset(double typeWidth) =>
+		Pad + (typeWidth > 0 ? typeWidth + ColumnGap : 0);
+
+	/// <summary>Right edge of the visibility-sign column, measured from the box's right edge.</summary>
+	internal static double SignInset => Pad;
 
 	/// <summary>Box width that fits the widest type, name and badge.</summary>
 	internal static double BoxWidth(double typeWidth, double nameWidth, bool signs, double badgeWidth) =>
-		NameOffset(typeWidth, signs) + nameWidth + (badgeWidth > 0 ? BadgeGap + badgeWidth : 0) + Pad + Slack;
+		NameOffset(typeWidth) + nameWidth + (signs ? SignGutter : 0) + (badgeWidth > 0 ? BadgeGap + badgeWidth : 0) + Pad + Slack;
 
 	/// <summary>Width an entity / class name (heading tier, measured at the heaviest preset weight) needs.</summary>
 	internal static double HeadingWidth(string name) =>

@@ -192,8 +192,20 @@ internal static class PieSvgRenderer
 			return;
 		}
 
-		// solid / donut slices: page-coloured separators between neighbours (rounded on the donut)
-		_ = sb.Append(" fill=\"").Append(family.Base).Append("\" stroke=\"var(--bg)\" stroke-width=\"")
+		// solid / donut slices: a radial gradient (lighter towards the centre) when gradients are on
+		var fill = ds.Gradient
+			? ds.RadialGradient("pie-" + family.Key, cx, cy, Radius, ColorFamily.Mix(family.Base, 72, "var(--bg)"), family.Base, donut ? DonutHole : 0)
+			: family.Base;
+		if (ds.Spec.OutlineWidth > 0)
+		{
+			// outlined like every other box: the family stroke at node-outline weight
+			_ = sb.Append(" fill=\"").Append(fill).Append("\" stroke=\"").Append(family.Stroke).Append("\" stroke-width=\"")
+				.Append(ds.NodeStrokeWidth).Append("\" stroke-linejoin=\"round\" />");
+			return;
+		}
+
+		// presets without outlines: page-coloured separators between neighbours (rounded on the donut)
+		_ = sb.Append(" fill=\"").Append(fill).Append("\" stroke=\"var(--bg)\" stroke-width=\"")
 			.Append(donut ? "3" : "2.5").Append("\" stroke-linejoin=\"round\" />");
 	}
 

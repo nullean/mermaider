@@ -44,7 +44,8 @@ public partial class ChartsDesignTests
 	{
 		var svg = DesignContract.Render(Pie);
 
-		svg.Should().Contain($"fill=\"{Series(0)}\" stroke=\"var(--bg)\" stroke-width=\"2.5\"");
+		svg.Should().Contain("<radialGradient", "solid slices carry a radial gradient, lighter towards the centre");
+		svg.Should().Contain($"stroke=\"{SeriesFamily(0).Stroke}\" stroke-width=\"1.25\"", "slices are outlined in their family stroke like every other box");
 		svg.Should().Contain("stroke=\"var(--_line)\" stroke-width=\"1.25\" stroke-linecap=\"round\"", "outside labels hang on leader lines");
 		svg.Should().Contain(">79.42%</text>");
 		svg.Should().MatchRegex("font-size=\"var\\(--fs-xs\\)\" font-weight=\"400\" fill=\"var\\(--_text-muted\\)\" dy=\"[\\d.]+\">79.42%</text>", "the legend value is meta text");

@@ -7,7 +7,7 @@ namespace Mermaider.Theming;
 public static class Themes
 {
 	/// <summary>Default colors (zinc light).</summary>
-	public static DiagramColors Default { get; } = new() { Bg = "#FFFFFF", Fg = "#27272A", Accent = "#5b5fb0" };
+	public static DiagramColors Default { get; } = new() { Bg = "#FFFFFF", Fg = "#27272A", Accent = "#3b82f6", Default = "#64748b" };
 
 	/// <summary>The canonical 12-color data palette used when a theme does not specify its own.</summary>
 	public static string[] DefaultDataPalette { get; } = CategoricalPalette.Colors;
@@ -19,10 +19,10 @@ public static class Themes
 	public static FrozenDictionary<string, DiagramColors> BuiltIn { get; } =
 		new Dictionary<string, DiagramColors>
 		{
-			["zinc-light"] = new() { Bg = "#FFFFFF", Fg = "#27272A", Accent = "#5b5fb0" },
+			["zinc-light"] = new() { Bg = "#FFFFFF", Fg = "#27272A", Accent = "#3b82f6", Default = "#64748b" },
 			["zinc-dark"] = new()
 			{
-				Bg = "#18181B", Fg = "#FAFAFA", Accent = "#9b9de2",
+				Bg = "#18181B", Fg = "#FAFAFA", Accent = "#60a5fa", Default = "#94a3b8",
 				DataPalette = DarkDataPalette
 			},
 			["tokyo-night"] = new()

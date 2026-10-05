@@ -12,7 +12,7 @@ namespace Mermaider.Tests.Rendering;
 /// </summary>
 public class VisualLanguageContractTests
 {
-	private static string Cluster0 => Themes.Default.PaletteAt(0);
+	private static string Cluster0 => Themes.Default.AutoPaletteAt(0);
 
 	[Test]
 	public void Flowchart_node_is_a_gradient_of_its_cluster_family_with_a_family_outline()

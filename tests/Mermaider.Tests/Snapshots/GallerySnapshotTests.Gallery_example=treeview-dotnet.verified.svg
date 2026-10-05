@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 298.26 552" width="298.26" height="552" style="--bg:#FFFFFF;--fg:#27272A;--accent:#5b5fb0">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 298.26 552" width="298.26" height="552" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -50,7 +50,7 @@
   <path d="M32,48 L32,508 Q32,514 38,514 L45,514" />
 </g>
 <g class="treeview-node" data-depth="0">
-  <path class="treeview-icon" d="M25,33.5 H30 L31.5,35 H39 V43.5 H25 Z" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <path class="treeview-icon" d="M25,33.5 H30 L31.5,35 H39 V43.5 H25 Z" fill="color-mix(in srgb, #64748b 22%, var(--bg))" stroke="color-mix(in srgb, #64748b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
   <text x="48" y="38" text-anchor="start" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">MyApp.sln</text>
 </g>
 <g class="treeview-node" data-depth="1">
@@ -118,7 +118,7 @@
   <text x="120" y="486" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">MyApp.Tests.csproj</text>
 </g>
 <g class="treeview-node" data-depth="1">
-  <path class="treeview-icon" d="M51,507.5 H57.5 L61,511 V520.5 H51 Z M57.5,507.5 V511 H61" fill="var(--bg)" stroke="color-mix(in srgb, #4e79a7 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <path class="treeview-icon" d="M51,507.5 H57.5 L61,511 V520.5 H51 Z M57.5,507.5 V511 H61" fill="var(--bg)" stroke="color-mix(in srgb, #64748b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
   <text x="72" y="514" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">README.md</text>
 </g>
 </svg>

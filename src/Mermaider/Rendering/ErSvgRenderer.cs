@@ -447,7 +447,7 @@ internal static class ErSvgRenderer
 		ds.AppendEntityName(sb, x, y, width, headerHeight, entity.Label, family);
 
 		var (typeW, _, _) = MeasureColumns(entity.Attributes);
-		var nameX = x + EntityGrid.NameOffset(typeW, signs: false);
+		var nameX = x + EntityGrid.NameOffset(typeW);
 		for (var i = 0; i < entity.Attributes.Count; i++)
 		{
 			var rowY = attrTop + (i * rowHeight) + (rowHeight / 2);

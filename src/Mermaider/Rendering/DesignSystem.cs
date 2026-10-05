@@ -666,6 +666,22 @@ internal sealed partial class DesignSystem
 			$"gradientUnits=\"userSpaceOnUse\" x1=\"{Num(x1)}\" y1=\"{Num(y1)}\" x2=\"{Num(x2)}\" y2=\"{Num(y2)}\"",
 			[(0, from, opacity), (1, to, opacity)]);
 
+	/// <summary>
+	/// Registers a radial gradient in user space (centre <paramref name="cx"/>, <paramref name="cy"/>, radius <paramref name="r"/>)
+	/// from <paramref name="centre"/> to <paramref name="rim"/>, starting at <paramref name="startOffset"/> (a donut's hole), and returns its <c>url(#id)</c>.
+	/// </summary>
+	internal string RadialGradient(string id, double cx, double cy, double r, string centre, string rim, double startOffset = 0)
+	{
+		id = _idPrefix + id;
+		if (!_gradients.ContainsKey(id))
+		{
+			_gradients[id] = $"  <radialGradient id=\"{id}\" gradientUnits=\"userSpaceOnUse\" cx=\"{Num(cx)}\" cy=\"{Num(cy)}\" r=\"{Num(r)}\">"
+				+ $"<stop offset=\"{Num(startOffset)}\" stop-color=\"{centre}\" /><stop offset=\"1\" stop-color=\"{rim}\" /></radialGradient>";
+		}
+
+		return "url(#" + id + ")";
+	}
+
 	/// <summary>Fill for a bar / column in a series colour: gradient (base → lighter) when gradients are on, else solid.</summary>
 	internal string BarFill(ColorFamily family) => Gradient && Spec.ChartMarks != ChartMarkKind.Outline
 		? VerticalGradient("bg-" + family.Key, family.Base, ColorFamily.Mix(family.Base, 62, "var(--bg)"))

@@ -77,7 +77,7 @@ internal sealed partial class DesignSystem
 		var (x1, x2) = card ? (x + RowDividerInset, x + w - RowDividerInset) : (x, x + w);
 		_ = sb.Append("\n  <line x1=\"").Append(x1).Append("\" y1=\"").Append(y)
 			.Append("\" x2=\"").Append(x2).Append("\" y2=\"").Append(y)
-			.Append("\" stroke=\"").Append(card ? family.Band : family.Edge).Append("\" stroke-width=\"").Append(card ? "1.5" : "1").Append("\" />");
+			.Append("\" stroke=\"").Append(card ? family.Band : family.Stroke).Append("\" stroke-width=\"").Append(card ? "2" : NodeStrokeWidth).Append("\" />");
 	}
 
 	/// <summary>Text attributes for an entity cell in the mono font (types, names, keys), whatever the preset's xs setting.</summary>

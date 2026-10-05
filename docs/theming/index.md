@@ -39,7 +39,7 @@ The accent colour is the "look here" colour in every preset: start/end terminals
 |---|---|---|
 | `--bg` | `#FFFFFF` | Canvas background |
 | `--fg` | `#27272A` | Primary text and strokes |
-| `--accent` | `#5b5fb0` | Arrow heads, active edges, highlights |
+| `--accent` | `#3b82f6` | Arrow heads, active edges, highlights |
 | `--muted` | derived | Secondary text, edge labels |
 | `--surface` | derived | Node fill tint |
 | `--border` | derived | Node and group strokes |
@@ -114,7 +114,7 @@ colour roles below**, so an automatically coloured box never looks like a succes
 
 ## Colour roles
 
-Roles are optional; unset, `Default` (an ordinary box) is the first palette colour that is not a role hue, and the others are the palette's green, red, yellow and blue (brighter on dark themes).
+Roles are optional. The zinc themes (and the built-in default) set `Default` (an ordinary box) to a cool slate (`#64748b` light, `#94a3b8` dark) so the blue accent stands out; other themes leave it unset, in which case it is the first palette colour that is not a role hue. Unset, and the others are the palette's green, red, yellow and blue (brighter on dark themes).
 
 ```csharp
 var options = new RenderOptions

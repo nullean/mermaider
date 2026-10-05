@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 193.62 244" width="193.62" height="244" style="--bg:#FFFFFF;--fg:#27272A;--accent:#5b5fb0">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 193.62 244" width="193.62" height="244" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -37,23 +37,23 @@
   <path d="M32,48 L32,144 Q32,150 38,150 L45,150" />
 </g>
 <g class="treeview-node" data-depth="0">
-  <path class="treeview-icon" d="M25,33.5 H30 L31.5,35 H39 V43.5 H25 Z" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <path class="treeview-icon" d="M25,33.5 H30 L31.5,35 H39 V43.5 H25 Z" fill="color-mix(in srgb, #64748b 22%, var(--bg))" stroke="color-mix(in srgb, #64748b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
   <text x="48" y="38" text-anchor="start" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">src</text>
 </g>
 <g class="treeview-node" data-depth="1">
-  <path class="treeview-icon" d="M49,61.5 H54 L55.5,63 H63 V71.5 H49 Z" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
-  <text x="72" y="66" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.9">lib</text>
+  <path class="treeview-icon" d="M49,61.5 H54 L55.5,63 H63 V71.5 H49 Z" fill="color-mix(in srgb, #64748b 22%, var(--bg))" stroke="color-mix(in srgb, #64748b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="72" y="66" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.9">lib</text>
 </g>
 <g class="treeview-node" data-depth="2">
-  <path class="treeview-icon" d="M75,87.5 H81.5 L85,91 V100.5 H75 Z M81.5,87.5 V91 H85" fill="var(--bg)" stroke="color-mix(in srgb, #4e79a7 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <path class="treeview-icon" d="M75,87.5 H81.5 L85,91 V100.5 H75 Z M81.5,87.5 V91 H85" fill="var(--bg)" stroke="color-mix(in srgb, #64748b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
   <text x="96" y="94" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">parser.rs</text>
 </g>
 <g class="treeview-node" data-depth="2">
-  <path class="treeview-icon" d="M75,115.5 H81.5 L85,119 V128.5 H75 Z M81.5,115.5 V119 H85" fill="var(--bg)" stroke="color-mix(in srgb, #4e79a7 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <path class="treeview-icon" d="M75,115.5 H81.5 L85,119 V128.5 H75 Z M81.5,115.5 V119 H85" fill="var(--bg)" stroke="color-mix(in srgb, #64748b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
   <text x="96" y="122" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">lexer.rs</text>
 </g>
 <g class="treeview-node" data-depth="1">
-  <path class="treeview-icon" d="M51,143.5 H57.5 L61,147 V156.5 H51 Z M57.5,143.5 V147 H61" fill="var(--bg)" stroke="color-mix(in srgb, #4e79a7 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <path class="treeview-icon" d="M51,143.5 H57.5 L61,147 V156.5 H51 Z M57.5,143.5 V147 H61" fill="var(--bg)" stroke="color-mix(in srgb, #64748b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
   <text x="72" y="150" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">main.rs</text>
 </g>
 <g class="treeview-node" data-depth="0">

@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 242.82 776" width="242.82" height="776" style="--bg:#FFFFFF;--fg:#27272A;--accent:#5b5fb0">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 242.82 776" width="242.82" height="776" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -58,7 +58,7 @@
   <path d="M32,48 L32,732 Q32,738 38,738 L45,738" />
 </g>
 <g class="treeview-node" data-depth="0">
-  <path class="treeview-icon" d="M25,33.5 H30 L31.5,35 H39 V43.5 H25 Z" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <path class="treeview-icon" d="M25,33.5 H30 L31.5,35 H39 V43.5 H25 Z" fill="color-mix(in srgb, #64748b 22%, var(--bg))" stroke="color-mix(in srgb, #64748b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
   <text x="48" y="38" text-anchor="start" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">monorepo</text>
 </g>
 <g class="treeview-node" data-depth="1">
@@ -154,11 +154,11 @@
   <text x="120" y="682" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">package.json</text>
 </g>
 <g class="treeview-node" data-depth="1">
-  <path class="treeview-icon" d="M51,703.5 H57.5 L61,707 V716.5 H51 Z M57.5,703.5 V707 H61" fill="var(--bg)" stroke="color-mix(in srgb, #4e79a7 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <path class="treeview-icon" d="M51,703.5 H57.5 L61,707 V716.5 H51 Z M57.5,703.5 V707 H61" fill="var(--bg)" stroke="color-mix(in srgb, #64748b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
   <text x="72" y="710" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">turbo.json</text>
 </g>
 <g class="treeview-node" data-depth="1">
-  <path class="treeview-icon" d="M51,731.5 H57.5 L61,735 V744.5 H51 Z M57.5,731.5 V735 H61" fill="var(--bg)" stroke="color-mix(in srgb, #4e79a7 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <path class="treeview-icon" d="M51,731.5 H57.5 L61,735 V744.5 H51 Z M57.5,731.5 V735 H61" fill="var(--bg)" stroke="color-mix(in srgb, #64748b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
   <text x="72" y="738" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">package.json</text>
 </g>
 </svg>

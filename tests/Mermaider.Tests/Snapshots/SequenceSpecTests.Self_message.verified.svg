@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 229.046 468" width="229.046" height="468" style="--bg:#FFFFFF;--fg:#27272A;--accent:#5b5fb0">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 229.046 468" width="229.046" height="468" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -32,28 +32,28 @@
 
 <line class="lifeline" data-actor="Service" x1="72.586" y1="70" x2="72.586" y2="398" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
 <g class="message" data-from="Service" data-to="Service" data-label="Initialize" data-line-style="solid" data-arrow-head="filled" data-self="true">
-  <polyline points="72.586,114 102.586,114 102.586,134 72.586,134" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#m6dc990bb-mk-arrow)" />
+  <polyline points="72.586,114 102.586,114 102.586,134 72.586,134" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#md68a0f86-mk-arrow)" />
   <rect x="110.586" y="113.2" width="61.57599999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="141.37" y="124" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Initialize</text>
 </g>
 <g class="message" data-from="Service" data-to="Service" data-label="Validate config" data-line-style="solid" data-arrow-head="filled" data-self="true">
-  <polyline points="72.586,194 102.586,194 102.586,214 72.586,214" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#m6dc990bb-mk-arrow)" />
+  <polyline points="72.586,194 102.586,194 102.586,214 72.586,214" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#md68a0f86-mk-arrow)" />
   <rect x="110.58600000000001" y="193.2" width="96.46" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="158.82" y="204" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Validate config</text>
 </g>
 <g class="message" data-from="Service" data-to="Service" data-label="Ready" data-line-style="dashed" data-arrow-head="filled" data-self="true">
-  <polyline points="72.586,274 102.586,274 102.586,294 72.586,294" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#m6dc990bb-mk-arrow)" />
+  <polyline points="72.586,274 102.586,274 102.586,294 72.586,294" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#md68a0f86-mk-arrow)" />
   <rect x="110.58599999999998" y="273.2" width="53.367999999999995" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="137.27" y="284" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Ready</text>
 </g>
 <g class="actor" data-id="Service" data-label="Service" data-type="participant">
-  <rect x="30" y="30" width="85.172" height="40" rx="8" ry="8" fill="url(#m6dc990bb-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="30" y="30" width="85.172" height="40" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="72.59" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Service</text>
 </g>
 <g class="actor actor-bottom" data-id="Service" data-label="Service" data-type="participant">
-  <rect x="30" y="398" width="85.172" height="40" rx="8" ry="8" fill="url(#m6dc990bb-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="30" y="398" width="85.172" height="40" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="72.59" y="418" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Service</text>
 </g>
 <defs>
-  <linearGradient id="m6dc990bb-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 7%, var(--bg))" /></linearGradient>
-  <marker id="m6dc990bb-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+  <linearGradient id="md68a0f86-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+  <marker id="md68a0f86-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
     <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
   </marker>
 </defs>

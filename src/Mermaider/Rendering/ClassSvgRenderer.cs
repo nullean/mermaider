@@ -190,17 +190,17 @@ internal static class ClassSvgRenderer
 
 		var members = cls.Attributes.Concat(cls.Methods).ToList();
 		var (typeW, _) = ClassMemberColumns.Measure(members);
-		var nameX = x + EntityGrid.NameOffset(typeW, ClassMemberColumns.HasSigns(members));
+		var nameX = x + EntityGrid.NameOffset(typeW);
 		for (var i = 0; i < cls.Attributes.Count; i++)
-			AppendMember(sb, ds, cls.Attributes[i], x + EntityGrid.Pad, nameX, attrTop + (i * attrRow) + (attrRow / 2), family);
+			AppendMember(sb, ds, cls.Attributes[i], x + EntityGrid.Pad, nameX, x + width - EntityGrid.SignInset, attrTop + (i * attrRow) + (attrRow / 2), family);
 		for (var i = 0; i < cls.Methods.Count; i++)
-			AppendMember(sb, ds, cls.Methods[i], x + EntityGrid.Pad, nameX, methodTop + (i * methodRow) + (methodRow / 2), family);
+			AppendMember(sb, ds, cls.Methods[i], x + EntityGrid.Pad, nameX, x + width - EntityGrid.SignInset, methodTop + (i * methodRow) + (methodRow / 2), family);
 
 		_ = sb.Append("\n</g>");
 	}
 
-	// type (meta, muted mono) | visibility sign (family ink) in the gutter before the name | name (body mono)
-	private static void AppendMember(StringBuilder sb, DesignSystem ds, ClassMember member, double typeX, double nameX, double y, ColorFamily family)
+	// type (meta, muted mono) | name (body mono) | visibility sign (family ink) right-aligned at the box edge
+	private static void AppendMember(StringBuilder sb, DesignSystem ds, ClassMember member, double typeX, double nameX, double signRight, double y, ColorFamily family)
 	{
 		var extra = (member.IsAbstract ? "font-style=\"italic\"" : "") + (member.IsStatic ? (member.IsAbstract ? " " : "") + "text-decoration=\"underline\"" : "");
 
@@ -214,7 +214,7 @@ internal static class ClassSvgRenderer
 		if (vis.Length > 0)
 		{
 			_ = sb.Append("\n  ");
-			ds.AppendMonoText(sb, vis, nameX - EntityGrid.SignGutter, y, TypeRole.Body, family.Ink, weight: 600);
+			ds.AppendMonoText(sb, vis, signRight, y, TypeRole.Body, family.Ink, anchor: "end", weight: 600);
 		}
 
 		_ = sb.Append("\n  ");
