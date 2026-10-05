@@ -241,14 +241,14 @@ internal static class ClassSvgRenderer
 		for (var i = 0; i < cls.Attributes.Count; i++)
 		{
 			_ = sb.Append("  ");
-			AppendMember(sb, cls.Attributes[i], x + ClassMemberColumns.PadX, nameX, attrTop + 4 + (i * memberRowH) + (memberRowH / 2), border);
+			AppendMember(sb, cls.Attributes[i], x + ClassMemberColumns.PadX, nameX, x + width - ClassMemberColumns.PadX, attrTop + 4 + (i * memberRowH) + (memberRowH / 2), border);
 			_ = sb.Append('\n');
 		}
 
 		for (var i = 0; i < cls.Methods.Count; i++)
 		{
 			_ = sb.Append("  ");
-			AppendMember(sb, cls.Methods[i], x + ClassMemberColumns.PadX, nameX, methodTop + 4 + (i * memberRowH) + (memberRowH / 2), border);
+			AppendMember(sb, cls.Methods[i], x + ClassMemberColumns.PadX, nameX, x + width - ClassMemberColumns.PadX, methodTop + 4 + (i * memberRowH) + (memberRowH / 2), border);
 			_ = sb.Append('\n');
 		}
 
@@ -268,7 +268,7 @@ internal static class ClassSvgRenderer
 			.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"1\" opacity=\"0.35\" />\n");
 
 	// Type (muted) in the first column, then visibility symbol in the cluster's border colour and the name in full text colour.
-	private static void AppendMember(StringBuilder sb, ClassMember member, double typeX, double nameX, double y, string border)
+	private static void AppendMember(StringBuilder sb, ClassMember member, double typeX, double nameX, double symbolX, double y, string border)
 	{
 		var fontStyle = member.IsAbstract ? " font-style=\"italic\"" : "";
 		var decoration = member.IsStatic ? " text-decoration=\"underline\"" : "";
@@ -290,13 +290,19 @@ internal static class ClassSvgRenderer
 			.Append("\" font-weight=\"").Append(MemberFontWeight).Append('"')
 			.Append(fontStyle).Append(decoration).Append('>');
 
-		var vis = ClassMemberColumns.VisibilitySymbol(member);
-		if (vis.Length > 0)
-			_ = sb.Append("<tspan fill=\"").Append(border).Append("\" font-weight=\"700\">").Append(vis).Append(" </tspan>");
-
 		_ = sb.Append("<tspan fill=\"var(--_text)\">");
 		MultilineUtils.AppendEscapedXml(sb, ClassMemberColumns.DisplayName(member).AsSpan());
 		_ = sb.Append("</tspan></text>");
+
+		// Visibility: right-aligned in the cluster's border colour, like the PK / UK badge of an ER attribute
+		var vis = ClassMemberColumns.VisibilitySymbol(member);
+		if (vis.Length > 0)
+		{
+			_ = sb.Append("<text class=\"mono\" x=\"").Append(symbolX).Append("\" y=\"").Append(y)
+				.Append("\" text-anchor=\"end\" dy=\"").Append(RenderConstants.TextBaselineShift)
+				.Append("\" font-size=\"").Append(MemberFontSize)
+				.Append("\" font-weight=\"700\" fill=\"").Append(border).Append("\">").Append(vis).Append("</text>");
+		}
 	}
 
 	private static void AppendRelationship(StringBuilder sb, PositionedClassRelationship rel, double cornerRadius)

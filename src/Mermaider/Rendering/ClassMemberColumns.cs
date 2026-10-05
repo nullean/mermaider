@@ -35,21 +35,25 @@ internal static class ClassMemberColumns
 		{
 			if (m.Type is { Length: > 0 })
 				typeW = Math.Max(typeW, TextMetrics.EstimateMonoTextWidth(m.Type, RenderConstants.FontSizes.Member));
-			var name = VisibilitySymbol(m) is { Length: > 0 } v ? $"{v} {DisplayName(m)}" : DisplayName(m);
-			nameW = Math.Max(nameW, TextMetrics.EstimateMonoTextWidth(name, RenderConstants.FontSizes.Member));
+			nameW = Math.Max(nameW, TextMetrics.EstimateMonoTextWidth(DisplayName(m), RenderConstants.FontSizes.Member));
 		}
 
 		return (typeW, nameW);
 	}
 
+	/// <summary>Room for the right-aligned visibility symbol (like the PK / UK badge of an ER attribute).</summary>
+	internal const double SymbolColumn = 18;
+
 	/// <summary>Box width needed for these members.</summary>
 	internal static double BoxWidth(IEnumerable<ClassMember> members)
 	{
-		var (typeW, nameW) = Measure(members);
+		var list = members as IReadOnlyCollection<ClassMember> ?? members.ToList();
+		var (typeW, nameW) = Measure(list);
 		if (nameW <= 0)
 			return 0;
+		var symbol = list.Any(m => m.Visibility != ClassVisibility.None) ? SymbolColumn : 0;
 		return typeW > 0
-			? PadX + typeW + Gap + PadX + nameW + PadX + Slack
-			: PadX + nameW + PadX + Slack;
+			? PadX + typeW + Gap + PadX + nameW + symbol + PadX + Slack
+			: PadX + nameW + symbol + PadX + Slack;
 	}
 }

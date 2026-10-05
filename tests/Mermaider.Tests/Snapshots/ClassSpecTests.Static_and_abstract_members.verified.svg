@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 259.8 188" width="259.8" height="188" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 261 188" width="261" height="188" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -47,16 +47,16 @@
 </defs>
 
 <g class="class-node" data-id="MathUtils" data-label="MathUtils">
-  <rect x="40" y="40" width="179.8" height="108" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M40,72 L40,46 Q40,40 46,40 L213.8,40 Q219.8,40 219.8,46 L219.8,72 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <text x="129.9" y="56" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">MathUtils</text>
-  <line x1="40" y1="72" x2="219.8" y2="72" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="40" y1="124" x2="219.8" y2="124" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="40" y1="100" x2="219.8" y2="100" stroke="#3B5B7D" stroke-width="1.75" />
+  <rect x="40" y="40" width="181" height="108" rx="6" ry="6" fill="var(--bg)" />
+  <path d="M40,72 L40,46 Q40,40 46,40 L215,40 Q221,40 221,46 L221,72 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
+  <text x="130.5" y="56" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">MathUtils</text>
+  <line x1="40" y1="72" x2="221" y2="72" stroke="#3B5B7D" stroke-width="1.75" />
+  <line x1="40" y1="124" x2="221" y2="124" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
+  <line x1="40" y1="100" x2="221" y2="100" stroke="#3B5B7D" stroke-width="1.75" />
   <line x1="103.4" y1="72" x2="103.4" y2="148" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="48" y="86" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">PI$</text><text class="mono" x="111.4" y="86" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="#3B5B7D" font-weight="700">+ </tspan><tspan fill="var(--_text)">double</tspan></text>
-  <text class="mono" x="48" y="114" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">$ int</text><text class="mono" x="111.4" y="114" dy="0.35em" font-size="var(--fs-s)" font-weight="400" text-decoration="underline"><tspan fill="#3B5B7D" font-weight="700">+ </tspan><tspan fill="var(--_text)">add(a, b)</tspan></text>
-  <text class="mono" x="48" y="134" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">* void</text><text class="mono" x="111.4" y="134" dy="0.35em" font-size="var(--fs-s)" font-weight="400" font-style="italic"><tspan fill="#3B5B7D" font-weight="700">+ </tspan><tspan fill="var(--_text)">compute()</tspan></text>
-  <rect x="40" y="40" width="179.8" height="108" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <text class="mono" x="48" y="86" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">PI$</text><text class="mono" x="111.4" y="86" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">double</tspan></text><text class="mono" x="213" y="86" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
+  <text class="mono" x="48" y="114" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">$ int</text><text class="mono" x="111.4" y="114" dy="0.35em" font-size="var(--fs-s)" font-weight="400" text-decoration="underline"><tspan fill="var(--_text)">add(a, b)</tspan></text><text class="mono" x="213" y="114" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
+  <text class="mono" x="48" y="134" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">* void</text><text class="mono" x="111.4" y="134" dy="0.35em" font-size="var(--fs-s)" font-weight="400" font-style="italic"><tspan fill="var(--_text)">compute()</tspan></text><text class="mono" x="213" y="134" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
+  <rect x="40" y="40" width="181" height="108" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
 </g>
 </svg>
