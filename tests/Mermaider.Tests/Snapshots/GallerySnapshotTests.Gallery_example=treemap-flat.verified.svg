@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 452" width="680" height="452" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -30,19 +30,29 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
-<defs>
-</defs>
-
-<rect x="2" y="2" width="296" height="396" rx="3" ry="3" fill="#4e79a7" opacity="0.8" stroke="var(--bg)" stroke-width="1" />
-<text x="150" y="14" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="#1a1a1a">Engineering</text>
-<text x="150" y="28" text-anchor="middle" font-size="var(--fs-xs)" fill="#1a1a1a" opacity="0.8">50</text>
-<rect x="302" y="2" width="146" height="396" rx="3" ry="3" fill="#f28e2b" opacity="0.8" stroke="var(--bg)" stroke-width="1" />
-<text x="375" y="14" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="#1a1a1a">Marketing</text>
-<text x="375" y="28" text-anchor="middle" font-size="var(--fs-xs)" fill="#1a1a1a" opacity="0.8">25</text>
-<rect x="452" y="2" width="86" height="396" rx="3" ry="3" fill="#e15759" opacity="0.8" stroke="var(--bg)" stroke-width="1" />
-<text x="495" y="14" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="#1a1a1a">Sales</text>
-<text x="495" y="28" text-anchor="middle" font-size="var(--fs-xs)" fill="#1a1a1a" opacity="0.8">15</text>
-<rect x="542" y="2" width="56" height="396" rx="3" ry="3" fill="#76b7b2" opacity="0.8" stroke="var(--bg)" stroke-width="1" />
-<text x="570" y="14" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="#1a1a1a">Support</text>
-<text x="570" y="28" text-anchor="middle" font-size="var(--fs-xs)" fill="#1a1a1a" opacity="0.8">10</text>
+<g class="treemap-tile" data-label="Engineering" data-value="50">
+  <rect x="44" y="44" width="292" height="364" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 36%, var(--bg))" />
+  <text x="60" y="68" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">Engineering</text>
+  <text x="60" y="382" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">50</text>
+  <text x="320" y="384" text-anchor="end" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text)" dy="4.199999999999999">50%</text>
+  <circle cx="320" cy="64" r="4.5" fill="var(--accent, var(--fg))" />
+</g>
+<g class="treemap-tile" data-label="Marketing" data-value="25">
+  <rect x="344" y="44" width="292" height="178" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 23%, var(--bg))" />
+  <text x="360" y="68" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">Marketing</text>
+  <text x="360" y="196" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">25</text>
+  <text x="620" y="198" text-anchor="end" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text)" dy="4.199999999999999">25%</text>
+</g>
+<g class="treemap-tile" data-label="Sales" data-value="15">
+  <rect x="344" y="230" width="172" height="178" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 17.8%, var(--bg))" />
+  <text x="360" y="254" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">Sales</text>
+  <text x="360" y="382" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">15</text>
+  <text x="500" y="384" text-anchor="end" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text)" dy="4.199999999999999">15%</text>
+</g>
+<g class="treemap-tile" data-label="Support" data-value="10">
+  <rect x="524" y="230" width="112" height="178" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 15.2%, var(--bg))" />
+  <text x="540" y="254" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">Support</text>
+  <text x="540" y="382" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">10</text>
+  <text x="620" y="384" text-anchor="end" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text)" dy="4.199999999999999">10%</text>
+</g>
 </svg>

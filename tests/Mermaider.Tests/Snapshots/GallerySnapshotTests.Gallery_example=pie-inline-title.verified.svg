@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 366" width="600" height="366" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 615.796 432" width="615.796" height="432" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -30,24 +30,40 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
-<defs>
-</defs>
-
-<text x="200" y="24" text-anchor="middle" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)">Team Lunch Vote</text>
-<path d="M 200 196 L 340 196 A 140 140 0 0 1 73.86 256.74 Z" fill="#4e79a7" stroke="var(--bg)" stroke-width="2" />
-<text x="223.36" y="298.37" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#1a1a1a">42.86%</text>
-<path d="M 200 196 L 73.86 256.74 A 140 140 0 0 1 168.85 59.51 Z" fill="#f28e2b" stroke="var(--bg)" stroke-width="2" />
-<text x="105.4" y="150.44" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#1a1a1a">28.57%</text>
-<path d="M 200 196 L 168.85 59.51 A 140 140 0 0 1 309.46 108.71 Z" fill="#e15759" stroke="var(--bg)" stroke-width="2" />
-<text x="234.68" y="96.89" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#1a1a1a">17.86%</text>
-<path d="M 200 196 L 309.46 108.71 A 140 140 0 0 1 340 196 Z" fill="#76b7b2" stroke="var(--bg)" stroke-width="2" />
-<text x="299.11" y="161.32" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#1a1a1a">10.71%</text>
-<rect x="400" y="66" width="14" height="14" rx="3" ry="3" fill="#4e79a7" />
-<text x="422" y="73" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Pizza</text>
-<rect x="400" y="88" width="14" height="14" rx="3" ry="3" fill="#f28e2b" />
-<text x="422" y="95" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Sushi</text>
-<rect x="400" y="110" width="14" height="14" rx="3" ry="3" fill="#e15759" />
-<text x="422" y="117" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Tacos</text>
-<rect x="400" y="132" width="14" height="14" rx="3" ry="3" fill="#76b7b2" />
-<text x="422" y="139" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Salad</text>
+<g class="diagram-title">
+  <rect x="40" y="35.5" width="9" height="9" rx="2" ry="2" fill="var(--accent, var(--fg))" />
+  <text x="56" y="40" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">Team Lunch Vote</text>
+</g>
+<g class="pie-slice" data-label="Pizza">
+  <path d="M 232 240 L 232 112 A 128 128 0 0 1 287.54 355.32 Z" fill="#4e79a7" stroke="var(--bg)" stroke-width="2.5" stroke-linejoin="round" />
+</g>
+<g class="pie-slice" data-label="Sushi">
+  <path d="M 232 240 L 287.54 355.32 A 128 128 0 0 1 107.21 268.48 Z" fill="#f28e2b" stroke="var(--bg)" stroke-width="2.5" stroke-linejoin="round" />
+</g>
+<g class="pie-slice" data-label="Tacos">
+  <path d="M 232 240 L 107.21 268.48 A 128 128 0 0 1 152.19 139.93 Z" fill="#e15759" stroke="var(--bg)" stroke-width="2.5" stroke-linejoin="round" />
+</g>
+<g class="pie-slice" data-label="Salad">
+  <path d="M 232 240 L 152.19 139.93 A 128 128 0 0 1 232 112 Z" fill="#76b7b2" stroke="var(--bg)" stroke-width="2.5" stroke-linejoin="round" />
+</g>
+<path d="M 359.72 210.85 L 370.44 208.4" fill="none" stroke="var(--_line)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+<text x="382.139" y="205.732" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">42.86%</text>
+<path d="M 175.16 358.03 L 170.39 367.94" fill="none" stroke="var(--_line)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+<text x="165.182" y="378.749" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">28.57%</text>
+<path d="M 108.35 196.73 L 97.97 193.1" fill="none" stroke="var(--_line)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+<text x="86.642" y="189.137" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">17.86%</text>
+<path d="M 188.73 116.35 L 185.1 105.97" fill="none" stroke="var(--_line)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+<text x="181.137" y="94.642" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">10.71%</text>
+<rect x="472" y="193" width="10" height="10" rx="3" ry="3" fill="#4e79a7" stroke="none" />
+  <text x="490" y="198" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Pizza</text>
+  <text x="536.808" y="198" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">42.86%</text>
+<rect x="472" y="221" width="10" height="10" rx="3" ry="3" fill="#f28e2b" stroke="none" />
+  <text x="490" y="226" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Sushi</text>
+  <text x="536.808" y="226" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">28.57%</text>
+<rect x="472" y="249" width="10" height="10" rx="3" ry="3" fill="#e15759" stroke="none" />
+  <text x="490" y="254" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Tacos</text>
+  <text x="541.596" y="254" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">17.86%</text>
+<rect x="472" y="277" width="10" height="10" rx="3" ry="3" fill="#76b7b2" stroke="none" />
+  <text x="490" y="282" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Salad</text>
+  <text x="536.808" y="282" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">10.71%</text>
 </svg>

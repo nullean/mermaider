@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 366" width="600" height="366" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 611.704 432" width="611.704" height="432" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -30,20 +30,32 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
-<defs>
-</defs>
-
-<text x="200" y="24" text-anchor="middle" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)">Pet Adoption</text>
-<path d="M 200 196 L 340 196 A 140 140 0 1 1 238.42 61.37 Z" fill="#4e79a7" stroke="var(--bg)" stroke-width="2" />
-<text x="116.18" y="259.24" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#1a1a1a">79.42%</text>
-<path d="M 200 196 L 238.42 61.37 A 140 140 0 0 1 337.38 169.02 Z" fill="#f28e2b" stroke="var(--bg)" stroke-width="2" />
-<text x="277.3" y="124.94" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#1a1a1a">17.49%</text>
-<path d="M 200 196 L 337.38 169.02 A 140 140 0 0 1 340 196 Z" fill="#e15759" stroke="var(--bg)" stroke-width="2" />
-<text x="304.51" y="185.83" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#1a1a1a">3.09%</text>
-<rect x="400" y="66" width="14" height="14" rx="3" ry="3" fill="#4e79a7" />
-<text x="422" y="73" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Dogs</text>
-<rect x="400" y="88" width="14" height="14" rx="3" ry="3" fill="#f28e2b" />
-<text x="422" y="95" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Cats</text>
-<rect x="400" y="110" width="14" height="14" rx="3" ry="3" fill="#e15759" />
-<text x="422" y="117" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Rats</text>
+<g class="diagram-title">
+  <rect x="40" y="35.5" width="9" height="9" rx="2" ry="2" fill="var(--accent, var(--fg))" />
+  <text x="56" y="40" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">Pet Adoption</text>
+</g>
+<g class="pie-slice" data-label="Dogs">
+  <path d="M 232 240 L 232 112 A 128 128 0 1 1 108.91 204.88 Z" fill="#4e79a7" stroke="var(--bg)" stroke-width="2.5" stroke-linejoin="round" />
+</g>
+<g class="pie-slice" data-label="Cats">
+  <path d="M 232 240 L 108.91 204.88 A 128 128 0 0 1 207.33 114.4 Z" fill="#f28e2b" stroke="var(--bg)" stroke-width="2.5" stroke-linejoin="round" />
+</g>
+<g class="pie-slice" data-label="Rats">
+  <path d="M 232 240 L 207.33 114.4 A 128 128 0 0 1 232 112 Z" fill="#e15759" stroke="var(--bg)" stroke-width="2.5" stroke-linejoin="round" />
+</g>
+<path d="M 310.91 344.57 L 317.53 353.35" fill="none" stroke="var(--_line)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+<text x="324.759" y="362.93" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">79.42%</text>
+<path d="M 143.34 143.56 L 135.9 135.46" fill="none" stroke="var(--_line)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+<text x="127.776" y="126.628" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">17.49%</text>
+<path d="M 219.32 109.62 L 218.25 98.67" fill="none" stroke="var(--_line)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+<text x="217.091" y="86.723" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">3.09%</text>
+<rect x="472" y="207" width="10" height="10" rx="3" ry="3" fill="#4e79a7" stroke="none" />
+  <text x="490" y="212" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Dogs</text>
+  <text x="533.616" y="212" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">79.42%</text>
+<rect x="472" y="235" width="10" height="10" rx="3" ry="3" fill="#f28e2b" stroke="none" />
+  <text x="490" y="240" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Cats</text>
+  <text x="528.828" y="240" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">17.49%</text>
+<rect x="472" y="263" width="10" height="10" rx="3" ry="3" fill="#e15759" stroke="none" />
+  <text x="490" y="268" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Rats</text>
+  <text x="528.828" y="268" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">3.09%</text>
 </svg>

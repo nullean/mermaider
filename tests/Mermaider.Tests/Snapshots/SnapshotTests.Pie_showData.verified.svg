@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 366" width="600" height="366" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 653.5840000000001 432" width="653.5840000000001" height="432" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -30,28 +30,48 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
-<defs>
-</defs>
-
-<text x="200" y="24" text-anchor="middle" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)">Browser Market Share</text>
-<path d="M 200 196 L 340 196 A 140 140 0 1 1 119.86 81.21 Z" fill="#4e79a7" stroke="var(--bg)" stroke-width="2" />
-<text x="151.45" y="289.1" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#1a1a1a">65.3%</text>
-<path d="M 200 196 L 119.86 81.21 A 140 140 0 0 1 275.76 78.27 Z" fill="#f28e2b" stroke="var(--bg)" stroke-width="2" />
-<text x="198.02" y="91.02" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#1a1a1a">18.8%</text>
-<path d="M 200 196 L 275.76 78.27 A 140 140 0 0 1 297.74 95.77 Z" fill="#e15759" stroke="var(--bg)" stroke-width="2" />
-<text x="265.39" y="113.85" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#1a1a1a">3.2%</text>
-<path d="M 200 196 L 297.74 95.77 A 140 140 0 0 1 322.68 128.55 Z" fill="#76b7b2" stroke="var(--bg)" stroke-width="2" />
-<text x="283.57" y="132.43" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#1a1a1a">4.7%</text>
-<path d="M 200 196 L 322.68 128.55 A 140 140 0 0 1 340 196 Z" fill="#59a14f" stroke="var(--bg)" stroke-width="2" />
-<text x="301.7" y="169.89" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#1a1a1a">8%</text>
-<rect x="400" y="66" width="14" height="14" rx="3" ry="3" fill="#4e79a7" />
-<text x="422" y="73" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Chrome (65.3)</text>
-<rect x="400" y="88" width="14" height="14" rx="3" ry="3" fill="#f28e2b" />
-<text x="422" y="95" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Safari (18.8)</text>
-<rect x="400" y="110" width="14" height="14" rx="3" ry="3" fill="#e15759" />
-<text x="422" y="117" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Firefox (3.2)</text>
-<rect x="400" y="132" width="14" height="14" rx="3" ry="3" fill="#76b7b2" />
-<text x="422" y="139" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Edge (4.7)</text>
-<rect x="400" y="154" width="14" height="14" rx="3" ry="3" fill="#59a14f" />
-<text x="422" y="161" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Other (8)</text>
+<g class="diagram-title">
+  <rect x="40" y="35.5" width="9" height="9" rx="2" ry="2" fill="var(--accent, var(--fg))" />
+  <text x="56" y="40" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">Browser Market Share</text>
+</g>
+<g class="pie-slice" data-label="Chrome">
+  <path d="M 232 240 L 232 112 A 128 128 0 1 1 127.05 313.27 Z" fill="#4e79a7" stroke="var(--bg)" stroke-width="2.5" stroke-linejoin="round" />
+</g>
+<g class="pie-slice" data-label="Safari">
+  <path d="M 232 240 L 127.05 313.27 A 128 128 0 0 1 124.36 170.74 Z" fill="#f28e2b" stroke="var(--bg)" stroke-width="2.5" stroke-linejoin="round" />
+</g>
+<g class="pie-slice" data-label="Firefox">
+  <path d="M 232 240 L 124.36 170.74 A 128 128 0 0 1 140.36 150.63 Z" fill="#e15759" stroke="var(--bg)" stroke-width="2.5" stroke-linejoin="round" />
+</g>
+<g class="pie-slice" data-label="Edge">
+  <path d="M 232 240 L 140.36 150.63 A 128 128 0 0 1 170.34 127.83 Z" fill="#76b7b2" stroke="var(--bg)" stroke-width="2.5" stroke-linejoin="round" />
+</g>
+<g class="pie-slice" data-label="Other">
+  <path d="M 232 240 L 170.34 127.83 A 128 128 0 0 1 232 112 Z" fill="#59a14f" stroke="var(--bg)" stroke-width="2.5" stroke-linejoin="round" />
+</g>
+<path d="M 348.16 300.57 L 357.91 305.66" fill="none" stroke="var(--_line)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+<text x="368.55" y="311.205" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">65.3%</text>
+<path d="M 101.02 242.47 L 90.03 242.68" fill="none" stroke="var(--_line)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+<text x="78.027" y="242.903" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">18.8%</text>
+<path d="M 129.51 158.41 L 120.9 151.56" fill="none" stroke="var(--_line)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+<text x="111.512" y="144.091" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">3.2%</text>
+<path d="M 152.69 135.74 L 146.03 126.98" fill="none" stroke="var(--_line)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+<text x="138.763" y="117.432" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">4.7%</text>
+<path d="M 199.42 113.12 L 196.69 102.46" fill="none" stroke="var(--_line)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+<text x="193.702" y="90.838" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.8999999999999995">8%</text>
+<rect x="472" y="179" width="10" height="10" rx="3" ry="3" fill="#4e79a7" stroke="none" />
+  <text x="490" y="184" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Chrome</text>
+  <text x="549.576" y="184" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">65.3 · 65.3%</text>
+<rect x="472" y="207" width="10" height="10" rx="3" ry="3" fill="#f28e2b" stroke="none" />
+  <text x="490" y="212" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Safari</text>
+  <text x="538.404" y="212" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">18.8 · 18.8%</text>
+<rect x="472" y="235" width="10" height="10" rx="3" ry="3" fill="#e15759" stroke="none" />
+  <text x="490" y="240" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Firefox</text>
+  <text x="546.384" y="240" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">3.2 · 3.2%</text>
+<rect x="472" y="263" width="10" height="10" rx="3" ry="3" fill="#76b7b2" stroke="none" />
+  <text x="490" y="268" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Edge</text>
+  <text x="533.616" y="268" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">4.7 · 4.7%</text>
+<rect x="472" y="291" width="10" height="10" rx="3" ry="3" fill="#59a14f" stroke="none" />
+  <text x="490" y="296" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Other</text>
+  <text x="535.212" y="296" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">8 · 8%</text>
 </svg>
