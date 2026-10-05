@@ -33,13 +33,11 @@ internal static class JourneySvgRenderer
 	private const double LegendStartY = 60;
 	private const double LegendStepY = 20;
 
-	// Actor and section colors are drawn from the single shared palette so they follow themes.
-	// SectionTextColour uses ContrastText so labels stay legible on any palette color.
-	private const string FaceFill = "var(--_node-fill)";
-	private const string FaceStroke = "var(--_node-stroke)";
+	// Sections and actors take their colours from the shared auto palette (tinted fills, darker borders, like every other diagram);
+	// the faces read through the role colours: 4-5 success, 3 warning, 1-2 failure.
 	private const string MouthStroke = "var(--_text-muted)";
 	private const string DropLineStroke = "var(--_line)";
-	private const string TimelineStroke = "var(--_text)";
+	private const string TimelineStroke = "var(--_line)";
 
 	internal static string Render(JourneyDiagram diagram, SvgRenderContext context)
 	{
@@ -61,9 +59,12 @@ internal static class JourneySvgRenderer
 
 		var hasTitle = diagram.Title is { Length: > 0 };
 		var actors = CollectActors(diagram);
+		var palette = context.Styles.Colors.AutoPalette();
+		var colors = context.Styles.Colors;
 		var actorMap = new Dictionary<string, (string Color, int Pos)>(StringComparer.Ordinal);
+		// actors continue after the sections in the palette, so a dot never repeats a section's colour
 		for (var i = 0; i < actors.Count; i++)
-			actorMap[actors[i]] = (context.Styles.Colors.PaletteAt(i), i);
+			actorMap[actors[i]] = (palette[(diagram.Sections.Count + i) % palette.Length], i);
 
 		// left margin expands with longest actor name (mermaid measures text; we estimate)
 		var legendLabelW = 0.0;
@@ -117,7 +118,7 @@ internal static class JourneySvgRenderer
 		// timeline at height * 4 = 200
 		var timelineY = TaskHeight * 4;
 
-		// Sections
+		// Sections: tinted banners with the title in the border colour
 		var sectionNum = 0;
 		foreach (var section in diagram.Sections)
 		{
@@ -132,26 +133,23 @@ internal static class JourneySvgRenderer
 				continue;
 			}
 
-			var fill = context.Styles.Colors.PaletteAt(sectionNum);
-			// mermaid: width * taskCount + diagramMarginX * (taskCount - 1)
-			// but task spacing uses taskMargin not diagramMarginX for positions.
-			// drawSection width = conf.width * taskCount + conf.diagramMarginX * (taskCount-1)
-			// That doesn't match x spacing of i*(width+taskMargin). Visual in practice spans tasks.
-			// Span from first task.x to last task.x + width:
+			var sectionColor = palette[sectionNum % palette.Length];
 			var secX = leftMargin + (firstIdx * pitch);
 			var secW = (count * TaskWidth) + ((count - 1) * TaskMargin);
 
 			_ = sb.Append("\n<rect x=\"").Append(secX.SvgFormat()).Append("\" y=\"").Append(SectionY.SvgFormat())
 				.Append("\" width=\"").Append(secW.SvgFormat()).Append("\" height=\"").Append(TaskHeight.SvgFormat())
-				.Append("\" rx=\"3\" ry=\"3\" fill=\"").Append(fill).Append("\" />");
+				.Append("\" rx=\"").Append(RenderConstants.Radii.Group).Append("\" ry=\"").Append(RenderConstants.Radii.Group)
+				.Append("\" fill=\"").Append(VisualLanguage.Tint(sectionColor, VisualLanguage.HeaderTint))
+				.Append("\" stroke=\"").Append(VisualLanguage.Border(sectionColor)).Append("\" stroke-width=\"")
+				.Append(RenderConstants.StrokeWidths.OuterBox.SvgFormat()).Append("\" />");
 
 			if (section.Name is { Length: > 0 })
 			{
-				// House style: y = box mid-line, dy shifts for optical vertical center
 				_ = sb.Append("\n<text x=\"").Append((secX + (secW / 2)).SvgFormat())
 					.Append("\" y=\"").Append((SectionY + (TaskHeight / 2)).SvgFormat())
 					.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
-					.Append("\" font-size=\"14\" fill=\"").Append(ColorUtils.ContrastText(fill)).Append("\">");
+					.Append("\" font-size=\"14\" font-weight=\"600\" fill=\"").Append(VisualLanguage.Border(sectionColor)).Append("\">");
 				MultilineUtils.AppendEscapedXml(sb, section.Name.AsSpan());
 				_ = sb.Append("</text>");
 			}
@@ -166,23 +164,25 @@ internal static class JourneySvgRenderer
 			var task = item.Task;
 			var taskX = leftMargin + (i * pitch);
 			var center = taskX + (TaskWidth / 2);
-			var fill = context.Styles.Colors.PaletteAt(item.SectionIndex);
+			var sectionColor = palette[item.SectionIndex % palette.Length];
 			var score = Math.Clamp(task.Score, 1, 5);
 			var faceCy = FaceBaseY + ((5 - score) * FaceStepY);
 
-			// dashed line (under rect so only lower part shows) — mermaid draws full line then rect on top
+			// dashed line (under the box so only the lower part shows)
 			_ = sb.Append("\n<line x1=\"").Append(center.SvgFormat()).Append("\" y1=\"").Append(taskY.SvgFormat())
 				.Append("\" x2=\"").Append(center.SvgFormat()).Append("\" y2=\"").Append(MaxFaceY.SvgFormat())
 				.Append("\" stroke=\"").Append(DropLineStroke)
 				.Append("\" stroke-width=\"1\" stroke-dasharray=\"4 2\" />");
 
-			// face
-			AppendFace(sb, center, faceCy, score);
+			AppendFace(sb, center, faceCy, score, colors);
 
-			// task box
+			// task box: white card with the section's border, like an ER row
 			_ = sb.Append("\n<rect x=\"").Append(taskX.SvgFormat()).Append("\" y=\"").Append(taskY.SvgFormat())
 				.Append("\" width=\"").Append(TaskWidth.SvgFormat()).Append("\" height=\"").Append(TaskHeight.SvgFormat())
-				.Append("\" rx=\"3\" ry=\"3\" fill=\"").Append(fill).Append("\" />");
+				.Append("\" rx=\"").Append(RenderConstants.Radii.Rectangle).Append("\" ry=\"").Append(RenderConstants.Radii.Rectangle)
+				.Append("\" fill=\"").Append(VisualLanguage.Tint(sectionColor, VisualLanguage.NodeTint))
+				.Append("\" stroke=\"").Append(VisualLanguage.Border(sectionColor)).Append("\" stroke-width=\"")
+				.Append(RenderConstants.StrokeWidths.OuterBox.SvgFormat()).Append("\" />");
 
 			// actor dots along top of task (mermaid: xPos = task.x + 14, step 10)
 			var dotX = taskX + 14;
@@ -192,18 +192,17 @@ internal static class JourneySvgRenderer
 					continue;
 				_ = sb.Append("\n<circle cx=\"").Append(dotX.SvgFormat()).Append("\" cy=\"").Append(taskY.SvgFormat())
 					.Append("\" r=\"").Append(ActorDotR)
-					.Append("\" fill=\"").Append(info.Color)
-					.Append("\" stroke=\"var(--_node-stroke)\" stroke-width=\"1\">")
+					.Append("\" fill=\"").Append(VisualLanguage.Tint(info.Color, 60))
+					.Append("\" stroke=\"").Append(VisualLanguage.Border(info.Color)).Append("\" stroke-width=\"1.5\">")
 					.Append("<title>");
 				MultilineUtils.AppendEscapedXml(sb, person.AsSpan());
 				_ = sb.Append("</title></circle>");
 				dotX += 10;
 			}
 
-			// task label — color chosen for contrast against the section fill
 			_ = sb.Append("\n<text x=\"").Append(center.SvgFormat()).Append("\" y=\"").Append((taskY + (TaskHeight / 2)).SvgFormat())
 				.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
-				.Append("\" font-size=\"14\" fill=\"").Append(ColorUtils.ContrastText(fill)).Append("\">");
+				.Append("\" font-size=\"14\" fill=\"var(--_text)\">");
 			MultilineUtils.AppendEscapedXml(sb, task.Name.AsSpan());
 			_ = sb.Append("</text>");
 		}
@@ -215,7 +214,7 @@ internal static class JourneySvgRenderer
 		_ = sb.Append("\n<line x1=\"").Append(lineX1.SvgFormat()).Append("\" y1=\"").Append(timelineY.SvgFormat())
 			.Append("\" x2=\"").Append(lineX2.SvgFormat()).Append("\" y2=\"").Append(timelineY.SvgFormat())
 			.Append("\" stroke=\"").Append(TimelineStroke)
-			.Append("\" stroke-width=\"4\" marker-end=\"url(#journey-arrow)\" />");
+			.Append("\" stroke-width=\"3\" marker-end=\"url(#journey-arrow)\" />");
 
 		_ = sb.Append("\n</g>\n</svg>");
 		return sb;
@@ -242,7 +241,7 @@ internal static class JourneySvgRenderer
 			var color = actorMap[person].Color;
 			_ = sb.Append("\n<circle cx=\"20\" cy=\"").Append(yPos.SvgFormat())
 				.Append("\" r=\"").Append(ActorDotR)
-				.Append("\" fill=\"").Append(color).Append("\" stroke=\"var(--_node-stroke)\" stroke-width=\"1\" />");
+				.Append("\" fill=\"").Append(VisualLanguage.Tint(color, 60)).Append("\" stroke=\"").Append(VisualLanguage.Border(color)).Append("\" stroke-width=\"1.5\" />");
 			_ = sb.Append("\n<text x=\"40\" y=\"").Append((yPos + 5).SvgFormat())
 				.Append("\" font-size=\"14\" fill=\"var(--_text-muted)\">");
 			MultilineUtils.AppendEscapedXml(sb, person.AsSpan());
@@ -261,12 +260,13 @@ internal static class JourneySvgRenderer
 	}
 
 	/// <summary>mermaid svgDraw.drawFace — radius 15, smile/sad/ambivalent by score.</summary>
-	private static void AppendFace(StringBuilder sb, double cx, double cy, int score)
+	private static void AppendFace(StringBuilder sb, double cx, double cy, int score, DiagramColors colors)
 	{
+		var role = colors.RoleColor(score >= 4 ? ColorRole.Success : score == 3 ? ColorRole.Warning : ColorRole.Failure);
 		_ = sb.Append("\n<circle class=\"face\" cx=\"").Append(cx.SvgFormat()).Append("\" cy=\"").Append(cy.SvgFormat())
 			.Append("\" r=\"").Append(FaceRadius)
-			.Append("\" fill=\"").Append(FaceFill)
-			.Append("\" stroke=\"").Append(FaceStroke)
+			.Append("\" fill=\"").Append(VisualLanguage.Tint(role, VisualLanguage.HeaderTint))
+			.Append("\" stroke=\"").Append(VisualLanguage.Border(role))
 			.Append("\" stroke-width=\"2\" />");
 
 		// eyes

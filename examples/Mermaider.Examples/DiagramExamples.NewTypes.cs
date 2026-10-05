@@ -293,5 +293,66 @@ public static partial class DiagramExamples
 			  C --> F
 			  D --> E
 			"""),
+
+		new("kanban-release-board", "Release Board", DiagramCategory.Kanban, """
+			kanban
+			  backlog[Backlog]
+			    a1[Customer export]@{ ticket: PRJ-101, priority: 'Low' }
+			    a2[Dark mode polish]@{ ticket: PRJ-117, priority: 'Very Low' }
+			    a3[Audit log retention]@{ ticket: PRJ-124, assigned: 'maria', priority: 'High' }
+			  progress[In Progress]
+			    b1[Billing migration]@{ ticket: PRJ-088, assigned: 'omar', priority: 'Very High' }
+			    b2[Search relevance tuning]@{ ticket: PRJ-092, assigned: 'li' }
+			  review[In Review]
+			    c1[Rate limiting]@{ ticket: PRJ-077, assigned: 'sam', priority: 'High' }
+			  testing[Testing]
+			    d1[SSO login flow]@{ ticket: PRJ-070, assigned: 'maria' }
+			    d2[Mobile layout]@{ ticket: PRJ-071, priority: 'Low' }
+			  shipped[Shipped]
+			    e1[Webhook retries]@{ ticket: PRJ-050 }
+			    e2[Onboarding emails]@{ ticket: PRJ-061 }
+			    e3[Faster CSV import]@{ ticket: PRJ-066 }
+			"""),
+
+		new("kanban-long-titles", "Long Card Titles", DiagramCategory.Kanban, """
+			kanban
+			  todo[To Do]
+			    t1[Investigate why the nightly reconciliation job occasionally double counts refunds]@{ ticket: OPS-2210, assigned: 'a.very.long.assignee.name', priority: 'High' }
+			    t2[Short]
+			  doing[Doing]
+			    t3[Write the migration guide for the new permissions model and review it with support]@{ assigned: 'dana' }
+			"""),
+
+		new("journey-support-ticket", "Support Ticket Journey", DiagramCategory.Journey, """
+			journey
+			  title Resolving a support ticket
+			  section Report
+			    Notice the problem: 2: Customer
+			    Search the help centre: 3: Customer
+			    Open a ticket: 4: Customer, Support
+			  section Triage
+			    Acknowledge ticket: 5: Support
+			    Reproduce the issue: 3: Support, Engineer
+			    Escalate to engineering: 2: Support, Engineer
+			  section Fix
+			    Ship a patch: 4: Engineer
+			    Verify with customer: 5: Customer, Support
+			  section Follow up
+			    Update the docs: 3: Support
+			    Send satisfaction survey: 5: Customer
+			"""),
+
+		new("journey-bad-day", "Rough Day", DiagramCategory.Journey, """
+			journey
+			  title A rough deployment
+			  section Deploy
+			    Merge the change: 5: Dev
+			    Pipeline fails: 1: Dev, CI
+			    Fix flaky test: 2: Dev
+			  section Recover
+			    Rollback: 2: Dev, Ops
+			    Postmortem: 3: Dev, Ops
+			    Celebrate the fix: 5: Dev
+			"""),
 	];
 }

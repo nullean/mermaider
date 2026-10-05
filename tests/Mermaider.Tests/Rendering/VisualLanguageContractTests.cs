@@ -196,4 +196,26 @@ public class VisualLanguageContractTests
 		centres.Should().Contain(c => c < rootX, "some branches sit left of the root");
 		centres.Should().Contain(c => c > rootX, "some branches sit right of the root");
 	}
+
+	[Test]
+	public void Kanban_columns_are_tinted_groups_with_titles_in_the_border_colour()
+	{
+		var svg = MermaidRenderer.RenderSvg("kanban\n  todo[To Do]\n    a[One]@{ priority: 'High' }\n  done[Done]\n    b[Two]");
+
+		var first = Themes.Default.AutoPaletteAt(0);
+		svg.Should().Contain($"fill=\"{VisualLanguage.GroupFill(first, 0)}\" stroke=\"{VisualLanguage.GroupBorder(first)}\"");
+		svg.Should().Contain($"fill=\"{VisualLanguage.GroupBorder(first)}\">To Do</text>", "the column title is drawn in the border colour");
+		svg.Should().Contain(Themes.Default.RoleColor(ColorRole.Warning), "priority High reads through the warning role colour");
+	}
+
+	[Test]
+	public void Journey_sections_are_tinted_and_faces_read_through_role_colours()
+	{
+		var svg = MermaidRenderer.RenderSvg("journey\n  section One\n    Good: 5: Me\n    Bad: 1: Me");
+
+		var first = Themes.Default.AutoPaletteAt(0);
+		svg.Should().Contain($"stroke=\"{VisualLanguage.Border(first)}\"");
+		svg.Should().Contain($"stroke=\"{VisualLanguage.Border(Themes.Default.RoleColor(ColorRole.Success))}\"", "a score of 5 is a success face");
+		svg.Should().Contain($"stroke=\"{VisualLanguage.Border(Themes.Default.RoleColor(ColorRole.Failure))}\"", "a score of 1 is a failure face");
+	}
 }

@@ -32,50 +32,41 @@
 </defs>
 
 <g class="kanban-column">
-<rect x="24" y="24" width="188.15" height="156" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
-<rect x="24" y="24" width="188.15" height="36" rx="8" ry="8" fill="var(--_group-hdr)" />
-<rect x="24" y="52" width="188.15" height="8" fill="var(--_group-hdr)" />
-<line x1="24" y1="60" x2="212.15" y2="60" stroke="var(--_group-stroke)" stroke-width="1" />
-<text x="36" y="42" text-anchor="start" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">To Do</text>
-<rect x="177.15" y="33" width="23" height="18" rx="7" ry="7" fill="var(--_key-badge)" />
-<text x="188.65" y="42" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-sec)">2</text>
+<rect x="24" y="24" width="188.15" height="156" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
+<text x="36" y="42" text-anchor="start" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="#4B74A0">To Do</text>
+<rect x="177.15" y="33" width="23" height="18" rx="7" ry="7" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
+<text x="188.65" y="42" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="#4B74A0">2</text>
 </g>
 <g class="kanban-card">
-<rect x="36" y="72" width="164.15" height="34" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+<rect x="36" y="72" width="164.15" height="34" rx="6" ry="6" fill="var(--bg)" stroke="#4B74A0" stroke-width="1.75" />
 <text x="48" y="93.9" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)">Create Documentation</text>
 </g>
 <g class="kanban-card">
-<rect x="36" y="116" width="164.15" height="52" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+<rect x="36" y="116" width="164.15" height="52" rx="6" ry="6" fill="var(--bg)" stroke="#4B74A0" stroke-width="1.75" />
 <text x="48" y="137.9" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)">Design grammar</text>
 <text x="48" y="155.9" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)">knsv</text>
 </g>
 <g class="kanban-column">
-<rect x="228.15" y="24" width="181.78" height="156" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
-<rect x="228.15" y="24" width="181.78" height="36" rx="8" ry="8" fill="var(--_group-hdr)" />
-<rect x="228.15" y="52" width="181.78" height="8" fill="var(--_group-hdr)" />
-<line x1="228.15" y1="60" x2="409.93" y2="60" stroke="var(--_group-stroke)" stroke-width="1" />
-<text x="240.15" y="42" text-anchor="start" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">In Progress</text>
-<rect x="379.25" y="33" width="18.68" height="18" rx="7" ry="7" fill="var(--_key-badge)" />
-<text x="388.59" y="42" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-sec)">1</text>
+<rect x="228.15" y="24" width="181.78" height="156" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
+<text x="240.15" y="42" text-anchor="start" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="#F18921">In Progress</text>
+<rect x="379.25" y="33" width="18.68" height="18" rx="7" ry="7" fill="color-mix(in srgb, #f28e2b 24%, var(--bg))" />
+<text x="388.59" y="42" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="#F18921">1</text>
 </g>
 <g class="kanban-card">
-<rect x="240.15" y="72" width="157.78" height="66" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-<rect x="240.15" y="74" width="4" height="62" rx="6" ry="6" fill="#f28e2b" />
+<rect x="240.15" y="72" width="157.78" height="66" rx="6" ry="6" fill="var(--bg)" stroke="#F18921" stroke-width="1.75" />
+<rect x="240.15" y="74" width="4" height="62" rx="6" ry="6" fill="#edc948" />
 <text x="256.15" y="93.9" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)">Create parsing tests</text>
 <text x="256.15" y="111.9" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)">MC-2038</text>
 <text x="256.15" y="125.9" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)">K.Sveidqvist</text>
 </g>
 <g class="kanban-column">
-<rect x="425.93" y="24" width="160" height="156" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
-<rect x="425.93" y="24" width="160" height="36" rx="8" ry="8" fill="var(--_group-hdr)" />
-<rect x="425.93" y="52" width="160" height="8" fill="var(--_group-hdr)" />
-<line x1="425.93" y1="60" x2="585.93" y2="60" stroke="var(--_group-stroke)" stroke-width="1" />
-<text x="437.93" y="42" text-anchor="start" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">Done</text>
-<rect x="555.25" y="33" width="18.68" height="18" rx="7" ry="7" fill="var(--_key-badge)" />
-<text x="564.59" y="42" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-sec)">1</text>
+<rect x="425.93" y="24" width="160" height="156" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 6%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
+<text x="437.93" y="42" text-anchor="start" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="#6FB3AE">Done</text>
+<rect x="555.25" y="33" width="18.68" height="18" rx="7" ry="7" fill="color-mix(in srgb, #76b7b2 24%, var(--bg))" />
+<text x="564.59" y="42" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="#6FB3AE">1</text>
 </g>
 <g class="kanban-card">
-<rect x="437.93" y="72" width="136" height="34" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+<rect x="437.93" y="72" width="136" height="34" rx="6" ry="6" fill="var(--bg)" stroke="#6FB3AE" stroke-width="1.75" />
 <text x="449.93" y="93.9" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)">define getData</text>
 </g>
 </svg>

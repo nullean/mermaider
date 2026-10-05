@@ -80,7 +80,7 @@ public class KanbanRendererTests
 		svg.Should().Contain("MC-2038");
 		svg.Should().Contain("K.Sveidqvist");
 		// Priority is rendered as a colored left border, not as text
-		svg.Should().Contain("#f28e2b"); // High priority color
+		svg.Should().Contain(Mermaider.Theming.Themes.Default.RoleColor(Mermaider.Theming.ColorRole.Warning)); // High priority is the warning role colour
 	}
 
 	[Test]
@@ -115,7 +115,7 @@ public class KanbanRendererTests
 		var svg = MermaidRenderer.RenderSvg(FullBoard);
 
 		svg.Should().Contain("fill=\"var(--_text)\"");
-		// Kanban uses neutral group-header fill, not accent — no --_accent-text expected
-		svg.Should().Contain("fill=\"var(--_group-hdr)\"");
+		// Columns are tinted groups of their own colour, not a neutral header band
+		svg.Should().Contain($"fill=\"{Mermaider.Rendering.VisualLanguage.GroupFill(Mermaider.Theming.Themes.Default.AutoPaletteAt(0), 0)}\"");
 	}
 }
