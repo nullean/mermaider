@@ -16,7 +16,8 @@ internal static partial class BlockParser
 	[GeneratedRegex(@"^columns\s+(\d+)\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex ColumnsPattern();
 
-	[GeneratedRegex(@"^([A-Za-z_][\w-]*)\s*-->\s*([A-Za-z_][\w-]*)\s*$", RegexOptions.None, TimeoutMs)]
+	// A --> B, A -- "label" --> B, A -- label --> B, A -->|label| B
+	[GeneratedRegex(@"^([A-Za-z_][\w-]*)\s*(?:--\s*(?:""([^""]*)""|([^>""|]+?))\s*)?-->\s*(?:\|([^|]*)\|\s*)?([A-Za-z_][\w-]*)\s*$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex EdgePattern();
 
 	internal static BlockDiagram Parse(string[] lines)
@@ -67,7 +68,11 @@ internal static partial class BlockParser
 			var edgeMatch = EdgePattern().Match(line);
 			if (edgeMatch.Success)
 			{
-				edges.Add(new BlockEdge(edgeMatch.Groups[1].Value, edgeMatch.Groups[2].Value));
+				var label = edgeMatch.Groups[2].Success ? edgeMatch.Groups[2].Value
+					: edgeMatch.Groups[3].Success ? edgeMatch.Groups[3].Value.Trim()
+					: edgeMatch.Groups[4].Success ? edgeMatch.Groups[4].Value.Trim()
+					: null;
+				edges.Add(new BlockEdge(edgeMatch.Groups[1].Value, edgeMatch.Groups[5].Value, label is { Length: > 0 } ? label : null));
 				continue;
 			}
 
@@ -94,25 +99,26 @@ internal static partial class BlockParser
 			if (i >= span.Length)
 				break;
 
-			if (!TryParseNode(span, ref i, out var id, out var label, out var rounded))
+			if (!TryParseNode(span, ref i, out var id, out var label, out var rounded, out var nodeSpan))
 				break;
 
 			if (id.Equals("space", StringComparison.OrdinalIgnoreCase))
 			{
 				// Spacer cell: empty slot in the grid (IsSpace flag, not a magic id prefix)
-				nodes.Add(new BlockNode("space", "", Rounded: false, IsSpace: true));
+				nodes.Add(new BlockNode("space", "", Rounded: false, IsSpace: true, Span: nodeSpan));
 				continue;
 			}
 
 			if (!seenIds.Add(id))
 				continue;
 
-			nodes.Add(new BlockNode(id, label, rounded));
+			nodes.Add(new BlockNode(id, label, rounded, Span: nodeSpan));
 		}
 	}
 
-	private static bool TryParseNode(ReadOnlySpan<char> span, ref int i, out string id, out string label, out bool rounded)
+	private static bool TryParseNode(ReadOnlySpan<char> span, ref int i, out string id, out string label, out bool rounded, out int nodeSpan)
 	{
+		nodeSpan = 1;
 		id = "";
 		label = "";
 		rounded = false;
@@ -131,6 +137,12 @@ internal static partial class BlockParser
 		if (i >= span.Length)
 			return true;
 
+		if (span[i] == ':')
+		{
+			nodeSpan = ParseSpan(span, ref i);
+			return true;
+		}
+
 		if (span[i] == '[')
 		{
 			rounded = false;
@@ -139,6 +151,7 @@ internal static partial class BlockParser
 				i = start;
 				return false;
 			}
+			nodeSpan = ParseSpan(span, ref i);
 			return true;
 		}
 
@@ -150,10 +163,26 @@ internal static partial class BlockParser
 				i = start;
 				return false;
 			}
+			nodeSpan = ParseSpan(span, ref i);
 			return true;
 		}
 
 		return true;
+	}
+
+	// `A:2` — the block covers two grid columns
+	private static int ParseSpan(ReadOnlySpan<char> span, ref int i)
+	{
+		if (i >= span.Length || span[i] != ':')
+			return 1;
+		var start = i + 1;
+		var end = start;
+		while (end < span.Length && char.IsAsciiDigit(span[end]))
+			end++;
+		if (end == start || !int.TryParse(span[start..end], out var n) || n < 1)
+			return 1;
+		i = end;
+		return n;
 	}
 
 	private static bool TryParseDelimitedLabel(ReadOnlySpan<char> span, ref int i, char open, char close, out string label)

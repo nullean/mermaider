@@ -182,4 +182,20 @@ public class BlockParserTests
 		diagram.Edges.Should().BeEmpty();
 		diagram.Title.Should().BeNull();
 	}
+
+	[Test]
+	public void Parses_column_spans()
+	{
+		var diagram = BlockParser.Parse(["block-beta", "columns 3", "A[\"A\"]:2 B space:1 C:3"]);
+
+		diagram.Nodes.Select(n => n.Span).Should().Equal(2, 1, 1, 3);
+	}
+
+	[Test]
+	public void Parses_edge_labels()
+	{
+		var diagram = BlockParser.Parse(["block-beta", "A B C", "A -- \"quoted\" --> B", "B -- bare --> C", "A -->|piped| C", "A --> C"]);
+
+		diagram.Edges.Select(e => e.Label).Should().Equal("quoted", "bare", "piped", null);
+	}
 }

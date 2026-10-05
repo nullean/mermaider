@@ -9,6 +9,7 @@ public sealed record BlockDiagram
 	public IReadOnlyList<BlockEdge> Edges { get; init; } = [];
 }
 
-public sealed record BlockNode(string Id, string Label, bool Rounded = false, bool IsSpace = false);
+/// <summary><paramref name="Span"/> is the number of grid columns the block covers (<c>A:2</c>).</summary>
+public sealed record BlockNode(string Id, string Label, bool Rounded = false, bool IsSpace = false, int Span = 1);
 
-public sealed record BlockEdge(string From, string To);
+public sealed record BlockEdge(string From, string To, string? Label = null);

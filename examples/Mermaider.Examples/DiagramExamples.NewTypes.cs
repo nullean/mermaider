@@ -221,5 +221,77 @@ public static partial class DiagramExamples
 			  Process --> Out
 			  Out --> Store
 			"""),
+
+		new("block-spans", "Column Spans", DiagramCategory.Block, """
+			block-beta
+			columns 3
+			  Header["Header spans all three"]:3
+			  Nav["Nav"] Content["Content"]:2
+			  Sidebar:2 Aside
+			  Footer["Footer"]:3
+			"""),
+
+		new("block-labelled-edges", "Labelled Edges", DiagramCategory.Block, """
+			block-beta
+			columns 3
+			  Client["Client"] space API["API"]
+			  space space space
+			  Queue["Queue"] Worker["Worker"] DB["Database"]
+			  Client -- "request" --> API
+			  API -- "enqueue" --> Queue
+			  Queue -- "pull" --> Worker
+			  Worker -- "write" --> DB
+			"""),
+
+		new("block-routing", "Routing Around Blocks", DiagramCategory.Block, """
+			block-beta
+			columns 3
+			  A["Source"] B["Middle"] C["Target"]
+			  D["Left"] E["Centre"] F["Right"]
+			  G["Bottom left"] H["Bottom"] I["Bottom right"]
+			  A --> C
+			  B --> E
+			  E --> H
+			  D --> F
+			  C --> G
+			"""),
+
+		new("block-title-rounded", "Title, Spaces and Rounded Blocks", DiagramCategory.Block, """
+			block-beta
+			title Release train
+			columns 4
+			  Plan(Plan) Build(Build) space Ship(Ship)
+			  space Test(Test) Review(Review) space
+			  Plan --> Build
+			  Build --> Test
+			  Test --> Review
+			  Review --> Ship
+			"""),
+
+		new("block-layers", "Layered Architecture", DiagramCategory.Block, """
+			block-beta
+			columns 4
+			  UI["User interface"]:4
+			  Auth["Auth"] Billing["Billing"] Search["Search"] Reports["Reports"]
+			  Core["Core platform"]:4
+			  Postgres["Postgres"]:2 Cache["Cache"] Storage["Object storage"]
+			  UI --> Auth
+			  UI --> Reports
+			  Auth --> Core
+			  Billing --> Core
+			  Search --> Core
+			  Reports --> Core
+			"""),
+
+		new("block-long-labels", "Long Labels", DiagramCategory.Block, """
+			block-beta
+			columns 3
+			  A["A block with a rather long label"] B["Short"] C["Another long label here"]
+			  D["Short"] E["Medium length label"] F["F"]
+			  A --> B
+			  B --> C
+			  C --> F
+			  D --> E
+			"""),
 	];
 }
