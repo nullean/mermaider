@@ -177,13 +177,9 @@ internal static class SequenceLayout
 
 			if (notesByAfterIndex.TryGetValue(msgIdx, out var noteIndices))
 			{
-				foreach (var ni in noteIndices)
-				{
-					var noteH = NoteFontSize + (NoteVPad * 2);
-					var notePosition = diagram.Notes[ni].Position;
-					if (notePosition == SequenceNotePosition.Over)
-						messageY += noteH + 4;
-				}
+				// every note gets its own band below the message, so it never sits where the next message's label pill goes
+				var noteBand = noteIndices.Count > 0 ? NoteFontSize + (NoteVPad * 2) : 0;
+				messageY += noteBand;
 			}
 		}
 
@@ -380,8 +376,14 @@ internal static class SequenceLayout
 			var aid = diagram.Actors[i].Id;
 			if (createdAt.TryGetValue(aid, out var cIdx) && cIdx < messages.Count)
 			{
-				var createY = messages[cIdx].Y - ActorHeight - 4;
-				actors[i] = actors[i] with { Y = createY };
+				// the new participant sits level with the creating message, which ends at the box's edge
+				var msg = messages[cIdx];
+				actors[i] = actors[i] with { Y = msg.Y - (ActorHeight / 2) };
+				if (Math.Abs(msg.X2 - msg.X1) > 1)
+				{
+					var edge = msg.X2 > msg.X1 ? actors[i].X - (actors[i].Width / 2) : actors[i].X + (actors[i].Width / 2);
+					messages[cIdx] = msg with { X2 = edge };
+				}
 			}
 		}
 
@@ -405,6 +407,7 @@ internal static class SequenceLayout
 		const double boxPadX = 8;
 		const double boxPadY = 6;
 		const double boxHeaderHeight = 20;
+		var boxRight = 0.0;
 		foreach (var box in diagram.Boxes)
 		{
 			if (box.ActorIds.Count == 0)
@@ -421,18 +424,32 @@ internal static class SequenceLayout
 				maxX = Math.Max(maxX, actorCenterX[aidx] + halfW);
 			}
 
+			// a title wider than its participants widens the box (centred, unless that would leave the canvas)
+			var boxX = minX - boxPadX;
+			var boxW = maxX - minX + (boxPadX * 2);
+			if (box.Title.Length > 0)
+			{
+				var titleW = TextMetrics.MeasureTextWidth(box.Title, RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.GroupHeader) + 40;
+				if (titleW > boxW)
+				{
+					boxX = Math.Max(Padding / 2, boxX - ((titleW - boxW) / 2));
+					boxW = titleW;
+				}
+			}
+
+			boxRight = Math.Max(boxRight, boxX + boxW);
 			positionedBoxes.Add(new PositionedSequenceBox
 			{
 				Title = box.Title,
 				Color = box.Color,
-				X = minX - boxPadX,
+				X = boxX,
 				Y = actorY - boxHeaderHeight - boxPadY,
-				Width = maxX - minX + (boxPadX * 2),
+				Width = boxW,
 				Height = diagramBottom - actorY + boxHeaderHeight + (boxPadY * 2),
 			});
 		}
 
-		var diagramWidth = globalMaxX + shiftX + Padding;
+		var diagramWidth = Math.Max(globalMaxX + shiftX + Padding, boxRight + Padding);
 		var diagramHeight = diagramBottom;
 
 		return new PositionedSequenceDiagram

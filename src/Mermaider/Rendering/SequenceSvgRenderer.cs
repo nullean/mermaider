@@ -473,8 +473,8 @@ internal static class SequenceSvgRenderer
 			fill = $"color-mix(in srgb, {safe} {VisualLanguage.GroupTintBase + 10}%, var(--bg))";
 			var isHex = ColorUtils.TryHueSaturation(boxColor, out _, out _);
 			stroke = isHex ? VisualLanguage.GroupBorder(boxColor.Trim()) : safe;
-			// a named colour cannot be darkened, so its title stays readable text instead of a pale border colour
-			title = isHex ? stroke : "var(--_text-sec)";
+			// a named colour cannot be darkened numerically, so its title is mixed towards the text colour
+			title = isHex ? stroke : $"color-mix(in srgb, {safe} 80%, var(--fg))";
 		}
 		else
 		{
@@ -498,7 +498,7 @@ internal static class SequenceSvgRenderer
 				sb, box.Title,
 				box.X + (box.Width / 2), box.Y + 10,
 				RenderConstants.FontSizes.EdgeLabel,
-				RenderConstants.TextAttrs.SeqBlockTabFill + title + "\"");
+				"text-anchor=\"middle\" " + RenderConstants.TextAttrs.SeqBlockTabFill + title + "\"");
 			_ = sb.Append('\n');
 		}
 

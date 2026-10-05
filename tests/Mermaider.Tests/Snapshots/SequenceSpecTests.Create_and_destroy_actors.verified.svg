@@ -39,16 +39,16 @@
 
 <line class="lifeline" data-actor="Alice" x1="70" y1="70" x2="70" y2="398" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
 <line class="lifeline" data-actor="Bob" x1="210" y1="70" x2="210" y2="398" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
-<line class="lifeline" data-actor="Carol" x1="350" y1="160" x2="350" y2="264" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="Carol" x1="350" y1="184" x2="350" y2="264" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
 <g class="message" data-from="Alice" data-to="Bob" data-label="Hello" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="70" y1="114" x2="210" y2="114" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
   <rect x="113.73479999999999" y="83.775" width="52.53040000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
   <text x="140" y="96" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Hello</text>
 </g>
 <g class="message" data-from="Bob" data-to="Carol" data-label="Hi Carol" data-line-style="solid" data-arrow-head="filled" data-self="false">
-  <line x1="210" y1="164" x2="350" y2="164" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
-  <rect x="244.51916" y="133.775" width="70.96168" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="280" y="146" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Hi Carol</text>
+  <line x1="210" y1="164" x2="310" y2="164" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
+  <rect x="224.51916" y="133.775" width="70.96168" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="260" y="146" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Hi Carol</text>
 </g>
 <g class="message" data-from="Carol" data-to="Bob" data-label="Thanks" data-line-style="dashed" data-arrow-head="filled" data-self="false">
   <line x1="350" y1="214" x2="210" y2="214" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
@@ -69,8 +69,8 @@
   <text x="210" y="50" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">Bob</text>
 </g>
 <g class="actor" data-id="Carol" data-label="Carol" data-type="participant">
-  <rect x="310" y="120" width="80" height="40" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="350" y="140" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">Carol</text>
+  <rect x="310" y="144" width="80" height="40" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+  <text x="350" y="164" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">Carol</text>
 </g>
 <g class="actor" data-id="Alice" data-label="Alice" data-type="participant">
   <rect x="30" y="358" width="80" height="40" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
