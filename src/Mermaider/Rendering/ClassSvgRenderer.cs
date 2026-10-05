@@ -193,7 +193,7 @@ internal static class ClassSvgRenderer
 				.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 				.Append("\" font-size=\"").Append(AnnotationFontSize)
 				.Append("\" font-weight=\"").Append(AnnotationFontWeight)
-				.Append("\" font-style=\"italic\" fill=\"var(--_text-muted)\">&lt;&lt;");
+				.Append("\" font-style=\"italic\" fill=\"var(--_text-sec)\">&lt;&lt;");
 			MultilineUtils.AppendEscapedXml(sb, cls.Annotation.AsSpan());
 			_ = sb.Append("&gt;&gt;</text>\n");
 			nameY = y + (headerHeight / 2) + 6;
@@ -213,25 +213,42 @@ internal static class ClassSvgRenderer
 			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
 
 		const double memberRowH = 20;
-		const double boxPadX = 8;
+		var (typeColW, _) = ClassMemberColumns.Measure(cls.Attributes.Concat(cls.Methods));
+		var nameX = typeColW > 0
+			? x + ClassMemberColumns.PadX + typeColW + ClassMemberColumns.Gap + ClassMemberColumns.PadX
+			: x + ClassMemberColumns.PadX;
+
+		var methodTop = attrTop + attrHeight;
+		// Row dividers like ER attribute rows, then a section divider between attributes and methods
+		for (var i = 0; i < cls.Attributes.Count - 1; i++)
+			AppendRowDivider(sb, x, width, attrTop + 4 + ((i + 1) * memberRowH), border);
+		for (var i = 0; i < cls.Methods.Count - 1; i++)
+			AppendRowDivider(sb, x, width, methodTop + 4 + ((i + 1) * memberRowH), border);
+		_ = sb.Append("  <line x1=\"").Append(x).Append("\" y1=\"").Append(methodTop)
+			.Append("\" x2=\"").Append(x + width).Append("\" y2=\"").Append(methodTop)
+			.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"")
+			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
+
+		// Type | name column divider
+		if (typeColW > 0)
+		{
+			var divX = x + ClassMemberColumns.PadX + typeColW + ClassMemberColumns.Gap;
+			_ = sb.Append("  <line x1=\"").Append(divX).Append("\" y1=\"").Append(attrTop)
+				.Append("\" x2=\"").Append(divX).Append("\" y2=\"").Append(y + height)
+				.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"1\" opacity=\"0.35\" />\n");
+		}
+
 		for (var i = 0; i < cls.Attributes.Count; i++)
 		{
-			var memberY = attrTop + 4 + (i * memberRowH) + (memberRowH / 2);
 			_ = sb.Append("  ");
-			AppendMember(sb, cls.Attributes[i], x + boxPadX, memberY);
+			AppendMember(sb, cls.Attributes[i], x + ClassMemberColumns.PadX, nameX, attrTop + 4 + (i * memberRowH) + (memberRowH / 2), border);
 			_ = sb.Append('\n');
 		}
 
-		var methodTop = attrTop + attrHeight;
-		_ = sb.Append("  <line x1=\"").Append(x).Append("\" y1=\"").Append(methodTop)
-			.Append("\" x2=\"").Append(x + width).Append("\" y2=\"").Append(methodTop)
-			.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"1\" opacity=\"0.35\" />\n");
-
 		for (var i = 0; i < cls.Methods.Count; i++)
 		{
-			var memberY = methodTop + 4 + (i * memberRowH) + (memberRowH / 2);
 			_ = sb.Append("  ");
-			AppendMember(sb, cls.Methods[i], x + boxPadX, memberY);
+			AppendMember(sb, cls.Methods[i], x + ClassMemberColumns.PadX, nameX, methodTop + 4 + (i * memberRowH) + (memberRowH / 2), border);
 			_ = sb.Append('\n');
 		}
 
@@ -245,44 +262,41 @@ internal static class ClassSvgRenderer
 		_ = sb.Append("</g>");
 	}
 
-	private static void AppendMember(StringBuilder sb, ClassMember member, double x, double y)
+	private static void AppendRowDivider(StringBuilder sb, double x, double width, double y, string border) =>
+		sb.Append("  <line x1=\"").Append(x).Append("\" y1=\"").Append(y)
+			.Append("\" x2=\"").Append(x + width).Append("\" y2=\"").Append(y)
+			.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"1\" opacity=\"0.35\" />\n");
+
+	// Type (muted) in the first column, then visibility symbol in the cluster's border colour and the name in full text colour.
+	private static void AppendMember(StringBuilder sb, ClassMember member, double typeX, double nameX, double y, string border)
 	{
 		var fontStyle = member.IsAbstract ? " font-style=\"italic\"" : "";
 		var decoration = member.IsStatic ? " text-decoration=\"underline\"" : "";
 
-		_ = sb.Append("<text class=\"mono\" x=\"").Append(x).Append("\" y=\"").Append(y)
+		if (member.Type is { Length: > 0 })
+		{
+			_ = sb.Append("<text class=\"mono\" x=\"").Append(typeX).Append("\" y=\"").Append(y)
+				.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift)
+				.Append("\" font-size=\"").Append(MemberFontSize)
+				.Append("\" font-weight=\"").Append(MemberFontWeight)
+				.Append("\" fill=\"var(--_text-sec)\">");
+			MultilineUtils.AppendEscapedXml(sb, member.Type.AsSpan());
+			_ = sb.Append("</text>");
+		}
+
+		_ = sb.Append("<text class=\"mono\" x=\"").Append(nameX).Append("\" y=\"").Append(y)
 			.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(MemberFontSize)
 			.Append("\" font-weight=\"").Append(MemberFontWeight).Append('"')
 			.Append(fontStyle).Append(decoration).Append('>');
 
-		if (member.Visibility != ClassVisibility.None)
-		{
-			var vis = member.Visibility switch
-			{
-				ClassVisibility.Public => "+",
-				ClassVisibility.Private => "-",
-				ClassVisibility.Protected => "#",
-				ClassVisibility.Package => "~",
-				_ => "",
-			};
-			_ = sb.Append("<tspan fill=\"var(--_text-faint)\">").Append(vis).Append(" </tspan>");
-		}
+		var vis = ClassMemberColumns.VisibilitySymbol(member);
+		if (vis.Length > 0)
+			_ = sb.Append("<tspan fill=\"").Append(border).Append("\" font-weight=\"700\">").Append(vis).Append(" </tspan>");
 
-		var displayName = member.IsMethod ? $"{member.Name}({member.Params ?? ""})" : member.Name;
-		_ = sb.Append("<tspan fill=\"var(--_text-sec)\">");
-		MultilineUtils.AppendEscapedXml(sb, displayName.AsSpan());
-		_ = sb.Append("</tspan>");
-
-		if (member.Type != null)
-		{
-			_ = sb.Append("<tspan fill=\"var(--_text-faint)\">: </tspan>");
-			_ = sb.Append("<tspan fill=\"var(--_text-muted)\">");
-			MultilineUtils.AppendEscapedXml(sb, member.Type.AsSpan());
-			_ = sb.Append("</tspan>");
-		}
-
-		_ = sb.Append("</text>");
+		_ = sb.Append("<tspan fill=\"var(--_text)\">");
+		MultilineUtils.AppendEscapedXml(sb, ClassMemberColumns.DisplayName(member).AsSpan());
+		_ = sb.Append("</tspan></text>");
 	}
 
 	private static void AppendRelationship(StringBuilder sb, PositionedClassRelationship rel, double cornerRadius)

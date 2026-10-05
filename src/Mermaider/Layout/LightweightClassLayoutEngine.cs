@@ -19,7 +19,6 @@ internal static class LightweightClassLayoutEngine
 	private const double SectionPadY = 8;
 	private const double EmptySectionHeight = 8;
 	private const double MinWidth = 60;
-	private static readonly double MemberFontSize = RenderConstants.FontSizes.Member;
 	private const double NodeSpacing = 20;
 	private const double LayerSpacing = 60;
 
@@ -66,10 +65,8 @@ internal static class LightweightClassLayoutEngine
 				: EmptySectionHeight;
 
 			var headerTextW = TextMetrics.MeasureTextWidth(cls.Label, RenderConstants.FontSizes.NodeLabel, RenderConstants.FontWeights.NodeLabel);
-			var maxAttrW = MaxMemberWidth(cls.Attributes);
-			var maxMethodW = MaxMemberWidth(cls.Methods);
-			// member text is monospace and its width an estimate: leave a little room so it never touches the border
-			var width = Math.Max(MinWidth, Math.Max(headerTextW + (BoxPadX * 2), Math.Max(maxAttrW + (BoxPadX * 2) + 8, maxMethodW + (BoxPadX * 2) + 8)));
+			var membersW = ClassMemberColumns.BoxWidth(cls.Attributes.Concat(cls.Methods));
+			var width = Math.Max(MinWidth, Math.Max(headerTextW + (BoxPadX * 2), membersW));
 			var height = headerHeight + attrHeight + methodHeight;
 
 			classSizes[cls.Id] = (width, height, headerHeight, attrHeight, methodHeight);
@@ -271,28 +268,5 @@ internal static class LightweightClassLayoutEngine
 			Notes = notes,
 			Namespaces = positionedNs,
 		};
-	}
-
-	private static double MaxMemberWidth(IReadOnlyList<ClassMember> members)
-	{
-		var maxW = 0.0;
-		foreach (var m in members)
-		{
-			var vis = m.Visibility switch
-			{
-				ClassVisibility.Public => "+ ",
-				ClassVisibility.Private => "- ",
-				ClassVisibility.Protected => "# ",
-				ClassVisibility.Package => "~ ",
-				_ => "",
-			};
-			var name = m.IsMethod ? $"{m.Name}({m.Params ?? ""})" : m.Name;
-			var type = m.Type != null ? $": {m.Type}" : "";
-			var text = $"{vis}{name}{type}";
-			var w = TextMetrics.EstimateMonoTextWidth(text, MemberFontSize);
-			if (w > maxW)
-				maxW = w;
-		}
-		return maxW;
 	}
 }
