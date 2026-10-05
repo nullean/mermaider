@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 171.068 244" width="171.068" height="244" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 193.62 244" width="193.62" height="244" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -30,43 +30,38 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
-<defs>
-</defs>
-
-<line x1="32" y1="66" x2="42" y2="66" stroke="var(--_line)" stroke-width="1" />
-<line x1="32" y1="38" x2="32" y2="66" stroke="var(--_line)" stroke-width="1" />
-<line x1="52" y1="94" x2="62" y2="94" stroke="var(--_line)" stroke-width="1" />
-<line x1="52" y1="66" x2="52" y2="94" stroke="var(--_line)" stroke-width="1" />
-<line x1="52" y1="122" x2="62" y2="122" stroke="var(--_line)" stroke-width="1" />
-<line x1="52" y1="66" x2="52" y2="122" stroke="var(--_line)" stroke-width="1" />
-<line x1="32" y1="150" x2="42" y2="150" stroke="var(--_line)" stroke-width="1" />
-<line x1="32" y1="38" x2="32" y2="150" stroke="var(--_line)" stroke-width="1" />
-<g class="treeview-node">
-<image x="24" y="30" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik00IDRoNWwyIDJoOWEyIDIgMCAwIDEgMiAydjEwYTIgMiAwIDAgMS0yIDJINGEyIDIgMCAwIDEtMi0yVjZhMiAyIDAgMCAxIDItMnoiIGZpbGw9IiM2NDc0OGIiLz4KPC9zdmc+" />
-<text x="46" y="38" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">src</text>
+<g class="treeview-branches" fill="none" stroke="var(--_line)" stroke-width="1" stroke-linecap="round">
+  <path d="M32,48 L32,60 Q32,66 38,66 L45,66" />
+  <path d="M56,76 L56,88 Q56,94 62,94 L69,94" />
+  <path d="M56,76 L56,116 Q56,122 62,122 L69,122" />
+  <path d="M32,48 L32,144 Q32,150 38,150 L45,150" />
 </g>
-<g class="treeview-node">
-<image x="44" y="58" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik00IDRoNWwyIDJoOWEyIDIgMCAwIDEgMiAydjEwYTIgMiAwIDAgMS0yIDJINGEyIDIgMCAwIDEtMi0yVjZhMiAyIDAgMCAxIDItMnoiIGZpbGw9IiM2NDc0OGIiLz4KPC9zdmc+" />
-<text x="66" y="66" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">lib</text>
+<g class="treeview-node" data-depth="0">
+  <path class="treeview-icon" d="M25,33.5 H30 L31.5,35 H39 V43.5 H25 Z" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="48" y="38" text-anchor="start" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">src</text>
 </g>
-<g class="treeview-node">
-<image x="64" y="86" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCAySDZhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWOHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHBvbHlsaW5lIHBvaW50cz0iMTQgMiAxNCA4IDIwIDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+" />
-<text x="86" y="94" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)">parser.rs</text>
+<g class="treeview-node" data-depth="1">
+  <path class="treeview-icon" d="M49,61.5 H54 L55.5,63 H63 V71.5 H49 Z" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="72" y="66" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">lib</text>
 </g>
-<g class="treeview-node">
-<image x="64" y="114" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCAySDZhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWOHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHBvbHlsaW5lIHBvaW50cz0iMTQgMiAxNCA4IDIwIDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+" />
-<text x="86" y="122" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)">lexer.rs</text>
+<g class="treeview-node" data-depth="2">
+  <path class="treeview-icon" d="M75,87.5 H81.5 L85,91 V100.5 H75 Z M81.5,87.5 V91 H85" fill="var(--bg)" stroke="color-mix(in srgb, #4e79a7 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="96" y="94" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">parser.rs</text>
 </g>
-<g class="treeview-node">
-<image x="44" y="142" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCAySDZhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWOHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHBvbHlsaW5lIHBvaW50cz0iMTQgMiAxNCA4IDIwIDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+" />
-<text x="66" y="150" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)">main.rs</text>
+<g class="treeview-node" data-depth="2">
+  <path class="treeview-icon" d="M75,115.5 H81.5 L85,119 V128.5 H75 Z M81.5,115.5 V119 H85" fill="var(--bg)" stroke="color-mix(in srgb, #4e79a7 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="96" y="122" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">lexer.rs</text>
 </g>
-<g class="treeview-node">
-<image x="24" y="170" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCAySDZhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWOHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHBvbHlsaW5lIHBvaW50cz0iMTQgMiAxNCA4IDIwIDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+" />
-<text x="46" y="178" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)">Cargo.toml</text>
+<g class="treeview-node" data-depth="1">
+  <path class="treeview-icon" d="M51,143.5 H57.5 L61,147 V156.5 H51 Z M57.5,143.5 V147 H61" fill="var(--bg)" stroke="color-mix(in srgb, #4e79a7 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="72" y="150" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">main.rs</text>
 </g>
-<g class="treeview-node">
-<image x="24" y="198" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCAySDZhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWOHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHBvbHlsaW5lIHBvaW50cz0iMTQgMiAxNCA4IDIwIDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+" />
-<text x="46" y="206" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)">README.md</text>
+<g class="treeview-node" data-depth="0">
+  <path class="treeview-icon" d="M27,171.5 H33.5 L37,175 V184.5 H27 Z M33.5,171.5 V175 H37" fill="var(--bg)" stroke="color-mix(in srgb, var(--_line) 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="48" y="178" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Cargo.toml</text>
+</g>
+<g class="treeview-node" data-depth="0">
+  <path class="treeview-icon" d="M27,199.5 H33.5 L37,203 V212.5 H27 Z M33.5,199.5 V203 H37" fill="var(--bg)" stroke="color-mix(in srgb, var(--_line) 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="48" y="206" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">README.md</text>
 </g>
 </svg>
