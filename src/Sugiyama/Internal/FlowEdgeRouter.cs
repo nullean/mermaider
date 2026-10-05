@@ -36,6 +36,12 @@ internal static class FlowEdgeRouter
 	private const double ForeignGroupCost = 450;
 	private const double LeaveGroupCost = 45;
 
+	// parallel runs closer than this read as one thick line
+	private const double CrowdedGap = 7;
+
+	// the search keeps new runs a little further than that from earlier ones, so a label pill fits between neighbours
+	private const double RouteGap = 10;
+
 	// 0 = right, 1 = down, 2 = left, 3 = up
 	private static readonly int[] Dx = [1, 0, -1, 0];
 	private static readonly int[] Dy = [0, 1, 0, -1];
@@ -92,7 +98,7 @@ internal static class FlowEdgeRouter
 		}
 
 		AngleIntoSmallTargets(plans);
-		AssignPorts(plans);
+		AssignPorts(plans, groups, boxes);
 
 		foreach (var p in plans)
 			ShrinkStubs(p);
@@ -220,7 +226,7 @@ internal static class FlowEdgeRouter
 
 	// Ports sit where the edge can run straight: at the middle of the stretch where both boxes overlap along the side's axis
 	// (else at the other end's centre), clamped to the usable part of the side and kept 14px apart.
-	private static void AssignPorts(List<Plan> plans)
+	private static void AssignPorts(List<Plan> plans, IReadOnlyList<GroupBox> subgraphs, IReadOnlyList<Box> allBoxes)
 	{
 		var groups = new Dictionary<(string, int), List<(Plan Plan, bool IsSource, double Key)>>();
 		var boxes = new Dictionary<string, Box>(StringComparer.Ordinal);
@@ -238,6 +244,8 @@ internal static class FlowEdgeRouter
 			var facing = (p.SSide + 2) % 4 == p.TSide;
 			if (!facing || b.Id.StartsWith('\u0002'))
 				key = alongX ? b.Cx : b.Cy;
+			if (side == 3)
+				key = BesideTitle(b, other, key, subgraphs, allBoxes);
 			if (!groups.TryGetValue((b.Id, side), out var l))
 				groups[(b.Id, side)] = l = [];
 			l.Add((p, src, key));
@@ -269,6 +277,29 @@ internal static class FlowEdgeRouter
 					sorted[i].Plan.TPort = pt;
 			}
 		}
+	}
+
+	// A port on the top of a node in the first row of a subgraph, for an edge coming from outside that subgraph, runs
+	// straight up through the subgraph's header: keep it clear of the title text when the side is wide enough.
+	private static double BesideTitle(Box b, Box other, double key, IReadOnlyList<GroupBox> subgraphs, IReadOnlyList<Box> allBoxes)
+	{
+		if (b.Id.StartsWith('\u0002'))
+			return key;
+		var (lo, hi) = Usable(b, true);
+		foreach (var g in subgraphs)
+		{
+			if (g.LabelW <= 0 || !g.NodeIds.Contains(b.MemberId) || g.NodeIds.Contains(other.MemberId))
+				continue;
+			var titleEnd = g.X + g.LabelW + Margin;
+			if (key >= titleEnd || key < g.X || titleEnd > hi)
+				continue;
+			// only the top row: anything of the subgraph above this node would sit between the port and the header
+			if (allBoxes.Any(o => o.Id != b.Id && g.NodeIds.Contains(o.Id) && o.Bottom <= b.Y && o.Right > titleEnd - g.LabelW && o.X < titleEnd))
+				continue;
+			key = Math.Max(titleEnd, lo);
+		}
+
+		return key;
 	}
 
 	private static (double Lo, double Hi) Usable(Box b, bool alongX)
@@ -394,18 +425,25 @@ internal static class FlowEdgeRouter
 		var jog = vertical ? Math.Abs(pts[0].X - pts[3].X) : Math.Abs(pts[0].Y - pts[3].Y);
 		if (jog is < 0.5 or > 16)
 			return pts;
+		// the target's port moves onto the source's line; failing that, the source's port moves onto the target's line
 		if (vertical)
 		{
 			var x = pts[0].X;
-			if (x < p.T.X + 8 || x > p.T.Right - 8 || PortTaken(plans, p, p.T, p.TSide, x, pts[3].Y))
-				return pts;
-			return [pts[0], new LayoutPoint(x, pts[1].Y), new LayoutPoint(x, pts[2].Y), new LayoutPoint(x, pts[3].Y)];
+			if (x >= p.T.X + 8 && x <= p.T.Right - 8 && !PortTaken(plans, p, p.T, p.TSide, x, pts[3].Y))
+				return [pts[0], new LayoutPoint(x, pts[1].Y), new LayoutPoint(x, pts[2].Y), new LayoutPoint(x, pts[3].Y)];
+			x = pts[3].X;
+			if (p.Fixed is null && p.S.Outline == PortOutline.Rectangle && x >= p.S.X + 8 && x <= p.S.Right - 8 && !PortTaken(plans, p, p.S, p.SSide, x, pts[0].Y))
+				return [new LayoutPoint(x, pts[0].Y), new LayoutPoint(x, pts[1].Y), new LayoutPoint(x, pts[2].Y), pts[3]];
+			return pts;
 		}
 
 		var y = pts[0].Y;
-		if (y < p.T.Y + 8 || y > p.T.Bottom - 8 || PortTaken(plans, p, p.T, p.TSide, pts[3].X, y))
-			return pts;
-		return [pts[0], new LayoutPoint(pts[1].X, y), new LayoutPoint(pts[2].X, y), new LayoutPoint(pts[3].X, y)];
+		if (y >= p.T.Y + 8 && y <= p.T.Bottom - 8 && !PortTaken(plans, p, p.T, p.TSide, pts[3].X, y))
+			return [pts[0], new LayoutPoint(pts[1].X, y), new LayoutPoint(pts[2].X, y), new LayoutPoint(pts[3].X, y)];
+		y = pts[3].Y;
+		if (p.Fixed is null && p.S.Outline == PortOutline.Rectangle && y >= p.S.Y + 8 && y <= p.S.Bottom - 8 && !PortTaken(plans, p, p.S, p.SSide, pts[0].X, y))
+			return [new LayoutPoint(pts[0].X, y), new LayoutPoint(pts[1].X, y), new LayoutPoint(pts[2].X, y), pts[3]];
+		return pts;
 	}
 
 	// The layout's own route (ports aligned to label columns, uniform jogs) is used when nothing is in its way.
@@ -520,9 +558,9 @@ internal static class FlowEdgeRouter
 			{
 				if (seg.Horizontal == r.Horizontal)
 				{
-					if (seg.Horizontal && Math.Abs(seg.Y0 - r.Y0) < 6 && Math.Min(Math.Max(seg.X0, seg.X1), Math.Max(r.X0, r.X1)) - Math.Max(Math.Min(seg.X0, seg.X1), Math.Min(r.X0, r.X1)) > 6)
+					if (seg.Horizontal && Math.Abs(seg.Y0 - r.Y0) < CrowdedGap && Math.Min(Math.Max(seg.X0, seg.X1), Math.Max(r.X0, r.X1)) - Math.Max(Math.Min(seg.X0, seg.X1), Math.Min(r.X0, r.X1)) > 6)
 						return null;
-					if (!seg.Horizontal && Math.Abs(seg.X0 - r.X0) < 6 && Math.Min(Math.Max(seg.Y0, seg.Y1), Math.Max(r.Y0, r.Y1)) - Math.Max(Math.Min(seg.Y0, seg.Y1), Math.Min(r.Y0, r.Y1)) > 6)
+					if (!seg.Horizontal && Math.Abs(seg.X0 - r.X0) < CrowdedGap && Math.Min(Math.Max(seg.Y0, seg.Y1), Math.Max(r.Y0, r.Y1)) - Math.Max(Math.Min(seg.Y0, seg.Y1), Math.Min(r.Y0, r.Y1)) > 6)
 						return null;
 				}
 				else if (SegmentsCross(seg, r))
@@ -853,6 +891,7 @@ internal static class FlowEdgeRouter
 		private readonly int[] _prev;
 		private int _version;
 		private double _crossCost = CrossCost;
+		private bool _countGridCrossings;
 		private double _lengthWeight = 1;
 		private readonly IReadOnlyList<GroupBox> _allGroups;
 
@@ -978,6 +1017,7 @@ internal static class FlowEdgeRouter
 			_version++;
 			// a loop around the outside is worth a long detour: crossing the forward edges is what makes it unreadable
 			_crossCost = p.Back ? CrossCost * 3 : CrossCost;
+			_countGridCrossings = p.Back;
 			_lengthWeight = p.Back ? 0.6 : 1;
 			var ny = _ys.Length;
 			var pq = new PriorityQueue<int, double>();
@@ -1044,6 +1084,15 @@ internal static class FlowEdgeRouter
 			return path;
 		}
 
+		// v lies inside the step from a to b. A loop around the outside also counts a crossing that falls exactly on a grid
+		// line (charged to the step arriving there): otherwise it threads through the drawing at grid points for free.
+		private bool Passes(double v, double a, double b)
+		{
+			if (Math.Abs(v - b) < 0.5 && _countGridCrossings)
+				return Math.Abs(v - a) >= 0.5;
+			return v > Math.Min(a, b) + 0.5 && v < Math.Max(a, b) - 0.5;
+		}
+
 		private double Heuristic(int x, int y, int tx, int ty) => Math.Abs(_xs[x] - _xs[tx]) + Math.Abs(_ys[y] - _ys[ty]);
 
 		private double StepCost(
@@ -1085,18 +1134,21 @@ internal static class FlowEdgeRouter
 			{
 				if (s.Horizontal == horizontal)
 				{
-					if (horizontal && Math.Abs(s.Y0 - y0) < 0.5 && Math.Min(s.X0, s.X1) < Math.Max(x0, x1) - 0.5 && Math.Max(s.X0, s.X1) > Math.Min(x0, x1) + 0.5)
-						cost += OverlapCost + len;
-					else if (!horizontal && Math.Abs(s.X0 - x0) < 0.5 && Math.Min(s.Y0, s.Y1) < Math.Max(y0, y1) - 0.5 && Math.Max(s.Y0, s.Y1) > Math.Min(y0, y1) + 0.5)
+					// a parallel run a few px away reads as the same line, so it costs as much as running right on top of it
+					var offset = horizontal ? Math.Abs(s.Y0 - y0) : Math.Abs(s.X0 - x0);
+					var shared = horizontal
+						? Math.Min(Math.Max(s.X0, s.X1), Math.Max(x0, x1)) - Math.Max(Math.Min(s.X0, s.X1), Math.Min(x0, x1))
+						: Math.Min(Math.Max(s.Y0, s.Y1), Math.Max(y0, y1)) - Math.Max(Math.Min(s.Y0, s.Y1), Math.Min(y0, y1));
+					if (offset < RouteGap && shared > 0.5)
 						cost += OverlapCost + len;
 				}
 				else if (horizontal)
 				{
 					// s is vertical
-					if (s.X0 > Math.Min(x0, x1) + 0.5 && s.X0 < Math.Max(x0, x1) - 0.5 && y0 > Math.Min(s.Y0, s.Y1) + 0.5 && y0 < Math.Max(s.Y0, s.Y1) - 0.5)
+					if (Passes(s.X0, x0, x1) && y0 > Math.Min(s.Y0, s.Y1) + 0.5 && y0 < Math.Max(s.Y0, s.Y1) - 0.5)
 						cost += _crossCost;
 				}
-				else if (s.Y0 > Math.Min(y0, y1) + 0.5 && s.Y0 < Math.Max(y0, y1) - 0.5 && x0 > Math.Min(s.X0, s.X1) + 0.5 && x0 < Math.Max(s.X0, s.X1) - 0.5)
+				else if (Passes(s.Y0, y0, y1) && x0 > Math.Min(s.X0, s.X1) + 0.5 && x0 < Math.Max(s.X0, s.X1) - 0.5)
 				{
 					cost += _crossCost;
 				}

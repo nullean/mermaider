@@ -15,10 +15,10 @@ Edges:
   DocSet ----> Content [Right->Left] [R D R]
   DocSet ----> Redirects [Right->Left] [R D R]
   DocSet ----> Toc [Right->Left] [R U R]
-  LinkReg --cross_links--> Content [Right->Left] [R D R]
+  LinkReg --cross_links--> Content [Right->Left] [R D R D R]
   Manifest --published on push--> LinkReg [Left->Right] [L D L U L]
   Nav ----> Html [Right->Left] [R U R]
-  Nav ----> Manifest [Right->Left] [R U R]
+  Nav ----> Manifest [Right->Left] [R D R]
   OpenApiRepo --api--> Content [Right->Left] [R U R]
   Toc ----> Nav [Right->Left] [R D R]
   Vocab ----> DocSet [Right->Left] [R D R]
@@ -26,7 +26,7 @@ Ports:
   Content Left: edge3,edge6,edge10,edge0
   DocSet Left: edge1,edge12
   DocSet Right: edge5,edge3,edge4
-  LinkReg Right: edge7,edge6
+  LinkReg Right: edge6,edge7
   Manifest Left: edge9,edge7
   Nav Left: edge11,edge2
   Nav Right: edge8,edge9
