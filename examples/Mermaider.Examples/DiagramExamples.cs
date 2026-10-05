@@ -804,6 +804,40 @@ public static partial class DiagramExamples
 			2016 : .NET Core
 			"""),
 
+		new("timeline-long-events", "Long Events", DiagramCategory.Timeline, """
+			timeline
+			title Company History
+			section Founding
+			2010 : Two friends start building a prototype in a garage : First paying customer signs up
+			2012 : Seed round closes and the first five engineers join
+			section Scale
+			2015 : Opens the first international office in Berlin : Launches the self-serve plan
+			2018 : Acquires a small analytics startup to extend the platform
+			section Today
+			2023 : Reaches ten thousand customers across forty countries
+			"""),
+
+		new("timeline-many-sections", "Many Sections", DiagramCategory.Timeline, """
+			timeline
+			title A Year in Product
+			section Q1
+			Jan : Planning
+			Feb : Prototype : Customer interviews
+			Mar : Alpha
+			section Q2
+			Apr : Beta : Docs
+			May : Feedback
+			Jun : Launch
+			section Q3
+			Jul : Scale-out
+			Aug : Pricing
+			Sep : Partnerships
+			section Q4
+			Oct : Enterprise
+			Nov : Security audit
+			Dec : Retrospective
+			"""),
+
 		// ── GitGraph ───────────────────────────────────────────────────
 
 		new("gitgraph-basic", "Basic Git Flow", DiagramCategory.GitGraph, """

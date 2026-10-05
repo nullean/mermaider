@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 268" width="780" height="268" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 876 284" width="876" height="284" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -31,24 +31,24 @@
 <defs>
 </defs>
 
-<text x="390" y="28" text-anchor="middle" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)">Product Roadmap</text>
-<circle cx="120" cy="120" r="8" fill="#4e79a7" stroke="var(--bg)" stroke-width="2" />
-<text x="120" y="106" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)">Q1 2025</text>
-<rect x="50" y="150" width="140" height="28" rx="6" ry="6" fill="#4e79a7" opacity="0.15" />
-<text x="120" y="164" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Alpha Release</text>
-<circle cx="300" cy="120" r="8" fill="#4e79a7" stroke="var(--bg)" stroke-width="2" />
-<text x="300" y="106" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)">Q2 2025</text>
-<rect x="230" y="150" width="140" height="28" rx="6" ry="6" fill="#4e79a7" opacity="0.15" />
-<text x="300" y="164" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Beta Launch</text>
-<rect x="230" y="184" width="140" height="28" rx="6" ry="6" fill="#4e79a7" opacity="0.15" />
-<text x="300" y="198" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Partner Onboarding</text>
-<circle cx="480" cy="120" r="8" fill="#4e79a7" stroke="var(--bg)" stroke-width="2" />
-<text x="480" y="106" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)">Q3 2025</text>
-<rect x="410" y="150" width="140" height="28" rx="6" ry="6" fill="#4e79a7" opacity="0.15" />
-<text x="480" y="164" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">GA Release</text>
-<circle cx="660" cy="120" r="8" fill="#4e79a7" stroke="var(--bg)" stroke-width="2" />
-<text x="660" y="106" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)">Q4 2025</text>
-<rect x="590" y="150" width="140" height="28" rx="6" ry="6" fill="#4e79a7" opacity="0.15" />
-<text x="660" y="164" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Enterprise Features</text>
-<line x1="110" y1="120" x2="670" y2="120" stroke="var(--_line)" stroke-width="2" />
+<text x="438" y="28" text-anchor="middle" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)">Product Roadmap</text>
+<circle cx="130" cy="120" r="8" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+<text x="130" y="148" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">Q1 2025</text>
+<rect x="50" y="164" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+<text x="130" y="178" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Alpha Release</text>
+<circle cx="334" cy="120" r="8" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+<text x="334" y="148" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">Q2 2025</text>
+<rect x="254" y="164" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+<text x="334" y="178" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Beta Launch</text>
+<rect x="254" y="198" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+<text x="334" y="212" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Partner Onboarding</text>
+<circle cx="538" cy="120" r="8" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+<text x="538" y="148" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">Q3 2025</text>
+<rect x="458" y="164" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+<text x="538" y="178" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">GA Release</text>
+<circle cx="742" cy="120" r="8" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+<text x="742" y="148" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">Q4 2025</text>
+<rect x="662" y="164" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+<text x="742" y="178" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Enterprise Features</text>
+<line x1="120" y1="120" x2="752" y2="120" stroke="var(--_line)" stroke-width="2" />
 </svg>

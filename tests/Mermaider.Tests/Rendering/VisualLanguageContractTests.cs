@@ -218,4 +218,16 @@ public class VisualLanguageContractTests
 		svg.Should().Contain($"stroke=\"{VisualLanguage.Border(Themes.Default.RoleColor(ColorRole.Success))}\"", "a score of 5 is a success face");
 		svg.Should().Contain($"stroke=\"{VisualLanguage.Border(Themes.Default.RoleColor(ColorRole.Failure))}\"", "a score of 1 is a failure face");
 	}
+
+	[Test]
+	public void Timeline_sections_are_tinted_groups_with_titles_in_the_border_colour()
+	{
+		var svg = MermaidRenderer.RenderSvg("timeline\n  section Early\n  2002 : LinkedIn\n  section Later\n  2010 : Instagram");
+
+		var first = Themes.Default.AutoPaletteAt(0);
+		var second = Themes.Default.AutoPaletteAt(1);
+		svg.Should().Contain($"fill=\"{VisualLanguage.GroupFill(first, 0)}\" stroke=\"{VisualLanguage.GroupBorder(first)}\"");
+		svg.Should().Contain($"fill=\"{VisualLanguage.GroupBorder(second)}\">Later</text>", "the section title is drawn in the border colour");
+		svg.Should().NotContain("opacity=\"0.15\"", "events are tinted, not translucent");
+	}
 }

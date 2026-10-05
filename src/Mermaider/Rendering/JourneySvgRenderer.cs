@@ -242,7 +242,7 @@ internal static class JourneySvgRenderer
 				.Append("\" r=\"").Append(ActorDotR)
 				.Append("\" fill=\"").Append(VisualLanguage.Tint(color, 60)).Append("\" stroke=\"").Append(VisualLanguage.Border(color)).Append("\" stroke-width=\"1.5\" />");
 			_ = sb.Append("\n<text x=\"40\" y=\"").Append((yPos + 5).SvgFormat())
-				.Append("\" font-size=\"14\" fill=\"var(--_text-muted)\">");
+				.Append("\" font-size=\"14\" fill=\"var(--_text)\">");
 			MultilineUtils.AppendEscapedXml(sb, person.AsSpan());
 			_ = sb.Append("</text>");
 			yPos += LegendStepY;
