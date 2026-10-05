@@ -42,13 +42,13 @@
 </g>
 
 <g class="subgraph" data-id="Frontend" data-label="Frontend">
-  <rect x="16" y="16" width="142.88" height="209.6" rx="8" ry="8" fill="color-mix(in srgb, #e15759 6%, var(--bg))" stroke="#DF4E50" stroke-width="1.75" />
+  <rect x="16" y="16" width="142.88" height="209.6" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 6%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
 </g>
 
 <path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M87.5,366.5 L87.5,406.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="C" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M87.5,117 L87.5,157" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="C" data-to="A" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M101.5,117 L101.5,133 Q101.5,139 107.5,139 L137,139 Q143,139 143,145 L143,293.5 Q143,299.5 137,299.5 L93.5,299.5 Q87.5,299.5 87.5,305.5 L87.5,321.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="33.47200000000001" y="280.6" font-size="var(--fs-s)" font-weight="600" fill="#F18921" dy="4.8999999999999995">Backend</text>
-  <text x="28" y="31" font-size="var(--fs-s)" font-weight="600" fill="#DF4E50" dy="4.8999999999999995">Frontend</text>
+  <text x="28" y="31" font-size="var(--fs-s)" font-weight="600" fill="#6FB3AE" dy="4.8999999999999995">Frontend</text>
 
 <g class="node" data-id="A" data-label="API" data-shape="rectangle">
   <rect x="45.472" y="321.6" width="83.93599999999999" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />

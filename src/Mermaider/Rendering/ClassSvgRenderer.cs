@@ -10,9 +10,6 @@ internal static class ClassSvgRenderer
 	private static readonly string ClassHeaderAttrs =
 		RenderConstants.TextAttrs.NodeLabelBoldCenterFill + "var(--_text)\"";
 
-	private static readonly string RelLabelAttrs =
-		RenderConstants.TextAttrs.ClassRelLabelFill + "var(--_text-muted)\"";
-
 	private static readonly string PillLabelAttrs =
 		RenderConstants.TextAttrs.ClassRelLabelFill + "var(--_text)\"";
 
@@ -42,28 +39,83 @@ internal static class ClassSvgRenderer
 		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 		AppendMarkerDefs(sb);
 
+		// Same language as flowcharts and ER: one palette colour per connected cluster of classes, namespaces alternate.
+		var palette = ClusterPalette.Build(
+			diagram.Classes.Select(c => new ClusterBox(c.Id, c.X, c.Y, c.Width, c.Height)).ToList(),
+			diagram.Relationships.Select(r => (r.From, r.To)),
+			diagram.Namespaces.Select(n => new ClusterGroup(n.Name, n.X, n.Y, n.Width, n.Height, [])).ToList(),
+			context.Styles.Colors,
+			AnnotationSlots(diagram.Classes, context.Styles.Colors.AutoPalette().Length));
+
 		foreach (var ns in diagram.Namespaces)
-			AppendNamespaceBox(sb, ns);
+			AppendNamespaceBox(sb, ns, palette);
 
 		foreach (var rel in diagram.Relationships)
-			AppendRelationship(sb, rel);
+			AppendRelationship(sb, rel, context.EdgeRadius);
 
 		foreach (var cls in diagram.Classes)
 		{
 			if (cls.IsLollipopTarget)
 				AppendLollipopNode(sb, cls);
 			else
-				AppendClassBox(sb, cls);
+				AppendClassBox(sb, cls, palette);
 		}
 
 		foreach (var rel in diagram.Relationships)
 			AppendRelationshipLabels(sb, rel);
 
 		foreach (var note in diagram.Notes)
-			AppendNote(sb, note);
+			VisualLanguage.AppendNote(sb, note);
 
 		_ = sb.Append("\n</svg>");
 		return sb;
+	}
+
+	/// <summary>
+	/// Palette slot per annotated class: the modifier name is hashed (FNV-1a, so it is the same in every process and diagram) modulo the
+	/// auto palette, skipping slot 0 which stays the default box colour. Every class with the same modifier
+	/// (<c>&lt;&lt;abstract&gt;&gt;</c>) shares one colour; modifiers whose hashes collide in one diagram are separated by probing to the
+	/// next free slot, in alphabetical order, so the result is deterministic.
+	/// </summary>
+	private static Dictionary<string, int> AnnotationSlots(IReadOnlyList<PositionedClassNode> classes, int paletteLength)
+	{
+		var result = new Dictionary<string, int>(StringComparer.Ordinal);
+		if (paletteLength < 2)
+			return result;
+
+		static string? Normalise(string? annotation)
+		{
+			var name = annotation?.Trim().Trim('<', '>').Trim().ToLowerInvariant();
+			return string.IsNullOrEmpty(name) ? null : name == "enum" ? "enumeration" : name;
+		}
+
+		var names = classes.Where(c => !c.IsLollipopTarget).Select(c => Normalise(c.Annotation)).Where(n => n is not null).Select(n => n!)
+			.Distinct().OrderBy(n => n, StringComparer.Ordinal).ToList();
+		var slotOfName = new Dictionary<string, int>(StringComparer.Ordinal);
+		var usable = paletteLength - 1;
+		foreach (var name in names)
+		{
+			var slot = 1 + (int)(Fnv1a(name) % (uint)usable);
+			for (var probe = 0; probe < usable && slotOfName.ContainsValue(slot); probe++)
+				slot = 1 + (slot % usable);
+			slotOfName[name] = slot;
+		}
+
+		foreach (var c in classes.Where(c => !c.IsLollipopTarget))
+		{
+			if (Normalise(c.Annotation) is { } name)
+				result[c.Id] = slotOfName[name];
+		}
+
+		return result;
+	}
+
+	private static uint Fnv1a(string text)
+	{
+		var hash = 2166136261u;
+		foreach (var b in Encoding.UTF8.GetBytes(text))
+			hash = (hash ^ b) * 16777619u;
+		return hash;
 	}
 
 	private static void AppendMarkerDefs(StringBuilder sb)
@@ -83,25 +135,25 @@ internal static class ClassSvgRenderer
 			.Append("\" orient=\"auto-start-reverse\">\n");
 		_ = sb.Append("    <polygon points=\"0 0, ").Append(w).Append(' ').Append(hh)
 			.Append(", 0 ").Append(h)
-			.Append("\" fill=\"var(--bg)\" stroke=\"var(--_arrow)\" stroke-width=\"1.5\" />\n");
+			.Append("\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"2\" />\n");
 		_ = sb.Append("  </marker>\n");
 
 		_ = sb.Append("  <marker id=\"cls-composition\" markerUnits=\"userSpaceOnUse\" markerWidth=\"").Append(w)
 			.Append("\" markerHeight=\"").Append(h)
-			.Append("\" refX=\"0\" refY=\"").Append(hh)
+			.Append("\" refX=\"").Append(w).Append("\" refY=\"").Append(hh)
 			.Append("\" orient=\"auto-start-reverse\">\n");
 		_ = sb.Append("    <polygon points=\"").Append(hw).Append(" 0, ").Append(w).Append(' ').Append(hh)
 			.Append(", ").Append(hw).Append(' ').Append(h).Append(", 0 ").Append(hh)
-			.Append("\" fill=\"var(--_arrow)\" stroke=\"var(--_arrow)\" stroke-width=\"1\" />\n");
+			.Append("\" fill=\"var(--_line)\" stroke=\"var(--_line)\" stroke-width=\"1\" />\n");
 		_ = sb.Append("  </marker>\n");
 
 		_ = sb.Append("  <marker id=\"cls-aggregation\" markerUnits=\"userSpaceOnUse\" markerWidth=\"").Append(w)
 			.Append("\" markerHeight=\"").Append(h)
-			.Append("\" refX=\"0\" refY=\"").Append(hh)
+			.Append("\" refX=\"").Append(w).Append("\" refY=\"").Append(hh)
 			.Append("\" orient=\"auto-start-reverse\">\n");
 		_ = sb.Append("    <polygon points=\"").Append(hw).Append(" 0, ").Append(w).Append(' ').Append(hh)
 			.Append(", ").Append(hw).Append(' ').Append(h).Append(", 0 ").Append(hh)
-			.Append("\" fill=\"var(--bg)\" stroke=\"var(--_arrow)\" stroke-width=\"1.5\" />\n");
+			.Append("\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"2\" />\n");
 		_ = sb.Append("  </marker>\n");
 
 		_ = sb.Append("  <marker id=\"cls-arrow\" markerUnits=\"userSpaceOnUse\" markerWidth=\"").Append(w)
@@ -111,7 +163,7 @@ internal static class ClassSvgRenderer
 			.Append("\" orient=\"auto-start-reverse\">\n");
 		_ = sb.Append("    <polyline points=\"0 0, ").Append(w).Append(' ').Append(hh)
 			.Append(", 0 ").Append(h)
-			.Append("\" fill=\"none\" stroke=\"var(--_arrow)\" stroke-width=\"1.5\" />\n");
+			.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"2\" />\n");
 		_ = sb.Append("  </marker>\n");
 
 		_ = sb.Append("  <marker id=\"cls-lollipop\" markerUnits=\"userSpaceOnUse\" markerWidth=\"").Append(w)
@@ -121,7 +173,7 @@ internal static class ClassSvgRenderer
 			.Append("\" orient=\"auto-start-reverse\">\n");
 		_ = sb.Append("    <circle cx=\"").Append(hw).Append("\" cy=\"").Append(hh)
 			.Append("\" r=\"").Append(hh - 1)
-			.Append("\" fill=\"var(--bg)\" stroke=\"var(--_arrow)\" stroke-width=\"1.5\" />\n");
+			.Append("\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"2\" />\n");
 		_ = sb.Append("  </marker>\n");
 
 		_ = sb.Append("</defs>\n");
@@ -131,14 +183,15 @@ internal static class ClassSvgRenderer
 
 	private static void AppendLollipopNode(StringBuilder sb, PositionedClassNode cls)
 	{
+		// circle at the top of the node (where edges arrive), name underneath
 		var cx = cls.X + (cls.Width / 2);
-		var cy = cls.Y + (cls.Height / 2);
+		var cy = cls.Y + LollipopRadius;
 		_ = sb.Append("\n<g class=\"class-node lollipop\" data-id=\"");
 		MultilineUtils.AppendEscapedAttr(sb, cls.Id.AsSpan());
 		_ = sb.Append("\">\n");
 		_ = sb.Append("  <circle cx=\"").Append(cx).Append("\" cy=\"").Append(cy)
 			.Append("\" r=\"").Append(LollipopRadius)
-			.Append("\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"1.5\" />\n");
+			.Append("\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"").Append(RenderConstants.StrokeWidths.Connector).Append("\" />\n");
 		_ = sb.Append("  <text x=\"").Append(cx).Append("\" y=\"").Append(cy + LollipopRadius + 14)
 			.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(RenderConstants.FontSizes.NodeLabel)
@@ -149,8 +202,11 @@ internal static class ClassSvgRenderer
 		_ = sb.Append("</g>\n");
 	}
 
-	private static void AppendClassBox(StringBuilder sb, PositionedClassNode cls)
+	private static void AppendClassBox(StringBuilder sb, PositionedClassNode cls, ClusterPalette palette)
 	{
+		// Same as an ER entity: darker cluster border, tinted header, plain background, border-coloured separators.
+		var border = palette.NodeStroke(cls.Id);
+		var headerFill = palette.HeaderFill(cls.Id);
 		var (x, y, width, height) = (cls.X, cls.Y, cls.Width, cls.Height);
 		var headerHeight = cls.HeaderHeight;
 		var attrHeight = cls.AttrHeight;
@@ -169,21 +225,14 @@ internal static class ClassSvgRenderer
 		_ = sb.Append(">\n");
 
 		var r = RenderConstants.Radii.Rectangle;
-		// 1. Background fill — no stroke so section lines aren't buried under box border
+		// 1. Background — no stroke so separators are not buried under the box border
 		_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
 			.Append("\" width=\"").Append(width).Append("\" height=\"").Append(height)
 			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"var(--_node-fill)\" stroke=\"none\" />\n");
+			.Append("\" fill=\"var(--bg)\" />\n");
 
-		// 2. Header fill — no stroke; use rect (not rounded) so bottom edge doesn't compete with separator
-		_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
-			.Append("\" width=\"").Append(width).Append("\" height=\"").Append(headerHeight)
-			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"var(--_group-hdr)\" stroke=\"none\" />\n");
-		// Square off the bottom corners of the header fill
-		_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y + r)
-			.Append("\" width=\"").Append(width).Append("\" height=\"").Append(headerHeight - r)
-			.Append("\" fill=\"var(--_group-hdr)\" stroke=\"none\" />\n");
+		// 2. Header: rounded top, square bottom
+		VisualLanguage.AppendHeaderPath(sb, x, y, width, headerHeight, r, headerFill);
 
 		var nameY = y + (headerHeight / 2);
 		if (cls.Annotation != null)
@@ -193,7 +242,7 @@ internal static class ClassSvgRenderer
 				.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 				.Append("\" font-size=\"").Append(AnnotationFontSize)
 				.Append("\" font-weight=\"").Append(AnnotationFontWeight)
-				.Append("\" font-style=\"italic\" fill=\"var(--_text-muted)\">&lt;&lt;");
+				.Append("\" font-style=\"italic\" fill=\"").Append(border).Append("\">&lt;&lt;");
 			MultilineUtils.AppendEscapedXml(sb, cls.Annotation.AsSpan());
 			_ = sb.Append("&gt;&gt;</text>\n");
 			nameY = y + (headerHeight / 2) + 6;
@@ -209,28 +258,46 @@ internal static class ClassSvgRenderer
 		var attrTop = y + headerHeight;
 		_ = sb.Append("  <line x1=\"").Append(x).Append("\" y1=\"").Append(attrTop)
 			.Append("\" x2=\"").Append(x + width).Append("\" y2=\"").Append(attrTop)
-			.Append("\" stroke=\"var(--_line)\" stroke-width=\"1.5\" />\n");
+			.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"")
+			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
 
 		const double memberRowH = 20;
-		const double boxPadX = 8;
+		var (typeColW, _) = ClassMemberColumns.Measure(cls.Attributes.Concat(cls.Methods));
+		var nameX = typeColW > 0
+			? x + ClassMemberColumns.PadX + typeColW + ClassMemberColumns.Gap + ClassMemberColumns.PadX
+			: x + ClassMemberColumns.PadX;
+
+		var methodTop = attrTop + attrHeight;
+		// Row dividers like ER attribute rows, then a section divider between attributes and methods
+		for (var i = 0; i < cls.Attributes.Count - 1; i++)
+			AppendRowDivider(sb, x, width, attrTop + 4 + ((i + 1) * memberRowH), border);
+		for (var i = 0; i < cls.Methods.Count - 1; i++)
+			AppendRowDivider(sb, x, width, methodTop + 4 + ((i + 1) * memberRowH), border);
+		_ = sb.Append("  <line x1=\"").Append(x).Append("\" y1=\"").Append(methodTop)
+			.Append("\" x2=\"").Append(x + width).Append("\" y2=\"").Append(methodTop)
+			.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"")
+			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
+
+		// Type | name column divider
+		if (typeColW > 0)
+		{
+			var divX = x + ClassMemberColumns.PadX + typeColW + ClassMemberColumns.Gap;
+			_ = sb.Append("  <line x1=\"").Append(divX).Append("\" y1=\"").Append(attrTop)
+				.Append("\" x2=\"").Append(divX).Append("\" y2=\"").Append(y + height)
+				.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"1\" opacity=\"0.35\" />\n");
+		}
+
 		for (var i = 0; i < cls.Attributes.Count; i++)
 		{
-			var memberY = attrTop + 4 + (i * memberRowH) + (memberRowH / 2);
 			_ = sb.Append("  ");
-			AppendMember(sb, cls.Attributes[i], x + boxPadX, memberY);
+			AppendMember(sb, cls.Attributes[i], x + ClassMemberColumns.PadX, nameX, x + width - ClassMemberColumns.PadX, attrTop + 4 + (i * memberRowH) + (memberRowH / 2), border);
 			_ = sb.Append('\n');
 		}
 
-		var methodTop = attrTop + attrHeight;
-		_ = sb.Append("  <line x1=\"").Append(x).Append("\" y1=\"").Append(methodTop)
-			.Append("\" x2=\"").Append(x + width).Append("\" y2=\"").Append(methodTop)
-			.Append("\" stroke=\"var(--_line)\" stroke-width=\"1.5\" />\n");
-
 		for (var i = 0; i < cls.Methods.Count; i++)
 		{
-			var memberY = methodTop + 4 + (i * memberRowH) + (memberRowH / 2);
 			_ = sb.Append("  ");
-			AppendMember(sb, cls.Methods[i], x + boxPadX, memberY);
+			AppendMember(sb, cls.Methods[i], x + ClassMemberColumns.PadX, nameX, x + width - ClassMemberColumns.PadX, methodTop + 4 + (i * memberRowH) + (memberRowH / 2), border);
 			_ = sb.Append('\n');
 		}
 
@@ -238,59 +305,62 @@ internal static class ClassSvgRenderer
 		_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
 			.Append("\" width=\"").Append(width).Append("\" height=\"").Append(height)
 			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"none\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
+			.Append("\" fill=\"none\" stroke=\"").Append(border).Append("\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
 
 		_ = sb.Append("</g>");
 	}
 
-	private static void AppendMember(StringBuilder sb, ClassMember member, double x, double y)
+	private static void AppendRowDivider(StringBuilder sb, double x, double width, double y, string border) =>
+		sb.Append("  <line x1=\"").Append(x).Append("\" y1=\"").Append(y)
+			.Append("\" x2=\"").Append(x + width).Append("\" y2=\"").Append(y)
+			.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"1\" opacity=\"0.35\" />\n");
+
+	// Type (muted) in the first column, then visibility symbol in the cluster's border colour and the name in full text colour.
+	private static void AppendMember(StringBuilder sb, ClassMember member, double typeX, double nameX, double symbolX, double y, string border)
 	{
 		var fontStyle = member.IsAbstract ? " font-style=\"italic\"" : "";
 		var decoration = member.IsStatic ? " text-decoration=\"underline\"" : "";
 
-		_ = sb.Append("<text class=\"mono\" x=\"").Append(x).Append("\" y=\"").Append(y)
+		if (member.Type is { Length: > 0 })
+		{
+			_ = sb.Append("<text class=\"mono\" x=\"").Append(typeX).Append("\" y=\"").Append(y)
+				.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift)
+				.Append("\" font-size=\"").Append(MemberFontSize)
+				.Append("\" font-weight=\"").Append(MemberFontWeight)
+				.Append("\" fill=\"var(--_text-sec)\">");
+			MultilineUtils.AppendEscapedXml(sb, member.Type.AsSpan());
+			_ = sb.Append("</text>");
+		}
+
+		_ = sb.Append("<text class=\"mono\" x=\"").Append(nameX).Append("\" y=\"").Append(y)
 			.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(MemberFontSize)
 			.Append("\" font-weight=\"").Append(MemberFontWeight).Append('"')
 			.Append(fontStyle).Append(decoration).Append('>');
 
-		if (member.Visibility != ClassVisibility.None)
+		_ = sb.Append("<tspan fill=\"var(--_text)\">");
+		MultilineUtils.AppendEscapedXml(sb, ClassMemberColumns.DisplayName(member).AsSpan());
+		_ = sb.Append("</tspan></text>");
+
+		// Visibility: right-aligned in the cluster's border colour, like the PK / UK badge of an ER attribute
+		var vis = ClassMemberColumns.VisibilitySymbol(member);
+		if (vis.Length > 0)
 		{
-			var vis = member.Visibility switch
-			{
-				ClassVisibility.Public => "+",
-				ClassVisibility.Private => "-",
-				ClassVisibility.Protected => "#",
-				ClassVisibility.Package => "~",
-				_ => "",
-			};
-			_ = sb.Append("<tspan fill=\"var(--_text-faint)\">").Append(vis).Append(" </tspan>");
+			_ = sb.Append("<text class=\"mono\" x=\"").Append(symbolX).Append("\" y=\"").Append(y)
+				.Append("\" text-anchor=\"end\" dy=\"").Append(RenderConstants.TextBaselineShift)
+				.Append("\" font-size=\"").Append(MemberFontSize)
+				.Append("\" font-weight=\"700\" fill=\"").Append(border).Append("\">").Append(vis).Append("</text>");
 		}
-
-		var displayName = member.IsMethod ? $"{member.Name}({member.Params ?? ""})" : member.Name;
-		_ = sb.Append("<tspan fill=\"var(--_text-sec)\">");
-		MultilineUtils.AppendEscapedXml(sb, displayName.AsSpan());
-		_ = sb.Append("</tspan>");
-
-		if (member.Type != null)
-		{
-			_ = sb.Append("<tspan fill=\"var(--_text-faint)\">: </tspan>");
-			_ = sb.Append("<tspan fill=\"var(--_text-muted)\">");
-			MultilineUtils.AppendEscapedXml(sb, member.Type.AsSpan());
-			_ = sb.Append("</tspan>");
-		}
-
-		_ = sb.Append("</text>");
 	}
 
-	private static void AppendRelationship(StringBuilder sb, PositionedClassRelationship rel)
+	private static void AppendRelationship(StringBuilder sb, PositionedClassRelationship rel, double cornerRadius)
 	{
 		if (rel.Points.Count < 2)
 			return;
 
 		var isDashed = rel.Type is ClassRelationType.Dependency or ClassRelationType.Realization;
-		var dashArray = isDashed ? " stroke-dasharray=\"6 4\"" : "";
+		var dashArray = isDashed ? " stroke-dasharray=\"4 4\"" : "";
 		var markers = GetMarkers(rel.Type, rel.MarkerAt);
 
 		_ = sb.Append("\n<path class=\"class-relationship\" data-from=\"");
@@ -307,9 +377,9 @@ internal static class ClassSvgRenderer
 		}
 		_ = sb.Append(" d=\"");
 		if (SvgRenderer.IsOrthogonal(rel.Points))
-			SvgRenderer.BuildOrthogonalPath(sb, rel.Points, 6);
+			SvgRenderer.BuildOrthogonalPath(sb, rel.Points, cornerRadius);
 		else
-			SvgRenderer.BuildRoundedPath(sb, rel.Points, 6);
+			SvgRenderer.BuildRoundedPath(sb, rel.Points, cornerRadius);
 		_ = sb.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.Connector).Append('"').Append(dashArray).Append(markers).Append(" />");
 	}
@@ -342,15 +412,11 @@ internal static class ClassSvgRenderer
 
 		if (rel.Label != null)
 		{
-			var pos = rel.LabelPosition ?? Midpoint(rel.Points);
+			var pos = rel.LabelPosition ?? VisualLanguage.PathMidpoint(rel.Points);
 			var metrics = TextMetrics.MeasureMultiline(rel.Label.AsSpan(), RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel);
-			var bgW = ErSvgRenderer.LabelBoxWidth(metrics.Width);
-			var bgH = metrics.Height + ErSvgRenderer.LabelPadY;
-			var lr = Math.Min(RenderConstants.Radii.EdgeLabel, bgH / 2);
-			_ = sb.Append("\n<rect x=\"").Append(pos.X - (bgW / 2)).Append("\" y=\"").Append(pos.Y - (bgH / 2))
-				.Append("\" width=\"").Append(bgW).Append("\" height=\"").Append(bgH)
-				.Append("\" rx=\"").Append(lr).Append("\" ry=\"").Append(lr)
-				.Append("\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"").Append(RenderConstants.StrokeWidths.Connector).Append("\" />\n");
+			_ = sb.Append('\n');
+			VisualLanguage.AppendLabelPill(sb, pos.X, pos.Y, metrics.Width, metrics.Height);
+			_ = sb.Append('\n');
 			MultilineUtils.AppendMultilineText(
 				sb, rel.Label, pos.X, pos.Y,
 				RenderConstants.FontSizes.EdgeLabel,
@@ -358,84 +424,44 @@ internal static class ClassSvgRenderer
 		}
 
 		if (rel.FromCardinality != null)
-		{
-			var p = rel.Points[0];
-			var next = rel.Points[1];
-			var offset = CardinalityOffset(p, next);
-			_ = sb.Append('\n');
-			MultilineUtils.AppendMultilineText(
-				sb, rel.FromCardinality, p.X + offset.X, p.Y + offset.Y,
-				RenderConstants.FontSizes.EdgeLabel,
-				RelLabelAttrs);
-		}
+			AppendCardinality(sb, rel.FromCardinality, rel.Points[0], rel.Points[1]);
 
 		if (rel.ToCardinality != null)
-		{
-			var p = rel.Points[^1];
-			var prev = rel.Points[^2];
-			var offset = CardinalityOffset(p, prev);
-			_ = sb.Append('\n');
-			MultilineUtils.AppendMultilineText(
-				sb, rel.ToCardinality, p.X + offset.X, p.Y + offset.Y,
-				RenderConstants.FontSizes.EdgeLabel,
-				RelLabelAttrs);
-		}
+			AppendCardinality(sb, rel.ToCardinality, rel.Points[^1], rel.Points[^2]);
 	}
 
-	private static Point Midpoint(IReadOnlyList<Point> points)
+	// A cardinality is a small pill on the line next to the class it belongs to (clear of the end marker).
+	private static void AppendCardinality(StringBuilder sb, string text, Point end, Point toward)
 	{
-		if (points.Count == 0)
-			return new Point(0, 0);
-		var mid = points.Count / 2;
-		return points[mid];
+		const double distance = 30;
+		var dx = toward.X - end.X;
+		var dy = toward.Y - end.Y;
+		var len = Math.Sqrt((dx * dx) + (dy * dy));
+		var (ux, uy) = len < 0.01 ? (0.0, 1.0) : (dx / len, dy / len);
+		var along = Math.Min(distance, Math.Max(len - 8, 8));
+		var cx = end.X + (ux * along);
+		var cy = end.Y + (uy * along);
+		var metrics = TextMetrics.MeasureMultiline(text.AsSpan(), RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel);
+		_ = sb.Append('\n');
+		VisualLanguage.AppendLabelPill(sb, cx, cy, metrics.Width, metrics.Height);
+		_ = sb.Append('\n');
+		MultilineUtils.AppendMultilineText(sb, text, cx, cy, RenderConstants.FontSizes.EdgeLabel, PillLabelAttrs);
 	}
 
-	private static (double X, double Y) CardinalityOffset(Point from, Point to)
+	private static void AppendNamespaceBox(StringBuilder sb, PositionedClassNamespace ns, ClusterPalette palette)
 	{
-		var dx = to.X - from.X;
-		var dy = to.Y - from.Y;
-		if (Math.Abs(dx) > Math.Abs(dy))
-			return (dx > 0 ? 14 : -14, -10);
-		return (-14, dy > 0 ? 14 : -14);
-	}
-
-	private static void AppendNamespaceBox(StringBuilder sb, PositionedClassNamespace ns)
-	{
+		// A namespace is a subgraph: palette-tinted box, solid border, title in the border colour.
+		var stroke = palette.GroupStroke(ns.Name);
 		_ = sb.Append("\n<g class=\"ns-box\">\n");
 		_ = sb.Append("  <rect x=\"").Append(ns.X).Append("\" y=\"").Append(ns.Y)
 			.Append("\" width=\"").Append(ns.Width).Append("\" height=\"").Append(ns.Height)
-			.Append("\" rx=\"4\" ry=\"4\"")
-			.Append(" fill=\"var(--_group-fill)\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1\" stroke-dasharray=\"6 3\" />\n");
-		_ = sb.Append("  <text x=\"").Append(ns.X + 8).Append("\" y=\"").Append(ns.Y + 14)
-			.Append("\" font-size=\"").Append(RenderConstants.FontSizes.EdgeLabel)
-			.Append("\" fill=\"var(--_text-muted)\" font-style=\"italic\">");
-		MultilineUtils.AppendEscapedXml(sb, ns.Name.AsSpan());
-		_ = sb.Append("</text>\n</g>");
-	}
-
-	private static readonly string NoteTextAttrs =
-		RenderConstants.TextAttrs.EdgeLabelCenterFill + "var(--_accent-text)\"";
-
-	private static void AppendNote(StringBuilder sb, PositionedGraphNote note)
-	{
-		_ = sb.Append("\n<g class=\"note\">");
-		if (note.LineFrom is { } lf && note.LineTo is { } lt)
-		{
-			_ = sb.Append("\n  <line x1=\"").Append(lf.X).Append("\" y1=\"").Append(lf.Y)
-				.Append("\" x2=\"").Append(lt.X).Append("\" y2=\"").Append(lt.Y)
-				.Append("\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.5\" stroke-dasharray=\"4 3\" />");
-		}
-		_ = sb.Append("\n  <rect x=\"").Append(note.X).Append("\" y=\"").Append(note.Y)
-			.Append("\" width=\"").Append(note.Width).Append("\" height=\"").Append(note.Height)
-			.Append("\" rx=\"6\" ry=\"6\"")
-			.Append(" fill=\"var(--_accent-fill)\" stroke=\"var(--_accent-stroke)\" stroke-width=\"")
-			.Append(RenderConstants.StrokeWidths.InnerBox).Append("\" />\n  ");
-
+			.Append("\" rx=\"").Append(RenderConstants.Radii.Group).Append("\" ry=\"").Append(RenderConstants.Radii.Group)
+			.Append("\" fill=\"").Append(palette.GroupFill(ns.Name, 0)).Append("\" stroke=\"").Append(stroke)
+			.Append("\" stroke-width=\"").Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n  ");
 		MultilineUtils.AppendMultilineText(
-			sb, note.Text,
-			note.X + (note.Width / 2), note.Y + (note.Height / 2),
-			RenderConstants.FontSizes.EdgeLabel,
-			NoteTextAttrs);
+			sb, ns.Name, ns.X + 12, ns.Y + 16,
+			RenderConstants.FontSizes.GroupHeader,
+			RenderConstants.TextAttrs.GroupHeaderFill + stroke + "\"");
 		_ = sb.Append("\n</g>");
 	}
 }

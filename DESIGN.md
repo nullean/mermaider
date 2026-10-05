@@ -37,8 +37,56 @@ via `color-mix(in srgb, var(--fg) N%, var(--bg))` with the user's optional vars 
 
 **Rule:** renderers reference only `--_*` tokens and `--fs-*`. A literal hex is a bug —
 **except** the sanctioned categorical data palettes for diagram types that encode data via color:
-pie, timeline, gantt, journey, C4 (system fills), sankey, xychart, ER (one palette colour per connected cluster of entities: darker border, tinted header, plain `--bg` rows), flowchart (one palette colour per connected cluster of nodes/subgraphs: darker border, light fill; subgraphs tinted deeper per nesting level). For all other chrome, use
-theme vars so dark-mode and custom themes work automatically.
+pie, timeline, gantt, journey, C4 (system fills), sankey, xychart, treemap, radar, venn, mindmap, gitgraph, packet, kanban,
+and the **entity-like diagrams** — flowchart, state, ER, class, sequence, requirement, block — which share one visual language (below). For all other chrome,
+use theme vars so dark-mode and custom themes work automatically.
+
+## One visual language for flowchart, state, ER, class, sequence, requirement and block
+
+Defined once in `Rendering/VisualLanguage.cs` (constants and helpers), `ClusterPalette.cs` / `ClusterAssigner.cs` (which colour a
+node, entity or class gets), and pinned by `Rendering/VisualLanguageContractTests.cs`.
+
+- **Cluster colour**: each connected cluster of nodes / entities / classes gets one palette colour. Its **border** is that colour
+  darkened (`VisualLanguage.Border`), its **fill** a light tint of the same hue (nodes 16%, entity / class header 24%, body `--bg`).
+- **Subgraphs, composite states, namespaces**: a plain box, no header band, tinted deeper per nesting level, drawn in a palette
+  colour that alternates in document order and is never the colour of a node inside it. The **title is in the border colour**.
+- **Edges and labels**: orthogonal lines in `--_line` at connector weight; every label is the same pill (`VisualLanguage.AppendLabelPill`);
+  markers are drawn in the line colour. Notes are one shared component.
+- **Auto palette**: entity-like colouring draws from `DiagramColors.AutoPalette()`, i.e. the data palette **without any hue that
+  reads as a role** (success, failure, warning). Charts keep using `PaletteAt`.
+
+### Colour roles
+
+Optional roles live next to the other optional theme colours: `Default`, `Success`, `Failure`, `Warning`, `Info` on `DiagramColors` and
+`RenderOptions`. Unset, `Default` is the first palette colour that is not a role hue (blue) and the others resolve to the palette green / red / yellow /
+blue (brightened on dark backgrounds). `Default` is the colour of an ordinary box: the first cluster of nodes, entities and classes always
+uses it, and it is not repeated further down the auto palette. The other roles do two things:
+
+1. **Reserved hues**: auto colouring skips palette entries within 15° of the success, failure and warning colours (greys are kept).
+   `Info` is not reserved — it is the primary neutral accent.
+2. **Role classes**: a node or state with the class `success`, `failure`, `warning` or `info` (`:::failure`, `class A success`) gets the
+   role colour as tint + border unless `style`/`classDef` set its own fill / stroke. Under strict styling the class must be allow-listed;
+   role colours only ever come from options and the theme, never from diagram source.
+
+### Shape colours
+
+Shapes with a conventional meaning are tinted, under user styling and role classes and above the cluster colour. The cluster hue stays
+on the border so a node still belongs to its flow.
+
+| Shape | Meaning | Treatment |
+|---|---|---|
+| Diamond, state `<<choice>>` | decision | `--_accent-fill` tint |
+| Stadium | terminal | neutral `--fg` 9% tint, heavier border |
+| Cylinder | data store | muted tint and border, identical in every cluster |
+
+All other shapes keep the cluster colour. Colour never carries meaning alone: the shape already does.
+
+### Class modifiers
+
+A class with a modifier (`<<abstract>>`, `<<interface>>`, …) takes its colour from the modifier, not from its cluster: the name is hashed
+(FNV-1a) modulo the auto palette, skipping slot 0 (the default box colour), so every class with the same modifier — in any diagram — shares
+one colour. Hash collisions inside one diagram probe to the next free slot in alphabetical order. The modifier text is drawn in the box's
+border colour.
 
 ## Font scale
 
@@ -103,7 +151,7 @@ raw `<rect>` without a wrapper class will look flat and disconnected.
 Before shipping a new renderer, verify all of the following:
 
 - [ ] All colors use `--_*` tokens or `--fs-*` (grep for `fill="#` / `color:` in the renderer)
-- [ ] Fixed palette only if the diagram type is in the sanctioned list above
+- [ ] Fixed palette only if the diagram type is in the sanctioned list above; entity-like diagrams use `VisualLanguage` + `AutoPalette`, never `PaletteAt`
 - [ ] Font sizes use `RenderConstants.FsVar.*` in SVG output; measurement px matches tier
 - [ ] Strokes use `RenderConstants.StrokeWidths.*` (not literal values like `1` or `2`)
 - [ ] Corner radii use `RenderConstants.Radii.*`

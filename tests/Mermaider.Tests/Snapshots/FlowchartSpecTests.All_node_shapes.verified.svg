@@ -57,11 +57,11 @@
   <text x="249.39200000000002" y="107.5" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Rounded</text>
 </g>
 <g class="node" data-id="C" data-label="Stadium" data-shape="stadium">
-  <rect x="351.42400000000004" y="85.1" width="114.94399999999999" height="44.8" rx="22.4" ry="22.4" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <rect x="351.42400000000004" y="85.1" width="114.94399999999999" height="44.8" rx="22.4" ry="22.4" fill="color-mix(in srgb, var(--fg) 9%, var(--bg))" stroke="#3B5B7D" stroke-width="2.5" />
   <text x="408.896" y="107.5" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Stadium</text>
 </g>
 <g class="node" data-id="D" data-label="Diamond" data-shape="diamond">
-  <polygon points="566.576,47.292 626.784,107.5 566.576,167.708 506.36800000000005,107.5" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <polygon points="566.576,47.292 626.784,107.5 566.576,167.708 506.36800000000005,107.5" fill="var(--_accent-fill)" stroke="#3B5B7D" stroke-width="2" />
   <text x="566.576" y="107.5" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Diamond</text>
 </g>
 <g class="node" data-id="E" data-label="Circle" data-shape="circle">
@@ -83,11 +83,11 @@
   <text x="1282.48" y="107.5" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Subroutine</text>
 </g>
 <g class="node" data-id="I" data-label="Cylinder" data-shape="cylinder">
-  <rect x="1391.808" y="85.1" width="120.416" height="44.8" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="none" />
-<line x1="1391.808" y1="85.1" x2="1391.808" y2="129.89999999999998" stroke="#3B5B7D" stroke-width="2" />
-<line x1="1512.224" y1="85.1" x2="1512.224" y2="129.89999999999998" stroke="#3B5B7D" stroke-width="2" />
-<ellipse cx="1452.016" cy="129.89999999999998" rx="60.208" ry="7" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-<ellipse cx="1452.016" cy="85.1" rx="60.208" ry="7" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <rect x="1391.808" y="85.1" width="120.416" height="44.8" fill="color-mix(in srgb, var(--_text-muted) 18%, var(--bg))" stroke="none" />
+<line x1="1391.808" y1="85.1" x2="1391.808" y2="129.89999999999998" stroke="var(--_text-muted)" stroke-width="2" />
+<line x1="1512.224" y1="85.1" x2="1512.224" y2="129.89999999999998" stroke="var(--_text-muted)" stroke-width="2" />
+<ellipse cx="1452.016" cy="129.89999999999998" rx="60.208" ry="7" fill="color-mix(in srgb, var(--_text-muted) 18%, var(--bg))" stroke="var(--_text-muted)" stroke-width="2" />
+<ellipse cx="1452.016" cy="85.1" rx="60.208" ry="7" fill="color-mix(in srgb, var(--_text-muted) 18%, var(--bg))" stroke="var(--_text-muted)" stroke-width="2" />
   <text x="1452.016" y="107.5" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Cylinder</text>
 </g>
 <g class="node" data-id="J" data-label="Trapezoid" data-shape="trapezoid">

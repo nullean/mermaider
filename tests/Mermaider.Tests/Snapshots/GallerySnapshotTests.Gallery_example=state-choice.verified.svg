@@ -63,23 +63,23 @@
   
 </g>
 <g class="node" data-id="Evaluate" data-label="Evaluate" data-shape="rounded">
-  <rect x="163.29599999999994" y="70" width="122.24" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="163.29599999999994" y="70" width="122.24" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="224.41599999999994" y="92.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Evaluate</text>
 </g>
 <g class="node" data-id="checkResult" data-label="" data-shape="diamond">
-  <polygon points="224.41599999999997,144.8 240.41599999999997,160.8 224.41599999999997,176.8 208.41599999999997,160.8" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <polygon points="224.41599999999997,144.8 240.41599999999997,160.8 224.41599999999997,176.8 208.41599999999997,160.8" fill="var(--_accent-fill)" stroke="#3B5B7D" stroke-width="2" />
   <text x="224.41599999999997" y="160.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6"></text>
 </g>
 <g class="node" data-id="Positive" data-label="Positive" data-shape="rounded">
-  <rect x="16" y="279.25" width="116.768" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="16" y="279.25" width="116.768" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="74.384" y="301.65" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Positive</text>
 </g>
 <g class="node" data-id="Negative" data-label="Negative" data-shape="rounded">
-  <rect x="316.064" y="279.25" width="122.24000000000001" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="316.064" y="279.25" width="122.24000000000001" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="377.184" y="301.65" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Negative</text>
 </g>
 <g class="node" data-id="Neutral" data-label="Neutral" data-shape="rounded">
-  <rect x="168.76800000000003" y="279.25" width="111.29599999999999" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="168.76800000000003" y="279.25" width="111.29599999999999" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="224.41600000000003" y="301.65" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Neutral</text>
 </g>
 <g class="node" data-id="_end" data-label="" data-shape="stateend">
@@ -88,7 +88,7 @@
   
 </g>
 <g class="node" data-id="Retry" data-label="Retry" data-shape="rounded">
-  <rect x="327.91999999999996" y="354.05" width="98.52799999999999" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="327.91999999999996" y="354.05" width="98.52799999999999" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="377.18399999999997" y="376.45" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Retry</text>
 </g>
 </svg>

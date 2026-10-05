@@ -44,8 +44,7 @@ public class BlockRendererTests
 		var svg = MermaidRenderer.RenderSvg(SimpleGrid);
 
 		svg.Should().Contain("fill=\"var(--_text)\"");
-		svg.Should().Contain("stroke=\"var(--_node-stroke)\"");
-		svg.Should().Contain("fill=\"var(--_node-fill)\"");
+		svg.Should().Contain($"stroke=\"{Mermaider.Rendering.VisualLanguage.Border(Mermaider.Theming.Themes.Default.AutoPaletteAt(0))}\"", "blocks take their cluster colour");
 	}
 
 	[Test]
@@ -71,7 +70,7 @@ public class BlockRendererTests
 			  A --> B
 			""");
 
-		svg.Should().Contain("<line ");
+		svg.Should().Contain("<path class=\"block-edge\"");
 		svg.Should().Contain("marker-end=\"url(#block-arrow)\"");
 		svg.Should().Contain("stroke=\"var(--_line)\"");
 	}
@@ -148,5 +147,50 @@ public class BlockRendererTests
 		// Real node with magic-looking id must still draw; space keyword must not
 		svg.Should().Contain(">Slot</text>");
 		svg.Split("<rect ", StringSplitOptions.None).Length.Should().Be(2);
+	}
+
+	[Test]
+	public void Edge_labels_are_pills()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			block-beta
+			columns 2
+			  A["A"] B["B"]
+			  A -- "sends" --> B
+			""");
+
+		svg.Should().Contain(">sends</text>");
+		svg.Should().Contain("<rect ", "the label sits on a pill");
+	}
+
+	[Test]
+	public void Spanning_blocks_cover_their_columns()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			block-beta
+			columns 3
+			  Wide["Wide"]:3
+			  A B C
+			""");
+
+		var widths = System.Text.RegularExpressions.Regex.Matches(svg, "<rect [^>]*\\swidth=\"([0-9.]+)\"")
+			.Select(m => double.Parse(m.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture)).ToList();
+		widths.Max().Should().BeGreaterThan(widths.Min() * 2.5, "a three-column block is as wide as three cells and their gaps");
+	}
+
+	[Test]
+	public void Edges_never_cross_other_blocks()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			block-beta
+			columns 3
+			  A B C
+			  A --> C
+			""");
+
+		svg.Should().Contain("<path class=\"block-edge\"");
+		// not a straight line through B: the route leaves through the channel above the row
+		var path = System.Text.RegularExpressions.Regex.Match(svg, "class=\"block-edge\" d=\"([^\"]+)\"").Groups[1].Value;
+		path.Should().Contain("Q");
 	}
 }

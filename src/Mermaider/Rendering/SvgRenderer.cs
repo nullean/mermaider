@@ -46,7 +46,7 @@ internal static class SvgRenderer
 		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 		AppendArrowDefs(sb);
 
-		var palette = context.DiagramType == DiagramType.Flowchart ? BuildFlowPalette(graph, context.Styles.Colors) : null;
+		var palette = context.DiagramType is DiagramType.Flowchart or DiagramType.State ? ClusterPalette.Build(graph, context.Styles.Colors) : null;
 
 		foreach (var group in graph.Groups)
 			AppendGroupBody(sb, group, palette, 0);
@@ -70,96 +70,10 @@ internal static class SvgRenderer
 			AppendNode(sb, node, context.Styles.Strict, palette);
 
 		foreach (var note in graph.Notes)
-			AppendNote(sb, note);
+			VisualLanguage.AppendNote(sb, note);
 
 		_ = sb.Append("\n</svg>");
 		return sb;
-	}
-
-	/// <summary>Cluster colours for flowcharts: each connected cluster of nodes (edges + shared subgraph) gets one palette colour.</summary>
-	private sealed class FlowPalette(DiagramColors colors, Dictionary<string, int> nodeCluster, Dictionary<string, int> groupCluster)
-	{
-		internal string NodeFill(string id) => $"color-mix(in srgb, {Color(nodeCluster[id])} 16%, var(--bg))";
-		internal string NodeStroke(string id) => ColorUtils.AdjustLightness(Color(nodeCluster[id]), -0.12);
-		internal bool Has(string id) => nodeCluster.ContainsKey(id);
-		internal string GroupFill(string id, int depth) => $"color-mix(in srgb, {Color(GroupCluster(id))} {6 + (depth * 3)}%, var(--bg))";
-		internal string GroupStroke(string id) => ColorUtils.AdjustLightness(Color(GroupCluster(id)), -0.02);
-		private int GroupCluster(string id) => groupCluster.GetValueOrDefault(id);
-		private string Color(int cluster) => colors.PaletteAt(cluster);
-	}
-
-	private static FlowPalette BuildFlowPalette(PositionedGraph graph, DiagramColors colors)
-	{
-		var parent = graph.Nodes.ToDictionary(n => n.Id, n => n.Id, StringComparer.Ordinal);
-		string Find(string id)
-		{
-			while (parent[id] != id)
-			{
-				parent[id] = parent[parent[id]];
-				id = parent[id];
-			}
-			return id;
-		}
-
-		void Union(string a, string b)
-		{
-			if (parent.ContainsKey(a) && parent.ContainsKey(b))
-				parent[Find(a)] = Find(b);
-		}
-
-		foreach (var e in graph.Edges)
-			Union(e.Source, e.Target);
-
-		bool Inside(PositionedNode n, PositionedGroup g) =>
-			n.X + (n.Width / 2) >= g.X && n.X + (n.Width / 2) <= g.X + g.Width && n.Y + (n.Height / 2) >= g.Y && n.Y + (n.Height / 2) <= g.Y + g.Height;
-
-		void UnionGroup(PositionedGroup g, string? anchor)
-		{
-			foreach (var n in graph.Nodes)
-			{
-				if (!Inside(n, g))
-					continue;
-				if (anchor is null)
-					anchor = n.Id;
-				else
-					Union(anchor, n.Id);
-			}
-			foreach (var c in g.Children)
-				UnionGroup(c, anchor);
-		}
-
-		foreach (var g in graph.Groups)
-			UnionGroup(g, null);
-
-		var index = new Dictionary<string, int>(StringComparer.Ordinal);
-		var nodeCluster = new Dictionary<string, int>(StringComparer.Ordinal);
-		foreach (var n in graph.Nodes)
-		{
-			var root = Find(n.Id);
-			if (!index.TryGetValue(root, out var i))
-				index[root] = i = index.Count;
-			nodeCluster[n.Id] = i;
-		}
-
-		// Subgraphs alternate through the palette in document order and never take the colour of a step they hold.
-		var groupCluster = new Dictionary<string, int>(StringComparer.Ordinal);
-		var ordinal = 0;
-		var last = -1;
-		void AssignGroups(PositionedGroup g)
-		{
-			var held = graph.Nodes.Where(n => Inside(n, g)).Select(n => nodeCluster[n.Id]).ToHashSet();
-			var colour = ordinal++;
-			for (var guard = 0; (held.Contains(colour) || colour == last) && guard < 32; guard++)
-				colour++;
-			groupCluster[g.Id] = colour;
-			last = colour;
-			foreach (var c in g.Children)
-				AssignGroups(c);
-		}
-
-		foreach (var g in graph.Groups)
-			AssignGroups(g);
-		return new FlowPalette(colors, nodeCluster, groupCluster);
 	}
 
 	// ========================================================================
@@ -198,7 +112,7 @@ internal static class SvgRenderer
 	// Group rendering
 	// ========================================================================
 
-	private static void AppendGroupBody(StringBuilder sb, PositionedGroup group, FlowPalette? palette, int depth)
+	private static void AppendGroupBody(StringBuilder sb, PositionedGroup group, ClusterPalette? palette, int depth)
 	{
 		var r = Radii.Group;
 		var fill = InlineStyleValue(group.InlineStyle, "fill") ?? palette?.GroupFill(group.Id, depth) ?? "var(--_group-fill)";
@@ -225,7 +139,7 @@ internal static class SvgRenderer
 			AppendGroupBody(sb, child, palette, depth + 1);
 	}
 
-	private static void AppendGroupHeader(StringBuilder sb, PositionedGroup group, FlowPalette? palette, int depth)
+	private static void AppendGroupHeader(StringBuilder sb, PositionedGroup group, ClusterPalette? palette, int depth)
 	{
 		// the subgraph is one plain box: the label sits on it, there is no separate header band
 		var headerHeight = FontSizes.GroupHeader + 16;
@@ -445,7 +359,7 @@ internal static class SvgRenderer
 
 	private static void AppendEdgeLabel(StringBuilder sb, PositionedEdge edge)
 	{
-		var mid = edge.LabelPosition ?? EdgeMidpoint(edge.Points);
+		var mid = edge.LabelPosition ?? VisualLanguage.PathMidpoint(edge.Points);
 		var label = edge.Label!;
 
 		var metrics = TextMetrics.MeasureMultiline(
@@ -467,54 +381,18 @@ internal static class SvgRenderer
 		_ = sb.Append("\">\n  ");
 
 		// Pill on the line: border as thick as the lines, ~2px clear padding (text-width estimate corrected like ER labels).
-		var bgW = ErSvgRenderer.LabelBoxWidth(metrics.Width);
-		var bgH = metrics.Height + ErSvgRenderer.LabelPadY;
-		var lr = Math.Min(Radii.EdgeLabel, bgH / 2);
-		_ = sb.Append("<rect x=\"").Append(mid.X - (bgW / 2)).Append("\" y=\"").Append(mid.Y - (bgH / 2))
-			.Append("\" width=\"").Append(bgW).Append("\" height=\"").Append(bgH)
-			.Append("\" rx=\"").Append(lr).Append("\" ry=\"").Append(lr)
-			.Append("\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"").Append(StrokeWidths.Connector).Append("\" />\n  ");
+		VisualLanguage.AppendLabelPill(sb, mid.X, mid.Y, metrics.Width, metrics.Height);
+		_ = sb.Append("\n  ");
 		MultilineUtils.AppendMultilineText(sb, label, mid.X, mid.Y, FontSizes.EdgeLabel, textAttrs);
 
 		_ = sb.Append("\n</g>");
 	}
 
-	private static Point EdgeMidpoint(IReadOnlyList<Point> points)
-	{
-		if (points.Count == 0)
-			return new Point(0, 0);
-		if (points.Count == 1)
-			return points[0];
-
-		var totalLength = 0.0;
-		for (var i = 1; i < points.Count; i++)
-			totalLength += Dist(points[i - 1], points[i]);
-
-		var remaining = totalLength / 2;
-		for (var i = 1; i < points.Count; i++)
-		{
-			var segLen = Dist(points[i - 1], points[i]);
-			if (remaining <= segLen)
-			{
-				var t = remaining / segLen;
-				return new Point(
-					points[i - 1].X + (t * (points[i].X - points[i - 1].X)),
-					points[i - 1].Y + (t * (points[i].Y - points[i - 1].Y)));
-			}
-			remaining -= segLen;
-		}
-
-		return points[^1];
-	}
-
-	private static double Dist(Point a, Point b) =>
-		Math.Sqrt(((b.X - a.X) * (b.X - a.X)) + ((b.Y - a.Y) * (b.Y - a.Y)));
-
 	// ========================================================================
 	// Node rendering
 	// ========================================================================
 
-	private static void AppendNode(StringBuilder sb, PositionedNode node, StrictStylingOptions? strict = null, FlowPalette? palette = null)
+	private static void AppendNode(StringBuilder sb, PositionedNode node, StrictStylingOptions? strict = null, ClusterPalette? palette = null)
 	{
 		_ = sb.Append("\n<g class=\"node");
 		if (node.CssClassName is not null)
@@ -535,13 +413,21 @@ internal static class SvgRenderer
 		_ = sb.Append("\n</g>");
 	}
 
-	private static void AppendNodeShape(StringBuilder sb, PositionedNode node, FlowPalette? palette)
+	private static void AppendNodeShape(StringBuilder sb, PositionedNode node, ClusterPalette? palette)
 	{
 		var (x, y, w, h) = (node.X, node.Y, node.Width, node.Height);
 		var clustered = palette is not null && palette.Has(node.Id);
-		var fill = InlineStyleValue(node.InlineStyle, "fill") ?? (clustered ? palette!.NodeFill(node.Id) : "var(--_node-fill)");
-		var stroke = InlineStyleValue(node.InlineStyle, "stroke") ?? (clustered ? palette!.NodeStroke(node.Id) : "var(--_node-stroke)");
-		var sw = InlineStyleValue(node.InlineStyle, "stroke-width") ?? StrokeWidths.InnerBox.ToString(CultureInfo.InvariantCulture);
+		// user style / classDef  >  semantic role class  >  shape meaning (decision, terminal, data store)  >  cluster colour  >  default
+		var role = palette is not null ? node.SemanticRole : null;
+		var shapeFill = palette is not null ? VisualLanguage.ShapeFill(node.Shape) : null;
+		var shapeStroke = palette is not null ? VisualLanguage.ShapeStroke(node.Shape) : null;
+		var fill = InlineStyleValue(node.InlineStyle, "fill")
+			?? (role is not null ? palette!.RoleFill(role) : shapeFill ?? (clustered ? palette!.NodeFill(node.Id) : "var(--_node-fill)"));
+		var stroke = InlineStyleValue(node.InlineStyle, "stroke")
+			?? (role is not null ? palette!.RoleStroke(role) : shapeStroke ?? (clustered ? palette!.NodeStroke(node.Id) : "var(--_node-stroke)"));
+		var terminal = palette is not null && node.Shape == NodeShape.Stadium && role is null;
+		var sw = InlineStyleValue(node.InlineStyle, "stroke-width")
+			?? (StrokeWidths.InnerBox + (terminal ? VisualLanguage.TerminalExtraStroke : 0)).ToString(CultureInfo.InvariantCulture);
 
 		switch (node.Shape)
 		{
@@ -788,31 +674,6 @@ internal static class SvgRenderer
 		_ = sb.Append("<circle cx=\"").Append(cx).Append("\" cy=\"").Append(cy)
 			.Append("\" r=\"").Append(innerR)
 			.Append("\" fill=\"var(--_text)\" stroke=\"none\" />");
-	}
-
-	private static readonly string NoteTextAttrs = TextAttrs.EdgeLabelCenterFill + "var(--_accent-text)\"";
-
-	private static void AppendNote(StringBuilder sb, PositionedGraphNote note)
-	{
-		_ = sb.Append("\n<g class=\"note\">");
-		if (note.LineFrom is { } lf && note.LineTo is { } lt)
-		{
-			_ = sb.Append("\n  <line x1=\"").Append(lf.X).Append("\" y1=\"").Append(lf.Y)
-				.Append("\" x2=\"").Append(lt.X).Append("\" y2=\"").Append(lt.Y)
-				.Append("\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.5\" stroke-dasharray=\"4 3\" />");
-		}
-		_ = sb.Append("\n  <rect x=\"").Append(note.X).Append("\" y=\"").Append(note.Y)
-			.Append("\" width=\"").Append(note.Width).Append("\" height=\"").Append(note.Height)
-			.Append("\" rx=\"6\" ry=\"6\"")
-			.Append(" fill=\"var(--_accent-fill)\" stroke=\"var(--_accent-stroke)\" stroke-width=\"")
-			.Append(StrokeWidths.InnerBox).Append("\" />\n  ");
-
-		MultilineUtils.AppendMultilineText(
-			sb, note.Text,
-			note.X + (note.Width / 2), note.Y + (note.Height / 2),
-			FontSizes.EdgeLabel,
-			NoteTextAttrs);
-		_ = sb.Append("\n</g>");
 	}
 
 	private static void AppendForkJoin(StringBuilder sb, double x, double y, double w, double h)

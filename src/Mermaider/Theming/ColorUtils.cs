@@ -40,6 +40,44 @@ internal static class ColorUtils
 		return $"#{r2:X2}{g2:X2}{b2:X2}";
 	}
 
+	/// <summary>Hue in degrees (0–360) and saturation of a <c>#rgb</c>/<c>#rrggbb</c> colour; false for anything else (named colours, functions).</summary>
+	internal static bool TryHueSaturation(string color, out double hueDegrees, out double saturation)
+	{
+		hueDegrees = 0;
+		saturation = 0;
+		var span = color.AsSpan().Trim();
+		if (span.Length is not (4 or 7) || span[0] != '#')
+			return false;
+		foreach (var c in span[1..])
+		{
+			if (!char.IsAsciiHexDigit(c))
+				return false;
+		}
+
+		var (r, g, b) = ParseHex(color.Trim());
+		var (h, s, _) = RgbToHsl(r, g, b);
+		hueDegrees = h * 360.0;
+		saturation = s;
+		return true;
+	}
+
+	/// <summary>Smallest angle between two hues, in degrees (0–180).</summary>
+	internal static double HueDistance(double a, double b)
+	{
+		var d = Math.Abs(a - b) % 360.0;
+		return d > 180.0 ? 360.0 - d : d;
+	}
+
+	/// <summary>True when the colour is a hex colour darker than mid-grey (used to pick bright role defaults on dark themes).</summary>
+	internal static bool IsDark(string color)
+	{
+		var span = color.AsSpan().Trim();
+		if (span.Length is not (4 or 7) || span[0] != '#')
+			return false;
+		var (r, g, b) = ParseHex(color.Trim());
+		return ((0.2126 * r) + (0.7152 * g) + (0.0722 * b)) / 255.0 < 0.5;
+	}
+
 	private static (byte R, byte G, byte B) ParseHex(string hex)
 	{
 		var span = hex.AsSpan();

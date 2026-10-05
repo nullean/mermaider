@@ -63,7 +63,10 @@ internal static partial class SvgValueAllowlist
 	internal static bool IsAllowedColorMix(string value)
 	{
 		const string prefix = "color-mix(in srgb, ";
-		const string suffix = "%, var(--bg))";
+		// the colour is mixed towards the background (a tint) or the foreground (a darker shade)
+		var suffix = "%, var(--bg))";
+		if (value.EndsWith("%, var(--fg))", StringComparison.Ordinal))
+			suffix = "%, var(--fg))";
 		if (value.Length is 0 or > 512
 			|| !value.StartsWith(prefix, StringComparison.Ordinal)
 			|| !value.EndsWith(suffix, StringComparison.Ordinal))

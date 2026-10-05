@@ -116,33 +116,10 @@ internal static class LightweightErLayoutEngine
 	/// <summary>Connected components (clusters) numbered in order of their first entity; every isolated entity is its own cluster.</summary>
 	private static Dictionary<string, int> AssignClusters(ErDiagram diagram)
 	{
-		var parent = diagram.Entities.ToDictionary(e => e.Id, e => e.Id, StringComparer.Ordinal);
-		string Find(string id)
-		{
-			while (parent[id] != id)
-			{
-				parent[id] = parent[parent[id]];
-				id = parent[id];
-			}
-			return id;
-		}
-
+		var clusters = new Rendering.ClusterAssigner(diagram.Entities.Select(e => e.Id));
 		foreach (var r in diagram.Relationships)
-		{
-			if (parent.ContainsKey(r.Entity1) && parent.ContainsKey(r.Entity2))
-				parent[Find(r.Entity1)] = Find(r.Entity2);
-		}
-
-		var index = new Dictionary<string, int>(StringComparer.Ordinal);
-		var result = new Dictionary<string, int>(StringComparer.Ordinal);
-		foreach (var e in diagram.Entities)
-		{
-			var root = Find(e.Id);
-			if (!index.TryGetValue(root, out var i))
-				index[root] = i = index.Count;
-			result[e.Id] = i;
-		}
-		return result;
+			clusters.Union(r.Entity1, r.Entity2);
+		return clusters.Number(diagram.Entities.Select(e => e.Id));
 	}
 
 	private static int CountConnectedComponents(List<LayoutNode> nodes, List<LayoutEdge> edges)

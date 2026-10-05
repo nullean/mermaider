@@ -38,11 +38,11 @@
 </defs>
 
 <g class="subgraph" data-id="First" data-label="First">
-  <rect x="16" y="70" width="153.824" height="511.3" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <rect x="16" y="70" width="153.824" height="511.3" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Second" data-label="Second">
-  <rect x="16" y="611.3" width="153.824" height="372.05" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <rect x="16" y="611.3" width="153.824" height="372.05" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 6%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
 </g>
 
 <path class="edge" data-from="_start" data-to="_start2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M93,40 L93,70" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
@@ -54,8 +54,8 @@
 <path class="edge" data-from="_start3" data-to="Inner4" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M93,691.5 L93,721.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Inner4" data-to="Inner5" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="process" d="M93,766 L93,860.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Inner5" data-to="_end2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M93,905.5 L93,935.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="_end2" data-to="_end3" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M93,983.5 L93,1013.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="28" y="85" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">First</text>
-  <text x="28" y="626.3" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Second</text>
+<path class="edge" data-from="_end2" data-to="_end3" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M93,983.5 L93,1013.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="28" y="85" font-size="var(--fs-s)" font-weight="600" fill="#F18921" dy="4.8999999999999995">First</text>
+  <text x="28" y="626.3" font-size="var(--fs-s)" font-weight="600" fill="#6FB3AE" dy="4.8999999999999995">Second</text>
 
 <g class="edge-label" data-from="Inner1" data-to="Inner2" data-label="next">
   <rect x="69.13888" y="265.54999999999995" width="47.722240000000006" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
@@ -83,15 +83,15 @@
   
 </g>
 <g class="node" data-id="Inner1" data-label="Inner1" data-shape="rounded">
-  <rect x="42.736000000000004" y="180" width="100.352" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="42.736000000000004" y="180" width="100.352" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="92.912" y="202.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Inner1</text>
 </g>
 <g class="node" data-id="Inner2" data-label="Inner2" data-shape="rounded">
-  <rect x="40.00000000000001" y="319.25" width="105.824" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="40.00000000000001" y="319.25" width="105.824" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="92.912" y="341.65" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Inner2</text>
 </g>
 <g class="node" data-id="Inner3" data-label="Inner3" data-shape="rounded">
-  <rect x="40.00000000000001" y="458.5" width="105.824" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="40.00000000000001" y="458.5" width="105.824" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="92.912" y="480.9" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Inner3</text>
 </g>
 <g class="node" data-id="_end" data-label="" data-shape="stateend">
@@ -104,11 +104,11 @@
   
 </g>
 <g class="node" data-id="Inner4" data-label="Inner4" data-shape="rounded">
-  <rect x="40.00000000000001" y="721.3" width="105.824" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="40.00000000000001" y="721.3" width="105.824" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="92.912" y="743.6999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Inner4</text>
 </g>
 <g class="node" data-id="Inner5" data-label="Inner5" data-shape="rounded">
-  <rect x="40.00000000000001" y="860.55" width="105.824" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="40.00000000000001" y="860.55" width="105.824" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="92.912" y="882.9499999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Inner5</text>
 </g>
 <g class="node" data-id="_end2" data-label="" data-shape="stateend">

@@ -42,19 +42,19 @@
 </g>
 
 <g class="subgraph" data-id="Sources" data-label="Sources">
-  <rect x="16" y="192.40087912087904" width="229.52" height="124.8" rx="8" ry="8" fill="color-mix(in srgb, #e15759 6%, var(--bg))" stroke="#DF4E50" stroke-width="1.75" />
+  <rect x="16" y="192.40087912087904" width="229.52" height="124.8" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 6%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Authoring" data-label="Authoring (in each repository)">
-  <rect x="393.632" y="124.7865934065934" width="598.74032" height="217.6" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 6%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
+  <rect x="393.632" y="124.7865934065934" width="598.74032" height="217.6" rx="8" ry="8" fill="color-mix(in srgb, #b07aa1 6%, var(--bg))" stroke="#AC749C" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Build" data-label="Build">
-  <rect x="1256.28496" y="16" width="222.22400000000002" height="310.4" rx="8" ry="8" fill="color-mix(in srgb, #59a14f 6%, var(--bg))" stroke="#559A4C" stroke-width="1.75" />
+  <rect x="1256.28496" y="16" width="222.22400000000002" height="310.4" rx="8" ry="8" fill="color-mix(in srgb, #9c755f 6%, var(--bg))" stroke="#96705B" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Outputs" data-label="Outputs">
-  <rect x="1598.5089600000001" y="19.94747252747254" width="443.74399999999997" height="403.2" rx="8" ry="8" fill="color-mix(in srgb, #edc948 6%, var(--bg))" stroke="#ECC63F" stroke-width="1.75" />
+  <rect x="1598.5089600000001" y="19.94747252747254" width="443.74399999999997" height="403.2" rx="8" ry="8" fill="color-mix(in srgb, #bab0ac 6%, var(--bg))" stroke="#B5ABA6" stroke-width="1.75" />
 </g>
 
 <path class="edge" data-from="Catalog" data-to="DocSet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M313.5,122.5 L723.5,122.5 Q729.5,122.5 729.5,128.5 L729.5,185 Q729.5,191 735.5,191 L770.5,191" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
@@ -78,10 +78,10 @@
 <path class="edge" data-from="Assembler" data-to="Search" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1454.5,199.5 L1594.5,199.5 Q1600.5,199.5 1600.5,205.5 L1600.5,358.5 Q1600.5,364.5 1606.5,364.5 L1622.5,364.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Changelog" data-to="Notes" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M608.5,283.5 L1158.5,283.5 Q1164.5,283.5 1164.5,289.5 L1164.5,344.5 Q1164.5,350.5 1170.5,350.5 L1564.5,350.5 Q1570.5,350.5 1570.5,344.5 L1570.5,116.5 Q1570.5,110.5 1576.5,110.5 L1622.5,110.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Notes" data-to="Site" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1836,98.5 L1848.75,98.5 Q1851,98.5 1851,96.25 L1851,96.25 Q1851,94 1853.25,94 L1876,94" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="28" y="46.60087912087903" font-size="var(--fs-s)" font-weight="600" fill="#F18921" dy="4.8999999999999995">Reference data (config/)</text>
-  <text x="28" y="207.40087912087904" font-size="var(--fs-s)" font-weight="600" fill="#DF4E50" dy="4.8999999999999995">Sources</text>
-  <text x="405.632" y="139.7865934065934" font-size="var(--fs-s)" font-weight="600" fill="#6FB3AE" dy="4.8999999999999995">Authoring (in each repository)</text>
-  <text x="1268.28496" y="31" font-size="var(--fs-s)" font-weight="600" fill="#559A4C" dy="4.8999999999999995">Build</text>
-  <text x="1610.5089600000001" y="34.94747252747254" font-size="var(--fs-s)" font-weight="600" fill="#ECC63F" dy="4.8999999999999995">Outputs</text>
+  <text x="28" y="207.40087912087904" font-size="var(--fs-s)" font-weight="600" fill="#6FB3AE" dy="4.8999999999999995">Sources</text>
+  <text x="405.632" y="139.7865934065934" font-size="var(--fs-s)" font-weight="600" fill="#AC749C" dy="4.8999999999999995">Authoring (in each repository)</text>
+  <text x="1268.28496" y="31" font-size="var(--fs-s)" font-weight="600" fill="#96705B" dy="4.8999999999999995">Build</text>
+  <text x="1610.5089600000001" y="34.94747252747254" font-size="var(--fs-s)" font-weight="600" fill="#B5ABA6" dy="4.8999999999999995">Outputs</text>
 
 <g class="edge-label" data-from="OpenApi" data-to="SpecIndex" data-label="published per version">
   <rect x="649.54368" y="288.42499999999995" width="159.91264" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />

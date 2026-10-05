@@ -207,6 +207,11 @@ internal static class RenderConfigurationNormalizer
 			Surface = SelectSafeOptionalColor(options?.Surface, baseColors.Surface),
 			Border = SelectSafeOptionalColor(options?.Border, baseColors.Border),
 			DataPalette = SelectSafePalette(options?.DataPalette, baseColors.DataPalette),
+			Default = SelectSafeOptionalColor(options?.Default, baseColors.Default),
+			Success = SelectSafeOptionalColor(options?.Success, baseColors.Success),
+			Failure = SelectSafeOptionalColor(options?.Failure, baseColors.Failure),
+			Warning = SelectSafeOptionalColor(options?.Warning, baseColors.Warning),
+			Info = SelectSafeOptionalColor(options?.Info, baseColors.Info),
 		};
 
 		if (metadata.ThemeVariables is { } vars)
