@@ -311,7 +311,13 @@ internal sealed partial class DesignSystem
 		}
 	}
 
-	/// <summary>Vertical space a container header takes before content starts (strip / tab / chip).</summary>
+	/// <summary>
+	/// Space reserved between a container's top edge and its first content row. The same in every preset (the tallest
+	/// header, the Tonal chip, plus breathing room), so layout never depends on the style.
+	/// </summary>
+	internal const double ContainerContentTop = 44;
+
+	/// <summary>Vertical space a container header paints (strip / tab / chip). Paint only — lay out with <see cref="ContainerContentTop"/>.</summary>
 	internal double ContainerHeaderHeight => Spec.Container switch
 	{
 		ContainerKind.Tab => 16,
@@ -336,17 +342,20 @@ internal sealed partial class DesignSystem
 	internal const string DotArray = "1.5 4.5";
 
 	/// <summary>Returns <c>url(#…)</c> for a shared marker, registering its definition.</summary>
-	internal string Marker(MarkerShape shape, bool atStart = false)
+	/// <param name="shape">The marker shape.</param>
+	/// <param name="atStart">Mirror the marker for <c>marker-start</c>.</param>
+	/// <param name="accent">Draw it in the accent (story lines, highlighted edges) instead of the preset's marker colour.</param>
+	internal string Marker(MarkerShape shape, bool atStart = false, bool accent = false)
 	{
-		var id = _idPrefix + "mk-" + shape.ToString().ToLowerInvariant() + (atStart ? "-s" : "");
+		var id = _idPrefix + "mk-" + shape.ToString().ToLowerInvariant() + (atStart ? "-s" : "") + (accent ? "-a" : "");
 		if (!_markers.ContainsKey(id))
-			_markers[id] = BuildMarker(id, shape, atStart);
+			_markers[id] = BuildMarker(id, shape, atStart, accent ? ColorFamily.AccentBase : MarkerColor);
 		return "url(#" + id + ")";
 	}
 
 	private string MarkerColor => Spec.Marker == MarkerKind.Thin ? ColorFamily.AccentBase : EdgeColor;
 
-	private string BuildMarker(string id, MarkerShape shape, bool atStart)
+	private string BuildMarker(string id, MarkerShape shape, bool atStart, string color)
 	{
 		// geometry in a 12 × 12 box pointing right; start markers are mirrored
 		var (size, half) = Spec.Marker switch
@@ -355,7 +364,6 @@ internal sealed partial class DesignSystem
 			MarkerKind.Chunky => (11.0, 5.5),
 			_ => (10.0, 4.5),
 		};
-		var color = MarkerColor;
 		var join = Spec.Marker == MarkerKind.Chunky ? "round" : "miter";
 		var sw = Spec.Marker == MarkerKind.Chunky ? 1.5 : 1;
 		var tip = atStart ? 0 : size;

@@ -66,8 +66,13 @@ internal sealed partial class DesignSystem
 		_ = sb.Append("<rect x=\"").Append(x).Append("\" y=\"").Append(cy - (s / 2))
 			.Append("\" width=\"").Append(s).Append("\" height=\"").Append(s)
 			.Append("\" rx=\"").Append(rr).Append("\" ry=\"").Append(rr)
-			.Append("\" fill=\"").Append(Spec.ChartMarks == ChartMarkKind.Outline ? ColorFamily.Mix(color, 20, "var(--bg)") : color)
-			.Append("\" stroke=\"").Append(Spec.ChartMarks == ChartMarkKind.Outline ? color : "none").Append("\" />");
+			.Append("\" fill=\"").Append(color);
+		// outline marks: the swatch is the series at area opacity with a series outline (fill-opacity, so any colour value
+		// — a hex or a family stage that is itself a color-mix — works without nesting color-mix)
+		_ = Spec.ChartMarks == ChartMarkKind.Outline
+			? sb.Append("\" fill-opacity=\"").Append(Num(ColorFamily.AreaOpacity)).Append("\" stroke=\"").Append(color)
+			: sb.Append("\" stroke=\"none");
+		_ = sb.Append("\" />");
 		_ = sb.Append("\n  ");
 		var labelX = x + s + 8;
 		AppendText(sb, label, labelX, cy, TypeRole.Label, null, anchor: "start");
