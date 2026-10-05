@@ -36,11 +36,11 @@
 </g>
 <g class="legend">
   <rect x="1048.5" y="35" width="10" height="10" rx="3" ry="3" fill="#b07aa1" stroke="none" />
-  <text x="1066.5" y="40" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Dev</text>
+  <text x="1066.5" y="40" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Dev</text>
   <rect x="1115.48" y="35" width="10" height="10" rx="3" ry="3" fill="#9c755f" stroke="none" />
-  <text x="1133.48" y="40" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">CI</text>
+  <text x="1133.48" y="40" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">CI</text>
   <rect x="1169.02" y="35" width="10" height="10" rx="3" ry="3" fill="#bab0ac" stroke="none" />
-  <text x="1187.02" y="40" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Ops</text>
+  <text x="1187.02" y="40" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Ops</text>
 </g>
 <g class="subgraph" data-section="0">
   <rect x="40" y="72" width="576" height="112" rx="12" ry="12" fill="url(#ma2e31288-cw-p1-0)" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1" />
@@ -53,9 +53,9 @@
   <line x1="640" y1="100" x2="1216" y2="100" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1" />
 </g>
 <rect x="50" y="80" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="60" y="86" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.8999999999999995">Deploy</text>
+<text x="60" y="86" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.9">Deploy</text>
 <rect x="650" y="80" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="660" y="86" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.8999999999999995">Recover</text>
+<text x="660" y="86" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.9">Recover</text>
 <line class="drop-line" x1="136" y1="160" x2="136" y2="432" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="5 4" />
 <line class="drop-line" x1="328" y1="160" x2="328" y2="432" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="5 4" />
 <line class="drop-line" x1="520" y1="160" x2="520" y2="432" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="5 4" />
@@ -64,35 +64,35 @@
 <line class="drop-line" x1="1120" y1="160" x2="1120" y2="432" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="5 4" />
 <g class="node journey-task" data-label="Merge the change" data-score="5">
   <rect x="52" y="116" width="168" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="136" y="138" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Merge the change</text>
+  <text x="136" y="138" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Merge the change</text>
 </g>
 <circle class="actor-dot" cx="206" cy="116" r="6" fill="#b07aa1" stroke="var(--bg)" stroke-width="2"><title>Dev</title></circle>
 <g class="node journey-task" data-label="Pipeline fails" data-score="1">
   <rect x="244" y="116" width="168" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="328" y="138" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Pipeline fails</text>
+  <text x="328" y="138" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Pipeline fails</text>
 </g>
 <circle class="actor-dot" cx="398" cy="116" r="6" fill="#b07aa1" stroke="var(--bg)" stroke-width="2"><title>Dev</title></circle>
 <circle class="actor-dot" cx="384" cy="116" r="6" fill="#9c755f" stroke="var(--bg)" stroke-width="2"><title>CI</title></circle>
 <g class="node journey-task" data-label="Fix flaky test" data-score="2">
   <rect x="436" y="116" width="168" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="520" y="138" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Fix flaky test</text>
+  <text x="520" y="138" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Fix flaky test</text>
 </g>
 <circle class="actor-dot" cx="590" cy="116" r="6" fill="#b07aa1" stroke="var(--bg)" stroke-width="2"><title>Dev</title></circle>
 <g class="node journey-task" data-label="Rollback" data-score="2">
   <rect x="652" y="116" width="168" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
-  <text x="736" y="138" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Rollback</text>
+  <text x="736" y="138" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Rollback</text>
 </g>
 <circle class="actor-dot" cx="806" cy="116" r="6" fill="#b07aa1" stroke="var(--bg)" stroke-width="2"><title>Dev</title></circle>
 <circle class="actor-dot" cx="792" cy="116" r="6" fill="#bab0ac" stroke="var(--bg)" stroke-width="2"><title>Ops</title></circle>
 <g class="node journey-task" data-label="Postmortem" data-score="3">
   <rect x="844" y="116" width="168" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
-  <text x="928" y="138" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Postmortem</text>
+  <text x="928" y="138" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Postmortem</text>
 </g>
 <circle class="actor-dot" cx="998" cy="116" r="6" fill="#b07aa1" stroke="var(--bg)" stroke-width="2"><title>Dev</title></circle>
 <circle class="actor-dot" cx="984" cy="116" r="6" fill="#bab0ac" stroke="var(--bg)" stroke-width="2"><title>Ops</title></circle>
 <g class="node journey-task" data-label="Celebrate the fix" data-score="5">
   <rect x="1036" y="116" width="168" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
-  <text x="1120" y="138" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Celebrate the fix</text>
+  <text x="1120" y="138" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Celebrate the fix</text>
 </g>
 <circle class="actor-dot" cx="1190" cy="116" r="6" fill="#b07aa1" stroke="var(--bg)" stroke-width="2"><title>Dev</title></circle>
 <path class="journey-line" d="M136,228 L328,404 L520,360 L736,360 L928,316 L1120,228" fill="none" stroke="var(--accent, var(--fg))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />

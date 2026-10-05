@@ -64,77 +64,77 @@
 <path class="edge" data-from="DocSet" data-to="Redirects" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M831,369 L845,369 Q853,369 853,377 L853,474.5 Q853,482.5 861,482.5 L1397.5,482.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
 <path class="edge" data-from="Manifest" data-to="LinkReg" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="published on push" d="M1397.5,406 L1345.5,406 Q1337.5,406 1337.5,414 L1337.5,438.5 Q1337.5,446.5 1329.5,446.5 L302,446.5 Q294,446.5 294,438.5 L294,386.5 Q294,378.5 286,378.5 L204.5,378.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
 <rect x="26" y="24" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="36" y="30" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.8999999999999995">Inputs</text>
+<text x="36" y="30" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.9">Inputs</text>
 <rect x="26" y="298.25750000000005" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="36" y="304.25750000000005" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.8999999999999995">Read from outside, never checked out</text>
+<text x="36" y="304.26" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.9">Read from outside, never checked out</text>
 <rect x="583.36376" y="249.91000000000003" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="593.36376" y="255.91000000000003" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #b07aa1 44%, var(--fg))" dy="4.8999999999999995">Isolated build</text>
+<text x="593.36" y="255.91" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #b07aa1 44%, var(--fg))" dy="4.9">Isolated build</text>
 <rect x="1383.6357599999997" y="243.91000000000008" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="1393.6357599999997" y="249.91000000000008" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #9c755f 44%, var(--fg))" dy="4.8999999999999995">Outputs</text>
+<text x="1393.64" y="249.91" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #9c755f 44%, var(--fg))" dy="4.9">Outputs</text>
 <g class="edge-label" data-from="LinkReg" data-to="Content" data-label="cross_links">
-  <rect x="245.018" y="353.7" width="83.464" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="286.75" y="364.5" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">cross_links</text>
+  <rect x="245.018" y="353.7" width="83.464" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="286.75" y="364.5" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">cross_links</text>
 </g>
 <g class="edge-label" data-from="OpenApiRepo" data-to="Content" data-label="api">
-  <rect x="470.06699999999995" y="390.2" width="34.215999999999994" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="487.17499999999995" y="401" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">api</text>
+  <rect x="470.06699999999995" y="390.2" width="34.215999999999994" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="487.18" y="401" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">api</text>
 </g>
 <g class="edge-label" data-from="Bundles" data-to="Content" data-label="release_notes">
-  <rect x="519.428" y="525.7" width="97.14399999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="568" y="536.5" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">release_notes</text>
+  <rect x="519.428" y="525.7" width="97.14399999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="568" y="536.5" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">release_notes</text>
 </g>
 <g class="edge-label" data-from="Manifest" data-to="LinkReg" data-label="published on push">
-  <rect x="392.37699999999995" y="435.7" width="116.29599999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="450.525" y="446.5" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">published on push</text>
+  <rect x="392.37699999999995" y="435.7" width="116.29599999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="450.53" y="446.5" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">published on push</text>
 </g>
 <g class="node" data-id="Checkout" data-label="Checkout (one repository, one
 branch)" data-shape="rectangle">
   <rect x="40" y="72" width="232.02399999999994" height="60.4" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="156.01199999999997" y="102.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="156.01199999999997" dy="-4.2">Checkout (one repository, one</tspan><tspan x="156.01199999999997" dy="18.2">branch)</tspan></text>
+  <text x="156.01" y="102.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="156.01" dy="-4.2">Checkout (one repository, one</tspan><tspan x="156.01" dy="18.2">branch)</tspan></text>
 </g>
 <g class="node" data-id="Vocab" data-label="Shared vocabulary (config/)" data-shape="rectangle">
   <rect x="40" y="180.4" width="218.458" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="149.22899999999998" y="201.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Shared vocabulary (config/)</text>
+  <text x="149.23" y="201.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Shared vocabulary (config/)</text>
 </g>
 <g class="node" data-id="LinkReg" data-label="Link registry" data-shape="rectangle">
   <rect x="79.96900000000002" y="346.25750000000005" width="124.29400000000001" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="142.11600000000004" y="367.3575000000001" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Link registry</text>
+  <text x="142.12" y="367.36" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Link registry</text>
 </g>
 <g class="node" data-id="OpenApiRepo" data-label="OpenAPI repository" data-shape="rectangle">
   <rect x="79.96900000000002" y="436.45750000000004" width="167.38600000000002" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="163.66200000000003" y="457.55750000000006" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">OpenAPI repository</text>
+  <text x="163.66" y="457.56" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">OpenAPI repository</text>
 </g>
 <g class="node" data-id="Bundles" data-label="Release note bundles (CDN)" data-shape="rectangle">
   <rect x="79.96900000000002" y="526.6575" width="216.86199999999997" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="188.4" y="547.7575" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Release note bundles (CDN)</text>
+  <text x="188.4" y="547.76" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Release note bundles (CDN)</text>
 </g>
 <g class="node" data-id="DocSet" data-label="Documentation set (docset.yml)" data-shape="rectangle">
   <rect x="597.36376" y="337.01000000000005" width="233.61999999999995" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="714.1737599999999" y="358.11000000000007" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Documentation set (docset.yml)</text>
+  <text x="714.17" y="358.11" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Documentation set (docset.yml)</text>
 </g>
 <g class="node" data-id="Toc" data-label="Table of contents" data-shape="rectangle">
   <rect x="870.9837599999998" y="297.91" width="149.03199999999998" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="945.4997599999998" y="319.01000000000005" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Table of contents</text>
+  <text x="945.5" y="319.01" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Table of contents</text>
 </g>
 <g class="node" data-id="Content" data-label="Content: pages, snippets, images" data-shape="rectangle">
   <rect x="870.9837599999998" y="376.11" width="245.58999999999995" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="993.7787599999998" y="397.21000000000004" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Content: pages, snippets, images</text>
+  <text x="993.78" y="397.21" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Content: pages, snippets, images</text>
 </g>
 <g class="node" data-id="Nav" data-label="Navigation tree" data-shape="rectangle">
   <rect x="1156.5737599999998" y="337.01000000000005" width="137.062" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="1225.1047599999997" y="358.11000000000007" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Navigation tree</text>
+  <text x="1225.1" y="358.11" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Navigation tree</text>
 </g>
 <g class="node" data-id="Html" data-label="HTML, llms.txt, Pagefind" data-shape="rectangle">
   <rect x="1397.6357599999997" y="291.9100000000001" width="191.326" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="1493.2987599999997" y="313.0100000000001" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">HTML, llms.txt, Pagefind</text>
+  <text x="1493.3" y="313.01" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">HTML, llms.txt, Pagefind</text>
 </g>
 <g class="node" data-id="Manifest" data-label="Link manifest (links.json)" data-shape="rectangle">
   <rect x="1397.6357599999997" y="382.11000000000007" width="195.31600000000003" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="1495.2937599999996" y="403.2100000000001" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Link manifest (links.json)</text>
+  <text x="1495.29" y="403.21" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Link manifest (links.json)</text>
 </g>
 <g class="node" data-id="Redirects" data-label="redirects.json" data-shape="rectangle">
   <rect x="1397.6357599999997" y="472.3100000000001" width="131.476" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="1463.3737599999997" y="493.41000000000014" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">redirects.json</text>
+  <text x="1463.37" y="493.41" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">redirects.json</text>
 </g>
 <g class="node" data-id="State" data-label="Generation state (.doc.state)" data-shape="rectangle">
   <rect x="1397.6357599999997" y="562.5100000000001" width="216.06399999999994" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="1505.6677599999996" y="583.6100000000001" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Generation state (.doc.state)</text>
+  <text x="1505.67" y="583.61" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Generation state (.doc.state)</text>
 </g>
 <defs>
   <linearGradient id="ma2e31288-cw-p1-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /></linearGradient>

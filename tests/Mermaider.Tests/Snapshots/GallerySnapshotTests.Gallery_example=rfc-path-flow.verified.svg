@@ -45,7 +45,7 @@
 <g class="node" data-id="getToc" data-label="GetTocMappings()
 URI → path_prefix" data-shape="rectangle">
   <rect x="67.86999999999995" y="116.4" width="159.406" height="60.4" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="147.57299999999995" y="146.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="147.57299999999995" dy="-4.2">GetTocMappings()</tspan><tspan x="147.57299999999995" dy="18.2">URI → path_prefix</tspan></text>
+  <text x="147.57" y="146.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="147.57" dy="-4.2">GetTocMappings()</tspan><tspan x="147.57" dy="18.2">URI → path_prefix</tspan></text>
 </g>
 <g class="node" data-id="perRepo" data-label="**Per-repo
 docset.yml + toc.yml**" data-shape="rectangle">
@@ -55,31 +55,31 @@ docset.yml + toc.yml**" data-shape="rectangle">
 <g class="node" data-id="docSetNav" data-label="DocumentationSetNavigation
 URI → node tree" data-shape="rectangle">
   <rect x="263.27599999999995" y="116.4" width="222.44799999999992" height="60.4" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="374.4999999999999" y="146.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="374.4999999999999" dy="-4.2">DocumentationSetNavigation</tspan><tspan x="374.4999999999999" dy="18.2">URI → node tree</tspan></text>
+  <text x="374.5" y="146.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="374.5" dy="-4.2">DocumentationSetNavigation</tspan><tspan x="374.5" dy="18.2">URI → node tree</tspan></text>
 </g>
 <g class="node" data-id="tocMappings" data-label="NavigationTocMappings" data-shape="rectangle">
   <rect x="48.71799999999997" y="216.8" width="197.70999999999998" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="147.57299999999995" y="237.9" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">NavigationTocMappings</text>
+  <text x="147.57" y="237.9" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">NavigationTocMappings</text>
 </g>
 <g class="node" data-id="tocNodes" data-label="TableOfContentNodes" data-shape="rectangle">
   <rect x="284.024" y="216.8" width="180.95199999999997" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="374.5" y="237.9" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">TableOfContentNodes</text>
+  <text x="374.5" y="237.9" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">TableOfContentNodes</text>
 </g>
 <g class="node" data-id="siteNav" data-label="SiteNavigation
 merges nodes via navigation.yml
 URI keys" data-shape="rectangle">
   <rect x="138.24149999999997" y="299" width="245.58999999999995" height="78.6" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="261.03649999999993" y="338.3" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="261.03649999999993" dy="-13.3">SiteNavigation</tspan><tspan x="261.03649999999993" dy="18.2">merges nodes via navigation.yml</tspan><tspan x="261.03649999999993" dy="18.2">URI keys</tspan></text>
+  <text x="261.04" y="338.3" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="261.04" dy="-13.3">SiteNavigation</tspan><tspan x="261.04" dy="18.2">merges nodes via navigation.yml</tspan><tspan x="261.04" dy="18.2">URI keys</tspan></text>
 </g>
 <g class="node" data-id="pathProvider" data-label="GlobalNavigationPathProvider
 determines output file paths" data-shape="rectangle">
   <rect x="16" y="417.6" width="235.21599999999998" height="60.4" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="133.608" y="447.8" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="133.608" dy="-4.2">GlobalNavigationPathProvider</tspan><tspan x="133.608" dy="18.2">determines output file paths</tspan></text>
+  <text x="133.61" y="447.8" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="133.61" dy="-4.2">GlobalNavigationPathProvider</tspan><tspan x="133.61" dy="18.2">determines output file paths</tspan></text>
 </g>
 <g class="node" data-id="sidebar" data-label="Sidebar HTML rendering
 determines sidebar tree" data-shape="rectangle">
   <rect x="287.216" y="417.6" width="202.49799999999996" height="60.4" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="388.465" y="447.8" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="388.465" dy="-4.2">Sidebar HTML rendering</tspan><tspan x="388.465" dy="18.2">determines sidebar tree</tspan></text>
+  <text x="388.47" y="447.8" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="388.47" dy="-4.2">Sidebar HTML rendering</tspan><tspan x="388.47" dy="18.2">determines sidebar tree</tspan></text>
 </g>
 <defs>
   <linearGradient id="ma2e31288-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 7%, var(--bg))" /></linearGradient>

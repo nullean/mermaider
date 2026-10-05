@@ -41,16 +41,16 @@
   <line x1="485.41664000000003" y1="294" x2="755.90376" y2="294" stroke="var(--_line-soft)" stroke-width="1" />
   <line x1="485.41664000000003" y1="322" x2="755.90376" y2="322" stroke="var(--_line-soft)" stroke-width="1" />
   <line x1="485.41664000000003" y1="350" x2="755.90376" y2="350" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="620.6602" y="230.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.199999999999999">«Functional Requirement»</text>
-  <text x="620.6602" y="248.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">login</text>
-  <text x="489.41664000000003" y="280" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.199999999999999">Id</text>
-  <text x="589.81664" y="280" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">REQ-1</text>
-  <text x="489.41664000000003" y="308" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.199999999999999">Text</text>
-  <text x="589.81664" y="308" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Users must authenticate.</text>
-  <text x="489.41664000000003" y="336" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.199999999999999">Risk</text>
-  <rect x="589.81664" y="327" width="70.72" height="18" rx="9" ry="9" fill="color-mix(in srgb, #edc948 22%, var(--bg))" /><circle cx="598.81664" cy="336" r="3" fill="color-mix(in srgb, #edc948 44%, var(--fg))" /><text x="605.81664" y="336" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #edc948 44%, var(--fg))" dy="4.199999999999999">Medium</text>
-  <text x="489.41664000000003" y="364" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.199999999999999">Verification</text>
-  <text x="589.81664" y="364" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Test</text>
+  <text x="620.66" y="230.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.2">«Functional Requirement»</text>
+  <text x="620.66" y="248.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">login</text>
+  <text x="489.42" y="280" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Id</text>
+  <text x="589.82" y="280" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">REQ-1</text>
+  <text x="489.42" y="308" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Text</text>
+  <text x="589.82" y="308" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Users must authenticate.</text>
+  <text x="489.42" y="336" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Risk</text>
+  <rect x="589.81664" y="327" width="70.72" height="18" rx="9" ry="9" fill="color-mix(in srgb, #edc948 22%, var(--bg))" /><circle cx="598.81664" cy="336" r="3" fill="color-mix(in srgb, #edc948 44%, var(--fg))" /><text x="605.82" y="336" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #edc948 44%, var(--fg))" dy="4.2">Medium</text>
+  <text x="489.42" y="364" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Verification</text>
+  <text x="589.82" y="364" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Test</text>
 </g>
 <g class="req-node entity" data-id="latency" data-kind="requirement">
   <rect x="24" y="24" width="300.09664000000004" height="182" rx="8" ry="8" fill="var(--bg)" stroke="none" />
@@ -60,17 +60,17 @@
   <line x1="36" y1="104" x2="312.09664000000004" y2="104" stroke="var(--_line-soft)" stroke-width="1" />
   <line x1="36" y1="150" x2="312.09664000000004" y2="150" stroke="var(--_line-soft)" stroke-width="1" />
   <line x1="36" y1="178" x2="312.09664000000004" y2="178" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="174.04832000000002" y="40.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.199999999999999">«Performance Requirement»</text>
-  <text x="174.04832000000002" y="58.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">latency</text>
-  <text x="40" y="90" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.199999999999999">Id</text>
-  <text x="140.39999999999998" y="90" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">REQ-2</text>
-  <text x="40" y="118" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.199999999999999">Text</text>
-  <text x="140.39999999999998" y="118" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Auth must complete under</text>
-  <text x="140.39999999999998" y="136" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">200ms.</text>
-  <text x="40" y="164" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.199999999999999">Risk</text>
-  <rect x="140.39999999999998" y="155" width="52.72" height="18" rx="9" ry="9" fill="color-mix(in srgb, #e15759 22%, var(--bg))" /><circle cx="149.39999999999998" cy="164" r="3" fill="color-mix(in srgb, #e15759 44%, var(--fg))" /><text x="156.39999999999998" y="164" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #e15759 44%, var(--fg))" dy="4.199999999999999">High</text>
-  <text x="40" y="192" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.199999999999999">Verification</text>
-  <text x="140.39999999999998" y="192" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Analysis</text>
+  <text x="174.05" y="40.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.2">«Performance Requirement»</text>
+  <text x="174.05" y="58.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">latency</text>
+  <text x="40" y="90" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Id</text>
+  <text x="140.4" y="90" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">REQ-2</text>
+  <text x="40" y="118" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Text</text>
+  <text x="140.4" y="118" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Auth must complete under</text>
+  <text x="140.4" y="136" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">200ms.</text>
+  <text x="40" y="164" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Risk</text>
+  <rect x="140.39999999999998" y="155" width="52.72" height="18" rx="9" ry="9" fill="color-mix(in srgb, #e15759 22%, var(--bg))" /><circle cx="149.39999999999998" cy="164" r="3" fill="color-mix(in srgb, #e15759 44%, var(--fg))" /><text x="156.4" y="164" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #e15759 44%, var(--fg))" dy="4.2">High</text>
+  <text x="40" y="192" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Verification</text>
+  <text x="140.4" y="192" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Analysis</text>
 </g>
 <g class="req-node entity" data-id="auth_service" data-kind="element">
   <rect x="24" y="242" width="199.98784" height="108" rx="8" ry="8" fill="var(--bg)" stroke="none" />
@@ -78,31 +78,31 @@
   <line x1="24" y1="294" x2="223.98784" y2="294" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1" />
   <rect x="24" y="242" width="199.98784" height="108" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <line x1="36" y1="322" x2="211.98784" y2="322" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="123.99392" y="258.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.199999999999999">«Element»</text>
-  <text x="123.99392" y="276.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">auth_service</text>
-  <text x="40" y="308" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.199999999999999">Type</text>
-  <text x="104.4" y="308" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">service</text>
-  <text x="40" y="336" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.199999999999999">Doc ref</text>
-  <text x="104.4" y="336" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">design/auth.md</text>
+  <text x="123.99" y="258.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.2">«Element»</text>
+  <text x="123.99" y="276.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">auth_service</text>
+  <text x="40" y="308" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Type</text>
+  <text x="104.4" y="308" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">service</text>
+  <text x="40" y="336" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Doc ref</text>
+  <text x="104.4" y="336" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">design/auth.md</text>
 </g>
 <g class="req-node entity" data-id="login_ui" data-kind="element">
   <rect x="24" y="386" width="160" height="80" rx="8" ry="8" fill="var(--bg)" stroke="none" />
   <path d="M24,438 L24,394 Q24,386 32,386 L176,386 Q184,386 184,394 L184,438 Z" fill="url(#ma2e31288-eb-p0)" />
   <line x1="24" y1="438" x2="184" y2="438" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1" />
   <rect x="24" y="386" width="160" height="80" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="104" y="402.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.199999999999999">«Element»</text>
+  <text x="104" y="402.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.2">«Element»</text>
   <text x="104" y="420.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">login_ui</text>
-  <text x="40" y="452" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.199999999999999">Type</text>
-  <text x="84.03999999999999" y="452" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">ui</text>
+  <text x="40" y="452" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Type</text>
+  <text x="84.04" y="452" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">ui</text>
 </g>
 <g class="edge-label" data-label="satisfies">
-  <rect x="317.23024000000004" y="285.2" width="62.943999999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="348.70224" y="296" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">satisfies</text>
+  <rect x="317.23024000000004" y="285.2" width="62.943999999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="348.7" y="296" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">satisfies</text>
 </g>
 <g class="edge-label" data-label="verifies">
-  <rect x="299.28832" y="415.2" width="58.839999999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="328.70832" y="426" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">verifies</text>
+  <rect x="299.28832" y="415.2" width="58.839999999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="328.71" y="426" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">verifies</text>
 </g>
 <g class="edge-label" data-label="derives">
-  <rect x="368.6526400000001" y="104.2" width="60.20799999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="398.75664000000006" y="115" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">derives</text>
+  <rect x="368.6526400000001" y="104.2" width="60.20799999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="398.76" y="115" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">derives</text>
 </g>
 <defs>
   <linearGradient id="ma2e31288-eb-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /></linearGradient>

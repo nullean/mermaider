@@ -36,22 +36,22 @@
 </g>
 <g class="xy-grid">
   <line x1="100" y1="408" x2="720" y2="408" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="88" y="408" text-anchor="end" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">0</text>
+  <text x="88" y="408" text-anchor="end" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">0</text>
   <line x1="100" y1="344.8" x2="720" y2="344.8" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="88" y="344.8" text-anchor="end" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">40</text>
+  <text x="88" y="344.8" text-anchor="end" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">40</text>
   <line x1="100" y1="281.6" x2="720" y2="281.6" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="88" y="281.6" text-anchor="end" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">80</text>
+  <text x="88" y="281.6" text-anchor="end" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">80</text>
   <line x1="100" y1="218.4" x2="720" y2="218.4" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="88" y="218.4" text-anchor="end" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">120</text>
+  <text x="88" y="218.4" text-anchor="end" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">120</text>
   <line x1="100" y1="155.2" x2="720" y2="155.2" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="88" y="155.2" text-anchor="end" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">160</text>
+  <text x="88" y="155.2" text-anchor="end" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">160</text>
   <line x1="100" y1="92" x2="720" y2="92" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="88" y="92" text-anchor="end" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">200</text>
-  <text x="203.333" y="428" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">p50</text>
-  <text x="410" y="428" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">p90</text>
-  <text x="616.667" y="428" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">p99</text>
+  <text x="88" y="92" text-anchor="end" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">200</text>
+  <text x="203.33" y="428" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">p50</text>
+  <text x="410" y="428" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">p90</text>
+  <text x="616.67" y="428" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">p99</text>
 </g>
-<g transform="translate(46 250) rotate(-90)"><text x="0" y="0" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">ms</text></g>
+<g transform="translate(46 250) rotate(-90)"><text x="0" y="0" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">ms</text></g>
 <g class="xy-bars" data-series="0">
   <path d="M 143.4 408 L 143.4 349.8 Q 143.4 344.8 148.4 344.8 L 197.33 344.8 Q 202.33 344.8 202.33 349.8 L 202.33 408 Z" fill="url(#ma2e31288-bg-d0)" />
   <path d="M 350.07 408 L 350.07 286.6 Q 350.07 281.6 355.07 281.6 L 404 281.6 Q 409 281.6 409 286.6 L 409 408 Z" fill="url(#ma2e31288-bg-d0)" />
@@ -70,11 +70,11 @@
   <circle cx="616.667" cy="250" r="3.5" fill="#e15759" stroke="var(--bg)" stroke-width="1.5" />
 </g>
 <rect x="100" y="447" width="10" height="10" rx="3" ry="3" fill="#4e79a7" stroke="none" />
-  <text x="118" y="452" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">api</text>
+  <text x="118" y="452" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">api</text>
 <rect x="163.252" y="447" width="10" height="10" rx="3" ry="3" fill="#f28e2b" stroke="none" />
-  <text x="181.252" y="452" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">db</text>
+  <text x="181.25" y="452" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">db</text>
 <rect x="223.312" y="447" width="10" height="10" rx="3" ry="3" fill="#e15759" stroke="none" />
-  <text x="241.312" y="452" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">slo</text>
+  <text x="241.31" y="452" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">slo</text>
 <defs>
   <linearGradient id="ma2e31288-bg-d0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4e79a7" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 62%, var(--bg))" /></linearGradient>
   <linearGradient id="ma2e31288-bg-d1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f28e2b" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 62%, var(--bg))" /></linearGradient>

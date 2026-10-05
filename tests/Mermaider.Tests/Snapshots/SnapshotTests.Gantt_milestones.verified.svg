@@ -35,49 +35,49 @@
   <text x="40" y="38" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">Release train</text>
 </g>
 <g class="legend">
-  <rect x="374.272" y="32" width="12" height="12" rx="4" ry="4" fill="color-mix(in srgb, #4e79a7 26%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" /> <text x="394.272" y="38" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">Done</text>
-  <rect x="442.8" y="32" width="12" height="12" rx="4" ry="4" fill="#4e79a7" /> <rect x="439.8" y="29" width="18" height="18" rx="6" ry="6" fill="none" stroke="var(--accent, var(--fg))" stroke-width="1.5" /> <text x="462.8" y="38" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">Active</text>
-  <rect x="524" y="32" width="12" height="12" rx="4" ry="4" fill="#e15759" /> <text x="544" y="38" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">Critical</text>
-  <rect x="619.6" y="32" width="12" height="12" rx="4" ry="4" fill="#4e79a7" /> <text x="639.6" y="38" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">Planned</text>
+  <rect x="374.272" y="32" width="12" height="12" rx="4" ry="4" fill="color-mix(in srgb, #4e79a7 26%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" /> <text x="394.27" y="38" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Done</text>
+  <rect x="442.8" y="32" width="12" height="12" rx="4" ry="4" fill="#4e79a7" /> <rect x="439.8" y="29" width="18" height="18" rx="6" ry="6" fill="none" stroke="var(--accent, var(--fg))" stroke-width="1.5" /> <text x="462.8" y="38" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Active</text>
+  <rect x="524" y="32" width="12" height="12" rx="4" ry="4" fill="#e15759" /> <text x="544" y="38" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Critical</text>
+  <rect x="619.6" y="32" width="12" height="12" rx="4" ry="4" fill="#4e79a7" /> <text x="639.6" y="38" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Planned</text>
 </g>
 <rect class="plot-panel" x="24" y="72" width="666" height="246" rx="12" ry="12" fill="var(--_group-fill)" stroke="none" stroke-width="1" />
 <g class="gantt-axis">
   <line x1="198" y1="80" x2="198" y2="318" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="198" y="338" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">Jan 6</text>
+  <text x="198" y="338" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">Jan 6</text>
   <line x1="294" y1="80" x2="294" y2="318" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="294" y="338" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">Jan 8</text>
+  <text x="294" y="338" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">Jan 8</text>
   <line x1="390" y1="80" x2="390" y2="318" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="390" y="338" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">Jan 10</text>
+  <text x="390" y="338" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">Jan 10</text>
   <line x1="486" y1="80" x2="486" y2="318" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="486" y="338" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">Jan 12</text>
+  <text x="486" y="338" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">Jan 12</text>
   <line x1="582" y1="80" x2="582" y2="318" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="582" y="338" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">Jan 14</text>
+  <text x="582" y="338" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">Jan 14</text>
   <line x1="678" y1="80" x2="678" y2="318" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="678" y="338" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">Jan 16</text>
+  <text x="678" y="338" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">Jan 16</text>
   <line x1="198" y1="318" x2="678" y2="318" stroke="var(--_line)" stroke-width="1.25" />
 </g>
 <g class="gantt-section" data-section="0" data-label="Build">
-  <text x="38" y="100" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" letter-spacing="0.08em" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.199999999999999">BUILD</text>
+  <text x="38" y="100" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" letter-spacing="0.08em" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.2">BUILD</text>
   <line x1="94.24" y1="100" x2="184" y2="100" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1.25" />
 <g class="gantt-task" data-state="done">
-  <text x="38" y="136" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Implement parser</text>
+  <text x="38" y="136" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Implement parser</text>
   <rect x="198" y="126" width="144" height="20" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 26%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
 </g>
 <g class="gantt-task" data-state="active">
-  <text x="38" y="172" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Add tests</text>
+  <text x="38" y="172" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Add tests</text>
   <rect x="342" y="162" width="96" height="20" rx="6" ry="6" fill="#4e79a7" />
   <rect x="339" y="159" width="102" height="26" rx="8" ry="8" fill="none" stroke="var(--accent, var(--fg))" stroke-width="1.5" />
 </g>
 </g>
 <g class="gantt-section" data-section="1" data-label="Ship">
-  <text x="38" y="208" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" letter-spacing="0.08em" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.199999999999999">SHIP</text>
+  <text x="38" y="208" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" letter-spacing="0.08em" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.2">SHIP</text>
   <line x1="84.6" y1="208" x2="184" y2="208" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
 <g class="gantt-task" data-state="planned" data-milestone="true">
   <polygon points="438,236 446,244 438,252 430,244" fill="#f28e2b" />
-  <text x="454" y="244" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">RC cut</text>
+  <text x="454" y="244" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">RC cut</text>
 </g>
 <g class="gantt-task" data-state="critical">
-  <text x="38" y="280" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">GA</text>
+  <text x="38" y="280" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">GA</text>
   <rect x="438" y="270" width="240" height="20" rx="6" ry="6" fill="#e15759" />
 </g>
 </g>

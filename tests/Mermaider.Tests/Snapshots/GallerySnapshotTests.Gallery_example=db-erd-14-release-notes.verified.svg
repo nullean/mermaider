@@ -51,7 +51,7 @@
 </g>
 <g class="entity" data-id="ProductRelease" data-label="ProductRelease">
   <rect x="249.12" y="438.79999999999995" width="159.20000000000002" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="328.72" y="460.79999999999995" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">ProductRelease</text>
+  <text x="328.72" y="460.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">ProductRelease</text>
 </g>
 <g class="entity" data-id="Product" data-label="Product">
   <rect x="268.72" y="578.4" width="120" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
@@ -102,25 +102,25 @@
 <path d="M322.22,709 L335.22,709" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
 <circle cx="328.72" cy="699" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
 <g class="edge-label" data-label="changelog.yml">
-  <rect x="81.47200000000001" y="101" width="95.776" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="129.36" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">changelog.yml</text>
+  <rect x="81.47200000000001" y="101" width="95.776" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="129.36" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">changelog.yml</text>
 </g>
 <g class="edge-label" data-label="products">
-  <rect x="295.196" y="380.2" width="67.048" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="328.72" y="391" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">products</text>
+  <rect x="295.196" y="380.2" width="67.048" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="328.72" y="391" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">products</text>
 </g>
 <g class="edge-label" data-label="product">
-  <rect x="298.61600000000004" y="519.8" width="60.208" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="328.72" y="530.5999999999999" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">product</text>
+  <rect x="298.61600000000004" y="519.8" width="60.208" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="328.72" y="530.6" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">product</text>
 </g>
 <g class="edge-label" data-label="entries">
-  <rect x="300.668" y="101" width="56.103999999999985" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="328.72" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">entries</text>
+  <rect x="300.668" y="101" width="56.103999999999985" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="328.72" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">entries</text>
 </g>
 <g class="edge-label" data-label="name + checksum">
-  <rect x="271.94000000000005" y="240.59999999999997" width="113.55999999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="328.72" y="251.39999999999998" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">name + checksum</text>
+  <rect x="271.94000000000005" y="240.59999999999997" width="113.55999999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="328.72" y="251.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">name + checksum</text>
 </g>
 <g class="edge-label" data-label="amend-N">
-  <rect x="456.22200000000004" y="101" width="64.99600000000001" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="488.72" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">amend-N</text>
+  <rect x="456.22200000000004" y="101" width="64.99600000000001" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="488.72" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">amend-N</text>
 </g>
 <g class="edge-label" data-label="registry.json">
-  <rect x="284.93600000000004" y="659.4000000000001" width="87.56799999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="328.72" y="670.2" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">registry.json</text>
+  <rect x="284.93600000000004" y="659.4000000000001" width="87.56799999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="328.72" y="670.2" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">registry.json</text>
 </g>
 <defs>
   <linearGradient id="ma2e31288-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 7%, var(--bg))" /></linearGradient>

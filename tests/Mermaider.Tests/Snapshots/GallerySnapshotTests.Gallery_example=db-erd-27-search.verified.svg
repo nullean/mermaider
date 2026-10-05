@@ -39,7 +39,7 @@
 <path class="er-relationship" data-entity1="DocumentInference" data-entity2="DocumentationDocument" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="decides product" d="M451.5466666666667,64 L451.5466666666667,123.6 Q451.5466666666667,131.6 443.5466666666667,131.6 L364.7134133333334,131.6 Q356.7134133333334,131.6 356.7134133333334,139.6 L356.7134133333334,159.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <g class="entity" data-id="SearchIndex" data-label="SearchIndex">
   <rect x="36.319999999999936" y="20" width="134.24" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="103.43999999999994" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">SearchIndex</text>
+  <text x="103.44" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">SearchIndex</text>
 </g>
 <g class="entity" data-id="SearchDocument" data-label="SearchDocument">
   <rect x="20" y="159.6" width="166.88" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
@@ -47,27 +47,27 @@
 </g>
 <g class="entity" data-id="Page" data-label="Page">
   <rect x="220.42666666666668" y="20" width="120" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="280.4266666666667" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Page</text>
+  <text x="280.43" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Page</text>
 </g>
 <g class="entity" data-id="DocumentationDocument" data-label="DocumentationDocument">
   <rect x="209.62008000000003" y="159.6" width="220.64" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="319.94008" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">DocumentationDocument</text>
+  <text x="319.94" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">DocumentationDocument</text>
 </g>
 <g class="entity" data-id="Product" data-label="Product">
   <rect x="115.34562" y="315.2" width="120" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="175.34562" y="337.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Product</text>
+  <text x="175.35" y="337.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Product</text>
 </g>
 <g class="entity" data-id="ParentDocument" data-label="ParentDocument">
   <rect x="322.64354000000003" y="315.2" width="161.12" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="403.20354000000003" y="337.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">ParentDocument</text>
+  <text x="403.2" y="337.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">ParentDocument</text>
 </g>
 <g class="entity" data-id="AppliesToEntry" data-label="AppliesToEntry">
   <rect x="503.76354000000003" y="315.2" width="155.36" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="581.44354" y="337.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">AppliesToEntry</text>
+  <text x="581.44" y="337.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">AppliesToEntry</text>
 </g>
 <g class="entity" data-id="DocumentInference" data-label="DocumentInference">
   <rect x="360.4266666666667" y="20" width="182.24" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="451.5466666666667" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">DocumentInference</text>
+  <text x="451.55" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">DocumentInference</text>
 </g>
 <path d="M109.93999999999994,73 L96.93999999999994,73" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
 <path d="M109.93999999999996,78 L96.93999999999996,78" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
@@ -98,25 +98,25 @@
 <path d="M350.2134133333334,150.6 L363.2134133333334,150.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
 <path d="M350.2134133333334,145.6 L363.2134133333334,145.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
 <g class="edge-label" data-label="contains">
-  <rect x="71.28399999999993" y="101" width="64.312" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="103.43999999999994" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">contains</text>
+  <rect x="71.28399999999993" y="101" width="64.312" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="103.44" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">contains</text>
 </g>
 <g class="edge-label" data-label="exported">
-  <rect x="246.90266666666668" y="101" width="67.048" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="280.4266666666667" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">exported</text>
+  <rect x="246.90266666666668" y="101" width="67.048" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="280.43" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">exported</text>
 </g>
 <g class="edge-label" data-label="product">
-  <rect x="83.91062000000001" y="248.59999999999997" width="60.208" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="114.01462000000001" y="259.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">product</text>
+  <rect x="83.91062000000001" y="248.59999999999997" width="60.208" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="114.01" y="259.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">product</text>
 </g>
 <g class="edge-label" data-label="related_products">
-  <rect x="180.58062" y="248.59999999999997" width="112.19200000000001" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="236.67662" y="259.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">related_products</text>
+  <rect x="180.58062" y="248.59999999999997" width="112.19200000000001" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="236.68" y="259.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">related_products</text>
 </g>
 <g class="edge-label" data-label="parents (breadcrumbs)">
-  <rect x="331.71754000000004" y="248.59999999999997" width="142.97199999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="403.20354000000003" y="259.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">parents (breadcrumbs)</text>
+  <rect x="331.71754000000004" y="248.59999999999997" width="142.97199999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="403.2" y="259.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">parents (breadcrumbs)</text>
 </g>
 <g class="edge-label" data-label="applies_to">
-  <rect x="544.49954" y="248.59999999999997" width="73.88799999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="581.44354" y="259.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">applies_to</text>
+  <rect x="544.49954" y="248.59999999999997" width="73.88799999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="581.44" y="259.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">applies_to</text>
 </g>
 <g class="edge-label" data-label="decides product">
-  <rect x="398.5286666666667" y="101" width="106.036" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="451.5466666666667" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">decides product</text>
+  <rect x="398.5286666666667" y="101" width="106.036" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="451.55" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">decides product</text>
 </g>
 <defs>
   <linearGradient id="ma2e31288-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 7%, var(--bg))" /></linearGradient>

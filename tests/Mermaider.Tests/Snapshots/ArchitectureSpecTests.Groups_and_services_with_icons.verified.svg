@@ -44,22 +44,22 @@
 <g class="architecture-group-title" data-id="api">
 <rect x="34" y="32" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
 <g transform="translate(53 38) scale(0.818)" fill="none" stroke="color-mix(in srgb, #f28e2b 44%, var(--fg))" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-7 4.5 C-11 4.5 -11 -1.5 -6 -1.5 C-6 -6.5 3 -7.5 4 -1.5 C10 -2.5 11 4.5 6 4.5Z" /></g>
-<text x="68" y="38" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.8999999999999995">API</text>
+<text x="68" y="38" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.9">API</text>
 </g>
 <g class="architecture-service" data-id="db" data-icon="database">
   <rect x="52" y="290" width="120" height="92" rx="12" ry="12" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <g transform="translate(112 322) scale(1.182)" fill="none" stroke="color-mix(in srgb, #4e79a7 44%, var(--fg))" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="0" cy="-8" rx="9" ry="3.5" /><path d="M-9 -8 V8 C-9 10 9 10 9 8 V-8 M-9 0 C-9 2 9 2 9 0" /></g>
-  <text x="112" y="362" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Database</text>
+  <text x="112" y="362" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Database</text>
 </g>
 <g class="architecture-service" data-id="disk1" data-icon="disk">
   <rect x="284" y="86" width="120" height="92" rx="12" ry="12" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <g transform="translate(344 118) scale(1.182)" fill="none" stroke="color-mix(in srgb, #4e79a7 44%, var(--fg))" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M-9 -8 H9 L7 9 H-7Z" /><path d="M-9 -8 C-9 -11 9 -11 9 -8" /></g>
-  <text x="344" y="158" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Storage</text>
+  <text x="344" y="158" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Storage</text>
 </g>
 <g class="architecture-service" data-id="server" data-icon="server">
   <rect x="284" y="290" width="120" height="92" rx="12" ry="12" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <g transform="translate(344 322) scale(1.182)" fill="none" stroke="color-mix(in srgb, #4e79a7 44%, var(--fg))" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="-10" y="-9" width="20" height="7" rx="2" /><rect x="-10" y="2" width="20" height="7" rx="2" /><path d="M-5 -5.5 H-4 M-5 5.5 H-4" /></g>
-  <text x="344" y="362" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Server</text>
+  <text x="344" y="362" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Server</text>
 </g>
 <defs>
   <linearGradient id="ma2e31288-cw-p1-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /></linearGradient>

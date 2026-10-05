@@ -34,15 +34,15 @@
 <path class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M226.5,64.97999999999999 L266.38399999999996,64.97999999999999" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
 <g class="node" data-id="A" data-label="Input" data-shape="rectangle">
   <rect x="16" y="43.879999999999995" width="72.42399999999999" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="52.211999999999996" y="64.97999999999999" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Input</text>
+  <text x="52.21" y="64.98" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Input</text>
 </g>
 <g class="node" data-id="B" data-label="Process" data-shape="diamond">
   <polygon points="177.40399999999997,15.999999999999993 226.38399999999996,64.97999999999999 177.40399999999997,113.95999999999998 128.42399999999998,64.97999999999999" fill="url(#ma2e31288-ng-a)" stroke="color-mix(in srgb, var(--accent, var(--fg)) 74%, var(--fg))" stroke-width="1.25" />
-  <text x="177.40399999999997" y="64.97999999999999" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Process</text>
+  <text x="177.4" y="64.98" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Process</text>
 </g>
 <g class="node" data-id="C" data-label="Output" data-shape="rectangle">
   <rect x="266.38399999999996" y="43.879999999999995" width="82" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="307.38399999999996" y="64.97999999999999" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Output</text>
+  <text x="307.38" y="64.98" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Output</text>
 </g>
 <defs>
   <linearGradient id="ma2e31288-ng-a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 7%, var(--bg))" /></linearGradient>

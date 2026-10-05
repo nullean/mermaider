@@ -36,32 +36,32 @@
   <line x1="40" y1="68" x2="231.3404255319149" y2="68" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1" />
 </g>
 <rect x="50" y="48" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="60" y="54" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.8999999999999995">Backlog</text>
-<rect x="200.3404255319149" y="46" width="21" height="16" rx="4" ry="4" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" /><text x="210.8404255319149" y="54" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.199999999999999">3</text>
+<text x="60" y="54" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.9">Backlog</text>
+<rect x="200.3404255319149" y="46" width="21" height="16" rx="4" ry="4" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" /><text x="210.84" y="54" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.2">3</text>
 <g class="kanban-card" data-id="a1" data-priority="low">
   <rect x="52" y="84" width="167.34" height="73.4" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
   <circle cx="68" cy="103.1" r="3.5" fill="color-mix(in srgb, #f28e2b 74%, var(--fg))" />
-  <text x="80" y="103.1" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Customer export</text>
-  <text x="80" y="124" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">PRJ-101</text>
+  <text x="80" y="103.1" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Customer export</text>
+  <text x="80" y="124" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">PRJ-101</text>
   <circle cx="83.5" cy="139.6" r="3.5" fill="color-mix(in srgb, #59a14f 74%, var(--fg))" />
-  <text x="92" y="139.6" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #59a14f 44%, var(--fg))" dy="4.199999999999999">Low</text>
+  <text x="92" y="139.6" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #59a14f 44%, var(--fg))" dy="4.2">Low</text>
 </g>
 <g class="kanban-card" data-id="a2" data-priority="very-low">
   <rect x="52" y="165.4" width="167.34" height="73.4" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
   <circle cx="68" cy="184.5" r="3.5" fill="color-mix(in srgb, #f28e2b 74%, var(--fg))" />
-  <text x="80" y="184.5" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Dark mode polish</text>
-  <text x="80" y="205.4" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">PRJ-117</text>
+  <text x="80" y="184.5" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Dark mode polish</text>
+  <text x="80" y="205.4" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">PRJ-117</text>
   <circle cx="83.5" cy="221" r="3.5" fill="color-mix(in srgb, var(--_line) 74%, var(--fg))" />
-  <text x="92" y="221" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, var(--_line) 44%, var(--fg))" dy="4.199999999999999">Very low</text>
+  <text x="92" y="221" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, var(--_line) 44%, var(--fg))" dy="4.2">Very low</text>
 </g>
 <g class="kanban-card" data-id="a3" data-priority="high">
   <rect x="52" y="246.8" width="167.34" height="89" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
   <circle cx="68" cy="265.9" r="3.5" fill="color-mix(in srgb, #f28e2b 74%, var(--fg))" />
-  <text x="80" y="265.90000000000003" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Audit log retention</text>
-  <text x="80" y="286.8" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">PRJ-124</text>
-  <text x="80" y="302.40000000000003" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">maria</text>
+  <text x="80" y="265.9" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Audit log retention</text>
+  <text x="80" y="286.8" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">PRJ-124</text>
+  <text x="80" y="302.4" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">maria</text>
   <circle cx="83.5" cy="318" r="3.5" fill="color-mix(in srgb, #edc948 74%, var(--fg))" />
-  <text x="92" y="318.00000000000006" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #edc948 44%, var(--fg))" dy="4.199999999999999">High</text>
+  <text x="92" y="318" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #edc948 44%, var(--fg))" dy="4.2">High</text>
 </g>
 <g class="kanban-column" data-id="progress" data-count="2">
   <rect x="247.3404255319149" y="40" width="241.38297872340428" height="311.8" rx="12" ry="12" fill="url(#ma2e31288-cw-p2-0)" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1" />
@@ -69,23 +69,23 @@
   <line x1="247.3404255319149" y1="68" x2="488.72340425531917" y2="68" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1" />
 </g>
 <rect x="257.3404255319149" y="48" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="267.3404255319149" y="54" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.8999999999999995">In Progress</text>
-<rect x="457.72340425531917" y="46" width="21" height="16" rx="4" ry="4" fill="color-mix(in srgb, #76b7b2 22%, var(--bg))" /><text x="468.22340425531917" y="54" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.199999999999999">2</text>
+<text x="267.34" y="54" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.9">In Progress</text>
+<rect x="457.72340425531917" y="46" width="21" height="16" rx="4" ry="4" fill="color-mix(in srgb, #76b7b2 22%, var(--bg))" /><text x="468.22" y="54" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.2">2</text>
 <g class="kanban-card" data-id="b1" data-priority="very-high">
   <rect x="259.34" y="84" width="217.38" height="89" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
   <circle cx="275.34" cy="103.1" r="3.5" fill="color-mix(in srgb, #76b7b2 74%, var(--fg))" />
-  <text x="287.3404255319149" y="103.1" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Billing migration</text>
-  <text x="287.3404255319149" y="124" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">PRJ-088</text>
-  <text x="287.3404255319149" y="139.6" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">omar</text>
+  <text x="287.34" y="103.1" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Billing migration</text>
+  <text x="287.34" y="124" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">PRJ-088</text>
+  <text x="287.34" y="139.6" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">omar</text>
   <circle cx="290.84" cy="155.2" r="3.5" fill="color-mix(in srgb, #e15759 74%, var(--fg))" />
-  <text x="299.3404255319149" y="155.2" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #e15759 44%, var(--fg))" dy="4.199999999999999">Very high</text>
+  <text x="299.34" y="155.2" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #e15759 44%, var(--fg))" dy="4.2">Very high</text>
 </g>
 <g class="kanban-card" data-id="b2">
   <rect x="259.34" y="181" width="217.38" height="73.4" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
   <circle cx="275.34" cy="200.1" r="3.5" fill="color-mix(in srgb, #76b7b2 74%, var(--fg))" />
-  <text x="287.3404255319149" y="200.1" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Search relevance tuning</text>
-  <text x="287.3404255319149" y="221" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">PRJ-092</text>
-  <text x="287.3404255319149" y="236.6" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">li</text>
+  <text x="287.34" y="200.1" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Search relevance tuning</text>
+  <text x="287.34" y="221" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">PRJ-092</text>
+  <text x="287.34" y="236.6" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">li</text>
 </g>
 <g class="kanban-column" data-id="review" data-count="1">
   <rect x="504.72340425531917" y="40" width="176" height="311.8" rx="12" ry="12" fill="url(#ma2e31288-cw-p3-0)" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1" />
@@ -93,16 +93,16 @@
   <line x1="504.72340425531917" y1="68" x2="680.7234042553191" y2="68" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1" />
 </g>
 <rect x="514.7234042553191" y="48" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="524.7234042553191" y="54" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #b07aa1 44%, var(--fg))" dy="4.8999999999999995">In Review</text>
-<rect x="654.0434042553192" y="46" width="16.68" height="16" rx="4" ry="4" fill="color-mix(in srgb, #b07aa1 22%, var(--bg))" /><text x="662.3834042553192" y="54" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #b07aa1 44%, var(--fg))" dy="4.199999999999999">1</text>
+<text x="524.72" y="54" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #b07aa1 44%, var(--fg))" dy="4.9">In Review</text>
+<rect x="654.0434042553192" y="46" width="16.68" height="16" rx="4" ry="4" fill="color-mix(in srgb, #b07aa1 22%, var(--bg))" /><text x="662.38" y="54" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #b07aa1 44%, var(--fg))" dy="4.2">1</text>
 <g class="kanban-card" data-id="c1" data-priority="high">
   <rect x="516.72" y="84" width="152" height="89" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
   <circle cx="532.723" cy="103.1" r="3.5" fill="color-mix(in srgb, #b07aa1 74%, var(--fg))" />
-  <text x="544.7234042553191" y="103.1" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Rate limiting</text>
-  <text x="544.7234042553191" y="124" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">PRJ-077</text>
-  <text x="544.7234042553191" y="139.6" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">sam</text>
+  <text x="544.72" y="103.1" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Rate limiting</text>
+  <text x="544.72" y="124" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">PRJ-077</text>
+  <text x="544.72" y="139.6" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">sam</text>
   <circle cx="548.223" cy="155.2" r="3.5" fill="color-mix(in srgb, #edc948 74%, var(--fg))" />
-  <text x="556.7234042553191" y="155.2" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #edc948 44%, var(--fg))" dy="4.199999999999999">High</text>
+  <text x="556.72" y="155.2" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #edc948 44%, var(--fg))" dy="4.2">High</text>
 </g>
 <g class="kanban-column" data-id="testing" data-count="2">
   <rect x="696.7234042553191" y="40" width="176" height="311.8" rx="12" ry="12" fill="url(#ma2e31288-cw-p4-0)" stroke="color-mix(in srgb, #9c755f 42%, var(--bg))" stroke-width="1" />
@@ -110,22 +110,22 @@
   <line x1="696.7234042553191" y1="68" x2="872.7234042553191" y2="68" stroke="color-mix(in srgb, #9c755f 42%, var(--bg))" stroke-width="1" />
 </g>
 <rect x="706.7234042553191" y="48" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="716.7234042553191" y="54" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #9c755f 44%, var(--fg))" dy="4.8999999999999995">Testing</text>
-<rect x="841.7234042553191" y="46" width="21" height="16" rx="4" ry="4" fill="color-mix(in srgb, #9c755f 22%, var(--bg))" /><text x="852.2234042553191" y="54" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #9c755f 44%, var(--fg))" dy="4.199999999999999">2</text>
+<text x="716.72" y="54" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #9c755f 44%, var(--fg))" dy="4.9">Testing</text>
+<rect x="841.7234042553191" y="46" width="21" height="16" rx="4" ry="4" fill="color-mix(in srgb, #9c755f 22%, var(--bg))" /><text x="852.22" y="54" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #9c755f 44%, var(--fg))" dy="4.2">2</text>
 <g class="kanban-card" data-id="d1">
   <rect x="708.72" y="84" width="152" height="73.4" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
   <circle cx="724.723" cy="103.1" r="3.5" fill="color-mix(in srgb, #9c755f 74%, var(--fg))" />
-  <text x="736.7234042553191" y="103.1" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">SSO login flow</text>
-  <text x="736.7234042553191" y="124" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">PRJ-070</text>
-  <text x="736.7234042553191" y="139.6" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">maria</text>
+  <text x="736.72" y="103.1" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">SSO login flow</text>
+  <text x="736.72" y="124" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">PRJ-070</text>
+  <text x="736.72" y="139.6" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">maria</text>
 </g>
 <g class="kanban-card" data-id="d2" data-priority="low">
   <rect x="708.72" y="165.4" width="152" height="73.4" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
   <circle cx="724.723" cy="184.5" r="3.5" fill="color-mix(in srgb, #9c755f 74%, var(--fg))" />
-  <text x="736.7234042553191" y="184.5" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Mobile layout</text>
-  <text x="736.7234042553191" y="205.4" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">PRJ-071</text>
+  <text x="736.72" y="184.5" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Mobile layout</text>
+  <text x="736.72" y="205.4" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">PRJ-071</text>
   <circle cx="740.223" cy="221" r="3.5" fill="color-mix(in srgb, #59a14f 74%, var(--fg))" />
-  <text x="748.7234042553191" y="221" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #59a14f 44%, var(--fg))" dy="4.199999999999999">Low</text>
+  <text x="748.72" y="221" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #59a14f 44%, var(--fg))" dy="4.2">Low</text>
 </g>
 <g class="kanban-column" data-id="shipped" data-count="3">
   <rect x="888.7234042553191" y="40" width="197.59574468085108" height="311.8" rx="12" ry="12" fill="url(#ma2e31288-cw-p5-0)" stroke="color-mix(in srgb, #bab0ac 42%, var(--bg))" stroke-width="1" />
@@ -133,25 +133,25 @@
   <line x1="888.7234042553191" y1="68" x2="1086.3191489361702" y2="68" stroke="color-mix(in srgb, #bab0ac 42%, var(--bg))" stroke-width="1" />
 </g>
 <rect x="898.7234042553191" y="48" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="908.7234042553191" y="54" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #bab0ac 44%, var(--fg))" dy="4.8999999999999995">Shipped</text>
-<rect x="1055.3191489361702" y="46" width="21" height="16" rx="4" ry="4" fill="color-mix(in srgb, #bab0ac 22%, var(--bg))" /><text x="1065.8191489361702" y="54" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #bab0ac 44%, var(--fg))" dy="4.199999999999999">3</text>
+<text x="908.72" y="54" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #bab0ac 44%, var(--fg))" dy="4.9">Shipped</text>
+<rect x="1055.3191489361702" y="46" width="21" height="16" rx="4" ry="4" fill="color-mix(in srgb, #bab0ac 22%, var(--bg))" /><text x="1065.82" y="54" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #bab0ac 44%, var(--fg))" dy="4.2">3</text>
 <g class="kanban-card" data-id="e1">
   <rect x="900.72" y="84" width="173.6" height="57.8" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
   <circle cx="916.723" cy="103.1" r="3.5" fill="color-mix(in srgb, #bab0ac 74%, var(--fg))" />
-  <text x="928.7234042553191" y="103.1" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Webhook retries</text>
-  <text x="928.7234042553191" y="124" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">PRJ-050</text>
+  <text x="928.72" y="103.1" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Webhook retries</text>
+  <text x="928.72" y="124" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">PRJ-050</text>
 </g>
 <g class="kanban-card" data-id="e2">
   <rect x="900.72" y="149.8" width="173.6" height="57.8" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
   <circle cx="916.723" cy="168.9" r="3.5" fill="color-mix(in srgb, #bab0ac 74%, var(--fg))" />
-  <text x="928.7234042553191" y="168.9" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Onboarding emails</text>
-  <text x="928.7234042553191" y="189.8" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">PRJ-061</text>
+  <text x="928.72" y="168.9" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Onboarding emails</text>
+  <text x="928.72" y="189.8" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">PRJ-061</text>
 </g>
 <g class="kanban-card" data-id="e3">
   <rect x="900.72" y="215.6" width="173.6" height="57.8" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
   <circle cx="916.723" cy="234.7" r="3.5" fill="color-mix(in srgb, #bab0ac 74%, var(--fg))" />
-  <text x="928.7234042553191" y="234.70000000000002" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Faster CSV import</text>
-  <text x="928.7234042553191" y="255.60000000000002" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">PRJ-066</text>
+  <text x="928.72" y="234.7" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Faster CSV import</text>
+  <text x="928.72" y="255.6" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">PRJ-066</text>
 </g>
 <defs>
   <linearGradient id="ma2e31288-cw-p1-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /></linearGradient>

@@ -36,17 +36,17 @@
   <line x1="40" y1="68" x2="216" y2="68" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1" />
 </g>
 <rect x="50" y="48" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="60" y="54" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.8999999999999995">Todo</text>
-<rect x="185" y="46" width="21" height="16" rx="4" ry="4" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" /><text x="195.5" y="54" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.199999999999999">2</text>
+<text x="60" y="54" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.9">Todo</text>
+<rect x="185" y="46" width="21" height="16" rx="4" ry="4" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" /><text x="195.5" y="54" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.2">2</text>
 <g class="kanban-card" data-id="Task1">
   <rect x="52" y="84" width="152" height="38.2" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
   <circle cx="68" cy="103.1" r="3.5" fill="color-mix(in srgb, #f28e2b 74%, var(--fg))" />
-  <text x="80" y="103.1" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Task1</text>
+  <text x="80" y="103.1" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Task1</text>
 </g>
 <g class="kanban-card" data-id="Task2">
   <rect x="52" y="130.2" width="152" height="38.2" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
   <circle cx="68" cy="149.3" r="3.5" fill="color-mix(in srgb, #f28e2b 74%, var(--fg))" />
-  <text x="80" y="149.29999999999998" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Task2</text>
+  <text x="80" y="149.3" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Task2</text>
 </g>
 <g class="kanban-column" data-id="In Progress" data-count="1">
   <rect x="232" y="40" width="176" height="144.4" rx="12" ry="12" fill="url(#ma2e31288-cw-p2-0)" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1" />
@@ -54,12 +54,12 @@
   <line x1="232" y1="68" x2="408" y2="68" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1" />
 </g>
 <rect x="242" y="48" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="252" y="54" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.8999999999999995">In Progress</text>
-<rect x="381.32" y="46" width="16.68" height="16" rx="4" ry="4" fill="color-mix(in srgb, #76b7b2 22%, var(--bg))" /><text x="389.65999999999997" y="54" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.199999999999999">1</text>
+<text x="252" y="54" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.9">In Progress</text>
+<rect x="381.32" y="46" width="16.68" height="16" rx="4" ry="4" fill="color-mix(in srgb, #76b7b2 22%, var(--bg))" /><text x="389.66" y="54" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.2">1</text>
 <g class="kanban-card" data-id="Task3">
   <rect x="244" y="84" width="152" height="38.2" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
   <circle cx="260" cy="103.1" r="3.5" fill="color-mix(in srgb, #76b7b2 74%, var(--fg))" />
-  <text x="272" y="103.1" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Task3</text>
+  <text x="272" y="103.1" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Task3</text>
 </g>
 <g class="kanban-column" data-id="Done" data-count="1">
   <rect x="424" y="40" width="176" height="144.4" rx="12" ry="12" fill="url(#ma2e31288-cw-p3-0)" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1" />
@@ -67,12 +67,12 @@
   <line x1="424" y1="68" x2="600" y2="68" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1" />
 </g>
 <rect x="434" y="48" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="444" y="54" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #b07aa1 44%, var(--fg))" dy="4.8999999999999995">Done</text>
-<rect x="573.32" y="46" width="16.68" height="16" rx="4" ry="4" fill="color-mix(in srgb, #b07aa1 22%, var(--bg))" /><text x="581.6600000000001" y="54" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #b07aa1 44%, var(--fg))" dy="4.199999999999999">1</text>
+<text x="444" y="54" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #b07aa1 44%, var(--fg))" dy="4.9">Done</text>
+<rect x="573.32" y="46" width="16.68" height="16" rx="4" ry="4" fill="color-mix(in srgb, #b07aa1 22%, var(--bg))" /><text x="581.66" y="54" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #b07aa1 44%, var(--fg))" dy="4.2">1</text>
 <g class="kanban-card" data-id="Task4">
   <rect x="436" y="84" width="152" height="38.2" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
   <circle cx="452" cy="103.1" r="3.5" fill="color-mix(in srgb, #b07aa1 74%, var(--fg))" />
-  <text x="464" y="103.1" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Task4</text>
+  <text x="464" y="103.1" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Task4</text>
 </g>
 <defs>
   <linearGradient id="ma2e31288-cw-p1-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /></linearGradient>

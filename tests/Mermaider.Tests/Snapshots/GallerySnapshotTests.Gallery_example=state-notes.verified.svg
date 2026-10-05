@@ -36,13 +36,13 @@
 <path class="edge" data-from="Active" data-to="Done" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="finish" d="M135.9056,112.2 L135.9056,118.2 Q135.9056,124.2 141.9056,124.2 L211.74063999999996,124.2 Q219.74063999999996,124.2 219.74063999999996,132.2 L219.74063999999996,212.05" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
 <path class="edge" data-from="Done" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M219.74063999999996,254.25 L219.74063999999998,284.25" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
 <g class="edge-label" data-from="Active" data-to="Paused" data-label="pause">
-  <rect x="20.52533333333334" y="151.325" width="51.99999999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="46.525333333333336" y="162.125" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">pause</text>
+  <rect x="20.52533333333334" y="151.325" width="51.99999999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="46.53" y="162.13" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">pause</text>
 </g>
 <g class="edge-label" data-from="Paused" data-to="Active" data-label="resume">
-  <rect x="85.98559999999999" y="151.325" width="58.839999999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="115.40559999999999" y="162.125" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">resume</text>
+  <rect x="85.98559999999999" y="151.325" width="58.839999999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="115.41" y="162.13" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">resume</text>
 </g>
 <g class="edge-label" data-from="Active" data-to="Done" data-label="finish">
-  <rect x="167.13437599999997" y="113.4" width="46.528000000000006" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="190.39837599999998" y="124.2" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">finish</text>
+  <rect x="167.13437599999997" y="113.4" width="46.528000000000006" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="190.4" y="124.2" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">finish</text>
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
   <circle cx="115.40559999999999" cy="28" r="10" fill="var(--accent, var(--fg))" />
@@ -50,15 +50,15 @@
 </g>
 <g class="node" data-id="Active" data-label="Active" data-shape="rounded">
   <rect x="74.40559999999999" y="70" width="82" height="42.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="115.40559999999999" y="91.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Active</text>
+  <text x="115.41" y="91.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Active</text>
 </g>
 <g class="node" data-id="Paused" data-label="Paused" data-shape="rounded">
   <rect x="16" y="212.05" width="91.576" height="42.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="61.788" y="233.15" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Paused</text>
+  <text x="61.79" y="233.15" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Paused</text>
 </g>
 <g class="node" data-id="Done" data-label="Done" data-shape="rounded">
   <rect x="181.93263999999996" y="212.05" width="75.616" height="42.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="219.74063999999996" y="233.15" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Done</text>
+  <text x="219.74" y="233.15" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Done</text>
 </g>
 <g class="node" data-id="_end" data-label="" data-shape="stateend">
   <circle cx="219.74063999999998" cy="296.25" r="10" fill="none" stroke="var(--accent, var(--fg))" stroke-width="2" />
@@ -69,13 +69,13 @@
   <line x1="186.4056" y1="91.1" x2="156.4056" y2="91.1" stroke="color-mix(in srgb, var(--accent, var(--fg)) 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="1.5 4.5" stroke-linecap="round" />
   <rect x="186.4056" y="77.1" width="177.06799999999998" height="28" rx="4" ry="4" fill="color-mix(in srgb, var(--accent, var(--fg)) 9%, var(--bg))" stroke="color-mix(in srgb, var(--accent, var(--fg)) 42%, var(--bg))" stroke-width="1" />
   <rect x="186.4056" y="77.1" width="3" height="28" fill="var(--accent, var(--fg))" />
-  <text x="276.4396" y="91.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="color-mix(in srgb, var(--accent, var(--fg)) 44%, var(--fg))" dy="4.8999999999999995">This is the main working state</text>
+  <text x="276.44" y="91.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="color-mix(in srgb, var(--accent, var(--fg)) 44%, var(--fg))" dy="4.9">This is the main working state</text>
 </g>
 <g class="note">
   <line x1="-14" y1="233.15" x2="16" y2="233.15" stroke="color-mix(in srgb, var(--accent, var(--fg)) 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="1.5 4.5" stroke-linecap="round" />
   <rect x="-166.44400000000002" y="219.15" width="152.44400000000002" height="28" rx="4" ry="4" fill="color-mix(in srgb, var(--accent, var(--fg)) 9%, var(--bg))" stroke="color-mix(in srgb, var(--accent, var(--fg)) 42%, var(--bg))" stroke-width="1" />
   <rect x="-166.44400000000002" y="219.15" width="3" height="28" fill="var(--accent, var(--fg))" />
-  <text x="-88.72200000000001" y="233.15" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="color-mix(in srgb, var(--accent, var(--fg)) 44%, var(--fg))" dy="4.8999999999999995">Temporarily suspended</text>
+  <text x="-88.72" y="233.15" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="color-mix(in srgb, var(--accent, var(--fg)) 44%, var(--fg))" dy="4.9">Temporarily suspended</text>
 </g>
 <defs>
   <linearGradient id="ma2e31288-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 7%, var(--bg))" /></linearGradient>

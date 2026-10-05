@@ -34,37 +34,37 @@
 <line class="lifeline" data-actor="B" x1="210" y1="70" x2="210" y2="246" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
 <g class="message" data-from="A" data-to="B" data-label="Hello" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="70" y1="114" x2="210" y2="114" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
-  <text x="140" y="102" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">Hello</text>
+  <text x="140" y="102" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">Hello</text>
 </g>
 <g class="sequence-note" data-position="right" data-actors="B">
 <g class="note">
   <rect x="260" y="124" width="120" height="38" rx="4" ry="4" fill="color-mix(in srgb, var(--accent, var(--fg)) 9%, var(--bg))" stroke="color-mix(in srgb, var(--accent, var(--fg)) 42%, var(--bg))" stroke-width="1" />
   <rect x="260" y="124" width="3" height="38" fill="var(--accent, var(--fg))" />
-  <text x="321.5" y="143" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="color-mix(in srgb, var(--accent, var(--fg)) 44%, var(--fg))" dy="4.8999999999999995">Important</text>
+  <text x="321.5" y="143" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="color-mix(in srgb, var(--accent, var(--fg)) 44%, var(--fg))" dy="4.9">Important</text>
 </g>
 </g>
 <g class="sequence-note" data-position="over" data-actors="A,B">
 <g class="note">
   <rect x="44" y="124" width="192" height="38" rx="4" ry="4" fill="color-mix(in srgb, var(--accent, var(--fg)) 9%, var(--bg))" stroke="color-mix(in srgb, var(--accent, var(--fg)) 42%, var(--bg))" stroke-width="1" />
   <rect x="44" y="124" width="3" height="38" fill="var(--accent, var(--fg))" />
-  <text x="141.5" y="143" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="color-mix(in srgb, var(--accent, var(--fg)) 44%, var(--fg))" dy="4.8999999999999995">Shared note</text>
+  <text x="141.5" y="143" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="color-mix(in srgb, var(--accent, var(--fg)) 44%, var(--fg))" dy="4.9">Shared note</text>
 </g>
 </g>
 <g class="actor" data-id="A" data-label="A" data-type="participant">
   <rect x="30" y="30" width="80" height="40" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="70" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">A</text>
+  <text x="70" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">A</text>
 </g>
 <g class="actor" data-id="B" data-label="B" data-type="participant">
   <rect x="170" y="30" width="80" height="40" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="210" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">B</text>
+  <text x="210" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">B</text>
 </g>
 <g class="actor-ghost" data-id="A" data-label="A" data-type="participant">
   <rect x="30" y="246" width="80" height="40" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
-  <text x="70" y="266" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-muted)" dy="4.8999999999999995">A</text>
+  <text x="70" y="266" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-muted)" dy="4.9">A</text>
 </g>
 <g class="actor-ghost" data-id="B" data-label="B" data-type="participant">
   <rect x="170" y="246" width="80" height="40" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
-  <text x="210" y="266" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-muted)" dy="4.8999999999999995">B</text>
+  <text x="210" y="266" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-muted)" dy="4.9">B</text>
 </g>
 <defs>
   <linearGradient id="ma2e31288-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 7%, var(--bg))" /></linearGradient>

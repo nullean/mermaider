@@ -34,14 +34,14 @@
 <path class="edge" data-from="isPositive" data-to="Positive" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="if n &gt; 0" d="M123.03566666666667,96.5 L123.03566666666667,106 Q123.03566666666667,114 115.03566666666667,114 L70.586,114 Q62.586,114 62.586,122 L62.586,193.85" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
 <path class="edge" data-from="isPositive" data-to="Negative" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="if n &lt; 0" d="M133.70233333333334,96.5 L133.70233333333334,106 Q133.70233333333334,114 141.70233333333334,114 L186.152,114 Q194.152,114 194.152,122 L194.152,193.85" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
 <g class="edge-label" data-from="isPositive" data-to="Positive" data-label="if n &gt; 0">
-  <rect x="52.724416666666684" y="103.2" width="49.947999999999986" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="77.69841666666667" y="114" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">if n &gt; 0</text>
+  <rect x="52.724416666666684" y="103.2" width="49.947999999999986" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="77.7" y="114" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">if n &gt; 0</text>
 </g>
 <g class="edge-label" data-from="isPositive" data-to="Negative" data-label="if n &lt; 0">
-  <rect x="154.06558333333334" y="103.2" width="49.947999999999986" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="179.03958333333333" y="114" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">if n &lt; 0</text>
+  <rect x="154.06558333333334" y="103.2" width="49.947999999999986" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="179.04" y="114" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">if n &lt; 0</text>
 </g>
 <g class="node" data-id="isPositive" data-label="" data-shape="diamond">
   <polygon points="128.369,70 144.369,86 128.369,102 112.369,86" fill="url(#ma2e31288-ng-a)" stroke="color-mix(in srgb, var(--accent, var(--fg)) 74%, var(--fg))" stroke-width="1.25" />
-  <text x="128.369" y="86" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995"></text>
+  <text x="128.37" y="86" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9"></text>
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
   <circle cx="128.369" cy="28" r="10" fill="var(--accent, var(--fg))" />
@@ -49,11 +49,11 @@
 </g>
 <g class="node" data-id="Positive" data-label="Positive" data-shape="rounded">
   <rect x="16" y="193.85" width="93.172" height="42.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="62.586" y="214.95" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Positive</text>
+  <text x="62.59" y="214.95" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Positive</text>
 </g>
 <g class="node" data-id="Negative" data-label="Negative" data-shape="rounded">
   <rect x="145.172" y="193.85" width="97.96000000000001" height="42.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="194.152" y="214.95" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Negative</text>
+  <text x="194.15" y="214.95" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Negative</text>
 </g>
 <defs>
   <linearGradient id="ma2e31288-ng-a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 7%, var(--bg))" /></linearGradient>

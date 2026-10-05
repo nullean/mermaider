@@ -33,23 +33,23 @@
 <line class="lifeline" data-actor="Service" x1="72.586" y1="70" x2="72.586" y2="398" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
 <g class="message" data-from="Service" data-to="Service" data-label="Initialize" data-line-style="solid" data-arrow-head="filled" data-self="true">
   <polyline points="72.586,114 102.586,114 102.586,134 72.586,134" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#ma2e31288-mk-arrow)" />
-  <text x="110.586" y="124" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">Initialize</text>
+  <text x="110.59" y="124" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">Initialize</text>
 </g>
 <g class="message" data-from="Service" data-to="Service" data-label="Validate config" data-line-style="solid" data-arrow-head="filled" data-self="true">
   <polyline points="72.586,194 102.586,194 102.586,214 72.586,214" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#ma2e31288-mk-arrow)" />
-  <text x="110.586" y="204" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">Validate config</text>
+  <text x="110.59" y="204" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">Validate config</text>
 </g>
 <g class="message" data-from="Service" data-to="Service" data-label="Ready" data-line-style="dashed" data-arrow-head="filled" data-self="true">
   <polyline points="72.586,274 102.586,274 102.586,294 72.586,294" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" stroke-dasharray="5 4" marker-end="url(#ma2e31288-mk-arrow)" />
-  <text x="110.586" y="284" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">Ready</text>
+  <text x="110.59" y="284" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">Ready</text>
 </g>
 <g class="actor" data-id="Service" data-label="Service" data-type="participant">
   <rect x="30" y="30" width="85.172" height="40" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="72.586" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Service</text>
+  <text x="72.59" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Service</text>
 </g>
 <g class="actor-ghost" data-id="Service" data-label="Service" data-type="participant">
   <rect x="30" y="398" width="85.172" height="40" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
-  <text x="72.586" y="418" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-muted)" dy="4.8999999999999995">Service</text>
+  <text x="72.59" y="418" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-muted)" dy="4.9">Service</text>
 </g>
 <defs>
   <linearGradient id="ma2e31288-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 7%, var(--bg))" /></linearGradient>

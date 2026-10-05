@@ -39,40 +39,40 @@
 <path class="edge" data-from="PhysicalRestructure" data-to="Cutover" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="merge feature branch" d="M123.2086133333333,529.95 L123.20861333333332,621.8" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
 <path class="edge" data-from="Cutover" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M148.44627999999997,664 L148.44627999999994,694" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
 <g class="edge-label" data-from="NotStarted" data-to="ShadowNav" data-label="add docset-v2.yml + toc-v2.yml to main">
-  <rect x="41.86727999999998" y="147.325" width="218.21199999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="150.97327999999996" y="158.125" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">add docset-v2.yml + toc-v2.yml to main</text>
+  <rect x="41.86727999999998" y="147.325" width="218.21199999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="150.97" y="158.13" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">add docset-v2.yml + toc-v2.yml to main</text>
 </g>
 <g class="edge-label" data-from="ShadowNav" data-to="VirtualRemap" data-label="assign new path_prefix in navigation-v2.yml">
-  <rect x="26.13528000000001" y="281.375" width="249.67599999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="150.97328" y="292.175" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">assign new path_prefix in navigation-v2.yml</text>
+  <rect x="26.13528000000001" y="281.375" width="249.67599999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="150.97" y="292.18" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">assign new path_prefix in navigation-v2.yml</text>
 </g>
 <g class="edge-label" data-from="VirtualRemap" data-to="PhysicalRestructure" data-label="run apply-nav-restructure
 (only if content moves)">
-  <rect x="43.51461333333336" y="415.42499999999995" width="159.38799999999998" height="37.2" rx="18.6" ry="18.6" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="123.20861333333335" y="434.025" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)"><tspan x="123.20861333333335" dy="-3.6000000000000014">run apply-nav-restructure</tspan><tspan x="123.20861333333335" dy="15.600000000000001">(only if content moves)</tspan></text>
+  <rect x="43.51461333333336" y="415.42499999999995" width="159.38799999999998" height="37.2" rx="18.6" ry="18.6" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="123.21" y="434.03" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)"><tspan x="123.21" dy="-3.6">run apply-nav-restructure</tspan><tspan x="123.21" dy="15.6">(only if content moves)</tspan></text>
 </g>
 <g class="edge-label" data-from="VirtualRemap" data-to="Cutover" data-label="no URL changes needed">
-  <rect x="260.70965333333334" y="423.22499999999997" width="151.18" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="336.2996533333333" y="434.025" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">no URL changes needed</text>
+  <rect x="260.70965333333334" y="423.22499999999997" width="151.18" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="336.3" y="434.03" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">no URL changes needed</text>
 </g>
 <g class="edge-label" data-from="PhysicalRestructure" data-to="Cutover" data-label="merge feature branch">
-  <rect x="56.16861333333331" y="565.075" width="134.07999999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="123.2086133333333" y="575.875" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">merge feature branch</text>
+  <rect x="56.16861333333331" y="565.075" width="134.07999999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="123.21" y="575.88" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">merge feature branch</text>
 </g>
 <g class="node" data-id="NotStarted" data-label="Not started" data-shape="rounded">
   <rect x="96.00827999999996" y="70" width="109.92999999999999" height="42.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="150.97327999999996" y="91.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Not started</text>
+  <text x="150.97" y="91.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Not started</text>
 </g>
 <g class="node" data-id="ShadowNav" data-label="Shadow nav created" data-shape="rounded">
   <rect x="65.28528" y="204.05" width="171.376" height="42.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="150.97328" y="225.15" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Shadow nav created</text>
+  <text x="150.97" y="225.15" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Shadow nav created</text>
 </g>
 <g class="node" data-id="VirtualRemap" data-label="Virtual remap active" data-shape="rounded">
   <rect x="67.67928" y="338.1" width="166.58800000000002" height="42.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="150.97328000000002" y="359.20000000000005" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Virtual remap active</text>
+  <text x="150.97" y="359.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Virtual remap active</text>
 </g>
 <g class="node" data-id="PhysicalRestructure" data-label="Physical restructure" data-shape="rounded">
   <rect x="36.3236133333333" y="487.75" width="173.77" height="42.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="123.2086133333333" y="508.85" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Physical restructure</text>
+  <text x="123.21" y="508.85" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Physical restructure</text>
 </g>
 <g class="node" data-id="Cutover" data-label="Cutover complete" data-shape="rounded">
   <rect x="72.73327999999998" y="621.8" width="151.426" height="42.2" rx="14" ry="14" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="148.44627999999997" y="642.9" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Cutover complete</text>
+  <text x="148.45" y="642.9" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Cutover complete</text>
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
   <circle cx="150.97328" cy="28" r="10" fill="var(--accent, var(--fg))" />

@@ -52,38 +52,38 @@
 <path class="edge" data-from="compute2" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M489.5,358.59999999999997 L489.5,366.09999999999997 Q489.5,373.59999999999997 482,373.59999999999997 L371,373.59999999999997 Q363,373.59999999999997 363,381.59999999999997 L363,398.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
 <path class="edge" data-from="nat" data-to="internet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M309,419.5 L24,419.5 Q16,419.5 16,411.5 L16,45 Q16,37 24,37 L297.5,37" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
 <rect x="50" y="106.2" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="60" y="112.2" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.8999999999999995">project</text>
+<text x="60" y="112.2" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.9">project</text>
 <rect x="74" y="244.39999999999998" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="84" y="250.39999999999998" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.8999999999999995">subnet1</text>
+<text x="84" y="250.4" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.9">subnet1</text>
 <rect x="367.96000000000004" y="244.39999999999998" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="377.96000000000004" y="250.39999999999998" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #b07aa1 44%, var(--fg))" dy="4.8999999999999995">subnet2</text>
+<text x="377.96" y="250.4" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #b07aa1 44%, var(--fg))" dy="4.9">subnet2</text>
 <g class="node" data-id="internet" data-label="internet" data-shape="rectangle">
   <rect x="297.36400000000003" y="16" width="89.97999999999999" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="342.35400000000004" y="37.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">internet</text>
+  <text x="342.35" y="37.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">internet</text>
 </g>
 <g class="node" data-id="router" data-label="router" data-shape="rectangle">
   <rect x="300.15700000000004" y="154.2" width="82" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="341.15700000000004" y="175.29999999999998" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">router</text>
+  <text x="341.16" y="175.3" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">router</text>
 </g>
 <g class="node" data-id="nat" data-label="nat" data-shape="rectangle">
   <rect x="309.15700000000004" y="398.59999999999997" width="64" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="341.15700000000004" y="419.7" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">nat</text>
+  <text x="341.16" y="419.7" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">nat</text>
 </g>
 <g class="node" data-id="compute1" data-label="compute1" data-shape="rectangle">
   <rect x="88" y="292.4" width="97.96000000000001" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="136.98000000000002" y="313.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">compute1</text>
+  <text x="136.98" y="313.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">compute1</text>
 </g>
 <g class="node" data-id="lb1" data-label="lb1" data-shape="rectangle">
   <rect x="233.96" y="292.4" width="64" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="265.96000000000004" y="313.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">lb1</text>
+  <text x="265.96" y="313.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">lb1</text>
 </g>
 <g class="node" data-id="compute2" data-label="compute2" data-shape="rectangle">
   <rect x="381.96000000000004" y="292.4" width="102.74799999999999" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="433.33400000000006" y="313.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">compute2</text>
+  <text x="433.33" y="313.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">compute2</text>
 </g>
 <g class="node" data-id="lb2" data-label="lb2" data-shape="rectangle">
   <rect x="532.7080000000001" y="292.4" width="64" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="564.7080000000001" y="313.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">lb2</text>
+  <text x="564.71" y="313.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">lb2</text>
 </g>
 <defs>
   <linearGradient id="ma2e31288-cw-p1-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /></linearGradient>

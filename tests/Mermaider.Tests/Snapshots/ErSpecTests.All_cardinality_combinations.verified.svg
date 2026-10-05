@@ -52,19 +52,19 @@
 </g>
 <g class="entity" data-id="E" data-label="E">
   <rect x="323.26424000000003" y="20" width="120" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
-  <text x="383.26424000000003" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">E</text>
+  <text x="383.26" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">E</text>
 </g>
 <g class="entity" data-id="F" data-label="F">
   <rect x="323.26424000000003" y="159.6" width="120" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
-  <text x="383.26424000000003" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">F</text>
+  <text x="383.26" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">F</text>
 </g>
 <g class="entity" data-id="G" data-label="G">
   <rect x="487.9785600000001" y="20" width="120" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
-  <text x="547.97856" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">G</text>
+  <text x="547.98" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">G</text>
 </g>
 <g class="entity" data-id="H" data-label="H">
   <rect x="487.9785600000001" y="159.6" width="120" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
-  <text x="547.97856" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">H</text>
+  <text x="547.98" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">H</text>
 </g>
 <path d="M86.5,73 L73.5,73" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
 <path d="M86.5,78 L73.5,78" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
@@ -83,16 +83,16 @@
 <path d="M540.47856,159.6 L547.97856,146.6 L555.47856,159.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
 <path d="M541.47856,141.6 L554.47856,141.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
 <g class="edge-label" data-label="one-to-one">
-  <rect x="42.372" y="101" width="75.256" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="80" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">one-to-one</text>
+  <rect x="42.372" y="101" width="75.256" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="80" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">one-to-one</text>
 </g>
 <g class="edge-label" data-label="one-to-zero-or-one">
-  <rect x="159.8" y="101" width="120.4" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="220" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">one-to-zero-or-one</text>
+  <rect x="159.8" y="101" width="120.4" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="220" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">one-to-zero-or-one</text>
 </g>
 <g class="edge-label" data-label="one-to-zero-or-many">
-  <rect x="318.96024" y="101" width="128.608" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="383.26424000000003" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">one-to-zero-or-many</text>
+  <rect x="318.96024" y="101" width="128.608" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="383.26" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">one-to-zero-or-many</text>
 </g>
 <g class="edge-label" data-label="one-to-one-or-many">
-  <rect x="486.41056000000003" y="101" width="123.136" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="547.97856" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">one-to-one-or-many</text>
+  <rect x="486.41056000000003" y="101" width="123.136" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="547.98" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">one-to-one-or-many</text>
 </g>
 <defs>
   <linearGradient id="ma2e31288-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 7%, var(--bg))" /></linearGradient>

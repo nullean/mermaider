@@ -31,10 +31,10 @@
 </style>
 
 <g class="gitgraph-branch" data-branch="main">
-  <rect x="24" y="44" width="39.72" height="16" rx="4" ry="4" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" /><text x="43.86" y="52" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.199999999999999">main</text>
+  <rect x="24" y="44" width="39.72" height="16" rx="4" ry="4" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" /><text x="43.86" y="52" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.2">main</text>
 </g>
 <g class="gitgraph-branch" data-branch="develop">
-  <rect x="24" y="100" width="59.88" height="16" rx="4" ry="4" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" /><text x="53.94" y="108" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.199999999999999">develop</text>
+  <rect x="24" y="100" width="59.88" height="16" rx="4" ry="4" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" /><text x="53.94" y="108" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.2">develop</text>
 </g>
 <path d="M204,52 L231.6,52 Q239.6,52 239.6,60 L239.6,100 Q239.6,108 247.6,108 L275.2,108" class="gitgraph-link" data-kind="fork" fill="none" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
 <path d="M346.4,108 L374,108 Q382,108 382,100 L382,60 Q382,52 390,52 L417.59999999999997,52" class="gitgraph-link" data-kind="merge" fill="none" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -44,29 +44,29 @@
 <path d="M417.6,52 L488.8,52" class="gitgraph-link" data-kind="lane" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
 <g class="commit" data-type="normal">
   <circle cx="132.8" cy="52" r="4.5" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke="var(--bg)" stroke-width="1.5" />
-  <text x="132.8" y="70" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">init</text>
+  <text x="132.8" y="70" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">init</text>
 </g>
 <g class="commit" data-type="normal">
   <circle cx="204" cy="52" r="4.5" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke="var(--bg)" stroke-width="1.5" />
-  <text x="204" y="70" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">feat-1</text>
+  <text x="204" y="70" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">feat-1</text>
 </g>
 <g class="commit" data-type="normal">
   <circle cx="275.2" cy="108" r="4.5" fill="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke="var(--bg)" stroke-width="1.5" />
-  <text x="275.2" y="126" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">dev-1</text>
+  <text x="275.2" y="126" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">dev-1</text>
 </g>
 <g class="commit" data-type="normal">
   <circle cx="346.4" cy="108" r="4.5" fill="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke="var(--bg)" stroke-width="1.5" />
-  <text x="346.4" y="126" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">dev-2</text>
-  <rect x="329.41999999999996" y="80" width="33.959999999999994" height="16" rx="4" ry="4" fill="color-mix(in srgb, var(--accent, var(--fg)) 22%, var(--bg))" /><text x="346.4" y="88" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, var(--accent, var(--fg)) 44%, var(--fg))" dy="4.199999999999999">v0.1</text>
+  <text x="346.4" y="126" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">dev-2</text>
+  <rect x="329.41999999999996" y="80" width="33.959999999999994" height="16" rx="4" ry="4" fill="color-mix(in srgb, var(--accent, var(--fg)) 22%, var(--bg))" /><text x="346.4" y="88" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, var(--accent, var(--fg)) 44%, var(--fg))" dy="4.2">v0.1</text>
 </g>
 <g class="commit" data-type="normal" data-merge="true">
   <circle cx="417.6" cy="52" r="5.5" fill="var(--bg)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="2.5" />
-  <text x="417.59999999999997" y="70" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">merge-1</text>
+  <text x="417.6" y="70" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">merge-1</text>
 </g>
 <g class="commit" data-type="highlight" data-head="true">
   <circle cx="488.79999999999995" cy="52" r="6" fill="var(--accent, var(--fg))" stroke="var(--bg)" stroke-width="1.5" />
   <circle cx="488.8" cy="52" r="10" fill="none" stroke="var(--accent, var(--fg))" stroke-width="1.5" />
-  <text x="488.79999999999995" y="70" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">release</text>
-  <rect x="471.81999999999994" y="24" width="33.959999999999994" height="16" rx="4" ry="4" fill="color-mix(in srgb, var(--accent, var(--fg)) 22%, var(--bg))" /><text x="488.79999999999995" y="32" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, var(--accent, var(--fg)) 44%, var(--fg))" dy="4.199999999999999">v1.0</text>
+  <text x="488.8" y="70" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">release</text>
+  <rect x="471.81999999999994" y="24" width="33.959999999999994" height="16" rx="4" ry="4" fill="color-mix(in srgb, var(--accent, var(--fg)) 22%, var(--bg))" /><text x="488.8" y="32" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, var(--accent, var(--fg)) 44%, var(--fg))" dy="4.2">v1.0</text>
 </g>
 </svg>

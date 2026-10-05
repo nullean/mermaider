@@ -41,17 +41,17 @@
   <circle cx="306" cy="292" r="134.4" fill="none" stroke="var(--_line-soft)" stroke-width="1" />
   <circle cx="306" cy="292" r="168" fill="none" stroke="var(--_line-soft)" stroke-width="1" />
   <line x1="306" y1="292" x2="306" y2="124" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="306" y="96" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-sec)" dy="4.8999999999999995">Price</text>
+  <text x="306" y="96" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-sec)" dy="4.9">Price</text>
   <line x1="306" y1="292" x2="451.492" y2="208" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="475.741" y="194" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-sec)" dy="4.8999999999999995">Quality</text>
+  <text x="475.74" y="194" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-sec)" dy="4.9">Quality</text>
   <line x1="306" y1="292" x2="451.492" y2="376" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="475.741" y="390" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-sec)" dy="4.8999999999999995">Features</text>
+  <text x="475.74" y="390" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-sec)" dy="4.9">Features</text>
   <line x1="306" y1="292" x2="306" y2="460" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="306" y="488" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-sec)" dy="4.8999999999999995">Support</text>
+  <text x="306" y="488" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-sec)" dy="4.9">Support</text>
   <line x1="306" y1="292" x2="160.508" y2="376" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="136.259" y="390" text-anchor="end" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-sec)" dy="4.8999999999999995">Speed</text>
+  <text x="136.26" y="390" text-anchor="end" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-sec)" dy="4.9">Speed</text>
   <line x1="306" y1="292" x2="160.508" y2="208" stroke="var(--_line-soft)" stroke-width="1" />
-  <text x="136.259" y="194" text-anchor="end" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-sec)" dy="4.8999999999999995">UX</text>
+  <text x="136.26" y="194" text-anchor="end" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-sec)" dy="4.9">UX</text>
 </g>
 <g class="radar-curve" data-curve="c1">
   <polygon points="306,157.6 451.49,208 393.3,342.4 306,426.4 160.51,376 189.61,224.8" fill="#4e79a7" fill-opacity="0.2" stroke="#4e79a7" stroke-width="2" stroke-linejoin="round" />
@@ -72,7 +72,7 @@
   <circle cx="160.508" cy="208" r="3.5" fill="#f28e2b" stroke="var(--bg)" stroke-width="1.5" />
 </g>
 <rect x="569" y="133" width="10" height="10" rx="3" ry="3" fill="#4e79a7" stroke="none" />
-  <text x="587" y="138" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Product A</text>
+  <text x="587" y="138" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Product A</text>
 <rect x="569" y="161" width="10" height="10" rx="3" ry="3" fill="#f28e2b" stroke="none" />
-  <text x="587" y="166" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Product B</text>
+  <text x="587" y="166" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Product B</text>
 </svg>

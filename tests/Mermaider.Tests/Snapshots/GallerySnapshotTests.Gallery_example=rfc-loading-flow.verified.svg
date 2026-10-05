@@ -39,53 +39,53 @@
 <path class="edge" data-from="loadV2" data-to="v2Nodes" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M228.51800000000003,498.13199999999995 L228.51799999999997,538.132" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
 <path class="edge" data-from="loadFallback" data-to="v2NodesFallback" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M513.3,498.13199999999995 L513.3,538.132" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
 <g class="edge-label" data-from="hasV2" data-to="loadV2" data-label="Yes">
-  <rect x="250.98106666666666" y="347.082" width="39.688" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="270.82506666666666" y="357.882" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">Yes</text>
+  <rect x="250.98106666666666" y="347.082" width="39.688" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="270.83" y="357.88" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Yes</text>
 </g>
 <g class="edge-label" data-from="hasV2" data-to="loadFallback" data-label="No">
-  <rect x="454.56893333333335" y="347.082" width="32.848" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="470.9929333333333" y="357.882" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">No</text>
+  <rect x="454.56893333333335" y="347.082" width="32.848" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="470.99" y="357.88" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">No</text>
 </g>
 <g class="node" data-id="disk" data-label="All repos cloned to disk prior to
 build" data-shape="rectangle">
   <rect x="126.07199999999995" y="16" width="235.21599999999998" height="60.4" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="243.67999999999995" y="46.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="243.67999999999995" dy="-4.2">All repos cloned to disk prior to</tspan><tspan x="243.67999999999995" dy="18.2">build</tspan></text>
+  <text x="243.68" y="46.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="243.68" dy="-4.2">All repos cloned to disk prior to</tspan><tspan x="243.68" dy="18.2">build</tspan></text>
 </g>
 <g class="node" data-id="v1Load" data-label="Load docset.yml + toc.yml
 (every repo)" data-shape="rectangle">
   <rect x="16" y="116.4" width="200.90199999999996" height="60.4" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="116.45099999999998" y="146.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="116.45099999999998" dy="-4.2">Load docset.yml + toc.yml</tspan><tspan x="116.45099999999998" dy="18.2">(every repo)</tspan></text>
+  <text x="116.45" y="146.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="116.45" dy="-4.2">Load docset.yml + toc.yml</tspan><tspan x="116.45" dy="18.2">(every repo)</tspan></text>
 </g>
 <g class="node" data-id="uriResolve" data-label="navigation-v2.yml URI resolved
 to repo checkout on disk" data-shape="rectangle">
   <rect x="252.902" y="116.4" width="236.01399999999998" height="60.4" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="370.909" y="146.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="370.909" dy="-4.2">navigation-v2.yml URI resolved</tspan><tspan x="370.909" dy="18.2">to repo checkout on disk</tspan></text>
+  <text x="370.91" y="146.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="370.91" dy="-4.2">navigation-v2.yml URI resolved</tspan><tspan x="370.91" dy="18.2">to repo checkout on disk</tspan></text>
 </g>
 <g class="node" data-id="v1Nodes" data-label="V1 TableOfContentNodes" data-shape="rectangle">
   <rect x="18.394000000000005" y="216.8" width="196.11399999999995" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="116.45099999999998" y="237.9" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">V1 TableOfContentNodes</text>
+  <text x="116.45" y="237.9" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">V1 TableOfContentNodes</text>
 </g>
 <g class="node" data-id="hasV2" data-label="docset-v2.yml
 present?" data-shape="diamond">
   <polygon points="370.909,216.8 435.45,281.341 370.909,345.882 306.368,281.341" fill="url(#ma2e31288-ng-a)" stroke="color-mix(in srgb, var(--accent, var(--fg)) 74%, var(--fg))" stroke-width="1.25" />
-  <text x="370.909" y="281.341" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="370.909" dy="-4.2">docset-v2.yml</tspan><tspan x="370.909" dy="18.2">present?</tspan></text>
+  <text x="370.91" y="281.34" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="370.91" dy="-4.2">docset-v2.yml</tspan><tspan x="370.91" dy="18.2">present?</tspan></text>
 </g>
 <g class="node" data-id="loadV2" data-label="Load toc-v2.yml
 (required — no fallback to toc.yml)" data-shape="rectangle">
   <rect x="105.72300000000007" y="437.73199999999997" width="245.58999999999995" height="60.4" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="228.51800000000003" y="467.93199999999996" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="228.51800000000003" dy="-4.2">Load toc-v2.yml</tspan><tspan x="228.51800000000003" dy="18.2">(required — no fallback to toc.yml)</tspan></text>
+  <text x="228.52" y="467.93" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="228.52" dy="-4.2">Load toc-v2.yml</tspan><tspan x="228.52" dy="18.2">(required — no fallback to toc.yml)</tspan></text>
 </g>
 <g class="node" data-id="loadFallback" data-label="Use V1 toc nodes as fallback
 emits migration-progress warning" data-shape="rectangle">
   <rect x="387.313" y="437.73199999999997" width="251.97399999999996" height="60.4" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="513.3" y="467.93199999999996" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="513.3" dy="-4.2">Use V1 toc nodes as fallback</tspan><tspan x="513.3" dy="18.2">emits migration-progress warning</tspan></text>
+  <text x="513.3" y="467.93" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="513.3" dy="-4.2">Use V1 toc nodes as fallback</tspan><tspan x="513.3" dy="18.2">emits migration-progress warning</tspan></text>
 </g>
 <g class="node" data-id="v2Nodes" data-label="V2 TableOfContentNodes" data-shape="rectangle">
   <rect x="128.067" y="538.132" width="200.90199999999996" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="228.51799999999997" y="559.232" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">V2 TableOfContentNodes</text>
+  <text x="228.52" y="559.23" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">V2 TableOfContentNodes</text>
 </g>
 <g class="node" data-id="v2NodesFallback" data-label="V2 TableOfContentNodes
 (V1 structure)" data-shape="rectangle">
   <rect x="412.84899999999993" y="538.132" width="200.90199999999996" height="60.4" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="513.3" y="568.332" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="513.3" dy="-4.2">V2 TableOfContentNodes</tspan><tspan x="513.3" dy="18.2">(V1 structure)</tspan></text>
+  <text x="513.3" y="568.33" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="513.3" dy="-4.2">V2 TableOfContentNodes</tspan><tspan x="513.3" dy="18.2">(V1 structure)</tspan></text>
 </g>
 <defs>
   <linearGradient id="ma2e31288-ng-a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 7%, var(--bg))" /></linearGradient>

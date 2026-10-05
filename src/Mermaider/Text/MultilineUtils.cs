@@ -209,9 +209,9 @@ internal static partial class MultilineUtils
 		if (lines.Length == 1)
 		{
 			var dy = fontSize * baselineShift;
-			_ = sb.Append("<text x=\"").Append(cx).Append("\" y=\"").Append(cy)
+			_ = sb.Append("<text x=\"").Append(Rendering.SvgFormatExtensions.SvgFormat(cx)).Append("\" y=\"").Append(Rendering.SvgFormatExtensions.SvgFormat(cy))
 				.Append("\" ").Append(attrs)
-				.Append(" dy=\"").Append(dy).Append("\">");
+				.Append(" dy=\"").Append(Rendering.SvgFormatExtensions.SvgFormat(dy)).Append("\">");
 			AppendLineContent(sb, text.AsSpan());
 			_ = sb.Append("</text>");
 			return;
@@ -220,13 +220,13 @@ internal static partial class MultilineUtils
 		var lineHeight = fontSize * TextMetrics.LineHeightRatio;
 		var firstDy = (-((lines.Length - 1) / 2.0) * lineHeight) + (fontSize * baselineShift);
 
-		_ = sb.Append("<text x=\"").Append(cx).Append("\" y=\"").Append(cy)
+		_ = sb.Append("<text x=\"").Append(Rendering.SvgFormatExtensions.SvgFormat(cx)).Append("\" y=\"").Append(Rendering.SvgFormatExtensions.SvgFormat(cy))
 			.Append("\" ").Append(attrs).Append('>');
 
 		for (var i = 0; i < lines.Length; i++)
 		{
 			var dy = i == 0 ? firstDy : lineHeight;
-			_ = sb.Append("<tspan x=\"").Append(cx).Append("\" dy=\"").Append(dy).Append("\">");
+			_ = sb.Append("<tspan x=\"").Append(Rendering.SvgFormatExtensions.SvgFormat(cx)).Append("\" dy=\"").Append(Rendering.SvgFormatExtensions.SvgFormat(dy)).Append("\">");
 			AppendLineContent(sb, lines[i].AsSpan());
 			_ = sb.Append("</tspan>");
 		}

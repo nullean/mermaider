@@ -42,8 +42,6 @@ internal sealed partial class DesignSystem
 		MultilineUtils.AppendMultilineText(sb, text, cx, cy, px, attrs);
 	}
 
-	/// <summary>Page-background halo behind text (paint-order stroke).</summary>
-	internal const string HaloAttributes = " stroke=\"var(--bg)\" stroke-width=\"4\" stroke-linejoin=\"round\" paint-order=\"stroke\"";
 
 	/// <summary>
 	/// A sequence frame (alt / loop / opt / par / critical / break) in the preset's container language: tinted body with a

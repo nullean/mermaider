@@ -400,6 +400,9 @@ internal sealed partial class DesignSystem
 	// Labels, badges, notes, titles, terminals
 	// ====================================================================
 
+	/// <summary>Page-background halo behind text (paint-order stroke), so text stays legible where it crosses a line.</summary>
+	internal const string HaloAttributes = " stroke=\"var(--bg)\" stroke-width=\"4\" stroke-linejoin=\"round\" paint-order=\"stroke\"";
+
 	/// <summary>Height of an edge-label pill / chip (xs text + 4px each side).</summary>
 	internal const double PillHeight = 20;
 
@@ -425,6 +428,12 @@ internal sealed partial class DesignSystem
 					.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
 					.Append("\" fill=\"var(--bg)\" stroke=\"var(--_line-soft)\" stroke-width=\"1\" />");
 				break;
+			case LabelKind.Halo:
+				// a borderless page-coloured knock-out: the halo alone lets the line show through the gaps between words
+				_ = sb.Append("<rect x=\"").Append(cx - (metrics.Width / 2) - 3).Append("\" y=\"").Append(cy - (metrics.Height / 2) - 1)
+					.Append("\" width=\"").Append(metrics.Width + 6).Append("\" height=\"").Append(metrics.Height + 2)
+					.Append("\" fill=\"var(--bg)\" stroke=\"none\" />");
+				break;
 			case LabelKind.Chip:
 				_ = sb.Append("<rect x=\"").Append(cx - (w / 2)).Append("\" y=\"").Append(cy - (h / 2))
 					.Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
@@ -435,7 +444,7 @@ internal sealed partial class DesignSystem
 
 		_ = sb.Append(' ');
 		var attrs = TextAttributes(TypeRole.Caption, colorOverride, anchor: "middle", weight: Spec.Label == LabelKind.Chip ? 600 : null)
-			+ (Spec.Label == LabelKind.Halo ? " stroke=\"var(--bg)\" stroke-width=\"4\" stroke-linejoin=\"round\" paint-order=\"stroke\"" : "");
+			+ (Spec.Label == LabelKind.Halo ? HaloAttributes : "");
 		MultilineUtils.AppendMultilineText(sb, text, cx, cy, px, attrs);
 	}
 

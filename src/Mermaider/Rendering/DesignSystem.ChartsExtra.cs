@@ -70,7 +70,6 @@ internal sealed partial class DesignSystem
 		MultilineUtils.AppendMultilineText(sb, text, Math.Round(x, 3), Math.Round(cy, 3), Px(role),
 			TextAttributes(role, color, anchor, weight) + HaloAttributes);
 
-	internal const string HaloAttributes = " stroke=\"var(--bg)\" stroke-width=\"4\" stroke-linejoin=\"round\" paint-order=\"stroke\"";
 
 	/// <summary>Text rotated -90° around (<paramref name="x"/>, <paramref name="cy"/>) (vertical axis titles).</summary>
 	internal void AppendRotatedText(StringBuilder sb, string text, double x, double cy, TypeRole role, string? color = null, string anchor = "middle")

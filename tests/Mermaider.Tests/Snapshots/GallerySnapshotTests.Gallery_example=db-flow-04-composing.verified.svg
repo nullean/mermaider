@@ -64,89 +64,89 @@
 <path class="edge" data-from="CdxClone" data-to="CdxBuild" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M530.5,625 L530.5,665" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
 <path class="edge" data-from="CdxBuild" data-to="CdxOut" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M530.5,707.5 L530.5,747" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
 <rect x="26" y="24" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="36" y="30" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.8999999999999995">Repositories (each with its own isolated build)</text>
+<text x="36" y="30" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.9">Repositories (each with its own isolated build)</text>
 <rect x="76.20000000000005" y="254.05" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="86.20000000000005" y="260.05" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.8999999999999995">Link registries</text>
+<text x="86.2" y="260.05" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.9">Link registries</text>
 <rect x="47.626499999999965" y="434.45000000000005" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="57.626499999999965" y="440.45000000000005" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #b07aa1 44%, var(--fg))" dy="4.8999999999999995">Assembler</text>
+<text x="57.63" y="440.45" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #b07aa1 44%, var(--fg))" dy="4.9">Assembler</text>
 <rect x="391.5805" y="434.45000000000005" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="401.5805" y="440.45000000000005" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #9c755f 44%, var(--fg))" dy="4.8999999999999995">Codex</text>
+<text x="401.58" y="440.45" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #9c755f 44%, var(--fg))" dy="4.9">Codex</text>
 <g class="edge-label" data-from="R1" data-to="S3Reg" data-label="links.json">
-  <rect x="176.108" y="203.3" width="69.78399999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="211" y="214.10000000000002" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">links.json</text>
+  <rect x="176.108" y="203.3" width="69.78399999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="211" y="214.1" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">links.json</text>
 </g>
 <g class="edge-label" data-from="R2" data-to="S3Reg" data-label="links.json">
-  <rect x="225.608" y="169" width="69.78399999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="260.5" y="179.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">links.json</text>
+  <rect x="225.608" y="169" width="69.78399999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="260.5" y="179.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">links.json</text>
 </g>
 <g class="edge-label" data-from="R3" data-to="S3Reg" data-label="links.json">
-  <rect x="288.608" y="203.3" width="69.78399999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="323.5" y="214.10000000000002" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">links.json</text>
+  <rect x="288.608" y="203.3" width="69.78399999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="323.5" y="214.1" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">links.json</text>
 </g>
 <g class="edge-label" data-from="R4" data-to="CodexReg" data-label="links.json">
-  <rect x="542.608" y="197.2" width="69.78399999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="577.5" y="208" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">links.json</text>
+  <rect x="542.608" y="197.2" width="69.78399999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="577.5" y="208" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">links.json</text>
 </g>
 <g class="node" data-id="R1" data-label="elasticsearch" data-shape="rectangle">
   <rect x="40" y="72" width="129.88" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="104.94" y="93.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">elasticsearch</text>
+  <text x="104.94" y="93.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">elasticsearch</text>
 </g>
 <g class="node" data-id="R2" data-label="kibana" data-shape="rectangle">
   <rect x="217.88" y="72" width="85.19200000000001" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="260.476" y="93.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">kibana</text>
+  <text x="260.48" y="93.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">kibana</text>
 </g>
 <g class="node" data-id="R3" data-label="docs-content" data-shape="rectangle">
   <rect x="351.072" y="72" width="124.294" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="413.219" y="93.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">docs-content</text>
+  <text x="413.22" y="93.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">docs-content</text>
 </g>
 <g class="node" data-id="R4" data-label="internal-team-docs" data-shape="rectangle">
   <rect x="523.366" y="72" width="158.608" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="602.67" y="93.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">internal-team-docs</text>
+  <text x="602.67" y="93.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">internal-team-docs</text>
 </g>
 <g class="node" data-id="S3Reg" data-label="S3 link registry (default docsets)" data-shape="rectangle">
   <rect x="90.20000000000005" y="302.05" width="243.19599999999997" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="211.79800000000003" y="323.15000000000003" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">S3 link registry (default docsets)</text>
+  <text x="211.8" y="323.15" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">S3 link registry (default docsets)</text>
 </g>
 <g class="node" data-id="CodexReg" data-label="Git link index:
 elastic/codex-link-index, internal/" data-shape="rectangle">
   <rect x="381.396" y="302.05" width="250.37799999999993" height="60.4" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="506.585" y="332.25" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="506.585" dy="-4.2">Git link index:</tspan><tspan x="506.585" dy="18.2">elastic/codex-link-index, internal/</tspan></text>
+  <text x="506.59" y="332.25" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="506.59" dy="-4.2">Git link index:</tspan><tspan x="506.59" dy="18.2">elastic/codex-link-index, internal/</tspan></text>
 </g>
 <g class="node" data-id="AsmCfg" data-label="assembler.yml + navigation.yml" data-shape="rectangle">
   <rect x="73.99549999999999" y="482.45000000000005" width="235.21599999999992" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="191.60349999999994" y="503.55000000000007" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">assembler.yml + navigation.yml</text>
+  <text x="191.6" y="503.55" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">assembler.yml + navigation.yml</text>
 </g>
 <g class="node" data-id="Env" data-label="PublishEnvironment: content
 source to branch" data-shape="rectangle">
   <rect x="80.77850000000001" y="564.6500000000001" width="221.64999999999995" height="60.4" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="191.6035" y="594.8500000000001" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="191.6035" dy="-4.2">PublishEnvironment: content</tspan><tspan x="191.6035" dy="18.2">source to branch</tspan></text>
+  <text x="191.6" y="594.85" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="191.6" dy="-4.2">PublishEnvironment: content</tspan><tspan x="191.6" dy="18.2">source to branch</tspan></text>
 </g>
 <g class="node" data-id="AsmClone" data-label="Clone at registry commits" data-shape="rectangle">
   <rect x="92.74849999999998" y="665.0500000000001" width="197.70999999999995" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="191.60349999999994" y="686.1500000000001" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Clone at registry commits</text>
+  <text x="191.6" y="686.15" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Clone at registry commits</text>
 </g>
 <g class="node" data-id="AsmBuild" data-label="Build each docset, re-homed under
 its mount path" data-shape="rectangle">
   <rect x="61.626499999999965" y="747.25" width="259.954" height="60.4" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="191.60349999999997" y="777.45" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="191.60349999999997" dy="-4.2">Build each docset, re-homed under</tspan><tspan x="191.60349999999997" dy="18.2">its mount path</tspan></text>
+  <text x="191.6" y="777.45" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="191.6" dy="-4.2">Build each docset, re-homed under</tspan><tspan x="191.6" dy="18.2">its mount path</tspan></text>
 </g>
 <g class="node" data-id="AsmOut" data-label="Site, redirects, search index,
 sitemap, deploy plan" data-shape="rectangle">
   <rect x="79.98049999999998" y="847.6500000000001" width="223.24599999999998" height="60.4" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="191.60349999999997" y="877.8500000000001" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="191.60349999999997" dy="-4.2">Site, redirects, search index,</tspan><tspan x="191.60349999999997" dy="18.2">sitemap, deploy plan</tspan></text>
+  <text x="191.6" y="877.85" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="191.6" dy="-4.2">Site, redirects, search index,</tspan><tspan x="191.6" dy="18.2">sitemap, deploy plan</tspan></text>
 </g>
 <g class="node" data-id="CdxCfg" data-label="codex.yml (registry: internal)" data-shape="rectangle">
   <rect x="419.9445" y="482.45000000000005" width="220.852" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="530.3705" y="503.55000000000007" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">codex.yml (registry: internal)</text>
+  <text x="530.37" y="503.55" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">codex.yml (registry: internal)</text>
 </g>
 <g class="node" data-id="CdxClone" data-label="Clone every member, pick docset
 with matching registry" data-shape="rectangle">
   <rect x="405.58050000000003" y="564.6500000000001" width="249.57999999999996" height="60.4" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="530.3705" y="594.8500000000001" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="530.3705" dy="-4.2">Clone every member, pick docset</tspan><tspan x="530.3705" dy="18.2">with matching registry</tspan></text>
+  <text x="530.37" y="594.85" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="530.37" dy="-4.2">Clone every member, pick docset</tspan><tspan x="530.37" dy="18.2">with matching registry</tspan></text>
 </g>
 <g class="node" data-id="CdxBuild" data-label="Build each docset under /r/{repo}" data-shape="rectangle">
   <rect x="405.5805" y="665.0500000000001" width="249.58000000000004" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="530.3705" y="686.1500000000001" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Build each docset under /r/{repo}</text>
+  <text x="530.37" y="686.15" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Build each docset under /r/{repo}</text>
 </g>
 <g class="node" data-id="CdxOut" data-label="Internal site, grouped" data-shape="rectangle">
   <rect x="443.0865" y="747.25" width="174.568" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="530.3705" y="768.35" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Internal site, grouped</text>
+  <text x="530.37" y="768.35" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Internal site, grouped</text>
 </g>
 <defs>
   <linearGradient id="ma2e31288-cw-p1-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /></linearGradient>

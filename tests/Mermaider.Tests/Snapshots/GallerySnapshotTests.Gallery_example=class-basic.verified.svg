@@ -40,20 +40,20 @@
   <line x1="145.6" y1="120" x2="287.6" y2="120" stroke="var(--_line-soft)" stroke-width="1" />
   <line x1="145.6" y1="176" x2="287.6" y2="176" stroke="var(--_line-soft)" stroke-width="1" />
   <line x1="133.6" y1="148" x2="299.6" y2="148" stroke="color-mix(in srgb, #86bcb6 42%, var(--bg))" stroke-width="1" />
-  <text x="216.6" y="56.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #86bcb6 44%, var(--fg))" dy="4.199999999999999">«abstract»</text>
+  <text x="216.6" y="56.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #86bcb6 44%, var(--fg))" dy="4.2">«abstract»</text>
   <text x="216.6" y="74.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Animal</text>
-  <text x="149.6" y="106" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">String</text>
-  <text x="204.79999999999998" y="106" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #86bcb6 44%, var(--fg))" dy="4.8999999999999995">+</text>
-  <text x="218.79999999999998" y="106" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">name</text>
-  <text x="149.6" y="134" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">int</text>
-  <text x="204.79999999999998" y="134" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #86bcb6 44%, var(--fg))" dy="4.8999999999999995">+</text>
-  <text x="218.79999999999998" y="134" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">age</text>
-  <text x="149.6" y="162" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">void</text>
-  <text x="204.79999999999998" y="162" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #86bcb6 44%, var(--fg))" dy="4.8999999999999995">+</text>
-  <text x="218.79999999999998" y="162" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">eat()</text>
-  <text x="149.6" y="190" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">void</text>
-  <text x="204.79999999999998" y="190" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #86bcb6 44%, var(--fg))" dy="4.8999999999999995">+</text>
-  <text x="218.79999999999998" y="190" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">sleep()</text>
+  <text x="149.6" y="106" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">String</text>
+  <text x="204.8" y="106" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #86bcb6 44%, var(--fg))" dy="4.9">+</text>
+  <text x="218.8" y="106" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">name</text>
+  <text x="149.6" y="134" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">int</text>
+  <text x="204.8" y="134" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #86bcb6 44%, var(--fg))" dy="4.9">+</text>
+  <text x="218.8" y="134" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">age</text>
+  <text x="149.6" y="162" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">void</text>
+  <text x="204.8" y="162" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #86bcb6 44%, var(--fg))" dy="4.9">+</text>
+  <text x="218.8" y="162" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">eat()</text>
+  <text x="149.6" y="190" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">void</text>
+  <text x="204.8" y="190" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #86bcb6 44%, var(--fg))" dy="4.9">+</text>
+  <text x="218.8" y="190" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">sleep()</text>
 </g>
 <g class="class-node" data-id="Dog" data-label="Dog">
   <rect x="40" y="264" width="166" height="120" rx="8" ry="8" fill="var(--bg)" stroke="none" />
@@ -63,15 +63,15 @@
   <line x1="52" y1="356" x2="194" y2="356" stroke="var(--_line-soft)" stroke-width="1" />
   <line x1="40" y1="328" x2="206" y2="328" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1" />
   <text x="123" y="282" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Dog</text>
-  <text x="56" y="314" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">String</text>
-  <text x="111.19999999999999" y="314" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">+</text>
-  <text x="125.19999999999999" y="314" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">breed</text>
-  <text x="56" y="342" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">void</text>
-  <text x="111.19999999999999" y="342" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">+</text>
-  <text x="125.19999999999999" y="342" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">bark()</text>
-  <text x="56" y="370" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">void</text>
-  <text x="111.19999999999999" y="370" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">+</text>
-  <text x="125.19999999999999" y="370" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">fetch()</text>
+  <text x="56" y="314" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">String</text>
+  <text x="111.2" y="314" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.9">+</text>
+  <text x="125.2" y="314" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">breed</text>
+  <text x="56" y="342" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">void</text>
+  <text x="111.2" y="342" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.9">+</text>
+  <text x="125.2" y="342" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">bark()</text>
+  <text x="56" y="370" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">void</text>
+  <text x="111.2" y="370" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.9">+</text>
+  <text x="125.2" y="370" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">fetch()</text>
 </g>
 <g class="class-node" data-id="Cat" data-label="Cat">
   <rect x="226" y="264" width="168.39999999999998" height="120" rx="8" ry="8" fill="var(--bg)" stroke="none" />
@@ -81,15 +81,15 @@
   <line x1="238" y1="356" x2="382.4" y2="356" stroke="var(--_line-soft)" stroke-width="1" />
   <line x1="226" y1="328" x2="394.4" y2="328" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1" />
   <text x="310.2" y="282" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Cat</text>
-  <text x="242" y="314" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">bool</text>
-  <text x="282.8" y="314" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">+</text>
-  <text x="296.8" y="314" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">indoor</text>
-  <text x="242" y="342" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">void</text>
-  <text x="282.8" y="342" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">+</text>
-  <text x="296.8" y="342" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">purr()</text>
-  <text x="242" y="370" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">void</text>
-  <text x="282.8" y="370" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">+</text>
-  <text x="296.8" y="370" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">scratch()</text>
+  <text x="242" y="314" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">bool</text>
+  <text x="282.8" y="314" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.9">+</text>
+  <text x="296.8" y="314" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">indoor</text>
+  <text x="242" y="342" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">void</text>
+  <text x="282.8" y="342" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.9">+</text>
+  <text x="296.8" y="342" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">purr()</text>
+  <text x="242" y="370" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">void</text>
+  <text x="282.8" y="370" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.9">+</text>
+  <text x="296.8" y="370" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">scratch()</text>
 </g>
 <defs>
   <linearGradient id="ma2e31288-eb-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /></linearGradient>

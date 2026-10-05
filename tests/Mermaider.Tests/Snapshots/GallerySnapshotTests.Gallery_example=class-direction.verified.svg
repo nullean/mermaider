@@ -39,9 +39,9 @@
   <rect x="40" y="54" width="160" height="72" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <line x1="40" y1="98" x2="200" y2="98" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1" />
   <text x="120" y="72" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Controller</text>
-  <text x="56" y="112" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">void</text>
-  <text x="96.8" y="112" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">+</text>
-  <text x="110.8" y="112" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">handle()</text>
+  <text x="56" y="112" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">void</text>
+  <text x="96.8" y="112" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.9">+</text>
+  <text x="110.8" y="112" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">handle()</text>
 </g>
 <g class="class-node" data-id="Service" data-label="Service">
   <rect x="260" y="54" width="168.39999999999998" height="72" rx="8" ry="8" fill="var(--bg)" stroke="none" />
@@ -50,9 +50,9 @@
   <rect x="260" y="54" width="168.39999999999998" height="72" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <line x1="260" y1="98" x2="428.4" y2="98" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1" />
   <text x="344.2" y="72" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Service</text>
-  <text x="276" y="112" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">void</text>
-  <text x="316.8" y="112" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">+</text>
-  <text x="330.8" y="112" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">process()</text>
+  <text x="276" y="112" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">void</text>
+  <text x="316.8" y="112" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.9">+</text>
+  <text x="330.8" y="112" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">process()</text>
 </g>
 <g class="class-node" data-id="Repository" data-label="Repository">
   <rect x="488.4" y="40" width="157.6" height="100" rx="8" ry="8" fill="var(--bg)" stroke="none" />
@@ -61,13 +61,13 @@
   <rect x="488.4" y="40" width="157.6" height="100" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <line x1="500.4" y1="112" x2="634" y2="112" stroke="var(--_line-soft)" stroke-width="1" />
   <line x1="488.4" y1="84" x2="646" y2="84" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1" />
-  <text x="567.1999999999999" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Repository</text>
-  <text x="504.4" y="98" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">Object</text>
-  <text x="559.5999999999999" y="98" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">+</text>
-  <text x="573.5999999999999" y="98" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">find()</text>
-  <text x="504.4" y="126" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">void</text>
-  <text x="559.5999999999999" y="126" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">+</text>
-  <text x="573.5999999999999" y="126" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">save()</text>
+  <text x="567.2" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Repository</text>
+  <text x="504.4" y="98" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">Object</text>
+  <text x="559.6" y="98" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.9">+</text>
+  <text x="573.6" y="98" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">find()</text>
+  <text x="504.4" y="126" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">void</text>
+  <text x="559.6" y="126" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.9">+</text>
+  <text x="573.6" y="126" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">save()</text>
 </g>
 <defs>
   <linearGradient id="ma2e31288-eb-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /></linearGradient>

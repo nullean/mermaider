@@ -34,35 +34,35 @@
 <line class="lifeline" data-actor="B" x1="212.586" y1="70" x2="212.586" y2="418" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
 <g class="message" data-from="A" data-to="A" data-label="Initialize" data-line-style="solid" data-arrow-head="filled" data-self="true">
   <polyline points="72.586,114 102.586,114 102.586,134 72.586,134" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#ma2e31288-mk-arrow)" />
-  <text x="110.586" y="124" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">Initialize</text>
+  <text x="110.59" y="124" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">Initialize</text>
 </g>
 <g class="message" data-from="A" data-to="B" data-label="Send message" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="72.586" y1="194" x2="212.586" y2="194" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
-  <text x="142.586" y="182" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">Send message</text>
+  <text x="142.59" y="182" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">Send message</text>
 </g>
 <g class="message" data-from="B" data-to="B" data-label="Process internally" data-line-style="solid" data-arrow-head="filled" data-self="true">
   <polyline points="212.586,244 242.586,244 242.586,264 212.586,264" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#ma2e31288-mk-arrow)" />
-  <text x="250.586" y="254" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">Process internally</text>
+  <text x="250.59" y="254" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">Process internally</text>
 </g>
 <g class="message" data-from="B" data-to="A" data-label="Acknowledgement" data-line-style="dashed" data-arrow-head="filled" data-self="false">
   <line x1="212.586" y1="324" x2="72.586" y2="324" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ma2e31288-mk-arrow)" />
-  <text x="142.586" y="312" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.199999999999999">Acknowledgement</text>
+  <text x="142.59" y="312" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">Acknowledgement</text>
 </g>
 <g class="actor" data-id="A" data-label="Service" data-type="participant">
   <rect x="30" y="30" width="85.172" height="40" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="72.586" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Service</text>
+  <text x="72.59" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Service</text>
 </g>
 <g class="actor" data-id="B" data-label="Queue" data-type="participant">
   <rect x="172.586" y="30" width="80" height="40" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="212.586" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.8999999999999995">Queue</text>
+  <text x="212.59" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Queue</text>
 </g>
 <g class="actor-ghost" data-id="A" data-label="Service" data-type="participant">
   <rect x="30" y="418" width="85.172" height="40" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
-  <text x="72.586" y="438" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-muted)" dy="4.8999999999999995">Service</text>
+  <text x="72.59" y="438" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-muted)" dy="4.9">Service</text>
 </g>
 <g class="actor-ghost" data-id="B" data-label="Queue" data-type="participant">
   <rect x="172.586" y="418" width="80" height="40" rx="8" ry="8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1.25" />
-  <text x="212.586" y="438" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-muted)" dy="4.8999999999999995">Queue</text>
+  <text x="212.59" y="438" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-muted)" dy="4.9">Queue</text>
 </g>
 <defs>
   <linearGradient id="ma2e31288-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 7%, var(--bg))" /></linearGradient>
