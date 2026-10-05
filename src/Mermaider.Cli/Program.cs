@@ -1,3 +1,4 @@
+using System.Globalization;
 using Mermaider;
 using Mermaider.Models;
 using Mermaider.Theming;
@@ -28,6 +29,10 @@ var transparent = true;
 var ascii = false;
 var plain = false;
 var width = 120;
+var style = DiagramStyle.Quiet;
+var gradient = true;
+double? tint = null;
+int? elevation = null;
 
 for (var i = 0; i < args.Length; i++)
 {
@@ -57,6 +62,30 @@ for (var i = 0; i < args.Length; i++)
 			break;
 		case "--width" when i + 1 < args.Length:
 			_ = int.TryParse(args[++i], out width);
+			break;
+		case "--style":
+			if (i + 1 >= args.Length || !TryParseStyle(args[++i], out style))
+				return UsageError("--style expects one of: quiet, blueprint, tonal");
+			break;
+		case "--gradient":
+			gradient = true;
+			break;
+		case "--no-gradient":
+			gradient = false;
+			break;
+		case "--tint":
+			if (i + 1 >= args.Length
+				|| !double.TryParse(args[++i], NumberStyles.Float, CultureInfo.InvariantCulture, out var t)
+				|| !double.IsFinite(t) || t is < 0.5 or > 1.5)
+				return UsageError("--tint expects a number between 0.5 and 1.5 (default 1)");
+			tint = t;
+			break;
+		case "--elevation":
+			if (i + 1 >= args.Length
+				|| !int.TryParse(args[++i], NumberStyles.None, CultureInfo.InvariantCulture, out var e)
+				|| e is < 0 or > 2)
+				return UsageError("--elevation expects 0 (none), 1 (default) or 2 (adds ambient shadow)");
+			elevation = e;
 			break;
 		default:
 			if (!args[i].StartsWith('-') && inputFile == null)
@@ -92,7 +121,13 @@ if (string.IsNullOrWhiteSpace(input))
 	return 1;
 }
 
-var options = BuildOptions(themeName, transparent);
+var options = BuildOptions(themeName, transparent) with
+{
+	Style = style,
+	Gradient = gradient,
+	Tint = tint,
+	Elevation = elevation,
+};
 
 try
 {
@@ -157,6 +192,31 @@ static RenderOptions BuildOptions(string? themeName, bool transparent)
 	};
 }
 
+static bool TryParseStyle(string value, out DiagramStyle style)
+{
+	style = DiagramStyle.Quiet;
+	switch (value.ToLowerInvariant())
+	{
+		case "quiet":
+			return true;
+		case "blueprint":
+			style = DiagramStyle.Blueprint;
+			return true;
+		case "tonal":
+			style = DiagramStyle.Tonal;
+			return true;
+		default:
+			return false;
+	}
+}
+
+static int UsageError(string message)
+{
+	Console.Error.WriteLine($"Error: {message}");
+	Console.Error.WriteLine("Run with --help for usage information.");
+	return 1;
+}
+
 static void PrintHelp() => Console.WriteLine("""
 		mermaid - Render Mermaid diagrams to SVG
 
@@ -173,6 +233,11 @@ static void PrintHelp() => Console.WriteLine("""
 		  -t, --theme <name>     Theme name (use --list-themes to see options)
 		  --transparent           Transparent background (default)
 		  --no-transparent        Opaque background (uses --bg color)
+		  --style <name>          Style preset: quiet (default), blueprint, tonal
+		  --no-gradient           Flat fills instead of the top-to-bottom gradient
+		  --tint <0.5-1.5>        Strength of colour-family tints (default 1)
+		  --elevation <0|1|2>     Shadows: 0 none, 1 default, 2 adds ambient
+		                          (blueprint never draws shadows)
 		  --list-themes           List available theme names
 		  --version               Show version
 		  -h, --help              Show this help
@@ -180,6 +245,8 @@ static void PrintHelp() => Console.WriteLine("""
 		EXAMPLES:
 		  mermaid diagram.mmd -o diagram.svg
 		  mermaid -i flow.mmd -t tokyo-night -o flow.svg
+		  mermaid flow.mmd --style blueprint --elevation 0 -o flow.svg
+		  mermaid flow.mmd -t github-dark --style tonal --tint 0.8 -o flow.svg
 		  echo "graph TD; A-->B" | mermaid > simple.svg
 		  mermaid --list-themes
 		""");
