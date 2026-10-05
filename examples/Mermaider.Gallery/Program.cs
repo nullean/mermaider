@@ -24,6 +24,19 @@ var providerList = new (string Value, string Label)[]
 // The rendered SVGs are transparent by default (MermaidRenderer's Transparent option defaults to
 // true) — the ".provider-col" background is purely a page-chrome choice behind them, so switching
 // it never touches diagram rendering itself.
+// Diagram style presets for the compare / category pages (Quiet is the default and stays out of the URL).
+var styleChoices = new (string Value, string Label)[]
+{
+	("quiet", "Quiet"),
+	("blueprint", "Blueprint"),
+	("tonal", "Tonal"),
+};
+
+string? NormalizeStyle(string? value) =>
+	Enum.TryParse<DiagramStyle>(value, ignoreCase: true, out var parsed) && Enum.IsDefined(parsed) && parsed != DiagramStyle.Quiet
+		? parsed.ToString().ToLowerInvariant()
+		: null;
+
 var bgOptions = new (string Value, string Label)[]
 {
 	("", "Default"),
@@ -40,9 +53,10 @@ _ = app.MapGet("/", (ctx) =>
 	var p1 = ctx.Request.Query["p1"].FirstOrDefault();
 	var p2 = ctx.Request.Query["p2"].FirstOrDefault();
 	var bg = ctx.Request.Query["bg"].FirstOrDefault();
+	var style = NormalizeStyle(ctx.Request.Query["style"].FirstOrDefault());
 
 	ctx.Response.ContentType = "text/html; charset=utf-8";
-	return ctx.Response.WriteAsync(RenderComparePage(theme, engine, p1, p2, bg));
+	return ctx.Response.WriteAsync(RenderComparePage(theme, engine, p1, p2, bg, style));
 });
 
 foreach (var cat in Enum.GetValues<DiagramCategory>())
@@ -56,9 +70,10 @@ foreach (var cat in Enum.GetValues<DiagramCategory>())
 		var p1 = ctx.Request.Query["p1"].FirstOrDefault();
 		var p2 = ctx.Request.Query["p2"].FirstOrDefault();
 		var bg = ctx.Request.Query["bg"].FirstOrDefault();
+		var style = NormalizeStyle(ctx.Request.Query["style"].FirstOrDefault());
 
 		ctx.Response.ContentType = "text/html; charset=utf-8";
-		return ctx.Response.WriteAsync(RenderCategoryPage(category, theme, engine, p1, p2, bg));
+		return ctx.Response.WriteAsync(RenderCategoryPage(category, theme, engine, p1, p2, bg, style));
 	});
 }
 
@@ -232,24 +247,25 @@ RenderOptions? ResolveOptions(IQueryCollection q)
 	};
 }
 
-string RenderSectionBar(string activePath, string? theme, string engine)
+string RenderSectionBar(string activePath, string? theme, string engine, string? style = null)
 {
 	var examplesActive = activePath != "/playground" ? " active" : "";
 	var playActive = activePath == "/playground" ? " active" : "";
-	var examplesHref = $"/{BuildPageQs(theme, engine)}";
+	var examplesHref = $"/{BuildPageQs(theme, engine, style: style)}";
+	var playgroundHref = style is null ? "/playground" : $"/playground?style={Uri.EscapeDataString(style)}";
 	return $"""
 		<a href="{examplesHref}" class="section-link{examplesActive}">Compare</a>
-		<a href="/playground" class="section-link{playActive}">Theme Playground</a>
+		<a href="{playgroundHref}" class="section-link{playActive}">Theme Playground</a>
 		""";
 }
 
-string RenderNav(string activePath, string? theme, string engine, string? p1 = null, string? p2 = null, string? bg = null)
+string RenderNav(string activePath, string? theme, string engine, string? p1 = null, string? p2 = null, string? bg = null, string? style = null)
 {
 	var cats = Enum.GetValues<DiagramCategory>();
 	var links = new List<string>();
 
 	var homeActive = activePath == "/" ? " active" : "";
-	links.Add($"<a href=\"/{BuildPageQs(theme, engine, p1, p2, bg)}\" class=\"nav-link{homeActive}\">Compare</a>");
+	links.Add($"<a href=\"/{BuildPageQs(theme, engine, p1, p2, bg, style)}\" class=\"nav-link{homeActive}\">Compare</a>");
 
 	foreach (var cat in cats)
 	{
@@ -257,13 +273,13 @@ string RenderNav(string activePath, string? theme, string engine, string? p1 = n
 		var label = DiagramExamples.CategoryLabel(cat);
 		var count = DiagramExamples.ByCategory(cat).Length;
 		var active = activePath == $"/{slug}" ? " active" : "";
-		links.Add($"<a href=\"/{slug}{BuildPageQs(theme, engine, p1, p2, bg)}\" class=\"nav-link{active}\">{label} <span class=\"count\">{count}</span></a>");
+		links.Add($"<a href=\"/{slug}{BuildPageQs(theme, engine, p1, p2, bg, style)}\" class=\"nav-link{active}\">{label} <span class=\"count\">{count}</span></a>");
 	}
 
 	return string.Join("\n    ", links);
 }
 
-string BuildPageQs(string? theme, string engine, string? p1 = null, string? p2 = null, string? bg = null)
+string BuildPageQs(string? theme, string engine, string? p1 = null, string? p2 = null, string? bg = null, string? style = null)
 {
 	var parts = new List<string>();
 	if (theme is not null)
@@ -276,6 +292,8 @@ string BuildPageQs(string? theme, string engine, string? p1 = null, string? p2 =
 		parts.Add($"p2={Uri.EscapeDataString(p2)}");
 	if (!string.IsNullOrEmpty(bg))
 		parts.Add($"bg={Uri.EscapeDataString(bg)}");
+	if (!string.IsNullOrEmpty(style))
+		parts.Add($"style={Uri.EscapeDataString(style)}");
 	return parts.Count > 0 ? "?" + string.Join("&", parts) : "";
 }
 
@@ -676,7 +694,7 @@ string RenderCardCompare(DiagramExample e, string engine, string engineLabel, st
 		""";
 }
 
-string RenderCategoryPage(DiagramCategory category, string? theme, string engine, string? p1, string? p2, string? bg)
+string RenderCategoryPage(DiagramCategory category, string? theme, string engine, string? p1, string? p2, string? bg, string? style)
 {
 	if (p1 is not null && !providerList.Any(x => x.Value == p1))
 		p1 = null;
@@ -684,18 +702,19 @@ string RenderCategoryPage(DiagramCategory category, string? theme, string engine
 		p2 = null;
 
 	var (pageBg, pageFg) = PageColors(theme);
-	var themeQuery = theme is not null ? $"&theme={theme}" : "";
+	var themeQuery = (theme is not null ? $"&theme={theme}" : "") + (style is not null ? $"&style={style}" : "");
 	var catSlug = DiagramExamples.CategorySlug(category);
 	var catLabel = DiagramExamples.CategoryLabel(category);
 	var examples = DiagramExamples.ByCategory(category);
 
-	var themeLinks = RenderThemeBar(theme, engine, $"/{catSlug}", p1, p2, bg);
+	var themeLinks = RenderThemeBar(theme, engine, $"/{catSlug}", p1, p2, bg, style);
 	var engineOptions = BuildSelectOptions(engine, [("lightweight", "Sugiyama (built-in)"), ("msagl", "MSAGL")]);
 	var p1Options = BuildSelectOptions(p1 ?? "", [("", "— none —"), .. providerList]);
 	var p2Options = BuildSelectOptions(p2 ?? "", [("", "— none —"), .. providerList]);
 	var bgOptionsHtml = BuildSelectOptions(bg ?? "", bgOptions);
-	var navHtml = RenderNav($"/{catSlug}", theme, engine, p1, p2, bg);
-	var sectionBarHtml = RenderSectionBar($"/{catSlug}", theme, engine);
+	var styleSelectOptions = BuildSelectOptions(style ?? "quiet", styleChoices);
+	var navHtml = RenderNav($"/{catSlug}", theme, engine, p1, p2, bg, style);
+	var sectionBarHtml = RenderSectionBar($"/{catSlug}", theme, engine, style);
 
 	var activeProviders = new List<string>();
 	if (!string.IsNullOrEmpty(p1))
@@ -746,6 +765,12 @@ string RenderCategoryPage(DiagramCategory category, string? theme, string engine
 
 		    <div class="controls">
 		      <div class="control-group">
+		        <label for="sel-style">Diagram style</label>
+		        <select id="sel-style" onchange="nav('style', this.value === 'quiet' ? '' : this.value)">
+		{{styleSelectOptions}}
+		        </select>
+		      </div>
+		      <div class="control-group">
 		        <label for="sel-engine">Mermaider Engine</label>
 		        <select id="sel-engine" onchange="nav('engine', this.value)">
 		{{engineOptions}}
@@ -793,7 +818,7 @@ string RenderCategoryPage(DiagramCategory category, string? theme, string engine
 		""";
 }
 
-string RenderComparePage(string? theme, string engine, string? p1, string? p2, string? bg)
+string RenderComparePage(string? theme, string engine, string? p1, string? p2, string? bg, string? style)
 {
 	if (p1 is not null && !providerList.Any(x => x.Value == p1))
 		p1 = null;
@@ -801,15 +826,16 @@ string RenderComparePage(string? theme, string engine, string? p1, string? p2, s
 		p2 = null;
 
 	var (pageBg, pageFg) = PageColors(theme);
-	var themeQuery = theme is not null ? $"&theme={theme}" : "";
+	var themeQuery = (theme is not null ? $"&theme={theme}" : "") + (style is not null ? $"&style={style}" : "");
 
-	var themeLinks = RenderThemeBar(theme, engine, "/", p1, p2, bg);
+	var themeLinks = RenderThemeBar(theme, engine, "/", p1, p2, bg, style);
 	var engineOptions = BuildSelectOptions(engine, [("lightweight", "Sugiyama (built-in)"), ("msagl", "MSAGL")]);
 	var p1Options = BuildSelectOptions(p1 ?? "", [("", "— none —"), .. providerList]);
 	var p2Options = BuildSelectOptions(p2 ?? "", [("", "— none —"), .. providerList]);
 	var bgOptionsHtml = BuildSelectOptions(bg ?? "", bgOptions);
-	var navHtml = RenderNav("/", theme, engine, p1, p2, bg);
-	var sectionBarHtml = RenderSectionBar("/", theme, engine);
+	var styleSelectOptions = BuildSelectOptions(style ?? "quiet", styleChoices);
+	var navHtml = RenderNav("/", theme, engine, p1, p2, bg, style);
+	var sectionBarHtml = RenderSectionBar("/", theme, engine, style);
 
 	var activeProviders = new List<string>();
 	if (!string.IsNullOrEmpty(p1))
@@ -852,6 +878,12 @@ string RenderComparePage(string? theme, string engine, string? p1, string? p2, s
 		    {{themeLinks}}
 
 		    <div class="controls">
+		      <div class="control-group">
+		        <label for="sel-style">Diagram style</label>
+		        <select id="sel-style" onchange="nav('style', this.value === 'quiet' ? '' : this.value)">
+		{{styleSelectOptions}}
+		        </select>
+		      </div>
 		      <div class="control-group">
 		        <label for="sel-engine">Mermaider Engine</label>
 		        <select id="sel-engine" onchange="nav('engine', this.value)">
@@ -1264,17 +1296,17 @@ string ThemesJson()
 	return "{" + string.Join(",", entries) + "}";
 }
 
-string RenderThemeBar(string? theme, string engine, string basePath, string? p1 = null, string? p2 = null, string? bg = null)
+string RenderThemeBar(string? theme, string engine, string basePath, string? p1 = null, string? p2 = null, string? bg = null, string? style = null)
 {
 	var themeLinks = string.Join("\n",
 		Themes.BuiltIn.Keys.OrderBy(k => k).Select(name =>
 		{
 			var active = name == theme ? " class=\"active\"" : "";
-			var qs = BuildFullQs(name, engine, basePath, p1, p2, bg);
+			var qs = BuildFullQs(name, engine, basePath, p1, p2, bg, style);
 			return $"    <a href=\"{basePath}{qs}\"{active}>{WebUtility.HtmlEncode(name)}</a>";
 		}));
 	var defaultActive = theme is null ? " class=\"active\"" : "";
-	var defaultQs = BuildFullQs(null, engine, basePath, p1, p2, bg);
+	var defaultQs = BuildFullQs(null, engine, basePath, p1, p2, bg, style);
 
 	return $"""
 		<div class="theme-bar">
@@ -1284,7 +1316,7 @@ string RenderThemeBar(string? theme, string engine, string basePath, string? p1 
 		""";
 }
 
-string BuildFullQs(string? theme, string engine, string basePath, string? p1 = null, string? p2 = null, string? bg = null)
+string BuildFullQs(string? theme, string engine, string basePath, string? p1 = null, string? p2 = null, string? bg = null, string? style = null)
 {
 	var parts = new List<string>();
 	if (theme is not null)
@@ -1297,6 +1329,8 @@ string BuildFullQs(string? theme, string engine, string basePath, string? p1 = n
 		parts.Add($"p2={Uri.EscapeDataString(p2)}");
 	if (!string.IsNullOrEmpty(bg))
 		parts.Add($"bg={Uri.EscapeDataString(bg)}");
+	if (!string.IsNullOrEmpty(style))
+		parts.Add($"style={Uri.EscapeDataString(style)}");
 	return parts.Count > 0 ? "?" + string.Join("&", parts) : "";
 }
 
