@@ -73,6 +73,21 @@ internal static class VisualLanguage
 			.Append("\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"").Append(RenderConstants.StrokeWidths.Connector).Append("\" />");
 	}
 
+	/// <summary>
+	/// The tinted header of an entity / class box: a path with rounded top corners and a square bottom, so the box border drawn
+	/// on top reads as one rounded rectangle.
+	/// </summary>
+	internal static void AppendHeaderPath(StringBuilder sb, double x, double y, double width, double headerHeight, double radius, string fill)
+	{
+		_ = sb.Append("  <path d=\"M").Append(x).Append(',').Append(y + headerHeight)
+			.Append(" L").Append(x).Append(',').Append(y + radius)
+			.Append(" Q").Append(x).Append(',').Append(y).Append(' ').Append(x + radius).Append(',').Append(y)
+			.Append(" L").Append(x + width - radius).Append(',').Append(y)
+			.Append(" Q").Append(x + width).Append(',').Append(y).Append(' ').Append(x + width).Append(',').Append(y + radius)
+			.Append(" L").Append(x + width).Append(',').Append(y + headerHeight)
+			.Append(" Z\" fill=\"").Append(fill).Append("\" />\n");
+	}
+
 	/// <summary>Point halfway along a polyline's length (not the middle vertex).</summary>
 	internal static Point PathMidpoint(IReadOnlyList<Point> points)
 	{

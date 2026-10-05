@@ -55,4 +55,56 @@ public class VisualLanguageContractTests
 		MermaidRenderer.RenderSvg("erDiagram\n  A ||--o{ B : has").Should().Contain(pill);
 		MermaidRenderer.RenderSvg("classDiagram\n  A --> B : uses").Should().Contain(pill);
 	}
+
+	[Test]
+	public void Class_box_uses_the_same_cluster_border_and_header_tint_as_an_er_entity()
+	{
+		var svg = MermaidRenderer.RenderSvg("classDiagram\n  class A {\n    +int id\n  }\n  A --> B");
+
+		svg.Should().Contain($"stroke=\"{VisualLanguage.Border(Cluster0)}\"");
+		svg.Should().Contain($"fill=\"{VisualLanguage.Tint(Cluster0, VisualLanguage.HeaderTint)}\"");
+	}
+
+	[Test]
+	public void State_node_is_a_cluster_tint_like_a_flowchart_node()
+	{
+		var svg = MermaidRenderer.RenderSvg("stateDiagram-v2\n  [*] --> A\n  A --> B");
+
+		svg.Should().Contain($"fill=\"{VisualLanguage.Tint(Cluster0, VisualLanguage.NodeTint)}\"");
+		svg.Should().Contain($"stroke=\"{VisualLanguage.Border(Cluster0)}\"");
+	}
+
+	[Test]
+	public void Namespaces_and_composite_states_are_plain_boxes_titled_in_the_border_colour()
+	{
+		foreach (var (source, marker) in new[]
+		{
+			("classDiagram\n  namespace N {\n    class A\n  }\n  A --> B", "<g class=\"ns-box\""),
+			("stateDiagram-v2\n  state S {\n    [*] --> X\n  }", "<g class=\"subgraph\""),
+		})
+		{
+			var svg = MermaidRenderer.RenderSvg(source);
+			var group = svg[svg.IndexOf(marker, StringComparison.Ordinal)..];
+			var stroke = System.Text.RegularExpressions.Regex.Match(group, "<rect [^>]*stroke=\"([^\"]+)\"").Groups[1].Value;
+			svg.Should().Contain($"fill=\"{stroke}\"", "the title is drawn in the box's border colour");
+		}
+	}
+
+	[Test]
+	public void Class_relationship_markers_follow_the_line_colour()
+	{
+		var svg = MermaidRenderer.RenderSvg("classDiagram\n  A <|-- B\n  C *-- D");
+
+		svg.Should().NotContain("var(--_arrow)", "markers are drawn in the line colour like every other edge");
+		svg.Should().Contain("<marker id=\"cls-composition\"");
+	}
+
+	[Test]
+	public void Class_cardinalities_are_pills()
+	{
+		var pill = $"fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"{RenderConstants.StrokeWidths.Connector}\"";
+		var svg = MermaidRenderer.RenderSvg("classDiagram\n  A \"1\" --> \"*\" B");
+
+		System.Text.RegularExpressions.Regex.Matches(svg, System.Text.RegularExpressions.Regex.Escape(pill)).Count.Should().Be(2);
+	}
 }

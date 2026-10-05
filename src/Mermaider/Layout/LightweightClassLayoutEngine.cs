@@ -68,7 +68,8 @@ internal static class LightweightClassLayoutEngine
 			var headerTextW = TextMetrics.MeasureTextWidth(cls.Label, RenderConstants.FontSizes.NodeLabel, RenderConstants.FontWeights.NodeLabel);
 			var maxAttrW = MaxMemberWidth(cls.Attributes);
 			var maxMethodW = MaxMemberWidth(cls.Methods);
-			var width = Math.Max(MinWidth, Math.Max(headerTextW + (BoxPadX * 2), Math.Max(maxAttrW + (BoxPadX * 2), maxMethodW + (BoxPadX * 2))));
+			// member text is monospace and its width an estimate: leave a little room so it never touches the border
+			var width = Math.Max(MinWidth, Math.Max(headerTextW + (BoxPadX * 2), Math.Max(maxAttrW + (BoxPadX * 2) + 8, maxMethodW + (BoxPadX * 2) + 8)));
 			var height = headerHeight + attrHeight + methodHeight;
 
 			classSizes[cls.Id] = (width, height, headerHeight, attrHeight, methodHeight);

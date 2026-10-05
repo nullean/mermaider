@@ -30,39 +30,37 @@
 
 <defs>
   <marker id="cls-inherit" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--bg)" stroke="var(--_arrow)" stroke-width="1.5" />
+    <polygon points="0 0, 12 6, 0 12" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
   </marker>
-  <marker id="cls-composition" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto-start-reverse">
-    <polygon points="6 0, 12 6, 6 12, 0 6" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="1" />
+  <marker id="cls-composition" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
+    <polygon points="6 0, 12 6, 6 12, 0 6" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" />
   </marker>
-  <marker id="cls-aggregation" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto-start-reverse">
-    <polygon points="6 0, 12 6, 6 12, 0 6" fill="var(--bg)" stroke="var(--_arrow)" stroke-width="1.5" />
+  <marker id="cls-aggregation" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
+    <polygon points="6 0, 12 6, 6 12, 0 6" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
   </marker>
   <marker id="cls-arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polyline points="0 0, 12 6, 0 12" fill="none" stroke="var(--_arrow)" stroke-width="1.5" />
+    <polyline points="0 0, 12 6, 0 12" fill="none" stroke="var(--_line)" stroke-width="2" />
   </marker>
   <marker id="cls-lollipop" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto-start-reverse">
-    <circle cx="6" cy="6" r="5" fill="var(--bg)" stroke="var(--_arrow)" stroke-width="1.5" />
+    <circle cx="6" cy="6" r="5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
   </marker>
 </defs>
 
 <path class="class-relationship" data-from="A" data-to="B" data-type="association" data-marker-at="to" d="M100,64 L160,64" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
 <g class="class-node" data-id="A" data-label="A">
-  <rect x="40" y="40" width="60" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
-  <rect x="40" y="40" width="60" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
-  <rect x="40" y="46" width="60" height="26" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="40" y="40" width="60" height="48" rx="6" ry="6" fill="var(--bg)" />
+  <path d="M40,72 L40,46 Q40,40 46,40 L94,40 Q100,40 100,46 L100,72 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
   <text x="70" y="56" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">A</text>
-  <line x1="40" y1="72" x2="100" y2="72" stroke="var(--_line)" stroke-width="1.5" />
-  <line x1="40" y1="80" x2="100" y2="80" stroke="var(--_line)" stroke-width="1.5" />
-  <rect x="40" y="40" width="60" height="48" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <line x1="40" y1="72" x2="100" y2="72" stroke="#3B5B7D" stroke-width="1.75" />
+  <line x1="40" y1="80" x2="100" y2="80" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
+  <rect x="40" y="40" width="60" height="48" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="B" data-label="B">
-  <rect x="160" y="40" width="60" height="48" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
-  <rect x="160" y="40" width="60" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />
-  <rect x="160" y="46" width="60" height="26" fill="var(--_group-hdr)" stroke="none" />
+  <rect x="160" y="40" width="60" height="48" rx="6" ry="6" fill="var(--bg)" />
+  <path d="M160,72 L160,46 Q160,40 166,40 L214,40 Q220,40 220,46 L220,72 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
   <text x="190" y="56" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">B</text>
-  <line x1="160" y1="72" x2="220" y2="72" stroke="var(--_line)" stroke-width="1.5" />
-  <line x1="160" y1="80" x2="220" y2="80" stroke="var(--_line)" stroke-width="1.5" />
-  <rect x="160" y="40" width="60" height="48" rx="6" ry="6" fill="none" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <line x1="160" y1="72" x2="220" y2="72" stroke="#3B5B7D" stroke-width="1.75" />
+  <line x1="160" y1="80" x2="220" y2="80" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
+  <rect x="160" y="40" width="60" height="48" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
 </g>
 </svg>

@@ -469,13 +469,7 @@ internal static class ErSvgRenderer
 				.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
 				.Append("\" fill=\"var(--bg)\" />\n");
 			// 2. Header fill (rows below stay plain background — no striping)
-			_ = sb.Append("  <path d=\"M").Append(x).Append(',').Append(y + headerHeight)
-				.Append(" L").Append(x).Append(',').Append(y + r)
-				.Append(" Q").Append(x).Append(',').Append(y).Append(' ').Append(x + r).Append(',').Append(y)
-				.Append(" L").Append(x + width - r).Append(',').Append(y)
-				.Append(" Q").Append(x + width).Append(',').Append(y).Append(' ').Append(x + width).Append(',').Append(y + r)
-				.Append(" L").Append(x + width).Append(',').Append(y + headerHeight)
-				.Append(" Z\" fill=\"").Append(headerFill).Append("\" />\n");
+			VisualLanguage.AppendHeaderPath(sb, x, y, width, headerHeight, r, headerFill);
 			var attrTop = y + headerHeight;
 			// 4. Separators (header + between rows) — all on top of fills
 			_ = sb.Append("  <line x1=\"").Append(x).Append("\" y1=\"").Append(attrTop)
