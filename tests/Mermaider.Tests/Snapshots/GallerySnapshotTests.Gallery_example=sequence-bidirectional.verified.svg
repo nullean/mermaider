@@ -35,19 +35,19 @@
 <line class="lifeline" data-actor="C" x1="358.571" y1="70" x2="358.571" y2="358" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
 <g class="message" data-from="A" data-to="B" data-label="Bidirectional sync" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="78.571" y1="114" x2="218.571" y2="114" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" marker-start="url(#m0c36b112-mk-arrow-s)" />
-  <rect x="90.765" y="89.2" width="115.612" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="148.57" y="100" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Bidirectional sync</text>
+  <rect x="90.765" y="89.2" width="115.612" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="148.57" y="100" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Bidirectional sync</text>
 </g>
 <g class="message" data-from="A" data-to="C" data-label="Dashed bidirectional" data-line-style="dashed" data-arrow-head="filled" data-self="false">
   <line x1="78.571" y1="164" x2="358.571" y2="164" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m0c36b112-mk-arrow)" marker-start="url(#m0c36b112-mk-arrow-s)" />
-  <rect x="153.925" y="139.2" width="129.292" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="218.57" y="150" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Dashed bidirectional</text>
+  <rect x="153.925" y="139.2" width="129.292" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="218.57" y="150" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Dashed bidirectional</text>
 </g>
 <g class="message" data-from="B" data-to="C" data-label="Normal one-way" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="218.571" y1="214" x2="358.571" y2="214" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="236.57900000000004" y="189.2" width="103.98399999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="288.57" y="200" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Normal one-way</text>
+  <rect x="236.57900000000004" y="189.2" width="103.98399999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="288.57" y="200" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Normal one-way</text>
 </g>
 <g class="message" data-from="C" data-to="B" data-label="Dashed one-way" data-line-style="dashed" data-arrow-head="filled" data-self="false">
   <line x1="358.571" y1="264" x2="218.571" y2="264" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="234.52700000000004" y="239.2" width="108.08799999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="288.57" y="250" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Dashed one-way</text>
+  <rect x="234.52700000000004" y="239.2" width="108.08799999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="288.57" y="250" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Dashed one-way</text>
 </g>
 <g class="actor" data-id="A" data-label="Service A" data-type="participant">
   <rect x="30" y="30" width="97.142" height="40" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />

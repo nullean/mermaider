@@ -36,19 +36,19 @@
 <rect class="activation" data-actor="Server" x="205" y="114" width="10" height="150" rx="3" ry="3" fill="color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg))" stroke="color-mix(in srgb, var(--accent, var(--fg)) 74%, var(--fg))" stroke-width="1.25" />
 <g class="message" data-from="Client" data-to="Server" data-label="Request 1" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="70" y1="114" x2="210" y2="114" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="106.134" y="89.2" width="67.732" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="100" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Request 1</text>
+  <rect x="106.134" y="89.2" width="67.732" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="100" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Request 1</text>
 </g>
 <g class="message" data-from="Client" data-to="Server" data-label="Request 2" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="70" y1="164" x2="210" y2="164" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="104.082" y="139.2" width="71.836" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="150" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Request 2</text>
+  <rect x="104.082" y="139.2" width="71.836" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="150" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Request 2</text>
 </g>
 <g class="message" data-from="Server" data-to="Client" data-label="Response 2" data-line-style="dashed" data-arrow-head="filled" data-self="false">
   <line x1="210" y1="214" x2="70" y2="214" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="98.61000000000001" y="189.2" width="82.77999999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="200" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Response 2</text>
+  <rect x="98.61000000000001" y="189.2" width="82.77999999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="200" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Response 2</text>
 </g>
 <g class="message" data-from="Server" data-to="Client" data-label="Response 1" data-line-style="dashed" data-arrow-head="filled" data-self="false">
   <line x1="210" y1="264" x2="70" y2="264" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="100.662" y="239.2" width="78.676" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="250" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Response 1</text>
+  <rect x="100.662" y="239.2" width="78.676" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="250" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Response 1</text>
 </g>
 <g class="actor" data-id="Client" data-label="Client" data-type="participant">
   <rect x="30" y="30" width="80" height="40" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />

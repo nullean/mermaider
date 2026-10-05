@@ -47,11 +47,11 @@
 <line class="lifeline" data-actor="C" x1="350" y1="86" x2="350" y2="274" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
 <g class="message" data-from="A" data-to="B" data-label="Internal msg" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="70" y1="130" x2="210" y2="130" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="98.61000000000001" y="105.2" width="82.77999999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="116" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Internal msg</text>
+  <rect x="98.61000000000001" y="105.2" width="82.77999999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="116" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Internal msg</text>
 </g>
 <g class="message" data-from="B" data-to="C" data-label="External msg" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="210" y1="180" x2="350" y2="180" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="235.874" y="155.2" width="88.252" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="280" y="166" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">External msg</text>
+  <rect x="235.874" y="155.2" width="88.252" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="280" y="166" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">External msg</text>
 </g>
 <g class="actor" data-id="A" data-label="A" data-type="participant">
   <rect x="30" y="46" width="80" height="40" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />

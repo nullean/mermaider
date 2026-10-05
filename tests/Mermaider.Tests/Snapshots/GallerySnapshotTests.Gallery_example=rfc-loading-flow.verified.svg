@@ -39,10 +39,10 @@
 <path class="edge" data-from="loadV2" data-to="v2Nodes" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M228.51800000000003,498.13199999999995 L228.51799999999997,538.132" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
 <path class="edge" data-from="loadFallback" data-to="v2NodesFallback" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M513.3,498.13199999999995 L513.3,538.132" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
 <g class="edge-label" data-from="hasV2" data-to="loadV2" data-label="Yes">
-  <rect x="250.98106666666666" y="347.082" width="39.688" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="270.83" y="357.88" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Yes</text>
+  <rect x="250.98106666666666" y="347.082" width="39.688" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="270.83" y="357.88" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Yes</text>
 </g>
 <g class="edge-label" data-from="hasV2" data-to="loadFallback" data-label="No">
-  <rect x="454.56893333333335" y="347.082" width="32.848" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="470.99" y="357.88" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">No</text>
+  <rect x="454.56893333333335" y="347.082" width="32.848" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="470.99" y="357.88" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">No</text>
 </g>
 <g class="node" data-id="disk" data-label="All repos cloned to disk prior to
 build" data-shape="rectangle">

@@ -40,15 +40,15 @@
 <line class="lifeline" data-actor="B" x1="210" y1="70" x2="210" y2="384" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
 <g class="message" data-from="A" data-to="B" data-label="Connect" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="70" y1="114" x2="210" y2="114" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="108.528" y="89.2" width="62.943999999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="100" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Connect</text>
+  <rect x="108.528" y="89.2" width="62.943999999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="100" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Connect</text>
 </g>
 <g class="message" data-from="B" data-to="A" data-label="Ack" data-line-style="dashed" data-arrow-head="filled" data-self="false">
   <line x1="210" y1="164" x2="70" y2="164" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="120.156" y="139.2" width="39.688" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="150" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Ack</text>
+  <rect x="120.156" y="139.2" width="39.688" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="150" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Ack</text>
 </g>
 <g class="message" data-from="A" data-to="A" data-label="Retry" data-line-style="solid" data-arrow-head="filled" data-self="true">
   <polyline points="70,260 100,260 100,280 70,280" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="108" y="259.2" width="47.896" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="131.95" y="270" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Retry</text>
+  <rect x="108" y="259.2" width="47.896" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="131.95" y="270" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Retry</text>
 </g>
 <g class="actor" data-id="A" data-label="A" data-type="participant">
   <rect x="30" y="30" width="80" height="40" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />

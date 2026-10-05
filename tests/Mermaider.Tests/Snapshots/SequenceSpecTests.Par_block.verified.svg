@@ -42,19 +42,19 @@
 <line class="lifeline" data-actor="Data" x1="350" y1="70" x2="350" y2="440" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
 <g class="message" data-from="Client" data-to="Auth" data-label="Validate token" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="70" y1="114" x2="210" y2="114" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="93.138" y="89.2" width="93.724" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="100" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Validate token</text>
+  <rect x="93.138" y="89.2" width="93.724" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="100" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Validate token</text>
 </g>
 <g class="message" data-from="Auth" data-to="Data" data-label="Get user profile" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="210" y1="210" x2="350" y2="210" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="230.06" y="185.2" width="99.88000000000001" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="280" y="196" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Get user profile</text>
+  <rect x="230.06" y="185.2" width="99.88000000000001" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="280" y="196" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Get user profile</text>
 </g>
 <g class="message" data-from="Auth" data-to="Data" data-label="Get permissions" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="210" y1="296" x2="350" y2="296" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="227.666" y="271.2" width="104.66799999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="280" y="282" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Get permissions</text>
+  <rect x="227.666" y="271.2" width="104.66799999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="280" y="282" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Get permissions</text>
 </g>
 <g class="message" data-from="Auth" data-to="Client" data-label="Combined result" data-line-style="dashed" data-arrow-head="filled" data-self="false">
   <line x1="210" y1="346" x2="70" y2="346" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="87.666" y="321.2" width="104.668" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="332" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Combined result</text>
+  <rect x="87.666" y="321.2" width="104.668" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="332" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Combined result</text>
 </g>
 <g class="actor" data-id="Client" data-label="Client" data-type="participant">
   <rect x="30" y="30" width="80" height="40" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />

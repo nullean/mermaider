@@ -39,27 +39,27 @@
 <rect class="activation" data-actor="Server" x="205" y="114" width="10" height="250" rx="3" ry="3" fill="color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg))" stroke="color-mix(in srgb, var(--accent, var(--fg)) 74%, var(--fg))" stroke-width="1.25" />
 <g class="message" data-from="Client" data-to="Server" data-label="POST /login" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="70" y1="114" x2="210" y2="114" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="98.952" y="89.2" width="82.096" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="100" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">POST /login</text>
+  <rect x="98.952" y="89.2" width="82.096" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="100" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">POST /login</text>
 </g>
 <g class="message" data-from="Server" data-to="DB" data-label="SELECT user" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="210" y1="164" x2="350" y2="164" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="232.454" y="139.2" width="95.092" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="280" y="150" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">SELECT user</text>
+  <rect x="232.454" y="139.2" width="95.092" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="280" y="150" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">SELECT user</text>
 </g>
 <g class="message" data-from="DB" data-to="Server" data-label="User row" data-line-style="dashed" data-arrow-head="filled" data-self="false">
   <line x1="350" y1="214" x2="210" y2="214" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="246.13400000000001" y="189.2" width="67.732" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="280" y="200" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">User row</text>
+  <rect x="246.13400000000001" y="189.2" width="67.732" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="280" y="200" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">User row</text>
 </g>
 <g class="message" data-from="Server" data-to="Auth" data-label="Validate token" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="210" y1="264" x2="490" y2="264" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="303.138" y="239.2" width="93.724" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="350" y="250" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Validate token</text>
+  <rect x="303.138" y="239.2" width="93.724" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="350" y="250" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Validate token</text>
 </g>
 <g class="message" data-from="Auth" data-to="Server" data-label="OK" data-line-style="dashed" data-arrow-head="filled" data-self="false">
   <line x1="490" y1="314" x2="210" y2="314" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="332.892" y="289.2" width="34.215999999999994" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="350" y="300" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">OK</text>
+  <rect x="332.892" y="289.2" width="34.215999999999994" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="350" y="300" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">OK</text>
 </g>
 <g class="message" data-from="Server" data-to="Client" data-label="200 JWT" data-line-style="dashed" data-arrow-head="filled" data-self="false">
   <line x1="210" y1="364" x2="70" y2="364" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="106.476" y="339.2" width="67.048" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="350" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">200 JWT</text>
+  <rect x="106.476" y="339.2" width="67.048" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="350" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">200 JWT</text>
 </g>
 <g class="actor" data-id="Client" data-label="Client" data-type="participant">
   <rect x="30" y="30" width="80" height="40" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />

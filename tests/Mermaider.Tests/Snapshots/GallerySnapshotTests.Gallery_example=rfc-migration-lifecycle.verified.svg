@@ -39,20 +39,20 @@
 <path class="edge" data-from="PhysicalRestructure" data-to="Cutover" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="merge feature branch" d="M123.2086133333333,529.95 L123.20861333333332,621.8" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
 <path class="edge" data-from="Cutover" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M148.44627999999997,664 L148.44627999999994,694" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
 <g class="edge-label" data-from="NotStarted" data-to="ShadowNav" data-label="add docset-v2.yml + toc-v2.yml to main">
-  <rect x="41.86727999999998" y="147.325" width="218.21199999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="150.97" y="158.13" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">add docset-v2.yml + toc-v2.yml to main</text>
+  <rect x="41.86727999999998" y="147.325" width="218.21199999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="150.97" y="158.13" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">add docset-v2.yml + toc-v2.yml to main</text>
 </g>
 <g class="edge-label" data-from="ShadowNav" data-to="VirtualRemap" data-label="assign new path_prefix in navigation-v2.yml">
-  <rect x="26.13528000000001" y="281.375" width="249.67599999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="150.97" y="292.18" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">assign new path_prefix in navigation-v2.yml</text>
+  <rect x="26.13528000000001" y="281.375" width="249.67599999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="150.97" y="292.18" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">assign new path_prefix in navigation-v2.yml</text>
 </g>
 <g class="edge-label" data-from="VirtualRemap" data-to="PhysicalRestructure" data-label="run apply-nav-restructure
 (only if content moves)">
-  <rect x="43.51461333333336" y="415.42499999999995" width="159.38799999999998" height="37.2" rx="18.6" ry="18.6" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="123.21" y="434.03" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)"><tspan x="123.21" dy="-3.6">run apply-nav-restructure</tspan><tspan x="123.21" dy="15.6">(only if content moves)</tspan></text>
+  <rect x="43.51461333333336" y="415.42499999999995" width="159.38799999999998" height="37.2" rx="18.6" ry="18.6" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="123.21" y="434.03" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)"><tspan x="123.21" dy="-3.6">run apply-nav-restructure</tspan><tspan x="123.21" dy="15.6">(only if content moves)</tspan></text>
 </g>
 <g class="edge-label" data-from="VirtualRemap" data-to="Cutover" data-label="no URL changes needed">
-  <rect x="260.70965333333334" y="423.22499999999997" width="151.18" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="336.3" y="434.03" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">no URL changes needed</text>
+  <rect x="260.70965333333334" y="423.22499999999997" width="151.18" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="336.3" y="434.03" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">no URL changes needed</text>
 </g>
 <g class="edge-label" data-from="PhysicalRestructure" data-to="Cutover" data-label="merge feature branch">
-  <rect x="56.16861333333331" y="565.075" width="134.07999999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="123.21" y="575.88" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">merge feature branch</text>
+  <rect x="56.16861333333331" y="565.075" width="134.07999999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="123.21" y="575.88" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">merge feature branch</text>
 </g>
 <g class="node" data-id="NotStarted" data-label="Not started" data-shape="rounded">
   <rect x="96.00827999999996" y="70" width="109.92999999999999" height="42.2" rx="14" ry="14" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />

@@ -444,7 +444,7 @@ internal sealed partial class DesignSystem
 		}
 
 		_ = sb.Append(' ');
-		var attrs = TextAttributes(TypeRole.Caption, colorOverride, anchor: "middle", weight: Spec.Label == LabelKind.Chip ? 600 : null)
+		var attrs = TextAttributes(TypeRole.Caption, colorOverride ?? "var(--_text)", anchor: "middle", weight: Spec.Label == LabelKind.Chip ? 600 : null)
 			+ (Spec.Label == LabelKind.Halo ? HaloAttributes : "");
 		MultilineUtils.AppendMultilineText(sb, text, cx, cy, px, attrs);
 	}

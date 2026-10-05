@@ -48,27 +48,27 @@
 <line class="lifeline" data-actor="Client" x1="490" y1="86" x2="490" y2="474" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
 <g class="message" data-from="Client" data-to="API" data-label="Request" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="490" y1="130" x2="70" y2="130" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="248.528" y="105.2" width="62.943999999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="280" y="116" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Request</text>
+  <rect x="248.528" y="105.2" width="62.943999999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="280" y="116" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Request</text>
 </g>
 <g class="message" data-from="API" data-to="Auth" data-label="Validate" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="70" y1="180" x2="210" y2="180" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="109.212" y="155.2" width="61.576" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="166" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Validate</text>
+  <rect x="109.212" y="155.2" width="61.576" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="166" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Validate</text>
 </g>
 <g class="message" data-from="Auth" data-to="API" data-label="OK" data-line-style="dashed" data-arrow-head="filled" data-self="false">
   <line x1="210" y1="230" x2="70" y2="230" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="122.892" y="205.2" width="34.215999999999994" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="216" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">OK</text>
+  <rect x="122.892" y="205.2" width="34.215999999999994" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="216" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">OK</text>
 </g>
 <g class="message" data-from="API" data-to="DB" data-label="Query" data-line-style="solid" data-arrow-head="filled" data-self="false">
   <line x1="70" y1="280" x2="350" y2="280" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="184" y="255.2" width="51.99999999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="210" y="266" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Query</text>
+  <rect x="184" y="255.2" width="51.99999999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="210" y="266" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Query</text>
 </g>
 <g class="message" data-from="DB" data-to="API" data-label="Data" data-line-style="dashed" data-arrow-head="filled" data-self="false">
   <line x1="350" y1="330" x2="70" y2="330" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="188.788" y="305.2" width="42.424" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="210" y="316" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Data</text>
+  <rect x="188.788" y="305.2" width="42.424" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="210" y="316" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Data</text>
 </g>
 <g class="message" data-from="API" data-to="Client" data-label="Response" data-line-style="dashed" data-arrow-head="filled" data-self="false">
   <line x1="70" y1="380" x2="490" y2="380" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m0c36b112-mk-arrow)" />
-  <rect x="243.056" y="355.2" width="73.88799999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="280" y="366" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Response</text>
+  <rect x="243.056" y="355.2" width="73.88799999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="280" y="366" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Response</text>
 </g>
 <g class="actor" data-id="API" data-label="API" data-type="participant">
   <rect x="30" y="46" width="80" height="40" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />

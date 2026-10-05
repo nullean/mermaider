@@ -71,13 +71,13 @@
 <text x="62.51" y="880.1" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #9c755f 44%, var(--fg))" dy="4.9">Content Processing — per file</text>
 <text x="447.17" y="1096.9" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #bab0ac 44%, var(--fg))" dy="4.9">Output</text>
 <g class="edge-label" data-from="valV1" data-to="relLinks" data-label="both pass">
-  <rect x="391.766" y="833.2" width="70.46799999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="427" y="844" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">both pass</text>
+  <rect x="391.766" y="833.2" width="70.46799999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="427" y="844" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">both pass</text>
 </g>
 <g class="edge-label" data-from="repoCheckouts" data-to="relLinks" data-label=".md source files">
-  <rect x="936.876" y="481.7" width="101.24799999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="987.5" y="492.5" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">.md source files</text>
+  <rect x="936.876" y="481.7" width="101.24799999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="987.5" y="492.5" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">.md source files</text>
 </g>
 <g class="edge-label" data-from="assemblerYml" data-to="pathProvider" data-label="nav-v2 flag">
-  <rect x="1023.688" y="664.95" width="76.624" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="1062" y="675.75" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">nav-v2 flag</text>
+  <rect x="1023.688" y="664.95" width="76.624" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="1062" y="675.75" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">nav-v2 flag</text>
 </g>
 <g class="node" data-id="assemblerYml" data-label="assembler.yml
 env config · feature flags" data-shape="rectangle">

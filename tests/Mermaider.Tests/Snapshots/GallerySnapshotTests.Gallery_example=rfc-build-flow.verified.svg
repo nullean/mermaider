@@ -58,25 +58,25 @@
 <text x="28" y="30" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.9">Config</text>
 <text x="442.9" y="30" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.9">Per-repo checkouts</text>
 <g class="edge-label" data-from="docsetV1" data-to="v2SiteNav" data-label="V1 fallback">
-  <rect x="552.398" y="205.27499999999998" width="73.20400000000001" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="589" y="216.08" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">V1 fallback</text>
+  <rect x="552.398" y="205.27499999999998" width="73.20400000000001" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="589" y="216.08" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">V1 fallback</text>
 </g>
 <g class="edge-label" data-from="valV1" data-to="errV1" data-label="fail">
-  <rect x="252.46498666666665" y="553.7350000000001" width="32.848" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="268.89" y="564.54" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">fail</text>
+  <rect x="252.46498666666665" y="553.7350000000001" width="32.848" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="268.89" y="564.54" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">fail</text>
 </g>
 <g class="edge-label" data-from="valV2" data-to="errV2" data-label="fail">
-  <rect x="671.6155600000001" y="556.1290000000001" width="32.848" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="688.04" y="566.93" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">fail</text>
+  <rect x="671.6155600000001" y="556.1290000000001" width="32.848" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="688.04" y="566.93" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">fail</text>
 </g>
 <g class="edge-label" data-from="valV1" data-to="flag" data-label="pass">
-  <rect x="355.5622733333333" y="553.7350000000001" width="45.16" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="378.14" y="564.54" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">pass</text>
+  <rect x="355.5622733333333" y="553.7350000000001" width="45.16" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="378.14" y="564.54" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">pass</text>
 </g>
 <g class="edge-label" data-from="valV2" data-to="flag" data-label="pass">
-  <rect x="556.2062733333333" y="556.1290000000001" width="45.16" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="578.79" y="566.93" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">pass</text>
+  <rect x="556.2062733333333" y="556.1290000000001" width="45.16" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="578.79" y="566.93" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">pass</text>
 </g>
 <g class="edge-label" data-from="flag" data-to="emitV1" data-label="false">
-  <rect x="329.8215233333333" y="724.782" width="43.791999999999994" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="351.72" y="735.58" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">false</text>
+  <rect x="329.8215233333333" y="724.782" width="43.791999999999994" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="351.72" y="735.58" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">false</text>
 </g>
 <g class="edge-label" data-from="flag" data-to="emitV2" data-label="true">
-  <rect x="508.11468999999994" y="724.782" width="39.688" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="527.96" y="735.58" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">true</text>
+  <rect x="508.11468999999994" y="724.782" width="39.688" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="527.96" y="735.58" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">true</text>
 </g>
 <g class="node" data-id="v1SiteNav" data-label="V1 SiteNavigation" data-shape="rectangle">
   <rect x="239.68910666666665" y="256.25" width="148.234" height="42.2" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />

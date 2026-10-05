@@ -53,10 +53,10 @@
   <text x="835.12" y="132.5" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">E-mail</text>
 </g>
 <g class="edge-label" data-from="customer" data-to="banking">
-  <rect x="272.756" y="137.2" width="46.528000000000006" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="296.02" y="148" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Uses</text>
+  <rect x="272.756" y="137.2" width="46.528000000000006" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="296.02" y="148" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Uses</text>
 </g>
 <g class="edge-label" data-from="banking" data-to="mail">
-  <rect x="571.1719999999999" y="137.2" width="136.81599999999997" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="639.58" y="148" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Sends e-mails [SMTP]</text>
+  <rect x="571.1719999999999" y="137.2" width="136.81599999999997" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="639.58" y="148" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Sends e-mails [SMTP]</text>
 </g>
 <defs>
   <linearGradient id="m0c36b112-ng-a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 7%, var(--bg))" /></linearGradient>

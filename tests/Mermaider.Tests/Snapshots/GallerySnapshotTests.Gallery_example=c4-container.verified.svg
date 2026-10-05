@@ -82,16 +82,16 @@
   <text x="1768.96" y="208.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)" dy="4.9">Microsoft Exchange</text>
 </g>
 <g class="edge-label" data-from="customer" data-to="spa">
-  <rect x="286.06999999999994" y="213.2" width="96.45999999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="334.3" y="224" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Uses [HTTPS]</text>
+  <rect x="286.06999999999994" y="213.2" width="96.45999999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="334.3" y="224" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Uses [HTTPS]</text>
 </g>
 <g class="edge-label" data-from="spa" data-to="api">
-  <rect x="647.6239999999999" y="241.7" width="132.712" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="713.98" y="252.5" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Uses [JSON/HTTPS]</text>
+  <rect x="647.6239999999999" y="241.7" width="132.712" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="713.98" y="252.5" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Uses [JSON/HTTPS]</text>
 </g>
 <g class="edge-label" data-from="api" data-to="db">
-  <rect x="1035.878" y="241.7" width="189.484" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="1130.62" y="252.5" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Reads from and writes to [JDBC]</text>
+  <rect x="1035.878" y="241.7" width="189.484" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="1130.62" y="252.5" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Reads from and writes to [JDBC]</text>
 </g>
 <g class="edge-label" data-from="api" data-to="mail">
-  <rect x="1269.752" y="97.2" width="136.81599999999997" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="1338.16" y="108" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Sends e-mails [SMTP]</text>
+  <rect x="1269.752" y="97.2" width="136.81599999999997" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="1338.16" y="108" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Sends e-mails [SMTP]</text>
 </g>
 <defs>
   <linearGradient id="m0c36b112-cw-p1-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /></linearGradient>

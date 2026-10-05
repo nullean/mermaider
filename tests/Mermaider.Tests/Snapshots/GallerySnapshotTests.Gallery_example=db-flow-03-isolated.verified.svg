@@ -68,16 +68,16 @@
 <text x="585.36" y="255.91" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #b07aa1 44%, var(--fg))" dy="4.9">Isolated build</text>
 <text x="1385.64" y="249.91" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #9c755f 44%, var(--fg))" dy="4.9">Outputs</text>
 <g class="edge-label" data-from="LinkReg" data-to="Content" data-label="cross_links">
-  <rect x="245.018" y="353.7" width="83.464" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="286.75" y="364.5" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">cross_links</text>
+  <rect x="245.018" y="353.7" width="83.464" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="286.75" y="364.5" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">cross_links</text>
 </g>
 <g class="edge-label" data-from="OpenApiRepo" data-to="Content" data-label="api">
-  <rect x="470.06699999999995" y="390.2" width="34.215999999999994" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="487.18" y="401" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">api</text>
+  <rect x="470.06699999999995" y="390.2" width="34.215999999999994" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="487.18" y="401" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">api</text>
 </g>
 <g class="edge-label" data-from="Bundles" data-to="Content" data-label="release_notes">
-  <rect x="519.428" y="525.7" width="97.14399999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="568" y="536.5" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">release_notes</text>
+  <rect x="519.428" y="525.7" width="97.14399999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="568" y="536.5" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">release_notes</text>
 </g>
 <g class="edge-label" data-from="Manifest" data-to="LinkReg" data-label="published on push">
-  <rect x="392.37699999999995" y="435.7" width="116.29599999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="450.53" y="446.5" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">published on push</text>
+  <rect x="392.37699999999995" y="435.7" width="116.29599999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="450.53" y="446.5" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">published on push</text>
 </g>
 <g class="node" data-id="Checkout" data-label="Checkout (one repository, one
 branch)" data-shape="rectangle">
