@@ -49,7 +49,7 @@
   <text x="204.54146666666668" y="114" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">if n &lt; 0</text>
 </g>
 <g class="node" data-id="isPositive" data-label="" data-shape="diamond">
-  <polygon points="152.136,70 168.136,86 152.136,102 136.136,86" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <polygon points="152.136,70 168.136,86 152.136,102 136.136,86" fill="var(--_accent-fill)" stroke="#3B5B7D" stroke-width="2" />
   <text x="152.136" y="86" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6"></text>
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
@@ -57,11 +57,11 @@
   
 </g>
 <g class="node" data-id="Positive" data-label="Positive" data-shape="rounded">
-  <rect x="16" y="196.45" width="116.768" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="16" y="196.45" width="116.768" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="74.384" y="218.85" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Positive</text>
 </g>
 <g class="node" data-id="Negative" data-label="Negative" data-shape="rounded">
-  <rect x="168.768" y="196.45" width="122.24000000000001" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="168.768" y="196.45" width="122.24000000000001" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="229.888" y="218.85" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Negative</text>
 </g>
 </svg>

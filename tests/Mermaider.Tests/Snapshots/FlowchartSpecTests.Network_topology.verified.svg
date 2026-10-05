@@ -65,11 +65,11 @@
   <text x="249.456" y="81" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Internet</text>
 </g>
 <g class="node" data-id="lb" data-label="Load Balancer" data-shape="stadium">
-  <rect x="64" y="298" width="166.928" height="44.8" rx="22.4" ry="22.4" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <rect x="64" y="298" width="166.928" height="44.8" rx="22.4" ry="22.4" fill="color-mix(in srgb, var(--fg) 9%, var(--bg))" stroke="#3B5B7D" stroke-width="2.5" />
   <text x="147.464" y="320.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Load Balancer</text>
 </g>
 <g class="node" data-id="nat" data-label="NAT Gateway" data-shape="stadium">
-  <rect x="278.928" y="298" width="155.98399999999998" height="44.8" rx="22.4" ry="22.4" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <rect x="278.928" y="298" width="155.98399999999998" height="44.8" rx="22.4" ry="22.4" fill="color-mix(in srgb, var(--fg) 9%, var(--bg))" stroke="#3B5B7D" stroke-width="2.5" />
   <text x="356.91999999999996" y="320.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">NAT Gateway</text>
 </g>
 <g class="node" data-id="app1" data-label="App Server 1" data-shape="rectangle">
@@ -81,11 +81,11 @@
   <text x="342.25600000000003" y="485.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">App Server 2</text>
 </g>
 <g class="node" data-id="db" data-label="Database" data-shape="cylinder">
-  <rect x="184.232" y="554.6" width="127.712" height="44.8" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="none" />
-<line x1="184.232" y1="554.6" x2="184.232" y2="599.4" stroke="#3B5B7D" stroke-width="2" />
-<line x1="311.944" y1="554.6" x2="311.944" y2="599.4" stroke="#3B5B7D" stroke-width="2" />
-<ellipse cx="248.088" cy="599.4" rx="63.856" ry="7" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-<ellipse cx="248.088" cy="554.6" rx="63.856" ry="7" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <rect x="184.232" y="554.6" width="127.712" height="44.8" fill="color-mix(in srgb, var(--_text-muted) 18%, var(--bg))" stroke="none" />
+<line x1="184.232" y1="554.6" x2="184.232" y2="599.4" stroke="var(--_text-muted)" stroke-width="2" />
+<line x1="311.944" y1="554.6" x2="311.944" y2="599.4" stroke="var(--_text-muted)" stroke-width="2" />
+<ellipse cx="248.088" cy="599.4" rx="63.856" ry="7" fill="color-mix(in srgb, var(--_text-muted) 18%, var(--bg))" stroke="var(--_text-muted)" stroke-width="2" />
+<ellipse cx="248.088" cy="554.6" rx="63.856" ry="7" fill="color-mix(in srgb, var(--_text-muted) 18%, var(--bg))" stroke="var(--_text-muted)" stroke-width="2" />
   <text x="248.088" y="577" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Database</text>
 </g>
 </svg>

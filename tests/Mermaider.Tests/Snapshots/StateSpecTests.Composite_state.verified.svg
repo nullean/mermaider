@@ -38,20 +38,20 @@
 </defs>
 
 <g class="subgraph" data-id="First" data-label="First">
-  <rect x="16" y="70" width="161.12" height="253.60000000000002" rx="8" ry="8" fill="var(--_group-fill)" stroke="var(--_group-stroke)" stroke-width="1.75" />
+  <rect x="16" y="70" width="161.12" height="253.60000000000002" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
 </g>
 
 <path class="edge" data-from="_start" data-to="_start2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M96.5,40 L96.5,70" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="_start2" data-to="second" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M96.5,150 L96.5,180" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="second" data-to="third" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M96.5,225 L96.5,255" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="third" data-to="Last" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M96.5,323.6 L96.5,353.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="28" y="85" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">First</text>
+<path class="edge" data-from="third" data-to="Last" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M96.5,323.6 L96.5,353.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="28" y="85" font-size="var(--fs-s)" font-weight="600" fill="#F18921" dy="4.8999999999999995">First</text>
 
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
   <circle cx="96.56" cy="28" r="10" fill="var(--_text)" stroke="none" />
   
 </g>
 <g class="node" data-id="Last" data-label="Last" data-shape="rounded">
-  <rect x="50.944" y="353.6" width="91.232" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="50.944" y="353.6" width="91.232" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="96.56" y="376" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Last</text>
 </g>
 <g class="node" data-id="_start2" data-label="" data-shape="statestart">
@@ -59,11 +59,11 @@
   
 </g>
 <g class="node" data-id="second" data-label="second" data-shape="rounded">
-  <rect x="40" y="180" width="113.12" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="40" y="180" width="113.12" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="96.56" y="202.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">second</text>
 </g>
 <g class="node" data-id="third" data-label="third" data-shape="rounded">
-  <rect x="50.944" y="254.8" width="91.232" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="50.944" y="254.8" width="91.232" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="96.56" y="277.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">third</text>
 </g>
 </svg>

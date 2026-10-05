@@ -107,23 +107,23 @@
   <text x="739.18946" y="371.25" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V2 NavigationTocMappings</text>
 </g>
 <g class="node" data-id="valV1" data-label="V1 valid?" data-shape="diamond">
-  <polygon points="362.4707933333334,433.65000000000003 422.2227933333334,493.40200000000004 362.4707933333334,553.154 302.7187933333334,493.40200000000004" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <polygon points="362.4707933333334,433.65000000000003 422.2227933333334,493.40200000000004 362.4707933333334,553.154 302.7187933333334,493.40200000000004" fill="var(--_accent-fill)" stroke="#3B5B7D" stroke-width="2" />
   <text x="362.4707933333334" y="493.40200000000004" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V1 valid?</text>
 </g>
 <g class="node" data-id="valV2" data-label="V2 valid?" data-shape="diamond">
-  <polygon points="739.18946,433.65000000000003 801.6774600000001,496.13800000000003 739.18946,558.6260000000001 676.70146,496.13800000000003" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <polygon points="739.18946,433.65000000000003 801.6774600000001,496.13800000000003 739.18946,558.6260000000001 676.70146,496.13800000000003" fill="var(--_accent-fill)" stroke="#3B5B7D" stroke-width="2" />
   <text x="739.18946" y="496.13800000000003" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V2 valid?</text>
 </g>
 <g class="node" data-id="errV1" data-label="Build error" data-shape="stadium">
-  <rect x="247.33971333333346" y="653.076" width="137.74399999999997" height="44.8" rx="22.4" ry="22.4" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <rect x="247.33971333333346" y="653.076" width="137.74399999999997" height="44.8" rx="22.4" ry="22.4" fill="color-mix(in srgb, var(--fg) 9%, var(--bg))" stroke="#3B5B7D" stroke-width="2.5" />
   <text x="316.2117133333335" y="675.476" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Build error</text>
 </g>
 <g class="node" data-id="errV2" data-label="Build error" data-shape="stadium">
-  <rect x="716.57654" y="653.076" width="137.74399999999997" height="44.8" rx="22.4" ry="22.4" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <rect x="716.57654" y="653.076" width="137.74399999999997" height="44.8" rx="22.4" ry="22.4" fill="color-mix(in srgb, var(--fg) 9%, var(--bg))" stroke="#3B5B7D" stroke-width="2.5" />
   <text x="785.44854" y="675.476" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Build error</text>
 </g>
 <g class="node" data-id="flag" data-label="nav-v2 flag" data-shape="diamond">
-  <polygon points="509.07879333333335,653.076 577.4947933333333,721.492 509.07879333333335,789.9079999999999 440.66279333333335,721.492" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <polygon points="509.07879333333335,653.076 577.4947933333333,721.492 509.07879333333335,789.9079999999999 440.66279333333335,721.492" fill="var(--_accent-fill)" stroke="#3B5B7D" stroke-width="2" />
   <text x="509.07879333333335" y="721.492" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">nav-v2 flag</text>
 </g>
 <g class="node" data-id="emitV1" data-label="V1 NavigationTocMappings

@@ -46,7 +46,7 @@ internal static class SvgRenderer
 		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 		AppendArrowDefs(sb);
 
-		var palette = context.DiagramType == DiagramType.Flowchart ? ClusterPalette.Build(graph, context.Styles.Colors) : null;
+		var palette = context.DiagramType is DiagramType.Flowchart or DiagramType.State ? ClusterPalette.Build(graph, context.Styles.Colors) : null;
 
 		foreach (var group in graph.Groups)
 			AppendGroupBody(sb, group, palette, 0);
@@ -417,13 +417,17 @@ internal static class SvgRenderer
 	{
 		var (x, y, w, h) = (node.X, node.Y, node.Width, node.Height);
 		var clustered = palette is not null && palette.Has(node.Id);
-		// user style / classDef  >  semantic role class  >  cluster colour  >  default
+		// user style / classDef  >  semantic role class  >  shape meaning (decision, terminal, data store)  >  cluster colour  >  default
 		var role = palette is not null ? node.SemanticRole : null;
+		var shapeFill = palette is not null ? VisualLanguage.ShapeFill(node.Shape) : null;
+		var shapeStroke = palette is not null ? VisualLanguage.ShapeStroke(node.Shape) : null;
 		var fill = InlineStyleValue(node.InlineStyle, "fill")
-			?? (role is not null ? palette!.RoleFill(role) : clustered ? palette!.NodeFill(node.Id) : "var(--_node-fill)");
+			?? (role is not null ? palette!.RoleFill(role) : shapeFill ?? (clustered ? palette!.NodeFill(node.Id) : "var(--_node-fill)"));
 		var stroke = InlineStyleValue(node.InlineStyle, "stroke")
-			?? (role is not null ? palette!.RoleStroke(role) : clustered ? palette!.NodeStroke(node.Id) : "var(--_node-stroke)");
-		var sw = InlineStyleValue(node.InlineStyle, "stroke-width") ?? StrokeWidths.InnerBox.ToString(CultureInfo.InvariantCulture);
+			?? (role is not null ? palette!.RoleStroke(role) : shapeStroke ?? (clustered ? palette!.NodeStroke(node.Id) : "var(--_node-stroke)"));
+		var terminal = palette is not null && node.Shape == NodeShape.Stadium && role is null;
+		var sw = InlineStyleValue(node.InlineStyle, "stroke-width")
+			?? (StrokeWidths.InnerBox + (terminal ? VisualLanguage.TerminalExtraStroke : 0)).ToString(CultureInfo.InvariantCulture);
 
 		switch (node.Shape)
 		{

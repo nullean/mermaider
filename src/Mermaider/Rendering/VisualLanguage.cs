@@ -30,6 +30,25 @@ internal static class VisualLanguage
 	/// <summary>Subgraph borders stay close to the palette colour itself.</summary>
 	internal const double GroupBorderDarken = -0.02;
 
+	/// <summary>
+	/// Fill for shapes that carry a conventional meaning, under user style and role classes and above the cluster colour:
+	/// decision (diamond / state choice) = accent tint, terminal (stadium) = neutral tint, data store (cylinder) = muted tint.
+	/// Null for every other shape (they keep the cluster colour).
+	/// </summary>
+	internal static string? ShapeFill(NodeShape shape) => shape switch
+	{
+		NodeShape.Diamond => "var(--_accent-fill)",
+		NodeShape.Stadium => "color-mix(in srgb, var(--fg) 9%, var(--bg))",
+		NodeShape.Cylinder => "color-mix(in srgb, var(--_text-muted) 18%, var(--bg))",
+		_ => null,
+	};
+
+	/// <summary>Border override of a meaningful shape (data store only); null keeps the cluster border.</summary>
+	internal static string? ShapeStroke(NodeShape shape) => shape == NodeShape.Cylinder ? "var(--_text-muted)" : null;
+
+	/// <summary>Terminals read as stronger: their border is this much heavier than a normal node's.</summary>
+	internal const double TerminalExtraStroke = 0.5;
+
 	/// <summary>A tint of <paramref name="color"/> over the page background.</summary>
 	internal static string Tint(string color, int percent) => $"color-mix(in srgb, {color} {percent}%, var(--bg))";
 

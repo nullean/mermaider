@@ -57,19 +57,19 @@
   <text x="178.87199999999999" y="344" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">REST API</text>
 </g>
 <g class="node" data-id="DB" data-label="Database" data-shape="cylinder">
-  <rect x="40" y="413.40000000000003" width="127.712" height="44.8" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="none" />
-<line x1="40" y1="413.40000000000003" x2="40" y2="458.20000000000005" stroke="#3B5B7D" stroke-width="2" />
-<line x1="167.712" y1="413.40000000000003" x2="167.712" y2="458.20000000000005" stroke="#3B5B7D" stroke-width="2" />
-<ellipse cx="103.856" cy="458.20000000000005" rx="63.856" ry="7" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-<ellipse cx="103.856" cy="413.40000000000003" rx="63.856" ry="7" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <rect x="40" y="413.40000000000003" width="127.712" height="44.8" fill="color-mix(in srgb, var(--_text-muted) 18%, var(--bg))" stroke="none" />
+<line x1="40" y1="413.40000000000003" x2="40" y2="458.20000000000005" stroke="var(--_text-muted)" stroke-width="2" />
+<line x1="167.712" y1="413.40000000000003" x2="167.712" y2="458.20000000000005" stroke="var(--_text-muted)" stroke-width="2" />
+<ellipse cx="103.856" cy="458.20000000000005" rx="63.856" ry="7" fill="color-mix(in srgb, var(--_text-muted) 18%, var(--bg))" stroke="var(--_text-muted)" stroke-width="2" />
+<ellipse cx="103.856" cy="413.40000000000003" rx="63.856" ry="7" fill="color-mix(in srgb, var(--_text-muted) 18%, var(--bg))" stroke="var(--_text-muted)" stroke-width="2" />
   <text x="103.856" y="435.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Database</text>
 </g>
 <g class="node" data-id="Cache" data-label="Redis" data-shape="cylinder">
-  <rect x="203.712" y="413.40000000000003" width="100.35199999999999" height="44.8" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="none" />
-<line x1="203.712" y1="413.40000000000003" x2="203.712" y2="458.20000000000005" stroke="#3B5B7D" stroke-width="2" />
-<line x1="304.06399999999996" y1="413.40000000000003" x2="304.06399999999996" y2="458.20000000000005" stroke="#3B5B7D" stroke-width="2" />
-<ellipse cx="253.88799999999998" cy="458.20000000000005" rx="50.175999999999995" ry="7" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-<ellipse cx="253.88799999999998" cy="413.40000000000003" rx="50.175999999999995" ry="7" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <rect x="203.712" y="413.40000000000003" width="100.35199999999999" height="44.8" fill="color-mix(in srgb, var(--_text-muted) 18%, var(--bg))" stroke="none" />
+<line x1="203.712" y1="413.40000000000003" x2="203.712" y2="458.20000000000005" stroke="var(--_text-muted)" stroke-width="2" />
+<line x1="304.06399999999996" y1="413.40000000000003" x2="304.06399999999996" y2="458.20000000000005" stroke="var(--_text-muted)" stroke-width="2" />
+<ellipse cx="253.88799999999998" cy="458.20000000000005" rx="50.175999999999995" ry="7" fill="color-mix(in srgb, var(--_text-muted) 18%, var(--bg))" stroke="var(--_text-muted)" stroke-width="2" />
+<ellipse cx="253.88799999999998" cy="413.40000000000003" rx="50.175999999999995" ry="7" fill="color-mix(in srgb, var(--_text-muted) 18%, var(--bg))" stroke="var(--_text-muted)" stroke-width="2" />
   <text x="253.88799999999998" y="435.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Redis</text>
 </g>
 <g class="node" data-id="UI" data-label="React App" data-shape="rectangle">

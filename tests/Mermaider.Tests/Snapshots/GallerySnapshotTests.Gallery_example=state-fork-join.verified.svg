@@ -52,7 +52,7 @@
   
 </g>
 <g class="node" data-id="Ready" data-label="Ready" data-shape="rounded">
-  <rect x="160.55999999999997" y="70" width="105.824" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="160.55999999999997" y="70" width="105.824" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="213.47199999999998" y="92.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Ready</text>
 </g>
 <g class="node" data-id="fork_point" data-label="" data-shape="forkjoin">
@@ -64,19 +64,19 @@
   
 </g>
 <g class="node" data-id="TaskA" data-label="TaskA" data-shape="rounded">
-  <rect x="16" y="190.8" width="107.648" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="16" y="190.8" width="107.648" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="69.824" y="213.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">TaskA</text>
 </g>
 <g class="node" data-id="TaskB" data-label="TaskB" data-shape="rounded">
-  <rect x="159.648" y="190.8" width="107.648" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="159.648" y="190.8" width="107.648" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="213.47199999999998" y="213.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">TaskB</text>
 </g>
 <g class="node" data-id="TaskC" data-label="TaskC" data-shape="rounded">
-  <rect x="303.296" y="190.8" width="107.648" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="303.296" y="190.8" width="107.648" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="357.12" y="213.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">TaskC</text>
 </g>
 <g class="node" data-id="Complete" data-label="Complete" data-shape="rounded">
-  <rect x="151.43999999999997" y="311.6" width="124.06400000000001" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <rect x="151.43999999999997" y="311.6" width="124.06400000000001" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
   <text x="213.47199999999998" y="334" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Complete</text>
 </g>
 <g class="node" data-id="_end" data-label="" data-shape="stateend">
