@@ -804,6 +804,40 @@ public static partial class DiagramExamples
 			2016 : .NET Core
 			"""),
 
+		new("timeline-long-events", "Long Events", DiagramCategory.Timeline, """
+			timeline
+			title Company History
+			section Founding
+			2010 : Two friends start building a prototype in a garage : First paying customer signs up
+			2012 : Seed round closes and the first five engineers join
+			section Scale
+			2015 : Opens the first international office in Berlin : Launches the self-serve plan
+			2018 : Acquires a small analytics startup to extend the platform
+			section Today
+			2023 : Reaches ten thousand customers across forty countries
+			"""),
+
+		new("timeline-many-sections", "Many Sections", DiagramCategory.Timeline, """
+			timeline
+			title A Year in Product
+			section Q1
+			Jan : Planning
+			Feb : Prototype : Customer interviews
+			Mar : Alpha
+			section Q2
+			Apr : Beta : Docs
+			May : Feedback
+			Jun : Launch
+			section Q3
+			Jul : Scale-out
+			Aug : Pricing
+			Sep : Partnerships
+			section Q4
+			Oct : Enterprise
+			Nov : Security audit
+			Dec : Retrospective
+			"""),
+
 		// ── GitGraph ───────────────────────────────────────────────────
 
 		new("gitgraph-basic", "Basic Git Flow", DiagramCategory.GitGraph, """
@@ -913,6 +947,18 @@ public static partial class DiagramExamples
 
 		new("mindmap-learning", "Learning Path", DiagramCategory.Mindmap,
 			"mindmap\n  ((Web Development))\n    (Frontend)\n      HTML\n      CSS\n      JavaScript\n    (Backend)\n      .NET\n      Node.js\n    ))Cloud((\n      AWS\n      Azure"),
+
+		new("mindmap-many-branches", "Many Branches", DiagramCategory.Mindmap,
+			"mindmap\n  ((Product Launch))\n    Marketing\n      Landing page\n      Email campaign\n      Social\n    Engineering\n      Feature flags\n      Load testing\n    Support\n      Runbooks\n      Training\n    Legal\n      Terms\n      Privacy\n    Finance\n      Pricing\n      Forecast\n    Sales\n      Playbook\n      Demo env\n    Operations\n      On-call\n      Dashboards\n    Design\n      Brand\n      Docs"),
+
+		new("mindmap-deep", "Deep Tree", DiagramCategory.Mindmap,
+			"mindmap\n  ((Architecture))\n    (Frontend)\n      Components\n        Buttons\n        Forms\n          Validation\n          Masks\n      State\n        Store\n    (Backend)\n      API\n        REST\n        GraphQL\n      Data\n        SQL\n          Postgres\n        Cache"),
+
+		new("mindmap-shapes", "All Shapes", DiagramCategory.Mindmap,
+			"mindmap\n  ((Shapes))\n    (Rounded)\n      Plain child\n    [Square]\n      Plain child\n    ((Circle))\n      Plain child\n    {{Hexagon}}\n      Plain child\n    ))Bang((\n      Plain child\n    )Cloud(\n      Plain child"),
+
+		new("mindmap-long-labels", "Long Labels", DiagramCategory.Mindmap,
+			"mindmap\n  ((A mindmap with a fairly long root title))\n    (A branch with a descriptive name)\n      A leaf that explains something at length\n      Short\n    [Another considerably wordy branch]\n      Also a longer leaf label here"),
 
 		// ── Architecture ───────────────────────────────────────────────
 

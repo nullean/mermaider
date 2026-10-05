@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1084 1838" width="1084" height="1838" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1144 1956" width="1144" height="1956" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -30,441 +30,478 @@
 
 <defs>
   <marker id="arch-arrow-end" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" />
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" />
   </marker>
   <marker id="arch-arrow-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
-    <polygon points="12 0, 0 6, 12 12" fill="var(--_arrow)" />
+    <polygon points="12 0, 0 6, 12 12" fill="var(--_line)" />
   </marker>
 </defs>
 
 <g class="architecture-group" data-id="defaultPack">
-  <rect x="24" y="24" width="316" height="530" rx="8" ry="8" fill="none" stroke="var(--_accent-stroke)" stroke-width="1.75" stroke-dasharray="6 4" />
+  <rect x="24" y="24" width="328" height="564" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
     <image x="36" y="36" width="20" height="20" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik03IDE4YTQgNCAwIDAgMS0uNS03Ljk3QTUgNSAwIDAgMSAxNiA4LjVhNC41IDQuNSAwIDAgMSAxIDguOVYxOEg3eiIgZmlsbD0iIzY0NzQ4YiIvPgo8L3N2Zz4=" />
-<text x="64" y="46" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Default Icons</text>
+<text x="64" y="46" font-size="var(--fs-s)" font-weight="600" fill="#F18921" dy="4.8999999999999995">Default Icons</text>
 </g>
 <g class="architecture-group" data-id="awsPack">
-  <rect x="564" y="24" width="496" height="530" rx="8" ry="8" fill="none" stroke="var(--_accent-stroke)" stroke-width="1.75" stroke-dasharray="6 4" />
+  <rect x="600" y="24" width="520" height="564" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 6%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
     <defs><linearGradient id="arch-grad-awsPack" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7a55e"/><stop offset="1" stop-color="#c15a00"/></linearGradient></defs>
-  <rect x="576" y="36" width="20" height="20" rx="4" ry="4" fill="url(#arch-grad-awsPack)" />
-    <image x="576" y="36" width="20" height="20" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjYiIHk9IjYiIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgcng9IjIiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMiIgd2lkdGg9IjQiIGhlaWdodD0iNCIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMTgiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMiIgeT0iMTAiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMTgiIHk9IjEwIiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiByeD0iMSIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4=" />
-<text x="604" y="46" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">AWS Icons</text>
+  <rect x="612" y="36" width="20" height="20" rx="4" ry="4" fill="url(#arch-grad-awsPack)" />
+    <image x="612" y="36" width="20" height="20" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjYiIHk9IjYiIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgcng9IjIiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMiIgd2lkdGg9IjQiIGhlaWdodD0iNCIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMTgiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMiIgeT0iMTAiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMTgiIHk9IjEwIiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiByeD0iMSIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4=" />
+<text x="640" y="46" font-size="var(--fs-s)" font-weight="600" fill="#6FB3AE" dy="4.8999999999999995">AWS Icons</text>
 </g>
 <g class="architecture-group" data-id="azurePack">
-  <rect x="24" y="564" width="496" height="530" rx="8" ry="8" fill="none" stroke="var(--_accent-stroke)" stroke-width="1.75" stroke-dasharray="6 4" />
+  <rect x="24" y="600" width="520" height="564" rx="8" ry="8" fill="color-mix(in srgb, #b07aa1 6%, var(--bg))" stroke="#AC749C" stroke-width="1.75" />
     <defs><linearGradient id="arch-grad-azurePack" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4ea8e8"/><stop offset="1" stop-color="#00548f"/></linearGradient></defs>
-  <rect x="36" y="576" width="20" height="20" rx="4" ry="4" fill="url(#arch-grad-azurePack)" />
-    <image x="36" y="576" width="20" height="20" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjYiIHk9IjYiIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgcng9IjIiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMiIgd2lkdGg9IjQiIGhlaWdodD0iNCIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMTgiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMiIgeT0iMTAiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMTgiIHk9IjEwIiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiByeD0iMSIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4=" />
-<text x="64" y="586" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Azure Icons</text>
+  <rect x="36" y="612" width="20" height="20" rx="4" ry="4" fill="url(#arch-grad-azurePack)" />
+    <image x="36" y="612" width="20" height="20" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjYiIHk9IjYiIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgcng9IjIiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMiIgd2lkdGg9IjQiIGhlaWdodD0iNCIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMTgiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMiIgeT0iMTAiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMTgiIHk9IjEwIiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiByeD0iMSIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4=" />
+<text x="64" y="622" font-size="var(--fs-s)" font-weight="600" fill="#AC749C" dy="4.8999999999999995">Azure Icons</text>
 </g>
 <g class="architecture-group" data-id="gcpPack">
-  <rect x="564" y="564" width="496" height="530" rx="8" ry="8" fill="none" stroke="var(--_accent-stroke)" stroke-width="1.75" stroke-dasharray="6 4" />
+  <rect x="600" y="600" width="520" height="564" rx="8" ry="8" fill="color-mix(in srgb, #9c755f 6%, var(--bg))" stroke="#96705B" stroke-width="1.75" />
     <defs><linearGradient id="arch-grad-gcpPack" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#81c995"/><stop offset="1" stop-color="#188038"/></linearGradient></defs>
-  <rect x="576" y="576" width="20" height="20" rx="4" ry="4" fill="url(#arch-grad-gcpPack)" />
-    <image x="576" y="576" width="20" height="20" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjYiIHk9IjYiIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgcng9IjIiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMiIgd2lkdGg9IjQiIGhlaWdodD0iNCIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMTgiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMiIgeT0iMTAiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMTgiIHk9IjEwIiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiByeD0iMSIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4=" />
-<text x="604" y="586" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">GCP Icons</text>
+  <rect x="612" y="612" width="20" height="20" rx="4" ry="4" fill="url(#arch-grad-gcpPack)" />
+    <image x="612" y="612" width="20" height="20" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjYiIHk9IjYiIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgcng9IjIiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMiIgd2lkdGg9IjQiIGhlaWdodD0iNCIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMTgiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMiIgeT0iMTAiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMTgiIHk9IjEwIiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiByeD0iMSIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4=" />
+<text x="640" y="622" font-size="var(--fs-s)" font-weight="600" fill="#96705B" dy="4.8999999999999995">GCP Icons</text>
 </g>
 <g class="architecture-group" data-id="elasticPack">
-  <rect x="24" y="1104" width="496" height="530" rx="8" ry="8" fill="none" stroke="var(--_accent-stroke)" stroke-width="1.75" stroke-dasharray="6 4" />
+  <rect x="24" y="1176" width="520" height="564" rx="8" ry="8" fill="color-mix(in srgb, #bab0ac 6%, var(--bg))" stroke="#B5ABA6" stroke-width="1.75" />
     <defs><linearGradient id="arch-grad-elasticPack" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe066"/><stop offset="1" stop-color="#c99a00"/></linearGradient></defs>
-  <rect x="36" y="1116" width="20" height="20" rx="4" ry="4" fill="url(#arch-grad-elasticPack)" />
-    <image x="36" y="1116" width="20" height="20" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik01IDZjMC0xLjcgMy4xLTMgNy0zczcgMS4zIDcgM3YxMmMwIDEuNy0zLjEgMy03IDNzLTctMS4zLTctM3oiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNNSA2YzAgMS43IDMuMSAzIDcgM3M3LTEuMyA3LTMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLW9wYWNpdHk9IjAuMjUiIHN0cm9rZS13aWR0aD0iMSIvPjxwYXRoIGQ9Ik01IDExLjNjMCAxLjcgMy4xIDMgNyAzczctMS4zIDctMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utb3BhY2l0eT0iMC4yNSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHBhdGggZD0iTTUgMTYuN2MwIDEuNyAzLjEgMyA3IDNzNy0xLjMgNy0zIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS1vcGFjaXR5PSIwLjI1IiBzdHJva2Utd2lkdGg9IjEiLz4KPC9zdmc+" />
-<text x="64" y="1126" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Elastic Icons</text>
+  <rect x="36" y="1188" width="20" height="20" rx="4" ry="4" fill="url(#arch-grad-elasticPack)" />
+    <image x="36" y="1188" width="20" height="20" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik01IDZjMC0xLjcgMy4xLTMgNy0zczcgMS4zIDcgM3YxMmMwIDEuNy0zLjEgMy03IDNzLTctMS4zLTctM3oiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNNSA2YzAgMS43IDMuMSAzIDcgM3M3LTEuMyA3LTMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLW9wYWNpdHk9IjAuMjUiIHN0cm9rZS13aWR0aD0iMSIvPjxwYXRoIGQ9Ik01IDExLjNjMCAxLjcgMy4xIDMgNyAzczctMS4zIDctMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utb3BhY2l0eT0iMC4yNSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHBhdGggZD0iTTUgMTYuN2MwIDEuNyAzLjEgMyA3IDNzNy0xLjMgNy0zIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS1vcGFjaXR5PSIwLjI1IiBzdHJva2Utd2lkdGg9IjEiLz4KPC9zdmc+" />
+<text x="64" y="1198" font-size="var(--fs-s)" font-weight="600" fill="#B5ABA6" dy="4.8999999999999995">Elastic Icons</text>
 </g>
 <g class="architecture-group" data-id="extPack">
-  <rect x="564" y="1104" width="496" height="710" rx="8" ry="8" fill="none" stroke="var(--_accent-stroke)" stroke-width="1.75" stroke-dasharray="6 4" />
+  <rect x="600" y="1176" width="520" height="756" rx="8" ry="8" fill="color-mix(in srgb, #86bcb6 6%, var(--bg))" stroke="#7FB8B2" stroke-width="1.75" />
     <defs><linearGradient id="arch-grad-extPack" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#94a3b8"/><stop offset="1" stop-color="#475569"/></linearGradient></defs>
-  <rect x="576" y="1116" width="20" height="20" rx="4" ry="4" fill="url(#arch-grad-extPack)" />
-    <image x="576" y="1116" width="20" height="20" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xMCAzYy0yLjIgMC0zLjIgMS4xLTMuMiAzLjN2Mi42YzAgMS4xLS45IDIuMS0yLjEgMi4xdjJjMS4yIDAgMi4xIDEgMi4xIDIuMXYyLjZjMCAyLjIgMSAzLjMgMy4yIDMuMyIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjEuOCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTE0IDNjMi4yIDAgMy4yIDEuMSAzLjIgMy4zdjIuNmMwIDEuMS45IDIuMSAyLjEgMi4xdjJjLTEuMiAwLTIuMSAxLTIuMSAyLjF2Mi42YzAgMi4yLTEgMy4zLTMuMiAzLjMiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjgiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4=" />
-<text x="604" y="1126" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Generic (ext:) Icons</text>
+  <rect x="612" y="1188" width="20" height="20" rx="4" ry="4" fill="url(#arch-grad-extPack)" />
+    <image x="612" y="1188" width="20" height="20" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xMCAzYy0yLjIgMC0zLjIgMS4xLTMuMiAzLjN2Mi42YzAgMS4xLS45IDIuMS0yLjEgMi4xdjJjMS4yIDAgMi4xIDEgMi4xIDIuMXYyLjZjMCAyLjIgMSAzLjMgMy4yIDMuMyIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjEuOCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTE0IDNjMi4yIDAgMy4yIDEuMSAzLjIgMy4zdjIuNmMwIDEuMS45IDIuMSAyLjEgMi4xdjJjLTEuMiAwLTIuMSAxLTIuMSAyLjF2Mi42YzAgMi4yLTEgMy4zLTMuMiAzLjMiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjgiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4=" />
+<text x="640" y="1198" font-size="var(--fs-s)" font-weight="600" fill="#7FB8B2" dy="4.8999999999999995">Generic (ext:) Icons</text>
 </g>
-<path class="architecture-edge" data-source="dCloud" data-target="dDatabase" d="M132,126 L232,126" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="dCloud" data-target="dDisk" d="M92,166 L92,266" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="dDatabase" data-target="dInternet" d="M272,166 L272,266" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="dDisk" data-target="dInternet" d="M132,306 L232,306" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="dDisk" data-target="dServer" d="M92,346 L92,446" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="dInternet" data-target="dGeneric" d="M272,346 L272,446" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="dServer" data-target="dGeneric" d="M132,486 L232,486" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="awsCompute" data-target="awsStorage" d="M672,126 L772,126" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="awsStorage" data-target="awsDatabase" d="M852,126 L952,126" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="awsCompute" data-target="awsNetworking" d="M632,166 L632,266" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="awsStorage" data-target="awsServerless" d="M812,166 L812,266" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="awsDatabase" data-target="awsLoadBalancer" d="M992,166 L992,266" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="awsNetworking" data-target="awsServerless" d="M672,306 L772,306" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="awsServerless" data-target="awsLoadBalancer" d="M852,306 L952,306" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="awsNetworking" data-target="awsQueue" d="M632,346 L632,446" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="awsServerless" data-target="awsCdn" d="M812,346 L812,446" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="awsLoadBalancer" data-target="awsCache" d="M992,346 L992,446" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="awsQueue" data-target="awsCdn" d="M672,486 L772,486" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="awsCdn" data-target="awsCache" d="M852,486 L952,486" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="azureCompute" data-target="azureStorage" d="M132,666 L232,666" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="azureStorage" data-target="azureDatabase" d="M312,666 L412,666" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="azureCompute" data-target="azureNetworking" d="M92,706 L92,806" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="azureStorage" data-target="azureServerless" d="M272,706 L272,806" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="azureDatabase" data-target="azureLoadBalancer" d="M452,706 L452,806" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="azureNetworking" data-target="azureServerless" d="M132,846 L232,846" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="azureServerless" data-target="azureLoadBalancer" d="M312,846 L412,846" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="azureNetworking" data-target="azureQueue" d="M92,886 L92,986" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="azureServerless" data-target="azureCdn" d="M272,886 L272,986" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="azureLoadBalancer" data-target="azureCache" d="M452,886 L452,986" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="azureQueue" data-target="azureCdn" d="M132,1026 L232,1026" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="azureCdn" data-target="azureCache" d="M312,1026 L412,1026" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="gcpCompute" data-target="gcpStorage" d="M672,666 L772,666" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="gcpStorage" data-target="gcpDatabase" d="M852,666 L952,666" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="gcpCompute" data-target="gcpNetworking" d="M632,706 L632,806" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="gcpStorage" data-target="gcpServerless" d="M812,706 L812,806" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="gcpDatabase" data-target="gcpLoadBalancer" d="M992,706 L992,806" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="gcpNetworking" data-target="gcpServerless" d="M672,846 L772,846" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="gcpServerless" data-target="gcpLoadBalancer" d="M852,846 L952,846" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="gcpNetworking" data-target="gcpQueue" d="M632,886 L632,986" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="gcpServerless" data-target="gcpCdn" d="M812,886 L812,986" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="gcpLoadBalancer" data-target="gcpCache" d="M992,886 L992,986" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="gcpQueue" data-target="gcpCdn" d="M672,1026 L772,1026" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="gcpCdn" data-target="gcpCache" d="M852,1026 L952,1026" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="esElasticsearch" data-target="esKibana" d="M132,1206 L232,1206" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="esKibana" data-target="esLogstash" d="M312,1206 L412,1206" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="esElasticsearch" data-target="esBeats" d="M92,1246 L92,1346" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="esKibana" data-target="esFleet" d="M272,1246 L272,1346" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="esLogstash" data-target="esServerless" d="M452,1246 L452,1346" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="esBeats" data-target="esFleet" d="M132,1386 L232,1386" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="esFleet" data-target="esServerless" d="M312,1386 L412,1386" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="esBeats" data-target="esApm" d="M92,1426 L92,1526" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="esFleet" data-target="esSecurity" d="M272,1426 L272,1526" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="esServerless" data-target="esObservability" d="M452,1426 L452,1526" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="esApm" data-target="esSecurity" d="M132,1566 L232,1566" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="esSecurity" data-target="esObservability" d="M312,1566 L412,1566" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="extWaf" data-target="extApiGateway" d="M672,1206 L772,1206" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="extApiGateway" data-target="extK8s" d="M852,1206 L952,1206" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="extWaf" data-target="extPod" d="M632,1246 L632,1346" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="extApiGateway" data-target="extPool" d="M812,1246 L812,1346" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="extK8s" data-target="extReverseProxy" d="M992,1246 L992,1346" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="extPod" data-target="extPool" d="M672,1386 L772,1386" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="extPool" data-target="extReverseProxy" d="M852,1386 L952,1386" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="extPod" data-target="extWeb" d="M632,1426 L632,1526" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="extPool" data-target="extApi" d="M812,1426 L812,1526" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="extReverseProxy" data-target="extLoadBalancer" d="M992,1426 L992,1526" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="extWeb" data-target="extApi" d="M672,1566 L772,1566" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="extApi" data-target="extLoadBalancer" d="M852,1566 L952,1566" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="extWeb" data-target="extQueue" d="M632,1606 L632,1706" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="extApi" data-target="extCdn" d="M812,1606 L812,1706" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="extLoadBalancer" data-target="extCache" d="M992,1606 L992,1706" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="extQueue" data-target="extCdn" d="M672,1746 L772,1746" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="architecture-edge" data-source="extCdn" data-target="extCache" d="M852,1746 L952,1746" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="dCloud" data-target="dDatabase" d="M132,126 L244,126" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="dCloud" data-target="dDisk" d="M92,166 L92,278" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="dDatabase" data-target="dInternet" d="M284,166 L284,278" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="dDisk" data-target="dInternet" d="M132,318 L244,318" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="dDisk" data-target="dServer" d="M92,358 L92,470" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="dInternet" data-target="dGeneric" d="M284,358 L284,470" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="dServer" data-target="dGeneric" d="M132,510 L244,510" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="awsCompute" data-target="awsStorage" d="M708,126 L820,126" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="awsStorage" data-target="awsDatabase" d="M900,126 L1012,126" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="awsCompute" data-target="awsNetworking" d="M668,166 L668,278" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="awsStorage" data-target="awsServerless" d="M860,166 L860,278" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="awsDatabase" data-target="awsLoadBalancer" d="M1052,166 L1052,278" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="awsNetworking" data-target="awsServerless" d="M708,318 L820,318" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="awsServerless" data-target="awsLoadBalancer" d="M900,318 L1012,318" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="awsNetworking" data-target="awsQueue" d="M668,358 L668,470" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="awsServerless" data-target="awsCdn" d="M860,358 L860,470" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="awsLoadBalancer" data-target="awsCache" d="M1052,358 L1052,470" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="awsQueue" data-target="awsCdn" d="M708,510 L820,510" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="awsCdn" data-target="awsCache" d="M900,510 L1012,510" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="azureCompute" data-target="azureStorage" d="M132,702 L244,702" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="azureStorage" data-target="azureDatabase" d="M324,702 L436,702" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="azureCompute" data-target="azureNetworking" d="M92,742 L92,854" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="azureStorage" data-target="azureServerless" d="M284,742 L284,854" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="azureDatabase" data-target="azureLoadBalancer" d="M476,742 L476,854" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="azureNetworking" data-target="azureServerless" d="M132,894 L244,894" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="azureServerless" data-target="azureLoadBalancer" d="M324,894 L436,894" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="azureNetworking" data-target="azureQueue" d="M92,934 L92,1046" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="azureServerless" data-target="azureCdn" d="M284,934 L284,1046" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="azureLoadBalancer" data-target="azureCache" d="M476,934 L476,1046" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="azureQueue" data-target="azureCdn" d="M132,1086 L244,1086" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="azureCdn" data-target="azureCache" d="M324,1086 L436,1086" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="gcpCompute" data-target="gcpStorage" d="M708,702 L820,702" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="gcpStorage" data-target="gcpDatabase" d="M900,702 L1012,702" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="gcpCompute" data-target="gcpNetworking" d="M668,742 L668,854" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="gcpStorage" data-target="gcpServerless" d="M860,742 L860,854" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="gcpDatabase" data-target="gcpLoadBalancer" d="M1052,742 L1052,854" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="gcpNetworking" data-target="gcpServerless" d="M708,894 L820,894" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="gcpServerless" data-target="gcpLoadBalancer" d="M900,894 L1012,894" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="gcpNetworking" data-target="gcpQueue" d="M668,934 L668,1046" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="gcpServerless" data-target="gcpCdn" d="M860,934 L860,1046" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="gcpLoadBalancer" data-target="gcpCache" d="M1052,934 L1052,1046" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="gcpQueue" data-target="gcpCdn" d="M708,1086 L820,1086" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="gcpCdn" data-target="gcpCache" d="M900,1086 L1012,1086" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="esElasticsearch" data-target="esKibana" d="M132,1278 L244,1278" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="esKibana" data-target="esLogstash" d="M324,1278 L436,1278" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="esElasticsearch" data-target="esBeats" d="M92,1318 L92,1430" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="esKibana" data-target="esFleet" d="M284,1318 L284,1430" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="esLogstash" data-target="esServerless" d="M476,1318 L476,1430" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="esBeats" data-target="esFleet" d="M132,1470 L244,1470" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="esFleet" data-target="esServerless" d="M324,1470 L436,1470" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="esBeats" data-target="esApm" d="M92,1510 L92,1622" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="esFleet" data-target="esSecurity" d="M284,1510 L284,1622" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="esServerless" data-target="esObservability" d="M476,1510 L476,1622" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="esApm" data-target="esSecurity" d="M132,1662 L244,1662" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="esSecurity" data-target="esObservability" d="M324,1662 L436,1662" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="extWaf" data-target="extApiGateway" d="M708,1278 L820,1278" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="extApiGateway" data-target="extK8s" d="M900,1278 L1012,1278" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="extWaf" data-target="extPod" d="M668,1318 L668,1430" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="extApiGateway" data-target="extPool" d="M860,1318 L860,1430" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="extK8s" data-target="extReverseProxy" d="M1052,1318 L1052,1430" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="extPod" data-target="extPool" d="M708,1470 L820,1470" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="extPool" data-target="extReverseProxy" d="M900,1470 L1012,1470" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="extPod" data-target="extWeb" d="M668,1510 L668,1622" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="extPool" data-target="extApi" d="M860,1510 L860,1622" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="extReverseProxy" data-target="extLoadBalancer" d="M1052,1510 L1052,1622" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="extWeb" data-target="extApi" d="M708,1662 L820,1662" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="extApi" data-target="extLoadBalancer" d="M900,1662 L1012,1662" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="extWeb" data-target="extQueue" d="M668,1702 L668,1814" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="extApi" data-target="extCdn" d="M860,1702 L860,1814" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="extLoadBalancer" data-target="extCache" d="M1052,1702 L1052,1814" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="extQueue" data-target="extCdn" d="M708,1854 L820,1854" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="architecture-edge" data-source="extCdn" data-target="extCache" d="M900,1854 L1012,1854" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="architecture-service" data-id="dCloud" data-icon="cloud">
-  <rect x="52" y="86" width="80" height="80" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <rect x="52" y="86" width="80" height="80" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
   <image x="70" y="104" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik03IDE4YTQgNCAwIDAgMS0uNS03Ljk3QTUgNSAwIDAgMSAxNiA4LjVhNC41IDQuNSAwIDAgMSAxIDguOVYxOEg3eiIgZmlsbD0iIzY0NzQ4YiIvPgo8L3N2Zz4=" />
+  <rect x="67.736" y="171.6" width="48.528" height="20.8" rx="4" fill="var(--bg)" />
   <text x="92" y="182" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">cloud</text>
 </g>
 <g class="architecture-service" data-id="dDatabase" data-icon="database">
-  <rect x="232" y="86" width="80" height="80" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <image x="250" y="104" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik01IDZjMC0xLjcgMy4xLTMgNy0zczcgMS4zIDcgM3YxMmMwIDEuNy0zLjEgMy03IDNzLTctMS4zLTctM3oiIGZpbGw9IiM2NDc0OGIiLz4KPHBhdGggZD0iTTUgNmMwIDEuNyAzLjEgMyA3IDNzNy0xLjMgNy0zIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS1vcGFjaXR5PSIwLjQiIHN0cm9rZS13aWR0aD0iMSIvPgo8cGF0aCBkPSJNNSAxMS4zYzAgMS43IDMuMSAzIDcgM3M3LTEuMyA3LTMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLW9wYWNpdHk9IjAuNCIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxwYXRoIGQ9Ik01IDE2LjdjMCAxLjcgMy4xIDMgNyAzczctMS4zIDctMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utb3BhY2l0eT0iMC40IiBzdHJva2Utd2lkdGg9IjEiLz4KPC9zdmc+" />
-  <text x="272" y="182" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">database</text>
+  <rect x="244" y="86" width="80" height="80" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+  <image x="262" y="104" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik01IDZjMC0xLjcgMy4xLTMgNy0zczcgMS4zIDcgM3YxMmMwIDEuNy0zLjEgMy03IDNzLTctMS4zLTctM3oiIGZpbGw9IiM2NDc0OGIiLz4KPHBhdGggZD0iTTUgNmMwIDEuNyAzLjEgMyA3IDNzNy0xLjMgNy0zIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS1vcGFjaXR5PSIwLjQiIHN0cm9rZS13aWR0aD0iMSIvPgo8cGF0aCBkPSJNNSAxMS4zYzAgMS43IDMuMSAzIDcgM3M3LTEuMyA3LTMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLW9wYWNpdHk9IjAuNCIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxwYXRoIGQ9Ik01IDE2LjdjMCAxLjcgMy4xIDMgNyAzczctMS4zIDctMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utb3BhY2l0eT0iMC40IiBzdHJva2Utd2lkdGg9IjEiLz4KPC9zdmc+" />
+  <rect x="246.05599999999998" y="171.6" width="75.888" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="284" y="182" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">database</text>
 </g>
 <g class="architecture-service" data-id="dDisk" data-icon="disk">
-  <rect x="52" y="266" width="80" height="80" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <image x="70" y="284" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQuNSIgeT0iNiIgd2lkdGg9IjE1IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iIzY0NzQ4YiIvPgo8cGF0aCBkPSJNNSA4aDE0bC0xLjMgMTAuM0EyIDIgMCAwIDEgMTUuNyAyMEg4LjNhMiAyIDAgMCAxLTItMS43eiIgZmlsbD0iIzY0NzQ4YiIvPgo8L3N2Zz4=" />
-  <text x="92" y="362" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">disk</text>
+  <rect x="52" y="278" width="80" height="80" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+  <image x="70" y="296" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQuNSIgeT0iNiIgd2lkdGg9IjE1IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iIzY0NzQ4YiIvPgo8cGF0aCBkPSJNNSA4aDE0bC0xLjMgMTAuM0EyIDIgMCAwIDEgMTUuNyAyMEg4LjNhMiAyIDAgMCAxLTItMS43eiIgZmlsbD0iIzY0NzQ4YiIvPgo8L3N2Zz4=" />
+  <rect x="72.296" y="363.6" width="39.407999999999994" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="92" y="374" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">disk</text>
 </g>
 <g class="architecture-service" data-id="dInternet" data-icon="internet">
-  <rect x="232" y="266" width="80" height="80" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <image x="250" y="284" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIyIi8+CjxwYXRoIGQ9Ik0zIDEyaDE4IiBmaWxsPSJub25lIiBzdHJva2U9IiM2NDc0OGIiIHN0cm9rZS13aWR0aD0iMiIvPgo8cGF0aCBkPSJNMTIgM2ExNCAxNCAwIDAgMSAwIDE4IiBmaWxsPSJub25lIiBzdHJva2U9IiM2NDc0OGIiIHN0cm9rZS13aWR0aD0iMiIvPgo8cGF0aCBkPSJNMTIgM2ExNCAxNCAwIDAgMCAwIDE4IiBmaWxsPSJub25lIiBzdHJva2U9IiM2NDc0OGIiIHN0cm9rZS13aWR0aD0iMiIvPgo8L3N2Zz4=" />
-  <text x="272" y="362" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">internet</text>
+  <rect x="244" y="278" width="80" height="80" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+  <image x="262" y="296" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIyIi8+CjxwYXRoIGQ9Ik0zIDEyaDE4IiBmaWxsPSJub25lIiBzdHJva2U9IiM2NDc0OGIiIHN0cm9rZS13aWR0aD0iMiIvPgo8cGF0aCBkPSJNMTIgM2ExNCAxNCAwIDAgMSAwIDE4IiBmaWxsPSJub25lIiBzdHJva2U9IiM2NDc0OGIiIHN0cm9rZS13aWR0aD0iMiIvPgo8cGF0aCBkPSJNMTIgM2ExNCAxNCAwIDAgMCAwIDE4IiBmaWxsPSJub25lIiBzdHJva2U9IiM2NDc0OGIiIHN0cm9rZS13aWR0aD0iMiIvPgo8L3N2Zz4=" />
+  <rect x="252.44" y="363.6" width="63.12" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="284" y="374" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">internet</text>
 </g>
 <g class="architecture-service" data-id="dServer" data-icon="server">
-  <rect x="52" y="446" width="80" height="80" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <image x="70" y="464" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQiIHk9IjQiIHdpZHRoPSIxNiIgaGVpZ2h0PSI2IiByeD0iMSIgZmlsbD0iIzY0NzQ4YiIvPgo8cmVjdCB4PSI0IiB5PSIxNCIgd2lkdGg9IjE2IiBoZWlnaHQ9IjYiIHJ4PSIxIiBmaWxsPSIjNjQ3NDhiIi8+CjxjaXJjbGUgY3g9IjE3IiBjeT0iNyIgcj0iMSIgZmlsbD0iI2ZmZmZmZiIvPgo8Y2lyY2xlIGN4PSIxNyIgY3k9IjE3IiByPSIxIiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
-  <text x="92" y="542" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">server</text>
+  <rect x="52" y="470" width="80" height="80" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+  <image x="70" y="488" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQiIHk9IjQiIHdpZHRoPSIxNiIgaGVpZ2h0PSI2IiByeD0iMSIgZmlsbD0iIzY0NzQ4YiIvPgo8cmVjdCB4PSI0IiB5PSIxNCIgd2lkdGg9IjE2IiBoZWlnaHQ9IjYiIHJ4PSIxIiBmaWxsPSIjNjQ3NDhiIi8+CjxjaXJjbGUgY3g9IjE3IiBjeT0iNyIgcj0iMSIgZmlsbD0iI2ZmZmZmZiIvPgo8Y2lyY2xlIGN4PSIxNyIgY3k9IjE3IiByPSIxIiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
+  <text x="92" y="566" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">server</text>
 </g>
 <g class="architecture-service" data-id="dGeneric" data-icon="generic">
-  <rect x="232" y="446" width="80" height="80" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
-  <image x="250" y="464" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQiIHk9IjQiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgcng9IjMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIyIi8+CjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjIiIGZpbGw9IiM2NDc0OGIiLz4KPC9zdmc+" />
-  <text x="272" y="542" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">generic</text>
+  <rect x="244" y="470" width="80" height="80" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+  <image x="262" y="488" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQiIHk9IjQiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgcng9IjMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIyIi8+CjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjIiIGZpbGw9IiM2NDc0OGIiLz4KPC9zdmc+" />
+  <text x="284" y="566" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">generic</text>
 </g>
 <g class="architecture-service" data-id="awsCompute" data-icon="aws:compute">
   <defs><linearGradient id="arch-grad-awsCompute" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7a55e"/><stop offset="1" stop-color="#c15a00"/></linearGradient></defs>
-  <rect x="592" y="86" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-awsCompute)" />
-  <image x="610" y="104" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjYiIHk9IjYiIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgcng9IjIiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMiIgd2lkdGg9IjQiIGhlaWdodD0iNCIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMTgiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMiIgeT0iMTAiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMTgiIHk9IjEwIiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiByeD0iMSIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4=" />
-  <text x="632" y="182" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">aws-compute</text>
+  <rect x="628" y="86" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-awsCompute)" />
+  <image x="646" y="104" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjYiIHk9IjYiIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgcng9IjIiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMiIgd2lkdGg9IjQiIGhlaWdodD0iNCIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMTgiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMiIgeT0iMTAiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMTgiIHk9IjEwIiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiByeD0iMSIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4=" />
+  <rect x="616.832" y="171.6" width="102.336" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="668" y="182" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">aws-compute</text>
 </g>
 <g class="architecture-service" data-id="awsStorage" data-icon="aws:storage">
   <defs><linearGradient id="arch-grad-awsStorage" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7a55e"/><stop offset="1" stop-color="#c15a00"/></linearGradient></defs>
-  <rect x="772" y="86" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-awsStorage)" />
-  <image x="790" y="104" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQuNSIgeT0iNiIgd2lkdGg9IjE1IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZmZmZiIvPjxwYXRoIGQ9Ik01IDhoMTRsLTEuMyAxMC4zQTIgMiAwIDAgMSAxNS43IDIwSDguM2EyIDIgMCAwIDEtMi0xLjd6IiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
-  <text x="812" y="182" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">aws-storage</text>
+  <rect x="820" y="86" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-awsStorage)" />
+  <image x="838" y="104" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQuNSIgeT0iNiIgd2lkdGg9IjE1IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZmZmZiIvPjxwYXRoIGQ9Ik01IDhoMTRsLTEuMyAxMC4zQTIgMiAwIDAgMSAxNS43IDIwSDguM2EyIDIgMCAwIDEtMi0xLjd6IiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
+  <rect x="810.656" y="171.6" width="98.688" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="860" y="182" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">aws-storage</text>
 </g>
 <g class="architecture-service" data-id="awsDatabase" data-icon="aws:database">
   <defs><linearGradient id="arch-grad-awsDatabase" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7a55e"/><stop offset="1" stop-color="#c15a00"/></linearGradient></defs>
-  <rect x="952" y="86" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-awsDatabase)" />
-  <image x="970" y="104" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik01IDZjMC0xLjcgMy4xLTMgNy0zczcgMS4zIDcgM3YxMmMwIDEuNy0zLjEgMy03IDNzLTctMS4zLTctM3oiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNNSA2YzAgMS43IDMuMSAzIDcgM3M3LTEuMyA3LTMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLW9wYWNpdHk9IjAuMjUiIHN0cm9rZS13aWR0aD0iMSIvPjxwYXRoIGQ9Ik01IDExLjNjMCAxLjcgMy4xIDMgNyAzczctMS4zIDctMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utb3BhY2l0eT0iMC4yNSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHBhdGggZD0iTTUgMTYuN2MwIDEuNyAzLjEgMyA3IDNzNy0xLjMgNy0zIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS1vcGFjaXR5PSIwLjI1IiBzdHJva2Utd2lkdGg9IjEiLz4KPC9zdmc+" />
-  <text x="992" y="182" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">aws-database</text>
+  <rect x="1012" y="86" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-awsDatabase)" />
+  <image x="1030" y="104" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik01IDZjMC0xLjcgMy4xLTMgNy0zczcgMS4zIDcgM3YxMmMwIDEuNy0zLjEgMy03IDNzLTctMS4zLTctM3oiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNNSA2YzAgMS43IDMuMSAzIDcgM3M3LTEuMyA3LTMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLW9wYWNpdHk9IjAuMjUiIHN0cm9rZS13aWR0aD0iMSIvPjxwYXRoIGQ9Ik01IDExLjNjMCAxLjcgMy4xIDMgNyAzczctMS4zIDctMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utb3BhY2l0eT0iMC4yNSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHBhdGggZD0iTTUgMTYuN2MwIDEuNyAzLjEgMyA3IDNzNy0xLjMgNy0zIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS1vcGFjaXR5PSIwLjI1IiBzdHJva2Utd2lkdGg9IjEiLz4KPC9zdmc+" />
+  <rect x="997.184" y="171.6" width="109.632" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="1052" y="182" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">aws-database</text>
 </g>
 <g class="architecture-service" data-id="awsNetworking" data-icon="aws:networking">
   <defs><linearGradient id="arch-grad-awsNetworking" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7a55e"/><stop offset="1" stop-color="#c15a00"/></linearGradient></defs>
-  <rect x="592" y="266" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-awsNetworking)" />
-  <image x="610" y="284" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjciIGN5PSI3IiByPSIzIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTciIGN5PSI3IiByPSIzIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTIiIGN5PSIxOCIgcj0iMyIgZmlsbD0iI2ZmZmZmZiIvPjxwYXRoIGQ9Ik04LjcgOS43bDIuNiA1LjZNMTUuMyA5LjdsLTIuNiA1LjZNMTAgN2g0IiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=" />
-  <text x="632" y="362" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">aws-networking</text>
+  <rect x="628" y="278" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-awsNetworking)" />
+  <image x="646" y="296" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjciIGN5PSI3IiByPSIzIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTciIGN5PSI3IiByPSIzIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTIiIGN5PSIxOCIgcj0iMyIgZmlsbD0iI2ZmZmZmZiIvPjxwYXRoIGQ9Ik04LjcgOS43bDIuNiA1LjZNMTUuMyA5LjdsLTIuNiA1LjZNMTAgN2g0IiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=" />
+  <rect x="606.8" y="363.6" width="122.4" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="668" y="374" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">aws-networking</text>
 </g>
 <g class="architecture-service" data-id="awsServerless" data-icon="aws:serverless">
   <defs><linearGradient id="arch-grad-awsServerless" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7a55e"/><stop offset="1" stop-color="#c15a00"/></linearGradient></defs>
-  <rect x="772" y="266" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-awsServerless)" />
-  <image x="790" y="284" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCA0TDkgMTMgNiAyMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIuMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTTkgMTNsOSA3IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMi4zIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+" />
-  <text x="812" y="362" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">aws-serverless</text>
+  <rect x="820" y="278" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-awsServerless)" />
+  <image x="838" y="296" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCA0TDkgMTMgNiAyMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIuMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTTkgMTNsOSA3IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMi4zIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+" />
+  <rect x="797.888" y="363.6" width="124.224" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="860" y="374" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">aws-serverless</text>
 </g>
 <g class="architecture-service" data-id="awsLoadBalancer" data-icon="aws:load-balancer">
   <defs><linearGradient id="arch-grad-awsLoadBalancer" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7a55e"/><stop offset="1" stop-color="#c15a00"/></linearGradient></defs>
-  <rect x="952" y="266" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-awsLoadBalancer)" />
-  <image x="970" y="284" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjEyIiBjeT0iNSIgcj0iMi4yIiBmaWxsPSIjZmZmZmZmIi8+PHBhdGggZD0iTTEyIDcuMnYzLjNNMTIgMTAuNUw2IDE3TTEyIDEwLjV2Ni41TTEyIDEwLjVsNiA2LjUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjgiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI2IiBjeT0iMTguNSIgcj0iMiIgZmlsbD0iI2ZmZmZmZiIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTkiIHI9IjIiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSIxOCIgY3k9IjE4LjUiIHI9IjIiIGZpbGw9IiNmZmZmZmYiLz4KPC9zdmc+" />
-  <text x="992" y="362" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">aws-load-balancer</text>
+  <rect x="1012" y="278" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-awsLoadBalancer)" />
+  <image x="1030" y="296" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjEyIiBjeT0iNSIgcj0iMi4yIiBmaWxsPSIjZmZmZmZmIi8+PHBhdGggZD0iTTEyIDcuMnYzLjNNMTIgMTAuNUw2IDE3TTEyIDEwLjV2Ni41TTEyIDEwLjVsNiA2LjUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjgiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI2IiBjeT0iMTguNSIgcj0iMiIgZmlsbD0iI2ZmZmZmZiIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTkiIHI9IjIiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSIxOCIgY3k9IjE4LjUiIHI9IjIiIGZpbGw9IiNmZmZmZmYiLz4KPC9zdmc+" />
+  <rect x="980.312" y="363.6" width="143.376" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="1052" y="374" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">aws-load-balancer</text>
 </g>
 <g class="architecture-service" data-id="awsQueue" data-icon="aws:queue">
   <defs><linearGradient id="arch-grad-awsQueue" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7a55e"/><stop offset="1" stop-color="#c15a00"/></linearGradient></defs>
-  <rect x="592" y="446" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-awsQueue)" />
-  <image x="610" y="464" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjMiIHk9IjkiIHdpZHRoPSI0IiBoZWlnaHQ9IjYiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iOSIgeT0iOSIgd2lkdGg9IjQiIGhlaWdodD0iNiIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxNSIgeT0iOSIgd2lkdGg9IjQiIGhlaWdodD0iNiIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNMTkgMTJoM20tMi0ybDIgMi0yIDIiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=" />
-  <text x="632" y="542" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">aws-queue</text>
+  <rect x="628" y="470" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-awsQueue)" />
+  <image x="646" y="488" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjMiIHk9IjkiIHdpZHRoPSI0IiBoZWlnaHQ9IjYiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iOSIgeT0iOSIgd2lkdGg9IjQiIGhlaWdodD0iNiIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxNSIgeT0iOSIgd2lkdGg9IjQiIGhlaWdodD0iNiIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNMTkgMTJoM20tMi0ybDIgMi0yIDIiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=" />
+  <text x="668" y="566" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">aws-queue</text>
 </g>
 <g class="architecture-service" data-id="awsCdn" data-icon="aws:cdn">
   <defs><linearGradient id="arch-grad-awsCdn" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7a55e"/><stop offset="1" stop-color="#c15a00"/></linearGradient></defs>
-  <rect x="772" y="446" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-awsCdn)" />
-  <image x="790" y="464" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48cGF0aCBkPSJNNiAxMmgxMk0xMiA2YTggOCAwIDAgMSAwIDEyTTEyIDZhOCA4IDAgMCAwIDAgMTIiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjMiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI0IiBjeT0iNiIgcj0iMS42IiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMjAiIGN5PSI2IiByPSIxLjYiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSI0IiBjeT0iMTgiIHI9IjEuNiIgZmlsbD0iI2ZmZmZmZiIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMTgiIHI9IjEuNiIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4=" />
-  <text x="812" y="542" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">aws-cdn</text>
+  <rect x="820" y="470" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-awsCdn)" />
+  <image x="838" y="488" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48cGF0aCBkPSJNNiAxMmgxMk0xMiA2YTggOCAwIDAgMSAwIDEyTTEyIDZhOCA4IDAgMCAwIDAgMTIiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjMiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI0IiBjeT0iNiIgcj0iMS42IiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMjAiIGN5PSI2IiByPSIxLjYiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSI0IiBjeT0iMTgiIHI9IjEuNiIgZmlsbD0iI2ZmZmZmZiIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMTgiIHI9IjEuNiIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4=" />
+  <text x="860" y="566" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">aws-cdn</text>
 </g>
 <g class="architecture-service" data-id="awsCache" data-icon="aws:cache">
   <defs><linearGradient id="arch-grad-awsCache" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7a55e"/><stop offset="1" stop-color="#c15a00"/></linearGradient></defs>
-  <rect x="952" y="446" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-awsCache)" />
-  <image x="970" y="464" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQiIHk9IjQiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgcng9IjMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48cGF0aCBkPSJNMTMgNkw4IDE0aDRsLTEgNiA2LTloLTR6IiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
-  <text x="992" y="542" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">aws-cache</text>
+  <rect x="1012" y="470" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-awsCache)" />
+  <image x="1030" y="488" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQiIHk9IjQiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgcng9IjMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48cGF0aCBkPSJNMTMgNkw4IDE0aDRsLTEgNiA2LTloLTR6IiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
+  <text x="1052" y="566" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">aws-cache</text>
 </g>
 <g class="architecture-service" data-id="azureCompute" data-icon="azure:compute">
   <defs><linearGradient id="arch-grad-azureCompute" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4ea8e8"/><stop offset="1" stop-color="#00548f"/></linearGradient></defs>
-  <rect x="52" y="626" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-azureCompute)" />
-  <image x="70" y="644" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjYiIHk9IjYiIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgcng9IjIiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMiIgd2lkdGg9IjQiIGhlaWdodD0iNCIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMTgiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMiIgeT0iMTAiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMTgiIHk9IjEwIiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiByeD0iMSIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4=" />
-  <text x="92" y="722" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">azure-compute</text>
+  <rect x="52" y="662" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-azureCompute)" />
+  <image x="70" y="680" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjYiIHk9IjYiIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgcng9IjIiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMiIgd2lkdGg9IjQiIGhlaWdodD0iNCIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMTgiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMiIgeT0iMTAiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMTgiIHk9IjEwIiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiByeD0iMSIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4=" />
+  <rect x="33.536" y="747.6" width="116.928" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="92" y="758" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">azure-compute</text>
 </g>
 <g class="architecture-service" data-id="azureStorage" data-icon="azure:storage">
   <defs><linearGradient id="arch-grad-azureStorage" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4ea8e8"/><stop offset="1" stop-color="#00548f"/></linearGradient></defs>
-  <rect x="232" y="626" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-azureStorage)" />
-  <image x="250" y="644" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQuNSIgeT0iNiIgd2lkdGg9IjE1IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZmZmZiIvPjxwYXRoIGQ9Ik01IDhoMTRsLTEuMyAxMC4zQTIgMiAwIDAgMSAxNS43IDIwSDguM2EyIDIgMCAwIDEtMi0xLjd6IiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
-  <text x="272" y="722" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">azure-storage</text>
+  <rect x="244" y="662" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-azureStorage)" />
+  <image x="262" y="680" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQuNSIgeT0iNiIgd2lkdGg9IjE1IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZmZmZiIvPjxwYXRoIGQ9Ik01IDhoMTRsLTEuMyAxMC4zQTIgMiAwIDAgMSAxNS43IDIwSDguM2EyIDIgMCAwIDEtMi0xLjd6IiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
+  <rect x="227.36" y="747.6" width="113.28" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="284" y="758" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">azure-storage</text>
 </g>
 <g class="architecture-service" data-id="azureDatabase" data-icon="azure:database">
   <defs><linearGradient id="arch-grad-azureDatabase" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4ea8e8"/><stop offset="1" stop-color="#00548f"/></linearGradient></defs>
-  <rect x="412" y="626" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-azureDatabase)" />
-  <image x="430" y="644" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik01IDZjMC0xLjcgMy4xLTMgNy0zczcgMS4zIDcgM3YxMmMwIDEuNy0zLjEgMy03IDNzLTctMS4zLTctM3oiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNNSA2YzAgMS43IDMuMSAzIDcgM3M3LTEuMyA3LTMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLW9wYWNpdHk9IjAuMjUiIHN0cm9rZS13aWR0aD0iMSIvPjxwYXRoIGQ9Ik01IDExLjNjMCAxLjcgMy4xIDMgNyAzczctMS4zIDctMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utb3BhY2l0eT0iMC4yNSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHBhdGggZD0iTTUgMTYuN2MwIDEuNyAzLjEgMyA3IDNzNy0xLjMgNy0zIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS1vcGFjaXR5PSIwLjI1IiBzdHJva2Utd2lkdGg9IjEiLz4KPC9zdmc+" />
-  <text x="452" y="722" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">azure-database</text>
+  <rect x="436" y="662" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-azureDatabase)" />
+  <image x="454" y="680" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik01IDZjMC0xLjcgMy4xLTMgNy0zczcgMS4zIDcgM3YxMmMwIDEuNy0zLjEgMy03IDNzLTctMS4zLTctM3oiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNNSA2YzAgMS43IDMuMSAzIDcgM3M3LTEuMyA3LTMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLW9wYWNpdHk9IjAuMjUiIHN0cm9rZS13aWR0aD0iMSIvPjxwYXRoIGQ9Ik01IDExLjNjMCAxLjcgMy4xIDMgNyAzczctMS4zIDctMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utb3BhY2l0eT0iMC4yNSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHBhdGggZD0iTTUgMTYuN2MwIDEuNyAzLjEgMyA3IDNzNy0xLjMgNy0zIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS1vcGFjaXR5PSIwLjI1IiBzdHJva2Utd2lkdGg9IjEiLz4KPC9zdmc+" />
+  <rect x="413.88800000000003" y="747.6" width="124.22399999999999" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="476" y="758" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">azure-database</text>
 </g>
 <g class="architecture-service" data-id="azureNetworking" data-icon="azure:networking">
   <defs><linearGradient id="arch-grad-azureNetworking" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4ea8e8"/><stop offset="1" stop-color="#00548f"/></linearGradient></defs>
-  <rect x="52" y="806" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-azureNetworking)" />
-  <image x="70" y="824" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjciIGN5PSI3IiByPSIzIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTciIGN5PSI3IiByPSIzIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTIiIGN5PSIxOCIgcj0iMyIgZmlsbD0iI2ZmZmZmZiIvPjxwYXRoIGQ9Ik04LjcgOS43bDIuNiA1LjZNMTUuMyA5LjdsLTIuNiA1LjZNMTAgN2g0IiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=" />
-  <text x="92" y="902" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">azure-networking</text>
+  <rect x="52" y="854" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-azureNetworking)" />
+  <image x="70" y="872" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjciIGN5PSI3IiByPSIzIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTciIGN5PSI3IiByPSIzIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTIiIGN5PSIxOCIgcj0iMyIgZmlsbD0iI2ZmZmZmZiIvPjxwYXRoIGQ9Ik04LjcgOS43bDIuNiA1LjZNMTUuMyA5LjdsLTIuNiA1LjZNMTAgN2g0IiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=" />
+  <rect x="23.50399999999999" y="939.6" width="136.99200000000002" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="92" y="950" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">azure-networking</text>
 </g>
 <g class="architecture-service" data-id="azureServerless" data-icon="azure:serverless">
   <defs><linearGradient id="arch-grad-azureServerless" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4ea8e8"/><stop offset="1" stop-color="#00548f"/></linearGradient></defs>
-  <rect x="232" y="806" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-azureServerless)" />
-  <image x="250" y="824" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCA0TDkgMTMgNiAyMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIuMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTTkgMTNsOSA3IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMi4zIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+" />
-  <text x="272" y="902" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">azure-serverless</text>
+  <rect x="244" y="854" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-azureServerless)" />
+  <image x="262" y="872" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCA0TDkgMTMgNiAyMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIuMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTTkgMTNsOSA3IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMi4zIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+" />
+  <rect x="214.59199999999998" y="939.6" width="138.816" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="284" y="950" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">azure-serverless</text>
 </g>
 <g class="architecture-service" data-id="azureLoadBalancer" data-icon="azure:load-balancer">
   <defs><linearGradient id="arch-grad-azureLoadBalancer" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4ea8e8"/><stop offset="1" stop-color="#00548f"/></linearGradient></defs>
-  <rect x="412" y="806" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-azureLoadBalancer)" />
-  <image x="430" y="824" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjEyIiBjeT0iNSIgcj0iMi4yIiBmaWxsPSIjZmZmZmZmIi8+PHBhdGggZD0iTTEyIDcuMnYzLjNNMTIgMTAuNUw2IDE3TTEyIDEwLjV2Ni41TTEyIDEwLjVsNiA2LjUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjgiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI2IiBjeT0iMTguNSIgcj0iMiIgZmlsbD0iI2ZmZmZmZiIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTkiIHI9IjIiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSIxOCIgY3k9IjE4LjUiIHI9IjIiIGZpbGw9IiNmZmZmZmYiLz4KPC9zdmc+" />
-  <text x="452" y="902" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">azure-load-balancer</text>
+  <rect x="436" y="854" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-azureLoadBalancer)" />
+  <image x="454" y="872" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjEyIiBjeT0iNSIgcj0iMi4yIiBmaWxsPSIjZmZmZmZmIi8+PHBhdGggZD0iTTEyIDcuMnYzLjNNMTIgMTAuNUw2IDE3TTEyIDEwLjV2Ni41TTEyIDEwLjVsNiA2LjUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjgiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI2IiBjeT0iMTguNSIgcj0iMiIgZmlsbD0iI2ZmZmZmZiIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTkiIHI9IjIiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSIxOCIgY3k9IjE4LjUiIHI9IjIiIGZpbGw9IiNmZmZmZmYiLz4KPC9zdmc+" />
+  <rect x="397.016" y="939.6" width="157.968" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="476" y="950" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">azure-load-balancer</text>
 </g>
 <g class="architecture-service" data-id="azureQueue" data-icon="azure:queue">
   <defs><linearGradient id="arch-grad-azureQueue" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4ea8e8"/><stop offset="1" stop-color="#00548f"/></linearGradient></defs>
-  <rect x="52" y="986" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-azureQueue)" />
-  <image x="70" y="1004" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjMiIHk9IjkiIHdpZHRoPSI0IiBoZWlnaHQ9IjYiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iOSIgeT0iOSIgd2lkdGg9IjQiIGhlaWdodD0iNiIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxNSIgeT0iOSIgd2lkdGg9IjQiIGhlaWdodD0iNiIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNMTkgMTJoM20tMi0ybDIgMi0yIDIiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=" />
-  <text x="92" y="1082" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">azure-queue</text>
+  <rect x="52" y="1046" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-azureQueue)" />
+  <image x="70" y="1064" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjMiIHk9IjkiIHdpZHRoPSI0IiBoZWlnaHQ9IjYiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iOSIgeT0iOSIgd2lkdGg9IjQiIGhlaWdodD0iNiIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxNSIgeT0iOSIgd2lkdGg9IjQiIGhlaWdodD0iNiIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNMTkgMTJoM20tMi0ybDIgMi0yIDIiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=" />
+  <text x="92" y="1142" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">azure-queue</text>
 </g>
 <g class="architecture-service" data-id="azureCdn" data-icon="azure:cdn">
   <defs><linearGradient id="arch-grad-azureCdn" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4ea8e8"/><stop offset="1" stop-color="#00548f"/></linearGradient></defs>
-  <rect x="232" y="986" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-azureCdn)" />
-  <image x="250" y="1004" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48cGF0aCBkPSJNNiAxMmgxMk0xMiA2YTggOCAwIDAgMSAwIDEyTTEyIDZhOCA4IDAgMCAwIDAgMTIiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjMiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI0IiBjeT0iNiIgcj0iMS42IiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMjAiIGN5PSI2IiByPSIxLjYiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSI0IiBjeT0iMTgiIHI9IjEuNiIgZmlsbD0iI2ZmZmZmZiIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMTgiIHI9IjEuNiIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4=" />
-  <text x="272" y="1082" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">azure-cdn</text>
+  <rect x="244" y="1046" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-azureCdn)" />
+  <image x="262" y="1064" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48cGF0aCBkPSJNNiAxMmgxMk0xMiA2YTggOCAwIDAgMSAwIDEyTTEyIDZhOCA4IDAgMCAwIDAgMTIiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjMiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI0IiBjeT0iNiIgcj0iMS42IiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMjAiIGN5PSI2IiByPSIxLjYiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSI0IiBjeT0iMTgiIHI9IjEuNiIgZmlsbD0iI2ZmZmZmZiIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMTgiIHI9IjEuNiIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4=" />
+  <text x="284" y="1142" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">azure-cdn</text>
 </g>
 <g class="architecture-service" data-id="azureCache" data-icon="azure:cache">
   <defs><linearGradient id="arch-grad-azureCache" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4ea8e8"/><stop offset="1" stop-color="#00548f"/></linearGradient></defs>
-  <rect x="412" y="986" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-azureCache)" />
-  <image x="430" y="1004" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQiIHk9IjQiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgcng9IjMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48cGF0aCBkPSJNMTMgNkw4IDE0aDRsLTEgNiA2LTloLTR6IiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
-  <text x="452" y="1082" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">azure-cache</text>
+  <rect x="436" y="1046" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-azureCache)" />
+  <image x="454" y="1064" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQiIHk9IjQiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgcng9IjMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48cGF0aCBkPSJNMTMgNkw4IDE0aDRsLTEgNiA2LTloLTR6IiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
+  <text x="476" y="1142" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">azure-cache</text>
 </g>
 <g class="architecture-service" data-id="gcpCompute" data-icon="gcp:compute">
   <defs><linearGradient id="arch-grad-gcpCompute" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#81c995"/><stop offset="1" stop-color="#188038"/></linearGradient></defs>
-  <rect x="592" y="626" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-gcpCompute)" />
-  <image x="610" y="644" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjYiIHk9IjYiIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgcng9IjIiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMiIgd2lkdGg9IjQiIGhlaWdodD0iNCIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMTgiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMiIgeT0iMTAiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMTgiIHk9IjEwIiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiByeD0iMSIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4=" />
-  <text x="632" y="722" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">gcp-compute</text>
+  <rect x="628" y="662" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-gcpCompute)" />
+  <image x="646" y="680" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjYiIHk9IjYiIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgcng9IjIiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMiIgd2lkdGg9IjQiIGhlaWdodD0iNCIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxMCIgeT0iMTgiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMiIgeT0iMTAiIHdpZHRoPSI0IiBoZWlnaHQ9IjQiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMTgiIHk9IjEwIiB3aWR0aD0iNCIgaGVpZ2h0PSI0IiByeD0iMSIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4=" />
+  <rect x="617.744" y="747.6" width="100.512" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="668" y="758" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">gcp-compute</text>
 </g>
 <g class="architecture-service" data-id="gcpStorage" data-icon="gcp:storage">
   <defs><linearGradient id="arch-grad-gcpStorage" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#81c995"/><stop offset="1" stop-color="#188038"/></linearGradient></defs>
-  <rect x="772" y="626" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-gcpStorage)" />
-  <image x="790" y="644" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQuNSIgeT0iNiIgd2lkdGg9IjE1IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZmZmZiIvPjxwYXRoIGQ9Ik01IDhoMTRsLTEuMyAxMC4zQTIgMiAwIDAgMSAxNS43IDIwSDguM2EyIDIgMCAwIDEtMi0xLjd6IiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
-  <text x="812" y="722" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">gcp-storage</text>
+  <rect x="820" y="662" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-gcpStorage)" />
+  <image x="838" y="680" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQuNSIgeT0iNiIgd2lkdGg9IjE1IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZmZmZiIvPjxwYXRoIGQ9Ik01IDhoMTRsLTEuMyAxMC4zQTIgMiAwIDAgMSAxNS43IDIwSDguM2EyIDIgMCAwIDEtMi0xLjd6IiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
+  <rect x="811.568" y="747.6" width="96.86399999999999" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="860" y="758" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">gcp-storage</text>
 </g>
 <g class="architecture-service" data-id="gcpDatabase" data-icon="gcp:database">
   <defs><linearGradient id="arch-grad-gcpDatabase" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#81c995"/><stop offset="1" stop-color="#188038"/></linearGradient></defs>
-  <rect x="952" y="626" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-gcpDatabase)" />
-  <image x="970" y="644" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik01IDZjMC0xLjcgMy4xLTMgNy0zczcgMS4zIDcgM3YxMmMwIDEuNy0zLjEgMy03IDNzLTctMS4zLTctM3oiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNNSA2YzAgMS43IDMuMSAzIDcgM3M3LTEuMyA3LTMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLW9wYWNpdHk9IjAuMjUiIHN0cm9rZS13aWR0aD0iMSIvPjxwYXRoIGQ9Ik01IDExLjNjMCAxLjcgMy4xIDMgNyAzczctMS4zIDctMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utb3BhY2l0eT0iMC4yNSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHBhdGggZD0iTTUgMTYuN2MwIDEuNyAzLjEgMyA3IDNzNy0xLjMgNy0zIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS1vcGFjaXR5PSIwLjI1IiBzdHJva2Utd2lkdGg9IjEiLz4KPC9zdmc+" />
-  <text x="992" y="722" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">gcp-database</text>
+  <rect x="1012" y="662" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-gcpDatabase)" />
+  <image x="1030" y="680" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik01IDZjMC0xLjcgMy4xLTMgNy0zczcgMS4zIDcgM3YxMmMwIDEuNy0zLjEgMy03IDNzLTctMS4zLTctM3oiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNNSA2YzAgMS43IDMuMSAzIDcgM3M3LTEuMyA3LTMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLW9wYWNpdHk9IjAuMjUiIHN0cm9rZS13aWR0aD0iMSIvPjxwYXRoIGQ9Ik01IDExLjNjMCAxLjcgMy4xIDMgNyAzczctMS4zIDctMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utb3BhY2l0eT0iMC4yNSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHBhdGggZD0iTTUgMTYuN2MwIDEuNyAzLjEgMyA3IDNzNy0xLjMgNy0zIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS1vcGFjaXR5PSIwLjI1IiBzdHJva2Utd2lkdGg9IjEiLz4KPC9zdmc+" />
+  <rect x="998.096" y="747.6" width="107.808" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="1052" y="758" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">gcp-database</text>
 </g>
 <g class="architecture-service" data-id="gcpNetworking" data-icon="gcp:networking">
   <defs><linearGradient id="arch-grad-gcpNetworking" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#81c995"/><stop offset="1" stop-color="#188038"/></linearGradient></defs>
-  <rect x="592" y="806" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-gcpNetworking)" />
-  <image x="610" y="824" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjciIGN5PSI3IiByPSIzIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTciIGN5PSI3IiByPSIzIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTIiIGN5PSIxOCIgcj0iMyIgZmlsbD0iI2ZmZmZmZiIvPjxwYXRoIGQ9Ik04LjcgOS43bDIuNiA1LjZNMTUuMyA5LjdsLTIuNiA1LjZNMTAgN2g0IiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=" />
-  <text x="632" y="902" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">gcp-networking</text>
+  <rect x="628" y="854" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-gcpNetworking)" />
+  <image x="646" y="872" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjciIGN5PSI3IiByPSIzIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTciIGN5PSI3IiByPSIzIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTIiIGN5PSIxOCIgcj0iMyIgZmlsbD0iI2ZmZmZmZiIvPjxwYXRoIGQ9Ik04LjcgOS43bDIuNiA1LjZNMTUuMyA5LjdsLTIuNiA1LjZNMTAgN2g0IiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=" />
+  <rect x="607.712" y="939.6" width="120.57600000000002" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="668" y="950" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">gcp-networking</text>
 </g>
 <g class="architecture-service" data-id="gcpServerless" data-icon="gcp:serverless">
   <defs><linearGradient id="arch-grad-gcpServerless" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#81c995"/><stop offset="1" stop-color="#188038"/></linearGradient></defs>
-  <rect x="772" y="806" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-gcpServerless)" />
-  <image x="790" y="824" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCA0TDkgMTMgNiAyMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIuMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTTkgMTNsOSA3IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMi4zIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+" />
-  <text x="812" y="902" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">gcp-serverless</text>
+  <rect x="820" y="854" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-gcpServerless)" />
+  <image x="838" y="872" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCA0TDkgMTMgNiAyMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIuMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTTkgMTNsOSA3IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMi4zIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+" />
+  <rect x="798.8" y="939.6" width="122.4" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="860" y="950" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">gcp-serverless</text>
 </g>
 <g class="architecture-service" data-id="gcpLoadBalancer" data-icon="gcp:load-balancer">
   <defs><linearGradient id="arch-grad-gcpLoadBalancer" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#81c995"/><stop offset="1" stop-color="#188038"/></linearGradient></defs>
-  <rect x="952" y="806" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-gcpLoadBalancer)" />
-  <image x="970" y="824" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjEyIiBjeT0iNSIgcj0iMi4yIiBmaWxsPSIjZmZmZmZmIi8+PHBhdGggZD0iTTEyIDcuMnYzLjNNMTIgMTAuNUw2IDE3TTEyIDEwLjV2Ni41TTEyIDEwLjVsNiA2LjUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjgiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI2IiBjeT0iMTguNSIgcj0iMiIgZmlsbD0iI2ZmZmZmZiIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTkiIHI9IjIiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSIxOCIgY3k9IjE4LjUiIHI9IjIiIGZpbGw9IiNmZmZmZmYiLz4KPC9zdmc+" />
-  <text x="992" y="902" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">gcp-load-balancer</text>
+  <rect x="1012" y="854" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-gcpLoadBalancer)" />
+  <image x="1030" y="872" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjEyIiBjeT0iNSIgcj0iMi4yIiBmaWxsPSIjZmZmZmZmIi8+PHBhdGggZD0iTTEyIDcuMnYzLjNNMTIgMTAuNUw2IDE3TTEyIDEwLjV2Ni41TTEyIDEwLjVsNiA2LjUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjgiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI2IiBjeT0iMTguNSIgcj0iMiIgZmlsbD0iI2ZmZmZmZiIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTkiIHI9IjIiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSIxOCIgY3k9IjE4LjUiIHI9IjIiIGZpbGw9IiNmZmZmZmYiLz4KPC9zdmc+" />
+  <rect x="981.2239999999999" y="939.6" width="141.55200000000002" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="1052" y="950" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">gcp-load-balancer</text>
 </g>
 <g class="architecture-service" data-id="gcpQueue" data-icon="gcp:queue">
   <defs><linearGradient id="arch-grad-gcpQueue" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#81c995"/><stop offset="1" stop-color="#188038"/></linearGradient></defs>
-  <rect x="592" y="986" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-gcpQueue)" />
-  <image x="610" y="1004" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjMiIHk9IjkiIHdpZHRoPSI0IiBoZWlnaHQ9IjYiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iOSIgeT0iOSIgd2lkdGg9IjQiIGhlaWdodD0iNiIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxNSIgeT0iOSIgd2lkdGg9IjQiIGhlaWdodD0iNiIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNMTkgMTJoM20tMi0ybDIgMi0yIDIiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=" />
-  <text x="632" y="1082" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">gcp-queue</text>
+  <rect x="628" y="1046" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-gcpQueue)" />
+  <image x="646" y="1064" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjMiIHk9IjkiIHdpZHRoPSI0IiBoZWlnaHQ9IjYiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iOSIgeT0iOSIgd2lkdGg9IjQiIGhlaWdodD0iNiIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxNSIgeT0iOSIgd2lkdGg9IjQiIGhlaWdodD0iNiIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNMTkgMTJoM20tMi0ybDIgMi0yIDIiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=" />
+  <text x="668" y="1142" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">gcp-queue</text>
 </g>
 <g class="architecture-service" data-id="gcpCdn" data-icon="gcp:cdn">
   <defs><linearGradient id="arch-grad-gcpCdn" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#81c995"/><stop offset="1" stop-color="#188038"/></linearGradient></defs>
-  <rect x="772" y="986" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-gcpCdn)" />
-  <image x="790" y="1004" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48cGF0aCBkPSJNNiAxMmgxMk0xMiA2YTggOCAwIDAgMSAwIDEyTTEyIDZhOCA4IDAgMCAwIDAgMTIiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjMiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI0IiBjeT0iNiIgcj0iMS42IiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMjAiIGN5PSI2IiByPSIxLjYiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSI0IiBjeT0iMTgiIHI9IjEuNiIgZmlsbD0iI2ZmZmZmZiIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMTgiIHI9IjEuNiIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4=" />
-  <text x="812" y="1082" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">gcp-cdn</text>
+  <rect x="820" y="1046" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-gcpCdn)" />
+  <image x="838" y="1064" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48cGF0aCBkPSJNNiAxMmgxMk0xMiA2YTggOCAwIDAgMSAwIDEyTTEyIDZhOCA4IDAgMCAwIDAgMTIiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjMiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI0IiBjeT0iNiIgcj0iMS42IiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMjAiIGN5PSI2IiByPSIxLjYiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSI0IiBjeT0iMTgiIHI9IjEuNiIgZmlsbD0iI2ZmZmZmZiIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMTgiIHI9IjEuNiIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4=" />
+  <text x="860" y="1142" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">gcp-cdn</text>
 </g>
 <g class="architecture-service" data-id="gcpCache" data-icon="gcp:cache">
   <defs><linearGradient id="arch-grad-gcpCache" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#81c995"/><stop offset="1" stop-color="#188038"/></linearGradient></defs>
-  <rect x="952" y="986" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-gcpCache)" />
-  <image x="970" y="1004" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQiIHk9IjQiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgcng9IjMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48cGF0aCBkPSJNMTMgNkw4IDE0aDRsLTEgNiA2LTloLTR6IiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
-  <text x="992" y="1082" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">gcp-cache</text>
+  <rect x="1012" y="1046" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-gcpCache)" />
+  <image x="1030" y="1064" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQiIHk9IjQiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgcng9IjMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48cGF0aCBkPSJNMTMgNkw4IDE0aDRsLTEgNiA2LTloLTR6IiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
+  <text x="1052" y="1142" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">gcp-cache</text>
 </g>
 <g class="architecture-service" data-id="esElasticsearch" data-icon="elastic:elasticsearch">
   <defs><linearGradient id="arch-grad-esElasticsearch" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe066"/><stop offset="1" stop-color="#c99a00"/></linearGradient></defs>
-  <rect x="52" y="1166" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-esElasticsearch)" />
-  <image x="70" y="1184" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik01IDZjMC0xLjcgMy4xLTMgNy0zczcgMS4zIDcgM3YxMmMwIDEuNy0zLjEgMy03IDNzLTctMS4zLTctM3oiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNNSA2YzAgMS43IDMuMSAzIDcgM3M3LTEuMyA3LTMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLW9wYWNpdHk9IjAuMjUiIHN0cm9rZS13aWR0aD0iMSIvPjxwYXRoIGQ9Ik01IDExLjNjMCAxLjcgMy4xIDMgNyAzczctMS4zIDctMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utb3BhY2l0eT0iMC4yNSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHBhdGggZD0iTTUgMTYuN2MwIDEuNyAzLjEgMyA3IDNzNy0xLjMgNy0zIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS1vcGFjaXR5PSIwLjI1IiBzdHJva2Utd2lkdGg9IjEiLz4KPC9zdmc+" />
-  <text x="92" y="1262" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">elastic-elasticsearch</text>
+  <rect x="52" y="1238" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-esElasticsearch)" />
+  <image x="70" y="1256" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik01IDZjMC0xLjcgMy4xLTMgNy0zczcgMS4zIDcgM3YxMmMwIDEuNy0zLjEgMy03IDNzLTctMS4zLTctM3oiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNNSA2YzAgMS43IDMuMSAzIDcgM3M3LTEuMyA3LTMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLW9wYWNpdHk9IjAuMjUiIHN0cm9rZS13aWR0aD0iMSIvPjxwYXRoIGQ9Ik01IDExLjNjMCAxLjcgMy4xIDMgNyAzczctMS4zIDctMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utb3BhY2l0eT0iMC4yNSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHBhdGggZD0iTTUgMTYuN2MwIDEuNyAzLjEgMyA3IDNzNy0xLjMgNy0zIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS1vcGFjaXR5PSIwLjI1IiBzdHJva2Utd2lkdGg9IjEiLz4KPC9zdmc+" />
+  <rect x="11.647999999999996" y="1323.6" width="160.704" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="92" y="1334" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">elastic-elasticsearch</text>
 </g>
 <g class="architecture-service" data-id="esKibana" data-icon="elastic:kibana">
   <defs><linearGradient id="arch-grad-esKibana" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4fd8cc"/><stop offset="1" stop-color="#008f86"/></linearGradient></defs>
-  <rect x="232" y="1166" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-esKibana)" />
-  <image x="250" y="1184" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjUiIHk9IjEyIiB3aWR0aD0iNCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMTAuNSIgeT0iOCIgd2lkdGg9IjQiIGhlaWdodD0iMTIiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxNiIgeT0iNCIgd2lkdGg9IjQiIGhlaWdodD0iMTYiIGZpbGw9IiNmZmZmZmYiLz4KPC9zdmc+" />
-  <text x="272" y="1262" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">elastic-kibana</text>
+  <rect x="244" y="1238" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-esKibana)" />
+  <image x="262" y="1256" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjUiIHk9IjEyIiB3aWR0aD0iNCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMTAuNSIgeT0iOCIgd2lkdGg9IjQiIGhlaWdodD0iMTIiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxNiIgeT0iNCIgd2lkdGg9IjQiIGhlaWdodD0iMTYiIGZpbGw9IiNmZmZmZmYiLz4KPC9zdmc+" />
+  <rect x="229.184" y="1323.6" width="109.632" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="284" y="1334" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">elastic-kibana</text>
 </g>
 <g class="architecture-service" data-id="esLogstash" data-icon="elastic:logstash">
   <defs><linearGradient id="arch-grad-esLogstash" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4a4547"/><stop offset="1" stop-color="#000000"/></linearGradient></defs>
-  <rect x="412" y="1166" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-esLogstash)" />
-  <image x="430" y="1184" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik01IDVoMTRsLTUgN3Y2bC00IDJ2LTh6IiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
-  <text x="452" y="1262" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">elastic-logstash</text>
+  <rect x="436" y="1238" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-esLogstash)" />
+  <image x="454" y="1256" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik01IDVoMTRsLTUgN3Y2bC00IDJ2LTh6IiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
+  <rect x="414.8" y="1323.6" width="122.4" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="476" y="1334" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">elastic-logstash</text>
 </g>
 <g class="architecture-service" data-id="esBeats" data-icon="elastic:beats">
   <defs><linearGradient id="arch-grad-esBeats" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4fd8d3"/><stop offset="1" stop-color="#018f8a"/></linearGradient></defs>
-  <rect x="52" y="1346" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-esBeats)" />
-  <image x="70" y="1364" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQuNSIgeT0iNiIgd2lkdGg9IjE1IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZmZmZiIvPjxwYXRoIGQ9Ik01IDhoMTRsLTEuMyAxMC4zQTIgMiAwIDAgMSAxNS43IDIwSDguM2EyIDIgMCAwIDEtMi0xLjd6IiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
-  <text x="92" y="1442" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">elastic-beats</text>
+  <rect x="52" y="1430" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-esBeats)" />
+  <image x="70" y="1448" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQuNSIgeT0iNiIgd2lkdGg9IjE1IiBoZWlnaHQ9IjIuNCIgcng9IjEuMiIgZmlsbD0iI2ZmZmZmZiIvPjxwYXRoIGQ9Ik01IDhoMTRsLTEuMyAxMC4zQTIgMiAwIDAgMSAxNS43IDIwSDguM2EyIDIgMCAwIDEtMi0xLjd6IiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
+  <rect x="41.744" y="1515.6" width="100.512" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="92" y="1526" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">elastic-beats</text>
 </g>
 <g class="architecture-service" data-id="esFleet" data-icon="elastic:fleet">
   <defs><linearGradient id="arch-grad-esFleet" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f78fc0"/><stop offset="1" stop-color="#b8215f"/></linearGradient></defs>
-  <rect x="232" y="1346" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-esFleet)" />
-  <image x="250" y="1364" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjciIGN5PSI3IiByPSIzIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTciIGN5PSI3IiByPSIzIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTIiIGN5PSIxOCIgcj0iMyIgZmlsbD0iI2ZmZmZmZiIvPjxwYXRoIGQ9Ik04LjcgOS43bDIuNiA1LjZNMTUuMyA5LjdsLTIuNiA1LjZNMTAgN2g0IiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=" />
-  <text x="272" y="1442" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">elastic-fleet</text>
+  <rect x="244" y="1430" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-esFleet)" />
+  <image x="262" y="1448" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjciIGN5PSI3IiByPSIzIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTciIGN5PSI3IiByPSIzIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMTIiIGN5PSIxOCIgcj0iMyIgZmlsbD0iI2ZmZmZmZiIvPjxwYXRoIGQ9Ik04LjcgOS43bDIuNiA1LjZNMTUuMyA5LjdsLTIuNiA1LjZNMTAgN2g0IiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=" />
+  <rect x="239.216" y="1515.6" width="89.568" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="284" y="1526" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">elastic-fleet</text>
 </g>
 <g class="architecture-service" data-id="esServerless" data-icon="elastic:serverless">
   <defs><linearGradient id="arch-grad-esServerless" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b39ddb"/><stop offset="1" stop-color="#5e35b1"/></linearGradient></defs>
-  <rect x="412" y="1346" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-esServerless)" />
-  <image x="430" y="1364" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCA0TDkgMTMgNiAyMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIuMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTTkgMTNsOSA3IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMi4zIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+" />
-  <text x="452" y="1442" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">elastic-serverless</text>
+  <rect x="436" y="1430" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-esServerless)" />
+  <image x="454" y="1448" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCA0TDkgMTMgNiAyMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIuMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTTkgMTNsOSA3IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMi4zIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+" />
+  <rect x="404.76800000000003" y="1515.6" width="142.464" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="476" y="1526" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">elastic-serverless</text>
 </g>
 <g class="architecture-service" data-id="esApm" data-icon="elastic:apm">
   <defs><linearGradient id="arch-grad-esApm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff9575"/><stop offset="1" stop-color="#d84315"/></linearGradient></defs>
-  <rect x="52" y="1526" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-esApm)" />
-  <image x="70" y="1544" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0yLjUgMTJoNGwyLTcgNCAxNCAyLTdoNS41IiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==" />
-  <text x="92" y="1622" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">elastic-apm</text>
+  <rect x="52" y="1622" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-esApm)" />
+  <image x="70" y="1640" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0yLjUgMTJoNGwyLTcgNCAxNCAyLTdoNS41IiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==" />
+  <text x="92" y="1718" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">elastic-apm</text>
 </g>
 <g class="architecture-service" data-id="esSecurity" data-icon="elastic:security">
   <defs><linearGradient id="arch-grad-esSecurity" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ef9a9a"/><stop offset="1" stop-color="#c62828"/></linearGradient></defs>
-  <rect x="232" y="1526" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-esSecurity)" />
-  <image x="250" y="1544" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xMiAybDcgM3Y2YzAgNS0zLjMgOC43LTcgMTEtMy43LTIuMy03LTYtNy0xMVY1eiIgZmlsbD0iI2ZmZmZmZiIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTEiIHI9IjEuOCIgZmlsbD0iIzAwMDAwMCIgZmlsbC1vcGFjaXR5PSIwLjMiLz48cGF0aCBkPSJNMTIgMTIuNXYzLjUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLW9wYWNpdHk9IjAuMyIgc3Ryb2tlLXdpZHRoPSIxLjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4=" />
-  <text x="272" y="1622" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">elastic-security</text>
+  <rect x="244" y="1622" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-esSecurity)" />
+  <image x="262" y="1640" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xMiAybDcgM3Y2YzAgNS0zLjMgOC43LTcgMTEtMy43LTIuMy03LTYtNy0xMVY1eiIgZmlsbD0iI2ZmZmZmZiIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTEiIHI9IjEuOCIgZmlsbD0iIzAwMDAwMCIgZmlsbC1vcGFjaXR5PSIwLjMiLz48cGF0aCBkPSJNMTIgMTIuNXYzLjUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLW9wYWNpdHk9IjAuMyIgc3Ryb2tlLXdpZHRoPSIxLjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4=" />
+  <text x="284" y="1718" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">elastic-security</text>
 </g>
 <g class="architecture-service" data-id="esObservability" data-icon="elastic:observability">
   <defs><linearGradient id="arch-grad-esObservability" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#90caf9"/><stop offset="1" stop-color="#1565c0"/></linearGradient></defs>
-  <rect x="412" y="1526" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-esObservability)" />
-  <image x="430" y="1544" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0yIDEyczQtNiAxMC02IDEwIDYgMTAgNi00IDYtMTAgNi0xMC02LTEwLTZ6IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMS42Ii8+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMy4yIiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
-  <text x="452" y="1622" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">elastic-observability</text>
+  <rect x="436" y="1622" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-esObservability)" />
+  <image x="454" y="1640" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0yIDEyczQtNiAxMC02IDEwIDYgMTAgNi00IDYtMTAgNi0xMC02LTEwLTZ6IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMS42Ii8+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMy4yIiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
+  <text x="476" y="1718" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">elastic-observability</text>
 </g>
 <g class="architecture-service" data-id="extWaf" data-icon="ext:waf">
   <defs><linearGradient id="arch-grad-extWaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#94a3b8"/><stop offset="1" stop-color="#475569"/></linearGradient></defs>
-  <rect x="592" y="1166" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-extWaf)" />
-  <image x="610" y="1184" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xMiAybDcgM3Y2YzAgNS0zLjMgOC43LTcgMTEtMy43LTIuMy03LTYtNy0xMVY1eiIgZmlsbD0iI2ZmZmZmZiIvPjxwYXRoIGQ9Ik03LjUgMTBoOU03LjUgMTNoOU03LjUgMTZoNiIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utb3BhY2l0eT0iMC4yNSIgc3Ryb2tlLXdpZHRoPSIxLjEiLz4KPC9zdmc+" />
-  <text x="632" y="1262" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">ext-waf</text>
+  <rect x="628" y="1238" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-extWaf)" />
+  <image x="646" y="1256" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xMiAybDcgM3Y2YzAgNS0zLjMgOC43LTcgMTEtMy43LTIuMy03LTYtNy0xMVY1eiIgZmlsbD0iI2ZmZmZmZiIvPjxwYXRoIGQ9Ik03LjUgMTBoOU03LjUgMTNoOU03LjUgMTZoNiIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utb3BhY2l0eT0iMC4yNSIgc3Ryb2tlLXdpZHRoPSIxLjEiLz4KPC9zdmc+" />
+  <rect x="638.72" y="1323.6" width="58.559999999999995" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="668" y="1334" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">ext-waf</text>
 </g>
 <g class="architecture-service" data-id="extApiGateway" data-icon="ext:api-gateway">
   <defs><linearGradient id="arch-grad-extApiGateway" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#94a3b8"/><stop offset="1" stop-color="#475569"/></linearGradient></defs>
-  <rect x="772" y="1166" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-extApiGateway)" />
-  <image x="790" y="1184" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjMuNSIgeT0iNCIgd2lkdGg9IjMuNSIgaGVpZ2h0PSIxNiIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxNyIgeT0iNCIgd2lkdGg9IjMuNSIgaGVpZ2h0PSIxNiIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNOSAxMmg2bS0yLjUtMi41TDE1IDEybC0yLjUgMi41IiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==" />
-  <text x="812" y="1262" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">ext-api-gateway</text>
+  <rect x="820" y="1238" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-extApiGateway)" />
+  <image x="838" y="1256" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjMuNSIgeT0iNCIgd2lkdGg9IjMuNSIgaGVpZ2h0PSIxNiIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxNyIgeT0iNCIgd2lkdGg9IjMuNSIgaGVpZ2h0PSIxNiIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNOSAxMmg2bS0yLjUtMi41TDE1IDEybC0yLjUgMi41IiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==" />
+  <rect x="799.256" y="1323.6" width="121.488" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="860" y="1334" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">ext-api-gateway</text>
 </g>
 <g class="architecture-service" data-id="extK8s" data-icon="ext:k8s">
   <defs><linearGradient id="arch-grad-extK8s" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#94a3b8"/><stop offset="1" stop-color="#475569"/></linearGradient></defs>
-  <rect x="952" y="1166" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-extK8s)" />
-  <image x="970" y="1184" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xMiAyLjVsOCA0LjZ2OS44TDEyIDIxLjVsLTgtNC42VjcuMXoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIzLjIiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNMTIgMi41djMuMk0xMiAxOC4zdjMuMk00LjkgNy4xbDIuOCAxLjZNMTYuMyAxNS4zbDIuOCAxLjZNMTkuMSA3LjFsLTIuOCAxLjZNNy43IDE1LjNsLTIuOCAxLjYiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjIiLz4KPC9zdmc+" />
-  <text x="992" y="1262" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">ext-k8s</text>
+  <rect x="1012" y="1238" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-extK8s)" />
+  <image x="1030" y="1256" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xMiAyLjVsOCA0LjZ2OS44TDEyIDIxLjVsLTgtNC42VjcuMXoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIzLjIiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNMTIgMi41djMuMk0xMiAxOC4zdjMuMk00LjkgNy4xbDIuOCAxLjZNMTYuMyAxNS4zbDIuOCAxLjZNMTkuMSA3LjFsLTIuOCAxLjZNNy43IDE1LjNsLTIuOCAxLjYiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjIiLz4KPC9zdmc+" />
+  <rect x="1020.896" y="1323.6" width="62.208" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="1052" y="1334" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">ext-k8s</text>
 </g>
 <g class="architecture-service" data-id="extPod" data-icon="ext:pod">
   <defs><linearGradient id="arch-grad-extPod" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#94a3b8"/><stop offset="1" stop-color="#475569"/></linearGradient></defs>
-  <rect x="592" y="1346" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-extPod)" />
-  <image x="610" y="1364" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjkiIGN5PSI5IiByPSI0LjIiIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC44NSIvPjxjaXJjbGUgY3g9IjE1IiBjeT0iOSIgcj0iNC4yIiBmaWxsPSIjZmZmZmZmIiBmaWxsLW9wYWNpdHk9IjAuODUiLz48Y2lyY2xlIGN4PSIxMiIgY3k9IjE1IiByPSI0LjIiIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC44NSIvPgo8L3N2Zz4=" />
-  <text x="632" y="1442" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">ext-pod</text>
+  <rect x="628" y="1430" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-extPod)" />
+  <image x="646" y="1448" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjkiIGN5PSI5IiByPSI0LjIiIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC44NSIvPjxjaXJjbGUgY3g9IjE1IiBjeT0iOSIgcj0iNC4yIiBmaWxsPSIjZmZmZmZmIiBmaWxsLW9wYWNpdHk9IjAuODUiLz48Y2lyY2xlIGN4PSIxMiIgY3k9IjE1IiByPSI0LjIiIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC44NSIvPgo8L3N2Zz4=" />
+  <rect x="636.896" y="1515.6" width="62.208" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="668" y="1526" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">ext-pod</text>
 </g>
 <g class="architecture-service" data-id="extPool" data-icon="ext:pool">
   <defs><linearGradient id="arch-grad-extPool" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#94a3b8"/><stop offset="1" stop-color="#475569"/></linearGradient></defs>
-  <rect x="772" y="1346" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-extPool)" />
-  <image x="790" y="1364" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjMiIHk9IjEwIiB3aWR0aD0iMTQiIGhlaWdodD0iOSIgcng9IjEuNSIgZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIwLjU1Ii8+PHJlY3QgeD0iNSIgeT0iNi41IiB3aWR0aD0iMTQiIGhlaWdodD0iOSIgcng9IjEuNSIgZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIwLjc4Ii8+PHJlY3QgeD0iNyIgeT0iMyIgd2lkdGg9IjE0IiBoZWlnaHQ9IjkiIHJ4PSIxLjUiIGZpbGw9IiNmZmZmZmYiLz4KPC9zdmc+" />
-  <text x="812" y="1442" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">ext-pool</text>
+  <rect x="820" y="1430" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-extPool)" />
+  <image x="838" y="1448" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjMiIHk9IjEwIiB3aWR0aD0iMTQiIGhlaWdodD0iOSIgcng9IjEuNSIgZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIwLjU1Ii8+PHJlY3QgeD0iNSIgeT0iNi41IiB3aWR0aD0iMTQiIGhlaWdodD0iOSIgcng9IjEuNSIgZmlsbD0iI2ZmZmZmZiIgZmlsbC1vcGFjaXR5PSIwLjc4Ii8+PHJlY3QgeD0iNyIgeT0iMyIgd2lkdGg9IjE0IiBoZWlnaHQ9IjkiIHJ4PSIxLjUiIGZpbGw9IiNmZmZmZmYiLz4KPC9zdmc+" />
+  <rect x="827.072" y="1515.6" width="65.856" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="860" y="1526" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">ext-pool</text>
 </g>
 <g class="architecture-service" data-id="extReverseProxy" data-icon="ext:reverse-proxy">
   <defs><linearGradient id="arch-grad-extReverseProxy" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#94a3b8"/><stop offset="1" stop-color="#475569"/></linearGradient></defs>
-  <rect x="952" y="1346" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-extReverseProxy)" />
-  <image x="970" y="1364" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik01IDhoMTFtLTMtM2wzIDMtMyAzIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTTE5IDE2SDhtMy0zbC0zIDMgMyAzIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==" />
-  <text x="992" y="1442" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">ext-reverse-proxy</text>
+  <rect x="1012" y="1430" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-extReverseProxy)" />
+  <image x="1030" y="1448" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik01IDhoMTFtLTMtM2wzIDMtMyAzIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTTE5IDE2SDhtMy0zbC0zIDMgMyAzIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==" />
+  <rect x="980.312" y="1515.6" width="143.376" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="1052" y="1526" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">ext-reverse-proxy</text>
 </g>
 <g class="architecture-service" data-id="extWeb" data-icon="ext:web">
   <defs><linearGradient id="arch-grad-extWeb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#94a3b8"/><stop offset="1" stop-color="#475569"/></linearGradient></defs>
-  <rect x="592" y="1526" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-extWeb)" />
-  <image x="610" y="1544" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjMiIHk9IjQiIHdpZHRoPSIxOCIgaGVpZ2h0PSIxNiIgcng9IjIiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIzIiB5PSI0IiB3aWR0aD0iMTgiIGhlaWdodD0iNC41IiByeD0iMiIgZmlsbD0iIzAwMDAwMCIgZmlsbC1vcGFjaXR5PSIwLjIiLz48Y2lyY2xlIGN4PSI1LjgiIGN5PSI2LjIiIHI9IjAuNyIgZmlsbD0iIzAwMDAwMCIgZmlsbC1vcGFjaXR5PSIwLjQiLz48Y2lyY2xlIGN4PSI3LjgiIGN5PSI2LjIiIHI9IjAuNyIgZmlsbD0iIzAwMDAwMCIgZmlsbC1vcGFjaXR5PSIwLjQiLz4KPC9zdmc+" />
-  <text x="632" y="1622" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">ext-web</text>
+  <rect x="628" y="1622" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-extWeb)" />
+  <image x="646" y="1640" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjMiIHk9IjQiIHdpZHRoPSIxOCIgaGVpZ2h0PSIxNiIgcng9IjIiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIzIiB5PSI0IiB3aWR0aD0iMTgiIGhlaWdodD0iNC41IiByeD0iMiIgZmlsbD0iIzAwMDAwMCIgZmlsbC1vcGFjaXR5PSIwLjIiLz48Y2lyY2xlIGN4PSI1LjgiIGN5PSI2LjIiIHI9IjAuNyIgZmlsbD0iIzAwMDAwMCIgZmlsbC1vcGFjaXR5PSIwLjQiLz48Y2lyY2xlIGN4PSI3LjgiIGN5PSI2LjIiIHI9IjAuNyIgZmlsbD0iIzAwMDAwMCIgZmlsbC1vcGFjaXR5PSIwLjQiLz4KPC9zdmc+" />
+  <rect x="635.984" y="1707.6" width="64.03199999999998" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="668" y="1718" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">ext-web</text>
 </g>
 <g class="architecture-service" data-id="extApi" data-icon="ext:api">
   <defs><linearGradient id="arch-grad-extApi" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#94a3b8"/><stop offset="1" stop-color="#475569"/></linearGradient></defs>
-  <rect x="772" y="1526" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-extApi)" />
-  <image x="790" y="1544" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xMCAzYy0yLjIgMC0zLjIgMS4xLTMuMiAzLjN2Mi42YzAgMS4xLS45IDIuMS0yLjEgMi4xdjJjMS4yIDAgMi4xIDEgMi4xIDIuMXYyLjZjMCAyLjIgMSAzLjMgMy4yIDMuMyIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjEuOCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTE0IDNjMi4yIDAgMy4yIDEuMSAzLjIgMy4zdjIuNmMwIDEuMS45IDIuMSAyLjEgMi4xdjJjLTEuMiAwLTIuMSAxLTIuMSAyLjF2Mi42YzAgMi4yLTEgMy4zLTMuMiAzLjMiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjgiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4=" />
-  <text x="812" y="1622" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">ext-api</text>
+  <rect x="820" y="1622" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-extApi)" />
+  <image x="838" y="1640" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xMCAzYy0yLjIgMC0zLjIgMS4xLTMuMiAzLjN2Mi42YzAgMS4xLS45IDIuMS0yLjEgMi4xdjJjMS4yIDAgMi4xIDEgMi4xIDIuMXYyLjZjMCAyLjIgMSAzLjMgMy4yIDMuMyIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjEuOCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTE0IDNjMi4yIDAgMy4yIDEuMSAzLjIgMy4zdjIuNmMwIDEuMS45IDIuMSAyLjEgMi4xdjJjLTEuMiAwLTIuMSAxLTIuMSAyLjF2Mi42YzAgMi4yLTEgMy4zLTMuMiAzLjMiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjgiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8L3N2Zz4=" />
+  <rect x="831.632" y="1707.6" width="56.736000000000004" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="860" y="1718" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">ext-api</text>
 </g>
 <g class="architecture-service" data-id="extLoadBalancer" data-icon="ext:load-balancer">
   <defs><linearGradient id="arch-grad-extLoadBalancer" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#94a3b8"/><stop offset="1" stop-color="#475569"/></linearGradient></defs>
-  <rect x="952" y="1526" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-extLoadBalancer)" />
-  <image x="970" y="1544" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjEyIiBjeT0iNSIgcj0iMi4yIiBmaWxsPSIjZmZmZmZmIi8+PHBhdGggZD0iTTEyIDcuMnYzLjNNMTIgMTAuNUw2IDE3TTEyIDEwLjV2Ni41TTEyIDEwLjVsNiA2LjUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjgiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI2IiBjeT0iMTguNSIgcj0iMiIgZmlsbD0iI2ZmZmZmZiIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTkiIHI9IjIiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSIxOCIgY3k9IjE4LjUiIHI9IjIiIGZpbGw9IiNmZmZmZmYiLz4KPC9zdmc+" />
-  <text x="992" y="1622" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">ext-load-balancer</text>
+  <rect x="1012" y="1622" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-extLoadBalancer)" />
+  <image x="1030" y="1640" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjEyIiBjeT0iNSIgcj0iMi4yIiBmaWxsPSIjZmZmZmZmIi8+PHBhdGggZD0iTTEyIDcuMnYzLjNNMTIgMTAuNUw2IDE3TTEyIDEwLjV2Ni41TTEyIDEwLjVsNiA2LjUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjgiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI2IiBjeT0iMTguNSIgcj0iMiIgZmlsbD0iI2ZmZmZmZiIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTkiIHI9IjIiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSIxOCIgY3k9IjE4LjUiIHI9IjIiIGZpbGw9IiNmZmZmZmYiLz4KPC9zdmc+" />
+  <rect x="983.96" y="1707.6" width="136.08" height="20.8" rx="4" fill="var(--bg)" />
+  <text x="1052" y="1718" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">ext-load-balancer</text>
 </g>
 <g class="architecture-service" data-id="extQueue" data-icon="ext:queue">
   <defs><linearGradient id="arch-grad-extQueue" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#94a3b8"/><stop offset="1" stop-color="#475569"/></linearGradient></defs>
-  <rect x="592" y="1706" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-extQueue)" />
-  <image x="610" y="1724" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjMiIHk9IjkiIHdpZHRoPSI0IiBoZWlnaHQ9IjYiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iOSIgeT0iOSIgd2lkdGg9IjQiIGhlaWdodD0iNiIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxNSIgeT0iOSIgd2lkdGg9IjQiIGhlaWdodD0iNiIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNMTkgMTJoM20tMi0ybDIgMi0yIDIiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=" />
-  <text x="632" y="1802" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">ext-queue</text>
+  <rect x="628" y="1814" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-extQueue)" />
+  <image x="646" y="1832" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjMiIHk9IjkiIHdpZHRoPSI0IiBoZWlnaHQ9IjYiIHJ4PSIxIiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iOSIgeT0iOSIgd2lkdGg9IjQiIGhlaWdodD0iNiIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxNSIgeT0iOSIgd2lkdGg9IjQiIGhlaWdodD0iNiIgcng9IjEiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNMTkgMTJoM20tMi0ybDIgMi0yIDIiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=" />
+  <text x="668" y="1910" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">ext-queue</text>
 </g>
 <g class="architecture-service" data-id="extCdn" data-icon="ext:cdn">
   <defs><linearGradient id="arch-grad-extCdn" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#94a3b8"/><stop offset="1" stop-color="#475569"/></linearGradient></defs>
-  <rect x="772" y="1706" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-extCdn)" />
-  <image x="790" y="1724" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48cGF0aCBkPSJNNiAxMmgxMk0xMiA2YTggOCAwIDAgMSAwIDEyTTEyIDZhOCA4IDAgMCAwIDAgMTIiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjMiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI0IiBjeT0iNiIgcj0iMS42IiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMjAiIGN5PSI2IiByPSIxLjYiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSI0IiBjeT0iMTgiIHI9IjEuNiIgZmlsbD0iI2ZmZmZmZiIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMTgiIHI9IjEuNiIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4=" />
-  <text x="812" y="1802" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">ext-cdn</text>
+  <rect x="820" y="1814" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-extCdn)" />
+  <image x="838" y="1832" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48cGF0aCBkPSJNNiAxMmgxMk0xMiA2YTggOCAwIDAgMSAwIDEyTTEyIDZhOCA4IDAgMCAwIDAgMTIiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjMiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI0IiBjeT0iNiIgcj0iMS42IiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMjAiIGN5PSI2IiByPSIxLjYiIGZpbGw9IiNmZmZmZmYiLz48Y2lyY2xlIGN4PSI0IiBjeT0iMTgiIHI9IjEuNiIgZmlsbD0iI2ZmZmZmZiIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iMTgiIHI9IjEuNiIgZmlsbD0iI2ZmZmZmZiIvPgo8L3N2Zz4=" />
+  <text x="860" y="1910" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">ext-cdn</text>
 </g>
 <g class="architecture-service" data-id="extCache" data-icon="ext:cache">
   <defs><linearGradient id="arch-grad-extCache" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#94a3b8"/><stop offset="1" stop-color="#475569"/></linearGradient></defs>
-  <rect x="952" y="1706" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-extCache)" />
-  <image x="970" y="1724" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQiIHk9IjQiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgcng9IjMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48cGF0aCBkPSJNMTMgNkw4IDE0aDRsLTEgNiA2LTloLTR6IiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
-  <text x="992" y="1802" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">ext-cache</text>
+  <rect x="1012" y="1814" width="80" height="80" rx="10" ry="10" fill="url(#arch-grad-extCache)" />
+  <image x="1030" y="1832" width="44" height="44" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxyZWN0IHg9IjQiIHk9IjQiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgcng9IjMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48cGF0aCBkPSJNMTMgNkw4IDE0aDRsLTEgNiA2LTloLTR6IiBmaWxsPSIjZmZmZmZmIi8+Cjwvc3ZnPg==" />
+  <text x="1052" y="1910" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">ext-cache</text>
 </g>
 </svg>

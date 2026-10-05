@@ -103,7 +103,7 @@ internal static partial class MindmapParser
 
 		m = CloudShape().Match(text);
 		if (m.Success)
-			return (m.Groups[1].Value, MindmapShape.Cloud);
+			return (m.Groups[1].Value, MindmapShape.Bang);
 
 		m = HexagonShape().Match(text);
 		if (m.Success)
@@ -111,7 +111,7 @@ internal static partial class MindmapParser
 
 		m = BangShape().Match(text);
 		if (m.Success)
-			return (m.Groups[1].Value, MindmapShape.Bang);
+			return (m.Groups[1].Value, MindmapShape.Cloud);
 
 		m = SquareShape().Match(text);
 		if (m.Success)

@@ -30,61 +30,61 @@
 
 <defs>
   <marker id="journey-arrow" refX="5" refY="2" markerWidth="6" markerHeight="4" orient="auto">
-    <path d="M 0,0 V 4 L6,2 Z" fill="var(--_text)" />
+    <path d="M 0,0 V 4 L6,2 Z" fill="var(--_line)" />
   </marker>
 </defs>
 
 <g transform="translate(0,8)">
 <text x="150" y="25" font-size="18" font-weight="bold" fill="var(--_text)">My working day</text>
-<circle cx="20" cy="60" r="7" fill="#4e79a7" stroke="var(--_node-stroke)" stroke-width="1" />
-<text x="40" y="65" font-size="14" fill="var(--_text-muted)">Me</text>
-<circle cx="20" cy="80" r="7" fill="#f28e2b" stroke="var(--_node-stroke)" stroke-width="1" />
-<text x="40" y="85" font-size="14" fill="var(--_text-muted)">Cat</text>
-<rect x="150" y="50" width="550" height="50" rx="3" ry="3" fill="#4e79a7" />
-<text x="425" y="75" text-anchor="middle" dy="0.35em" font-size="14" fill="#1a1a1a">Go to work</text>
-<rect x="750" y="50" width="350" height="50" rx="3" ry="3" fill="#f28e2b" />
-<text x="925" y="75" text-anchor="middle" dy="0.35em" font-size="14" fill="#1a1a1a">Go home</text>
+<circle cx="20" cy="60" r="7" fill="color-mix(in srgb, #76b7b2 60%, var(--bg))" stroke="#539D97" stroke-width="1.5" />
+<text x="40" y="65" font-size="14" fill="var(--_text)">Me</text>
+<circle cx="20" cy="80" r="7" fill="color-mix(in srgb, #b07aa1 60%, var(--bg))" stroke="#955884" stroke-width="1.5" />
+<text x="40" y="85" font-size="14" fill="var(--_text)">Cat</text>
+<rect x="150" y="50" width="550" height="50" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+<text x="425" y="75" text-anchor="middle" dy="0.35em" font-size="14" font-weight="600" fill="#3B5B7D">Go to work</text>
+<rect x="750" y="50" width="350" height="50" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 24%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
+<text x="925" y="75" text-anchor="middle" dy="0.35em" font-size="14" font-weight="600" fill="#D36F0D">Go home</text>
 <line x1="225" y1="110" x2="225" y2="485" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 2" />
-<circle class="face" cx="225" cy="300" r="15" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-<circle cx="220" cy="295" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
-<circle cx="230" cy="295" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
-<path class="mouth" d="M 217.86 302 A 7.14 7.14 0 0 0 232.14 302" fill="none" stroke="var(--_text-muted)" stroke-width="1.5" />
-<rect x="150" y="110" width="150" height="50" rx="3" ry="3" fill="#4e79a7" />
-<circle cx="164" cy="110" r="7" fill="#4e79a7" stroke="var(--_node-stroke)" stroke-width="1"><title>Me</title></circle>
-<text x="225" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="#1a1a1a">Make tea</text>
+<circle class="face" cx="225" cy="300" r="15" fill="color-mix(in srgb, #59a14f 24%, var(--bg))" stroke="#42783B" stroke-width="2" />
+<circle cx="220" cy="295" r="1.5" fill="#42783B" stroke="#42783B" />
+<circle cx="230" cy="295" r="1.5" fill="#42783B" stroke="#42783B" />
+<path class="mouth" d="M 217.86 302 A 7.14 7.14 0 0 0 232.14 302" fill="none" stroke="#42783B" stroke-width="1.5" />
+<rect x="150" y="110" width="150" height="50" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+<circle cx="164" cy="110" r="7" fill="color-mix(in srgb, #76b7b2 60%, var(--bg))" stroke="#539D97" stroke-width="1.5"><title>Me</title></circle>
+<text x="225" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="var(--_text)">Make tea</text>
 <line x1="425" y1="110" x2="425" y2="485" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 2" />
-<circle class="face" cx="425" cy="360" r="15" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-<circle cx="420" cy="355" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
-<circle cx="430" cy="355" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
-<line class="mouth" x1="420" y1="367" x2="430" y2="367" stroke="var(--_text-muted)" stroke-width="1" />
-<rect x="350" y="110" width="150" height="50" rx="3" ry="3" fill="#4e79a7" />
-<circle cx="364" cy="110" r="7" fill="#4e79a7" stroke="var(--_node-stroke)" stroke-width="1"><title>Me</title></circle>
-<text x="425" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="#1a1a1a">Go upstairs</text>
+<circle class="face" cx="425" cy="360" r="15" fill="color-mix(in srgb, #edc948 24%, var(--bg))" stroke="#E2B516" stroke-width="2" />
+<circle cx="420" cy="355" r="1.5" fill="#E2B516" stroke="#E2B516" />
+<circle cx="430" cy="355" r="1.5" fill="#E2B516" stroke="#E2B516" />
+<line class="mouth" x1="420" y1="367" x2="430" y2="367" stroke="#E2B516" stroke-width="1" />
+<rect x="350" y="110" width="150" height="50" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+<circle cx="364" cy="110" r="7" fill="color-mix(in srgb, #76b7b2 60%, var(--bg))" stroke="#539D97" stroke-width="1.5"><title>Me</title></circle>
+<text x="425" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="var(--_text)">Go upstairs</text>
 <line x1="625" y1="110" x2="625" y2="485" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 2" />
-<circle class="face" cx="625" cy="420" r="15" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-<circle cx="620" cy="415" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
-<circle cx="630" cy="415" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
-<path class="mouth" d="M 617.86 427 A 7.14 7.14 0 0 1 632.14 427" fill="none" stroke="var(--_text-muted)" stroke-width="1.5" />
-<rect x="550" y="110" width="150" height="50" rx="3" ry="3" fill="#4e79a7" />
-<circle cx="564" cy="110" r="7" fill="#4e79a7" stroke="var(--_node-stroke)" stroke-width="1"><title>Me</title></circle>
-<circle cx="574" cy="110" r="7" fill="#f28e2b" stroke="var(--_node-stroke)" stroke-width="1"><title>Cat</title></circle>
-<text x="625" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="#1a1a1a">Do work</text>
+<circle class="face" cx="625" cy="420" r="15" fill="color-mix(in srgb, #e15759 24%, var(--bg))" stroke="#D52629" stroke-width="2" />
+<circle cx="620" cy="415" r="1.5" fill="#D52629" stroke="#D52629" />
+<circle cx="630" cy="415" r="1.5" fill="#D52629" stroke="#D52629" />
+<path class="mouth" d="M 617.86 427 A 7.14 7.14 0 0 1 632.14 427" fill="none" stroke="#D52629" stroke-width="1.5" />
+<rect x="550" y="110" width="150" height="50" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+<circle cx="564" cy="110" r="7" fill="color-mix(in srgb, #76b7b2 60%, var(--bg))" stroke="#539D97" stroke-width="1.5"><title>Me</title></circle>
+<circle cx="574" cy="110" r="7" fill="color-mix(in srgb, #b07aa1 60%, var(--bg))" stroke="#955884" stroke-width="1.5"><title>Cat</title></circle>
+<text x="625" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="var(--_text)">Do work</text>
 <line x1="825" y1="110" x2="825" y2="485" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 2" />
-<circle class="face" cx="825" cy="300" r="15" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-<circle cx="820" cy="295" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
-<circle cx="830" cy="295" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
-<path class="mouth" d="M 817.86 302 A 7.14 7.14 0 0 0 832.14 302" fill="none" stroke="var(--_text-muted)" stroke-width="1.5" />
-<rect x="750" y="110" width="150" height="50" rx="3" ry="3" fill="#f28e2b" />
-<circle cx="764" cy="110" r="7" fill="#4e79a7" stroke="var(--_node-stroke)" stroke-width="1"><title>Me</title></circle>
-<text x="825" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="#1a1a1a">Go downstairs</text>
+<circle class="face" cx="825" cy="300" r="15" fill="color-mix(in srgb, #59a14f 24%, var(--bg))" stroke="#42783B" stroke-width="2" />
+<circle cx="820" cy="295" r="1.5" fill="#42783B" stroke="#42783B" />
+<circle cx="830" cy="295" r="1.5" fill="#42783B" stroke="#42783B" />
+<path class="mouth" d="M 817.86 302 A 7.14 7.14 0 0 0 832.14 302" fill="none" stroke="#42783B" stroke-width="1.5" />
+<rect x="750" y="110" width="150" height="50" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
+<circle cx="764" cy="110" r="7" fill="color-mix(in srgb, #76b7b2 60%, var(--bg))" stroke="#539D97" stroke-width="1.5"><title>Me</title></circle>
+<text x="825" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="var(--_text)">Go downstairs</text>
 <line x1="1025" y1="110" x2="1025" y2="485" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 2" />
-<circle class="face" cx="1025" cy="300" r="15" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-<circle cx="1020" cy="295" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
-<circle cx="1030" cy="295" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
-<path class="mouth" d="M 1017.86 302 A 7.14 7.14 0 0 0 1032.14 302" fill="none" stroke="var(--_text-muted)" stroke-width="1.5" />
-<rect x="950" y="110" width="150" height="50" rx="3" ry="3" fill="#f28e2b" />
-<circle cx="964" cy="110" r="7" fill="#4e79a7" stroke="var(--_node-stroke)" stroke-width="1"><title>Me</title></circle>
-<text x="1025" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="#1a1a1a">Sit down</text>
-<line x1="150" y1="200" x2="1096" y2="200" stroke="var(--_text)" stroke-width="4" marker-end="url(#journey-arrow)" />
+<circle class="face" cx="1025" cy="300" r="15" fill="color-mix(in srgb, #59a14f 24%, var(--bg))" stroke="#42783B" stroke-width="2" />
+<circle cx="1020" cy="295" r="1.5" fill="#42783B" stroke="#42783B" />
+<circle cx="1030" cy="295" r="1.5" fill="#42783B" stroke="#42783B" />
+<path class="mouth" d="M 1017.86 302 A 7.14 7.14 0 0 0 1032.14 302" fill="none" stroke="#42783B" stroke-width="1.5" />
+<rect x="950" y="110" width="150" height="50" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
+<circle cx="964" cy="110" r="7" fill="color-mix(in srgb, #76b7b2 60%, var(--bg))" stroke="#539D97" stroke-width="1.5"><title>Me</title></circle>
+<text x="1025" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="var(--_text)">Sit down</text>
+<line x1="150" y1="200" x2="1096" y2="200" stroke="var(--_line)" stroke-width="3" marker-end="url(#journey-arrow)" />
 </g>
 </svg>

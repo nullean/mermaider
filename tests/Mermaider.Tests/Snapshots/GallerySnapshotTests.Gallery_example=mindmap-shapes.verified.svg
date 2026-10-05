@@ -1,0 +1,72 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 829.7000496019258 326.2422192022586" width="829.7000496019258" height="326.2422192022586" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+</defs>
+
+<path d="M 575.4 58.4 C 655.48 58.4 655.48 58.4 735.56 58.4" fill="none" stroke="#D36F0D" stroke-width="2.25" />
+<path d="M 414.85 170 C 495.12 170 495.12 58.4 575.4 58.4" fill="none" stroke="#D36F0D" stroke-width="2.25" />
+<path d="M 569.92 145.2 C 647.27 145.2 647.27 145.2 724.62 145.2" fill="none" stroke="#539D97" stroke-width="2.25" />
+<path d="M 414.85 170 C 492.39 170 492.39 145.2 569.92 145.2" fill="none" stroke="#539D97" stroke-width="2.25" />
+<path d="M 568.57 232 C 645.24 232 645.24 232 721.9 232" fill="none" stroke="#955884" stroke-width="2.25" />
+<path d="M 414.85 170 C 491.71 170 491.71 232 568.57 232" fill="none" stroke="#955884" stroke-width="2.25" />
+<path d="M 254.3 63.88 C 174.22 63.88 174.22 63.88 94.14 63.88" fill="none" stroke="#765848" stroke-width="2.25" />
+<path d="M 414.85 170 C 334.58 170 334.58 63.88 254.3 63.88" fill="none" stroke="#765848" stroke-width="2.25" />
+<path d="M 255.26 150.68 C 175.66 150.68 175.66 150.68 96.05 150.68" fill="none" stroke="#9E908B" stroke-width="2.25" />
+<path d="M 414.85 170 C 335.06 170 335.06 150.68 255.26 150.68" fill="none" stroke="#9E908B" stroke-width="2.25" />
+<path d="M 258.52 259.56 C 180.55 259.56 180.55 259.56 102.58 259.56" fill="none" stroke="#5FA69E" stroke-width="2.25" />
+<path d="M 414.85 170 C 336.69 170 336.69 259.56 258.52 259.56" fill="none" stroke="#5FA69E" stroke-width="2.25" />
+<circle cx="414.85" cy="170" r="54.51" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+<text x="414.8500248009629" y="170.00221920225857" text-anchor="middle" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">Shapes</text>
+<rect x="681.43" y="40" width="108.27" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
+<text x="735.5640496019257" y="58.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Plain child</text>
+<rect x="525.36" y="40" width="100.06" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
+<text x="575.3960496019258" y="58.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Rounded</text>
+<rect x="670.48" y="126.8" width="108.27" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
+<text x="724.6200496019258" y="145.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Plain child</text>
+<rect x="525.36" y="126.8" width="89.12" height="36.8" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
+<text x="569.9240496019258" y="145.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Square</text>
+<rect x="667.77" y="213.6" width="108.27" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #b07aa1 16%, var(--bg))" stroke="#955884" stroke-width="1.75" />
+<text x="721.904488006443" y="232" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Plain child</text>
+<circle cx="568.57" cy="232" r="43.2" fill="color-mix(in srgb, #b07aa1 16%, var(--bg))" stroke="#955884" stroke-width="1.75" />
+<text x="568.5662688041843" y="232" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Circle</text>
+<rect x="40" y="45.48" width="108.27" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #9c755f 16%, var(--bg))" stroke="#765848" stroke-width="1.75" />
+<text x="94.136" y="63.882219202258575" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Plain child</text>
+<polygon points="215.31,45.48 293.3,45.48 304.34,63.88 293.3,82.28 215.31,82.28 204.27,63.88" fill="color-mix(in srgb, #9c755f 16%, var(--bg))" stroke="#765848" stroke-width="1.75" />
+<text x="254.304" y="63.882219202258575" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Hexagon</text>
+<rect x="41.91" y="132.28" width="108.27" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #bab0ac 16%, var(--bg))" stroke="#9E908B" stroke-width="1.75" />
+<text x="96.04959999999997" y="150.68221920225858" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Plain child</text>
+<polygon points="304.34,150.68 292.58,155.79 299.48,163.46 285.19,165 285.86,173.7 271.87,171.37 266.18,179.38 255.26,173.65 244.34,179.38 238.65,171.37 224.66,173.7 225.33,165 211.05,163.46 217.94,155.79 206.19,150.68 217.94,145.57 211.05,137.91 225.33,136.36 224.66,127.67 238.65,129.99 244.34,121.98 255.26,127.72 266.18,121.98 271.87,129.99 285.86,127.67 285.19,136.36 299.48,137.91 292.58,145.57 " fill="color-mix(in srgb, #bab0ac 16%, var(--bg))" stroke="#9E908B" stroke-width="1.75" stroke-linejoin="round" />
+<text x="255.26079999999996" y="150.68221920225858" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Bang</text>
+<rect x="48.44" y="241.16" width="108.27" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #86bcb6 16%, var(--bg))" stroke="#5FA69E" stroke-width="1.75" />
+<text x="102.57759999999999" y="259.5622192022586" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Plain child</text>
+<path d="M299.75,259.56 Q314.29,270.12 291.88,273.68 Q292.99,287.19 271.27,282.4 Q258.52,293.71 245.78,282.4 Q224.06,287.19 225.17,273.68 Q202.76,270.12 217.29,259.56 Q202.76,249.01 225.17,245.45 Q224.06,231.93 245.78,236.73 Q258.52,225.41 271.27,236.73 Q292.99,231.93 291.88,245.45 Q314.29,249.01 299.75,259.56 Z" fill="color-mix(in srgb, #86bcb6 16%, var(--bg))" stroke="#5FA69E" stroke-width="1.75" />
+<text x="258.52479999999997" y="259.5622192022586" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Cloud</text>
+</svg>

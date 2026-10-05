@@ -38,10 +38,10 @@ via `color-mix(in srgb, var(--fg) N%, var(--bg))` with the user's optional vars 
 **Rule:** renderers reference only `--_*` tokens and `--fs-*`. A literal hex is a bug —
 **except** the sanctioned categorical data palettes for diagram types that encode data via color:
 pie, timeline, gantt, journey, C4 (system fills), sankey, xychart, treemap, radar, venn, mindmap, gitgraph, packet, kanban,
-and the **entity-like diagrams** — flowchart, state, ER, class, sequence, requirement, block — which share one visual language (below). For all other chrome,
+and the **entity-like diagrams** — flowchart, state, ER, class, sequence, requirement, block, architecture, mindmap, kanban, journey, timeline — which share one visual language (below). For all other chrome,
 use theme vars so dark-mode and custom themes work automatically.
 
-## One visual language for flowchart, state, ER, class, sequence, requirement and block
+## One visual language for flowchart, state, ER, class, sequence, requirement, block, architecture, mindmap, kanban, journey and timeline
 
 Defined once in `Rendering/VisualLanguage.cs` (constants and helpers), `ClusterPalette.cs` / `ClusterAssigner.cs` (which colour a
 node, entity or class gets), and pinned by `Rendering/VisualLanguageContractTests.cs`.

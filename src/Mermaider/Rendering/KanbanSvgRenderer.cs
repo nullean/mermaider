@@ -34,12 +34,6 @@ internal static class KanbanSvgRenderer
 	private const string CardFontSize = RenderConstants.FsVar.S;
 	private const string MetaFontSize = RenderConstants.FsVar.Xs;
 
-	// Priority colors — from the single shared categorical palette
-	private static readonly string PriorityVeryHigh = CategoricalPalette.Red;
-	private static readonly string PriorityHigh = CategoricalPalette.Orange;
-	private static readonly string PriorityLow = CategoricalPalette.Green;
-	private const string PriorityVeryLow = "var(--_text-muted)";
-
 	internal static string Render(KanbanDiagram diagram, SvgRenderContext context)
 	{
 		var sb = RenderToBuilder(diagram, context);
@@ -87,7 +81,7 @@ internal static class KanbanSvgRenderer
 				var cardTextWidth = TextMetrics.MeasureTextWidth(task.Title, CardFontSizePx, 500);
 				foreach (var meta in EnumerateMetaLines(task))
 					cardTextWidth = Math.Max(cardTextWidth, TextMetrics.MeasureTextWidth(meta, MetaFontSizePx, 400));
-				contentWidth = Math.Max(contentWidth, cardTextWidth + (HasPriorityBorder(task) ? PriorityBorderWidth : 0));
+				contentWidth = Math.Max(contentWidth, (cardTextWidth / 0.94) + (HasPriorityBorder(task) ? PriorityBorderWidth : 0));
 			}
 
 			var colW = Math.Clamp(contentWidth + (CardPadX * 2) + (ColumnPad * 2), MinColumnWidth, MaxColumnWidth);
@@ -96,7 +90,7 @@ internal static class KanbanSvgRenderer
 			var cardsH = 0.0;
 			foreach (var task in col.Tasks)
 			{
-				cardsH += MeasureCardHeight(task) + CardGap;
+				cardsH += MeasureCardHeight(task, colW - (ColumnPad * 2)) + CardGap;
 			}
 			if (col.Tasks.Count > 0)
 				cardsH -= CardGap;
@@ -124,9 +118,11 @@ internal static class KanbanSvgRenderer
 		var x = Pad;
 		var y = titleOffset + Pad;
 
+		// Same language as the other diagrams: every column is a tinted group of its own colour, its cards carry that colour's border.
+		var palette = context.Styles.Colors.AutoPalette();
 		for (var i = 0; i < diagram.Columns.Count; i++)
 		{
-			AppendColumn(sb, diagram.Columns[i], x, y, columnWidths[i], maxColumnHeight);
+			AppendColumn(sb, diagram.Columns[i], x, y, columnWidths[i], maxColumnHeight, palette[i % palette.Length], context.Styles.Colors);
 			x += columnWidths[i] + ColumnGap;
 		}
 
@@ -143,46 +139,31 @@ internal static class KanbanSvgRenderer
 		_ = sb.Append("</text>");
 	}
 
-	private static void AppendColumn(StringBuilder sb, KanbanColumn column, double x, double y, double width, double height)
+	private static void AppendColumn(StringBuilder sb, KanbanColumn column, double x, double y, double width, double height, string color, DiagramColors colors)
 	{
 		// Column group (enables drop-shadow via .kanban-column CSS class)
 		_ = sb.Append("\n<g class=\"kanban-column\">");
 
-		// Column background — group-fill (very light) so cards lift off the surface
+		var border = VisualLanguage.GroupBorder(color);
 		_ = sb.Append("\n<rect x=\"").Append(x.SvgFormat()).Append("\" y=\"").Append(y.SvgFormat())
 			.Append("\" width=\"").Append(width.SvgFormat()).Append("\" height=\"").Append(height.SvgFormat())
 			.Append("\" rx=\"").Append(RenderConstants.Radii.Group)
 			.Append("\" ry=\"").Append(RenderConstants.Radii.Group)
-			.Append("\" fill=\"var(--_group-fill)\" stroke=\"var(--_group-stroke)\" stroke-width=\"")
+			.Append("\" fill=\"").Append(VisualLanguage.GroupFill(color, 0)).Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.OuterBox.SvgFormat()).Append("\" />");
 
-		// Header background — group-header color (top-rounded via two rects matching group rx=8)
-		_ = sb.Append("\n<rect x=\"").Append(x.SvgFormat()).Append("\" y=\"").Append(y.SvgFormat())
-			.Append("\" width=\"").Append(width.SvgFormat()).Append("\" height=\"").Append(HeaderHeight.SvgFormat())
-			.Append("\" rx=\"").Append(RenderConstants.Radii.Group)
-			.Append("\" ry=\"").Append(RenderConstants.Radii.Group)
-			.Append("\" fill=\"var(--_group-hdr)\" />");
-		_ = sb.Append("\n<rect x=\"").Append(x.SvgFormat()).Append("\" y=\"").Append((y + HeaderHeight - RenderConstants.Radii.Group).SvgFormat())
-			.Append("\" width=\"").Append(width.SvgFormat()).Append("\" height=\"").Append(RenderConstants.Radii.Group)
-			.Append("\" fill=\"var(--_group-hdr)\" />");
-
-		// Divider line under header
-		_ = sb.Append("\n<line x1=\"").Append(x.SvgFormat()).Append("\" y1=\"").Append((y + HeaderHeight).SvgFormat())
-			.Append("\" x2=\"").Append((x + width).SvgFormat()).Append("\" y2=\"").Append((y + HeaderHeight).SvgFormat())
-			.Append("\" stroke=\"var(--_group-stroke)\" stroke-width=\"1\" />");
-
-		// Header title — --fs-m weight 700, neutral text color
+		// Header title in the column's border colour, like a group title
 		var headerTextX = x + ColumnPad;
 		var headerCy = y + (HeaderHeight / 2);
 		_ = sb.Append("\n<text x=\"").Append(headerTextX.SvgFormat()).Append("\" y=\"").Append(headerCy.SvgFormat())
 			.Append("\" text-anchor=\"start\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(HeaderFontSize)
-			.Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
+			.Append("\" font-weight=\"700\" fill=\"").Append(border).Append("\">");
 		MultilineUtils.AppendEscapedXml(sb, column.Title.AsSpan());
 		_ = sb.Append("</text>");
 
 		// Count badge — small rounded pill, right-aligned in header
-		AppendCountBadge(sb, column.Tasks.Count, x, y, width);
+		AppendCountBadge(sb, column.Tasks.Count, x, y, width, color, border);
 
 		_ = sb.Append("\n</g>");
 
@@ -190,13 +171,13 @@ internal static class KanbanSvgRenderer
 		var cardW = width - (ColumnPad * 2);
 		foreach (var task in column.Tasks)
 		{
-			var cardH = MeasureCardHeight(task);
-			AppendCard(sb, task, x + ColumnPad, cardY, cardW, cardH);
+			var cardH = MeasureCardHeight(task, cardW);
+			AppendCard(sb, task, x + ColumnPad, cardY, cardW, cardH, border, colors);
 			cardY += cardH + CardGap;
 		}
 	}
 
-	private static void AppendCountBadge(StringBuilder sb, int count, double colX, double colY, double colWidth)
+	private static void AppendCountBadge(StringBuilder sb, int count, double colX, double colY, double colWidth, string color, string border)
 	{
 		var countLabel = count.ToString(CultureInfo.InvariantCulture);
 		var textW = TextMetrics.MeasureTextWidth(countLabel, MetaFontSizePx, 600);
@@ -209,17 +190,17 @@ internal static class KanbanSvgRenderer
 		_ = sb.Append("\n<rect x=\"").Append(badgeX.SvgFormat()).Append("\" y=\"").Append(badgeY.SvgFormat())
 			.Append("\" width=\"").Append(badgeW.SvgFormat()).Append("\" height=\"").Append(badgeH.SvgFormat())
 			.Append("\" rx=\"").Append(BadgeRx).Append("\" ry=\"").Append(BadgeRx)
-			.Append("\" fill=\"var(--_key-badge)\" />");
+			.Append("\" fill=\"").Append(VisualLanguage.Tint(color, VisualLanguage.HeaderTint)).Append("\" />");
 
 		_ = sb.Append("\n<text x=\"").Append((badgeX + (badgeW / 2)).SvgFormat()).Append("\" y=\"").Append(badgeCy.SvgFormat())
 			.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(MetaFontSize)
-			.Append("\" font-weight=\"600\" fill=\"var(--_text-sec)\">");
+			.Append("\" font-weight=\"600\" fill=\"").Append(border).Append("\">");
 		MultilineUtils.AppendEscapedXml(sb, countLabel.AsSpan());
 		_ = sb.Append("</text>");
 	}
 
-	private static void AppendCard(StringBuilder sb, KanbanTask task, double x, double y, double width, double height)
+	private static void AppendCard(StringBuilder sb, KanbanTask task, double x, double y, double width, double height, string border, DiagramColors colors)
 	{
 		// Card group (enables drop-shadow via .kanban-card CSS class)
 		_ = sb.Append("\n<g class=\"kanban-card\">");
@@ -228,11 +209,11 @@ internal static class KanbanSvgRenderer
 			.Append("\" width=\"").Append(width.SvgFormat()).Append("\" height=\"").Append(height.SvgFormat())
 			.Append("\" rx=\"").Append(RenderConstants.Radii.Rectangle)
 			.Append("\" ry=\"").Append(RenderConstants.Radii.Rectangle)
-			.Append("\" fill=\"var(--_node-fill)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
+			.Append("\" fill=\"var(--bg)\" stroke=\"").Append(border).Append("\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.OuterBox.SvgFormat()).Append("\" />");
 
 		// Priority left border
-		var priorityColor = PriorityColor(task.Priority);
+		var priorityColor = PriorityColor(task.Priority, colors);
 		if (priorityColor is not null)
 		{
 			_ = sb.Append("\n<rect x=\"").Append(x.SvgFormat()).Append("\" y=\"").Append((y + 2).SvgFormat())
@@ -247,13 +228,17 @@ internal static class KanbanSvgRenderer
 		var textX = x + CardPadX + (priorityColor is not null ? PriorityBorderWidth : 0);
 		var textY = y + CardPadY + (CardFontSizePx * 0.85);
 
-		_ = sb.Append("\n<text x=\"").Append(textX.SvgFormat()).Append("\" y=\"").Append(textY.SvgFormat())
-			.Append("\" font-size=\"").Append(CardFontSize)
-			.Append("\" font-weight=\"500\" fill=\"var(--_text)\">");
-		MultilineUtils.AppendEscapedXml(sb, task.Title.AsSpan());
-		_ = sb.Append("</text>");
+		var titleLines = TitleLines(task, width);
+		for (var li = 0; li < titleLines.Count; li++)
+		{
+			_ = sb.Append("\n<text x=\"").Append(textX.SvgFormat()).Append("\" y=\"").Append((textY + (li * TitleLineHeight)).SvgFormat())
+				.Append("\" font-size=\"").Append(CardFontSize)
+				.Append("\" font-weight=\"500\" fill=\"var(--_text)\">");
+			MultilineUtils.AppendEscapedXml(sb, titleLines[li].AsSpan());
+			_ = sb.Append("</text>");
+		}
 
-		var metaY = textY + CardFontSizePx + MetaLineGap + 2;
+		var metaY = textY + ((titleLines.Count - 1) * TitleLineHeight) + CardFontSizePx + MetaLineGap + 2;
 		foreach (var line in EnumerateMetaLines(task))
 		{
 			_ = sb.Append("\n<text x=\"").Append(textX.SvgFormat()).Append("\" y=\"").Append(metaY.SvgFormat())
@@ -267,9 +252,36 @@ internal static class KanbanSvgRenderer
 		_ = sb.Append("\n</g>");
 	}
 
-	private static double MeasureCardHeight(KanbanTask task)
+	private const double TitleLineHeight = 18;
+
+	// The title wraps inside the card; browsers set text a little wider than TextMetrics, so wrap a bit early.
+	private static List<string> TitleLines(KanbanTask task, double cardWidth)
 	{
-		var h = (CardPadY * 2) + CardFontSizePx;
+		var textW = (cardWidth - (CardPadX * 2) - (HasPriorityBorder(task) ? PriorityBorderWidth : 0)) * 0.94;
+		var lines = new List<string>();
+		var current = "";
+		foreach (var word in task.Title.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+		{
+			var candidate = current.Length == 0 ? word : current + " " + word;
+			if (current.Length > 0 && TextMetrics.MeasureTextWidth(candidate, CardFontSizePx, 500) > textW)
+			{
+				lines.Add(current);
+				current = word;
+			}
+			else
+			{
+				current = candidate;
+			}
+		}
+
+		if (current.Length > 0)
+			lines.Add(current);
+		return lines.Count == 0 ? [""] : lines;
+	}
+
+	private static double MeasureCardHeight(KanbanTask task, double cardWidth)
+	{
+		var h = (CardPadY * 2) + CardFontSizePx + ((TitleLines(task, cardWidth).Count - 1) * TitleLineHeight);
 		var metaCount = 0;
 		if (task.Ticket is { Length: > 0 })
 			metaCount++;
@@ -282,15 +294,16 @@ internal static class KanbanSvgRenderer
 	}
 
 	private static bool HasPriorityBorder(KanbanTask task) =>
-		PriorityColor(task.Priority) is not null;
+		task.Priority?.Trim().ToUpperInvariant() is "VERY HIGH" or "HIGH" or "LOW" or "VERY LOW";
 
-	private static string? PriorityColor(string? priority) =>
+	// Priority reads through the role colours: very high / high are failure / warning, low is success, very low stays muted.
+	private static string? PriorityColor(string? priority, DiagramColors colors) =>
 		priority?.Trim().ToUpperInvariant() switch
 		{
-			"VERY HIGH" => PriorityVeryHigh,
-			"HIGH" => PriorityHigh,
-			"LOW" => PriorityLow,
-			"VERY LOW" => PriorityVeryLow,
+			"VERY HIGH" => colors.RoleColor(ColorRole.Failure),
+			"HIGH" => colors.RoleColor(ColorRole.Warning),
+			"LOW" => colors.RoleColor(ColorRole.Success),
+			"VERY LOW" => "var(--_text-muted)",
 			_ => null,
 		};
 
