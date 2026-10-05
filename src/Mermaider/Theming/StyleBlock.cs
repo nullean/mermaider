@@ -132,8 +132,8 @@ internal static class StyleBlock
 		_ = sb.Append(" style=\"--bg:").Append(Text.MultilineUtils.EscapeAttr(colors.Bg))
 			.Append(";--fg:").Append(Text.MultilineUtils.EscapeAttr(colors.Fg));
 
-		if (colors.Line is not null)
-			_ = sb.Append(";--line:").Append(Text.MultilineUtils.EscapeAttr(colors.Line));
+		// always set: an explicit line colour, or the default box border it follows otherwise
+		_ = sb.Append(";--line:").Append(Text.MultilineUtils.EscapeAttr(colors.ResolvedLine));
 		if (colors.Accent is not null)
 			_ = sb.Append(";--accent:").Append(Text.MultilineUtils.EscapeAttr(colors.Accent));
 		if (colors.Muted is not null)

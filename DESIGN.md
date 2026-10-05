@@ -54,7 +54,7 @@ built-in themes.
 | `--_text-sec` | 72% (or `--muted`) | 55% | secondary text, edge / message labels, bar labels |
 | `--_text-muted` | 64% (or `--muted`) | 35% | types, ticks, captions, meta |
 | `--_text-faint` | 30% | 20% | decoration only, **never text** |
-| `--_line` | 50% (or `--line`) | 32% | connectors, axes, the neutral family base |
+| `--_line` | `--line` (always set: the caller's `Line`, else the default box border `color-mix(<Default> 74%, --fg)`; fg 50% only as a last fallback) | 32% | connectors, axes, the neutral family base |
 | `--_line-soft` | 14% | new | grid, dividers, lifelines, pill border |
 | `--_line-strong` | 68% | new | terminals, emphasis rules |
 | `--_group-fill` | 4% | 3% | neutral panel (quadrant cell, gantt plot), zebra rows |

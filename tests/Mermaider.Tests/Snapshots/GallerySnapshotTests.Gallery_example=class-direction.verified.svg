@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 686 180" width="686" height="180" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 686 180" width="686" height="180" style="--bg:#FFFFFF;--fg:#27272A;--line:color-mix(in srgb, #64748b 74%, var(--fg));--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -30,11 +30,11 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<path class="class-relationship" data-from="Controller" data-to="Service" data-type="association" data-marker-at="to" d="M200,90 L260,90" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#md68a0f86-mk-arrow)" />
-<path class="class-relationship" data-from="Service" data-to="Repository" data-type="association" data-marker-at="to" d="M428.4,90 L488.4,90" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#md68a0f86-mk-arrow)" />
+<path class="class-relationship" data-from="Controller" data-to="Service" data-type="association" data-marker-at="to" d="M200,90 L260,90" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
+<path class="class-relationship" data-from="Service" data-to="Repository" data-type="association" data-marker-at="to" d="M428.4,90 L488.4,90" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
 <g class="class-node" data-id="Controller" data-label="Controller">
   <rect x="40" y="54" width="160" height="72" rx="8" ry="8" fill="var(--bg)" stroke="none" />
-  <path d="M40,90 L40,62 Q40,54 48,54 L192,54 Q200,54 200,62 L200,90 Z" fill="url(#md68a0f86-eb-p0)" />
+  <path d="M40,90 L40,62 Q40,54 48,54 L192,54 Q200,54 200,62 L200,90 Z" fill="url(#m0c36b112-eb-p0)" />
   <line x1="40" y1="90" x2="200" y2="90" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <rect x="40" y="54" width="160" height="72" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <line x1="40" y1="98" x2="200" y2="98" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
@@ -45,7 +45,7 @@
 </g>
 <g class="class-node" data-id="Service" data-label="Service">
   <rect x="260" y="54" width="168.39999999999998" height="72" rx="8" ry="8" fill="var(--bg)" stroke="none" />
-  <path d="M260,90 L260,62 Q260,54 268,54 L420.4,54 Q428.4,54 428.4,62 L428.4,90 Z" fill="url(#md68a0f86-eb-p0)" />
+  <path d="M260,90 L260,62 Q260,54 268,54 L420.4,54 Q428.4,54 428.4,62 L428.4,90 Z" fill="url(#m0c36b112-eb-p0)" />
   <line x1="260" y1="90" x2="428.4" y2="90" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <rect x="260" y="54" width="168.39999999999998" height="72" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <line x1="260" y1="98" x2="428.4" y2="98" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
@@ -56,7 +56,7 @@
 </g>
 <g class="class-node" data-id="Repository" data-label="Repository">
   <rect x="488.4" y="40" width="157.6" height="100" rx="8" ry="8" fill="var(--bg)" stroke="none" />
-  <path d="M488.4,76 L488.4,48 Q488.4,40 496.4,40 L638,40 Q646,40 646,48 L646,76 Z" fill="url(#md68a0f86-eb-p0)" />
+  <path d="M488.4,76 L488.4,48 Q488.4,40 496.4,40 L638,40 Q646,40 646,48 L646,76 Z" fill="url(#m0c36b112-eb-p0)" />
   <line x1="488.4" y1="76" x2="646" y2="76" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <rect x="488.4" y="40" width="157.6" height="100" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <line x1="500.4" y1="112" x2="634" y2="112" stroke="var(--_line-soft)" stroke-width="1" />
@@ -70,8 +70,8 @@
   <text x="559.6" y="126" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">save()</text>
 </g>
 <defs>
-  <linearGradient id="md68a0f86-eb-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /></linearGradient>
-  <marker id="md68a0f86-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+  <linearGradient id="m0c36b112-eb-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /></linearGradient>
+  <marker id="m0c36b112-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
     <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
   </marker>
 </defs>

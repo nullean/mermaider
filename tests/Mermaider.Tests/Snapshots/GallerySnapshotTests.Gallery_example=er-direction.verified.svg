@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 219.88 507.2" width="219.88" height="507.2" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 219.88 507.2" width="219.88" height="507.2" style="--bg:#FFFFFF;--fg:#27272A;--line:color-mix(in srgb, #64748b 74%, var(--fg));--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -34,7 +34,7 @@
 <path class="er-relationship" data-entity1="ORDER" data-entity2="LINE_ITEM" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="contains" d="M109.94,299.6 L109.94,395.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <g class="entity" data-id="CUSTOMER" data-label="CUSTOMER">
   <rect x="21.80000000000001" y="20" width="176.27999999999997" height="92" rx="8" ry="8" fill="var(--bg)" stroke="none" />
-  <path d="M21.80000000000001,56 L21.80000000000001,28 Q21.80000000000001,20 29.80000000000001,20 L190.07999999999998,20 Q198.07999999999998,20 198.07999999999998,28 L198.07999999999998,56 Z" fill="url(#md68a0f86-eb-p0)" />
+  <path d="M21.80000000000001,56 L21.80000000000001,28 Q21.80000000000001,20 29.80000000000001,20 L190.07999999999998,20 Q198.07999999999998,20 198.07999999999998,28 L198.07999999999998,56 Z" fill="url(#m0c36b112-eb-p0)" />
   <line x1="21.80000000000001" y1="56" x2="198.07999999999998" y2="56" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <rect x="21.80000000000001" y="20" width="176.27999999999997" height="92" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <line x1="33.80000000000001" y1="84" x2="186.07999999999998" y2="84" stroke="var(--_line-soft)" stroke-width="1" />
@@ -44,7 +44,7 @@
 </g>
 <g class="entity" data-id="ORDER" data-label="ORDER">
   <rect x="20.599999999999994" y="207.6" width="178.68" height="92" rx="8" ry="8" fill="var(--bg)" stroke="none" />
-  <path d="M20.599999999999994,243.6 L20.599999999999994,215.6 Q20.599999999999994,207.6 28.599999999999994,207.6 L191.28,207.6 Q199.28,207.6 199.28,215.6 L199.28,243.6 Z" fill="url(#md68a0f86-eb-p0)" />
+  <path d="M20.599999999999994,243.6 L20.599999999999994,215.6 Q20.599999999999994,207.6 28.599999999999994,207.6 L191.28,207.6 Q199.28,207.6 199.28,215.6 L199.28,243.6 Z" fill="url(#m0c36b112-eb-p0)" />
   <line x1="20.599999999999994" y1="243.6" x2="199.28" y2="243.6" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <rect x="20.599999999999994" y="207.6" width="178.68" height="92" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <line x1="32.599999999999994" y1="271.6" x2="187.28" y2="271.6" stroke="var(--_line-soft)" stroke-width="1" />
@@ -54,7 +54,7 @@
 </g>
 <g class="entity" data-id="LINE_ITEM" data-label="LINE_ITEM">
   <rect x="20" y="395.2" width="179.88" height="92" rx="8" ry="8" fill="var(--bg)" stroke="none" />
-  <path d="M20,431.2 L20,403.2 Q20,395.2 28,395.2 L191.88,395.2 Q199.88,395.2 199.88,403.2 L199.88,431.2 Z" fill="url(#md68a0f86-eb-p0)" />
+  <path d="M20,431.2 L20,403.2 Q20,395.2 28,395.2 L191.88,395.2 Q199.88,395.2 199.88,403.2 L199.88,431.2 Z" fill="url(#m0c36b112-eb-p0)" />
   <line x1="20" y1="431.2" x2="199.88" y2="431.2" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <rect x="20" y="395.2" width="179.88" height="92" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <line x1="32" y1="459.2" x2="187.88" y2="459.2" stroke="var(--_line-soft)" stroke-width="1" />
@@ -77,6 +77,6 @@
   <rect x="77.78399999999999" y="336.59999999999997" width="64.312" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="109.94" y="347.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">contains</text>
 </g>
 <defs>
-  <linearGradient id="md68a0f86-eb-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /></linearGradient>
+  <linearGradient id="m0c36b112-eb-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /></linearGradient>
 </defs>
 </svg>

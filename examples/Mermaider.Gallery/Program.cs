@@ -1058,8 +1058,8 @@ string RenderPlaygroundPage(string? theme, string engine, string? selectedSlug, 
 		        <div class="play-ctrl"><label>bg</label><input type="color" id="pg-bg" value="{{defaultBg}}" oninput="pgScheduleRender()" /></div>
 		        <div class="play-ctrl"><label>fg</label><input type="color" id="pg-fg" value="{{defaultFg}}" oninput="pgScheduleRender()" /></div>
 		        <div class="play-ctrl"><label>accent</label><input type="color" id="pg-accent" value="{{defaultAccent}}" oninput="pgScheduleRender()" /></div>
-		        <div class="play-ctrl"><label>line</label><input type="color" id="pg-line" value="{{(defaultLine.Length > 0 ? defaultLine : "#888888")}}" oninput="pgScheduleRender()" /></div>
-		        <div class="play-ctrl"><label>muted</label><input type="color" id="pg-muted" value="{{(defaultMuted.Length > 0 ? defaultMuted : "#777777")}}" oninput="pgScheduleRender()" /></div>
+		        <div class="play-ctrl"><label title="Connectors, axes, rules. Follows the default box border unless set.">line</label><input type="color" id="pg-line" value="{{(defaultLine.Length > 0 ? defaultLine : ResolvedLineHex(baseColors ?? Themes.Default))}}"{{(q["line"].FirstOrDefault() is not null ? " data-dirty=\"1\"" : "")}} oninput="this.dataset.dirty='1';pgScheduleRender()" /></div>
+		        <div class="play-ctrl"><label title="Secondary text. Derived from fg unless set.">muted</label><input type="color" id="pg-muted" value="{{(defaultMuted.Length > 0 ? defaultMuted : "#777777")}}"{{(q["muted"].FirstOrDefault() is not null ? " data-dirty=\"1\"" : "")}} oninput="this.dataset.dirty='1';pgScheduleRender()" /></div>
 		        <div class="play-ctrl play-ctrl-roles">
 		          <label title="Colour roles. Default = an ordinary box (first cluster of nodes, entities, classes); success / failure / warning / info = role classes (:::success …), gantt critical, risk chips. Their hues are skipped by automatic cluster colouring.">roles</label>
 		          <div class="role-row">
@@ -1186,8 +1186,9 @@ string PlaygroundScripts(string slugsJson, string initialSource) => $$"""
 	    if (bg) p.set('bg', bg);
 	    if (fg) p.set('fg', fg);
 	    if (accent) p.set('accent', accent);
-	    if (line) p.set('line', line);
-	    if (muted) p.set('muted', muted);
+	    // line and muted are derived from the theme unless the user picked one
+	    if (line && document.getElementById('pg-line').dataset.dirty) p.set('line', line);
+	    if (muted && document.getElementById('pg-muted').dataset.dirty) p.set('muted', muted);
 	    p.set('padding', pad);
 	    p.set('nodeSpacing', ns);
 	    p.set('layerSpacing', ls);
@@ -1266,7 +1267,9 @@ string PlaygroundScripts(string slugsJson, string initialSource) => $$"""
 	      if (t.fg) document.getElementById('pg-fg').value = t.fg;
 	      if (t.accent) document.getElementById('pg-accent').value = t.accent;
 	      if (t.line) document.getElementById('pg-line').value = t.line;
+	      delete document.getElementById('pg-line').dataset.dirty;
 	      if (t.muted) document.getElementById('pg-muted').value = t.muted;
+	      delete document.getElementById('pg-muted').dataset.dirty;
 	      if (t.roles) document.querySelectorAll('input[data-role]').forEach(el => { el.value = t.roles[el.dataset.role]; delete el.dataset.dirty; });
 	      const palette = t.dataPalette || {{System.Text.Json.JsonSerializer.Serialize(Themes.DefaultDataPalette)}};
 	      const row = document.querySelector('.palette-row');
@@ -1304,6 +1307,24 @@ string PaletteSwatches(string? themeName = null)
 		$"<div class=\"palette-swatch\" style=\"background:{c}\" title=\"{c}\"></div>"));
 }
 
+// The default line colour as a hex for the colour picker: the default box border, i.e. the Default role mixed 74% into fg
+// (the same sRGB mix the renderer emits as color-mix(in srgb, <default> 74%, var(--fg))).
+string ResolvedLineHex(DiagramColors c)
+{
+	static (int R, int G, int B) Rgb(string hex)
+	{
+		var h = hex.TrimStart('#');
+		if (h.Length == 3)
+			h = string.Concat(h.Select(ch => $"{ch}{ch}"));
+		return (Convert.ToInt32(h[0..2], 16), Convert.ToInt32(h[2..4], 16), Convert.ToInt32(h[4..6], 16));
+	}
+
+	var (dr, dg, db) = Rgb(RoleSeeds(c)["default"]);
+	var (fr, fg, fb) = Rgb(c.Fg);
+	int Mix(int a, int b) => (int)Math.Round((a * 0.74) + (b * 0.26));
+	return $"#{Mix(dr, fr):x2}{Mix(dg, fg):x2}{Mix(db, fb):x2}";
+}
+
 // Seed values for the role pickers: the theme's explicit role colours, else the palette hue the library falls back to
 // (default = first palette colour, success / failure / warning / info = the palette's green / red / yellow / blue).
 Dictionary<string, string> RoleSeeds(DiagramColors c)
@@ -1328,8 +1349,7 @@ string ThemesJson()
 		var parts = new List<string> { $"\"bg\":\"{c.Bg}\"", $"\"fg\":\"{c.Fg}\"" };
 		if (c.Accent is not null)
 			parts.Add($"\"accent\":\"{c.Accent}\"");
-		if (c.Line is not null)
-			parts.Add($"\"line\":\"{c.Line}\"");
+		parts.Add($"\"line\":\"{c.Line ?? ResolvedLineHex(c)}\"");
 		if (c.Muted is not null)
 			parts.Add($"\"muted\":\"{c.Muted}\"");
 		parts.Add("\"roles\":{" + string.Join(",", RoleSeeds(c).Select(r => $"\"{r.Key}\":\"{r.Value}\"")) + "}");

@@ -43,7 +43,7 @@ The accent colour is the "look here" colour in every preset: start/end terminals
 | `--muted` | derived | Secondary text, edge labels |
 | `--surface` | derived | Node fill tint |
 | `--border` | derived | Node and group strokes |
-| `--line` | derived | Edge paths |
+| `--line` | default box border | Edge paths, axes, rules. Unset, it is the border colour of an ordinary box (the `Default` role's outline: `color-mix(in srgb, <default> 74%, var(--fg))`) |
 
 `derived` tokens are computed via `color-mix(in srgb, var(--fg) X%, var(--bg))` — they automatically adapt when `--fg` and `--bg` are overridden. You rarely need to set them explicitly.
 
@@ -114,7 +114,7 @@ colour roles below**, so an automatically coloured box never looks like a succes
 
 ## Colour roles
 
-Roles are optional. The zinc themes (and the built-in default) set `Default` (an ordinary box) to a cool slate (`#64748b` light, `#94a3b8` dark) so the blue accent stands out; other themes leave it unset, in which case it is the first palette colour that is not a role hue. Unset, and the others are the palette's green, red, yellow and blue (brighter on dark themes).
+Every shipped theme sets all five roles explicitly (the zinc themes use a cool slate `Default` so the blue accent stands out; the others use their own palette's colours), and lets the line colour follow the `Default` box border. Roles are still optional for custom `DiagramColors`; unset, `Default` is the first palette colour that is not a role hue and the others fall back to the palette's green, red, yellow and blue (brighter on dark themes).
 
 ```csharp
 var options = new RenderOptions

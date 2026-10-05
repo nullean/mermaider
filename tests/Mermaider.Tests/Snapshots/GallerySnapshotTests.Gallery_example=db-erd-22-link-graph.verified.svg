@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 703.7074133333333 798" width="703.7074133333333" height="798" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 703.7074133333333 798" width="703.7074133333333" height="798" style="--bg:#FFFFFF;--fg:#27272A;--line:color-mix(in srgb, #64748b 74%, var(--fg));--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -41,51 +41,51 @@
 <path class="er-relationship" data-entity1="LinkRegistryEntry" data-entity2="LinkManifest" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="path" d="M389.38741333333337,343.2 L389.38741333333337,402.79999999999995 Q389.38741333333337,410.79999999999995 381.38741333333337,410.79999999999995 L360.41333333333336,410.79999999999995 Q352.41333333333336,410.79999999999995 352.41333333333336,418.79999999999995 L352.41333333333336,438.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <path class="er-relationship" data-entity1="Checkout" data-entity2="LinkRegistrySnapshot" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="link-index.snapshot.json" d="M580.1074133333334,64 L580.1074133333334,159.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <g class="entity" data-id="DocumentationSet" data-label="DocumentationSet">
-  <rect x="110.42741333333339" y="299.2" width="170.72" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="110.42741333333339" y="299.2" width="170.72" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="195.79" y="321.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">DocumentationSet</text>
 </g>
 <g class="entity" data-id="LinkManifest" data-label="LinkManifest">
-  <rect x="263.56" y="438.79999999999995" width="133.28000000000003" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="263.56" y="438.79999999999995" width="133.28000000000003" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="330.2" y="460.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">LinkManifest</text>
 </g>
 <g class="entity" data-id="GitOrigin" data-label="GitOrigin">
-  <rect x="20" y="594.4" width="120" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="20" y="594.4" width="120" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="80" y="616.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">GitOrigin</text>
 </g>
 <g class="entity" data-id="LinkManifestPage" data-label="LinkManifestPage">
-  <rect x="160" y="594.4" width="173.6" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="160" y="594.4" width="173.6" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="246.8" y="616.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">LinkManifestPage</text>
 </g>
 <g class="entity" data-id="Anchor" data-label="Anchor">
-  <rect x="186.8" y="734" width="120" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="186.8" y="734" width="120" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="246.8" y="756" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Anchor</text>
 </g>
 <g class="entity" data-id="Redirect" data-label="Redirect">
-  <rect x="353.6" y="594.4" width="120" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="353.6" y="594.4" width="120" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="413.6" y="616.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Redirect</text>
 </g>
 <g class="entity" data-id="CrossLinkUri" data-label="CrossLinkUri">
-  <rect x="493.6" y="594.4" width="140" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="493.6" y="594.4" width="140" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="563.6" y="616.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">CrossLinkUri</text>
 </g>
 <g class="entity" data-id="Registry" data-label="Registry">
-  <rect x="329.38741333333337" y="20" width="120" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="329.38741333333337" y="20" width="120" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="389.39" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Registry</text>
 </g>
 <g class="entity" data-id="LinkRegistry" data-label="LinkRegistry">
-  <rect x="322.26741333333337" y="159.6" width="134.24" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="322.26741333333337" y="159.6" width="134.24" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="389.39" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">LinkRegistry</text>
 </g>
 <g class="entity" data-id="LinkRegistryEntry" data-label="LinkRegistryEntry">
-  <rect x="301.14741333333336" y="299.2" width="176.48000000000002" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="301.14741333333336" y="299.2" width="176.48000000000002" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="389.39" y="321.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">LinkRegistryEntry</text>
 </g>
 <g class="entity" data-id="Checkout" data-label="Checkout">
-  <rect x="520.1074133333334" y="20" width="120" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="520.1074133333334" y="20" width="120" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
   <text x="580.11" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Checkout</text>
 </g>
 <g class="entity" data-id="LinkRegistrySnapshot" data-label="LinkRegistrySnapshot">
-  <rect x="476.5074133333334" y="159.6" width="207.2" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="476.5074133333334" y="159.6" width="207.2" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
   <text x="580.11" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">LinkRegistrySnapshot</text>
 </g>
 <path d="M202.2874133333334,352.2 L189.2874133333334,352.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
@@ -159,7 +159,7 @@
   <rect x="505.2014133333334" y="101" width="149.812" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="580.11" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">link-index.snapshot.json</text>
 </g>
 <defs>
-  <linearGradient id="md68a0f86-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
-  <linearGradient id="md68a0f86-ng-p1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m0c36b112-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m0c36b112-ng-p1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 7%, var(--bg))" /></linearGradient>
 </defs>
 </svg>

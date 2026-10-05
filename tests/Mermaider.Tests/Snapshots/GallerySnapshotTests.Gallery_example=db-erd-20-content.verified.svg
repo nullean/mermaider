@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1640.9899504761906 838" width="1640.9899504761906" height="838" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1640.9899504761906 838" width="1640.9899504761906" height="838" style="--bg:#FFFFFF;--fg:#27272A;--line:color-mix(in srgb, #64748b 74%, var(--fg));--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -56,119 +56,119 @@
 <path class="er-relationship" data-entity1="Applicability" data-entity2="ApplicabilityEntry" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="per key" d="M728.71984,538.8 L728.71984,634.4" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <path class="er-relationship" data-entity1="ApplicabilityEntry" data-entity2="VersionSpec" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="version" d="M728.71984,678.4 L728.7198400000001,774" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <g class="entity" data-id="DocumentationSet" data-label="DocumentationSet">
-  <rect x="1448.3499504761908" y="20" width="170.72" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="1448.3499504761908" y="20" width="170.72" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="1533.71" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">DocumentationSet</text>
 </g>
 <g class="entity" data-id="DocumentationFile" data-label="DocumentationFile">
-  <rect x="1446.4299504761907" y="159.6" width="174.56" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="1446.4299504761907" y="159.6" width="174.56" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="1533.71" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">DocumentationFile</text>
 </g>
 <g class="entity" data-id="Page" data-label="Page">
-  <rect x="793.4166171428573" y="159.6" width="150" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="793.4166171428573" y="159.6" width="150" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
   <text x="868.42" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Page</text>
 </g>
 <g class="entity" data-id="FrontMatter" data-label="FrontMatter">
-  <rect x="888.43984" y="323.2" width="150" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="888.43984" y="323.2" width="150" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
   <text x="963.44" y="345.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">FrontMatter</text>
 </g>
 <g class="entity" data-id="Applicability" data-label="Applicability">
-  <rect x="665.43984" y="494.79999999999995" width="126.56000000000002" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="665.43984" y="494.79999999999995" width="126.56000000000002" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
   <text x="728.72" y="516.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Applicability</text>
 </g>
 <g class="entity" data-id="Product" data-label="Product">
-  <rect x="502.54384000000005" y="494.79999999999995" width="120" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="502.54384000000005" y="494.79999999999995" width="120" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
   <text x="562.54" y="516.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Product</text>
 </g>
 <g class="entity" data-id="Cta" data-label="Cta">
-  <rect x="1149.2798400000001" y="494.79999999999995" width="120" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="1149.2798400000001" y="494.79999999999995" width="120" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
   <text x="1209.28" y="516.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Cta</text>
 </g>
 <g class="entity" data-id="PageSubstitution" data-label="PageSubstitution">
-  <rect x="966.2398400000001" y="494.79999999999995" width="163.04000000000002" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="966.2398400000001" y="494.79999999999995" width="163.04000000000002" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
   <text x="1047.76" y="516.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">PageSubstitution</text>
 </g>
 <g class="entity" data-id="LegacyPage" data-label="LegacyPage">
-  <rect x="1289.2798400000001" y="494.79999999999995" width="134.24" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="1289.2798400000001" y="494.79999999999995" width="134.24" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
   <text x="1356.4" y="516.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">LegacyPage</text>
 </g>
 <g class="entity" data-id="ListingGroup" data-label="ListingGroup">
-  <rect x="811.9998400000001" y="494.79999999999995" width="134.24" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="811.9998400000001" y="494.79999999999995" width="134.24" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
   <text x="879.12" y="516.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">ListingGroup</text>
 </g>
 <g class="entity" data-id="Heading" data-label="Heading">
-  <rect x="189.60000000000008" y="323.2" width="120" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="189.60000000000008" y="323.2" width="120" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
   <text x="249.6" y="345.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Heading</text>
 </g>
 <g class="entity" data-id="Anchor" data-label="Anchor">
-  <rect x="126.60000000000008" y="494.79999999999995" width="120" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="126.60000000000008" y="494.79999999999995" width="120" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
   <text x="186.6" y="516.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Anchor</text>
 </g>
 <g class="entity" data-id="Directive" data-label="Directive">
-  <rect x="1058.43984" y="323.2" width="120" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="1058.43984" y="323.2" width="120" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
   <text x="1118.44" y="345.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Directive</text>
 </g>
 <g class="entity" data-id="Link" data-label="Link">
-  <rect x="743.4166171428573" y="323.2" width="120" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="743.4166171428573" y="323.2" width="120" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
   <text x="803.42" y="345.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Link</text>
 </g>
 <g class="entity" data-id="InternalLink" data-label="InternalLink">
-  <rect x="707.3899504761906" y="20" width="126.56000000000002" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="707.3899504761906" y="20" width="126.56000000000002" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
   <text x="770.67" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">InternalLink</text>
 </g>
 <g class="entity" data-id="CrossLink" data-label="CrossLink">
-  <rect x="514.5923638095239" y="20" width="120" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="514.5923638095239" y="20" width="120" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
   <text x="574.59" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">CrossLink</text>
 </g>
 <g class="entity" data-id="CrossLinkUri" data-label="CrossLinkUri">
-  <rect x="504.1002238095239" y="159.6" width="140" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="504.1002238095239" y="159.6" width="140" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
   <text x="574.1" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">CrossLinkUri</text>
 </g>
 <g class="entity" data-id="ImageLink" data-label="ImageLink">
-  <rect x="1056.1899504761907" y="20" width="120" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="1056.1899504761907" y="20" width="120" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
   <text x="1116.19" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">ImageLink</text>
 </g>
 <g class="entity" data-id="Image" data-label="Image">
-  <rect x="1056.1899504761907" y="159.6" width="120" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="1056.1899504761907" y="159.6" width="120" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
   <text x="1116.19" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Image</text>
 </g>
 <g class="entity" data-id="IncludeDirective" data-label="IncludeDirective">
-  <rect x="20" y="159.6" width="159.20000000000002" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="20" y="159.6" width="159.20000000000002" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
   <text x="99.6" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">IncludeDirective</text>
 </g>
 <g class="entity" data-id="Snippet" data-label="Snippet">
-  <rect x="39.60000000000008" y="323.2" width="120" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="39.60000000000008" y="323.2" width="120" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
   <text x="99.6" y="345.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Snippet</text>
 </g>
 <g class="entity" data-id="SettingsDirective" data-label="SettingsDirective">
-  <rect x="313.38022380952384" y="20" width="164.96" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="313.38022380952384" y="20" width="164.96" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
   <text x="395.86" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">SettingsDirective</text>
 </g>
 <g class="entity" data-id="SettingsReference" data-label="SettingsReference">
-  <rect x="307.62022380952385" y="159.6" width="176.48000000000002" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="307.62022380952385" y="159.6" width="176.48000000000002" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
   <text x="395.86" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">SettingsReference</text>
 </g>
 <g class="entity" data-id="ChangelogDirective" data-label="ChangelogDirective">
-  <rect x="417.9608800000002" y="323.2" width="186.08" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="417.9608800000002" y="323.2" width="186.08" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
   <text x="511" y="345.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">ChangelogDirective</text>
 </g>
 <g class="entity" data-id="RelatedLearningDirective" data-label="RelatedLearningDirective">
-  <rect x="1196.1899504761907" y="20" width="232.15999999999997" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p5)" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="1196.1899504761907" y="20" width="232.15999999999997" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p5)" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" />
   <text x="1312.27" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">RelatedLearningDirective</text>
 </g>
 <g class="entity" data-id="RelatedLearningLink" data-label="RelatedLearningLink">
-  <rect x="1213.4699504761907" y="159.6" width="197.6" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p5)" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="1213.4699504761907" y="159.6" width="197.6" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p5)" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" />
   <text x="1312.27" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">RelatedLearningLink</text>
 </g>
 <g class="entity" data-id="PageCardDirective" data-label="PageCardDirective">
-  <rect x="853.9499504761907" y="20" width="182.24" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="853.9499504761907" y="20" width="182.24" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
   <text x="945.07" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">PageCardDirective</text>
 </g>
 <g class="entity" data-id="ApplicabilityEntry" data-label="ApplicabilityEntry">
-  <rect x="644.31984" y="634.4" width="168.8" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="644.31984" y="634.4" width="168.8" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
   <text x="728.72" y="656.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">ApplicabilityEntry</text>
 </g>
 <g class="entity" data-id="VersionSpec" data-label="VersionSpec">
-  <rect x="660.63984" y="774" width="136.16000000000003" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="660.63984" y="774" width="136.16000000000003" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
   <text x="728.72" y="796" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">VersionSpec</text>
 </g>
 <path d="M1540.2099504761907,73 L1527.2099504761907,73" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
@@ -347,11 +347,11 @@
   <rect x="698.6158399999999" y="715.4000000000001" width="60.208" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="728.72" y="726.2" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">version</text>
 </g>
 <defs>
-  <linearGradient id="md68a0f86-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
-  <linearGradient id="md68a0f86-ng-p1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 7%, var(--bg))" /></linearGradient>
-  <linearGradient id="md68a0f86-ng-p2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #76b7b2 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #76b7b2 7%, var(--bg))" /></linearGradient>
-  <linearGradient id="md68a0f86-ng-p3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #b07aa1 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #b07aa1 7%, var(--bg))" /></linearGradient>
-  <linearGradient id="md68a0f86-ng-p4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #9c755f 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #9c755f 7%, var(--bg))" /></linearGradient>
-  <linearGradient id="md68a0f86-ng-p5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #bab0ac 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #bab0ac 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m0c36b112-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m0c36b112-ng-p1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m0c36b112-ng-p2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #76b7b2 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #76b7b2 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m0c36b112-ng-p3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #b07aa1 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #b07aa1 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m0c36b112-ng-p4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #9c755f 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #9c755f 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m0c36b112-ng-p5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #bab0ac 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #bab0ac 7%, var(--bg))" /></linearGradient>
 </defs>
 </svg>

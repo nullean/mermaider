@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1242.94364 977.6" width="1242.94364" height="977.6" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1242.94364 977.6" width="1242.94364" height="977.6" style="--bg:#FFFFFF;--fg:#27272A;--line:color-mix(in srgb, #64748b 74%, var(--fg));--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -53,67 +53,67 @@
 <path class="er-relationship" data-entity1="ApiReference" data-entity2="OpenApiSpec" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="spec + repository" d="M912.9768799999999,522.8 L912.9768799999999,542.8 Q912.9768799999999,550.8 920.9768799999999,550.8 L961.6288000000001,550.8 Q969.6288000000001,550.8 969.6288000000001,558.8 L969.6288000000001,586.9 Q969.6288000000001,594.9 961.6288000000001,594.9 L920.9768799999999,594.9 Q912.9768799999999,594.9 912.9768799999999,602.9 L912.9768799999999,626.4" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <path class="er-relationship" data-entity1="Assembly" data-entity2="SearchIndex" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="per environment" d="M596.19817,64 L596.19817,84 Q596.19817,92 604.19817,92 L1033.0146200000001,92 Q1041.0146200000001,92 1041.0146200000001,100 L1041.0146200000001,175.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <g class="entity" data-id="Catalog" data-label="Catalog">
-  <rect x="649.50965" y="175.6" width="120" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="649.50965" y="175.6" width="120" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="709.51" y="197.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Catalog</text>
 </g>
 <g class="entity" data-id="DocumentationSet" data-label="DocumentationSet">
-  <rect x="520.6824200000001" y="323.2" width="170.72" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="520.6824200000001" y="323.2" width="170.72" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="606.04" y="345.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">DocumentationSet</text>
 </g>
 <g class="entity" data-id="ReleaseNotes" data-label="ReleaseNotes">
-  <rect x="683.0423" y="626.4" width="141.92000000000002" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="683.0423" y="626.4" width="141.92000000000002" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="754" y="648.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">ReleaseNotes</text>
 </g>
 <g class="entity" data-id="Repository" data-label="Repository">
-  <rect x="833.89462" y="175.6" width="120" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="833.89462" y="175.6" width="120" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="893.89" y="197.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Repository</text>
 </g>
 <g class="entity" data-id="Content" data-label="Content">
-  <rect x="563.11442" y="478.79999999999995" width="120" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="563.11442" y="478.79999999999995" width="120" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="623.11" y="500.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Content</text>
 </g>
 <g class="entity" data-id="Navigation" data-label="Navigation">
-  <rect x="159.32408" y="478.79999999999995" width="120" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="159.32408" y="478.79999999999995" width="120" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="219.32" y="500.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Navigation</text>
 </g>
 <g class="entity" data-id="LinkManifest" data-label="LinkManifest">
-  <rect x="438.85320666666667" y="626.4" width="133.28000000000003" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="438.85320666666667" y="626.4" width="133.28000000000003" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="505.49" y="648.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">LinkManifest</text>
 </g>
 <g class="entity" data-id="LinkRegistry" data-label="LinkRegistry">
-  <rect x="262.24099333333334" y="774" width="134.24" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="262.24099333333334" y="774" width="134.24" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="329.36" y="796" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">LinkRegistry</text>
 </g>
 <g class="entity" data-id="Registry" data-label="Registry">
-  <rect x="249.36099333333334" y="913.6" width="120" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="249.36099333333334" y="913.6" width="120" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="309.36" y="935.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Registry</text>
 </g>
 <g class="entity" data-id="Assembly" data-label="Assembly">
-  <rect x="500.19817" y="20" width="120" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="500.19817" y="20" width="120" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="560.2" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Assembly</text>
 </g>
 <g class="entity" data-id="SiteNavigation" data-label="SiteNavigation">
-  <rect x="94.38172" y="323.2" width="143.84000000000003" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="94.38172" y="323.2" width="143.84000000000003" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="166.3" y="345.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">SiteNavigation</text>
 </g>
 <g class="entity" data-id="CodexSite" data-label="CodexSite">
-  <rect x="141.50645666666668" y="626.4" width="120" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="141.50645666666668" y="626.4" width="120" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="201.51" y="648.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">CodexSite</text>
 </g>
 <g class="entity" data-id="OpenApiSpec" data-label="OpenApiSpec">
-  <rect x="866.3102133333333" y="626.4" width="140" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="866.3102133333333" y="626.4" width="140" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="936.31" y="648.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">OpenApiSpec</text>
 </g>
 <g class="entity" data-id="OpenApiRepository" data-label="OpenApiRepository">
-  <rect x="844.2302133333333" y="774" width="184.16000000000003" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="844.2302133333333" y="774" width="184.16000000000003" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="936.31" y="796" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">OpenApiRepository</text>
 </g>
 <g class="entity" data-id="ApiReference" data-label="ApiReference">
-  <rect x="842.9768799999999" y="478.79999999999995" width="140" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="842.9768799999999" y="478.79999999999995" width="140" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="912.98" y="500.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">ApiReference</text>
 </g>
 <g class="entity" data-id="SearchIndex" data-label="SearchIndex">
-  <rect x="973.89462" y="175.6" width="134.24" height="44" rx="8" ry="8" fill="url(#md68a0f86-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="973.89462" y="175.6" width="134.24" height="44" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="1041.01" y="197.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">SearchIndex</text>
 </g>
 <path d="M696.00965,228.6 L683.00965,228.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
@@ -271,6 +271,6 @@
   <rect x="987.9966200000001" y="109" width="106.036" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="1041.01" y="119.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">per environment</text>
 </g>
 <defs>
-  <linearGradient id="md68a0f86-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m0c36b112-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
 </defs>
 </svg>

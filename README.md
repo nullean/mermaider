@@ -218,7 +218,7 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 |--------|------|---------|-------------|
 | `Bg` | `string?` | `"#FFFFFF"` | Background color (hex or CSS) |
 | `Fg` | `string?` | `"#27272A"` | Foreground / primary text color |
-| `Line` | `string?` | derived | Edge/connector stroke color |
+| `Line` | `string?` | default box border | Edge/connector stroke colour; unset, it follows the border of an ordinary box (`Default` role) |
 | `Accent` | `string?` | derived | Arrowheads, highlights |
 | `Muted` | `string?` | derived | Secondary text, edge labels |
 | `Surface` | `string?` | derived | Node fill tint |
