@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 713.056 491.20000000000005" width="713.056" height="491.20000000000005" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 737.056 491.20000000000005" width="737.056" height="491.20000000000005" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -38,52 +38,52 @@
 </defs>
 
 <g class="subgraph" data-id="project" data-label="project">
-  <rect x="16" y="100.8" width="681.056" height="374.40000000000003" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
+  <rect x="40" y="100.8" width="681.056" height="374.40000000000003" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="subnet1" data-label="subnet1">
-  <rect x="40" y="241.60000000000002" width="293.05600000000004" height="124.8" rx="8" ry="8" fill="color-mix(in srgb, #e15759 9%, var(--bg))" stroke="#DF4E50" stroke-width="1.75" />
+  <rect x="64" y="241.60000000000002" width="293.05600000000004" height="124.8" rx="8" ry="8" fill="color-mix(in srgb, #e15759 9%, var(--bg))" stroke="#DF4E50" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="subnet2" data-label="subnet2">
-  <rect x="369.05600000000004" y="241.60000000000002" width="304" height="124.8" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 9%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
+  <rect x="393.05600000000004" y="241.60000000000002" width="304" height="124.8" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 9%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
 </g>
 
-<path class="edge" data-from="internet" data-to="router" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M354,61 L354,157" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="router" data-to="compute1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M317.5,201.5 L317.5,241.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="router" data-to="compute2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M387.5,201.5 L387.5,241.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="compute1" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M323,366.5 L323,381.5 L323,381.5 L323,406.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="compute2" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M381.5,366.5 L381.5,406.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="nat" data-to="internet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M313.5,416.5 L297.5,416.5 Q291.5,416.5 291.5,410.5 L291.5,372.5 Q291.5,366.5 297.5,366.5 L348,366.5 Q354,366.5 354,360.5 L354,227.5 Q354,221.5 348,221.5 L284,221.5 Q278,221.5 278,215.5 L278,57 Q278,51 284,51 L300,51" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="28" y="115.8" font-size="var(--fs-s)" font-weight="600" fill="#F18921" dy="4.8999999999999995">project</text>
-  <text x="52" y="256.6" font-size="var(--fs-s)" font-weight="600" fill="#DF4E50" dy="4.8999999999999995">subnet1</text>
-  <text x="381.05600000000004" y="256.6" font-size="var(--fs-s)" font-weight="600" fill="#6FB3AE" dy="4.8999999999999995">subnet2</text>
+<path class="edge" data-from="internet" data-to="router" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M378,61 L378,157" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="router" data-to="compute1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M341.5,201.5 L341.5,241.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="router" data-to="compute2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M411.5,201.5 L411.5,241.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="compute1" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M347,366.5 L347,381.5 L347,381.5 L347,406.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="compute2" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M405.5,366.5 L405.5,406.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="nat" data-to="internet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M337.5,416.5 L22,416.5 Q16,416.5 16,410.5 L16,57 Q16,51 22,51 L324,51" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="52" y="115.8" font-size="var(--fs-s)" font-weight="600" fill="#F18921" dy="4.8999999999999995">project</text>
+  <text x="76" y="256.6" font-size="var(--fs-s)" font-weight="600" fill="#DF4E50" dy="4.8999999999999995">subnet1</text>
+  <text x="405.05600000000004" y="256.6" font-size="var(--fs-s)" font-weight="600" fill="#6FB3AE" dy="4.8999999999999995">subnet2</text>
 
 <g class="node" data-id="internet" data-label="internet" data-shape="rectangle">
-  <rect x="299.968" y="16" width="113.12" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="356.528" y="38.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">internet</text>
+  <rect x="323.968" y="16" width="113.12" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="380.528" y="38.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">internet</text>
 </g>
 <g class="node" data-id="router" data-label="router" data-shape="rectangle">
-  <rect x="301.79200000000003" y="156.8" width="103.99999999999999" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="353.79200000000003" y="179.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">router</text>
+  <rect x="325.79200000000003" y="156.8" width="103.99999999999999" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="377.79200000000003" y="179.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">router</text>
 </g>
 <g class="node" data-id="nat" data-label="nat" data-shape="rectangle">
-  <rect x="313.648" y="406.40000000000003" width="80.288" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="353.79200000000003" y="428.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">nat</text>
+  <rect x="337.648" y="406.40000000000003" width="80.288" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="377.79200000000003" y="428.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">nat</text>
 </g>
 <g class="node" data-id="compute1" data-label="compute1" data-shape="rectangle">
-  <rect x="64" y="297.6" width="122.24000000000001" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="125.12" y="320" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">compute1</text>
+  <rect x="88" y="297.6" width="122.24000000000001" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="149.12" y="320" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">compute1</text>
 </g>
 <g class="node" data-id="lb1" data-label="lb1" data-shape="rectangle">
-  <rect x="234.24" y="297.6" width="74.816" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="271.648" y="320" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">lb1</text>
+  <rect x="258.24" y="297.6" width="74.816" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="295.648" y="320" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">lb1</text>
 </g>
 <g class="node" data-id="compute2" data-label="compute2" data-shape="rectangle">
-  <rect x="393.05600000000004" y="297.6" width="127.712" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="456.91200000000003" y="320" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">compute2</text>
+  <rect x="417.05600000000004" y="297.6" width="127.712" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="480.91200000000003" y="320" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">compute2</text>
 </g>
 <g class="node" data-id="lb2" data-label="lb2" data-shape="rectangle">
-  <rect x="568.768" y="297.6" width="80.288" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="608.912" y="320" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">lb2</text>
+  <rect x="592.768" y="297.6" width="80.288" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="632.912" y="320" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">lb2</text>
 </g>
 </svg>

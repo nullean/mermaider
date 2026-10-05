@@ -57,6 +57,7 @@ internal static class FlowEdgeRouter
 		internal LayoutPoint TPort;
 		internal double SStub = Stub;
 		internal List<LayoutPoint>? Fixed;
+		internal bool NoHint;
 		internal bool Back => SSide == TSide;
 		internal double TStub = Stub;
 	}
@@ -90,12 +91,13 @@ internal static class FlowEdgeRouter
 			plans.Add(new Plan { Edge = e, S = s, T = t, SSide = ss, TSide = ts });
 		}
 
+		AngleIntoSmallTargets(plans);
 		AssignPorts(plans);
 
 		foreach (var p in plans)
 			ShrinkStubs(p);
 
-		foreach (var p in plans.Where(p => p.Edge.Hint is not null))
+		foreach (var p in plans.Where(p => p.Edge.Hint is not null && !p.NoHint))
 		{
 			if (AcceptHint(p, boxes, groups) is { } fixedPts)
 			{
@@ -190,6 +192,30 @@ internal static class FlowEdgeRouter
 		return useVertical
 			? (dy >= 0 ? 1 : 3, dy >= 0 ? 3 : 1)
 			: (dx >= 0 ? 0 : 2, dx >= 0 ? 2 : 0);
+	}
+
+	// Several arrows into a tiny node (an end state) would pile onto a few pixels: the outer ones come in from the sides instead.
+	private static void AngleIntoSmallTargets(List<Plan> plans)
+	{
+		foreach (var grp in plans.Where(p => p.T.W < 40 && p.T.H < 40 && p.TSide == 3 && p.SSide == 1).GroupBy(p => p.T.Id))
+		{
+			var list = grp.OrderBy(p => p.S.Cx).ToList();
+			if (list.Count < 2)
+				continue;
+			var first = list[0];
+			var last = list[^1];
+			if (first.S.Cx < first.T.Cx - 4)
+			{
+				first.TSide = 2;
+				first.NoHint = true;
+			}
+
+			if (last.S.Cx > last.T.Cx + 4)
+			{
+				last.TSide = 0;
+				last.NoHint = true;
+			}
+		}
 	}
 
 	// Ports sit where the edge can run straight: at the middle of the stretch where both boxes overlap along the side's axis
@@ -427,6 +453,17 @@ internal static class FlowEdgeRouter
 	// accepted only when it is free of obstacles and neither overlaps nor crosses what is routed already.
 	private static List<LayoutPoint>? Canonical(Plan p, IReadOnlyList<Box> boxes, IReadOnlyList<GroupBox> groups, List<Seg> routed)
 	{
+		// A back edge that leaves through a side loops around the whole drawing: out to the outermost lane, along it, and back in.
+		if (p.Back && p.SSide is 0 or 2)
+		{
+			var left = p.SSide == 2;
+			var edgeX = left
+				? Math.Min(boxes.Min(b => b.X), groups.Count > 0 ? groups.Min(g => g.X) : double.MaxValue) - 24
+				: Math.Max(boxes.Max(b => b.Right), groups.Count > 0 ? groups.Max(g => g.X + g.W) : double.MinValue) + 24;
+			List<LayoutPoint> loop = [p.SPort, new LayoutPoint(edgeX, p.SPort.Y), new LayoutPoint(edgeX, p.TPort.Y), p.TPort];
+			return AcceptWithoutOverlap(p, Simplify(loop), boxes, groups, routed);
+		}
+
 		var verticalFlow = p.SSide is 1 && p.TSide is 3;
 		var horizontalFlow = p.SSide is 0 && p.TSide is 2;
 		if (!verticalFlow && !horizontalFlow)
@@ -464,7 +501,11 @@ internal static class FlowEdgeRouter
 			pts = [a, new LayoutPoint(x, a.Y), new LayoutPoint(x, b.Y), b];
 		}
 
-		pts = Simplify(pts);
+		return AcceptWithoutOverlap(p, Simplify(pts), boxes, groups, routed);
+	}
+
+	private static List<LayoutPoint>? AcceptWithoutOverlap(Plan p, List<LayoutPoint> pts, IReadOnlyList<Box> boxes, IReadOnlyList<GroupBox> groups, List<Seg> routed)
+	{
 		if (ValidatePath(p, pts, boxes, groups) is not { } ok)
 			return null;
 		for (var i = 0; i < ok.Count - 1; i++)

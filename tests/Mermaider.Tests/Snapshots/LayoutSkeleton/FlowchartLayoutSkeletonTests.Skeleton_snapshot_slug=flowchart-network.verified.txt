@@ -10,7 +10,7 @@ Edges:
   compute1 ----> nat [Bottom->Top] [D]
   compute2 ----> nat [Left->Top] [D]
   internet ----> router [Bottom->Top] [D]
-  nat ----> internet [Left->Left] [L U R U L U R]
+  nat ----> internet [Left->Left] [L U R]
   router ----> compute1 [Bottom->Top] [D]
   router ----> compute2 [Bottom->Left] [D]
 Ports:
