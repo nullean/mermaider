@@ -64,8 +64,8 @@ public class PieRendererTests
 			"B" : 70
 			""");
 
-		svg.Should().Contain("(30)");
-		svg.Should().Contain("(70)");
+		svg.Should().Contain(">30 · 30%</text>");
+		svg.Should().Contain(">70 · 70%</text>");
 	}
 
 	[Test]

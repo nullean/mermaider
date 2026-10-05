@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 using Mermaider.Models;
 using Mermaider.Text;
@@ -8,12 +9,14 @@ namespace Mermaider.Rendering;
 internal static class SankeySvgRenderer
 {
 	private const double DefaultWidth = 800;
-	private const double DefaultHeight = 400;
-	private const double Margin = 24;
-	private const double NodeWidth = 12;
+	private const double DefaultHeight = 440;
+	private const double Margin = DesignSystem.ChartPad;
+	private const double NodeWidth = 14;
 	private const double NodePad = 14;
-	private const double LabelPad = 8;
-	private const string LabelFontSize = RenderConstants.FsVar.S;
+	private const double LabelPad = 10;
+
+	/// <summary>Vertical distance between a node name and its value line.</summary>
+	private const double ValueLineGap = 16;
 
 
 	private sealed class NodeLayout
@@ -25,7 +28,8 @@ internal static class SankeySvgRenderer
 		public double Y1 { get; set; }
 		public double X0 { get; set; }
 		public double X1 { get; set; }
-		public string Color { get; set; } = CategoricalPalette.Blue;
+		public int Order { get; set; }
+		public ColorFamily Family { get; set; } = null!;
 		public double OutCursor { get; set; }
 		public double InCursor { get; set; }
 	}
@@ -64,42 +68,30 @@ internal static class SankeySvgRenderer
 		{
 			StyleBlock.AppendSvgOpenTag(sb, 320, 120, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
 			StyleBlock.AppendStyleBlock(sb, context.Styles);
-			_ = sb.Append("\n</svg>");
+			DesignSystem.For(context).Close(sb);
 			return sb;
 		}
 
-		var (nodes, links, layerCount) = Layout(diagram, context.Styles.Colors);
+		var ds = DesignSystem.For(context);
+		var (nodes, links, layerCount) = Layout(diagram, ds);
 		var width = DefaultWidth;
 		var height = DefaultHeight;
 
 		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
 		StyleBlock.AppendStyleBlock(sb, context.Styles);
 
-		// Emit gradient defs, one per link
-		_ = sb.Append("\n<defs>");
+		// ribbons first (under node bars), blended source → target
 		foreach (var link in links)
-		{
-			_ = sb.Append("\n<linearGradient id=\"sankey-grad-").Append(link.Index)
-				.Append("\" gradientUnits=\"userSpaceOnUse\" x1=\"").Append(link.Source.X1.SvgFormat())
-				.Append("\" y1=\"0\" x2=\"").Append(link.Target.X0.SvgFormat()).Append("\" y2=\"0\">")
-				.Append("<stop offset=\"0%\" stop-color=\"").Append(link.Source.Color).Append("\" stop-opacity=\"0.5\" />")
-				.Append("<stop offset=\"100%\" stop-color=\"").Append(link.Target.Color).Append("\" stop-opacity=\"0.5\" />")
-				.Append("</linearGradient>");
-		}
-		_ = sb.Append("\n</defs>\n");
+			AppendLink(sb, ds, link);
 
-		// Links first (under nodes)
-		foreach (var link in links)
-			AppendLink(sb, link);
+		foreach (var node in nodes.Values.OrderBy(n => n.Order))
+			AppendNode(sb, ds, node);
 
-		foreach (var node in nodes.Values)
-			AppendNode(sb, node, layerCount);
-
-		_ = sb.Append("\n</svg>");
+		ds.Close(sb);
 		return sb;
 	}
 
-	private static (Dictionary<string, NodeLayout> Nodes, List<LinkLayout> Links, int LayerCount) Layout(SankeyDiagram diagram, DiagramColors colors)
+	private static (Dictionary<string, NodeLayout> Nodes, List<LinkLayout> Links, int LayerCount) Layout(SankeyDiagram diagram, DesignSystem ds)
 	{
 		var nodes = new Dictionary<string, NodeLayout>(StringComparer.Ordinal);
 		var edges = new List<(string Source, string Target, double Value)>();
@@ -202,19 +194,29 @@ internal static class SankeySvgRenderer
 		if (layerCount < 1)
 			layerCount = 1;
 
-		// Color nodes
+		// Colour nodes in order of first appearance (series i), so the palette reads left → right like the source
 		var colorIdx = 0;
-		foreach (var n in nodes.Values.OrderBy(n => n.Name, StringComparer.Ordinal))
-			n.Color = colors.PaletteAt(colorIdx++);
+		foreach (var n in nodes.Values)
+		{
+			n.Order = colorIdx;
+			n.Family = ds.Series(colorIdx++);
+		}
 
-		// Horizontal positions
-		var chartW = DefaultWidth - (Margin * 2) - 120; // leave room for labels
+		// Horizontal positions: labels sit right of every node bar, so the last column keeps room for its labels
+		var lastLabelW = 0.0;
+		foreach (var n in nodes.Values)
+		{
+			if (n.Layer == layerCount - 1)
+				lastLabelW = Math.Max(lastLabelW, DesignSystem.MeasureRole(n.Name, TypeRole.Label));
+		}
+
+		var chartW = Math.Floor(DefaultWidth - (Margin * 2) - NodeWidth - LabelPad - Math.Min(lastLabelW, DefaultWidth / 3));
 		var chartH = DefaultHeight - (Margin * 2);
 		var layerGap = layerCount <= 1 ? 0 : chartW / (layerCount - 1);
 
 		foreach (var n in nodes.Values)
 		{
-			n.X0 = Margin + 60 + (n.Layer * layerGap);
+			n.X0 = Margin + (n.Layer * layerGap);
 			n.X1 = n.X0 + NodeWidth;
 		}
 
@@ -302,14 +304,20 @@ internal static class SankeySvgRenderer
 		return (nodes, linkLayouts, layerCount);
 	}
 
-	private static void AppendLink(StringBuilder sb, LinkLayout link)
+	private static void AppendLink(StringBuilder sb, DesignSystem ds, LinkLayout link)
 	{
 		var x0 = link.Source.X1;
 		var x1 = link.Target.X0;
 		var midX = (x0 + x1) * 0.5;
 
+		// gradient on: blend source → target; off: the source colour flat at the same opacity
+		var fill = ds.Gradient
+			? ds.SpanGradient("sankey-grad-" + link.Index.ToString(CultureInfo.InvariantCulture), x0, 0, x1, 0,
+				link.Source.Family.Base, link.Target.Family.Base, ds.RibbonOpacity)
+			: link.Source.Family.Base;
+
 		// Ribbon path: source edge → cubic → target edge → back
-		_ = sb.Append("\n<path d=\"M ").Append(x0.SvgFormat()).Append(' ').Append(link.Sy0.SvgFormat())
+		_ = sb.Append("\n<path class=\"sankey-link\" d=\"M ").Append(x0.SvgFormat()).Append(' ').Append(link.Sy0.SvgFormat())
 			.Append(" C ").Append(midX.SvgFormat()).Append(' ').Append(link.Sy0.SvgFormat())
 			.Append(' ').Append(midX.SvgFormat()).Append(' ').Append(link.Ty0.SvgFormat())
 			.Append(' ').Append(x1.SvgFormat()).Append(' ').Append(link.Ty0.SvgFormat())
@@ -317,36 +325,45 @@ internal static class SankeySvgRenderer
 			.Append(" C ").Append(midX.SvgFormat()).Append(' ').Append(link.Ty1.SvgFormat())
 			.Append(' ').Append(midX.SvgFormat()).Append(' ').Append(link.Sy1.SvgFormat())
 			.Append(' ').Append(x0.SvgFormat()).Append(' ').Append(link.Sy1.SvgFormat())
-			.Append(" Z\" fill=\"url(#sankey-grad-").Append(link.Index).Append(")\" stroke=\"none\" />");
+			.Append(" Z\" fill=\"").Append(fill).Append('"');
+		if (!ds.Gradient)
+			_ = sb.Append(" fill-opacity=\"").Append(DesignSystem.Num(ds.RibbonOpacity)).Append('"');
+		_ = sb.Append(" stroke=\"none\" />");
 	}
 
-	private static void AppendNode(StringBuilder sb, NodeLayout node, int layerCount)
+	private static void AppendNode(StringBuilder sb, DesignSystem ds, NodeLayout node)
 	{
-		_ = sb.Append("\n<rect x=\"").Append(node.X0.SvgFormat()).Append("\" y=\"").Append(node.Y0.SvgFormat())
-			.Append("\" width=\"").Append(NodeWidth.SvgFormat()).Append("\" height=\"").Append(Math.Max(1, node.Y1 - node.Y0).SvgFormat())
-			.Append("\" fill=\"").Append(node.Color).Append("\" stroke=\"none\" rx=\"2\" ry=\"2\" />");
+		var h = Math.Max(1, node.Y1 - node.Y0);
+		var r = ds.Spec.ChartMarks switch
+		{
+			ChartMarkKind.Outline => 0,
+			ChartMarkKind.Fat => NodeWidth / 2,
+			_ => 3,
+		};
+		var rr = DesignSystem.Num(Math.Min(r, h / 2));
+		_ = sb.Append("\n<g class=\"sankey-node\" data-node=\"");
+		MultilineUtils.AppendEscapedAttr(sb, node.Name);
+		_ = sb.Append("\">\n  <rect x=\"").Append(node.X0.SvgFormat()).Append("\" y=\"").Append(node.Y0.SvgFormat())
+			.Append("\" width=\"").Append(NodeWidth.SvgFormat()).Append("\" height=\"").Append(h.SvgFormat())
+			.Append("\" rx=\"").Append(rr).Append("\" ry=\"").Append(rr).Append('"');
+		ds.AppendMarkPaint(sb, node.Family);
+		_ = sb.Append(" />");
 
-		// Labels: left for all columns except the last
-		var isLeft = node.Layer < layerCount - 1;
-		var lx = isLeft ? node.X0 - LabelPad : node.X1 + LabelPad;
-		var anchor = isLeft ? "end" : "start";
-
+		// name + value outside the bar (to its right), haloed over the ribbons
+		var lx = node.X1 + LabelPad;
 		var midY = (node.Y0 + node.Y1) * 0.5;
-		var label = $"{node.Name} {FormatValue(node.Value)}";
-		_ = sb.Append("\n<text x=\"").Append(lx.SvgFormat()).Append("\" y=\"").Append(midY.SvgFormat())
-			.Append("\" text-anchor=\"").Append(anchor)
-			.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift)
-			.Append("\" font-size=\"").Append(LabelFontSize)
-			.Append("\" fill=\"var(--_text)\">");
-		MultilineUtils.AppendEscapedXml(sb, label.AsSpan());
-		_ = sb.Append("</text>");
+		_ = sb.Append("\n  ");
+		ds.AppendHaloText(sb, node.Name, lx, midY - (ValueLineGap / 2), TypeRole.Label, anchor: "start", weight: 600);
+		_ = sb.Append("\n  ");
+		ds.AppendHaloText(sb, FormatValue(node.Value), lx, midY + (ValueLineGap / 2), TypeRole.Meta, anchor: "start");
+		_ = sb.Append("\n</g>");
 	}
 
 	private static string FormatValue(double value)
 	{
 		if (value == Math.Floor(value))
-			return ((long)value).ToString(System.Globalization.CultureInfo.InvariantCulture);
-		return value.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture);
+			return ((long)value).ToString(CultureInfo.InvariantCulture);
+		return value.ToString("0.##", CultureInfo.InvariantCulture);
 	}
 
 }

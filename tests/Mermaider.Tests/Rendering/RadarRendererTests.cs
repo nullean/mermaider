@@ -65,7 +65,8 @@ public class RadarRendererTests
 	{
 		var svg = MermaidRenderer.RenderSvg(BasicRadar);
 
-		svg.Should().Contain("opacity=\"0.5\"");
+		svg.Should().Contain("<circle");
+		svg.Should().Contain("stroke=\"var(--_line-soft)\"");
 	}
 
 	[Test]

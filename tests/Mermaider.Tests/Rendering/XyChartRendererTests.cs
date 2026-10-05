@@ -1,4 +1,5 @@
 using AwesomeAssertions;
+using Mermaider.Models;
 
 namespace Mermaider.Tests.Rendering;
 
@@ -122,17 +123,23 @@ public class XyChartRendererTests
 	[Test]
 	public void Horizontal_draws_category_on_y_and_wide_bars()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		const string source = """
 			xychart horizontal
 			x-axis [a, b, c]
 			y-axis 0 --> 10
 			bar [2, 5, 8]
-			""");
+			""";
+
+		// Blueprint draws square-cornered bars as plain rects, which makes the geometry easy to read.
+		var svg = MermaidRenderer.RenderSvg(source, new RenderOptions { Style = DiagramStyle.Blueprint });
 
 		svg.Should().Contain("<rect");
 		// Category labels still present; bars grow along X (width > height for positive values).
 		svg.Should().Contain(">a</text>");
 		// Horizontal bars: width tracks value (e.g. 8/10 of plot), height is bar thickness.
-		svg.Should().MatchRegex(@"width=""[1-9]\d+(?:\.\d+)?"" height=""\d+(?:\.\d+)?""");
+		svg.Should().MatchRegex(@"width=""[1-9]\d\d+(?:\.\d+)?"" height=""\d+(?:\.\d+)?""");
+
+		// Quiet draws the same bars as paths rounded at the free end.
+		MermaidRenderer.RenderSvg(source).Should().Contain("<path d=\"M ");
 	}
 }
