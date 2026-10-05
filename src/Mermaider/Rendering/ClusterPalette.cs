@@ -9,6 +9,28 @@ namespace Mermaider.Rendering;
 /// </summary>
 internal sealed class ClusterPalette(DiagramColors colors, Dictionary<string, int> nodeCluster, Dictionary<string, int> groupCluster)
 {
+	// Auto colouring never uses a role hue (success / failure / warning), see DiagramColors.AutoPalette.
+	private readonly string[] _palette = colors.AutoPalette();
+
+	/// <summary>The role named by a class (<c>success</c>, <c>failure</c>, <c>warning</c>, <c>info</c>), else null.</summary>
+	internal static string? RoleName(string? className) => className switch
+	{
+		"success" or "failure" or "warning" or "info" => className,
+		_ => null,
+	};
+
+	private static ColorRole RoleOf(string name) => name switch
+	{
+		"success" => ColorRole.Success,
+		"failure" => ColorRole.Failure,
+		"warning" => ColorRole.Warning,
+		_ => ColorRole.Info,
+	};
+
+	internal string RoleFill(string role) => VisualLanguage.Tint(colors.RoleColor(RoleOf(role)), VisualLanguage.NodeTint);
+
+	internal string RoleStroke(string role) => VisualLanguage.Border(colors.RoleColor(RoleOf(role)));
+
 	internal string NodeFill(string id) => VisualLanguage.Tint(Color(nodeCluster[id]), VisualLanguage.NodeTint);
 
 	internal string NodeStroke(string id) => VisualLanguage.Border(Color(nodeCluster[id]));
@@ -21,7 +43,7 @@ internal sealed class ClusterPalette(DiagramColors colors, Dictionary<string, in
 
 	private int GroupCluster(string id) => groupCluster.GetValueOrDefault(id);
 
-	private string Color(int cluster) => colors.PaletteAt(cluster);
+	private string Color(int cluster) => _palette[cluster % _palette.Length];
 
 	internal static ClusterPalette Build(PositionedGraph graph, DiagramColors colors)
 	{

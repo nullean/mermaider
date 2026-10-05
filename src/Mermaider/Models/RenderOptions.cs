@@ -82,6 +82,19 @@ public sealed record RenderOptions
 	/// </summary>
 	public string[]? DataPalette { get; init; }
 
+	/// <summary>Semantic role colour for success. Nodes with the class <c>success</c> use it; automatic colouring avoids its hue. Default: palette green.</summary>
+	public string? Success { get; init; }
+
+	/// <summary>Semantic role colour for failure (class <c>failure</c>). Default: palette red.</summary>
+	public string? Failure { get; init; }
+
+	/// <summary>Semantic role colour for warning (class <c>warning</c>). Default: palette yellow.</summary>
+	public string? Warning { get; init; }
+
+	/// <summary>Semantic role colour for information (class <c>info</c>). Default: palette blue.</summary>
+	public string? Info { get; init; }
+
+
 	/// <summary>
 	/// Enable strict styling to enforce visual uniformity (not a security feature —
 	/// SVG output is always sanitized regardless; see <see cref="SanitizeMode"/>).

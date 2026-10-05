@@ -42,15 +42,15 @@
 </g>
 
 <g class="subgraph" data-id="External" data-label="Read from outside, never checked out">
-  <rect x="16" y="299.01625" width="344.8" height="310.4" rx="8" ry="8" fill="color-mix(in srgb, #e15759 6%, var(--bg))" stroke="#DF4E50" stroke-width="1.75" />
+  <rect x="16" y="299.01625" width="344.8" height="310.4" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 6%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Build" data-label="Isolated build">
-  <rect x="584.67184" y="237.58749999999998" width="720.896" height="226.39999999999998" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 6%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
+  <rect x="584.67184" y="237.58749999999998" width="720.896" height="226.39999999999998" rx="8" ry="8" fill="color-mix(in srgb, #b07aa1 6%, var(--bg))" stroke="#AC749C" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="Outputs" data-label="Outputs">
-  <rect x="1361.56784" y="197.59999999999997" width="305.21599999999995" height="403.2" rx="8" ry="8" fill="color-mix(in srgb, #59a14f 6%, var(--bg))" stroke="#559A4C" stroke-width="1.75" />
+  <rect x="1361.56784" y="197.59999999999997" width="305.21599999999995" height="403.2" rx="8" ry="8" fill="color-mix(in srgb, #9c755f 6%, var(--bg))" stroke="#96705B" stroke-width="1.75" />
 </g>
 
 <path class="edge" data-from="Checkout" data-to="DocSet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M315.5,127.5 L451,127.5 Q457,127.5 457,133.5 L457,333 Q457,339 463,339 L608.5,339" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
@@ -66,9 +66,9 @@
 <path class="edge" data-from="Nav" data-to="Manifest" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1281.5,365 L1385.5,365" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="DocSet" data-to="Redirects" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M797.5,384.5 L813.5,384.5 Q819.5,384.5 819.5,390.5 L819.5,443 Q819.5,449 825.5,449 L1385.5,449" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Manifest" data-to="LinkReg" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="published on push" d="M1385.5,379 L1331.5,379 Q1325.5,379 1325.5,385 L1325.5,478 Q1325.5,484 1319.5,484 L275,484 Q269,484 269,478 L269,379 Q269,373 263,373 L211.5,373" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="28" y="31" font-size="var(--fs-s)" font-weight="600" fill="#F18921" dy="4.8999999999999995">Inputs</text>
-  <text x="28" y="314.01625" font-size="var(--fs-s)" font-weight="600" fill="#DF4E50" dy="4.8999999999999995">Read from outside, never checked out</text>
-  <text x="596.67184" y="252.58749999999998" font-size="var(--fs-s)" font-weight="600" fill="#6FB3AE" dy="4.8999999999999995">Isolated build</text>
-  <text x="1373.56784" y="212.59999999999997" font-size="var(--fs-s)" font-weight="600" fill="#559A4C" dy="4.8999999999999995">Outputs</text>
+  <text x="28" y="314.01625" font-size="var(--fs-s)" font-weight="600" fill="#6FB3AE" dy="4.8999999999999995">Read from outside, never checked out</text>
+  <text x="596.67184" y="252.58749999999998" font-size="var(--fs-s)" font-weight="600" fill="#AC749C" dy="4.8999999999999995">Isolated build</text>
+  <text x="1373.56784" y="212.59999999999997" font-size="var(--fs-s)" font-weight="600" fill="#96705B" dy="4.8999999999999995">Outputs</text>
 
 <g class="edge-label" data-from="LinkReg" data-to="Content" data-label="cross_links">
   <rect x="415.64672" y="374.775" width="97.40656000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />

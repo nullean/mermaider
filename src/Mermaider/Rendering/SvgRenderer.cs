@@ -417,8 +417,12 @@ internal static class SvgRenderer
 	{
 		var (x, y, w, h) = (node.X, node.Y, node.Width, node.Height);
 		var clustered = palette is not null && palette.Has(node.Id);
-		var fill = InlineStyleValue(node.InlineStyle, "fill") ?? (clustered ? palette!.NodeFill(node.Id) : "var(--_node-fill)");
-		var stroke = InlineStyleValue(node.InlineStyle, "stroke") ?? (clustered ? palette!.NodeStroke(node.Id) : "var(--_node-stroke)");
+		// user style / classDef  >  semantic role class  >  cluster colour  >  default
+		var role = palette is not null ? node.SemanticRole : null;
+		var fill = InlineStyleValue(node.InlineStyle, "fill")
+			?? (role is not null ? palette!.RoleFill(role) : clustered ? palette!.NodeFill(node.Id) : "var(--_node-fill)");
+		var stroke = InlineStyleValue(node.InlineStyle, "stroke")
+			?? (role is not null ? palette!.RoleStroke(role) : clustered ? palette!.NodeStroke(node.Id) : "var(--_node-stroke)");
 		var sw = InlineStyleValue(node.InlineStyle, "stroke-width") ?? StrokeWidths.InnerBox.ToString(CultureInfo.InvariantCulture);
 
 		switch (node.Shape)

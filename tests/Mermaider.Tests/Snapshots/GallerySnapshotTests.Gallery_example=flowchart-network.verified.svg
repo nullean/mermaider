@@ -42,11 +42,11 @@
 </g>
 
 <g class="subgraph" data-id="subnet1" data-label="subnet1">
-  <rect x="64" y="241.60000000000002" width="293.05600000000004" height="124.8" rx="8" ry="8" fill="color-mix(in srgb, #e15759 9%, var(--bg))" stroke="#DF4E50" stroke-width="1.75" />
+  <rect x="64" y="241.60000000000002" width="293.05600000000004" height="124.8" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 9%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
 </g>
 
 <g class="subgraph" data-id="subnet2" data-label="subnet2">
-  <rect x="393.05600000000004" y="241.60000000000002" width="304" height="124.8" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 9%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
+  <rect x="393.05600000000004" y="241.60000000000002" width="304" height="124.8" rx="8" ry="8" fill="color-mix(in srgb, #b07aa1 9%, var(--bg))" stroke="#AC749C" stroke-width="1.75" />
 </g>
 
 <path class="edge" data-from="internet" data-to="router" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M378,61 L378,157" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
@@ -55,8 +55,8 @@
 <path class="edge" data-from="compute1" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M210.5,366.5 L210.5,375.40000000000003 Q210.5,381.40000000000003 216.5,381.40000000000003 L341.5,381.40000000000003 Q347.5,381.40000000000003 347.5,387.40000000000003 L347.5,406.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="compute2" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M545,366.5 L545,375.40000000000003 Q545,381.40000000000003 539,381.40000000000003 L411.5,381.40000000000003 Q405.5,381.40000000000003 405.5,387.40000000000003 L405.5,406.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="nat" data-to="internet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M337.5,429 L22,429 Q16,429 16,423 L16,44.5 Q16,38.5 22,38.5 L324,38.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="52" y="115.8" font-size="var(--fs-s)" font-weight="600" fill="#F18921" dy="4.8999999999999995">project</text>
-  <text x="76" y="256.6" font-size="var(--fs-s)" font-weight="600" fill="#DF4E50" dy="4.8999999999999995">subnet1</text>
-  <text x="405.05600000000004" y="256.6" font-size="var(--fs-s)" font-weight="600" fill="#6FB3AE" dy="4.8999999999999995">subnet2</text>
+  <text x="76" y="256.6" font-size="var(--fs-s)" font-weight="600" fill="#6FB3AE" dy="4.8999999999999995">subnet1</text>
+  <text x="405.05600000000004" y="256.6" font-size="var(--fs-s)" font-weight="600" fill="#AC749C" dy="4.8999999999999995">subnet2</text>
 
 <g class="node" data-id="internet" data-label="internet" data-shape="rectangle">
   <rect x="323.968" y="16" width="113.12" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />

@@ -217,6 +217,7 @@ internal static class LightweightLayoutEngine
 				InlineStyle = inlineStyle,
 				CssClassName = cssClass,
 				IsMarkdown = hasNode && mn.IsMarkdown,
+				SemanticRole = graph.ClassAssignments.TryGetValue(n.Id, out var roleClass) && (strict is null || strict.AllowedClasses.Any(c => c.Name == roleClass)) ? Rendering.ClusterPalette.RoleName(roleClass) : null,
 			});
 		}
 

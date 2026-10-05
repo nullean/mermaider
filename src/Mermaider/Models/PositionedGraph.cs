@@ -29,6 +29,9 @@ public sealed record PositionedNode
 	public string? CssClassName { get; init; }
 
 	public bool IsMarkdown { get; init; }
+
+	/// <summary>Semantic role the node opted into with the class <c>success</c>, <c>failure</c>, <c>warning</c> or <c>info</c>; null otherwise.</summary>
+	public string? SemanticRole { get; init; }
 }
 
 /// <summary>A positioned edge with a full polyline path.</summary>

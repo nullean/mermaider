@@ -42,7 +42,7 @@
 </g>
 
 <g class="subgraph" data-id="repos" data-label="Per-repo checkouts">
-  <rect x="491.88800000000003" y="16" width="539.296" height="145.6" rx="8" ry="8" fill="color-mix(in srgb, #e15759 6%, var(--bg))" stroke="#DF4E50" stroke-width="1.75" />
+  <rect x="491.88800000000003" y="16" width="539.296" height="145.6" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 6%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
 </g>
 
 <path class="edge" data-from="navYml" data-to="v1SiteNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M190.5,117 L190.5,179.425 Q190.5,185.425 196.5,185.425 L276.5,185.425 Q282.5,185.425 282.5,191.425 L282.5,264" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
@@ -60,7 +60,7 @@
 <path class="edge" data-from="valV2" data-to="flag" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="pass" d="M718.3601266666667,538 L718.3601266666667,580.6260000000001 Q718.3601266666667,586.6260000000001 712.3601266666667,586.6260000000001 L669.9481266666667,586.6260000000001 Q663.9481266666667,586.6260000000001 663.9481266666667,592.6260000000001 L663.9481266666667,619.076 Q663.9481266666667,625.076 657.9481266666667,625.076 L537.8841266666667,625.076 Q531.8841266666667,625.076 531.8841266666667,631.076 L531.8841266666667,676" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="flag" data-to="emitV1" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="false" d="M486.27346,767 L486.27346,795.908 Q486.27346,801.908 480.27346,801.908 L368.9267933333334,801.908 Q362.9267933333334,801.908 362.9267933333334,807.908 L362.9267933333334,884.358" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="flag" data-to="emitV2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="true" d="M531.8841266666667,767 L531.8841266666667,795.908 Q531.8841266666667,801.908 537.8841266666667,801.908 L649.2307933333334,801.908 Q655.2307933333334,801.908 655.2307933333334,807.908 L655.2307933333334,884.358" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="28" y="31" font-size="var(--fs-s)" font-weight="600" fill="#F18921" dy="4.8999999999999995">Config</text>
-  <text x="503.88800000000003" y="31" font-size="var(--fs-s)" font-weight="600" fill="#DF4E50" dy="4.8999999999999995">Per-repo checkouts</text>
+  <text x="503.88800000000003" y="31" font-size="var(--fs-s)" font-weight="600" fill="#6FB3AE" dy="4.8999999999999995">Per-repo checkouts</text>
 
 <g class="edge-label" data-from="docsetV1" data-to="v2SiteNav" data-label="V1 fallback">
   <rect x="632.80692" y="210.55" width="85.38616000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />

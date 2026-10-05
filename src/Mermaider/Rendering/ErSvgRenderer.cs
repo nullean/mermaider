@@ -405,7 +405,7 @@ internal static class ErSvgRenderer
 	private static void AppendEntityBox(StringBuilder sb, PositionedErEntity entity, Mermaider.Theming.DiagramColors colors)
 	{
 		// Each connected cluster gets its own palette colour: darker border, light header, white body rows.
-		var clusterColor = colors.PaletteAt(entity.Cluster);
+		var clusterColor = colors.AutoPaletteAt(entity.Cluster);
 		var border = VisualLanguage.Border(clusterColor);
 		var boxFill = VisualLanguage.Tint(clusterColor, VisualLanguage.NodeTint);
 		var headerFill = VisualLanguage.Tint(clusterColor, VisualLanguage.HeaderTint);
