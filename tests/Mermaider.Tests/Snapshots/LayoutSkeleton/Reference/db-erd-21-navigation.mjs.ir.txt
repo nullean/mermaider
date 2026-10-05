@@ -1,0 +1,31 @@
+N	DocumentationSet	0	0
+N	FileNavigation	0	1
+N	SiteNavigation	0	2
+N	DocumentationSetNavigation	1	0
+N	TocItem	1	1
+N	Page	1	2
+N	SiteSection	1	3
+N	Phantom	2	0
+N	NavigationNode	3	0
+N	SiteMount	3	1
+N	TocNavigation	4	0
+N	HomeProvider	4	1
+N	TableOfContents	5	0
+E	DocumentationSet	DocumentationSetNavigation	builds	Bottom	Top	False	D
+E	DocumentationSetNavigation	NavigationNode	tree	Bottom	Top	False	D R D
+E	FileNavigation	Page	model	Bottom	Top	False	D
+E	Phantom	TableOfContents	toc	Bottom	Top	False	D L D
+E	SiteMount	HomeProvider	re-homes subtree	Bottom	Top	False	D R D
+E	SiteMount	SiteMount	children	Left	Left	True	-
+E	SiteMount	TocNavigation	toc: repo://path	Bottom	Top	False	D L D
+E	SiteNavigation	Phantom	phantoms	Bottom	Top	False	D R D
+E	SiteNavigation	SiteMount	toc	Bottom	Top	False	D L D R D
+E	SiteNavigation	SiteSection	section (preview)	Bottom	Top	False	D
+E	SiteSection	SiteMount	children	Bottom	Top	False	D L D
+E	TocItem	NavigationNode	mirrors	Bottom	Top	False	D L D
+E	TocNavigation	TableOfContents	toc.yml	Bottom	Top	False	D R D
+P	NavigationNode	Top	1,11
+P	SiteMount	Bottom	6,4
+P	SiteMount	Top	8,10
+P	SiteNavigation	Bottom	8,9,7
+P	TableOfContents	Top	12,3

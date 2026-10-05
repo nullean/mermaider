@@ -1,0 +1,75 @@
+{
+  "slug": "er-cardinalities",
+  "nodes": [
+    {
+      "id": "A",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "B",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "C",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "D",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "E",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "F",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "G",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "H",
+      "width": 120,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "A",
+      "target": "B",
+      "labelWidth": 73.60400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "C",
+      "target": "D",
+      "labelWidth": 132.572,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e2",
+      "source": "E",
+      "target": "F",
+      "labelWidth": 126.524,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "G",
+      "target": "H",
+      "labelWidth": 191.54,
+      "labelHeight": 24.2
+    }
+  ]
+}

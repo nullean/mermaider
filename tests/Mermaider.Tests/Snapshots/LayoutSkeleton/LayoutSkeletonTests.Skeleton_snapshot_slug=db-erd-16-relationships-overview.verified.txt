@@ -1,0 +1,30 @@
+﻿Layer 0: Assembly
+Layer 1: PublishEnvironment, Repository
+Layer 2: CodexSite, DocumentationSet, ChangelogConfiguration
+Layer 3: Registry, DocumentationFile, TableOfContents, Product
+Layer 4: LinkRegistry, Bundle, VersioningSystem
+Layer 5: LinkRegistryEntry
+Layer 6: LinkManifest
+Edges:
+  Assembly --environments--> PublishEnvironment [Bottom->Top] [D L D]
+  Assembly --references--> Repository [Bottom->Top] [D R D]
+  CodexSite --environment--> Registry [Bottom->Top] [D]
+  DocumentationSet --contains--> DocumentationFile [Bottom->Top] [D L D]
+  DocumentationSet --one per branch--> LinkManifest [Bottom->Top] [D R D L D]
+  DocumentationSet --products--> Product [Bottom->Top] [D R D]
+  DocumentationSet --registry--> Registry [Bottom->Top] [D L D L D]
+  DocumentationSet --toc--> TableOfContents [Bottom->Top] [D R D]
+  LinkRegistry --repo, branch--> LinkRegistryEntry [Bottom->Top] [D]
+  LinkRegistryEntry --path--> LinkManifest [Bottom->Top] [D]
+  Product --released in--> Bundle [Bottom->Top] [D L D]
+  Product --versioning--> VersioningSystem [Bottom->Top] [D R D]
+  Registry --publishes into--> LinkRegistry [Bottom->Top] [D]
+  Repository --changelog.yml--> ChangelogConfiguration [Bottom->Top] [D R D R D]
+  Repository --holds (≤1 per Registry)--> DocumentationSet [Bottom->Top] [D R D]
+Ports:
+  Assembly Bottom: edge0,edge1
+  DocumentationSet Bottom: edge6,edge3,edge7,edge5,edge4
+  LinkManifest Top: edge9,edge4
+  Product Bottom: edge10,edge11
+  Registry Top: edge2,edge6
+  Repository Bottom: edge14,edge13

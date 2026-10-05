@@ -1,0 +1,77 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512.848 328" width="512.848" height="328" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+  <marker id="req-arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+
+<line x1="184" y1="69" x2="264" y2="85" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#req-arrow)" />
+<rect x="195.72" y="68" width="56.57" height="18" rx="4" ry="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="0.75" />
+<text x="224" y="77" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text-muted)">satisfies</text>
+<line x1="184" y1="187" x2="264" y2="85" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#req-arrow)" />
+<rect x="197.66" y="127" width="52.68" height="18" rx="4" ry="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="0.75" />
+<text x="224" y="136" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text-muted)">verifies</text>
+<line x1="376.42" y1="182" x2="355.04" y2="146" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#req-arrow)" />
+<rect x="338.74" y="155" width="53.98" height="18" rx="4" ry="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="0.75" />
+<text x="365.73" y="164" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text-muted)">derives</text>
+<g class="req-node" data-id="login">
+  <rect x="264" y="24" width="182.08" height="122" rx="6" ry="6" fill="var(--_accent-fill)" stroke="var(--_accent-stroke)" stroke-width="1.75" />
+  <text x="355.04" y="42" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Functional Requirement</text>
+  <text x="355.04" y="58" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">login</text>
+  <text x="355.04" y="76" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Id: REQ-1</text>
+  <text x="355.04" y="92" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Text: Users must authenticate.</text>
+  <text x="355.04" y="108" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Risk: Medium</text>
+  <text x="355.04" y="124" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Verification: Test</text>
+</g>
+<g class="req-node" data-id="latency">
+  <rect x="264" y="182" width="224.85" height="122" rx="6" ry="6" fill="var(--_accent-fill)" stroke="var(--_accent-stroke)" stroke-width="1.75" />
+  <text x="376.42" y="200" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Performance Requirement</text>
+  <text x="376.42" y="216" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">latency</text>
+  <text x="376.42" y="234" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Id: REQ-2</text>
+  <text x="376.42" y="250" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Text: Auth must complete under 200ms.</text>
+  <text x="376.42" y="266" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Risk: High</text>
+  <text x="376.42" y="282" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Verification: Analysis</text>
+</g>
+<g class="req-node" data-id="auth_service">
+  <rect x="24" y="24" width="160" height="90" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="104" y="42" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Element</text>
+  <text x="104" y="58" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">auth_service</text>
+  <text x="104" y="76" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Type: service</text>
+  <text x="104" y="92" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Doc ref: design/auth.md</text>
+</g>
+<g class="req-node" data-id="login_ui">
+  <rect x="24" y="150" width="160" height="74" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="104" y="168" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Element</text>
+  <text x="104" y="184" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">login_ui</text>
+  <text x="104" y="202" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Type: ui</text>
+</g>
+</svg>

@@ -1,0 +1,156 @@
+{
+  "slug": "db-erd-21-navigation",
+  "nodes": [
+    {
+      "id": "DocumentationSet",
+      "width": 155.904,
+      "height": 76
+    },
+    {
+      "id": "DocumentationSetNavigation",
+      "width": 232.51199999999994,
+      "height": 76
+    },
+    {
+      "id": "NavigationNode",
+      "width": 141.312,
+      "height": 76
+    },
+    {
+      "id": "TocItem",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "FileNavigation",
+      "width": 130.368,
+      "height": 76
+    },
+    {
+      "id": "Page",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "TocNavigation",
+      "width": 132.192,
+      "height": 76
+    },
+    {
+      "id": "TableOfContents",
+      "width": 146.784,
+      "height": 76
+    },
+    {
+      "id": "SiteNavigation",
+      "width": 130.368,
+      "height": 76
+    },
+    {
+      "id": "SiteMount",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "SiteSection",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Phantom",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "HomeProvider",
+      "width": 132.192,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "DocumentationSet",
+      "target": "DocumentationSetNavigation",
+      "labelWidth": 46.388000000000005,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "DocumentationSetNavigation",
+      "target": "NavigationNode",
+      "labelWidth": 34.292,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e2",
+      "source": "TocItem",
+      "target": "NavigationNode",
+      "labelWidth": 55.46,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "FileNavigation",
+      "target": "Page",
+      "labelWidth": 44.876000000000005,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e4",
+      "source": "TocNavigation",
+      "target": "TableOfContents",
+      "labelWidth": 50.92400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e5",
+      "source": "SiteNavigation",
+      "target": "SiteMount",
+      "labelWidth": 28.244000000000003,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e7",
+      "source": "SiteSection",
+      "target": "SiteMount",
+      "labelWidth": 59.996,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e8",
+      "source": "SiteNavigation",
+      "target": "SiteSection",
+      "labelWidth": 112.16,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e9",
+      "source": "SiteMount",
+      "target": "TocNavigation",
+      "labelWidth": 98.552,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e10",
+      "source": "SiteNavigation",
+      "target": "Phantom",
+      "labelWidth": 67.55600000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e11",
+      "source": "Phantom",
+      "target": "TableOfContents",
+      "labelWidth": 28.244000000000003,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e12",
+      "source": "SiteMount",
+      "target": "HomeProvider",
+      "labelWidth": 115.94000000000001,
+      "labelHeight": 24.2
+    }
+  ]
+}

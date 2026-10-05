@@ -1,0 +1,12 @@
+N	A	0	0
+N	B	1	0
+N	C	2	0
+N	D	2	1
+N	E	3	0
+E	A	B		Bottom	Left	False	D
+E	B	C	Yes	Left	Top	False	D L D
+E	B	D	No	Left	Top	False	D R D
+E	C	E		Bottom	Top	False	D R D
+E	D	E		Bottom	Top	False	D L D
+P	B	Left	0,1,2
+P	E	Top	3,4

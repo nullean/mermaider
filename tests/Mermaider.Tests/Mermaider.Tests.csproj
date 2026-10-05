@@ -11,6 +11,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../../src/Mermaider/Mermaider.csproj" />
+    <ProjectReference Include="../../examples/Mermaider.Examples/Mermaider.Examples.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Fixtures\mermaid.md" CopyToOutputDirectory="PreserveNewest" />

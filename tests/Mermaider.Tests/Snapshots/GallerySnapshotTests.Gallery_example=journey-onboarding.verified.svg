@@ -1,0 +1,92 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1179 509" width="1179" height="509" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+  <marker id="journey-arrow" refX="5" refY="2" markerWidth="6" markerHeight="4" orient="auto">
+    <path d="M 0,0 V 4 L6,2 Z" fill="var(--_text)" />
+  </marker>
+</defs>
+
+<g transform="translate(0,8)">
+<text x="155" y="25" font-size="18" font-weight="bold" fill="var(--_text)">First-time login</text>
+<circle cx="20" cy="60" r="7" fill="#4e79a7" stroke="var(--_node-stroke)" stroke-width="1" />
+<text x="40" y="65" font-size="14" fill="var(--_text-muted)">User</text>
+<circle cx="20" cy="80" r="7" fill="#f28e2b" stroke="var(--_node-stroke)" stroke-width="1" />
+<text x="40" y="85" font-size="14" fill="var(--_text-muted)">System</text>
+<rect x="155" y="50" width="350" height="50" rx="3" ry="3" fill="#4e79a7" />
+<text x="330" y="75" text-anchor="middle" dy="0.35em" font-size="14" fill="#1a1a1a">Discover</text>
+<rect x="555" y="50" width="350" height="50" rx="3" ry="3" fill="#f28e2b" />
+<text x="730" y="75" text-anchor="middle" dy="0.35em" font-size="14" fill="#1a1a1a">Authenticate</text>
+<rect x="955" y="50" width="150" height="50" rx="3" ry="3" fill="#e15759" />
+<text x="1030" y="75" text-anchor="middle" dy="0.35em" font-size="14" fill="#1a1a1a">Success</text>
+<line x1="230" y1="110" x2="230" y2="485" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 2" />
+<circle class="face" cx="230" cy="330" r="15" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+<circle cx="225" cy="325" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
+<circle cx="235" cy="325" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
+<path class="mouth" d="M 222.86 332 A 7.14 7.14 0 0 0 237.14 332" fill="none" stroke="var(--_text-muted)" stroke-width="1.5" />
+<rect x="155" y="110" width="150" height="50" rx="3" ry="3" fill="#4e79a7" />
+<circle cx="169" cy="110" r="7" fill="#4e79a7" stroke="var(--_node-stroke)" stroke-width="1"><title>User</title></circle>
+<text x="230" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="#1a1a1a">Open app</text>
+<line x1="430" y1="110" x2="430" y2="485" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 2" />
+<circle class="face" cx="430" cy="300" r="15" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+<circle cx="425" cy="295" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
+<circle cx="435" cy="295" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
+<path class="mouth" d="M 422.86 302 A 7.14 7.14 0 0 0 437.14 302" fill="none" stroke="var(--_text-muted)" stroke-width="1.5" />
+<rect x="355" y="110" width="150" height="50" rx="3" ry="3" fill="#4e79a7" />
+<circle cx="369" cy="110" r="7" fill="#4e79a7" stroke="var(--_node-stroke)" stroke-width="1"><title>User</title></circle>
+<text x="430" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="#1a1a1a">See welcome</text>
+<line x1="630" y1="110" x2="630" y2="485" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 2" />
+<circle class="face" cx="630" cy="360" r="15" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+<circle cx="625" cy="355" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
+<circle cx="635" cy="355" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
+<line class="mouth" x1="625" y1="367" x2="635" y2="367" stroke="var(--_text-muted)" stroke-width="1" />
+<rect x="555" y="110" width="150" height="50" rx="3" ry="3" fill="#f28e2b" />
+<circle cx="569" cy="110" r="7" fill="#4e79a7" stroke="var(--_node-stroke)" stroke-width="1"><title>User</title></circle>
+<text x="630" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="#1a1a1a">Enter email</text>
+<line x1="830" y1="110" x2="830" y2="485" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 2" />
+<circle class="face" cx="830" cy="390" r="15" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+<circle cx="825" cy="385" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
+<circle cx="835" cy="385" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
+<path class="mouth" d="M 822.86 397 A 7.14 7.14 0 0 1 837.14 397" fill="none" stroke="var(--_text-muted)" stroke-width="1.5" />
+<rect x="755" y="110" width="150" height="50" rx="3" ry="3" fill="#f28e2b" />
+<circle cx="769" cy="110" r="7" fill="#4e79a7" stroke="var(--_node-stroke)" stroke-width="1"><title>User</title></circle>
+<circle cx="779" cy="110" r="7" fill="#f28e2b" stroke="var(--_node-stroke)" stroke-width="1"><title>System</title></circle>
+<text x="830" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="#1a1a1a">Confirm MFA</text>
+<line x1="1030" y1="110" x2="1030" y2="485" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 2" />
+<circle class="face" cx="1030" cy="300" r="15" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+<circle cx="1025" cy="295" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
+<circle cx="1035" cy="295" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
+<path class="mouth" d="M 1022.86 302 A 7.14 7.14 0 0 0 1037.14 302" fill="none" stroke="var(--_text-muted)" stroke-width="1.5" />
+<rect x="955" y="110" width="150" height="50" rx="3" ry="3" fill="#e15759" />
+<circle cx="969" cy="110" r="7" fill="#4e79a7" stroke="var(--_node-stroke)" stroke-width="1"><title>User</title></circle>
+<text x="1030" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="#1a1a1a">Reach dashboard</text>
+<line x1="155" y1="200" x2="1101" y2="200" stroke="var(--_text)" stroke-width="4" marker-end="url(#journey-arrow)" />
+</g>
+</svg>

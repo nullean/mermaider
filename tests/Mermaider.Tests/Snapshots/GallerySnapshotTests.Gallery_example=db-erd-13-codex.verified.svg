@@ -1,0 +1,82 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 431.86048000000005 464.4" width="431.86048000000005" height="464.4" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+</defs>
+
+<path class="er-relationship" data-entity1="CodexSite" data-entity2="Registry" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="environment" d="M153.52192000000002,96 L153.52192000000002,119 Q153.52192000000002,124 148.52192000000002,124 L85,124 Q80,124 80,129 L80,194.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="CodexSite" data-entity2="CodexDocumentationSet" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="from LinkRegistry" d="M193.52192000000002,96 L193.52192000000002,119 Q193.52192000000002,124 198.52192000000002,124 L262.04384,124 Q267.04384,124 267.04384,129 L267.04384,194.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="CodexDocumentationSet" data-entity2="DocumentationSet" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="docset" d="M231.36255999999997,270.2 L231.36255999999997,293.2 Q231.36255999999997,298.2 226.36255999999997,298.2 L189.80191999999997,298.2 Q184.80191999999997,298.2 184.80191999999997,303.2 L184.80191999999997,368.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="CodexDocumentationSet" data-entity2="CodexGroup" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="codex.group" d="M302.72511999999995,270.2 L302.72511999999995,293.2 Q302.72511999999995,298.2 307.72511999999995,298.2 L344.28576000000004,298.2 Q349.28576000000004,298.2 349.28576000000004,303.2 L349.28576000000004,368.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<g class="entity" data-id="CodexSite" data-label="CodexSite">
+  <rect x="113.52192000000002" y="20" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+  <text x="173.52192000000002" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">CodexSite</text>
+</g>
+<g class="entity" data-id="Registry" data-label="Registry">
+  <rect x="20" y="194.2" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+  <text x="80" y="232.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Registry</text>
+</g>
+<g class="entity" data-id="CodexDocumentationSet" data-label="CodexDocumentationSet">
+  <rect x="160" y="194.2" width="214.08767999999998" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+  <text x="267.04384" y="232.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">CodexDocumentationSet</text>
+</g>
+<g class="entity" data-id="DocumentationSet" data-label="DocumentationSet">
+  <rect x="102.89279999999997" y="368.4" width="163.81824" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+  <text x="184.80191999999997" y="406.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">DocumentationSet</text>
+</g>
+<g class="entity" data-id="CodexGroup" data-label="CodexGroup">
+  <rect x="286.71104" y="368.4" width="125.14944" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+  <text x="349.28576000000004" y="406.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">CodexGroup</text>
+</g>
+<path d="M160.02192000000002,105 L147.02192000000002,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M160.02192000000002,110 L147.02192000000002,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M73.5,185.2 L86.5,185.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M73.5,180.2 L86.5,180.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M200.02192000000002,105 L187.02192000000002,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M200.02192000000002,110 L187.02192000000002,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M259.54384,194.2 L267.04384,181.2 L274.54384,194.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
+<circle cx="267.04384" cy="172.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M237.86255999999997,279.2 L224.86255999999997,279.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M237.86255999999997,284.2 L224.86255999999997,284.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M178.30191999999997,359.4 L191.30191999999997,359.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M178.30191999999997,354.4 L191.30191999999997,354.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M310.22511999999995,270.2 L302.72511999999995,283.2 L295.22511999999995,270.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
+<circle cx="302.72511999999995" cy="292.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M342.78576000000004,359.4 L355.78576000000004,359.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<circle cx="349.28576000000004" cy="349.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<rect x="30.495359999999998" y="132.875" width="99.00928" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<text x="80" y="145.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">environment</text>
+<rect x="200.30996" y="132.875" width="133.46776000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<text x="267.04384" y="145.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">from LinkRegistry</text>
+<rect x="152.92719999999997" y="307.07499999999993" width="63.74944000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<text x="184.80191999999997" y="319.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">docset</text>
+<rect x="298.17840000000007" y="307.07499999999993" width="102.21471999999999" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<text x="349.28576000000004" y="319.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">codex.group</text>
+</svg>

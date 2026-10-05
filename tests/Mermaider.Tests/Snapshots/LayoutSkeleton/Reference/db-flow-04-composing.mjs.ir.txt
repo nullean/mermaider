@@ -1,0 +1,35 @@
+N	R3	0	0
+N	R1	0	1
+N	R2	0	2
+N	R4	0	3
+N	S3Reg	1	0
+N	CodexReg	1	1
+N	AsmCfg	2	0
+N	CdxCfg	2	1
+N	Env	3	0
+N	AsmClone	4	0
+N	CdxClone	4	1
+N	AsmBuild	5	0
+N	CdxBuild	5	1
+N	CdxOut	6	0
+N	AsmOut	7	0
+E	AsmBuild	AsmOut		Bottom	Top	False	D
+E	AsmCfg	Env		Bottom	Top	False	D
+E	AsmClone	AsmBuild		Bottom	Top	False	D
+E	CdxBuild	CdxOut		Bottom	Top	False	D
+E	CdxCfg	CdxClone		Bottom	Top	False	D R D
+E	CdxClone	CdxBuild		Bottom	Top	False	D
+E	CodexReg	CdxClone		Bottom	Top	False	D R D L D
+E	Env	AsmClone		Bottom	Top	False	D R D
+E	R1	S3Reg	links.json	Bottom	Top	False	D R D
+E	R2	S3Reg	links.json	Bottom	Top	False	D L D
+E	R3	S3Reg	links.json	Bottom	Top	False	D R D R D
+E	R4	CodexReg	links.json	Bottom	Top	False	D L D L D
+E	S3Reg	AsmClone		Bottom	Top	False	D L D L D
+P	AsmClone	Top	7,12
+P	CdxClone	Top	4,6
+P	S3Reg	Top	10,8,9
+G	Repos	-	0	0	R1,R2,R3,R4
+G	Registries	-	1	0	CodexReg,S3Reg
+G	Assembler	-	2	0	AsmBuild,AsmCfg,AsmClone,AsmOut,Env
+G	CodexB	-	2	1	CdxBuild,CdxCfg,CdxClone,CdxOut

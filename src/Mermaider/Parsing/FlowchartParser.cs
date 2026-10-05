@@ -307,7 +307,7 @@ internal static partial class FlowchartParser
 				redirections[e] = (
 					src != edge.Source ? edge.Source : null,
 					tgt != edge.Target ? edge.Target : null);
-				edges[e] = new MermaidEdge(src, tgt, edge.Label, edge.Style, edge.HasArrowStart, edge.HasArrowEnd);
+				edges[e] = new MermaidEdge(src, tgt, edge.Label, edge.Style, edge.HasArrowStart, edge.HasArrowEnd, edge.MinLength);
 			}
 		}
 
@@ -329,7 +329,7 @@ internal static partial class FlowchartParser
 		{
 			Direction = direction,
 			Nodes = nodes,
-			NodeOrder = nodes.Keys.ToList(),
+			NodeOrder = BuildSubgraphFirstNodeOrder(nodes, subgraphMap),
 			Edges = edges,
 			Subgraphs = subgraphs,
 			ClassDefs = classDefs,
@@ -343,6 +343,33 @@ internal static partial class FlowchartParser
 			DefaultEdgeStyle = defaultEdgeStyle,
 			SubgraphEdgeRedirections = redirections
 		};
+	}
+
+	// Subgraph members come first (alphabetical by subgraph ID), matching dagre's
+	// node-insertion order so the DFS cycle-breaker picks the same back-edges.
+	private static List<string> BuildSubgraphFirstNodeOrder(
+		Dictionary<string, MermaidNode> nodes,
+		Dictionary<string, MermaidSubgraph> subgraphMap)
+	{
+		var order = new List<string>(nodes.Count);
+		var seen = new HashSet<string>(StringComparer.Ordinal);
+
+		foreach (var sg in subgraphMap.Values.OrderBy(sg => sg.Id, StringComparer.Ordinal))
+		{
+			foreach (var nodeId in sg.NodeIds)
+			{
+				if (nodes.ContainsKey(nodeId) && seen.Add(nodeId))
+					order.Add(nodeId);
+			}
+		}
+
+		foreach (var nodeId in nodes.Keys)
+		{
+			if (seen.Add(nodeId))
+				order.Add(nodeId);
+		}
+
+		return order;
 	}
 
 	// ========================================================================
@@ -398,6 +425,7 @@ internal static partial class FlowchartParser
 
 			var style = ArrowStyleFromOp(arrowOp);
 			var hasArrowEnd = arrowOp.EndsWith('>');
+			var minLength = 1; // mermaid.js v12: extra dashes (----> vs -->) are visual-only, not layout rank
 
 			var (nextIds, nextRest) = ConsumeNodeGroup(remaining, nodes, classAssignments, subgraphStack);
 			if (nextIds.Count == 0)
@@ -409,7 +437,7 @@ internal static partial class FlowchartParser
 			{
 				foreach (var targetId in nextIds)
 				{
-					edges.Add(new MermaidEdge(sourceId, targetId, edgeLabel, style, hasArrowStart, hasArrowEnd));
+					edges.Add(new MermaidEdge(sourceId, targetId, edgeLabel, style, hasArrowStart, hasArrowEnd, minLength));
 				}
 			}
 
@@ -533,6 +561,7 @@ internal static partial class FlowchartParser
 			return EdgeStyle.Thick;
 		return EdgeStyle.Solid;
 	}
+
 
 	private static void CollectSubgraphMap(IReadOnlyList<MermaidSubgraph> sgs, Dictionary<string, MermaidSubgraph> map)
 	{

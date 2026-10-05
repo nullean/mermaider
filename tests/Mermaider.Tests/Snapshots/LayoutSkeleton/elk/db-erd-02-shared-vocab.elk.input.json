@@ -1,0 +1,134 @@
+{
+  "slug": "db-erd-02-shared-vocab",
+  "nodes": [
+    {
+      "id": "VersioningSystem",
+      "width": 159.552,
+      "height": 76
+    },
+    {
+      "id": "SemVersion",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Product",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Repository",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Applicability",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "ApplicabilityEntry",
+      "width": 154.08,
+      "height": 76
+    },
+    {
+      "id": "ProductLifecycle",
+      "width": 152.256,
+      "height": 76
+    },
+    {
+      "id": "VersionSpec",
+      "width": 123.07200000000002,
+      "height": 76
+    },
+    {
+      "id": "ProductRelease",
+      "width": 144.96,
+      "height": 76
+    },
+    {
+      "id": "ChangelogLifecycle",
+      "width": 172.32,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "VersioningSystem",
+      "target": "SemVersion",
+      "labelWidth": 40.34,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "VersioningSystem",
+      "target": "SemVersion",
+      "labelWidth": 55.46,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e2",
+      "source": "Product",
+      "target": "VersioningSystem",
+      "labelWidth": 75.11600000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "Product",
+      "target": "Repository",
+      "labelWidth": 73.60400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e4",
+      "source": "Applicability",
+      "target": "ApplicabilityEntry",
+      "labelWidth": 56.216,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e5",
+      "source": "ApplicabilityEntry",
+      "target": "ProductLifecycle",
+      "labelWidth": 59.99600000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e6",
+      "source": "ApplicabilityEntry",
+      "target": "VersionSpec",
+      "labelWidth": 56.972,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e7",
+      "source": "ApplicabilityEntry",
+      "target": "VersioningSystem",
+      "labelWidth": 102.33200000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e8",
+      "source": "ProductRelease",
+      "target": "Product",
+      "labelWidth": 56.972,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e9",
+      "source": "ProductRelease",
+      "target": "ChangelogLifecycle",
+      "labelWidth": 59.99600000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e10",
+      "source": "ChangelogLifecycle",
+      "target": "ProductLifecycle",
+      "labelWidth": 54.70400000000001,
+      "labelHeight": 24.2
+    }
+  ]
+}

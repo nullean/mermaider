@@ -1,0 +1,18 @@
+﻿Layer 0: A
+Layer 1: B
+Layer 2: C
+Layer 3: D
+Layer 4: E, F
+Groups:
+- foo (layer=0 order=0) members=[C, D]
+- bar (layer=1 order=0) members=[E, F]
+Edges:
+  A ----> B [Bottom->Top] [D]
+  B ----> C [Bottom->Top] [D R D L D]
+  B ----> D [Bottom->Top] [D R D L D]
+  C ----> D [Bottom->Top] [D]
+  D ----> E [Bottom->Top] [D R D L D]
+  E ----> A [Left->Left] [L U R]
+Ports:
+  B Bottom: edge1,edge2
+  D Top: edge3,edge2

@@ -1,0 +1,11 @@
+﻿Layer 0: CodexSite
+Layer 1: Registry, CodexDocumentationSet
+Layer 2: DocumentationSet, CodexGroup
+Edges:
+  CodexDocumentationSet --codex.group--> CodexGroup [Bottom->Top] [D R D]
+  CodexDocumentationSet --docset--> DocumentationSet [Bottom->Top] [D L D]
+  CodexSite --from LinkRegistry--> CodexDocumentationSet [Bottom->Top] [D R D]
+  CodexSite --environment--> Registry [Bottom->Top] [D L D]
+Ports:
+  CodexDocumentationSet Bottom: edge1,edge0
+  CodexSite Bottom: edge3,edge2

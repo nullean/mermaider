@@ -16,9 +16,9 @@ internal static class LightweightLayoutEngine
 	internal static PositionedGraph Layout(MermaidGraph graph, RenderOptions? options = null, StrictStylingOptions? strict = null,
 		int maxNodesAfterLayout = int.MaxValue, CancellationToken ct = default)
 	{
-		var padding = options?.Padding ?? LayoutDefaults.Padding;
+		var padding = options?.Padding ?? 16;
 		var nodeSpacing = options?.NodeSpacing ?? LayoutDefaults.NodeSpacing;
-		var layerSpacing = options?.LayerSpacing ?? LayoutDefaults.LayerSpacing;
+		var layerSpacing = options?.LayerSpacing ?? 40;
 
 		var nodeOrder = graph.NodeOrder.Count > 0
 			? graph.NodeOrder
@@ -30,33 +30,59 @@ internal static class LightweightLayoutEngine
 			if (!graph.Nodes.TryGetValue(id, out var node))
 				continue;
 			var (w, h) = NodeSizing.Estimate(node.Label, node.Shape);
-			layoutNodes.Add(new LayoutNode(id, w, h));
+			layoutNodes.Add(new LayoutNode(id, w, h)
+			{
+				Outline = node.Shape switch
+				{
+					Models.NodeShape.Diamond => PortOutline.Diamond,
+					Models.NodeShape.Circle or Models.NodeShape.DoubleCircle => PortOutline.Ellipse,
+					Models.NodeShape.Hexagon => PortOutline.Centre,
+					_ => PortOutline.Rectangle,
+				},
+			});
 		}
 
 		var layoutEdges = new List<LayoutEdge>(graph.Edges.Count);
 		var layoutEdgeToOriginal = new List<int>(graph.Edges.Count);
 		var sameRankConstraints = new List<(string A, string B)>();
+		// dagre inserts a virtual label node for labeled FLOWCHART edges, consuming one extra rank.
+		// Only apply in flat (no-subgraph) non-state diagrams:
+		//   - subgraphs: NestingGraphRanker border-node constraints conflict with the extra minLength
+		//   - state diagrams: state transitions are already spaced correctly without the bonus
+		var isStateDiagramEarly = graph.Nodes.Values.Any(n => n.Shape is Models.NodeShape.StateStart or Models.NodeShape.StateEnd);
+		var applyLabelMinLength = false;
 		for (var ei = 0; ei < graph.Edges.Count; ei++)
 		{
 			var edge = graph.Edges[ei];
+
+			// Invisible edges (~~~) affect layout but are not drawn; treat them as zero-label layout edges
+			// so the target is placed below the source (matching mermaid.js behavior).
+			double labelW = 0, labelH = 0;
 			if (edge.Style == Models.EdgeStyle.Invisible)
 			{
-				sameRankConstraints.Add((edge.Source, edge.Target));
+				layoutEdgeToOriginal.Add(ei);
+				layoutEdges.Add(new LayoutEdge(edge.Source, edge.Target, 0, 0, edge.MinLength));
 				continue;
 			}
-
-			double labelW = 0, labelH = 0;
+			var minLength = edge.MinLength;
 			if (edge.Label is { Length: > 0 })
 			{
 				var metrics = TextMetrics.MeasureMultiline(
 					edge.Label.AsSpan(),
 					RenderConstants.FontSizes.EdgeLabel,
 					RenderConstants.FontWeights.EdgeLabel);
-				labelW = metrics.Width + 8;
-				labelH = metrics.Height + 6;
+				labelW = ErSvgRenderer.LabelBoxWidth(metrics.Width) + 4;
+				labelH = metrics.Height + ErSvgRenderer.LabelPadY + 2;
+				if (applyLabelMinLength)
+					minLength++;
 			}
 			layoutEdgeToOriginal.Add(ei);
-			layoutEdges.Add(new LayoutEdge(edge.Source, edge.Target, labelW, labelH));
+			_ = graph.SubgraphEdgeRedirections.TryGetValue(ei, out var redirection);
+			layoutEdges.Add(new LayoutEdge(edge.Source, edge.Target, labelW, labelH, minLength)
+			{
+				SourceGroup = redirection.SourceSubgraph,
+				TargetGroup = redirection.TargetSubgraph,
+			});
 		}
 
 		var layoutSubgraphs = graph.Subgraphs.Select(MapSubgraph).ToList();
@@ -77,28 +103,53 @@ internal static class LightweightLayoutEngine
 		// The layer gap runs along the flow axis, so the label has to be measured along that axis too:
 		// on LR/RL a label sized by its height overhangs the nodes either side and they paint over it.
 		var horizontal = direction is LayoutDirection.LR or LayoutDirection.RL;
+
+		// When a diagram has subgraphs, exclude edges that are entirely within the same subgraph
+		// from the global spacing calculation. Inner edge labels (e.g. state transition labels)
+		// would otherwise inflate layer spacing for every node including outer ones.
+		var innerSubgraphNodeMap = graph.Subgraphs.Count > 0
+			? BuildInnerSubgraphNodeMap(graph.Subgraphs)
+			: null;
+
+		// State diagrams use tighter layer spacing to match mermaid.js proportions (~53px center-to-center vs flowchart ~100px)
+		var baseLayerSpacing = isStateDiagramEarly ? Math.Min(30, layerSpacing) : layerSpacing;
+
 		var maxLabelExtent = layoutEdges
-			.Select(e => horizontal ? e.LabelWidth : e.LabelHeight)
+			.Select(
+				e =>
+				{
+					if (innerSubgraphNodeMap != null
+						&& innerSubgraphNodeMap.TryGetValue(e.Source, out var srcSg)
+						&& innerSubgraphNodeMap.TryGetValue(e.Target, out var tgtSg)
+						&& srcSg == tgtSg)
+						return 0.0;
+					return horizontal ? e.LabelWidth : e.LabelHeight;
+				})
 			.Where(v => v > 0)
 			.DefaultIfEmpty(0)
 			.Max();
+		// For state diagrams, edge labels sit on the path and need less clearance than flowchart labels
+		var labelClearance = isStateDiagramEarly ? 8 : 16;
 		var effectiveLayerSpacing = maxLabelExtent > 0
-			? Math.Max(layerSpacing, maxLabelExtent + 76)
-			: layerSpacing;
+			? Math.Max(baseLayerSpacing, maxLabelExtent + labelClearance)
+			: baseLayerSpacing;
 
 		var layoutOptions = new LayoutOptions
 		{
 			Padding = padding,
 			NodeSpacing = nodeSpacing,
-			LayerSpacing = effectiveLayerSpacing,
+			LayerSpacing = baseLayerSpacing,
 			CancellationToken = ct,
 			MaxNodeCount = maxNodesAfterLayout,
+			ForceBottomExitFanOut = isStateDiagramEarly,
+			NaturalBackEdgeRouting = isStateDiagramEarly,
+			UseModelOrderForVirtualNodes = true,
 		};
 
 		LayoutResult result;
 		try
 		{
-			result = SugiyamaLayout.Compute(layoutGraph, layoutOptions);
+			result = HierarchicalLayout.Compute(layoutGraph, layoutOptions);
 		}
 		catch (InvalidOperationException ex) when (ex.Message.Contains("MaxNodesAfterLayout") || ex.Message.Contains("node count"))
 		{
@@ -110,7 +161,6 @@ internal static class LightweightLayoutEngine
 			throw new MermaidResourceLimitException(
 				nameof(ResourceLimits.MaxRecursionDepth), 0, maxNodesAfterLayout, ex);
 		}
-		CompactStartEndNodes(result, graph);
 		var positioned = MapResult(result, graph, strict, layoutEdgeToOriginal);
 
 		if (graph.SubgraphEdgeRedirections.Count > 0)
@@ -125,90 +175,23 @@ internal static class LightweightLayoutEngine
 	private static LayoutSubgraph MapSubgraph(MermaidSubgraph sg) =>
 		new(sg.Id, sg.Label, sg.NodeIds, sg.Children.Select(MapSubgraph).ToList());
 
-	private static void CompactStartEndNodes(LayoutResult result, MermaidGraph graph)
+	// Returns nodeId → subgraphId for every node that belongs to a leaf-level subgraph.
+	// Used to exclude intra-subgraph edge labels from the global layer-spacing calculation.
+	private static Dictionary<string, string> BuildInnerSubgraphNodeMap(
+		IEnumerable<MermaidSubgraph> subgraphs)
 	{
-		const double compactGap = 40;
+		var map = new Dictionary<string, string>();
+		foreach (var sg in subgraphs)
+			CollectSubgraphNodes(sg, map);
+		return map;
+	}
 
-		var nodeIndex = new Dictionary<string, int>(result.Nodes.Count);
-		for (var i = 0; i < result.Nodes.Count; i++)
-			nodeIndex[result.Nodes[i].Id] = i;
-
-		foreach (var (id, mn) in graph.Nodes)
-		{
-			if (mn.Shape is not (Models.NodeShape.StateStart or Models.NodeShape.StateEnd))
-				continue;
-
-			if (!nodeIndex.TryGetValue(id, out var idx))
-				continue;
-
-			var node = result.Nodes[idx];
-			var oldY = node.Y;
-			double newY;
-
-			if (mn.Shape == Models.NodeShape.StateStart)
-			{
-				var closestBelow = double.MaxValue;
-				foreach (var e in graph.Edges)
-				{
-					if (e.Source != id || !nodeIndex.TryGetValue(e.Target, out var ti))
-						continue;
-					closestBelow = Math.Min(closestBelow, result.Nodes[ti].Y);
-				}
-				if (closestBelow >= double.MaxValue)
-					continue;
-				newY = closestBelow - node.Height - compactGap;
-				if (newY <= oldY)
-					continue;
-			}
-			else
-			{
-				var closestAbove = double.MinValue;
-				foreach (var e in graph.Edges)
-				{
-					if (e.Target != id || !nodeIndex.TryGetValue(e.Source, out var si))
-						continue;
-					var srcNode = result.Nodes[si];
-					closestAbove = Math.Max(closestAbove, srcNode.Y + srcNode.Height);
-				}
-				if (closestAbove <= double.MinValue)
-					continue;
-				newY = closestAbove + compactGap;
-				if (newY >= oldY)
-					continue;
-			}
-
-			var nodes = (List<LayoutNodeResult>)result.Nodes;
-			nodes[idx] = new LayoutNodeResult(node.Id, node.X, newY, node.Width, node.Height);
-
-			var deltaY = newY - oldY;
-			var edges = (List<LayoutEdgeResult>)result.Edges;
-			for (var ei = 0; ei < edges.Count; ei++)
-			{
-				var edge = edges[ei];
-				var pts = edge.Points;
-				if (pts.Count == 0)
-					continue;
-
-				if (mn.Shape == Models.NodeShape.StateStart)
-				{
-					var first = pts[0];
-					if (Math.Abs(first.Y - (oldY + node.Height)) < 1)
-					{
-						var newPts = new List<LayoutPoint>(pts) { [0] = new LayoutPoint(first.X, newY + node.Height) };
-						edges[ei] = new LayoutEdgeResult(edge.OriginalIndex, newPts, edge.LabelPosition);
-					}
-				}
-				else
-				{
-					var last = pts[^1];
-					if (Math.Abs(last.Y - oldY) < 1)
-					{
-						var newPts = new List<LayoutPoint>(pts) { [^1] = new LayoutPoint(last.X, newY) };
-						edges[ei] = new LayoutEdgeResult(edge.OriginalIndex, newPts, edge.LabelPosition);
-					}
-				}
-			}
-		}
+	private static void CollectSubgraphNodes(MermaidSubgraph sg, Dictionary<string, string> map)
+	{
+		foreach (var id in sg.NodeIds)
+			map[id] = sg.Id;
+		foreach (var child in sg.Children)
+			CollectSubgraphNodes(child, map);
 	}
 
 	private static PositionedGraph MapResult(LayoutResult result, MermaidGraph graph, StrictStylingOptions? strict, List<int>? layoutEdgeToOriginal = null)
@@ -404,6 +387,23 @@ internal static class LightweightLayoutEngine
 					}
 				}
 			}
+
+			// Fallback: source is inside the box — clip at the exit point
+			for (var i = 0; i < points.Count - 1; i++)
+			{
+				var p0 = points[i];
+				var p1 = points[i + 1];
+				if (IsInsideBox(p0, bx, by, bw, bh) && !IsInsideBox(p1, bx, by, bw, bh))
+				{
+					var hit = IntersectSegmentRect(p0, p1, bx, by, bw, bh);
+					if (hit != null)
+					{
+						points.RemoveRange(0, i + 1);
+						points.Insert(0, hit.Value);
+						return true;
+					}
+				}
+			}
 		}
 		else
 		{
@@ -486,7 +486,7 @@ internal static class LightweightLayoutEngine
 	private const double NoteWidth = 120;
 	private const double NoteHPad = 10;
 	private const double NoteVPad = 8;
-	private const double NoteGap = 10;
+	private const double NoteGap = 30;
 
 	private static PositionedGraph AttachNotes(PositionedGraph positioned, MermaidGraph graph)
 	{
@@ -495,6 +495,7 @@ internal static class LightweightLayoutEngine
 			nodeLookup[n.Id] = n;
 
 		var notes = new List<PositionedGraphNote>(graph.Notes.Count);
+		var minX = 0.0;
 		var maxX = positioned.Width;
 		var maxY = positioned.Height;
 
@@ -508,11 +509,20 @@ internal static class LightweightLayoutEngine
 			var noteW = Math.Max(NoteWidth, textW);
 			var noteH = RenderConstants.FontSizes.EdgeLabel + (NoteVPad * 2);
 
-			var noteX = note.Position == GraphNotePosition.Left
+			var leftNote = note.Position == GraphNotePosition.Left;
+			var noteX = leftNote
 				? target.X - noteW - NoteGap
 				: target.X + target.Width + NoteGap;
 
 			var noteY = target.Y + ((target.Height - noteH) / 2);
+			var midNoteY = noteY + (noteH / 2);
+
+			var lineFrom = leftNote
+				? new Point(noteX + noteW, midNoteY)
+				: new Point(noteX, midNoteY);
+			var lineTo = leftNote
+				? new Point(target.X, target.Y + (target.Height / 2))
+				: new Point(target.X + target.Width, target.Y + (target.Height / 2));
 
 			notes.Add(new PositionedGraphNote
 			{
@@ -521,14 +531,18 @@ internal static class LightweightLayoutEngine
 				Y = noteY,
 				Width = noteW,
 				Height = noteH,
+				LineFrom = lineFrom,
+				LineTo = lineTo,
 			});
 
+			minX = Math.Min(minX, noteX - NoteGap);
 			maxX = Math.Max(maxX, noteX + noteW + NoteGap);
 			maxY = Math.Max(maxY, noteY + noteH + NoteGap);
 		}
 
 		return positioned with
 		{
+			MinX = minX,
 			Width = maxX,
 			Height = maxY,
 			Notes = notes,

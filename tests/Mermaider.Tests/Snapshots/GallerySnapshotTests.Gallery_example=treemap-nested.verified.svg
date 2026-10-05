@@ -1,0 +1,55 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+</defs>
+
+<rect x="2" y="2" width="388.31" height="396" rx="3" ry="3" fill="#4e79a7" opacity="0.8" stroke="var(--bg)" stroke-width="1" />
+<text x="196.15" y="14" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="#1a1a1a">Technology</text>
+<text x="196.15" y="28" text-anchor="middle" font-size="var(--fs-xs)" fill="#1a1a1a" opacity="0.8">85</text>
+<rect x="4" y="24" width="178.73" height="372" rx="3" ry="3" fill="#f28e2b" opacity="0.6" stroke="var(--bg)" stroke-width="1" />
+<text x="93.37" y="36" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="#1a1a1a">Backend</text>
+<text x="93.37" y="50" text-anchor="middle" font-size="var(--fs-xs)" fill="#1a1a1a" opacity="0.8">40</text>
+<rect x="186.73" y="24" width="133.05" height="372" rx="3" ry="3" fill="#e15759" opacity="0.6" stroke="var(--bg)" stroke-width="1" />
+<text x="253.26" y="36" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="#1a1a1a">Frontend</text>
+<text x="253.26" y="50" text-anchor="middle" font-size="var(--fs-xs)" fill="#1a1a1a" opacity="0.8">30</text>
+<rect x="323.78" y="24" width="64.52" height="372" rx="3" ry="3" fill="#76b7b2" opacity="0.6" stroke="var(--bg)" stroke-width="1" />
+<text x="356.05" y="36" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="#1a1a1a">DevOps</text>
+<text x="356.05" y="50" text-anchor="middle" font-size="var(--fs-xs)" fill="#1a1a1a" opacity="0.8">15</text>
+<rect x="394.31" y="2" width="203.69" height="396" rx="3" ry="3" fill="#59a14f" opacity="0.8" stroke="var(--bg)" stroke-width="1" />
+<text x="496.15" y="14" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="#1a1a1a">Business</text>
+<text x="496.15" y="28" text-anchor="middle" font-size="var(--fs-xs)" fill="#1a1a1a" opacity="0.8">45</text>
+<rect x="396.31" y="24" width="199.69" height="204.89" rx="3" ry="3" fill="#edc948" opacity="0.6" stroke="var(--bg)" stroke-width="1" />
+<text x="496.15" y="36" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="#1a1a1a">Sales</text>
+<text x="496.15" y="50" text-anchor="middle" font-size="var(--fs-xs)" fill="#1a1a1a" opacity="0.8">25</text>
+<rect x="396.31" y="232.89" width="199.69" height="163.11" rx="3" ry="3" fill="#b07aa1" opacity="0.6" stroke="var(--bg)" stroke-width="1" />
+<text x="496.15" y="244.89" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="#1a1a1a">Marketing</text>
+<text x="496.15" y="258.89" text-anchor="middle" font-size="var(--fs-xs)" fill="#1a1a1a" opacity="0.8">20</text>
+</svg>

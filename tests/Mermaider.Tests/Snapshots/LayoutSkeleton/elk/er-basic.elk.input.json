@@ -1,0 +1,36 @@
+{
+  "slug": "er-basic",
+  "nodes": [
+    {
+      "id": "CUSTOMER",
+      "width": 166.79999999999998,
+      "height": 116
+    },
+    {
+      "id": "ORDER",
+      "width": 141.6,
+      "height": 116
+    },
+    {
+      "id": "LINE_ITEM",
+      "width": 133.2,
+      "height": 116
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "CUSTOMER",
+      "target": "ORDER",
+      "labelWidth": 50.92400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "ORDER",
+      "target": "LINE_ITEM",
+      "labelWidth": 61.50800000000002,
+      "labelHeight": 24.2
+    }
+  ]
+}

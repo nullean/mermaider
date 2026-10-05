@@ -12,26 +12,47 @@ namespace Mermaider.Layout;
 internal static class LightweightClassLayoutEngine
 {
 	private const double Padding = 40;
-	private const double BoxPadX = 8;
+	private const double BoxPadX = 4;
 	private const double HeaderBaseHeight = 32;
 	private const double AnnotationHeight = 16;
 	private const double MemberRowHeight = 20;
 	private const double SectionPadY = 8;
 	private const double EmptySectionHeight = 8;
-	private const double MinWidth = 120;
+	private const double MinWidth = 60;
 	private static readonly double MemberFontSize = RenderConstants.FontSizes.Member;
-	private const double NodeSpacing = 40;
+	private const double NodeSpacing = 20;
 	private const double LayerSpacing = 60;
+
+	private const double LollipopSize = 20;
 
 	internal static PositionedClassDiagram Layout(ClassDiagram diagram)
 	{
 		if (diagram.Classes.Count == 0)
 			return new PositionedClassDiagram { Width = 0, Height = 0, Classes = [], Relationships = [] };
 
+		// A class is a lollipop target if it only appears as the To side of Lollipop relationships
+		// and never as the From side of any relationship or the To side of a non-lollipop relationship.
+		var lollipopTargets = new HashSet<string>(
+			diagram.Relationships
+				.Where(r => r.Type == ClassRelationType.Lollipop)
+				.Select(r => r.To));
+		foreach (var rel in diagram.Relationships)
+		{
+			if (rel.Type != ClassRelationType.Lollipop)
+				_ = lollipopTargets.Remove(rel.To);
+			_ = lollipopTargets.Remove(rel.From);
+		}
+
 		var classSizes = new Dictionary<string, (double Width, double Height, double HeaderHeight, double AttrHeight, double MethodHeight)>();
 
 		foreach (var cls in diagram.Classes)
 		{
+			if (lollipopTargets.Contains(cls.Id))
+			{
+				classSizes[cls.Id] = (LollipopSize, LollipopSize, LollipopSize, 0, 0);
+				continue;
+			}
+
 			var headerHeight = cls.Annotation != null
 				? HeaderBaseHeight + AnnotationHeight
 				: HeaderBaseHeight;
@@ -80,21 +101,36 @@ internal static class LightweightClassLayoutEngine
 			Direction.BT => LayoutDirection.BT,
 			_ => LayoutDirection.TD,
 		};
-		var layoutGraph = new LayoutGraph(layoutDir, layoutNodes, layoutEdges, []);
-		var result = SugiyamaLayout.Compute(layoutGraph, new LayoutOptions
+		// Namespaces are flat (no nesting) in Mermaid's class-diagram grammar, so each becomes a
+		// single top-level LayoutSubgraph with no children. Feeding this into the Sugiyama
+		// engine (rather than leaving Subgraphs empty, as before) lets NestingGraphRanker keep
+		// each namespace's members rank-compact during layout itself — previously, namespace
+		// boxes were purely a post-hoc bounding-box wrap around wherever Sugiyama happened to
+		// place the member nodes, with nothing preventing a member of one namespace from
+		// sharing a rank with (and rendering inside the box of) a sibling namespace's member.
+		var namespaceSubgraphs = diagram.Namespaces.Count == 0
+			? []
+			: diagram.Namespaces
+				.Select(ns => new LayoutSubgraph(ns.Name, ns.Name, ns.ClassIds, []))
+				.ToList();
+		var layoutGraph = new LayoutGraph(layoutDir, layoutNodes, layoutEdges, namespaceSubgraphs);
+		var result = HierarchicalLayout.Compute(layoutGraph, new LayoutOptions
 		{
 			Padding = Padding,
 			NodeSpacing = NodeSpacing,
 			LayerSpacing = LayerSpacing,
+			NaturalBackEdgeRouting = true,
+			ForceBottomExitFanOut = true,
 		});
 
-		return ExtractPositioned(result, diagram, classSizes);
+		return ExtractPositioned(result, diagram, classSizes, lollipopTargets);
 	}
 
 	private static PositionedClassDiagram ExtractPositioned(
 		LayoutResult result,
 		ClassDiagram diagram,
-		Dictionary<string, (double Width, double Height, double HeaderHeight, double AttrHeight, double MethodHeight)> classSizes)
+		Dictionary<string, (double Width, double Height, double HeaderHeight, double AttrHeight, double MethodHeight)> classSizes,
+		HashSet<string> lollipopTargets)
 	{
 		var nodeLookup = result.Nodes.ToDictionary(n => n.Id);
 		var positionedClasses = new List<PositionedClassNode>(diagram.Classes.Count);
@@ -118,6 +154,7 @@ internal static class LightweightClassLayoutEngine
 				HeaderHeight = size.HeaderHeight,
 				AttrHeight = size.AttrHeight,
 				MethodHeight = size.MethodHeight,
+				IsLollipopTarget = lollipopTargets.Contains(cls.Id),
 			});
 		}
 
@@ -161,7 +198,16 @@ internal static class LightweightClassLayoutEngine
 			{
 				var noteX = target.X + target.Width + 10;
 				var noteY = target.Y;
-				notes.Add(new PositionedGraphNote { Text = note.Text, X = noteX, Y = noteY, Width = noteW, Height = noteH });
+				notes.Add(new PositionedGraphNote
+				{
+					Text = note.Text,
+					X = noteX,
+					Y = noteY,
+					Width = noteW,
+					Height = noteH,
+					LineFrom = new Point(noteX, noteY + (noteH / 2)),
+					LineTo = new Point(target.X + target.Width, target.Y + (target.Height / 2)),
+				});
 				maxX = Math.Max(maxX, noteX + noteW + 10);
 				maxY = Math.Max(maxY, noteY + noteH + 10);
 			}
@@ -172,6 +218,49 @@ internal static class LightweightClassLayoutEngine
 			}
 		}
 
+		const double nsPad = 12;
+		var positionedNs = new List<PositionedClassNamespace>(diagram.Namespaces.Count);
+		foreach (var ns in diagram.Namespaces)
+		{
+			var minX = double.MaxValue;
+			var minY = double.MaxValue;
+			var maxNsX = double.MinValue;
+			var maxNsY = double.MinValue;
+			foreach (var clsId in ns.ClassIds)
+			{
+				var positioned = positionedClasses.FirstOrDefault(c => c.Id == clsId);
+				if (positioned is null)
+					continue;
+				minX = Math.Min(minX, positioned.X);
+				minY = Math.Min(minY, positioned.Y);
+				maxNsX = Math.Max(maxNsX, positioned.X + positioned.Width);
+				maxNsY = Math.Max(maxNsY, positioned.Y + positioned.Height);
+			}
+			if (minX == double.MaxValue)
+				continue;
+			positionedNs.Add(new PositionedClassNamespace
+			{
+				Name = ns.Name,
+				X = minX - nsPad,
+				Y = minY - nsPad - 20,
+				Width = maxNsX - minX + (nsPad * 2),
+				Height = maxNsY - minY + (nsPad * 2) + 20,
+			});
+		}
+
+		// Equalize namespace box widths so vertically stacked namespaces span the same X range.
+		if (positionedNs.Count > 1)
+		{
+			var unifiedX = positionedNs.Min(n => n.X);
+			var unifiedRight = positionedNs.Max(n => n.X + n.Width);
+			var unifiedWidth = unifiedRight - unifiedX;
+			for (var i = 0; i < positionedNs.Count; i++)
+			{
+				var n = positionedNs[i];
+				positionedNs[i] = n with { X = unifiedX, Width = unifiedWidth };
+			}
+		}
+
 		return new PositionedClassDiagram
 		{
 			Width = maxX,
@@ -179,6 +268,7 @@ internal static class LightweightClassLayoutEngine
 			Classes = positionedClasses,
 			Relationships = positionedRels,
 			Notes = notes,
+			Namespaces = positionedNs,
 		};
 	}
 

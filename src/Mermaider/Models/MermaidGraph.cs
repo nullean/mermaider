@@ -60,7 +60,8 @@ public sealed record MermaidEdge(
 	string? Label,
 	EdgeStyle Style,
 	bool HasArrowStart,
-	bool HasArrowEnd
+	bool HasArrowEnd,
+	int MinLength = 1
 );
 
 /// <summary>A subgraph (compound node) containing child nodes and nested subgraphs.</summary>

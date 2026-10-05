@@ -1,0 +1,11 @@
+﻿Layer 0: A, E, G
+Layer 1: F, H
+Layer 2: B, C, D
+Edges:
+  A --solid--> B [Right->Left] [R U R]
+  A --dotted--> C [Right->Left] [R]
+  A --thick--> D [Right->Left] [R D R]
+  E ----> F [Right->Left] [R]
+  G ----> H [Right->Left] [R]
+Ports:
+  A Right: edge0,edge1,edge2

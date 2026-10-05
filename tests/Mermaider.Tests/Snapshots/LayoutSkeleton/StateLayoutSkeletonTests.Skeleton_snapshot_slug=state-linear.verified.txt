@@ -1,0 +1,10 @@
+﻿Layer 0: _start
+Layer 1: Draft
+Layer 2: Review
+Layer 3: Published
+Layer 4: _end
+Edges:
+  Draft --submit--> Review [Bottom->Top] [D]
+  Published ----> _end [Bottom->Top] [D]
+  Review --approve--> Published [Bottom->Top] [D]
+  _start ----> Draft [Bottom->Top] [D]

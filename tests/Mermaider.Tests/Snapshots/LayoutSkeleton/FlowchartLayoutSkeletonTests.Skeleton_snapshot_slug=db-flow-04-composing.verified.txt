@@ -1,0 +1,30 @@
+﻿Layer 0: R1, R2, R3, R4
+Layer 1: S3Reg, CodexReg
+Layer 2: AsmCfg, CdxCfg
+Layer 3: Env, CdxClone
+Layer 4: AsmClone, CdxBuild
+Layer 5: AsmBuild, CdxOut
+Layer 6: AsmOut
+Groups:
+- Repos (layer=0 order=0) members=[R1, R2, R3, R4]
+- Registries (layer=1 order=0) members=[S3Reg, CodexReg]
+- Assembler (layer=2 order=0) members=[AsmCfg, Env, AsmClone, AsmBuild, AsmOut]
+- CodexB (layer=2 order=1) members=[CdxCfg, CdxClone, CdxBuild, CdxOut]
+Edges:
+  AsmBuild ----> AsmOut [Bottom->Top] [D]
+  AsmCfg ----> Env [Bottom->Top] [D]
+  AsmClone ----> AsmBuild [Bottom->Top] [D]
+  CdxBuild ----> CdxOut [Bottom->Top] [D]
+  CdxCfg ----> CdxClone [Bottom->Top] [D]
+  CdxClone ----> CdxBuild [Bottom->Top] [D]
+  CodexReg ----> CdxClone [Bottom->Top] [D L D R D]
+  Env ----> AsmClone [Bottom->Top] [D]
+  R1 --links.json--> S3Reg [Bottom->Top] [D L D R D]
+  R2 --links.json--> S3Reg [Bottom->Top] [D]
+  R3 --links.json--> S3Reg [Bottom->Top] [D L D]
+  R4 --links.json--> CodexReg [Bottom->Top] [D]
+  S3Reg ----> AsmClone [Bottom->Top] [D R D L D]
+Ports:
+  AsmClone Top: edge7,edge12
+  CdxClone Top: edge6,edge4
+  S3Reg Top: edge8,edge9,edge10

@@ -1,0 +1,17 @@
+﻿Layer 0: A, E, F
+Layer 1: B, G, H
+Layer 2: C
+Layer 3: D
+Edges:
+  A ----> B [Bottom->Top] [D]
+  B ----> C [Bottom->Top] [D]
+  C ----> D [Bottom->Top] [D]
+  E ----> G [Bottom->Top] [D]
+  E ----> H [Bottom->Top] [D R D]
+  F ----> G [Bottom->Top] [D L D]
+  F ----> H [Bottom->Top] [D]
+Ports:
+  E Bottom: edge3,edge4
+  F Bottom: edge5,edge6
+  G Top: edge3,edge5
+  H Top: edge4,edge6

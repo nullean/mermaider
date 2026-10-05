@@ -1,0 +1,48 @@
+{
+  "slug": "db-erd-06-catalog",
+  "nodes": [
+    {
+      "id": "Product",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "VersioningSystem",
+      "width": 159.552,
+      "height": 76
+    },
+    {
+      "id": "Repository",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "LegacyUrlMapping",
+      "width": 167.76000000000002,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "Product",
+      "target": "VersioningSystem",
+      "labelWidth": 75.11600000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "Product",
+      "target": "Repository",
+      "labelWidth": 73.60400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e2",
+      "source": "LegacyUrlMapping",
+      "target": "Product",
+      "labelWidth": 56.972,
+      "labelHeight": 24.2
+    }
+  ]
+}

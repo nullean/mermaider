@@ -1,0 +1,101 @@
+{
+  "slug": "db-erd-14-release-notes",
+  "nodes": [
+    {
+      "id": "Repository",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "ChangelogConfiguration",
+      "width": 201.504,
+      "height": 76
+    },
+    {
+      "id": "ChangelogEntry",
+      "width": 144.96,
+      "height": 76
+    },
+    {
+      "id": "ProductRelease",
+      "width": 144.96,
+      "height": 76
+    },
+    {
+      "id": "Product",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Bundle",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "BundledEntry",
+      "width": 126.72000000000001,
+      "height": 76
+    },
+    {
+      "id": "BundleAmend",
+      "width": 126.72,
+      "height": 76
+    },
+    {
+      "id": "BundleRegistry",
+      "width": 139.488,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "Repository",
+      "target": "ChangelogConfiguration",
+      "labelWidth": 96.28399999999999,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "ChangelogEntry",
+      "target": "ProductRelease",
+      "labelWidth": 64.53200000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e2",
+      "source": "ProductRelease",
+      "target": "Product",
+      "labelWidth": 56.972,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "Bundle",
+      "target": "BundledEntry",
+      "labelWidth": 52.436,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e4",
+      "source": "BundledEntry",
+      "target": "ChangelogEntry",
+      "labelWidth": 115.94,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e5",
+      "source": "Bundle",
+      "target": "BundleAmend",
+      "labelWidth": 62.26400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e6",
+      "source": "Product",
+      "target": "BundleRegistry",
+      "labelWidth": 87.21199999999999,
+      "labelHeight": 24.2
+    }
+  ]
+}

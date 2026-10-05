@@ -1,0 +1,126 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 588.3582 820.8" width="588.3582" height="820.8" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+</defs>
+
+<path class="er-relationship" data-entity1="Product" data-entity2="VersioningSystem" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="versioning (defaults to id)" d="M270.21403999999995,444.4 L270.21403999999995,467.4 Q270.21403999999995,472.4 265.21403999999995,472.4 L113.37060000000002,472.4 Q108.37060000000002,472.4 108.37060000000002,477.4 L108.37060000000002,550.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Product" data-entity2="Repository" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="repository (defaults to id)" d="M300.21403999999995,444.4 L300.21403999999995,467.4 Q300.21403999999995,472.4 305.21403999999995,472.4 L309.31044,472.4 Q314.31044,472.4 314.31044,477.4 L314.31044,550.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="Product" data-entity2="ProductFeatures" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="features" d="M330.21403999999995,444.4 L330.21403999999995,467.4 Q330.21403999999995,472.4 335.21403999999995,472.4 L469.28612000000004,472.4 Q474.28612000000004,472.4 474.28612000000004,477.4 L474.28612000000004,550.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="LegacyUrlMapping" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="product" d="M300.21404,270.2 L300.21403999999995,368.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="LegacyPage" data-entity2="LegacyUrlMapping" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="matched by base URL" d="M300.21404,96 L300.21404,194.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="VersioningSystem" data-entity2="SemVersion" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="base" d="M80.42308000000001,626.5999999999999 L80.42308000000001,692.9331199999999 Q80.42308000000001,696.8 84.28996000000001,696.8 L84.28996000000001,696.8 Q88.15684,696.8 88.15684,700.66688 L88.15684,724.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="VersioningSystem" data-entity2="SemVersion" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="current" d="M136.31812000000002,626.5999999999999 L136.31812000000002,649.5999999999999 Q136.31812000000002,654.5999999999999 141.31812000000002,654.5999999999999 L148.64260000000002,654.5999999999999 Q153.64260000000002,654.5999999999999 153.64260000000002,659.5999999999999 L153.64260000000002,691.8 Q153.64260000000002,696.8 148.64260000000002,696.8 L133.58436,696.8 Q128.58436,696.8 128.58436,701.8 L128.58436,724.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="QueryRule" data-entity2="SearchDocument" data-cardinality1="zeromany" data-cardinality2="zeromany" data-identifying="true" data-label="actions.ids = path" d="M488.38252,96 L488.38252,194.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<g class="entity" data-id="Product" data-label="Product">
+  <rect x="240.21403999999995" y="368.4" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+  <text x="300.21403999999995" y="406.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Product</text>
+</g>
+<g class="entity" data-id="VersioningSystem" data-label="VersioningSystem">
+  <rect x="24.52804000000002" y="550.5999999999999" width="167.68512" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+  <text x="108.37060000000002" y="588.5999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">VersioningSystem</text>
+</g>
+<g class="entity" data-id="Repository" data-label="Repository">
+  <rect x="254.31044000000003" y="550.5999999999999" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+  <text x="314.31044" y="588.5999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Repository</text>
+</g>
+<g class="entity" data-id="ProductFeatures" data-label="ProductFeatures">
+  <rect x="394.31044" y="550.5999999999999" width="159.95136" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+  <text x="474.28612000000004" y="588.5999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ProductFeatures</text>
+</g>
+<g class="entity" data-id="LegacyUrlMapping" data-label="LegacyUrlMapping">
+  <rect x="212.02123999999998" y="194.2" width="176.38560000000004" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+  <text x="300.21404" y="232.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">LegacyUrlMapping</text>
+</g>
+<g class="entity" data-id="LegacyPage" data-label="LegacyPage">
+  <rect x="236.6726" y="20" width="127.08288000000002" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+  <text x="300.21404" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">LegacyPage</text>
+</g>
+<g class="entity" data-id="SemVersion" data-label="SemVersion">
+  <rect x="47.729319999999994" y="724.8" width="121.28256000000002" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+  <text x="108.3706" y="762.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">SemVersion</text>
+</g>
+<g class="entity" data-id="QueryRule" data-label="QueryRule">
+  <rect x="428.38252" y="20" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
+  <text x="488.38252" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">QueryRule</text>
+</g>
+<g class="entity" data-id="SearchDocument" data-label="SearchDocument">
+  <rect x="408.40684" y="194.2" width="159.95135999999997" height="76" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
+  <text x="488.38252" y="232.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">SearchDocument</text>
+</g>
+<path d="M277.71403999999995,444.4 L270.21403999999995,457.4 L262.71403999999995,444.4" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
+<circle cx="270.21403999999995" cy="466.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M101.87060000000002,541.5999999999999 L114.87060000000002,541.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<circle cx="108.37060000000002" cy="531.5999999999999" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M307.71403999999995,444.4 L300.21403999999995,457.4 L292.71403999999995,444.4" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
+<circle cx="300.21403999999995" cy="466.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M307.81044,541.5999999999999 L320.81044,541.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<circle cx="314.31044" cy="531.5999999999999" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M336.71403999999995,453.4 L323.71403999999995,453.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M336.71403999999995,458.4 L323.71403999999995,458.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M467.78612000000004,541.5999999999999 L480.78612000000004,541.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M467.78612000000004,536.5999999999999 L480.78612000000004,536.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M307.71404,270.2 L300.21404,283.2 L292.71404,270.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
+<circle cx="300.21404" cy="292.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M293.71403999999995,359.4 L306.71403999999995,359.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M293.71403999999995,354.4 L306.71403999999995,354.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M307.71404,96 L300.21404,109 L292.71404,96" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
+<circle cx="300.21404" cy="118" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M293.71404,185.2 L306.71404,185.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M293.71404,180.2 L306.71404,180.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M86.92308000000001,635.5999999999999 L73.92308000000001,635.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M86.92308000000001,640.5999999999999 L73.92308000000001,640.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M81.65684,715.8 L94.65684,715.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M81.65684,710.8 L94.65684,710.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M142.81812000000002,635.5999999999999 L129.81812000000002,635.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M142.81812000000002,640.5999999999999 L129.81812000000002,640.5999999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M122.08436,715.8 L135.08436,715.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M122.08436,710.8 L135.08436,710.8" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M495.88252,96 L488.38252,109 L480.88252,96" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
+<circle cx="488.38252" cy="118" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<path d="M480.88252,194.2 L488.38252,181.2 L495.88252,194.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
+<circle cx="488.38252" cy="172.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<rect x="20" y="485.2749999999999" width="176.74120000000005" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<text x="108.37060000000002" y="497.49999999999994" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">versioning (defaults to id)</text>
+<rect x="226.74120000000002" y="485.2749999999999" width="175.13848000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<text x="314.31044" y="497.49999999999994" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">repository (defaults to id)</text>
+<rect x="437.60324" y="485.2749999999999" width="73.36576" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<text x="474.28612000000004" y="497.49999999999994" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">features</text>
+<rect x="265.13388" y="307.07499999999993" width="70.16032000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<text x="300.21404" y="319.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">product</text>
+<rect x="221.45976000000002" y="132.875" width="157.50856" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<text x="300.21404" y="145.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">matched by base URL</text>
+<rect x="54.157880000000006" y="663.4749999999999" width="52.53040000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<text x="80.42308000000001" y="675.6999999999999" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">base</text>
+<rect x="119.36380000000001" y="663.4749999999999" width="68.55760000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<text x="153.64260000000002" y="675.6999999999999" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">current</text>
+<rect x="423.65204" y="132.875" width="129.46096000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+<text x="488.38252" y="145.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">actions.ids = path</text>
+</svg>

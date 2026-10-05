@@ -41,7 +41,15 @@ public static class SugiyamaLayout
 		}
 
 		CycleRemover.Run(buf);
-		LayerAssigner.Run(buf);
+		if (input.Subgraphs.Count > 0)
+		{
+			var (looseNodes, groups) = BuildNestingGroups(input, buf);
+			LayerAssigner.Run(buf, options.NaturalBackEdgeRouting, looseNodes, groups, options.ReverseSourceOrder);
+		}
+		else
+		{
+			LayerAssigner.Run(buf, options.NaturalBackEdgeRouting, reverseSourceOrder: options.ReverseSourceOrder);
+		}
 
 		options.CancellationToken.ThrowIfCancellationRequested();
 		if (buf.NodeCount > options.MaxNodeCount)
@@ -52,19 +60,74 @@ public static class SugiyamaLayout
 		if (input.Subgraphs.Count > 0)
 			PromoteDisconnectedSubgraphNodes(buf, input);
 
-		CrossingMinimizer.Run(buf, options.CrossingIterations, options.CancellationToken);
-		CoordinateAssigner.Run(buf, options.NodeSpacing, options.LayerSpacing);
-		SpreadFanOutChildren(buf, options.NodeSpacing);
-		SpreadForkBranches(buf, options.NodeSpacing);
+		if (options.PortAwareLayout || options.BalancedPlacement)
+		{
+			var horizontalFlow = input.Direction is LayoutDirection.LR or LayoutDirection.RL;
+			buf.EdgeLabelExtent = input.Edges.Select(e => horizontalFlow ? e.LabelHeight : e.LabelWidth).ToArray();
+
+			// Each inter-layer gap fits the tallest label that starts in it (along the flow axis) plus two stubs for markers.
+			var gaps = new double[Math.Max(0, buf.LayerCount - 1)];
+			Array.Fill(gaps, options.LayerSpacing);
+			foreach (var e in buf.Edges)
+			{
+				if (e.From >= buf.RealNodeCount || e.OriginalIndex >= input.Edges.Count || buf.Layers[e.From] >= gaps.Length)
+					continue;
+				var flow = horizontalFlow ? input.Edges[e.OriginalIndex].LabelWidth : input.Edges[e.OriginalIndex].LabelHeight;
+				if (flow > 0)
+					gaps[buf.Layers[e.From]] = Math.Max(gaps[buf.Layers[e.From]], flow + (options.BalancedPlacement ? 44 + 24 : (2 * ErEdgeRouter.Stub) + 16));
+			}
+			// A node fanning many edges into one gap needs a lane per extra edge for its horizontal runs (see ErEdgeRouter slotting).
+			var outDeg = new Dictionary<(int Node, int Gap), int>();
+			var inDeg = new Dictionary<(int Node, int Gap), int>();
+			foreach (var e in buf.Edges)
+			{
+				var gap = buf.Layers[e.From];
+				if (gap >= gaps.Length || buf.Layers[e.To] != gap + 1)
+					continue;
+				outDeg[(e.From, gap)] = outDeg.GetValueOrDefault((e.From, gap)) + 1;
+				inDeg[(e.To, gap)] = inDeg.GetValueOrDefault((e.To, gap)) + 1;
+			}
+			for (var gap = 0; gap < gaps.Length; gap++)
+			{
+				var fan = Math.Max(
+					outDeg.Where(kv => kv.Key.Gap == gap).Select(kv => kv.Value).DefaultIfEmpty(0).Max(),
+					inDeg.Where(kv => kv.Key.Gap == gap).Select(kv => kv.Value).DefaultIfEmpty(0).Max());
+				if (fan > 2)
+					gaps[gap] += (fan - 2) * 8;
+			}
+			buf.GapSpacing = gaps;
+		}
+
+		var tied = options.PortAwareLayout && options.CrossingRestarts > 0 ? new List<int[]>() : null;
+		CrossingMinimizer.Run(buf, options.CrossingIterations, options.UseModelOrderForVirtualNodes,
+			options.UseModelOrderForRealNodes, options.UseRealFirstTiebreaker, options.CrossingRestarts, tied, options.CancellationToken);
+		if (tied is { Count: > 1 })
+			ChooseOrderByRoutedGeometry(buf, input, options, tied);
+		CoordinateAssigner.Run(buf, options.NodeSpacing, options.LayerSpacing, options.TightSourceLayering || options.BalancedPlacement);
+		if (!options.PortAwareLayout && !options.BalancedPlacement)
+			SpreadFanOutChildren(buf, options.NodeSpacing);
+
+		// SpreadForkBranches assumes a flowchart/state-diagram "fork" — source → intermediate →
+		// convergence plus source → convergence — and shoves the intermediate branch sideways so
+		// the two paths read as visually distinct. In ER diagrams the exact same edge shape is just
+		// an ordinary multi-parent relationship (e.g. USER→POST→COMMENT with USER→COMMENT too), and
+		// applying the heuristic there shoves the entire intermediate subtree ~200px away from its
+		// sibling for no reason. TightSourceLayering is exclusively opted into by the ER layout
+		// engine, so it doubles as the signal to skip this flowchart-only heuristic.
+		if (!options.TightSourceLayering && !options.BalancedPlacement)
+			SpreadForkBranches(buf, options.NodeSpacing, BuildNodeSubgraphMap(buf, input.Subgraphs));
 
 		if (input.Subgraphs.Count > 0)
 		{
 			CompactDisconnectedSubgraphNodes(buf, input, options.NodeSpacing);
 			FixSubgraphSpacing(buf, input);
+			FixSubgraphXSpacing(buf, input); // fixes secondary-axis (X) overlap for LR/RL layouts
 		}
 
 		var useSideRouting = input.Direction is LayoutDirection.LR or LayoutDirection.RL;
-		var routes = EdgeRouter.Run(buf, useSideRouting, input.Edges);
+		var routes = options.PortAwareLayout || options.BalancedPlacement
+			? ErEdgeRouter.Run(buf, input.Edges, useSideRouting)
+			: EdgeRouter.Run(buf, useSideRouting, input.Edges, options.StrictTopDownFanout, options.NaturalBackEdgeRouting, options.ForceBottomExitFanOut);
 
 		if (input.Subgraphs.Count > 0)
 			RerouteSubgraphCrossingEdges(buf, routes, input);
@@ -228,6 +291,7 @@ public static class SugiyamaLayout
 		// For TD/BT tile horizontally; for LR/RL tile vertically
 		var tileHorizontally = direction is LayoutDirection.TD or LayoutDirection.BT;
 		var padding = options.Padding;
+		var maxPerRow = options.MaxComponentsPerRow > 0 ? options.MaxComponentsPerRow : components.Count;
 
 		var allNodes = new List<LayoutNodeResult>();
 		var allEdges = new List<LayoutEdgeResult>();
@@ -235,15 +299,32 @@ public static class SugiyamaLayout
 
 		// Each component's result includes full padding on all sides.
 		// When tiling, collapse adjacent paddings into a single componentSpacing gap.
-		var offset = 0.0;
-		var maxExtent = 0.0;
+
+		// Track row/column offsets for grid wrapping
+		var primaryOffset = 0.0;   // offset along the primary tiling axis
+		var secondaryOffset = 0.0; // offset along the perpendicular axis (for new rows)
+		var rowMaxExtent = 0.0;    // tallest component in the current row
+		var colInRow = 0;          // how many components placed in the current row
+
+		// Track overall extents for computing final canvas size
+		var totalPrimary = 0.0;
+		var totalSecondary = 0.0;
 
 		for (var c = 0; c < components.Count; c++)
 		{
 			var (result, edgeMap) = components[c];
 
-			var shiftX = tileHorizontally ? offset : 0.0;
-			var shiftY = tileHorizontally ? 0.0 : offset;
+			// Wrap to a new row/column when the per-row limit is reached
+			if (colInRow > 0 && colInRow >= maxPerRow)
+			{
+				secondaryOffset += rowMaxExtent - (2 * padding) + options.ComponentSpacing;
+				primaryOffset = 0.0;
+				rowMaxExtent = 0.0;
+				colInRow = 0;
+			}
+
+			var shiftX = tileHorizontally ? primaryOffset : secondaryOffset;
+			var shiftY = tileHorizontally ? secondaryOffset : primaryOffset;
 
 			foreach (var node in result.Nodes)
 				allNodes.Add(node with { X = node.X + shiftX, Y = node.Y + shiftY });
@@ -265,28 +346,35 @@ public static class SugiyamaLayout
 			foreach (var group in result.Groups)
 				allGroups.Add(ShiftGroup(group, shiftX, shiftY));
 
-			// Advance by content + componentSpacing, collapsing double-padding between adjacent components
-			var size = tileHorizontally ? result.Width : result.Height;
-			offset += size - (2 * padding) + options.ComponentSpacing;
+			// Advance primary offset, collapsing double-padding between adjacent components
+			var primarySize = tileHorizontally ? result.Width : result.Height;
+			primaryOffset += primarySize - (2 * padding) + options.ComponentSpacing;
 
-			var perpendicular = tileHorizontally ? result.Height : result.Width;
-			if (perpendicular > maxExtent)
-				maxExtent = perpendicular;
+			var perpendicularSize = tileHorizontally ? result.Height : result.Width;
+			if (perpendicularSize > rowMaxExtent)
+				rowMaxExtent = perpendicularSize;
+
+			colInRow++;
+
+			// Track max primary extent across all rows
+			var rowEndPrimary = primaryOffset - options.ComponentSpacing + (2 * padding);
+			if (rowEndPrimary > totalPrimary)
+				totalPrimary = rowEndPrimary;
 		}
 
-		// Undo the last componentSpacing and restore the outer padding
-		var totalTile = offset - options.ComponentSpacing + (2 * padding);
+		// Total secondary = all completed rows + final partial row
+		totalSecondary = secondaryOffset + rowMaxExtent;
 
 		double totalWidth, totalHeight;
 		if (tileHorizontally)
 		{
-			totalWidth = Math.Max(0, totalTile);
-			totalHeight = maxExtent;
+			totalWidth = Math.Max(0, totalPrimary);
+			totalHeight = Math.Max(0, totalSecondary);
 		}
 		else
 		{
-			totalWidth = maxExtent;
-			totalHeight = Math.Max(0, totalTile);
+			totalWidth = Math.Max(0, totalSecondary);
+			totalHeight = Math.Max(0, totalPrimary);
 		}
 
 		return new LayoutResult(totalWidth, totalHeight, allNodes, allEdges, allGroups);
@@ -490,8 +578,21 @@ public static class SugiyamaLayout
 				continue;
 
 			var srcBottom = buf.Y[srcIdx] + buf.NodeHeights[srcIdx];
-			if (subgraphTopY.TryGetValue(tgtSg, out var sgTop) && srcBottom > sgTop)
+			if (!subgraphTopY.TryGetValue(tgtSg, out var sgTop))
 				continue;
+			// Source is below subgraph top (already adjacent/inside) — no reroute needed.
+			if (srcBottom > sgTop)
+				continue;
+			// Target is the topmost node of the subgraph AND source is vertically aligned
+			// with it — the edge enters straight from the top and needs no side-routing.
+			// (Example: composite-state [*] → inner [*] where both share the same center X.)
+			if (Math.Abs(buf.Y[tgtIdx] - sgTop) < 1)
+			{
+				var srcCXLocal = buf.X[srcIdx] + (buf.NodeWidths[srcIdx] / 2.0);
+				var tgtCXLocal = buf.X[tgtIdx] + (buf.NodeWidths[tgtIdx] / 2.0);
+				if (Math.Abs(srcCXLocal - tgtCXLocal) <= 8.0)
+					continue;
+			}
 
 			if (!crossingEdgesBySource.TryGetValue(srcIdx, out var list))
 			{
@@ -588,6 +689,31 @@ public static class SugiyamaLayout
 	// edges have visible horizontal legs and connect to child top-centers
 	// ========================================================================
 
+	// Orderings with the same permutation-crossing count can still route very differently (a jog crossing another edge's
+	// column is invisible to the permutation count). Lay out and route each tied candidate, keep the best geometry.
+	private static void ChooseOrderByRoutedGeometry(
+		GraphBuffer buf, LayoutGraph input, LayoutOptions options, List<int[]> candidates)
+	{
+		// Candidate 0 is the deterministic model-order result: only a strictly lower routed-crossing count may replace it
+		// (bends/length are ignored so mirror images and near-ties never flip an already-optimal ordering).
+		var best = 0;
+		var bestCrossings = int.MaxValue;
+		for (var i = 0; i < candidates.Count; i++)
+		{
+			options.CancellationToken.ThrowIfCancellationRequested();
+			CrossingMinimizer.ApplyOrder(buf, candidates[i]);
+			CoordinateAssigner.Run(buf, options.NodeSpacing, options.LayerSpacing, options.TightSourceLayering);
+			var routes = ErEdgeRouter.Run(buf, input.Edges, useSideRouting: false);
+			var crossings = ErEdgeRouter.CountCrossings(routes, input.Edges);
+			if (crossings >= bestCrossings)
+				continue;
+			bestCrossings = crossings;
+			best = i;
+		}
+
+		CrossingMinimizer.ApplyOrder(buf, candidates[best]);
+	}
+
 	private static void SpreadFanOutChildren(GraphBuffer buf, double nodeSpacing)
 	{
 		const double minSpread = 28;
@@ -677,12 +803,40 @@ public static class SugiyamaLayout
 		}
 	}
 
+	private static Dictionary<int, string>? BuildNodeSubgraphMap(GraphBuffer buf, IReadOnlyList<LayoutSubgraph> subgraphs)
+	{
+		if (subgraphs.Count == 0)
+			return null;
+
+		var idToSg = new Dictionary<string, string>();
+		CollectSubgraphMembership(subgraphs, idToSg, parentId: null);
+
+		var result = new Dictionary<int, string>();
+		for (var i = 0; i < buf.RealNodeCount; i++)
+		{
+			if (idToSg.TryGetValue(buf.NodeIds[i], out var sg))
+				result[i] = sg;
+		}
+		return result;
+	}
+
+	private static void CollectSubgraphMembership(IReadOnlyList<LayoutSubgraph> subgraphs, Dictionary<string, string> result, string? parentId)
+	{
+		foreach (var sg in subgraphs)
+		{
+			var effectiveId = parentId ?? sg.Id;
+			foreach (var nodeId in sg.NodeIds)
+				_ = result.TryAdd(nodeId, effectiveId);
+			CollectSubgraphMembership(sg.Children, result, effectiveId);
+		}
+	}
+
 	// ========================================================================
 	// Fork branch spread — when S→A→B and S→B exist, push A to the side
 	// so the two paths are visually distinct (matching Mermaid.js fork layout)
 	// ========================================================================
 
-	private static void SpreadForkBranches(GraphBuffer buf, double nodeSpacing)
+	private static void SpreadForkBranches(GraphBuffer buf, double nodeSpacing, Dictionary<int, string>? nodeSubgraph = null)
 	{
 		var realOutgoing = BuildRealOutgoing(buf);
 
@@ -711,6 +865,31 @@ public static class SugiyamaLayout
 			{
 				continue;
 			}
+
+			// Don't spread when source and convergence are in different subgraphs — cross-subgraph
+			// fork patterns would misalign nodes that belong together within the source subgraph.
+			if (nodeSubgraph != null)
+			{
+				_ = nodeSubgraph.TryGetValue(source, out var srcSg);
+				_ = nodeSubgraph.TryGetValue(convergence, out var convSg);
+				if (srcSg != convSg)
+					continue;
+			}
+
+			// Don't spread when the intermediate node has a back-edge returning to the source
+			// (bidirectional pairs like Active↔Inactive with disable/reactivate should stay
+			// vertically aligned rather than being pushed sideways).
+			var hasBidirectionalReturn = false;
+			foreach (var e in buf.Edges)
+			{
+				if (e.Reversed && ((e.From == source && e.To == intermediate) || (e.From == intermediate && e.To == source)))
+				{
+					hasBidirectionalReturn = true;
+					break;
+				}
+			}
+			if (hasBidirectionalReturn)
+				continue;
 
 			var srcCX = buf.X[source] + (buf.NodeWidths[source] / 2.0);
 			var intCX = buf.X[intermediate] + (buf.NodeWidths[intermediate] / 2.0);
@@ -791,6 +970,10 @@ public static class SugiyamaLayout
 		foreach (var e in buf.Edges)
 		{
 			if (e.From >= buf.RealNodeCount)
+				continue;
+			// Reversed back-edges are cycle-breaking artefacts; they must not be
+			// treated as real forward connections for fork/fan-out detection.
+			if (e.Reversed)
 				continue;
 
 			var finalTarget = e.To;
@@ -897,6 +1080,82 @@ public static class SugiyamaLayout
 			CollectSubgraphYBounds(child, nodeIndex, buf, ref minY, ref maxY);
 	}
 
+	/// <summary>
+	/// Fixes secondary-axis (X) overlap between subgraphs that share the same Sugiyama layer.
+	/// <para>
+	/// <c>FixSubgraphSpacing</c> handles the primary axis (Y = depth); this handles the secondary
+	/// axis (X = within-layer position) — which is what causes subgraph boxes to overlap
+	/// vertically in LR diagrams.  For each layer we scan nodes in X order and, whenever we
+	/// cross a subgraph boundary, ensure the gap is wide enough for both subgraph headers +
+	/// padding.  Nodes are shifted per-layer so that cross-layer relationships are not disturbed.
+	/// </para>
+	/// </summary>
+	private static void FixSubgraphXSpacing(GraphBuffer buf, LayoutGraph input)
+	{
+		const double groupPadding = 16.0;
+		const double headerHeight = 28.0;
+		const double clearance = 8.0;
+		var minGap = ((groupPadding + headerHeight) * 2) + clearance;
+
+		var nodeIndex = new Dictionary<string, int>(buf.RealNodeCount);
+		for (var i = 0; i < buf.RealNodeCount; i++)
+			nodeIndex[buf.NodeIds[i]] = i;
+
+		// Map node index → top-level subgraph ID
+		var nodeSubgraph = new Dictionary<int, string>(buf.RealNodeCount);
+		foreach (var sg in input.Subgraphs)
+			MapNodesToTopSubgraph(sg, sg.Id, nodeIndex, nodeSubgraph);
+
+		for (var layer = 0; layer < buf.LayerCount; layer++)
+		{
+			// Collect real nodes in this layer that belong to a subgraph, sorted by X
+			var layerNodes = new List<int>();
+			foreach (var n in buf.LayerNodes[layer])
+			{
+				if (n < buf.RealNodeCount && nodeSubgraph.ContainsKey(n))
+					layerNodes.Add(n);
+			}
+
+			if (layerNodes.Count < 2)
+				continue;
+
+			layerNodes.Sort((a, b) => buf.X[a].CompareTo(buf.X[b]));
+
+			for (var pos = 0; pos < layerNodes.Count - 1; pos++)
+			{
+				var curr = layerNodes[pos];
+				var next = layerNodes[pos + 1];
+
+				if (!nodeSubgraph.TryGetValue(curr, out var sgA) ||
+					!nodeSubgraph.TryGetValue(next, out var sgB) ||
+					sgA == sgB)
+					continue;
+
+				var actualGap = buf.X[next] - (buf.X[curr] + buf.NodeWidths[curr]);
+				if (actualGap >= minGap)
+					continue;
+
+				var push = minGap - actualGap;
+				for (var j = pos + 1; j < layerNodes.Count; j++)
+					buf.X[layerNodes[j]] += push;
+			}
+		}
+	}
+
+	private static void MapNodesToTopSubgraph(
+		LayoutSubgraph sg, string topId,
+		Dictionary<string, int> nodeIndex,
+		Dictionary<int, string> nodeSubgraph)
+	{
+		foreach (var nodeId in sg.NodeIds)
+		{
+			if (nodeIndex.TryGetValue(nodeId, out var idx))
+				_ = nodeSubgraph.TryAdd(idx, topId);
+		}
+		foreach (var child in sg.Children)
+			MapNodesToTopSubgraph(child, topId, nodeIndex, nodeSubgraph);
+	}
+
 	// ========================================================================
 	// Buffer construction
 	// ========================================================================
@@ -921,7 +1180,7 @@ public static class SugiyamaLayout
 			if (nodeIndex.TryGetValue(edge.Source, out var from) &&
 				nodeIndex.TryGetValue(edge.Target, out var to))
 			{
-				buf.Edges.Add(new GraphEdge(from, to, i));
+				buf.Edges.Add(new GraphEdge(from, to, i, MinLength: input.Edges[i].MinLength));
 			}
 		}
 
@@ -932,6 +1191,55 @@ public static class SugiyamaLayout
 		}
 
 		return buf;
+	}
+
+	// ========================================================================
+	// Nesting-graph group tree (int-indexed) for subgraph-aware ranking
+	// ========================================================================
+
+	/// <summary>
+	/// Converts the string-keyed <see cref="LayoutSubgraph"/> tree into the int-indexed
+	/// <see cref="NestingGraphRanker.Group"/> tree <see cref="LayerAssigner"/> needs, plus the
+	/// list of real node indices that belong to no subgraph at all (dagre's top-level loose
+	/// nodes, which still need a direct root edge for nesting-graph's connectivity guarantee).
+	/// </summary>
+	private static (List<int> LooseNodes, List<NestingGraphRanker.Group> Groups) BuildNestingGroups(
+		LayoutGraph input, GraphBuffer buf)
+	{
+		var nodeIndex = new Dictionary<string, int>(buf.RealNodeCount);
+		for (var i = 0; i < buf.RealNodeCount; i++)
+			nodeIndex[buf.NodeIds[i]] = i;
+
+		var claimed = new HashSet<int>(buf.RealNodeCount);
+		var groups = new List<NestingGraphRanker.Group>(input.Subgraphs.Count);
+		foreach (var sg in input.Subgraphs)
+			groups.Add(BuildNestingGroup(sg, nodeIndex, claimed));
+
+		var loose = new List<int>(buf.RealNodeCount);
+		for (var i = 0; i < buf.RealNodeCount; i++)
+		{
+			if (!claimed.Contains(i))
+				loose.Add(i);
+		}
+
+		return (loose, groups);
+	}
+
+	private static NestingGraphRanker.Group BuildNestingGroup(
+		LayoutSubgraph sg, Dictionary<string, int> nodeIndex, HashSet<int> claimed)
+	{
+		var group = new NestingGraphRanker.Group();
+		foreach (var id in sg.NodeIds)
+		{
+			// claimed.Add returns false for a node already claimed by an earlier subgraph
+			// (overlapping subgraph membership) — first occurrence wins, matching the
+			// TryAdd-based "first wins" convention used elsewhere (CollectSubgraphMembership).
+			if (nodeIndex.TryGetValue(id, out var idx) && claimed.Add(idx))
+				group.OwnNodes.Add(idx);
+		}
+		foreach (var child in sg.Children)
+			group.Children.Add(BuildNestingGroup(child, nodeIndex, claimed));
+		return group;
 	}
 
 	// ========================================================================

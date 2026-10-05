@@ -1,0 +1,13 @@
+N	Idle	0	0
+N	Processing	1	0
+N	Success	2	0
+N	Failed	2	1
+E	Failed	Idle	retry	Top	Bottom	False	U L U
+E	Idle	Processing	submit	Bottom	Top	False	D L D
+E	Processing	Failed	error	Bottom	Top	False	D R D R D
+E	Processing	Success	ok	Bottom	Top	False	D L D
+E	Success	_end		Bottom	Top	False	D
+E	_start	Idle		Bottom	Top	False	D
+P	Failed	Top	2,0
+P	Idle	Bottom	1,0
+P	Processing	Bottom	3,2

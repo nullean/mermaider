@@ -68,7 +68,7 @@ public class ErRendererTests
 	{
 		var svg = MermaidRenderer.RenderSvg(SimpleEr);
 
-		svg.Should().Contain("var(--_key-badge)");
+		svg.Should().Contain("var(--_accent-text)");
 		svg.Should().Contain("PK");
 	}
 
@@ -103,6 +103,8 @@ public class ErRendererTests
 			A ||--|| EMPTY : ref
 			""");
 
-		svg.Should().Contain("(no attributes)");
+		// No-attribute entities render as a plain box — no placeholder text
+		svg.Should().Contain("data-id=\"EMPTY\"");
+		svg.Should().NotContain("(no attributes)");
 	}
 }

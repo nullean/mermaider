@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading;
 
 namespace Sugiyama.Internal;
@@ -6,29 +7,379 @@ namespace Sugiyama.Internal;
 /// Phase 3: Minimize edge crossings using the barycenter heuristic.
 /// Sweeps top-down then bottom-up for a configurable number of iterations.
 /// All sorting is in-place on flat arrays — no LINQ, no allocations per sweep.
-/// Complexity: O(iterations × E) — O(E) per sweep via CSR adjacency
+/// Complexity: O(iterations × E) per layer
 /// </summary>
 internal static class CrossingMinimizer
 {
-	internal static void Run(GraphBuffer graph, int iterations = 4, CancellationToken ct = default)
+	internal static void Run(GraphBuffer graph, int iterations = 4, bool useModelOrderForVirtuals = false,
+		bool useModelOrderForRealNodes = false, bool useRealFirstTiebreaker = false, int restarts = 0,
+		CancellationToken ct = default)
+		=> Run(graph, iterations, useModelOrderForVirtuals, useModelOrderForRealNodes, useRealFirstTiebreaker, restarts, null, ct);
+
+	/// <summary>
+	/// As above; when <paramref name="tiedBest"/> is supplied it receives every distinct ordering (position snapshots, capped)
+	/// that reached the minimum crossing count, the first being the deterministic model-order result.
+	/// </summary>
+	internal static void Run(GraphBuffer graph, int iterations, bool useModelOrderForVirtuals,
+		bool useModelOrderForRealNodes, bool useRealFirstTiebreaker, int restarts, List<int[]>? tiedBest,
+		CancellationToken ct)
 	{
 		if (graph.LayerCount <= 1)
 			return;
 
+		Optimize(graph, iterations, useModelOrderForVirtuals, useModelOrderForRealNodes, useRealFirstTiebreaker, ct);
+		if (restarts <= 0)
+			return;
+		const int maxTied = 64;
+		const int slack = 3;
+		var totals = new List<int>();
+		if (tiedBest is not null)
+		{
+			tiedBest.Add(Snapshot(graph));
+			totals.Add(TotalCrossings(graph));
+		}
+
+		var bestCrossings = TotalCrossings(graph);
+		if (bestCrossings == 0 && tiedBest is null)
+			return;
+		var bestOrder = new int[graph.NodeCount];
+		Array.Copy(graph.NodePositionInLayer, bestOrder, graph.NodeCount);
+		var rng = new Random(12345);
+		for (var r = 0; r < restarts; r++)
+		{
+			ct.ThrowIfCancellationRequested();
+			for (var layer = 0; layer < graph.LayerCount; layer++)
+			{
+				var nodes = graph.LayerNodes[layer];
+				for (var i = nodes.Length - 1; i > 0; i--)
+				{
+					var j = rng.Next(i + 1);
+					(nodes[i], nodes[j]) = (nodes[j], nodes[i]);
+				}
+				for (var i = 0; i < nodes.Length; i++)
+					graph.NodePositionInLayer[nodes[i]] = i;
+			}
+
+			// Odd restarts use plain barycentre sweeps: the model-order tie rules otherwise pull every restart back to the same minimum.
+			var plain = (r & 1) == 1;
+			Optimize(graph, iterations, !plain && useModelOrderForVirtuals, !plain && useModelOrderForRealNodes, !plain && useRealFirstTiebreaker, ct);
+			var total = TotalCrossings(graph);
+			if (total < bestCrossings)
+			{
+				bestCrossings = total;
+				Array.Copy(graph.NodePositionInLayer, bestOrder, graph.NodeCount);
+				if (tiedBest is not null)
+				{
+					for (var k = totals.Count - 1; k >= 0; k--)
+					{
+						if (totals[k] <= bestCrossings + slack)
+							continue;
+						totals.RemoveAt(k);
+						tiedBest.RemoveAt(k);
+					}
+				}
+			}
+
+			if (tiedBest is not null && total <= bestCrossings + slack && tiedBest.Count < maxTied
+				&& !tiedBest.Any(t => t.AsSpan().SequenceEqual(graph.NodePositionInLayer.AsSpan(0, graph.NodeCount))))
+			{
+				tiedBest.Add(Snapshot(graph));
+				totals.Add(total);
+			}
+		}
+
+		RestoreOrder(graph, bestOrder);
+	}
+
+	private static int[] Snapshot(GraphBuffer graph)
+	{
+		var snap = new int[graph.NodeCount];
+		Array.Copy(graph.NodePositionInLayer, snap, graph.NodeCount);
+		return snap;
+	}
+
+	/// <summary>Applies a position snapshot taken by <see cref="Run(GraphBuffer,int,bool,bool,bool,int,List{int[]},CancellationToken)"/>.</summary>
+	internal static void ApplyOrder(GraphBuffer graph, int[] positionSnapshot) => RestoreOrder(graph, positionSnapshot);
+
+	private static void Optimize(GraphBuffer graph, int iterations, bool useModelOrderForVirtuals,
+		bool useModelOrderForRealNodes, bool useRealFirstTiebreaker, CancellationToken ct)
+	{
 		var barycenters = new double[graph.NodeCount];
+
+		// Track the best ordering seen across sweeps by total crossing count, not just
+		// whichever sweep happened to run last — a single barycenter sweep direction can
+		// locally improve each layer pair in isolation while making the graph-wide total
+		// worse, and an unlucky final sweep can otherwise discard a better ordering an
+		// earlier sweep already found. Mirrors dagre's order/index.ts, which runs up to
+		// several non-improving sweeps before giving up and keeps the best-by-crossing-count
+		// layering it ever saw, rather than trusting monotonic improvement from the heuristic.
+		var bestCrossings = int.MaxValue;
+		int[]? bestOrder = null;
 
 		for (var iter = 0; iter < iterations; iter++)
 		{
 			ct.ThrowIfCancellationRequested();
 			for (var layer = 1; layer < graph.LayerCount; layer++)
-				SweepLayer(graph, layer, barycenters, useInEdges: true);
+				SweepLayer(graph, layer, barycenters, useInEdges: true, useModelOrderForVirtuals, useModelOrderForRealNodes, useRealFirstTiebreaker);
 
 			ct.ThrowIfCancellationRequested();
 			for (var layer = graph.LayerCount - 2; layer >= 0; layer--)
-				SweepLayer(graph, layer, barycenters, useInEdges: false);
+				SweepLayer(graph, layer, barycenters, useInEdges: false, useModelOrderForVirtuals, useModelOrderForRealNodes, useRealFirstTiebreaker);
+
+			var total = TotalCrossings(graph);
+			if (total >= bestCrossings)
+				continue;
+			bestCrossings = total;
+			bestOrder ??= new int[graph.NodeCount];
+			Array.Copy(graph.NodePositionInLayer, bestOrder, graph.NodeCount);
 		}
 
+		if (bestOrder is not null)
+			RestoreOrder(graph, bestOrder);
+
+		ct.ThrowIfCancellationRequested();
 		EnforceSameRankOrder(graph);
+
+		// Post-barycenter greedy refinement: escape local minima by trying adjacent swaps.
+		// Accepts a swap only when it strictly reduces the combined permutation crossing count
+		// across the two affected layer pairs (L-1:L and L:L+1). Iterates until stable.
+		LocalSwapRefinement(graph, ct);
+		InsertionRefinement(graph, ct);
+	}
+
+	/// <summary>
+	/// Move any node (virtual ones included) to any position in its layer and keep the move when it strictly lowers the crossings
+	/// of the two adjoining layer pairs. Escapes local minima the adjacent/pair swaps above cannot.
+	/// </summary>
+	private static void InsertionRefinement(GraphBuffer graph, CancellationToken ct)
+	{
+		bool changed;
+		var rounds = 0;
+		do
+		{
+			changed = false;
+			for (var layer = 0; layer < graph.LayerCount; layer++)
+			{
+				ct.ThrowIfCancellationRequested();
+				var nodes = graph.LayerNodes[layer];
+				if (nodes.Length is <= 1 or > FullPairwiseSwapLayerSizeLimit)
+					continue;
+
+				for (var from = 0; from < nodes.Length; from++)
+				{
+					var baseline = CrossingsForLayer(graph, layer);
+					if (baseline == 0)
+						break;
+
+					var bestTo = from;
+					var bestCrossings = baseline;
+					for (var to = 0; to < nodes.Length; to++)
+					{
+						if (to == from)
+							continue;
+						MoveNode(graph, nodes, from, to);
+						var c = CrossingsForLayer(graph, layer);
+						MoveNode(graph, nodes, to, from);
+						if (c >= bestCrossings)
+							continue;
+						bestCrossings = c;
+						bestTo = to;
+					}
+
+					if (bestTo == from)
+						continue;
+					MoveNode(graph, nodes, from, bestTo);
+					changed = true;
+				}
+			}
+		} while (changed && ++rounds < 8);
+	}
+
+	private static void MoveNode(GraphBuffer graph, int[] nodes, int from, int to)
+	{
+		var node = nodes[from];
+		if (from < to)
+			Array.Copy(nodes, from + 1, nodes, from, to - from);
+		else
+			Array.Copy(nodes, to, nodes, to + 1, from - to);
+		nodes[to] = node;
+		var lo = Math.Min(from, to);
+		var hi = Math.Max(from, to);
+		for (var i = lo; i <= hi; i++)
+			graph.NodePositionInLayer[nodes[i]] = i;
+	}
+
+	private static int TotalCrossings(GraphBuffer graph)
+	{
+		var total = 0;
+		for (var layer = 0; layer < graph.LayerCount - 1; layer++)
+			total += CountCrossingsBetween(graph, layer, layer + 1);
+		return total;
+	}
+
+	/// <summary>Restores a snapshot taken from <see cref="GraphBuffer.NodePositionInLayer"/>.</summary>
+	private static void RestoreOrder(GraphBuffer graph, int[] positionSnapshot)
+	{
+		Array.Copy(positionSnapshot, graph.NodePositionInLayer, graph.NodeCount);
+		for (var layer = 0; layer < graph.LayerCount; layer++)
+		{
+			var nodes = graph.LayerNodes[layer];
+			Array.Sort(nodes, (a, b) => positionSnapshot[a].CompareTo(positionSnapshot[b]));
+		}
+	}
+
+	/// <summary>
+	/// Layers larger than this fall back to adjacent-only swaps in <see cref="LocalSwapRefinement"/>:
+	/// the full pairwise search below is O(layer_size² × E) per pass, fine for the handful-to-dozens
+	/// of siblings real diagrams have per layer, but a guardrail against quadratic blowup on
+	/// adversarial input with one very wide layer (<c>ResourceLimits.MaxElements</c> bounds total
+	/// node count, not per-layer count).
+	/// </summary>
+	private const int FullPairwiseSwapLayerSizeLimit = 60;
+
+	/// <summary>
+	/// Greedy swap pass. For every pair of real nodes in a layer — not just adjacent ones —
+	/// swaps them if doing so doesn't worsen either adjoining layer pair's crossing count and
+	/// strictly reduces their combined total. Checking every pair (not only neighbors) matters
+	/// because a two-node exchange that helps is sometimes only reachable by swapping nodes
+	/// separated by others that must stay put (an adjacent-only pass can't reach that swap at
+	/// all, regardless of how many times it repeats). Operates only on real nodes; virtual
+	/// nodes are not swapped (they track their chain).
+	/// </summary>
+	private static void LocalSwapRefinement(GraphBuffer graph, CancellationToken ct)
+	{
+		if (graph.LayerCount <= 1)
+			return;
+
+		bool changed;
+		do
+		{
+			changed = false;
+			for (var layer = 0; layer < graph.LayerCount; layer++)
+			{
+				ct.ThrowIfCancellationRequested();
+				var nodes = graph.LayerNodes[layer];
+				if (nodes.Length <= 1)
+					continue;
+
+				var aboveBefore = layer > 0 ? CountCrossingsBetween(graph, layer - 1, layer) : 0;
+				var belowBefore = layer < graph.LayerCount - 1 ? CountCrossingsBetween(graph, layer, layer + 1) : 0;
+				if (aboveBefore == 0 && belowBefore == 0)
+					continue;
+
+				var maxJump = nodes.Length <= FullPairwiseSwapLayerSizeLimit ? nodes.Length : 2;
+
+				for (var i = 0; i < nodes.Length - 1; i++)
+				{
+					var a = nodes[i];
+					if (a >= graph.RealNodeCount)
+						continue;
+
+					var jLimit = Math.Min(nodes.Length, i + maxJump);
+					for (var j = i + 1; j < jLimit; j++)
+					{
+						var b = nodes[j];
+						if (b >= graph.RealNodeCount)
+							continue;
+
+						nodes[i] = b;
+						nodes[j] = a;
+						graph.NodePositionInLayer[a] = j;
+						graph.NodePositionInLayer[b] = i;
+
+						var aboveAfter = layer > 0 ? CountCrossingsBetween(graph, layer - 1, layer) : 0;
+						var belowAfter = layer < graph.LayerCount - 1 ? CountCrossingsBetween(graph, layer, layer + 1) : 0;
+
+						// Accept if: neither touching pair gets worse AND the total strictly
+						// decreases. This handles both single-crossing elimination (1→0) and
+						// multi-crossing reduction (e.g. 2→1) without risking a regression in
+						// either pair.
+						var isImprovement =
+							aboveAfter <= aboveBefore &&
+							belowAfter <= belowBefore &&
+							aboveAfter + belowAfter < aboveBefore + belowBefore;
+
+						if (isImprovement)
+						{
+							changed = true;
+							aboveBefore = aboveAfter;
+							belowBefore = belowAfter;
+							// nodes[i] now holds b, not a — refresh so subsequent j iterations for
+							// this i swap against the node actually sitting there.
+							a = b;
+						}
+						else
+						{
+							// Revert
+							nodes[i] = a;
+							nodes[j] = b;
+							graph.NodePositionInLayer[a] = i;
+							graph.NodePositionInLayer[b] = j;
+						}
+
+						if (aboveBefore == 0 && belowBefore == 0)
+							break;
+					}
+
+					if (aboveBefore == 0 && belowBefore == 0)
+						break;
+				}
+			}
+		} while (changed);
+	}
+
+	/// <summary>
+	/// Counts permutation crossings touching the given layer: crossings between (layer-1, layer)
+	/// and between (layer, layer+1). Edges between same-layer nodes are ignored.
+	/// </summary>
+	private static int CrossingsForLayer(GraphBuffer graph, int layer)
+	{
+		var total = 0;
+		if (layer > 0)
+			total += CountCrossingsBetween(graph, layer - 1, layer);
+		if (layer < graph.LayerCount - 1)
+			total += CountCrossingsBetween(graph, layer, layer + 1);
+		return total;
+	}
+
+	/// <summary>
+	/// O(E²) permutation crossing count between two adjacent layers using the in/out adjacency.
+	/// Only counts edges whose endpoints are strictly in the two specified layers.
+	/// </summary>
+	private static int CountCrossingsBetween(GraphBuffer graph, int upper, int lower)
+	{
+		// Collect all edges from upper → lower as (pos_upper, pos_lower) pairs
+		var edges = CollectEdgePairs(graph, upper, lower);
+		var n = edges.Count;
+		var crossings = 0;
+		for (var i = 0; i < n; i++)
+		{
+			for (var j = i + 1; j < n; j++)
+			{
+				var (a, b) = edges[i];
+				var (c, d) = edges[j];
+				if ((a < c && b > d) || (a > c && b < d))
+					crossings++;
+			}
+		}
+		return crossings;
+	}
+
+	private static List<(int, int)> CollectEdgePairs(GraphBuffer graph, int upper, int lower)
+	{
+		var edges = new List<(int, int)>();
+		var nodes = graph.LayerNodes[upper];
+		foreach (var node in nodes)
+		{
+			for (var j = graph.OutAdjStart[node]; j < graph.OutAdjStart[node + 1]; j++)
+			{
+				var to = graph.OutAdjNeighbor[j];
+				if (graph.Layers[to] != lower)
+					continue;
+				edges.Add((graph.NodePositionInLayer[node], graph.NodePositionInLayer[to]));
+			}
+		}
+		return edges;
 	}
 
 	private static void EnforceSameRankOrder(GraphBuffer graph)
@@ -54,7 +405,8 @@ internal static class CrossingMinimizer
 		}
 	}
 
-	private static void SweepLayer(GraphBuffer graph, int layer, double[] barycenters, bool useInEdges)
+	private static void SweepLayer(GraphBuffer graph, int layer, double[] barycenters, bool useInEdges,
+		bool useModelOrderForVirtuals, bool useModelOrderForRealNodes, bool useRealFirstTiebreaker = false)
 	{
 		var nodes = graph.LayerNodes[layer];
 		if (nodes.Length <= 1)
@@ -96,7 +448,47 @@ internal static class CrossingMinimizer
 		Array.Sort(nodes, (a, b) =>
 		{
 			var cmp = barycenters[a].CompareTo(barycenters[b]);
-			return cmp != 0 ? cmp : graph.NodePositionInLayer[a].CompareTo(graph.NodePositionInLayer[b]);
+			if (cmp != 0)
+				return cmp;
+			var aVirt = a >= graph.RealNodeCount;
+			var bVirt = b >= graph.RealNodeCount;
+			if (useModelOrderForVirtuals && (aVirt || bVirt))
+			{
+				// Apply ELK's considerModelOrder.NODES_AND_EDGES for virtual-vs-real ties:
+				// virtual chain nodes carry OriginalEdgeIndex as model order, real nodes carry
+				// NodeIndex. When model orders equal, real nodes sort before virtual nodes.
+				// When both are real, fall through to stable sort by current position.
+				var aOrder = aVirt && graph.VirtualNodeModelOrder != null
+					? graph.VirtualNodeModelOrder[a - graph.RealNodeCount]
+					: a;
+				var bOrder = bVirt && graph.VirtualNodeModelOrder != null
+					? graph.VirtualNodeModelOrder[b - graph.RealNodeCount]
+					: b;
+				var orderCmp = aOrder.CompareTo(bOrder);
+				if (orderCmp != 0)
+					return orderCmp;
+				// Same model order: real before virtual.
+				if (aVirt != bVirt)
+					return aVirt ? 1 : -1;
+			}
+			else if (aVirt != bVirt)
+			{
+				if (useRealFirstTiebreaker)
+				{
+					// Real-first: real nodes sort before virtual (long-edge dummy) nodes on
+					// barycenter ties. Matches ELK's NODES_AND_EDGES behaviour where real nodes
+					// are seeded before long-edge dummies in the initial layer ordering.
+					return aVirt ? 1 : -1;
+				}
+				// Virtual-first tiebreaker (default): virtual nodes sort before real nodes on ties,
+				// anchoring long-edge chains to the left and reducing crossings.
+				return aVirt ? -1 : 1;
+			}
+			// Real vs real: optionally use node model index (ELK NODES_AND_EDGES behavior),
+			// otherwise stable-sort by current layer position.
+			if (useModelOrderForRealNodes && !aVirt && !bVirt)
+				return a.CompareTo(b);
+			return graph.NodePositionInLayer[a].CompareTo(graph.NodePositionInLayer[b]);
 		});
 
 		for (var pos = 0; pos < nodes.Length; pos++)

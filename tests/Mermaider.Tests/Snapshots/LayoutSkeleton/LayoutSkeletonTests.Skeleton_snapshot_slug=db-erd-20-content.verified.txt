@@ -1,0 +1,39 @@
+﻿Layer 0: SettingsDirective, CrossLink, InternalLink, PageCardDirective, ImageLink, RelatedLearningDirective, DocumentationSet
+Layer 1: IncludeDirective, SettingsReference, CrossLinkUri, Page, Image, RelatedLearningLink, DocumentationFile
+Layer 2: Snippet, Heading, ChangelogDirective, Link, FrontMatter, Directive
+Layer 3: Anchor, Product, Applicability, ListingGroup, PageSubstitution, Cta, LegacyPage
+Layer 4: ApplicabilityEntry
+Layer 5: VersionSpec
+Edges:
+  Applicability --per key--> ApplicabilityEntry [Bottom->Top] [D]
+  ApplicabilityEntry --version--> VersionSpec [Bottom->Top] [D]
+  ChangelogDirective --argument--> Product [Bottom->Top] [D R D]
+  CrossLink --repo://path--> CrossLinkUri [Bottom->Top] [D R D]
+  DocumentationSet --files--> DocumentationFile [Bottom->Top] [D]
+  FrontMatter --applies_to--> Applicability [Bottom->Top] [D L D]
+  FrontMatter --cta.id--> Cta [Bottom->Top] [D R D]
+  FrontMatter --mapped_pages--> LegacyPage [Bottom->Top] [D R D]
+  FrontMatter --listing.group--> ListingGroup [Bottom->Top] [D L D]
+  FrontMatter --sub--> PageSubstitution [Bottom->Top] [D R D]
+  FrontMatter --products--> Product [Bottom->Top] [D L D L D]
+  Heading --slug--> Anchor [Bottom->Top] [D L D]
+  ImageLink --src--> Image [Bottom->Top] [D]
+  IncludeDirective --path--> Snippet [Bottom->Top] [D]
+  InternalLink --#anchor--> Anchor [Bottom->Top] [D L D L D]
+  InternalLink --path--> Page [Bottom->Top] [D R D]
+  Page --collected--> Anchor [Bottom->Top] [D L D L D]
+  Page --contains--> Directive [Bottom->Top] [D R D]
+  Page ----- yaml -----> FrontMatter [Bottom->Top] [D R D]
+  Page --## text--> Heading [Bottom->Top] [D L D]
+  Page --contains--> Link [Bottom->Top] [D L D]
+  PageCardDirective --local link--> Page [Bottom->Top] [D L D]
+  RelatedLearningDirective --ids--> RelatedLearningLink [Bottom->Top] [D]
+  SettingsDirective --path--> SettingsReference [Bottom->Top] [D]
+  Snippet --contributes--> Anchor [Bottom->Top] [D R D]
+Ports:
+  Anchor Top: edge24,edge14,edge11,edge16
+  FrontMatter Bottom: edge10,edge5,edge8,edge9,edge6,edge7
+  InternalLink Bottom: edge14,edge15
+  Page Bottom: edge19,edge16,edge20,edge18,edge17
+  Page Top: edge15,edge21
+  Product Top: edge2,edge10

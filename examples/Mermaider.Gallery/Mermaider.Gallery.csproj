@@ -6,6 +6,7 @@
   <ItemGroup>
     <ProjectReference Include="../../src/Mermaider/Mermaider.csproj" />
     <ProjectReference Include="../../src/Mermaider.Layout.Msagl/Mermaider.Layout.Msagl.csproj" />
+    <ProjectReference Include="../Mermaider.Examples/Mermaider.Examples.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Naiad" />

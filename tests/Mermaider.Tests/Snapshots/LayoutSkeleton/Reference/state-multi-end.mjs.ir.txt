@@ -1,0 +1,12 @@
+N	Active	0	0
+N	Inactive	1	0
+N	Closed	2	0
+E	Active	Closed	close	Bottom	Top	False	D R D L D
+E	Active	Inactive	disable	Bottom	Top	False	D L D R D
+E	Closed	_end		Bottom	Top	False	D
+E	Inactive	Active	reactivate	Top	Bottom	False	U R U
+E	Inactive	Closed	close	Bottom	Top	False	D R D
+E	_start	Active		Bottom	Top	False	D
+P	Active	Bottom	1,3,0
+P	Closed	Top	4,0
+P	Inactive	Top	1,3

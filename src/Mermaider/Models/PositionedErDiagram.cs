@@ -19,6 +19,9 @@ public sealed record PositionedErEntity
 	public required double Height { get; init; }
 	public required double HeaderHeight { get; init; }
 	public required double RowHeight { get; init; }
+
+	/// <summary>Index of the connected component (cluster) this entity belongs to; each cluster gets its own colour.</summary>
+	public int Cluster { get; init; }
 }
 
 public sealed record PositionedErRelationship
@@ -30,4 +33,5 @@ public sealed record PositionedErRelationship
 	public required string Label { get; init; }
 	public required bool Identifying { get; init; }
 	public required IReadOnlyList<Point> Points { get; init; }
+	public Point? LabelPosition { get; init; }
 }

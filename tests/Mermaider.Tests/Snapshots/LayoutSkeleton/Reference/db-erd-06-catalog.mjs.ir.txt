@@ -1,0 +1,8 @@
+N	LegacyUrlMapping	0	0
+N	Product	1	0
+N	VersioningSystem	2	0
+N	Repository	2	1
+E	LegacyUrlMapping	Product	product	Bottom	Top	False	D
+E	Product	Repository	repository	Bottom	Top	False	D R D
+E	Product	VersioningSystem	versioning	Bottom	Top	False	D L D
+P	Product	Bottom	2,1

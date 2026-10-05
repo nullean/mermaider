@@ -1,0 +1,102 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 694.84 708.258" width="694.84" height="708.258" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+  <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
+    <polygon points="12 0, 0 6, 12 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+
+<path class="edge" data-from="disk" data-to="v1Load" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M228.35866666666664,81.6 L228.35866666666664,95.6 Q228.35866666666664,101.6 222.35866666666664,101.6 L141.944,101.6 Q135.944,101.6 135.944,107.6 L135.944,121.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="disk" data-to="uriResolve" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M316.2253333333333,81.6 L316.2253333333333,95.6 Q316.2253333333333,101.6 322.2253333333333,101.6 L402.64,101.6 Q408.64,101.6 408.64,107.6 L408.64,121.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="v1Load" data-to="v1Nodes" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M135.944,187.2 L135.94399999999996,248" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="uriResolve" data-to="hasV2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M408.64,208 L408.64,248" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="hasV2" data-to="loadV2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" d="M382.33866666666665,379.5 L382.33866666666665,411.808 Q382.33866666666665,417.808 376.33866666666665,417.808 L273.504,417.808 Q267.504,417.808 267.504,423.808 L267.504,500.258" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="hasV2" data-to="loadFallback" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="No" d="M434.9413333333333,379.5 L434.9413333333333,411.808 Q434.9413333333333,417.808 440.9413333333333,417.808 L543.7760000000001,417.808 Q549.7760000000001,417.808 549.7760000000001,423.808 L549.7760000000001,500.258" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="loadV2" data-to="v2Nodes" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M267.504,586.658 L267.504,626.658" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="loadFallback" data-to="v2NodesFallback" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M549.7760000000001,586.658 L549.776,626.658" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<g class="edge-label" data-from="hasV2" data-to="loadV2" data-label="Yes">
+  <rect x="273.1529066666667" y="405.58299999999997" width="46.11952000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="296.2126666666667" y="417.808" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Yes</text>
+</g>
+<g class="edge-label" data-from="hasV2" data-to="loadFallback" data-label="No">
+  <rect x="502.0143733333334" y="405.58299999999997" width="38.10592000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="521.0673333333334" y="417.808" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">No</text>
+</g>
+<g class="node" data-id="disk" data-label="All repos cloned to disk prior
+to build" data-shape="rectangle">
+  <rect x="140.49199999999996" y="16" width="263.6" height="65.6" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="272.292" y="48.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="272.292" dy="-4.800000000000001">All repos cloned to disk prior</tspan><tspan x="272.292" dy="20.8">to build</tspan></text>
+</g>
+<g class="node" data-id="v1Load" data-label="Load docset.yml + toc.yml
+(every repo)" data-shape="rectangle">
+  <rect x="16" y="121.6" width="239.88799999999998" height="65.6" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="135.944" y="154.39999999999998" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="135.944" dy="-4.800000000000001">Load docset.yml + toc.yml</tspan><tspan x="135.944" dy="20.8">(every repo)</tspan></text>
+</g>
+<g class="node" data-id="uriResolve" data-label="navigation-v2.yml URI
+resolved
+to repo checkout on disk" data-shape="rectangle">
+  <rect x="291.888" y="121.6" width="233.50400000000002" height="86.4" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="408.64" y="164.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="408.64" dy="-15.200000000000001">navigation-v2.yml URI</tspan><tspan x="408.64" dy="20.8">resolved</tspan><tspan x="408.64" dy="20.8">to repo checkout on disk</tspan></text>
+</g>
+<g class="node" data-id="v1Nodes" data-label="V1 TableOfContentNodes" data-shape="rectangle">
+  <rect x="18.73599999999999" y="248" width="234.41599999999997" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="135.94399999999996" y="270.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V1 TableOfContentNodes</text>
+</g>
+<g class="node" data-id="hasV2" data-label="docset-v2.yml
+present?" data-shape="diamond">
+  <polygon points="408.64,248 487.544,326.904 408.64,405.808 329.736,326.904" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="408.64" y="326.904" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="408.64" dy="-4.800000000000001">docset-v2.yml</tspan><tspan x="408.64" dy="20.8">present?</tspan></text>
+</g>
+<g class="node" data-id="loadV2" data-label="Load toc-v2.yml
+(required — no fallback to
+toc.yml)" data-shape="rectangle">
+  <rect x="150.29600000000005" y="500.258" width="234.416" height="86.4" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="267.504" y="543.458" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="267.504" dy="-15.200000000000001">Load toc-v2.yml</tspan><tspan x="267.504" dy="20.8">(required — no fallback to</tspan><tspan x="267.504" dy="20.8">toc.yml)</tspan></text>
+</g>
+<g class="node" data-id="loadFallback" data-label="Use V1 toc nodes as fallback
+emits migration-progress
+warning" data-shape="rectangle">
+  <rect x="420.71200000000005" y="500.258" width="258.128" height="86.4" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="549.7760000000001" y="543.458" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="549.7760000000001" dy="-15.200000000000001">Use V1 toc nodes as fallback</tspan><tspan x="549.7760000000001" dy="20.8">emits migration-progress</tspan><tspan x="549.7760000000001" dy="20.8">warning</tspan></text>
+</g>
+<g class="node" data-id="v2Nodes" data-label="V2 TableOfContentNodes" data-shape="rectangle">
+  <rect x="147.56" y="626.658" width="239.88799999999998" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="267.504" y="649.058" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V2 TableOfContentNodes</text>
+</g>
+<g class="node" data-id="v2NodesFallback" data-label="V2 TableOfContentNodes
+(V1 structure)" data-shape="rectangle">
+  <rect x="429.832" y="626.658" width="239.88799999999998" height="65.6" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="549.776" y="659.458" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="549.776" dy="-4.800000000000001">V2 TableOfContentNodes</tspan><tspan x="549.776" dy="20.8">(V1 structure)</tspan></text>
+</g>
+</svg>

@@ -1,0 +1,271 @@
+{
+  "slug": "db-erd-19-docset",
+  "nodes": [
+    {
+      "id": "DocumentationSet",
+      "width": 155.904,
+      "height": 76
+    },
+    {
+      "id": "TableOfContents",
+      "width": 146.784,
+      "height": 76
+    },
+    {
+      "id": "TocItem",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "NestedTocItem",
+      "width": 134.01600000000002,
+      "height": 76
+    },
+    {
+      "id": "FileItem",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Page",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "FolderItem",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "IndexFileItem",
+      "width": 121.248,
+      "height": 76
+    },
+    {
+      "id": "CrossLinkItem",
+      "width": 132.192,
+      "height": 76
+    },
+    {
+      "id": "CrossLinkUri",
+      "width": 126.72000000000001,
+      "height": 76
+    },
+    {
+      "id": "Cta",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Substitution",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "CrossLinkDeclaration",
+      "width": 188.73600000000002,
+      "height": 76
+    },
+    {
+      "id": "Repository",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Registry",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Redirect",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "ApiDeclaration",
+      "width": 134.01600000000002,
+      "height": 76
+    },
+    {
+      "id": "Product",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "ReleaseNotesSubscription",
+      "width": 221.56799999999996,
+      "height": 76
+    },
+    {
+      "id": "CodexGroup",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "FeatureToggle",
+      "width": 135.84,
+      "height": 76
+    },
+    {
+      "id": "HintSuppression",
+      "width": 148.608,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "DocumentationSet",
+      "target": "TableOfContents",
+      "labelWidth": 28.244000000000003,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "TableOfContents",
+      "target": "TocItem",
+      "labelWidth": 72.84800000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "NestedTocItem",
+      "target": "TableOfContents",
+      "labelWidth": 100.82000000000002,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e4",
+      "source": "FileItem",
+      "target": "Page",
+      "labelWidth": 26.732000000000006,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e5",
+      "source": "FolderItem",
+      "target": "IndexFileItem",
+      "labelWidth": 43.36400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e6",
+      "source": "CrossLinkItem",
+      "target": "CrossLinkUri",
+      "labelWidth": 67.55600000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e7",
+      "source": "TocItem",
+      "target": "Cta",
+      "labelWidth": 75.11600000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e8",
+      "source": "DocumentationSet",
+      "target": "Substitution",
+      "labelWidth": 40.34,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e9",
+      "source": "DocumentationSet",
+      "target": "Cta",
+      "labelWidth": 28.244000000000003,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e10",
+      "source": "DocumentationSet",
+      "target": "Cta",
+      "labelWidth": 75.11600000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e11",
+      "source": "DocumentationSet",
+      "target": "CrossLinkDeclaration",
+      "labelWidth": 82.67600000000002,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e12",
+      "source": "CrossLinkDeclaration",
+      "target": "Repository",
+      "labelWidth": 107.624,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e13",
+      "source": "CrossLinkDeclaration",
+      "target": "Registry",
+      "labelWidth": 106.11200000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e14",
+      "source": "DocumentationSet",
+      "target": "Redirect",
+      "labelWidth": 88.72399999999999,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e15",
+      "source": "DocumentationSet",
+      "target": "ApiDeclaration",
+      "labelWidth": 28.244000000000003,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e16",
+      "source": "ApiDeclaration",
+      "target": "Product",
+      "labelWidth": 56.972,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e17",
+      "source": "DocumentationSet",
+      "target": "ReleaseNotesSubscription",
+      "labelWidth": 97.796,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e18",
+      "source": "ReleaseNotesSubscription",
+      "target": "Product",
+      "labelWidth": 56.972,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e19",
+      "source": "DocumentationSet",
+      "target": "Product",
+      "labelWidth": 64.53200000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e20",
+      "source": "DocumentationSet",
+      "target": "CodexGroup",
+      "labelWidth": 87.21199999999999,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e21",
+      "source": "DocumentationSet",
+      "target": "FeatureToggle",
+      "labelWidth": 59.996,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e22",
+      "source": "DocumentationSet",
+      "target": "HintSuppression",
+      "labelWidth": 69.06800000000001,
+      "labelHeight": 24.2
+    }
+  ]
+}

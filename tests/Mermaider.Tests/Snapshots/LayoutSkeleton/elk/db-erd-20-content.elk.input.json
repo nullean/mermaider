@@ -1,0 +1,327 @@
+{
+  "slug": "db-erd-20-content",
+  "nodes": [
+    {
+      "id": "DocumentationSet",
+      "width": 155.904,
+      "height": 76
+    },
+    {
+      "id": "DocumentationFile",
+      "width": 159.55200000000002,
+      "height": 76
+    },
+    {
+      "id": "Page",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "FrontMatter",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Applicability",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Product",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Cta",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "PageSubstitution",
+      "width": 148.608,
+      "height": 76
+    },
+    {
+      "id": "LegacyPage",
+      "width": 121.248,
+      "height": 76
+    },
+    {
+      "id": "ListingGroup",
+      "width": 121.248,
+      "height": 76
+    },
+    {
+      "id": "Heading",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Anchor",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Directive",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Link",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "InternalLink",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "CrossLink",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "CrossLinkUri",
+      "width": 126.72000000000001,
+      "height": 76
+    },
+    {
+      "id": "ImageLink",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Image",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "IncludeDirective",
+      "width": 144.96,
+      "height": 76
+    },
+    {
+      "id": "Snippet",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "SettingsDirective",
+      "width": 150.43200000000002,
+      "height": 76
+    },
+    {
+      "id": "SettingsReference",
+      "width": 161.376,
+      "height": 76
+    },
+    {
+      "id": "ChangelogDirective",
+      "width": 170.496,
+      "height": 76
+    },
+    {
+      "id": "RelatedLearningDirective",
+      "width": 214.27199999999996,
+      "height": 76
+    },
+    {
+      "id": "RelatedLearningLink",
+      "width": 181.44,
+      "height": 76
+    },
+    {
+      "id": "PageCardDirective",
+      "width": 166.84799999999998,
+      "height": 76
+    },
+    {
+      "id": "ApplicabilityEntry",
+      "width": 154.08,
+      "height": 76
+    },
+    {
+      "id": "VersionSpec",
+      "width": 123.07200000000002,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "DocumentationSet",
+      "target": "DocumentationFile",
+      "labelWidth": 34.292,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "Page",
+      "target": "FrontMatter",
+      "labelWidth": 64.53200000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e2",
+      "source": "FrontMatter",
+      "target": "Applicability",
+      "labelWidth": 72.092,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "FrontMatter",
+      "target": "Product",
+      "labelWidth": 64.53200000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e4",
+      "source": "FrontMatter",
+      "target": "Cta",
+      "labelWidth": 41.852,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e5",
+      "source": "FrontMatter",
+      "target": "PageSubstitution",
+      "labelWidth": 32.78,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e6",
+      "source": "FrontMatter",
+      "target": "LegacyPage",
+      "labelWidth": 102.332,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e7",
+      "source": "FrontMatter",
+      "target": "ListingGroup",
+      "labelWidth": 84.188,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e8",
+      "source": "Page",
+      "target": "Heading",
+      "labelWidth": 48.656,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e9",
+      "source": "Page",
+      "target": "Anchor",
+      "labelWidth": 64.53200000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e10",
+      "source": "Heading",
+      "target": "Anchor",
+      "labelWidth": 35.804,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e11",
+      "source": "Page",
+      "target": "Directive",
+      "labelWidth": 61.50800000000002,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e12",
+      "source": "Page",
+      "target": "Link",
+      "labelWidth": 61.50800000000002,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e13",
+      "source": "InternalLink",
+      "target": "Page",
+      "labelWidth": 35.804,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e14",
+      "source": "InternalLink",
+      "target": "Anchor",
+      "labelWidth": 61.50800000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e15",
+      "source": "CrossLink",
+      "target": "CrossLinkUri",
+      "labelWidth": 75.11600000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e16",
+      "source": "ImageLink",
+      "target": "Image",
+      "labelWidth": 31.268,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e17",
+      "source": "IncludeDirective",
+      "target": "Snippet",
+      "labelWidth": 35.804,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e18",
+      "source": "Snippet",
+      "target": "Anchor",
+      "labelWidth": 78.14,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e19",
+      "source": "SettingsDirective",
+      "target": "SettingsReference",
+      "labelWidth": 35.804,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e20",
+      "source": "ChangelogDirective",
+      "target": "Product",
+      "labelWidth": 66.04400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e21",
+      "source": "RelatedLearningDirective",
+      "target": "RelatedLearningLink",
+      "labelWidth": 28.244000000000003,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e22",
+      "source": "PageCardDirective",
+      "target": "Page",
+      "labelWidth": 62.26400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e23",
+      "source": "Applicability",
+      "target": "ApplicabilityEntry",
+      "labelWidth": 56.216,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e24",
+      "source": "ApplicabilityEntry",
+      "target": "VersionSpec",
+      "labelWidth": 56.972,
+      "labelHeight": 24.2
+    }
+  ]
+}

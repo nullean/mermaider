@@ -1,0 +1,50 @@
+N	FolderItem	0	0
+N	CrossLinkItem	0	1
+N	DocumentationSet	0	2
+N	NestedTocItem	0	3
+N	FileItem	0	4
+N	IndexFileItem	1	0
+N	CrossLinkUri	1	1
+N	Redirect	1	2
+N	FeatureToggle	1	3
+N	HintSuppression	1	4
+N	ApiDeclaration	1	5
+N	ReleaseNotesSubscription	1	6
+N	Substitution	1	7
+N	CodexGroup	1	8
+N	CrossLinkDeclaration	1	9
+N	TableOfContents	1	10
+N	Page	1	11
+N	Product	2	0
+N	Registry	2	1
+N	Repository	2	2
+N	TocItem	2	3
+N	Cta	3	0
+E	ApiDeclaration	Product	product	Bottom	Top	False	D R D
+E	CrossLinkDeclaration	Registry	registry:// prefix	Bottom	Top	False	D L D
+E	CrossLinkDeclaration	Repository	repository name	Bottom	Top	False	D R D
+E	CrossLinkItem	CrossLinkUri	crosslink	Bottom	Top	False	D
+E	DocumentationSet	ApiDeclaration	api	Bottom	Top	False	D L D
+E	DocumentationSet	CodexGroup	codex.group	Bottom	Top	False	D R D
+E	DocumentationSet	CrossLinkDeclaration	cross_links	Bottom	Top	False	D R D
+E	DocumentationSet	Cta	cta	Bottom	Top	False	D R D R D
+E	DocumentationSet	Cta	default_cta	Bottom	Top	False	D R D L D
+E	DocumentationSet	FeatureToggle	features	Bottom	Top	False	D L D
+E	DocumentationSet	HintSuppression	suppress	Bottom	Top	False	D L D
+E	DocumentationSet	Product	products	Bottom	Top	False	D L D L D
+E	DocumentationSet	Redirect	redirects.yml	Bottom	Top	False	D L D
+E	DocumentationSet	ReleaseNotesSubscription	release_notes	Bottom	Top	False	D L D
+E	DocumentationSet	Substitution	subs	Bottom	Top	False	D R D
+E	DocumentationSet	TableOfContents	toc	Bottom	Top	False	D R D R D
+E	FileItem	Page	file	Bottom	Top	False	D
+E	FolderItem	IndexFileItem	index	Bottom	Top	False	D
+E	NestedTocItem	TableOfContents	toc.yml in folder	Bottom	Top	False	D L D
+E	ReleaseNotesSubscription	Product	product	Bottom	Top	False	D L D
+E	TableOfContents	TocItem	toc entries	Bottom	Top	False	D
+E	TocItem	Cta	default_cta	Bottom	Top	False	D L D
+E	TocItem	TocItem	children	Left	Left	True	-
+P	CrossLinkDeclaration	Bottom	1,2
+P	Cta	Top	7,21,8
+P	DocumentationSet	Bottom	12,9,10,4,13,11,14,5,6,7,15,8
+P	Product	Top	0,19,11
+P	TableOfContents	Top	15,18

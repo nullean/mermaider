@@ -1,0 +1,60 @@
+{
+  "slug": "db-erd-11-link-graph",
+  "nodes": [
+    {
+      "id": "DocumentationSet",
+      "width": 155.904,
+      "height": 76
+    },
+    {
+      "id": "LinkManifest",
+      "width": 120.336,
+      "height": 76
+    },
+    {
+      "id": "Registry",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "LinkRegistry",
+      "width": 121.248,
+      "height": 76
+    },
+    {
+      "id": "LinkRegistryEntry",
+      "width": 161.376,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "DocumentationSet",
+      "target": "LinkManifest",
+      "labelWidth": 77.38399999999999,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "Registry",
+      "target": "LinkRegistry",
+      "labelWidth": 97.04,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e2",
+      "source": "LinkRegistry",
+      "target": "LinkRegistryEntry",
+      "labelWidth": 122.74400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "LinkRegistryEntry",
+      "target": "LinkManifest",
+      "labelWidth": 35.804,
+      "labelHeight": 24.2
+    }
+  ]
+}

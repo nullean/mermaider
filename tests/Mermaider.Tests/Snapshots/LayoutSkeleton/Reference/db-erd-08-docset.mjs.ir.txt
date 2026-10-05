@@ -1,0 +1,17 @@
+N	DocumentationSet	0	0
+N	TableOfContents	1	0
+N	Redirect	1	1
+N	CrossLinkDeclaration	1	2
+N	ApiDeclaration	1	3
+N	Product	1	4
+N	Registry	1	5
+N	TocItem	2	0
+E	DocumentationSet	ApiDeclaration	api	Bottom	Top	False	D R D
+E	DocumentationSet	CrossLinkDeclaration	cross_links	Bottom	Top	False	D L D
+E	DocumentationSet	Product	products	Bottom	Top	False	D R D
+E	DocumentationSet	Redirect	redirects.yml	Bottom	Top	False	D L D
+E	DocumentationSet	Registry	registry	Bottom	Top	False	D R D
+E	DocumentationSet	TableOfContents	toc	Bottom	Top	False	D L D
+E	TableOfContents	TocItem	entries	Bottom	Top	False	D
+E	TocItem	TocItem	children	Left	Left	True	-
+P	DocumentationSet	Bottom	5,3,1,0,2,4

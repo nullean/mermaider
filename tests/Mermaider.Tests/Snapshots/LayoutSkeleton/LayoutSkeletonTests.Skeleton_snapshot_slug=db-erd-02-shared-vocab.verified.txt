@@ -1,0 +1,24 @@
+﻿Layer 0: ProductRelease, Applicability
+Layer 1: Product, ChangelogLifecycle, ApplicabilityEntry
+Layer 2: Repository, VersioningSystem, ProductLifecycle, VersionSpec
+Layer 3: SemVersion
+Edges:
+  Applicability --per key--> ApplicabilityEntry [Bottom->Top] [D]
+  ApplicabilityEntry --lifecycle--> ProductLifecycle [Bottom->Top] [D L D]
+  ApplicabilityEntry --version--> VersionSpec [Bottom->Top] [D R D]
+  ApplicabilityEntry --key resolves to--> VersioningSystem [Bottom->Top] [D L D L D]
+  ChangelogLifecycle --maps to--> ProductLifecycle [Bottom->Top] [D R D]
+  Product --repository--> Repository [Bottom->Top] [D L D]
+  Product --versioning--> VersioningSystem [Bottom->Top] [D R D R D]
+  ProductRelease --lifecycle--> ChangelogLifecycle [Bottom->Top] [D R D]
+  ProductRelease --product--> Product [Bottom->Top] [D L D]
+  VersioningSystem --base--> SemVersion [Bottom->Top] [D R D]
+  VersioningSystem --current--> SemVersion [Bottom->Top] [D R D L D]
+Ports:
+  ApplicabilityEntry Bottom: edge3,edge1,edge2
+  Product Bottom: edge5,edge6
+  ProductLifecycle Top: edge4,edge1
+  ProductRelease Bottom: edge8,edge7
+  SemVersion Top: edge9,edge10
+  VersioningSystem Bottom: edge9,edge10
+  VersioningSystem Top: edge6,edge3

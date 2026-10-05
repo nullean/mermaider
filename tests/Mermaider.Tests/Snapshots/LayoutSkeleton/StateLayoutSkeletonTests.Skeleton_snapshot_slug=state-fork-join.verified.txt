@@ -1,0 +1,21 @@
+﻿Layer 0: _start
+Layer 1: Ready
+Layer 2: fork_point
+Layer 3: TaskA, TaskB, TaskC
+Layer 4: join_point
+Layer 5: Complete
+Layer 6: _end
+Edges:
+  Complete ----> _end [Bottom->Top] [D]
+  Ready ----> fork_point [Bottom->Top] [D]
+  TaskA ----> join_point [Bottom->Top] [D R D]
+  TaskB ----> join_point [Bottom->Top] [D]
+  TaskC ----> join_point [Bottom->Top] [D L D]
+  _start ----> Ready [Bottom->Top] [D]
+  fork_point ----> TaskA [Bottom->Top] [D L D]
+  fork_point ----> TaskB [Bottom->Top] [D]
+  fork_point ----> TaskC [Bottom->Top] [D R D]
+  join_point ----> Complete [Bottom->Top] [D]
+Ports:
+  fork_point Bottom: edge6,edge7,edge8
+  join_point Top: edge2,edge3,edge4

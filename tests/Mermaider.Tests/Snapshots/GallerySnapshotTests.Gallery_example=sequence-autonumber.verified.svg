@@ -1,0 +1,107 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 600" width="420" height="600" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+  <marker id="seq-arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_arrow)" />
+  </marker>
+  <marker id="seq-arrow-open" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
+    <polyline points="0 0, 12 6, 0 12" fill="none" stroke="var(--_arrow)" stroke-width="1.5" />
+  </marker>
+</defs>
+
+<line class="lifeline" data-actor="Client" x1="70" y1="70" x2="70" y2="570" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="API" x1="210" y1="70" x2="210" y2="570" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="DB" x1="350" y1="70" x2="350" y2="570" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<g class="message" data-from="Client" data-to="API" data-label="1. Login request" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="70" y1="100" x2="210" y2="100" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
+  <circle cx="70" cy="100" r="11" fill="var(--_text)" /><text x="70" y="100" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="700" fill="var(--bg)">1</text>
+  <text x="140" y="86" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Login request</text>
+</g>
+<g class="message" data-from="API" data-to="DB" data-label="2. Verify user" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="210" y1="150" x2="350" y2="150" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
+  <circle cx="210" cy="150" r="11" fill="var(--_text)" /><text x="210" y="150" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="700" fill="var(--bg)">2</text>
+  <text x="280" y="136" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Verify user</text>
+</g>
+<g class="message" data-from="DB" data-to="API" data-label="3. User found" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="350" y1="200" x2="210" y2="200" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <circle cx="350" cy="200" r="11" fill="var(--_text)" /><text x="350" y="200" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="700" fill="var(--bg)">3</text>
+  <text x="280" y="186" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">User found</text>
+</g>
+<g class="message" data-from="API" data-to="Client" data-label="4. Auth token" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="210" y1="250" x2="70" y2="250" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <circle cx="210" cy="250" r="11" fill="var(--_text)" /><text x="210" y="250" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="700" fill="var(--bg)">4</text>
+  <text x="140" y="236" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Auth token</text>
+</g>
+<g class="message" data-from="Client" data-to="API" data-label="5. GET /profile" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="70" y1="300" x2="210" y2="300" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
+  <circle cx="70" cy="300" r="11" fill="var(--_text)" /><text x="70" y="300" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="700" fill="var(--bg)">5</text>
+  <text x="140" y="286" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">GET /profile</text>
+</g>
+<g class="message" data-from="API" data-to="DB" data-label="6. Fetch profile" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="210" y1="350" x2="350" y2="350" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
+  <circle cx="210" cy="350" r="11" fill="var(--_text)" /><text x="210" y="350" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="700" fill="var(--bg)">6</text>
+  <text x="280" y="336" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Fetch profile</text>
+</g>
+<g class="message" data-from="DB" data-to="API" data-label="7. Profile data" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="350" y1="400" x2="210" y2="400" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <circle cx="350" cy="400" r="11" fill="var(--_text)" /><text x="350" y="400" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="700" fill="var(--bg)">7</text>
+  <text x="280" y="386" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Profile data</text>
+</g>
+<g class="message" data-from="API" data-to="Client" data-label="8. 200 OK" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="210" y1="450" x2="70" y2="450" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <circle cx="210" cy="450" r="11" fill="var(--_text)" /><text x="210" y="450" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="700" fill="var(--bg)">8</text>
+  <text x="140" y="436" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">200 OK</text>
+</g>
+<g class="actor" data-id="Client" data-label="Client" data-type="participant">
+  <rect x="30" y="30" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="70" y="50" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">Client</text>
+</g>
+<g class="actor" data-id="API" data-label="API" data-type="participant">
+  <rect x="170" y="30" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="210" y="50" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">API</text>
+</g>
+<g class="actor" data-id="DB" data-label="DB" data-type="participant">
+  <rect x="310" y="30" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="350" y="50" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">DB</text>
+</g>
+<g class="actor" data-id="Client" data-label="Client" data-type="participant">
+  <rect x="30" y="530" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="70" y="550" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">Client</text>
+</g>
+<g class="actor" data-id="API" data-label="API" data-type="participant">
+  <rect x="170" y="530" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="210" y="550" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">API</text>
+</g>
+<g class="actor" data-id="DB" data-label="DB" data-type="participant">
+  <rect x="310" y="530" width="80" height="40" rx="6" ry="6" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1.75" />
+  <text x="350" y="550" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">DB</text>
+</g>
+</svg>

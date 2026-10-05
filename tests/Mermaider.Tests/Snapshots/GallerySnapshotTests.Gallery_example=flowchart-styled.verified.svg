@@ -1,0 +1,59 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 330.72 246.39999999999998" width="330.72" height="246.39999999999998" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+  <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
+    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
+    <polygon points="12 0, 0 6, 12 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+
+<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M151.22400000000002,60.8 L151.224,100.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M132.97866666666667,145.6 L132.97866666666667,154.6 Q132.97866666666667,160.6 126.97866666666667,160.6 L73.544,160.6 Q67.544,160.6 67.544,166.6 L67.544,185.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="B" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M169.46933333333334,145.6 L169.46933333333334,154.6 Q169.46933333333334,160.6 175.46933333333334,160.6 L228.90400000000002,160.6 Q234.90400000000002,160.6 234.90400000000002,166.6 L234.90400000000002,185.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<g class="node" data-id="A" data-label="Important" data-shape="rectangle">
+  <rect x="89.19200000000001" y="16" width="124.06400000000001" height="44.8" rx="6" ry="6" fill="#f96" stroke="#333" stroke-width="2px" />
+  <text x="151.22400000000002" y="38.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="#fff" dy="5.6">Important</text>
+</g>
+<g class="node" data-id="B" data-label="Normal" data-shape="rectangle">
+  <rect x="96.488" y="100.8" width="109.47200000000001" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="151.224" y="123.19999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Normal</text>
+</g>
+<g class="node" data-id="C" data-label="Muted" data-shape="rectangle">
+  <rect x="16" y="185.6" width="103.088" height="44.8" rx="6" ry="6" fill="#eee" stroke="#ccc" stroke-width="2" />
+  <text x="67.544" y="208" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="#999" dy="5.6">Muted</text>
+</g>
+<g class="node" data-id="D" data-label="Also Important" data-shape="rectangle">
+  <rect x="155.08800000000002" y="185.6" width="159.632" height="44.8" rx="6" ry="6" fill="#f96" stroke="#333" stroke-width="2px" />
+  <text x="234.90400000000002" y="208" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="#fff" dy="5.6">Also Important</text>
+</g>
+</svg>

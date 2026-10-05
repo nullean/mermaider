@@ -1,0 +1,13 @@
+﻿Layer 0: A, E
+Layer 1: B, C, D
+Layer 2: F, G, H
+Edges:
+  A ----> B [Bottom->Top] [D L D]
+  A ----> C [Bottom->Top] [D]
+  A ----> D [Bottom->Top] [D R D]
+  E --text--> F [Bottom->Top] [D L D]
+  E --dotted text--> G [Bottom->Top] [D]
+  E --thick text--> H [Bottom->Top] [D R D]
+Ports:
+  A Bottom: edge0,edge1,edge2
+  E Bottom: edge3,edge4,edge5

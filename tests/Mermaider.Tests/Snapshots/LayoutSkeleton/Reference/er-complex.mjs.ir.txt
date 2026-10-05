@@ -1,0 +1,11 @@
+N	USER	0	0
+N	POST	1	0
+N	TAG	2	0
+N	COMMENT	2	1
+E	POST	COMMENT	has	Bottom	Top	False	D R D R D
+E	POST	TAG	tagged	Bottom	Top	False	D L D
+E	USER	COMMENT	writes	Bottom	Top	False	D R D
+E	USER	POST	writes	Bottom	Top	False	D L D
+P	COMMENT	Top	0,2
+P	POST	Bottom	1,0
+P	USER	Bottom	3,2

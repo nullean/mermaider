@@ -1,0 +1,187 @@
+{
+  "slug": "db-erd-23-publishing",
+  "nodes": [
+    {
+      "id": "Assembly",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "PublishEnvironment",
+      "width": 172.32,
+      "height": 76
+    },
+    {
+      "id": "FeatureFlag",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "AnalyticsIntegration",
+      "width": 170.496,
+      "height": 76
+    },
+    {
+      "id": "SearchIndex",
+      "width": 121.248,
+      "height": 76
+    },
+    {
+      "id": "RedirectStore",
+      "width": 128.544,
+      "height": 76
+    },
+    {
+      "id": "Build",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "BuildType",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "AssembledDocumentationSet",
+      "width": 236.1599999999999,
+      "height": 76
+    },
+    {
+      "id": "DocumentationSet",
+      "width": 155.904,
+      "height": 76
+    },
+    {
+      "id": "GenerationState",
+      "width": 143.136,
+      "height": 76
+    },
+    {
+      "id": "BuildStamp",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "CloudfrontRedirectMap",
+      "width": 195.12,
+      "height": 76
+    },
+    {
+      "id": "Redirect",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "SyncPlan",
+      "width": 120,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "Assembly",
+      "target": "PublishEnvironment",
+      "labelWidth": 91.748,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "PublishEnvironment",
+      "target": "FeatureFlag",
+      "labelWidth": 88.72399999999999,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e2",
+      "source": "PublishEnvironment",
+      "target": "AnalyticsIntegration",
+      "labelWidth": 201.36799999999997,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "PublishEnvironment",
+      "target": "SearchIndex",
+      "labelWidth": 111.40400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e4",
+      "source": "PublishEnvironment",
+      "target": "RedirectStore",
+      "labelWidth": 37.316,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e5",
+      "source": "Build",
+      "target": "BuildType",
+      "labelWidth": 35.804,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e6",
+      "source": "Build",
+      "target": "PublishEnvironment",
+      "labelWidth": 84.188,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e7",
+      "source": "Build",
+      "target": "AssembledDocumentationSet",
+      "labelWidth": 75.11600000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e8",
+      "source": "AssembledDocumentationSet",
+      "target": "DocumentationSet",
+      "labelWidth": 50.92400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e9",
+      "source": "Build",
+      "target": "GenerationState",
+      "labelWidth": 74.36,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e10",
+      "source": "Build",
+      "target": "BuildStamp",
+      "labelWidth": 101.57600000000002,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e11",
+      "source": "Build",
+      "target": "CloudfrontRedirectMap",
+      "labelWidth": 94.772,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e12",
+      "source": "CloudfrontRedirectMap",
+      "target": "Redirect",
+      "labelWidth": 84.94399999999997,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e13",
+      "source": "CloudfrontRedirectMap",
+      "target": "RedirectStore",
+      "labelWidth": 78.896,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e14",
+      "source": "Build",
+      "target": "SyncPlan",
+      "labelWidth": 78.89600000000002,
+      "labelHeight": 24.2
+    }
+  ]
+}

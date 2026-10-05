@@ -1,0 +1,21 @@
+N	DocumentationSet	0	0
+N	InternalLink	0	1
+N	CrossLink	0	2
+N	IncludeDirective	0	3
+N	DocumentationFile	1	0
+N	Page	1	1
+N	CrossLinkUri	1	2
+N	Snippet	1	3
+N	FrontMatter	2	0
+N	Anchor	2	1
+N	Link	2	2
+N	Applicability	3	0
+E	CrossLink	CrossLinkUri	repo://path	Bottom	Top	False	D
+E	DocumentationSet	DocumentationFile	files	Bottom	Top	False	D
+E	FrontMatter	Applicability	applies_to	Bottom	Top	False	D
+E	IncludeDirective	Snippet	include	Bottom	Top	False	D
+E	InternalLink	Page	target	Bottom	Top	False	D
+E	Page	Anchor	anchors	Bottom	Top	False	D
+E	Page	FrontMatter	front matter	Bottom	Top	False	D L D
+E	Page	Link	links	Bottom	Top	False	D R D
+P	Page	Bottom	6,5,7

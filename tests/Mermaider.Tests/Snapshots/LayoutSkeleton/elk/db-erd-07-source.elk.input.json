@@ -1,0 +1,77 @@
+{
+  "slug": "db-erd-07-source",
+  "nodes": [
+    {
+      "id": "Repository",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "DocumentationSet",
+      "width": 155.904,
+      "height": 76
+    },
+    {
+      "id": "ContentSourceBranches",
+      "width": 208.79999999999998,
+      "height": 76
+    },
+    {
+      "id": "PublishEnvironment",
+      "width": 172.32,
+      "height": 76
+    },
+    {
+      "id": "ContentSource",
+      "width": 135.84,
+      "height": 76
+    },
+    {
+      "id": "Checkout",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "LinkRegistryEntry",
+      "width": 161.376,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "Repository",
+      "target": "DocumentationSet",
+      "labelWidth": 97.79600000000002,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "Repository",
+      "target": "ContentSourceBranches",
+      "labelWidth": 121.98800000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e2",
+      "source": "PublishEnvironment",
+      "target": "ContentSource",
+      "labelWidth": 105.35600000000002,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "Checkout",
+      "target": "Repository",
+      "labelWidth": 50.92400000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e4",
+      "source": "Checkout",
+      "target": "LinkRegistryEntry",
+      "labelWidth": 92.50399999999999,
+      "labelHeight": 24.2
+    }
+  ]
+}

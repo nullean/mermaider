@@ -1,0 +1,123 @@
+{
+  "slug": "db-erd-09-content",
+  "nodes": [
+    {
+      "id": "DocumentationSet",
+      "width": 155.904,
+      "height": 76
+    },
+    {
+      "id": "DocumentationFile",
+      "width": 159.55200000000002,
+      "height": 76
+    },
+    {
+      "id": "Page",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "FrontMatter",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Anchor",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Link",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "InternalLink",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "CrossLink",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "CrossLinkUri",
+      "width": 126.72000000000001,
+      "height": 76
+    },
+    {
+      "id": "IncludeDirective",
+      "width": 144.96,
+      "height": 76
+    },
+    {
+      "id": "Snippet",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "Applicability",
+      "width": 120,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "DocumentationSet",
+      "target": "DocumentationFile",
+      "labelWidth": 34.292,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "Page",
+      "target": "FrontMatter",
+      "labelWidth": 75.872,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e2",
+      "source": "Page",
+      "target": "Anchor",
+      "labelWidth": 61.50800000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "Page",
+      "target": "Link",
+      "labelWidth": 38.828,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e4",
+      "source": "InternalLink",
+      "target": "Page",
+      "labelWidth": 44.876000000000005,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e5",
+      "source": "CrossLink",
+      "target": "CrossLinkUri",
+      "labelWidth": 75.11600000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e6",
+      "source": "IncludeDirective",
+      "target": "Snippet",
+      "labelWidth": 53.94800000000001,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e7",
+      "source": "FrontMatter",
+      "target": "Applicability",
+      "labelWidth": 72.092,
+      "labelHeight": 24.2
+    }
+  ]
+}

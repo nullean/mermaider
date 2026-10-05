@@ -1,0 +1,10 @@
+N	Active	0	0
+N	Paused	1	0
+N	Done	1	1
+E	Active	Done	finish	Bottom	Top	False	D R D
+E	Active	Paused	pause	Bottom	Top	False	D L D R D
+E	Done	_end		Bottom	Top	False	D
+E	Paused	Active	resume	Top	Bottom	False	U R U
+E	_start	Active		Bottom	Top	False	D
+P	Active	Bottom	1,3,0
+P	Paused	Top	1,3

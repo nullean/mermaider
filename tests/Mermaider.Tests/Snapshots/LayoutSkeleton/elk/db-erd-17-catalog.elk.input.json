@@ -1,0 +1,108 @@
+{
+  "slug": "db-erd-17-catalog",
+  "nodes": [
+    {
+      "id": "Product",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "VersioningSystem",
+      "width": 159.552,
+      "height": 76
+    },
+    {
+      "id": "Repository",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "ProductFeatures",
+      "width": 152.256,
+      "height": 76
+    },
+    {
+      "id": "LegacyUrlMapping",
+      "width": 167.76000000000002,
+      "height": 76
+    },
+    {
+      "id": "LegacyPage",
+      "width": 121.248,
+      "height": 76
+    },
+    {
+      "id": "SemVersion",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "QueryRule",
+      "width": 120,
+      "height": 76
+    },
+    {
+      "id": "SearchDocument",
+      "width": 152.25599999999997,
+      "height": 76
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "source": "Product",
+      "target": "VersioningSystem",
+      "labelWidth": 157.52000000000004,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e1",
+      "source": "Product",
+      "target": "Repository",
+      "labelWidth": 156.008,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e2",
+      "source": "Product",
+      "target": "ProductFeatures",
+      "labelWidth": 59.996,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e3",
+      "source": "LegacyUrlMapping",
+      "target": "Product",
+      "labelWidth": 56.972,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e4",
+      "source": "LegacyPage",
+      "target": "LegacyUrlMapping",
+      "labelWidth": 139.37599999999998,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e5",
+      "source": "VersioningSystem",
+      "target": "SemVersion",
+      "labelWidth": 40.34,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e6",
+      "source": "VersioningSystem",
+      "target": "SemVersion",
+      "labelWidth": 55.46,
+      "labelHeight": 24.2
+    },
+    {
+      "id": "e7",
+      "source": "QueryRule",
+      "target": "SearchDocument",
+      "labelWidth": 112.91600000000003,
+      "labelHeight": 24.2
+    }
+  ]
+}

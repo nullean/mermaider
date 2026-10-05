@@ -21,7 +21,7 @@ internal static class StyleBlock
 		internal const int NodeFill = 10;
 		internal const int NodeStroke = 22;
 		internal const int GroupFill = 3;
-		internal const int GroupHeader = 4;
+		internal const int GroupHeader = 15;
 		internal const int GroupStroke = 10;
 		internal const int InnerStroke = 10;
 		internal const int KeyBadge = 8;
@@ -34,11 +34,14 @@ internal static class StyleBlock
 	internal static void AppendSvgOpenTag(
 		StringBuilder sb, double width, double height,
 		DiagramColors colors, bool transparent,
-		AccessibilityInfo? accessibility = null, DiagramType? diagramType = null)
+		AccessibilityInfo? accessibility = null, DiagramType? diagramType = null,
+		double minX = 0)
 	{
-		_ = sb.Append("<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 ")
-			.Append(width).Append(' ').Append(height)
-			.Append("\" width=\"").Append(width)
+		var viewWidth = width - minX;
+		_ = sb.Append("<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"")
+			.Append(minX).Append(" 0 ")
+			.Append(viewWidth).Append(' ').Append(height)
+			.Append("\" width=\"").Append(viewWidth)
 			.Append("\" height=\"").Append(height).Append('"');
 
 		if (accessibility?.HasContent == true)
@@ -198,7 +201,7 @@ internal static class StyleBlock
 		_ = sb.Append("    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) ").Append(Mix.NodeFill).Append("%, var(--bg)));\n");
 		_ = sb.Append("    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) ").Append(Mix.NodeStroke).Append("%, var(--bg)));\n");
 		_ = sb.Append("    --_group-fill:    color-mix(in srgb, var(--fg) ").Append(Mix.GroupFill).Append("%, var(--bg));\n");
-		_ = sb.Append("    --_group-hdr:     color-mix(in srgb, var(--fg) ").Append(Mix.GroupHeader).Append("%, var(--bg));\n");
+		_ = sb.Append("    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) ").Append(Mix.GroupHeader).Append("%, var(--bg));\n");
 		_ = sb.Append("    --_group-stroke:  color-mix(in srgb, var(--fg) ").Append(Mix.GroupStroke).Append("%, var(--bg));\n");
 		_ = sb.Append("    --_inner-stroke:  color-mix(in srgb, var(--fg) ").Append(Mix.InnerStroke).Append("%, var(--bg));\n");
 		_ = sb.Append("    --_key-badge:     color-mix(in srgb, var(--fg) ").Append(Mix.KeyBadge).Append("%, var(--bg));\n");

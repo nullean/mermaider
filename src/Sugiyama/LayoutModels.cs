@@ -28,10 +28,37 @@ public sealed record LayoutGraph(
 }
 
 /// <summary>A node with a pre-computed bounding box size.</summary>
-public sealed record LayoutNode(string Id, double Width, double Height);
+public sealed record LayoutNode(string Id, double Width, double Height)
+{
+	/// <summary>Outline edges attach to: ports are spread along the bounding-box side and projected onto this outline.</summary>
+	public PortOutline Outline { get; init; }
+}
+
+/// <summary>Shape of a node's outline as seen by the edge router.</summary>
+public enum PortOutline
+{
+	/// <summary>Box: ports sit on the bounding box.</summary>
+	Rectangle,
+
+	/// <summary>Diamond: ports slide onto the slanted sides.</summary>
+	Diamond,
+
+	/// <summary>Circle/ellipse: ports slide onto the curve.</summary>
+	Ellipse,
+
+	/// <summary>Every edge attaches at the middle of a side (hexagon vertices).</summary>
+	Centre,
+}
 
 /// <summary>A directed edge between two nodes.</summary>
-public sealed record LayoutEdge(string Source, string Target, double LabelWidth = 0, double LabelHeight = 0);
+public sealed record LayoutEdge(string Source, string Target, double LabelWidth = 0, double LabelHeight = 0, int MinLength = 1)
+{
+	/// <summary>When the edge was written against a subgraph (<c>a --&gt; subnet1</c>), the subgraph whose border the edge ends on.</summary>
+	public string? SourceGroup { get; init; }
+
+	/// <summary>See <see cref="SourceGroup"/>.</summary>
+	public string? TargetGroup { get; init; }
+}
 
 /// <summary>A subgraph grouping a set of node IDs with optional children.</summary>
 public sealed record LayoutSubgraph(
@@ -65,8 +92,19 @@ public sealed record LayoutOptions
 	public double ComponentSpacing { get; init; } = 48;
 
 	/// <summary>
-	/// When true (default), disconnected graph components are laid out independently and tiled.
-	/// When false, all nodes share a unified layout grid.
+	/// When true (default), disconnected graph components are laid out independently (each its
+	/// own local rank-0..N range) and then tiled into a grid by <c>ArrangeComponents</c>. When
+	/// false, every node — across every weakly-connected component — goes through one shared
+	/// <c>LayerAssigner</c>/network-simplex pass, matching dagre's actual behavior: dagre's
+	/// <c>lib/nesting-graph.ts</c> unconditionally connects every top-level node to an implicit
+	/// dummy root before ranking (not just for explicit subgraphs/clusters), so independent
+	/// pieces land in the same layer range as the main component instead of being stacked
+	/// underneath it or isolated in their own grid cell. ER (<c>LightweightErLayoutEngine</c>)
+	/// sets this to <c>false</c> for exactly this reason — see
+	/// <c>SkeletonComparisonTests</c>'s class remarks for the before/after IR-agreement numbers.
+	/// Flowchart/class/state keep the default (<c>true</c>): their disconnected-component shapes
+	/// differ enough (and are far less common) that switching needs its own calibration pass
+	/// before being changed — see the <c>er-fix</c>/<c>final-verify-2</c> plan.
 	/// </summary>
 	public bool SeparateComponents { get; init; } = true;
 
@@ -83,6 +121,101 @@ public sealed record LayoutOptions
 	/// Default: int.MaxValue (no limit).
 	/// </summary>
 	public int MaxNodeCount { get; init; } = int.MaxValue;
+
+	/// <summary>
+	/// When true, fan-out nodes use bottom exit instead of side exit for direct
+	/// left-facing connections. Prevents routing conflicts in ER diagrams where
+	/// ancestor paths route through the same left-side corridor. Default: false.
+	/// </summary>
+	public bool StrictTopDownFanout { get; init; }
+
+	/// <summary>
+	/// When true, single-layer reversed back-edges (e.g. class inheritance) route
+	/// straight up from child-top to parent-bottom instead of detouring around the
+	/// right side. Default: false.
+	/// </summary>
+	public bool NaturalBackEdgeRouting { get; init; }
+
+	/// <summary>
+	/// When true, fan-out nodes always exit from the bottom center regardless of
+	/// target direction (left or right). Produces the classic inheritance-tree look
+	/// for class diagrams. Default: false.
+	/// </summary>
+	public bool ForceBottomExitFanOut { get; init; }
+
+	/// <summary>
+	/// When true, topological sources (L0 nodes, no predecessors) are seeded in
+	/// DESCENDING node-index order for the DFS initial layer ordering, instead of the
+	/// default ascending order. The crossing minimizer then sorts from this reversed
+	/// starting point, which can converge to a different symmetric local minimum on
+	/// graphs where two orderings have identical crossing counts. Used to match ELK's
+	/// converged output on ER mirror-diagrams. Default: false.
+	/// </summary>
+	public bool ReverseSourceOrder { get; init; }
+
+	/// <summary>
+	/// Maximum number of components to tile in the primary direction before wrapping
+	/// to a new row (for TD/BT) or column (for LR/RL). 0 means unlimited (default).
+	/// Useful for ER diagrams with many disconnected entity pairs.
+	/// </summary>
+	public int MaxComponentsPerRow { get; init; }
+
+	/// <summary>
+	/// When true, each source node (no incoming edges) is pushed independently to sit
+	/// directly above its nearest child, regardless of whether sibling sources exist.
+	/// Keeps ER entities close to what they connect to. Default: false.
+	/// </summary>
+	public bool TightSourceLayering { get; init; }
+
+	/// <summary>
+	/// When true, the crossing minimizer uses ELK's considerModelOrder.NODES_AND_EDGES
+	/// tiebreaker for virtual-vs-real node comparisons: virtual chain nodes are ordered by
+	/// their originating edge's model index. Matches ELK's initial ordering for flowchart
+	/// and state diagrams. Default: false (uses virtual-first tiebreaker, which produces
+	/// fewer crossings for dense ER diagrams).
+	/// </summary>
+	public bool UseModelOrderForVirtualNodes { get; init; }
+
+	/// <summary>
+	/// When true, the crossing minimizer uses node model index (node ID, which equals
+	/// insertion order) as the tiebreaker for real-vs-real barycenter ties. Matches ELK's
+	/// considerModelOrder.NODES_AND_EDGES behavior for real nodes. Default: false (uses
+	/// stable sort by current layer position).
+	/// </summary>
+	public bool UseModelOrderForRealNodes { get; init; }
+
+	/// <summary>
+	/// When true, the barycenter tiebreaker places real nodes before virtual (long-edge dummy)
+	/// nodes in the same layer. Matches ELK's NODES_AND_EDGES initial-ordering behaviour, where
+	/// real nodes are seeded before long-edge dummies within each layer. Improves ER diagrams
+	/// that have skip-layer edges introducing virtual nodes (e.g. er-complex). Default: false
+	/// (virtual-first, the historical behaviour that worked well before skip-layer edges were
+	/// common in the corpus).
+	/// </summary>
+	public bool UseRealFirstTiebreaker { get; init; }
+
+	/// <summary>
+	/// ER-style layout: ports distributed per node side, BK aligns ports and per-edge gap (label) dummies,
+	/// and edges are routed port → column → port with short jogs next to the nodes.
+	/// </summary>
+	public bool PortAwareLayout { get; init; }
+
+	/// <summary>
+	/// Balanced placement for flowcharts/state diagrams: Brandes–Köpf coordinates (four aligned layouts, median) with a label
+	/// column per labelled edge and per-gap spacing, but without the ER-only router and ER side effects.
+	/// </summary>
+	public bool BalancedPlacement { get; init; }
+
+	/// <summary>Deterministic random restarts of crossing minimisation; a restart wins only with strictly fewer crossings.</summary>
+	public int CrossingRestarts { get; init; }
+
+	/// <summary>Padding between a subgraph border and its content (compound layout).</summary>
+	public double GroupPadding { get; init; } = 24;
+
+	/// <summary>Space reserved for a subgraph header above its content (compound layout).</summary>
+	public double GroupHeaderHeight { get; init; } = 32;
+
+
 }
 
 // ====================================================================

@@ -56,6 +56,9 @@ internal static class NodeSizing
 
 		switch (shape)
 		{
+			case NodeShape.Diamond when label.Length == 0:
+				// a label-less diamond is a state-diagram choice pseudo-state: a small marker, not a decision box
+				return (32, 32);
 			case NodeShape.Diamond:
 				{
 					var side = Math.Max(width, height) + RenderConstants.NodePadding.DiamondExtra;

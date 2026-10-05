@@ -13,12 +13,53 @@ namespace Sugiyama.Internal;
 /// </summary>
 internal static class CoordinateAssigner
 {
-	internal static void Run(GraphBuffer graph, double nodeSpacing, double layerSpacing)
+	internal static void Run(GraphBuffer graph, double nodeSpacing, double layerSpacing, bool interLayerCompact = false)
 	{
 		AssignPrimaryAxis(graph, layerSpacing);
 		AssignSecondaryAxis(graph, nodeSpacing);
-		PlaceBySubtreeWidth(graph, nodeSpacing);
+
+		if (interLayerCompact)
+		{
+			// BK BALANCED: produces the same X positions as ELK's bk.fixedAlignment=BALANCED,
+			// which is what mermaid.js uses. Replaces the Reingold-Tilford subtree-width +
+			// median-pull approach for ER diagrams.
+			BkCoordinateAssigner.Run(graph, nodeSpacing);
+			NormalizeX(graph);
+			return;
+		}
+
+		PlaceBySubtreeWidth(graph, nodeSpacing, interLayerCompact);
+		CompactOrphanedNodes(graph, nodeSpacing);
 		AlignToConnections(graph, nodeSpacing);
+		// AlignToConnections pulls each node toward the median of its neighbours in an
+		// adjacent layer. For a node with real children shared with a sibling (e.g. two
+		// parents both pointing at the same grandchild), this can ping-pong: the sibling
+		// is pulled toward the shared child, the shared child is pulled toward the
+		// sibling, and the original node is then pulled toward the shared child's new
+		// (shifted) position — overshooting back into the sibling it started next to.
+		// A final ordinal-order overlap sweep guarantees no two entities in the same
+		// layer ever end up occupying the same horizontal space, regardless of how many
+		// median-pull passes ran. ER-only (interLayerCompact): flowchart/class/state
+		// layouts don't exhibit this ping-pong (their multi-parent shapes are rarer and
+		// the existing spacing passes already keep them apart) and a blanket safety net
+		// there risks masking real spacing decisions with a forced push.
+		if (interLayerCompact)
+			EnforceMinimumSpacingAfterAlign(graph, nodeSpacing);
+		// After AlignToConnections, nodes with children are centered over their subtrees.
+		// Skip compaction for such nodes when they're already bracketed by their children
+		// (positioned within their children's X range) — compacting them rightward would
+		// undo the median pull and produce wrong route directions for disconnected components
+		// whose roots have unequal subtree widths (e.g. two isolated ER entity trees).
+		CompactOrphanedNodes(graph, nodeSpacing, skipBracketedNodes: interLayerCompact);
+		// Virtual nodes for skip-layer edges may land far outside their chain's X range
+		// due to the virtual-first tiebreaker placing them leftmost on barycenter ties.
+		// Pull them back toward the chain's source–target midpoint so routing stays within
+		// the natural corridor and avoids horizontal detours that create visual crossings.
+		// ER-only: flowcharts and other diagram types use different routing conventions
+		// (side-exits, LR orientation) where adjusting virtual node X can unexpectedly
+		// change port selection and route direction.
+		if (interLayerCompact)
+			CenterVirtualNodes(graph, nodeSpacing);
 		NormalizeX(graph);
 	}
 
@@ -41,7 +82,7 @@ internal static class CoordinateAssigner
 			foreach (var node in nodes)
 				graph.Y[node] = currentY;
 
-			currentY += maxHeight + layerSpacing;
+			currentY += maxHeight + (graph.GapSpacing is { } gs && layer < gs.Length ? gs[layer] : layerSpacing);
 		}
 	}
 
@@ -77,7 +118,7 @@ internal static class CoordinateAssigner
 	/// Virtual nodes keep their AssignSecondaryAxis positions; AlignToConnections
 	/// fine-tunes them afterward.
 	/// </summary>
-	private static void PlaceBySubtreeWidth(GraphBuffer graph, double nodeSpacing)
+	private static void PlaceBySubtreeWidth(GraphBuffer graph, double nodeSpacing, bool interLayerCompact = false)
 	{
 		var outEdges = BuildOutEdges(graph);
 
@@ -125,9 +166,101 @@ internal static class CoordinateAssigner
 			placed[node] = true;
 		}
 
-		// --- 3. Top-down: spread each parent's children symmetrically in its slot ---
-		for (var layer = 0; layer < graph.LayerCount - 1; layer++)
+		// --- 3. Top-down: spread children with interleaved per-layer spacing enforcement.
+		//
+		// The original code placed all layers first, then enforced spacing globally.
+		// This caused a subtle bug: when a parent node's position is shifted rightward by
+		// spacing enforcement AFTER its children were placed, the children remain at the
+		// wrong (pre-shift) positions.  Example: Assembly at x=251 places PublishEnvironment
+		// at x=225, then PublishEnvironment spreads FeatureFlag etc. near x=0; spacing
+		// enforcement then pushes PublishEnvironment to x=1124 — too late for its children.
+		//
+		// Fix: enforce spacing in layer L BEFORE it spreads children to layer L+1.
+		// Layer 0 is exempt (step 2 already places it with sequential currentX so it is
+		// gap-free by construction).
+		for (var layer = 0; layer < graph.LayerCount; layer++)
 		{
+			// 3a: Finalize this layer's positions before using them to center children.
+			//     Only when interLayerCompact is set (ER diagrams): for DAGs with shared
+			//     children, the first parent to claim a node may be placed too far left,
+			//     stranding that node's descendants at x≈0 relative to the parent that
+			//     placed them.  Running spacing enforcement + compaction inline — before
+			//     spreading children — ensures parents are at their correct positions first.
+			//     Not enabled for flowcharts/class diagrams: wide intentional subtree spread
+			//     there is correct and must not be compacted mid-pass.
+			if (interLayerCompact && layer > 0)
+			{
+				var layerNodes = graph.LayerNodes[layer];
+
+				// (a) Push right: remove overlaps created by multi-parent placement
+				for (var pos = 1; pos < layerNodes.Length; pos++)
+				{
+					var prev = layerNodes[pos - 1];
+					var curr = layerNodes[pos];
+					var prevW = prev < graph.RealNodeCount ? graph.NodeWidths[prev] : 0;
+					var minX = graph.X[prev] + prevW + nodeSpacing;
+					if (graph.X[curr] < minX)
+						graph.X[curr] = minX;
+				}
+
+				// (b) Pull left: compact any node stranded far from its right neighbour
+				var compactThreshold = nodeSpacing * 7;
+				for (var pos = 0; pos < layerNodes.Length - 1; pos++)
+				{
+					var curr = layerNodes[pos];
+					var next = layerNodes[pos + 1];
+					if (curr >= graph.RealNodeCount)
+						continue;
+
+					var currW = graph.NodeWidths[curr];
+					var gap = graph.X[next] - (graph.X[curr] + currW);
+					if (gap <= compactThreshold)
+						continue;
+
+					var newX = graph.X[next] - nodeSpacing - currW;
+					if (pos > 0)
+					{
+						var prevNode = layerNodes[pos - 1];
+						var prevW = prevNode < graph.RealNodeCount ? graph.NodeWidths[prevNode] : 0;
+						newX = Math.Max(newX, graph.X[prevNode] + prevW + nodeSpacing);
+					}
+
+					if (newX > graph.X[curr])
+						graph.X[curr] = newX;
+				}
+			}
+
+			// 3b: Push unplaced real nodes (no parent placed them) to the rightmost end
+			//     of this layer so they don't straddle placed siblings.
+			{
+				var layerNodes = graph.LayerNodes[layer];
+				var rightmostEnd = double.MinValue;
+				foreach (var node in layerNodes)
+				{
+					if (node >= graph.RealNodeCount || !placed[node])
+						continue;
+					var end = graph.X[node] + graph.NodeWidths[node];
+					if (end > rightmostEnd)
+						rightmostEnd = end;
+				}
+				if (rightmostEnd != double.MinValue)
+				{
+					var nextX = rightmostEnd + nodeSpacing;
+					foreach (var node in layerNodes)
+					{
+						if (node >= graph.RealNodeCount || placed[node])
+							continue;
+						graph.X[node] = nextX;
+						nextX += graph.NodeWidths[node] + nodeSpacing;
+						placed[node] = true;
+					}
+				}
+			}
+
+			// 3c: Spread this layer's children into layer+1 using now-final parent positions.
+			if (layer >= graph.LayerCount - 1)
+				continue;
+
 			foreach (var parent in graph.LayerNodes[layer])
 			{
 				if (parent >= graph.RealNodeCount || !placed[parent])
@@ -165,8 +298,7 @@ internal static class CoordinateAssigner
 			}
 		}
 
-		// --- 4. Enforce minimum spacing within each layer ---
-		// Fixes any remaining overlaps from multi-parent conflicts or orphaned nodes.
+		// --- 4. Final safety enforcement pass (catches multi-parent conflicts remaining) ---
 		for (var layer = 0; layer < graph.LayerCount; layer++)
 		{
 			var nodes = graph.LayerNodes[layer];
@@ -178,6 +310,210 @@ internal static class CoordinateAssigner
 				var minX = graph.X[prev] + prevW + nodeSpacing;
 				if (graph.X[curr] < minX)
 					graph.X[curr] = minX;
+			}
+		}
+	}
+
+	/// <summary>
+	/// ER-only (interLayerCompact) overlap guard for after AlignToConnections. Walks nodes
+	/// left-to-right (crossing-minimizer order) per layer and pushes each node right so it
+	/// never starts before the previous node's right edge + nodeSpacing.
+	///
+	/// AlignToConnections's median-pull can ping-pong two siblings that share a child:
+	/// the child is pulled toward one sibling, that sibling is then pulled back toward the
+	/// child's shifted position, overshooting into the other sibling. Unlike step 4 above
+	/// (which never needs to run more than once, right after initial placement), a fixed
+	/// overlap here is applied as a rigid shift carried forward to every later sibling in
+	/// the layer rather than resetting each one down to the bare minimum gap — resetting
+	/// would collapse every gap from the fix point onward to exactly nodeSpacing, destroying
+	/// wider gaps median-pull deliberately created earlier in the same layer.
+	/// </summary>
+	private static void EnforceMinimumSpacingAfterAlign(GraphBuffer graph, double nodeSpacing)
+	{
+		for (var layer = 0; layer < graph.LayerCount; layer++)
+		{
+			var nodes = graph.LayerNodes[layer];
+			var shift = 0.0;
+			for (var pos = 1; pos < nodes.Length; pos++)
+			{
+				var prev = nodes[pos - 1];
+				var curr = nodes[pos];
+				if (shift > 0)
+					graph.X[curr] += shift;
+
+				var prevW = prev < graph.RealNodeCount ? graph.NodeWidths[prev] : 0;
+				var minX = graph.X[prev] + prevW + nodeSpacing;
+				if (graph.X[curr] < minX)
+				{
+					shift += minX - graph.X[curr];
+					graph.X[curr] = minX;
+				}
+			}
+		}
+	}
+
+	/// <summary>
+	/// After subtree placement, detect nodes stranded far from their layer-peers and
+	/// pull them adjacent to their nearest right-neighbour. These orphans arise when a
+	/// node's only connections are in a cluster far to the right, leaving it at the
+	/// leftmost slot (x≈0) while its neighbours sit hundreds of pixels away.
+	/// Threshold: gap > 10 × nodeSpacing (conservative — catches real orphans, not
+	/// intentional wide subtree spreads).
+	/// </summary>
+	private static void CompactOrphanedNodes(GraphBuffer graph, double nodeSpacing, bool skipBracketedNodes = false)
+	{
+		var threshold = nodeSpacing * 7;
+		for (var layer = 0; layer < graph.LayerCount; layer++)
+		{
+			var nextLayer = layer + 1;
+			var nodes = graph.LayerNodes[layer];
+			if (nodes.Length < 2)
+				continue;
+
+			for (var pos = 0; pos < nodes.Length - 1; pos++)
+			{
+				var curr = nodes[pos];
+				var next = nodes[pos + 1];
+				if (curr >= graph.RealNodeCount)
+					continue;
+
+				var currW = graph.NodeWidths[curr];
+				var gap = graph.X[next] - (graph.X[curr] + currW);
+				if (gap <= threshold)
+					continue;
+
+				// Skip when a layer-0 root node has a real child substantially to its LEFT in
+				// the next layer: that child was placed there by PlaceBySubtreeWidth and defines
+				// the left boundary of this node's subtree corridor. Compacting the node rightward
+				// would slide it out of its corridor and reverse AlignToConnections's median pull.
+				// This pattern arises in graphs with disconnected components whose roots have
+				// different subtree widths — the left root has children on both sides but gets
+				// compacted toward the (wider) right component. Restricted to layer 0 so that
+				// non-root nodes in deeper layers (which may need rightward compaction for correct
+				// routing when node order doesn't match mjs) are still handled. Only on second call.
+				if (skipBracketedNodes && layer == 0 && layer + 1 < graph.LayerCount)
+				{
+					var currCX = graph.X[curr] + (currW / 2.0);
+					var hasLeftChild = false;
+					for (var oi = graph.OutAdjStart[curr]; oi < graph.OutAdjStart[curr + 1]; oi++)
+					{
+						var nb = graph.OutAdjNeighbor[oi];
+						if (nb < graph.RealNodeCount && graph.Layers[nb] == layer + 1)
+						{
+							var cx = graph.X[nb] + (graph.NodeWidths[nb] / 2.0);
+							if (cx < currCX - nodeSpacing)
+							{
+								hasLeftChild = true;
+								break;
+							}
+						}
+					}
+					if (hasLeftChild)
+						continue;
+				}
+
+				// Pull curr to be adjacent to next, respecting any left neighbour
+				var newX = graph.X[next] - nodeSpacing - currW;
+				if (pos > 0)
+				{
+					var prev = nodes[pos - 1];
+					var prevW = prev < graph.RealNodeCount ? graph.NodeWidths[prev] : 0;
+					newX = Math.Max(newX, graph.X[prev] + prevW + nodeSpacing);
+				}
+
+				if (newX > graph.X[curr])
+					graph.X[curr] = newX;
+			}
+		}
+	}
+
+	/// <summary>
+	/// Post-placement pass: pull virtual nodes toward the X midpoint of their chain
+	/// (lerp between chain-source X and chain-target X) when AlignToConnections left
+	/// them outside that range due to the virtual-first tiebreaker.
+	///
+	/// Only moves a virtual node right (toward the corridor), never left, and never
+	/// past the real node immediately to the right of it in its layer (spacing is
+	/// preserved). Does not move real nodes.
+	/// </summary>
+	private static void CenterVirtualNodes(GraphBuffer graph, double nodeSpacing)
+	{
+		// Build a map from virtual node → (chain source real-node, chain target real-node).
+		// All edges in the same original-index chain share source/target.
+		var chainOf = new (int Src, int Tgt)[graph.NodeCount];
+		for (var i = 0; i < graph.NodeCount; i++)
+			chainOf[i] = (-1, -1);
+
+		// Precompute chain endpoints: for each virtual node, walk in/out edges
+		// until reaching a real node (virtual chains are linear — one in, one out).
+		for (var v = graph.RealNodeCount; v < graph.NodeCount; v++)
+		{
+			// Walk backward (in-edges) to real source
+			var cur = v;
+			while (cur >= graph.RealNodeCount)
+			{
+				var start = graph.InAdjStart[cur];
+				if (start >= graph.InAdjStart[cur + 1])
+					break;
+				cur = graph.InAdjNeighbor[start];
+			}
+			var chainSrc = cur < graph.RealNodeCount ? cur : -1;
+
+			// Walk forward (out-edges) to real target
+			cur = v;
+			while (cur >= graph.RealNodeCount)
+			{
+				var start = graph.OutAdjStart[cur];
+				if (start >= graph.OutAdjStart[cur + 1])
+					break;
+				cur = graph.OutAdjNeighbor[start];
+			}
+			var chainTgt = cur < graph.RealNodeCount ? cur : -1;
+
+			if (chainSrc >= 0 && chainTgt >= 0)
+				chainOf[v] = (chainSrc, chainTgt);
+		}
+
+		for (var layer = 0; layer < graph.LayerCount; layer++)
+		{
+			var nodes = graph.LayerNodes[layer];
+			for (var pos = 0; pos < nodes.Length; pos++)
+			{
+				var v = nodes[pos];
+				if (v < graph.RealNodeCount)
+					continue;
+				var (srcNode, tgtNode) = chainOf[v];
+				if (srcNode < 0 || tgtNode < 0)
+					continue;
+
+				var srcX = graph.X[srcNode] + (graph.NodeWidths[srcNode] / 2.0);
+				var tgtX = graph.X[tgtNode] + (graph.NodeWidths[tgtNode] / 2.0);
+				var minChain = Math.Min(srcX, tgtX);
+				var maxChain = Math.Max(srcX, tgtX);
+
+				// Only move the virtual node if it is outside the chain X corridor.
+				if (graph.X[v] >= minChain && graph.X[v] <= maxChain)
+					continue;
+
+				// Target: midpoint of chain corridor.
+				var targetX = (srcX + tgtX) / 2.0;
+				if (targetX <= graph.X[v])
+					continue; // only pull right (toward corridor), never left
+
+				// Clamp: don't push past the next real node in this layer.
+				if (pos + 1 < nodes.Length)
+				{
+					var nextNode = nodes[pos + 1];
+					if (nextNode < graph.RealNodeCount)
+					{
+						var maxX = graph.X[nextNode] - nodeSpacing;
+						if (targetX > maxX)
+							targetX = maxX;
+					}
+				}
+
+				if (targetX > graph.X[v])
+					graph.X[v] = targetX;
 			}
 		}
 	}
@@ -344,9 +680,19 @@ internal static class CoordinateAssigner
 			if (posInLayer < nodes.Length - 1)
 			{
 				var next = nodes[posInLayer + 1];
-				var maxX = graph.X[next] - nodeSpacing - nodeW;
-				if (target > maxX)
-					target = maxX;
+				// Don't clamp against a pushed-down source (real node in layer > 0 with no incoming edges).
+				// Clamping here strands the current node at the wrong far-left position.
+				// The pushed-down source's own position is corrected by the minX constraint once
+				// the current node has moved to its correct position in a later sweep pass.
+				var nextIsPushedSource = next < graph.RealNodeCount
+					&& graph.Layers[next] > 0
+					&& graph.InAdjStart[next + 1] - graph.InAdjStart[next] == 0;
+				if (!nextIsPushedSource)
+				{
+					var maxX = graph.X[next] - nodeSpacing - nodeW;
+					if (target > maxX)
+						target = maxX;
+				}
 			}
 
 			graph.X[node] = target;

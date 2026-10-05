@@ -1,0 +1,13 @@
+﻿Layer 0: _start
+Layer 1: Active
+Layer 2: Paused, Done
+Layer 3: _end
+Edges:
+  Active --finish--> Done [Bottom->Top] [D R D]
+  Active --pause--> Paused [Bottom->Top] [D L D]
+  Done ----> _end [Bottom->Top] [D]
+  Paused --resume--> Active [Top->Bottom] [U R U]
+  _start ----> Active [Bottom->Top] [D]
+Ports:
+  Active Bottom: edge1,edge3,edge0
+  Paused Top: edge1,edge3

@@ -1,0 +1,20 @@
+N	LegacyPage	0	0
+N	QueryRule	0	1
+N	LegacyUrlMapping	1	0
+N	SearchDocument	1	1
+N	Product	2	0
+N	VersioningSystem	3	0
+N	Repository	3	1
+N	ProductFeatures	3	2
+N	SemVersion	4	0
+E	LegacyPage	LegacyUrlMapping	matched by base URL	Bottom	Top	False	D
+E	LegacyUrlMapping	Product	product	Bottom	Top	False	D
+E	Product	ProductFeatures	features	Bottom	Top	False	D R D
+E	Product	Repository	repository (defaults to id)	Bottom	Top	False	D R D
+E	Product	VersioningSystem	versioning (defaults to id)	Bottom	Top	False	D L D
+E	QueryRule	SearchDocument	actions.ids = path	Bottom	Top	False	D
+E	VersioningSystem	SemVersion	base	Bottom	Top	False	D R D
+E	VersioningSystem	SemVersion	current	Bottom	Top	False	D L D
+P	Product	Bottom	4,3,2
+P	SemVersion	Top	6,7
+P	VersioningSystem	Bottom	6,7
