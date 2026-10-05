@@ -81,7 +81,7 @@ internal static class KanbanSvgRenderer
 				var cardTextWidth = TextMetrics.MeasureTextWidth(task.Title, CardFontSizePx, 500);
 				foreach (var meta in EnumerateMetaLines(task))
 					cardTextWidth = Math.Max(cardTextWidth, TextMetrics.MeasureTextWidth(meta, MetaFontSizePx, 400));
-				contentWidth = Math.Max(contentWidth, cardTextWidth + (HasPriorityBorder(task) ? PriorityBorderWidth : 0));
+				contentWidth = Math.Max(contentWidth, (cardTextWidth / 0.94) + (HasPriorityBorder(task) ? PriorityBorderWidth : 0));
 			}
 
 			var colW = Math.Clamp(contentWidth + (CardPadX * 2) + (ColumnPad * 2), MinColumnWidth, MaxColumnWidth);
@@ -90,7 +90,7 @@ internal static class KanbanSvgRenderer
 			var cardsH = 0.0;
 			foreach (var task in col.Tasks)
 			{
-				cardsH += MeasureCardHeight(task) + CardGap;
+				cardsH += MeasureCardHeight(task, colW - (ColumnPad * 2)) + CardGap;
 			}
 			if (col.Tasks.Count > 0)
 				cardsH -= CardGap;
@@ -171,7 +171,7 @@ internal static class KanbanSvgRenderer
 		var cardW = width - (ColumnPad * 2);
 		foreach (var task in column.Tasks)
 		{
-			var cardH = MeasureCardHeight(task);
+			var cardH = MeasureCardHeight(task, cardW);
 			AppendCard(sb, task, x + ColumnPad, cardY, cardW, cardH, border, colors);
 			cardY += cardH + CardGap;
 		}
@@ -228,13 +228,17 @@ internal static class KanbanSvgRenderer
 		var textX = x + CardPadX + (priorityColor is not null ? PriorityBorderWidth : 0);
 		var textY = y + CardPadY + (CardFontSizePx * 0.85);
 
-		_ = sb.Append("\n<text x=\"").Append(textX.SvgFormat()).Append("\" y=\"").Append(textY.SvgFormat())
-			.Append("\" font-size=\"").Append(CardFontSize)
-			.Append("\" font-weight=\"500\" fill=\"var(--_text)\">");
-		MultilineUtils.AppendEscapedXml(sb, task.Title.AsSpan());
-		_ = sb.Append("</text>");
+		var titleLines = TitleLines(task, width);
+		for (var li = 0; li < titleLines.Count; li++)
+		{
+			_ = sb.Append("\n<text x=\"").Append(textX.SvgFormat()).Append("\" y=\"").Append((textY + (li * TitleLineHeight)).SvgFormat())
+				.Append("\" font-size=\"").Append(CardFontSize)
+				.Append("\" font-weight=\"500\" fill=\"var(--_text)\">");
+			MultilineUtils.AppendEscapedXml(sb, titleLines[li].AsSpan());
+			_ = sb.Append("</text>");
+		}
 
-		var metaY = textY + CardFontSizePx + MetaLineGap + 2;
+		var metaY = textY + ((titleLines.Count - 1) * TitleLineHeight) + CardFontSizePx + MetaLineGap + 2;
 		foreach (var line in EnumerateMetaLines(task))
 		{
 			_ = sb.Append("\n<text x=\"").Append(textX.SvgFormat()).Append("\" y=\"").Append(metaY.SvgFormat())
@@ -248,9 +252,36 @@ internal static class KanbanSvgRenderer
 		_ = sb.Append("\n</g>");
 	}
 
-	private static double MeasureCardHeight(KanbanTask task)
+	private const double TitleLineHeight = 18;
+
+	// The title wraps inside the card; browsers set text a little wider than TextMetrics, so wrap a bit early.
+	private static List<string> TitleLines(KanbanTask task, double cardWidth)
 	{
-		var h = (CardPadY * 2) + CardFontSizePx;
+		var textW = (cardWidth - (CardPadX * 2) - (HasPriorityBorder(task) ? PriorityBorderWidth : 0)) * 0.94;
+		var lines = new List<string>();
+		var current = "";
+		foreach (var word in task.Title.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+		{
+			var candidate = current.Length == 0 ? word : current + " " + word;
+			if (current.Length > 0 && TextMetrics.MeasureTextWidth(candidate, CardFontSizePx, 500) > textW)
+			{
+				lines.Add(current);
+				current = word;
+			}
+			else
+			{
+				current = candidate;
+			}
+		}
+
+		if (current.Length > 0)
+			lines.Add(current);
+		return lines.Count == 0 ? [""] : lines;
+	}
+
+	private static double MeasureCardHeight(KanbanTask task, double cardWidth)
+	{
+		var h = (CardPadY * 2) + CardFontSizePx + ((TitleLines(task, cardWidth).Count - 1) * TitleLineHeight);
 		var metaCount = 0;
 		if (task.Ticket is { Length: > 0 })
 			metaCount++;

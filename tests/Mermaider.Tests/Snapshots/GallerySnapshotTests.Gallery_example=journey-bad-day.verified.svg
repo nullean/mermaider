@@ -48,52 +48,52 @@
 <text x="1025" y="75" text-anchor="middle" dy="0.35em" font-size="14" font-weight="600" fill="#D36F0D">Recover</text>
 <line x1="225" y1="110" x2="225" y2="485" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 2" />
 <circle class="face" cx="225" cy="300" r="15" fill="color-mix(in srgb, #59a14f 24%, var(--bg))" stroke="#42783B" stroke-width="2" />
-<circle cx="220" cy="295" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
-<circle cx="230" cy="295" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
-<path class="mouth" d="M 217.86 302 A 7.14 7.14 0 0 0 232.14 302" fill="none" stroke="var(--_text-muted)" stroke-width="1.5" />
+<circle cx="220" cy="295" r="1.5" fill="#42783B" stroke="#42783B" />
+<circle cx="230" cy="295" r="1.5" fill="#42783B" stroke="#42783B" />
+<path class="mouth" d="M 217.86 302 A 7.14 7.14 0 0 0 232.14 302" fill="none" stroke="#42783B" stroke-width="1.5" />
 <rect x="150" y="110" width="150" height="50" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
 <circle cx="164" cy="110" r="7" fill="color-mix(in srgb, #76b7b2 60%, var(--bg))" stroke="#539D97" stroke-width="1.5"><title>Dev</title></circle>
 <text x="225" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="var(--_text)">Merge the change</text>
 <line x1="425" y1="110" x2="425" y2="485" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 2" />
 <circle class="face" cx="425" cy="420" r="15" fill="color-mix(in srgb, #e15759 24%, var(--bg))" stroke="#D52629" stroke-width="2" />
-<circle cx="420" cy="415" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
-<circle cx="430" cy="415" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
-<path class="mouth" d="M 417.86 427 A 7.14 7.14 0 0 1 432.14 427" fill="none" stroke="var(--_text-muted)" stroke-width="1.5" />
+<circle cx="420" cy="415" r="1.5" fill="#D52629" stroke="#D52629" />
+<circle cx="430" cy="415" r="1.5" fill="#D52629" stroke="#D52629" />
+<path class="mouth" d="M 417.86 427 A 7.14 7.14 0 0 1 432.14 427" fill="none" stroke="#D52629" stroke-width="1.5" />
 <rect x="350" y="110" width="150" height="50" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
 <circle cx="364" cy="110" r="7" fill="color-mix(in srgb, #76b7b2 60%, var(--bg))" stroke="#539D97" stroke-width="1.5"><title>Dev</title></circle>
 <circle cx="374" cy="110" r="7" fill="color-mix(in srgb, #b07aa1 60%, var(--bg))" stroke="#955884" stroke-width="1.5"><title>CI</title></circle>
 <text x="425" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="var(--_text)">Pipeline fails</text>
 <line x1="625" y1="110" x2="625" y2="485" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 2" />
 <circle class="face" cx="625" cy="390" r="15" fill="color-mix(in srgb, #e15759 24%, var(--bg))" stroke="#D52629" stroke-width="2" />
-<circle cx="620" cy="385" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
-<circle cx="630" cy="385" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
-<path class="mouth" d="M 617.86 397 A 7.14 7.14 0 0 1 632.14 397" fill="none" stroke="var(--_text-muted)" stroke-width="1.5" />
+<circle cx="620" cy="385" r="1.5" fill="#D52629" stroke="#D52629" />
+<circle cx="630" cy="385" r="1.5" fill="#D52629" stroke="#D52629" />
+<path class="mouth" d="M 617.86 397 A 7.14 7.14 0 0 1 632.14 397" fill="none" stroke="#D52629" stroke-width="1.5" />
 <rect x="550" y="110" width="150" height="50" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
 <circle cx="564" cy="110" r="7" fill="color-mix(in srgb, #76b7b2 60%, var(--bg))" stroke="#539D97" stroke-width="1.5"><title>Dev</title></circle>
 <text x="625" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="var(--_text)">Fix flaky test</text>
 <line x1="825" y1="110" x2="825" y2="485" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 2" />
 <circle class="face" cx="825" cy="390" r="15" fill="color-mix(in srgb, #e15759 24%, var(--bg))" stroke="#D52629" stroke-width="2" />
-<circle cx="820" cy="385" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
-<circle cx="830" cy="385" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
-<path class="mouth" d="M 817.86 397 A 7.14 7.14 0 0 1 832.14 397" fill="none" stroke="var(--_text-muted)" stroke-width="1.5" />
+<circle cx="820" cy="385" r="1.5" fill="#D52629" stroke="#D52629" />
+<circle cx="830" cy="385" r="1.5" fill="#D52629" stroke="#D52629" />
+<path class="mouth" d="M 817.86 397 A 7.14 7.14 0 0 1 832.14 397" fill="none" stroke="#D52629" stroke-width="1.5" />
 <rect x="750" y="110" width="150" height="50" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
 <circle cx="764" cy="110" r="7" fill="color-mix(in srgb, #76b7b2 60%, var(--bg))" stroke="#539D97" stroke-width="1.5"><title>Dev</title></circle>
 <circle cx="774" cy="110" r="7" fill="color-mix(in srgb, #9c755f 60%, var(--bg))" stroke="#765848" stroke-width="1.5"><title>Ops</title></circle>
 <text x="825" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="var(--_text)">Rollback</text>
 <line x1="1025" y1="110" x2="1025" y2="485" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 2" />
 <circle class="face" cx="1025" cy="360" r="15" fill="color-mix(in srgb, #edc948 24%, var(--bg))" stroke="#E2B516" stroke-width="2" />
-<circle cx="1020" cy="355" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
-<circle cx="1030" cy="355" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
-<line class="mouth" x1="1020" y1="367" x2="1030" y2="367" stroke="var(--_text-muted)" stroke-width="1" />
+<circle cx="1020" cy="355" r="1.5" fill="#E2B516" stroke="#E2B516" />
+<circle cx="1030" cy="355" r="1.5" fill="#E2B516" stroke="#E2B516" />
+<line class="mouth" x1="1020" y1="367" x2="1030" y2="367" stroke="#E2B516" stroke-width="1" />
 <rect x="950" y="110" width="150" height="50" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
 <circle cx="964" cy="110" r="7" fill="color-mix(in srgb, #76b7b2 60%, var(--bg))" stroke="#539D97" stroke-width="1.5"><title>Dev</title></circle>
 <circle cx="974" cy="110" r="7" fill="color-mix(in srgb, #9c755f 60%, var(--bg))" stroke="#765848" stroke-width="1.5"><title>Ops</title></circle>
 <text x="1025" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="var(--_text)">Postmortem</text>
 <line x1="1225" y1="110" x2="1225" y2="485" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 2" />
 <circle class="face" cx="1225" cy="300" r="15" fill="color-mix(in srgb, #59a14f 24%, var(--bg))" stroke="#42783B" stroke-width="2" />
-<circle cx="1220" cy="295" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
-<circle cx="1230" cy="295" r="1.5" fill="var(--_text-muted)" stroke="var(--_text-muted)" />
-<path class="mouth" d="M 1217.86 302 A 7.14 7.14 0 0 0 1232.14 302" fill="none" stroke="var(--_text-muted)" stroke-width="1.5" />
+<circle cx="1220" cy="295" r="1.5" fill="#42783B" stroke="#42783B" />
+<circle cx="1230" cy="295" r="1.5" fill="#42783B" stroke="#42783B" />
+<path class="mouth" d="M 1217.86 302 A 7.14 7.14 0 0 0 1232.14 302" fill="none" stroke="#42783B" stroke-width="1.5" />
 <rect x="1150" y="110" width="150" height="50" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
 <circle cx="1164" cy="110" r="7" fill="color-mix(in srgb, #76b7b2 60%, var(--bg))" stroke="#539D97" stroke-width="1.5"><title>Dev</title></circle>
 <text x="1225" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="var(--_text)">Celebrate the fix</text>

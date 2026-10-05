@@ -35,7 +35,6 @@ internal static class JourneySvgRenderer
 
 	// Sections and actors take their colours from the shared auto palette (tinted fills, darker borders, like every other diagram);
 	// the faces read through the role colours: 4-5 success, 3 warning, 1-2 failure.
-	private const string MouthStroke = "var(--_text-muted)";
 	private const string DropLineStroke = "var(--_line)";
 	private const string TimelineStroke = "var(--_line)";
 
@@ -262,6 +261,7 @@ internal static class JourneySvgRenderer
 	/// <summary>mermaid svgDraw.drawFace — radius 15, smile/sad/ambivalent by score.</summary>
 	private static void AppendFace(StringBuilder sb, double cx, double cy, int score, DiagramColors colors)
 	{
+		var mouthStroke = VisualLanguage.Border(colors.RoleColor(score >= 4 ? ColorRole.Success : score == 3 ? ColorRole.Warning : ColorRole.Failure));
 		var role = colors.RoleColor(score >= 4 ? ColorRole.Success : score == 3 ? ColorRole.Warning : ColorRole.Failure);
 		_ = sb.Append("\n<circle class=\"face\" cx=\"").Append(cx.SvgFormat()).Append("\" cy=\"").Append(cy.SvgFormat())
 			.Append("\" r=\"").Append(FaceRadius)
@@ -273,9 +273,9 @@ internal static class JourneySvgRenderer
 		var eyeOffset = FaceRadius / 3;
 		var eyeY = cy - eyeOffset;
 		_ = sb.Append("\n<circle cx=\"").Append((cx - eyeOffset).SvgFormat()).Append("\" cy=\"").Append(eyeY.SvgFormat())
-			.Append("\" r=\"1.5\" fill=\"").Append(MouthStroke).Append("\" stroke=\"").Append(MouthStroke).Append("\" />");
+			.Append("\" r=\"1.5\" fill=\"").Append(mouthStroke).Append("\" stroke=\"").Append(mouthStroke).Append("\" />");
 		_ = sb.Append("\n<circle cx=\"").Append((cx + eyeOffset).SvgFormat()).Append("\" cy=\"").Append(eyeY.SvgFormat())
-			.Append("\" r=\"1.5\" fill=\"").Append(MouthStroke).Append("\" stroke=\"").Append(MouthStroke).Append("\" />");
+			.Append("\" r=\"1.5\" fill=\"").Append(mouthStroke).Append("\" stroke=\"").Append(mouthStroke).Append("\" />");
 
 		if (score > 3)
 		{
@@ -286,7 +286,7 @@ internal static class JourneySvgRenderer
 				.Append((cx - r).SvgFormat()).Append(' ').Append((cy + 2).SvgFormat())
 				.Append(" A ").Append(r.SvgFormat()).Append(' ').Append(r.SvgFormat())
 				.Append(" 0 0 0 ").Append((cx + r).SvgFormat()).Append(' ').Append((cy + 2).SvgFormat())
-				.Append("\" fill=\"none\" stroke=\"").Append(MouthStroke)
+				.Append("\" fill=\"none\" stroke=\"").Append(mouthStroke)
 				.Append("\" stroke-width=\"1.5\" />");
 		}
 		else if (score < 3)
@@ -297,7 +297,7 @@ internal static class JourneySvgRenderer
 				.Append((cx - r).SvgFormat()).Append(' ').Append((cy + 7).SvgFormat())
 				.Append(" A ").Append(r.SvgFormat()).Append(' ').Append(r.SvgFormat())
 				.Append(" 0 0 1 ").Append((cx + r).SvgFormat()).Append(' ').Append((cy + 7).SvgFormat())
-				.Append("\" fill=\"none\" stroke=\"").Append(MouthStroke)
+				.Append("\" fill=\"none\" stroke=\"").Append(mouthStroke)
 				.Append("\" stroke-width=\"1.5\" />");
 		}
 		else
@@ -305,7 +305,7 @@ internal static class JourneySvgRenderer
 			// ambivalent line
 			_ = sb.Append("\n<line class=\"mouth\" x1=\"").Append((cx - 5).SvgFormat()).Append("\" y1=\"").Append((cy + 7).SvgFormat())
 				.Append("\" x2=\"").Append((cx + 5).SvgFormat()).Append("\" y2=\"").Append((cy + 7).SvgFormat())
-				.Append("\" stroke=\"").Append(MouthStroke).Append("\" stroke-width=\"1\" />");
+				.Append("\" stroke=\"").Append(mouthStroke).Append("\" stroke-width=\"1\" />");
 		}
 	}
 
