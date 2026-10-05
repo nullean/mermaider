@@ -362,7 +362,7 @@ internal static class GanttSvgRenderer
 			ds.AppendText(sb, task.Name, labelX, cy, TypeRole.Body, anchor: "start");
 
 			var barY = cy - (BarHeight / 2);
-			var radius = Math.Min(ds.BarRadius(BarHeight), w / 2);
+			var radius = Math.Min(ds.TaskBarRadius(BarHeight), w / 2);
 			_ = sb.Append("\n  ");
 			DesignSystem.AppendRect(sb, x, barY, w, BarHeight, radius, fill, stroke);
 			if (isActive)

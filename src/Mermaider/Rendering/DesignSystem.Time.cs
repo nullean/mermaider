@@ -17,7 +17,7 @@ internal sealed partial class DesignSystem
 	internal const double RingGap = 3;
 
 	/// <summary>Corner radius of a bar (gantt task, packet cell) of height <paramref name="height"/>: pills in Tonal, square in Blueprint.</summary>
-	internal double BarRadius(double height) => Math.Min(height / 2, Spec.NodeRadius * 0.75);
+	internal double TaskBarRadius(double height) => Math.Min(height / 2, Spec.NodeRadius * 0.75);
 
 	/// <summary>An accent ring (no fill) drawn <see cref="RingGap"/> outside the rectangle (x, y, w, h) with corner radius <paramref name="r"/>.</summary>
 	internal static void AppendAccentRing(StringBuilder sb, double x, double y, double w, double h, double r)
@@ -64,7 +64,7 @@ internal sealed partial class DesignSystem
 	internal double AppendStateLegendItem(StringBuilder sb, double x, double cy, string label, string fill, string stroke, bool ring)
 	{
 		const double s = 12;
-		var r = Math.Min(4, BarRadius(s));
+		var r = Math.Min(4, TaskBarRadius(s));
 		AppendRect(sb, x, cy - (s / 2), s, s, r, fill, stroke);
 		if (ring)
 		{

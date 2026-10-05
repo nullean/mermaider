@@ -258,7 +258,7 @@ internal sealed partial class DesignSystem
 			case ContainerKind.Tab:
 				{
 					var caps = title.ToUpperInvariant();
-					var textW = TextMetrics.MeasureTextWidth(caps, Px(TypeRole.Eyebrow), 600) + (caps.Length * 1.0);
+					var textW = XsWidth(caps, 600, letterSpacingPerChar: 1.0);
 					var tabX = x + 12;
 					// knock the border out behind the tab, then tick + caps title
 					_ = sb.Append("\n<rect x=\"").Append(tabX - 4).Append("\" y=\"").Append(y - 1)
@@ -444,7 +444,7 @@ internal sealed partial class DesignSystem
 	{
 		var px = Px(TypeRole.Tag);
 		var shown = Spec.Badge == BadgeKind.Bracket ? "[" + text + "]" : text;
-		var textW = TextMetrics.MeasureTextWidth(shown, px, 600);
+		var textW = IsMono(TypeRole.Tag) ? XsWidth(shown, 600) : TextMetrics.MeasureTextWidth(shown, px, 600);
 		var w = Spec.Badge == BadgeKind.Bracket ? textW : textW + 12;
 		var left = anchor switch
 		{
