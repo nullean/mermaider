@@ -194,10 +194,17 @@ RenderOptions? ResolveOptions(IQueryCollection q)
 	var font = q["font"].FirstOrDefault();
 	var monoFont = q["monoFont"].FirstOrDefault();
 	var fontSize = q["fontSize"].FirstOrDefault();
+	DiagramStyle? style = Enum.TryParse<DiagramStyle>(q["style"].FirstOrDefault(), ignoreCase: true, out var st)
+		&& Enum.IsDefined(st) ? st : null;
+	bool? gradient = q["gradient"].FirstOrDefault() is { } gv ? gv is not ("false" or "0") : null;
+	double? tint = double.TryParse(q["tint"].FirstOrDefault(), System.Globalization.NumberStyles.Float,
+		System.Globalization.CultureInfo.InvariantCulture, out var tn) ? tn : null;
+	int? elevation = int.TryParse(q["elevation"].FirstOrDefault(), out var el) ? el : null;
 
 	// If nothing at all was set, skip allocating an options object
 	if (bg is null && fg is null && padding is null && nodeSpacing is null && layerSpacing is null
-		&& roundedEdges is null && transparent is null && font is null && monoFont is null && fontSize is null && provider is null)
+		&& roundedEdges is null && transparent is null && font is null && monoFont is null && fontSize is null && provider is null
+		&& style is null && gradient is null && tint is null && elevation is null)
 		return null;
 
 	return new RenderOptions
@@ -214,6 +221,10 @@ RenderOptions? ResolveOptions(IQueryCollection q)
 		LayerSpacing = layerSpacing,
 		RoundedEdges = roundedEdges ?? true,
 		Transparent = transparent ?? true,
+		Style = style ?? DiagramStyle.Quiet,
+		Gradient = gradient ?? true,
+		Tint = tint,
+		Elevation = elevation,
 		Font = font,
 		MonoFont = monoFont,
 		FontSize = fontSize,
@@ -915,6 +926,16 @@ string RenderPlaygroundPage(string? theme, string engine, string? selectedSlug, 
 	var defaultMonoFont = q["monoFont"].FirstOrDefault() ?? "";
 	var roundedChecked = defaultRounded is not ("false" or "0") ? " checked" : "";
 	var transpChecked = defaultTransp is not ("false" or "0") ? " checked" : "";
+	var defaultStyle = q["style"].FirstOrDefault()?.ToLowerInvariant() ?? "quiet";
+	var defaultGradient = q["gradient"].FirstOrDefault() ?? "true";
+	var gradientChecked = defaultGradient is not ("false" or "0") ? " checked" : "";
+	var defaultTint = double.TryParse(q["tint"].FirstOrDefault(), System.Globalization.NumberStyles.Float,
+		System.Globalization.CultureInfo.InvariantCulture, out var qt) && double.IsFinite(qt)
+		? Math.Clamp(qt, 0.5, 1.5).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)
+		: "1";
+	var defaultElevation = q["elevation"].FirstOrDefault() ?? "1";
+	var styleOptions = BuildSelectOptions(defaultStyle, [("quiet", "Quiet"), ("blueprint", "Blueprint"), ("tonal", "Tonal")]);
+	var elevationOptions = BuildSelectOptions(defaultElevation, [("0", "0 — none"), ("1", "1 — default"), ("2", "2 — ambient")]);
 
 	// Build base theme picker options
 	var themeOptions = string.Join("\n",
@@ -978,6 +999,12 @@ string RenderPlaygroundPage(string? theme, string engine, string? selectedSlug, 
 		{{themeOptions}}
 		          </select>
 		        </div>
+		        <div class="play-ctrl">
+		          <label title="Style preset: restyles every diagram type without changing layout">style</label>
+		          <select id="pg-style" onchange="pgScheduleRender()">
+		{{styleOptions}}
+		          </select>
+		        </div>
 		        <div class="play-ctrl"><label>bg</label><input type="color" id="pg-bg" value="{{defaultBg}}" oninput="pgScheduleRender()" /></div>
 		        <div class="play-ctrl"><label>fg</label><input type="color" id="pg-fg" value="{{defaultFg}}" oninput="pgScheduleRender()" /></div>
 		        <div class="play-ctrl"><label>accent</label><input type="color" id="pg-accent" value="{{defaultAccent}}" oninput="pgScheduleRender()" /></div>
@@ -1029,6 +1056,21 @@ string RenderPlaygroundPage(string? theme, string engine, string? selectedSlug, 
 		        <div class="play-ctrl"><label>transparent</label>
 		          <input type="checkbox" id="pg-transp"{{transpChecked}} onchange="pgScheduleRender()" />
 		        </div>
+		        <div class="play-ctrl"><label title="top-to-bottom gradient on boxes, containers and bars (off = flat fills)">gradient</label>
+		          <input type="checkbox" id="pg-gradient"{{gradientChecked}} onchange="pgScheduleRender()" />
+		        </div>
+		        <div class="play-ctrl">
+		          <label>tint <span class="ctrl-val" id="pg-tint-val">{{defaultTint}}</span></label>
+		          <input type="range" id="pg-tint" min="0.5" max="1.5" step="0.05" value="{{defaultTint}}"
+		            oninput="document.getElementById('pg-tint-val').textContent=this.value;pgScheduleRender()" />
+		          <span class="ctrl-hint">strength of family tints (lower for dark themes)</span>
+		        </div>
+		        <div class="play-ctrl">
+		          <label title="drop-shadow strength (Blueprint draws no shadows)">elevation</label>
+		          <select id="pg-elevation" onchange="pgScheduleRender()">
+		{{elevationOptions}}
+		          </select>
+		        </div>
 		      </div>
 		      <div class="pg-edit-block">
 		        <label>Edit Diagram</label>
@@ -1077,6 +1119,10 @@ string PlaygroundScripts(string slugsJson, string initialSource) => $$"""
 	    const monoFont = document.getElementById('pg-mono-font').value;
 	    const rounded = document.getElementById('pg-rounded').checked ? 'true' : 'false';
 	    const transp = document.getElementById('pg-transp').checked ? 'true' : 'false';
+	    const style = document.getElementById('pg-style').value;
+	    const gradient = document.getElementById('pg-gradient').checked ? 'true' : 'false';
+	    const tint = document.getElementById('pg-tint').value;
+	    const elevation = document.getElementById('pg-elevation').value;
 	    if (bg) p.set('bg', bg);
 	    if (fg) p.set('fg', fg);
 	    if (accent) p.set('accent', accent);
@@ -1089,6 +1135,10 @@ string PlaygroundScripts(string slugsJson, string initialSource) => $$"""
 	    if (monoFont) p.set('monoFont', monoFont);
 	    p.set('rounded', rounded);
 	    p.set('transparent', transp);
+	    if (style !== 'quiet') p.set('style', style);
+	    if (gradient !== 'true') p.set('gradient', gradient);
+	    if (tint !== '1') p.set('tint', tint);
+	    if (elevation !== '1') p.set('elevation', elevation);
 	    return p.toString();
 	  }
 

@@ -116,6 +116,7 @@ Coverage: [unit tests](tests/Mermaider.Tests/Rendering/SvgSanitizerTests.cs) and
 All 24 diagram types render from the same [`RenderOptions`](#render-options). A single set of values controls:
 
 - **Colors**: `Bg`, `Fg`, `Accent`, `Muted`, `Surface`, `Border`, `Line`
+- **Style preset**: `Style` (Quiet, Blueprint, Tonal) plus `Gradient`, `Tint` and `Elevation`
 - **Typography**: `Font`, `MonoFont`, `FontSize` and size ratios
 - **Data palette**: categorical colors for pie, sankey, timeline, gitgraph, and the rest
 
@@ -157,6 +158,24 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 
 Because the SVG uses CSS custom properties, themes switch live without re-rendering: just update the
 `--bg` / `--fg` properties on the root `<svg>` element.
+
+### Style presets
+
+Three presets restyle every diagram type without changing layout: **Quiet** (default; tinted gradient boxes, strip
+headers, outlined label pills), **Blueprint** (outline-first technical drawing, square corners, dashed containers, mono
+captions, no shadows) and **Tonal** (soft filled blocks, no outlines, big radii, chip headers).
+
+```csharp
+var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
+{
+    Style = DiagramStyle.Tonal,
+    Gradient = false,   // flat fills
+    Tint = 0.8,         // 0.5–1.5, softer tints (useful on dark themes)
+    Elevation = 2,      // 0 none, 1 default, 2 adds an ambient shadow
+});
+```
+
+See [Theming](docs/theming/index.md#style-presets) and [`DESIGN.md`](DESIGN.md) for the full knob table.
 
 ### Built-in themes
 
@@ -214,7 +233,11 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 | `Default` | `string?` | first non-role palette colour (blue) | Colour of an ordinary box (first cluster of nodes, entities, classes) |
 | `Success` / `Failure` / `Warning` / `Info` | `string?` | palette green / red / yellow / blue | Semantic role colours (class `success`, `failure`, `warning`, `info`); auto colouring avoids the first three |
 | `AllowedDiagrams` | `DiagramTypes` | `DiagramTypes.All` | Allowlist of accepted diagram types; diagrams outside this set throw `MermaidParseException` |
-| `RoundedEdges` | `bool` | `true` | Rounded corners (6px radius) on edge paths |
+| `Style` | `DiagramStyle` | `Quiet` | Style preset: `Quiet`, `Blueprint` or `Tonal`. Paint only; layout is the same |
+| `Gradient` | `bool` | `true` | Gradient fills on boxes, containers and bars; `false` = flat fills |
+| `Tint` | `double?` | `1` | Strength of every derived tint, clamped to 0.5–1.5 |
+| `Elevation` | `int?` | `1` | Shadows: 0 none, 1 boxes + containers, 2 adds ambient. Ignored by Blueprint |
+| `RoundedEdges` | `bool` | `true` | Rounded bends on edge paths (radius from the style preset) |
 | `Transparent` | `bool` | `true` | Transparent background |
 | `Padding` | `double?` | `40` | Canvas padding in px |
 | `NodeSpacing` | `double?` | `28` | Horizontal spacing between sibling nodes |
@@ -500,6 +523,8 @@ echo 'graph TD
   A --> B' | mermaid > diagram.svg
 
 mermaid input.mmd -o output.svg --theme github-dark
+mermaid input.mmd -o output.svg --style blueprint --elevation 0
+mermaid input.mmd -o output.svg --style tonal --no-gradient --tint 0.8
 mermaid input.mmd --ascii          # draw it as text
 mermaid input.mmd --plain --width 80
 mermaid --list-themes

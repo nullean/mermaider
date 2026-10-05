@@ -1,6 +1,37 @@
 # Theming
 
-Mermaider uses a normalized CSS custom-property token system. Every diagram type reads from the same set of `--` variables embedded in the SVG's `<style>` block, so changing colors once affects all diagram types uniformly.
+Mermaider uses a normalized CSS custom-property token system. Every diagram type reads from the same set of `--` variables embedded in the SVG's `<style>` block, so changing colors once affects all diagram types uniformly. On top of the colours, a **style preset** decides how things are painted (outlines, fills, containers, labels, markers), again for every diagram type at once.
+
+## Style presets
+
+Three presets restyle all 24 diagram types, light and dark. They only change paint: layout, colours and font sizes are identical, so switching preset never moves a box.
+
+| Preset | Look |
+|---|---|
+| `DiagramStyle.Quiet` (default) | Calm: tinted boxes with a soft top-to-bottom gradient, containers with a 28px header strip and an accent mark, outlined label pills, rounded bends. |
+| `DiagramStyle.Blueprint` | Technical drawing: outline-first boxes on the page colour, square corners, dashed containers with a caps tab, mono captions with a halo, thin accent arrowheads, no shadows. |
+| `DiagramStyle.Tonal` | Friendly tonal blocks: soft filled boxes without outlines, generous radii, chip headers, filled label chips, chunky markers, soft elevation. |
+
+```csharp
+var options = new RenderOptions
+{
+    Style     = DiagramStyle.Blueprint,
+    Gradient  = true,   // top-to-bottom fills; false = flat fills
+    Tint      = 1.0,    // 0.5–1.5: strength of every derived tint
+    Elevation = 1,      // 0 none, 1 boxes + containers, 2 adds an ambient shadow
+};
+```
+
+| Option | Type | Default | Effect |
+|---|---|---|---|
+| `Style` | `DiagramStyle` | `Quiet` | The preset (above). |
+| `Gradient` | `bool` | `true` | Gradient fills on boxes, containers (an accent wash) and bars. Off: flat fills. |
+| `Tint` | `double?` | `1` | Scales every tint derived from a colour (node fills, header bands, container bodies, borders). Clamped to 0.5–1.5; lower values keep dark themes from looking muddy. |
+| `Elevation` | `int?` | `1` | Drop-shadow strength, clamped to 0–2. Blueprint never draws shadows. The shadow colour follows the background (lighter on light pages, deeper on dark ones). |
+
+From the CLI: `--style <quiet|blueprint|tonal>`, `--no-gradient`, `--tint <0.5-1.5>`, `--elevation <0|1|2>`.
+
+The accent colour is the "look here" colour in every preset: start/end terminals, decisions, notes, container marks, the diagram title mark and similar highlights. The full knob table and the rules renderers follow are in [`DESIGN.md`](https://github.com/nullean/mermaider/blob/main/DESIGN.md).
 
 ## Color tokens
 
@@ -15,6 +46,8 @@ Mermaider uses a normalized CSS custom-property token system. Every diagram type
 | `--line` | derived | Edge paths |
 
 `derived` tokens are computed via `color-mix(in srgb, var(--fg) X%, var(--bg))` — they automatically adapt when `--fg` and `--bg` are overridden. You rarely need to set them explicitly.
+
+Internally the renderer derives a fixed set of neutrals from these (secondary text at 72% of `--fg`, muted text 64%, lines 50%, soft rules 14%, …), chosen so text keeps at least 4.5:1 contrast and lines 3:1. Every coloured element (a cluster of nodes, a container, a chart series, the accent, a role) is a **colour family**: one base colour from which the gradient stops, flat fill, header band, container tint, border, outline and text ink are all mixed against `--bg` / `--fg`, so they re-theme with the page.
 
 ## Setting colors
 
@@ -117,6 +150,6 @@ var options = new RenderOptions
     Padding      = 40,   // canvas padding in px
     NodeSpacing  = 28,   // horizontal gap between siblings
     LayerSpacing = 48,   // vertical gap between layers
-    RoundedEdges = true, // 6px corner radius on edge paths
+    RoundedEdges = true, // rounded bends on edge paths (radius from the style preset)
 };
 ```

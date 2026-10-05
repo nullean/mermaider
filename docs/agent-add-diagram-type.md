@@ -6,7 +6,6 @@ Terse playbook for parallel agents implementing remaining Mermaid types in Merma
 
 ```
 Parse → Layout (optional) → Render SVG
-Parse → Layout (optional) → Render SVG
 ```
 
 | Stage | Where | Notes |
@@ -21,7 +20,6 @@ Parse → Layout (optional) → Render SVG
 | Tests | `Parsing/*ParserTests`, `Rendering/*RendererTests` | |
 
 Public API stays `MermaidRenderer.RenderSvg` / `Parse` — no new entry points.
-Public API stays `MermaidRenderer.RenderSvg` / `Parse` — no new entry points.
 
 ## File checklist
 
@@ -34,36 +32,41 @@ Public API stays `MermaidRenderer.RenderSvg` / `Parse` — no new entry points.
 7. `StyleBlock` role string  
 8. Gallery category + 1–2 examples  
 9. README section + `AGENTS.md` type list  
-10. Parser + renderer tests  
+10. Parser + renderer tests, design contract tests (`DesignContract` helpers, all three presets)  
 11. Optional screenshot under `docs/screenshots/{type}.svg` (CLI → file; opaque for GH if needed)
-8. Gallery category + 1–2 examples  
-9. README section + `AGENTS.md` type list  
-10. Parser + renderer tests  
-11. Optional screenshot under `docs/screenshots/{type}.svg` (CLI → file; opaque for GH if needed)
-11. Optional screenshot under `docs/screenshots/{type}.svg`
 
 ## Design rules
 
-See `DESIGN.md` for the full enforced design system (token derivation table, font scale,
-geometry constants, drop-shadow classes, measurement-px alignment). The checklist at the
-bottom of that file is the gate before shipping a renderer.
+`DESIGN.md` is the enforced design system; its checklist (§9) is the gate before shipping a renderer. In short:
+
+- [ ] `var ds = DesignSystem.For(context);` first, `ds.Close(sb);` last (writes the gradient / marker `<defs>` and `</svg>`)
+- [ ] Colours only through **families**: clusters via `ClusterPalette.Build(...).WithTint(ds.TintStrength)` +
+      `.Family(id)` / `.GroupFamily(id)` or `ds.Cluster(i)`; chart series `ds.Series(i)`; roles `ds.Role(...)`;
+      `ds.Accent` / `ds.Neutral`. Then a family **stage** (`Top`, `Bot`, `Flat`, `Band`, `Soft`, `Tint(depth)`, `Edge`,
+      `Stroke`, `Ink`) or a `--_*` token. No literal hex, no ad-hoc `color-mix` ratios
+- [ ] Shapes through the shared components: `ds.NodeFill/NodeStroke` / `ds.AppendBox`, `ds.AppendContainerBody/Header`,
+      `ds.AppendEntityFrame/Name`, `ds.AppendEdgeLabel`, `ds.AppendNote`, `ds.AppendBadge`, `ds.AppendTitle`,
+      `ds.AppendTerminal`, `ds.Marker(...)`, chart helpers (`ds.BarFill`, `ds.AppendAreaAttributes`, `ds.AppendLegendItem`, …)
+- [ ] Text through `TypeRole` (`ds.AppendText` / `ds.TextAttributes`), measured at `DesignSystem.Px(role)`; no literal font sizes
+- [ ] Edges: `DesignSystem.EdgeColor`, `ds.EdgeWidth`, `DashArray` / `DotArray`, bend radius `context.EdgeRadius`
+- [ ] Layout never depends on the style preset; shared geometry (node pad 20 × 12, row 28, pill 20, strip 28)
+- [ ] Keep elevation wrapper classes (`node`, `subgraph`, …) and `data-*` attributes
+- [ ] Check all three presets (Quiet / Blueprint / Tonal), light and dark, gradient on and off
+- [ ] Need a helper the components lack? Add it in a partial `Rendering/DesignSystem.<Area>.cs`
 
 ## Conventions (non-negotiable)
 
 - .NET 10, file-scoped ns, `var`, tabs, Allman  
 - `[GeneratedRegex(..., matchTimeoutMilliseconds: 2000)]`  
-- Theme text/chrome: `RenderConstants.FsVar.*`, `fill="var(--_text)"`, `stroke="var(--_line)"`  
-- Box text center: `y = mid` + `dy="{RenderConstants.TextBaselineShift}"` (`0.35em`) — **not** `dominant-baseline` alone  
-- Chart accents may use fixed palette (pie/timeline/gantt/journey)  
-- Escape via `MultilineUtils.AppendEscapedXml` / `AppendEscapedAttr`  
-- No wall-clock in parse/layout (`DateTime.Today` banned); fixed synthetic origins if needed  
-
-## Parse patterns (from Gantt)
-- Box text center: `y = mid` + `dy="{RenderConstants.TextBaselineShift}"` (`0.35em`) — **not** `dominant-baseline` alone  
-- Chart accents may use fixed palette (pie/timeline/gantt/journey); **C4 uses fixed C4 palette** (mermaid parity)  
+- Box text center: `y = mid` + `dy="{RenderConstants.TextBaselineShift}"` (`0.35em`) — **not** `dominant-baseline` alone (`ds.AppendText` does this)  
 - Escape via `MultilineUtils.AppendEscapedXml` / `AppendEscapedAttr`  
 - No wall-clock in parse/layout (`DateTime.Today` banned); fixed synthetic origins if needed  
 - TreatWarningsAsErrors: fix **IDE00xx** (especially `IDE0007` var, `IDE0047`/`IDE0048` parens, `IDE0045` simplify if) before ship  
+
+> The per-type notes below predate the design system. Where they mention fixed palettes, `--_node-fill` /
+> `--_accent-*` tokens or mermaid colours (C4, packet, kanban, charts), follow the design rules above instead.
+
+## Parse patterns (from Gantt)
 
 ## Parse patterns (from Gantt / C4)
 
