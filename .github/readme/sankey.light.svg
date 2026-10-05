@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 440" width="800" height="440" style="--bg:#FFFFFF;--fg:#27272A;--line:color-mix(in srgb, #64748b 74%, var(--fg));--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
+</style>
+
+<path class="sankey-link" d="M 54 40 C 302.5 40 302.5 256.73 551 256.73 L 551 324.11 C 302.5 324.11 302.5 113.06 54 113.06 Z" fill="url(#m0c36b112-sankey-grad-0)" stroke="none" />
+<path class="sankey-link" d="M 54 113.06 C 302.5 113.06 302.5 40 551 40 L 551 242.73 C 302.5 242.73 302.5 332.89 54 332.89 Z" fill="url(#m0c36b112-sankey-grad-1)" stroke="none" />
+<path class="sankey-link" d="M 54 332.89 C 302.5 332.89 302.5 338.11 551 338.11 L 551 400 C 302.5 400 302.5 400 54 400 Z" fill="url(#m0c36b112-sankey-grad-2)" stroke="none" />
+<g class="sankey-node" data-node="Electricity grid">
+  <rect x="40" y="40" width="14" height="360" rx="3" ry="3" fill="#4e79a7" />
+  <text x="64" y="212" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Electricity grid</text>
+  <text x="64" y="228" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">560.34</text>
+</g>
+<g class="sankey-node" data-node="Over generation / exports">
+  <rect x="551" y="338.11" width="14" height="61.89" rx="3" ry="3" fill="#f28e2b" />
+  <text x="575" y="361.06" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Over generation / exports</text>
+  <text x="575" y="377.06" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">104.45</text>
+</g>
+<g class="sankey-node" data-node="Heating and cooling - homes">
+  <rect x="551" y="256.73" width="14" height="67.38" rx="3" ry="3" fill="#e15759" />
+  <text x="575" y="282.42" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Heating and cooling - homes</text>
+  <text x="575" y="298.42" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">113.73</text>
+</g>
+<g class="sankey-node" data-node="Industry">
+  <rect x="551" y="40" width="14" height="202.73" rx="3" ry="3" fill="#76b7b2" />
+  <text x="575" y="133.37" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Industry</text>
+  <text x="575" y="149.37" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">342.17</text>
+</g>
+<defs>
+  <linearGradient id="m0c36b112-sankey-grad-0" gradientUnits="userSpaceOnUse" x1="54" y1="0" x2="551" y2="0"><stop offset="0" stop-color="#4e79a7" stop-opacity="0.4" /><stop offset="1" stop-color="#e15759" stop-opacity="0.4" /></linearGradient>
+  <linearGradient id="m0c36b112-sankey-grad-1" gradientUnits="userSpaceOnUse" x1="54" y1="0" x2="551" y2="0"><stop offset="0" stop-color="#4e79a7" stop-opacity="0.4" /><stop offset="1" stop-color="#76b7b2" stop-opacity="0.4" /></linearGradient>
+  <linearGradient id="m0c36b112-sankey-grad-2" gradientUnits="userSpaceOnUse" x1="54" y1="0" x2="551" y2="0"><stop offset="0" stop-color="#4e79a7" stop-opacity="0.4" /><stop offset="1" stop-color="#f28e2b" stop-opacity="0.4" /></linearGradient>
+</defs>
+</svg>

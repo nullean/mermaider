@@ -23,6 +23,14 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v5
 
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: ./global.json
+
+      - name: Render screenshots
+        run: dotnet run scripts/screenshots.cs
+
       - name: Build documentation
         uses: elastic/docs-builder@main
 

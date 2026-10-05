@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 184" width="352" height="184" style="--bg:#18181B;--fg:#FAFAFA;--line:color-mix(in srgb, #94a3b8 74%, var(--fg));--accent:#60a5fa">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, color-mix(in srgb, var(--bg) 35%, black) 55%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, color-mix(in srgb, var(--bg) 35%, black) 35%, transparent)); }
+</style>
+
+<g class="node" data-id="A" data-label="A" data-shape="rectangle">
+  <rect x="40" y="40" width="80" height="44" rx="8" ry="8" fill="url(#m2d0d6cc0-ng-p0)" stroke="color-mix(in srgb, #94a3b8 74%, var(--fg))" stroke-width="1.25" />
+  <text x="80" y="62" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">A</text>
+</g>
+<g class="node" data-id="B" data-label="B" data-shape="rectangle">
+  <rect x="136" y="40" width="80" height="44" rx="8" ry="8" fill="url(#m2d0d6cc0-ng-p1)" stroke="color-mix(in srgb, #F7BC81 74%, var(--fg))" stroke-width="1.25" />
+  <text x="176" y="62" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">B</text>
+</g>
+<g class="node" data-id="C" data-label="C" data-shape="rectangle">
+  <rect x="232" y="40" width="80" height="44" rx="8" ry="8" fill="url(#m2d0d6cc0-ng-p2)" stroke="color-mix(in srgb, #B2D7D4 74%, var(--fg))" stroke-width="1.25" />
+  <text x="272" y="62" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">C</text>
+</g>
+<g class="node" data-id="D" data-label="D" data-shape="rectangle">
+  <rect x="40" y="100" width="80" height="44" rx="8" ry="8" fill="url(#m2d0d6cc0-ng-p3)" stroke="color-mix(in srgb, #D2B4CA 74%, var(--fg))" stroke-width="1.25" />
+  <text x="80" y="122" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">D</text>
+</g>
+<g class="node" data-id="E" data-label="E" data-shape="rectangle">
+  <rect x="136" y="100" width="80" height="44" rx="8" ry="8" fill="url(#m2d0d6cc0-ng-p4)" stroke="color-mix(in srgb, #C0A697 74%, var(--fg))" stroke-width="1.25" />
+  <text x="176" y="122" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">E</text>
+</g>
+<g class="node" data-id="F" data-label="F" data-shape="rectangle">
+  <rect x="232" y="100" width="80" height="44" rx="8" ry="8" fill="url(#m2d0d6cc0-ng-p5)" stroke="color-mix(in srgb, #E4E0DE 74%, var(--fg))" stroke-width="1.25" />
+  <text x="272" y="122" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">F</text>
+</g>
+<defs>
+  <linearGradient id="m2d0d6cc0-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #94a3b8 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #94a3b8 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m2d0d6cc0-ng-p1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #F7BC81 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #F7BC81 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m2d0d6cc0-ng-p2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #B2D7D4 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #B2D7D4 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m2d0d6cc0-ng-p3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #D2B4CA 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #D2B4CA 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m2d0d6cc0-ng-p4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #C0A697 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #C0A697 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m2d0d6cc0-ng-p5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #E4E0DE 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #E4E0DE 7%, var(--bg))" /></linearGradient>
+</defs>
+</svg>

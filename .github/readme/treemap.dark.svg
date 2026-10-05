@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 452" width="680" height="452" style="--bg:#18181B;--fg:#FAFAFA;--line:color-mix(in srgb, #94a3b8 74%, var(--fg));--accent:#60a5fa">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, color-mix(in srgb, var(--bg) 35%, black) 55%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, color-mix(in srgb, var(--bg) 35%, black) 35%, transparent)); }
+</style>
+
+<g class="treemap-tile" data-label="Engineering" data-value="50">
+  <rect x="44" y="44" width="292" height="364" rx="6" ry="6" fill="color-mix(in srgb, #89A7C8 36%, var(--bg))" />
+  <text x="60" y="68" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Engineering</text>
+  <text x="60" y="382" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">50</text>
+  <text x="320" y="384" text-anchor="end" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text)" dy="4.2">50%</text>
+  <circle cx="320" cy="64" r="4.5" fill="var(--accent, var(--fg))" />
+</g>
+<g class="treemap-tile" data-label="Marketing" data-value="25">
+  <rect x="344" y="44" width="292" height="178" rx="6" ry="6" fill="color-mix(in srgb, #89A7C8 23%, var(--bg))" />
+  <text x="360" y="68" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Marketing</text>
+  <text x="360" y="196" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">25</text>
+  <text x="620" y="198" text-anchor="end" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text)" dy="4.2">25%</text>
+</g>
+<g class="treemap-tile" data-label="Sales" data-value="15">
+  <rect x="344" y="230" width="172" height="178" rx="6" ry="6" fill="color-mix(in srgb, #89A7C8 17.8%, var(--bg))" />
+  <text x="360" y="254" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Sales</text>
+  <text x="360" y="382" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">15</text>
+  <text x="500" y="384" text-anchor="end" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text)" dy="4.2">15%</text>
+</g>
+<g class="treemap-tile" data-label="Support" data-value="10">
+  <rect x="524" y="230" width="112" height="178" rx="6" ry="6" fill="color-mix(in srgb, #89A7C8 15.2%, var(--bg))" />
+  <text x="540" y="254" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Support</text>
+  <text x="540" y="382" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">10</text>
+  <text x="620" y="384" text-anchor="end" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text)" dy="4.2">10%</text>
+</g>
+</svg>

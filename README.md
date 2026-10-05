@@ -605,7 +605,7 @@ types. Every diagram respects the same `Bg`, `Fg`, `Accent`, `Muted`, `Font`, `M
 `DataPalette` options.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/playground.png" alt="Mermaider playground - all diagram types with theme controls" />
+  <img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/playground.png" alt="Mermaider playground - all diagram types with theme controls" />
 </p>
 
 ### Flowchart
@@ -621,7 +621,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/flowchart.svg" alt="Flowchart" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/flowchart.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/flowchart.light.svg" alt="Flowchart" /></picture></p>
 
 ### Sequence
 
@@ -637,7 +637,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/sequence.svg" alt="Sequence diagram" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/sequence.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/sequence.light.svg" alt="Sequence" /></picture></p>
 
 ### State
 
@@ -653,7 +653,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/state.svg" alt="State diagram" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/state.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/state.light.svg" alt="State" /></picture></p>
 
 ### Class
 
@@ -672,7 +672,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/class.svg" alt="Class diagram" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/class.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/class.light.svg" alt="Class" /></picture></p>
 
 ### ER (Entity-Relationship)
 
@@ -692,7 +692,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/er.svg" alt="ER diagram" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/er.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/er.light.svg" alt="ER (Entity-Relationship)" /></picture></p>
 
 ### Pie Chart
 
@@ -706,7 +706,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/pie.svg" alt="Pie chart" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/pie.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/pie.light.svg" alt="Pie Chart" /></picture></p>
 
 ### Quadrant Chart
 
@@ -726,7 +726,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/quadrant.svg" alt="Quadrant chart" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/quadrant.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/quadrant.light.svg" alt="Quadrant Chart" /></picture></p>
 
 ### Timeline
 
@@ -743,7 +743,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/timeline.svg" alt="Timeline diagram" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/timeline.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/timeline.light.svg" alt="Timeline" /></picture></p>
 
 ### GitGraph
 
@@ -762,7 +762,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/gitgraph.svg" alt="GitGraph" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/gitgraph.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/gitgraph.light.svg" alt="GitGraph" /></picture></p>
 
 ### Radar Chart
 
@@ -778,7 +778,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/radar.svg" alt="Radar chart" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/radar.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/radar.light.svg" alt="Radar Chart" /></picture></p>
 
 ### Treemap
 
@@ -792,7 +792,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/treemap.svg" alt="Treemap" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/treemap.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/treemap.light.svg" alt="Treemap" /></picture></p>
 
 ### Venn Diagram
 
@@ -807,7 +807,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/venn.svg" alt="Venn diagram" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/venn.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/venn.light.svg" alt="Venn Diagram" /></picture></p>
 
 ### Mindmap
 
@@ -827,7 +827,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/mindmap.svg" alt="Mindmap" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/mindmap.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/mindmap.light.svg" alt="Mindmap" /></picture></p>
 
 ### Gantt
 
@@ -845,6 +845,8 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/gantt.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/gantt.light.svg" alt="Gantt" /></picture></p>
+
 ### User Journey
 
 ```csharp
@@ -861,6 +863,8 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/journey.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/journey.light.svg" alt="User Journey" /></picture></p>
+
 ### C4 Architecture
 
 ```csharp
@@ -875,9 +879,9 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-Supports `Rel`, `BiRel`, `Rel_Back` (arrow reversed vs argument order), and `RelIndex`. Directional forms (`Rel_U` / `Rel_D` / `Rel_L` / `Rel_R` and aliases) parse as plain `Rel`; layout direction hints are ignored in v1.
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/c4.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/c4.light.svg" alt="C4 Architecture" /></picture></p>
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/c4.svg" alt="C4 diagram" /></p>
+Supports `Rel`, `BiRel`, `Rel_Back` (arrow reversed vs argument order), and `RelIndex`. Directional forms (`Rel_U` / `Rel_D` / `Rel_L` / `Rel_R` and aliases) parse as plain `Rel`; layout direction hints are ignored in v1.
 
 ### Sankey Diagram
 
@@ -890,7 +894,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/sankey.svg" alt="Sankey diagram" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/sankey.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/sankey.light.svg" alt="Sankey Diagram" /></picture></p>
 
 ### XY Chart
 
@@ -905,7 +909,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/xychart.svg" alt="XY chart" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/xychart.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/xychart.light.svg" alt="XY Chart" /></picture></p>
 
 ### Requirement Diagram
 
@@ -928,7 +932,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/requirement.svg" alt="Requirement diagram" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/requirement.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/requirement.light.svg" alt="Requirement Diagram" /></picture></p>
 
 ### Packet Diagram
 
@@ -943,9 +947,9 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-Supports range fields (`0-15: "Label"`), single-bit fields (`106: "URG"`), and bit-count form (`+16: "Source Port"`).
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/packet.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/packet.light.svg" alt="Packet Diagram" /></picture></p>
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/packet.svg" alt="Packet diagram" /></p>
+Supports range fields (`0-15: "Label"`), single-bit fields (`106: "URG"`), and bit-count form (`+16: "Source Port"`).
 
 ### Kanban
 
@@ -962,7 +966,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/kanban.svg" alt="Kanban board" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/kanban.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/kanban.light.svg" alt="Kanban" /></picture></p>
 
 ### Architecture
 
@@ -988,7 +992,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/architecture.svg" alt="Architecture diagram" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/architecture.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/architecture.light.svg" alt="Architecture" /></picture></p>
 
 #### Built-in icons
 
@@ -1062,7 +1066,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/block.svg" alt="Block diagram" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/block.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/block.light.svg" alt="Block Diagram" /></picture></p>
 
 ### TreeView
 
@@ -1080,12 +1084,12 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/treeview.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/treeview.light.svg" alt="TreeView" /></picture></p>
+
 Supports indentation-based and box-drawing (`├──`/`└──`/`│`) input formats. Annotations:
 `:::className` (highlighting), `## description` (inline notes), `icon(name)` (custom icons).
 Built-in icons: `file`, `folder`, `folder-open`, `file:code`, `file:image`, `file:document`,
 `file:config`, `file:data`.
-
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/treeview.svg" alt="Tree view diagram" /></p>
 
 ---
 

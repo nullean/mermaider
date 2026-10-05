@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 548.4 162" width="548.4" height="162" style="--bg:#18181B;--fg:#FAFAFA;--line:color-mix(in srgb, #94a3b8 74%, var(--fg));--accent:#60a5fa">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, color-mix(in srgb, var(--bg) 35%, black) 55%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, color-mix(in srgb, var(--bg) 35%, black) 35%, transparent)); }
+</style>
+
+<g class="gitgraph-branch" data-branch="main">
+  <rect x="24" y="44" width="39.72" height="16" rx="4" ry="4" fill="color-mix(in srgb, #94a3b8 22%, var(--bg))" /><text x="43.86" y="52" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #94a3b8 44%, var(--fg))" dy="4.2">main</text>
+</g>
+<g class="gitgraph-branch" data-branch="develop">
+  <rect x="24" y="100" width="59.88" height="16" rx="4" ry="4" fill="color-mix(in srgb, #F7BC81 22%, var(--bg))" /><text x="53.94" y="108" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #F7BC81 44%, var(--fg))" dy="4.2">develop</text>
+</g>
+<path d="M204,52 L231.6,52 Q239.6,52 239.6,60 L239.6,100 Q239.6,108 247.6,108 L275.2,108" class="gitgraph-link" data-kind="fork" fill="none" stroke="color-mix(in srgb, #F7BC81 74%, var(--fg))" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M346.4,108 L374,108 Q382,108 382,100 L382,60 Q382,52 390,52 L417.59999999999997,52" class="gitgraph-link" data-kind="merge" fill="none" stroke="color-mix(in srgb, #F7BC81 74%, var(--fg))" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M132.8,52 L204,52" class="gitgraph-link" data-kind="lane" fill="none" stroke="color-mix(in srgb, #94a3b8 74%, var(--fg))" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M275.2,108 L346.4,108" class="gitgraph-link" data-kind="lane" fill="none" stroke="color-mix(in srgb, #F7BC81 74%, var(--fg))" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M204,52 L417.6,52" class="gitgraph-link" data-kind="lane" fill="none" stroke="color-mix(in srgb, #94a3b8 74%, var(--fg))" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<path d="M417.6,52 L488.8,52" class="gitgraph-link" data-kind="lane" fill="none" stroke="color-mix(in srgb, #94a3b8 74%, var(--fg))" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+<g class="commit" data-type="normal">
+  <circle cx="132.8" cy="52" r="4.5" fill="color-mix(in srgb, #94a3b8 74%, var(--fg))" stroke="var(--bg)" stroke-width="1.5" />
+  <text x="132.8" y="70" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">init</text>
+</g>
+<g class="commit" data-type="normal">
+  <circle cx="204" cy="52" r="4.5" fill="color-mix(in srgb, #94a3b8 74%, var(--fg))" stroke="var(--bg)" stroke-width="1.5" />
+  <text x="204" y="70" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">feat-1</text>
+</g>
+<g class="commit" data-type="normal">
+  <circle cx="275.2" cy="108" r="4.5" fill="color-mix(in srgb, #F7BC81 74%, var(--fg))" stroke="var(--bg)" stroke-width="1.5" />
+  <text x="275.2" y="126" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">dev-1</text>
+</g>
+<g class="commit" data-type="normal">
+  <circle cx="346.4" cy="108" r="4.5" fill="color-mix(in srgb, #F7BC81 74%, var(--fg))" stroke="var(--bg)" stroke-width="1.5" />
+  <text x="346.4" y="126" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">dev-2</text>
+  <rect x="329.41999999999996" y="80" width="33.959999999999994" height="16" rx="4" ry="4" fill="color-mix(in srgb, var(--accent, var(--fg)) 22%, var(--bg))" /><text x="346.4" y="88" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, var(--accent, var(--fg)) 44%, var(--fg))" dy="4.2">v0.1</text>
+</g>
+<g class="commit" data-type="normal" data-merge="true">
+  <circle cx="417.6" cy="52" r="5.5" fill="var(--bg)" stroke="color-mix(in srgb, #94a3b8 74%, var(--fg))" stroke-width="2.5" />
+  <text x="417.6" y="70" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">merge-1</text>
+</g>
+<g class="commit" data-type="highlight" data-head="true">
+  <circle cx="488.79999999999995" cy="52" r="6" fill="var(--accent, var(--fg))" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="488.8" cy="52" r="10" fill="none" stroke="var(--accent, var(--fg))" stroke-width="1.5" />
+  <text x="488.8" y="70" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">release</text>
+  <rect x="471.81999999999994" y="24" width="33.959999999999994" height="16" rx="4" ry="4" fill="color-mix(in srgb, var(--accent, var(--fg)) 22%, var(--bg))" /><text x="488.8" y="32" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, var(--accent, var(--fg)) 44%, var(--fg))" dy="4.2">v1.0</text>
+</g>
+</svg>

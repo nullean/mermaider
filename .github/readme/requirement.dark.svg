@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260.7484 386" width="260.7484" height="386" style="--bg:#18181B;--fg:#FAFAFA;--line:color-mix(in srgb, #94a3b8 74%, var(--fg));--accent:#60a5fa">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, color-mix(in srgb, var(--bg) 35%, black) 55%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, color-mix(in srgb, var(--bg) 35%, black) 35%, transparent)); }
+</style>
+
+<path class="req-relation" data-type="satisfies" d="M130.3742,104 L130.3742,198" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m2d0d6cc0-mk-open)" />
+<g class="req-node entity" data-id="test_req" data-kind="requirement">
+  <rect x="24" y="198" width="212.7484" height="164" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M24,250 L24,206 Q24,198 32,198 L228.7484,198 Q236.7484,198 236.7484,206 L236.7484,250 Z" fill="url(#m2d0d6cc0-eb-p0)" />
+  <line x1="24" y1="250" x2="236.7484" y2="250" stroke="color-mix(in srgb, #94a3b8 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="24" y="198" width="212.7484" height="164" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #94a3b8 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="36" y1="278" x2="224.7484" y2="278" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="36" y1="306" x2="224.7484" y2="306" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="36" y1="334" x2="224.7484" y2="334" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="130.37" y="214.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #94a3b8 44%, var(--fg))" dy="4.2">«Requirement»</text>
+  <text x="130.37" y="232.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">test_req</text>
+  <text x="40" y="264" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Id</text>
+  <text x="140.4" y="264" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">1</text>
+  <text x="40" y="292" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Text</text>
+  <text x="140.4" y="292" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">the test text.</text>
+  <text x="40" y="320" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Risk</text>
+  <rect x="140.39999999999998" y="311" width="52.72" height="18" rx="9" ry="9" fill="color-mix(in srgb, #EFA5A6 22%, var(--bg))" /><circle cx="149.39999999999998" cy="320" r="3" fill="color-mix(in srgb, #EFA5A6 44%, var(--fg))" /><text x="156.4" y="320" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #EFA5A6 44%, var(--fg))" dy="4.2">High</text>
+  <text x="40" y="348" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Verification</text>
+  <text x="140.4" y="348" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Test</text>
+</g>
+<g class="req-node entity" data-id="test_entity" data-kind="element">
+  <rect x="50.3742" y="24" width="160" height="80" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M50.3742,76 L50.3742,32 Q50.3742,24 58.3742,24 L202.3742,24 Q210.3742,24 210.3742,32 L210.3742,76 Z" fill="url(#m2d0d6cc0-eb-p0)" />
+  <line x1="50.3742" y1="76" x2="210.3742" y2="76" stroke="color-mix(in srgb, #94a3b8 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="50.3742" y="24" width="160" height="80" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #94a3b8 74%, var(--fg))" stroke-width="1.25" />
+  <text x="130.37" y="40.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #94a3b8 44%, var(--fg))" dy="4.2">«Element»</text>
+  <text x="130.37" y="58.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">test_entity</text>
+  <text x="66.37" y="90" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Type</text>
+  <text x="110.41" y="90" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">simulation</text>
+</g>
+<g class="edge-label" data-label="satisfies">
+  <rect x="98.90220000000001" y="140.2" width="62.943999999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="130.37" y="151" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">satisfies</text>
+</g>
+<defs>
+  <linearGradient id="m2d0d6cc0-eb-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #94a3b8 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #94a3b8 15%, var(--bg))" /></linearGradient>
+  <marker id="m2d0d6cc0-mk-open" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <path d="M0,1.5 L10,6 L0,10.5" fill="none" stroke="var(--_line)" stroke-width="1.25" stroke-linejoin="miter" stroke-linecap="round" />
+  </marker>
+</defs>
+</svg>
