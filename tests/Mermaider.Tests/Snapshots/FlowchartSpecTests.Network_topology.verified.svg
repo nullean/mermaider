@@ -54,11 +54,11 @@
 <path class="edge" data-from="lb" data-to="app2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M221,343 L221,435 Q221,441 227,441 L268.5,441 Q274.5,441 274.5,447 L274.5,463" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="app1" data-to="db" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M206.5,507.5 L206.5,547.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="app2" data-to="db" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M288.5,507.5 L288.5,547.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="app1" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M228.5,473 L250.5,473 Q256.5,473 256.5,467 L256.5,357 Q256.5,351 262.5,351 L451,351 Q457,351 457,345 L457,339 Q457,333 451,333 L435,333" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="app1" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M228.5,473 L250.5,473 Q256.5,473 256.5,467 L256.5,371 Q256.5,365 262.5,365 L451,365 Q457,365 457,359 L457,339 Q457,333 451,333 L435,333" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="app2" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M349.5,463 L349.5,343" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="nat" data-to="internet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M289,298 L289,157 L289,157 L289,135" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="28" y="201" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Cloud VPC</text>
-  <text x="52" y="257" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Public Subnet</text>
-  <text x="67.11999999999998" y="421.8" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Private Subnet</text>
+<path class="edge" data-from="nat" data-to="internet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M289,298 L289,157 L289,157 L289,135" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="28" y="201" font-size="var(--fs-s)" font-weight="600" fill="#F18921" dy="4.8999999999999995">Cloud VPC</text>
+  <text x="52" y="257" font-size="var(--fs-s)" font-weight="600" fill="#DF4E50" dy="4.8999999999999995">Public Subnet</text>
+  <text x="67.11999999999998" y="421.8" font-size="var(--fs-s)" font-weight="600" fill="#6FB3AE" dy="4.8999999999999995">Private Subnet</text>
 
 <g class="node" data-id="internet" data-label="Internet" data-shape="circle">
   <circle cx="249.456" cy="81" r="65" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />

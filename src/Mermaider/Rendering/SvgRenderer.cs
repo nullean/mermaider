@@ -234,7 +234,7 @@ internal static class SvgRenderer
 			sb, group.Label,
 			group.X + 12, group.Y + (headerHeight / 2.0),
 			FontSizes.GroupHeader,
-			GroupHeaderAttrs);
+			palette is not null ? TextAttrs.GroupHeaderFill + (InlineStyleValue(group.InlineStyle, "stroke") ?? palette.GroupStroke(group.Id)) + "\"" : GroupHeaderAttrs);
 		_ = sb.Append('\n');
 
 		foreach (var child in group.Children)

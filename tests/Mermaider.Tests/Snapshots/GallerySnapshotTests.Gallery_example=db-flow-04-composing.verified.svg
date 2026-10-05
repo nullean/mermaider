@@ -65,10 +65,10 @@
 <path class="edge" data-from="CodexReg" data-to="CdxClone" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M564.5,393.5 L564.5,499.5 Q564.5,505.5 558.5,505.5 L458.5,505.5 Q452.5,505.5 452.5,511.5 L452.5,560.5 Q452.5,566.5 458.5,566.5 L558.5,566.5 Q564.5,566.5 564.5,572.5 L564.5,598.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="CdxCfg" data-to="CdxClone" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M592,558.5 L592,598.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="CdxClone" data-to="CdxBuild" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M592,664 L592,704" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="CdxBuild" data-to="CdxOut" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M592,769.5 L592,809.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="28" y="31" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Repositories (each with its own isolated build)</text>
-  <text x="152.64000000000004" y="266.25" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Link registries</text>
-  <text x="97.70399999999998" y="472.65" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Assembler</text>
-  <text x="447.128" y="472.65" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Codex</text>
+<path class="edge" data-from="CdxBuild" data-to="CdxOut" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M592,769.5 L592,809.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="28" y="31" font-size="var(--fs-s)" font-weight="600" fill="#F18921" dy="4.8999999999999995">Repositories (each with its own isolated build)</text>
+  <text x="152.64000000000004" y="266.25" font-size="var(--fs-s)" font-weight="600" fill="#DF4E50" dy="4.8999999999999995">Link registries</text>
+  <text x="97.70399999999998" y="472.65" font-size="var(--fs-s)" font-weight="600" fill="#6FB3AE" dy="4.8999999999999995">Assembler</text>
+  <text x="447.128" y="472.65" font-size="var(--fs-s)" font-weight="600" fill="#559A4C" dy="4.8999999999999995">Codex</text>
 
 <g class="edge-label" data-from="R1" data-to="S3Reg" data-label="links.json">
   <rect x="140.81032" y="167.775" width="81.37936000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />

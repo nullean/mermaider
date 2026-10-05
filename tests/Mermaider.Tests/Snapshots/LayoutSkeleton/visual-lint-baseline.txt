@@ -1,5 +1,6 @@
 flowchart-subgraphs extra-bend 1
 flowchart-chained line-overlap 1
+flowchart-chained jog-uniformity 1
 flowchart-network extra-bend 1
 flowchart-network balance 2
 flowchart-styled-sub extra-bend 3
@@ -7,12 +8,11 @@ flowchart-styled-sub balance 1
 flowchart-invisible extra-bend 1
 flowchart-invisible balance 1
 state-multi-end extra-bend 2
-state-choice label-overlap 1
 state-notes balance 1
 rfc-migration-lifecycle extra-bend 1
 rfc-build-flow label-overlap 1
-rfc-build-flow line-overlap 1
 rfc-build-flow extra-bend 2
+rfc-build-flow jog-uniformity 1
 rfc-integration-pipeline extra-bend 2
 db-flow-01-system line-overlap 5
 db-flow-01-system extra-bend 6

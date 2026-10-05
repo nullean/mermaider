@@ -68,6 +68,9 @@ internal static partial class StateParser
 		var compositeStateIds = new HashSet<string>();
 		var startCount = 0;
 		var endCount = 0;
+		// every [*] in one scope (the diagram or one composite state) is the same start / end node, as in mermaid.js
+		var scopeStart = new Dictionary<string, string>(StringComparer.Ordinal);
+		var scopeEnd = new Dictionary<string, string>(StringComparer.Ordinal);
 		var notes = new List<GraphNote>();
 		string? pendingNoteTarget = null;
 		var pendingNotePosition = GraphNotePosition.Right;
@@ -234,9 +237,16 @@ internal static partial class StateParser
 
 				if (sourceId == "[*]")
 				{
-					startCount++;
-					sourceId = startCount > 1 ? $"_start{startCount}" : "_start";
-					RegisterStateNode(nodes, compositeStack, new MermaidNode(sourceId, "", NodeShape.StateStart));
+					var scope = compositeStack.Count > 0 ? compositeStack.Peek().Id : "";
+					if (!scopeStart.TryGetValue(scope, out var existingStart))
+					{
+						startCount++;
+						existingStart = startCount > 1 ? $"_start{startCount}" : "_start";
+						scopeStart[scope] = existingStart;
+						RegisterStateNode(nodes, compositeStack, new MermaidNode(existingStart, "", NodeShape.StateStart));
+					}
+
+					sourceId = existingStart;
 				}
 				else if (!compositeStateIds.Contains(sourceId))
 				{
@@ -247,9 +257,16 @@ internal static partial class StateParser
 
 				if (targetId == "[*]")
 				{
-					endCount++;
-					targetId = endCount > 1 ? $"_end{endCount}" : "_end";
-					RegisterStateNode(nodes, compositeStack, new MermaidNode(targetId, "", NodeShape.StateEnd));
+					var scope = compositeStack.Count > 0 ? compositeStack.Peek().Id : "";
+					if (!scopeEnd.TryGetValue(scope, out var existingEnd))
+					{
+						endCount++;
+						existingEnd = endCount > 1 ? $"_end{endCount}" : "_end";
+						scopeEnd[scope] = existingEnd;
+						RegisterStateNode(nodes, compositeStack, new MermaidNode(existingEnd, "", NodeShape.StateEnd));
+					}
+
+					targetId = existingEnd;
 				}
 				else if (!compositeStateIds.Contains(targetId))
 				{

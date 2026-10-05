@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 204.208 342.40000000000003" width="204.208" height="342.40000000000003" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 171.208 342.40000000000003" width="171.208" height="342.40000000000003" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -37,36 +37,31 @@
   </marker>
 </defs>
 
-<path class="edge" data-from="_start" data-to="Still" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M113.40266666666668,40 L113.40266666666668,70" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Still" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M92.41866666666668,114.8 L92.41866666666668,127.80000000000001 Q92.41866666666668,133.8 86.41866666666668,133.8 L34,133.8 Q28,133.8 28,139.8 L28,152.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Still" data-to="Moving" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M113.40266666666668,114.8 L113.40266666666668,152.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Moving" data-to="Still" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M150.80533333333335,152.8 L150.80533333333335,139.8 Q150.80533333333335,133.8 144.80533333333335,133.8 L140.38666666666668,133.8 Q134.38666666666668,133.8 134.38666666666668,127.80000000000001 L134.38666666666668,114.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Moving" data-to="Crash" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M132.10399999999998,197.60000000000002 L132.10399999999998,227.60000000000002" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Crash" data-to="_end2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M132.10399999999998,272.40000000000003 L132.10399999999998,302.40000000000003" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="_start" data-to="Still" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M76.40266666666668,40 L76.40266666666668,70" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Still" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M55.41866666666668,114.8 L55.41866666666668,136.8 Q55.41866666666668,142.8 49.41866666666668,142.8 L22,142.8 Q16,142.8 16,148.8 L16,281.40000000000003 Q16,287.40000000000003 22,287.40000000000003 L54.044,287.40000000000003 Q60.044,287.40000000000003 60.044,293.40000000000003 L60.044,302.40000000000003" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Still" data-to="Moving" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M76.40266666666668,114.8 L76.40266666666668,133.8 L76.40266666666668,133.8 L76.40266666666668,152.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Moving" data-to="Still" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M117.80533333333334,152.8 L117.80533333333334,139.8 Q117.80533333333334,133.8 111.80533333333334,133.8 L103.38666666666668,133.8 Q97.38666666666668,133.8 97.38666666666668,127.80000000000001 L97.38666666666668,114.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Moving" data-to="Crash" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M99.104,197.60000000000002 L99.104,227.60000000000002" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Crash" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M99.104,272.40000000000003 L99.104,281.40000000000003 Q99.104,287.40000000000003 93.104,287.40000000000003 L74.044,287.40000000000003 Q68.044,287.40000000000003 68.044,293.40000000000003 L68.044,302.40000000000003" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
-  <circle cx="113.40266666666668" cy="28" r="10" fill="var(--_text)" stroke="none" />
+  <circle cx="76.40266666666668" cy="28" r="10" fill="var(--_text)" stroke="none" />
   
 </g>
 <g class="node" data-id="Still" data-label="Still" data-shape="rounded">
-  <rect x="71.43466666666669" y="70" width="83.93599999999999" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="113.40266666666668" y="92.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Still</text>
+  <rect x="34.434666666666686" y="70" width="83.93599999999999" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="76.40266666666668" y="92.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Still</text>
 </g>
 <g class="node" data-id="_end" data-label="" data-shape="stateend">
-  <circle cx="28" cy="164.8" r="10" fill="none" stroke="var(--_text)" stroke-width="4" />
-<circle cx="28" cy="164.8" r="6" fill="var(--_text)" stroke="none" />
+  <circle cx="64.044" cy="314.40000000000003" r="10" fill="none" stroke="var(--_text)" stroke-width="4" />
+<circle cx="64.044" cy="314.40000000000003" r="6" fill="var(--_text)" stroke="none" />
   
 </g>
 <g class="node" data-id="Moving" data-label="Moving" data-shape="rounded">
-  <rect x="76" y="152.8" width="112.208" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="132.10399999999998" y="175.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Moving</text>
+  <rect x="43" y="152.8" width="112.208" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="99.104" y="175.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Moving</text>
 </g>
 <g class="node" data-id="Crash" data-label="Crash" data-shape="rounded">
-  <rect x="80.104" y="227.60000000000002" width="104" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
-  <text x="132.10399999999998" y="250.00000000000003" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Crash</text>
-</g>
-<g class="node" data-id="_end2" data-label="" data-shape="stateend">
-  <circle cx="132.10399999999998" cy="314.40000000000003" r="10" fill="none" stroke="var(--_text)" stroke-width="4" />
-<circle cx="132.10399999999998" cy="314.40000000000003" r="6" fill="var(--_text)" stroke="none" />
-  
+  <rect x="47.104" y="227.60000000000002" width="104" height="44.8" rx="10" ry="10" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="2" />
+  <text x="99.104" y="250.00000000000003" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Crash</text>
 </g>
 </svg>

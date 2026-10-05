@@ -41,9 +41,9 @@
 <path class="edge" data-from="Idle" data-to="Processing" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="submit" d="M153.04800000000003,114.8 L153.048,209.25" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Processing" data-to="Success" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="ok" d="M129.0266666666667,254.05 L129.0266666666667,260.05 Q129.0266666666667,266.05 123.0266666666667,266.05 L84.03200000000001,266.05 Q78.03200000000001,266.05 78.03200000000001,272.05 L78.03200000000001,348.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Processing" data-to="Failed" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="error" d="M177.06933333333336,254.05 L177.06933333333336,260.05 Q177.06933333333336,266.05 183.06933333333336,266.05 L222.064,266.05 Q228.064,266.05 228.064,272.05 L228.064,348.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Success" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M78.03200000000001,393.3 L78.03200000000002,487.75" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Success" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M78.03200000000001,393.3 L78.03200000000001,399.3 Q78.03200000000001,405.3 84.03200000000001,405.3 L143.048,405.3 Q149.048,405.3 149.048,411.3 L149.048,487.75" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Failed" data-to="Idle" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="retry" d="M280,358.5 L296,358.5 Q302,358.5 302,352.5 L302,111 Q302,105 296,105 L195,105" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Failed" data-to="_end2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="abort" d="M228.064,393.3 L228.064,487.75" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Failed" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="abort" d="M228.064,393.3 L228.064,399.3 Q228.064,405.3 222.064,405.3 L163.048,405.3 Q157.048,405.3 157.048,411.3 L157.048,487.75" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="Idle" data-to="Processing" data-label="submit">
   <rect x="122.77600000000002" y="149.8" width="60.54400000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
   <text x="153.04800000000003" y="162.025" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">submit</text>
@@ -60,9 +60,9 @@
   <rect x="225" y="92.775" width="52.53040000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
   <text x="251.2652" y="105" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">retry</text>
 </g>
-<g class="edge-label" data-from="Failed" data-to="_end2" data-label="abort">
-  <rect x="200.99743999999998" y="428.29999999999995" width="54.133120000000005" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="228.064" y="440.525" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">abort</text>
+<g class="edge-label" data-from="Failed" data-to="_end" data-label="abort">
+  <rect x="129.98144" y="421.9325" width="54.133120000000005" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="157.048" y="434.1575" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">abort</text>
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
   <circle cx="153.048" cy="28" r="10" fill="var(--_text)" stroke="none" />
@@ -85,13 +85,8 @@
   <text x="228.064" y="370.9" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Failed</text>
 </g>
 <g class="node" data-id="_end" data-label="" data-shape="stateend">
-  <circle cx="78.03200000000002" cy="499.75" r="10" fill="none" stroke="var(--_text)" stroke-width="4" />
-<circle cx="78.03200000000002" cy="499.75" r="6" fill="var(--_text)" stroke="none" />
-  
-</g>
-<g class="node" data-id="_end2" data-label="" data-shape="stateend">
-  <circle cx="228.064" cy="499.75" r="10" fill="none" stroke="var(--_text)" stroke-width="4" />
-<circle cx="228.064" cy="499.75" r="6" fill="var(--_text)" stroke="none" />
+  <circle cx="153.048" cy="499.75" r="10" fill="none" stroke="var(--_text)" stroke-width="4" />
+<circle cx="153.048" cy="499.75" r="6" fill="var(--_text)" stroke="none" />
   
 </g>
 </svg>

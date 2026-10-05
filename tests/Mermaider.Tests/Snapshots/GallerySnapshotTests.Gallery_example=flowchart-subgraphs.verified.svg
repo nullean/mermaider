@@ -49,8 +49,8 @@
 <path class="edge" data-from="API" data-to="Cache" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M224,366.5 L224,406.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="UI" data-to="State" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M172,117 L172,157" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="UI" data-to="API" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M186,117 L186,133 Q186,139 192,139 L227,139 Q233,139 233,145 L233,293.5 Q233,299.5 227,299.5 L192,299.5 Q186,299.5 186,305.5 L186,321.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="State" data-to="API" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M172,201.5 L172,321.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="28" y="280.6" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Backend</text>
-  <text x="93.89599999999999" y="31" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Frontend</text>
+<path class="edge" data-from="State" data-to="API" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M172,201.5 L172,321.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="28" y="280.6" font-size="var(--fs-s)" font-weight="600" fill="#F18921" dy="4.8999999999999995">Backend</text>
+  <text x="93.89599999999999" y="31" font-size="var(--fs-s)" font-weight="600" fill="#DF4E50" dy="4.8999999999999995">Frontend</text>
 
 <g class="node" data-id="API" data-label="REST API" data-shape="rectangle">
   <rect x="113.64799999999998" y="321.6" width="130.448" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />

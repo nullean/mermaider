@@ -567,12 +567,71 @@ internal static class FlowEdgeRouter
 				continue;
 			// labelled gaps jog right under the source so the pill has the long run; plain gaps jog at the middle
 			var target = list.Any(z => z.Plan.Edge.LabelW > 0) ? lo : (lo + hi) / 2;
+
+			// jogs whose runs overlap (a fan crossing a fan) get their own lane next to each other instead of sharing one line
+			(double A, double B) Span(Plan pl)
+			{
+				var pts = polylines[pl.Edge.Index];
+				var a = vertical ? pts[1].X : pts[1].Y;
+				var b = vertical ? pts[2].X : pts[2].Y;
+				return (Math.Min(a, b), Math.Max(a, b));
+			}
+
+			var lane = list.ToDictionary(z => z.Plan.Edge.Index, _ => target);
+			var sorted = list.OrderBy(z => Span(z.Plan).A).ToList();
+			var clusters = new List<List<(Plan Plan, bool Vertical)>>();
+			foreach (var z in sorted)
+			{
+				var (a, b) = Span(z.Plan);
+				var home = clusters.FirstOrDefault(c => c.Any(o => { var (oa, ob) = Span(o.Plan); return a < ob - 2 && b > oa + 2; }));
+				if (home is null)
+					clusters.Add([z]);
+				else
+					home.Add(z);
+			}
+
+			foreach (var c in clusters.Where(c => c.Count > 1))
+			{
+				var ordered = c.OrderBy(z => vertical ? z.Plan.S.Cx : z.Plan.S.Cy).ToList();
+				for (var i = 0; i < ordered.Count; i++)
+					lane[ordered[i].Plan.Edge.Index] = Math.Clamp(target + ((i - ((ordered.Count - 1) / 2.0)) * 14), lo, hi);
+			}
+
 			foreach (var (plan, _) in list)
 			{
 				var pts = polylines[plan.Edge.Index];
+				var at = lane[plan.Edge.Index];
 				polylines[plan.Edge.Index] = vertical
-					? [pts[0], new LayoutPoint(pts[1].X, target), new LayoutPoint(pts[2].X, target), pts[3]]
-					: [pts[0], new LayoutPoint(target, pts[1].Y), new LayoutPoint(target, pts[2].Y), pts[3]];
+					? [pts[0], new LayoutPoint(pts[1].X, at), new LayoutPoint(pts[2].X, at), pts[3]]
+					: [pts[0], new LayoutPoint(at, pts[1].Y), new LayoutPoint(at, pts[2].Y), pts[3]];
+			}
+
+			// Two jogs on neighbouring lanes whose end run of the upper one and start run of the lower one would sit on the
+			// same line: slide the lower one's start port aside so the two cross cleanly instead of merging into one rail.
+			foreach (var c in clusters.Where(c => c.Count > 1))
+			{
+				var byLane = c.OrderBy(z => lane[z.Plan.Edge.Index]).ToList();
+				for (var i = 0; i < byLane.Count; i++)
+				{
+					for (var j = i + 1; j < byLane.Count; j++)
+					{
+						var upper = polylines[byLane[i].Plan.Edge.Index];
+						var lowerPlan = byLane[j].Plan;
+						var lower = polylines[lowerPlan.Edge.Index];
+						var upperEnd = vertical ? upper[3].X : upper[3].Y;
+						var lowerStart = vertical ? lower[0].X : lower[0].Y;
+						if (Math.Abs(upperEnd - lowerStart) > 2)
+							continue;
+						var lo2 = vertical ? lowerPlan.S.X + 6 : lowerPlan.S.Y + 6;
+						var hi2 = vertical ? lowerPlan.S.Right - 6 : lowerPlan.S.Bottom - 6;
+						var shifted = lowerStart + 8 <= hi2 ? lowerStart + 8 : lowerStart - 8;
+						if (shifted < lo2 || shifted > hi2)
+							continue;
+						polylines[lowerPlan.Edge.Index] = vertical
+							? [new LayoutPoint(shifted, lower[0].Y), new LayoutPoint(shifted, lower[1].Y), lower[2], lower[3]]
+							: [new LayoutPoint(lower[0].X, shifted), new LayoutPoint(lower[1].X, shifted), lower[2], lower[3]];
+					}
+				}
 			}
 		}
 	}
@@ -748,6 +807,7 @@ internal static class FlowEdgeRouter
 		private readonly int[] _prev;
 		private int _version;
 		private double _crossCost = CrossCost;
+		private double _lengthWeight = 1;
 		private readonly IReadOnlyList<GroupBox> _allGroups;
 
 		internal Grid(IReadOnlyList<Box> boxes, IReadOnlyList<GroupBox> groups, List<Plan> plans)
@@ -872,6 +932,7 @@ internal static class FlowEdgeRouter
 			_version++;
 			// a loop around the outside is worth a long detour: crossing the forward edges is what makes it unreadable
 			_crossCost = p.Back ? CrossCost * 3 : CrossCost;
+			_lengthWeight = p.Back ? 0.6 : 1;
 			var ny = _ys.Length;
 			var pq = new PriorityQueue<int, double>();
 			var startDir = p.SSide;
@@ -945,7 +1006,7 @@ internal static class FlowEdgeRouter
 		{
 			double x0 = _xs[x], y0 = _ys[y], x1 = _xs[nx], y1 = _ys[ny];
 			var len = Math.Abs(x1 - x0) + Math.Abs(y1 - y0);
-			var cost = len;
+			var cost = len * _lengthWeight;
 			if (dir < 4 && dir != nd)
 				cost += BendCost;
 			var mx = (x0 + x1) / 2;

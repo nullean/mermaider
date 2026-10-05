@@ -49,8 +49,8 @@
 <path class="edge" data-from="V2" data-to="V3" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M231.5,94.5 L271.5,94.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="H1" data-to="H2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M511,94.5 L551,94.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="H2" data-to="H3" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M629.5,94.5 L669.5,94.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="V1" data-to="H1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M374,78.5 L413.91999999999996,78.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="28" y="31" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Vertical</text>
-  <text x="425.91999999999996" y="31" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Horizontal</text>
+<path class="edge" data-from="V1" data-to="H1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M374,78.5 L413.91999999999996,78.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="28" y="31" font-size="var(--fs-s)" font-weight="600" fill="#F18921" dy="4.8999999999999995">Vertical</text>
+  <text x="425.91999999999996" y="31" font-size="var(--fs-s)" font-weight="600" fill="#DF4E50" dy="4.8999999999999995">Horizontal</text>
 
 <g class="node" data-id="V1" data-label="V1" data-shape="rectangle">
   <rect x="40" y="72" width="72.99199999999999" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />

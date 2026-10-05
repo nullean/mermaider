@@ -52,9 +52,9 @@
 <path class="edge" data-from="A1" data-to="A2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M113.5,257.5 L113.5,297.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="B1" data-to="B2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M309,257.5 L309,297.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="LB" data-to="A1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M157.5,61 L157.5,156.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="LB" data-to="B1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M265,61 L265,156.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="28" y="115.8" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Deployment</text>
-  <text x="52" y="171.8" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Cluster A</text>
-  <text x="247.44" y="171.8" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)" dy="4.8999999999999995">Cluster B</text>
+<path class="edge" data-from="LB" data-to="B1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M265,61 L265,156.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="28" y="115.8" font-size="var(--fs-s)" font-weight="600" fill="#F18921" dy="4.8999999999999995">Deployment</text>
+  <text x="52" y="171.8" font-size="var(--fs-s)" font-weight="600" fill="#DF4E50" dy="4.8999999999999995">Cluster A</text>
+  <text x="247.44" y="171.8" font-size="var(--fs-s)" font-weight="600" fill="#6FB3AE" dy="4.8999999999999995">Cluster B</text>
 
 <g class="node" data-id="LB" data-label="Load Balancer" data-shape="rectangle">
   <rect x="127.976" y="16" width="166.928" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
