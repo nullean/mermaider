@@ -235,7 +235,10 @@ public static class HierarchicalLayout
 
 		var before = root.Nodes.ToDictionary(kv => kv.Key, kv => kv.Value, StringComparer.Ordinal);
 		if (input.Subgraphs.Count > 0)
+		{
 			ReduceCrossingsBySwaps(root.Nodes, input, PathOf);
+			CentreFansUnderParents(root.Nodes, root.Groups, input, options);
+		}
 		var moved = root.Nodes.Where(kv => before[kv.Key] != kv.Value).Select(kv => kv.Key).ToHashSet(StringComparer.Ordinal);
 
 		var pad = options.Padding;
@@ -312,6 +315,68 @@ public static class HierarchicalLayout
 			g.Id, g.Label, g.X + pad + dx, g.Y + pad + dy, g.W, g.H, g.Children.Select(ToResult).ToList());
 
 		return new LayoutResult(width + pad, height + pad, nodesOut, routes, root.Groups.Select(ToResult).ToList());
+	}
+
+	/// <summary>
+	/// Each level is laid out on its own, so a fan whose children all live in one top-level subgraph is placed without seeing
+	/// the parent outside it (which sits in another subgraph or at the root). When a node fans out to two or more children
+	/// (each with no other forward parent) that share one top-level subgraph, that subgraph slides along the cross axis so
+	/// the fan is centred on its parent, provided the moved box stays clear of every other box.
+	/// </summary>
+	private static void CentreFansUnderParents(
+		Dictionary<string, (double X, double Y, double W, double H)> nodes, List<GroupRect> roots, LayoutGraph input, LayoutOptions options)
+	{
+		var vertical = input.Direction is LayoutDirection.TD or LayoutDirection.BT;
+		var sign = input.Direction is LayoutDirection.BT or LayoutDirection.RL ? -1 : 1;
+		double Flow((double X, double Y, double W, double H) r) => sign * (vertical ? r.Y + (r.H / 2) : r.X + (r.W / 2));
+		double Cross((double X, double Y, double W, double H) r) => vertical ? r.X + (r.W / 2) : r.Y + (r.H / 2);
+
+		var forward = input.Edges
+			.Where(e => e.Source != e.Target && nodes.ContainsKey(e.Source) && nodes.ContainsKey(e.Target)
+				&& e.SourceGroup is null && e.TargetGroup is null && Flow(nodes[e.Target]) > Flow(nodes[e.Source]) + 1)
+			.Select(e => (e.Source, e.Target))
+			.Distinct()
+			.ToList();
+		var parentCount = forward.GroupBy(f => f.Target).ToDictionary(g => g.Key, g => g.Count(), StringComparer.Ordinal);
+
+		foreach (var grp in forward.GroupBy(f => f.Source))
+		{
+			var children = grp.Select(f => f.Target).Where(c => parentCount[c] == 1).ToList();
+			if (children.Count < 2)
+				continue;
+			var id = grp.Key;
+			var r = nodes[id];
+			var target = (children.Min(c => Cross(nodes[c])) + children.Max(c => Cross(nodes[c]))) / 2;
+			var delta = target - Cross(r);
+			if (Math.Abs(delta) <= 6)
+				continue;
+			// the fan's children all sit in one top-level subgraph: that subgraph slides (by the opposite amount) when it is
+			// clear of every other box and the parent is outside it
+			var home = roots.Where(g => children.All(c => g.NodeIds.Contains(c)) && !g.NodeIds.Contains(id)).ToList();
+			if (home.Count != 1)
+				continue;
+			var box = home[0];
+			var shift = -delta;
+			var (bx, by) = vertical ? (box.X + shift, box.Y) : (box.X, box.Y + shift);
+			if (bx < 0 || by < 0)
+				continue;
+			static bool Hits(double ax, double ay, double aw, double ah, double x, double y, double w, double h, double m) =>
+				ax < x + w + m && ax + aw > x - m && ay < y + h + m && ay + ah > y - m;
+			var spacing = options.NodeSpacing / 2;
+			var free = nodes.Where(kv => !box.NodeIds.Contains(kv.Key)).All(kv => !Hits(bx, by, box.W, box.H, kv.Value.X, kv.Value.Y, kv.Value.W, kv.Value.H, spacing))
+				&& roots.Where(g => !ReferenceEquals(g, box)).All(g => !Hits(bx, by, box.W, box.H, g.X, g.Y, g.W, g.H, spacing));
+			if (!free)
+				continue;
+			var (dx, dy) = vertical ? (shift, 0.0) : (0.0, shift);
+			foreach (var n in box.NodeIds.Where(nodes.ContainsKey).ToList())
+			{
+				var q = nodes[n];
+				nodes[n] = (q.X + dx, q.Y + dy, q.W, q.H);
+			}
+
+			var i = roots.IndexOf(box);
+			roots[i] = Shift(box, dx, dy);
+		}
 	}
 
 	/// <summary>
