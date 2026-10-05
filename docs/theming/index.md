@@ -58,11 +58,11 @@ Three presets restyle all 24 diagram types, light and dark. They only change pai
 | `DiagramStyle.Blueprint` | Technical drawing: outline-first boxes on the page colour, square corners, dashed containers with a caps tab, mono captions with a halo, thin accent arrowheads, no shadows. |
 | `DiagramStyle.Tonal` | Friendly tonal blocks: soft filled boxes without outlines, generous radii, chip headers, filled label chips, chunky markers, soft elevation. |
 
-![The same flowchart in the Quiet style](../screenshots/quiet/zinc-light/flowchart.svg)
+![The same flowchart in the Quiet style](../images/styles/quiet.svg)
 
-![The same flowchart in the Blueprint style](../screenshots/blueprint/zinc-light/flowchart.svg)
+![The same flowchart in the Blueprint style](../images/styles/blueprint.svg)
 
-![The same flowchart in the Tonal style](../screenshots/tonal/zinc-light/flowchart.svg)
+![The same flowchart in the Tonal style](../images/styles/tonal.svg)
 
 ```csharp
 var options = new RenderOptions

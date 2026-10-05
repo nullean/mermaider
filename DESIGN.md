@@ -28,7 +28,7 @@ the Invest quadrant, the gantt active ring, the title mark, PK badges. Nowhere e
 |---|---|---|---|
 | `Style` | `DiagramStyle.Quiet` / `Blueprint` / `Tonal` | `Quiet` | Picks the `StyleSpec` (knob table, §6). Paint only; layout is identical in all three. |
 | `Gradient` | `bool` | `true` | On: node top → bot gradient, container wash (a lighter shade of the container's own colour into its tint), bar / ribbon / pie gradients. Off: every fill is the family `Flat` / `Tint` stage. |
-| `Tint` | `double` 0.5 – 1.5 | `1` | Multiplies every bg-side family ratio (top, bot, flat, band, soft, tint, edge, wash). Lower keeps dark themes from looking muddy. Clamped; non-finite → 1. |
+| `Tint` | `double` 0.5 – 1.5 | `1` | Multiplies every bg-side family ratio (top, bot, flat, band, soft, tint, edge). Lower keeps dark themes from looking muddy. Clamped; non-finite → 1. |
 | `Elevation` | `int` 0 / 1 / 2 | `1` | 0 no shadows · 1 box + container shadows · 2 adds an ambient shadow. Clamped. Blueprint never casts shadows. |
 
 All four are normalised once by `DesignInputs.From(RenderOptions)` (`Theming/StyleSpec.cs`) into
@@ -91,7 +91,7 @@ All stages are `color-mix(in srgb, …)` against `--bg` or `--fg`, so they re-th
 | `Band` | base 22% → bg | header band, badge fill, tag pill |
 | `Soft` | base 26% → bg | Tonal fill, treemap leaf, gantt done |
 | `Tint(depth)` | base 6% (+3% per nesting level) → bg | container body |
-| wash | accent 8% → bg, diagonal into `Tint(depth)` | container body gradient (`ds.ContainerFill`) |
+| wash | a lighter shade of the family (35% of the tint ratio) → bg, diagonal into `Tint(depth)` | container body gradient (`ds.ContainerFill`) |
 | `Edge` | base 42% → bg | container border, soft rules |
 | `Stroke` | base 74% → **fg** | node outline, bar outline, markers (≥ 3:1 in both modes) |
 | `Ink` | base 44% → **fg** | container titles, stereotypes, badge text (≥ 4.5:1 on `Band`) |
@@ -130,7 +130,7 @@ Four size tiers (`--fs-xs` 12, `--fs-s` 14, `--fs-m` 16, `--fs-l` 18 by default)
 | `Subheading` | s | 600 | family `Ink` | container title, tree level 1, treemap tile name |
 | `Label` | s | preset label (500; 600 Tonal) | `--_text` | node label, actor, legend, axis name, card |
 | `Body` | s | 400 | `--_text` | members, task names, descriptions |
-| `Caption` | xs | 500 | `--_text-sec` | edge and message labels, pills |
+| `Caption` | xs | 500 | `--_text-sec` (edge labels: `--_text`) | edge and message labels, pills |
 | `Tag` | xs | 600 | family `Ink` | badges, keyword tabs, counts, chips, shares |
 | `Meta` | xs | 400 | `--_text-muted` | types, ticks, subtitles, units |
 | `Eyebrow` | xs | 600 caps, +.08em | `--_text-muted` | quadrant labels, gantt sections, Blueprint tabs |

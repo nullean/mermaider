@@ -45,7 +45,6 @@ internal sealed record ColorFamily
 	internal const double EdgeRatio = 42;
 	internal const double StrokeRatio = 74;
 	internal const double InkRatio = 44;
-	internal const double WashAccentRatio = 8;
 
 	/// <summary>Opacity of the area stage (regions that overlap: radar, venn, sankey).</summary>
 	internal const double AreaOpacity = 0.2;

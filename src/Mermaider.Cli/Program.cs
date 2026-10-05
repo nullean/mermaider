@@ -188,6 +188,12 @@ static RenderOptions BuildOptions(string? themeName, bool transparent)
 		Muted = colors.Muted,
 		Surface = colors.Surface,
 		Border = colors.Border,
+		DataPalette = colors.DataPalette,
+		Default = colors.Default,
+		Success = colors.Success,
+		Failure = colors.Failure,
+		Warning = colors.Warning,
+		Info = colors.Info,
 		Transparent = transparent,
 	};
 }

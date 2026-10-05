@@ -101,7 +101,7 @@ Header title: support both `type\ntitle X` and compact `type title X`.
 - Detector: `^C4(?:Context|Container|Component|Dynamic|Deployment)\b` (all five headers → one `DiagramType.C4`)
 - Kind stored on model (`C4DiagramKind`) for future styling; v1 layout is shared
 - Element shapes: Person / System* / Container* / Component* / Db / Queue / `_Ext` / Deployment_Node
-- Boundaries: `Enterprise_Boundary` / `System_Boundary` / `Container_Boundary` / `Boundary` + `{ ΓÇª }`
+- Boundaries: `Enterprise_Boundary` / `System_Boundary` / `Container_Boundary` / `Boundary` + `{ … }`
 - Relations: `Rel`, `BiRel`, `Rel_*`, `RelIndex` (index skipped), `Rel_Back` (same as Rel for v1)
 - Skip `UpdateElementStyle` / `UpdateRelStyle` in v1; honor `UpdateLayoutConfig($c4ShapeInRow, $c4BoundaryInRow)`
 - Layout: **grid arithmetic in renderer** (shapeInRow / boundaryInRow), not Sugiyama
@@ -122,7 +122,7 @@ When “good enough Mermaider chart” is fine: arithmetic layout + theme vars +
 4. Match draw order (e.g. dashed line under task rect; **C4: boundaries → relations → elements → labels**)  
 5. Prefer mermaid palettes for type-specific chrome; keep title on theme vars  
 
-When ΓÇ£good enough Mermaider chartΓÇ¥ is fine: arithmetic layout + theme vars + fixed accents (pie/timeline style).
+When "good enough Mermaider chart" is fine: arithmetic layout + theme vars + fixed accents (pie/timeline style).
 
 ### C4 render notes
 
@@ -145,7 +145,7 @@ When ΓÇ£good enough Mermaider chartΓÇ¥ is fine: arithmetic layout + theme 
 - Nested structure if type has blocks (C4 boundaries)  
 - WinPrint / real-world fixture line if exists  
 - `RenderSvg` → `<svg`…`</svg>`, key labels present  
-- `RenderSvg` → `<svg`ΓÇª`</svg>`, key labels present  
+- `RenderSvg` → `<svg`…`</svg>`, key labels present  
 - Theme: title or labels use `var(--_text)` where themed  
 - Edge: empty diagram, clamp/out-of-range values  
 - Accessibility: `accTitle` **after** header; assert `aria-roledescription`  
@@ -197,7 +197,7 @@ Title: `Fixes #N - Add {Type} support`.
 | High | Sankey | `sankey-beta` | flow widths |
 | Medium | XY chart | `xychart-beta` | bar/line |
 | Done / in flight | C4 | `C4Context`… | nested boundaries; fixed palette |
-| Done / in flight | C4 | `C4Context`ΓÇª | nested boundaries; fixed palette |
+| Done / in flight | C4 | `C4Context`… | nested boundaries; fixed palette |
 | High | Sankey | `sankey` / `sankey-beta` | CSV links; flow widths |
 | Medium | XY chart | `xychart` / `xychart-beta` | bar/line |
 | Medium | Requirement | `requirementDiagram` | |
@@ -209,7 +209,7 @@ Unsupported today must **not** crash host apps harder than `MermaidParseExceptio
 
 - Special-casing GH `<img>` with hardcoded px fills in the **library** renderer (use opaque example SVG only)  
 - Parallel “support matrix” string lists in tests (drift)  
-- Parallel ΓÇ£support matrixΓÇ¥ string lists in tests (drift)  
+- Parallel "support matrix" string lists in tests (drift)  
 - Silent `DateTime.Today`  
 - Giant single-file parsers without section/token structure  
 - New public APIs per diagram type  
@@ -324,7 +324,7 @@ test_entity - satisfies -> test_req
 - Nested `{`/`}` → stack of boundary frames; **mark deployment nodes** (`IsDeploymentNode`) so they get solid chrome + relation anchors without double-drawing leaves.
 - Keep **separate** `placements` (drawn leaves) vs `relationAnchors` (leaves + nested deployment boxes).
 - Layout must walk **source order** (do not partition leaves-then-boundaries) — Person → Boundary → System_Ext is the common case.
-- Grid layout (shapeInRow / boundaryInRow) is ΓÇ£good enough MermaiderΓÇ¥; not d3/elk.
+- Grid layout (shapeInRow / boundaryInRow) is "good enough Mermaider"; not d3/elk.
 - C4 is fixed-style upstream — keep shape fills hardcoded; theme only chrome/text.
 - Header regex should capture kind + optional compact `title`; `DetectKind` must use `StartsWith` / capture group, not `Contains` (avoids `C4Context` matching `C4Container` substring myths and order bugs).
 - Self-relations need an explicit loop path; edge clipping collapses zero-length segments.

@@ -18,7 +18,7 @@ internal enum FillKind
 /// <summary>How a container (subgraph, namespace, frame, column, section, boundary) is drawn.</summary>
 internal enum ContainerKind
 {
-	/// <summary>Tinted body with an accent wash and a 28px header strip carrying an accent mark.</summary>
+	/// <summary>Tinted body (a lighter shade of the container's colour into its tint) and a 28px header strip with the title in the family ink.</summary>
 	Strip,
 
 	/// <summary>No fill, dashed outline, a caps tab knocked out of the top border.</summary>

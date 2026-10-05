@@ -47,13 +47,13 @@ public sealed record RenderOptions
 	/// <summary>Ratio for large text (--fs-l). Default: 1.125.</summary>
 	public double? FontSizeLarge { get; init; }
 
-	/// <summary>Canvas padding in px. Default: 40.</summary>
+	/// <summary>Canvas padding in px around flowchart and state diagrams (other diagram types use their own margins). Default: 16.</summary>
 	public double? Padding { get; init; }
 
-	/// <summary>Horizontal spacing between sibling nodes. Default: 28.</summary>
+	/// <summary>Spacing between sibling nodes in flowchart and state diagrams. Default: 36.</summary>
 	public double? NodeSpacing { get; init; }
 
-	/// <summary>Vertical spacing between layers. Default: 48.</summary>
+	/// <summary>Spacing between layers in flowchart and state diagrams. Default: 40.</summary>
 	public double? LayerSpacing { get; init; }
 
 	/// <summary>Use rounded corners on edge paths. Default: true (radius 6px).</summary>
@@ -101,19 +101,19 @@ public sealed record RenderOptions
 	/// </summary>
 	public string[]? DataPalette { get; init; }
 
-	/// <summary>Colour of an ordinary box (first cluster of nodes, entities and classes). Default: the first palette colour that is not a role hue (blue).</summary>
+	/// <summary>Colour of an ordinary box (first cluster of nodes, entities and classes). Default: the theme's default box colour (every built-in theme sets one; slate in the zinc themes); without one, the first palette colour that is not a role hue.</summary>
 	public string? Default { get; init; }
 
-	/// <summary>Semantic role colour for success. Nodes with the class <c>success</c> use it; automatic colouring avoids its hue. Default: palette green.</summary>
+	/// <summary>Semantic role colour for success. Nodes with the class <c>success</c> use it; automatic colouring avoids its hue. Default: the theme's success colour; without one, palette green.</summary>
 	public string? Success { get; init; }
 
-	/// <summary>Semantic role colour for failure (class <c>failure</c>). Default: palette red.</summary>
+	/// <summary>Semantic role colour for failure (class <c>failure</c>). Default: the theme's failure colour; without one, palette red.</summary>
 	public string? Failure { get; init; }
 
-	/// <summary>Semantic role colour for warning (class <c>warning</c>). Default: palette yellow.</summary>
+	/// <summary>Semantic role colour for warning (class <c>warning</c>). Default: the theme's warning colour; without one, palette yellow.</summary>
 	public string? Warning { get; init; }
 
-	/// <summary>Semantic role colour for information (class <c>info</c>). Default: palette blue.</summary>
+	/// <summary>Semantic role colour for information (class <c>info</c>). Default: the theme's info colour; without one, palette blue.</summary>
 	public string? Info { get; init; }
 
 

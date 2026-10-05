@@ -10,6 +10,7 @@
 //                                                        the section's image is rewritten as a <picture> that follows the
 //                                                        reader's colour scheme
 //   docs/images/diagrams/<type>.svg                       docs pages (Quiet, zinc-light, transparent)
+//   docs/images/styles/<style>.svg                        theming page style comparison (one flowchart per style)
 //   docs/screenshots/<style>/<theme>/<type>.svg           landing page gallery (every style x theme, opaque)
 //   docs/screenshots/hero.svg                             landing page hero (the code sample's diagram, transparent)
 
@@ -103,6 +104,10 @@ foreach (var (type, slug) in showcase)
 		}
 	}
 }
+
+// Theming page: the same flowchart in each style preset (committed, unlike the landing variants).
+foreach (var style in styles)
+	Write($"docs/images/styles/{style.ToString().ToLowerInvariant()}.svg", MermaidRenderer.RenderSvg(Source("flowchart-subgraphs"), Options("zinc-light", style, transparent: true)));
 
 // Hero: the exact diagram the landing page's code sample renders, in the page's own colours, transparent.
 Write("docs/screenshots/hero.svg", MermaidRenderer.RenderSvg("""
