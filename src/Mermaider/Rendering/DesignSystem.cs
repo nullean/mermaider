@@ -199,9 +199,12 @@ internal sealed partial class DesignSystem
 		ContainerKind.Tab => "none",
 		_ when Gradient => DiagonalGradient(
 			"cw-" + family.Key + "-" + depth.ToString(CultureInfo.InvariantCulture),
-			Accent.Mix(ColorFamily.WashAccentRatio * TintStrength), family.Tint(depth)),
+			family.Mix((ColorFamily.TintRatio + (ColorFamily.TintStep * depth)) * 0.35 * TintStrength), family.Tint(depth)),
 		_ => family.Tint(depth),
 	};
+
+	/// <summary>Container outlines are as heavy as node outlines, so every box in a diagram reads at one weight.</summary>
+	internal string ContainerStrokeWidth => Num(Math.Max(1, Spec.OutlineWidth));
 
 	internal string ContainerStroke(ColorFamily family) => Spec.Container == ContainerKind.Chip ? "none" : family.Edge;
 
@@ -228,7 +231,7 @@ internal sealed partial class DesignSystem
 			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
 			.Append("\" fill=\"").Append(ContainerFill(family, depth))
 			.Append("\" stroke=\"").Append(ContainerOutline(family))
-			.Append("\" stroke-width=\"1\"");
+			.Append("\" stroke-width=\"").Append(ContainerStrokeWidth).Append('"');
 		if (Spec.DashedContainers)
 			_ = sb.Append(" stroke-dasharray=\"3 4\"");
 		_ = sb.Append(" />");
@@ -240,7 +243,7 @@ internal sealed partial class DesignSystem
 			AppendTopRoundedRect(sb, x, y, w, StripHeight, Spec.ContainerRadius, family.Band);
 			_ = sb.Append("\n  <line x1=\"").Append(x).Append("\" y1=\"").Append(y + StripHeight)
 				.Append("\" x2=\"").Append(x + w).Append("\" y2=\"").Append(y + StripHeight)
-				.Append("\" stroke=\"").Append(family.Edge).Append("\" stroke-width=\"1\" />");
+				.Append("\" stroke=\"").Append(family.Edge).Append("\" stroke-width=\"").Append(ContainerStrokeWidth).Append("\" />");
 		}
 
 		_ = sb.Append("\n</g>");
@@ -264,7 +267,7 @@ internal sealed partial class DesignSystem
 					_ = sb.Append("\n<rect x=\"").Append(tabX - 4).Append("\" y=\"").Append(y - 1)
 						.Append("\" width=\"").Append(textW + 20).Append("\" height=\"2\" fill=\"var(--bg)\" />");
 					_ = sb.Append("\n<rect x=\"").Append(tabX).Append("\" y=\"").Append(y - 5)
-						.Append("\" width=\"2\" height=\"10\" fill=\"").Append(ColorFamily.AccentBase).Append("\" />");
+						.Append("\" width=\"2\" height=\"10\" fill=\"").Append(family.Stroke).Append("\" />");
 					_ = sb.Append('\n');
 					AppendText(sb, caps, tabX + 8, y, TypeRole.Eyebrow, family.Ink, anchor: "start");
 					if (count is not null)
@@ -282,7 +285,7 @@ internal sealed partial class DesignSystem
 					_ = sb.Append("\n<rect x=\"").Append(x + 10).Append("\" y=\"").Append(y + 8)
 						.Append("\" width=\"").Append(chipW).Append("\" height=\"22\" rx=\"11\" ry=\"11\" fill=\"").Append(family.Band).Append("\" />");
 					_ = sb.Append("\n<circle cx=\"").Append(x + 22).Append("\" cy=\"").Append(y + 19)
-						.Append("\" r=\"3.5\" fill=\"").Append(ColorFamily.AccentBase).Append("\" />");
+						.Append("\" r=\"3.5\" fill=\"").Append(family.Stroke).Append("\" />");
 					_ = sb.Append('\n');
 					AppendText(sb, title, x + 30, y + 19, TypeRole.Subheading, family.Ink, anchor: "start", weight: 700);
 					if (count is not null)
@@ -295,11 +298,9 @@ internal sealed partial class DesignSystem
 				}
 			default:
 				{
-					// accent mark + ink title in the strip
-					_ = sb.Append("\n<rect x=\"").Append(x + 10).Append("\" y=\"").Append(midY - 6)
-						.Append("\" width=\"3\" height=\"12\" rx=\"1.5\" ry=\"1.5\" fill=\"").Append(ColorFamily.AccentBase).Append("\" />");
+					// ink title in the strip
 					_ = sb.Append('\n');
-					AppendText(sb, title, x + 20, midY, TypeRole.Subheading, family.Ink, anchor: "start");
+					AppendText(sb, title, x + 12, midY, TypeRole.Subheading, family.Ink, anchor: "start");
 					if (count is not null)
 					{
 						_ = sb.Append('\n');
@@ -426,7 +427,7 @@ internal sealed partial class DesignSystem
 				_ = sb.Append("<rect x=\"").Append(cx - (w / 2)).Append("\" y=\"").Append(cy - (h / 2))
 					.Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
 					.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-					.Append("\" fill=\"var(--bg)\" stroke=\"var(--_line-soft)\" stroke-width=\"1\" />");
+					.Append("\" fill=\"var(--bg)\" stroke=\"").Append(EdgeColor).Append("\" stroke-width=\"").Append(EdgeWidth).Append("\" />");
 				break;
 			case LabelKind.Halo:
 				// a borderless page-coloured knock-out: the halo alone lets the line show through the gaps between words
@@ -517,9 +518,10 @@ internal sealed partial class DesignSystem
 		}
 
 		_ = sb.Append("\n  ");
-		var px = Px(TypeRole.Body);
+		// layouts size notes at the caption tier, so the text is set at that tier too
+		var px = Px(TypeRole.Caption);
 		MultilineUtils.AppendMultilineText(sb, text, x + (w / 2) + (Spec.Note == NoteKind.Rail ? 1.5 : 0), y + (h / 2), px,
-			TextAttributes(TypeRole.Body, Accent.Ink, anchor: "middle"));
+			TextAttributes(TypeRole.Caption, Accent.Ink, anchor: "middle"));
 		_ = sb.Append("\n</g>");
 	}
 

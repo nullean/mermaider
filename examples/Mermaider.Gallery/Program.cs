@@ -945,7 +945,7 @@ string RenderPlaygroundPage(string? theme, string engine, string? selectedSlug, 
 	var defaultBg = q["bg"].FirstOrDefault() ?? baseColors?.Bg ?? "#FFFFFF";
 	var defaultFg = q["fg"].FirstOrDefault() ?? baseColors?.Fg ?? "#27272A";
 	var defaultLine = q["line"].FirstOrDefault() ?? baseColors?.Line ?? "";
-	var defaultAccent = q["accent"].FirstOrDefault() ?? baseColors?.Accent ?? "#3b82f6";
+	var defaultAccent = q["accent"].FirstOrDefault() ?? baseColors?.Accent ?? "#5b5fb0";
 	var defaultMuted = q["muted"].FirstOrDefault() ?? baseColors?.Muted ?? "";
 	var defaultSurface = q["surface"].FirstOrDefault() ?? baseColors?.Surface ?? "";
 	var defaultBorder = q["border"].FirstOrDefault() ?? baseColors?.Border ?? "";

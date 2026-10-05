@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 721.9739999999999 948.0500000000001" width="721.9739999999999" height="948.0500000000001" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 721.9739999999999 948.0500000000001" width="721.9739999999999" height="948.0500000000001" style="--bg:#FFFFFF;--fg:#27272A;--accent:#5b5fb0">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -31,130 +31,126 @@
 </style>
 
 <g class="subgraph" data-id="Repos" data-label="Repositories (each with its own isolated build)">
-  <rect x="16" y="16" width="689.9739999999999" height="122.2" rx="12" ry="12" fill="url(#ma2e31288-cw-p1-0)" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1" />
+  <rect x="16" y="16" width="689.9739999999999" height="122.2" rx="12" ry="12" fill="url(#m6dc990bb-cw-p1-0)" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
   <path d="M16,44 L16,28 Q16,16 28,16 L693.9739999999999,16 Q705.9739999999999,16 705.9739999999999,28 L705.9739999999999,44 Z" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" />
-  <line x1="16" y1="44" x2="705.9739999999999" y2="44" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1" />
+  <line x1="16" y1="44" x2="705.9739999999999" y2="44" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
 </g>
 <g class="subgraph" data-id="Registries" data-label="Link registries">
-  <rect x="66.20000000000005" y="246.05" width="589.5739999999998" height="140.4" rx="12" ry="12" fill="url(#ma2e31288-cw-p2-0)" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1" />
+  <rect x="66.20000000000005" y="246.05" width="589.5739999999998" height="140.4" rx="12" ry="12" fill="url(#m6dc990bb-cw-p2-0)" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1.25" />
   <path d="M66.20000000000005,274.05 L66.20000000000005,258.05 Q66.20000000000005,246.05 78.20000000000005,246.05 L643.7739999999999,246.05 Q655.7739999999999,246.05 655.7739999999999,258.05 L655.7739999999999,274.05 Z" fill="color-mix(in srgb, #76b7b2 22%, var(--bg))" />
-  <line x1="66.20000000000005" y1="274.05" x2="655.7739999999999" y2="274.05" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1" />
+  <line x1="66.20000000000005" y1="274.05" x2="655.7739999999999" y2="274.05" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1.25" />
 </g>
 <g class="subgraph" data-id="Assembler" data-label="Assembler">
-  <rect x="37.626499999999965" y="426.45000000000005" width="307.954" height="505.6" rx="12" ry="12" fill="url(#ma2e31288-cw-p3-0)" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1" />
+  <rect x="37.626499999999965" y="426.45000000000005" width="307.954" height="505.6" rx="12" ry="12" fill="url(#m6dc990bb-cw-p3-0)" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1.25" />
   <path d="M37.626499999999965,454.45000000000005 L37.626499999999965,438.45000000000005 Q37.626499999999965,426.45000000000005 49.626499999999965,426.45000000000005 L333.5805,426.45000000000005 Q345.5805,426.45000000000005 345.5805,438.45000000000005 L345.5805,454.45000000000005 Z" fill="color-mix(in srgb, #b07aa1 22%, var(--bg))" />
-  <line x1="37.626499999999965" y1="454.45000000000005" x2="345.5805" y2="454.45000000000005" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1" />
+  <line x1="37.626499999999965" y1="454.45000000000005" x2="345.5805" y2="454.45000000000005" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1.25" />
 </g>
 <g class="subgraph" data-id="CodexB" data-label="Codex">
-  <rect x="381.5805" y="426.45000000000005" width="297.58000000000004" height="387" rx="12" ry="12" fill="url(#ma2e31288-cw-p4-0)" stroke="color-mix(in srgb, #9c755f 42%, var(--bg))" stroke-width="1" />
+  <rect x="381.5805" y="426.45000000000005" width="297.58000000000004" height="387" rx="12" ry="12" fill="url(#m6dc990bb-cw-p4-0)" stroke="color-mix(in srgb, #9c755f 42%, var(--bg))" stroke-width="1.25" />
   <path d="M381.5805,454.45000000000005 L381.5805,438.45000000000005 Q381.5805,426.45000000000005 393.5805,426.45000000000005 L667.1605,426.45000000000005 Q679.1605,426.45000000000005 679.1605,438.45000000000005 L679.1605,454.45000000000005 Z" fill="color-mix(in srgb, #9c755f 22%, var(--bg))" />
-  <line x1="381.5805" y1="454.45000000000005" x2="679.1605" y2="454.45000000000005" stroke="color-mix(in srgb, #9c755f 42%, var(--bg))" stroke-width="1" />
+  <line x1="381.5805" y1="454.45000000000005" x2="679.1605" y2="454.45000000000005" stroke="color-mix(in srgb, #9c755f 42%, var(--bg))" stroke-width="1.25" />
 </g>
-<path class="edge" data-from="R1" data-to="S3Reg" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="links.json" d="M130,114 L130,120.1 Q130,126.2 136.1,126.2 L203,126.2 Q211,126.2 211,134.2 L211,302" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
-<path class="edge" data-from="R2" data-to="S3Reg" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="links.json" d="M260.5,114 L260.5,302" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
-<path class="edge" data-from="R3" data-to="S3Reg" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="links.json" d="M361,114 L361,120.1 Q361,126.2 354.9,126.2 L331.5,126.2 Q323.5,126.2 323.5,134.2 L323.5,302" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
-<path class="edge" data-from="R4" data-to="CodexReg" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="links.json" d="M577.5,114 L577.5,302" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
-<path class="edge" data-from="S3Reg" data-to="AsmClone" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M191.5,344 L191.5,454.5 Q191.5,462.5 183.5,462.5 L74,462.5 Q66,462.5 66,470.5 L66,635 Q66,643 74,643 L183.5,643 Q191.5,643 191.5,651 L191.5,665" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
-<path class="edge" data-from="AsmCfg" data-to="Env" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M191.5,524.5 L191.5,564.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
-<path class="edge" data-from="Env" data-to="AsmClone" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M205.5,625 L205.5,640 L205.5,640 L205.5,665" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
-<path class="edge" data-from="AsmClone" data-to="AsmBuild" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M191.5,707.5 L191.5,747" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
-<path class="edge" data-from="AsmBuild" data-to="AsmOut" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M191.5,807.5 L191.5,847.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
-<path class="edge" data-from="CodexReg" data-to="CdxClone" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M518.5,362.5 L518.5,454.5 Q518.5,462.5 510.5,462.5 L413.5,462.5 Q405.5,462.5 405.5,470.5 L405.5,534.5 Q405.5,542.5 413.5,542.5 L510.5,542.5 Q518.5,542.5 518.5,550.5 L518.5,564.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
-<path class="edge" data-from="CdxCfg" data-to="CdxClone" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M530.5,524.5 L530.5,539.5 L530.5,539.5 L530.5,564.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
-<path class="edge" data-from="CdxClone" data-to="CdxBuild" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M530.5,625 L530.5,665" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
-<path class="edge" data-from="CdxBuild" data-to="CdxOut" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M530.5,707.5 L530.5,747" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
-<rect x="26" y="24" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="36" y="30" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.9">Repositories (each with its own isolated build)</text>
-<rect x="76.20000000000005" y="254.05" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="86.2" y="260.05" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.9">Link registries</text>
-<rect x="47.626499999999965" y="434.45000000000005" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="57.63" y="440.45" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #b07aa1 44%, var(--fg))" dy="4.9">Assembler</text>
-<rect x="391.5805" y="434.45000000000005" width="3" height="12" rx="1.5" ry="1.5" fill="var(--accent, var(--fg))" />
-<text x="401.58" y="440.45" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #9c755f 44%, var(--fg))" dy="4.9">Codex</text>
+<path class="edge" data-from="R1" data-to="S3Reg" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="links.json" d="M130,114 L130,120.1 Q130,126.2 136.1,126.2 L203,126.2 Q211,126.2 211,134.2 L211,302" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m6dc990bb-mk-arrow)" />
+<path class="edge" data-from="R2" data-to="S3Reg" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="links.json" d="M260.5,114 L260.5,302" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m6dc990bb-mk-arrow)" />
+<path class="edge" data-from="R3" data-to="S3Reg" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="links.json" d="M361,114 L361,120.1 Q361,126.2 354.9,126.2 L331.5,126.2 Q323.5,126.2 323.5,134.2 L323.5,302" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m6dc990bb-mk-arrow)" />
+<path class="edge" data-from="R4" data-to="CodexReg" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="links.json" d="M577.5,114 L577.5,302" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m6dc990bb-mk-arrow)" />
+<path class="edge" data-from="S3Reg" data-to="AsmClone" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M191.5,344 L191.5,454.5 Q191.5,462.5 183.5,462.5 L74,462.5 Q66,462.5 66,470.5 L66,635 Q66,643 74,643 L183.5,643 Q191.5,643 191.5,651 L191.5,665" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m6dc990bb-mk-arrow)" />
+<path class="edge" data-from="AsmCfg" data-to="Env" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M191.5,524.5 L191.5,564.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m6dc990bb-mk-arrow)" />
+<path class="edge" data-from="Env" data-to="AsmClone" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M205.5,625 L205.5,640 L205.5,640 L205.5,665" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m6dc990bb-mk-arrow)" />
+<path class="edge" data-from="AsmClone" data-to="AsmBuild" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M191.5,707.5 L191.5,747" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m6dc990bb-mk-arrow)" />
+<path class="edge" data-from="AsmBuild" data-to="AsmOut" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M191.5,807.5 L191.5,847.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m6dc990bb-mk-arrow)" />
+<path class="edge" data-from="CodexReg" data-to="CdxClone" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M518.5,362.5 L518.5,454.5 Q518.5,462.5 510.5,462.5 L413.5,462.5 Q405.5,462.5 405.5,470.5 L405.5,534.5 Q405.5,542.5 413.5,542.5 L510.5,542.5 Q518.5,542.5 518.5,550.5 L518.5,564.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m6dc990bb-mk-arrow)" />
+<path class="edge" data-from="CdxCfg" data-to="CdxClone" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M530.5,524.5 L530.5,539.5 L530.5,539.5 L530.5,564.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m6dc990bb-mk-arrow)" />
+<path class="edge" data-from="CdxClone" data-to="CdxBuild" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M530.5,625 L530.5,665" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m6dc990bb-mk-arrow)" />
+<path class="edge" data-from="CdxBuild" data-to="CdxOut" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M530.5,707.5 L530.5,747" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m6dc990bb-mk-arrow)" />
+<text x="28" y="30" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.9">Repositories (each with its own isolated build)</text>
+<text x="78.2" y="260.05" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.9">Link registries</text>
+<text x="49.63" y="440.45" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #b07aa1 44%, var(--fg))" dy="4.9">Assembler</text>
+<text x="393.58" y="440.45" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #9c755f 44%, var(--fg))" dy="4.9">Codex</text>
 <g class="edge-label" data-from="R1" data-to="S3Reg" data-label="links.json">
-  <rect x="176.108" y="203.3" width="69.78399999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="211" y="214.1" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">links.json</text>
+  <rect x="176.108" y="203.3" width="69.78399999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="211" y="214.1" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">links.json</text>
 </g>
 <g class="edge-label" data-from="R2" data-to="S3Reg" data-label="links.json">
-  <rect x="225.608" y="169" width="69.78399999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="260.5" y="179.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">links.json</text>
+  <rect x="225.608" y="169" width="69.78399999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="260.5" y="179.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">links.json</text>
 </g>
 <g class="edge-label" data-from="R3" data-to="S3Reg" data-label="links.json">
-  <rect x="288.608" y="203.3" width="69.78399999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="323.5" y="214.1" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">links.json</text>
+  <rect x="288.608" y="203.3" width="69.78399999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="323.5" y="214.1" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">links.json</text>
 </g>
 <g class="edge-label" data-from="R4" data-to="CodexReg" data-label="links.json">
-  <rect x="542.608" y="197.2" width="69.78399999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="577.5" y="208" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">links.json</text>
+  <rect x="542.608" y="197.2" width="69.78399999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="577.5" y="208" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">links.json</text>
 </g>
 <g class="node" data-id="R1" data-label="elasticsearch" data-shape="rectangle">
-  <rect x="40" y="72" width="129.88" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="40" y="72" width="129.88" height="42.2" rx="8" ry="8" fill="url(#m6dc990bb-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <text x="104.94" y="93.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">elasticsearch</text>
 </g>
 <g class="node" data-id="R2" data-label="kibana" data-shape="rectangle">
-  <rect x="217.88" y="72" width="85.19200000000001" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="217.88" y="72" width="85.19200000000001" height="42.2" rx="8" ry="8" fill="url(#m6dc990bb-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <text x="260.48" y="93.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">kibana</text>
 </g>
 <g class="node" data-id="R3" data-label="docs-content" data-shape="rectangle">
-  <rect x="351.072" y="72" width="124.294" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="351.072" y="72" width="124.294" height="42.2" rx="8" ry="8" fill="url(#m6dc990bb-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <text x="413.22" y="93.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">docs-content</text>
 </g>
 <g class="node" data-id="R4" data-label="internal-team-docs" data-shape="rectangle">
-  <rect x="523.366" y="72" width="158.608" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="523.366" y="72" width="158.608" height="42.2" rx="8" ry="8" fill="url(#m6dc990bb-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <text x="602.67" y="93.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">internal-team-docs</text>
 </g>
 <g class="node" data-id="S3Reg" data-label="S3 link registry (default docsets)" data-shape="rectangle">
-  <rect x="90.20000000000005" y="302.05" width="243.19599999999997" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="90.20000000000005" y="302.05" width="243.19599999999997" height="42.2" rx="8" ry="8" fill="url(#m6dc990bb-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <text x="211.8" y="323.15" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">S3 link registry (default docsets)</text>
 </g>
 <g class="node" data-id="CodexReg" data-label="Git link index:
 elastic/codex-link-index, internal/" data-shape="rectangle">
-  <rect x="381.396" y="302.05" width="250.37799999999993" height="60.4" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="381.396" y="302.05" width="250.37799999999993" height="60.4" rx="8" ry="8" fill="url(#m6dc990bb-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <text x="506.59" y="332.25" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="506.59" dy="-4.2">Git link index:</tspan><tspan x="506.59" dy="18.2">elastic/codex-link-index, internal/</tspan></text>
 </g>
 <g class="node" data-id="AsmCfg" data-label="assembler.yml + navigation.yml" data-shape="rectangle">
-  <rect x="73.99549999999999" y="482.45000000000005" width="235.21599999999992" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="73.99549999999999" y="482.45000000000005" width="235.21599999999992" height="42.2" rx="8" ry="8" fill="url(#m6dc990bb-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <text x="191.6" y="503.55" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">assembler.yml + navigation.yml</text>
 </g>
 <g class="node" data-id="Env" data-label="PublishEnvironment: content
 source to branch" data-shape="rectangle">
-  <rect x="80.77850000000001" y="564.6500000000001" width="221.64999999999995" height="60.4" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="80.77850000000001" y="564.6500000000001" width="221.64999999999995" height="60.4" rx="8" ry="8" fill="url(#m6dc990bb-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <text x="191.6" y="594.85" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="191.6" dy="-4.2">PublishEnvironment: content</tspan><tspan x="191.6" dy="18.2">source to branch</tspan></text>
 </g>
 <g class="node" data-id="AsmClone" data-label="Clone at registry commits" data-shape="rectangle">
-  <rect x="92.74849999999998" y="665.0500000000001" width="197.70999999999995" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="92.74849999999998" y="665.0500000000001" width="197.70999999999995" height="42.2" rx="8" ry="8" fill="url(#m6dc990bb-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <text x="191.6" y="686.15" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Clone at registry commits</text>
 </g>
 <g class="node" data-id="AsmBuild" data-label="Build each docset, re-homed under
 its mount path" data-shape="rectangle">
-  <rect x="61.626499999999965" y="747.25" width="259.954" height="60.4" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="61.626499999999965" y="747.25" width="259.954" height="60.4" rx="8" ry="8" fill="url(#m6dc990bb-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <text x="191.6" y="777.45" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="191.6" dy="-4.2">Build each docset, re-homed under</tspan><tspan x="191.6" dy="18.2">its mount path</tspan></text>
 </g>
 <g class="node" data-id="AsmOut" data-label="Site, redirects, search index,
 sitemap, deploy plan" data-shape="rectangle">
-  <rect x="79.98049999999998" y="847.6500000000001" width="223.24599999999998" height="60.4" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="79.98049999999998" y="847.6500000000001" width="223.24599999999998" height="60.4" rx="8" ry="8" fill="url(#m6dc990bb-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <text x="191.6" y="877.85" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="191.6" dy="-4.2">Site, redirects, search index,</tspan><tspan x="191.6" dy="18.2">sitemap, deploy plan</tspan></text>
 </g>
 <g class="node" data-id="CdxCfg" data-label="codex.yml (registry: internal)" data-shape="rectangle">
-  <rect x="419.9445" y="482.45000000000005" width="220.852" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="419.9445" y="482.45000000000005" width="220.852" height="42.2" rx="8" ry="8" fill="url(#m6dc990bb-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <text x="530.37" y="503.55" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">codex.yml (registry: internal)</text>
 </g>
 <g class="node" data-id="CdxClone" data-label="Clone every member, pick docset
 with matching registry" data-shape="rectangle">
-  <rect x="405.58050000000003" y="564.6500000000001" width="249.57999999999996" height="60.4" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="405.58050000000003" y="564.6500000000001" width="249.57999999999996" height="60.4" rx="8" ry="8" fill="url(#m6dc990bb-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <text x="530.37" y="594.85" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="530.37" dy="-4.2">Clone every member, pick docset</tspan><tspan x="530.37" dy="18.2">with matching registry</tspan></text>
 </g>
 <g class="node" data-id="CdxBuild" data-label="Build each docset under /r/{repo}" data-shape="rectangle">
-  <rect x="405.5805" y="665.0500000000001" width="249.58000000000004" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="405.5805" y="665.0500000000001" width="249.58000000000004" height="42.2" rx="8" ry="8" fill="url(#m6dc990bb-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <text x="530.37" y="686.15" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Build each docset under /r/{repo}</text>
 </g>
 <g class="node" data-id="CdxOut" data-label="Internal site, grouped" data-shape="rectangle">
-  <rect x="443.0865" y="747.25" width="174.568" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="443.0865" y="747.25" width="174.568" height="42.2" rx="8" ry="8" fill="url(#m6dc990bb-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <text x="530.37" y="768.35" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Internal site, grouped</text>
 </g>
 <defs>
-  <linearGradient id="ma2e31288-cw-p1-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /></linearGradient>
-  <linearGradient id="ma2e31288-cw-p2-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #76b7b2 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #76b7b2 6%, var(--bg))" /></linearGradient>
-  <linearGradient id="ma2e31288-cw-p3-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #b07aa1 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #b07aa1 6%, var(--bg))" /></linearGradient>
-  <linearGradient id="ma2e31288-cw-p4-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #9c755f 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #9c755f 6%, var(--bg))" /></linearGradient>
-  <linearGradient id="ma2e31288-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 7%, var(--bg))" /></linearGradient>
-  <marker id="ma2e31288-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+  <linearGradient id="m6dc990bb-cw-p1-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /></linearGradient>
+  <linearGradient id="m6dc990bb-cw-p2-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #76b7b2 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #76b7b2 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #76b7b2 6%, var(--bg))" /></linearGradient>
+  <linearGradient id="m6dc990bb-cw-p3-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #b07aa1 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #b07aa1 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #b07aa1 6%, var(--bg))" /></linearGradient>
+  <linearGradient id="m6dc990bb-cw-p4-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #9c755f 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #9c755f 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #9c755f 6%, var(--bg))" /></linearGradient>
+  <linearGradient id="m6dc990bb-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 7%, var(--bg))" /></linearGradient>
+  <marker id="m6dc990bb-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
     <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
   </marker>
 </defs>

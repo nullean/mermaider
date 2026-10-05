@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 272.69800000000004 238.60000000000002" width="272.69800000000004" height="238.60000000000002" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 272.69800000000004 238.60000000000002" width="272.69800000000004" height="238.60000000000002" style="--bg:#FFFFFF;--fg:#27272A;--accent:#5b5fb0">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -30,15 +30,15 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
-<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M114.10383333333336,58.2 L114.10383333333336,65.7 Q114.10383333333336,73.2 106.60383333333336,73.2 L67.394,73.2 Q59.394000000000005,73.2 59.394000000000005,81.2 L59.394000000000005,98.2" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
-<path class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M59.394000000000005,140.4 L59.394,180.4" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
-<path class="edge" data-from="A" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M143.0331666666667,58.2 L143.0331666666667,65.7 Q143.0331666666667,73.2 150.5331666666667,73.2 L189.74300000000002,73.2 Q197.74300000000002,73.2 197.74300000000002,81.2 L197.74300000000002,98.2" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#ma2e31288-mk-arrow)" />
+<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M114.10383333333336,58.2 L114.10383333333336,65.7 Q114.10383333333336,73.2 106.60383333333336,73.2 L67.394,73.2 Q59.394000000000005,73.2 59.394000000000005,81.2 L59.394000000000005,98.2" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m6dc990bb-mk-arrow)" />
+<path class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M59.394000000000005,140.4 L59.394,180.4" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m6dc990bb-mk-arrow)" />
+<path class="edge" data-from="A" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M143.0331666666667,58.2 L143.0331666666667,65.7 Q143.0331666666667,73.2 150.5331666666667,73.2 L189.74300000000002,73.2 Q197.74300000000002,73.2 197.74300000000002,81.2 L197.74300000000002,98.2" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m6dc990bb-mk-arrow)" />
 <g class="node" data-id="A" data-label="Critical" data-shape="rectangle">
   <rect x="85.17450000000002" y="16" width="86.78799999999998" height="42.2" rx="8" ry="8" fill="#f96" stroke="#333" stroke-width="1.25" />
   <text x="128.57" y="37.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="#fff" dy="4.9">Critical</text>
 </g>
 <g class="node" data-id="B" data-label="Normal" data-shape="rectangle">
-  <rect x="16" y="98.2" width="86.78800000000001" height="42.2" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="16" y="98.2" width="86.78800000000001" height="42.2" rx="8" ry="8" fill="url(#m6dc990bb-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <text x="59.39" y="119.3" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Normal</text>
 </g>
 <g class="node" data-id="C" data-label="Info" data-shape="rectangle">
@@ -50,8 +50,8 @@
   <text x="197.74" y="119.3" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="#fff" dy="4.9">Also Critical</text>
 </g>
 <defs>
-  <linearGradient id="ma2e31288-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 7%, var(--bg))" /></linearGradient>
-  <marker id="ma2e31288-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+  <linearGradient id="m6dc990bb-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 7%, var(--bg))" /></linearGradient>
+  <marker id="m6dc990bb-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
     <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
   </marker>
 </defs>

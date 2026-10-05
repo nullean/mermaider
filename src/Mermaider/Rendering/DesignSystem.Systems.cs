@@ -60,7 +60,7 @@ internal sealed partial class DesignSystem
 					_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
 						.Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
 						.Append("\" rx=\"").Append(Num(Spec.NodeRadius)).Append("\" ry=\"").Append(Num(Spec.NodeRadius))
-						.Append("\" fill=\"none\" stroke=\"").Append(family.Edge).Append("\" stroke-width=\"1\" stroke-dasharray=\"").Append(BoundaryDash).Append("\" />\n  ");
+						.Append("\" fill=\"none\" stroke=\"").Append(family.Edge).Append("\" stroke-width=\"").Append(ContainerStrokeWidth).Append("\" stroke-dasharray=\"").Append(BoundaryDash).Append("\" />\n  ");
 					var caps = keyword.ToUpperInvariant();
 					midY = y + 12;
 					AppendText(sb, caps, x + 12, midY, TypeRole.Eyebrow, family.Ink, anchor: "start");
@@ -106,8 +106,11 @@ internal sealed partial class DesignSystem
 
 		if (condition is { Length: > 0 })
 		{
+			// the condition is the frame's subsection header: centred, in the frame's ink, clear of the keyword tab
+			var condW = TextMetrics.MeasureTextWidth(condition, Px(TypeRole.Subheading), 600);
+			var cx = Math.Max(x + (w / 2), conditionX + (condW / 2));
 			_ = sb.Append("\n  ");
-			AppendText(sb, condition, conditionX, midY, TypeRole.Caption, anchor: "start");
+			AppendText(sb, condition, cx, midY, TypeRole.Subheading, family.Ink);
 		}
 
 		_ = sb.Append('\n');
@@ -122,7 +125,7 @@ internal sealed partial class DesignSystem
 		if (condition is { Length: > 0 })
 		{
 			_ = sb.Append("  ");
-			AppendText(sb, condition, x1 + 12, y + 14, TypeRole.Caption, anchor: "start");
+			AppendText(sb, condition, (x1 + x2) / 2, y + 14, TypeRole.Subheading, family.Ink);
 			_ = sb.Append('\n');
 		}
 	}
@@ -147,7 +150,7 @@ internal sealed partial class DesignSystem
 			AppendTopRoundedRect(sb, x, y, w, StripHeight, Spec.ContainerRadius, family.Band);
 			_ = sb.Append("\n  <line x1=\"").Append(x).Append("\" y1=\"").Append(y + StripHeight)
 				.Append("\" x2=\"").Append(x + w).Append("\" y2=\"").Append(y + StripHeight)
-				.Append("\" stroke=\"").Append(family.Edge).Append("\" stroke-width=\"1\" />");
+				.Append("\" stroke=\"").Append(family.Edge).Append("\" stroke-width=\"").Append(ContainerStrokeWidth).Append("\" />");
 		}
 
 		_ = sb.Append("\n  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
@@ -248,7 +251,7 @@ internal sealed partial class DesignSystem
 					_ = sb.Append("\n<rect x=\"").Append(tabX - 4).Append("\" y=\"").Append(y - (HeaderIconSize / 2))
 						.Append("\" width=\"").Append(textW + slot + 20).Append("\" height=\"").Append(HeaderIconSize).Append("\" fill=\"var(--bg)\" />");
 					_ = sb.Append("\n<rect x=\"").Append(tabX).Append("\" y=\"").Append(y - 5)
-						.Append("\" width=\"2\" height=\"10\" fill=\"").Append(ColorFamily.AccentBase).Append("\" />\n");
+						.Append("\" width=\"2\" height=\"10\" fill=\"").Append(family.Stroke).Append("\" />\n");
 					drawIcon(sb, tabX + 8 + (HeaderIconSize / 2), y);
 					_ = sb.Append('\n');
 					AppendText(sb, caps, tabX + 8 + slot, y, TypeRole.Eyebrow, family.Ink, anchor: "start");
@@ -261,7 +264,7 @@ internal sealed partial class DesignSystem
 					_ = sb.Append("\n<rect x=\"").Append(x + 10).Append("\" y=\"").Append(y + 7)
 						.Append("\" width=\"").Append(chipW).Append("\" height=\"24\" rx=\"12\" ry=\"12\" fill=\"").Append(family.Band).Append("\" />");
 					_ = sb.Append("\n<circle cx=\"").Append(x + 22).Append("\" cy=\"").Append(y + 19)
-						.Append("\" r=\"3.5\" fill=\"").Append(ColorFamily.AccentBase).Append("\" />\n");
+						.Append("\" r=\"3.5\" fill=\"").Append(family.Stroke).Append("\" />\n");
 					drawIcon(sb, x + 30 + (HeaderIconSize / 2), y + 19);
 					_ = sb.Append('\n');
 					AppendText(sb, title, x + 30 + slot, y + 19, TypeRole.Subheading, family.Ink, anchor: "start", weight: 700);
@@ -270,11 +273,10 @@ internal sealed partial class DesignSystem
 			default:
 				{
 					var midY = y + (StripHeight / 2);
-					_ = sb.Append("\n<rect x=\"").Append(x + 10).Append("\" y=\"").Append(midY - 6)
-						.Append("\" width=\"3\" height=\"12\" rx=\"1.5\" ry=\"1.5\" fill=\"").Append(ColorFamily.AccentBase).Append("\" />\n");
-					drawIcon(sb, x + 20 + (HeaderIconSize / 2), midY);
 					_ = sb.Append('\n');
-					AppendText(sb, title, x + 20 + slot, midY, TypeRole.Subheading, family.Ink, anchor: "start");
+					drawIcon(sb, x + 12 + (HeaderIconSize / 2), midY);
+					_ = sb.Append('\n');
+					AppendText(sb, title, x + 12 + slot, midY, TypeRole.Subheading, family.Ink, anchor: "start");
 					break;
 				}
 		}

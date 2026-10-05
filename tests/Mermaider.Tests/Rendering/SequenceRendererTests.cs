@@ -114,7 +114,8 @@ public class SequenceRendererTests
 
 		svg.Should().Contain("data-type=\"alt\"");
 		svg.Should().Contain($"stroke-dasharray=\"{Mermaider.Rendering.DesignSystem.DashArray}\"", "else separators use the dashed edge language");
-		svg.Should().Contain("[Invalid]", "the separator carries its condition");
+		svg.Should().Contain(">Invalid</text>", "the separator carries its condition as a subsection header");
+		svg.Should().NotContain("[Invalid]", "conditions are shown without brackets");
 	}
 
 	[Test]

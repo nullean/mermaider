@@ -80,7 +80,7 @@ internal static class VisualLanguage
 		_ = sb.Append("<rect x=\"").Append(centreX - (w / 2)).Append("\" y=\"").Append(centreY - (h / 2))
 			.Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
 			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"var(--bg)\" stroke=\"var(--_line-soft)\" stroke-width=\"1\" />");
+			.Append("\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"").Append(RenderConstants.StrokeWidths.Connector).Append("\" />");
 	}
 
 	/// <summary>

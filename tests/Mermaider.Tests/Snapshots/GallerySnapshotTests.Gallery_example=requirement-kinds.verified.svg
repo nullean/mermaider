@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1492.94456 494" width="1492.94456" height="494" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1492.94456 494" width="1492.94456" height="494" style="--bg:#FFFFFF;--fg:#27272A;--accent:#5b5fb0">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -47,7 +47,7 @@
 <path d="M1322.6084799999999,300 L1329.6084799999999,300 M1326.1084799999999,296.5 L1326.1084799999999,303.5" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linecap="round" />
 <g class="req-node entity" data-id="base_req" data-kind="requirement">
   <rect x="609.4460599999999" y="24" width="253.61776000000003" height="164" rx="8" ry="8" fill="var(--bg)" stroke="none" />
-  <path d="M609.4460599999999,76 L609.4460599999999,32 Q609.4460599999999,24 617.4460599999999,24 L855.0638199999999,24 Q863.0638199999999,24 863.0638199999999,32 L863.0638199999999,76 Z" fill="url(#ma2e31288-eb-p0)" />
+  <path d="M609.4460599999999,76 L609.4460599999999,32 Q609.4460599999999,24 617.4460599999999,24 L855.0638199999999,24 Q863.0638199999999,24 863.0638199999999,32 L863.0638199999999,76 Z" fill="url(#m6dc990bb-eb-p0)" />
   <line x1="609.4460599999999" y1="76" x2="863.0638199999999" y2="76" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1" />
   <rect x="609.4460599999999" y="24" width="253.61776000000003" height="164" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <line x1="621.4460599999999" y1="104" x2="851.0638199999999" y2="104" stroke="var(--_line-soft)" stroke-width="1" />
@@ -66,7 +66,7 @@
 </g>
 <g class="req-node entity" data-id="functional_req" data-kind="requirement">
   <rect x="24" y="306" width="244.8028" height="164" rx="8" ry="8" fill="var(--bg)" stroke="none" />
-  <path d="M24,358 L24,314 Q24,306 32,306 L260.8028,306 Q268.8028,306 268.8028,314 L268.8028,358 Z" fill="url(#ma2e31288-eb-p0)" />
+  <path d="M24,358 L24,314 Q24,306 32,306 L260.8028,306 Q268.8028,306 268.8028,314 L268.8028,358 Z" fill="url(#m6dc990bb-eb-p0)" />
   <line x1="24" y1="358" x2="268.8028" y2="358" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1" />
   <rect x="24" y="306" width="244.8028" height="164" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <line x1="36" y1="386" x2="256.8028" y2="386" stroke="var(--_line-soft)" stroke-width="1" />
@@ -85,7 +85,7 @@
 </g>
 <g class="req-node entity" data-id="interface_req" data-kind="requirement">
   <rect x="304.80279999999993" y="306" width="266.43951999999996" height="164" rx="8" ry="8" fill="var(--bg)" stroke="none" />
-  <path d="M304.80279999999993,358 L304.80279999999993,314 Q304.80279999999993,306 312.80279999999993,306 L563.2423199999998,306 Q571.2423199999998,306 571.2423199999998,314 L571.2423199999998,358 Z" fill="url(#ma2e31288-eb-p0)" />
+  <path d="M304.80279999999993,358 L304.80279999999993,314 Q304.80279999999993,306 312.80279999999993,306 L563.2423199999998,306 Q571.2423199999998,306 571.2423199999998,314 L571.2423199999998,358 Z" fill="url(#m6dc990bb-eb-p0)" />
   <line x1="304.80279999999993" y1="358" x2="571.2423199999998" y2="358" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1" />
   <rect x="304.80279999999993" y="306" width="266.43951999999996" height="164" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <line x1="316.80279999999993" y1="386" x2="559.2423199999998" y2="386" stroke="var(--_line-soft)" stroke-width="1" />
@@ -104,7 +104,7 @@
 </g>
 <g class="req-node entity" data-id="performance_req" data-kind="requirement">
   <rect x="607.2423199999998" y="306" width="275.25448000000006" height="164" rx="8" ry="8" fill="var(--bg)" stroke="none" />
-  <path d="M607.2423199999998,358 L607.2423199999998,314 Q607.2423199999998,306 615.2423199999998,306 L874.4967999999999,306 Q882.4967999999999,306 882.4967999999999,314 L882.4967999999999,358 Z" fill="url(#ma2e31288-eb-p0)" />
+  <path d="M607.2423199999998,358 L607.2423199999998,314 Q607.2423199999998,306 615.2423199999998,306 L874.4967999999999,306 Q882.4967999999999,306 882.4967999999999,314 L882.4967999999999,358 Z" fill="url(#m6dc990bb-eb-p0)" />
   <line x1="607.2423199999998" y1="358" x2="882.4967999999999" y2="358" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1" />
   <rect x="607.2423199999998" y="306" width="275.25448000000006" height="164" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <line x1="619.2423199999998" y1="386" x2="870.4967999999999" y2="386" stroke="var(--_line-soft)" stroke-width="1" />
@@ -123,7 +123,7 @@
 </g>
 <g class="req-node entity" data-id="physical_req" data-kind="requirement">
   <rect x="918.4967999999999" y="306" width="228.7756" height="164" rx="8" ry="8" fill="var(--bg)" stroke="none" />
-  <path d="M918.4967999999999,358 L918.4967999999999,314 Q918.4967999999999,306 926.4967999999999,306 L1139.2723999999998,306 Q1147.2723999999998,306 1147.2723999999998,314 L1147.2723999999998,358 Z" fill="url(#ma2e31288-eb-p0)" />
+  <path d="M918.4967999999999,358 L918.4967999999999,314 Q918.4967999999999,306 926.4967999999999,306 L1139.2723999999998,306 Q1147.2723999999998,306 1147.2723999999998,314 L1147.2723999999998,358 Z" fill="url(#m6dc990bb-eb-p0)" />
   <line x1="918.4967999999999" y1="358" x2="1147.2723999999998" y2="358" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1" />
   <rect x="918.4967999999999" y="306" width="228.7756" height="164" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <line x1="930.4967999999999" y1="386" x2="1135.2723999999998" y2="386" stroke="var(--_line-soft)" stroke-width="1" />
@@ -142,7 +142,7 @@
 </g>
 <g class="req-node entity" data-id="design_constraint" data-kind="requirement">
   <rect x="1183.2723999999998" y="306" width="285.67216" height="164" rx="8" ry="8" fill="var(--bg)" stroke="none" />
-  <path d="M1183.2723999999998,358 L1183.2723999999998,314 Q1183.2723999999998,306 1191.2723999999998,306 L1460.94456,306 Q1468.94456,306 1468.94456,314 L1468.94456,358 Z" fill="url(#ma2e31288-eb-p0)" />
+  <path d="M1183.2723999999998,358 L1183.2723999999998,314 Q1183.2723999999998,306 1191.2723999999998,306 L1460.94456,306 Q1468.94456,306 1468.94456,314 L1468.94456,358 Z" fill="url(#m6dc990bb-eb-p0)" />
   <line x1="1183.2723999999998" y1="358" x2="1468.94456" y2="358" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1" />
   <rect x="1183.2723999999998" y="306" width="285.67216" height="164" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
   <line x1="1195.2723999999998" y1="386" x2="1456.94456" y2="386" stroke="var(--_line-soft)" stroke-width="1" />
@@ -160,21 +160,21 @@
   <text x="1299.67" y="456" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Inspection</text>
 </g>
 <g class="edge-label" data-label="contains">
-  <rect x="114.24539999999999" y="236.2" width="64.312" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="146.4" y="247" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">contains</text>
+  <rect x="114.24539999999999" y="236.2" width="64.312" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="146.4" y="247" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">contains</text>
 </g>
 <g class="edge-label" data-label="contains">
-  <rect x="405.8665599999999" y="236.2" width="64.312" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="438.02" y="247" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">contains</text>
+  <rect x="405.8665599999999" y="236.2" width="64.312" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="438.02" y="247" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">contains</text>
 </g>
 <g class="edge-label" data-label="contains">
-  <rect x="704.09894" y="236.2" width="64.312" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="736.25" y="247" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">contains</text>
+  <rect x="704.09894" y="236.2" width="64.312" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="736.25" y="247" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">contains</text>
 </g>
 <g class="edge-label" data-label="contains">
-  <rect x="1000.7285999999999" y="236.2" width="64.312" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="1032.88" y="247" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">contains</text>
+  <rect x="1000.7285999999999" y="236.2" width="64.312" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="1032.88" y="247" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">contains</text>
 </g>
 <g class="edge-label" data-label="contains">
-  <rect x="1293.95248" y="236.2" width="64.312" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="1326.11" y="247" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">contains</text>
+  <rect x="1293.95248" y="236.2" width="64.312" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="1326.11" y="247" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">contains</text>
 </g>
 <defs>
-  <linearGradient id="ma2e31288-eb-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /></linearGradient>
+  <linearGradient id="m6dc990bb-eb-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /></linearGradient>
 </defs>
 </svg>

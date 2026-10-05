@@ -40,7 +40,7 @@ public class VisualLanguageContractTests
 		var groupColour = Themes.Default.AutoPaletteAt(1);
 		svg.Should().Contain($"<g class=\"subgraph\"");
 		svg.Should().Contain(DesignContract.Band(groupColour), "the header strip is the family band");
-		svg.Should().Contain(DesignContract.AccentMark, "the strip carries the accent mark");
+		svg.Should().NotContain(DesignContract.AccentMark, "container headers carry no accent mark, only the family band and ink");
 		svg.Should().MatchRegex(DesignContract.InkTextRegex(groupColour, "Group"), "the title is drawn in the family ink");
 	}
 

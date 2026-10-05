@@ -13,7 +13,7 @@ namespace Mermaider.Rendering;
 internal static class SequenceSvgRenderer
 {
 	/// <summary>Space between a message line and the centre of its caption.</summary>
-	private const double LabelLift = 12;
+	private const double LabelLift = 14;
 
 	/// <summary>Width the person glyph and its gap take in front of an actor's name (also reserved by the layout).</summary>
 	internal const double GlyphWidth = 22;
@@ -62,7 +62,7 @@ internal static class SequenceSvgRenderer
 			AppendActivation(sb, ds, activation);
 
 		foreach (var message in diagram.Messages)
-			AppendMessage(sb, ds, message);
+			AppendMessage(sb, ds, message, diagram.DestroyMarkers);
 
 		foreach (var note in diagram.Notes)
 			AppendNote(sb, ds, note);
@@ -75,7 +75,12 @@ internal static class SequenceSvgRenderer
 			var actorH = diagram.Actors[0].Height;
 			var bottomActorY = diagram.Height - actorH - 30;
 			foreach (var actor in diagram.Actors)
-				AppendGhost(sb, ds, actor with { Y = bottomActorY });
+			{
+				// a destroyed participant ends at its cross; mermaid draws no closing box for it
+				if (diagram.DestroyMarkers.Any(dm => Math.Abs(dm.X - actor.X) < 0.5))
+					continue;
+				AppendActor(sb, ds, actor with { Y = bottomActorY }, palette.Has(actor.Id) ? palette.Family(actor.Id) : ds.Neutral, mirror: true);
+			}
 		}
 
 		foreach (var dm in diagram.DestroyMarkers)
@@ -94,9 +99,9 @@ internal static class SequenceSvgRenderer
 		_ = sb.Append("\" data-type=\"").Append(actor.Type == SequenceActorType.Actor ? "actor" : "participant").Append('"');
 	}
 
-	private static void AppendActor(StringBuilder sb, DesignSystem ds, PositionedSequenceActor actor, ColorFamily family)
+	private static void AppendActor(StringBuilder sb, DesignSystem ds, PositionedSequenceActor actor, ColorFamily family, bool mirror = false)
 	{
-		_ = sb.Append("\n<g class=\"actor\"");
+		_ = sb.Append(mirror ? "\n<g class=\"actor actor-bottom\"" : "\n<g class=\"actor\"");
 		AppendActorAttrs(sb, actor);
 		_ = sb.Append(">\n  ");
 
@@ -117,15 +122,6 @@ internal static class SequenceSvgRenderer
 			ds.AppendText(sb, actor.Label, actor.X, cy, TypeRole.Label);
 		}
 
-		_ = sb.Append("\n</g>");
-	}
-
-	private static void AppendGhost(StringBuilder sb, DesignSystem ds, PositionedSequenceActor actor)
-	{
-		_ = sb.Append("\n<g class=\"actor-ghost\"");
-		AppendActorAttrs(sb, actor);
-		_ = sb.Append(">\n  ");
-		ds.AppendGhostChip(sb, actor.X - (actor.Width / 2), actor.Y, actor.Width, actor.Height, actor.Label);
 		_ = sb.Append("\n</g>");
 	}
 
@@ -155,8 +151,12 @@ internal static class SequenceSvgRenderer
 			.Append("\" stroke-width=\"1.25\" />");
 	}
 
-	private static void AppendMessage(StringBuilder sb, DesignSystem ds, PositionedSequenceMessage msg)
+	private static void AppendMessage(StringBuilder sb, DesignSystem ds, PositionedSequenceMessage msg, IReadOnlyList<PositionedDestroyMarker> destroys)
 	{
+		// a message that destroys its target stops short of the cross instead of piercing it
+		if (!msg.IsSelf && destroys.Any(d => Math.Abs(d.X - msg.X2) < 0.5 && Math.Abs(d.Y - msg.Y) < 0.5))
+			msg = msg with { X2 = msg.X2 + (msg.X2 > msg.X1 ? -(DestroySize + 4) : DestroySize + 4) };
+
 		var dashed = msg.LineStyle == SequenceLineStyle.Dashed;
 		var dashArray = dashed ? $" stroke-dasharray=\"{DesignSystem.DashArray}\"" : "";
 		var shape = msg.ArrowHead == SequenceArrowHead.Filled ? MarkerShape.Arrow : MarkerShape.Open;
@@ -190,7 +190,10 @@ internal static class SequenceSvgRenderer
 
 			AppendAutoNumberBadge(sb, ds, ref label, msg.X1, msg.Y);
 			if (label.Length > 0)
-				ds.AppendHaloCaption(sb, label, msg.X1 + loopW + labelPadding, msg.Y + (loopH / 2), anchor: "start");
+			{
+				var labelW = DesignSystem.LabelBoxWidth(TextMetrics.MeasureMultiline(label.AsSpan(), DesignSystem.Px(TypeRole.Caption), 500).Width);
+				ds.AppendEdgeLabel(sb, msg.X1 + loopW + labelPadding + (labelW / 2), msg.Y + (loopH / 2), label);
+			}
 
 			_ = sb.Append('\n');
 		}
@@ -205,8 +208,8 @@ internal static class SequenceSvgRenderer
 			AppendAutoNumberBadge(sb, ds, ref label, msg.X1, msg.Y);
 			if (label.Length > 0)
 			{
-				// plain caption just above its line; the halo only shows where it crosses a lifeline
-				ds.AppendHaloCaption(sb, label, (msg.X1 + msg.X2) / 2, msg.Y - LabelLift);
+				// the same label pill every diagram uses, sitting just above its line
+				ds.AppendEdgeLabel(sb, (msg.X1 + msg.X2) / 2, msg.Y - LabelLift, label);
 			}
 
 			_ = sb.Append('\n');
@@ -230,16 +233,11 @@ internal static class SequenceSvgRenderer
 
 		label = label[(dotIdx + 2)..];
 
-		// an accent badge on the message's start, knocked out of the line so the number stays readable
-		_ = sb.Append("<g class=\"autonumber\">");
-		if (ds.Spec.Badge == BadgeKind.Bracket)
-		{
-			var w = TextMetrics.MeasureTextWidth("[" + numStr + "]", DesignSystem.Px(TypeRole.Tag), 600) + 4;
-			_ = sb.Append("<rect x=\"").Append(x - (w / 2)).Append("\" y=\"").Append(y - 8)
-				.Append("\" width=\"").Append(w).Append("\" height=\"16\" fill=\"var(--bg)\" />");
-		}
-
-		_ = ds.AppendBadge(sb, x, y, numStr, ds.Accent, anchor: "middle");
+		// a round accent marker on the message's start, number knocked out in the page colour
+		const double r = 9;
+		_ = sb.Append("<g class=\"autonumber\"><circle cx=\"").Append(DesignSystem.Num(x)).Append("\" cy=\"").Append(DesignSystem.Num(y))
+			.Append("\" r=\"").Append(r).Append("\" fill=\"").Append(ColorFamily.AccentBase).Append("\" stroke=\"var(--bg)\" stroke-width=\"1.5\" />");
+		ds.AppendText(sb, numStr, x, y, TypeRole.Tag, "var(--bg)");
 		_ = sb.Append("</g>\n  ");
 	}
 
@@ -269,11 +267,11 @@ internal static class SequenceSvgRenderer
 			return;
 		}
 
-		var condition = block.Label.Length > 0 ? "[" + block.Label + "]" : null;
+		var condition = block.Label.Length > 0 ? block.Label : null;
 		ds.AppendFrame(sb, block.X, block.Y, block.Width, block.Height, family, block.Type.ToLower(), condition);
 
 		foreach (var divider in block.Dividers)
-			ds.AppendFrameDivider(sb, block.X, block.X + block.Width, divider.Y, family, divider.Label.Length > 0 ? "[" + divider.Label + "]" : null);
+			ds.AppendFrameDivider(sb, block.X, block.X + block.Width, divider.Y, family, divider.Label.Length > 0 ? divider.Label : null);
 
 		_ = sb.Append("</g>");
 	}
@@ -299,15 +297,17 @@ internal static class SequenceSvgRenderer
 		_ = sb.Append("\n</g>");
 	}
 
+	private const double DestroySize = 6;
+
 	private static void AppendDestroyMarker(StringBuilder sb, PositionedDestroyMarker dm)
 	{
-		const double size = 9;
+		const double size = DestroySize;
 		_ = sb.Append("\n<g class=\"destroy\">\n");
 		_ = sb.Append("  <path d=\"M").Append(dm.X - size).Append(',').Append(dm.Y - size)
 			.Append(" L").Append(dm.X + size).Append(',').Append(dm.Y + size)
 			.Append(" M").Append(dm.X + size).Append(',').Append(dm.Y - size)
 			.Append(" L").Append(dm.X - size).Append(',').Append(dm.Y + size)
-			.Append("\" fill=\"none\" stroke=\"var(--_line-strong)\" stroke-width=\"2.5\" stroke-linecap=\"round\" />\n");
+			.Append("\" fill=\"none\" stroke=\"var(--_line-strong)\" stroke-width=\"2\" stroke-linecap=\"round\" />\n");
 		_ = sb.Append("</g>");
 	}
 

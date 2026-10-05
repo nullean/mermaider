@@ -39,7 +39,7 @@ The accent colour is the "look here" colour in every preset: start/end terminals
 |---|---|---|
 | `--bg` | `#FFFFFF` | Canvas background |
 | `--fg` | `#27272A` | Primary text and strokes |
-| `--accent` | `#3b82f6` | Arrow heads, active edges, highlights |
+| `--accent` | `#5b5fb0` | Arrow heads, active edges, highlights |
 | `--muted` | derived | Secondary text, edge labels |
 | `--surface` | derived | Node fill tint |
 | `--border` | derived | Node and group strokes |

@@ -70,15 +70,23 @@ public partial class VisualLanguageContractSystemsTests
 	}
 
 	[Test]
-	public void Sequence_bottom_row_mirrors_participants_as_ghost_chips()
+	public void Sequence_bottom_row_mirrors_the_participants()
 	{
 		var svg = MermaidRenderer.RenderSvg("sequenceDiagram\n  A->>B: hi");
 
-		Regex.Count(svg, "<g class=\"actor-ghost\"").Should().Be(2);
-		var ghost = svg[svg.IndexOf("<g class=\"actor-ghost\"", StringComparison.Ordinal)..];
-		ghost.Should().StartWith("<g class=\"actor-ghost\" data-id=\"A\"");
-		ghost.Should().Contain("fill=\"var(--bg)\" stroke=\"var(--_line-soft)\"", "ghost chips are page-coloured with a soft outline");
-		ghost.Should().Contain("fill=\"var(--_text-muted)\"", "their label is lower emphasis");
+		Regex.Count(svg, "<g class=\"actor actor-bottom\"").Should().Be(2);
+		var bottom = svg[svg.IndexOf("<g class=\"actor actor-bottom\"", StringComparison.Ordinal)..];
+		bottom.Should().StartWith("<g class=\"actor actor-bottom\" data-id=\"A\"");
+		bottom.Should().Contain(DesignContract.Outline(Cluster0), "the bottom row is the same participant box as the top");
+	}
+
+	[Test]
+	public void A_destroyed_participant_ends_at_its_cross_without_a_bottom_box()
+	{
+		var svg = MermaidRenderer.RenderSvg("sequenceDiagram\n  A->>B: hi\n  create participant W\n  B->>W: spawn\n  destroy W\n  B->>W: stop");
+
+		svg.Should().Contain("<g class=\"destroy\">");
+		svg.Should().NotContain("<g class=\"actor actor-bottom\" data-id=\"W\"");
 	}
 
 	[Test]
@@ -93,13 +101,12 @@ public partial class VisualLanguageContractSystemsTests
 	}
 
 	[Test]
-	public void Sequence_messages_are_edges_with_plain_caption_labels()
+	public void Sequence_messages_are_edges_with_the_shared_label_pill()
 	{
 		var svg = MermaidRenderer.RenderSvg(FullSequence);
 
-		svg.Should().NotContain(DesignContract.Pill, "message labels are plain caption text, no pills");
-		svg.Should().MatchRegex("font-size=\"var\\(--fs-xs\\)\" font-weight=\"500\" fill=\"var\\(--_text-sec\\)\" stroke=\"var\\(--bg\\)\"[^>]*paint-order=\"stroke\"[^>]*>Click login</text>",
-			"captions carry a page halo for where they cross a lifeline");
+		svg.Should().Contain(DesignContract.Pill, "message labels are the same pill as flowchart edge labels");
+		svg.Should().Contain(">Click login</text>");
 		svg.Should().Contain($"stroke=\"{DesignSystem.EdgeColor}\" stroke-width=\"1.5\" stroke-dasharray=\"{DesignSystem.DashArray}\"", "replies are dashed in the dash language");
 		svg.Should().MatchRegex("marker-end=\"url\\(#m[0-9a-f]{8}-mk-arrow\\)\"");
 		svg.Should().NotContain("var(--_arrow)");
@@ -123,7 +130,8 @@ public partial class VisualLanguageContractSystemsTests
 		var block = svg[svg.IndexOf("<g class=\"block\"", StringComparison.Ordinal)..];
 		block.Should().Contain($"fill=\"{DesignContract.Band(frame)}\"", "the keyword tab is the family band");
 		block.Should().MatchRegex(DesignContract.InkTextRegex(frame, "alt"), "the keyword is drawn in the family ink");
-		block.Should().Contain(">[Valid]</text>", "the condition sits next to the keyword");
+		block.Should().MatchRegex(DesignContract.InkTextRegex(frame, "Valid"), "the condition is the frame's subsection header in its ink, without brackets");
+		block.Should().NotContain("[Valid]");
 		block.Should().Contain($"stroke-dasharray=\"{DesignSystem.DashArray}\"", "else separators are dashed");
 	}
 
@@ -136,8 +144,8 @@ public partial class VisualLanguageContractSystemsTests
 
 		var numbered = MermaidRenderer.RenderSvg("sequenceDiagram\n  autonumber\n  A->>B: hi");
 		numbered.Should().Contain("<g class=\"autonumber\">");
-		numbered.Should().Contain($"fill=\"{Accent.Band}\"", "the number is an accent badge");
-		numbered.Should().MatchRegex(Regex.Escape($"fill=\"{Accent.Ink}\"") + "[^>]*>1</text>");
+		numbered.Should().MatchRegex("<g class=\"autonumber\"><circle [^>]*fill=\"var\\(--accent, var\\(--fg\\)\\)\"", "the number is a round accent marker");
+		numbered.Should().MatchRegex("fill=\"var\\(--bg\\)\"[^>]*>1</text>", "its number is knocked out in the page colour");
 	}
 
 	[Test]
@@ -172,7 +180,6 @@ public partial class VisualLanguageContractSystemsTests
 		var groupColour = DesignContract.Cluster(1);
 		svg.Should().Contain("<g class=\"architecture-group\" data-id=\"api\"");
 		svg.Should().Contain(DesignContract.Band(groupColour), "the header strip is the family band");
-		svg.Should().Contain(DesignContract.AccentMark);
 		var header = svg[svg.IndexOf("<g class=\"architecture-group-title\"", StringComparison.Ordinal)..];
 		header.Should().Contain($"stroke=\"{DesignContract.Family(groupColour).Ink}\"", "the group icon is drawn in the group ink");
 		header.Should().MatchRegex(DesignContract.InkTextRegex(groupColour, "API"));

@@ -53,7 +53,7 @@ public class VisualLanguageContractStructureTests
 			var edge = Regex.Match(group, "<rect [^>]*stroke=\"color-mix\\(in srgb, (#[0-9A-Fa-f]{6}) 42%, var\\(--bg\\)\\)\"");
 			edge.Success.Should().BeTrue("the container border is a family edge stage");
 			Regex.IsMatch(svg, DesignContract.InkTextRegex(edge.Groups[1].Value, title)).Should().BeTrue("the title is drawn in the family ink");
-			svg.Should().Contain(DesignContract.AccentMark, "the Quiet strip carries the accent mark");
+			svg.Should().NotContain("height=\"12\" rx=\"1.5\" ry=\"1.5\" fill=\"var(--accent", "container headers carry no accent mark");
 		}
 	}
 

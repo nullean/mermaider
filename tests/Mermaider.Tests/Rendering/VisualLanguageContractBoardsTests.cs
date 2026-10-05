@@ -122,7 +122,6 @@ public partial class VisualLanguageContractBoardsTests
 		var second = DesignContract.Cluster(2);
 		svg.Should().Contain("<g class=\"kanban-column\" data-id=\"todo\" data-count=\"2\"");
 		svg.Should().Contain($"fill=\"{DesignContract.Band(first)}\"", "the header strip is the column family band");
-		svg.Should().Contain(DesignContract.AccentMark, "the strip carries the accent mark");
 		svg.Should().MatchRegex(DesignContract.InkTextRegex(first, "To Do"), "the column title is in the family ink");
 		svg.Should().MatchRegex(DesignContract.InkTextRegex(first, "2"), "the item count is a badge in the family ink");
 		svg.Should().MatchRegex(DesignContract.InkTextRegex(second, "Done"), "columns alternate families in document order");

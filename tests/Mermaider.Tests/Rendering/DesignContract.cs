@@ -31,8 +31,8 @@ internal static class DesignContract
 	/// <summary>Header band / badge fill in <paramref name="color"/>.</summary>
 	internal static string Band(string color) => Family(color).Band;
 
-	/// <summary>The Quiet edge-label pill.</summary>
-	internal const string Pill = "fill=\"var(--bg)\" stroke=\"var(--_line-soft)\" stroke-width=\"1\"";
+	/// <summary>The Quiet edge-label pill: its border is the line, at line width.</summary>
+	internal const string Pill = "fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"1.5\"";
 
 	/// <summary>The accent mark every Quiet container header carries.</summary>
 	internal const string AccentMark = "fill=\"var(--accent, var(--fg))\"";
