@@ -311,8 +311,11 @@ internal static partial class FlowchartParser
 			}
 		}
 
-		foreach (var sgId in subgraphMap.Keys)
+		foreach (var (sgId, sgDef) in subgraphMap)
 		{
+			// An empty subgraph has nothing to redirect an edge to, so the implicit node stays as the endpoint
+			if (sgDef.NodeIds.Count == 0 && sgDef.Children.Count == 0)
+				continue;
 			if (nodes.TryGetValue(sgId, out var n) && n.Label == sgId && n.Shape == NodeShape.Rectangle)
 				_ = nodes.Remove(sgId);
 		}
@@ -586,6 +589,8 @@ internal static partial class FlowchartParser
 				return firstNonSg;
 			if (sg.NodeIds.Count > 0)
 				id = sg.NodeIds[0];
+			else if (sg.Children.Count > 0)
+				id = sg.Children[0].Id;
 			else
 				break;
 		}
