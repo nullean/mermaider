@@ -7,6 +7,8 @@ namespace Mermaider.Rendering;
 
 internal static class MindmapSvgRenderer
 {
+	private const double WideAspect = 3.6;
+	private const double TargetAspect = 1.3;
 	private const double HorizontalGap = 56;
 	private const double MaxLabelWidth = 190;
 	private const double VerticalGap = 50;
@@ -37,7 +39,23 @@ internal static class MindmapSvgRenderer
 		var sb = SharedStringBuilderPool.Instance.Get();
 
 		var positioned = new List<PositionedMindmapNode>();
-		LayoutBalanced(diagram.Root, positioned, context.Styles.Colors.AutoPalette(), context.Limits);
+		var isVertical = false;
+		var palette = context.Styles.Colors.AutoPalette();
+		LayoutBalanced(diagram.Root, positioned, palette, context.Limits, transposed: false);
+
+		// A flat, wide tree (long labels side by side) reads better with the branches above and below the root.
+		var (flatW, flatH) = Extent(positioned);
+		if (flatW > flatH * WideAspect)
+		{
+			var vertical = new List<PositionedMindmapNode>();
+			LayoutBalanced(diagram.Root, vertical, palette, context.Limits, transposed: true);
+			var (vw, vh) = Extent(vertical);
+			if (Math.Abs(Math.Log(vw / vh / TargetAspect)) < Math.Abs(Math.Log(flatW / flatH / TargetAspect)))
+			{
+				positioned = vertical;
+				isVertical = true;
+			}
+		}
 
 		var maxX = 0.0;
 		var maxY = 0.0;
@@ -61,7 +79,7 @@ internal static class MindmapSvgRenderer
 		foreach (var node in positioned)
 		{
 			if (node.ParentCx is not null)
-				AppendLink(sb, node.ParentCx.Value, node.ParentCy!.Value, node.X + (node.W / 2), node.Y + (node.H / 2), VisualLanguage.Border(node.Color));
+				AppendLink(sb, node.ParentCx.Value, node.ParentCy!.Value, node.X + (node.W / 2), node.Y + (node.H / 2), VisualLanguage.Border(node.Color), isVertical);
 		}
 
 		foreach (var node in positioned)
@@ -77,9 +95,13 @@ internal static class MindmapSvgRenderer
 		int Depth, double? ParentCx, double? ParentCy);
 
 	// Like mermaid.js, the root sits in the middle and its branches spread to both sides; the sides are balanced by height.
-	private static void LayoutBalanced(MindmapNode root, List<PositionedMindmapNode> result, string[] palette, ResourceLimits limits)
+	private static (double W, double H) Extent(List<PositionedMindmapNode> nodes) =>
+		(nodes.Max(n => n.X + n.W) - nodes.Min(n => n.X), nodes.Max(n => n.Y + n.H) - nodes.Min(n => n.Y));
+
+	// transposed: laid out with x and y swapped (depth runs downwards, siblings spread sideways), then swapped back
+	private static void LayoutBalanced(MindmapNode root, List<PositionedMindmapNode> result, string[] palette, ResourceLimits limits, bool transposed)
 	{
-		var (rootLabel, rootW, rootH) = Measure(root, 0);
+		var (rootLabel, rootW, rootH) = Measure(root, 0, transposed);
 		var rootNode = new PositionedMindmapNode(-rootW / 2, -rootH / 2, rootW, rootH, rootLabel, root.Shape, palette[0], 0, null, null);
 
 		// each branch laid out to the right of x = 0 on its own
@@ -87,7 +109,7 @@ internal static class MindmapSvgRenderer
 		for (var i = 0; i < root.Children.Count; i++)
 		{
 			var nodes = new List<PositionedMindmapNode>();
-			var height = LayoutTree(root.Children[i], 0, 0, 1, nodes, palette, limits, palette[(i + 1) % palette.Length]);
+			var height = LayoutTree(root.Children[i], 0, 0, 1, nodes, palette, limits, palette[(i + 1) % palette.Length], transposed);
 			branches.Add((nodes, height));
 		}
 
@@ -112,6 +134,15 @@ internal static class MindmapSvgRenderer
 		result.Add(rootNode);
 		PlaceSide(branches.Take(split).ToList(), +1, rootW, result);
 		PlaceSide(branches.Skip(split).ToList(), -1, rootW, result);
+
+		if (transposed)
+		{
+			for (var i = 0; i < result.Count; i++)
+			{
+				var n = result[i];
+				result[i] = n with { X = n.Y, Y = n.X, W = n.H, H = n.W, ParentCx = n.ParentCy, ParentCy = n.ParentCx };
+			}
+		}
 
 		// normalise to the canvas margin
 		var minX = result.Min(n => n.X);
@@ -159,6 +190,12 @@ internal static class MindmapSvgRenderer
 		}
 	}
 
+	private static (string Label, double W, double H) Measure(MindmapNode node, int depth, bool transposed)
+	{
+		var (label, w, h) = Measure(node, depth);
+		return transposed ? (label, h, w) : (label, w, h);
+	}
+
 	private static (string Label, double W, double H) Measure(MindmapNode node, int depth)
 	{
 		var fontSizePx = depth == 0 ? RootFontSizePx : NodeFontSizePx;
@@ -176,10 +213,10 @@ internal static class MindmapSvgRenderer
 		return (label, w, h);
 	}
 
-	private static double LayoutTree(MindmapNode node, double x, double y, int depth, List<PositionedMindmapNode> result, string[] palette, ResourceLimits limits, string? branchColor)
+	private static double LayoutTree(MindmapNode node, double x, double y, int depth, List<PositionedMindmapNode> result, string[] palette, ResourceLimits limits, string? branchColor, bool transposed)
 	{
 		ResourceGuard.CheckRecursionDepth(depth, limits);
-		var (label, w, h) = Measure(node, depth);
+		var (label, w, h) = Measure(node, depth, transposed);
 
 		// Same language as the other diagrams: the root takes the default colour, every branch of the root one colour of its own.
 		var color = branchColor ?? palette[0];
@@ -199,7 +236,7 @@ internal static class MindmapSvgRenderer
 		foreach (var child in node.Children)
 		{
 			var childColor = depth == 0 ? palette[(++branch) % palette.Length] : color;
-			var childH = LayoutTree(child, childX, childY, depth + 1, result, palette, limits, childColor);
+			var childH = LayoutTree(child, childX, childY, depth + 1, result, palette, limits, childColor, transposed);
 			childPositions.Add(result.Count - 1); // a node is added after its descendants
 			childY += childH + VerticalGap;
 			totalChildHeight += childH + VerticalGap;
@@ -248,13 +285,21 @@ internal static class MindmapSvgRenderer
 		return string.Join('\n', lines);
 	}
 
-	private static void AppendLink(StringBuilder sb, double x1, double y1, double x2, double y2, string color)
+	private static void AppendLink(StringBuilder sb, double x1, double y1, double x2, double y2, string color, bool vertical)
 	{
-		var midX = (x1 + x2) / 2;
-		_ = sb.Append("\n<path d=\"M ").Append(x1.SvgFormat()).Append(' ').Append(y1.SvgFormat())
-			.Append(" C ").Append(midX.SvgFormat()).Append(' ').Append(y1.SvgFormat())
-			.Append(' ').Append(midX.SvgFormat()).Append(' ').Append(y2.SvgFormat())
-			.Append(' ').Append(x2.SvgFormat()).Append(' ').Append(y2.SvgFormat())
+		string curve;
+		if (vertical)
+		{
+			var midY = (y1 + y2) / 2;
+			curve = $" C {x1.SvgFormat()} {midY.SvgFormat()} {x2.SvgFormat()} {midY.SvgFormat()} {x2.SvgFormat()} {y2.SvgFormat()}";
+		}
+		else
+		{
+			var midX = (x1 + x2) / 2;
+			curve = $" C {midX.SvgFormat()} {y1.SvgFormat()} {midX.SvgFormat()} {y2.SvgFormat()} {x2.SvgFormat()} {y2.SvgFormat()}";
+		}
+
+		_ = sb.Append("\n<path d=\"M ").Append(x1.SvgFormat()).Append(' ').Append(y1.SvgFormat()).Append(curve)
 			.Append("\" fill=\"none\" stroke=\"").Append(color)
 			.Append("\" stroke-width=\"").Append(RenderConstants.StrokeWidths.Connector.SvgFormat()).Append("\" />");
 	}
