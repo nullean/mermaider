@@ -66,6 +66,11 @@ internal static class FlowEdgeRouter
 		internal bool NoHint;
 		internal bool Back => SSide == TSide;
 		internal double TStub = Stub;
+
+		// the last grid search and the routed segments it ran against: a rip-up pass that leaves the others unchanged
+		// asks the same question again, so the answer is reused
+		internal double[]? SearchedAgainst;
+		internal List<LayoutPoint>? SearchResult;
 	}
 
 	internal static List<LayoutEdgeResult> Route(
@@ -113,7 +118,8 @@ internal static class FlowEdgeRouter
 			}
 		}
 
-		var grid = new Grid(boxes, groups, plans);
+		// the grid is only built once an edge needs a search: most edges take their hint or canonical route
+		Grid? grid = null;
 		var routed = new List<Seg>();
 		var placedLabels = new List<(double X0, double Y0, double X1, double Y1)>();
 		var polylines = new Dictionary<int, List<LayoutPoint>>();
@@ -134,7 +140,7 @@ internal static class FlowEdgeRouter
 			{
 				if (segsOf.TryGetValue(p.Edge.Index, out var old))
 					_ = routed.RemoveAll(old.Contains);
-				var pts = Canonical(p, boxes, groups, routed) ?? grid.Find(p, groups, routed) ?? Fallback(p);
+				var pts = Canonical(p, boxes, groups, routed) ?? (grid ??= new Grid(boxes, groups, plans)).Find(p, groups, routed) ?? Fallback(p);
 				pts = Straighten(Simplify(pts), p, plans);
 				polylines[p.Edge.Index] = pts;
 				var mine = new List<Seg>();
@@ -146,6 +152,7 @@ internal static class FlowEdgeRouter
 			if (plans.Count > 60)
 				break;
 		}
+		grid?.Release();
 
 		foreach (var p in plans)
 			polylines[p.Edge.Index] = ReduceBends(polylines[p.Edge.Index], p, boxes, groups);
@@ -886,18 +893,26 @@ internal static class FlowEdgeRouter
 		private readonly double[] _xs;
 		private readonly double[] _ys;
 		private readonly int[] _owner; // node index whose expanded interior contains the point, else -1
-		private readonly double[] _dist;
-		private readonly int[] _stamp;
-		private readonly int[] _prev;
-		private int _version;
+		private SearchSpace _space;
+		private readonly double[] _hx;
+		private readonly double[] _hy;
 		private double _crossCost = CrossCost;
 		private bool _countGridCrossings;
 		private double _lengthWeight = 1;
-		private readonly IReadOnlyList<GroupBox> _allGroups;
+		private readonly GroupBox[] _allGroups;
+		private readonly MinHeap _pq = new();
+
+		// routed segments bucketed by the grid lines/intervals a step could interact with; buckets keep routed order so the
+		// step cost sums its terms exactly as a scan over every routed segment would
+		private readonly SegBuckets _parallelOnRow; // horizontal segments within RouteGap of row y
+		private readonly SegBuckets _crossingColumn; // vertical segments whose x falls in column interval [x, x+1]
+		private readonly SegBuckets _parallelOnColumn; // vertical segments within RouteGap of column x
+		private readonly SegBuckets _crossingRow; // horizontal segments whose y falls in row interval [y, y+1]
+		private List<Seg> _routed = null!;
 
 		internal Grid(IReadOnlyList<Box> boxes, IReadOnlyList<GroupBox> groups, List<Plan> plans)
 		{
-			_allGroups = groups;
+			_allGroups = [.. groups];
 			var xs = new List<double>();
 			var ys = new List<double>();
 			foreach (var b in boxes)
@@ -939,22 +954,31 @@ internal static class FlowEdgeRouter
 			Array.Fill(_owner, -1);
 			for (var bi = 0; bi < boxes.Count; bi++)
 			{
+				// grid lines strictly inside the box's margin, found by binary search on the sorted lines
 				var b = boxes[bi];
-				for (var ix = 0; ix < _xs.Length; ix++)
+				var x1 = FirstAtOrAbove(_xs, b.Right + Margin - 0.01);
+				var y0 = FirstAbove(_ys, b.Y - Margin + 0.01);
+				var y1 = FirstAtOrAbove(_ys, b.Bottom + Margin - 0.01);
+				for (var ix = FirstAbove(_xs, b.X - Margin + 0.01); ix < x1; ix++)
 				{
-					if (_xs[ix] <= b.X - Margin + 0.01 || _xs[ix] >= b.Right + Margin - 0.01)
-						continue;
-					for (var iy = 0; iy < _ys.Length; iy++)
-					{
-						if (_ys[iy] > b.Y - Margin + 0.01 && _ys[iy] < b.Bottom + Margin - 0.01)
-							_owner[(ix * _ys.Length) + iy] = bi;
-					}
+					for (var iy = y0; iy < y1; iy++)
+						_owner[(ix * _ys.Length) + iy] = bi;
 				}
 			}
 
-			_dist = new double[n * 5];
-			_stamp = new int[n * 5];
-			_prev = new int[n * 5];
+			_space = SearchSpace.Rent(n);
+			_hx = new double[_xs.Length];
+			_hy = new double[_ys.Length];
+			_parallelOnRow = new SegBuckets(_ys.Length);
+			_crossingColumn = new SegBuckets(_xs.Length);
+			_parallelOnColumn = new SegBuckets(_xs.Length);
+			_crossingRow = new SegBuckets(_ys.Length);
+		}
+
+		internal void Release()
+		{
+			SearchSpace.Return(_space);
+			_space = null!;
 		}
 
 		private static List<double> AddMidlines(List<double> v)
@@ -979,10 +1003,19 @@ internal static class FlowEdgeRouter
 			return r;
 		}
 
+		// lines snapped to the half pixel, without repeats, ascending (the first of +0/-0 is kept, as Distinct would)
 		private static double[] Dedupe(List<double> v)
 		{
-			var s = v.Select(x => Math.Round(x * 2) / 2).Distinct().OrderBy(x => x).ToList();
-			return [.. s];
+			var seen = new HashSet<double>(v.Count);
+			var r = new List<double>(v.Count);
+			foreach (var x in v)
+			{
+				var snapped = Math.Round(x * 2) / 2;
+				if (seen.Add(snapped))
+					r.Add(snapped);
+			}
+			r.Sort();
+			return [.. r];
 		}
 
 		private int IndexOf(double[] a, double v)
@@ -992,6 +1025,122 @@ internal static class FlowEdgeRouter
 		}
 
 		internal List<LayoutPoint>? Find(Plan p, IReadOnlyList<GroupBox> groups, List<Seg> routed)
+		{
+			if (p.SearchedAgainst is { } seen && SameSegments(seen, routed))
+				return p.SearchResult is null ? null : [.. p.SearchResult];
+			var path = Search(p, groups, routed);
+			p.SearchedAgainst = Snapshot(routed);
+			p.SearchResult = path is null ? null : [.. path];
+			return path;
+		}
+
+		private static double[] Snapshot(List<Seg> routed)
+		{
+			var a = new double[routed.Count * 4];
+			for (var i = 0; i < routed.Count; i++)
+			{
+				var s = routed[i];
+				a[i * 4] = s.X0;
+				a[(i * 4) + 1] = s.Y0;
+				a[(i * 4) + 2] = s.X1;
+				a[(i * 4) + 3] = s.Y1;
+			}
+			return a;
+		}
+
+		private static bool SameSegments(double[] seen, List<Seg> routed)
+		{
+			if (seen.Length != routed.Count * 4)
+				return false;
+			for (var i = 0; i < routed.Count; i++)
+			{
+				var s = routed[i];
+				// bitwise equality: the search must see exactly the same numbers to give exactly the same answer
+				if (!seen[i * 4].Equals(s.X0) || !seen[(i * 4) + 1].Equals(s.Y0) || !seen[(i * 4) + 2].Equals(s.X1) || !seen[(i * 4) + 3].Equals(s.Y1))
+					return false;
+			}
+			return true;
+		}
+
+		private void IndexRouted(List<Seg> routed)
+		{
+			_routed = routed;
+			_parallelOnRow.Clear();
+			_crossingColumn.Clear();
+			_parallelOnColumn.Clear();
+			_crossingRow.Clear();
+			// bucket bounds are a little looser than the tests in StepCost: a bucket may hold a segment that adds nothing,
+			// never miss one that adds something
+			const double slack = 1;
+			for (var i = 0; i < routed.Count; i++)
+			{
+				var s = routed[i];
+				if (s.Horizontal)
+				{
+					AddLines(_parallelOnRow, _ys, i, s.Y0 - RouteGap - slack, s.Y0 + RouteGap + slack);
+					AddIntervals(_crossingRow, _ys, i, s.Y0 - slack, s.Y0 + slack);
+				}
+				else
+				{
+					AddLines(_parallelOnColumn, _xs, i, s.X0 - RouteGap - slack, s.X0 + RouteGap + slack);
+					AddIntervals(_crossingColumn, _xs, i, s.X0 - slack, s.X0 + slack);
+				}
+			}
+			_parallelOnRow.Build();
+			_crossingColumn.Build();
+			_parallelOnColumn.Build();
+			_crossingRow.Build();
+		}
+
+		// grid lines strictly inside (lo, hi)
+		private static void AddLines(SegBuckets b, double[] lines, int seg, double lo, double hi)
+		{
+			var first = FirstAbove(lines, lo);
+			var last = FirstAbove(lines, hi) - 1;
+			if (last >= 0 && lines[last] >= hi)
+				last--;
+			b.Add(seg, first, Math.Min(last, lines.Length - 1));
+		}
+
+		// intervals [lines[k], lines[k+1]] that overlap (lo, hi)
+		private static void AddIntervals(SegBuckets b, double[] lines, int seg, double lo, double hi)
+		{
+			var first = Math.Max(0, FirstAbove(lines, lo) - 1);
+			var last = Math.Min(lines.Length - 2, FirstAbove(lines, hi) - 1);
+			b.Add(seg, first, last);
+		}
+
+		// index of the first grid line at or above v (lines.Length when none is)
+		private static int FirstAtOrAbove(double[] lines, double v)
+		{
+			int lo = 0, hi = lines.Length;
+			while (lo < hi)
+			{
+				var mid = (lo + hi) >>> 1;
+				if (lines[mid] >= v)
+					hi = mid;
+				else
+					lo = mid + 1;
+			}
+			return lo;
+		}
+
+		// index of the first grid line greater than v (lines.Length when none is)
+		private static int FirstAbove(double[] lines, double v)
+		{
+			int lo = 0, hi = lines.Length;
+			while (lo < hi)
+			{
+				var mid = (lo + hi) >>> 1;
+				if (lines[mid] > v)
+					hi = mid;
+				else
+					lo = mid + 1;
+			}
+			return lo;
+		}
+
+		private List<LayoutPoint>? Search(Plan p, IReadOnlyList<GroupBox> groups, List<Seg> routed)
 		{
 			var a = Out(p.SPort, p.SSide, p.SStub);
 			var b = Out(p.TPort, p.TSide, p.TStub);
@@ -1014,23 +1163,36 @@ internal static class FlowEdgeRouter
 					foreign.Add(g);
 			}
 
-			_version++;
+			var version = _space.NextVersion();
+			var states = _space.States;
+			var steps = _space.Steps;
 			// a loop around the outside is worth a long detour: crossing the forward edges is what makes it unreadable
 			_crossCost = p.Back ? CrossCost * 3 : CrossCost;
 			_countGridCrossings = p.Back;
 			_lengthWeight = p.Back ? 0.6 : 1;
-			var ny = _ys.Length;
-			var pq = new PriorityQueue<int, double>();
+			IndexRouted(routed);
+			var xs = _xs;
+			var ys = _ys;
+			var owner = _owner;
+			var nxs = xs.Length;
+			var ny = ys.Length;
+			// the heuristic split per axis, summed exactly as Heuristic() sums it
+			var hx = _hx;
+			var hy = _hy;
+			for (var i = 0; i < nxs; i++)
+				hx[i] = Math.Abs(xs[i] - xs[tx]);
+			for (var i = 0; i < ny; i++)
+				hy[i] = Math.Abs(ys[i] - ys[ty]);
+			var pq = _pq;
+			pq.Clear();
 			var startDir = p.SSide;
 			var start = (((sx * ny) + sy) * 5) + startDir;
-			_dist[start] = 0;
-			_stamp[start] = _version;
-			_prev[start] = -1;
+			states[start] = new SearchState(0, version, -1);
 			pq.Enqueue(start, Heuristic(sx, sy, tx, ty));
 			var endDir = (p.TSide + 2) % 4; // direction of the last move into the end stub
 			var pops = 0;
 			var goal = -1;
-			while (pq.TryDequeue(out var cur, out _))
+			while (pq.TryDequeue(out var cur, out var queuedAt))
 			{
 				if (++pops > 400_000)
 					break;
@@ -1038,12 +1200,17 @@ internal static class FlowEdgeRouter
 				var cell = cur / 5;
 				var cx = cell / ny;
 				var cy = cell % ny;
-				var cd = _dist[cur];
+				var cd = states[cur].Dist;
 				if (cx == tx && cy == ty)
 				{
 					goal = cur;
 					break;
 				}
+
+				// a stale entry (queued before this state's distance improved) pops after the entry for the improved distance,
+				// whose expansion already gave every neighbour a distance at least as good: expanding again changes nothing
+				if (queuedAt != cd + (hx[cx] + hy[cy]))
+					continue;
 
 				for (var nd = 0; nd < 4; nd++)
 				{
@@ -1051,32 +1218,43 @@ internal static class FlowEdgeRouter
 						continue;
 					var nx = cx + Dx[nd];
 					var nyy = cy + Dy[nd];
-					if (nx < 0 || nx >= _xs.Length || nyy < 0 || nyy >= ny)
+					if ((uint)nx >= (uint)nxs || (uint)nyy >= (uint)ny)
 						continue;
-					var own = _owner[(nx * ny) + nyy];
+					var own = owner[(nx * ny) + nyy];
 					if (own >= 0 && !(nx == tx && nyy == ty))
 						continue;
-					var cost = StepCost(cx, cy, nx, nyy, nd, dir, foreign, common, routed);
+					// a step's cost depends on the step and on whether it bends, not on how the search got here
+					var bent = dir < 4 && dir != nd;
+					var key = (((cell * 4) + nd) * 2) + (bent ? 1 : 0);
+					double cost;
+					ref var step = ref steps[key];
+					if (step.Stamp == version)
+						cost = step.Cost;
+					else
+					{
+						cost = StepCost(cx, cy, nx, nyy, nd, dir, foreign, common);
+						step = new StepEntry(cost, version);
+					}
+
 					if (nx == tx && nyy == ty && nd != endDir)
 						cost += BendCost;
 					var nxt = (((nx * ny) + nyy) * 5) + nd;
 					var nd2 = cd + cost;
-					if (_stamp[nxt] == _version && _dist[nxt] <= nd2)
+					ref var state = ref states[nxt];
+					if (state.Stamp == version && state.Dist <= nd2)
 						continue;
-					_stamp[nxt] = _version;
-					_dist[nxt] = nd2;
-					_prev[nxt] = cur;
-					pq.Enqueue(nxt, nd2 + Heuristic(nx, nyy, tx, ty));
+					state = new SearchState(nd2, version, cur);
+					pq.Enqueue(nxt, nd2 + (hx[nx] + hy[nyy]));
 				}
 			}
 
 			if (goal < 0)
 				return null;
 			var path = new List<LayoutPoint>();
-			for (var s = goal; s >= 0; s = _prev[s])
+			for (var s = goal; s >= 0; s = states[s].Prev)
 			{
 				var cell = s / 5;
-				path.Add(new LayoutPoint(_xs[cell / ny], _ys[cell % ny]));
+				path.Add(new LayoutPoint(xs[cell / ny], ys[cell % ny]));
 			}
 			path.Reverse();
 			path.Insert(0, p.SPort);
@@ -1097,7 +1275,7 @@ internal static class FlowEdgeRouter
 
 		private double StepCost(
 			int x, int y, int nx, int ny, int nd, int dir,
-			List<GroupBox> foreign, List<GroupBox> common, List<Seg> routed)
+			List<GroupBox> foreign, List<GroupBox> common)
 		{
 			double x0 = _xs[x], y0 = _ys[y], x1 = _xs[nx], y1 = _ys[ny];
 			var len = Math.Abs(x1 - x0) + Math.Abs(y1 - y0);
@@ -1130,8 +1308,13 @@ internal static class FlowEdgeRouter
 			}
 
 			var horizontal = nd is 0 or 2;
-			foreach (var s in routed)
+			// the parallel and crossing candidates, merged back into routed order
+			var par = horizontal ? _parallelOnRow.Of(y) : _parallelOnColumn.Of(x);
+			var cross = horizontal ? _crossingColumn.Of(Math.Min(x, nx)) : _crossingRow.Of(Math.Min(y, ny));
+			int pi = 0, ci = 0;
+			while (pi < par.Length || ci < cross.Length)
 			{
+				var s = _routed[ci >= cross.Length || (pi < par.Length && par[pi] < cross[ci]) ? par[pi++] : cross[ci++]];
 				if (s.Horizontal == horizontal)
 				{
 					// a parallel run a few px away reads as the same line, so it costs as much as running right on top of it
@@ -1154,6 +1337,169 @@ internal static class FlowEdgeRouter
 				}
 			}
 			return cost;
+		}
+	}
+
+	// one search state (cell x incoming direction): distance, the search that wrote it, and where it came from, side by side so
+	// relaxing a neighbour touches one cache line
+	private readonly record struct SearchState(double Dist, int Stamp, int Prev);
+
+	private readonly record struct StepEntry(double Cost, int Stamp);
+
+	/// <summary>
+	/// Search state for one grid, reused across renders: entries are only valid for the search whose stamp they carry, so a reused
+	/// space needs no clearing. At most one (bounded) space is cached; a concurrent render takes a fresh one.
+	/// </summary>
+	private sealed class SearchSpace
+	{
+		private static SearchSpace? Cached;
+		internal SearchState[] States = [];
+		internal StepEntry[] Steps = [];
+		private int _version;
+
+		internal static SearchSpace Rent(int cells)
+		{
+			var space = Interlocked.Exchange(ref Cached, null) ?? new SearchSpace();
+			if (space.States.Length < cells * 5)
+			{
+				// fresh arrays are zeroed: stamp 0 never matches a search, which starts at 1
+				space.States = new SearchState[cells * 5];
+				space.Steps = new StepEntry[cells * 8];
+				space._version = 0;
+			}
+			return space;
+		}
+
+		// the space kept for the next render is bounded (about 3 MB); a bigger grid's space is left to the GC
+		private const int MaxCachedCells = 16_000;
+
+		internal static void Return(SearchSpace space)
+		{
+			if (space.States.Length <= MaxCachedCells * 5)
+				Volatile.Write(ref Cached, space);
+		}
+
+		internal int NextVersion()
+		{
+			if (_version == int.MaxValue)
+			{
+				Array.Clear(States);
+				Array.Clear(Steps);
+				_version = 0;
+			}
+			return ++_version;
+		}
+	}
+
+	/// <summary>Segment indices per bucket (compressed rows), each bucket in ascending segment order; reused across searches.</summary>
+	private sealed class SegBuckets(int buckets)
+	{
+		private readonly int[] _start = new int[buckets + 1];
+		private readonly int[] _fill = new int[buckets];
+		private readonly List<(int Seg, int Lo, int Hi)> _spans = [];
+		private int[] _items = new int[64];
+
+		internal void Clear() => _spans.Clear();
+
+		internal void Add(int seg, int lo, int hi)
+		{
+			if (lo <= hi)
+				_spans.Add((seg, lo, hi));
+		}
+
+		internal void Build()
+		{
+			Array.Clear(_start);
+			foreach (var (_, lo, hi) in _spans)
+			{
+				for (var b = lo; b <= hi; b++)
+					_start[b + 1]++;
+			}
+			for (var b = 0; b < buckets; b++)
+				_start[b + 1] += _start[b];
+			if (_items.Length < _start[buckets])
+				_items = new int[Math.Max(_start[buckets], _items.Length * 2)];
+			Array.Copy(_start, _fill, buckets);
+			foreach (var (seg, lo, hi) in _spans)
+			{
+				for (var b = lo; b <= hi; b++)
+					_items[_fill[b]++] = seg;
+			}
+		}
+
+		internal ReadOnlySpan<int> Of(int bucket) => _items.AsSpan(_start[bucket], _start[bucket + 1] - _start[bucket]);
+	}
+
+	/// <summary>
+	/// The 4-ary min-heap of <see cref="PriorityQueue{TElement, TPriority}"/> with the same sift-up/sift-down rules, so equal
+	/// priorities leave the queue in the same order; specialised to int states and double priorities (never NaN).
+	/// </summary>
+	private sealed class MinHeap
+	{
+		private double[] _priority = new double[256];
+		private int[] _element = new int[256];
+		private int _size;
+
+		internal void Clear() => _size = 0;
+
+		internal void Enqueue(int element, double priority)
+		{
+			if (_size == _priority.Length)
+			{
+				Array.Resize(ref _priority, _size * 2);
+				Array.Resize(ref _element, _size * 2);
+			}
+			var i = _size++;
+			while (i > 0)
+			{
+				var parent = (i - 1) >> 2;
+				if (priority >= _priority[parent])
+					break;
+				_priority[i] = _priority[parent];
+				_element[i] = _element[parent];
+				i = parent;
+			}
+			_priority[i] = priority;
+			_element[i] = element;
+		}
+
+		internal bool TryDequeue(out int element, out double priority)
+		{
+			if (_size == 0)
+			{
+				element = 0;
+				priority = 0;
+				return false;
+			}
+			element = _element[0];
+			priority = _priority[0];
+			var size = --_size;
+			if (size == 0)
+				return true;
+			var pr = _priority;
+			var el = _element;
+			var nodePriority = pr[size];
+			var nodeElement = el[size];
+			var i = 0;
+			int child;
+			while ((child = (i << 2) + 1) < size)
+			{
+				// the first of the smallest children, picked with conditional selects: which child wins is data dependent,
+				// so a branch on it mispredicts about every other time
+				var min = child;
+				var end = Math.Min(child + 4, size);
+				for (var k = child + 1; k < end; k++)
+					min += (k - min) & -(pr[k] < pr[min] ? 1 : 0);
+				var minPriority = pr[min];
+				if (nodePriority <= minPriority)
+					break;
+				pr[i] = minPriority;
+				el[i] = el[min];
+				i = min;
+			}
+			pr[i] = nodePriority;
+			el[i] = nodeElement;
+			return true;
 		}
 	}
 }
