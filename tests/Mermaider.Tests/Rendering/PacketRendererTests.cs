@@ -49,7 +49,9 @@ public class PacketRendererTests
 		var svg = MermaidRenderer.RenderSvg(BasicPacket);
 
 		svg.Should().Contain("<rect");
-		svg.Should().Contain("stroke=\"var(--_line)\"");
+		svg.Should().Contain("class=\"node packet-field\"", "fields are cells on the node recipe");
+		svg.Should().Contain(DesignContract.Outline(DesignContract.Cluster(0)));
+		svg.Should().Contain(DesignContract.Outline(DesignContract.Cluster(1)), "fields alternate cluster families");
 	}
 
 	[Test]
