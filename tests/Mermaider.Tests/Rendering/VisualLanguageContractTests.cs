@@ -1,0 +1,58 @@
+using AwesomeAssertions;
+using Mermaider.Rendering;
+using Mermaider.Theming;
+
+namespace Mermaider.Tests.Rendering;
+
+/// <summary>
+/// The structural contract of the shared visual language (see <see cref="VisualLanguage"/>): the same cluster colour is a
+/// darker border plus a light tint of the same hue, subgraphs/namespaces carry their title in the border colour on a plain
+/// box without a header band, and every edge label is the same pill. It deliberately does not pin which hue is chosen,
+/// so palette changes do not break it, but it does fail when one diagram type stops looking like the others.
+/// </summary>
+public class VisualLanguageContractTests
+{
+	private static string Cluster0 => Themes.Default.PaletteAt(0);
+
+	[Test]
+	public void Flowchart_node_is_a_tint_of_its_cluster_colour_with_a_darker_border()
+	{
+		var svg = MermaidRenderer.RenderSvg("flowchart TD\n  A --> B");
+
+		svg.Should().Contain($"fill=\"{VisualLanguage.Tint(Cluster0, VisualLanguage.NodeTint)}\"");
+		svg.Should().Contain($"stroke=\"{VisualLanguage.Border(Cluster0)}\"");
+	}
+
+	[Test]
+	public void Er_entity_uses_the_same_cluster_border_and_tints()
+	{
+		var svg = MermaidRenderer.RenderSvg("erDiagram\n  A ||--o{ B : has\n  A {\n    int id PK\n  }\n  B {\n    int id PK\n  }");
+
+		svg.Should().Contain($"stroke=\"{VisualLanguage.Border(Cluster0)}\"");
+		svg.Should().Contain(VisualLanguage.Tint(Cluster0, VisualLanguage.HeaderTint));
+	}
+
+	[Test]
+	public void Subgraph_is_a_plain_box_with_its_title_in_the_border_colour()
+	{
+		var svg = MermaidRenderer.RenderSvg("flowchart TD\n  subgraph G[Group]\n    A --> B\n  end");
+
+		var group = svg[svg.IndexOf("<g class=\"subgraph\"", StringComparison.Ordinal)..];
+		var stroke = System.Text.RegularExpressions.Regex.Match(group, "<rect [^>]*stroke=\"([^\"]+)\"").Groups[1].Value;
+		stroke.Should().NotBeNullOrEmpty();
+		svg.Should().Contain($"fill=\"{stroke}\"", "the title is drawn in the box's border colour");
+		System.Text.RegularExpressions.Regex.Matches(group[..group.IndexOf("</g>", StringComparison.Ordinal)], "<rect").Count
+			.Should().Be(1, "a subgraph is one box, not a box plus a header band");
+	}
+
+	[Test]
+	public void Edge_labels_are_the_same_pill_in_every_diagram_type()
+	{
+		var pill = $"fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"{RenderConstants.StrokeWidths.Connector}\"";
+
+		MermaidRenderer.RenderSvg("flowchart TD\n  A -->|yes| B").Should().Contain(pill);
+		MermaidRenderer.RenderSvg("stateDiagram-v2\n  [*] --> A\n  A --> B : go").Should().Contain(pill);
+		MermaidRenderer.RenderSvg("erDiagram\n  A ||--o{ B : has").Should().Contain(pill);
+		MermaidRenderer.RenderSvg("classDiagram\n  A --> B : uses").Should().Contain(pill);
+	}
+}

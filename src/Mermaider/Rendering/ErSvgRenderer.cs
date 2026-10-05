@@ -406,9 +406,9 @@ internal static class ErSvgRenderer
 	{
 		// Each connected cluster gets its own palette colour: darker border, light header, white body rows.
 		var clusterColor = colors.PaletteAt(entity.Cluster);
-		var border = Mermaider.Theming.ColorUtils.AdjustLightness(clusterColor, -0.12);
-		var boxFill = $"color-mix(in srgb, {clusterColor} 16%, var(--bg))";
-		var headerFill = $"color-mix(in srgb, {clusterColor} 24%, var(--bg))";
+		var border = VisualLanguage.Border(clusterColor);
+		var boxFill = VisualLanguage.Tint(clusterColor, VisualLanguage.NodeTint);
+		var headerFill = VisualLanguage.Tint(clusterColor, VisualLanguage.HeaderTint);
 		var (x, y, width, height) = (entity.X, entity.Y, entity.Width, entity.Height);
 		var headerHeight = entity.HeaderHeight;
 		var rowHeight = entity.RowHeight;
@@ -654,15 +654,9 @@ internal static class ErSvgRenderer
 			RenderConstants.FontSizes.EdgeLabel,
 			RenderConstants.FontWeights.EdgeLabel);
 
-		// 2px padding around the text, border as thick as the lines so the pill reads as part of the line.
-		var bgW = LabelBoxWidth(metrics.Width);
-		var bgH = metrics.Height + LabelPadY;
-
-		var lr = Math.Min(RenderConstants.Radii.EdgeLabel, bgH / 2);
-		_ = sb.Append("\n<rect x=\"").Append(mid.X - (bgW / 2)).Append("\" y=\"").Append(mid.Y - (bgH / 2))
-			.Append("\" width=\"").Append(bgW).Append("\" height=\"").Append(bgH)
-			.Append("\" rx=\"").Append(lr).Append("\" ry=\"").Append(lr)
-			.Append("\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"").Append(RenderConstants.StrokeWidths.Connector).Append("\" />\n");
+		_ = sb.Append('\n');
+		VisualLanguage.AppendLabelPill(sb, mid.X, mid.Y, metrics.Width, metrics.Height);
+		_ = sb.Append('\n');
 		MultilineUtils.AppendMultilineText(
 			sb, rel.Label, mid.X, mid.Y,
 			RenderConstants.FontSizes.EdgeLabel,

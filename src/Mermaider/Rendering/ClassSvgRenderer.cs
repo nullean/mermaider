@@ -60,7 +60,7 @@ internal static class ClassSvgRenderer
 			AppendRelationshipLabels(sb, rel);
 
 		foreach (var note in diagram.Notes)
-			AppendNote(sb, note);
+			VisualLanguage.AppendNote(sb, note);
 
 		_ = sb.Append("\n</svg>");
 		return sb;
@@ -344,13 +344,9 @@ internal static class ClassSvgRenderer
 		{
 			var pos = rel.LabelPosition ?? Midpoint(rel.Points);
 			var metrics = TextMetrics.MeasureMultiline(rel.Label.AsSpan(), RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel);
-			var bgW = ErSvgRenderer.LabelBoxWidth(metrics.Width);
-			var bgH = metrics.Height + ErSvgRenderer.LabelPadY;
-			var lr = Math.Min(RenderConstants.Radii.EdgeLabel, bgH / 2);
-			_ = sb.Append("\n<rect x=\"").Append(pos.X - (bgW / 2)).Append("\" y=\"").Append(pos.Y - (bgH / 2))
-				.Append("\" width=\"").Append(bgW).Append("\" height=\"").Append(bgH)
-				.Append("\" rx=\"").Append(lr).Append("\" ry=\"").Append(lr)
-				.Append("\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"").Append(RenderConstants.StrokeWidths.Connector).Append("\" />\n");
+			_ = sb.Append('\n');
+			VisualLanguage.AppendLabelPill(sb, pos.X, pos.Y, metrics.Width, metrics.Height);
+			_ = sb.Append('\n');
 			MultilineUtils.AppendMultilineText(
 				sb, rel.Label, pos.X, pos.Y,
 				RenderConstants.FontSizes.EdgeLabel,
@@ -411,31 +407,5 @@ internal static class ClassSvgRenderer
 			.Append("\" fill=\"var(--_text-muted)\" font-style=\"italic\">");
 		MultilineUtils.AppendEscapedXml(sb, ns.Name.AsSpan());
 		_ = sb.Append("</text>\n</g>");
-	}
-
-	private static readonly string NoteTextAttrs =
-		RenderConstants.TextAttrs.EdgeLabelCenterFill + "var(--_accent-text)\"";
-
-	private static void AppendNote(StringBuilder sb, PositionedGraphNote note)
-	{
-		_ = sb.Append("\n<g class=\"note\">");
-		if (note.LineFrom is { } lf && note.LineTo is { } lt)
-		{
-			_ = sb.Append("\n  <line x1=\"").Append(lf.X).Append("\" y1=\"").Append(lf.Y)
-				.Append("\" x2=\"").Append(lt.X).Append("\" y2=\"").Append(lt.Y)
-				.Append("\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.5\" stroke-dasharray=\"4 3\" />");
-		}
-		_ = sb.Append("\n  <rect x=\"").Append(note.X).Append("\" y=\"").Append(note.Y)
-			.Append("\" width=\"").Append(note.Width).Append("\" height=\"").Append(note.Height)
-			.Append("\" rx=\"6\" ry=\"6\"")
-			.Append(" fill=\"var(--_accent-fill)\" stroke=\"var(--_accent-stroke)\" stroke-width=\"")
-			.Append(RenderConstants.StrokeWidths.InnerBox).Append("\" />\n  ");
-
-		MultilineUtils.AppendMultilineText(
-			sb, note.Text,
-			note.X + (note.Width / 2), note.Y + (note.Height / 2),
-			RenderConstants.FontSizes.EdgeLabel,
-			NoteTextAttrs);
-		_ = sb.Append("\n</g>");
 	}
 }
