@@ -2,10 +2,8 @@ flowchart-subgraphs extra-bend 1
 flowchart-chained line-overlap 1
 flowchart-network extra-bend 1
 flowchart-network balance 2
-flowchart-styled-sub line-overlap 1
-flowchart-styled-sub extra-bend 4
-flowchart-styled-sub tiny-jog 1
-flowchart-styled-sub balance 2
+flowchart-styled-sub extra-bend 3
+flowchart-styled-sub balance 1
 flowchart-invisible extra-bend 1
 flowchart-invisible balance 1
 state-multi-end extra-bend 2
@@ -20,8 +18,9 @@ db-flow-01-system line-overlap 5
 db-flow-01-system extra-bend 6
 db-flow-01-system tiny-jog 3
 db-flow-01-system balance 1
+db-flow-03-isolated line-overlap 1
 db-flow-03-isolated extra-bend 1
-db-flow-03-isolated tiny-jog 4
+db-flow-03-isolated tiny-jog 3
 db-flow-03-isolated balance 1
 db-flow-04-composing extra-bend 3
 db-flow-04-composing balance 1

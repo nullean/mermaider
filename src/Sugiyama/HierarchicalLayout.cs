@@ -129,9 +129,37 @@ public static class HierarchicalLayout
 			if (itemNodes.Count == 0)
 				return placed;
 
+			// A pair of unlabelled parallel edges between the same two items lays out as one (ports aligned, parent centred over the target)
+			var firstOf = new HashSet<(string, string)>();
+			var parallel = itemEdges.Where(e => e.LabelWidth <= 0).GroupBy(e => (e.Source, e.Target)).ToDictionary(g => g.Key, g => g.Count());
+			var distinct = Enumerable.Range(0, itemEdges.Count)
+				.Where(i => itemEdges[i].LabelWidth > 0 || parallel[(itemEdges[i].Source, itemEdges[i].Target)] != 2 || firstOf.Add((itemEdges[i].Source, itemEdges[i].Target)))
+				.ToList();
+			if (distinct.Count != itemEdges.Count)
+			{
+				itemOrigin = distinct.Select(i => itemOrigin[i]).ToList();
+				itemEdges = distinct.Select(i => itemEdges[i]).ToList();
+			}
+
 			// Mutually-referencing items (a cycle through subgraph boxes) are ordered by the order that turns the fewest edges backwards;
 			// only the layout copy of the edges is re-oriented.
 			itemEdges = OrientCycles(itemNodes.Select(n => n.Id).ToList(), OrientByMajority(itemEdges));
+
+			// A long back edge (closing a cycle of three or more items) is drawn as a loop around the outside; keeping it in the
+			// layout only drags its chain of dummy nodes beside the forward flow and unbalances it. Two-item cycles stay (they
+			// need their label columns).
+			var itemIds = itemNodes.Select(n => n.Id).ToList();
+			var order = GreedyOrder(itemIds, itemEdges);
+			var pairs = itemEdges.Select(e => (e.Source, e.Target)).ToHashSet();
+			var keep = Enumerable.Range(0, itemEdges.Count)
+				.Where(i => order[itemEdges[i].Source] <= order[itemEdges[i].Target] || pairs.Contains((itemEdges[i].Target, itemEdges[i].Source)))
+				.ToList();
+			// (a single loop-closing edge only: dense graphs with many back edges keep them in the layout)
+			if (keep.Count == itemEdges.Count - 1)
+			{
+				itemOrigin = keep.Select(i => itemOrigin[i]).ToList();
+				itemEdges = keep.Select(i => itemEdges[i]).ToList();
+			}
 
 			var perRow = ComponentsPerRow(itemNodes, itemEdges);
 			var levelOptions = options with
