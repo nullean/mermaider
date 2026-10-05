@@ -2,7 +2,7 @@ using AwesomeAssertions;
 
 namespace Mermaider.Tests.Rendering;
 
-public class BlockRendererTests
+public partial class BlockRendererTests
 {
 	private const string SimpleGrid = """
 		block-beta
@@ -44,7 +44,7 @@ public class BlockRendererTests
 		var svg = MermaidRenderer.RenderSvg(SimpleGrid);
 
 		svg.Should().Contain("fill=\"var(--_text)\"");
-		svg.Should().Contain($"stroke=\"{Mermaider.Rendering.VisualLanguage.Border(Mermaider.Theming.Themes.Default.AutoPaletteAt(0))}\"", "blocks take their cluster colour");
+		svg.Should().Contain($"stroke=\"{Mermaider.Rendering.VisualLanguage.Border(Theming.Themes.Default.AutoPaletteAt(0))}\"", "blocks take their cluster colour");
 	}
 
 	[Test]
@@ -70,8 +70,8 @@ public class BlockRendererTests
 			  A --> B
 			""");
 
-		svg.Should().Contain("<path class=\"block-edge\"");
-		svg.Should().Contain("marker-end=\"url(#block-arrow)\"");
+		svg.Should().Contain("<path class=\"block-edge\" data-from=\"A\" data-to=\"B\"");
+		svg.Should().MatchRegex("marker-end=\"url\\(#m[0-9a-f]{8}-mk-arrow\\)\"", "edges use the shared arrow marker");
 		svg.Should().Contain("stroke=\"var(--_line)\"");
 	}
 
@@ -80,10 +80,12 @@ public class BlockRendererTests
 	{
 		var svg = MermaidRenderer.RenderSvg("""
 			block-beta
-			  R("Round")
+			columns 2
+			  R("Round") S["Square"]
 			""");
 
-		svg.Should().Contain("rx=\"10\"");
+		svg.Should().Contain("rx=\"14\"", "a rounded block is the preset node radius plus 6");
+		svg.Should().Contain("rx=\"8\"", "a plain block takes the preset node radius");
 	}
 
 	[Test]
@@ -173,7 +175,7 @@ public class BlockRendererTests
 			  A B C
 			""");
 
-		var widths = System.Text.RegularExpressions.Regex.Matches(svg, "<rect [^>]*\\swidth=\"([0-9.]+)\"")
+		var widths = MyRegex().Matches(svg)
 			.Select(m => double.Parse(m.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture)).ToList();
 		widths.Max().Should().BeGreaterThan(widths.Min() * 2.5, "a three-column block is as wide as three cells and their gaps");
 	}
@@ -190,7 +192,10 @@ public class BlockRendererTests
 
 		svg.Should().Contain("<path class=\"block-edge\"");
 		// not a straight line through B: the route leaves through the channel above the row
-		var path = System.Text.RegularExpressions.Regex.Match(svg, "class=\"block-edge\" d=\"([^\"]+)\"").Groups[1].Value;
+		var path = System.Text.RegularExpressions.Regex.Match(svg, "class=\"block-edge\"[^>]*\\sd=\"([^\"]+)\"").Groups[1].Value;
 		path.Should().Contain("Q");
 	}
+
+	[System.Text.RegularExpressions.GeneratedRegex("<rect [^>]*\\swidth=\"([0-9.]+)\"")]
+	private static partial System.Text.RegularExpressions.Regex MyRegex();
 }
