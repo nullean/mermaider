@@ -76,4 +76,23 @@ public class ClassAnnotationColourTests
 		foreach (var id in new[] { "Shape", "Base", "Drawable" })
 			Border(svg, id).Should().NotBe(Border(plainFirst, "P"), "slot 0 is the default box colour, reserved for unannotated classes");
 	}
+
+	[Test]
+	public void A_declared_lollipop_target_keeps_its_box_next_to_the_lollipop_like_mermaidjs()
+	{
+		var svg = MermaidRenderer.RenderSvg("classDiagram\n  class Drawable {\n    <<interface>>\n    +draw() void\n  }\n  class Circle {\n    +area() double\n  }\n  Circle --() Drawable");
+
+		svg.Should().Contain("<g class=\"class-node\" data-id=\"Drawable\"", "the declared class keeps its box and members");
+		svg.Should().Contain("class-node lollipop\" data-id=\"Drawable__lollipop\"", "the lollipop is its own node");
+		svg.Should().Contain("draw");
+	}
+
+	[Test]
+	public void A_lollipop_target_without_declared_members_is_just_the_circle()
+	{
+		var svg = MermaidRenderer.RenderSvg("classDiagram\n  class Circle {\n    +area() double\n  }\n  Circle --() Plugin");
+
+		svg.Should().Contain("class-node lollipop\" data-id=\"Plugin\"");
+		svg.Should().NotContain("Plugin__lollipop");
+	}
 }

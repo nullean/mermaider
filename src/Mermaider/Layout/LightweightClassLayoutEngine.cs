@@ -24,10 +24,17 @@ internal static class LightweightClassLayoutEngine
 
 	private const double LollipopSize = 20;
 
+	// circle (diameter 16) + gap + one line of label
+	private const double LollipopHeight = 16 + 6 + 18;
+
+	private const string LollipopSuffix = "__lollipop";
+
 	internal static PositionedClassDiagram Layout(ClassDiagram diagram)
 	{
 		if (diagram.Classes.Count == 0)
 			return new PositionedClassDiagram { Width = 0, Height = 0, Classes = [], Relationships = [] };
+
+		diagram = SplitDeclaredLollipopTargets(diagram);
 
 		// A class is a lollipop target if it only appears as the To side of Lollipop relationships
 		// and never as the From side of any relationship or the To side of a non-lollipop relationship.
@@ -48,7 +55,10 @@ internal static class LightweightClassLayoutEngine
 		{
 			if (lollipopTargets.Contains(cls.Id))
 			{
-				classSizes[cls.Id] = (LollipopSize, LollipopSize, LollipopSize, 0, 0);
+				// the lollipop is a circle with its name underneath: the node is as wide as that name so neighbours never overlap it
+				var labelW = TextMetrics.MeasureTextWidth(cls.Label, RenderConstants.FontSizes.NodeLabel, RenderConstants.FontWeights.NodeLabel);
+				var lollipopWidth = Math.Max(LollipopSize, labelW + 8);
+				classSizes[cls.Id] = (lollipopWidth, LollipopHeight, LollipopHeight, 0, 0);
 				continue;
 			}
 
@@ -122,6 +132,38 @@ internal static class LightweightClassLayoutEngine
 		});
 
 		return ExtractPositioned(result, diagram, classSizes, lollipopTargets);
+	}
+
+	/// <summary>
+	/// mermaid.js draws the lollipop as its own circle and keeps a declared class (one with a modifier or members) as a separate box. Collapsing
+	/// such a class into the circle would silently drop its declared members, so it gets a separate lollipop node instead; a class that only
+	/// appears as a lollipop target stays a plain circle.
+	/// </summary>
+	private static ClassDiagram SplitDeclaredLollipopTargets(ClassDiagram diagram)
+	{
+		var declared = diagram.Classes
+			.Where(c => c.Annotation is { Length: > 0 } || c.Attributes.Count > 0 || c.Methods.Count > 0)
+			.Select(c => c.Id)
+			.ToHashSet();
+		var split = diagram.Relationships
+			.Where(r => r.Type == ClassRelationType.Lollipop && declared.Contains(r.To))
+			.Select(r => r.To)
+			.Distinct()
+			.ToList();
+		if (split.Count == 0)
+			return diagram;
+
+		var classes = diagram.Classes.ToList();
+		foreach (var id in split)
+		{
+			var original = diagram.Classes.First(c => c.Id == id);
+			classes.Add(new ClassNode { Id = id + LollipopSuffix, Label = original.Label, Attributes = [], Methods = [] });
+		}
+
+		var relationships = diagram.Relationships
+			.Select(r => r.Type == ClassRelationType.Lollipop && split.Contains(r.To) ? r with { To = r.To + LollipopSuffix } : r)
+			.ToList();
+		return diagram with { Classes = classes, Relationships = relationships };
 	}
 
 	private static PositionedClassDiagram ExtractPositioned(

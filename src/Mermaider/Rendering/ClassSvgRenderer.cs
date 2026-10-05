@@ -183,8 +183,9 @@ internal static class ClassSvgRenderer
 
 	private static void AppendLollipopNode(StringBuilder sb, PositionedClassNode cls)
 	{
+		// circle at the top of the node (where edges arrive), name underneath
 		var cx = cls.X + (cls.Width / 2);
-		var cy = cls.Y + (cls.Height / 2);
+		var cy = cls.Y + LollipopRadius;
 		_ = sb.Append("\n<g class=\"class-node lollipop\" data-id=\"");
 		MultilineUtils.AppendEscapedAttr(sb, cls.Id.AsSpan());
 		_ = sb.Append("\">\n");
