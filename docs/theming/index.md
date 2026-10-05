@@ -76,6 +76,38 @@ var options = new RenderOptions
 
 When `null`, the built-in palette is used.
 
+Flowchart, state, ER and class diagrams colour their clusters, subgraphs and entities from this palette **minus the hues of the
+colour roles below**, so an automatically coloured box never looks like a success or a failure.
+
+## Colour roles
+
+Semantic roles are optional; unset, they are the palette's green, red, yellow and blue (brighter on dark themes).
+
+```csharp
+var options = new RenderOptions
+{
+    Success = "#198038",
+    Failure = "#da1e28",
+    Warning = "#f1c21b",
+    Info    = "#0f62fe",
+};
+```
+
+In a diagram, give a node (or state) the class `success`, `failure`, `warning` or `info`:
+
+```mermaid
+flowchart LR
+  Build --> Test:::success
+  Test --> Deploy:::failure
+```
+
+An explicit `style` / `classDef` fill always wins. With strict styling the class must be on your allow-list.
+
+## Shape colours
+
+Shapes with a conventional meaning are tinted automatically: decisions (`{}` and state `<<choice>>`), terminals (`([])`) and data
+stores (`[()]`). Everything else keeps its cluster colour.
+
 ## Layout spacing
 
 ```csharp
