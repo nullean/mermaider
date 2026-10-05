@@ -49,6 +49,7 @@ var options = new RenderOptions
     Fg = "#E6EDF3",
     Accent = "#58A6FF",
     Font = "Inter",
+    Style = DiagramStyle.Quiet,   // or Blueprint / Tonal
     Transparent = true,
     Strict = new StrictStylingOptions()
 };
@@ -56,7 +57,7 @@ var options = new RenderOptions
 string svg = MermaidRenderer.RenderSvg(diagram, options);
 ```
 
-See [Theming](../theming/index.md) for the full color token reference, and [Security](../security/index.md) for strict mode and sanitization options.
+See [Theming](../theming/index.md) for the full color token reference and the style presets, and [Security](../security/index.md) for strict mode and sanitization options.
 
 ## Exceptions
 

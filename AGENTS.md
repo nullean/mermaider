@@ -36,8 +36,14 @@ Adding a type: see `docs/agent-add-diagram-type.md` (playbook for parallel agent
 
 ## Design system
 
-See `DESIGN.md` for the enforced uniformity rules: token derivation, font scale, geometry
-constants, drop-shadow classes, and the "adding a diagram" checklist.
+See `DESIGN.md` for the enforced rules. In short: three **style presets** (`DiagramStyle.Quiet` /
+`Blueprint` / `Tonal`, every knob in `Theming/StyleSpec.cs`) plus the `Gradient`, `Tint` and `Elevation`
+design inputs restyle all diagram types without changing layout. Every colour resolves through a
+**colour family** (`Theming/ColorFamily.cs`: cluster `p<i>`, chart series, neutral, accent, roles; eleven
+derived stages), every text through a `TypeRole`, and every renderer draws with the shared components in
+`Rendering/DesignSystem*.cs` (`var ds = DesignSystem.For(context);` … `ds.Close(sb);`). No literal hex
+colours, ad-hoc `color-mix` ratios or font sizes in renderers. `DESIGN.md` ends with the "adding a
+diagram type" checklist.
 
 ## Security
 
@@ -74,3 +80,4 @@ Hosts may raise limits selectively or set `Limits = ResourceLimits.Unlimited` fo
 - Library: `MermaidRenderer.RenderSvg(text, options?)`, `MermaidRenderer.RenderAscii(text, options?)` (flowchart, state and xychart, drawn as characters on a grid the Sugiyama layout is run in) and `MermaidRenderer.Parse(text)`
 - CLI: `mermaid [options] [input-file]` — reads from stdin or file, writes SVG to stdout or file
   - `--theme <name>`, `--transparent`, `--list-themes`, `--output <file>`
+  - `--style <quiet|blueprint|tonal>`, `--no-gradient`, `--tint <0.5-1.5>`, `--elevation <0|1|2>`

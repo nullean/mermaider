@@ -10,6 +10,13 @@ See AGENTS.md for project conventions and architecture.
 - Models use `FrozenDictionary` for immutable lookup tables after parsing
 - Layout uses built-in Sugiyama engine (layered algorithm with rectilinear edge routing); optional MSAGL via `Mermaider.Layout.Msagl`
 - Theming uses CSS custom properties with `color-mix()` fallbacks embedded in SVG
+- Three style presets (`DiagramStyle.Quiet` default / `Blueprint` / `Tonal`, knobs in `Theming/StyleSpec.cs`) plus
+  `Gradient`, `Tint` (0.5–1.5) and `Elevation` (0–2) inputs, normalised by `DesignInputs.From`. Presets change paint only,
+  never layout
+- Every colour comes from a colour family (`Theming/ColorFamily.cs`: clusters `p<i>`, series, neutral `n`, accent `a`,
+  roles `s f w i`; stages Top/Bot/Flat/Band/Soft/Tint/Edge/Stroke/Ink); every text is a `TypeRole`. Renderers draw with
+  the shared components in `Rendering/DesignSystem*.cs` (`DesignSystem.For(context)` … `ds.Close(sb)`) — no literal hex,
+  ad-hoc `color-mix` ratios or font sizes. See `DESIGN.md`
 - Architecture diagrams (`architecture-beta`) use a bespoke directional-grid layout (`Layout/ArchitectureLayout.cs`), not Sugiyama — edges carry explicit L/R/T/B sides, which don't map onto a layered graph
 - Icons (architecture services/groups) resolve via `Mermaider.Icons.IconRegistry`: a small built-in set (Mermaid defaults + curated AWS/GCP/Azure + full Elastic, all original placeholder glyphs, not official trademarked logos) plus user registrations via `IconRegistry.Register`. Icons render as `<image href="data:image/svg+xml;base64,...">`; `SvgSanitizer` has one narrow, regex-anchored exception permitting `href` only on `<image>` with a base64 `data:image/svg+xml|png` value — icons are also sanitized once at registration time
 
@@ -37,3 +44,4 @@ Run benchmarks with: `dotnet run -c Release --project tests/Mermaider.Benchmarks
 ## CLI
 
 Test with: `printf 'graph TD\n  A-->B' | dotnet run --project src/Mermaider.Cli/Mermaider.Cli.csproj`
+(add `-- --style blueprint --no-gradient --tint 0.8 --elevation 2` to exercise the design inputs)
