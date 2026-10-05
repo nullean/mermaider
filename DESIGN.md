@@ -262,4 +262,4 @@ will look flat next to the others. `RendererStylesheetAllowlist` accepts exactly
 | Reference migration (flowchart / state) | `src/Mermaider/Rendering/SvgRenderer.cs` |
 | Contract tests | `tests/Mermaider.Tests/Rendering/VisualLanguageContract*.cs`, `DesignContract.cs`, `DesignInputsTests.cs` |
 | Plan and design rationale | `plans/diagram-design-system.md` |
-| Adding a diagram type (playbook) | `docs/agent-add-diagram-type.md` |
+| Adding a diagram type (playbook) | `contributing/agent-add-diagram-type.md` |

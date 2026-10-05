@@ -32,7 +32,7 @@ Flowchart node shapes include the two parallelograms (`[/text/]`, `[\text\]`) as
 
 Supported diagram types: flowchart, state, sequence, class, ER, pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, gantt, journey, C4, sankey, xychart, requirement, packet, kanban, architecture, block, treeview.
 
-Adding a type: see `docs/agent-add-diagram-type.md` (playbook for parallel agents).
+Adding a type: see `contributing/agent-add-diagram-type.md` (playbook for parallel agents).
 
 ## Design system
 
