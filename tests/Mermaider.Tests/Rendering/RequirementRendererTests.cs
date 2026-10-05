@@ -44,10 +44,10 @@ public class RequirementRendererTests
 	{
 		var svg = MermaidRenderer.RenderSvg(Basic);
 
-		svg.Should().Contain("Id: 1");
+		svg.Should().Contain(">Id<").And.Contain(">1<");
 		svg.Should().Contain("the test text.");
-		svg.Should().Contain("Risk: High");
-		svg.Should().Contain("Verification: Test");
+		svg.Should().Contain(">Risk<").And.Contain(">High<");
+		svg.Should().Contain(">Verification<").And.Contain(">Test<");
 	}
 
 	[Test]
@@ -193,7 +193,7 @@ public class RequirementRendererTests
 			""");
 
 		svg.Should().Contain("Functional Requirement");
-		svg.Should().Contain("Doc ref: design/auth.md");
+		svg.Should().Contain(">Doc ref<").And.Contain(">design/auth.md<");
 	}
 
 	[Test]

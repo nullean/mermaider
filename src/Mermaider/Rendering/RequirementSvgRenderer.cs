@@ -2,6 +2,7 @@ using System.Text;
 using Mermaider.Models;
 using Mermaider.Text;
 using Mermaider.Theming;
+using Sugiyama;
 
 namespace Mermaider.Rendering;
 
@@ -12,12 +13,13 @@ internal static class RequirementSvgRenderer
 	private const double GapY = 36;
 	private const double BoxPadX = 14;
 	private const double BoxPadY = 10;
-	private const double LineHeight = 16;
+	private const double LineHeight = 20;
 	private const double TitleFontPx = 16;
-	private const double BodyFontPx = 12;
-	private const double HeaderFontPx = 13;
+	private const double BodyFontPx = 14;
+	private const double HeaderFontPx = 14;
 	private const double MinBoxW = 160;
-	private const double MaxBoxW = 280;
+	private const double MaxBoxW = 340;
+	private const double ValueGap = 14;
 
 	internal static string Render(
 		RequirementDiagram diagram, SvgRenderContext context)
@@ -48,21 +50,13 @@ internal static class RequirementSvgRenderer
 			return sb;
 		}
 
-		LayoutBoxes(diagram.Direction, boxes);
+		var routes = LayoutBoxes(diagram, boxes, out var layoutW, out var layoutH);
 
 		var hasTitle = diagram.Title is { Length: > 0 };
 		var titleOffset = hasTitle ? 36.0 : 0;
 
-		var maxX = 0.0;
-		var maxY = 0.0;
-		foreach (var box in boxes.Values)
-		{
-			maxX = Math.Max(maxX, box.X + box.W);
-			maxY = Math.Max(maxY, box.Y + box.H);
-		}
-
-		var width = maxX + Margin;
-		var height = maxY + Margin + titleOffset;
+		var width = layoutW;
+		var height = layoutH + titleOffset;
 
 		// Shift all boxes down for title
 		if (titleOffset > 0)
@@ -71,6 +65,12 @@ internal static class RequirementSvgRenderer
 			{
 				var b = boxes[key];
 				boxes[key] = b with { Y = b.Y + titleOffset };
+			}
+
+			foreach (var route in routes)
+			{
+				for (var i = 0; i < route.Points.Count; i++)
+					route.Points[i] = new Point(route.Points[i].X, route.Points[i].Y + titleOffset);
 			}
 		}
 
@@ -87,11 +87,18 @@ internal static class RequirementSvgRenderer
 			_ = sb.Append("</text>");
 		}
 
-		foreach (var rel in diagram.Relations)
-			AppendRelation(sb, rel, boxes);
+		// Same language as ER and class diagrams: connected boxes share a cluster colour; risk reads through the role colours.
+		var palette = ClusterPalette.Build(
+			boxes.Values.Select(b => new ClusterBox(b.Name, b.X, b.Y, b.W, b.H)).ToList(),
+			diagram.Relations.Select(r => (r.Source, r.Target)),
+			[],
+			context.Styles.Colors);
+
+		foreach (var route in routes)
+			AppendRelation(sb, route, context.EdgeRadius);
 
 		foreach (var box in boxes.Values)
-			AppendBox(sb, box);
+			AppendBox(sb, box, palette, context.Styles.Colors);
 
 		_ = sb.Append("\n</svg>");
 		return sb;
@@ -111,7 +118,8 @@ internal static class RequirementSvgRenderer
 	private static Dictionary<string, Box> BuildBoxes(RequirementDiagram diagram)
 	{
 		var boxes = new Dictionary<string, Box>(StringComparer.Ordinal);
-		var contentW = MaxBoxW - (BoxPadX * 2);
+		// browsers lay text out a little wider than TextMetrics, so wrap a bit early
+		var contentW = (MaxBoxW - (BoxPadX * 2)) * 0.93;
 
 		foreach (var req in diagram.Requirements)
 		{
@@ -131,7 +139,7 @@ internal static class RequirementSvgRenderer
 
 			var kindLabel = FormatKind(req.Kind);
 			var nameLines = WrapText(req.Name, contentW, TitleFontPx, 700);
-			var wrappedLines = WrapLines(lines, contentW, BodyFontPx, 400);
+			var wrappedLines = WrapRows(lines, contentW);
 			var (w, h) = MeasureBox(kindLabel, nameLines, wrappedLines);
 			boxes[req.Name] = new Box(req.Name, IsRequirement: true, kindLabel, nameLines, wrappedLines, 0, 0, w, h);
 		}
@@ -150,7 +158,7 @@ internal static class RequirementSvgRenderer
 
 			const string kindLabel = "Element";
 			var nameLines = WrapText(elem.Name, contentW, TitleFontPx, 700);
-			var wrappedLines = WrapLines(lines, contentW, BodyFontPx, 400);
+			var wrappedLines = WrapRows(lines, contentW);
 			var (w, h) = MeasureBox(kindLabel, nameLines, wrappedLines);
 			boxes[elem.Name] = new Box(elem.Name, IsRequirement: false, kindLabel, nameLines, wrappedLines, 0, 0, w, h);
 		}
@@ -164,21 +172,58 @@ internal static class RequirementSvgRenderer
 		var maxTextW = TextMetrics.MeasureTextWidth(kindLabel, HeaderFontPx, 600);
 		foreach (var line in nameLines)
 			maxTextW = Math.Max(maxTextW, TextMetrics.MeasureTextWidth(line, TitleFontPx, 700));
-		foreach (var line in lines)
-			maxTextW = Math.Max(maxTextW, TextMetrics.MeasureTextWidth(line, BodyFontPx, 400));
 
-		var w = Math.Clamp(maxTextW + (BoxPadX * 2), MinBoxW, MaxBoxW);
-		// kind + name line(s) + property lines
-		var lineCount = 1 + nameLines.Count + lines.Count;
-		var h = (BoxPadY * 2) + (lineCount * LineHeight) + 6;
+		var labelColW = LabelColumnWidth(lines);
+		var tableW = 0.0;
+		foreach (var line in lines)
+		{
+			_ = IsRowStart(line, out _, out var value);
+			tableW = Math.Max(tableW, labelColW + ValueGap + TextMetrics.MeasureTextWidth(value, BodyFontPx, 400));
+		}
+
+		maxTextW = Math.Max(maxTextW, tableW);
+		var w = Math.Clamp(maxTextW + (BoxPadX * 2) + (lines.Count > 0 ? 12 : 0), MinBoxW, MaxBoxW);
+		var h = HeaderHeight(nameLines.Count) + (lines.Count > 0 ? (lines.Count * LineHeight) + BoxPadY : 0);
 		return (w, h);
 	}
 
-	private static List<string> WrapLines(IReadOnlyList<string> lines, double maxWidth, double fontSize, int fontWeight)
+	// tinted header: the kind line and the (possibly wrapped) name
+	private static double HeaderHeight(int nameLineCount) => BoxPadY + ((1 + nameLineCount) * LineHeight) + 6;
+
+	private static double LabelColumnWidth(IReadOnlyList<string> lines)
 	{
-		var result = new List<string>();
+		var w = 0.0;
 		foreach (var line in lines)
-			result.AddRange(WrapText(line, maxWidth, fontSize, fontWeight));
+		{
+			if (IsRowStart(line, out var l, out _))
+				w = Math.Max(w, TextMetrics.MeasureTextWidth(l, BodyFontPx, 600));
+		}
+
+		return w;
+	}
+
+	// Rows are "Label: value"; long values wrap inside the value column, continuation lines carry no label.
+	private static List<string> WrapRows(IReadOnlyList<string> rows, double contentW)
+	{
+		var labelColW = 0.0;
+		foreach (var row in rows)
+		{
+			var idx = row.IndexOf(": ", StringComparison.Ordinal);
+			if (idx > 0)
+				labelColW = Math.Max(labelColW, TextMetrics.MeasureTextWidth(row.AsSpan(0, idx), BodyFontPx, 600));
+		}
+
+		var valueW = Math.Max(40, contentW - labelColW - ValueGap);
+		var result = new List<string>();
+		foreach (var row in rows)
+		{
+			var idx = row.IndexOf(": ", StringComparison.Ordinal);
+			var label = row[..idx];
+			var wrapped = WrapText(row[(idx + 2)..], valueW, BodyFontPx, 400);
+			result.Add($"{label}: {wrapped[0]}");
+			result.AddRange(wrapped.Skip(1));
+		}
+
 		return result;
 	}
 
@@ -248,79 +293,50 @@ internal static class RequirementSvgRenderer
 		return result;
 	}
 
-	private static void LayoutBoxes(Direction direction, Dictionary<string, Box> boxes)
+	private sealed record Route(RequirementRelation Relation, List<Point> Points, Point? LabelPosition);
+
+	// The shared layered engine: relations flow from the source to the target, direction as declared.
+	private static List<Route> LayoutBoxes(RequirementDiagram diagram, Dictionary<string, Box> boxes, out double width, out double height)
 	{
-		var elements = boxes.Values.Where(b => !b.IsRequirement).ToList();
-		var requirements = boxes.Values.Where(b => b.IsRequirement).ToList();
-
-		// Two-column / two-row layout depending on direction
-		var isHorizontal = direction is Direction.LR or Direction.RL;
-		var flip = direction is Direction.BT or Direction.RL;
-
-		if (isHorizontal)
+		var nodes = boxes.Values.Select(b => new LayoutNode(b.Name, b.W, b.H)).ToList();
+		var relations = diagram.Relations.Where(r => boxes.ContainsKey(r.Source) && boxes.ContainsKey(r.Target)).ToList();
+		var edges = new List<LayoutEdge>(relations.Count);
+		foreach (var rel in relations)
 		{
-			// Elements left (or right if RL), requirements opposite
-			var left = flip ? requirements : elements;
-			var right = flip ? elements : requirements;
-
-			// If one side empty, put everything in a single column
-			if (left.Count == 0)
-			{
-				left = right;
-				right = [];
-			}
-			else if (right.Count == 0)
-			{
-				// keep left only
-			}
-
-			PlaceColumn(left, Margin, Margin, vertical: true);
-			var leftMaxW = left.Count > 0 ? left.Max(b => boxes[b.Name].W) : 0;
-			var rightX = Margin + leftMaxW + (right.Count > 0 ? GapX : 0);
-			PlaceColumn(right, rightX, Margin, vertical: true);
-
-			// Write positions back
-			foreach (var b in left.Concat(right))
-				boxes[b.Name] = b;
-		}
-		else
-		{
-			// Elements top (or bottom if BT), requirements opposite
-			var top = flip ? requirements : elements;
-			var bottom = flip ? elements : requirements;
-
-			if (top.Count == 0)
-			{
-				top = bottom;
-				bottom = [];
-			}
-
-			PlaceColumn(top, Margin, Margin, vertical: false);
-			var topMaxH = top.Count > 0 ? top.Max(b => boxes[b.Name].H) : 0;
-			var bottomY = Margin + topMaxH + (bottom.Count > 0 ? GapY : 0);
-			PlaceColumn(bottom, Margin, bottomY, vertical: false);
-
-			foreach (var b in top.Concat(bottom))
-				boxes[b.Name] = b;
+			var metrics = TextMetrics.MeasureMultiline(FormatRelation(rel.Type).AsSpan(), RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel);
+			edges.Add(new LayoutEdge(rel.Source, rel.Target, metrics.Width + 8, metrics.Height + 6));
 		}
 
-		void PlaceColumn(List<Box> group, double startX, double startY, bool vertical)
+		var direction = diagram.Direction switch
 		{
-			var x = startX;
-			var y = startY;
-			for (var i = 0; i < group.Count; i++)
-			{
-				var b = group[i];
-				var placed = b with { X = x, Y = y };
-				group[i] = placed;
-				boxes[b.Name] = placed;
+			Direction.LR => LayoutDirection.LR,
+			Direction.RL => LayoutDirection.RL,
+			Direction.BT => LayoutDirection.BT,
+			_ => LayoutDirection.TD,
+		};
+		var result = HierarchicalLayout.Compute(new LayoutGraph(direction, nodes, edges, []), new LayoutOptions
+		{
+			Padding = Margin,
+			NodeSpacing = GapY,
+			LayerSpacing = GapX,
+			NaturalBackEdgeRouting = true,
+		});
 
-				if (vertical)
-					y += placed.H + GapY;
-				else
-					x += placed.W + GapX;
-			}
+		foreach (var n in result.Nodes)
+			boxes[n.Id] = boxes[n.Id] with { X = n.X, Y = n.Y };
+
+		var routes = new List<Route>(relations.Count);
+		foreach (var e in result.Edges)
+		{
+			if (e.OriginalIndex < 0 || e.OriginalIndex >= relations.Count)
+				continue;
+			var label = e.LabelPosition is { } lp ? new Point(lp.X, lp.Y) : (Point?)null;
+			routes.Add(new Route(relations[e.OriginalIndex], e.Points.Select(p => new Point(p.X, p.Y)).ToList(), label));
 		}
+
+		width = result.Width;
+		height = result.Height;
+		return routes;
 	}
 
 	private static void AppendMarkerDefs(StringBuilder sb)
@@ -338,36 +354,69 @@ internal static class RequirementSvgRenderer
 			.Append("\" orient=\"auto\">\n");
 		_ = sb.Append("    <polygon points=\"0 0, ").Append(w).Append(' ').Append(hh)
 			.Append(", 0 ").Append(h)
-			.Append("\" fill=\"var(--_arrow)\" stroke=\"var(--_arrow)\" stroke-width=\"0.75\" stroke-linejoin=\"round\" />\n");
+			.Append("\" fill=\"var(--_line)\" stroke=\"var(--_line)\" stroke-width=\"0.75\" stroke-linejoin=\"round\" />\n");
 		_ = sb.Append("  </marker>\n");
 		_ = sb.Append("</defs>\n");
 	}
 
-	private static void AppendBox(StringBuilder sb, Box box)
+	private static readonly string[] PropertyLabels = ["Id", "Text", "Risk", "Verification", "Type", "Doc ref"];
+
+	private static bool IsRowStart(string line, out string label, out string value)
 	{
-		var fill = box.IsRequirement ? "var(--_accent-fill)" : "var(--_node-fill)";
-		var stroke = box.IsRequirement ? "var(--_accent-stroke)" : "var(--_node-stroke)";
+		foreach (var l in PropertyLabels)
+		{
+			if (line.StartsWith(l + ": ", StringComparison.Ordinal))
+			{
+				label = l;
+				value = line[(l.Length + 2)..];
+				return true;
+			}
+		}
+
+		label = "";
+		value = line;
+		return false;
+	}
+
+	// An ER-style table: tinted header (kind in the border colour, name in full text), then label | value rows.
+	private static void AppendBox(StringBuilder sb, Box box, ClusterPalette palette, DiagramColors colors)
+	{
+		var border = palette.NodeStroke(box.Name);
+		var headerFill = palette.HeaderFill(box.Name);
+		var r = RenderConstants.Radii.Rectangle;
+		var headerH = HeaderHeight(box.NameLines.Count);
+		var x = box.X;
+		var y0 = box.Y;
 
 		_ = sb.Append("\n<g class=\"req-node\" data-id=\"");
 		MultilineUtils.AppendEscapedAttr(sb, box.Name.AsSpan());
 		_ = sb.Append("\">");
 
-		_ = sb.Append("\n  <rect x=\"").Append(box.X.SvgFormat()).Append("\" y=\"").Append(box.Y.SvgFormat())
-			.Append("\" width=\"").Append(box.W.SvgFormat()).Append("\" height=\"").Append(box.H.SvgFormat())
-			.Append("\" rx=\"").Append(RenderConstants.Radii.Rectangle)
-			.Append("\" ry=\"").Append(RenderConstants.Radii.Rectangle)
-			.Append("\" fill=\"").Append(fill)
-			.Append("\" stroke=\"").Append(stroke)
-			.Append("\" stroke-width=\"").Append(RenderConstants.StrokeWidths.OuterBox.SvgFormat()).Append("\" />");
+		if (box.Lines.Count == 0)
+		{
+			// no properties: the whole box is the header
+			_ = sb.Append("\n  <rect x=\"").Append(x.SvgFormat()).Append("\" y=\"").Append(y0.SvgFormat())
+				.Append("\" width=\"").Append(box.W.SvgFormat()).Append("\" height=\"").Append(box.H.SvgFormat())
+				.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
+				.Append("\" fill=\"").Append(palette.NodeFill(box.Name)).Append("\" stroke=\"").Append(border)
+				.Append("\" stroke-width=\"").Append(RenderConstants.StrokeWidths.OuterBox.SvgFormat()).Append("\" />");
+		}
+		else
+		{
+			_ = sb.Append("\n  <rect x=\"").Append(x.SvgFormat()).Append("\" y=\"").Append(y0.SvgFormat())
+				.Append("\" width=\"").Append(box.W.SvgFormat()).Append("\" height=\"").Append(box.H.SvgFormat())
+				.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r).Append("\" fill=\"var(--bg)\" />\n");
+			VisualLanguage.AppendHeaderPath(sb, x, y0, box.W, headerH, r, headerFill);
+		}
 
 		var cx = box.X + (box.W / 2);
 		var y = box.Y + BoxPadY + (LineHeight / 2);
 
-		// Kind label (muted)
+		// Kind label, in the cluster's border colour like a class modifier
 		_ = sb.Append("\n  <text x=\"").Append(cx.SvgFormat()).Append("\" y=\"").Append(y.SvgFormat())
 			.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(RenderConstants.FsVar.S)
-			.Append("\" font-weight=\"600\" fill=\"var(--_text-sec)\">");
+			.Append("\" font-weight=\"600\" fill=\"").Append(border).Append("\">");
 		MultilineUtils.AppendEscapedXml(sb, box.KindLabel.AsSpan());
 		_ = sb.Append("</text>");
 		y += LineHeight;
@@ -384,102 +433,97 @@ internal static class RequirementSvgRenderer
 			y += LineHeight;
 		}
 
-		y += 2;
-
-		foreach (var line in box.Lines)
+		if (box.Lines.Count > 0)
 		{
-			_ = sb.Append("\n  <text x=\"").Append(cx.SvgFormat()).Append("\" y=\"").Append(y.SvgFormat())
-				.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
-				.Append("\" font-size=\"").Append(RenderConstants.FsVar.S)
-				.Append("\" fill=\"var(--_text)\">");
-			MultilineUtils.AppendEscapedXml(sb, line.AsSpan());
-			_ = sb.Append("</text>");
-			y += LineHeight;
+			var bodyTop = box.Y + headerH;
+			_ = sb.Append("\n  <line x1=\"").Append(x.SvgFormat()).Append("\" y1=\"").Append(bodyTop.SvgFormat())
+				.Append("\" x2=\"").Append((x + box.W).SvgFormat()).Append("\" y2=\"").Append(bodyTop.SvgFormat())
+				.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"")
+				.Append(RenderConstants.StrokeWidths.OuterBox.SvgFormat()).Append("\" />");
+
+			var labelColW = LabelColumnWidth(box.Lines);
+
+			var valueX = x + BoxPadX + labelColW + ValueGap;
+			var rowY = bodyTop + (LineHeight / 2) + 3;
+			for (var i = 0; i < box.Lines.Count; i++)
+			{
+				var isStart = IsRowStart(box.Lines[i], out var label, out var value);
+				if (isStart && i > 0)
+				{
+					var sepY = rowY - (LineHeight / 2) - 0.5;
+					_ = sb.Append("\n  <line x1=\"").Append(x.SvgFormat()).Append("\" y1=\"").Append(sepY.SvgFormat())
+						.Append("\" x2=\"").Append((x + box.W).SvgFormat()).Append("\" y2=\"").Append(sepY.SvgFormat())
+						.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"1\" opacity=\"0.35\" />");
+				}
+
+				if (isStart)
+				{
+					_ = sb.Append("\n  <text x=\"").Append((x + BoxPadX).SvgFormat()).Append("\" y=\"").Append(rowY.SvgFormat())
+						.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift)
+						.Append("\" font-size=\"").Append(RenderConstants.FsVar.S)
+						.Append("\" font-weight=\"600\" fill=\"var(--_text-sec)\">");
+					MultilineUtils.AppendEscapedXml(sb, label.AsSpan());
+					_ = sb.Append("</text>");
+				}
+
+				// Risk reads through the role colours: low = success, medium = warning, high = failure
+				var valueFill = "var(--_text)";
+				if (isStart && label == "Risk")
+				{
+					var role = value switch { "Low" => ColorRole.Success, "Medium" => ColorRole.Warning, "High" => ColorRole.Failure, _ => ColorRole.Info };
+					valueFill = VisualLanguage.Border(colors.RoleColor(role));
+				}
+
+				_ = sb.Append("\n  <text x=\"").Append(valueX.SvgFormat()).Append("\" y=\"").Append(rowY.SvgFormat())
+					.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift)
+					.Append("\" font-size=\"").Append(RenderConstants.FsVar.S)
+					.Append("\" fill=\"").Append(valueFill).Append("\">");
+				MultilineUtils.AppendEscapedXml(sb, value.AsSpan());
+				_ = sb.Append("</text>");
+				rowY += LineHeight;
+			}
+
+			var divX = valueX - 7;
+			_ = sb.Append("\n  <line x1=\"").Append(divX.SvgFormat()).Append("\" y1=\"").Append(bodyTop.SvgFormat())
+				.Append("\" x2=\"").Append(divX.SvgFormat()).Append("\" y2=\"").Append((box.Y + box.H).SvgFormat())
+				.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"1\" opacity=\"0.35\" />");
+
+			_ = sb.Append("\n  <rect x=\"").Append(x.SvgFormat()).Append("\" y=\"").Append(y0.SvgFormat())
+				.Append("\" width=\"").Append(box.W.SvgFormat()).Append("\" height=\"").Append(box.H.SvgFormat())
+				.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
+				.Append("\" fill=\"none\" stroke=\"").Append(border).Append("\" stroke-width=\"")
+				.Append(RenderConstants.StrokeWidths.OuterBox.SvgFormat()).Append("\" />");
 		}
 
 		_ = sb.Append("\n</g>");
 	}
 
-	private static void AppendRelation(StringBuilder sb, RequirementRelation rel, Dictionary<string, Box> boxes)
+	private static void AppendRelation(StringBuilder sb, Route route, double cornerRadius)
 	{
-		if (!boxes.TryGetValue(rel.Source, out var src) || !boxes.TryGetValue(rel.Target, out var dst))
+		if (route.Points.Count < 2)
 			return;
 
-		var (x1, y1, x2, y2) = EdgePoints(src, dst);
-		var label = FormatRelation(rel.Type);
-		var mx = (x1 + x2) / 2;
-		var my = (y1 + y2) / 2;
+		var label = FormatRelation(route.Relation.Type);
+		var pos = route.LabelPosition ?? VisualLanguage.PathMidpoint(route.Points);
 
-		_ = sb.Append("\n<line x1=\"").Append(x1.SvgFormat()).Append("\" y1=\"").Append(y1.SvgFormat())
-			.Append("\" x2=\"").Append(x2.SvgFormat()).Append("\" y2=\"").Append(y2.SvgFormat())
-			.Append("\" stroke=\"var(--_line)\" stroke-width=\"")
+		_ = sb.Append("\n<path class=\"req-relation\" d=\"");
+		if (SvgRenderer.IsOrthogonal(route.Points))
+			SvgRenderer.BuildOrthogonalPath(sb, route.Points, cornerRadius);
+		else
+			SvgRenderer.BuildRoundedPath(sb, route.Points, cornerRadius);
+		_ = sb.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.Connector.SvgFormat())
 			.Append("\" marker-end=\"url(#req-arrow)\" />");
 
-		var labelW = TextMetrics.MeasureTextWidth(label, BodyFontPx, 400) + 12;
-		var labelH = 18.0;
-		_ = sb.Append("\n<rect x=\"").Append((mx - (labelW / 2)).SvgFormat()).Append("\" y=\"").Append((my - (labelH / 2)).SvgFormat())
-			.Append("\" width=\"").Append(labelW.SvgFormat()).Append("\" height=\"").Append(labelH.SvgFormat())
-			.Append("\" rx=\"4\" ry=\"4\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"0.75\" />");
-
-		_ = sb.Append("\n<text x=\"").Append(mx.SvgFormat()).Append("\" y=\"").Append(my.SvgFormat())
+		var metrics = TextMetrics.MeasureMultiline(label.AsSpan(), RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel);
+		_ = sb.Append('\n');
+		VisualLanguage.AppendLabelPill(sb, pos.X, pos.Y, metrics.Width, metrics.Height);
+		_ = sb.Append("\n<text x=\"").Append(pos.X.SvgFormat()).Append("\" y=\"").Append(pos.Y.SvgFormat())
 			.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 			.Append("\" font-size=\"").Append(RenderConstants.FsVar.S)
-			.Append("\" fill=\"var(--_text-muted)\">");
+			.Append("\" fill=\"var(--_text)\">");
 		MultilineUtils.AppendEscapedXml(sb, label.AsSpan());
 		_ = sb.Append("</text>");
-	}
-
-	private static (double X1, double Y1, double X2, double Y2) EdgePoints(Box src, Box dst)
-	{
-		var scx = src.X + (src.W / 2);
-		var scy = src.Y + (src.H / 2);
-		var dcx = dst.X + (dst.W / 2);
-		var dcy = dst.Y + (dst.H / 2);
-
-		var dx = dcx - scx;
-		var dy = dcy - scy;
-
-		// Prefer side attachment along dominant axis
-		double x1, y1, x2, y2;
-		if (Math.Abs(dx) >= Math.Abs(dy))
-		{
-			// Horizontal: attach left/right sides
-			if (dx >= 0)
-			{
-				x1 = src.X + src.W;
-				y1 = scy;
-				x2 = dst.X;
-				y2 = dcy;
-			}
-			else
-			{
-				x1 = src.X;
-				y1 = scy;
-				x2 = dst.X + dst.W;
-				y2 = dcy;
-			}
-		}
-		else
-		{
-			// Vertical: attach top/bottom
-			if (dy >= 0)
-			{
-				x1 = scx;
-				y1 = src.Y + src.H;
-				x2 = dcx;
-				y2 = dst.Y;
-			}
-			else
-			{
-				x1 = scx;
-				y1 = src.Y;
-				x2 = dcx;
-				y2 = dst.Y + dst.H;
-			}
-		}
-
-		return (x1, y1, x2, y2);
 	}
 
 	private static string FormatKind(RequirementKind kind) => kind switch

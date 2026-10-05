@@ -128,4 +128,28 @@ public class VisualLanguageContractTests
 		svg.Should().Contain($"fill=\"{stroke}\"", "the keyword is drawn in the frame's border colour");
 		svg.Should().NotContain("var(--_arrow)", "markers follow the line colour");
 	}
+
+	[Test]
+	public void Requirement_boxes_are_cluster_coloured_tables_and_unrelated_boxes_get_another_colour()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			requirementDiagram
+			requirement a {
+			id: 1
+			}
+			element b {
+			type: x
+			}
+			requirement c {
+			id: 2
+			}
+			b - satisfies -> a
+			""");
+
+		svg.Should().Contain($"stroke=\"{VisualLanguage.Border(Cluster0)}\"");
+		var second = Themes.Default.AutoPaletteAt(1);
+		svg.Should().Contain($"stroke=\"{VisualLanguage.Border(second)}\"", "a box without relations is its own cluster");
+		svg.Should().Contain($"fill=\"{VisualLanguage.Tint(Cluster0, VisualLanguage.HeaderTint)}\"", "the header is tinted like an entity header");
+		svg.Should().NotContain("var(--_arrow)", "markers follow the line colour");
+	}
 }
