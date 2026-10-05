@@ -170,4 +170,16 @@ public class VisualLanguageContractTests
 		group.Should().Contain($"fill=\"{stroke}\"", "the title is drawn in the group's border colour");
 		svg.Should().NotContain("var(--_arrow)", "markers follow the line colour");
 	}
+
+	[Test]
+	public void Mindmap_branches_take_their_own_cluster_colour_with_tinted_nodes()
+	{
+		var svg = MermaidRenderer.RenderSvg("mindmap\n  ((Root))\n    A\n      a1\n    B\n      b1");
+
+		var first = Themes.Default.AutoPaletteAt(1);
+		var second = Themes.Default.AutoPaletteAt(2);
+		svg.Should().Contain($"fill=\"{VisualLanguage.Tint(first, VisualLanguage.NodeTint)}\" stroke=\"{VisualLanguage.Border(first)}\"");
+		svg.Should().Contain($"fill=\"{VisualLanguage.Tint(second, VisualLanguage.NodeTint)}\" stroke=\"{VisualLanguage.Border(second)}\"", "the second branch has its own colour");
+		svg.Should().NotContain("opacity=\"0.7\"", "nodes are tinted, not translucent");
+	}
 }

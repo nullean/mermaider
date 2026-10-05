@@ -914,6 +914,18 @@ public static partial class DiagramExamples
 		new("mindmap-learning", "Learning Path", DiagramCategory.Mindmap,
 			"mindmap\n  ((Web Development))\n    (Frontend)\n      HTML\n      CSS\n      JavaScript\n    (Backend)\n      .NET\n      Node.js\n    ))Cloud((\n      AWS\n      Azure"),
 
+		new("mindmap-many-branches", "Many Branches", DiagramCategory.Mindmap,
+			"mindmap\n  ((Product Launch))\n    Marketing\n      Landing page\n      Email campaign\n      Social\n    Engineering\n      Feature flags\n      Load testing\n    Support\n      Runbooks\n      Training\n    Legal\n      Terms\n      Privacy\n    Finance\n      Pricing\n      Forecast\n    Sales\n      Playbook\n      Demo env\n    Operations\n      On-call\n      Dashboards\n    Design\n      Brand\n      Docs"),
+
+		new("mindmap-deep", "Deep Tree", DiagramCategory.Mindmap,
+			"mindmap\n  ((Architecture))\n    (Frontend)\n      Components\n        Buttons\n        Forms\n          Validation\n          Masks\n      State\n        Store\n    (Backend)\n      API\n        REST\n        GraphQL\n      Data\n        SQL\n          Postgres\n        Cache"),
+
+		new("mindmap-shapes", "All Shapes", DiagramCategory.Mindmap,
+			"mindmap\n  ((Shapes))\n    (Rounded)\n      Plain child\n    [Square]\n      Plain child\n    ((Circle))\n      Plain child\n    {{Hexagon}}\n      Plain child\n    ))Bang((\n      Plain child\n    )Cloud(\n      Plain child"),
+
+		new("mindmap-long-labels", "Long Labels", DiagramCategory.Mindmap,
+			"mindmap\n  ((A mindmap with a fairly long root title))\n    (A branch with a descriptive name)\n      A leaf that explains something at length\n      Short\n    [Another considerably wordy branch]\n      Also a longer leaf label here"),
+
 		// ── Architecture ───────────────────────────────────────────────
 
 		new("architecture-icon-showcase", "Icon Showcase (all icons)", DiagramCategory.Architecture, """

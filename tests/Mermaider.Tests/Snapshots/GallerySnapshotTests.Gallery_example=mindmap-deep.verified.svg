@@ -1,0 +1,84 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 865.0633528761862 724.3999999999999" width="865.0633528761862" height="724.3999999999999" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+</style>
+
+<defs>
+</defs>
+
+<path d="M 463.82 145.2 C 545.04 145.2 545.04 58.4 626.26 58.4" fill="none" stroke="#D36F0D" stroke-width="2.25" />
+<path d="M 622.62 188.6 C 697.46 188.6 697.46 145.2 772.3 145.2" fill="none" stroke="#D36F0D" stroke-width="2.25" />
+<path d="M 622.62 188.6 C 692.21 188.6 692.21 232 761.81 232" fill="none" stroke="#D36F0D" stroke-width="2.25" />
+<path d="M 463.82 145.2 C 543.22 145.2 543.22 188.6 622.62 188.6" fill="none" stroke="#D36F0D" stroke-width="2.25" />
+<path d="M 294.98 188.6 C 379.4 188.6 379.4 145.2 463.82 145.2" fill="none" stroke="#D36F0D" stroke-width="2.25" />
+<path d="M 437.37 318.8 C 501.72 318.8 501.72 318.8 566.07 318.8" fill="none" stroke="#D36F0D" stroke-width="2.25" />
+<path d="M 294.98 188.6 C 366.18 188.6 366.18 318.8 437.37 318.8" fill="none" stroke="#D36F0D" stroke-width="2.25" />
+<path d="M 114.02 362.2 C 204.5 362.2 204.5 188.6 294.98 188.6" fill="none" stroke="#D36F0D" stroke-width="2.25" />
+<path d="M 430.07 449 C 492.6 449 492.6 405.6 555.13 405.6" fill="none" stroke="#539D97" stroke-width="2.25" />
+<path d="M 430.07 449 C 498.53 449 498.53 492.4 566.98 492.4" fill="none" stroke="#539D97" stroke-width="2.25" />
+<path d="M 294.07 535.8 C 362.07 535.8 362.07 449 430.07 449" fill="none" stroke="#539D97" stroke-width="2.25" />
+<path d="M 556.95 579.2 C 627.23 579.2 627.23 579.2 697.51 579.2" fill="none" stroke="#539D97" stroke-width="2.25" />
+<path d="M 433.72 622.6 C 495.34 622.6 495.34 579.2 556.95 579.2" fill="none" stroke="#539D97" stroke-width="2.25" />
+<path d="M 433.72 622.6 C 498.98 622.6 498.98 666 564.25 666" fill="none" stroke="#539D97" stroke-width="2.25" />
+<path d="M 294.07 535.8 C 363.9 535.8 363.9 622.6 433.72 622.6" fill="none" stroke="#539D97" stroke-width="2.25" />
+<path d="M 114.02 362.2 C 204.05 362.2 204.05 535.8 294.07 535.8" fill="none" stroke="#539D97" stroke-width="2.25" />
+<rect x="581.7" y="40" width="89.12" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
+<text x="626.2633528761862" y="58.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Buttons</text>
+<rect x="719.53" y="126.8" width="105.54" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
+<text x="772.2953528761863" y="145.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Validation</text>
+<rect x="719.53" y="213.6" width="84.56" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
+<text x="761.8073528761862" y="232" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Masks</text>
+<rect x="581.7" y="170.2" width="81.82" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
+<text x="622.6153528761863" y="188.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Forms</text>
+<rect x="401.93" y="126.8" width="123.78" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
+<text x="463.81535287618635" y="145.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Components</text>
+<rect x="528.81" y="300.4" width="74.53" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
+<text x="566.0713528761863" y="318.79999999999995" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Store</text>
+<rect x="401.93" y="300.4" width="70.88" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
+<text x="437.3673528761863" y="318.79999999999995" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">State</text>
+<rect x="244.04" y="170.2" width="101.89" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
+<text x="294.9833528761863" y="188.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Frontend</text>
+<rect x="516.04" y="387.2" width="78.18" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
+<text x="555.1273528761863" y="405.59999999999997" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">REST</text>
+<rect x="516.04" y="474" width="101.89" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
+<text x="566.9833528761862" y="492.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">GraphQL</text>
+<rect x="400.1" y="430.6" width="59.94" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
+<text x="430.0713528761863" y="449" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">API</text>
+<rect x="646.57" y="560.8" width="101.89" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
+<text x="697.5113528761863" y="579.1999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Postgres</text>
+<rect x="523.34" y="560.8" width="67.23" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
+<text x="556.9513528761863" y="579.1999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">SQL</text>
+<rect x="523.34" y="647.6" width="81.82" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
+<text x="564.2473528761864" y="665.9999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Cache</text>
+<rect x="400.1" y="604.2" width="67.23" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
+<text x="433.7193528761863" y="622.5999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Data</text>
+<rect x="244.04" y="517.4" width="100.06" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
+<text x="294.07135287618627" y="535.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Backend</text>
+<circle cx="114.02" cy="362.2" r="74.02" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
+<text x="114.01967643809314" y="362.2" text-anchor="middle" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">Architecture</text>
+</svg>
