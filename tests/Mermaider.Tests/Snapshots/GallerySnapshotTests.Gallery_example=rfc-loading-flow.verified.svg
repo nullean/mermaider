@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 694.84 692.258" width="694.84" height="692.258" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 694.84 708.258" width="694.84" height="708.258" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -41,10 +41,10 @@
 <path class="edge" data-from="disk" data-to="uriResolve" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M316.2253333333333,81.6 L316.2253333333333,95.6 Q316.2253333333333,101.6 322.2253333333333,101.6 L402.64,101.6 Q408.64,101.6 408.64,107.6 L408.64,121.6" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="v1Load" data-to="v1Nodes" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M135.944,187.2 L135.94399999999996,248" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="uriResolve" data-to="hasV2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M408.64,208 L408.64,248" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="hasV2" data-to="loadV2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" d="M382.33866666666665,379.5 L382.33866666666665,411.808 Q382.33866666666665,417.808 376.33866666666665,417.808 L273.504,417.808 Q267.504,417.808 267.504,423.808 L267.504,484.258" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="hasV2" data-to="loadFallback" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="No" d="M434.9413333333333,379.5 L434.9413333333333,411.808 Q434.9413333333333,417.808 440.9413333333333,417.808 L543.7760000000001,417.808 Q549.7760000000001,417.808 549.7760000000001,423.808 L549.7760000000001,484.258" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="loadV2" data-to="v2Nodes" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M267.504,570.658 L267.504,610.658" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="loadFallback" data-to="v2NodesFallback" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M549.7760000000001,570.658 L549.776,610.658" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="hasV2" data-to="loadV2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" d="M382.33866666666665,379.5 L382.33866666666665,411.808 Q382.33866666666665,417.808 376.33866666666665,417.808 L273.504,417.808 Q267.504,417.808 267.504,423.808 L267.504,500.258" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="hasV2" data-to="loadFallback" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="No" d="M434.9413333333333,379.5 L434.9413333333333,411.808 Q434.9413333333333,417.808 440.9413333333333,417.808 L543.7760000000001,417.808 Q549.7760000000001,417.808 549.7760000000001,423.808 L549.7760000000001,500.258" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="loadV2" data-to="v2Nodes" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M267.504,586.658 L267.504,626.658" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="loadFallback" data-to="v2NodesFallback" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M549.7760000000001,586.658 L549.776,626.658" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="hasV2" data-to="loadV2" data-label="Yes">
   <rect x="273.1529066666667" y="405.58299999999997" width="46.11952000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
   <text x="296.2126666666667" y="417.808" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Yes</text>
@@ -81,22 +81,22 @@ present?" data-shape="diamond">
 <g class="node" data-id="loadV2" data-label="Load toc-v2.yml
 (required — no fallback to
 toc.yml)" data-shape="rectangle">
-  <rect x="150.29600000000005" y="484.258" width="234.416" height="86.4" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="267.504" y="527.458" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="267.504" dy="-15.200000000000001">Load toc-v2.yml</tspan><tspan x="267.504" dy="20.8">(required — no fallback to</tspan><tspan x="267.504" dy="20.8">toc.yml)</tspan></text>
+  <rect x="150.29600000000005" y="500.258" width="234.416" height="86.4" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="267.504" y="543.458" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="267.504" dy="-15.200000000000001">Load toc-v2.yml</tspan><tspan x="267.504" dy="20.8">(required — no fallback to</tspan><tspan x="267.504" dy="20.8">toc.yml)</tspan></text>
 </g>
 <g class="node" data-id="loadFallback" data-label="Use V1 toc nodes as fallback
 emits migration-progress
 warning" data-shape="rectangle">
-  <rect x="420.71200000000005" y="484.258" width="258.128" height="86.4" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="549.7760000000001" y="527.458" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="549.7760000000001" dy="-15.200000000000001">Use V1 toc nodes as fallback</tspan><tspan x="549.7760000000001" dy="20.8">emits migration-progress</tspan><tspan x="549.7760000000001" dy="20.8">warning</tspan></text>
+  <rect x="420.71200000000005" y="500.258" width="258.128" height="86.4" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="549.7760000000001" y="543.458" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="549.7760000000001" dy="-15.200000000000001">Use V1 toc nodes as fallback</tspan><tspan x="549.7760000000001" dy="20.8">emits migration-progress</tspan><tspan x="549.7760000000001" dy="20.8">warning</tspan></text>
 </g>
 <g class="node" data-id="v2Nodes" data-label="V2 TableOfContentNodes" data-shape="rectangle">
-  <rect x="147.56" y="610.658" width="239.88799999999998" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="267.504" y="633.058" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V2 TableOfContentNodes</text>
+  <rect x="147.56" y="626.658" width="239.88799999999998" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="267.504" y="649.058" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">V2 TableOfContentNodes</text>
 </g>
 <g class="node" data-id="v2NodesFallback" data-label="V2 TableOfContentNodes
 (V1 structure)" data-shape="rectangle">
-  <rect x="429.832" y="610.658" width="239.88799999999998" height="65.6" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="549.776" y="643.458" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="549.776" dy="-4.800000000000001">V2 TableOfContentNodes</tspan><tspan x="549.776" dy="20.8">(V1 structure)</tspan></text>
+  <rect x="429.832" y="626.658" width="239.88799999999998" height="65.6" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
+  <text x="549.776" y="659.458" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)"><tspan x="549.776" dy="-4.800000000000001">V2 TableOfContentNodes</tspan><tspan x="549.776" dy="20.8">(V1 structure)</tspan></text>
 </g>
 </svg>

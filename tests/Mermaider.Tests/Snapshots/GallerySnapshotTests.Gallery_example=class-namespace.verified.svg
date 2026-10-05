@@ -56,7 +56,7 @@
 </g>
 <path class="class-relationship" data-from="Order" data-to="Product" data-type="association" data-marker-at="to" d="M247,392 L247,452" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
 <path class="class-relationship" data-from="OrderRepo" data-to="Order" data-type="realization" data-marker-at="to" d="M206,164 L206,234 Q206,240 212,240 L225.5,240 Q231.5,240 231.5,246 L231.5,276 Q231.5,282 225.5,282 L212,282 Q206,282 206,288 L206,304" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#cls-inherit)" />
-<path class="class-relationship" data-from="ProductRepo" data-to="Product" data-type="realization" data-marker-at="to" d="M297,164 L297,290 Q297,296 303,296 L328,296 Q334,296 334,302 L334,424 Q334,430 328,430 L303,430 Q297,430 297,436 L297,452" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#cls-inherit)" />
+<path class="class-relationship" data-from="ProductRepo" data-to="Product" data-type="realization" data-marker-at="to" d="M297,164 L297,290 Q297,296 303,296 L328,296 Q334,296 334,302 L334,408 Q334,414 328,414 L303,414 Q297,414 297,420 L297,452" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#cls-inherit)" />
 <g class="class-node" data-id="Order" data-label="Order">
   <rect x="180.2" y="304" width="134" height="88" rx="6" ry="6" fill="var(--_node-fill)" stroke="none" />
   <rect x="180.2" y="304" width="134" height="32" rx="6" ry="6" fill="var(--_group-hdr)" stroke="none" />

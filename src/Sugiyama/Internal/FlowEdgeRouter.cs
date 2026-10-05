@@ -30,7 +30,7 @@ internal static class FlowEdgeRouter
 
 	private const double Stub = 22;
 	private const double Margin = 8;
-	private const double BendCost = 28;
+	private const double BendCost = 45;
 	private const double CrossCost = 140;
 	private const double OverlapCost = 40;
 	private const double ForeignGroupCost = 450;
@@ -139,6 +139,8 @@ internal static class FlowEdgeRouter
 				break;
 		}
 
+		foreach (var p in plans)
+			polylines[p.Edge.Index] = ReduceBends(polylines[p.Edge.Index], p, boxes, groups);
 		foreach (var p in plans.Where(p => p.Fixed is not null))
 			polylines[p.Edge.Index] = Straighten(polylines[p.Edge.Index], p, plans);
 		UniformJogs(plans, polylines);
@@ -513,6 +515,28 @@ internal static class FlowEdgeRouter
 		return new LayoutPoint(side.X, q.Y);
 	}
 
+	// jog → column → jog (four bends) becomes one jog next to the source and a long straight run into the target
+	// (the shape mermaid.js draws), when that stays clear of obstacles.
+	private static List<LayoutPoint> ReduceBends(List<LayoutPoint> pts, Plan p, IReadOnlyList<Box> boxes, IReadOnlyList<GroupBox> groups)
+	{
+		// labelled edges keep their label column: it is what keeps neighbouring pills apart
+		if (pts.Count != 6 || p.Edge.LabelW > 0)
+			return pts;
+		var vertical = Math.Abs(pts[0].X - pts[1].X) < 0.01 && Math.Abs(pts[1].Y - pts[2].Y) < 0.01 && Math.Abs(pts[2].X - pts[3].X) < 0.01
+			&& Math.Abs(pts[3].Y - pts[4].Y) < 0.01 && Math.Abs(pts[4].X - pts[5].X) < 0.01;
+		var horizontal = Math.Abs(pts[0].Y - pts[1].Y) < 0.01 && Math.Abs(pts[1].X - pts[2].X) < 0.01 && Math.Abs(pts[2].Y - pts[3].Y) < 0.01
+			&& Math.Abs(pts[3].X - pts[4].X) < 0.01 && Math.Abs(pts[4].Y - pts[5].Y) < 0.01;
+		if (!vertical && !horizontal)
+			return pts;
+		// forward only: the long run must continue in the flow direction
+		if (vertical ? !(pts[5].Y > pts[0].Y && pts[1].Y > pts[0].Y) : !(pts[5].X > pts[0].X && pts[1].X > pts[0].X))
+			return pts;
+		List<LayoutPoint> candidate = vertical
+			? [pts[0], pts[1], new LayoutPoint(pts[4].X, pts[1].Y), pts[5]]
+			: [pts[0], pts[1], new LayoutPoint(pts[1].X, pts[4].Y), pts[5]];
+		return ValidatePath(p, Simplify(candidate), boxes, groups) ?? pts;
+	}
+
 	// Z-bends between the same two layers jog at one shared coordinate (a bus line in the gap), so fans and merges look
 	// uniform and mirror-symmetric instead of each jogging at its own height.
 	private static void UniformJogs(List<Plan> plans, Dictionary<int, List<LayoutPoint>> polylines)
@@ -621,7 +645,24 @@ internal static class FlowEdgeRouter
 		}
 
 		if (preferred is { } pref)
-			candidates.Add((pref.X, pref.Y, -25));
+		{
+			// the route may have been reshaped since the hint was made: keep the preferred spot on the line
+			double bx = pts[0].X, by = pts[0].Y, bd = double.MaxValue;
+			for (var i = 0; i < pts.Count - 1; i++)
+			{
+				var x = Math.Clamp(pref.X, Math.Min(pts[i].X, pts[i + 1].X), Math.Max(pts[i].X, pts[i + 1].X));
+				var y = Math.Clamp(pref.Y, Math.Min(pts[i].Y, pts[i + 1].Y), Math.Max(pts[i].Y, pts[i + 1].Y));
+				var d = Math.Abs(x - pref.X) + Math.Abs(y - pref.Y);
+				if (d < bd)
+				{
+					bd = d;
+					bx = x;
+					by = y;
+				}
+			}
+
+			candidates.Add((bx, by, -25));
+		}
 
 		// Sibling labels line up when anchored just before the arrowhead stub of the final run (like mermaid.js).
 		var last = pts.Count - 2;

@@ -74,7 +74,7 @@ public static class SugiyamaLayout
 					continue;
 				var flow = horizontalFlow ? input.Edges[e.OriginalIndex].LabelWidth : input.Edges[e.OriginalIndex].LabelHeight;
 				if (flow > 0)
-					gaps[buf.Layers[e.From]] = Math.Max(gaps[buf.Layers[e.From]], flow + (options.BalancedPlacement ? 44 + 8 : (2 * ErEdgeRouter.Stub) + 16));
+					gaps[buf.Layers[e.From]] = Math.Max(gaps[buf.Layers[e.From]], flow + (options.BalancedPlacement ? 44 + 24 : (2 * ErEdgeRouter.Stub) + 16));
 			}
 			// A node fanning many edges into one gap needs a lane per extra edge for its horizontal runs (see ErEdgeRouter slotting).
 			var outDeg = new Dictionary<(int Node, int Gap), int>();

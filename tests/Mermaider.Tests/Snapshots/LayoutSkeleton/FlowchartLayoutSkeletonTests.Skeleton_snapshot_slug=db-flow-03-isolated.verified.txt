@@ -2,8 +2,7 @@
 Layer 1: DocSet
 Layer 2: Toc, Content
 Layer 3: Nav
-Layer 4: Html, Manifest
-Layer 5: Redirects, State
+Layer 4: Html, Manifest, Redirects, State
 Groups:
 - Inputs (layer=0 order=0) members=[Checkout, Vocab]
 - External (layer=0 order=1) members=[LinkReg, OpenApiRepo, Bundles]
@@ -13,21 +12,21 @@ Edges:
   Bundles --release_notes--> Content [Right->Left] [R U R]
   Checkout ----> DocSet [Right->Left] [R D R]
   Content ----> Nav [Right->Left] [R U R]
-  DocSet ----> Content [Right->Left] [R]
-  DocSet ----> Redirects [Right->Left] [R U R D R]
+  DocSet ----> Content [Right->Left] [R D R]
+  DocSet ----> Redirects [Right->Left] [R D R]
   DocSet ----> Toc [Right->Left] [R U R]
   LinkReg --cross_links--> Content [Right->Left] [R D R U R]
   Manifest --published on push--> LinkReg [Left->Right] [L D L U L]
   Nav ----> Html [Right->Left] [R U R]
-  Nav ----> Manifest [Right->Left] [R D R]
+  Nav ----> Manifest [Right->Left] [R]
   OpenApiRepo --api--> Content [Right->Left] [R U R]
   Toc ----> Nav [Right->Left] [R D R]
   Vocab ----> DocSet [Right->Left] [R D R]
 Ports:
   Content Left: edge3,edge6,edge10,edge0
   DocSet Left: edge1,edge12
-  DocSet Right: edge5,edge4,edge3
-  LinkReg Right: edge6,edge7
+  DocSet Right: edge5,edge3,edge4
+  LinkReg Right: edge7,edge6
   Manifest Left: edge9,edge7
   Nav Left: edge11,edge2
   Nav Right: edge8,edge9

@@ -556,6 +556,6 @@ public static class HierarchicalLayout
 		}
 
 		var count = nodes.Select(n => Find(n.Id)).Distinct().Count();
-		return count <= 3 ? count : (int)Math.Ceiling(Math.Sqrt(count));
+		return count <= 6 ? count : (int)Math.Ceiling(Math.Sqrt(count));
 	}
 }
