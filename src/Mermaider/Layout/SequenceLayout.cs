@@ -10,15 +10,16 @@ internal static class SequenceLayout
 	private const double ActorGap = 140;
 	private const double ActorHeight = 40;
 	private const double ActorPadX = 16;
-	private const double HeaderGap = 30;
+	private const double HeaderGap = 44;
 	private const double MessageRowHeight = 50;
 	private const double SelfMessageHeight = 30;
 	private const double ActivationWidth = 10;
 	private const double BlockPadX = 10;
-	private const double BlockPadTop = 40;
+	// room above the first message for the frame's keyword tab / condition and the message's own label pill
+	private const double BlockPadTop = 58;
 	private const double BlockPadBottom = 8;
-	private const double BlockHeaderExtra = 28;
-	private const double DividerExtra = 24;
+	private const double BlockHeaderExtra = 46;
+	private const double DividerExtra = 36;
 	private const double NoteWidth = 120;
 	private const double NoteVPad = 12;
 	private const double NoteHPad = 14;
@@ -246,7 +247,7 @@ internal static class SequenceLayout
 			{
 				var dMsg = d.Index < messages.Count ? messages[d.Index] : null;
 				var msgY = dMsg?.Y ?? messageY;
-				var offset = d.Label.Length > 0 ? 40.0 : 28.0;
+				var offset = d.Label.Length > 0 ? 62.0 : 38.0;
 
 				dividers.Add(new PositionedBlockDivider(msgY - offset, d.Label));
 			}

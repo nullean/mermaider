@@ -107,4 +107,25 @@ public class VisualLanguageContractTests
 
 		System.Text.RegularExpressions.Regex.Matches(svg, System.Text.RegularExpressions.Regex.Escape(pill)).Count.Should().Be(2);
 	}
+
+	[Test]
+	public void Sequence_participants_that_talk_share_a_cluster_colour()
+	{
+		var svg = MermaidRenderer.RenderSvg("sequenceDiagram\n  A->>B: hi\n  C->>D: yo");
+
+		svg.Should().Contain($"fill=\"{VisualLanguage.Tint(Cluster0, VisualLanguage.NodeTint)}\" stroke=\"{VisualLanguage.Border(Cluster0)}\"");
+		var second = Themes.Default.AutoPaletteAt(1);
+		svg.Should().Contain($"fill=\"{VisualLanguage.Tint(second, VisualLanguage.NodeTint)}\" stroke=\"{VisualLanguage.Border(second)}\"", "an unrelated pair is a second cluster");
+	}
+
+	[Test]
+	public void Sequence_frames_are_tinted_groups_with_the_keyword_in_the_border_colour()
+	{
+		var svg = MermaidRenderer.RenderSvg("sequenceDiagram\n  A->>B: hi\n  alt ok\n    B-->>A: yes\n  else bad\n    B-->>A: no\n  end");
+
+		var group = svg[svg.IndexOf("<g class=\"block\"", StringComparison.Ordinal)..];
+		var stroke = System.Text.RegularExpressions.Regex.Match(group, "<rect [^>]*stroke=\"([^\"]+)\"").Groups[1].Value;
+		svg.Should().Contain($"fill=\"{stroke}\"", "the keyword is drawn in the frame's border colour");
+		svg.Should().NotContain("var(--_arrow)", "markers follow the line colour");
+	}
 }

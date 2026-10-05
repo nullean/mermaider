@@ -10,17 +10,14 @@ internal static class SequenceSvgRenderer
 	private static readonly string NodeLabelTextAttrs =
 		RenderConstants.TextAttrs.SeqNodeLabelFill + "var(--_text)\"";
 
-	private static readonly string MessageLabelStartAttrs =
-		RenderConstants.TextAttrs.SeqMessageLabelStartFill + "var(--_text)\"";
-
 	private static readonly string MessageLabelCenterAttrs =
 		RenderConstants.TextAttrs.SeqMessageLabelCenterFill + "var(--_text)\"";
 
 	private static readonly string NoteLabelAttrs =
 		RenderConstants.TextAttrs.SeqNoteCenterFill + "var(--_accent-text)\"";
 
-	private static readonly string BlockTabAttrs =
-		RenderConstants.TextAttrs.SeqBlockTabFill + "var(--_text-sec)\"";
+	private static readonly string ConditionAttrs =
+		RenderConstants.TextAttrs.EdgeLabelCenterFill + "var(--_text)\"";
 
 
 	internal static string Render(PositionedSequenceDiagram diagram, SvgRenderContext context)
@@ -44,17 +41,27 @@ internal static class SequenceSvgRenderer
 		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
 		AppendArrowDefs(sb);
 
-		foreach (var box in diagram.Boxes)
-			AppendBox(sb, box);
+		// Same language as the other diagrams: participants that talk to each other share a cluster colour, boxes and
+		// frames are tinted groups with the title in the border colour.
+		var palette = ClusterPalette.Build(
+			diagram.Actors.Select(a => new ClusterBox(a.Id, a.X - (a.Width / 2), a.Y, a.Width, a.Height)).ToList(),
+			diagram.Messages.Select(m => (m.From, m.To)),
+			diagram.Boxes.Select((b, i) => new ClusterGroup("box" + i, b.X, b.Y, b.Width, b.Height, [])).ToList(),
+			context.Styles.Colors);
+		var autoPalette = context.Styles.Colors.AutoPalette();
+		var clusterCount = diagram.Actors.Select(a => palette.Has(a.Id) ? palette.NodeStroke(a.Id) : a.Id).Distinct().Count();
 
-		foreach (var block in diagram.Blocks)
-			AppendBlock(sb, block);
+		for (var i = 0; i < diagram.Boxes.Count; i++)
+			AppendBox(sb, diagram.Boxes[i], palette, "box" + i);
+
+		for (var i = 0; i < diagram.Blocks.Count; i++)
+			AppendBlock(sb, diagram.Blocks[i], autoPalette[(clusterCount + i) % autoPalette.Length]);
 
 		foreach (var lifeline in diagram.Lifelines)
 			AppendLifeline(sb, lifeline);
 
 		foreach (var activation in diagram.Activations)
-			AppendActivation(sb, activation);
+			AppendActivation(sb, activation, palette);
 
 		foreach (var message in diagram.Messages)
 			AppendMessage(sb, message);
@@ -63,14 +70,14 @@ internal static class SequenceSvgRenderer
 			AppendNote(sb, note);
 
 		foreach (var actor in diagram.Actors)
-			AppendActor(sb, actor);
+			AppendActor(sb, actor, palette);
 
 		if (diagram.Actors.Count > 0)
 		{
 			var actorH = diagram.Actors[0].Height;
 			var bottomActorY = diagram.Height - actorH - 30;
 			foreach (var actor in diagram.Actors)
-				AppendActor(sb, actor with { Y = bottomActorY });
+				AppendActor(sb, actor with { Y = bottomActorY }, palette);
 		}
 
 		foreach (var dm in diagram.DestroyMarkers)
@@ -96,7 +103,7 @@ internal static class SequenceSvgRenderer
 			.Append("\" orient=\"auto-start-reverse\">\n");
 		_ = sb.Append("    <polygon points=\"0 0, ").Append(w).Append(' ').Append(halfH)
 			.Append(", 0 ").Append(h)
-			.Append("\" fill=\"var(--_arrow)\" />\n");
+			.Append("\" fill=\"var(--_line)\" />\n");
 		_ = sb.Append("  </marker>\n");
 
 		_ = sb.Append("  <marker id=\"seq-arrow-open\" markerUnits=\"userSpaceOnUse\" markerWidth=\"").Append(w)
@@ -106,14 +113,17 @@ internal static class SequenceSvgRenderer
 			.Append("\" orient=\"auto-start-reverse\">\n");
 		_ = sb.Append("    <polyline points=\"0 0, ").Append(w).Append(' ').Append(halfH)
 			.Append(", 0 ").Append(h)
-			.Append("\" fill=\"none\" stroke=\"var(--_arrow)\" stroke-width=\"1.5\" />\n");
+			.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"2\" />\n");
 		_ = sb.Append("  </marker>\n");
 
 		_ = sb.Append("</defs>\n");
 	}
 
-	private static void AppendActor(StringBuilder sb, PositionedSequenceActor actor)
+	private static void AppendActor(StringBuilder sb, PositionedSequenceActor actor, ClusterPalette palette)
 	{
+		var hasColour = palette.Has(actor.Id);
+		var border = hasColour ? palette.NodeStroke(actor.Id) : "var(--_line)";
+		var fill = hasColour ? palette.NodeFill(actor.Id) : "var(--_node-fill)";
 		_ = sb.Append("\n<g class=\"actor\" data-id=\"");
 		MultilineUtils.AppendEscapedAttr(sb, actor.Id.AsSpan());
 		_ = sb.Append("\" data-label=\"");
@@ -151,7 +161,7 @@ internal static class SequenceSvgRenderer
 				.Append("\" width=\"").Append(actor.Width).Append("\" height=\"").Append(actor.Height)
 				.Append("\" rx=\"").Append(RenderConstants.Radii.Rectangle)
 				.Append("\" ry=\"").Append(RenderConstants.Radii.Rectangle)
-				.Append("\" fill=\"var(--_node-fill)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
+				.Append("\" fill=\"").Append(fill).Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"")
 				.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n  ");
 
 			MultilineUtils.AppendMultilineText(
@@ -175,8 +185,9 @@ internal static class SequenceSvgRenderer
 			.Append("\" stroke=\"var(--_line)\" stroke-width=\"0.75\" stroke-dasharray=\"6 4\" />");
 	}
 
-	private static void AppendActivation(StringBuilder sb, Activation activation)
+	private static void AppendActivation(StringBuilder sb, Activation activation, ClusterPalette palette)
 	{
+		var hasColour = palette.Has(activation.ActorId);
 		_ = sb.Append("\n<rect class=\"activation\" data-actor=\"");
 		MultilineUtils.AppendEscapedAttr(sb, activation.ActorId.AsSpan());
 		_ = sb.Append("\" x=\"").Append(activation.X)
@@ -184,8 +195,9 @@ internal static class SequenceSvgRenderer
 			.Append("\" width=\"").Append(activation.Width)
 			.Append("\" height=\"").Append(activation.BottomY - activation.TopY)
 			.Append("\" rx=\"4\" ry=\"4\"")
-			.Append(" fill=\"var(--_node-fill)\" stroke=\"var(--_node-stroke)\" stroke-width=\"")
-			.Append(RenderConstants.StrokeWidths.InnerBox).Append("\" />");
+			.Append(" fill=\"").Append(hasColour ? palette.NodeFill(activation.ActorId) : "var(--_node-fill)")
+			.Append("\" stroke=\"").Append(hasColour ? palette.NodeStroke(activation.ActorId) : "var(--_node-stroke)")
+			.Append("\" stroke-width=\"").Append(RenderConstants.StrokeWidths.InnerBox).Append("\" />");
 	}
 
 	private static void AppendMessage(StringBuilder sb, PositionedSequenceMessage msg)
@@ -219,10 +231,18 @@ internal static class SequenceSvgRenderer
 				.Append(RenderConstants.StrokeWidths.Connector).Append('"').Append(dashArray)
 				.Append(" marker-end=\"url(#").Append(markerId).Append(")\" />\n  ");
 
-			MultilineUtils.AppendMultilineText(
-				sb, msg.Label, msg.X1 + loopW + labelPadding, msg.Y + (loopH / 2),
-				RenderConstants.FontSizes.SeqMessageLabel,
-				MessageLabelStartAttrs);
+			if (msg.Label.Length > 0)
+			{
+				var selfMetrics = TextMetrics.MeasureMultiline(msg.Label.AsSpan(), RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel);
+				var pillCx = msg.X1 + loopW + labelPadding + (ErSvgRenderer.LabelBoxWidth(selfMetrics.Width) / 2);
+				VisualLanguage.AppendLabelPill(sb, pillCx, msg.Y + (loopH / 2), selfMetrics.Width, selfMetrics.Height);
+				_ = sb.Append("\n  ");
+				MultilineUtils.AppendMultilineText(
+					sb, msg.Label, pillCx, msg.Y + (loopH / 2),
+					RenderConstants.FontSizes.SeqMessageLabel,
+					MessageLabelCenterAttrs);
+			}
+
 			_ = sb.Append('\n');
 		}
 		else
@@ -237,10 +257,19 @@ internal static class SequenceSvgRenderer
 			var midX = (msg.X1 + msg.X2) / 2;
 			var label = msg.Label;
 			AppendAutoNumberBadge(sb, ref label, msg);
-			MultilineUtils.AppendMultilineText(
-				sb, label, midX, msg.Y - 14,
-				RenderConstants.FontSizes.SeqMessageLabel,
-				MessageLabelCenterAttrs);
+			if (label.Length > 0)
+			{
+				// the pill sits just above its line, like the labels of every other diagram type
+				var metrics = TextMetrics.MeasureMultiline(label.AsSpan(), RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel);
+				var pillY = msg.Y - 18;
+				VisualLanguage.AppendLabelPill(sb, midX, pillY, metrics.Width, metrics.Height);
+				_ = sb.Append("\n  ");
+				MultilineUtils.AppendMultilineText(
+					sb, label, midX, pillY,
+					RenderConstants.FontSizes.SeqMessageLabel,
+					MessageLabelCenterAttrs);
+			}
+
 			_ = sb.Append('\n');
 		}
 
@@ -275,8 +304,12 @@ internal static class SequenceSvgRenderer
 			.Append(numStr).Append("</text>\n  ");
 	}
 
-	private static void AppendBlock(StringBuilder sb, PositionedSequenceBlock block)
+	private static void AppendBlock(StringBuilder sb, PositionedSequenceBlock block, string colour)
 	{
+		var isRect = block.Type == SequenceBlockType.Rect;
+		var border = VisualLanguage.GroupBorder(colour);
+		var titleAttrs = RenderConstants.TextAttrs.SeqBlockTabFill + border + "\"";
+
 		_ = sb.Append("\n<g class=\"block\" data-type=\"").Append(block.Type.ToLower()).Append('"');
 		if (block.Label.Length > 0)
 		{
@@ -286,11 +319,25 @@ internal static class SequenceSvgRenderer
 		}
 		_ = sb.Append(">\n");
 
+		if (isRect)
+		{
+			// `rect rgb(…)` is a highlight region: a tint of its own colour when the label is one, else the frame colour; no tab
+			var tint = block.Label.Length > 0 && SvgValueAllowlist.IsAllowedColor(block.Label)
+				? $"color-mix(in srgb, {MultilineUtils.EscapeAttr(block.Label.Trim())} 18%, var(--bg))"
+				: VisualLanguage.GroupFill(colour, 0);
+			_ = sb.Append("  <rect x=\"").Append(block.X).Append("\" y=\"").Append(block.Y)
+				.Append("\" width=\"").Append(block.Width).Append("\" height=\"").Append(block.Height)
+				.Append("\" rx=\"").Append(RenderConstants.Radii.Group).Append("\" ry=\"").Append(RenderConstants.Radii.Group)
+				.Append("\" fill=\"").Append(tint).Append("\" stroke=\"none\" />\n");
+			_ = sb.Append("</g>");
+			return;
+		}
+
 		_ = sb.Append("  <rect x=\"").Append(block.X).Append("\" y=\"").Append(block.Y)
 			.Append("\" width=\"").Append(block.Width).Append("\" height=\"").Append(block.Height)
 			.Append("\" rx=\"").Append(RenderConstants.Radii.Group)
 			.Append("\" ry=\"").Append(RenderConstants.Radii.Group)
-			.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"")
+			.Append("\" fill=\"").Append(VisualLanguage.GroupFill(colour, 0)).Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
 
 		var typeName = block.Type.ToLower();
@@ -300,66 +347,54 @@ internal static class SequenceSvgRenderer
 			RenderConstants.FontWeights.GroupHeader) + 16;
 		const double tabHeight = 18;
 
+		// the keyword tab: tinted like an entity header, keyword in the border colour
 		_ = sb.Append("  <rect x=\"").Append(block.X).Append("\" y=\"").Append(block.Y)
 			.Append("\" width=\"").Append(tabWidth).Append("\" height=\"").Append(tabHeight)
 			.Append("\" rx=\"6\" ry=\"6\"")
-			.Append(" fill=\"var(--_group-hdr)\" stroke=\"var(--_line)\" stroke-width=\"")
+			.Append(" fill=\"").Append(VisualLanguage.Tint(colour, VisualLanguage.HeaderTint)).Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"")
 			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n  ");
 
 		MultilineUtils.AppendMultilineText(
 			sb, typeName,
 			block.X + 6, block.Y + (tabHeight / 2),
 			RenderConstants.FontSizes.EdgeLabel,
-			BlockTabAttrs);
+			titleAttrs);
 		_ = sb.Append('\n');
 
 		if (block.Label.Length > 0)
 		{
-			// Place the condition badge right of the type tab so it never overlaps it.
-			var labelW = TextMetrics.MeasureTextWidth(
+			// Place the condition right of the type tab so it never overlaps it.
+			var labelW = ErSvgRenderer.LabelBoxWidth(TextMetrics.MeasureTextWidth(
 				block.Label,
 				RenderConstants.FontSizes.EdgeLabel,
-				RenderConstants.FontWeights.EdgeLabel) + 16;
+				RenderConstants.FontWeights.EdgeLabel));
 			var badgeCx = block.X + tabWidth + 8 + (labelW / 2);
-			AppendConditionBadge(sb, block.Label, badgeCx, block.Y + (tabHeight / 2));
+			AppendConditionPill(sb, block.Label, badgeCx, block.Y + (tabHeight / 2));
 		}
 
 		foreach (var divider in block.Dividers)
 		{
 			_ = sb.Append("  <line x1=\"").Append(block.X).Append("\" y1=\"").Append(divider.Y)
 				.Append("\" x2=\"").Append(block.X + block.Width).Append("\" y2=\"").Append(divider.Y)
-				.Append("\" stroke=\"var(--_line)\" stroke-width=\"")
-				.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
+				.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"")
+				.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" stroke-dasharray=\"4 4\" />\n");
 
 			if (divider.Label.Length > 0)
-			{
-				AppendConditionBadge(sb, divider.Label, block.X + (block.Width / 2), divider.Y + 14);
-			}
+				AppendConditionPill(sb, divider.Label, block.X + (block.Width / 2), divider.Y + 14);
 		}
 
 		_ = sb.Append("</g>");
 	}
 
-	private static void AppendConditionBadge(StringBuilder sb, string label, double cx, double cy)
+	// The condition of a frame ("[ok]", "[retry]") is a label pill like every other label.
+	private static void AppendConditionPill(StringBuilder sb, string label, double cx, double cy)
 	{
-		var text = label;
-		var textW = TextMetrics.MeasureTextWidth(
-			text, RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel);
-		const double padX = 8;
-		const double padY = 4;
-		var badgeW = textW + (padX * 2);
-		var badgeH = RenderConstants.FontSizes.EdgeLabel + (padY * 2);
-
-		_ = sb.Append("  <rect x=\"").Append(cx - (badgeW / 2)).Append("\" y=\"").Append(cy - (badgeH / 2))
-			.Append("\" width=\"").Append(badgeW).Append("\" height=\"").Append(badgeH)
-			.Append("\" rx=\"4\" ry=\"4\" fill=\"var(--_text)\" />\n");
-		_ = sb.Append("  <text x=\"").Append(cx).Append("\" y=\"").Append(cy)
-			.Append("\" text-anchor=\"middle\" dy=\"0.35em\" font-size=\"")
-			.Append(RenderConstants.FsVar.S)
-			.Append("\" font-weight=\"").Append(RenderConstants.FontWeights.EdgeLabel)
-			.Append("\" fill=\"var(--bg)\">");
-		MultilineUtils.AppendEscapedXml(sb, label.AsSpan());
-		_ = sb.Append("</text>\n");
+		var metrics = TextMetrics.MeasureMultiline(label.AsSpan(), RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel);
+		_ = sb.Append("  ");
+		VisualLanguage.AppendLabelPill(sb, cx, cy, metrics.Width, metrics.Height);
+		_ = sb.Append("\n  ");
+		MultilineUtils.AppendMultilineText(sb, label, cx, cy, RenderConstants.FontSizes.EdgeLabel, ConditionAttrs);
+		_ = sb.Append('\n');
 	}
 
 	private static void AppendNote(StringBuilder sb, PositionedSequenceNote note)
@@ -416,7 +451,7 @@ internal static class SequenceSvgRenderer
 		_ = sb.Append("</g>");
 	}
 
-	private static void AppendBox(StringBuilder sb, PositionedSequenceBox box)
+	private static void AppendBox(StringBuilder sb, PositionedSequenceBox box, ClusterPalette palette, string groupId)
 	{
 		_ = sb.Append("\n<g class=\"box\"");
 		if (box.Title.Length > 0)
@@ -427,16 +462,34 @@ internal static class SequenceSvgRenderer
 		}
 		_ = sb.Append(">\n");
 
-		// box.Color is a free-form \S+ token from source (e.g. `box red Team`); escape it so a
-		// crafted value like `"/><image onerror=...` cannot break out of the fill attribute.
-		var fill = box.Color is { } boxColor ? MultilineUtils.EscapeAttr(boxColor) : "var(--_group-fill)";
+		// `box Aqua Team`: the colour names the hue of the box; without one the group takes its alternating palette colour.
+		// box.Color is a free-form \S+ token from source, so it is only used when it is an allowed colour and is escaped.
+		string fill;
+		string stroke;
+		string title;
+		if (box.Color is { } boxColor && SvgValueAllowlist.IsAllowedColor(boxColor))
+		{
+			var safe = MultilineUtils.EscapeAttr(boxColor.Trim());
+			fill = $"color-mix(in srgb, {safe} {VisualLanguage.GroupTintBase + 10}%, var(--bg))";
+			var isHex = ColorUtils.TryHueSaturation(boxColor, out _, out _);
+			stroke = isHex ? VisualLanguage.GroupBorder(boxColor.Trim()) : safe;
+			// a named colour cannot be darkened, so its title stays readable text instead of a pale border colour
+			title = isHex ? stroke : "var(--_text-sec)";
+		}
+		else
+		{
+			fill = palette.GroupFill(groupId, 0);
+			stroke = palette.GroupStroke(groupId);
+			title = stroke;
+		}
+
 		_ = sb.Append("  <rect x=\"").Append(box.X).Append("\" y=\"").Append(box.Y)
 			.Append("\" width=\"").Append(box.Width).Append("\" height=\"").Append(box.Height)
 			.Append("\" rx=\"").Append(RenderConstants.Radii.Group)
 			.Append("\" ry=\"").Append(RenderConstants.Radii.Group)
 			.Append("\" fill=\"").Append(fill)
-			.Append("\" stroke=\"var(--_group-stroke)\" stroke-width=\"")
-			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" opacity=\"0.5\" />\n");
+			.Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"")
+			.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
 
 		if (box.Title.Length > 0)
 		{
@@ -445,7 +498,7 @@ internal static class SequenceSvgRenderer
 				sb, box.Title,
 				box.X + (box.Width / 2), box.Y + 10,
 				RenderConstants.FontSizes.EdgeLabel,
-				BlockTabAttrs);
+				RenderConstants.TextAttrs.SeqBlockTabFill + title + "\"");
 			_ = sb.Append('\n');
 		}
 
