@@ -40,30 +40,30 @@
 <path class="edge" data-from="_start" data-to="Running" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M107.82933333333332,40 L107.82933333333332,70" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Running" data-to="Error" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="exception" d="M88.064,114.8 L88.064,209.25" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Error" data-to="Recovering" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="auto_heal" d="M88.064,254.05 L88.064,348.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Recovering" data-to="Running" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="recovered" d="M160,358.5 L176,358.5 Q182,358.5 182,352.5 L182,207 Q182,201 176,201 L126,201 Q120,201 120,195 L120,129 Q120,123 126,123 L183,123 Q189,123 189,117 L189,111 Q189,105 183,105 L167,105" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Recovering" data-to="Running" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="recovered" d="M160,371 L176,371 Q182,371 182,365 L182,160 Q182,154 176,154 L126,154 Q120,154 120,148 L120,129 Q120,123 126,123 L183,123 Q189,123 189,117 L189,98.5 Q189,92.5 183,92.5 L167,92.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Recovering" data-to="Fatal" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="max_retries" d="M88.064,393.3 L88.064,487.75" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Running" data-to="Stopped" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="shutdown" d="M127.59466666666667,114.8 L127.59466666666667,136.8 Q127.59466666666667,142.8 133.59466666666668,142.8 L211.44472,142.8 Q217.44472,142.8 217.44472,148.8 L217.44472,593 Q217.44472,599 211.44472,599 L133.59466666666665,599 Q127.59466666666665,599 127.59466666666665,605 L127.59466666666665,627" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Fatal" data-to="Stopped" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="operator" d="M88.064,532.55 L88.064,627" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Stopped" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M107.82933333333332,671.8 L107.82933333333332,701.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="edge-label" data-from="Running" data-to="Error" data-label="exception">
-  <rect x="46.57295999999999" y="149.8" width="82.98208000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="88.064" y="162.025" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">exception</text>
+  <rect x="46.57295999999999" y="163.9675" width="82.98208000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="88.064" y="176.1925" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">exception</text>
 </g>
 <g class="edge-label" data-from="Error" data-to="Recovering" data-label="auto_heal">
   <rect x="46.57295999999999" y="289.04999999999995" width="82.98208000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
   <text x="88.064" y="301.275" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">auto_heal</text>
 </g>
 <g class="edge-label" data-from="Recovering" data-to="Running" data-label="recovered">
-  <rect x="137.30352" y="267.525" width="89.39296" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="182" y="279.75" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">recovered</text>
+  <rect x="137.30352" y="282.825" width="89.39296" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="182" y="295.05" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">recovered</text>
 </g>
 <g class="edge-label" data-from="Recovering" data-to="Fatal" data-label="max_retries">
   <rect x="39.36071999999998" y="428.29999999999995" width="97.40656000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
   <text x="88.064" y="440.525" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">max_retries</text>
 </g>
 <g class="edge-label" data-from="Running" data-to="Stopped" data-label="shutdown">
-  <rect x="176.75503999999998" y="149.8" width="81.37936000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="217.44472" y="162.025" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">shutdown</text>
+  <rect x="176.75503999999998" y="427.105" width="81.37936000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
+  <text x="217.44472" y="439.33000000000004" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">shutdown</text>
 </g>
 <g class="edge-label" data-from="Fatal" data-to="Stopped" data-label="operator">
   <rect x="49.77839999999999" y="567.55" width="76.5712" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />

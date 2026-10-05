@@ -42,7 +42,7 @@
 <path class="edge" data-from="Still" data-to="Moving" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M76.40266666666668,114.8 L76.40266666666668,133.8 L76.40266666666668,133.8 L76.40266666666668,152.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Moving" data-to="Still" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M117.80533333333334,152.8 L117.80533333333334,139.8 Q117.80533333333334,133.8 111.80533333333334,133.8 L103.38666666666668,133.8 Q97.38666666666668,133.8 97.38666666666668,127.80000000000001 L97.38666666666668,114.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <path class="edge" data-from="Moving" data-to="Crash" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M99.104,197.60000000000002 L99.104,227.60000000000002" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Crash" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M64,272.5 L64,295.5 Q64,301.5 70,301.5 L94.5,301.5 Q98,301.5 98,305 L98,305 Q98,308.5 94.5,308.5 L76,308.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="Crash" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M99,272.5 L99,308.5 Q99,314.5 93,314.5 L76,314.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
   <circle cx="76.40266666666668" cy="28" r="10" fill="var(--_text)" stroke="none" />
   

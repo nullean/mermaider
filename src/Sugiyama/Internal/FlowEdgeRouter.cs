@@ -233,6 +233,11 @@ internal static class FlowEdgeRouter
 			var from = Math.Max(lo, olo);
 			var to = Math.Min(hi, ohi);
 			var key = from <= to ? (from + to) / 2 : alongX ? other.Cx : other.Cy;
+			// An arrow that arrives side-on, or loops back, attaches at the middle of its side; so does an arrow to a
+			// subgraph box (it points at the box as a whole, not at wherever the other end happens to be).
+			var facing = (p.SSide + 2) % 4 == p.TSide;
+			if (!facing || b.Id.StartsWith('\u0002'))
+				key = alongX ? b.Cx : b.Cy;
 			if (!groups.TryGetValue((b.Id, side), out var l))
 				groups[(b.Id, side)] = l = [];
 			l.Add((p, src, key));
