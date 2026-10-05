@@ -152,4 +152,22 @@ public class VisualLanguageContractTests
 		svg.Should().Contain($"fill=\"{VisualLanguage.Tint(Cluster0, VisualLanguage.HeaderTint)}\"", "the header is tinted like an entity header");
 		svg.Should().NotContain("var(--_arrow)", "markers follow the line colour");
 	}
+
+	[Test]
+	public void Architecture_groups_are_tinted_boxes_with_titles_in_the_border_colour()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			architecture-beta
+			group api(cloud)[API]
+			service db(database)[Database] in api
+			service server(server)[Server] in api
+			db:R -- L:server
+			""");
+
+		var group = svg[svg.IndexOf("class=\"architecture-group\"", StringComparison.Ordinal)..];
+		var stroke = System.Text.RegularExpressions.Regex.Match(group, "<rect [^>]*stroke=\"([^\"]+)\"").Groups[1].Value;
+		group.Should().NotContain("stroke-dasharray", "groups are solid, tinted boxes");
+		group.Should().Contain($"fill=\"{stroke}\"", "the title is drawn in the group's border colour");
+		svg.Should().NotContain("var(--_arrow)", "markers follow the line colour");
+	}
 }

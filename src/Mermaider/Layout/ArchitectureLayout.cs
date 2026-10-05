@@ -17,11 +17,12 @@ internal static class ArchitectureLayout
 	private const double JunctionSize = 12;
 	// Gap between adjacent rows/cols must clear the worst case of two different groups landing in
 	// directly adjacent rows: the upper group's bottom padding (GroupPadding) plus the lower
-	// group's top padding+header (GroupPadding + GroupHeaderHeight) = 90px reach into the gap.
-	private const double CellGap = 100;
+	// group's top padding+header (GroupPadding + GroupHeaderHeight) = 90px reach into the gap (plus LabelRoom below the services, which hold their titles).
+	private const double CellGap = 112;
 	private const double CellW = ServiceSize + CellGap;
 	private const double CellH = ServiceSize + CellGap;
 	private const double GroupPadding = 28;
+	private const double LabelRoom = 10;
 	private const double GroupHeaderHeight = 34;
 	private const double Margin = 24;
 
@@ -329,7 +330,7 @@ internal static class ArchitectureLayout
 				minX - GroupPadding,
 				minY - GroupPadding - GroupHeaderHeight,
 				maxX - minX + (2 * GroupPadding),
-				maxY - minY + (2 * GroupPadding) + GroupHeaderHeight);
+				maxY - minY + (2 * GroupPadding) + GroupHeaderHeight + LabelRoom);
 
 			computed[group.Id] = result;
 			return result;
