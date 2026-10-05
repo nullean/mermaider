@@ -82,6 +82,9 @@ public sealed record RenderOptions
 	/// </summary>
 	public string[]? DataPalette { get; init; }
 
+	/// <summary>Colour of an ordinary box (first cluster of nodes, entities and classes). Default: the first palette colour that is not a role hue (blue).</summary>
+	public string? Default { get; init; }
+
 	/// <summary>Semantic role colour for success. Nodes with the class <c>success</c> use it; automatic colouring avoids its hue. Default: palette green.</summary>
 	public string? Success { get; init; }
 

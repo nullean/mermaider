@@ -105,4 +105,33 @@ public class ColorRolesTests
 
 		svg.Should().NotContain(VisualLanguage.Tint(CategoricalPalette.Green, VisualLanguage.NodeTint), "the class was not allow-listed, so it was stripped");
 	}
+
+	[Test]
+	public void The_default_role_is_the_first_colour_boxes_use()
+	{
+		Themes.Default.RoleColor(ColorRole.Default).Should().Be(CategoricalPalette.Blue);
+		Themes.Default.AutoPalette()[0].Should().Be(CategoricalPalette.Blue);
+
+		var custom = Themes.Default with { Default = CategoricalPalette.Teal };
+		custom.AutoPalette()[0].Should().Be(CategoricalPalette.Teal);
+		custom.AutoPalette().Count(c => c == CategoricalPalette.Teal).Should().Be(1, "the default is not repeated further down the palette");
+		custom.AutoPalette().Should().NotContain(CategoricalPalette.LightTeal, "a near-duplicate of the default is skipped too");
+	}
+
+	[Test]
+	public void The_default_role_colours_a_plain_flowchart_and_can_come_from_render_options()
+	{
+		var svg = MermaidRenderer.RenderSvg("flowchart TD\n  A --> B", new RenderOptions { Default = "#7f3fbf" });
+
+		svg.Should().Contain(VisualLanguage.Tint("#7f3fbf", VisualLanguage.NodeTint));
+	}
+
+	[Test]
+	public void An_unsafe_default_colour_is_ignored()
+	{
+		var svg = MermaidRenderer.RenderSvg("flowchart TD\n  A --> B", new RenderOptions { Default = "red\" onload=\"x" });
+
+		svg.Should().NotContain("onload");
+		svg.Should().Contain(VisualLanguage.Tint(CategoricalPalette.Blue, VisualLanguage.NodeTint));
+	}
 }

@@ -81,11 +81,12 @@ colour roles below**, so an automatically coloured box never looks like a succes
 
 ## Colour roles
 
-Semantic roles are optional; unset, they are the palette's green, red, yellow and blue (brighter on dark themes).
+Roles are optional; unset, `Default` (an ordinary box) is the first palette colour that is not a role hue, and the others are the palette's green, red, yellow and blue (brighter on dark themes).
 
 ```csharp
 var options = new RenderOptions
 {
+    Default = "#4e79a7",
     Success = "#198038",
     Failure = "#da1e28",
     Warning = "#f1c21b",

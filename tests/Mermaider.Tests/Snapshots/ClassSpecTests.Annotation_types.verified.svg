@@ -50,30 +50,30 @@
 <path class="class-relationship" data-from="Drawable" data-to="Circle" data-type="realization" data-marker-at="from" d="M285.3,124 L285.3,143 Q285.3,149 279.3,149 L217.60000000000002,149 Q211.60000000000002,149 211.60000000000002,155 L211.60000000000002,184" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="4 4" marker-start="url(#cls-inherit)" />
 <g class="class-node" data-id="Shape" data-label="Shape" data-annotation="abstract">
   <rect x="40" y="40" width="155.8" height="84" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M40,88 L40,46 Q40,40 46,40 L189.8,40 Q195.8,40 195.8,46 L195.8,88 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <text x="117.9" y="52" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="500" font-style="italic" fill="var(--_text-sec)">&lt;&lt;abstract&gt;&gt;</text>
+  <path d="M40,88 L40,46 Q40,40 46,40 L189.8,40 Q195.8,40 195.8,46 L195.8,88 Z" fill="color-mix(in srgb, #86bcb6 24%, var(--bg))" />
+  <text x="117.9" y="52" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="500" font-style="italic" fill="#5FA69E">&lt;&lt;abstract&gt;&gt;</text>
   <text x="117.9" y="70" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Shape</text>
-  <line x1="40" y1="88" x2="195.8" y2="88" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="40" y1="96" x2="195.8" y2="96" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="103.4" y1="88" x2="103.4" y2="124" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="48" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">double</text><text class="mono" x="111.4" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">area()</tspan></text><text class="mono" x="187.8" y="110" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <rect x="40" y="40" width="155.8" height="84" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <line x1="40" y1="88" x2="195.8" y2="88" stroke="#5FA69E" stroke-width="1.75" />
+  <line x1="40" y1="96" x2="195.8" y2="96" stroke="#5FA69E" stroke-width="1.75" />
+  <line x1="103.4" y1="88" x2="103.4" y2="124" stroke="#5FA69E" stroke-width="1" opacity="0.35" />
+  <text class="mono" x="48" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">double</text><text class="mono" x="111.4" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">area()</tspan></text><text class="mono" x="187.8" y="110" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#5FA69E">+</text>
+  <rect x="40" y="40" width="155.8" height="84" rx="6" ry="6" fill="none" stroke="#5FA69E" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="Drawable" data-label="Drawable" data-annotation="interface">
   <rect x="215.8" y="40" width="139" height="84" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M215.8,88 L215.8,46 Q215.8,40 221.8,40 L348.8,40 Q354.8,40 354.8,46 L354.8,88 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <text x="285.3" y="52" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="500" font-style="italic" fill="var(--_text-sec)">&lt;&lt;interface&gt;&gt;</text>
+  <path d="M215.8,88 L215.8,46 Q215.8,40 221.8,40 L348.8,40 Q354.8,40 354.8,46 L354.8,88 Z" fill="color-mix(in srgb, #76b7b2 24%, var(--bg))" />
+  <text x="285.3" y="52" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="500" font-style="italic" fill="#539D97">&lt;&lt;interface&gt;&gt;</text>
   <text x="285.3" y="70" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Drawable</text>
-  <line x1="215.8" y1="88" x2="354.8" y2="88" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="215.8" y1="96" x2="354.8" y2="96" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="262.40000000000003" y1="88" x2="262.40000000000003" y2="124" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="223.8" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="270.40000000000003" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">draw()</tspan></text><text class="mono" x="346.8" y="110" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <rect x="215.8" y="40" width="139" height="84" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <line x1="215.8" y1="88" x2="354.8" y2="88" stroke="#539D97" stroke-width="1.75" />
+  <line x1="215.8" y1="96" x2="354.8" y2="96" stroke="#539D97" stroke-width="1.75" />
+  <line x1="262.40000000000003" y1="88" x2="262.40000000000003" y2="124" stroke="#539D97" stroke-width="1" opacity="0.35" />
+  <text class="mono" x="223.8" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="270.40000000000003" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">draw()</tspan></text><text class="mono" x="346.8" y="110" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#539D97">+</text>
+  <rect x="215.8" y="40" width="139" height="84" rx="6" ry="6" fill="none" stroke="#539D97" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="Color" data-label="Color" data-annotation="enumeration">
   <rect x="402.8" y="40" width="66" height="124" rx="6" ry="6" fill="var(--bg)" />
   <path d="M402.8,88 L402.8,46 Q402.8,40 408.8,40 L462.8,40 Q468.8,40 468.8,46 L468.8,88 Z" fill="color-mix(in srgb, #f28e2b 24%, var(--bg))" />
-  <text x="435.8" y="52" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="500" font-style="italic" fill="var(--_text-sec)">&lt;&lt;enumeration&gt;&gt;</text>
+  <text x="435.8" y="52" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="500" font-style="italic" fill="#D36F0D">&lt;&lt;enumeration&gt;&gt;</text>
   <text x="435.8" y="70" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Color</text>
   <line x1="402.8" y1="88" x2="468.8" y2="88" stroke="#D36F0D" stroke-width="1.75" />
   <line x1="402.8" y1="112" x2="468.8" y2="112" stroke="#D36F0D" stroke-width="1" opacity="0.35" />
@@ -86,14 +86,14 @@
 </g>
 <g class="class-node" data-id="EventBus" data-label="EventBus" data-annotation="service">
   <rect x="516.8" y="40" width="206.2" height="84" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M516.8,88 L516.8,46 Q516.8,40 522.8,40 L717,40 Q723,40 723,46 L723,88 Z" fill="color-mix(in srgb, #76b7b2 24%, var(--bg))" />
-  <text x="619.9" y="52" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="500" font-style="italic" fill="var(--_text-sec)">&lt;&lt;service&gt;&gt;</text>
+  <path d="M516.8,88 L516.8,46 Q516.8,40 522.8,40 L717,40 Q723,40 723,46 L723,88 Z" fill="color-mix(in srgb, #bab0ac 24%, var(--bg))" />
+  <text x="619.9" y="52" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="500" font-style="italic" fill="#9E908B">&lt;&lt;service&gt;&gt;</text>
   <text x="619.9" y="70" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">EventBus</text>
-  <line x1="516.8" y1="88" x2="723" y2="88" stroke="#539D97" stroke-width="1.75" />
-  <line x1="516.8" y1="96" x2="723" y2="96" stroke="#539D97" stroke-width="1.75" />
-  <line x1="563.4" y1="88" x2="563.4" y2="124" stroke="#539D97" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="524.8" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="571.4" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">publish(event)</tspan></text><text class="mono" x="715" y="110" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#539D97">+</text>
-  <rect x="516.8" y="40" width="206.2" height="84" rx="6" ry="6" fill="none" stroke="#539D97" stroke-width="1.75" />
+  <line x1="516.8" y1="88" x2="723" y2="88" stroke="#9E908B" stroke-width="1.75" />
+  <line x1="516.8" y1="96" x2="723" y2="96" stroke="#9E908B" stroke-width="1.75" />
+  <line x1="563.4" y1="88" x2="563.4" y2="124" stroke="#9E908B" stroke-width="1" opacity="0.35" />
+  <text class="mono" x="524.8" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="571.4" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">publish(event)</tspan></text><text class="mono" x="715" y="110" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#9E908B">+</text>
+  <rect x="516.8" y="40" width="206.2" height="84" rx="6" ry="6" fill="none" stroke="#9E908B" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="Circle" data-label="Circle">
   <rect x="171.60000000000002" y="184" width="60" height="48" rx="6" ry="6" fill="var(--bg)" />

@@ -50,14 +50,14 @@
 <path class="class-relationship" data-from="Circle" data-to="Drawable" data-type="lollipop" data-marker-at="to" d="M197.81666666666666,148 L197.81666666666666,172 Q197.81666666666666,178 203.81666666666666,178 L219.8,178 Q225.8,178 225.8,184 L225.8,208" fill="none" stroke="var(--_line)" stroke-width="2.25" />
 <g class="class-node" data-id="Shape" data-label="Shape" data-annotation="interface">
   <rect x="40" y="208" width="155.8" height="84" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M40,256 L40,214 Q40,208 46,208 L189.8,208 Q195.8,208 195.8,214 L195.8,256 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <text x="117.9" y="220" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="500" font-style="italic" fill="var(--_text-sec)">&lt;&lt;interface&gt;&gt;</text>
+  <path d="M40,256 L40,214 Q40,208 46,208 L189.8,208 Q195.8,208 195.8,214 L195.8,256 Z" fill="color-mix(in srgb, #f28e2b 24%, var(--bg))" />
+  <text x="117.9" y="220" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="500" font-style="italic" fill="#D36F0D">&lt;&lt;interface&gt;&gt;</text>
   <text x="117.9" y="238" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Shape</text>
-  <line x1="40" y1="256" x2="195.8" y2="256" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="40" y1="264" x2="195.8" y2="264" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="103.4" y1="256" x2="103.4" y2="292" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="48" y="278" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">double</text><text class="mono" x="111.4" y="278" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">area()</tspan></text><text class="mono" x="187.8" y="278" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <rect x="40" y="208" width="155.8" height="84" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <line x1="40" y1="256" x2="195.8" y2="256" stroke="#D36F0D" stroke-width="1.75" />
+  <line x1="40" y1="264" x2="195.8" y2="264" stroke="#D36F0D" stroke-width="1.75" />
+  <line x1="103.4" y1="256" x2="103.4" y2="292" stroke="#D36F0D" stroke-width="1" opacity="0.35" />
+  <text class="mono" x="48" y="278" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">double</text><text class="mono" x="111.4" y="278" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">area()</tspan></text><text class="mono" x="187.8" y="278" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#D36F0D">+</text>
+  <rect x="40" y="208" width="155.8" height="84" rx="6" ry="6" fill="none" stroke="#D36F0D" stroke-width="1.75" />
 </g>
 <g class="class-node lollipop" data-id="Drawable">
   <circle cx="225.8" cy="218" r="8" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />

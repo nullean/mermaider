@@ -50,19 +50,19 @@
 <path class="class-relationship" data-from="Animal" data-to="Cat" data-type="inheritance" data-marker-at="from" d="M241.56666666666666,184 L241.56666666666666,203 Q241.56666666666666,209 247.56666666666666,209 L300.29999999999995,209 Q306.29999999999995,209 306.29999999999995,215 L306.29999999999995,244" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
 <g class="class-node" data-id="Animal" data-label="Animal" data-annotation="abstract">
   <rect x="132.1" y="40" width="164.2" height="144" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M132.1,88 L132.1,46 Q132.1,40 138.1,40 L290.29999999999995,40 Q296.29999999999995,40 296.29999999999995,46 L296.29999999999995,88 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <text x="214.2" y="52" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="500" font-style="italic" fill="var(--_text-sec)">&lt;&lt;abstract&gt;&gt;</text>
+  <path d="M132.1,88 L132.1,46 Q132.1,40 138.1,40 L290.29999999999995,40 Q296.29999999999995,40 296.29999999999995,46 L296.29999999999995,88 Z" fill="color-mix(in srgb, #86bcb6 24%, var(--bg))" />
+  <text x="214.2" y="52" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="500" font-style="italic" fill="#5FA69E">&lt;&lt;abstract&gt;&gt;</text>
   <text x="214.2" y="70" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Animal</text>
-  <line x1="132.1" y1="88" x2="296.29999999999995" y2="88" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="132.1" y1="112" x2="296.29999999999995" y2="112" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="132.1" y1="160" x2="296.29999999999995" y2="160" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="132.1" y1="136" x2="296.29999999999995" y2="136" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="195.5" y1="88" x2="195.5" y2="184" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="140.1" y="102" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">String</text><text class="mono" x="203.5" y="102" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">name</tspan></text><text class="mono" x="288.29999999999995" y="102" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <text class="mono" x="140.1" y="122" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">int</text><text class="mono" x="203.5" y="122" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">age</tspan></text><text class="mono" x="288.29999999999995" y="122" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <text class="mono" x="140.1" y="150" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="203.5" y="150" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">eat()</tspan></text><text class="mono" x="288.29999999999995" y="150" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <text class="mono" x="140.1" y="170" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="203.5" y="170" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">sleep()</tspan></text><text class="mono" x="288.29999999999995" y="170" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <rect x="132.1" y="40" width="164.2" height="144" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <line x1="132.1" y1="88" x2="296.29999999999995" y2="88" stroke="#5FA69E" stroke-width="1.75" />
+  <line x1="132.1" y1="112" x2="296.29999999999995" y2="112" stroke="#5FA69E" stroke-width="1" opacity="0.35" />
+  <line x1="132.1" y1="160" x2="296.29999999999995" y2="160" stroke="#5FA69E" stroke-width="1" opacity="0.35" />
+  <line x1="132.1" y1="136" x2="296.29999999999995" y2="136" stroke="#5FA69E" stroke-width="1.75" />
+  <line x1="195.5" y1="88" x2="195.5" y2="184" stroke="#5FA69E" stroke-width="1" opacity="0.35" />
+  <text class="mono" x="140.1" y="102" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">String</text><text class="mono" x="203.5" y="102" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">name</tspan></text><text class="mono" x="288.29999999999995" y="102" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#5FA69E">+</text>
+  <text class="mono" x="140.1" y="122" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">int</text><text class="mono" x="203.5" y="122" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">age</tspan></text><text class="mono" x="288.29999999999995" y="122" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#5FA69E">+</text>
+  <text class="mono" x="140.1" y="150" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="203.5" y="150" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">eat()</tspan></text><text class="mono" x="288.29999999999995" y="150" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#5FA69E">+</text>
+  <text class="mono" x="140.1" y="170" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="203.5" y="170" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">sleep()</tspan></text><text class="mono" x="288.29999999999995" y="170" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#5FA69E">+</text>
+  <rect x="132.1" y="40" width="164.2" height="144" rx="6" ry="6" fill="none" stroke="#5FA69E" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="Dog" data-label="Dog">
   <rect x="40" y="244" width="164.2" height="108" rx="6" ry="6" fill="var(--bg)" />

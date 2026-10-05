@@ -211,6 +211,7 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 | `FontSizeExtraSmall` | `double?` | `0.75` | Ratio for extra-small text (`--fs-xs`) |
 | `FontSizeLarge` | `double?` | `1.125` | Ratio for large text (`--fs-l`) |
 | `DataPalette` | `string[]?` | theme default | Categorical colors for pie, sankey, timeline, gitgraph, radar, mindmap, venn, journey, packet, xychart, treemap; flowchart/state/ER/class auto colouring uses it minus the role hues |
+| `Default` | `string?` | first non-role palette colour (blue) | Colour of an ordinary box (first cluster of nodes, entities, classes) |
 | `Success` / `Failure` / `Warning` / `Info` | `string?` | palette green / red / yellow / blue | Semantic role colours (class `success`, `failure`, `warning`, `info`); auto colouring avoids the first three |
 | `AllowedDiagrams` | `DiagramTypes` | `DiagramTypes.All` | Allowlist of accepted diagram types; diagrams outside this set throw `MermaidParseException` |
 | `RoundedEdges` | `bool` | `true` | Rounded corners (6px radius) on edge paths |

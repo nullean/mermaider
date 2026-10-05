@@ -57,8 +57,10 @@ node, entity or class gets), and pinned by `Rendering/VisualLanguageContractTest
 
 ### Colour roles
 
-Optional semantic roles live next to the other optional theme colours: `Success`, `Failure`, `Warning`, `Info` on `DiagramColors` and
-`RenderOptions`. Unset, they resolve to the palette green / red / yellow / blue (brightened on dark backgrounds). They do two things:
+Optional roles live next to the other optional theme colours: `Default`, `Success`, `Failure`, `Warning`, `Info` on `DiagramColors` and
+`RenderOptions`. Unset, `Default` is the first palette colour that is not a role hue (blue) and the others resolve to the palette green / red / yellow /
+blue (brightened on dark backgrounds). `Default` is the colour of an ordinary box: the first cluster of nodes, entities and classes always
+uses it, and it is not repeated further down the auto palette. The other roles do two things:
 
 1. **Reserved hues**: auto colouring skips palette entries within 15° of the success, failure and warning colours (greys are kept).
    `Info` is not reserved — it is the primary neutral accent.
@@ -78,6 +80,13 @@ on the border so a node still belongs to its flow.
 | Cylinder | data store | muted tint and border, identical in every cluster |
 
 All other shapes keep the cluster colour. Colour never carries meaning alone: the shape already does.
+
+### Class modifiers
+
+A class with a modifier (`<<abstract>>`, `<<interface>>`, …) takes its colour from the modifier, not from its cluster: the name is hashed
+(FNV-1a) modulo the auto palette, skipping slot 0 (the default box colour), so every class with the same modifier — in any diagram — shares
+one colour. Hash collisions inside one diagram probe to the next free slot in alphabetical order. The modifier text is drawn in the box's
+border colour.
 
 ## Font scale
 

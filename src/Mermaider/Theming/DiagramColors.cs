@@ -48,6 +48,12 @@ public sealed record DiagramColors
 	/// <summary>Semantic role colour for information (note, neutral highlight). Optional: defaults to the palette blue.</summary>
 	public string? Info { get; init; }
 
+	/// <summary>
+	/// Role colour of an ordinary box: the first cluster of flowchart / state nodes, ER entities and class boxes, and anything that
+	/// is not singled out by a modifier or role. Optional: defaults to the first data-palette colour that is not a reserved role hue.
+	/// </summary>
+	public string? Default { get; init; }
+
 	/// <summary>Returns color <paramref name="i"/> from the active data palette, wrapping around.</summary>
 	internal string PaletteAt(int i)
 	{
@@ -58,6 +64,9 @@ public sealed record DiagramColors
 	/// <summary>The resolved colour of a semantic role: the caller's value, else the matching hue of the default palette (brightened on dark backgrounds).</summary>
 	internal string RoleColor(ColorRole role)
 	{
+		if (role == ColorRole.Default)
+			return Default is { Length: > 0 } d ? d : ReservedFreePalette()[0];
+
 		var custom = role switch
 		{
 			ColorRole.Success => Success,
@@ -78,12 +87,8 @@ public sealed record DiagramColors
 		return ColorUtils.IsDark(Bg) ? ColorUtils.AdjustLightness(fallback, 0.18) : fallback;
 	}
 
-	/// <summary>
-	/// The data palette without any hue that reads as a reserved role (success, failure, warning). Entity-like auto colouring
-	/// (flowchart / state clusters, ER entities, class boxes, subgraphs) draws from this, so a cluster never looks like a verdict.
-	/// Greys and non-hex entries are kept; if every entry would be dropped the full palette is used.
-	/// </summary>
-	internal string[] AutoPalette()
+	/// <summary>The data palette without any hue that reads as a reserved role (success, failure, warning); greys and non-hex entries stay.</summary>
+	private string[] ReservedFreePalette()
 	{
 		var palette = DataPalette ?? Rendering.CategoricalPalette.Colors;
 		var reserved = new List<double>(3);
@@ -100,6 +105,26 @@ public sealed record DiagramColors
 		return kept.Length > 0 ? kept : palette;
 	}
 
+	/// <summary>
+	/// What entity-like auto colouring (flowchart / state clusters, ER entities, class boxes, subgraphs) draws from: the
+	/// <see cref="Default"/> role colour first (so the first cluster is always the default box colour), then the data palette without
+	/// role hues and without a near-duplicate of the default. A cluster therefore never looks like a verdict.
+	/// </summary>
+	internal string[] AutoPalette()
+	{
+		var free = ReservedFreePalette();
+		var def = RoleColor(ColorRole.Default);
+		if (!ColorUtils.TryHueSaturation(def, out var defHue, out var defSat) || defSat <= 0.12)
+			return free.Length > 0 && free[0] == def ? free : [def, .. free.Where(c => c != def)];
+
+		var rest = free.Where(c =>
+			c != def
+			&& (!ColorUtils.TryHueSaturation(c, out var hue, out var sat)
+				|| sat <= 0.12
+				|| ColorUtils.HueDistance(hue, defHue) > RoleHueWindow)).ToArray();
+		return [def, .. rest];
+	}
+
 	/// <summary>How close (degrees of hue) a palette entry may be to a role colour before auto colouring skips it.</summary>
 	internal const double RoleHueWindow = 15;
 
@@ -114,6 +139,7 @@ public sealed record DiagramColors
 /// <summary>Semantic colour roles; diagram source can opt in with the class names <c>success</c>, <c>failure</c>, <c>warning</c>, <c>info</c>.</summary>
 internal enum ColorRole
 {
+	Default,
 	Success,
 	Failure,
 	Warning,

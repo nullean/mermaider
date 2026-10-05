@@ -44,7 +44,8 @@ internal static class ClassSvgRenderer
 			diagram.Classes.Select(c => new ClusterBox(c.Id, c.X, c.Y, c.Width, c.Height)).ToList(),
 			diagram.Relationships.Select(r => (r.From, r.To)),
 			diagram.Namespaces.Select(n => new ClusterGroup(n.Name, n.X, n.Y, n.Width, n.Height, [])).ToList(),
-			context.Styles.Colors);
+			context.Styles.Colors,
+			AnnotationSlots(diagram.Classes, context.Styles.Colors.AutoPalette().Length));
 
 		foreach (var ns in diagram.Namespaces)
 			AppendNamespaceBox(sb, ns, palette);
@@ -68,6 +69,53 @@ internal static class ClassSvgRenderer
 
 		_ = sb.Append("\n</svg>");
 		return sb;
+	}
+
+	/// <summary>
+	/// Palette slot per annotated class: the modifier name is hashed (FNV-1a, so it is the same in every process and diagram) modulo the
+	/// auto palette, skipping slot 0 which stays the default box colour. Every class with the same modifier
+	/// (<c>&lt;&lt;abstract&gt;&gt;</c>) shares one colour; modifiers whose hashes collide in one diagram are separated by probing to the
+	/// next free slot, in alphabetical order, so the result is deterministic.
+	/// </summary>
+	private static Dictionary<string, int> AnnotationSlots(IReadOnlyList<PositionedClassNode> classes, int paletteLength)
+	{
+		var result = new Dictionary<string, int>(StringComparer.Ordinal);
+		if (paletteLength < 2)
+			return result;
+
+		static string? Normalise(string? annotation)
+		{
+			var name = annotation?.Trim().Trim('<', '>').Trim().ToLowerInvariant();
+			return string.IsNullOrEmpty(name) ? null : name == "enum" ? "enumeration" : name;
+		}
+
+		var names = classes.Where(c => !c.IsLollipopTarget).Select(c => Normalise(c.Annotation)).Where(n => n is not null).Select(n => n!)
+			.Distinct().OrderBy(n => n, StringComparer.Ordinal).ToList();
+		var slotOfName = new Dictionary<string, int>(StringComparer.Ordinal);
+		var usable = paletteLength - 1;
+		foreach (var name in names)
+		{
+			var slot = 1 + (int)(Fnv1a(name) % (uint)usable);
+			for (var probe = 0; probe < usable && slotOfName.ContainsValue(slot); probe++)
+				slot = 1 + (slot % usable);
+			slotOfName[name] = slot;
+		}
+
+		foreach (var c in classes.Where(c => !c.IsLollipopTarget))
+		{
+			if (Normalise(c.Annotation) is { } name)
+				result[c.Id] = slotOfName[name];
+		}
+
+		return result;
+	}
+
+	private static uint Fnv1a(string text)
+	{
+		var hash = 2166136261u;
+		foreach (var b in Encoding.UTF8.GetBytes(text))
+			hash = (hash ^ b) * 16777619u;
+		return hash;
 	}
 
 	private static void AppendMarkerDefs(StringBuilder sb)
@@ -193,7 +241,7 @@ internal static class ClassSvgRenderer
 				.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
 				.Append("\" font-size=\"").Append(AnnotationFontSize)
 				.Append("\" font-weight=\"").Append(AnnotationFontWeight)
-				.Append("\" font-style=\"italic\" fill=\"var(--_text-sec)\">&lt;&lt;");
+				.Append("\" font-style=\"italic\" fill=\"").Append(border).Append("\">&lt;&lt;");
 			MultilineUtils.AppendEscapedXml(sb, cls.Annotation.AsSpan());
 			_ = sb.Append("&gt;&gt;</text>\n");
 			nameY = y + (headerHeight / 2) + 6;

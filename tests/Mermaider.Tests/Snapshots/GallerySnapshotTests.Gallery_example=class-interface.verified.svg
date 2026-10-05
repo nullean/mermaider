@@ -50,16 +50,16 @@
 <path class="class-relationship" data-from="ILogger" data-to="FileLogger" data-type="realization" data-marker-at="from" d="M373.1666666666667,144 L373.1666666666667,168 Q373.1666666666667,174 379.1666666666667,174 L472.5,174 Q478.5,174 478.5,180 L478.5,204" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="4 4" marker-start="url(#cls-inherit)" />
 <g class="class-node" data-id="ILogger" data-label="ILogger" data-annotation="interface">
   <rect x="190.90000000000003" y="40" width="273.4" height="104" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M190.90000000000003,88 L190.90000000000003,46 Q190.90000000000003,40 196.90000000000003,40 L458.3,40 Q464.3,40 464.3,46 L464.3,88 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <text x="327.6" y="52" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="500" font-style="italic" fill="var(--_text-sec)">&lt;&lt;interface&gt;&gt;</text>
+  <path d="M190.90000000000003,88 L190.90000000000003,46 Q190.90000000000003,40 196.90000000000003,40 L458.3,40 Q464.3,40 464.3,46 L464.3,88 Z" fill="color-mix(in srgb, #f28e2b 24%, var(--bg))" />
+  <text x="327.6" y="52" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="500" font-style="italic" fill="#D36F0D">&lt;&lt;interface&gt;&gt;</text>
   <text x="327.6" y="70" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ILogger</text>
-  <line x1="190.90000000000003" y1="88" x2="464.3" y2="88" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="190.90000000000003" y1="120" x2="464.3" y2="120" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="190.90000000000003" y1="96" x2="464.3" y2="96" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="237.50000000000003" y1="88" x2="237.50000000000003" y2="144" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="198.90000000000003" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="245.50000000000003" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">Log(string message)</tspan></text><text class="mono" x="456.3" y="110" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <text class="mono" x="198.90000000000003" y="130" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="245.50000000000003" y="130" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">LogError(Exception ex)</tspan></text><text class="mono" x="456.3" y="130" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <rect x="190.90000000000003" y="40" width="273.4" height="104" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <line x1="190.90000000000003" y1="88" x2="464.3" y2="88" stroke="#D36F0D" stroke-width="1.75" />
+  <line x1="190.90000000000003" y1="120" x2="464.3" y2="120" stroke="#D36F0D" stroke-width="1" opacity="0.35" />
+  <line x1="190.90000000000003" y1="96" x2="464.3" y2="96" stroke="#D36F0D" stroke-width="1.75" />
+  <line x1="237.50000000000003" y1="88" x2="237.50000000000003" y2="144" stroke="#D36F0D" stroke-width="1" opacity="0.35" />
+  <text class="mono" x="198.90000000000003" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="245.50000000000003" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">Log(string message)</tspan></text><text class="mono" x="456.3" y="110" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#D36F0D">+</text>
+  <text class="mono" x="198.90000000000003" y="130" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="245.50000000000003" y="130" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">LogError(Exception ex)</tspan></text><text class="mono" x="456.3" y="130" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#D36F0D">+</text>
+  <rect x="190.90000000000003" y="40" width="273.4" height="104" rx="6" ry="6" fill="none" stroke="#D36F0D" stroke-width="1.75" />
 </g>
 <g class="class-node" data-id="ConsoleLogger" data-label="ConsoleLogger">
   <rect x="40" y="204" width="273.4" height="108" rx="6" ry="6" fill="var(--bg)" />
