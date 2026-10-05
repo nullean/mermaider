@@ -199,6 +199,12 @@ RenderOptions? ResolveOptions(IQueryCollection q)
 	var muted = q["muted"].FirstOrDefault() ?? base_?.Muted;
 	var surface = q["surface"].FirstOrDefault() ?? base_?.Surface;
 	var border = q["border"].FirstOrDefault() ?? base_?.Border;
+	// colour roles: only what the query sets explicitly overrides the theme (unset roles keep the theme's own handling)
+	var roleDefault = q["default"].FirstOrDefault();
+	var roleSuccess = q["success"].FirstOrDefault();
+	var roleFailure = q["failure"].FirstOrDefault();
+	var roleWarning = q["warning"].FirstOrDefault();
+	var roleInfo = q["info"].FirstOrDefault();
 
 	// Render option overrides
 	double? padding = double.TryParse(q["padding"].FirstOrDefault(), out var p) ? p : null;
@@ -219,7 +225,8 @@ RenderOptions? ResolveOptions(IQueryCollection q)
 	// If nothing at all was set, skip allocating an options object
 	if (bg is null && fg is null && padding is null && nodeSpacing is null && layerSpacing is null
 		&& roundedEdges is null && transparent is null && font is null && monoFont is null && fontSize is null && provider is null
-		&& style is null && gradient is null && tint is null && elevation is null)
+		&& style is null && gradient is null && tint is null && elevation is null
+		&& roleDefault is null && roleSuccess is null && roleFailure is null && roleWarning is null && roleInfo is null)
 		return null;
 
 	return new RenderOptions
@@ -231,6 +238,11 @@ RenderOptions? ResolveOptions(IQueryCollection q)
 		Muted = muted,
 		Surface = surface,
 		Border = border,
+		Default = roleDefault,
+		Success = roleSuccess,
+		Failure = roleFailure,
+		Warning = roleWarning,
+		Info = roleInfo,
 		Padding = padding,
 		NodeSpacing = nodeSpacing,
 		LayerSpacing = layerSpacing,
@@ -515,7 +527,10 @@ string SharedStyles(string pageBg, string pageFg) => $$"""
 	  outline: 1px solid color-mix(in srgb, {{pageFg}} 30%, transparent);
 	}
 	.play-ctrl-palette { min-width: unset; }
-	.palette-row { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 2px; }
+	.role-row { display: flex; gap: 10px; flex-wrap: wrap; }
+		    .role-pick { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; font-size: 11px; opacity: .8; }
+		    .role-pick input[type=color] { width: 34px; height: 26px; }
+		    .palette-row { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 2px; }
 	.palette-swatch {
 	  width: 20px; height: 20px; border-radius: 3px;
 	  border: 1px solid color-mix(in srgb, {{pageFg}} 15%, transparent);
@@ -949,6 +964,9 @@ string RenderPlaygroundPage(string? theme, string engine, string? selectedSlug, 
 	var defaultMuted = q["muted"].FirstOrDefault() ?? baseColors?.Muted ?? "";
 	var defaultSurface = q["surface"].FirstOrDefault() ?? baseColors?.Surface ?? "";
 	var defaultBorder = q["border"].FirstOrDefault() ?? baseColors?.Border ?? "";
+	var roleSeeds = RoleSeeds(baseColors ?? Themes.Default);
+	string RoleValue(string key) => q[key].FirstOrDefault() ?? roleSeeds[key];
+	string RoleDirty(string key) => q[key].FirstOrDefault() is not null ? " data-dirty=\"1\"" : "";
 	var defaultPadding = q["padding"].FirstOrDefault() ?? "40";
 	var defaultNs = q["nodeSpacing"].FirstOrDefault() ?? "28";
 	var defaultLs = q["layerSpacing"].FirstOrDefault() ?? "48";
@@ -1042,6 +1060,16 @@ string RenderPlaygroundPage(string? theme, string engine, string? selectedSlug, 
 		        <div class="play-ctrl"><label>accent</label><input type="color" id="pg-accent" value="{{defaultAccent}}" oninput="pgScheduleRender()" /></div>
 		        <div class="play-ctrl"><label>line</label><input type="color" id="pg-line" value="{{(defaultLine.Length > 0 ? defaultLine : "#888888")}}" oninput="pgScheduleRender()" /></div>
 		        <div class="play-ctrl"><label>muted</label><input type="color" id="pg-muted" value="{{(defaultMuted.Length > 0 ? defaultMuted : "#777777")}}" oninput="pgScheduleRender()" /></div>
+		        <div class="play-ctrl play-ctrl-roles">
+		          <label title="Colour roles. Default = an ordinary box (first cluster of nodes, entities, classes); success / failure / warning / info = role classes (:::success …), gantt critical, risk chips. Their hues are skipped by automatic cluster colouring.">roles</label>
+		          <div class="role-row">
+		            <span class="role-pick" title="default box"><input type="color" id="pg-role-default" data-role="default" value="{{RoleValue("default")}}"{{RoleDirty("default")}} oninput="this.dataset.dirty='1';pgScheduleRender()" /><span>default</span></span>
+		            <span class="role-pick" title="success"><input type="color" id="pg-role-success" data-role="success" value="{{RoleValue("success")}}"{{RoleDirty("success")}} oninput="this.dataset.dirty='1';pgScheduleRender()" /><span>success</span></span>
+		            <span class="role-pick" title="failure"><input type="color" id="pg-role-failure" data-role="failure" value="{{RoleValue("failure")}}"{{RoleDirty("failure")}} oninput="this.dataset.dirty='1';pgScheduleRender()" /><span>failure</span></span>
+		            <span class="role-pick" title="warning"><input type="color" id="pg-role-warning" data-role="warning" value="{{RoleValue("warning")}}"{{RoleDirty("warning")}} oninput="this.dataset.dirty='1';pgScheduleRender()" /><span>warning</span></span>
+		            <span class="role-pick" title="info"><input type="color" id="pg-role-info" data-role="info" value="{{RoleValue("info")}}"{{RoleDirty("info")}} oninput="this.dataset.dirty='1';pgScheduleRender()" /><span>info</span></span>
+		          </div>
+		        </div>
 		        <div class="play-ctrl play-ctrl-palette">
 		          <label title="Data palette used by pie, gantt, timeline, gitgraph, sankey, radar, mindmap, venn, journey, packet, xychart, treemap (CategoricalPalette.cs)">data palette</label>
 		          <div class="palette-row">{{PaletteSwatches()}}</div>
@@ -1171,6 +1199,7 @@ string PlaygroundScripts(string slugsJson, string initialSource) => $$"""
 	    if (gradient !== 'true') p.set('gradient', gradient);
 	    if (tint !== '1') p.set('tint', tint);
 	    if (elevation !== '1') p.set('elevation', elevation);
+	    document.querySelectorAll('input[data-role]').forEach(el => { if (el.dataset.dirty) p.set(el.dataset.role, el.value); });
 	    return p.toString();
 	  }
 
@@ -1238,6 +1267,7 @@ string PlaygroundScripts(string slugsJson, string initialSource) => $$"""
 	      if (t.accent) document.getElementById('pg-accent').value = t.accent;
 	      if (t.line) document.getElementById('pg-line').value = t.line;
 	      if (t.muted) document.getElementById('pg-muted').value = t.muted;
+	      if (t.roles) document.querySelectorAll('input[data-role]').forEach(el => { el.value = t.roles[el.dataset.role]; delete el.dataset.dirty; });
 	      const palette = t.dataPalette || {{System.Text.Json.JsonSerializer.Serialize(Themes.DefaultDataPalette)}};
 	      const row = document.querySelector('.palette-row');
 	      if (row) row.innerHTML = palette.map(c => `<div class="palette-swatch" style="background:${c}" title="${c}"></div>`).join('');
@@ -1274,6 +1304,22 @@ string PaletteSwatches(string? themeName = null)
 		$"<div class=\"palette-swatch\" style=\"background:{c}\" title=\"{c}\"></div>"));
 }
 
+// Seed values for the role pickers: the theme's explicit role colours, else the palette hue the library falls back to
+// (default = first palette colour, success / failure / warning / info = the palette's green / red / yellow / blue).
+Dictionary<string, string> RoleSeeds(DiagramColors c)
+{
+	var palette = c.DataPalette ?? Themes.DefaultDataPalette;
+	string At(int i) => palette[i % palette.Length];
+	return new Dictionary<string, string>
+	{
+		["default"] = c.Default ?? At(0),
+		["success"] = c.Success ?? At(4),
+		["failure"] = c.Failure ?? At(2),
+		["warning"] = c.Warning ?? At(5),
+		["info"] = c.Info ?? At(0),
+	};
+}
+
 string ThemesJson()
 {
 	var entries = Themes.BuiltIn.Select(kv =>
@@ -1286,6 +1332,7 @@ string ThemesJson()
 			parts.Add($"\"line\":\"{c.Line}\"");
 		if (c.Muted is not null)
 			parts.Add($"\"muted\":\"{c.Muted}\"");
+		parts.Add("\"roles\":{" + string.Join(",", RoleSeeds(c).Select(r => $"\"{r.Key}\":\"{r.Value}\"")) + "}");
 		if (c.DataPalette is not null)
 		{
 			var paletteJson = "[" + string.Join(",", c.DataPalette.Select(p => $"\"{p}\"")) + "]";
