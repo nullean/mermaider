@@ -61,7 +61,7 @@ one theming model, consistent output regardless of diagram type.
 - **[Unified theming](#theming):** 15 themes, live-switchable via CSS custom properties.
 - **[Always-on SVG sanitization](#svg-sanitization):** allowlist-only, no opt-out.
 - **[Strict styling mode](#strict-styling):** enforce your design system on user-authored diagrams.
-- **[Fast](#benchmarks):** ~23 µs, ~46 KB allocated for a simple flowchart.
+- **[Fast](#benchmarks):** ~95 µs, ~209 KB allocated to render a simple flowchart end to end.
 
 ### Pure .NET parsing and rendering
 
@@ -86,8 +86,8 @@ The built-in engine is purpose-built for the small-to-medium directed graphs Mer
 
 | Phase             |                 MSAGL |   Built-in Sugiyama | Improvement                              |
 |-------------------|----------------------:|--------------------:|------------------------------------------|
-| Layout only       | 247 &micro;s / 558 KB |  3.4 &micro;s / 16 KB | 73&times; faster, 35&times; less memory |
-| End-to-end render | 351 &micro;s / 586 KB |   24 &micro;s / 46 KB | 15&times; faster, 13&times; less memory |
+| Layout only       | 226 &micro;s / 549 KB |  6.0 &micro;s / 29 KB | 38&times; faster, 19&times; less memory |
+| End-to-end render | 423 &micro;s / 683 KB |  109 &micro;s / 209 KB | 3.9&times; faster, 3.3&times; less memory |
 
 If you still want MSAGL for its higher-fidelity edge routing on complex graphs, install the optional
 `Mermaider.Layout.Msagl` package (see [below](#msagl-layout-provider)).
@@ -572,16 +572,16 @@ dotnet publish -c Release
 ## Benchmarks
 
 Graph-based diagram types use the built-in Sugiyama engine. Measured with `[MemoryDiagnoser]` on .NET 10
-(Apple M2 Pro):
+(Apple M2, BenchmarkDotNet medium run):
 
 | Method             |         Mean | Allocated |
 |--------------------|-------------:|----------:|
-| Flowchart (simple) | ~23 &micro;s |    ~46 KB |
-| Flowchart (large)  | ~71 &micro;s |   ~145 KB |
-| Sequence           | ~12 &micro;s |    ~28 KB |
-| State              | ~17 &micro;s |    ~47 KB |
-| Class              | ~13 &micro;s |    ~36 KB |
-| ER                 | ~17 &micro;s |    ~45 KB |
+| Flowchart (simple) |  ~95 &micro;s |   ~209 KB |
+| Flowchart (large)  | ~682 &micro;s |   ~829 KB |
+| Sequence           |  ~98 &micro;s |   ~173 KB |
+| State              | ~110 &micro;s |   ~233 KB |
+| Class              | ~112 &micro;s |   ~219 KB |
+| ER                 | ~208 &micro;s |   ~697 KB |
 
 ```bash
 dotnet run --project tests/Mermaider.Benchmarks -c Release

@@ -571,15 +571,15 @@
         <a class="card-more" href="security/">security docs →</a>
       </div>
       <div class="card">
-        <div class="card-kicker">3.4 µs · 16 KB · ObjectPool · spans · SIMD</div>
+        <div class="card-kicker">6 µs layout · 29 KB · ObjectPool · spans · SIMD</div>
         <div class="card-title">Fast and<br/>low-allocation</div>
         <p class="card-body">
           The SVG renderer pools <code>StringBuilder</code> instances via
           <code>ObjectPool&lt;StringBuilder&gt;</code> and never allocates one per render.
           The text pipeline operates on <code>ReadOnlySpan&lt;char&gt;</code> throughout;
           character-class lookups use <code>SearchValues&lt;char&gt;</code> for SIMD acceleration.
-          Immutable lookup tables are <code>FrozenDictionary</code>. A 6-node flowchart completes
-          in 3.4 µs and allocates 16 KB — 73× faster than MSAGL, 35× fewer allocations.
+          Immutable lookup tables are <code>FrozenDictionary</code>. A 6-node flowchart lays out
+          in 6 µs and allocates 29 KB — 38× faster than MSAGL, 19× fewer allocations.
         </p>
       </div>
       <div class="card">

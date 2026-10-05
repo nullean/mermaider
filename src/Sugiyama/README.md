@@ -154,14 +154,14 @@ All coordinates are in a top-left origin system. The caller is responsible for r
 
 ## Performance
 
-On a 6-node flowchart (Apple M2 Pro, .NET 10):
+On a 6-node flowchart (Apple M2, .NET 10, BenchmarkDotNet medium run):
 
 | | Time | Allocated |
 |---|---:|---:|
-| Sugiyama layout | **3.4 &micro;s** | **16 KB** |
-| Microsoft MSAGL | 247 &micro;s | 558 KB |
+| Sugiyama layout | **6.0 &micro;s** | **29 KB** |
+| Microsoft MSAGL | 226 &micro;s | 549 KB |
 
-**73&times; faster, 35&times; fewer allocations.**
+**38&times; faster, 19&times; fewer allocations.**
 
 The engine uses array-backed storage (`GraphBuffer`) instead of object graphs, minimizing
 GC pressure. Virtual nodes for long edges are appended to flat arrays rather than creating
