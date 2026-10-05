@@ -68,8 +68,9 @@ public class ErRendererTests
 	{
 		var svg = MermaidRenderer.RenderSvg(SimpleEr);
 
-		svg.Should().Contain("var(--_accent-text)");
-		svg.Should().Contain("PK");
+		// PK is a badge in the accent family
+		svg.Should().Contain($"fill=\"{Mermaider.Theming.ColorFamily.Accent().Band}\"");
+		svg.Should().Contain(">PK<");
 	}
 
 	[Test]
@@ -89,7 +90,7 @@ public class ErRendererTests
 			A ||..o{ B : uses
 			""");
 
-		svg.Should().Contain("stroke-dasharray=\"6 4\"");
+		svg.Should().Contain($"stroke-dasharray=\"{Mermaider.Rendering.DesignSystem.DashArray}\"");
 		svg.Should().Contain("data-identifying=\"false\"");
 	}
 

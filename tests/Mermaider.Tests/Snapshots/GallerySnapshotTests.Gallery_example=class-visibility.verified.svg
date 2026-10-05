@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 303 288" width="303" height="288" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 304.79999999999995 340" width="304.79999999999995" height="340" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -30,45 +30,45 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
-<defs>
-  <marker id="cls-inherit" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
-    <polygon points="0 0, 10 5, 0 10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-  <marker id="cls-composition" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
-    <polygon points="5 0, 10 5, 5 10, 0 5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" />
-  </marker>
-  <marker id="cls-aggregation" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
-    <polygon points="5 0, 10 5, 5 10, 0 5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-  <marker id="cls-arrow" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto-start-reverse">
-    <polyline points="0 0, 10 5, 0 10" fill="none" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-  <marker id="cls-lollipop" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto-start-reverse">
-    <circle cx="5" cy="5" r="4" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-</defs>
-
 <g class="class-node" data-id="MyService" data-label="MyService">
-  <rect x="40" y="40" width="223" height="208" rx="8" ry="8" fill="var(--bg)" />
-  <path d="M40,72 L40,48 Q40,40 48,40 L255,40 Q263,40 263,48 L263,72 Z" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" />
-  <text x="151.5" y="56" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">MyService</text>
-  <line x1="40" y1="72" x2="263" y2="72" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <line x1="40" y1="96" x2="263" y2="96" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
-  <line x1="40" y1="116" x2="263" y2="116" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
-  <line x1="40" y1="136" x2="263" y2="136" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
-  <line x1="40" y1="184" x2="263" y2="184" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
-  <line x1="40" y1="204" x2="263" y2="204" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
-  <line x1="40" y1="224" x2="263" y2="224" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
-  <line x1="40" y1="160" x2="263" y2="160" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <line x1="103.4" y1="72" x2="103.4" y2="248" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="48" y="86" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">String</text><text class="mono" x="111.4" y="86" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">publicField</tspan></text><text class="mono" x="255" y="86" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">+</text>
-  <text class="mono" x="48" y="106" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">int</text><text class="mono" x="111.4" y="106" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">privateField</tspan></text><text class="mono" x="255" y="106" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">-</text>
-  <text class="mono" x="48" y="126" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">bool</text><text class="mono" x="111.4" y="126" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">protectedField</tspan></text><text class="mono" x="255" y="126" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">#</text>
-  <text class="mono" x="48" y="146" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">float</text><text class="mono" x="111.4" y="146" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">packageField</tspan></text><text class="mono" x="255" y="146" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">~</text>
-  <text class="mono" x="48" y="174" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">String</text><text class="mono" x="111.4" y="174" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">getStatus()</tspan></text><text class="mono" x="255" y="174" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">+</text>
-  <text class="mono" x="48" y="194" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">bool</text><text class="mono" x="111.4" y="194" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">validate()</tspan></text><text class="mono" x="255" y="194" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">-</text>
-  <text class="mono" x="48" y="214" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="111.4" y="214" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">reset()</tspan></text><text class="mono" x="255" y="214" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">#</text>
-  <text class="mono" x="48" y="234" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="111.4" y="234" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">notify()</tspan></text><text class="mono" x="255" y="234" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="color-mix(in srgb, #4e79a7 74%, var(--fg))">~</text>
-  <rect x="40" y="40" width="223" height="208" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="40" y="40" width="224.79999999999998" height="260" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M40,76 L40,48 Q40,40 48,40 L256.79999999999995,40 Q264.79999999999995,40 264.79999999999995,48 L264.79999999999995,76 Z" fill="url(#ma2e31288-eb-p0)" />
+  <line x1="40" y1="76" x2="264.79999999999995" y2="76" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1" />
+  <rect x="40" y="40" width="224.79999999999998" height="260" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="52" y1="104" x2="252.79999999999995" y2="104" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="52" y1="132" x2="252.79999999999995" y2="132" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="52" y1="160" x2="252.79999999999995" y2="160" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="52" y1="216" x2="252.79999999999995" y2="216" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="52" y1="244" x2="252.79999999999995" y2="244" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="52" y1="272" x2="252.79999999999995" y2="272" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="40" y1="188" x2="264.79999999999995" y2="188" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1" />
+  <text x="152.39999999999998" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">MyService</text>
+  <text x="56" y="90" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">String</text>
+  <text x="111.19999999999999" y="90" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">+</text>
+  <text x="125.19999999999999" y="90" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">publicField</text>
+  <text x="56" y="118" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">int</text>
+  <text x="111.19999999999999" y="118" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">-</text>
+  <text x="125.19999999999999" y="118" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">privateField</text>
+  <text x="56" y="146" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">bool</text>
+  <text x="111.19999999999999" y="146" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">#</text>
+  <text x="125.19999999999999" y="146" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">protectedField</text>
+  <text x="56" y="174" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">float</text>
+  <text x="111.19999999999999" y="174" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">~</text>
+  <text x="125.19999999999999" y="174" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">packageField</text>
+  <text x="56" y="202" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">String</text>
+  <text x="111.19999999999999" y="202" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">+</text>
+  <text x="125.19999999999999" y="202" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">getStatus()</text>
+  <text x="56" y="230" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">bool</text>
+  <text x="111.19999999999999" y="230" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">-</text>
+  <text x="125.19999999999999" y="230" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">validate()</text>
+  <text x="56" y="258" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">void</text>
+  <text x="111.19999999999999" y="258" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">#</text>
+  <text x="125.19999999999999" y="258" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">reset()</text>
+  <text x="56" y="286" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.199999999999999">void</text>
+  <text x="111.19999999999999" y="286" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.8999999999999995">~</text>
+  <text x="125.19999999999999" y="286" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">notify()</text>
 </g>
+<defs>
+  <linearGradient id="ma2e31288-eb-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /></linearGradient>
+</defs>
 </svg>

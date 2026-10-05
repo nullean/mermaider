@@ -4,7 +4,7 @@ Layer 2: GitOrigin, ContentSourceBranches
 Edges:
   Assembly --narrative--> NarrativeRepository [Bottom->Top] [D R D]
   Assembly --references--> Repository [Bottom->Top] [D L D L D]
-  Checkout --resolves to--> DocumentationSet [Bottom->Top] [D L D]
+  Checkout --resolves to--> DocumentationSet [Bottom->Top] [D R D]
   Checkout --pinned CommitSha--> LinkRegistryEntry [Bottom->Top] [D L D]
   Checkout --repository--> Repository [Bottom->Top] [D R D R D]
   ContentSource --selects branch--> ContentSourceBranches [Bottom->Top] [D L D]

@@ -529,10 +529,9 @@ public partial class ErGeometryTests
 		RegexOptions.None, TimeoutMs)]
 	private static partial Regex EdgePattern();
 
-	// Edge label text: font-weight 400 with fill="var(--_text)" directly on the element (headers are 700, badges use --_text-sec)
-	// Entity headers use fill="var(--_text)" and font-weight="700"; attribute rows use tspan.
+	// Edge label text: the first <text> inside a <g class="edge-label"> group (after the optional pill / chip rect).
 	[GeneratedRegex(
-		@"<text x=""([^""]+)"" y=""([^""]+)""[^>]*font-weight=""400"" fill=""var\(--_text\)""[^>]*>([^<]+)</text>",
+		@"<g class=""edge-label""[^>]*>\s*(?:<rect[^>]*>\s*)?<text x=""([^""]+)"" y=""([^""]+)""[^>]*>([^<]+)</text>",
 		RegexOptions.None, TimeoutMs)]
 	private static partial Regex LabelTextPattern();
 

@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1501.6884171428574 1030" width="1501.6884171428574" height="1030" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1640.9899504761906 838" width="1640.9899504761906" height="838" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -30,298 +30,328 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(24,24,27,.06)); }
 </style>
 
-<defs>
-</defs>
-
-<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="DocumentationFile" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="files" d="M1406.8261771428574,96 L1406.8261771428572,191.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="er-relationship" data-entity1="Page" data-entity2="FrontMatter" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="--- yaml ---" d="M830.8097771428572,267.6 L830.8097771428572,294.1 Q830.8097771428572,299.1 835.8097771428572,299.1 L912.3660400000001,299.1 Q917.3660400000001,299.1 917.3660400000001,304.1 L917.3660400000001,387.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="er-relationship" data-entity1="FrontMatter" data-entity2="Applicability" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="applies_to" d="M885.223182857143,463.2 L885.223182857143,486.2 Q885.223182857143,491.2 880.223182857143,491.2 L707.47256,491.2 Q702.47256,491.2 702.47256,496.2 L702.47256,590.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="er-relationship" data-entity1="FrontMatter" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="zeromany" data-identifying="true" data-label="products" d="M863.7946114285716,463.2 L863.7946114285716,479.2 Q863.7946114285716,484.2 858.7946114285716,484.2 L594.47952,484.2 Q589.47952,484.2 589.47952,489.2 L589.47952,557.8 Q589.47952,562.8 584.47952,562.8 L562.9365600000001,562.8 Q557.9365600000001,562.8 557.9365600000001,567.8 L557.9365600000001,590.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="er-relationship" data-entity1="FrontMatter" data-entity2="Cta" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="cta.id" d="M949.5088971428572,463.2 L949.5088971428572,486.2 Q949.5088971428572,491.2 954.5088971428572,491.2 L1137.04648,491.2 Q1142.04648,491.2 1142.04648,496.2 L1142.04648,590.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="er-relationship" data-entity1="FrontMatter" data-entity2="PageSubstitution" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="sub" d="M928.0803257142858,463.2 L928.0803257142858,493.2 Q928.0803257142858,498.2 933.0803257142858,498.2 L987.2595200000001,498.2 Q992.2595200000001,498.2 992.2595200000001,503.2 L992.2595200000001,590.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="er-relationship" data-entity1="FrontMatter" data-entity2="LegacyPage" data-cardinality1="zeromany" data-cardinality2="zeromany" data-identifying="true" data-label="mapped_pages" d="M970.9374685714287,463.2 L970.9374685714287,479.2 Q970.9374685714287,484.2 975.9374685714287,484.2 L1277.04648,484.2 Q1282.04648,484.2 1282.04648,489.2 L1282.04648,590.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="er-relationship" data-entity1="FrontMatter" data-entity2="ListingGroup" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="listing.group" d="M906.6517542857144,463.2 L906.6517542857144,493.2 Q906.6517542857144,498.2 901.6517542857144,498.2 L847.47256,498.2 Q842.47256,498.2 842.47256,503.2 L842.47256,590.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="er-relationship" data-entity1="Page" data-entity2="Heading" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="## text" d="M755.8097771428572,267.6 L755.8097771428572,287.1 Q755.8097771428572,292.1 750.8097771428572,292.1 L243.09519999999998,292.1 Q238.09519999999998,292.1 238.09519999999998,297.1 L238.09519999999998,387.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="er-relationship" data-entity1="Page" data-entity2="Anchor" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="collected" d="M780.8097771428572,267.6 L780.8097771428572,294.1 Q780.8097771428572,299.1 775.8097771428572,299.1 L357.27563999999995,299.1 Q352.27563999999995,299.1 352.27563999999995,304.1 L352.27563999999995,561.3 Q352.27563999999995,566.3 347.27563999999995,566.3 L216.09519999999998,566.3 Q211.09519999999998,566.3 211.09519999999998,571.3 L211.09519999999998,590.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="er-relationship" data-entity1="Heading" data-entity2="Anchor" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="slug" d="M238.09519999999998,463.2 L238.09519999999998,554.3 Q238.09519999999998,559.3 233.09519999999998,559.3 L192.09519999999998,559.3 Q187.09519999999998,559.3 187.09519999999998,564.3 L187.09519999999998,590.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="er-relationship" data-entity1="Page" data-entity2="Directive" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="contains" d="M855.8097771428572,267.6 L855.8097771428572,287.1 Q855.8097771428572,292.1 860.8097771428572,292.1 L1067.36604,292.1 Q1072.36604,292.1 1072.36604,297.1 L1072.36604,387.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="er-relationship" data-entity1="Page" data-entity2="Link" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="contains" d="M805.8097771428572,267.6 L805.8097771428572,301.1 Q805.8097771428572,306.1 800.8097771428572,306.1 L745.8097771428572,306.1 Q740.8097771428572,306.1 740.8097771428572,311.1 L740.8097771428572,387.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="er-relationship" data-entity1="InternalLink" data-entity2="Page" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="path" d="M736.6868971428572,96 L736.6868971428572,158.6 Q736.6868971428572,163.6 741.6868971428572,163.6 L775.8097771428572,163.6 Q780.8097771428572,163.6 780.8097771428572,168.6 L780.8097771428572,191.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="er-relationship" data-entity1="InternalLink" data-entity2="Anchor" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="#anchor" d="M696.6868971428572,96 L696.6868971428572,119 Q696.6868971428572,124 691.6868971428572,124 L646.7541971428573,124 Q641.7541971428573,124 641.7541971428573,129 L641.7541971428573,280.1 Q641.7541971428573,285.1 636.7541971428573,285.1 L168.09519999999998,285.1 Q163.09519999999998,285.1 163.09519999999998,290.1 L163.09519999999998,590.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="er-relationship" data-entity1="CrossLink" data-entity2="CrossLinkUri" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="repo://path" d="M529.8583371428572,96 L529.8583371428572,163.6 L529.0238371428572,163.6 L529.0238371428572,191.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="er-relationship" data-entity1="ImageLink" data-entity2="Image" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="src" d="M1033.1784171428571,96 L1033.1784171428571,191.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="er-relationship" data-entity1="IncludeDirective" data-entity2="Snippet" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="path" d="M88.0952,267.6 L88.09519999999999,387.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="er-relationship" data-entity1="Snippet" data-entity2="Anchor" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="contributes" d="M88.09519999999999,463.2 L88.09519999999999,557.8 Q88.09519999999999,562.8 93.09519999999999,562.8 L134.09519999999998,562.8 Q139.09519999999998,562.8 139.09519999999998,567.8 L139.09519999999998,590.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="er-relationship" data-entity1="SettingsDirective" data-entity2="SettingsReference" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="path" d="M373.31571714285724,96 L373.31571714285724,191.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="er-relationship" data-entity1="ChangelogDirective" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="argument" d="M486.39360000000005,463.2 L486.39360000000005,557.8 Q486.39360000000005,562.8 491.39360000000005,562.8 L512.9365600000001,562.8 Q517.9365600000001,562.8 517.9365600000001,567.8 L517.9365600000001,590.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="er-relationship" data-entity1="RelatedLearningDirective" data-entity2="RelatedLearningLink" data-cardinality1="zeromany" data-cardinality2="many" data-identifying="true" data-label="ids" d="M1213.4170571428574,96 L1213.4170571428572,191.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="er-relationship" data-entity1="PageCardDirective" data-entity2="Page" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="local link" d="M874.9326571428572,96 L874.9326571428572,158.6 Q874.9326571428572,163.6 869.9326571428572,163.6 L835.8097771428572,163.6 Q830.8097771428572,163.6 830.8097771428572,168.6 L830.8097771428572,191.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="er-relationship" data-entity1="Applicability" data-entity2="ApplicabilityEntry" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="per key" d="M702.47256,666.8 L702.47256,762.4" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path class="er-relationship" data-entity1="ApplicabilityEntry" data-entity2="VersionSpec" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="version" d="M702.47256,838.4 L702.47256,934" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="DocumentationFile" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="files" d="M1533.7099504761907,64 L1533.7099504761907,159.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="Page" data-entity2="FrontMatter" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="--- yaml ---" d="M893.4166171428573,203.6 L893.4166171428573,227.1 Q893.4166171428573,235.1 901.4166171428573,235.1 L955.43984,235.1 Q963.43984,235.1 963.43984,243.1 L963.43984,323.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="FrontMatter" data-entity2="Applicability" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="applies_to" d="M931.2969828571429,367.2 L931.2969828571429,387.2 Q931.2969828571429,395.2 923.2969828571429,395.2 L736.71984,395.2 Q728.71984,395.2 728.71984,403.2 L728.71984,494.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="FrontMatter" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="zeromany" data-identifying="true" data-label="products" d="M909.8684114285714,367.2 L909.8684114285714,380.2 Q909.8684114285714,388.2 901.8684114285714,388.2 L622.0868,388.2 Q614.0868,388.2 614.0868,396.2 L614.0868,458.79999999999995 Q614.0868,466.79999999999995 606.0868,466.79999999999995 L590.54384,466.79999999999995 Q582.54384,466.79999999999995 582.54384,474.79999999999995 L582.54384,494.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="FrontMatter" data-entity2="Cta" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="cta.id" d="M995.5826971428571,367.2 L995.5826971428571,387.2 Q995.5826971428571,395.2 1003.5826971428571,395.2 L1201.2798400000001,395.2 Q1209.2798400000001,395.2 1209.2798400000001,403.2 L1209.2798400000001,494.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="FrontMatter" data-entity2="PageSubstitution" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="sub" d="M974.1541257142857,367.2 L974.1541257142857,394.2 Q974.1541257142857,402.2 982.1541257142857,402.2 L1039.7598400000002,402.2 Q1047.7598400000002,402.2 1047.7598400000002,410.2 L1047.7598400000002,494.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="FrontMatter" data-entity2="LegacyPage" data-cardinality1="zeromany" data-cardinality2="zeromany" data-identifying="true" data-label="mapped_pages" d="M1017.0112685714286,367.2 L1017.0112685714286,380.2 Q1017.0112685714286,388.2 1025.0112685714284,388.2 L1348.39984,388.2 Q1356.39984,388.2 1356.39984,396.2 L1356.39984,494.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="FrontMatter" data-entity2="ListingGroup" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="listing.group" d="M952.7255542857143,367.2 L952.7255542857143,394.2 Q952.7255542857143,402.2 944.7255542857143,402.2 L887.1198400000001,402.2 Q879.1198400000001,402.2 879.1198400000001,410.2 L879.1198400000001,494.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="Page" data-entity2="Heading" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="## text" d="M818.4166171428573,203.6 L818.4166171428573,220.1 Q818.4166171428573,228.1 810.4166171428573,228.1 L257.6000000000001,228.1 Q249.60000000000008,228.1 249.60000000000008,236.1 L249.60000000000008,323.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="Page" data-entity2="Anchor" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="collected" d="M843.4166171428573,203.6 L843.4166171428573,227.1 Q843.4166171428573,235.1 835.4166171428573,235.1 L371.78044000000017,235.1 Q363.78044000000017,235.1 363.78044000000017,243.1 L363.78044000000017,462.29999999999995 Q363.78044000000017,470.29999999999995 355.78044000000017,470.29999999999995 L230.60000000000008,470.29999999999995 Q222.60000000000008,470.29999999999995 222.60000000000008,478.29999999999995 L222.60000000000008,494.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="Heading" data-entity2="Anchor" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="slug" d="M249.60000000000008,367.2 L249.60000000000008,455.29999999999995 Q249.60000000000008,463.29999999999995 241.60000000000008,463.29999999999995 L206.60000000000008,463.29999999999995 Q198.60000000000008,463.29999999999995 198.60000000000008,471.29999999999995 L198.60000000000008,494.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="Page" data-entity2="Directive" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="contains" d="M918.4166171428573,203.6 L918.4166171428573,220.1 Q918.4166171428573,228.1 926.4166171428573,228.1 L1110.43984,228.1 Q1118.43984,228.1 1118.43984,236.1 L1118.43984,323.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="Page" data-entity2="Link" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="contains" d="M868.4166171428573,203.6 L868.4166171428573,234.1 Q868.4166171428573,242.1 860.4166171428573,242.1 L811.4166171428573,242.1 Q803.4166171428573,242.1 803.4166171428573,250.1 L803.4166171428573,323.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="InternalLink" data-entity2="Page" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="path" d="M791.763283809524,64 L791.763283809524,123.6 Q791.763283809524,131.6 799.763283809524,131.6 L835.4166171428573,131.6 Q843.4166171428573,131.6 843.4166171428573,139.6 L843.4166171428573,159.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="InternalLink" data-entity2="Anchor" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="#anchor" d="M749.5766171428573,64 L749.5766171428573,84 Q749.5766171428573,92 741.5766171428573,92 L704.8305838095239,92 Q696.8305838095239,92 696.8305838095239,100 L696.8305838095239,213.1 Q696.8305838095239,221.1 688.8305838095239,221.1 L182.60000000000008,221.1 Q174.60000000000008,221.1 174.60000000000008,229.1 L174.60000000000008,494.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="CrossLink" data-entity2="CrossLinkUri" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="repo://path" d="M574.5923638095239,64 L574.5923638095239,131.6 L574.1002238095239,131.6 L574.1002238095239,159.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="ImageLink" data-entity2="Image" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="src" d="M1116.1899504761907,64 L1116.1899504761907,159.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="IncludeDirective" data-entity2="Snippet" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="path" d="M99.60000000000001,203.6 L99.60000000000008,323.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="Snippet" data-entity2="Anchor" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="contributes" d="M99.60000000000008,367.2 L99.60000000000008,458.79999999999995 Q99.60000000000008,466.79999999999995 107.60000000000008,466.79999999999995 L142.60000000000008,466.79999999999995 Q150.60000000000008,466.79999999999995 150.60000000000008,474.79999999999995 L150.60000000000008,494.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="SettingsDirective" data-entity2="SettingsReference" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="path" d="M395.86022380952386,64 L395.86022380952386,159.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="ChangelogDirective" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="argument" d="M511.0008800000002,367.2 L511.0008800000002,458.79999999999995 Q511.0008800000002,466.79999999999995 519.0008800000003,466.79999999999995 L534.54384,466.79999999999995 Q542.54384,466.79999999999995 542.54384,474.79999999999995 L542.54384,494.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="RelatedLearningDirective" data-entity2="RelatedLearningLink" data-cardinality1="zeromany" data-cardinality2="many" data-identifying="true" data-label="ids" d="M1312.2699504761906,64 L1312.2699504761906,159.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="PageCardDirective" data-entity2="Page" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="local link" d="M945.0699504761907,64 L945.0699504761907,123.6 Q945.0699504761907,131.6 937.0699504761907,131.6 L901.4166171428573,131.6 Q893.4166171428573,131.6 893.4166171428573,139.6 L893.4166171428573,159.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="Applicability" data-entity2="ApplicabilityEntry" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="per key" d="M728.71984,538.8 L728.71984,634.4" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="ApplicabilityEntry" data-entity2="VersionSpec" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="version" d="M728.71984,678.4 L728.7198400000001,774" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <g class="entity" data-id="DocumentationSet" data-label="DocumentationSet">
-  <rect x="1333.6556971428574" y="20" width="146.34096" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="1406.8261771428574" y="58" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">DocumentationSet</text>
+  <rect x="1448.3499504761908" y="20" width="170.72" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1533.7099504761907" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">DocumentationSet</text>
 </g>
 <g class="entity" data-id="DocumentationFile" data-label="DocumentationFile">
-  <rect x="1331.9639371428573" y="191.6" width="149.72448000000003" height="76" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 11%, var(--bg))" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
-  <text x="1406.8261771428572" y="229.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">DocumentationFile</text>
+  <rect x="1446.4299504761907" y="159.6" width="174.56" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1533.7099504761907" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">DocumentationFile</text>
 </g>
 <g class="entity" data-id="Page" data-label="Page">
-  <rect x="730.8097771428572" y="191.6" width="150" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="805.8097771428572" y="229.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Page</text>
+  <rect x="793.4166171428573" y="159.6" width="150" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="868.4166171428573" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Page</text>
 </g>
 <g class="entity" data-id="FrontMatter" data-label="FrontMatter">
-  <rect x="842.3660400000001" y="387.2" width="150" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="917.3660400000001" y="425.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">FrontMatter</text>
+  <rect x="888.43984" y="323.2" width="150" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="963.43984" y="345.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">FrontMatter</text>
 </g>
 <g class="entity" data-id="Applicability" data-label="Applicability">
-  <rect x="642.47256" y="590.8" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="702.47256" y="628.8" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Applicability</text>
+  <rect x="665.43984" y="494.79999999999995" width="126.56000000000002" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="728.71984" y="516.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Applicability</text>
 </g>
 <g class="entity" data-id="Product" data-label="Product">
-  <rect x="477.93656000000004" y="590.8" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="537.9365600000001" y="628.8" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Product</text>
+  <rect x="502.54384000000005" y="494.79999999999995" width="120" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="562.54384" y="516.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Product</text>
 </g>
 <g class="entity" data-id="Cta" data-label="Cta">
-  <rect x="1082.04648" y="590.8" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="1142.04648" y="628.8" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Cta</text>
+  <rect x="1149.2798400000001" y="494.79999999999995" width="120" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1209.2798400000001" y="516.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Cta</text>
 </g>
 <g class="entity" data-id="PageSubstitution" data-label="PageSubstitution">
-  <rect x="922.47256" y="590.8" width="139.57392" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="992.2595200000001" y="628.8" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">PageSubstitution</text>
+  <rect x="966.2398400000001" y="494.79999999999995" width="163.04000000000002" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1047.7598400000002" y="516.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">PageSubstitution</text>
 </g>
 <g class="entity" data-id="LegacyPage" data-label="LegacyPage">
-  <rect x="1222.04648" y="590.8" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="1282.04648" y="628.8" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">LegacyPage</text>
+  <rect x="1289.2798400000001" y="494.79999999999995" width="134.24" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1356.39984" y="516.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">LegacyPage</text>
 </g>
 <g class="entity" data-id="ListingGroup" data-label="ListingGroup">
-  <rect x="782.47256" y="590.8" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="842.47256" y="628.8" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">ListingGroup</text>
+  <rect x="811.9998400000001" y="494.79999999999995" width="134.24" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="879.1198400000001" y="516.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">ListingGroup</text>
 </g>
 <g class="entity" data-id="Heading" data-label="Heading">
-  <rect x="178.09519999999998" y="387.2" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="238.09519999999998" y="425.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Heading</text>
+  <rect x="189.60000000000008" y="323.2" width="120" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="249.60000000000008" y="345.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Heading</text>
 </g>
 <g class="entity" data-id="Anchor" data-label="Anchor">
-  <rect x="115.09519999999999" y="590.8" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="175.09519999999998" y="628.8" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Anchor</text>
+  <rect x="126.60000000000008" y="494.79999999999995" width="120" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="186.60000000000008" y="516.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Anchor</text>
 </g>
 <g class="entity" data-id="Directive" data-label="Directive">
-  <rect x="1012.3660400000001" y="387.2" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="1072.36604" y="425.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Directive</text>
+  <rect x="1058.43984" y="323.2" width="120" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1118.43984" y="345.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Directive</text>
 </g>
 <g class="entity" data-id="Link" data-label="Link">
-  <rect x="680.8097771428572" y="387.2" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="740.8097771428572" y="425.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Link</text>
+  <rect x="743.4166171428573" y="323.2" width="120" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="803.4166171428573" y="345.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Link</text>
 </g>
 <g class="entity" data-id="InternalLink" data-label="InternalLink">
-  <rect x="656.6868971428572" y="20" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="716.6868971428572" y="58" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">InternalLink</text>
+  <rect x="707.3899504761906" y="20" width="126.56000000000002" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="770.6699504761906" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">InternalLink</text>
 </g>
 <g class="entity" data-id="CrossLink" data-label="CrossLink">
-  <rect x="469.85833714285724" y="20" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 11%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
-  <text x="529.8583371428572" y="58" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">CrossLink</text>
+  <rect x="514.5923638095239" y="20" width="120" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="574.5923638095239" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">CrossLink</text>
 </g>
 <g class="entity" data-id="CrossLinkUri" data-label="CrossLinkUri">
-  <rect x="469.02383714285725" y="191.6" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 11%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
-  <text x="529.0238371428572" y="229.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">CrossLinkUri</text>
+  <rect x="504.1002238095239" y="159.6" width="140" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="574.1002238095239" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">CrossLinkUri</text>
 </g>
 <g class="entity" data-id="ImageLink" data-label="ImageLink">
-  <rect x="973.1784171428573" y="20" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #b07aa1 11%, var(--bg))" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
-  <text x="1033.1784171428571" y="58" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">ImageLink</text>
+  <rect x="1056.1899504761907" y="20" width="120" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1116.1899504761907" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">ImageLink</text>
 </g>
 <g class="entity" data-id="Image" data-label="Image">
-  <rect x="973.1784171428573" y="191.6" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #b07aa1 11%, var(--bg))" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
-  <text x="1033.1784171428571" y="229.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Image</text>
+  <rect x="1056.1899504761907" y="159.6" width="120" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1116.1899504761907" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Image</text>
 </g>
 <g class="entity" data-id="IncludeDirective" data-label="IncludeDirective">
-  <rect x="20" y="191.6" width="136.1904" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="88.0952" y="229.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">IncludeDirective</text>
+  <rect x="20" y="159.6" width="159.20000000000002" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="99.60000000000001" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">IncludeDirective</text>
 </g>
 <g class="entity" data-id="Snippet" data-label="Snippet">
-  <rect x="28.09519999999999" y="387.2" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="88.09519999999999" y="425.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">Snippet</text>
+  <rect x="39.60000000000008" y="323.2" width="120" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="99.60000000000008" y="345.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Snippet</text>
 </g>
 <g class="entity" data-id="SettingsDirective" data-label="SettingsDirective">
-  <rect x="302.68287714285725" y="20" width="141.26568" height="76" rx="8" ry="8" fill="color-mix(in srgb, #9c755f 11%, var(--bg))" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
-  <text x="373.31571714285724" y="58" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">SettingsDirective</text>
+  <rect x="313.38022380952384" y="20" width="164.96" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
+  <text x="395.86022380952386" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">SettingsDirective</text>
 </g>
 <g class="entity" data-id="SettingsReference" data-label="SettingsReference">
-  <rect x="297.60759714285723" y="191.6" width="151.41624000000002" height="76" rx="8" ry="8" fill="color-mix(in srgb, #9c755f 11%, var(--bg))" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
-  <text x="373.31571714285724" y="229.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">SettingsReference</text>
+  <rect x="307.62022380952385" y="159.6" width="176.48000000000002" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
+  <text x="395.86022380952386" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">SettingsReference</text>
 </g>
 <g class="entity" data-id="ChangelogDirective" data-label="ChangelogDirective">
-  <rect x="406.45608000000004" y="387.2" width="159.87504000000004" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="486.39360000000005" y="425.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">ChangelogDirective</text>
+  <rect x="417.9608800000002" y="323.2" width="186.08" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="511.0008800000002" y="345.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">ChangelogDirective</text>
 </g>
 <g class="entity" data-id="RelatedLearningDirective" data-label="RelatedLearningDirective">
-  <rect x="1113.1784171428574" y="20" width="200.47727999999998" height="76" rx="8" ry="8" fill="color-mix(in srgb, #bab0ac 11%, var(--bg))" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" />
-  <text x="1213.4170571428574" y="58" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">RelatedLearningDirective</text>
+  <rect x="1196.1899504761907" y="20" width="232.15999999999997" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p5)" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1312.2699504761906" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">RelatedLearningDirective</text>
 </g>
 <g class="entity" data-id="RelatedLearningLink" data-label="RelatedLearningLink">
-  <rect x="1128.4042571428572" y="191.6" width="170.0256" height="76" rx="8" ry="8" fill="color-mix(in srgb, #bab0ac 11%, var(--bg))" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" />
-  <text x="1213.4170571428572" y="229.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">RelatedLearningLink</text>
+  <rect x="1213.4699504761907" y="159.6" width="197.6" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p5)" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1312.2699504761906" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">RelatedLearningLink</text>
 </g>
 <g class="entity" data-id="PageCardDirective" data-label="PageCardDirective">
-  <rect x="796.6868971428572" y="20" width="156.49151999999998" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="874.9326571428572" y="58" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">PageCardDirective</text>
+  <rect x="853.9499504761907" y="20" width="182.24" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="945.0699504761907" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">PageCardDirective</text>
 </g>
 <g class="entity" data-id="ApplicabilityEntry" data-label="ApplicabilityEntry">
-  <rect x="630.14796" y="762.4" width="144.6492" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="702.47256" y="800.4" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">ApplicabilityEntry</text>
+  <rect x="644.31984" y="634.4" width="168.8" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="728.71984" y="656.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">ApplicabilityEntry</text>
 </g>
 <g class="entity" data-id="VersionSpec" data-label="VersionSpec">
-  <rect x="642.47256" y="934" width="120" height="76" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 11%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
-  <text x="702.47256" y="972" text-anchor="middle" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)" dy="4.8999999999999995">VersionSpec</text>
+  <rect x="660.63984" y="774" width="136.16000000000003" height="44" rx="8" ry="8" fill="url(#ma2e31288-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="728.7198400000001" y="796" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">VersionSpec</text>
 </g>
-<path d="M1413.3261771428574,105.00000000000001 L1400.3261771428574,104.99999999999999" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M1413.3261771428574,110.00000000000001 L1400.3261771428574,109.99999999999999" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M1399.3261771428572,191.59999999999997 L1406.8261771428572,178.6 L1414.3261771428572,191.60000000000002" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<circle cx="1406.8261771428572" cy="169.6" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M837.3097771428572,276.6 L824.3097771428572,276.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M837.3097771428572,281.6 L824.3097771428572,281.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M910.8660400000001,378.2 L923.8660400000001,378.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<circle cx="917.3660400000001" cy="368.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M891.723182857143,472.2 L878.723182857143,472.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M891.723182857143,477.2 L878.723182857143,477.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M695.97256,581.8 L708.97256,581.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<circle cx="702.47256" cy="571.8" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M871.2946114285716,463.2 L863.7946114285716,476.2 L856.2946114285716,463.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<circle cx="863.7946114285716" cy="485.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M550.4365600000001,590.8 L557.9365600000001,577.8 L565.4365600000001,590.8" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<circle cx="557.9365600000001" cy="568.8" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M957.0088971428572,463.2 L949.5088971428572,476.2 L942.0088971428572,463.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<circle cx="949.5088971428572" cy="485.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M1135.54648,581.8 L1148.54648,581.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<circle cx="1142.04648" cy="571.8" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M934.5803257142858,472.2 L921.5803257142858,472.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M934.5803257142858,477.2 L921.5803257142858,477.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M984.7595200000001,590.8 L992.2595200000001,577.8 L999.7595200000001,590.8" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<circle cx="992.2595200000001" cy="568.8" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M978.4374685714287,463.2 L970.9374685714287,476.2 L963.4374685714287,463.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<circle cx="970.9374685714287" cy="485.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M1274.54648,590.8 L1282.04648,577.8 L1289.54648,590.8" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<circle cx="1282.04648" cy="568.8" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M914.1517542857144,463.2 L906.6517542857144,476.2 L899.1517542857144,463.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<circle cx="906.6517542857144" cy="485.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M835.97256,581.8 L848.97256,581.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<circle cx="842.47256" cy="571.8" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M762.3097771428572,276.6 L749.3097771428572,276.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M762.3097771428572,281.6 L749.3097771428572,281.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M230.59519999999998,387.2 L238.09519999999998,374.2 L245.59519999999998,387.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<circle cx="238.09519999999998" cy="365.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M787.3097771428572,276.6 L774.3097771428572,276.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M787.3097771428572,281.6 L774.3097771428572,281.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M203.59519999999998,590.8 L211.09519999999998,577.8 L218.59519999999998,590.8" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<circle cx="211.09519999999998" cy="568.8" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M244.59519999999998,472.2 L231.59519999999998,472.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M244.59519999999998,477.2 L231.59519999999998,477.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M180.59519999999998,581.8 L193.59519999999998,581.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M180.59519999999998,576.8 L193.59519999999998,576.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M862.3097771428572,276.6 L849.3097771428572,276.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M862.3097771428572,281.6 L849.3097771428572,281.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M1064.86604,387.2 L1072.36604,374.2 L1079.86604,387.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<circle cx="1072.36604" cy="365.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M812.3097771428572,276.6 L799.3097771428572,276.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M812.3097771428572,281.6 L799.3097771428572,281.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M733.3097771428572,387.2 L740.8097771428572,374.2 L748.3097771428572,387.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<circle cx="740.8097771428572" cy="365.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M744.1868971428572,96 L736.6868971428572,109 L729.1868971428572,96" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<circle cx="736.6868971428572" cy="118" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M774.3097771428572,182.6 L787.3097771428572,182.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M774.3097771428572,177.6 L787.3097771428572,177.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M704.1868971428572,96 L696.6868971428572,109 L689.1868971428572,96" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<circle cx="696.6868971428572" cy="118" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M156.59519999999998,581.8 L169.59519999999998,581.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<circle cx="163.09519999999998" cy="571.8" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M537.3583371428572,96 L529.8583371428572,109 L522.3583371428572,96" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<circle cx="529.8583371428572" cy="118" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M522.5238371428572,182.6 L535.5238371428572,182.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M522.5238371428572,177.6 L535.5238371428572,177.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M1040.6784171428571,96 L1033.1784171428571,109 L1025.6784171428571,96" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<circle cx="1033.1784171428571" cy="118" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M1026.6784171428571,182.6 L1039.6784171428571,182.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M1026.6784171428571,177.6 L1039.6784171428571,177.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M95.5952,267.6 L88.0952,280.6 L80.5952,267.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<circle cx="88.0952" cy="289.6" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M81.59519999999999,378.2 L94.59519999999999,378.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M81.59519999999999,373.2 L94.59519999999999,373.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M94.59519999999999,472.2 L81.59519999999999,472.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M94.59519999999999,477.2 L81.59519999999999,477.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M131.59519999999998,590.8 L139.09519999999998,577.8 L146.59519999999998,590.8" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<circle cx="139.09519999999998" cy="568.8" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M380.81571714285724,96 L373.31571714285724,109 L365.81571714285724,96" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<circle cx="373.31571714285724" cy="118" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M366.81571714285724,182.6 L379.81571714285724,182.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M366.81571714285724,177.6 L379.81571714285724,177.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M493.89360000000005,463.2 L486.39360000000005,476.2 L478.89360000000005,463.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<circle cx="486.39360000000005" cy="485.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M511.4365600000001,581.8 L524.4365600000001,581.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M511.4365600000001,576.8 L524.4365600000001,576.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M1220.9170571428574,96.00000000000001 L1213.4170571428574,109 L1205.9170571428574,95.99999999999999" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<circle cx="1213.4170571428574" cy="118" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M1205.9170571428572,191.59999999999997 L1213.4170571428572,178.6 L1220.9170571428572,191.60000000000002" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<path d="M1206.9170571428572,173.59999999999997 L1219.9170571428572,173.60000000000002" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M882.4326571428572,96 L874.9326571428572,109 L867.4326571428572,96" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<circle cx="874.9326571428572" cy="118" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M824.3097771428572,182.6 L837.3097771428572,182.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M824.3097771428572,177.6 L837.3097771428572,177.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M708.97256,675.8 L695.97256,675.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M708.97256,680.8 L695.97256,680.8" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M694.97256,762.4 L702.47256,749.4 L709.97256,762.4" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<circle cx="702.47256" cy="740.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M709.97256,838.4 L702.47256,851.4 L694.97256,838.4" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
-<circle cx="702.47256" cy="860.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M695.97256,925 L708.97256,925" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<path d="M695.97256,920 L708.97256,920" fill="none" stroke="var(--_line)" stroke-width="1.5" />
-<rect x="1385.1465371428574" y="133" width="43.359280000000005" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="1406.8261771428574" y="143.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">files</text>
-<rect x="881.1856000000001" y="316.59999999999997" width="72.36088" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="917.3660400000001" y="327.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">--- yaml ---</text>
-<rect x="662.66692" y="516.2" width="79.61128" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="702.47256" y="527" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">applies_to</text>
-<rect x="553.29908" y="516.2" width="72.36088" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="589.47952" y="527" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">products</text>
-<rect x="1116.74164" y="516.2" width="50.60968" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="1142.04648" y="527" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">cta.id</text>
-<rect x="971.30492" y="516.2" width="41.9092" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="992.2595200000001" y="527" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">sub</text>
-<rect x="1227.74004" y="516.2" width="108.61287999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="1282.04648" y="527" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">mapped_pages</text>
-<rect x="796.8666000000001" y="516.2" width="91.21191999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="842.47256" y="527" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">listing.group</text>
-<rect x="209.52767999999998" y="316.59999999999997" width="57.13503999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="238.09519999999998" y="327.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">## text</text>
-<rect x="316.0952" y="316.59999999999997" width="72.36088" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="352.27563999999995" y="327.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">collected</text>
-<rect x="215.69052" y="516.2" width="44.80936" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="238.09519999999998" y="527" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">slug</text>
-<rect x="1037.63568" y="316.59999999999997" width="69.46072000000001" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="1072.36604" y="327.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">contains</text>
-<rect x="706.0794171428572" y="316.59999999999997" width="69.46072000000001" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="740.8097771428572" y="327.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">contains</text>
-<rect x="714.2822171428572" y="133" width="44.80936" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="736.6868971428572" y="143.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">path</text>
-<rect x="607.0238371428572" y="133" width="69.46072" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="641.7541971428573" y="143.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">#anchor</text>
-<rect x="488.6026171428572" y="133" width="82.51144000000001" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="529.8583371428572" y="143.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">repo://path</text>
-<rect x="1012.9488571428572" y="133" width="40.45912" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="1033.1784171428571" y="143.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">src</text>
-<rect x="65.69052" y="316.59999999999997" width="44.80936" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="88.0952" y="327.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">path</text>
-<rect x="45.389399999999995" y="516.2" width="85.41159999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="88.09519999999999" y="527" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">contributes</text>
-<rect x="350.91103714285725" y="133" width="44.80936" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="373.31571714285724" y="143.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">path</text>
-<rect x="449.48812000000004" y="516.2" width="73.81096" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="486.39360000000005" y="527" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">argument</text>
-<rect x="1194.6375771428575" y="133" width="37.55896" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="1213.4170571428574" y="143.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">ids</text>
-<rect x="839.8397771428572" y="133" width="70.18576" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="874.9326571428572" y="143.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">local link</text>
-<rect x="670.27984" y="703.8" width="64.38543999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="702.47256" y="714.5999999999999" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">per key</text>
-<rect x="669.91732" y="875.4000000000001" width="65.11048" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" />
-<text x="702.47256" y="886.2" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.199999999999999">version</text>
+<path d="M1540.2099504761907,73 L1527.2099504761907,73" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M1540.2099504761907,78 L1527.2099504761907,78" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M1526.2099504761907,159.6 L1533.7099504761907,146.6 L1541.2099504761907,159.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="1533.7099504761907" cy="137.6" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M899.9166171428573,212.6 L886.9166171428573,212.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M899.9166171428573,217.6 L886.9166171428573,217.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M956.93984,314.2 L969.93984,314.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="963.43984" cy="304.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M937.7969828571429,376.2 L924.7969828571429,376.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M937.7969828571429,381.2 L924.7969828571429,381.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M722.21984,485.79999999999995 L735.21984,485.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="728.71984" cy="475.79999999999995" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M917.3684114285714,367.2 L909.8684114285714,380.2 L902.3684114285714,367.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="909.8684114285714" cy="389.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M575.04384,494.79999999999995 L582.54384,481.79999999999995 L590.04384,494.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="582.54384" cy="472.79999999999995" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M1003.0826971428571,367.2 L995.5826971428571,380.2 L988.0826971428571,367.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="995.5826971428571" cy="389.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M1202.7798400000001,485.79999999999995 L1215.7798400000001,485.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="1209.2798400000001" cy="475.79999999999995" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M980.6541257142857,376.2 L967.6541257142857,376.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M980.6541257142857,381.2 L967.6541257142857,381.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M1040.2598400000002,494.79999999999995 L1047.7598400000002,481.79999999999995 L1055.2598400000002,494.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="1047.7598400000002" cy="472.79999999999995" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M1024.5112685714284,367.2 L1017.0112685714286,380.2 L1009.5112685714286,367.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="1017.0112685714286" cy="389.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M1348.89984,494.79999999999995 L1356.39984,481.79999999999995 L1363.89984,494.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="1356.39984" cy="472.79999999999995" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M960.2255542857143,367.2 L952.7255542857143,380.2 L945.2255542857143,367.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="952.7255542857143" cy="389.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M872.6198400000001,485.79999999999995 L885.6198400000001,485.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="879.1198400000001" cy="475.79999999999995" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M824.9166171428573,212.6 L811.9166171428573,212.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M824.9166171428573,217.6 L811.9166171428573,217.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M242.10000000000008,323.2 L249.60000000000008,310.2 L257.1000000000001,323.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="249.60000000000008" cy="301.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M849.9166171428573,212.6 L836.9166171428573,212.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M849.9166171428573,217.6 L836.9166171428573,217.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M215.10000000000008,494.79999999999995 L222.60000000000008,481.79999999999995 L230.10000000000008,494.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="222.60000000000008" cy="472.79999999999995" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M256.1000000000001,376.2 L243.10000000000008,376.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M256.1000000000001,381.2 L243.10000000000008,381.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M192.10000000000008,485.79999999999995 L205.10000000000008,485.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M192.10000000000008,480.79999999999995 L205.10000000000008,480.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M924.9166171428573,212.6 L911.9166171428573,212.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M924.9166171428573,217.6 L911.9166171428573,217.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M1110.93984,323.2 L1118.43984,310.2 L1125.93984,323.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="1118.43984" cy="301.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M874.9166171428573,212.6 L861.9166171428573,212.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M874.9166171428573,217.6 L861.9166171428573,217.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M795.9166171428573,323.2 L803.4166171428573,310.2 L810.9166171428573,323.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="803.4166171428573" cy="301.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M799.263283809524,64 L791.763283809524,77 L784.263283809524,64" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="791.763283809524" cy="86" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M836.9166171428573,150.6 L849.9166171428573,150.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M836.9166171428573,145.6 L849.9166171428573,145.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M757.0766171428573,64 L749.5766171428573,77 L742.0766171428573,64" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="749.5766171428573" cy="86" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M168.10000000000008,485.79999999999995 L181.10000000000008,485.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="174.60000000000008" cy="475.79999999999995" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M582.0923638095239,64 L574.5923638095239,77 L567.0923638095239,64" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="574.5923638095239" cy="86" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M567.6002238095239,150.6 L580.6002238095239,150.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M567.6002238095239,145.6 L580.6002238095239,145.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M1123.6899504761907,64 L1116.1899504761907,77 L1108.6899504761907,64" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="1116.1899504761907" cy="86" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M1109.6899504761907,150.6 L1122.6899504761907,150.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M1109.6899504761907,145.6 L1122.6899504761907,145.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M107.10000000000001,203.6 L99.60000000000002,216.6 L92.10000000000001,203.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="99.60000000000002" cy="225.6" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M93.10000000000008,314.2 L106.10000000000008,314.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M93.10000000000007,309.2 L106.10000000000007,309.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M106.10000000000008,376.2 L93.10000000000008,376.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M106.10000000000008,381.2 L93.10000000000008,381.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M143.10000000000008,494.79999999999995 L150.60000000000008,481.79999999999995 L158.10000000000008,494.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="150.60000000000008" cy="472.79999999999995" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M403.36022380952386,64 L395.86022380952386,77 L388.36022380952386,64" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="395.86022380952386" cy="86" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M389.36022380952386,150.6 L402.36022380952386,150.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M389.36022380952386,145.6 L402.36022380952386,145.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M518.5008800000003,367.2 L511.0008800000002,380.2 L503.5008800000002,367.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="511.0008800000002" cy="389.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M536.04384,485.79999999999995 L549.04384,485.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M536.04384,480.79999999999995 L549.04384,480.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M1319.7699504761906,64 L1312.2699504761906,77 L1304.7699504761906,64" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="1312.2699504761906" cy="86" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M1304.7699504761906,159.6 L1312.2699504761906,146.6 L1319.7699504761906,159.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M1305.7699504761906,141.6 L1318.7699504761906,141.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M952.5699504761907,64 L945.0699504761907,77 L937.5699504761907,64" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="945.0699504761907" cy="86" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M886.9166171428573,150.6 L899.9166171428573,150.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M886.9166171428573,145.6 L899.9166171428573,145.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M735.21984,547.8 L722.21984,547.8" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M735.21984,552.8 L722.21984,552.8" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M721.21984,634.4 L728.71984,621.4 L736.21984,634.4" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="728.71984" cy="612.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M736.21984,678.4 L728.71984,691.4 L721.21984,678.4" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="728.71984" cy="700.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M722.2198400000001,765 L735.2198400000001,765" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M722.2198400000001,760 L735.2198400000001,760" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<g class="edge-label" data-label="files">
+  <rect x="1513.8659504761906" y="101" width="39.688" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="1533.7099504761907" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">files</text>
+</g>
+<g class="edge-label" data-label="--- yaml ---">
+  <rect x="929.91584" y="252.59999999999997" width="67.048" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="963.43984" y="263.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">--- yaml ---</text>
+</g>
+<g class="edge-label" data-label="applies_to">
+  <rect x="691.77584" y="420.2" width="73.88799999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="728.71984" y="431" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">applies_to</text>
+</g>
+<g class="edge-label" data-label="products">
+  <rect x="580.5628" y="420.2" width="67.048" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="614.0868" y="431" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">products</text>
+</g>
+<g class="edge-label" data-label="cta.id">
+  <rect x="1186.0158400000003" y="420.2" width="46.52799999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="1209.2798400000001" y="431" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">cta.id</text>
+</g>
+<g class="edge-label" data-label="sub">
+  <rect x="1028.59984" y="420.2" width="38.32" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="1047.7598400000002" y="431" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">sub</text>
+</g>
+<g class="edge-label" data-label="mapped_pages">
+  <rect x="1305.77584" y="420.2" width="101.24799999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="1356.39984" y="431" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">mapped_pages</text>
+</g>
+<g class="edge-label" data-label="listing.group">
+  <rect x="836.7038400000001" y="420.2" width="84.832" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="879.1198400000001" y="431" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">listing.group</text>
+</g>
+<g class="edge-label" data-label="## text">
+  <rect x="223.2580000000001" y="252.59999999999997" width="52.68399999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="249.60000000000008" y="263.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">## text</text>
+</g>
+<g class="edge-label" data-label="collected">
+  <rect x="330.25644000000017" y="252.59999999999997" width="67.048" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="363.78044000000017" y="263.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">collected</text>
+</g>
+<g class="edge-label" data-label="slug">
+  <rect x="229.0720000000001" y="420.2" width="41.056" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="249.60000000000008" y="431" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">slug</text>
+</g>
+<g class="edge-label" data-label="contains">
+  <rect x="1086.28384" y="252.59999999999997" width="64.312" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="1118.43984" y="263.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">contains</text>
+</g>
+<g class="edge-label" data-label="contains">
+  <rect x="771.2606171428573" y="252.59999999999997" width="64.312" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="803.4166171428573" y="263.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">contains</text>
+</g>
+<g class="edge-label" data-label="path">
+  <rect x="771.2352838095239" y="101" width="41.056" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="791.763283809524" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">path</text>
+</g>
+<g class="edge-label" data-label="#anchor">
+  <rect x="664.6745838095239" y="101" width="64.31199999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="696.8305838095239" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">#anchor</text>
+</g>
+<g class="edge-label" data-label="repo://path">
+  <rect x="536.2803638095239" y="101" width="76.624" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="574.5923638095239" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">repo://path</text>
+</g>
+<g class="edge-label" data-label="src">
+  <rect x="1097.7139504761908" y="101" width="36.952" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="1116.1899504761907" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">src</text>
+</g>
+<g class="edge-label" data-label="path">
+  <rect x="79.072" y="252.59999999999997" width="41.056" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="99.60000000000001" y="263.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">path</text>
+</g>
+<g class="edge-label" data-label="contributes">
+  <rect x="59.92000000000009" y="420.2" width="79.35999999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="99.60000000000008" y="431" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">contributes</text>
+</g>
+<g class="edge-label" data-label="path">
+  <rect x="375.33222380952384" y="101" width="41.056" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="395.86022380952386" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">path</text>
+</g>
+<g class="edge-label" data-label="argument">
+  <rect x="476.7928800000002" y="420.2" width="68.416" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="511.0008800000002" y="431" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">argument</text>
+</g>
+<g class="edge-label" data-label="ids">
+  <rect x="1295.1619504761907" y="101" width="34.215999999999994" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="1312.2699504761906" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">ids</text>
+</g>
+<g class="edge-label" data-label="local link">
+  <rect x="912.5719504761906" y="101" width="64.99600000000001" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="945.0699504761907" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">local link</text>
+</g>
+<g class="edge-label" data-label="per key">
+  <rect x="698.95784" y="575.8" width="59.52399999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="728.71984" y="586.5999999999999" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">per key</text>
+</g>
+<g class="edge-label" data-label="version">
+  <rect x="698.6158399999999" y="715.4000000000001" width="60.208" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line-soft)" stroke-width="1" /> <text x="728.71984" y="726.2" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.199999999999999">version</text>
+</g>
+<defs>
+  <linearGradient id="ma2e31288-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="ma2e31288-ng-p1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="ma2e31288-ng-p2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #76b7b2 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #76b7b2 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="ma2e31288-ng-p3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #b07aa1 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #b07aa1 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="ma2e31288-ng-p4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #9c755f 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #9c755f 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="ma2e31288-ng-p5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #bab0ac 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #bab0ac 7%, var(--bg))" /></linearGradient>
+</defs>
 </svg>

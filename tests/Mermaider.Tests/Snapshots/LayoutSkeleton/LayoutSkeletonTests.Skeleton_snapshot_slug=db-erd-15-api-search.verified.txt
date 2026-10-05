@@ -5,7 +5,7 @@ Layer 3: ApiSupplementalDoc, ApiTag
 Layer 4: ApiOperation
 Edges:
   ApiDeclaration --renders--> ApiSpecVersion [Bottom->Top] [D R D L D]
-  ApiDeclaration --spec + repository--> OpenApiSpec [Bottom->Top] [D L D L D]
+  ApiDeclaration --spec + repository--> OpenApiSpec [Bottom->Top] [D L D]
   ApiDeclaration --product--> Product [Bottom->Top] [D R D]
   ApiSpecVersion --tags--> ApiTag [Bottom->Top] [D]
   ApiSupplementalDoc --op-{id}--> ApiOperation [Bottom->Top] [D R D]

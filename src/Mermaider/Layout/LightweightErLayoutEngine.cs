@@ -12,11 +12,10 @@ namespace Mermaider.Layout;
 internal static class LightweightErLayoutEngine
 {
 	private const double Padding = 20;
-	private const double BoxPadX = 12;
-	private const double HeaderHeight = 38;
-	private const double RowHeight = 26;
+	// Shared entity geometry (class / ER / requirement): 36px header, 28px rows, the EntityGrid column grid.
+	private const double HeaderHeight = 36;
+	private const double RowHeight = DesignSystem.RowHeight;
 	private const double MinWidth = 120;
-	private static readonly double AttrFontSize = RenderConstants.FontSizes.Member;
 	private const double NodeSpacing = 20;
 	private const double LayerSpacing = 72;
 
@@ -28,24 +27,14 @@ internal static class LightweightErLayoutEngine
 		var entitySizes = new Dictionary<string, (double Width, double Height)>();
 		foreach (var entity in diagram.Entities)
 		{
-			var headerTextW = TextMetrics.MeasureTextWidth(
-				entity.Label, RenderConstants.FontSizes.NodeLabel, RenderConstants.FontWeights.NodeLabel);
-			var maxAttrW = 0.0;
-			foreach (var attr in entity.Attributes)
-			{
-				// All three columns: type  name  PK/FK — key is now an inline column
-				var keyText = attr.Keys.Count > 0 ? "  " + string.Join(",", attr.Keys) : "";
-				var attrText = $"{attr.Type}  {attr.Name}{keyText}";
-				var w = TextMetrics.EstimateMonoTextWidth(attrText, AttrFontSize);
-				if (w > maxAttrW)
-					maxAttrW = w;
-			}
+			var (typeW, nameW, badgeW) = ErSvgRenderer.MeasureColumns(entity.Attributes);
+			var gridW = entity.Attributes.Count > 0 ? EntityGrid.BoxWidth(typeW, nameW, signs: false, badgeW) : 0;
 			// Edge anchors are spread evenly along a node side; keep them at least ~18px apart so crow's-foot markers don't overlap.
 			var degree = diagram.Relationships.Count(r => r.Entity1 != r.Entity2 && (r.Entity1 == entity.Id || r.Entity2 == entity.Id));
 			var anchorWidth = degree > 4 ? (degree * 18) + 24 : 0;
-			var width = Math.Max(Math.Max(MinWidth, anchorWidth), Math.Max((headerTextW * ErSvgRenderer.TextWidthCorrection) + (BoxPadX * 2), maxAttrW + (BoxPadX * 2)));
+			var width = Math.Max(Math.Max(MinWidth, anchorWidth), Math.Max(EntityGrid.HeadingWidth(entity.Label), gridW));
 			var height = entity.Attributes.Count == 0
-				? HeaderHeight * 2
+				? HeaderHeight + 8
 				: HeaderHeight + (entity.Attributes.Count * RowHeight);
 			entitySizes[entity.Id] = (width, height);
 		}

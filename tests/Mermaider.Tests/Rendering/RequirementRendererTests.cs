@@ -56,7 +56,7 @@ public class RequirementRendererTests
 		var svg = MermaidRenderer.RenderSvg(Basic);
 
 		svg.Should().Contain("satisfies");
-		svg.Should().Contain("marker-end=\"url(#req-arrow)\"");
+		svg.Should().MatchRegex("marker-end=\"url\\(#[^\"]*mk-open\\)\"");
 	}
 
 	[Test]

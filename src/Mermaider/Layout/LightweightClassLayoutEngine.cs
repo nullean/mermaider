@@ -12,15 +12,20 @@ namespace Mermaider.Layout;
 internal static class LightweightClassLayoutEngine
 {
 	private const double Padding = 40;
-	private const double BoxPadX = 4;
-	private const double HeaderBaseHeight = 32;
+	// Shared entity geometry (class / ER / requirement): 36px header (+16 for a «stereotype»), 28px rows, no section padding.
+	private const double HeaderBaseHeight = 36;
 	private const double AnnotationHeight = 16;
-	private const double MemberRowHeight = 20;
-	private const double SectionPadY = 8;
+	private const double MemberRowHeight = DesignSystem.RowHeight;
+	private const double SectionPadY = 0;
 	private const double EmptySectionHeight = 8;
-	private const double MinWidth = 60;
+	private const double MinWidth = 100;
 	private const double NodeSpacing = 20;
 	private const double LayerSpacing = 60;
+
+	/// <summary>Room above a namespace's members for the shared container header (28px strip / tab / chip).</summary>
+	private const double NamespaceHeader = DesignSystem.StripHeight;
+
+	private const double NamespaceLayerSpacing = 76;
 
 	private const double LollipopSize = 20;
 
@@ -66,17 +71,21 @@ internal static class LightweightClassLayoutEngine
 				? HeaderBaseHeight + AnnotationHeight
 				: HeaderBaseHeight;
 
+			// a class without members is just its header; otherwise an empty compartment keeps a sliver so both read
+			var hasMembers = cls.Attributes.Count > 0 || cls.Methods.Count > 0;
 			var attrHeight = cls.Attributes.Count > 0
 				? (cls.Attributes.Count * MemberRowHeight) + SectionPadY
-				: EmptySectionHeight;
+				: hasMembers ? EmptySectionHeight : 0;
 
 			var methodHeight = cls.Methods.Count > 0
 				? (cls.Methods.Count * MemberRowHeight) + SectionPadY
-				: EmptySectionHeight;
+				: hasMembers ? EmptySectionHeight : 0;
 
-			var headerTextW = TextMetrics.MeasureTextWidth(cls.Label, RenderConstants.FontSizes.NodeLabel, RenderConstants.FontWeights.NodeLabel);
+			var headerW = EntityGrid.HeadingWidth(cls.Label);
+			if (cls.Annotation is { Length: > 0 } annotation)
+				headerW = Math.Max(headerW, EntityGrid.StereotypeWidth("«" + annotation + "»"));
 			var membersW = ClassMemberColumns.BoxWidth(cls.Attributes.Concat(cls.Methods));
-			var width = Math.Max(MinWidth, Math.Max(headerTextW + (BoxPadX * 2), membersW));
+			var width = Math.Max(MinWidth, Math.Max(headerW, membersW));
 			var height = headerHeight + attrHeight + methodHeight;
 
 			classSizes[cls.Id] = (width, height, headerHeight, attrHeight, methodHeight);
@@ -126,7 +135,8 @@ internal static class LightweightClassLayoutEngine
 		{
 			Padding = Padding,
 			NodeSpacing = NodeSpacing,
-			LayerSpacing = LayerSpacing,
+			// namespace boxes wrap their members after layout: leave room for two borders and a header strip between layers
+			LayerSpacing = diagram.Namespaces.Count > 0 ? NamespaceLayerSpacing : LayerSpacing,
 			NaturalBackEdgeRouting = true,
 			ForceBottomExitFanOut = true,
 		});
@@ -229,14 +239,14 @@ internal static class LightweightClassLayoutEngine
 
 		foreach (var note in diagram.Notes)
 		{
-			var textW = TextMetrics.MeasureTextWidth(
-				note.Text, RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel) + 20;
-			var noteW = Math.Max(120.0, textW);
-			var noteH = RenderConstants.FontSizes.EdgeLabel + 16;
+			// note body text (s tier) with 16px side padding and room for the rail / ticks / sticker quote
+			var metrics = TextMetrics.MeasureMultiline(note.Text.AsSpan(), DesignSystem.Px(TypeRole.Body), 400);
+			var noteW = Math.Max(120.0, metrics.Width + 36);
+			var noteH = Math.Max(DesignSystem.RowHeight + 8, metrics.Height + 20);
 
 			if (note.TargetClassId != null && nodeLookup.TryGetValue(note.TargetClassId, out var target))
 			{
-				var noteX = target.X + target.Width + 10;
+				var noteX = target.X + target.Width + 24;
 				var noteY = target.Y;
 				notes.Add(new PositionedGraphNote
 				{
@@ -282,9 +292,9 @@ internal static class LightweightClassLayoutEngine
 			{
 				Name = ns.Name,
 				X = minX - nsPad,
-				Y = minY - nsPad - 20,
+				Y = minY - nsPad - NamespaceHeader,
 				Width = maxNsX - minX + (nsPad * 2),
-				Height = maxNsY - minY + (nsPad * 2) + 20,
+				Height = maxNsY - minY + (nsPad * 2) + NamespaceHeader,
 			});
 		}
 
