@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 232 318.2" width="232" height="318.2" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 245.07999999999998 319.6" width="245.07999999999998" height="319.6" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,40 +26,39 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<defs>
-</defs>
-
-<path class="er-relationship" data-entity1="p" data-entity2="o" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="places" d="M116,110 L116,208.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="p" data-entity2="o" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="places" d="M122.53999999999999,112 L122.53999999999999,207.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <g class="entity" data-id="p" data-label="Customer Account">
-  <rect x="32.640800000000006" y="20" width="166.7184" height="90" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M32.640800000000006,58 L32.640800000000006,26 Q32.640800000000006,20 38.640800000000006,20 L193.35920000000002,20 Q199.35920000000002,20 199.35920000000002,26 L199.35920000000002,58 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <line x1="32.640800000000006" y1="58" x2="199.35920000000002" y2="58" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="32.640800000000006" y1="84" x2="199.35920000000002" y2="84" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="96.0408" y1="58" x2="96.0408" y2="110" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="116" y="39" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Customer Account</text>
-  <text class="mono" x="40.640800000000006" y="71" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="101.0408" y="71" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="191.35920000000002" y="71" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
-  <text class="mono" x="40.640800000000006" y="97" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">string</tspan></text><text class="mono" x="101.0408" y="97" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">name</tspan></text>
-  <rect x="32.640800000000006" y="20" width="166.7184" height="90" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <rect x="35.74" y="20" width="173.6" height="92" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M35.74,56 L35.74,28 Q35.74,20 43.74,20 L201.34,20 Q209.34,20 209.34,28 L209.34,56 Z" fill="url(#m1814eb8b-eb-p0)" />
+  <line x1="35.74" y1="56" x2="209.34" y2="56" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="35.74" y="20" width="173.6" height="92" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="47.74" y1="84" x2="197.34" y2="84" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="122.54" y="38" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Customer Account</text>
+  <text x="51.74" y="70" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">int</text><text x="106.94" y="70" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">id</text><rect x="162.26" y="62" width="31.08" height="16" rx="4" ry="4" fill="color-mix(in srgb, var(--accent, var(--fg)) 22%, var(--bg))" /><text x="177.8" y="70" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, var(--accent, var(--fg)) 44%, var(--fg))" dy="4.2">PK</text>
+  <text x="51.74" y="98" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">string</text><text x="106.94" y="98" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">name</text>
 </g>
 <g class="entity" data-id="o" data-label="Order">
-  <rect x="20" y="208.2" width="192" height="90" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M20,246.2 L20,214.2 Q20,208.2 26,208.2 L206,208.2 Q212,208.2 212,214.2 L212,246.2 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <line x1="20" y1="246.2" x2="212" y2="246.2" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="20" y1="272.2" x2="212" y2="272.2" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="58.2" y1="246.2" x2="58.2" y2="298.2" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="116" y="227.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Order</text>
-  <text class="mono" x="28" y="259.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="63.2" y="259.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">id</tspan></text><text x="204" y="259.2" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">PK</text>
-  <text class="mono" x="28" y="285.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text-sec)">int</tspan></text><text class="mono" x="63.2" y="285.2" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">customer_id</tspan></text><text x="204" y="285.2" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" font-weight="600" fill="var(--_accent-text)">FK</text>
-  <rect x="20" y="208.2" width="192" height="90" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <rect x="20" y="207.6" width="205.07999999999998" height="92" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M20,243.6 L20,215.6 Q20,207.6 28,207.6 L217.07999999999998,207.6 Q225.07999999999998,207.6 225.07999999999998,215.6 L225.07999999999998,243.6 Z" fill="url(#m1814eb8b-eb-p0)" />
+  <line x1="20" y1="243.6" x2="225.07999999999998" y2="243.6" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="20" y="207.6" width="205.07999999999998" height="92" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="32" y1="271.6" x2="213.07999999999998" y2="271.6" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="122.54" y="225.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Order</text>
+  <text x="36" y="257.6" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">int</text><text x="69.6" y="257.6" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">id</text><rect x="178" y="249.60000000000002" width="31.08" height="16" rx="4" ry="4" fill="color-mix(in srgb, var(--accent, var(--fg)) 22%, var(--bg))" /><text x="193.54" y="257.6" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, var(--accent, var(--fg)) 44%, var(--fg))" dy="4.2">PK</text>
+  <text x="36" y="285.6" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">int</text><text x="69.6" y="285.6" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">customer_id</text><rect x="178" y="277.6" width="31.08" height="16" rx="4" ry="4" fill="color-mix(in srgb, var(--_line) 22%, var(--bg))" /><text x="193.54" y="285.6" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, var(--_line) 44%, var(--fg))" dy="4.2">FK</text>
 </g>
-<path d="M122.5,119 L109.5,119" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M122.5,124 L109.5,124" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M108.5,208.2 L116,195.2 L123.5,208.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="116" cy="186.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<rect x="84.12528" y="146.875" width="63.74944000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="116" y="159.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">places</text>
+<path d="M129.04,121 L116.03999999999999,121" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M129.04,126 L116.03999999999999,126" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M115.03999999999999,207.6 L122.53999999999999,194.6 L130.04,207.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="122.53999999999999" cy="185.6" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<g class="edge-label" data-label="places">
+  <rect x="95.172" y="149" width="54.736" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="122.54" y="159.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">places</text>
+</g>
+<defs>
+  <linearGradient id="m1814eb8b-eb-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /></linearGradient>
+</defs>
 </svg>

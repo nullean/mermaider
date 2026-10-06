@@ -54,6 +54,14 @@ public sealed record DiagramColors
 	/// </summary>
 	public string? Default { get; init; }
 
+	/// <summary>
+	/// The line colour diagrams draw connectors, axes and rules in: <see cref="Line"/> when set, otherwise the border of an
+	/// ordinary box (the <see cref="Default"/> role's outline stage), so lines and boxes read as one family.
+	/// </summary>
+	internal string ResolvedLine => Line is { Length: > 0 } line
+		? line
+		: ColorFamily.Mix(RoleColor(ColorRole.Default), ColorFamily.StrokeRatio, "var(--fg)");
+
 	/// <summary>Returns color <paramref name="i"/> from the active data palette, wrapping around.</summary>
 	internal string PaletteAt(int i)
 	{

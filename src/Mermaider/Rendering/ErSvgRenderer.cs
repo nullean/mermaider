@@ -7,17 +7,6 @@ namespace Mermaider.Rendering;
 
 internal static class ErSvgRenderer
 {
-	private static readonly string EntityHeaderAttrs =
-		RenderConstants.TextAttrs.NodeLabelBoldCenterFill + "var(--_text)\"";
-
-	private static readonly string RelLabelAttrs =
-		RenderConstants.TextAttrs.EdgeLabelCenterFill + "var(--_text)\"";
-
-	private static readonly string AttrFontSize = RenderConstants.FsVar.S;
-	private static readonly int AttrFontWeight = RenderConstants.FontWeights.Member;
-	private static readonly string KeyFontSize = RenderConstants.FsVar.Xs;
-	private static readonly int KeyFontWeight = RenderConstants.FontWeights.KeyBadge;
-
 	internal static string Render(PositionedErDiagram diagram, SvgRenderContext context)
 	{
 		var sb = RenderToBuilder(diagram, context);
@@ -36,23 +25,23 @@ internal static class ErSvgRenderer
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 		StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
-		_ = sb.Append("\n<defs>\n</defs>\n");
+		StyleBlock.AppendStyleBlock(sb, context.Styles);
+		var ds = DesignSystem.For(context);
 
 		foreach (var rel in diagram.Relationships)
-			AppendRelationshipLine(sb, rel);
+			AppendRelationshipLine(sb, ds, rel, context.EdgeRadius);
 
 		foreach (var entity in diagram.Entities)
-			AppendEntityBox(sb, entity, context.Styles.Colors);
+			AppendEntityBox(sb, ds, entity);
 
 		foreach (var rel in diagram.Relationships)
-			AppendCardinality(sb, rel);
+			AppendCardinality(sb, ds, rel);
 
 		var labelPositions = ResolveErLabelPositions(diagram.Relationships, diagram.Entities, diagram.Width);
 		for (var i = 0; i < diagram.Relationships.Count; i++)
-			AppendRelationshipLabel(sb, diagram.Relationships[i], labelPositions[i]);
+			AppendRelationshipLabel(sb, ds, diagram.Relationships[i], labelPositions[i]);
 
-		_ = sb.Append("\n</svg>");
+		ds.Close(sb);
 		return sb;
 	}
 
@@ -402,120 +391,75 @@ internal static class ErSvgRenderer
 		return pos;
 	}
 
-	private static void AppendEntityBox(StringBuilder sb, PositionedErEntity entity, Mermaider.Theming.DiagramColors colors)
+	/// <summary>Widest type, name and key-badge group of an entity's attributes, on the shared <see cref="EntityGrid"/>.</summary>
+	internal static (double TypeWidth, double NameWidth, double BadgeWidth) MeasureColumns(IReadOnlyList<ErAttributeInfo> attributes)
 	{
-		// Each connected cluster gets its own palette colour: darker border, light header, white body rows.
-		var clusterColor = colors.AutoPaletteAt(entity.Cluster);
-		var border = VisualLanguage.Border(clusterColor);
-		var boxFill = VisualLanguage.Tint(clusterColor, VisualLanguage.NodeTint);
-		var headerFill = VisualLanguage.Tint(clusterColor, VisualLanguage.HeaderTint);
-		var (x, y, width, height) = (entity.X, entity.Y, entity.Width, entity.Height);
-		var headerHeight = entity.HeaderHeight;
-		var rowHeight = entity.RowHeight;
-
-		// Max type text width across all attributes — used to align the name column
-		var typeColWidth = 0.0;
-		var keyColWidth = 0.0;
-		foreach (var a in entity.Attributes)
+		var (typeW, nameW, badgeW) = (0.0, 0.0, 0.0);
+		foreach (var a in attributes)
 		{
-			var w = TextMetrics.EstimateMonoTextWidth(a.Type, RenderConstants.FontSizes.Member);
-			if (w > typeColWidth)
-				typeColWidth = w;
-			if (a.Keys.Count > 0)
-			{
-				var keyText = string.Join(",", a.Keys);
-				var kw = TextMetrics.MeasureTextWidth(keyText, RenderConstants.FontSizes.KeyBadge, RenderConstants.FontWeights.KeyBadge);
-				if (kw > keyColWidth)
-					keyColWidth = kw;
-			}
+			typeW = Math.Max(typeW, EntityGrid.TypeWidth(a.Type));
+			nameW = Math.Max(nameW, EntityGrid.NameWidth(a.Name));
+			badgeW = Math.Max(badgeW, KeyBadgesWidth(a.Keys));
 		}
+
+		return (typeW, nameW, badgeW);
+	}
+
+	private const double BadgeSpacing = 4;
+
+	private static double KeyBadgesWidth(IReadOnlyList<ErKeyType> keys)
+	{
+		var w = 0.0;
+		for (var i = 0; i < keys.Count; i++)
+			w += EntityGrid.BadgeWidth(keys[i].ToString()) + (i > 0 ? BadgeSpacing : 0);
+		return w;
+	}
+
+	private static void AppendEntityBox(StringBuilder sb, DesignSystem ds, PositionedErEntity entity)
+	{
+		// One family per connected cluster: the shared entity frame (band / plain / card per preset), rows on the column grid.
+		var family = ds.Cluster(entity.Cluster);
+		var (x, y, width, height) = (entity.X, entity.Y, entity.Width, entity.Height);
+		var rowHeight = entity.RowHeight;
+		var headerHeight = entity.HeaderHeight;
 
 		_ = sb.Append("\n<g class=\"entity\" data-id=\"");
 		MultilineUtils.AppendEscapedAttr(sb, entity.Id.AsSpan());
 		_ = sb.Append("\" data-label=\"");
 		MultilineUtils.AppendEscapedAttr(sb, entity.Label.AsSpan());
-		_ = sb.Append("\">\n");
-
-		var r = RenderConstants.Radii.Rectangle;
+		_ = sb.Append("\">\n  ");
 
 		if (entity.Attributes.Count == 0)
 		{
-			// No attributes: plain box — entire box is the header
-			_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
-				.Append("\" width=\"").Append(width).Append("\" height=\"").Append(height)
-				.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-				.Append("\" fill=\"").Append(boxFill).Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"")
-				.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
-			_ = sb.Append("  ");
-			MultilineUtils.AppendMultilineText(
-				sb, entity.Label, x + (width / 2), y + (height / 2),
-				RenderConstants.FontSizes.NodeLabel,
-				EntityHeaderAttrs);
-			_ = sb.Append('\n');
+			ds.AppendHeaderOnlyEntity(sb, x, y, width, height, entity.Label, family);
+			_ = sb.Append("\n</g>");
+			return;
 		}
-		else
+
+		ds.AppendEntityFrame(sb, x, y, width, height, headerHeight, family);
+		var attrTop = y + headerHeight;
+		for (var i = 0; i < entity.Attributes.Count; i++)
+			ds.AppendZebraRow(sb, x, attrTop + (i * rowHeight), width, rowHeight, i, i == entity.Attributes.Count - 1);
+		for (var i = 1; i < entity.Attributes.Count; i++)
+			ds.AppendEntityRowDivider(sb, x, width, attrTop + (i * rowHeight));
+
+		_ = sb.Append("\n  ");
+		ds.AppendEntityName(sb, x, y, width, headerHeight, entity.Label, family);
+
+		var (typeW, _, _) = MeasureColumns(entity.Attributes);
+		var nameX = x + EntityGrid.NameOffset(typeW);
+		for (var i = 0; i < entity.Attributes.Count; i++)
 		{
-			// Render order:
-			// 1. Background fill (no stroke — border painted last so fills don't obscure it)
-			// 2. Header fill
-			// 3. Even-row shading fills
-			// 4. Separator lines on top of fills
-			// 5. Text
-			// 6. Outer border stroke-only (covers fill overflow at rounded corners)
-
-			// 1. Background
-			_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
-				.Append("\" width=\"").Append(width).Append("\" height=\"").Append(height)
-				.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-				.Append("\" fill=\"var(--bg)\" />\n");
-			// 2. Header fill (rows below stay plain background — no striping)
-			VisualLanguage.AppendHeaderPath(sb, x, y, width, headerHeight, r, headerFill);
-			var attrTop = y + headerHeight;
-			// 4. Separators (header + between rows) — all on top of fills
-			_ = sb.Append("  <line x1=\"").Append(x).Append("\" y1=\"").Append(attrTop)
-				.Append("\" x2=\"").Append(x + width).Append("\" y2=\"").Append(attrTop)
-				.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"")
-				.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
-			for (var i = 0; i < entity.Attributes.Count - 1; i++)
-			{
-				var sepY = attrTop + ((i + 1) * rowHeight);
-				_ = sb.Append("  <line x1=\"").Append(x).Append("\" y1=\"").Append(sepY)
-					.Append("\" x2=\"").Append(x + width).Append("\" y2=\"").Append(sepY)
-					.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"1\" opacity=\"0.35\" />\n");
-			}
-			// Vertical column dividers (type | name | key)
-			var attrBottom = y + height;
-			var typeDivX = x + 8 + typeColWidth + 5;
-			_ = sb.Append("  <line x1=\"").Append(typeDivX).Append("\" y1=\"").Append(attrTop)
-				.Append("\" x2=\"").Append(typeDivX).Append("\" y2=\"").Append(attrBottom)
-				.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"1\" opacity=\"0.35\" />\n");
-			// No divider before the key column: name and PK/UK read as one column, so the table looks like two (type | name).
-			// 5. Entity name + attribute text
-			_ = sb.Append("  ");
-			MultilineUtils.AppendMultilineText(
-				sb, entity.Label, x + (width / 2), y + (headerHeight / 2),
-				RenderConstants.FontSizes.NodeLabel,
-				EntityHeaderAttrs);
-			_ = sb.Append('\n');
-			for (var i = 0; i < entity.Attributes.Count; i++)
-			{
-				var rowY = attrTop + (i * rowHeight) + (rowHeight / 2);
-				_ = sb.Append("  ");
-				AppendAttribute(sb, entity.Attributes[i], x, rowY, width, typeColWidth);
-				_ = sb.Append('\n');
-			}
-			// 6. Outer border on top — uniform rounded border over all fills
-			_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
-				.Append("\" width=\"").Append(width).Append("\" height=\"").Append(height)
-				.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-				.Append("\" fill=\"none\" stroke=\"").Append(border).Append("\" stroke-width=\"")
-				.Append(RenderConstants.StrokeWidths.OuterBox).Append("\" />\n");
+			var rowY = attrTop + (i * rowHeight) + (rowHeight / 2);
+			_ = sb.Append("\n  ");
+			AppendAttribute(sb, ds, entity.Attributes[i], x, nameX, rowY, width);
 		}
 
-		_ = sb.Append("</g>");
+		_ = sb.Append("\n</g>");
 	}
 
-	private static void AppendAttribute(StringBuilder sb, ErAttributeInfo attr, double boxX, double y, double boxWidth, double typeColWidth)
+	// type (meta, muted mono) | name (body mono) … key badges right-aligned: PK in the accent, UK / FK neutral
+	private static void AppendAttribute(StringBuilder sb, DesignSystem ds, ErAttributeInfo attr, double boxX, double nameX, double y, double boxWidth)
 	{
 		var hasComment = attr.Comment is { Length: > 0 };
 		if (hasComment)
@@ -525,43 +469,21 @@ internal static class ErSvgRenderer
 			_ = sb.Append("</title>");
 		}
 
-		// Type: left-aligned
-		var typeX = boxX + 8;
-		_ = sb.Append("<text class=\"mono\" x=\"").Append(typeX).Append("\" y=\"").Append(y)
-			.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift)
-			.Append("\" font-size=\"").Append(AttrFontSize)
-			.Append("\" font-weight=\"").Append(AttrFontWeight)
-			.Append("\"><tspan fill=\"var(--_text-sec)\">");
-		MultilineUtils.AppendEscapedXml(sb, attr.Type.AsSpan());
-		_ = sb.Append("</tspan></text>");
+		if (attr.Type.Length > 0)
+			ds.AppendMonoText(sb, attr.Type, boxX + EntityGrid.Pad, y, TypeRole.Meta);
+		ds.AppendMonoText(sb, attr.Name, nameX, y, TypeRole.Body);
 
-		// Name: left-aligned, second column aligned to max type width across the entity
-		var nameX = boxX + 8 + typeColWidth + 10;
-		_ = sb.Append("<text class=\"mono\" x=\"").Append(nameX).Append("\" y=\"").Append(y)
-			.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift)
-			.Append("\" font-size=\"").Append(AttrFontSize)
-			.Append("\" font-weight=\"").Append(AttrFontWeight)
-			.Append("\"><tspan fill=\"var(--_text)\">");
-		MultilineUtils.AppendEscapedXml(sb, attr.Name.AsSpan());
-		_ = sb.Append("</tspan></text>");
-
-		// Key: third column, right-aligned inside the box
-		if (attr.Keys.Count > 0)
+		var right = boxX + boxWidth - EntityGrid.Pad;
+		for (var k = attr.Keys.Count - 1; k >= 0; k--)
 		{
-			var keyText = string.Join(",", attr.Keys);
-			var keyX = boxX + boxWidth - 8;
-			_ = sb.Append("<text x=\"").Append(keyX).Append("\" y=\"").Append(y)
-				.Append("\" text-anchor=\"end\" dy=\"").Append(RenderConstants.TextBaselineShift)
-				.Append("\" font-size=\"").Append(KeyFontSize)
-				.Append("\" font-weight=\"").Append(KeyFontWeight)
-				.Append("\" fill=\"var(--_accent-text)\">").Append(keyText).Append("</text>");
+			var key = attr.Keys[k];
+			var w = ds.AppendBadge(sb, right, y, key.ToString(), key == ErKeyType.PK ? ds.Accent : ds.Neutral, anchor: "end");
+			right -= w + BadgeSpacing;
 		}
 
 		if (hasComment)
 			_ = sb.Append("</g>");
 	}
-
-	private const double CornerRadius = 5;
 
 	// 2px clear padding on each side of the label text, plus the border stroke (it straddles the rect edge).
 	// Horizontal gets extra because the text-width estimate runs a little short of the real glyph widths.
@@ -576,12 +498,13 @@ internal static class ErSvgRenderer
 
 	private const int MaxWaypointsForCurveSimplification = 5;
 
-	private static void AppendRelationshipLine(StringBuilder sb, PositionedErRelationship rel)
+	private static void AppendRelationshipLine(StringBuilder sb, DesignSystem ds, PositionedErRelationship rel, double cornerRadius)
 	{
 		if (rel.Points.Count < 2)
 			return;
 
-		var dashArray = !rel.Identifying ? " stroke-dasharray=\"6 4\"" : "";
+		// solid = identifying (structure), dashed = non-identifying (dependency)
+		var dashArray = !rel.Identifying ? $" stroke-dasharray=\"{DesignSystem.DashArray}\"" : "";
 
 		_ = sb.Append("\n<path class=\"er-relationship\" data-entity1=\"");
 		MultilineUtils.AppendEscapedAttr(sb, rel.Entity1.AsSpan());
@@ -598,14 +521,14 @@ internal static class ErSvgRenderer
 			_ = sb.Append('"');
 		}
 		_ = sb.Append(" d=\"");
-		BuildErPath(sb, rel.Points);
-		_ = sb.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"")
-			.Append(RenderConstants.StrokeWidths.Connector).Append('"').Append(dashArray).Append(" />");
+		BuildErPath(sb, rel.Points, cornerRadius);
+		_ = sb.Append("\" fill=\"none\" stroke=\"").Append(DesignSystem.EdgeColor).Append("\" stroke-width=\"")
+			.Append(ds.EdgeWidth).Append('"').Append(dashArray).Append(" />");
 	}
 
 	// ER edges are pure orthogonal polylines (port → column → port, as routed by the layout) with
 	// uniformly rounded corners — no Bezier S/J-curves, so every edge has the same visual style.
-	private static void BuildErPath(StringBuilder sb, IReadOnlyList<Point> points)
+	private static void BuildErPath(StringBuilder sb, IReadOnlyList<Point> points, double cornerRadius)
 	{
 		if (points.Count < 2)
 			return;
@@ -619,7 +542,7 @@ internal static class ErSvgRenderer
 			var next = points[i + 1];
 			var inLen = Math.Abs(cur.X - prev.X) + Math.Abs(cur.Y - prev.Y);
 			var outLen = Math.Abs(next.X - cur.X) + Math.Abs(next.Y - cur.Y);
-			var r = Math.Min(CornerRadius, Math.Min(inLen, outLen) / 2);
+			var r = Math.Min(cornerRadius, Math.Min(inLen, outLen) / 2);
 			var inDx = Math.Sign(cur.X - prev.X);
 			var inDy = Math.Sign(cur.Y - prev.Y);
 			var outDx = Math.Sign(next.X - cur.X);
@@ -637,49 +560,40 @@ internal static class ErSvgRenderer
 		_ = sb.Append(" L").Append(last.X).Append(',').Append(last.Y);
 	}
 
-	private static void AppendRelationshipLabel(StringBuilder sb, PositionedErRelationship rel, Point? resolvedPosition)
+	private static void AppendRelationshipLabel(StringBuilder sb, DesignSystem ds, PositionedErRelationship rel, Point? resolvedPosition)
 	{
 		if (rel.Label.Length == 0 || rel.Points.Count < 2)
 			return;
 
 		var mid = resolvedPosition ?? ComputeRenderedMidpoint(rel.Points);
-		var metrics = TextMetrics.MeasureMultiline(
-			rel.Label.AsSpan(),
-			RenderConstants.FontSizes.EdgeLabel,
-			RenderConstants.FontWeights.EdgeLabel);
-
-		_ = sb.Append('\n');
-		VisualLanguage.AppendLabelPill(sb, mid.X, mid.Y, metrics.Width, metrics.Height);
-		_ = sb.Append('\n');
-		MultilineUtils.AppendMultilineText(
-			sb, rel.Label, mid.X, mid.Y,
-			RenderConstants.FontSizes.EdgeLabel,
-			RelLabelAttrs);
+		_ = sb.Append("\n<g class=\"edge-label\" data-label=\"");
+		MultilineUtils.AppendEscapedAttr(sb, rel.Label.AsSpan());
+		_ = sb.Append("\">\n  ");
+		ds.AppendEdgeLabel(sb, mid.X, mid.Y, rel.Label);
+		_ = sb.Append("\n</g>");
 	}
 
-	private static void AppendCardinality(StringBuilder sb, PositionedErRelationship rel)
+	private static void AppendCardinality(StringBuilder sb, DesignSystem ds, PositionedErRelationship rel)
 	{
 		if (rel.Points.Count < 2)
 			return;
 
-		var p1 = rel.Points[0];
-		var p2 = rel.Points[1];
-		AppendCrowsFoot(sb, p1, p2, rel.Cardinality1);
-
-		var pN = rel.Points[^1];
-		var pN1 = rel.Points[^2];
-		AppendCrowsFoot(sb, pN, pN1, rel.Cardinality2);
+		AppendCrowsFoot(sb, ds, rel.Points[0], rel.Points[1], rel.Cardinality1);
+		AppendCrowsFoot(sb, ds, rel.Points[^1], rel.Points[^2], rel.Cardinality2);
 	}
 
-	// Cardinality markers sit ON the line, measured from the entity edge, in the same weight as the line so they read as part of it:
+	// Cardinality markers sit ON the line, measured from the entity edge, in the line colour and weight so they read as part of it
+	// (the accent in presets with thin accent heads); hollow parts knock out to the page:
 	//   One      ||   two bars
 	//   ZeroOne  o|   bar + circle
 	//   Many     |<   crow's foot (apex on the line, prongs fanning to the entity edge) + bar
 	//   ZeroMany o<   crow's foot + circle
 	// The router keeps the first/last segment straight for at least ErEdgeRouter.Stub, so a marker never straddles a bend.
-	private static void AppendCrowsFoot(StringBuilder sb, Point point, Point toward, ErCardinality cardinality)
+	private static void AppendCrowsFoot(StringBuilder sb, DesignSystem ds, Point point, Point toward, ErCardinality cardinality)
 	{
-		var sw = RenderConstants.StrokeWidths.Connector;
+		var sw = ds.EdgeWidth;
+		var color = ds.OwnMarkerColor;
+		var join = ds.Spec.Marker == MarkerKind.Chunky ? " stroke-linejoin=\"round\" stroke-linecap=\"round\"" : " stroke-linejoin=\"round\"";
 		var dx = toward.X - point.X;
 		var dy = toward.Y - point.Y;
 		var len = Math.Sqrt((dx * dx) + (dy * dy));
@@ -701,14 +615,14 @@ internal static class ErSvgRenderer
 		{
 			var (p, q) = (At(along, -halfBar), At(along, halfBar));
 			_ = sb.Append("\n<path d=\"M").Append(p.X).Append(',').Append(p.Y).Append(" L").Append(q.X).Append(',').Append(q.Y)
-				.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"").Append(sw).Append("\" />");
+				.Append("\" fill=\"none\" stroke=\"").Append(color).Append("\" stroke-width=\"").Append(sw).Append('"').Append(join).Append(" />");
 		}
 
 		void Circle(double along)
 		{
 			var c = At(along, 0);
 			_ = sb.Append("\n<circle cx=\"").Append(c.X).Append("\" cy=\"").Append(c.Y).Append("\" r=\"").Append(circleR)
-				.Append("\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"").Append(sw).Append("\" />");
+				.Append("\" fill=\"var(--bg)\" stroke=\"").Append(color).Append("\" stroke-width=\"").Append(sw).Append("\" />");
 		}
 
 		void Foot()
@@ -716,7 +630,7 @@ internal static class ErSvgRenderer
 			var (tip, left, right) = (At(apex, 0), At(0, -fan), At(0, fan));
 			_ = sb.Append("\n<path d=\"M").Append(left.X).Append(',').Append(left.Y).Append(" L").Append(tip.X).Append(',').Append(tip.Y)
 				.Append(" L").Append(right.X).Append(',').Append(right.Y)
-				.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"").Append(sw).Append("\" stroke-linejoin=\"round\" />");
+				.Append("\" fill=\"none\" stroke=\"").Append(color).Append("\" stroke-width=\"").Append(sw).Append('"').Append(join).Append(" />");
 		}
 
 		switch (cardinality)

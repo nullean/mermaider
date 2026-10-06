@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850.795 678.4" width="850.795" height="678.4" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 893.0790133333333 736" width="893.0790133333333" height="736" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,143 +26,139 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
+<path class="req-relation" data-type="contains" d="M245.85704,446 L245.85704,466 Q245.85704,474 253.85704,474 L262.19755999999995,474 Q270.19755999999995,474 270.19755999999995,482 L270.19755999999995,508.5 Q270.19755999999995,516.5 278.19755999999995,516.5 L406.0030833333333,516.5 Q414.0030833333333,516.5 414.0030833333333,524.5 L414.0030833333333,548" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<circle cx="414.0030833333333" cy="542" r="6" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M410.5030833333333,542 L417.5030833333333,542 M414.0030833333333,538.5 L414.0030833333333,545.5" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linecap="round" />
+<path class="req-relation" data-type="copies" d="M595.6228533333333,446 L595.6228533333333,512 Q595.6228533333333,520 587.6228533333333,520 L485.6078633333333,520 Q477.6078633333333,520 477.6078633333333,528 L477.6078633333333,548" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="1.5 4.5" stroke-linecap="round" marker-end="url(#m1814eb8b-mk-open)" />
+<path class="req-relation" data-type="derives" d="M725.4415733333333,188 L725.4415733333333,246 Q725.4415733333333,254 717.4415733333333,254 L647.62876,254 Q639.62876,254 639.62876,262 L639.62876,282" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="1.5 4.5" stroke-linecap="round" marker-end="url(#m1814eb8b-mk-open)" />
+<path class="req-relation" data-type="refines" d="M184.87118666666663,132 L184.87118666666663,246 Q184.87118666666663,254 192.87118666666663,254 L237.85704,254 Q245.85704,254 245.85704,262 L245.85704,282" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-open)" />
+<path class="req-relation" data-type="verifies" d="M465.8041333333333,104 L465.8041333333333,124 Q465.8041333333333,132 473.8041333333333,132 L482.1446533333333,132 Q490.1446533333333,132 490.1446533333333,140 L490.1446533333333,246 Q490.1446533333333,254 498.1446533333333,254 L543.6169466666668,254 Q551.6169466666668,254 551.6169466666668,262 L551.6169466666668,282" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-open)" />
+<path class="req-relation" data-type="traces" d="M116.6058533333333,132 L116.6058533333333,152 Q116.6058533333333,160 108.6058533333333,160 L63.620000000000005,160 Q55.620000000000005,160 55.620000000000005,168 L55.620000000000005,466 Q55.620000000000005,474 63.620000000000005,474 L71.96051999999997,474 Q79.96051999999997,474 79.96051999999997,482 L79.96051999999997,515.5 Q79.96051999999997,523.5 87.96051999999997,523.5 L342.3983033333333,523.5 Q350.3983033333333,523.5 350.3983033333333,531.5 L350.3983033333333,548" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="1.5 4.5" stroke-linecap="round" marker-end="url(#m1814eb8b-mk-open)" />
+<g class="req-node entity" data-id="parent" data-kind="requirement">
+  <rect x="114.24000000000001" y="282" width="263.23408" height="164" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M114.24000000000001,334 L114.24000000000001,290 Q114.24000000000001,282 122.24000000000001,282 L369.47408,282 Q377.47408,282 377.47408,290 L377.47408,334 Z" fill="url(#m1814eb8b-eb-p0)" />
+  <line x1="114.24000000000001" y1="334" x2="377.47408" y2="334" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="114.24000000000001" y="282" width="263.23408" height="164" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="126.24000000000001" y1="362" x2="365.47408" y2="362" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="126.24000000000001" y1="390" x2="365.47408" y2="390" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="126.24000000000001" y1="418" x2="365.47408" y2="418" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="245.86" y="298.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.2">«Requirement»</text>
+  <text x="245.86" y="316.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">parent</text>
+  <text x="130.24" y="348" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Id</text>
+  <text x="230.64" y="348" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">P-1</text>
+  <text x="130.24" y="376" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Text</text>
+  <text x="230.64" y="376" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Parent requirement</text>
+  <text x="130.24" y="404" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Risk</text>
+  <rect x="230.64" y="395" width="70.72" height="18" rx="9" ry="9" fill="color-mix(in srgb, #edc948 22%, var(--bg))" /><circle cx="239.64" cy="404" r="3" fill="color-mix(in srgb, #edc948 44%, var(--fg))" /><text x="246.64" y="404" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #edc948 44%, var(--fg))" dy="4.2">Medium</text>
+  <text x="130.24" y="432" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Verification</text>
+  <text x="230.64" y="432" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Test</text>
+</g>
+<g class="req-node entity" data-id="child" data-kind="requirement">
+  <rect x="286.79352333333327" y="548" width="254.41912000000002" height="164" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M286.79352333333327,600 L286.79352333333327,556 Q286.79352333333327,548 294.79352333333327,548 L533.2126433333333,548 Q541.2126433333333,548 541.2126433333333,556 L541.2126433333333,600 Z" fill="url(#m1814eb8b-eb-p0)" />
+  <line x1="286.79352333333327" y1="600" x2="541.2126433333333" y2="600" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="286.79352333333327" y="548" width="254.41912000000002" height="164" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="298.79352333333327" y1="628" x2="529.2126433333333" y2="628" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="298.79352333333327" y1="656" x2="529.2126433333333" y2="656" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="298.79352333333327" y1="684" x2="529.2126433333333" y2="684" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="414" y="564.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.2">«Requirement»</text>
+  <text x="414" y="582.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">child</text>
+  <text x="302.79" y="614" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Id</text>
+  <text x="403.19" y="614" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">P-1.1</text>
+  <text x="302.79" y="642" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Text</text>
+  <text x="403.19" y="642" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Refines the parent</text>
+  <text x="302.79" y="670" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Risk</text>
+  <rect x="403.19352333333325" y="661" width="51.28" height="18" rx="9" ry="9" fill="color-mix(in srgb, #59a14f 22%, var(--bg))" /><circle cx="412.19352333333325" cy="670" r="3" fill="color-mix(in srgb, #59a14f 44%, var(--fg))" /><text x="419.19" y="670" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #59a14f 44%, var(--fg))" dy="4.2">Low</text>
+  <text x="302.79" y="698" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Verification</text>
+  <text x="403.19" y="698" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Test</text>
+</g>
+<g class="req-node entity" data-id="copy" data-kind="requirement">
+  <rect x="463.60513333333336" y="282" width="264.03544" height="164" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M463.60513333333336,334 L463.60513333333336,290 Q463.60513333333336,282 471.60513333333336,282 L719.6405733333334,282 Q727.6405733333334,282 727.6405733333334,290 L727.6405733333334,334 Z" fill="url(#m1814eb8b-eb-p0)" />
+  <line x1="463.60513333333336" y1="334" x2="727.6405733333334" y2="334" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="463.60513333333336" y="282" width="264.03544" height="164" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="475.60513333333336" y1="362" x2="715.6405733333334" y2="362" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="475.60513333333336" y1="390" x2="715.6405733333334" y2="390" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="475.60513333333336" y1="418" x2="715.6405733333334" y2="418" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="595.62" y="298.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.2">«Requirement»</text>
+  <text x="595.62" y="316.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">copy</text>
+  <text x="479.61" y="348" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Id</text>
+  <text x="580.01" y="348" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">P-2</text>
+  <text x="479.61" y="376" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Text</text>
+  <text x="580.01" y="376" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">A copy of the parent</text>
+  <text x="479.61" y="404" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Risk</text>
+  <rect x="580.0051333333333" y="395" width="51.28" height="18" rx="9" ry="9" fill="color-mix(in srgb, #59a14f 22%, var(--bg))" /><circle cx="589.0051333333333" cy="404" r="3" fill="color-mix(in srgb, #59a14f 44%, var(--fg))" /><text x="596.01" y="404" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #59a14f 44%, var(--fg))" dy="4.2">Low</text>
+  <text x="479.61" y="432" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Verification</text>
+  <text x="580.01" y="432" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Inspection</text>
+</g>
+<g class="req-node entity" data-id="derived" data-kind="requirement">
+  <rect x="581.8041333333333" y="24" width="287.27488" height="164" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M581.8041333333333,76 L581.8041333333333,32 Q581.8041333333333,24 589.8041333333333,24 L861.0790133333333,24 Q869.0790133333333,24 869.0790133333333,32 L869.0790133333333,76 Z" fill="url(#m1814eb8b-eb-p0)" />
+  <line x1="581.8041333333333" y1="76" x2="869.0790133333333" y2="76" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="581.8041333333333" y="24" width="287.27488" height="164" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="593.8041333333333" y1="104" x2="857.0790133333333" y2="104" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="593.8041333333333" y1="132" x2="857.0790133333333" y2="132" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="593.8041333333333" y1="160" x2="857.0790133333333" y2="160" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="725.44" y="40.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.2">«Requirement»</text>
+  <text x="725.44" y="58.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">derived</text>
+  <text x="597.8" y="90" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Id</text>
+  <text x="698.2" y="90" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">P-3</text>
+  <text x="597.8" y="118" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Text</text>
+  <text x="698.2" y="118" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Derived from the parent</text>
+  <text x="597.8" y="146" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Risk</text>
+  <rect x="698.2041333333333" y="137" width="52.72" height="18" rx="9" ry="9" fill="color-mix(in srgb, #e15759 22%, var(--bg))" /><circle cx="707.2041333333333" cy="146" r="3" fill="color-mix(in srgb, #e15759 44%, var(--fg))" /><text x="714.2" y="146" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #e15759 44%, var(--fg))" dy="4.2">High</text>
+  <text x="597.8" y="174" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Verification</text>
+  <text x="698.2" y="174" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Analysis</text>
+</g>
+<g class="req-node entity" data-id="design_doc" data-kind="element">
+  <rect x="48.34051999999997" y="24" width="204.796" height="108" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M48.34051999999997,76 L48.34051999999997,32 Q48.34051999999997,24 56.34051999999997,24 L245.13651999999996,24 Q253.13651999999996,24 253.13651999999996,32 L253.13651999999996,76 Z" fill="url(#m1814eb8b-eb-p0)" />
+  <line x1="48.34051999999997" y1="76" x2="253.13651999999996" y2="76" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="48.34051999999997" y="24" width="204.796" height="108" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="60.34051999999997" y1="104" x2="241.13651999999996" y2="104" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="150.74" y="40.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.2">«Element»</text>
+  <text x="150.74" y="58.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">design_doc</text>
+  <text x="64.34" y="90" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Type</text>
+  <text x="128.74" y="90" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">document</text>
+  <text x="64.34" y="118" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Doc ref</text>
+  <text x="128.74" y="118" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">docs/design.md</text>
+</g>
+<g class="req-node entity" data-id="test_suite" data-kind="element">
+  <rect x="385.8041333333333" y="24" width="160" height="80" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M385.8041333333333,76 L385.8041333333333,32 Q385.8041333333333,24 393.8041333333333,24 L537.8041333333333,24 Q545.8041333333333,24 545.8041333333333,32 L545.8041333333333,76 Z" fill="url(#m1814eb8b-eb-p0)" />
+  <line x1="385.8041333333333" y1="76" x2="545.8041333333333" y2="76" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="385.8041333333333" y="24" width="160" height="80" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="465.8" y="40.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.2">«Element»</text>
+  <text x="465.8" y="58.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">test_suite</text>
+  <text x="401.8" y="90" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Type</text>
+  <text x="445.84" y="90" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">test suite</text>
+</g>
+<g class="edge-label" data-label="contains">
+  <rect x="238.04155999999995" y="486.2" width="64.312" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="270.2" y="497" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">contains</text>
+</g>
+<g class="edge-label" data-label="copies">
+  <rect x="568.2548533333332" y="486.2" width="54.736" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="595.62" y="497" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">copies</text>
+</g>
+<g class="edge-label" data-label="derives">
+  <rect x="695.3375733333332" y="224.2" width="60.20799999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="725.44" y="235" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">derives</text>
+</g>
+<g class="edge-label" data-label="refines">
+  <rect x="156.81918666666664" y="196.2" width="56.103999999999985" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="184.87" y="207" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">refines</text>
+</g>
+<g class="edge-label" data-label="verifies">
+  <rect x="460.72465333333326" y="182.2" width="58.839999999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="490.14" y="193" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">verifies</text>
+</g>
+<g class="edge-label" data-label="traces">
+  <rect x="28.936000000000007" y="196.2" width="53.367999999999995" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="55.62" y="207" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">traces</text>
+</g>
 <defs>
-  <marker id="req-arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
+  <linearGradient id="m1814eb8b-eb-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /></linearGradient>
+  <marker id="m1814eb8b-mk-open" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <path d="M0,1.5 L10,6 L0,10.5" fill="none" stroke="var(--_line)" stroke-width="1.25" stroke-linejoin="miter" stroke-linecap="round" />
   </marker>
 </defs>
-
-<path class="req-relation" d="M225.14600000000004,408.2 L225.14600000000004,414.2 Q225.14600000000004,420.2 231.14600000000004,420.2 L385.6170000000001,420.2 Q391.6170000000001,420.2 391.6170000000001,426.2 L391.6170000000001,508.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#req-arrow)" />
-<rect x="354.1327600000001" y="438.84499999999997" width="74.96848000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="391.62" y="451.07" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">contains</text>
-<path class="req-relation" d="M564.684,408.2 L564.684,414.2 Q564.684,420.2 558.684,420.2 L457.90500000000003,420.2 Q451.90500000000003,420.2 451.90500000000003,426.2 L451.90500000000003,508.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#req-arrow)" />
-<rect x="420.03028" y="452.07499999999993" width="63.74944000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="451.91" y="464.3" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">copies</text>
-<path class="req-relation" d="M690.7209999999999,170 L690.7209999999999,228.2 Q690.7209999999999,234.2 684.7209999999999,234.2 L612.388,234.2 Q606.388,234.2 606.388,240.2 L606.388,262.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#req-arrow)" />
-<rect x="655.6408399999999" y="203.875" width="70.16032" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="690.72" y="216.1" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">derives</text>
-<path class="req-relation" d="M170.35600000000008,130 L170.35600000000008,152 Q170.35600000000008,158 176.35600000000008,158 L219.14600000000004,158 Q225.14600000000004,158 225.14600000000004,164 L225.14600000000004,262.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#req-arrow)" />
-<rect x="192.46992000000006" y="183.875" width="65.35216" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="225.15" y="196.1" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">refines</text>
-<path class="req-relation" d="M438.647,110 L438.647,228.2 Q438.647,234.2 444.647,234.2 L516.98,234.2 Q522.98,234.2 522.98,240.2 L522.98,262.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#req-arrow)" />
-<rect x="404.3682" y="173.875" width="68.55760000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="438.65" y="186.1" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">verifies</text>
-<path class="req-relation" d="M103.49600000000008,130 L103.49600000000008,152 Q103.49600000000008,158 97.49600000000008,158 L54.706,158 Q48.706,158 48.706,164 L48.706,430.2 Q48.706,436.2 54.706,436.2 L55.3420000000001,436.2 Q61.3420000000001,436.2 61.3420000000001,442.2 L61.3420000000001,477.9 Q61.3420000000001,483.9 67.3420000000001,483.9 L325.32900000000006,483.9 Q331.32900000000006,483.9 331.32900000000006,489.9 L331.32900000000006,508.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#req-arrow)" />
-<rect x="17.632640000000002" y="183.875" width="62.14672" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="48.71" y="196.1" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">traces</text>
-<g class="req-node" data-id="parent">
-  <rect x="100.41" y="262.2" width="249.47" height="146" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M100.41200000000003,318.2 L100.41200000000003,268.2 Q100.41200000000003,262.2 106.41200000000003,262.2 L343.88000000000005,262.2 Q349.88000000000005,262.2 349.88000000000005,268.2 L349.88000000000005,318.2 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-
-  <text x="225.15" y="282.2" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#3B5B7D">Requirement</text>
-  <text x="225.15" y="302.2" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">parent</text>
-  <line x1="100.41" y1="318.2" x2="349.88" y2="318.2" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="114.41" y="331.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Id</text>
-  <text x="206.11" y="331.2" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">P-1</text>
-  <line x1="100.41" y1="340.7" x2="349.88" y2="340.7" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="114.41" y="351.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Text</text>
-  <text x="206.11" y="351.2" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Parent requirement</text>
-  <line x1="100.41" y1="360.7" x2="349.88" y2="360.7" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="114.41" y="371.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Risk</text>
-  <text x="206.11" y="371.2" dy="0.35em" font-size="var(--fs-s)" fill="#E2B516">Medium</text>
-  <line x1="100.41" y1="380.7" x2="349.88" y2="380.7" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="114.41" y="391.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Verification</text>
-  <text x="206.11" y="391.2" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Test</text>
-  <line x1="199.11" y1="318.2" x2="199.11" y2="408.2" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <rect x="100.41" y="262.2" width="249.47" height="146" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
-</g>
-<g class="req-node" data-id="child">
-  <rect x="271.04" y="508.4" width="241.15" height="146" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M271.04100000000005,564.4 L271.04100000000005,514.4 Q271.04100000000005,508.4 277.04100000000005,508.4 L506.193,508.4 Q512.193,508.4 512.193,514.4 L512.193,564.4 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-
-  <text x="391.62" y="528.4" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#3B5B7D">Requirement</text>
-  <text x="391.62" y="548.4" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">child</text>
-  <line x1="271.04" y1="564.4" x2="512.19" y2="564.4" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="285.04" y="577.4" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Id</text>
-  <text x="376.74" y="577.4" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">P-1.1</text>
-  <line x1="271.04" y1="586.9" x2="512.19" y2="586.9" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="285.04" y="597.4" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Text</text>
-  <text x="376.74" y="597.4" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Refines the parent</text>
-  <line x1="271.04" y1="606.9" x2="512.19" y2="606.9" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="285.04" y="617.4" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Risk</text>
-  <text x="376.74" y="617.4" dy="0.35em" font-size="var(--fs-s)" fill="#42783B">Low</text>
-  <line x1="271.04" y1="626.9" x2="512.19" y2="626.9" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="285.04" y="637.4" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Verification</text>
-  <text x="376.74" y="637.4" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Test</text>
-  <line x1="369.74" y1="564.4" x2="369.74" y2="654.4" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <rect x="271.04" y="508.4" width="241.15" height="146" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
-</g>
-<g class="req-node" data-id="copy">
-  <rect x="439.57" y="262.2" width="250.22" height="146" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M439.572,318.2 L439.572,268.2 Q439.572,262.2 445.572,262.2 L683.796,262.2 Q689.796,262.2 689.796,268.2 L689.796,318.2 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-
-  <text x="564.68" y="282.2" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#3B5B7D">Requirement</text>
-  <text x="564.68" y="302.2" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">copy</text>
-  <line x1="439.57" y1="318.2" x2="689.8" y2="318.2" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="453.57" y="331.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Id</text>
-  <text x="545.27" y="331.2" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">P-2</text>
-  <line x1="439.57" y1="340.7" x2="689.8" y2="340.7" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="453.57" y="351.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Text</text>
-  <text x="545.27" y="351.2" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">A copy of the parent</text>
-  <line x1="439.57" y1="360.7" x2="689.8" y2="360.7" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="453.57" y="371.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Risk</text>
-  <text x="545.27" y="371.2" dy="0.35em" font-size="var(--fs-s)" fill="#42783B">Low</text>
-  <line x1="439.57" y1="380.7" x2="689.8" y2="380.7" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="453.57" y="391.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Verification</text>
-  <text x="545.27" y="391.2" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Inspection</text>
-  <line x1="538.27" y1="318.2" x2="538.27" y2="408.2" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <rect x="439.57" y="262.2" width="250.22" height="146" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
-</g>
-<g class="req-node" data-id="derived">
-  <rect x="554.65" y="24" width="272.15" height="146" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M554.6469999999999,80 L554.6469999999999,30 Q554.6469999999999,24 560.6469999999999,24 L820.795,24 Q826.795,24 826.795,30 L826.795,80 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-
-  <text x="690.72" y="44" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#3B5B7D">Requirement</text>
-  <text x="690.72" y="64" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">derived</text>
-  <line x1="554.65" y1="80" x2="826.8" y2="80" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="568.65" y="93" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Id</text>
-  <text x="660.35" y="93" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">P-3</text>
-  <line x1="554.65" y1="102.5" x2="826.8" y2="102.5" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="568.65" y="113" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Text</text>
-  <text x="660.35" y="113" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Derived from the parent</text>
-  <line x1="554.65" y1="122.5" x2="826.8" y2="122.5" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="568.65" y="133" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Risk</text>
-  <text x="660.35" y="133" dy="0.35em" font-size="var(--fs-s)" fill="#D52629">High</text>
-  <line x1="554.65" y1="142.5" x2="826.8" y2="142.5" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="568.65" y="153" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Verification</text>
-  <text x="660.35" y="153" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Analysis</text>
-  <line x1="653.35" y1="80" x2="653.35" y2="170" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <rect x="554.65" y="24" width="272.15" height="146" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
-</g>
-<g class="req-node" data-id="design_doc">
-  <rect x="36.64" y="24" width="200.58" height="106" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M36.63600000000008,80 L36.63600000000008,30 Q36.63600000000008,24 42.63600000000008,24 L231.21600000000007,24 Q237.21600000000007,24 237.21600000000007,30 L237.21600000000007,80 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-
-  <text x="136.93" y="44" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#3B5B7D">Element</text>
-  <text x="136.93" y="64" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">design_doc</text>
-  <line x1="36.64" y1="80" x2="237.22" y2="80" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="50.64" y="93" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Type</text>
-  <text x="114.62" y="93" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">document</text>
-  <line x1="36.64" y1="102.5" x2="237.22" y2="102.5" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="50.64" y="113" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Doc ref</text>
-  <text x="114.62" y="113" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">docs/design.md</text>
-  <line x1="107.62" y1="80" x2="107.62" y2="130" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <rect x="36.64" y="24" width="200.58" height="106" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
-</g>
-<g class="req-node" data-id="test_suite">
-  <rect x="358.65" y="24" width="160" height="86" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M358.647,80 L358.647,30 Q358.647,24 364.647,24 L512.6469999999999,24 Q518.6469999999999,24 518.6469999999999,30 L518.6469999999999,80 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-
-  <text x="438.65" y="44" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#3B5B7D">Element</text>
-  <text x="438.65" y="64" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">test_suite</text>
-  <line x1="358.65" y1="80" x2="518.65" y2="80" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="372.65" y="93" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Type</text>
-  <text x="424.03" y="93" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">test suite</text>
-  <line x1="417.03" y1="80" x2="417.03" y2="110" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <rect x="358.65" y="24" width="160" height="86" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
-</g>
 </svg>

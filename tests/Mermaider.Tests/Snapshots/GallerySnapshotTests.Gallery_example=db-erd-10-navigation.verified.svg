@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 464.4" width="440" height="464.4" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 363.2" width="440" height="363.2" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,59 +26,63 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<defs>
-</defs>
-
-<path class="er-relationship" data-entity1="TocItem" data-entity2="NavigationNode" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="mirrors" d="M80,270.2 L80,335.4 Q80,340.4 85,340.4 L120.27488,340.4 Q125.27488,340.4 125.27488,345.4 L125.27488,368.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="SiteNavigation" data-entity2="SiteMount" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="toc" d="M267.20831999999996,96 L267.20831999999996,119 Q267.20831999999996,124 262.20831999999996,124 L225,124 Q220,124 220,129 L220,194.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="SiteMount" data-entity2="NavigationNode" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="re-homes" d="M220,270.2 L220,335.4 Q220,340.4 215,340.4 L179.72512,340.4 Q174.72512,340.4 174.72512,345.4 L174.72512,368.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="SiteNavigation" data-entity2="Phantom" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="phantoms" d="M312.79168,96 L312.79168,119 Q312.79168,124 317.79168,124 L355,124 Q360,124 360,129 L360,194.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="TocItem" data-entity2="NavigationNode" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="mirrors" d="M80,203.6 L80,263.2 Q80,271.2 88,271.2 L116.10666666666665,271.2 Q124.10666666666665,271.2 124.10666666666665,279.2 L124.10666666666665,299.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="SiteNavigation" data-entity2="SiteMount" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="toc" d="M266.02666666666664,64 L266.02666666666664,84 Q266.02666666666664,92 258.02666666666664,92 L228,92 Q220,92 220,100 L220,159.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="SiteMount" data-entity2="NavigationNode" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="re-homes" d="M220,203.6 L220,263.2 Q220,271.2 212,271.2 L183.89333333333332,271.2 Q175.89333333333332,271.2 175.89333333333332,279.2 L175.89333333333332,299.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="SiteNavigation" data-entity2="Phantom" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="phantoms" d="M313.97333333333336,64 L313.97333333333336,84 Q313.97333333333336,92 321.97333333333336,92 L352,92 Q360,92 360,100 L360,159.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <g class="entity" data-id="TocItem" data-label="TocItem">
-  <rect x="20" y="194.2" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="80" y="232.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">TocItem</text>
+  <rect x="20" y="159.6" width="120" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="80" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">TocItem</text>
 </g>
 <g class="entity" data-id="NavigationNode" data-label="NavigationNode">
-  <rect x="75.82463999999999" y="368.4" width="148.35072000000002" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="150" y="406.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">NavigationNode</text>
+  <rect x="72.31999999999998" y="299.2" width="155.36" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="150" y="321.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">NavigationNode</text>
 </g>
 <g class="entity" data-id="SiteNavigation" data-label="SiteNavigation">
-  <rect x="221.62496" y="20" width="136.75008000000003" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="290" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">SiteNavigation</text>
+  <rect x="218.07999999999998" y="20" width="143.84000000000003" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="290" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">SiteNavigation</text>
 </g>
 <g class="entity" data-id="SiteMount" data-label="SiteMount">
-  <rect x="160" y="194.2" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="220" y="232.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">SiteMount</text>
+  <rect x="160" y="159.6" width="120" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="220" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">SiteMount</text>
 </g>
 <g class="entity" data-id="Phantom" data-label="Phantom">
-  <rect x="300" y="194.2" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="360" y="232.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Phantom</text>
+  <rect x="300" y="159.6" width="120" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="360" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Phantom</text>
 </g>
-<path d="M86.5,279.2 L73.5,279.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M86.5,284.2 L73.5,284.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M118.77488,359.4 L131.77488,359.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M118.77488,354.4 L131.77488,354.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M273.70831999999996,105 L260.70831999999996,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M273.70831999999996,110 L260.70831999999996,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M212.5,194.2 L220,181.2 L227.5,194.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<path d="M213.5,176.2 L226.5,176.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M227.5,270.2 L220,283.2 L212.5,270.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="220" cy="292.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M168.22512,359.4 L181.22512,359.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M168.22512,354.4 L181.22512,354.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M319.29168,105 L306.29168,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M319.29168,110 L306.29168,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M352.5,194.2 L360,181.2 L367.5,194.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="360" cy="172.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<rect x="45.721199999999996" y="307.07499999999993" width="68.55760000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="80" y="319.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">mirrors</text>
-<rect x="200.14568" y="132.875" width="39.70864" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="220" y="145.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">toc</text>
-<rect x="179.711" y="307.07499999999993" width="80.578" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="220" y="319.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">re-homes</text>
-<rect x="319.31032" y="132.875" width="81.37936000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="360" y="145.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">phantoms</text>
+<path d="M86.5,212.6 L73.5,212.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M86.5,217.6 L73.5,217.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M117.60666666666665,290.2 L130.60666666666665,290.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M117.60666666666665,285.2 L130.60666666666665,285.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M272.52666666666664,73 L259.52666666666664,73" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M272.52666666666664,78 L259.52666666666664,78" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M212.5,159.6 L220,146.6 L227.5,159.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M213.5,141.6 L226.5,141.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M227.5,203.6 L220,216.6 L212.5,203.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="220" cy="225.6" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M169.39333333333332,290.2 L182.39333333333332,290.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M169.39333333333332,285.2 L182.39333333333332,285.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M320.47333333333336,73 L307.47333333333336,73" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M320.47333333333336,78 L307.47333333333336,78" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M352.5,159.6 L360,146.6 L367.5,159.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="360" cy="137.6" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<g class="edge-label" data-label="mirrors">
+  <rect x="50.58" y="240.59999999999997" width="58.839999999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="80" y="251.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">mirrors</text>
+</g>
+<g class="edge-label" data-label="toc">
+  <rect x="202.892" y="101" width="34.215999999999994" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="220" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">toc</text>
+</g>
+<g class="edge-label" data-label="re-homes">
+  <rect x="185.45" y="240.59999999999997" width="69.1" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="220" y="251.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">re-homes</text>
+</g>
+<g class="edge-label" data-label="phantoms">
+  <rect x="325.108" y="101" width="69.78399999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="360" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">phantoms</text>
+</g>
+<defs>
+  <linearGradient id="m1814eb8b-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+</defs>
 </svg>

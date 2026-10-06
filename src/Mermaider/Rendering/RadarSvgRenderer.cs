@@ -5,18 +5,15 @@ using Mermaider.Theming;
 
 namespace Mermaider.Rendering;
 
+/// <summary>
+/// Radar: concentric soft graticule (rings or polygons) with soft spokes, axis names outside the rim, each curve an
+/// overlap-safe region (series area + outline) with data points, and a legend to the right.
+/// </summary>
 internal static class RadarSvgRenderer
 {
-	private const double Radius = 160;
-	private const double CenterX = 220;
-	private const double LabelPad = 20;
-	private const double LegendSwatchSize = 12;
-	private const double LegendRowHeight = 20;
-	private const string TitleFontSize = RenderConstants.FsVar.L;
-	private const string AxisLabelFontSize = RenderConstants.FsVar.S;
-	private const string LegendFontSize = RenderConstants.FsVar.S;
-	private const double CurveOpacity = 0.25;
-
+	private const double Radius = 168;
+	private const double LabelPad = 28;
+	private const double LegendGap = 32;
 
 	internal static string Render(RadarChart chart, SvgRenderContext context)
 	{
@@ -35,162 +32,160 @@ internal static class RadarSvgRenderer
 	internal static StringBuilder RenderToBuilder(RadarChart chart, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
+		var ds = DesignSystem.For(context);
 
 		if (chart.Axes.Count == 0)
 		{
 			StyleBlock.AppendSvgOpenTag(sb, 200, 100, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-			StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
-			_ = sb.Append("\n</svg>");
+			StyleBlock.AppendStyleBlock(sb, context.Styles);
+			ds.Close(sb);
 			return sb;
 		}
 
+		var n = chart.Axes.Count;
 		var hasTitle = chart.Title is { Length: > 0 };
-		var titleOffset = hasTitle ? 36.0 : 0;
-		var centerY = titleOffset + 20 + Radius;
-		var legendWidth = chart.ShowLegend && chart.Curves.Count > 0 ? 160.0 : 0;
-		var width = CenterX + Radius + LabelPad + 60 + legendWidth;
-		var height = centerY + Radius + LabelPad + 30;
+
+		// room for the axis names left / right of the rim
+		var leftW = 0.0;
+		var rightW = 0.0;
+		for (var i = 0; i < n; i++)
+		{
+			var cos = Math.Cos(Angle(i, n));
+			var w = DesignSystem.MeasureRole(chart.Axes[i].Label, TypeRole.Label, 500);
+			if (cos < -0.1)
+				leftW = Math.Max(leftW, w + ((Radius + LabelPad) * (1 + cos)));
+			else if (cos > 0.1)
+				rightW = Math.Max(rightW, w - ((Radius + LabelPad) * (1 - cos)));
+			else
+			{
+				leftW = Math.Max(leftW, (w / 2) - Radius - LabelPad);
+				rightW = Math.Max(rightW, (w / 2) - Radius - LabelPad);
+			}
+		}
+
+		var cx = Math.Ceiling(DesignSystem.ChartPad + Math.Max(0, leftW) + Radius + LabelPad);
+		var cy = DesignSystem.ChartTop(hasTitle) + LabelPad + 8 + Radius;
+		var rimRight = Math.Ceiling(cx + Radius + LabelPad + Math.Max(0, rightW));
+
+		var showLegend = chart.ShowLegend && chart.Curves.Count > 0;
+		var legendX = rimRight + LegendGap;
+		var legendW = 0.0;
+		if (showLegend)
+		{
+			foreach (var curve in chart.Curves)
+				legendW = Math.Max(legendW, ds.LegendItemWidth(curve.Label));
+		}
+
+		var width = (showLegend ? legendX + legendW : rimRight) + DesignSystem.ChartPad;
+		var height = cy + Radius + LabelPad + 8 + DesignSystem.ChartPad;
 
 		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
-		_ = sb.Append("\n<defs>\n</defs>\n");
+		StyleBlock.AppendStyleBlock(sb, context.Styles);
 
 		if (hasTitle)
-		{
-			_ = sb.Append("\n<text x=\"").Append(CenterX.SvgFormat())
-				.Append("\" y=\"28\" text-anchor=\"middle\" font-size=\"")
-				.Append(TitleFontSize).Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
-			MultilineUtils.AppendEscapedXml(sb, chart.Title.AsSpan());
-			_ = sb.Append("</text>");
-		}
+			ds.AppendTitle(sb, DesignSystem.ChartPad, DesignSystem.ChartTitleCy, chart.Title!);
 
-		var n = chart.Axes.Count;
-		AppendGraticule(sb, chart, n, centerY);
-		AppendAxisLines(sb, chart, n, centerY);
+		_ = sb.Append("\n<g class=\"radar-grid\">");
+		AppendGraticule(sb, ds, chart, n, cx, cy);
+		AppendAxes(sb, ds, chart, n, cx, cy);
+		_ = sb.Append("\n</g>");
 
 		for (var ci = 0; ci < chart.Curves.Count; ci++)
+			AppendCurve(sb, ds, chart, chart.Curves[ci], ci, n, cx, cy);
+
+		if (showLegend)
 		{
-			var curve = chart.Curves[ci];
-			var color = context.Styles.Colors.PaletteAt(ci);
-			AppendCurve(sb, chart, curve, n, centerY, color);
+			var top = cy - Radius;
+			for (var i = 0; i < chart.Curves.Count; i++)
+			{
+				_ = sb.Append('\n');
+				_ = ds.AppendLegendItem(sb, legendX, top + (i * DesignSystem.RowHeight) + (DesignSystem.RowHeight / 2), chart.Curves[i].Label, ds.Series(i).Base);
+			}
 		}
 
-		if (chart.ShowLegend && chart.Curves.Count > 0)
-			AppendLegend(sb, chart, titleOffset + 30, context.Styles.Colors);
-
-		_ = sb.Append("\n</svg>");
+		ds.Close(sb);
 		return sb;
 	}
 
-	private static void AppendGraticule(StringBuilder sb, RadarChart chart, int n, double centerY)
-	{
-		for (var t = 1; t <= chart.Ticks; t++)
-		{
-			var r = Radius * t / chart.Ticks;
+	private static double Angle(int i, int n) => (2 * Math.PI * i / n) - (Math.PI / 2);
 
+	private static void AppendGraticule(StringBuilder sb, DesignSystem ds, RadarChart chart, int n, double cx, double cy)
+	{
+		var ticks = Math.Max(1, chart.Ticks);
+		for (var t = 1; t <= ticks; t++)
+		{
+			var r = Radius * t / ticks;
+			_ = sb.Append("\n  ");
 			if (chart.Graticule == RadarGraticule.Circle)
 			{
-				_ = sb.Append("\n<circle cx=\"").Append(CenterX.SvgFormat()).Append("\" cy=\"").Append(centerY.SvgFormat())
-					.Append("\" r=\"").Append(r.SvgFormat())
-					.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"0.5\" opacity=\"0.5\" />");
+				ds.AppendGridCircle(sb, cx, cy, r);
+				continue;
 			}
-			else
+
+			var d = new StringBuilder(n * 24);
+			for (var i = 0; i < n; i++)
 			{
-				_ = sb.Append("\n<polygon points=\"");
-				for (var i = 0; i < n; i++)
-				{
-					var angle = (2 * Math.PI * i / n) - (Math.PI / 2);
-					if (i > 0)
-						_ = sb.Append(' ');
-					_ = sb.Append((CenterX + (r * Math.Cos(angle))).SvgFormat()).Append(',').Append((centerY + (r * Math.Sin(angle))).SvgFormat());
-				}
-				_ = sb.Append("\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"0.5\" opacity=\"0.5\" />");
+				var a = Angle(i, n);
+				_ = d.Append(i == 0 ? "M " : " L ").Append((cx + (r * Math.Cos(a))).SvgFormat()).Append(' ').Append((cy + (r * Math.Sin(a))).SvgFormat());
 			}
+
+			_ = d.Append(" Z");
+			ds.AppendGridPath(sb, d.ToString());
 		}
 	}
 
-	private static void AppendAxisLines(StringBuilder sb, RadarChart chart, int n, double centerY)
+	private static void AppendAxes(StringBuilder sb, DesignSystem ds, RadarChart chart, int n, double cx, double cy)
 	{
 		for (var i = 0; i < n; i++)
 		{
-			var angle = (2 * Math.PI * i / n) - (Math.PI / 2);
-			var tipX = CenterX + (Radius * Math.Cos(angle));
-			var tipY = centerY + (Radius * Math.Sin(angle));
-
-			_ = sb.Append("\n<line x1=\"").Append(CenterX.SvgFormat()).Append("\" y1=\"").Append(centerY.SvgFormat())
-				.Append("\" x2=\"").Append(tipX.SvgFormat()).Append("\" y2=\"").Append(tipY.SvgFormat())
-				.Append("\" stroke=\"var(--_line)\" stroke-width=\"0.5\" opacity=\"0.5\" />");
+			var angle = Angle(i, n);
+			var cos = Math.Cos(angle);
+			_ = sb.Append("\n  ");
+			ds.AppendGridLine(sb, cx, cy, Math.Round(cx + (Radius * cos), 3), Math.Round(cy + (Radius * Math.Sin(angle)), 3));
 
 			var labelR = Radius + LabelPad;
-			var lx = CenterX + (labelR * Math.Cos(angle));
-			var ly = centerY + (labelR * Math.Sin(angle));
-			var anchor = Math.Abs(Math.Cos(angle)) < 0.1 ? "middle"
-				: Math.Cos(angle) > 0 ? "start"
-				: "end";
-
-			_ = sb.Append("\n<text x=\"").Append(lx.SvgFormat()).Append("\" y=\"").Append(ly.SvgFormat())
-				.Append("\" text-anchor=\"").Append(anchor)
-				.Append("\" dy=\"0.35em\" font-size=\"").Append(AxisLabelFontSize)
-				.Append("\" fill=\"var(--_text-sec)\">");
-			MultilineUtils.AppendEscapedXml(sb, chart.Axes[i].Label.AsSpan());
-			_ = sb.Append("</text>");
+			var anchor = Math.Abs(cos) < 0.1 ? "middle" : cos > 0 ? "start" : "end";
+			_ = sb.Append("\n  ");
+			ds.AppendChartText(sb, chart.Axes[i].Label, cx + (labelR * cos), cy + (labelR * Math.Sin(angle)), TypeRole.Label, "var(--_text-sec)", anchor, 500);
 		}
 	}
 
-	private static void AppendCurve(StringBuilder sb, RadarChart chart, RadarCurve curve, int n, double centerY, string color)
+	private static void AppendCurve(StringBuilder sb, DesignSystem ds, RadarChart chart, RadarCurve curve, int index, int n, double cx, double cy)
 	{
 		var range = chart.Max - chart.Min;
 		if (range <= 0)
 			return;
 
-		_ = sb.Append("\n<polygon points=\"");
+		var family = ds.Series(index);
+		var pts = new (double X, double Y)[n];
 		for (var i = 0; i < n; i++)
 		{
-			var angle = (2 * Math.PI * i / n) - (Math.PI / 2);
+			var angle = Angle(i, n);
 			var val = i < curve.Values.Count ? curve.Values[i] : 0;
-			var normalized = Math.Clamp((val - chart.Min) / range, 0, 1);
-			var r = Radius * normalized;
+			var r = Radius * Math.Clamp((val - chart.Min) / range, 0, 1);
+			pts[i] = (Math.Round(cx + (r * Math.Cos(angle)), 3), Math.Round(cy + (r * Math.Sin(angle)), 3));
+		}
 
+		_ = sb.Append("\n<g class=\"radar-curve\" data-curve=\"");
+		MultilineUtils.AppendEscapedAttr(sb, curve.Id);
+		_ = sb.Append("\">\n  <polygon points=\"");
+		for (var i = 0; i < n; i++)
+		{
 			if (i > 0)
 				_ = sb.Append(' ');
-			_ = sb.Append((CenterX + (r * Math.Cos(angle))).SvgFormat()).Append(',').Append((centerY + (r * Math.Sin(angle))).SvgFormat());
+			_ = sb.Append(pts[i].X.SvgFormat()).Append(',').Append(pts[i].Y.SvgFormat());
 		}
-		_ = sb.Append("\" fill=\"").Append(color).Append("\" fill-opacity=\"").Append(CurveOpacity.SvgFormat())
-			.Append("\" stroke=\"").Append(color).Append("\" stroke-width=\"2\" />");
 
-		for (var i = 0; i < n; i++)
+		_ = sb.Append('"');
+		ds.AppendAreaAttributes(sb, family);
+		_ = sb.Append(" stroke-linejoin=\"round\" />");
+
+		foreach (var (x, y) in pts)
 		{
-			var angle = (2 * Math.PI * i / n) - (Math.PI / 2);
-			var val = i < curve.Values.Count ? curve.Values[i] : 0;
-			var normalized = Math.Clamp((val - chart.Min) / range, 0, 1);
-			var r = Radius * normalized;
-			var px = CenterX + (r * Math.Cos(angle));
-			var py = centerY + (r * Math.Sin(angle));
-
-			_ = sb.Append("\n<circle cx=\"").Append(px.SvgFormat()).Append("\" cy=\"").Append(py.SvgFormat())
-				.Append("\" r=\"3\" fill=\"").Append(color).Append("\" />");
+			_ = sb.Append("\n  ");
+			ds.AppendPoint(sb, x, y, family.Base, ds.PointRadius);
 		}
+
+		_ = sb.Append("\n</g>");
 	}
-
-	private static void AppendLegend(StringBuilder sb, RadarChart chart, double legendTop, DiagramColors colors)
-	{
-		var legendX = CenterX + Radius + LabelPad + 50;
-		for (var i = 0; i < chart.Curves.Count; i++)
-		{
-			var curve = chart.Curves[i];
-			var color = colors.PaletteAt(i);
-			var y = legendTop + (i * LegendRowHeight);
-
-			_ = sb.Append("\n<rect x=\"").Append(legendX.SvgFormat()).Append("\" y=\"").Append(y.SvgFormat())
-				.Append("\" width=\"").Append(LegendSwatchSize).Append("\" height=\"").Append(LegendSwatchSize)
-				.Append("\" rx=\"2\" ry=\"2\" fill=\"").Append(color).Append("\" />");
-
-			_ = sb.Append("\n<text x=\"").Append((legendX + LegendSwatchSize + 6).SvgFormat()).Append("\" y=\"").Append((y + (LegendSwatchSize / 2)).SvgFormat())
-				.Append("\" dy=\"0.35em\" font-size=\"").Append(LegendFontSize)
-				.Append("\" fill=\"var(--_text)\">");
-			MultilineUtils.AppendEscapedXml(sb, curve.Label.AsSpan());
-			_ = sb.Append("</text>");
-		}
-	}
-
 }

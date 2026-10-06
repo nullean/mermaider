@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 976.6165510012564 811.1999999999999" width="976.6165510012564" height="811.1999999999999" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 972.0135306640602 823.8000000000001" width="972.0135306640602" height="823.8000000000001" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,88 +26,147 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
+<path class="mindmap-link" d="M731.43,147.3 L751.43,147.3 Q759.43,147.3 759.43,139.3 L759.43,67.1 Q759.43,59.1 767.43,59.1 L787.43,59.1" fill="none" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M731.43,147.3 L787.43,147.3" fill="none" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M731.43,147.3 L751.43,147.3 Q759.43,147.3 759.43,155.3 L759.43,227.5 Q759.43,235.5 767.43,235.5 L787.43,235.5" fill="none" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M565.29,411.9 L585.29,411.9 Q593.29,411.9 593.29,403.9 L593.29,155.3 Q593.29,147.3 601.29,147.3 L621.29,147.3" fill="none" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M745.71,367.8 L765.71,367.8 Q773.71,367.8 773.71,359.8 L773.71,331.7 Q773.71,323.7 781.71,323.7 L801.71,323.7" fill="none" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M745.71,367.8 L765.71,367.8 Q773.71,367.8 773.71,375.8 L773.71,403.9 Q773.71,411.9 781.71,411.9 L801.71,411.9" fill="none" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M565.29,411.9 L585.29,411.9 Q593.29,411.9 593.29,403.9 L593.29,375.8 Q593.29,367.8 601.29,367.8 L621.29,367.8" fill="none" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M717.15,544.2 L737.15,544.2 Q745.15,544.2 745.15,536.2 L745.15,508.1 Q745.15,500.1 753.15,500.1 L773.15,500.1" fill="none" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M717.15,544.2 L737.15,544.2 Q745.15,544.2 745.15,552.2 L745.15,580.3 Q745.15,588.3 753.15,588.3 L773.15,588.3" fill="none" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M565.29,411.9 L585.29,411.9 Q593.29,411.9 593.29,419.9 L593.29,536.2 Q593.29,544.2 601.29,544.2 L621.29,544.2" fill="none" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M702.03,720.6 L722.03,720.6 Q730.03,720.6 730.03,712.6 L730.03,684.5 Q730.03,676.5 738.03,676.5 L758.03,676.5" fill="none" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M702.03,720.6 L722.03,720.6 Q730.03,720.6 730.03,728.6 L730.03,756.7 Q730.03,764.7 738.03,764.7 L758.03,764.7" fill="none" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M565.29,411.9 L585.29,411.9 Q593.29,411.9 593.29,419.9 L593.29,712.6 Q593.29,720.6 601.29,720.6 L621.29,720.6" fill="none" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M240.58,147.3 L220.58,147.3 Q212.58,147.3 212.58,139.3 L212.58,111.2 Q212.58,103.2 204.58,103.2 L184.58,103.2" fill="none" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M240.58,147.3 L220.58,147.3 Q212.58,147.3 212.58,155.3 L212.58,183.4 Q212.58,191.4 204.58,191.4 L184.58,191.4" fill="none" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M394.12,411.9 L374.12,411.9 Q366.12,411.9 366.12,403.9 L366.12,155.3 Q366.12,147.3 358.12,147.3 L338.12,147.3" fill="none" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M257.38,323.7 L237.38,323.7 Q229.38,323.7 229.38,315.7 L229.38,287.6 Q229.38,279.6 221.38,279.6 L201.38,279.6" fill="none" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M257.38,323.7 L237.38,323.7 Q229.38,323.7 229.38,331.7 L229.38,359.8 Q229.38,367.8 221.38,367.8 L201.38,367.8" fill="none" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M394.12,411.9 L374.12,411.9 Q366.12,411.9 366.12,403.9 L366.12,331.7 Q366.12,323.7 358.12,323.7 L338.12,323.7" fill="none" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M222.1,500.1 L202.1,500.1 Q194.1,500.1 194.1,492.1 L194.1,464 Q194.1,456 186.1,456 L166.1,456" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M222.1,500.1 L202.1,500.1 Q194.1,500.1 194.1,508.1 L194.1,536.2 Q194.1,544.2 186.1,544.2 L166.1,544.2" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M394.12,411.9 L374.12,411.9 Q366.12,411.9 366.12,419.9 L366.12,492.1 Q366.12,500.1 358.12,500.1 L338.12,500.1" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M248.98,676.5 L228.98,676.5 Q220.98,676.5 220.98,668.5 L220.98,640.4 Q220.98,632.4 212.98,632.4 L192.98,632.4" fill="none" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M248.98,676.5 L228.98,676.5 Q220.98,676.5 220.98,684.5 L220.98,712.6 Q220.98,720.6 212.98,720.6 L192.98,720.6" fill="none" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<path class="mindmap-link" d="M394.12,411.9 L374.12,411.9 Q366.12,411.9 366.12,419.9 L366.12,668.5 Q366.12,676.5 358.12,676.5 L338.12,676.5" fill="none" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+<g class="node mindmap-node" data-depth="0" data-label="Product Launch">
+<circle cx="479.71" cy="411.9" r="85.59" fill="url(#m1814eb8b-ng-a)" stroke="color-mix(in srgb, var(--accent, var(--fg)) 74%, var(--fg))" stroke-width="1.75" />
+<text x="479.71" y="411.9" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Product Launch</text>
+</g>
+<g class="node mindmap-node" data-depth="2" data-label="Landing page">
+<rect x="787.4335306640603" y="40" width="133.65999999999997" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+<text x="854.26" y="59.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Landing page</text>
+</g>
+<g class="node mindmap-node" data-depth="2" data-label="Email campaign">
+<rect x="787.4335306640603" y="128.2" width="143.74" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+<text x="859.3" y="147.3" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Email campaign</text>
+</g>
+<g class="node mindmap-node" data-depth="2" data-label="Social">
+<rect x="787.4335306640603" y="216.4" width="84.1" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+<text x="829.48" y="235.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Social</text>
+</g>
+<g class="node mindmap-node" data-depth="1" data-label="Marketing">
+<rect x="621.2935306640603" y="128.20000000000005" width="110.14" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+<text x="676.36" y="147.3" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Marketing</text>
+</g>
+<g class="node mindmap-node" data-depth="2" data-label="Feature flags">
+<rect x="801.7135306640603" y="304.6" width="130.3" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+<text x="866.86" y="323.7" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Feature flags</text>
+</g>
+<g class="node mindmap-node" data-depth="2" data-label="Load testing">
+<rect x="801.7135306640603" y="392.8" width="123.58" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+<text x="863.5" y="411.9" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Load testing</text>
+</g>
+<g class="node mindmap-node" data-depth="1" data-label="Engineering">
+<rect x="621.2935306640603" y="348.70000000000005" width="124.42" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+<text x="683.5" y="367.8" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Engineering</text>
+</g>
+<g class="node mindmap-node" data-depth="2" data-label="Runbooks">
+<rect x="773.1535306640603" y="481" width="110.97999999999998" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
+<text x="828.64" y="500.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Runbooks</text>
+</g>
+<g class="node mindmap-node" data-depth="2" data-label="Training">
+<rect x="773.1535306640603" y="569.2" width="99.22000000000001" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
+<text x="822.76" y="588.3" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Training</text>
+</g>
+<g class="node mindmap-node" data-depth="1" data-label="Support">
+<rect x="621.2935306640603" y="525.1" width="95.86000000000001" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
+<text x="669.22" y="544.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Support</text>
+</g>
+<g class="node mindmap-node" data-depth="2" data-label="Terms">
+<rect x="758.0335306640603" y="657.4000000000001" width="85.78" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
+<text x="800.92" y="676.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Terms</text>
+</g>
+<g class="node mindmap-node" data-depth="2" data-label="Privacy">
+<rect x="758.0335306640603" y="745.6" width="95.86000000000001" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
+<text x="805.96" y="764.7" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Privacy</text>
+</g>
+<g class="node mindmap-node" data-depth="1" data-label="Legal">
+<rect x="621.2935306640603" y="701.5" width="80.74000000000001" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
+<text x="661.66" y="720.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Legal</text>
+</g>
+<g class="node mindmap-node" data-depth="2" data-label="Pricing">
+<rect x="93.76000000000005" y="84.09999999999997" width="90.82" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p5)" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" />
+<text x="139.17" y="103.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Pricing</text>
+</g>
+<g class="node mindmap-node" data-depth="2" data-label="Forecast">
+<rect x="80.32000000000005" y="172.29999999999995" width="104.26" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p5)" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" />
+<text x="132.45" y="191.4" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Forecast</text>
+</g>
+<g class="node mindmap-node" data-depth="1" data-label="Finance">
+<rect x="240.58" y="128.2" width="97.53999999999999" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p5)" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" />
+<text x="289.35" y="147.3" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Finance</text>
+</g>
+<g class="node mindmap-node" data-depth="2" data-label="Playbook">
+<rect x="95.44" y="260.5" width="105.93999999999998" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p6)" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.25" />
+<text x="148.41" y="279.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Playbook</text>
+</g>
+<g class="node mindmap-node" data-depth="2" data-label="Demo env">
+<rect x="94.60000000000002" y="348.7" width="106.77999999999999" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p6)" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.25" />
+<text x="147.99" y="367.8" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Demo env</text>
+</g>
+<g class="node mindmap-node" data-depth="1" data-label="Sales">
+<rect x="257.38" y="304.59999999999997" width="80.74" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p6)" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.25" />
+<text x="297.75" y="323.7" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Sales</text>
+</g>
+<g class="node mindmap-node" data-depth="2" data-label="On-call">
+<rect x="77.80000000000001" y="436.9" width="88.30000000000001" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+<text x="121.95" y="456" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">On-call</text>
+</g>
+<g class="node mindmap-node" data-depth="2" data-label="Dashboards">
+<rect x="40" y="525.0999999999999" width="126.1" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+<text x="103.05" y="544.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Dashboards</text>
+</g>
+<g class="node mindmap-node" data-depth="1" data-label="Operations">
+<rect x="222.10000000000002" y="481" width="116.02" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+<text x="280.11" y="500.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Operations</text>
+</g>
+<g class="node mindmap-node" data-depth="2" data-label="Brand">
+<rect x="108.88" y="613.3" width="84.1" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+<text x="150.93" y="632.4" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Brand</text>
+</g>
+<g class="node mindmap-node" data-depth="2" data-label="Docs">
+<rect x="115.60000000000002" y="701.5" width="77.38" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+<text x="154.29" y="720.6" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Docs</text>
+</g>
+<g class="node mindmap-node" data-depth="1" data-label="Design">
+<rect x="248.98000000000002" y="657.4" width="89.13999999999999" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+<text x="293.55" y="676.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Design</text>
+</g>
 <defs>
+  <linearGradient id="m1814eb8b-ng-a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #76b7b2 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #76b7b2 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #b07aa1 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #b07aa1 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #9c755f 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #9c755f 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #bab0ac 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #bab0ac 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p6" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #86bcb6 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #86bcb6 7%, var(--bg))" /></linearGradient>
 </defs>
-
-<path d="M 680.82 145.2 C 769.34 145.2 769.34 58.4 857.86 58.4" fill="none" stroke="#D36F0D" stroke-width="2.25" />
-<path d="M 680.82 145.2 C 772.07 145.2 772.07 145.2 863.33 145.2" fill="none" stroke="#D36F0D" stroke-width="2.25" />
-<path d="M 680.82 145.2 C 755.88 145.2 755.88 232 830.95 232" fill="none" stroke="#D36F0D" stroke-width="2.25" />
-<path d="M 481.47 405.6 C 581.14 405.6 581.14 145.2 680.82 145.2" fill="none" stroke="#D36F0D" stroke-width="2.25" />
-<path d="M 688.57 362.2 C 780.05 362.2 780.05 318.8 871.54 318.8" fill="none" stroke="#539D97" stroke-width="2.25" />
-<path d="M 688.57 362.2 C 778.23 362.2 778.23 405.6 867.89 405.6" fill="none" stroke="#539D97" stroke-width="2.25" />
-<path d="M 481.47 405.6 C 585.02 405.6 585.02 362.2 688.57 362.2" fill="none" stroke="#539D97" stroke-width="2.25" />
-<path d="M 673.06 535.8 C 751.55 535.8 751.55 492.4 830.04 492.4" fill="none" stroke="#955884" stroke-width="2.25" />
-<path d="M 673.06 535.8 C 748.36 535.8 748.36 579.2 823.66 579.2" fill="none" stroke="#955884" stroke-width="2.25" />
-<path d="M 481.47 405.6 C 577.27 405.6 577.27 535.8 673.06 535.8" fill="none" stroke="#955884" stroke-width="2.25" />
-<path d="M 664.86 709.4 C 732.4 709.4 732.4 666 799.94 666" fill="none" stroke="#765848" stroke-width="2.25" />
-<path d="M 664.86 709.4 C 735.14 709.4 735.14 752.8 805.42 752.8" fill="none" stroke="#765848" stroke-width="2.25" />
-<path d="M 481.47 405.6 C 573.16 405.6 573.16 709.4 664.86 709.4" fill="none" stroke="#765848" stroke-width="2.25" />
-<path d="M 288.96 145.2 C 215.49 145.2 215.49 101.8 142.02 101.8" fill="none" stroke="#9E908B" stroke-width="2.25" />
-<path d="M 288.96 145.2 C 211.84 145.2 211.84 188.6 134.72 188.6" fill="none" stroke="#9E908B" stroke-width="2.25" />
-<path d="M 481.47 405.6 C 385.21 405.6 385.21 145.2 288.96 145.2" fill="none" stroke="#9E908B" stroke-width="2.25" />
-<path d="M 298.08 318.8 C 225.06 318.8 225.06 275.4 152.05 275.4" fill="none" stroke="#5FA69E" stroke-width="2.25" />
-<path d="M 298.08 318.8 C 224.84 318.8 224.84 362.2 151.59 362.2" fill="none" stroke="#5FA69E" stroke-width="2.25" />
-<path d="M 481.47 405.6 C 389.77 405.6 389.77 318.8 298.08 318.8" fill="none" stroke="#5FA69E" stroke-width="2.25" />
-<path d="M 278.93 492.4 C 201.12 492.4 201.12 449 123.32 449" fill="none" stroke="#3B5B7D" stroke-width="2.25" />
-<path d="M 278.93 492.4 C 190.86 492.4 190.86 535.8 102.8 535.8" fill="none" stroke="#3B5B7D" stroke-width="2.25" />
-<path d="M 481.47 405.6 C 380.2 405.6 380.2 492.4 278.93 492.4" fill="none" stroke="#3B5B7D" stroke-width="2.25" />
-<path d="M 293.52 666 C 224.15 666 224.15 622.6 154.78 622.6" fill="none" stroke="#D36F0D" stroke-width="2.25" />
-<path d="M 293.52 666 C 225.98 666 225.98 709.4 158.43 709.4" fill="none" stroke="#D36F0D" stroke-width="2.25" />
-<path d="M 481.47 405.6 C 387.49 405.6 387.49 666 293.52 666" fill="none" stroke="#D36F0D" stroke-width="2.25" />
-<circle cx="481.47" cy="405.6" r="89.21" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="481.46827550062824" y="405.6" text-anchor="middle" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">Product Launch</text>
-<rect x="790.95" y="40" width="133.81" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-<text x="857.8565510012565" y="58.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Landing page</text>
-<rect x="790.95" y="126.8" width="144.75" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-<text x="863.3285510012565" y="145.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Email campaign</text>
-<rect x="790.95" y="213.6" width="80" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-<text x="830.9525510012566" y="232" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Social</text>
-<rect x="626.68" y="126.8" width="108.27" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-<text x="680.8165510012565" y="145.19999999999996" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Marketing</text>
-<rect x="806.46" y="300.4" width="130.16" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
-<text x="871.5365510012565" y="318.79999999999995" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Feature flags</text>
-<rect x="806.46" y="387.2" width="122.86" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
-<text x="867.8885510012565" y="405.59999999999997" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Load testing</text>
-<rect x="626.68" y="343.8" width="123.78" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
-<text x="688.5685510012565" y="362.19999999999993" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Engineering</text>
-<rect x="775.45" y="474" width="109.18" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #b07aa1 16%, var(--bg))" stroke="#955884" stroke-width="1.75" />
-<text x="830.0405510012565" y="492.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Runbooks</text>
-<rect x="775.45" y="560.8" width="96.42" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #b07aa1 16%, var(--bg))" stroke="#955884" stroke-width="1.75" />
-<text x="823.6565510012565" y="579.1999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Training</text>
-<rect x="626.68" y="517.4" width="92.77" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #b07aa1 16%, var(--bg))" stroke="#955884" stroke-width="1.75" />
-<text x="673.0645510012565" y="535.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Support</text>
-<rect x="759.03" y="647.6" width="81.82" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #9c755f 16%, var(--bg))" stroke="#765848" stroke-width="1.75" />
-<text x="799.9445510012565" y="665.9999999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Terms</text>
-<rect x="759.03" y="734.4" width="92.77" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #9c755f 16%, var(--bg))" stroke="#765848" stroke-width="1.75" />
-<text x="805.4165510012565" y="752.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Privacy</text>
-<rect x="626.68" y="691" width="76.35" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #9c755f 16%, var(--bg))" stroke="#765848" stroke-width="1.75" />
-<text x="664.8565510012565" y="709.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Legal</text>
-<rect x="98.37" y="83.4" width="87.3" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #bab0ac 16%, var(--bg))" stroke="#9E908B" stroke-width="1.75" />
-<text x="142.016" y="101.80000000000004" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Pricing</text>
-<rect x="83.78" y="170.2" width="101.89" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #bab0ac 16%, var(--bg))" stroke="#9E908B" stroke-width="1.75" />
-<text x="134.71999999999997" y="188.60000000000005" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Forecast</text>
-<rect x="241.66" y="126.8" width="94.59" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #bab0ac 16%, var(--bg))" stroke="#9E908B" stroke-width="1.75" />
-<text x="288.96" y="145.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Finance</text>
-<rect x="100.19" y="257" width="103.71" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #86bcb6 16%, var(--bg))" stroke="#5FA69E" stroke-width="1.75" />
-<text x="152.048" y="275.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Playbook</text>
-<rect x="99.28" y="343.8" width="104.62" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #86bcb6 16%, var(--bg))" stroke="#5FA69E" stroke-width="1.75" />
-<text x="151.59199999999998" y="362.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Demo env</text>
-<rect x="259.9" y="300.4" width="76.35" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #86bcb6 16%, var(--bg))" stroke="#5FA69E" stroke-width="1.75" />
-<text x="298.08" y="318.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Sales</text>
-<rect x="81.04" y="430.6" width="84.56" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="123.31999999999996" y="449" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">On-call</text>
-<rect x="40" y="517.4" width="125.6" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="102.8" y="535.8000000000001" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Dashboards</text>
-<rect x="221.6" y="474" width="114.66" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="278.928" y="492.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Operations</text>
-<rect x="114.78" y="604.2" width="80" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-<text x="154.784" y="622.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Brand</text>
-<rect x="122.08" y="691" width="72.7" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-<text x="158.432" y="709.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Docs</text>
-<rect x="250.78" y="647.6" width="85.47" height="36.8" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-<text x="293.52" y="666" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Design</text>
 </svg>

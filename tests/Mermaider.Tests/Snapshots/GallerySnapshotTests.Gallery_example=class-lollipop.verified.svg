@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 522.512 332" width="522.512" height="332" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 519.548 348" width="519.548" height="348" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,68 +26,63 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<defs>
-  <marker id="cls-inherit" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-  <marker id="cls-composition" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="6 0, 12 6, 6 12, 0 6" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" />
-  </marker>
-  <marker id="cls-aggregation" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="6 0, 12 6, 6 12, 0 6" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-  <marker id="cls-arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polyline points="0 0, 12 6, 0 12" fill="none" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-  <marker id="cls-lollipop" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto-start-reverse">
-    <circle cx="6" cy="6" r="5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-</defs>
-
-<path class="class-relationship" data-from="Circle" data-to="Shape" data-type="realization" data-marker-at="to" d="M160.81133333333332,148 L160.81133333333332,172 Q160.81133333333332,178 154.81133333333332,178 L123.9,178 Q117.9,178 117.9,184 L117.9,208" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="4 4" marker-end="url(#cls-inherit)" />
-<path class="class-relationship" data-from="Circle" data-to="Drawable__lollipop" data-type="lollipop" data-marker-at="to" d="M212.74466666666666,148 L212.74466666666666,172 Q212.74466666666666,178 218.74466666666666,178 L249.656,178 Q255.656,178 255.656,184 L255.656,208" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="class-relationship" data-from="Circle" data-to="Shape" data-type="realization" data-marker-at="to" d="M159.62033333333335,160 L159.62033333333335,182 Q159.62033333333335,190 151.62033333333335,190 L126.8,190 Q118.8,190 118.8,198 L118.8,220" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-triangle)" />
+<path class="class-relationship" data-from="Circle" data-to="Drawable__lollipop" data-type="lollipop" data-marker-at="to" d="M212.15366666666665,160 L212.15366666666665,182 Q212.15366666666665,190 220.15366666666665,190 L244.974,190 Q252.974,190 252.974,198 L252.974,220" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <g class="class-node" data-id="Shape" data-label="Shape" data-annotation="interface">
-  <rect x="40" y="208" width="155.8" height="84" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M40,256 L40,214 Q40,208 46,208 L189.8,208 Q195.8,208 195.8,214 L195.8,256 Z" fill="color-mix(in srgb, #f28e2b 24%, var(--bg))" />
-  <text x="117.9" y="220" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="500" font-style="italic" fill="#D36F0D">&lt;&lt;interface&gt;&gt;</text>
-  <text x="117.9" y="238" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Shape</text>
-  <line x1="40" y1="256" x2="195.8" y2="256" stroke="#D36F0D" stroke-width="1.75" />
-  <line x1="40" y1="264" x2="195.8" y2="264" stroke="#D36F0D" stroke-width="1.75" />
-  <line x1="103.4" y1="256" x2="103.4" y2="292" stroke="#D36F0D" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="48" y="278" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">double</text><text class="mono" x="111.4" y="278" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">area()</tspan></text><text class="mono" x="187.8" y="278" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#D36F0D">+</text>
-  <rect x="40" y="208" width="155.8" height="84" rx="6" ry="6" fill="none" stroke="#D36F0D" stroke-width="1.75" />
+  <rect x="40" y="220" width="157.6" height="88" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M40,272 L40,228 Q40,220 48,220 L189.6,220 Q197.6,220 197.6,228 L197.6,272 Z" fill="url(#m1814eb8b-eb-p1)" />
+  <line x1="40" y1="272" x2="197.6" y2="272" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="40" y="220" width="157.6" height="88" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="40" y1="280" x2="197.6" y2="280" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="118.8" y="236.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.2">«interface»</text>
+  <text x="118.8" y="254.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Shape</text>
+  <text x="56" y="294" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">double</text>
+  <text x="181.6" y="294" class="mono" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.9">+</text>
+  <text x="111.2" y="294" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">area()</text>
 </g>
 <g class="class-node" data-id="Drawable" data-label="Drawable" data-annotation="interface">
-  <rect x="343.512" y="40" width="139" height="84" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M343.512,88 L343.512,46 Q343.512,40 349.512,40 L476.512,40 Q482.512,40 482.512,46 L482.512,88 Z" fill="color-mix(in srgb, #f28e2b 24%, var(--bg))" />
-  <text x="413.012" y="52" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="500" font-style="italic" fill="#D36F0D">&lt;&lt;interface&gt;&gt;</text>
-  <text x="413.012" y="70" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Drawable</text>
-  <line x1="343.512" y1="88" x2="482.512" y2="88" stroke="#D36F0D" stroke-width="1.75" />
-  <line x1="343.512" y1="96" x2="482.512" y2="96" stroke="#D36F0D" stroke-width="1.75" />
-  <line x1="390.112" y1="88" x2="390.112" y2="124" stroke="#D36F0D" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="351.512" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="398.112" y="110" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">draw()</tspan></text><text class="mono" x="474.512" y="110" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#D36F0D">+</text>
-  <rect x="343.512" y="40" width="139" height="84" rx="6" ry="6" fill="none" stroke="#D36F0D" stroke-width="1.75" />
+  <rect x="336.34799999999996" y="40" width="143.2" height="88" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M336.34799999999996,92 L336.34799999999996,48 Q336.34799999999996,40 344.34799999999996,40 L471.54799999999994,40 Q479.54799999999994,40 479.54799999999994,48 L479.54799999999994,92 Z" fill="url(#m1814eb8b-eb-p1)" />
+  <line x1="336.34799999999996" y1="92" x2="479.54799999999994" y2="92" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="336.34799999999996" y="40" width="143.2" height="88" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="336.34799999999996" y1="100" x2="479.54799999999994" y2="100" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="407.95" y="56.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.2">«interface»</text>
+  <text x="407.95" y="74.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Drawable</text>
+  <text x="352.35" y="114" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">void</text>
+  <text x="463.55" y="114" class="mono" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.9">+</text>
+  <text x="393.15" y="114" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">draw()</text>
 </g>
 <g class="class-node" data-id="Circle" data-label="Circle">
-  <rect x="108.87799999999999" y="40" width="155.8" height="108" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M108.87799999999999,72 L108.87799999999999,46 Q108.87799999999999,40 114.87799999999999,40 L258.678,40 Q264.678,40 264.678,46 L264.678,72 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <text x="186.778" y="56" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Circle</text>
-  <line x1="108.87799999999999" y1="72" x2="264.678" y2="72" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="108.87799999999999" y1="124" x2="264.678" y2="124" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="108.87799999999999" y1="100" x2="264.678" y2="100" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="172.278" y1="72" x2="172.278" y2="148" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="116.87799999999999" y="86" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">double</text><text class="mono" x="180.278" y="86" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">radius</tspan></text><text class="mono" x="256.678" y="86" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <text class="mono" x="116.87799999999999" y="114" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">double</text><text class="mono" x="180.278" y="114" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">area()</tspan></text><text class="mono" x="256.678" y="114" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <text class="mono" x="116.87799999999999" y="134" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="180.278" y="134" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">draw()</tspan></text><text class="mono" x="256.678" y="134" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <rect x="108.87799999999999" y="40" width="155.8" height="108" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <rect x="107.087" y="40" width="157.6" height="120" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M107.087,76 L107.087,48 Q107.087,40 115.087,40 L256.687,40 Q264.687,40 264.687,48 L264.687,76 Z" fill="url(#m1814eb8b-eb-p0)" />
+  <line x1="107.087" y1="76" x2="264.687" y2="76" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="107.087" y="40" width="157.6" height="120" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="119.087" y1="132" x2="252.687" y2="132" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="107.087" y1="104" x2="264.687" y2="104" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="185.89" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Circle</text>
+  <text x="123.09" y="90" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">double</text>
+  <text x="248.69" y="90" class="mono" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.9">+</text>
+  <text x="178.29" y="90" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">radius</text>
+  <text x="123.09" y="118" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">double</text>
+  <text x="248.69" y="118" class="mono" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.9">+</text>
+  <text x="178.29" y="118" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">area()</text>
+  <text x="123.09" y="146" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">void</text>
+  <text x="248.69" y="146" class="mono" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.9">+</text>
+  <text x="178.29" y="146" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">draw()</text>
 </g>
 <g class="class-node lollipop" data-id="Drawable__lollipop">
-  <circle cx="255.656" cy="216" r="8" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="255.656" y="238" text-anchor="middle" dy="0.35em" font-size="16" font-weight="500" fill="var(--_text)">Drawable</text>
+  <circle cx="252.974" cy="228" r="8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+  <text x="252.97" y="250" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Drawable</text>
 </g>
-
+<defs>
+  <linearGradient id="m1814eb8b-eb-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-eb-p1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 15%, var(--bg))" /></linearGradient>
+  <marker id="m1814eb8b-mk-triangle" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <polygon points="0,0.5 10,6 0,11.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.25" stroke-linejoin="miter" />
+  </marker>
+</defs>
 </svg>

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 611.704 432" width="611.704" height="432" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
+</style>
+
+<g class="diagram-title">
+  <rect x="40" y="35.5" width="9" height="9" rx="2" ry="2" fill="var(--accent, var(--fg))" />
+  <text x="56" y="40" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">Pet Adoption</text>
+</g>
+<g class="pie-slice" data-label="Dogs">
+  <path d="M 232 240 L 232 112 A 128 128 0 1 1 108.91 204.88 Z" fill="url(#m1814eb8b-pie-d0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" stroke-linejoin="round" />
+</g>
+<g class="pie-slice" data-label="Cats">
+  <path d="M 232 240 L 108.91 204.88 A 128 128 0 0 1 207.33 114.4 Z" fill="url(#m1814eb8b-pie-d1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" stroke-linejoin="round" />
+</g>
+<g class="pie-slice" data-label="Rats">
+  <path d="M 232 240 L 207.33 114.4 A 128 128 0 0 1 232 112 Z" fill="url(#m1814eb8b-pie-d2)" stroke="color-mix(in srgb, #e15759 74%, var(--fg))" stroke-width="1.25" stroke-linejoin="round" />
+</g>
+<path d="M 310.91 344.57 L 317.53 353.35" fill="none" stroke="var(--_line)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+<text x="324.76" y="362.93" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">79.42%</text>
+<path d="M 143.34 143.56 L 135.9 135.46" fill="none" stroke="var(--_line)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+<text x="127.78" y="126.63" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">17.49%</text>
+<path d="M 219.32 109.62 L 218.25 98.67" fill="none" stroke="var(--_line)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+<text x="217.09" y="86.72" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">3.09%</text>
+<rect x="472" y="207" width="10" height="10" rx="3" ry="3" fill="#4e79a7" stroke="none" />
+  <text x="490" y="212" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Dogs</text>
+  <text x="533.62" y="212" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">79.42%</text>
+<rect x="472" y="235" width="10" height="10" rx="3" ry="3" fill="#f28e2b" stroke="none" />
+  <text x="490" y="240" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Cats</text>
+  <text x="528.83" y="240" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">17.49%</text>
+<rect x="472" y="263" width="10" height="10" rx="3" ry="3" fill="#e15759" stroke="none" />
+  <text x="490" y="268" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Rats</text>
+  <text x="528.83" y="268" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">3.09%</text>
+<defs>
+  <radialGradient id="m1814eb8b-pie-d0" gradientUnits="userSpaceOnUse" cx="232" cy="240" r="128"><stop offset="0" stop-color="color-mix(in srgb, #4e79a7 72%, var(--bg))" /><stop offset="1" stop-color="#4e79a7" /></radialGradient>
+  <radialGradient id="m1814eb8b-pie-d1" gradientUnits="userSpaceOnUse" cx="232" cy="240" r="128"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 72%, var(--bg))" /><stop offset="1" stop-color="#f28e2b" /></radialGradient>
+  <radialGradient id="m1814eb8b-pie-d2" gradientUnits="userSpaceOnUse" cx="232" cy="240" r="128"><stop offset="0" stop-color="color-mix(in srgb, #e15759 72%, var(--bg))" /><stop offset="1" stop-color="#e15759" /></radialGradient>
+</defs>
+</svg>

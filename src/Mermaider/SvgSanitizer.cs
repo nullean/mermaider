@@ -86,7 +86,7 @@ public static partial class SvgSanitizer
 		"stroke-opacity", "fill-opacity", "fill-rule", "clip-rule", "opacity",
 		"font-family", "font-size", "font-weight", "font-style",
 		"text-anchor", "dominant-baseline", "alignment-baseline",
-		"baseline-shift", "text-decoration", "letter-spacing",
+		"baseline-shift", "text-decoration", "letter-spacing", "paint-order",
 		"word-spacing", "direction", "unicode-bidi", "writing-mode",
 		"color", "color-interpolation", "color-interpolation-filters",
 		"marker-end", "marker-start", "marker-mid",

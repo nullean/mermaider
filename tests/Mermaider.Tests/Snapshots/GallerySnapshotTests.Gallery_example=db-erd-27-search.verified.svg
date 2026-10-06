@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 681.6598160000001 480.4" width="681.6598160000001" height="480.4" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 679.12354 379.2" width="679.12354" height="379.2" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,92 +26,100 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<defs>
-</defs>
-
-<path class="er-relationship" data-entity1="SearchIndex" data-entity2="SearchDocument" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="contains" d="M99.97568000000005,96 L99.97567999999998,194.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="Page" data-entity2="DocumentationDocument" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="exported" d="M271.31391999999994,96 L271.31391999999994,161.2 Q271.31391999999994,166.2 276.31391999999994,166.2 L286.005156,166.2 Q291.005156,166.2 291.005156,171.2 L291.005156,194.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="DocumentationDocument" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="product" d="M262.46013200000004,270.2 L262.46013200000004,289.7 Q262.46013200000004,294.7 257.46013200000004,294.7 L111.527296,294.7 Q106.527296,294.7 106.527296,299.7 L106.527296,351.4 Q106.527296,356.4 111.527296,356.4 L146.83329600000002,356.4 Q151.83329600000002,356.4 151.83329600000002,361.4 L151.83329600000002,384.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="DocumentationDocument" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="zeromany" data-identifying="true" data-label="related_products" d="M305.277668,270.2 L305.277668,296.7 Q305.277668,301.7 300.277668,301.7 L242.13929600000003,301.7 Q237.13929600000003,301.7 237.13929600000003,306.7 L237.13929600000003,351.4 Q237.13929600000003,356.4 232.13929600000003,356.4 L196.83329600000002,356.4 Q191.83329600000002,356.4 191.83329600000002,361.4 L191.83329600000002,384.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="DocumentationDocument" data-entity2="ParentDocument" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="parents (breadcrumbs)" d="M348.095204,270.2 L348.095204,296.7 Q348.095204,301.7 353.095204,301.7 L411.23357599999997,301.7 Q416.23357599999997,301.7 416.23357599999997,306.7 L416.23357599999997,384.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="DocumentationDocument" data-entity2="AppliesToEntry" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="applies_to" d="M390.91274,270.2 L390.91274,289.7 Q390.91274,294.7 395.91274,294.7 L582.4844560000001,294.7 Q587.4844560000001,294.7 587.4844560000001,299.7 L587.4844560000001,384.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="DocumentInference" data-entity2="DocumentationDocument" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="decides product" d="M439.02335999999997,96 L439.02335999999997,161.2 Q439.02335999999997,166.2 434.02335999999997,166.2 L367.367716,166.2 Q362.367716,166.2 362.367716,171.2 L362.367716,194.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="SearchIndex" data-entity2="SearchDocument" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="contains" d="M103.43999999999994,64 L103.44,159.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="Page" data-entity2="DocumentationDocument" data-cardinality1="one" data-cardinality2="zeroone" data-identifying="true" data-label="exported" d="M280.4266666666667,64 L280.4266666666667,130.22995999999998 Q280.4266666666667,131.6 281.7967066666667,131.6 L281.7967066666667,131.6 Q283.1667466666667,131.6 283.1667466666667,132.97004 L283.1667466666667,159.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="DocumentationDocument" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="product" d="M253.74808000000002,203.6 L253.74808000000002,220.1 Q253.74808000000002,228.1 245.74808000000002,228.1 L122.01462000000001,228.1 Q114.01462000000001,228.1 114.01462000000001,236.1 L114.01462000000001,279.2 Q114.01462000000001,287.2 122.01462000000001,287.2 L147.34562,287.2 Q155.34562,287.2 155.34562,295.2 L155.34562,315.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="DocumentationDocument" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="zeromany" data-identifying="true" data-label="related_products" d="M297.87608,203.6 L297.87608,227.1 Q297.87608,235.1 289.87608,235.1 L244.67662,235.1 Q236.67662,235.1 236.67662,243.1 L236.67662,279.2 Q236.67662,287.2 228.67662,287.2 L203.34562,287.2 Q195.34562,287.2 195.34562,295.2 L195.34562,315.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="DocumentationDocument" data-entity2="ParentDocument" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="parents (breadcrumbs)" d="M342.00408000000004,203.6 L342.00408000000004,227.1 Q342.00408000000004,235.1 350.00408000000004,235.1 L395.20354000000003,235.1 Q403.20354000000003,235.1 403.20354000000003,243.1 L403.20354000000003,315.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="DocumentationDocument" data-entity2="AppliesToEntry" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="applies_to" d="M386.13208000000003,203.6 L386.13208000000003,220.1 Q386.13208000000003,228.1 394.13208000000003,228.1 L573.44354,228.1 Q581.44354,228.1 581.44354,236.1 L581.44354,315.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="DocumentInference" data-entity2="DocumentationDocument" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="decides product" d="M451.5466666666667,64 L451.5466666666667,123.6 Q451.5466666666667,131.6 443.5466666666667,131.6 L364.7134133333334,131.6 Q356.7134133333334,131.6 356.7134133333334,139.6 L356.7134133333334,159.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <g class="entity" data-id="SearchIndex" data-label="SearchIndex">
-  <rect x="36.434240000000045" y="20" width="127.08288000000002" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="99.97568000000005" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">SearchIndex</text>
+  <rect x="36.319999999999936" y="20" width="134.24" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="103.44" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">SearchIndex</text>
 </g>
 <g class="entity" data-id="SearchDocument" data-label="SearchDocument">
-  <rect x="20" y="194.2" width="159.95135999999997" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="99.97567999999998" y="232.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">SearchDocument</text>
+  <rect x="20" y="159.6" width="166.88" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="103.44" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">SearchDocument</text>
 </g>
 <g class="entity" data-id="Page" data-label="Page">
-  <rect x="211.31391999999994" y="20" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-  <text x="271.31391999999994" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Page</text>
+  <rect x="220.42666666666668" y="20" width="120" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="280.43" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Page</text>
 </g>
 <g class="entity" data-id="DocumentationDocument" data-label="DocumentationDocument">
-  <rect x="219.64259600000003" y="194.2" width="214.08767999999998" height="76" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-  <text x="326.686436" y="232.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">DocumentationDocument</text>
+  <rect x="209.62008000000003" y="159.6" width="220.64" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="319.94" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">DocumentationDocument</text>
 </g>
 <g class="entity" data-id="Product" data-label="Product">
-  <rect x="111.83329600000002" y="384.4" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-  <text x="171.83329600000002" y="422.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Product</text>
+  <rect x="115.34562" y="315.2" width="120" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="175.35" y="337.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Product</text>
 </g>
 <g class="entity" data-id="ParentDocument" data-label="ParentDocument">
-  <rect x="339.158056" y="384.4" width="154.15104000000002" height="76" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-  <text x="416.23357599999997" y="422.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ParentDocument</text>
+  <rect x="322.64354000000003" y="315.2" width="161.12" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="403.2" y="337.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">ParentDocument</text>
 </g>
 <g class="entity" data-id="AppliesToEntry" data-label="AppliesToEntry">
-  <rect x="513.3090960000001" y="384.4" width="148.35072000000002" height="76" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-  <text x="587.4844560000001" y="422.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">AppliesToEntry</text>
+  <rect x="503.76354000000003" y="315.2" width="155.36" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="581.44" y="337.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">AppliesToEntry</text>
 </g>
 <g class="entity" data-id="DocumentInference" data-label="DocumentInference">
-  <rect x="351.31391999999994" y="20" width="175.41888000000003" height="76" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-  <text x="439.02335999999997" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">DocumentInference</text>
+  <rect x="360.4266666666667" y="20" width="182.24" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="451.55" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">DocumentInference</text>
 </g>
-<path d="M106.47568000000005,105 L93.47568000000005,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M106.47568000000004,110 L93.47568000000004,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M92.47567999999998,194.2 L99.97568,181.2 L107.47567999999998,194.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="99.97568" cy="172.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M277.81391999999994,105 L264.81391999999994,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M277.81391999999994,110 L264.81391999999994,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M284.505156,185.2 L297.505156,185.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<circle cx="291.005156" cy="175.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M269.96013200000004,270.2 L262.46013200000004,283.2 L254.96013200000004,270.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="262.46013200000004" cy="292.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M145.33329600000002,375.4 L158.33329600000002,375.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<circle cx="151.83329600000002" cy="365.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M312.777668,270.2 L305.277668,283.2 L297.777668,270.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="305.277668" cy="292.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M184.33329600000002,384.4 L191.83329600000002,371.4 L199.33329600000002,384.4" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="191.83329600000002" cy="362.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M354.595204,279.2 L341.595204,279.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M354.595204,284.2 L341.595204,284.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M408.73357599999997,384.4 L416.23357599999997,371.4 L423.73357599999997,384.4" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="416.23357599999997" cy="362.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M397.41274,279.2 L384.41274,279.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M397.41274,284.2 L384.41274,284.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M579.9844560000001,384.4 L587.4844560000001,371.4 L594.9844560000001,384.4" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="587.4844560000001" cy="362.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M445.52335999999997,105 L432.52335999999997,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M445.52335999999997,110 L432.52335999999997,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M355.867716,185.2 L368.867716,185.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M355.867716,180.2 L368.867716,180.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<rect x="62.49144000000004" y="132.875" width="74.96848000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="99.97568000000005" y="145.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">contains</text>
-<rect x="232.22695999999993" y="132.875" width="78.17392000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="271.31391999999994" y="145.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">exported</text>
-<rect x="71.447136" y="315.07499999999993" width="70.16032000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="106.527296" y="327.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">product</text>
-<rect x="171.607456" y="315.07499999999993" width="131.06368000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="237.13929600000003" y="327.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">related_products</text>
-<rect x="332.67113599999993" y="315.07499999999993" width="167.12488000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="416.23357599999997" y="327.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">parents (breadcrumbs)</text>
-<rect x="544.3906960000002" y="315.07499999999993" width="86.18752" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="587.4844560000001" y="327.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">applies_to</text>
-<rect x="377.09763999999996" y="132.875" width="123.85144" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="439.02335999999997" y="145.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">decides product</text>
+<path d="M109.93999999999994,73 L96.93999999999994,73" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M109.93999999999996,78 L96.93999999999996,78" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M95.94,159.6 L103.43999999999998,146.6 L110.94,159.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="103.43999999999998" cy="137.6" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M286.9266666666667,73 L273.9266666666667,73" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M286.9266666666667,78 L273.9266666666667,78" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M276.6667466666667,150.6 L289.6667466666667,150.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="283.1667466666667" cy="140.6" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M261.24808,203.6 L253.74808000000002,216.6 L246.24808000000002,203.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="253.74808000000002" cy="225.6" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M148.84562,306.2 L161.84562,306.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="155.34562" cy="296.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M305.37608,203.6 L297.87608,216.6 L290.37608,203.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="297.87608" cy="225.6" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M187.84562,315.2 L195.34562,302.2 L202.84562,315.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="195.34562" cy="293.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M348.50408000000004,212.6 L335.50408000000004,212.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M348.50408000000004,217.6 L335.50408000000004,217.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M395.70354000000003,315.2 L403.20354000000003,302.2 L410.70354000000003,315.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="403.20354000000003" cy="293.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M392.63208000000003,212.6 L379.63208000000003,212.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M392.63208000000003,217.6 L379.63208000000003,217.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M573.94354,315.2 L581.44354,302.2 L588.94354,315.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="581.44354" cy="293.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M458.0466666666667,73 L445.0466666666667,73" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M458.0466666666667,78 L445.0466666666667,78" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M350.2134133333334,150.6 L363.2134133333334,150.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M350.2134133333334,145.6 L363.2134133333334,145.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<g class="edge-label" data-label="contains">
+  <rect x="71.28399999999993" y="101" width="64.312" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="103.44" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">contains</text>
+</g>
+<g class="edge-label" data-label="exported">
+  <rect x="246.90266666666668" y="101" width="67.048" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="280.43" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">exported</text>
+</g>
+<g class="edge-label" data-label="product">
+  <rect x="83.91062000000001" y="248.59999999999997" width="60.208" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="114.01" y="259.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">product</text>
+</g>
+<g class="edge-label" data-label="related_products">
+  <rect x="180.58062" y="248.59999999999997" width="112.19200000000001" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="236.68" y="259.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">related_products</text>
+</g>
+<g class="edge-label" data-label="parents (breadcrumbs)">
+  <rect x="331.71754000000004" y="248.59999999999997" width="142.97199999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="403.2" y="259.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">parents (breadcrumbs)</text>
+</g>
+<g class="edge-label" data-label="applies_to">
+  <rect x="544.49954" y="248.59999999999997" width="73.88799999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="581.44" y="259.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">applies_to</text>
+</g>
+<g class="edge-label" data-label="decides product">
+  <rect x="398.5286666666667" y="101" width="106.036" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="451.55" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">decides product</text>
+</g>
+<defs>
+  <linearGradient id="m1814eb8b-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 7%, var(--bg))" /></linearGradient>
+</defs>
 </svg>

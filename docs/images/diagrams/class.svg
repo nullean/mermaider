@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 434.4 424" width="434.4" height="424" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
+</style>
+
+<path class="class-relationship" data-from="Animal" data-to="Dog" data-type="inheritance" data-marker-at="from" d="M188.93333333333334,204 L188.93333333333334,221 Q188.93333333333334,229 180.93333333333334,229 L131,229 Q123,229 123,237 L123,264" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-start="url(#m1814eb8b-mk-triangle-s)" />
+<path class="class-relationship" data-from="Animal" data-to="Cat" data-type="inheritance" data-marker-at="from" d="M244.26666666666665,204 L244.26666666666665,221 Q244.26666666666665,229 252.26666666666665,229 L302.2,229 Q310.2,229 310.2,237 L310.2,264" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-start="url(#m1814eb8b-mk-triangle-s)" />
+<g class="class-node" data-id="Animal" data-label="Animal" data-annotation="abstract">
+  <rect x="133.6" y="40" width="166" height="164" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M133.6,92 L133.6,48 Q133.6,40 141.6,40 L291.6,40 Q299.6,40 299.6,48 L299.6,92 Z" fill="url(#m1814eb8b-eb-p6)" />
+  <line x1="133.6" y1="92" x2="299.6" y2="92" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="133.6" y="40" width="166" height="164" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="145.6" y1="120" x2="287.6" y2="120" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="145.6" y1="176" x2="287.6" y2="176" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="133.6" y1="148" x2="299.6" y2="148" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.25" />
+  <text x="216.6" y="56.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #86bcb6 44%, var(--fg))" dy="4.2">«abstract»</text>
+  <text x="216.6" y="74.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Animal</text>
+  <text x="149.6" y="106" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">String</text>
+  <text x="283.6" y="106" class="mono" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #86bcb6 44%, var(--fg))" dy="4.9">+</text>
+  <text x="204.8" y="106" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">name</text>
+  <text x="149.6" y="134" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">int</text>
+  <text x="283.6" y="134" class="mono" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #86bcb6 44%, var(--fg))" dy="4.9">+</text>
+  <text x="204.8" y="134" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">age</text>
+  <text x="149.6" y="162" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">void</text>
+  <text x="283.6" y="162" class="mono" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #86bcb6 44%, var(--fg))" dy="4.9">+</text>
+  <text x="204.8" y="162" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">eat()</text>
+  <text x="149.6" y="190" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">void</text>
+  <text x="283.6" y="190" class="mono" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #86bcb6 44%, var(--fg))" dy="4.9">+</text>
+  <text x="204.8" y="190" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">sleep()</text>
+</g>
+<g class="class-node" data-id="Dog" data-label="Dog">
+  <rect x="40" y="264" width="166" height="120" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M40,300 L40,272 Q40,264 48,264 L198,264 Q206,264 206,272 L206,300 Z" fill="url(#m1814eb8b-eb-p0)" />
+  <line x1="40" y1="300" x2="206" y2="300" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="40" y="264" width="166" height="120" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="52" y1="356" x2="194" y2="356" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="40" y1="328" x2="206" y2="328" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="123" y="282" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Dog</text>
+  <text x="56" y="314" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">String</text>
+  <text x="190" y="314" class="mono" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.9">+</text>
+  <text x="111.2" y="314" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">breed</text>
+  <text x="56" y="342" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">void</text>
+  <text x="190" y="342" class="mono" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.9">+</text>
+  <text x="111.2" y="342" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">bark()</text>
+  <text x="56" y="370" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">void</text>
+  <text x="190" y="370" class="mono" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.9">+</text>
+  <text x="111.2" y="370" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">fetch()</text>
+</g>
+<g class="class-node" data-id="Cat" data-label="Cat">
+  <rect x="226" y="264" width="168.39999999999998" height="120" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M226,300 L226,272 Q226,264 234,264 L386.4,264 Q394.4,264 394.4,272 L394.4,300 Z" fill="url(#m1814eb8b-eb-p0)" />
+  <line x1="226" y1="300" x2="394.4" y2="300" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="226" y="264" width="168.39999999999998" height="120" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="238" y1="356" x2="382.4" y2="356" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="226" y1="328" x2="394.4" y2="328" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="310.2" y="282" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Cat</text>
+  <text x="242" y="314" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">bool</text>
+  <text x="378.4" y="314" class="mono" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.9">+</text>
+  <text x="282.8" y="314" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">indoor</text>
+  <text x="242" y="342" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">void</text>
+  <text x="378.4" y="342" class="mono" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.9">+</text>
+  <text x="282.8" y="342" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">purr()</text>
+  <text x="242" y="370" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">void</text>
+  <text x="378.4" y="370" class="mono" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.9">+</text>
+  <text x="282.8" y="370" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">scratch()</text>
+</g>
+<defs>
+  <linearGradient id="m1814eb8b-eb-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-eb-p6" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #86bcb6 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #86bcb6 15%, var(--bg))" /></linearGradient>
+  <marker id="m1814eb8b-mk-triangle-s" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="0" refY="6" orient="auto">
+    <polygon points="10,0.5 0,6 10,11.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.25" stroke-linejoin="miter" />
+  </marker>
+</defs>
+</svg>

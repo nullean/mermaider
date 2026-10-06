@@ -1,4 +1,6 @@
 using Mermaider.Models;
+using Mermaider.Rendering;
+using Mermaider.Text;
 
 namespace Mermaider.Layout;
 
@@ -13,16 +15,18 @@ namespace Mermaider.Layout;
 /// </summary>
 internal static class ArchitectureLayout
 {
-	private const double ServiceSize = 80;
+	// Services are icon cards: icon on top, title inside the card (all the same size, so the grid stays aligned). Cards grow
+	// with the widest title up to MaxServiceWidth; longer titles wrap onto a second line inside the card.
+	internal const double ServiceWidth = 120;
+	internal const double MaxServiceWidth = 200;
+	internal const double ServiceHeight = 92;
+	internal const double ServiceTextPad = 12;
 	private const double JunctionSize = 12;
 	// Gap between adjacent rows/cols must clear the worst case of two different groups landing in
 	// directly adjacent rows: the upper group's bottom padding (GroupPadding) plus the lower
-	// group's top padding+header (GroupPadding + GroupHeaderHeight) = 90px reach into the gap (plus LabelRoom below the services, which hold their titles).
+	// group's top padding+header (GroupPadding + GroupHeaderHeight) = 90px reach into the gap (titles sit inside the cards).
 	private const double CellGap = 112;
-	private const double CellW = ServiceSize + CellGap;
-	private const double CellH = ServiceSize + CellGap;
 	private const double GroupPadding = 28;
-	private const double LabelRoom = 10;
 	private const double GroupHeaderHeight = 34;
 	private const double Margin = 24;
 
@@ -37,8 +41,18 @@ internal static class ArchitectureLayout
 		var minCol = cells.Count > 0 ? cells.Values.Min(c => c.Col) : 0;
 		var minRow = cells.Count > 0 ? cells.Values.Min(c => c.Row) : 0;
 
-		double PixelX(int col) => Margin + ((col - minCol) * CellW);
-		double PixelY(int row) => Margin + ((row - minRow) * CellH);
+		var serviceW = ServiceWidth;
+		foreach (var s in diagram.Services)
+		{
+			// measured at the heaviest label weight any preset uses, so the size never depends on the preset
+			var titleW = TextMetrics.MeasureTextWidth(s.Title, DesignSystem.Px(TypeRole.Label), 600);
+			serviceW = Math.Max(serviceW, Math.Min(MaxServiceWidth, titleW + (2 * ServiceTextPad)));
+		}
+
+		var cellW = serviceW + CellGap;
+		var cellH = ServiceHeight + CellGap;
+		double PixelX(int col) => Margin + ((col - minCol) * cellW);
+		double PixelY(int row) => Margin + ((row - minRow) * cellH);
 
 		var services = diagram.Services.Select(s =>
 		{
@@ -50,8 +64,8 @@ internal static class ArchitectureLayout
 				Title = s.Title,
 				X = PixelX(col),
 				Y = PixelY(row),
-				Width = ServiceSize,
-				Height = ServiceSize,
+				Width = serviceW,
+				Height = ServiceHeight,
 			};
 		}).ToList();
 
@@ -61,8 +75,8 @@ internal static class ArchitectureLayout
 			return new PositionedArchitectureJunction
 			{
 				Id = j.Id,
-				X = PixelX(col) + ((ServiceSize - JunctionSize) / 2),
-				Y = PixelY(row) + ((ServiceSize - JunctionSize) / 2),
+				X = PixelX(col) + ((serviceW - JunctionSize) / 2),
+				Y = PixelY(row) + ((ServiceHeight - JunctionSize) / 2),
 			};
 		}).ToList();
 
@@ -330,7 +344,7 @@ internal static class ArchitectureLayout
 				minX - GroupPadding,
 				minY - GroupPadding - GroupHeaderHeight,
 				maxX - minX + (2 * GroupPadding),
-				maxY - minY + (2 * GroupPadding) + GroupHeaderHeight + LabelRoom);
+				maxY - minY + (2 * GroupPadding) + GroupHeaderHeight);
 
 			computed[group.Id] = result;
 			return result;

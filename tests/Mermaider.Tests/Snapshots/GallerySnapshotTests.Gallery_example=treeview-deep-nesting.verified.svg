@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250.38 524" width="250.38" height="524" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 285.3 524" width="285.3" height="524" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,111 +26,94 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<defs>
-</defs>
-
-<line x1="32" y1="66" x2="42" y2="66" stroke="var(--_line)" stroke-width="1" />
-<line x1="32" y1="38" x2="32" y2="66" stroke="var(--_line)" stroke-width="1" />
-<line x1="52" y1="94" x2="62" y2="94" stroke="var(--_line)" stroke-width="1" />
-<line x1="52" y1="66" x2="52" y2="94" stroke="var(--_line)" stroke-width="1" />
-<line x1="72" y1="122" x2="82" y2="122" stroke="var(--_line)" stroke-width="1" />
-<line x1="72" y1="94" x2="72" y2="122" stroke="var(--_line)" stroke-width="1" />
-<line x1="92" y1="150" x2="102" y2="150" stroke="var(--_line)" stroke-width="1" />
-<line x1="92" y1="122" x2="92" y2="150" stroke="var(--_line)" stroke-width="1" />
-<line x1="92" y1="178" x2="102" y2="178" stroke="var(--_line)" stroke-width="1" />
-<line x1="92" y1="122" x2="92" y2="178" stroke="var(--_line)" stroke-width="1" />
-<line x1="72" y1="206" x2="82" y2="206" stroke="var(--_line)" stroke-width="1" />
-<line x1="72" y1="94" x2="72" y2="206" stroke="var(--_line)" stroke-width="1" />
-<line x1="92" y1="234" x2="102" y2="234" stroke="var(--_line)" stroke-width="1" />
-<line x1="92" y1="206" x2="92" y2="234" stroke="var(--_line)" stroke-width="1" />
-<line x1="92" y1="262" x2="102" y2="262" stroke="var(--_line)" stroke-width="1" />
-<line x1="92" y1="206" x2="92" y2="262" stroke="var(--_line)" stroke-width="1" />
-<line x1="72" y1="290" x2="82" y2="290" stroke="var(--_line)" stroke-width="1" />
-<line x1="72" y1="94" x2="72" y2="290" stroke="var(--_line)" stroke-width="1" />
-<line x1="92" y1="318" x2="102" y2="318" stroke="var(--_line)" stroke-width="1" />
-<line x1="92" y1="290" x2="92" y2="318" stroke="var(--_line)" stroke-width="1" />
-<line x1="92" y1="346" x2="102" y2="346" stroke="var(--_line)" stroke-width="1" />
-<line x1="92" y1="290" x2="92" y2="346" stroke="var(--_line)" stroke-width="1" />
-<line x1="72" y1="374" x2="82" y2="374" stroke="var(--_line)" stroke-width="1" />
-<line x1="72" y1="94" x2="72" y2="374" stroke="var(--_line)" stroke-width="1" />
-<line x1="52" y1="402" x2="62" y2="402" stroke="var(--_line)" stroke-width="1" />
-<line x1="52" y1="66" x2="52" y2="402" stroke="var(--_line)" stroke-width="1" />
-<line x1="72" y1="430" x2="82" y2="430" stroke="var(--_line)" stroke-width="1" />
-<line x1="72" y1="402" x2="72" y2="430" stroke="var(--_line)" stroke-width="1" />
-<line x1="92" y1="458" x2="102" y2="458" stroke="var(--_line)" stroke-width="1" />
-<line x1="92" y1="430" x2="92" y2="458" stroke="var(--_line)" stroke-width="1" />
-<line x1="72" y1="486" x2="82" y2="486" stroke="var(--_line)" stroke-width="1" />
-<line x1="72" y1="402" x2="72" y2="486" stroke="var(--_line)" stroke-width="1" />
-<g class="treeview-node">
-<image x="24" y="30" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik00IDRoNWwyIDJoOWEyIDIgMCAwIDEgMiAydjEwYTIgMiAwIDAgMS0yIDJINGEyIDIgMCAwIDEtMi0yVjZhMiAyIDAgMCAxIDItMnoiIGZpbGw9IiM2NDc0OGIiLz4KPC9zdmc+" />
-<text x="46" y="38" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">app</text>
+<g class="treeview-branches" fill="none" stroke="var(--_line)" stroke-width="1" stroke-linecap="round">
+  <path d="M32,48 L32,60 Q32,66 38,66 L45,66" />
+  <path d="M56,76 L56,88 Q56,94 62,94 L69,94" />
+  <path d="M80,104 L80,116 Q80,122 86,122 L93,122" />
+  <path d="M104,132 L104,144 Q104,150 110,150 L117,150" />
+  <path d="M104,132 L104,172 Q104,178 110,178 L117,178" />
+  <path d="M80,104 L80,200 Q80,206 86,206 L93,206" />
+  <path d="M104,216 L104,228 Q104,234 110,234 L117,234" />
+  <path d="M104,216 L104,256 Q104,262 110,262 L117,262" />
+  <path d="M80,104 L80,284 Q80,290 86,290 L93,290" />
+  <path d="M104,300 L104,312 Q104,318 110,318 L117,318" />
+  <path d="M104,300 L104,340 Q104,346 110,346 L117,346" />
+  <path d="M80,104 L80,368 Q80,374 86,374 L93,374" />
+  <path d="M56,76 L56,396 Q56,402 62,402 L69,402" />
+  <path d="M80,412 L80,424 Q80,430 86,430 L93,430" />
+  <path d="M104,440 L104,452 Q104,458 110,458 L117,458" />
+  <path d="M80,412 L80,480 Q80,486 86,486 L93,486" />
 </g>
-<g class="treeview-node">
-<image x="44" y="58" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik00IDRoNWwyIDJoOWEyIDIgMCAwIDEgMiAydjEwYTIgMiAwIDAgMS0yIDJINGEyIDIgMCAwIDEtMi0yVjZhMiAyIDAgMCAxIDItMnoiIGZpbGw9IiM2NDc0OGIiLz4KPC9zdmc+" />
-<text x="66" y="66" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">domain</text>
+<g class="treeview-node" data-depth="0">
+  <path class="treeview-icon" d="M25,33.5 H30 L31.5,35 H39 V43.5 H25 Z" fill="color-mix(in srgb, #64748b 22%, var(--bg))" stroke="color-mix(in srgb, #64748b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="48" y="38" text-anchor="start" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">app</text>
 </g>
-<g class="treeview-node">
-<image x="64" y="86" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik00IDRoNWwyIDJoOWEyIDIgMCAwIDEgMiAydjEwYTIgMiAwIDAgMS0yIDJINGEyIDIgMCAwIDEtMi0yVjZhMiAyIDAgMCAxIDItMnoiIGZpbGw9IiM2NDc0OGIiLz4KPC9zdmc+" />
-<text x="86" y="94" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">user</text>
+<g class="treeview-node" data-depth="1">
+  <path class="treeview-icon" d="M49,61.5 H54 L55.5,63 H63 V71.5 H49 Z" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="72" y="66" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.9">domain</text>
 </g>
-<g class="treeview-node">
-<image x="84" y="114" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik00IDRoNWwyIDJoOWEyIDIgMCAwIDEgMiAydjEwYTIgMiAwIDAgMS0yIDJINGEyIDIgMCAwIDEtMi0yVjZhMiAyIDAgMCAxIDItMnoiIGZpbGw9IiM2NDc0OGIiLz4KPC9zdmc+" />
-<text x="106" y="122" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">commands</text>
+<g class="treeview-node" data-depth="2">
+  <path class="treeview-icon" d="M73,89.5 H78 L79.5,91 H87 V99.5 H73 Z" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="96" y="94" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">user</text>
 </g>
-<g class="treeview-node">
-<image x="104" y="142" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCAySDZhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWOHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHBvbHlsaW5lIHBvaW50cz0iMTQgMiAxNCA4IDIwIDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+" />
-<text x="126" y="150" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)">CreateUser.cs</text>
+<g class="treeview-node" data-depth="3">
+  <path class="treeview-icon" d="M97,117.5 H102 L103.5,119 H111 V127.5 H97 Z" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="120" y="122" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">commands</text>
 </g>
-<g class="treeview-node">
-<image x="104" y="170" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCAySDZhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWOHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHBvbHlsaW5lIHBvaW50cz0iMTQgMiAxNCA4IDIwIDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+" />
-<text x="126" y="178" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)">UpdateUser.cs</text>
+<g class="treeview-node" data-depth="4">
+  <path class="treeview-icon" d="M123,143.5 H129.5 L133,147 V156.5 H123 Z M129.5,143.5 V147 H133" fill="var(--bg)" stroke="color-mix(in srgb, #f28e2b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="144" y="150" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">CreateUser.cs</text>
 </g>
-<g class="treeview-node">
-<image x="84" y="198" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik00IDRoNWwyIDJoOWEyIDIgMCAwIDEgMiAydjEwYTIgMiAwIDAgMS0yIDJINGEyIDIgMCAwIDEtMi0yVjZhMiAyIDAgMCAxIDItMnoiIGZpbGw9IiM2NDc0OGIiLz4KPC9zdmc+" />
-<text x="106" y="206" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">queries</text>
+<g class="treeview-node" data-depth="4">
+  <path class="treeview-icon" d="M123,171.5 H129.5 L133,175 V184.5 H123 Z M129.5,171.5 V175 H133" fill="var(--bg)" stroke="color-mix(in srgb, #f28e2b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="144" y="178" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">UpdateUser.cs</text>
 </g>
-<g class="treeview-node">
-<image x="104" y="226" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCAySDZhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWOHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHBvbHlsaW5lIHBvaW50cz0iMTQgMiAxNCA4IDIwIDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+" />
-<text x="126" y="234" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)">GetUserById.cs</text>
+<g class="treeview-node" data-depth="3">
+  <path class="treeview-icon" d="M97,201.5 H102 L103.5,203 H111 V211.5 H97 Z" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="120" y="206" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">queries</text>
 </g>
-<g class="treeview-node">
-<image x="104" y="254" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCAySDZhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWOHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHBvbHlsaW5lIHBvaW50cz0iMTQgMiAxNCA4IDIwIDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+" />
-<text x="126" y="262" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)">ListUsers.cs</text>
+<g class="treeview-node" data-depth="4">
+  <path class="treeview-icon" d="M123,227.5 H129.5 L133,231 V240.5 H123 Z M129.5,227.5 V231 H133" fill="var(--bg)" stroke="color-mix(in srgb, #f28e2b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="144" y="234" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">GetUserById.cs</text>
 </g>
-<g class="treeview-node">
-<image x="84" y="282" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik00IDRoNWwyIDJoOWEyIDIgMCAwIDEgMiAydjEwYTIgMiAwIDAgMS0yIDJINGEyIDIgMCAwIDEtMi0yVjZhMiAyIDAgMCAxIDItMnoiIGZpbGw9IiM2NDc0OGIiLz4KPC9zdmc+" />
-<text x="106" y="290" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">events</text>
+<g class="treeview-node" data-depth="4">
+  <path class="treeview-icon" d="M123,255.5 H129.5 L133,259 V268.5 H123 Z M129.5,255.5 V259 H133" fill="var(--bg)" stroke="color-mix(in srgb, #f28e2b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="144" y="262" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">ListUsers.cs</text>
 </g>
-<g class="treeview-node">
-<image x="104" y="310" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCAySDZhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWOHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHBvbHlsaW5lIHBvaW50cz0iMTQgMiAxNCA4IDIwIDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+" />
-<text x="126" y="318" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)">UserCreated.cs</text>
+<g class="treeview-node" data-depth="3">
+  <path class="treeview-icon" d="M97,285.5 H102 L103.5,287 H111 V295.5 H97 Z" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="120" y="290" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">events</text>
 </g>
-<g class="treeview-node">
-<image x="104" y="338" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCAySDZhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWOHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHBvbHlsaW5lIHBvaW50cz0iMTQgMiAxNCA4IDIwIDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+" />
-<text x="126" y="346" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)">UserUpdated.cs</text>
+<g class="treeview-node" data-depth="4">
+  <path class="treeview-icon" d="M123,311.5 H129.5 L133,315 V324.5 H123 Z M129.5,311.5 V315 H133" fill="var(--bg)" stroke="color-mix(in srgb, #f28e2b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="144" y="318" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">UserCreated.cs</text>
 </g>
-<g class="treeview-node">
-<image x="84" y="366" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCAySDZhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWOHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHBvbHlsaW5lIHBvaW50cz0iMTQgMiAxNCA4IDIwIDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+" />
-<text x="106" y="374" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)">User.cs</text>
+<g class="treeview-node" data-depth="4">
+  <path class="treeview-icon" d="M123,339.5 H129.5 L133,343 V352.5 H123 Z M129.5,339.5 V343 H133" fill="var(--bg)" stroke="color-mix(in srgb, #f28e2b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="144" y="346" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">UserUpdated.cs</text>
 </g>
-<g class="treeview-node">
-<image x="64" y="394" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik00IDRoNWwyIDJoOWEyIDIgMCAwIDEgMiAydjEwYTIgMiAwIDAgMS0yIDJINGEyIDIgMCAwIDEtMi0yVjZhMiAyIDAgMCAxIDItMnoiIGZpbGw9IiM2NDc0OGIiLz4KPC9zdmc+" />
-<text x="86" y="402" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">order</text>
+<g class="treeview-node" data-depth="3">
+  <path class="treeview-icon" d="M99,367.5 H105.5 L109,371 V380.5 H99 Z M105.5,367.5 V371 H109" fill="var(--bg)" stroke="color-mix(in srgb, #f28e2b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="120" y="374" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">User.cs</text>
 </g>
-<g class="treeview-node">
-<image x="84" y="422" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik00IDRoNWwyIDJoOWEyIDIgMCAwIDEgMiAydjEwYTIgMiAwIDAgMS0yIDJINGEyIDIgMCAwIDEtMi0yVjZhMiAyIDAgMCAxIDItMnoiIGZpbGw9IiM2NDc0OGIiLz4KPC9zdmc+" />
-<text x="106" y="430" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">commands</text>
+<g class="treeview-node" data-depth="2">
+  <path class="treeview-icon" d="M73,397.5 H78 L79.5,399 H87 V407.5 H73 Z" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="96" y="402" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">order</text>
 </g>
-<g class="treeview-node">
-<image x="104" y="450" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCAySDZhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWOHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHBvbHlsaW5lIHBvaW50cz0iMTQgMiAxNCA4IDIwIDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+" />
-<text x="126" y="458" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)">PlaceOrder.cs</text>
+<g class="treeview-node" data-depth="3">
+  <path class="treeview-icon" d="M97,425.5 H102 L103.5,427 H111 V435.5 H97 Z" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="120" y="430" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">commands</text>
 </g>
-<g class="treeview-node">
-<image x="84" y="478" width="16" height="16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxwYXRoIGQ9Ik0xNCAySDZhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWOHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHBvbHlsaW5lIHBvaW50cz0iMTQgMiAxNCA4IDIwIDgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4YiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPC9zdmc+" />
-<text x="106" y="486" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)">Order.cs</text>
+<g class="treeview-node" data-depth="4">
+  <path class="treeview-icon" d="M123,451.5 H129.5 L133,455 V464.5 H123 Z M129.5,451.5 V455 H133" fill="var(--bg)" stroke="color-mix(in srgb, #f28e2b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="144" y="458" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">PlaceOrder.cs</text>
+</g>
+<g class="treeview-node" data-depth="3">
+  <path class="treeview-icon" d="M99,479.5 H105.5 L109,483 V492.5 H99 Z M105.5,479.5 V483 H109" fill="var(--bg)" stroke="color-mix(in srgb, #f28e2b 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="120" y="486" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Order.cs</text>
 </g>
 </svg>

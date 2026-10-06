@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 444" width="700" height="444" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 778.972 518" width="778.972" height="518" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,50 +26,73 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<defs>
-</defs>
-
-<text x="350" y="24" text-anchor="middle" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)">Multi-dependency demo</text>
-<line x1="196" y1="380" x2="676" y2="380" stroke="var(--_line)" stroke-width="1" />
-<rect x="196" y="52" width="480" height="324" fill="var(--_node-fill)" opacity="0.5" />
-<line x1="196" y1="52" x2="196" y2="380" stroke="var(--_line)" stroke-width="0.5" opacity="0.35" />
-<text x="196" y="396" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-muted)">Jan 5</text>
-<line x1="256" y1="52" x2="256" y2="380" stroke="var(--_line)" stroke-width="0.5" opacity="0.35" />
-<text x="256" y="396" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-muted)">Jan 6</text>
-<line x1="316" y1="52" x2="316" y2="380" stroke="var(--_line)" stroke-width="0.5" opacity="0.35" />
-<text x="316" y="396" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-muted)">Jan 7</text>
-<line x1="376" y1="52" x2="376" y2="380" stroke="var(--_line)" stroke-width="0.5" opacity="0.35" />
-<text x="376" y="396" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-muted)">Jan 8</text>
-<line x1="436" y1="52" x2="436" y2="380" stroke="var(--_line)" stroke-width="0.5" opacity="0.35" />
-<text x="436" y="396" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-muted)">Jan 9</text>
-<line x1="496" y1="52" x2="496" y2="380" stroke="var(--_line)" stroke-width="0.5" opacity="0.35" />
-<text x="496" y="396" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-muted)">Jan 10</text>
-<line x1="556" y1="52" x2="556" y2="380" stroke="var(--_line)" stroke-width="0.5" opacity="0.35" />
-<text x="556" y="396" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-muted)">Jan 11</text>
-<line x1="616" y1="52" x2="616" y2="380" stroke="var(--_line)" stroke-width="0.5" opacity="0.35" />
-<text x="616" y="396" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-muted)">Jan 12</text>
-<line x1="676" y1="52" x2="676" y2="380" stroke="var(--_line)" stroke-width="0.5" opacity="0.35" />
-<text x="676" y="396" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-muted)">Jan 13</text>
-<text x="16" y="70.2" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">Backend</text>
-<text x="16" y="101.6" font-size="var(--fs-s)" fill="var(--_text)">API design</text>
-<rect x="196" y="88" width="120" height="20" rx="4" ry="4" fill="var(--_text-muted)" />
-<text x="16" y="137.6" font-size="var(--fs-s)" fill="var(--_text)">Implement</text>
-<rect x="316" y="124" width="180" height="20" rx="4" ry="4" fill="var(--_text-muted)" />
-<text x="16" y="170.2" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">Frontend</text>
-<text x="16" y="201.6" font-size="var(--fs-s)" fill="var(--_text)">UI design</text>
-<rect x="196" y="188" width="120" height="20" rx="4" ry="4" fill="var(--_text-muted)" />
-<text x="16" y="237.6" font-size="var(--fs-s)" fill="var(--_text)">Build</text>
-<rect x="316" y="224" width="180" height="20" rx="4" ry="4" fill="var(--_arrow)" />
-<text x="16" y="270.2" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">Release</text>
-<text x="16" y="301.6" font-size="var(--fs-s)" fill="var(--_text)">Integration</text>
-<rect x="496" y="288" width="120" height="20" rx="4" ry="4" fill="#e15759" />
-<text x="16" y="337.6" font-size="var(--fs-s)" fill="var(--_text)">QA</text>
-<rect x="616" y="324" width="60" height="20" rx="4" ry="4" fill="#e15759" />
-<rect x="196" y="352" width="480" height="24" fill="#edc948" opacity="0.12" />
-<polygon points="678,357 685,364 678,371 671,364" fill="#edc948" />
-<text x="691" y="364" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Launch</text>
+<g class="diagram-title">
+  <rect x="24" y="33.5" width="9" height="9" rx="2" ry="2" fill="var(--accent, var(--fg))" />
+  <text x="40" y="38" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">Multi-dependency demo</text>
+</g>
+<g class="legend">
+  <rect x="439.244" y="32" width="12" height="12" rx="4" ry="4" fill="color-mix(in srgb, #64748b 26%, var(--bg))" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" /> <text x="459.24" y="38" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Done</text>
+  <rect x="507.772" y="32" width="12" height="12" rx="4" ry="4" fill="#64748b" /> <rect x="504.772" y="29" width="18" height="18" rx="6" ry="6" fill="none" stroke="var(--accent, var(--fg))" stroke-width="1.5" /> <text x="527.77" y="38" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Active</text>
+  <rect x="588.972" y="32" width="12" height="12" rx="4" ry="4" fill="#e15759" /> <text x="608.97" y="38" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Critical</text>
+  <rect x="684.572" y="32" width="12" height="12" rx="4" ry="4" fill="#64748b" /> <text x="704.57" y="38" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Planned</text>
+</g>
+<rect class="plot-panel" x="24" y="72" width="730.972" height="390" rx="12" ry="12" fill="var(--_group-fill)" stroke="none" stroke-width="1" />
+<g class="gantt-axis">
+  <line x1="198" y1="80" x2="198" y2="462" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="198" y="482" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">Jan 5</text>
+  <line x1="318" y1="80" x2="318" y2="462" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="318" y="482" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">Jan 7</text>
+  <line x1="438" y1="80" x2="438" y2="462" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="438" y="482" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">Jan 9</text>
+  <line x1="558" y1="80" x2="558" y2="462" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="558" y="482" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">Jan 11</text>
+  <line x1="678" y1="80" x2="678" y2="462" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="678" y="482" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">Jan 13</text>
+  <line x1="198" y1="462" x2="678" y2="462" stroke="var(--_line)" stroke-width="1.25" />
+</g>
+<g class="gantt-section" data-section="0" data-label="Backend">
+  <text x="38" y="100" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" letter-spacing="0.08em" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.2">BACKEND</text>
+  <line x1="119.28" y1="100" x2="184" y2="100" stroke="color-mix(in srgb, #64748b 42%, var(--bg))" stroke-width="1.25" />
+<g class="gantt-task" data-state="done">
+  <text x="38" y="136" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">API design</text>
+  <rect x="198" y="126" width="120" height="20" rx="6" ry="6" fill="color-mix(in srgb, #64748b 26%, var(--bg))" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+</g>
+<g class="gantt-task" data-state="done">
+  <text x="38" y="172" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Implement</text>
+  <rect x="318" y="162" width="180" height="20" rx="6" ry="6" fill="color-mix(in srgb, #64748b 26%, var(--bg))" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+</g>
+</g>
+<g class="gantt-section" data-section="1" data-label="Frontend">
+  <text x="38" y="208" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" letter-spacing="0.08em" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.2">FRONTEND</text>
+  <line x1="128.92" y1="208" x2="184" y2="208" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
+<g class="gantt-task" data-state="done">
+  <text x="38" y="244" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">UI design</text>
+  <rect x="198" y="234" width="120" height="20" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 26%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+</g>
+<g class="gantt-task" data-state="active">
+  <text x="38" y="280" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Build</text>
+  <rect x="318" y="270" width="180" height="20" rx="6" ry="6" fill="#f28e2b" />
+  <rect x="315" y="267" width="186" height="26" rx="8" ry="8" fill="none" stroke="var(--accent, var(--fg))" stroke-width="1.5" />
+</g>
+</g>
+<g class="gantt-section" data-section="2" data-label="Release">
+  <text x="38" y="316" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" letter-spacing="0.08em" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.2">RELEASE</text>
+  <line x1="119.28" y1="316" x2="184" y2="316" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1.25" />
+<g class="gantt-task" data-state="critical">
+  <text x="38" y="352" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Integration</text>
+  <rect x="498" y="342" width="120" height="20" rx="6" ry="6" fill="#e15759" />
+</g>
+<g class="gantt-task" data-state="critical">
+  <text x="38" y="388" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">QA</text>
+  <rect x="618" y="378" width="60" height="20" rx="6" ry="6" fill="#e15759" />
+</g>
+<g class="gantt-task" data-state="planned" data-milestone="true">
+  <polygon points="678,416 686,424 678,432 670,424" fill="#76b7b2" />
+  <text x="694" y="424" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Launch</text>
+</g>
+</g>
 </svg>

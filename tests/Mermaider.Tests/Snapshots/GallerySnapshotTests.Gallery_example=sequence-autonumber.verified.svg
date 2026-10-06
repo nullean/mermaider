@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 628" width="420" height="628" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 628" width="420" height="628" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,92 +26,81 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<defs>
-  <marker id="seq-arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" />
-  </marker>
-  <marker id="seq-arrow-open" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polyline points="0 0, 12 6, 0 12" fill="none" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-</defs>
-
-<line class="lifeline" data-actor="Client" x1="70" y1="70" x2="70" y2="598" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
-<line class="lifeline" data-actor="API" x1="210" y1="70" x2="210" y2="598" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
-<line class="lifeline" data-actor="DB" x1="350" y1="70" x2="350" y2="598" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="Client" x1="70" y1="70" x2="70" y2="558" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
+<line class="lifeline" data-actor="API" x1="210" y1="70" x2="210" y2="558" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
+<line class="lifeline" data-actor="DB" x1="350" y1="70" x2="350" y2="558" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
 <g class="message" data-from="Client" data-to="API" data-label="1. Login request" data-line-style="solid" data-arrow-head="filled" data-self="false">
-  <line x1="70" y1="114" x2="210" y2="114" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
-  <circle cx="70" cy="114" r="11" fill="var(--_text)" /><text x="70" y="114" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="700" fill="var(--bg)">1</text>
-  <rect x="85.28652" y="83.775" width="109.42696000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="140" y="96" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Login request</text>
+  <line x1="70" y1="114" x2="210" y2="114" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+  <g class="autonumber"><circle cx="70" cy="114" r="9" fill="var(--accent, var(--fg))" stroke="var(--bg)" stroke-width="1.5" /><text x="70" y="114" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="var(--bg)" dy="4.2">1</text></g>
+  <rect x="93.138" y="89.2" width="93.72399999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="100" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Login request</text>
 </g>
 <g class="message" data-from="API" data-to="DB" data-label="2. Verify user" data-line-style="solid" data-arrow-head="filled" data-self="false">
-  <line x1="210" y1="164" x2="350" y2="164" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
-  <circle cx="210" cy="164" r="11" fill="var(--_text)" /><text x="210" y="164" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="700" fill="var(--bg)">2</text>
-  <rect x="234.10147999999998" y="133.775" width="91.79704000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="280" y="146" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Verify user</text>
+  <line x1="210" y1="164" x2="350" y2="164" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+  <g class="autonumber"><circle cx="210" cy="164" r="9" fill="var(--accent, var(--fg))" stroke="var(--bg)" stroke-width="1.5" /><text x="210" y="164" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="var(--bg)" dy="4.2">2</text></g>
+  <rect x="240.662" y="139.2" width="78.676" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="280" y="150" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Verify user</text>
 </g>
 <g class="message" data-from="DB" data-to="API" data-label="3. User found" data-line-style="dashed" data-arrow-head="filled" data-self="false">
-  <line x1="350" y1="214" x2="210" y2="214" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
-  <circle cx="350" cy="214" r="11" fill="var(--_text)" /><text x="350" y="214" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="700" fill="var(--bg)">3</text>
-  <rect x="234.90284" y="183.775" width="90.19431999999999" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="280" y="196" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">User found</text>
+  <line x1="350" y1="214" x2="210" y2="214" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-arrow)" />
+  <g class="autonumber"><circle cx="350" cy="214" r="9" fill="var(--accent, var(--fg))" stroke="var(--bg)" stroke-width="1.5" /><text x="350" y="214" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="var(--bg)" dy="4.2">3</text></g>
+  <rect x="241.346" y="189.2" width="77.30799999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="280" y="200" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">User found</text>
 </g>
 <g class="message" data-from="API" data-to="Client" data-label="4. Auth token" data-line-style="dashed" data-arrow-head="filled" data-self="false">
-  <line x1="210" y1="264" x2="70" y2="264" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
-  <circle cx="210" cy="264" r="11" fill="var(--_text)" /><text x="210" y="264" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="700" fill="var(--bg)">4</text>
-  <rect x="96.50555999999999" y="233.775" width="86.98888000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="140" y="246" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Auth token</text>
+  <line x1="210" y1="264" x2="70" y2="264" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-arrow)" />
+  <g class="autonumber"><circle cx="210" cy="264" r="9" fill="var(--accent, var(--fg))" stroke="var(--bg)" stroke-width="1.5" /><text x="210" y="264" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="var(--bg)" dy="4.2">4</text></g>
+  <rect x="102.714" y="239.2" width="74.572" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="250" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Auth token</text>
 </g>
 <g class="message" data-from="Client" data-to="API" data-label="5. GET /profile" data-line-style="solid" data-arrow-head="filled" data-self="false">
-  <line x1="70" y1="314" x2="210" y2="314" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
-  <circle cx="70" cy="314" r="11" fill="var(--_text)" /><text x="70" y="314" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="700" fill="var(--bg)">5</text>
-  <rect x="92.09808" y="283.775" width="95.80384000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="140" y="296" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">GET /profile</text>
+  <line x1="70" y1="314" x2="210" y2="314" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+  <g class="autonumber"><circle cx="70" cy="314" r="9" fill="var(--accent, var(--fg))" stroke="var(--bg)" stroke-width="1.5" /><text x="70" y="314" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="var(--bg)" dy="4.2">5</text></g>
+  <rect x="98.952" y="289.2" width="82.096" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="300" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">GET /profile</text>
 </g>
 <g class="message" data-from="API" data-to="DB" data-label="6. Fetch profile" data-line-style="solid" data-arrow-head="filled" data-self="false">
-  <line x1="210" y1="364" x2="350" y2="364" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
-  <circle cx="210" cy="364" r="11" fill="var(--_text)" /><text x="210" y="364" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="700" fill="var(--bg)">6</text>
-  <rect x="230.09467999999998" y="333.775" width="99.81064" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="280" y="346" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Fetch profile</text>
+  <line x1="210" y1="364" x2="350" y2="364" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+  <g class="autonumber"><circle cx="210" cy="364" r="9" fill="var(--accent, var(--fg))" stroke="var(--bg)" stroke-width="1.5" /><text x="210" y="364" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="var(--bg)" dy="4.2">6</text></g>
+  <rect x="237.24200000000002" y="339.2" width="85.51599999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="280" y="350" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Fetch profile</text>
 </g>
 <g class="message" data-from="DB" data-to="API" data-label="7. Profile data" data-line-style="dashed" data-arrow-head="filled" data-self="false">
-  <line x1="350" y1="414" x2="210" y2="414" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
-  <circle cx="350" cy="414" r="11" fill="var(--_text)" /><text x="350" y="414" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="700" fill="var(--bg)">7</text>
-  <rect x="234.10147999999998" y="383.775" width="91.79704000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="280" y="396" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Profile data</text>
+  <line x1="350" y1="414" x2="210" y2="414" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-arrow)" />
+  <g class="autonumber"><circle cx="350" cy="414" r="9" fill="var(--accent, var(--fg))" stroke="var(--bg)" stroke-width="1.5" /><text x="350" y="414" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="var(--bg)" dy="4.2">7</text></g>
+  <rect x="240.662" y="389.2" width="78.676" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="280" y="400" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Profile data</text>
 </g>
 <g class="message" data-from="API" data-to="Client" data-label="8. 200 OK" data-line-style="dashed" data-arrow-head="filled" data-self="false">
-  <line x1="210" y1="464" x2="70" y2="464" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
-  <circle cx="210" cy="464" r="11" fill="var(--_text)" /><text x="210" y="464" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="700" fill="var(--bg)">8</text>
-  <rect x="106.92323999999999" y="433.775" width="66.15352" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="140" y="446" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">200 OK</text>
+  <line x1="210" y1="464" x2="70" y2="464" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-arrow)" />
+  <g class="autonumber"><circle cx="210" cy="464" r="9" fill="var(--accent, var(--fg))" stroke="var(--bg)" stroke-width="1.5" /><text x="210" y="464" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="var(--bg)" dy="4.2">8</text></g>
+  <rect x="111.606" y="439.2" width="56.788" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="450" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">200 OK</text>
 </g>
 <g class="actor" data-id="Client" data-label="Client" data-type="participant">
-  <rect x="30" y="30" width="80" height="40" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="70" y="50" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">Client</text>
+  <rect x="30" y="30" width="80" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="70" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Client</text>
 </g>
 <g class="actor" data-id="API" data-label="API" data-type="participant">
-  <rect x="170" y="30" width="80" height="40" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="210" y="50" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">API</text>
+  <rect x="170" y="30" width="80" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="210" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">API</text>
 </g>
 <g class="actor" data-id="DB" data-label="DB" data-type="participant">
-  <rect x="310" y="30" width="80" height="40" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="350" y="50" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">DB</text>
+  <rect x="310" y="30" width="80" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="350" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">DB</text>
 </g>
-<g class="actor" data-id="Client" data-label="Client" data-type="participant">
-  <rect x="30" y="558" width="80" height="40" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="70" y="578" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">Client</text>
+<g class="actor actor-bottom" data-id="Client" data-label="Client" data-type="participant">
+  <rect x="30" y="558" width="80" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="70" y="578" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Client</text>
 </g>
-<g class="actor" data-id="API" data-label="API" data-type="participant">
-  <rect x="170" y="558" width="80" height="40" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="210" y="578" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">API</text>
+<g class="actor actor-bottom" data-id="API" data-label="API" data-type="participant">
+  <rect x="170" y="558" width="80" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="210" y="578" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">API</text>
 </g>
-<g class="actor" data-id="DB" data-label="DB" data-type="participant">
-  <rect x="310" y="558" width="80" height="40" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="350" y="578" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">DB</text>
+<g class="actor actor-bottom" data-id="DB" data-label="DB" data-type="participant">
+  <rect x="310" y="558" width="80" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="350" y="578" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">DB</text>
 </g>
+<defs>
+  <linearGradient id="m1814eb8b-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+  <marker id="m1814eb8b-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
+  </marker>
+</defs>
 </svg>

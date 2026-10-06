@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 440" width="800" height="440" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,29 +26,43 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
+<path class="sankey-link" d="M 54 40 C 152.83 40 152.83 40 251.67 40 L 251.67 400 C 152.83 400 152.83 400 54 400 Z" fill="url(#m1814eb8b-sankey-grad-0)" stroke="none" />
+<path class="sankey-link" d="M 265.67 40 C 364.5 40 364.5 148 463.33 148 L 463.33 292 C 364.5 292 364.5 400 265.67 400 Z" fill="url(#m1814eb8b-sankey-grad-1)" stroke="none" />
+<path class="sankey-link" d="M 477.33 148 C 576.17 148 576.17 143.8 675 143.8 L 675 240.68 C 576.17 240.68 576.17 248.8 477.33 248.8 Z" fill="url(#m1814eb8b-sankey-grad-2)" stroke="none" />
+<path class="sankey-link" d="M 477.33 248.8 C 576.17 248.8 576.17 254.68 675 254.68 L 675 296.2 C 576.17 296.2 576.17 292 477.33 292 Z" fill="url(#m1814eb8b-sankey-grad-3)" stroke="none" />
+<g class="sankey-node" data-node="Visitors">
+  <rect x="40" y="40" width="14" height="360" rx="3" ry="3" fill="#4e79a7" />
+  <text x="64" y="212" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Visitors</text>
+  <text x="64" y="228" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">1000</text>
+</g>
+<g class="sankey-node" data-node="Signups">
+  <rect x="251.67" y="40" width="14" height="360" rx="3" ry="3" fill="#f28e2b" />
+  <text x="275.67" y="212" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Signups</text>
+  <text x="275.67" y="228" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">1000</text>
+</g>
+<g class="sankey-node" data-node="Trials">
+  <rect x="463.33" y="148" width="14" height="144" rx="3" ry="3" fill="#e15759" />
+  <text x="487.33" y="212" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Trials</text>
+  <text x="487.33" y="228" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">400</text>
+</g>
+<g class="sankey-node" data-node="Paid">
+  <rect x="675" y="254.68" width="14" height="41.52" rx="3" ry="3" fill="#76b7b2" />
+  <text x="699" y="267.44" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Paid</text>
+  <text x="699" y="283.44" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">120</text>
+</g>
+<g class="sankey-node" data-node="Churned">
+  <rect x="675" y="143.8" width="14" height="96.88" rx="3" ry="3" fill="#59a14f" />
+  <text x="699" y="184.24" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Churned</text>
+  <text x="699" y="200.24" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">280</text>
+</g>
 <defs>
-<linearGradient id="sankey-grad-0" gradientUnits="userSpaceOnUse" x1="96" y1="0" x2="294.67" y2="0"><stop offset="0%" stop-color="#59a14f" stop-opacity="0.5" /><stop offset="100%" stop-color="#e15759" stop-opacity="0.5" /></linearGradient>
-<linearGradient id="sankey-grad-1" gradientUnits="userSpaceOnUse" x1="306.67" y1="0" x2="505.33" y2="0"><stop offset="0%" stop-color="#e15759" stop-opacity="0.5" /><stop offset="100%" stop-color="#76b7b2" stop-opacity="0.5" /></linearGradient>
-<linearGradient id="sankey-grad-2" gradientUnits="userSpaceOnUse" x1="517.33" y1="0" x2="716" y2="0"><stop offset="0%" stop-color="#76b7b2" stop-opacity="0.5" /><stop offset="100%" stop-color="#4e79a7" stop-opacity="0.5" /></linearGradient>
-<linearGradient id="sankey-grad-3" gradientUnits="userSpaceOnUse" x1="517.33" y1="0" x2="716" y2="0"><stop offset="0%" stop-color="#76b7b2" stop-opacity="0.5" /><stop offset="100%" stop-color="#f28e2b" stop-opacity="0.5" /></linearGradient>
+  <linearGradient id="m1814eb8b-sankey-grad-0" gradientUnits="userSpaceOnUse" x1="54" y1="0" x2="251.667" y2="0"><stop offset="0" stop-color="#4e79a7" stop-opacity="0.4" /><stop offset="1" stop-color="#f28e2b" stop-opacity="0.4" /></linearGradient>
+  <linearGradient id="m1814eb8b-sankey-grad-1" gradientUnits="userSpaceOnUse" x1="265.667" y1="0" x2="463.333" y2="0"><stop offset="0" stop-color="#f28e2b" stop-opacity="0.4" /><stop offset="1" stop-color="#e15759" stop-opacity="0.4" /></linearGradient>
+  <linearGradient id="m1814eb8b-sankey-grad-2" gradientUnits="userSpaceOnUse" x1="477.333" y1="0" x2="675" y2="0"><stop offset="0" stop-color="#e15759" stop-opacity="0.4" /><stop offset="1" stop-color="#59a14f" stop-opacity="0.4" /></linearGradient>
+  <linearGradient id="m1814eb8b-sankey-grad-3" gradientUnits="userSpaceOnUse" x1="477.333" y1="0" x2="675" y2="0"><stop offset="0" stop-color="#e15759" stop-opacity="0.4" /><stop offset="1" stop-color="#76b7b2" stop-opacity="0.4" /></linearGradient>
 </defs>
-
-<path d="M 96 24 C 195.33 24 195.33 24 294.67 24 L 294.67 376 C 195.33 376 195.33 376 96 376 Z" fill="url(#sankey-grad-0)" stroke="none" />
-<path d="M 306.67 24 C 406 24 406 129.6 505.33 129.6 L 505.33 270.4 C 406 270.4 406 376 306.67 376 Z" fill="url(#sankey-grad-1)" stroke="none" />
-<path d="M 517.33 129.6 C 616.67 129.6 616.67 125.4 716 125.4 L 716 220.04 C 616.67 220.04 616.67 228.16 517.33 228.16 Z" fill="url(#sankey-grad-2)" stroke="none" />
-<path d="M 517.33 228.16 C 616.67 228.16 616.67 234.04 716 234.04 L 716 274.6 C 616.67 274.6 616.67 270.4 517.33 270.4 Z" fill="url(#sankey-grad-3)" stroke="none" />
-<rect x="84" y="24" width="12" height="352" fill="#59a14f" stroke="none" rx="2" ry="2" />
-<text x="76" y="200" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Visitors 1000</text>
-<rect x="294.67" y="24" width="12" height="352" fill="#e15759" stroke="none" rx="2" ry="2" />
-<text x="286.67" y="200" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Signups 1000</text>
-<rect x="505.33" y="129.6" width="12" height="140.8" fill="#76b7b2" stroke="none" rx="2" ry="2" />
-<text x="497.33" y="200" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Trials 400</text>
-<rect x="716" y="234.04" width="12" height="40.56" fill="#f28e2b" stroke="none" rx="2" ry="2" />
-<text x="736" y="254.32" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Paid 120</text>
-<rect x="716" y="125.4" width="12" height="94.64" fill="#4e79a7" stroke="none" rx="2" ry="2" />
-<text x="736" y="172.72" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Churned 280</text>
 </svg>

@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1374 509" width="1374" height="509" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1256 472" width="1256" height="472" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,79 +26,114 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<defs>
-  <marker id="journey-arrow" refX="5" refY="2" markerWidth="6" markerHeight="4" orient="auto">
-    <path d="M 0,0 V 4 L6,2 Z" fill="var(--_line)" />
-  </marker>
-</defs>
-
-<g transform="translate(0,8)">
-<text x="150" y="25" font-size="18" font-weight="bold" fill="var(--_text)">A rough deployment</text>
-<circle cx="20" cy="60" r="7" fill="color-mix(in srgb, #76b7b2 60%, var(--bg))" stroke="#539D97" stroke-width="1.5" />
-<text x="40" y="65" font-size="14" fill="var(--_text)">Dev</text>
-<circle cx="20" cy="80" r="7" fill="color-mix(in srgb, #b07aa1 60%, var(--bg))" stroke="#955884" stroke-width="1.5" />
-<text x="40" y="85" font-size="14" fill="var(--_text)">CI</text>
-<circle cx="20" cy="100" r="7" fill="color-mix(in srgb, #9c755f 60%, var(--bg))" stroke="#765848" stroke-width="1.5" />
-<text x="40" y="105" font-size="14" fill="var(--_text)">Ops</text>
-<rect x="150" y="50" width="550" height="50" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="425" y="75" text-anchor="middle" dy="0.35em" font-size="14" font-weight="600" fill="#3B5B7D">Deploy</text>
-<rect x="750" y="50" width="550" height="50" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 24%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-<text x="1025" y="75" text-anchor="middle" dy="0.35em" font-size="14" font-weight="600" fill="#D36F0D">Recover</text>
-<line x1="225" y1="110" x2="225" y2="485" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 2" />
-<circle class="face" cx="225" cy="300" r="15" fill="color-mix(in srgb, #59a14f 24%, var(--bg))" stroke="#42783B" stroke-width="2" />
-<circle cx="220" cy="295" r="1.5" fill="#42783B" stroke="#42783B" />
-<circle cx="230" cy="295" r="1.5" fill="#42783B" stroke="#42783B" />
-<path class="mouth" d="M 217.86 302 A 7.14 7.14 0 0 0 232.14 302" fill="none" stroke="#42783B" stroke-width="1.5" />
-<rect x="150" y="110" width="150" height="50" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<circle cx="164" cy="110" r="7" fill="color-mix(in srgb, #76b7b2 60%, var(--bg))" stroke="#539D97" stroke-width="1.5"><title>Dev</title></circle>
-<text x="225" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="var(--_text)">Merge the change</text>
-<line x1="425" y1="110" x2="425" y2="485" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 2" />
-<circle class="face" cx="425" cy="420" r="15" fill="color-mix(in srgb, #e15759 24%, var(--bg))" stroke="#D52629" stroke-width="2" />
-<circle cx="420" cy="415" r="1.5" fill="#D52629" stroke="#D52629" />
-<circle cx="430" cy="415" r="1.5" fill="#D52629" stroke="#D52629" />
-<path class="mouth" d="M 417.86 427 A 7.14 7.14 0 0 1 432.14 427" fill="none" stroke="#D52629" stroke-width="1.5" />
-<rect x="350" y="110" width="150" height="50" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<circle cx="364" cy="110" r="7" fill="color-mix(in srgb, #76b7b2 60%, var(--bg))" stroke="#539D97" stroke-width="1.5"><title>Dev</title></circle>
-<circle cx="374" cy="110" r="7" fill="color-mix(in srgb, #b07aa1 60%, var(--bg))" stroke="#955884" stroke-width="1.5"><title>CI</title></circle>
-<text x="425" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="var(--_text)">Pipeline fails</text>
-<line x1="625" y1="110" x2="625" y2="485" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 2" />
-<circle class="face" cx="625" cy="390" r="15" fill="color-mix(in srgb, #e15759 24%, var(--bg))" stroke="#D52629" stroke-width="2" />
-<circle cx="620" cy="385" r="1.5" fill="#D52629" stroke="#D52629" />
-<circle cx="630" cy="385" r="1.5" fill="#D52629" stroke="#D52629" />
-<path class="mouth" d="M 617.86 397 A 7.14 7.14 0 0 1 632.14 397" fill="none" stroke="#D52629" stroke-width="1.5" />
-<rect x="550" y="110" width="150" height="50" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<circle cx="564" cy="110" r="7" fill="color-mix(in srgb, #76b7b2 60%, var(--bg))" stroke="#539D97" stroke-width="1.5"><title>Dev</title></circle>
-<text x="625" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="var(--_text)">Fix flaky test</text>
-<line x1="825" y1="110" x2="825" y2="485" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 2" />
-<circle class="face" cx="825" cy="390" r="15" fill="color-mix(in srgb, #e15759 24%, var(--bg))" stroke="#D52629" stroke-width="2" />
-<circle cx="820" cy="385" r="1.5" fill="#D52629" stroke="#D52629" />
-<circle cx="830" cy="385" r="1.5" fill="#D52629" stroke="#D52629" />
-<path class="mouth" d="M 817.86 397 A 7.14 7.14 0 0 1 832.14 397" fill="none" stroke="#D52629" stroke-width="1.5" />
-<rect x="750" y="110" width="150" height="50" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-<circle cx="764" cy="110" r="7" fill="color-mix(in srgb, #76b7b2 60%, var(--bg))" stroke="#539D97" stroke-width="1.5"><title>Dev</title></circle>
-<circle cx="774" cy="110" r="7" fill="color-mix(in srgb, #9c755f 60%, var(--bg))" stroke="#765848" stroke-width="1.5"><title>Ops</title></circle>
-<text x="825" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="var(--_text)">Rollback</text>
-<line x1="1025" y1="110" x2="1025" y2="485" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 2" />
-<circle class="face" cx="1025" cy="360" r="15" fill="color-mix(in srgb, #edc948 24%, var(--bg))" stroke="#E2B516" stroke-width="2" />
-<circle cx="1020" cy="355" r="1.5" fill="#E2B516" stroke="#E2B516" />
-<circle cx="1030" cy="355" r="1.5" fill="#E2B516" stroke="#E2B516" />
-<line class="mouth" x1="1020" y1="367" x2="1030" y2="367" stroke="#E2B516" stroke-width="1" />
-<rect x="950" y="110" width="150" height="50" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-<circle cx="964" cy="110" r="7" fill="color-mix(in srgb, #76b7b2 60%, var(--bg))" stroke="#539D97" stroke-width="1.5"><title>Dev</title></circle>
-<circle cx="974" cy="110" r="7" fill="color-mix(in srgb, #9c755f 60%, var(--bg))" stroke="#765848" stroke-width="1.5"><title>Ops</title></circle>
-<text x="1025" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="var(--_text)">Postmortem</text>
-<line x1="1225" y1="110" x2="1225" y2="485" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 2" />
-<circle class="face" cx="1225" cy="300" r="15" fill="color-mix(in srgb, #59a14f 24%, var(--bg))" stroke="#42783B" stroke-width="2" />
-<circle cx="1220" cy="295" r="1.5" fill="#42783B" stroke="#42783B" />
-<circle cx="1230" cy="295" r="1.5" fill="#42783B" stroke="#42783B" />
-<path class="mouth" d="M 1217.86 302 A 7.14 7.14 0 0 0 1232.14 302" fill="none" stroke="#42783B" stroke-width="1.5" />
-<rect x="1150" y="110" width="150" height="50" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-<circle cx="1164" cy="110" r="7" fill="color-mix(in srgb, #76b7b2 60%, var(--bg))" stroke="#539D97" stroke-width="1.5"><title>Dev</title></circle>
-<text x="1225" y="135" text-anchor="middle" dy="0.35em" font-size="14" fill="var(--_text)">Celebrate the fix</text>
-<line x1="150" y1="200" x2="1296" y2="200" stroke="var(--_line)" stroke-width="3" marker-end="url(#journey-arrow)" />
+<g class="diagram-title">
+  <rect x="40" y="35.5" width="9" height="9" rx="2" ry="2" fill="var(--accent, var(--fg))" />
+  <text x="56" y="40" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">A rough deployment</text>
 </g>
+<g class="legend">
+  <rect x="1048.5" y="35" width="10" height="10" rx="3" ry="3" fill="#b07aa1" stroke="none" />
+  <text x="1066.5" y="40" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Dev</text>
+  <rect x="1115.48" y="35" width="10" height="10" rx="3" ry="3" fill="#9c755f" stroke="none" />
+  <text x="1133.48" y="40" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">CI</text>
+  <rect x="1169.02" y="35" width="10" height="10" rx="3" ry="3" fill="#bab0ac" stroke="none" />
+  <text x="1187.02" y="40" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Ops</text>
+</g>
+<g class="subgraph" data-section="0">
+  <rect x="40" y="72" width="576" height="112" rx="12" ry="12" fill="url(#m1814eb8b-cw-p1-0)" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
+  <path d="M40,100 L40,84 Q40,72 52,72 L604,72 Q616,72 616,84 L616,100 Z" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" />
+  <line x1="40" y1="100" x2="616" y2="100" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
+</g>
+<g class="subgraph" data-section="1">
+  <rect x="640" y="72" width="576" height="112" rx="12" ry="12" fill="url(#m1814eb8b-cw-p2-0)" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1.25" />
+  <path d="M640,100 L640,84 Q640,72 652,72 L1204,72 Q1216,72 1216,84 L1216,100 Z" fill="color-mix(in srgb, #76b7b2 22%, var(--bg))" />
+  <line x1="640" y1="100" x2="1216" y2="100" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1.25" />
+</g>
+<text x="52" y="86" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.9">Deploy</text>
+<text x="652" y="86" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.9">Recover</text>
+<line class="drop-line" x1="136" y1="160" x2="136" y2="432" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="5 4" />
+<line class="drop-line" x1="328" y1="160" x2="328" y2="432" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="5 4" />
+<line class="drop-line" x1="520" y1="160" x2="520" y2="432" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="5 4" />
+<line class="drop-line" x1="736" y1="160" x2="736" y2="432" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="5 4" />
+<line class="drop-line" x1="928" y1="160" x2="928" y2="432" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="5 4" />
+<line class="drop-line" x1="1120" y1="160" x2="1120" y2="432" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="5 4" />
+<g class="node journey-task" data-label="Merge the change" data-score="5">
+  <rect x="52" y="116" width="168" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="136" y="138" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Merge the change</text>
+</g>
+<circle class="actor-dot" cx="206" cy="116" r="6" fill="#b07aa1" stroke="var(--bg)" stroke-width="2"><title>Dev</title></circle>
+<g class="node journey-task" data-label="Pipeline fails" data-score="1">
+  <rect x="244" y="116" width="168" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="328" y="138" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Pipeline fails</text>
+</g>
+<circle class="actor-dot" cx="398" cy="116" r="6" fill="#b07aa1" stroke="var(--bg)" stroke-width="2"><title>Dev</title></circle>
+<circle class="actor-dot" cx="384" cy="116" r="6" fill="#9c755f" stroke="var(--bg)" stroke-width="2"><title>CI</title></circle>
+<g class="node journey-task" data-label="Fix flaky test" data-score="2">
+  <rect x="436" y="116" width="168" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="520" y="138" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Fix flaky test</text>
+</g>
+<circle class="actor-dot" cx="590" cy="116" r="6" fill="#b07aa1" stroke="var(--bg)" stroke-width="2"><title>Dev</title></circle>
+<g class="node journey-task" data-label="Rollback" data-score="2">
+  <rect x="652" y="116" width="168" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="736" y="138" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Rollback</text>
+</g>
+<circle class="actor-dot" cx="806" cy="116" r="6" fill="#b07aa1" stroke="var(--bg)" stroke-width="2"><title>Dev</title></circle>
+<circle class="actor-dot" cx="792" cy="116" r="6" fill="#bab0ac" stroke="var(--bg)" stroke-width="2"><title>Ops</title></circle>
+<g class="node journey-task" data-label="Postmortem" data-score="3">
+  <rect x="844" y="116" width="168" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="928" y="138" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Postmortem</text>
+</g>
+<circle class="actor-dot" cx="998" cy="116" r="6" fill="#b07aa1" stroke="var(--bg)" stroke-width="2"><title>Dev</title></circle>
+<circle class="actor-dot" cx="984" cy="116" r="6" fill="#bab0ac" stroke="var(--bg)" stroke-width="2"><title>Ops</title></circle>
+<g class="node journey-task" data-label="Celebrate the fix" data-score="5">
+  <rect x="1036" y="116" width="168" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1120" y="138" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Celebrate the fix</text>
+</g>
+<circle class="actor-dot" cx="1190" cy="116" r="6" fill="#b07aa1" stroke="var(--bg)" stroke-width="2"><title>Dev</title></circle>
+<path class="journey-line" d="M136,228 L328,404 L520,360 L736,360 L928,316 L1120,228" fill="none" stroke="var(--accent, var(--fg))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<g class="face" data-score="5">
+  <circle cx="136" cy="228" r="16" fill="color-mix(in srgb, #f28e2b 26%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.75" />
+  <circle cx="130.5" cy="224.5" r="1.75" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" />
+  <circle cx="141.5" cy="224.5" r="1.75" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" />
+  <path class="mouth" d="M129.5,231 Q136,238 142.5,231" fill="none" stroke="color-mix(in srgb, #f28e2b 44%, var(--fg))" stroke-width="1.75" stroke-linecap="round" />
+</g>
+<g class="face" data-score="1">
+  <circle cx="328" cy="404" r="16" fill="color-mix(in srgb, #f28e2b 26%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.75" />
+  <circle cx="322.5" cy="400.5" r="1.75" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" />
+  <circle cx="333.5" cy="400.5" r="1.75" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" />
+  <path class="mouth" d="M321.5,413 Q328,406 334.5,413" fill="none" stroke="color-mix(in srgb, #f28e2b 44%, var(--fg))" stroke-width="1.75" stroke-linecap="round" />
+</g>
+<g class="face" data-score="2">
+  <circle cx="520" cy="360" r="16" fill="color-mix(in srgb, #f28e2b 26%, var(--bg))" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.75" />
+  <circle cx="514.5" cy="356.5" r="1.75" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" />
+  <circle cx="525.5" cy="356.5" r="1.75" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" />
+  <path class="mouth" d="M513.5,369 Q520,362 526.5,369" fill="none" stroke="color-mix(in srgb, #f28e2b 44%, var(--fg))" stroke-width="1.75" stroke-linecap="round" />
+</g>
+<g class="face" data-score="2">
+  <circle cx="736" cy="360" r="16" fill="color-mix(in srgb, #76b7b2 26%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.75" />
+  <circle cx="730.5" cy="356.5" r="1.75" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" />
+  <circle cx="741.5" cy="356.5" r="1.75" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" />
+  <path class="mouth" d="M729.5,369 Q736,362 742.5,369" fill="none" stroke="color-mix(in srgb, #76b7b2 44%, var(--fg))" stroke-width="1.75" stroke-linecap="round" />
+</g>
+<g class="face" data-score="3">
+  <circle cx="928" cy="316" r="16" fill="color-mix(in srgb, #76b7b2 26%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.75" />
+  <circle cx="922.5" cy="312.5" r="1.75" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" />
+  <circle cx="933.5" cy="312.5" r="1.75" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" />
+  <path class="mouth" d="M922.5,322 H933.5" fill="none" stroke="color-mix(in srgb, #76b7b2 44%, var(--fg))" stroke-width="1.75" stroke-linecap="round" />
+</g>
+<g class="face" data-score="5">
+  <circle cx="1120" cy="228" r="16" fill="color-mix(in srgb, #76b7b2 26%, var(--bg))" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.75" />
+  <circle cx="1114.5" cy="224.5" r="1.75" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" />
+  <circle cx="1125.5" cy="224.5" r="1.75" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" />
+  <path class="mouth" d="M1113.5,231 Q1120,238 1126.5,231" fill="none" stroke="color-mix(in srgb, #76b7b2 44%, var(--fg))" stroke-width="1.75" stroke-linecap="round" />
+</g>
+<defs>
+  <linearGradient id="m1814eb8b-cw-p1-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-cw-p2-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #76b7b2 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #76b7b2 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #76b7b2 6%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #76b7b2 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #76b7b2 7%, var(--bg))" /></linearGradient>
+</defs>
 </svg>

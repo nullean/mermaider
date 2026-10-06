@@ -6,7 +6,7 @@ namespace Sugiyama.Internal;
 /// <summary>
 /// Flat, array-indexed graph representation for the Sugiyama pipeline.
 /// All nodes (real + virtual) are identified by dense integer ordinals.
-/// Working arrays are rented from ArrayPool for graphs > 64 nodes.
+/// Working arrays are rented from <see cref="System.Buffers.ArrayPool{T}"/> and returned on dispose.
 /// </summary>
 internal sealed class GraphBuffer : IDisposable
 {

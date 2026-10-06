@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 423.648 378" width="423.648" height="378" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420.192 378" width="420.192" height="378" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,62 +26,56 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<defs>
-  <marker id="seq-arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" />
-  </marker>
-  <marker id="seq-arrow-open" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polyline points="0 0, 12 6, 0 12" fill="none" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-</defs>
-
-<line class="lifeline" data-actor="Alice" x1="70" y1="70" x2="70" y2="348" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
-<line class="lifeline" data-actor="Bob" x1="210" y1="70" x2="210" y2="348" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
-<line class="lifeline" data-actor="Charlie" x1="350" y1="70" x2="350" y2="348" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="Alice" x1="70" y1="70" x2="70" y2="308" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
+<line class="lifeline" data-actor="Bob" x1="210" y1="70" x2="210" y2="308" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
+<line class="lifeline" data-actor="Charlie" x1="350" y1="70" x2="350" y2="308" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
 <g class="message" data-from="Alice" data-to="Bob" data-label="100. First message" data-line-style="solid" data-arrow-head="filled" data-self="false">
-  <line x1="70" y1="114" x2="210" y2="114" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
-  <circle cx="70" cy="114" r="11" fill="var(--_text)" /><text x="70" y="114" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="700" fill="var(--bg)">100</text>
-  <rect x="84.48516" y="83.775" width="111.02968000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="140" y="96" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">First message</text>
+  <line x1="70" y1="114" x2="210" y2="114" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+  <g class="autonumber"><circle cx="70" cy="114" r="9" fill="var(--accent, var(--fg))" stroke="var(--bg)" stroke-width="1.5" /><text x="70" y="114" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="var(--bg)" dy="4.2">100</text></g>
+  <rect x="92.45400000000001" y="89.2" width="95.092" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="100" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">First message</text>
 </g>
 <g class="message" data-from="Bob" data-to="Charlie" data-label="110. Second message" data-line-style="solid" data-arrow-head="filled" data-self="false">
-  <line x1="210" y1="164" x2="350" y2="164" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
-  <circle cx="210" cy="164" r="11" fill="var(--_text)" /><text x="210" y="164" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="700" fill="var(--bg)">110</text>
-  <rect x="214.86884" y="133.775" width="130.26232" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="280" y="146" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Second message</text>
+  <line x1="210" y1="164" x2="350" y2="164" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+  <g class="autonumber"><circle cx="210" cy="164" r="9" fill="var(--accent, var(--fg))" stroke="var(--bg)" stroke-width="1.5" /><text x="210" y="164" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="var(--bg)" dy="4.2">110</text></g>
+  <rect x="224.246" y="139.2" width="111.50799999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="280" y="150" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Second message</text>
 </g>
 <g class="message" data-from="Charlie" data-to="Alice" data-label="120. Third message" data-line-style="dashed" data-arrow-head="filled" data-self="false">
-  <line x1="350" y1="214" x2="70" y2="214" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
-  <circle cx="350" cy="214" r="11" fill="var(--_text)" /><text x="350" y="214" text-anchor="middle" dy="0.35em" font-size="var(--fs-xs)" font-weight="700" fill="var(--bg)">120</text>
-  <rect x="152.08108" y="183.775" width="115.83784" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="210" y="196" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Third message</text>
+  <line x1="350" y1="214" x2="70" y2="214" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-arrow)" />
+  <g class="autonumber"><circle cx="350" cy="214" r="9" fill="var(--accent, var(--fg))" stroke="var(--bg)" stroke-width="1.5" /><text x="350" y="214" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="var(--bg)" dy="4.2">120</text></g>
+  <rect x="160.402" y="189.2" width="99.196" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="210" y="200" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Third message</text>
 </g>
 <g class="actor" data-id="Alice" data-label="Alice" data-type="participant">
-  <rect x="30" y="30" width="80" height="40" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="70" y="50" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">Alice</text>
+  <rect x="30" y="30" width="80" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="70" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Alice</text>
 </g>
 <g class="actor" data-id="Bob" data-label="Bob" data-type="participant">
-  <rect x="170" y="30" width="80" height="40" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="210" y="50" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">Bob</text>
+  <rect x="170" y="30" width="80" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="210" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Bob</text>
 </g>
 <g class="actor" data-id="Charlie" data-label="Charlie" data-type="participant">
-  <rect x="306.352" y="30" width="87.29599999999999" height="40" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="350" y="50" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">Charlie</text>
+  <rect x="309.808" y="30" width="80.38400000000001" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="350" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Charlie</text>
 </g>
-<g class="actor" data-id="Alice" data-label="Alice" data-type="participant">
-  <rect x="30" y="308" width="80" height="40" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="70" y="328" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">Alice</text>
+<g class="actor actor-bottom" data-id="Alice" data-label="Alice" data-type="participant">
+  <rect x="30" y="308" width="80" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="70" y="328" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Alice</text>
 </g>
-<g class="actor" data-id="Bob" data-label="Bob" data-type="participant">
-  <rect x="170" y="308" width="80" height="40" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="210" y="328" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">Bob</text>
+<g class="actor actor-bottom" data-id="Bob" data-label="Bob" data-type="participant">
+  <rect x="170" y="308" width="80" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="210" y="328" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Bob</text>
 </g>
-<g class="actor" data-id="Charlie" data-label="Charlie" data-type="participant">
-  <rect x="306.352" y="308" width="87.29599999999999" height="40" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="350" y="328" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">Charlie</text>
+<g class="actor actor-bottom" data-id="Charlie" data-label="Charlie" data-type="participant">
+  <rect x="309.808" y="308" width="80.38400000000001" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="350" y="328" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Charlie</text>
 </g>
+<defs>
+  <linearGradient id="m1814eb8b-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+  <marker id="m1814eb8b-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
+  </marker>
+</defs>
 </svg>

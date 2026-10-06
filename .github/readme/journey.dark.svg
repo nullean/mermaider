@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1064 472" width="1064" height="472" style="--bg:#18181B;--fg:#FAFAFA;--line:#AFBAC9;--accent:#60a5fa">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, color-mix(in srgb, var(--bg) 35%, black) 55%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, color-mix(in srgb, var(--bg) 35%, black) 35%, transparent)); }
+</style>
+
+<g class="diagram-title">
+  <rect x="40" y="35.5" width="9" height="9" rx="2" ry="2" fill="var(--accent, var(--fg))" />
+  <text x="56" y="40" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">My working day</text>
+</g>
+<g class="legend">
+  <rect x="920.96" y="35" width="10" height="10" rx="3" ry="3" fill="#D2B4CA" stroke="none" />
+  <text x="938.96" y="40" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Me</text>
+  <rect x="982.0600000000001" y="35" width="10" height="10" rx="3" ry="3" fill="#C0A697" stroke="none" />
+  <text x="1000.06" y="40" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Cat</text>
+</g>
+<g class="subgraph" data-section="0">
+  <rect x="40" y="72" width="576" height="112" rx="12" ry="12" fill="url(#mf0d69919-cw-p1-0)" stroke="color-mix(in srgb, #F7BC81 42%, var(--bg))" stroke-width="1.25" />
+  <path d="M40,100 L40,84 Q40,72 52,72 L604,72 Q616,72 616,84 L616,100 Z" fill="color-mix(in srgb, #F7BC81 22%, var(--bg))" />
+  <line x1="40" y1="100" x2="616" y2="100" stroke="color-mix(in srgb, #F7BC81 42%, var(--bg))" stroke-width="1.25" />
+</g>
+<g class="subgraph" data-section="1">
+  <rect x="640" y="72" width="384" height="112" rx="12" ry="12" fill="url(#mf0d69919-cw-p2-0)" stroke="color-mix(in srgb, #B2D7D4 42%, var(--bg))" stroke-width="1.25" />
+  <path d="M640,100 L640,84 Q640,72 652,72 L1012,72 Q1024,72 1024,84 L1024,100 Z" fill="color-mix(in srgb, #B2D7D4 22%, var(--bg))" />
+  <line x1="640" y1="100" x2="1024" y2="100" stroke="color-mix(in srgb, #B2D7D4 42%, var(--bg))" stroke-width="1.25" />
+</g>
+<text x="52" y="86" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #F7BC81 44%, var(--fg))" dy="4.9">Go to work</text>
+<text x="652" y="86" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #B2D7D4 44%, var(--fg))" dy="4.9">Go home</text>
+<line class="drop-line" x1="136" y1="160" x2="136" y2="432" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="5 4" />
+<line class="drop-line" x1="328" y1="160" x2="328" y2="432" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="5 4" />
+<line class="drop-line" x1="520" y1="160" x2="520" y2="432" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="5 4" />
+<line class="drop-line" x1="736" y1="160" x2="736" y2="432" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="5 4" />
+<line class="drop-line" x1="928" y1="160" x2="928" y2="432" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="5 4" />
+<g class="node journey-task" data-label="Make tea" data-score="5">
+  <rect x="52" y="116" width="168" height="44" rx="8" ry="8" fill="url(#mf0d69919-ng-p1)" stroke="color-mix(in srgb, #F7BC81 74%, var(--fg))" stroke-width="1.25" />
+  <text x="136" y="138" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Make tea</text>
+</g>
+<circle class="actor-dot" cx="206" cy="116" r="6" fill="#D2B4CA" stroke="var(--bg)" stroke-width="2"><title>Me</title></circle>
+<g class="node journey-task" data-label="Go upstairs" data-score="3">
+  <rect x="244" y="116" width="168" height="44" rx="8" ry="8" fill="url(#mf0d69919-ng-p1)" stroke="color-mix(in srgb, #F7BC81 74%, var(--fg))" stroke-width="1.25" />
+  <text x="328" y="138" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Go upstairs</text>
+</g>
+<circle class="actor-dot" cx="398" cy="116" r="6" fill="#D2B4CA" stroke="var(--bg)" stroke-width="2"><title>Me</title></circle>
+<g class="node journey-task" data-label="Do work" data-score="1">
+  <rect x="436" y="116" width="168" height="44" rx="8" ry="8" fill="url(#mf0d69919-ng-p1)" stroke="color-mix(in srgb, #F7BC81 74%, var(--fg))" stroke-width="1.25" />
+  <text x="520" y="138" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Do work</text>
+</g>
+<circle class="actor-dot" cx="590" cy="116" r="6" fill="#D2B4CA" stroke="var(--bg)" stroke-width="2"><title>Me</title></circle>
+<circle class="actor-dot" cx="576" cy="116" r="6" fill="#C0A697" stroke="var(--bg)" stroke-width="2"><title>Cat</title></circle>
+<g class="node journey-task" data-label="Go downstairs" data-score="5">
+  <rect x="652" y="116" width="168" height="44" rx="8" ry="8" fill="url(#mf0d69919-ng-p2)" stroke="color-mix(in srgb, #B2D7D4 74%, var(--fg))" stroke-width="1.25" />
+  <text x="736" y="138" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Go downstairs</text>
+</g>
+<circle class="actor-dot" cx="806" cy="116" r="6" fill="#D2B4CA" stroke="var(--bg)" stroke-width="2"><title>Me</title></circle>
+<g class="node journey-task" data-label="Sit down" data-score="5">
+  <rect x="844" y="116" width="168" height="44" rx="8" ry="8" fill="url(#mf0d69919-ng-p2)" stroke="color-mix(in srgb, #B2D7D4 74%, var(--fg))" stroke-width="1.25" />
+  <text x="928" y="138" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Sit down</text>
+</g>
+<circle class="actor-dot" cx="998" cy="116" r="6" fill="#D2B4CA" stroke="var(--bg)" stroke-width="2"><title>Me</title></circle>
+<path class="journey-line" d="M136,228 L328,316 L520,404 L736,228 L928,228" fill="none" stroke="var(--accent, var(--fg))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<g class="face" data-score="5">
+  <circle cx="136" cy="228" r="16" fill="color-mix(in srgb, #F7BC81 26%, var(--bg))" stroke="color-mix(in srgb, #F7BC81 74%, var(--fg))" stroke-width="1.75" />
+  <circle cx="130.5" cy="224.5" r="1.75" fill="color-mix(in srgb, #F7BC81 44%, var(--fg))" />
+  <circle cx="141.5" cy="224.5" r="1.75" fill="color-mix(in srgb, #F7BC81 44%, var(--fg))" />
+  <path class="mouth" d="M129.5,231 Q136,238 142.5,231" fill="none" stroke="color-mix(in srgb, #F7BC81 44%, var(--fg))" stroke-width="1.75" stroke-linecap="round" />
+</g>
+<g class="face" data-score="3">
+  <circle cx="328" cy="316" r="16" fill="color-mix(in srgb, #F7BC81 26%, var(--bg))" stroke="color-mix(in srgb, #F7BC81 74%, var(--fg))" stroke-width="1.75" />
+  <circle cx="322.5" cy="312.5" r="1.75" fill="color-mix(in srgb, #F7BC81 44%, var(--fg))" />
+  <circle cx="333.5" cy="312.5" r="1.75" fill="color-mix(in srgb, #F7BC81 44%, var(--fg))" />
+  <path class="mouth" d="M322.5,322 H333.5" fill="none" stroke="color-mix(in srgb, #F7BC81 44%, var(--fg))" stroke-width="1.75" stroke-linecap="round" />
+</g>
+<g class="face" data-score="1">
+  <circle cx="520" cy="404" r="16" fill="color-mix(in srgb, #F7BC81 26%, var(--bg))" stroke="color-mix(in srgb, #F7BC81 74%, var(--fg))" stroke-width="1.75" />
+  <circle cx="514.5" cy="400.5" r="1.75" fill="color-mix(in srgb, #F7BC81 44%, var(--fg))" />
+  <circle cx="525.5" cy="400.5" r="1.75" fill="color-mix(in srgb, #F7BC81 44%, var(--fg))" />
+  <path class="mouth" d="M513.5,413 Q520,406 526.5,413" fill="none" stroke="color-mix(in srgb, #F7BC81 44%, var(--fg))" stroke-width="1.75" stroke-linecap="round" />
+</g>
+<g class="face" data-score="5">
+  <circle cx="736" cy="228" r="16" fill="color-mix(in srgb, #B2D7D4 26%, var(--bg))" stroke="color-mix(in srgb, #B2D7D4 74%, var(--fg))" stroke-width="1.75" />
+  <circle cx="730.5" cy="224.5" r="1.75" fill="color-mix(in srgb, #B2D7D4 44%, var(--fg))" />
+  <circle cx="741.5" cy="224.5" r="1.75" fill="color-mix(in srgb, #B2D7D4 44%, var(--fg))" />
+  <path class="mouth" d="M729.5,231 Q736,238 742.5,231" fill="none" stroke="color-mix(in srgb, #B2D7D4 44%, var(--fg))" stroke-width="1.75" stroke-linecap="round" />
+</g>
+<g class="face" data-score="5">
+  <circle cx="928" cy="228" r="16" fill="color-mix(in srgb, #B2D7D4 26%, var(--bg))" stroke="color-mix(in srgb, #B2D7D4 74%, var(--fg))" stroke-width="1.75" />
+  <circle cx="922.5" cy="224.5" r="1.75" fill="color-mix(in srgb, #B2D7D4 44%, var(--fg))" />
+  <circle cx="933.5" cy="224.5" r="1.75" fill="color-mix(in srgb, #B2D7D4 44%, var(--fg))" />
+  <path class="mouth" d="M921.5,231 Q928,238 934.5,231" fill="none" stroke="color-mix(in srgb, #B2D7D4 44%, var(--fg))" stroke-width="1.75" stroke-linecap="round" />
+</g>
+<defs>
+  <linearGradient id="mf0d69919-cw-p1-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #F7BC81 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #F7BC81 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #F7BC81 6%, var(--bg))" /></linearGradient>
+  <linearGradient id="mf0d69919-cw-p2-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #B2D7D4 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #B2D7D4 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #B2D7D4 6%, var(--bg))" /></linearGradient>
+  <linearGradient id="mf0d69919-ng-p1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #F7BC81 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #F7BC81 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="mf0d69919-ng-p2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #B2D7D4 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #B2D7D4 7%, var(--bg))" /></linearGradient>
+</defs>
+</svg>

@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 569.504 985.6139999999999" width="569.504" height="985.6139999999999" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 487.316 878.406" width="487.316" height="878.406" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,88 +26,80 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<defs>
-  <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
-  </marker>
-  <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
-    <polygon points="12 0, 0 6, 12 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
-  </marker>
-</defs>
-
-<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M193,877 L22,877 Q16,877 16,871 L16,94 Q16,88 22,88 L245,88" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" d="M293.13612,136 L293.13612,182.128 Q293.13612,188.128 287.13612,188.128 L242.78290666666666,188.128 Q236.78290666666666,188.128 236.78290666666666,194.128 L236.78290666666666,439.092 Q236.78290666666666,445.092 230.78290666666666,445.092 L126.72800000000001,445.092 Q120.72800000000001,445.092 120.72800000000001,451.092 L120.72800000000001,473.092" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="B" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="No" d="M341.17878666666667,136 L341.17878666666667,182.128 Q341.17878666666667,188.128 347.17878666666667,188.128 L391.532,188.128 Q397.532,188.128 397.532,194.128 L397.532,254.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="D" data-to="E" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" d="M376.8546666666667,358 L376.8546666666667,384.642 Q376.8546666666667,390.642 370.8546666666667,390.642 L315.52,390.642 Q309.52,390.642 309.52,396.642 L309.52,473.092" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="D" data-to="F" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="No" d="M418.20933333333335,358 L418.20933333333335,384.642 Q418.20933333333335,390.642 424.20933333333335,390.642 L479.544,390.642 Q485.544,390.642 485.544,396.642 L485.544,473.092" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="C" data-to="G" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M120.72800000000001,517.892 L120.72800000000001,530.8919999999999 Q120.72800000000001,536.8919999999999 126.72800000000001,536.8919999999999 L269.996,536.8919999999999 Q275.996,536.8919999999999 275.996,542.8919999999999 L275.996,565.8919999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="E" data-to="G" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M309.52,517.892 L309.52,565.8919999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="F" data-to="G" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M485.544,517.892 L485.544,530.8919999999999 Q485.544,536.8919999999999 479.544,536.8919999999999 L349.044,536.8919999999999 Q343.044,536.8919999999999 343.044,542.8919999999999 L343.044,565.8919999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="G" data-to="H" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M309.52,610.6919999999999 L309.52000000000004,650.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="H" data-to="I" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" d="M327.7653333333334,742 L327.7653333333334,782.1639999999999 Q327.7653333333334,788.1639999999999 333.7653333333334,788.1639999999999 L373.534,788.1639999999999 Q379.534,788.1639999999999 379.534,794.1639999999999 L379.534,854.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="H" data-to="A" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="No" d="M291.2746666666667,742 L291.2746666666667,782.1639999999999 Q291.2746666666667,788.1639999999999 285.2746666666667,788.1639999999999 L245.506,788.1639999999999 Q239.506,788.1639999999999 239.506,794.1639999999999 L239.506,854.6139999999999" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="A" data-to="B" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M171,788.5 L24,788.5 Q16,788.5 16,780.5 L16,82.5 Q16,74.5 24,74.5 L212,74.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="B" data-to="C" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" d="M251.05543,113.5 L251.05543,153.11199999999997 Q251.05543,161.11199999999997 243.05543,161.11199999999997 L207.5576933333333,161.11199999999997 Q199.5576933333333,161.11199999999997 199.5576933333333,169.11199999999997 L199.5576933333333,380.368 Q199.5576933333333,388.368 191.5576933333333,388.368 L114.137,388.368 Q106.137,388.368 106.137,396.368 L106.137,416.368" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="B" data-to="D" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="No" d="M290.0927633333333,113.5 L290.0927633333333,153.11199999999997 Q290.0927633333333,161.11199999999997 298.0927633333333,161.11199999999997 L333.5905,161.11199999999997 Q341.5905,161.11199999999997 341.5905,169.11199999999997 L341.5905,225" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="D" data-to="E" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" d="M324.99783333333335,308 L324.99783333333335,328.518 Q324.99783333333335,336.518 316.99783333333335,336.518 L274.83,336.518 Q266.83,336.518 266.83,344.518 L266.83,416.368" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="D" data-to="F" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="No" d="M358.1831666666667,308 L358.1831666666667,328.518 Q358.1831666666667,336.518 366.1831666666667,336.518 L408.351,336.518 Q416.351,336.518 416.351,344.518 L416.351,416.368" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="C" data-to="G" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M106.137,458.568 L106.137,469.568 Q106.137,477.568 114.137,477.568 L231.74649999999997,477.568 Q239.74649999999997,477.568 239.74649999999997,485.568 L239.74649999999997,506.568" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="E" data-to="G" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M266.83,458.568 L266.8299999999999,506.568" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="F" data-to="G" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M416.351,458.568 L416.351,469.568 Q416.351,477.568 408.351,477.568 L301.91349999999994,477.568 Q293.91349999999994,477.568 293.91349999999994,485.568 L293.91349999999994,506.568" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="G" data-to="H" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M266.8299999999999,548.768 L266.83,589" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="H" data-to="I" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Yes" d="M281.29466666666667,661 L281.29466666666667,695.556 Q281.29466666666667,703.556 289.29466666666667,703.556 L318.686,703.556 Q326.686,703.556 326.686,711.556 L326.686,767.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="H" data-to="A" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="No" d="M252.3653333333333,661 L252.3653333333333,695.556 Q252.3653333333333,703.556 244.3653333333333,703.556 L214.974,703.556 Q206.974,703.556 206.974,711.556 L206.974,767.406" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
 <g class="edge-label" data-from="B" data-to="C" data-label="Yes">
-  <rect x="213.72314666666665" y="195.128" width="46.11952000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="236.78290666666666" y="207.35299999999998" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Yes</text>
+  <rect x="179.7136933333333" y="168.23699999999997" width="39.688" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="199.56" y="179.04" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Yes</text>
 </g>
 <g class="edge-label" data-from="B" data-to="D" data-label="No">
-  <rect x="378.47904" y="195.128" width="38.10592000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="397.532" y="207.35299999999998" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">No</text>
+  <rect x="325.16650000000004" y="168.23699999999997" width="32.848" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="341.59" y="179.04" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">No</text>
 </g>
 <g class="edge-label" data-from="D" data-to="E" data-label="Yes">
-  <rect x="286.46024" y="413.64199999999994" width="46.11952000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="309.52" y="425.86699999999996" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Yes</text>
+  <rect x="246.986" y="359.643" width="39.688" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="266.83" y="370.44" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Yes</text>
 </g>
 <g class="edge-label" data-from="D" data-to="F" data-label="No">
-  <rect x="466.49104" y="413.64199999999994" width="38.10592000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="485.544" y="425.86699999999996" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">No</text>
+  <rect x="399.927" y="359.643" width="32.848" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="416.35" y="370.44" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">No</text>
 </g>
 <g class="edge-label" data-from="H" data-to="I" data-label="Yes">
-  <rect x="356.47424" y="795.1639999999999" width="46.11952000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="379.534" y="807.3889999999999" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Yes</text>
+  <rect x="306.842" y="710.681" width="39.688" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="326.69" y="721.48" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Yes</text>
 </g>
 <g class="edge-label" data-from="H" data-to="A" data-label="No">
-  <rect x="220.45304" y="795.1639999999999" width="38.10592000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="239.506" y="807.3889999999999" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">No</text>
+  <rect x="190.54999999999998" y="710.681" width="32.848" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="206.97" y="721.48" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">No</text>
 </g>
 <g class="node" data-id="A" data-label="Start" data-shape="rectangle">
-  <rect x="192.978" y="854.6139999999999" width="93.056" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="239.506" y="877.0139999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Start</text>
+  <rect x="170.76199999999997" y="767.406" width="72.424" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="206.97" y="788.51" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Start</text>
 </g>
 <g class="node" data-id="B" data-label="Is it raining?" data-shape="diamond">
-  <polygon points="317.15745333333336,16 389.22145333333333,88.064 317.15745333333336,160.128 245.09345333333337,88.064" fill="var(--_accent-fill)" stroke="#3B5B7D" stroke-width="2" />
-  <text x="317.15745333333336" y="88.064" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Is it raining?</text>
+  <polygon points="270.57409666666666,15.999999999999993 329.13009666666665,74.55599999999998 270.57409666666666,133.11199999999997 212.01809666666668,74.55599999999998" fill="url(#m1814eb8b-ng-a)" stroke="color-mix(in srgb, var(--accent, var(--fg)) 74%, var(--fg))" stroke-width="1.25" />
+  <text x="270.57" y="74.56" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Is it raining?</text>
 </g>
 <g class="node" data-id="C" data-label="Take umbrella" data-shape="rectangle">
-  <rect x="40" y="473.092" width="161.45600000000002" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="120.72800000000001" y="495.49199999999996" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Take umbrella</text>
+  <rect x="40" y="416.368" width="132.274" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="106.14" y="437.47" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Take umbrella</text>
 </g>
 <g class="node" data-id="D" data-label="Is it cold?" data-shape="diamond">
-  <polygon points="397.532,254.57799999999995 459.56399999999996,316.60999999999996 397.532,378.64199999999994 335.5,316.60999999999996" fill="var(--_accent-fill)" stroke="#3B5B7D" stroke-width="2" />
-  <text x="397.532" y="316.60999999999996" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Is it cold?</text>
+  <polygon points="341.5905,224.96200000000002 391.36850000000004,274.74 341.5905,324.51800000000003 291.8125,274.74" fill="url(#m1814eb8b-ng-a)" stroke="color-mix(in srgb, var(--accent, var(--fg)) 74%, var(--fg))" stroke-width="1.25" />
+  <text x="341.59" y="274.74" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Is it cold?</text>
 </g>
 <g class="node" data-id="E" data-label="Wear jacket" data-shape="rectangle">
-  <rect x="237.45600000000002" y="473.092" width="144.128" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="309.52" y="495.49199999999996" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Wear jacket</text>
+  <rect x="208.274" y="416.368" width="117.11199999999998" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="266.83" y="437.47" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Wear jacket</text>
 </g>
 <g class="node" data-id="F" data-label="Dress light" data-shape="rectangle">
-  <rect x="417.584" y="473.092" width="135.92000000000002" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="485.544" y="495.49199999999996" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Dress light</text>
+  <rect x="361.38599999999997" y="416.368" width="109.93" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="416.35" y="437.47" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Dress light</text>
 </g>
 <g class="node" data-id="G" data-label="Go outside" data-shape="rectangle">
-  <rect x="242.47199999999998" y="565.8919999999999" width="134.096" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="309.52" y="588.2919999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Go outside</text>
+  <rect x="212.66299999999995" y="506.568" width="108.334" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="266.83" y="527.67" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Go outside</text>
 </g>
 <g class="node" data-id="H" data-label="Enjoy?" data-shape="diamond">
-  <polygon points="309.52000000000004,650.6919999999999 364.25600000000003,705.4279999999999 309.52000000000004,760.1639999999999 254.78400000000005,705.4279999999999" fill="var(--_accent-fill)" stroke="#3B5B7D" stroke-width="2" />
-  <text x="309.52000000000004" y="705.4279999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Enjoy?</text>
+  <polygon points="266.83,588.768 310.224,632.162 266.83,675.556 223.43599999999998,632.162" fill="url(#m1814eb8b-ng-a)" stroke="color-mix(in srgb, var(--accent, var(--fg)) 74%, var(--fg))" stroke-width="1.25" />
+  <text x="266.83" y="632.16" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Enjoy?</text>
 </g>
 <g class="node" data-id="I" data-label="Done" data-shape="circle">
-  <circle cx="379.534" cy="912.1139999999999" r="57.5" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="379.534" y="912.1139999999999" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Done</text>
+  <circle cx="326.686" cy="814.906" r="47.5" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="326.69" y="814.91" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Done</text>
 </g>
+<defs>
+  <linearGradient id="m1814eb8b-ng-a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+  <marker id="m1814eb8b-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
+  </marker>
+</defs>
 </svg>

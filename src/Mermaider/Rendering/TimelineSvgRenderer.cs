@@ -7,20 +7,19 @@ namespace Mermaider.Rendering;
 
 internal static class TimelineSvgRenderer
 {
-	private const double PeriodWidth = 180;
+	private const double PeriodWidth = 160;
 	private const double PeriodGap = 24;
-	private const double PeriodBoxHeight = 36;
-	private const double EventBoxHeight = 28;
-	private const double EventLineHeight = 18;
-	private const double EventFontPx = 14;
-	private const double EventGap = 6;
-	private const double MarkerRadius = 6;
-	private const double SectionPadX = 8;
-	private const double LeftMargin = 40;
-	private const string TitleFontSize = RenderConstants.FsVar.L;
-	private const string PeriodFontSize = RenderConstants.FsVar.S;
-	private const string EventFontSize = RenderConstants.FsVar.S;
-	private const string SectionFontSize = RenderConstants.FsVar.S;
+	private const double MinBoxHeight = 36;
+	private const double BoxPadY = 8;
+	private const double BoxPadX = 12;
+	private const double EventGap = 8;
+	private const double SectionPad = 12;
+	private const double SectionGap = 12;
+	private const double AxisGap = 40;
+	private const double EventsBelowAxis = 32;
+	private const double MomentRadius = 6;
+
+	private readonly record struct Column(TimelinePeriod Period, double X, ColorFamily Family);
 
 	internal static string Render(TimelineDiagram diagram, SvgRenderContext context)
 	{
@@ -39,209 +38,151 @@ internal static class TimelineSvgRenderer
 	internal static StringBuilder RenderToBuilder(TimelineDiagram diagram, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
+		var ds = DesignSystem.For(context);
+		var margin = DesignSystem.BoardMargin;
 
 		var hasTitle = diagram.Title is { Length: > 0 };
-		var titleOffset = hasTitle ? 40.0 : 0;
+		var top = DesignSystem.BoardTop(hasTitle);
+		var titleW = hasTitle ? DesignSystem.TitleIndent + TextMetrics.MeasureTextWidth(diagram.Title!, DesignSystem.Px(TypeRole.Title), 700) : 0;
 
 		var totalPeriods = diagram.Sections.Sum(s => s.Periods.Count);
 		if (totalPeriods == 0)
 		{
-			StyleBlock.AppendSvgOpenTag(sb, 200, 100, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-			StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
-			_ = sb.Append("\n</svg>");
+			StyleBlock.AppendSvgOpenTag(sb, Math.Max(200, titleW + (margin * 2)), top + 60, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+			StyleBlock.AppendStyleBlock(sb, context.Styles);
+			if (hasTitle)
+				ds.AppendTitle(sb, margin, DesignSystem.BoardTitleCy, diagram.Title!);
+			ds.Close(sb);
 			return sb;
 		}
 
+		// horizontal layout: a named section is the shared container around its periods; its family alternates p1, p2 … in
+		// document order. Periods outside any section each take the next family.
 		var anyNamed = diagram.Sections.Any(s => s.Name is { Length: > 0 });
-		var eventArea = 20.0;
-		foreach (var period in diagram.Sections.SelectMany(s => s.Periods))
-			eventArea = Math.Max(eventArea, period.Events.Sum(e => EventHeight(e) + EventGap) + 20);
-
-		// vertical layout: [section titles] period boxes, the axis below them, then the events
-		var groupTop = titleOffset + 4;
-		var periodTop = titleOffset + (anyNamed ? 38 : 12);
-		var axisY = periodTop + PeriodBoxHeight + 28;
-		var eventTop = axisY + 26;
-		var bottom = eventTop + eventArea;
-
-		var width = LeftMargin + (totalPeriods * (PeriodWidth + PeriodGap)) + 16;
-		var height = bottom + 16;
-
-		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
-		_ = sb.Append("\n<defs>\n  <marker id=\"timeline-arrow\" refX=\"6\" refY=\"3\" markerWidth=\"8\" markerHeight=\"6\" orient=\"auto\">")
-			.Append("\n    <path d=\"M 0,0 V 6 L8,3 Z\" fill=\"var(--_line)\" />")
-			.Append("\n  </marker>\n</defs>\n");
-
-		if (hasTitle)
-		{
-			_ = sb.Append("\n<text x=\"").Append((width / 2).SvgFormat())
-				.Append("\" y=\"28\" text-anchor=\"middle\" font-size=\"")
-				.Append(TitleFontSize).Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
-			MultilineUtils.AppendEscapedXml(sb, diagram.Title.AsSpan());
-			_ = sb.Append("</text>");
-		}
-
-		// Same language as the other diagrams: a named section is a tinted group whose colour wins;
-		// periods outside any section each take the next colour of the auto palette.
-		var palette = context.Styles.Colors.AutoPalette();
-		var periodColors = new List<string>();
-		var groups = new List<(double X, double W, string Name, string Color)>();
-		var colorIndex = 0;
+		var columns = new List<Column>(totalPeriods);
+		var sections = new List<(double X, double W, string Name, ColorFamily Family)>();
+		var familyIndex = 1;
+		var x = margin;
 		foreach (var section in diagram.Sections)
 		{
+			if (section.Periods.Count == 0)
+				continue;
 			var named = section.Name is { Length: > 0 };
-			var sectionColor = palette[colorIndex % palette.Length];
 			if (named)
 			{
-				groups.Add((
-					LeftMargin + (periodColors.Count * (PeriodWidth + PeriodGap)) - SectionPadX,
-					(section.Periods.Count * (PeriodWidth + PeriodGap)) - PeriodGap + (SectionPadX * 2),
-					section.Name!,
-					sectionColor));
-				colorIndex++;
-			}
+				var family = ds.Cluster(familyIndex++);
+				var sx = x;
+				x += SectionPad;
+				foreach (var period in section.Periods)
+				{
+					columns.Add(new Column(period, x, family));
+					x += PeriodWidth + PeriodGap;
+				}
 
-			foreach (var unused in section.Periods)
+				x = x - PeriodGap + SectionPad;
+				sections.Add((sx, x - sx, section.Name!, family));
+				x += SectionGap;
+			}
+			else
 			{
-				periodColors.Add(named ? sectionColor : palette[colorIndex % palette.Length]);
-				if (!named)
-					colorIndex++;
+				foreach (var period in section.Periods)
+				{
+					columns.Add(new Column(period, x, ds.Cluster(familyIndex++)));
+					x += PeriodWidth + PeriodGap;
+				}
 			}
 		}
 
-		foreach (var (gx, gw, name, color) in groups)
-		{
-			_ = sb.Append("\n<rect x=\"").Append(gx.SvgFormat()).Append("\" y=\"").Append(groupTop.SvgFormat())
-				.Append("\" width=\"").Append(gw.SvgFormat()).Append("\" height=\"").Append((bottom - groupTop).SvgFormat())
-				.Append("\" rx=\"").Append(RenderConstants.Radii.Group).Append("\" ry=\"").Append(RenderConstants.Radii.Group)
-				.Append("\" fill=\"").Append(VisualLanguage.GroupFill(color, 0))
-				.Append("\" stroke=\"").Append(VisualLanguage.GroupBorder(color)).Append("\" stroke-width=\"")
-				.Append(RenderConstants.StrokeWidths.OuterBox.SvgFormat()).Append("\" />");
+		var contentRight = x - Math.Max(SectionGap, PeriodGap);
 
-			_ = sb.Append("\n<text x=\"").Append((gx + (gw / 2)).SvgFormat()).Append("\" y=\"").Append((groupTop + 18).SvgFormat())
-				.Append("\" text-anchor=\"middle\" font-size=\"").Append(SectionFontSize)
-				.Append("\" font-weight=\"600\" fill=\"").Append(VisualLanguage.GroupBorder(color)).Append("\">");
-			MultilineUtils.AppendEscapedXml(sb, name.AsSpan());
-			_ = sb.Append("</text>");
+		var periodLines = columns.Select(c => DesignSystem.Wrap(c.Period.Label, PeriodWidth - (BoxPadX * 2), TypeRole.Label, 700)).ToList();
+		var periodH = Math.Max(MinBoxHeight, (periodLines.Max(l => l.Count) * LineHeight(TypeRole.Label)) + (BoxPadY * 2));
+		var periodTop = anyNamed ? top + DesignSystem.BoardHeaderSpace : top;
+		var axisY = periodTop + periodH + AxisGap;
+		var eventTop = axisY + EventsBelowAxis;
+		var eventsBottom = eventTop;
+		foreach (var c in columns)
+		{
+			var y = eventTop;
+			foreach (var evt in c.Period.Events)
+				y += EventHeight(evt) + EventGap;
+			eventsBottom = Math.Max(eventsBottom, y - (c.Period.Events.Count > 0 ? EventGap : 0));
 		}
 
-		// subtle drop-lines through each moment, under everything else
-		var index = 0;
-		foreach (var section in diagram.Sections)
+		var bottom = eventsBottom + 16;
+		var width = Math.Max(contentRight + margin, titleW + (margin * 2));
+		var height = bottom + margin;
+
+		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendStyleBlock(sb, context.Styles);
+
+		if (hasTitle)
+			ds.AppendTitle(sb, margin, DesignSystem.BoardTitleCy, diagram.Title!);
+
+		foreach (var (sx, sw, name, family) in sections)
 		{
-			foreach (var unused in section.Periods)
-			{
-				var cx = LeftMargin + (index * (PeriodWidth + PeriodGap)) + (PeriodWidth / 2);
-				_ = sb.Append("\n<line x1=\"").Append(cx.SvgFormat()).Append("\" y1=\"").Append((periodTop + PeriodBoxHeight).SvgFormat())
-					.Append("\" x2=\"").Append(cx.SvgFormat()).Append("\" y2=\"").Append((bottom - 6).SvgFormat())
-					.Append("\" stroke=\"").Append(VisualLanguage.Tint(periodColors[index], 45))
-					.Append("\" stroke-width=\"1.5\" stroke-dasharray=\"4 4\" />");
-				index++;
-			}
+			var data = new StringBuilder("data-label=\"");
+			MultilineUtils.AppendEscapedAttr(data, name.AsSpan());
+			_ = data.Append('"');
+			ds.AppendContainerBody(sb, sx, top, sw, bottom - top, family, 0, "subgraph", data.ToString());
 		}
 
-		// the axis: its own line below the period titles
-		_ = sb.Append("\n<line x1=\"").Append((LeftMargin - 12).SvgFormat()).Append("\" y1=\"").Append(axisY.SvgFormat())
-			.Append("\" x2=\"").Append((width - 8).SvgFormat()).Append("\" y2=\"").Append(axisY.SvgFormat())
-			.Append("\" stroke=\"var(--_line)\" stroke-width=\"3\" marker-end=\"url(#timeline-arrow)\" />");
+		foreach (var (sx, sw, name, family) in sections)
+			ds.AppendContainerHeader(sb, sx, top, sw, name, family);
 
-		index = 0;
-		foreach (var section in diagram.Sections)
+		// drop-lines through each moment, under everything else
+		foreach (var c in columns)
 		{
-			foreach (var period in section.Periods)
-			{
-				var cx = LeftMargin + (index * (PeriodWidth + PeriodGap)) + (PeriodWidth / 2);
-				AppendPeriod(sb, period, cx, periodTop, axisY, eventTop, periodColors[index]);
-				index++;
-			}
+			var cx = c.X + (PeriodWidth / 2);
+			_ = sb.Append("\n<line x1=\"").Append(cx.SvgFormat()).Append("\" y1=\"").Append((periodTop + periodH).SvgFormat())
+				.Append("\" x2=\"").Append(cx.SvgFormat()).Append("\" y2=\"").Append(eventsBottom.SvgFormat())
+				.Append("\" stroke=\"").Append(c.Family.Edge).Append("\" stroke-width=\"1.25\" stroke-dasharray=\"").Append(DesignSystem.DashArray).Append("\" />");
 		}
 
-		_ = sb.Append("\n</svg>");
+		// the time axis is the accent story line
+		var axisEnd = contentRight + 8;
+		ds.AppendStoryLine(sb, [new Point(margin, axisY), new Point(axisEnd - 6, axisY)], "timeline-axis");
+		ds.AppendStoryArrow(sb, axisEnd, axisY);
+
+		for (var i = 0; i < columns.Count; i++)
+			AppendPeriod(sb, ds, columns[i], periodLines[i], periodTop, periodH, axisY, eventTop);
+
+		ds.Close(sb);
 		return sb;
 	}
 
-	private static void AppendPeriod(StringBuilder sb, TimelinePeriod period, double cx, double periodTop, double axisY, double eventTop, string color)
+	private static double LineHeight(TypeRole role) => DesignSystem.TextHeight(1, role);
+
+	private static void AppendPeriod(StringBuilder sb, DesignSystem ds, Column column, List<string> labelLines, double periodTop, double periodH, double axisY, double eventTop)
 	{
-		var border = VisualLanguage.Border(color);
-		var boxX = cx - (PeriodWidth / 2);
+		var cx = column.X + (PeriodWidth / 2);
+		var family = column.Family;
 
-		// the period title: a tinted box with the stronger header tint
-		_ = sb.Append("\n<rect x=\"").Append(boxX.SvgFormat()).Append("\" y=\"").Append(periodTop.SvgFormat())
-			.Append("\" width=\"").Append(PeriodWidth.SvgFormat()).Append("\" height=\"").Append(PeriodBoxHeight.SvgFormat())
-			.Append("\" rx=\"").Append(RenderConstants.Radii.Rectangle).Append("\" ry=\"").Append(RenderConstants.Radii.Rectangle)
-			.Append("\" fill=\"").Append(VisualLanguage.Tint(color, VisualLanguage.HeaderTint))
-			.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"")
-			.Append(RenderConstants.StrokeWidths.OuterBox.SvgFormat()).Append("\" />");
+		_ = sb.Append("\n<g class=\"node timeline-period\" data-label=\"");
+		MultilineUtils.AppendEscapedAttr(sb, column.Period.Label.AsSpan());
+		_ = sb.Append("\">\n  ");
+		ds.AppendBox(sb, column.X, periodTop, PeriodWidth, periodH, family);
+		_ = sb.Append("\n  ");
+		ds.AppendText(sb, string.Join('\n', labelLines), cx, periodTop + (periodH / 2), TypeRole.Label, weight: ds.Spec.HeadingWeight);
+		_ = sb.Append("\n</g>");
 
-		_ = sb.Append("\n<text x=\"").Append(cx.SvgFormat()).Append("\" y=\"").Append((periodTop + (PeriodBoxHeight / 2)).SvgFormat())
-			.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
-			.Append("\" font-size=\"").Append(PeriodFontSize)
-			.Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
-		MultilineUtils.AppendEscapedXml(sb, period.Label.AsSpan());
-		_ = sb.Append("</text>");
-
-		// the moment on the axis
-		_ = sb.Append("\n<circle cx=\"").Append(cx.SvgFormat()).Append("\" cy=\"").Append(axisY.SvgFormat())
-			.Append("\" r=\"").Append(MarkerRadius)
-			.Append("\" fill=\"").Append(VisualLanguage.Tint(color, VisualLanguage.HeaderTint))
-			.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"")
-			.Append(RenderConstants.StrokeWidths.OuterBox.SvgFormat()).Append("\" />");
+		ds.AppendMoment(sb, cx, axisY, family, MomentRadius);
 
 		var eventY = eventTop;
-		foreach (var evt in period.Events)
+		foreach (var evt in column.Period.Events)
 		{
-			var evX = cx - (PeriodWidth / 2) + 10;
-			var evW = PeriodWidth - 20;
-			var lines = EventLines(evt);
 			var boxH = EventHeight(evt);
-
-			_ = sb.Append("\n<rect x=\"").Append(evX.SvgFormat()).Append("\" y=\"").Append(eventY.SvgFormat())
-				.Append("\" width=\"").Append(evW.SvgFormat()).Append("\" height=\"").Append(boxH.SvgFormat())
-				.Append("\" rx=\"").Append(RenderConstants.Radii.Rectangle).Append("\" ry=\"").Append(RenderConstants.Radii.Rectangle)
-				.Append("\" fill=\"").Append(VisualLanguage.Tint(color, VisualLanguage.NodeTint))
-				.Append("\" stroke=\"").Append(border).Append("\" stroke-width=\"")
-				.Append(RenderConstants.StrokeWidths.OuterBox.SvgFormat()).Append("\" />");
-
-			var textY = eventY + (boxH / 2) - ((lines.Count - 1) * EventLineHeight / 2);
-			for (var i = 0; i < lines.Count; i++)
-			{
-				_ = sb.Append("\n<text x=\"").Append(cx.SvgFormat()).Append("\" y=\"").Append((textY + (i * EventLineHeight)).SvgFormat())
-					.Append("\" text-anchor=\"middle\" dy=\"0.35em\" font-size=\"").Append(EventFontSize)
-					.Append("\" fill=\"var(--_text)\">");
-				MultilineUtils.AppendEscapedXml(sb, lines[i].AsSpan());
-				_ = sb.Append("</text>");
-			}
-
+			_ = sb.Append("\n<g class=\"node timeline-event\">\n  ");
+			ds.AppendBox(sb, column.X, eventY, PeriodWidth, boxH, family);
+			_ = sb.Append("\n  ");
+			ds.AppendText(sb, string.Join('\n', EventLines(evt)), cx, eventY + (boxH / 2), TypeRole.Body);
+			_ = sb.Append("\n</g>");
 			eventY += boxH + EventGap;
 		}
 	}
 
 	private static double EventHeight(string evt) =>
-		Math.Max(EventBoxHeight, (EventLines(evt).Count * EventLineHeight) + 10);
+		Math.Max(MinBoxHeight, (EventLines(evt).Count * LineHeight(TypeRole.Body)) + (BoxPadY * 2));
 
-	// Long events wrap inside their box; browsers set text a little wider than TextMetrics, so wrap a bit early.
-	private static List<string> EventLines(string text)
-	{
-		var maxW = (PeriodWidth - 20 - 12) * 0.95;
-		var lines = new List<string>();
-		var current = "";
-		foreach (var word in text.Split(' ', StringSplitOptions.RemoveEmptyEntries))
-		{
-			var candidate = current.Length == 0 ? word : current + " " + word;
-			if (current.Length > 0 && TextMetrics.MeasureTextWidth(candidate, EventFontPx, 400) > maxW)
-			{
-				lines.Add(current);
-				current = word;
-			}
-			else
-			{
-				current = candidate;
-			}
-		}
-
-		if (current.Length > 0)
-			lines.Add(current);
-		return lines.Count == 0 ? [""] : lines;
-	}
+	private static List<string> EventLines(string text) => DesignSystem.Wrap(text, PeriodWidth - (BoxPadX * 2), TypeRole.Body);
 }

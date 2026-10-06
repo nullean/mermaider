@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 271.38 272" width="271.38" height="272" style="--bg:#18181B;--fg:#FAFAFA;--line:#AFBAC9;--accent:#60a5fa">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, color-mix(in srgb, var(--bg) 35%, black) 55%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, color-mix(in srgb, var(--bg) 35%, black) 35%, transparent)); }
+</style>
+
+<g class="treeview-branches" fill="none" stroke="var(--_line)" stroke-width="1" stroke-linecap="round">
+  <path d="M32,48 L32,60 Q32,66 38,66 L45,66" />
+  <path d="M56,76 L56,88 Q56,94 62,94 L69,94" />
+  <path d="M56,76 L56,116 Q56,122 62,122 L69,122" />
+  <path d="M32,48 L32,144 Q32,150 38,150 L45,150" />
+  <path d="M56,160 L56,172 Q56,178 62,178 L69,178" />
+  <path d="M32,48 L32,200 Q32,206 38,206 L45,206" />
+  <path d="M32,48 L32,228 Q32,234 38,234 L45,234" />
+</g>
+<g class="treeview-node" data-depth="0">
+  <path class="treeview-icon" d="M25,33.5 H30 L31.5,35 H39 V43.5 H25 Z" fill="color-mix(in srgb, #94a3b8 22%, var(--bg))" stroke="color-mix(in srgb, #94a3b8 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="48" y="38" text-anchor="start" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">my-project</text>
+</g>
+<g class="treeview-node" data-depth="1">
+  <path class="treeview-icon" d="M49,61.5 H54 L55.5,63 H63 V71.5 H49 Z" fill="color-mix(in srgb, #F7BC81 22%, var(--bg))" stroke="color-mix(in srgb, #F7BC81 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="72" y="66" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #F7BC81 44%, var(--fg))" dy="4.9">src</text>
+</g>
+<g class="treeview-node highlight" data-depth="2">
+  <rect x="66" y="82" width="181.38" height="24" rx="8" ry="8" fill="color-mix(in srgb, var(--accent, var(--fg)) 12%, var(--bg))" stroke="color-mix(in srgb, var(--accent, var(--fg)) 42%, var(--bg))" stroke-width="1" />
+  <path class="treeview-icon" d="M75,87.5 H81.5 L85,91 V100.5 H75 Z M81.5,87.5 V91 H85" fill="var(--bg)" stroke="color-mix(in srgb, #F7BC81 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="96" y="94" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">index.ts</text>
+  <text x="162.18" y="94" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">entry point</text>
+</g>
+<g class="treeview-node" data-depth="2">
+  <path class="treeview-icon" d="M75,115.5 H81.5 L85,119 V128.5 H75 Z M81.5,115.5 V119 H85" fill="var(--bg)" stroke="color-mix(in srgb, #F7BC81 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="96" y="122" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">utils.ts</text>
+</g>
+<g class="treeview-node" data-depth="1">
+  <path class="treeview-icon" d="M49,145.5 H54 L55.5,147 H63 V155.5 H49 Z" fill="color-mix(in srgb, #B2D7D4 22%, var(--bg))" stroke="color-mix(in srgb, #B2D7D4 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="72" y="150" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #B2D7D4 44%, var(--fg))" dy="4.9">tests</text>
+</g>
+<g class="treeview-node" data-depth="2">
+  <path class="treeview-icon" d="M75,171.5 H81.5 L85,175 V184.5 H75 Z M81.5,171.5 V175 H85" fill="var(--bg)" stroke="color-mix(in srgb, #B2D7D4 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="96" y="178" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">index.test.ts</text>
+</g>
+<g class="treeview-node" data-depth="1">
+  <path class="treeview-icon" d="M51,199.5 H57.5 L61,203 V212.5 H51 Z M57.5,199.5 V203 H61" fill="var(--bg)" stroke="color-mix(in srgb, #94a3b8 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="72" y="206" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">package.json</text>
+</g>
+<g class="treeview-node" data-depth="1">
+  <path class="treeview-icon" d="M51,227.5 H57.5 L61,231 V240.5 H51 Z M57.5,227.5 V231 H61" fill="var(--bg)" stroke="color-mix(in srgb, #94a3b8 44%, var(--fg))" stroke-width="1.1" stroke-linejoin="round" />
+  <text x="72" y="234" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">README.md</text>
+</g>
+</svg>

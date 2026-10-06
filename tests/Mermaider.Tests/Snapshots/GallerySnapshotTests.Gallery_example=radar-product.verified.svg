@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 426" width="620" height="426" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 692.142 536" width="692.142" height="536" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,47 +26,53 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<defs>
-</defs>
-
-<text x="220" y="28" text-anchor="middle" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)">Product Comparison</text>
-<circle cx="220" cy="216" r="32" fill="none" stroke="var(--_line)" stroke-width="0.5" opacity="0.5" />
-<circle cx="220" cy="216" r="64" fill="none" stroke="var(--_line)" stroke-width="0.5" opacity="0.5" />
-<circle cx="220" cy="216" r="96" fill="none" stroke="var(--_line)" stroke-width="0.5" opacity="0.5" />
-<circle cx="220" cy="216" r="128" fill="none" stroke="var(--_line)" stroke-width="0.5" opacity="0.5" />
-<circle cx="220" cy="216" r="160" fill="none" stroke="var(--_line)" stroke-width="0.5" opacity="0.5" />
-<line x1="220" y1="216" x2="220" y2="56" stroke="var(--_line)" stroke-width="0.5" opacity="0.5" />
-<text x="220" y="36" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text-sec)">Price</text>
-<line x1="220" y1="216" x2="358.56" y2="136" stroke="var(--_line)" stroke-width="0.5" opacity="0.5" />
-<text x="375.88" y="126" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text-sec)">Quality</text>
-<line x1="220" y1="216" x2="358.56" y2="296" stroke="var(--_line)" stroke-width="0.5" opacity="0.5" />
-<text x="375.88" y="306" text-anchor="start" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text-sec)">Features</text>
-<line x1="220" y1="216" x2="220" y2="376" stroke="var(--_line)" stroke-width="0.5" opacity="0.5" />
-<text x="220" y="396" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text-sec)">Support</text>
-<line x1="220" y1="216" x2="81.44" y2="296" stroke="var(--_line)" stroke-width="0.5" opacity="0.5" />
-<text x="64.12" y="306" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text-sec)">Speed</text>
-<line x1="220" y1="216" x2="81.44" y2="136" stroke="var(--_line)" stroke-width="0.5" opacity="0.5" />
-<text x="64.12" y="126" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text-sec)">UX</text>
-<polygon points="220,88 358.56,136 303.14,264 220,344 81.44,296 109.15,152" fill="#4e79a7" fill-opacity="0.25" stroke="#4e79a7" stroke-width="2" />
-<circle cx="220" cy="88" r="3" fill="#4e79a7" />
-<circle cx="358.56" cy="136" r="3" fill="#4e79a7" />
-<circle cx="303.14" cy="264" r="3" fill="#4e79a7" />
-<circle cx="220" cy="344" r="3" fill="#4e79a7" />
-<circle cx="81.44" cy="296" r="3" fill="#4e79a7" />
-<circle cx="109.15" cy="152" r="3" fill="#4e79a7" />
-<polygon points="220,120 303.14,168 358.56,296 220,280 136.86,264 81.44,136" fill="#f28e2b" fill-opacity="0.25" stroke="#f28e2b" stroke-width="2" />
-<circle cx="220" cy="120" r="3" fill="#f28e2b" />
-<circle cx="303.14" cy="168" r="3" fill="#f28e2b" />
-<circle cx="358.56" cy="296" r="3" fill="#f28e2b" />
-<circle cx="220" cy="280" r="3" fill="#f28e2b" />
-<circle cx="136.86" cy="264" r="3" fill="#f28e2b" />
-<circle cx="81.44" cy="136" r="3" fill="#f28e2b" />
-<rect x="450" y="66" width="12" height="12" rx="2" ry="2" fill="#4e79a7" />
-<text x="468" y="72" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Product A</text>
-<rect x="450" y="86" width="12" height="12" rx="2" ry="2" fill="#f28e2b" />
-<text x="468" y="92" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Product B</text>
+<g class="diagram-title">
+  <rect x="40" y="35.5" width="9" height="9" rx="2" ry="2" fill="var(--accent, var(--fg))" />
+  <text x="56" y="40" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">Product Comparison</text>
+</g>
+<g class="radar-grid">
+  <circle cx="306" cy="292" r="33.6" fill="none" stroke="var(--_line-soft)" stroke-width="1" />
+  <circle cx="306" cy="292" r="67.2" fill="none" stroke="var(--_line-soft)" stroke-width="1" />
+  <circle cx="306" cy="292" r="100.8" fill="none" stroke="var(--_line-soft)" stroke-width="1" />
+  <circle cx="306" cy="292" r="134.4" fill="none" stroke="var(--_line-soft)" stroke-width="1" />
+  <circle cx="306" cy="292" r="168" fill="none" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="306" y1="292" x2="306" y2="124" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="306" y="96" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-sec)" dy="4.9">Price</text>
+  <line x1="306" y1="292" x2="451.492" y2="208" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="475.74" y="194" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-sec)" dy="4.9">Quality</text>
+  <line x1="306" y1="292" x2="451.492" y2="376" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="475.74" y="390" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-sec)" dy="4.9">Features</text>
+  <line x1="306" y1="292" x2="306" y2="460" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="306" y="488" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-sec)" dy="4.9">Support</text>
+  <line x1="306" y1="292" x2="160.508" y2="376" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="136.26" y="390" text-anchor="end" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-sec)" dy="4.9">Speed</text>
+  <line x1="306" y1="292" x2="160.508" y2="208" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="136.26" y="194" text-anchor="end" font-size="var(--fs-s)" font-weight="500" fill="var(--_text-sec)" dy="4.9">UX</text>
+</g>
+<g class="radar-curve" data-curve="c1">
+  <polygon points="306,157.6 451.49,208 393.3,342.4 306,426.4 160.51,376 189.61,224.8" fill="#4e79a7" fill-opacity="0.2" stroke="#4e79a7" stroke-width="2" stroke-linejoin="round" />
+  <circle cx="306" cy="157.6" r="3.5" fill="#4e79a7" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="451.492" cy="208" r="3.5" fill="#4e79a7" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="393.295" cy="342.4" r="3.5" fill="#4e79a7" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="306" cy="426.4" r="3.5" fill="#4e79a7" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="160.508" cy="376" r="3.5" fill="#4e79a7" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="189.606" cy="224.8" r="3.5" fill="#4e79a7" stroke="var(--bg)" stroke-width="1.5" />
+</g>
+<g class="radar-curve" data-curve="c2">
+  <polygon points="306,191.2 393.3,241.6 451.49,376 306,359.2 218.71,342.4 160.51,208" fill="#f28e2b" fill-opacity="0.2" stroke="#f28e2b" stroke-width="2" stroke-linejoin="round" />
+  <circle cx="306" cy="191.2" r="3.5" fill="#f28e2b" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="393.295" cy="241.6" r="3.5" fill="#f28e2b" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="451.492" cy="376" r="3.5" fill="#f28e2b" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="306" cy="359.2" r="3.5" fill="#f28e2b" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="218.705" cy="342.4" r="3.5" fill="#f28e2b" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="160.508" cy="208" r="3.5" fill="#f28e2b" stroke="var(--bg)" stroke-width="1.5" />
+</g>
+<rect x="569" y="133" width="10" height="10" rx="3" ry="3" fill="#4e79a7" stroke="none" />
+  <text x="587" y="138" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Product A</text>
+<rect x="569" y="161" width="10" height="10" rx="3" ry="3" fill="#f28e2b" stroke="none" />
+  <text x="587" y="166" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Product B</text>
 </svg>

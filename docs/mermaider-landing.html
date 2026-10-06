@@ -7,10 +7,10 @@
 <meta name="description" content="Render Mermaid diagrams in pure .NET. No JavaScript runtime, no headless browser, no Node.js subprocess. Pass Mermaid syntax, get back a complete SVG."/>
 <base href="/"/>
 
-<link rel="icon" type="image/svg+xml" href="images/mermaider-mark.svg"/>
-<link rel="icon" type="image/png" sizes="32x32" href="images/png/mermaider-mark-32.png"/>
-<link rel="icon" type="image/png" sizes="16x16" href="images/png/mermaider-mark-16.png"/>
-<link rel="apple-touch-icon" sizes="180x180" href="images/png/mermaider-mark-180.png"/>
+<link rel="icon" type="image/svg+xml" href="images/mermaider-fish.svg"/>
+<link rel="icon" type="image/png" sizes="32x32" href="images/png/mermaider-fish-32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="images/png/mermaider-fish-16.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="images/png/mermaider-fish-180.png"/>
 <meta name="theme-color" content="#08090B"/>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -227,6 +227,21 @@
   }
   .gallery-section .inner { position: relative; z-index: 1; }
 
+  .variant-bar {
+    display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; align-items: center;
+    margin: -1.5rem 0 1.25rem;
+    font-family: var(--mono); font-size: 0.72rem;
+  }
+  .variant-group { display: inline-flex; align-items: center; gap: 0.35rem; }
+  .variant-label { color: var(--dim); letter-spacing: 0.08em; text-transform: uppercase; margin-right: 0.25rem; }
+  .variant-btn, .variant-select {
+    font: inherit; color: var(--muted); background: rgba(127,224,255,0.04);
+    border: 1px solid var(--line); border-radius: 6px; padding: 0.3rem 0.65rem; cursor: pointer;
+  }
+  .variant-btn:hover, .variant-select:hover { color: var(--text); border-color: rgba(127,224,255,0.32); }
+  .variant-btn.active { color: var(--bg); background: var(--cyan); border-color: var(--cyan); }
+  .variant-select option { background: var(--bg2); color: var(--text); }
+
   .diagram-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -442,13 +457,13 @@
       <div class="code-panel" style="flex:1;min-width:0">
         <div class="code-panel-head">usage</div>
 <pre><span class="c-type">string</span> svg = <span class="c-type">MermaidRenderer</span>.<span class="c-key">RenderSvg</span>(<span class="c-str">"""
-    flowchart LR
+    flowchart TD
       A[Parse] --&gt; B[Layout]
       B --&gt; C[Render SVG]
 """</span>);
 <span class="c-com">// drop svg directly into your HTML</span></pre>
       </div>
-      <img src="screenshots/flowchart.svg" alt="Rendered flowchart" style="flex-shrink:0;width:160px;height:auto;display:block;margin-top:0.25rem"/>
+      <img src="screenshots/hero.svg" alt="The flowchart from the code sample, rendered by Mermaider" style="flex-shrink:0;width:150px;height:auto;display:block;margin-top:0.25rem"/>
     </div>
   </div>
 </section>
@@ -556,15 +571,15 @@
         <a class="card-more" href="security/">security docs →</a>
       </div>
       <div class="card">
-        <div class="card-kicker">3.4 µs · 16 KB · ObjectPool · spans · SIMD</div>
+        <div class="card-kicker">24 µs layout · 82 KB · ObjectPool · spans · SIMD</div>
         <div class="card-title">Fast and<br/>low-allocation</div>
         <p class="card-body">
           The SVG renderer pools <code>StringBuilder</code> instances via
           <code>ObjectPool&lt;StringBuilder&gt;</code> and never allocates one per render.
           The text pipeline operates on <code>ReadOnlySpan&lt;char&gt;</code> throughout;
           character-class lookups use <code>SearchValues&lt;char&gt;</code> for SIMD acceleration.
-          Immutable lookup tables are <code>FrozenDictionary</code>. A 6-node flowchart completes
-          in 3.4 µs and allocates 16 KB — 73× faster than MSAGL, 35× fewer allocations.
+          Immutable lookup tables are <code>FrozenDictionary</code>. A 6-node flowchart lays out,
+          routing included, in 24 µs and allocates 82 KB — 9.6× faster than MSAGL, 6.7× fewer allocations.
         </p>
       </div>
       <div class="card">
@@ -592,34 +607,59 @@
     <h2 class="section-title">Every diagram Mermaid supports.</h2>
     <p class="section-sub">
       Pass any Mermaid syntax string, get back a complete inline-embeddable SVG.
-      All diagram types share the same themeable CSS variable system. Click any to enlarge.
+      All diagram types share one design system: pick a style, a theme and light or dark to preview them. Click any to enlarge.
     </p>
 
+    <div class="variant-bar" role="group" aria-label="Preview options">
+      <div class="variant-group">
+        <span class="variant-label">style</span>
+        <button class="variant-btn active" data-style="quiet">quiet</button>
+        <button class="variant-btn" data-style="blueprint">blueprint</button>
+        <button class="variant-btn" data-style="tonal">tonal</button>
+      </div>
+      <div class="variant-group">
+        <span class="variant-label">theme</span>
+        <select class="variant-select" id="variantTheme" aria-label="Theme">
+          <option value="zinc" selected>zinc</option>
+          <option value="github">github</option>
+          <option value="catppuccin">catppuccin</option>
+          <option value="nord">nord</option>
+          <option value="solarized">solarized</option>
+          <option value="tokyo-night">tokyo night</option>
+        </select>
+      </div>
+      <div class="variant-group">
+        <span class="variant-label">mode</span>
+        <button class="variant-btn" data-mode="light">light</button>
+        <button class="variant-btn active" data-mode="dark">dark</button>
+      </div>
+    </div>
+
     <div class="diagram-grid">
-      <div class="diagram-card" onclick="openDiagram('screenshots/flowchart.svg','flowchart')"><div class="diagram-card-name">flowchart</div><div class="diagram-card-preview"><img src="screenshots/flowchart.svg" alt="Flowchart" loading="lazy"/></div></div>
-      <div class="diagram-card" onclick="openDiagram('screenshots/sequence.svg','sequence')"><div class="diagram-card-name">sequence</div><div class="diagram-card-preview"><img src="screenshots/sequence.svg" alt="Sequence" loading="lazy"/></div></div>
-      <div class="diagram-card" onclick="openDiagram('screenshots/class.svg','class')"><div class="diagram-card-name">class</div><div class="diagram-card-preview"><img src="screenshots/class.svg" alt="Class" loading="lazy"/></div></div>
-      <div class="diagram-card" onclick="openDiagram('screenshots/er.svg','entity-relationship')"><div class="diagram-card-name">entity-relationship</div><div class="diagram-card-preview"><img src="screenshots/er.svg" alt="ER" loading="lazy"/></div></div>
-      <div class="diagram-card" onclick="openDiagram('screenshots/state.svg','state')"><div class="diagram-card-name">state</div><div class="diagram-card-preview"><img src="screenshots/state.svg" alt="State" loading="lazy"/></div></div>
-      <div class="diagram-card" onclick="openDiagram('screenshots/architecture.svg','architecture')"><div class="diagram-card-name">architecture</div><div class="diagram-card-preview"><img src="screenshots/architecture.svg" alt="Architecture" loading="lazy"/></div></div>
-      <div class="diagram-card" onclick="openDiagram('screenshots/c4.svg','C4')"><div class="diagram-card-name">C4</div><div class="diagram-card-preview"><img src="screenshots/c4.svg" alt="C4" loading="lazy"/></div></div>
-      <div class="diagram-card" onclick="openDiagram('screenshots/gitgraph.svg','gitgraph')"><div class="diagram-card-name">gitgraph</div><div class="diagram-card-preview"><img src="screenshots/gitgraph.svg" alt="Git graph" loading="lazy"/></div></div>
-      <div class="diagram-card" onclick="openDiagram('screenshots/mindmap.svg','mindmap')"><div class="diagram-card-name">mindmap</div><div class="diagram-card-preview"><img src="screenshots/mindmap.svg" alt="Mindmap" loading="lazy"/></div></div>
-      <div class="diagram-card" onclick="openDiagram('screenshots/pie.svg','pie')"><div class="diagram-card-name">pie</div><div class="diagram-card-preview"><img src="screenshots/pie.svg" alt="Pie" loading="lazy"/></div></div>
-      <div class="diagram-card" onclick="openDiagram('screenshots/xychart.svg','xychart')"><div class="diagram-card-name">xychart</div><div class="diagram-card-preview"><img src="screenshots/xychart.svg" alt="XY chart" loading="lazy"/></div></div>
-      <div class="diagram-card" onclick="openDiagram('screenshots/gantt-example.svg','gantt')"><div class="diagram-card-name">gantt</div><div class="diagram-card-preview"><img src="screenshots/gantt-example.svg" alt="Gantt" loading="lazy"/></div></div>
-      <div class="diagram-card" onclick="openDiagram('screenshots/kanban.svg','kanban')"><div class="diagram-card-name">kanban</div><div class="diagram-card-preview"><img src="screenshots/kanban.svg" alt="Kanban" loading="lazy"/></div></div>
-      <div class="diagram-card" onclick="openDiagram('screenshots/timeline.svg','timeline')"><div class="diagram-card-name">timeline</div><div class="diagram-card-preview"><img src="screenshots/timeline.svg" alt="Timeline" loading="lazy"/></div></div>
-      <div class="diagram-card" onclick="openDiagram('screenshots/sankey.svg','sankey')"><div class="diagram-card-name">sankey</div><div class="diagram-card-preview"><img src="screenshots/sankey.svg" alt="Sankey" loading="lazy"/></div></div>
-      <div class="diagram-card" onclick="openDiagram('screenshots/treemap.svg','treemap')"><div class="diagram-card-name">treemap</div><div class="diagram-card-preview"><img src="screenshots/treemap.svg" alt="Treemap" loading="lazy"/></div></div>
-      <div class="diagram-card" onclick="openDiagram('screenshots/block.svg','block')"><div class="diagram-card-name">block</div><div class="diagram-card-preview"><img src="screenshots/block.svg" alt="Block" loading="lazy"/></div></div>
-      <div class="diagram-card" onclick="openDiagram('screenshots/quadrant.svg','quadrant')"><div class="diagram-card-name">quadrant</div><div class="diagram-card-preview"><img src="screenshots/quadrant.svg" alt="Quadrant" loading="lazy"/></div></div>
-      <div class="diagram-card" onclick="openDiagram('screenshots/requirement.svg','requirement')"><div class="diagram-card-name">requirement</div><div class="diagram-card-preview"><img src="screenshots/requirement.svg" alt="Requirement" loading="lazy"/></div></div>
-      <div class="diagram-card" onclick="openDiagram('screenshots/radar.svg','radar')"><div class="diagram-card-name">radar</div><div class="diagram-card-preview"><img src="screenshots/radar.svg" alt="Radar" loading="lazy"/></div></div>
-      <div class="diagram-card" onclick="openDiagram('screenshots/venn.svg','venn')"><div class="diagram-card-name">venn</div><div class="diagram-card-preview"><img src="screenshots/venn.svg" alt="Venn" loading="lazy"/></div></div>
-      <div class="diagram-card" onclick="openDiagram('screenshots/treeview.svg','treeview')"><div class="diagram-card-name">treeview</div><div class="diagram-card-preview"><img src="screenshots/treeview.svg" alt="Treeview" loading="lazy"/></div></div>
-      <div class="diagram-card" onclick="openDiagram('screenshots/packet.svg','packet')"><div class="diagram-card-name">packet</div><div class="diagram-card-preview"><img src="screenshots/packet.svg" alt="Packet" loading="lazy"/></div></div>
-      <div class="diagram-card" onclick="openDiagram('screenshots/journey-example.svg','journey')"><div class="diagram-card-name">journey</div><div class="diagram-card-preview"><img src="screenshots/journey-example.svg" alt="Journey" loading="lazy"/></div></div>
+      <div class="diagram-card" data-type="flowchart" data-label="flowchart" onclick="openDiagram(this)"><div class="diagram-card-name">flowchart</div><div class="diagram-card-preview"><img data-type="flowchart" src="screenshots/quiet/zinc-dark/flowchart.svg" alt="flowchart diagram" loading="lazy"/></div></div>
+      <div class="diagram-card" data-type="sequence" data-label="sequence" onclick="openDiagram(this)"><div class="diagram-card-name">sequence</div><div class="diagram-card-preview"><img data-type="sequence" src="screenshots/quiet/zinc-dark/sequence.svg" alt="sequence diagram" loading="lazy"/></div></div>
+      <div class="diagram-card" data-type="class" data-label="class" onclick="openDiagram(this)"><div class="diagram-card-name">class</div><div class="diagram-card-preview"><img data-type="class" src="screenshots/quiet/zinc-dark/class.svg" alt="class diagram" loading="lazy"/></div></div>
+      <div class="diagram-card" data-type="er" data-label="entity-relationship" onclick="openDiagram(this)"><div class="diagram-card-name">entity-relationship</div><div class="diagram-card-preview"><img data-type="er" src="screenshots/quiet/zinc-dark/er.svg" alt="entity-relationship diagram" loading="lazy"/></div></div>
+      <div class="diagram-card" data-type="state" data-label="state" onclick="openDiagram(this)"><div class="diagram-card-name">state</div><div class="diagram-card-preview"><img data-type="state" src="screenshots/quiet/zinc-dark/state.svg" alt="state diagram" loading="lazy"/></div></div>
+      <div class="diagram-card" data-type="architecture" data-label="architecture" onclick="openDiagram(this)"><div class="diagram-card-name">architecture</div><div class="diagram-card-preview"><img data-type="architecture" src="screenshots/quiet/zinc-dark/architecture.svg" alt="architecture diagram" loading="lazy"/></div></div>
+      <div class="diagram-card" data-type="c4" data-label="C4" onclick="openDiagram(this)"><div class="diagram-card-name">C4</div><div class="diagram-card-preview"><img data-type="c4" src="screenshots/quiet/zinc-dark/c4.svg" alt="C4 diagram" loading="lazy"/></div></div>
+      <div class="diagram-card" data-type="gitgraph" data-label="gitgraph" onclick="openDiagram(this)"><div class="diagram-card-name">gitgraph</div><div class="diagram-card-preview"><img data-type="gitgraph" src="screenshots/quiet/zinc-dark/gitgraph.svg" alt="gitgraph diagram" loading="lazy"/></div></div>
+      <div class="diagram-card" data-type="mindmap" data-label="mindmap" onclick="openDiagram(this)"><div class="diagram-card-name">mindmap</div><div class="diagram-card-preview"><img data-type="mindmap" src="screenshots/quiet/zinc-dark/mindmap.svg" alt="mindmap diagram" loading="lazy"/></div></div>
+      <div class="diagram-card" data-type="pie" data-label="pie" onclick="openDiagram(this)"><div class="diagram-card-name">pie</div><div class="diagram-card-preview"><img data-type="pie" src="screenshots/quiet/zinc-dark/pie.svg" alt="pie diagram" loading="lazy"/></div></div>
+      <div class="diagram-card" data-type="xychart" data-label="xychart" onclick="openDiagram(this)"><div class="diagram-card-name">xychart</div><div class="diagram-card-preview"><img data-type="xychart" src="screenshots/quiet/zinc-dark/xychart.svg" alt="xychart diagram" loading="lazy"/></div></div>
+      <div class="diagram-card" data-type="gantt" data-label="gantt" onclick="openDiagram(this)"><div class="diagram-card-name">gantt</div><div class="diagram-card-preview"><img data-type="gantt" src="screenshots/quiet/zinc-dark/gantt.svg" alt="gantt diagram" loading="lazy"/></div></div>
+      <div class="diagram-card" data-type="kanban" data-label="kanban" onclick="openDiagram(this)"><div class="diagram-card-name">kanban</div><div class="diagram-card-preview"><img data-type="kanban" src="screenshots/quiet/zinc-dark/kanban.svg" alt="kanban diagram" loading="lazy"/></div></div>
+      <div class="diagram-card" data-type="timeline" data-label="timeline" onclick="openDiagram(this)"><div class="diagram-card-name">timeline</div><div class="diagram-card-preview"><img data-type="timeline" src="screenshots/quiet/zinc-dark/timeline.svg" alt="timeline diagram" loading="lazy"/></div></div>
+      <div class="diagram-card" data-type="sankey" data-label="sankey" onclick="openDiagram(this)"><div class="diagram-card-name">sankey</div><div class="diagram-card-preview"><img data-type="sankey" src="screenshots/quiet/zinc-dark/sankey.svg" alt="sankey diagram" loading="lazy"/></div></div>
+      <div class="diagram-card" data-type="treemap" data-label="treemap" onclick="openDiagram(this)"><div class="diagram-card-name">treemap</div><div class="diagram-card-preview"><img data-type="treemap" src="screenshots/quiet/zinc-dark/treemap.svg" alt="treemap diagram" loading="lazy"/></div></div>
+      <div class="diagram-card" data-type="block" data-label="block" onclick="openDiagram(this)"><div class="diagram-card-name">block</div><div class="diagram-card-preview"><img data-type="block" src="screenshots/quiet/zinc-dark/block.svg" alt="block diagram" loading="lazy"/></div></div>
+      <div class="diagram-card" data-type="quadrant" data-label="quadrant" onclick="openDiagram(this)"><div class="diagram-card-name">quadrant</div><div class="diagram-card-preview"><img data-type="quadrant" src="screenshots/quiet/zinc-dark/quadrant.svg" alt="quadrant diagram" loading="lazy"/></div></div>
+      <div class="diagram-card" data-type="requirement" data-label="requirement" onclick="openDiagram(this)"><div class="diagram-card-name">requirement</div><div class="diagram-card-preview"><img data-type="requirement" src="screenshots/quiet/zinc-dark/requirement.svg" alt="requirement diagram" loading="lazy"/></div></div>
+      <div class="diagram-card" data-type="radar" data-label="radar" onclick="openDiagram(this)"><div class="diagram-card-name">radar</div><div class="diagram-card-preview"><img data-type="radar" src="screenshots/quiet/zinc-dark/radar.svg" alt="radar diagram" loading="lazy"/></div></div>
+      <div class="diagram-card" data-type="venn" data-label="venn" onclick="openDiagram(this)"><div class="diagram-card-name">venn</div><div class="diagram-card-preview"><img data-type="venn" src="screenshots/quiet/zinc-dark/venn.svg" alt="venn diagram" loading="lazy"/></div></div>
+      <div class="diagram-card" data-type="treeview" data-label="treeview" onclick="openDiagram(this)"><div class="diagram-card-name">treeview</div><div class="diagram-card-preview"><img data-type="treeview" src="screenshots/quiet/zinc-dark/treeview.svg" alt="treeview diagram" loading="lazy"/></div></div>
+      <div class="diagram-card" data-type="packet" data-label="packet" onclick="openDiagram(this)"><div class="diagram-card-name">packet</div><div class="diagram-card-preview"><img data-type="packet" src="screenshots/quiet/zinc-dark/packet.svg" alt="packet diagram" loading="lazy"/></div></div>
+      <div class="diagram-card" data-type="journey" data-label="journey" onclick="openDiagram(this)"><div class="diagram-card-name">journey</div><div class="diagram-card-preview"><img data-type="journey" src="screenshots/quiet/zinc-dark/journey.svg" alt="journey diagram" loading="lazy"/></div></div>
     </div>
   </div>
 </section>
@@ -757,7 +797,35 @@ Response.<span class="c-key">Write</span>(svg);</pre>
 </div>
 
 <script>
-  function openDiagram(src, label) {
+  // Preview variants: screenshots/<style>/<theme>/<type>.svg, rendered by scripts/screenshots.cs
+  var THEMES = {
+    'zinc': ['zinc-light', 'zinc-dark'], 'github': ['github-light', 'github-dark'],
+    'catppuccin': ['catppuccin-latte', 'catppuccin-mocha'], 'nord': ['nord-light', 'nord'],
+    'solarized': ['solarized-light', 'solarized-dark'], 'tokyo-night': ['tokyo-night-light', 'tokyo-night']
+  };
+  var variant = { style: 'quiet', family: 'zinc', mode: 'dark' };
+  function variantSrc(type) {
+    var theme = THEMES[variant.family][variant.mode === 'light' ? 0 : 1];
+    return 'screenshots/' + variant.style + '/' + theme + '/' + type + '.svg';
+  }
+  function applyVariant() {
+    document.querySelectorAll('.diagram-card-preview img[data-type]').forEach(function(img) {
+      img.src = variantSrc(img.getAttribute('data-type'));
+    });
+    document.querySelectorAll('.variant-btn[data-style]').forEach(function(b) { b.classList.toggle('active', b.getAttribute('data-style') === variant.style); });
+    document.querySelectorAll('.variant-btn[data-mode]').forEach(function(b) { b.classList.toggle('active', b.getAttribute('data-mode') === variant.mode); });
+  }
+  document.querySelectorAll('.variant-btn[data-style]').forEach(function(b) {
+    b.addEventListener('click', function() { variant.style = b.getAttribute('data-style'); applyVariant(); });
+  });
+  document.querySelectorAll('.variant-btn[data-mode]').forEach(function(b) {
+    b.addEventListener('click', function() { variant.mode = b.getAttribute('data-mode'); applyVariant(); });
+  });
+  document.getElementById('variantTheme').addEventListener('change', function(e) { variant.family = e.target.value; applyVariant(); });
+
+  function openDiagram(card) {
+    var src = variantSrc(card.getAttribute('data-type'));
+    var label = card.getAttribute('data-label');
     document.getElementById('popupImg').src = src;
     document.getElementById('popupImg').alt = label + ' diagram';
     document.getElementById('popupLabel').textContent = label;

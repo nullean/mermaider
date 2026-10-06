@@ -10,8 +10,6 @@ Edges:
   Positive ----> _end [Bottom->Left] [D R]
   Retry ----> Evaluate [Right->Right] [R U L]
   _start ----> Evaluate [Bottom->Top] [D]
-  checkResult --if score < 0--> Negative [Bottom->Top] [D R D]
+  checkResult --if score < 0--> Negative [Right->Top] [D R D]
   checkResult --if score = 0--> Neutral [Bottom->Top] [D]
-  checkResult --if score > 0--> Positive [Bottom->Top] [D L D]
-Ports:
-  checkResult Bottom: edge8,edge7,edge6
+  checkResult --if score > 0--> Positive [Left->Top] [D L D]

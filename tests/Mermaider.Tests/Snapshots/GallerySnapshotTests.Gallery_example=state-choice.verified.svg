@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 478.30400000000003 414.85" width="478.30400000000003" height="414.85" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 409.72439999999995 404.45" width="409.72439999999995" height="404.45" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,71 +26,66 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<defs>
-  <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
-  </marker>
-  <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
-    <polygon points="12 0, 0 6, 12 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
-  </marker>
-</defs>
-
-<path class="edge" data-from="_start" data-to="Evaluate" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M224.41599999999997,40 L224.41599999999994,70" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Evaluate" data-to="checkResult" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M224.41599999999994,114.8 L224.41599999999997,145" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="checkResult" data-to="Positive" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="if score &gt; 0" d="M216.41599999999997,169 L216.41599999999997,182.8 Q216.41599999999997,188.8 210.41599999999997,188.8 L80.384,188.8 Q74.384,188.8 74.384,194.8 L74.384,279.25" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="checkResult" data-to="Negative" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="if score &lt; 0" d="M232.41599999999997,169 L232.41599999999997,182.8 Q232.41599999999997,188.8 238.41599999999997,188.8 L371.184,188.8 Q377.184,188.8 377.184,194.8 L377.184,279.25" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="checkResult" data-to="Neutral" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="if score = 0" d="M224.41599999999997,177 L224.41600000000003,279.25" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Positive" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M74.5,324 L74.5,360 Q74.5,366 80.5,366 L137.5,366" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Negative" data-to="Retry" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M377.184,324.05 L377.18399999999997,354.05" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Neutral" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M224.5,324 L224.5,360 Q224.5,366 218.5,366 L161.5,366" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Retry" data-to="Evaluate" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M426.5,376.5 L456.30400000000003,376.5 Q462.30400000000003,376.5 462.30400000000003,370.5 L462.30400000000003,98.5 Q462.30400000000003,92.5 456.30400000000003,92.5 L285.5,92.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="_start" data-to="Evaluate" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M191.57239999999996,40 L191.57239999999993,70" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="Evaluate" data-to="checkResult" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M191.57239999999993,112.2 L191.57239999999996,142" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="checkResult" data-to="Positive" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="if score &gt; 0" d="M183.57239999999996,166 L183.57239999999996,178.2 Q183.57239999999996,186.2 175.57239999999996,186.2 L70.586,186.2 Q62.586,186.2 62.586,194.2 L62.586,274.05" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="checkResult" data-to="Negative" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="if score &lt; 0" d="M199.57239999999996,166 L199.57239999999996,178.2 Q199.57239999999996,186.2 207.57239999999996,186.2 L312.7444,186.2 Q320.7444,186.2 320.7444,194.2 L320.7444,274.05" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="checkResult" data-to="Neutral" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="if score = 0" d="M191.57239999999996,174 L191.57239999999996,274.05" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="Positive" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M62.5,316 L62.5,350 Q62.5,358 70.5,358 L115,358" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="Negative" data-to="Retry" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M320.7444,316.25 L320.7443999999999,346.25" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="Neutral" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M191.5,316 L191.5,350 Q191.5,358 183.5,358 L139,358" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="Retry" data-to="Evaluate" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M359.5,367.5 L385.72439999999995,367.5 Q393.72439999999995,367.5 393.72439999999995,359.5 L393.72439999999995,99 Q393.72439999999995,91 385.72439999999995,91 L240.5,91" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
 <g class="edge-label" data-from="checkResult" data-to="Positive" data-label="if score &gt; 0">
-  <rect x="101.10419999999998" y="176.57500000000002" width="88.5916" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="145.39999999999998" y="188.8" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">if score &gt; 0</text>
+  <rect x="85.10919999999999" y="175.39999999999998" width="75.94" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="123.08" y="186.2" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">if score &gt; 0</text>
 </g>
 <g class="edge-label" data-from="checkResult" data-to="Negative" data-label="if score &lt; 0">
-  <rect x="260.5042" y="176.57500000000002" width="88.5916" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="304.8" y="188.8" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">if score &lt; 0</text>
+  <rect x="222.18839999999997" y="175.39999999999998" width="75.94" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="260.16" y="186.2" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">if score &lt; 0</text>
 </g>
 <g class="edge-label" data-from="checkResult" data-to="Neutral" data-label="if score = 0">
-  <rect x="180.12019999999995" y="215.8" width="88.5916" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="224.41599999999997" y="228.025" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">if score = 0</text>
+  <rect x="153.60239999999996" y="213.325" width="75.94" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="191.57" y="224.13" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">if score = 0</text>
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
-  <circle cx="224.41599999999997" cy="28" r="10" fill="var(--_text)" stroke="none" />
+  <circle cx="191.57239999999996" cy="28" r="10" fill="var(--accent, var(--fg))" />
   
 </g>
 <g class="node" data-id="Evaluate" data-label="Evaluate" data-shape="rounded">
-  <rect x="163.29599999999994" y="70" width="122.24" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="224.41599999999994" y="92.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Evaluate</text>
+  <rect x="142.59239999999994" y="70" width="97.96" height="42.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="191.57" y="91.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Evaluate</text>
 </g>
 <g class="node" data-id="checkResult" data-label="" data-shape="diamond">
-  <polygon points="224.41599999999997,144.8 240.41599999999997,160.8 224.41599999999997,176.8 208.41599999999997,160.8" fill="var(--_accent-fill)" stroke="#3B5B7D" stroke-width="2" />
-  <text x="224.41599999999997" y="160.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6"></text>
+  <polygon points="191.57239999999996,142.2 207.57239999999996,158.2 191.57239999999996,174.2 175.57239999999996,158.2" fill="url(#m1814eb8b-ng-a)" stroke="color-mix(in srgb, var(--accent, var(--fg)) 74%, var(--fg))" stroke-width="1.25" />
+  <text x="191.57" y="158.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9"></text>
 </g>
 <g class="node" data-id="Positive" data-label="Positive" data-shape="rounded">
-  <rect x="16" y="279.25" width="116.768" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="74.384" y="301.65" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Positive</text>
+  <rect x="16" y="274.05" width="93.172" height="42.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="62.59" y="295.15" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Positive</text>
 </g>
 <g class="node" data-id="Negative" data-label="Negative" data-shape="rounded">
-  <rect x="316.064" y="279.25" width="122.24000000000001" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="377.184" y="301.65" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Negative</text>
+  <rect x="271.76439999999997" y="274.05" width="97.96000000000001" height="42.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="320.74" y="295.15" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Negative</text>
 </g>
 <g class="node" data-id="Neutral" data-label="Neutral" data-shape="rounded">
-  <rect x="168.76800000000003" y="279.25" width="111.29599999999999" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="224.41600000000003" y="301.65" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Neutral</text>
+  <rect x="147.38039999999995" y="274.05" width="88.38400000000001" height="42.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="191.57" y="295.15" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Neutral</text>
 </g>
 <g class="node" data-id="_end" data-label="" data-shape="stateend">
-  <circle cx="149.39999999999998" cy="366.05" r="10" fill="none" stroke="var(--_text)" stroke-width="4" />
-<circle cx="149.39999999999998" cy="366.05" r="6" fill="var(--_text)" stroke="none" />
+  <circle cx="127.07919999999996" cy="358.25" r="10" fill="none" stroke="var(--accent, var(--fg))" stroke-width="2" />
+<circle cx="127.07919999999996" cy="358.25" r="6" fill="var(--accent, var(--fg))" />
   
 </g>
 <g class="node" data-id="Retry" data-label="Retry" data-shape="rounded">
-  <rect x="327.91999999999996" y="354.05" width="98.52799999999999" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="377.18399999999997" y="376.45" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Retry</text>
+  <rect x="282.13839999999993" y="346.25" width="77.212" height="42.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="320.74" y="367.35" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Retry</text>
 </g>
+<defs>
+  <linearGradient id="m1814eb8b-ng-a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, var(--accent, var(--fg)) 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+  <marker id="m1814eb8b-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
+  </marker>
+</defs>
 </svg>

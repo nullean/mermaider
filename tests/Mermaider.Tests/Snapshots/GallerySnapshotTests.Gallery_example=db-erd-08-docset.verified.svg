@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1085.6784 496.4" width="1085.6784" height="496.4" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1097.5306400000002 395.2" width="1097.5306400000002" height="395.2" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,99 +26,107 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<defs>
-</defs>
-
-<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="TableOfContents" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="toc" d="M539.0155657142857,96 L539.0155657142857,112 Q539.0155657142857,117 534.0155657142857,117 L194.36576000000002,117 Q189.36576000000002,117 189.36576000000002,122 L189.36576000000002,226.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="TableOfContents" data-entity2="TocItem" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="entries" d="M189.36576000000002,302.2 L189.36576,400.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="Redirect" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="redirects.yml" d="M562.4181714285714,96 L562.4181714285714,119 Q562.4181714285714,124 557.4181714285714,124 L351.44128,124 Q346.44128,124 346.44128,129 L346.44128,226.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="CrossLinkDeclaration" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="cross_links" d="M585.8207771428572,96 L585.8207771428572,126 Q585.8207771428572,131 580.8207771428572,131 L530.75136,131 Q525.75136,131 525.75136,136 L525.75136,226.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="ApiDeclaration" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="api" d="M609.223382857143,96 L609.223382857143,126 Q609.223382857143,131 614.223382857143,131 L710.3699200000001,131 Q715.3699200000001,131 715.3699200000001,136 L715.3699200000001,226.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="zeromany" data-identifying="true" data-label="products" d="M632.6259885714286,96 L632.6259885714286,119 Q632.6259885714286,124 637.6259885714286,124 L860.6784,124 Q865.6784,124 865.6784,129 L865.6784,226.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="Registry" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="registry" d="M656.0285942857143,96 L656.0285942857143,112 Q656.0285942857143,117 661.0285942857143,117 L1000.6784,117 Q1005.6784,117 1005.6784,122 L1005.6784,226.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path class="er-relationship" data-entity1="TocItem" data-entity2="TocItem" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="children" d="M129.36576,414.4 L61.68288,414.4 Q56.68288,414.4 56.68288,419.4 L56.68288,457.4 Q56.68288,462.4 61.68288,462.4 L129.36576,462.4" fill="none" stroke="var(--_line)" stroke-width="2.25" />
+<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="TableOfContents" data-cardinality1="one" data-cardinality2="one" data-identifying="true" data-label="toc" d="M539.7992114285714,64 L539.7992114285714,77 Q539.7992114285714,85 531.7992114285714,85 L192.01064,85 Q184.01064,85 184.01064,93 L184.01064,191.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="TableOfContents" data-entity2="TocItem" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="entries" d="M184.01064,235.6 L184.01064,331.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="Redirect" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="redirects.yml" d="M564.1877828571429,64 L564.1877828571429,84 Q564.1877828571429,92 556.1877828571429,92 L352.57064,92 Q344.57064,92 344.57064,100 L344.57064,191.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="CrossLinkDeclaration" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="cross_links" d="M588.5763542857143,64 L588.5763542857143,91 Q588.5763542857143,99 580.5763542857143,99 L535.21064,99 Q527.21064,99 527.21064,107 L527.21064,191.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="ApiDeclaration" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="api" d="M612.9649257142858,64 L612.9649257142858,91 Q612.9649257142858,99 620.9649257142858,99 L715.6906400000001,99 Q723.6906400000001,99 723.6906400000001,107 L723.6906400000001,191.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="Product" data-cardinality1="zeromany" data-cardinality2="zeromany" data-identifying="true" data-label="products" d="M637.3534971428572,64 L637.3534971428572,84 Q637.3534971428572,92 645.3534971428572,92 L869.5306400000002,92 Q877.5306400000002,92 877.5306400000002,100 L877.5306400000002,191.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="DocumentationSet" data-entity2="Registry" data-cardinality1="zeromany" data-cardinality2="zeroone" data-identifying="true" data-label="registry" d="M661.7420685714286,64 L661.7420685714286,77 Q661.7420685714286,85 669.7420685714286,85 L1009.5306400000002,85 Q1017.5306400000002,85 1017.5306400000002,93 L1017.5306400000002,191.6" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="er-relationship" data-entity1="TocItem" data-entity2="TocItem" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="children" d="M124.01064,329.2 L62.00532,329.2 Q54.00532,329.2 54.00532,337.2 L54.00532,369.2 Q54.00532,377.2 62.00532,377.2 L124.01064,377.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <g class="entity" data-id="DocumentationSet" data-label="DocumentationSet">
-  <rect x="515.61296" y="20" width="163.81824" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="597.5220800000001" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">DocumentationSet</text>
+  <rect x="515.4106400000001" y="20" width="170.72" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="600.77" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">DocumentationSet</text>
 </g>
 <g class="entity" data-id="TableOfContents" data-label="TableOfContents">
-  <rect x="112.29024000000001" y="226.2" width="154.15104000000002" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="189.36576000000002" y="264.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">TableOfContents</text>
+  <rect x="103.45063999999999" y="191.6" width="161.12" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="184.01" y="213.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">TableOfContents</text>
 </g>
 <g class="entity" data-id="TocItem" data-label="TocItem">
-  <rect x="129.36576" y="400.4" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="189.36576" y="438.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">TocItem</text>
+  <rect x="124.01064" y="331.2" width="120" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="184.01" y="353.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">TocItem</text>
 </g>
 <g class="entity" data-id="Redirect" data-label="Redirect">
-  <rect x="286.44128" y="226.2" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="346.44128" y="264.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Redirect</text>
+  <rect x="284.57064" y="191.6" width="120" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="344.57" y="213.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Redirect</text>
 </g>
 <g class="entity" data-id="CrossLinkDeclaration" data-label="CrossLinkDeclaration">
-  <rect x="426.44128" y="226.2" width="198.62016000000003" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="525.75136" y="264.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">CrossLinkDeclaration</text>
+  <rect x="424.57064" y="191.6" width="205.28000000000003" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="527.21" y="213.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">CrossLinkDeclaration</text>
 </g>
 <g class="entity" data-id="ApiDeclaration" data-label="ApiDeclaration">
-  <rect x="645.0614400000001" y="226.2" width="140.61696" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="715.3699200000001" y="264.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">ApiDeclaration</text>
+  <rect x="649.8506400000001" y="191.6" width="147.68" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="723.69" y="213.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">ApiDeclaration</text>
 </g>
 <g class="entity" data-id="Product" data-label="Product">
-  <rect x="805.6784" y="226.2" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="865.6784" y="264.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Product</text>
+  <rect x="817.5306400000002" y="191.6" width="120" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="877.53" y="213.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Product</text>
 </g>
 <g class="entity" data-id="Registry" data-label="Registry">
-  <rect x="945.6784" y="226.2" width="120" height="76" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="1005.6784" y="264.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Registry</text>
+  <rect x="957.5306400000002" y="191.6" width="120" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1017.53" y="213.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Registry</text>
 </g>
-<path d="M545.5155657142857,105 L532.5155657142857,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M545.5155657142857,110 L532.5155657142857,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M182.86576000000002,217.2 L195.86576000000002,217.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M182.86576000000002,212.2 L195.86576000000002,212.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M195.86576000000002,311.2 L182.86576000000002,311.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M195.86576000000002,316.2 L182.86576000000002,316.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M181.86576,400.4 L189.36576,387.4 L196.86576,400.4" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="189.36576" cy="378.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M568.9181714285714,105 L555.9181714285714,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M568.9181714285714,110 L555.9181714285714,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M338.94128,226.2 L346.44128,213.2 L353.94128,226.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="346.44128" cy="204.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M592.3207771428572,105 L579.3207771428572,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M592.3207771428572,110 L579.3207771428572,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M518.25136,226.2 L525.75136,213.2 L533.25136,226.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="525.75136" cy="204.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M615.723382857143,105 L602.723382857143,105" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M615.723382857143,110 L602.723382857143,110" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M707.8699200000001,226.2 L715.3699200000001,213.2 L722.8699200000001,226.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="715.3699200000001" cy="204.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M640.1259885714286,96 L632.6259885714286,109 L625.1259885714286,96" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="632.6259885714286" cy="118" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M858.1784,226.2 L865.6784,213.2 L873.1784,226.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="865.6784" cy="204.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M663.5285942857143,96 L656.0285942857143,109 L648.5285942857143,96" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="656.0285942857143" cy="118" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M999.1784,217.2 L1012.1784,217.2" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<circle cx="1005.6784" cy="207.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M120.36576,420.9 L120.36576,407.9" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M115.36576,420.9 L115.36576,407.9" fill="none" stroke="var(--_line)" stroke-width="2.25" />
-<path d="M129.36576,469.9 L116.36576,462.4 L129.36576,454.9" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-linejoin="round" />
-<circle cx="107.36576" cy="462.4" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<rect x="169.51144000000002" y="148.875" width="39.70864" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="189.36576000000002" y="161.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">toc</text>
-<rect x="156.68968" y="339.07499999999993" width="65.35216" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="189.36576000000002" y="351.29999999999995" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">entries</text>
-<rect x="294.53256" y="148.875" width="103.81743999999999" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="346.44128" y="161.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">redirects.yml</text>
-<rect x="477.04807999999997" y="148.875" width="97.40656000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="525.75136" y="161.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">cross_links</text>
-<rect x="695.5156000000001" y="148.875" width="39.70864" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="715.3699200000001" y="161.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">api</text>
-<rect x="826.59144" y="148.875" width="78.17392000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="865.6784" y="161.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">products</text>
-<rect x="969.79688" y="148.875" width="71.76304" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="1005.6784" y="161.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">registry</text>
-<rect x="20" y="426.17499999999995" width="73.36576" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="56.68288" y="438.4" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">children</text>
+<path d="M546.2992114285714,73 L533.2992114285714,73" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M546.2992114285714,78 L533.2992114285714,78" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M177.51064,182.6 L190.51064,182.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M177.51064,177.6 L190.51064,177.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M190.51064,244.6 L177.51064,244.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M190.51064,249.6 L177.51064,249.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M176.51064,331.2 L184.01064,318.2 L191.51064,331.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="184.01064" cy="309.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M570.6877828571429,73 L557.6877828571429,73" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M570.6877828571429,78 L557.6877828571429,78" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M337.07064,191.6 L344.57064,178.6 L352.07064,191.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="344.57064" cy="169.6" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M595.0763542857143,73 L582.0763542857143,73" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M595.0763542857143,78 L582.0763542857143,78" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M519.71064,191.6 L527.21064,178.6 L534.71064,191.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="527.21064" cy="169.6" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M619.4649257142858,73 L606.4649257142858,73" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M619.4649257142858,78 L606.4649257142858,78" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M716.1906400000001,191.6 L723.6906400000001,178.6 L731.1906400000001,191.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="723.6906400000001" cy="169.6" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M644.8534971428572,64 L637.3534971428572,77 L629.8534971428572,64" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="637.3534971428572" cy="86" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M870.0306400000002,191.6 L877.5306400000002,178.6 L885.0306400000002,191.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="877.5306400000002" cy="169.6" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M669.2420685714286,64 L661.7420685714286,77 L654.2420685714286,64" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="661.7420685714286" cy="86" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M1011.0306400000002,182.6 L1024.0306400000002,182.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="1017.5306400000002" cy="172.6" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M115.01064,335.7 L115.01064,322.7" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M110.01064,335.7 L110.01064,322.7" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<path d="M124.01064,384.7 L111.01064,377.2 L124.01064,369.7" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" />
+<circle cx="102.01064" cy="377.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<g class="edge-label" data-label="toc">
+  <rect x="166.90264" y="117" width="34.215999999999994" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="184.01" y="127.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">toc</text>
+</g>
+<g class="edge-label" data-label="entries">
+  <rect x="155.95864" y="272.59999999999997" width="56.103999999999985" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="184.01" y="283.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">entries</text>
+</g>
+<g class="edge-label" data-label="redirects.yml">
+  <rect x="300.10264" y="117" width="88.93599999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="344.57" y="127.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">redirects.yml</text>
+</g>
+<g class="edge-label" data-label="cross_links">
+  <rect x="485.47864000000004" y="117" width="83.464" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="527.21" y="127.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">cross_links</text>
+</g>
+<g class="edge-label" data-label="api">
+  <rect x="706.5826400000002" y="117" width="34.215999999999994" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="723.69" y="127.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">api</text>
+</g>
+<g class="edge-label" data-label="products">
+  <rect x="844.0066400000002" y="117" width="67.048" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="877.53" y="127.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">products</text>
+</g>
+<g class="edge-label" data-label="registry">
+  <rect x="986.7426400000002" y="117" width="61.57599999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="1017.53" y="127.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">registry</text>
+</g>
+<g class="edge-label" data-label="children">
+  <rect x="22.533320000000003" y="342.4" width="62.94399999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="54.01" y="353.2" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">children</text>
+</g>
+<defs>
+  <linearGradient id="m1814eb8b-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+</defs>
 </svg>

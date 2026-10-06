@@ -2,10 +2,11 @@ project: mermaider
 max_toc_depth: 2
 
 branding:
-  icon: images/mermaider-mark.svg
-  favicon: images/png/mermaider-mark-32.png
-  og-image: images/png/mermaider-mark-512.png
-  apple-touch-icon: images/png/mermaider-mark-180.png
+  icon: images/mermaider-fish.svg
+  header-bg: "#08090B"
+  favicon: images/png/mermaider-fish-32.png
+  og-image: images/png/mermaider-fish-512.png
+  apple-touch-icon: images/png/mermaider-fish-180.png
 
 toc:
   - file: index.md
@@ -24,4 +25,3 @@ toc:
   - folder: layout
     children:
       - file: index.md
-  - file: agent-add-diagram-type.md

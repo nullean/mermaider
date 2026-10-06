@@ -122,9 +122,8 @@ public partial class JourneyRendererTests
 	}
 
 	[Test]
-	public void Activity_line_tracks_tasks_when_left_margin_expands()
+	public void Sentiment_curve_runs_through_every_face_under_its_task()
 	{
-		// Long actor names grow leftMargin; timeline must still end at last task right edge
 		const string longActor = "SeniorPrincipalStaffEngineerCoordinator";
 		var svg = MermaidRenderer.RenderSvg($"""
 			journey
@@ -135,27 +134,33 @@ public partial class JourneyRendererTests
 			End: 1: {longActor}
 			""");
 
-		var lineMatch = ActivityLine().Match(svg);
-		lineMatch.Success.Should().BeTrue("activity timeline line should be present");
-		var lineX1 = double.Parse(lineMatch.Groups[1].Value, CultureInfo.InvariantCulture);
-		var lineX2 = double.Parse(lineMatch.Groups[2].Value, CultureInfo.InvariantCulture);
+		var curve = Curve().Match(svg);
+		curve.Success.Should().BeTrue("the sentiment curve is drawn");
+		var points = CurvePoint().Matches(curve.Groups[1].Value)
+			.Select(m => (X: double.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture), Y: double.Parse(m.Groups[2].Value, CultureInfo.InvariantCulture)))
+			.ToList();
+		points.Should().HaveCount(3);
 
-		var rects = TaskRect().Matches(svg);
-		rects.Count.Should().Be(3);
-		var firstTaskX = double.Parse(rects[0].Groups[1].Value, CultureInfo.InvariantCulture);
-		var lastTaskX = double.Parse(rects[^1].Groups[1].Value, CultureInfo.InvariantCulture);
-		var lastTaskRight = lastTaskX + 150;
+		var faces = Face().Matches(svg)
+			.Select(m => (X: double.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture), Y: double.Parse(m.Groups[2].Value, CultureInfo.InvariantCulture)))
+			.ToList();
+		faces.Should().BeEquivalentTo(points, o => o.WithStrictOrdering(), "every face sits on the curve");
+		points[0].Y.Should().BeLessThan(points[1].Y, "a higher score sits higher");
+		points[1].Y.Should().BeLessThan(points[2].Y);
 
-		// Long name expands margin past the 150 base
-		firstTaskX.Should().BeGreaterThan(150);
-		lineX1.Should().Be(firstTaskX);
-		lineX2.Should().BeApproximately(lastTaskRight - 4, 0.02);
+		var tasks = TaskRect().Matches(svg).ToList();
+		tasks.Should().HaveCount(3);
+		for (var i = 0; i < 3; i++)
+		{
+			var x = double.Parse(tasks[i].Groups[1].Value, CultureInfo.InvariantCulture);
+			var w = double.Parse(tasks[i].Groups[3].Value, CultureInfo.InvariantCulture);
+			points[i].X.Should().BeApproximately(x + (w / 2), 0.01, "the face hangs under the centre of its task");
+		}
 	}
 
 	[Test]
-	public void ViewBox_height_grows_with_many_actors()
+	public void Many_actors_wrap_the_legend_and_push_the_content_down()
 	{
-		// Enough unique actors that legend extends past the default face band
 		var actors = string.Join(", ", Enumerable.Range(1, 25).Select(i => $"Actor{i:D2}"));
 		var svg = MermaidRenderer.RenderSvg($"""
 			journey
@@ -164,30 +169,49 @@ public partial class JourneyRendererTests
 			Only task: 5: {actors}
 			""");
 
-		var vb = ViewBox().Match(svg);
-		vb.Success.Should().BeTrue();
-		var height = double.Parse(vb.Groups[1].Value, CultureInfo.InvariantCulture);
-
-		// Legend: cy starts 60, +20 per actor → last ~ 60+24*20 = 540 (+ pad / title shift)
-		height.Should().BeGreaterThan(540);
+		svg.Should().Contain("Actor01");
 		svg.Should().Contain("Actor25");
+		var legendYs = LegendTextMatches(svg).Select(m => double.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture)).Distinct().ToList();
+		legendYs.Count.Should().BeGreaterThan(1, "the legend wraps into several rows");
+		var taskY = double.Parse(TaskRect().Match(svg).Groups[2].Value, CultureInfo.InvariantCulture);
+		taskY.Should().BeGreaterThan(legendYs.Max(), "content starts below the last legend row");
 	}
 
 	[GeneratedRegex(
-		@"<line x1=""([\d.]+)"" y1=""200"" x2=""([\d.]+)"" y2=""200""[^>]*marker-end=""url\(#journey-arrow\)""",
+		@"<path class=""journey-line"" d=""([^""]+)""",
 		RegexOptions.CultureInvariant,
 		matchTimeoutMilliseconds: 2000)]
-	private static partial Regex ActivityLine();
+	private static partial Regex Curve();
 
 	[GeneratedRegex(
-		@"<rect x=""([\d.]+)"" y=""110"" width=""150"" height=""50""",
+		@"([\d.]+),([\d.]+)",
+		RegexOptions.CultureInvariant,
+		matchTimeoutMilliseconds: 2000)]
+	private static partial Regex CurvePoint();
+
+	[GeneratedRegex(
+		@"<g class=""face""[^>]*>\s*<circle cx=""([\d.]+)"" cy=""([\d.]+)""",
+		RegexOptions.CultureInvariant,
+		matchTimeoutMilliseconds: 2000)]
+	private static partial Regex Face();
+
+	[GeneratedRegex(
+		@"<g class=""node journey-task""[^>]*>\s*<rect x=""([\d.]+)"" y=""([\d.]+)"" width=""([\d.]+)""",
 		RegexOptions.CultureInvariant,
 		matchTimeoutMilliseconds: 2000)]
 	private static partial Regex TaskRect();
 
 	[GeneratedRegex(
-		@"viewBox=""0 0 [\d.]+ ([\d.]+)""",
+		@"<g class=""legend"">[\s\S]*?</g>",
 		RegexOptions.CultureInvariant,
 		matchTimeoutMilliseconds: 2000)]
-	private static partial Regex ViewBox();
+	private static partial Regex Legend();
+
+	private static MatchCollection LegendTextMatches(string svg) => LegendTextY().Matches(Legend().Match(svg).Value);
+
+	[GeneratedRegex(
+		@"<text x=""[\d.]+"" y=""([\d.]+)""",
+		RegexOptions.CultureInvariant,
+		matchTimeoutMilliseconds: 2000)]
+	private static partial Regex LegendTextY();
 }

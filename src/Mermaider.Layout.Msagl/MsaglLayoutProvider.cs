@@ -4,7 +4,8 @@ namespace Mermaider.Layout.Msagl;
 
 /// <summary>
 /// Layout provider backed by Microsoft MSAGL (Automatic Graph Layout).
-/// Install this package for higher-fidelity edge routing at the cost of higher allocations.
+/// Optional and legacy-compatible: the built-in layout engine is faster and supports compound subgraph layout and
+/// orthogonal routing, which this provider does not.
 /// <para>
 /// Register globally: <c>MermaidRenderer.SetLayoutProvider(new MsaglLayoutProvider());</c>
 /// </para>

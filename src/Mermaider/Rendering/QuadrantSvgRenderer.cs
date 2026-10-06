@@ -5,24 +5,20 @@ using Mermaider.Theming;
 
 namespace Mermaider.Rendering;
 
+/// <summary>
+/// Quadrant chart: four panels separated by a small gap. Quadrant 1 (top right, "invest") is the accent cell; the other
+/// three are neutral panels (Quiet), dashed wireframes (Blueprint) or soft series blocks (Tonal). Quadrant names are
+/// eyebrow text in the panel's corner; points are accent markers with haloed labels.
+/// </summary>
 internal static class QuadrantSvgRenderer
 {
-	private const double ChartSize = 400;
-	private const double Padding = 60;
-	private const double TitleHeight = 32;
-	private const double AxisLabelPad = 8;
-	private const double PointRadius = 6;
-	private const string PointLabelFontSize = RenderConstants.FsVar.S;
-	private const string QuadrantLabelFontSize = RenderConstants.FsVar.M;
-	private const string AxisLabelFontSize = RenderConstants.FsVar.S;
-
-	private static readonly string[] QuadrantFills =
-	[
-		"color-mix(in srgb, var(--accent, var(--fg)) 12%, var(--bg))",
-		"color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg))",
-		"color-mix(in srgb, var(--accent, var(--fg)) 4%, var(--bg))",
-		"color-mix(in srgb, var(--accent, var(--fg)) 6%, var(--bg))",
-	];
+	private const double Cell = 238;
+	private const double Gap = 4;
+	private const double ChartSize = (Cell * 2) + Gap;
+	private const double AxisBand = 22;
+	private const double PointRadius = 5.5;
+	private const double PointHalo = 11;
+	private const double LabelOffset = 16;
 
 	internal static string Render(QuadrantChart chart, SvgRenderContext context)
 	{
@@ -41,163 +37,140 @@ internal static class QuadrantSvgRenderer
 	internal static StringBuilder RenderToBuilder(QuadrantChart chart, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
+		var ds = DesignSystem.For(context);
 
 		var hasTitle = chart.Title is { Length: > 0 };
-		var titleOffset = hasTitle ? TitleHeight : 0;
-		var hasPoints = chart.Points.Count > 0;
+		var hasXAxis = chart.XAxisLeft is { Length: > 0 } || chart.XAxisRight is { Length: > 0 };
+		var hasYAxis = chart.YAxisBottom is { Length: > 0 } || chart.YAxisTop is { Length: > 0 };
 
-		var axisBottomPad = (chart.XAxisLeft ?? chart.XAxisRight) is not null ? 28.0 : 0;
-		var axisLeftPad = (chart.YAxisBottom ?? chart.YAxisTop) is not null ? 20.0 : 0;
+		var chartLeft = DesignSystem.ChartPad + (hasYAxis ? AxisBand + 16 : 0);
+		var chartTop = DesignSystem.ChartTop(hasTitle) - (hasTitle ? 4 : 0);
 
-		var totalWidth = Padding + axisLeftPad + ChartSize + Padding;
-		var totalHeight = titleOffset + Padding + ChartSize + axisBottomPad + Padding;
-
-		var chartLeft = Padding + axisLeftPad;
-		var chartTop = titleOffset + Padding;
-		var half = ChartSize / 2;
+		var totalWidth = chartLeft + ChartSize + DesignSystem.ChartPad;
+		var totalHeight = chartTop + ChartSize + (hasXAxis ? 18 + AxisBand : 0) + DesignSystem.ChartPad;
 
 		StyleBlock.AppendSvgOpenTag(sb, totalWidth, totalHeight, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
-		_ = sb.Append("\n<defs>\n</defs>\n");
+		StyleBlock.AppendStyleBlock(sb, context.Styles);
 
 		if (hasTitle)
-		{
-			_ = sb.Append("\n<text x=\"").Append((chartLeft + half).SvgFormat())
-				.Append("\" y=\"").Append(titleOffset.SvgFormat())
-				.Append("\" text-anchor=\"middle\" font-size=\"").Append(RenderConstants.FsVar.L).Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
-			MultilineUtils.AppendEscapedXml(sb, chart.Title.AsSpan());
-			_ = sb.Append("</text>");
-		}
+			ds.AppendTitle(sb, DesignSystem.ChartPad, DesignSystem.ChartTitleCy, chart.Title!);
 
-		AppendQuadrant(sb, chartLeft, chartTop, half, half, QuadrantFills[1], chart.Quadrant2, hasPoints);
-		AppendQuadrant(sb, chartLeft + half, chartTop, half, half, QuadrantFills[0], chart.Quadrant1, hasPoints);
-		AppendQuadrant(sb, chartLeft, chartTop + half, half, half, QuadrantFills[2], chart.Quadrant3, hasPoints);
-		AppendQuadrant(sb, chartLeft + half, chartTop + half, half, half, QuadrantFills[3], chart.Quadrant4, hasPoints);
+		var right = chartLeft + Cell + Gap;
+		var lower = chartTop + Cell + Gap;
+		AppendQuadrant(sb, ds, chartLeft, chartTop, chart.Quadrant2, 2, ds.Series(0));
+		AppendQuadrant(sb, ds, right, chartTop, chart.Quadrant1, 1, ds.Accent);
+		AppendQuadrant(sb, ds, chartLeft, lower, chart.Quadrant3, 3, ds.Series(1));
+		AppendQuadrant(sb, ds, right, lower, chart.Quadrant4, 4, ds.Series(2));
 
-		_ = sb.Append("\n<rect x=\"").Append(chartLeft.SvgFormat()).Append("\" y=\"").Append(chartTop.SvgFormat())
-			.Append("\" width=\"").Append(ChartSize.SvgFormat()).Append("\" height=\"").Append(ChartSize.SvgFormat())
-			.Append("\" fill=\"none\" stroke=\"var(--_node-stroke)\" stroke-width=\"1.5\" />");
-
-		_ = sb.Append("\n<line x1=\"").Append((chartLeft + half).SvgFormat()).Append("\" y1=\"").Append(chartTop.SvgFormat())
-			.Append("\" x2=\"").Append((chartLeft + half).SvgFormat()).Append("\" y2=\"").Append((chartTop + ChartSize).SvgFormat())
-			.Append("\" stroke=\"var(--_node-stroke)\" stroke-width=\"1\" stroke-dasharray=\"4 3\" />");
-		_ = sb.Append("\n<line x1=\"").Append(chartLeft.SvgFormat()).Append("\" y1=\"").Append((chartTop + half).SvgFormat())
-			.Append("\" x2=\"").Append((chartLeft + ChartSize).SvgFormat()).Append("\" y2=\"").Append((chartTop + half).SvgFormat())
-			.Append("\" stroke=\"var(--_node-stroke)\" stroke-width=\"1\" stroke-dasharray=\"4 3\" />");
-
-		AppendAxisLabels(sb, chart, chartLeft, chartTop, hasPoints, axisBottomPad);
+		AppendAxisLabels(sb, ds, chart, chartLeft, chartTop);
 
 		foreach (var point in chart.Points)
-			AppendPoint(sb, point, chartLeft, chartTop);
+			AppendPoint(sb, ds, point, chartLeft, chartTop);
 
-		_ = sb.Append("\n</svg>");
+		ds.Close(sb);
 		return sb;
 	}
 
-	private static void AppendQuadrant(StringBuilder sb, double x, double y, double w, double h, string fill, string? label, bool hasPoints)
+	private static void AppendQuadrant(StringBuilder sb, DesignSystem ds, double x, double y, string? label, int quadrant, ColorFamily tonalFamily)
 	{
-		_ = sb.Append("\n<rect x=\"").Append(x.SvgFormat()).Append("\" y=\"").Append(y.SvgFormat())
-			.Append("\" width=\"").Append(w.SvgFormat()).Append("\" height=\"").Append(h.SvgFormat())
-			.Append("\" fill=\"").Append(fill).Append("\" />");
+		var invest = quadrant == 1;
+		var r = DesignSystem.Num(ds.PanelRadius);
+		string fill, stroke, strokeWidth;
+		var dashed = false;
+		switch (ds.Spec.ChartMarks)
+		{
+			case ChartMarkKind.Outline:
+				fill = "none";
+				stroke = invest ? ds.Accent.Edge : DesignSystem.GridStroke;
+				strokeWidth = "1";
+				dashed = true;
+				break;
+			case ChartMarkKind.Fat:
+				fill = invest ? ds.Accent.Soft : tonalFamily.Tint();
+				stroke = "none";
+				strokeWidth = "0";
+				break;
+			default:
+				fill = invest ? ds.Accent.Tint() : "var(--_group-fill)";
+				stroke = invest ? ds.Accent.Edge : DesignSystem.GridStroke;
+				strokeWidth = invest ? "1.25" : "1";
+				break;
+		}
+
+		_ = sb.Append("\n<g class=\"quadrant\" data-quadrant=\"").Append(quadrant).Append('"');
+		if (label is { Length: > 0 })
+		{
+			// the eyebrow renders in caps; keep the author's text as data
+			_ = sb.Append(" data-label=\"");
+			MultilineUtils.AppendEscapedAttr(sb, label);
+			_ = sb.Append('"');
+		}
+
+		_ = sb.Append(">\n  <rect x=\"").Append(x.SvgFormat())
+			.Append("\" y=\"").Append(y.SvgFormat()).Append("\" width=\"").Append(Cell.SvgFormat()).Append("\" height=\"").Append(Cell.SvgFormat())
+			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
+			.Append("\" fill=\"").Append(fill).Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"").Append(strokeWidth).Append('"');
+		if (dashed)
+			_ = sb.Append(" stroke-dasharray=\"2 3\"");
+		_ = sb.Append(" />");
 
 		if (label is { Length: > 0 })
 		{
-			var textY = hasPoints ? y + 20 : y + (h / 2);
-			_ = sb.Append("\n<text x=\"").Append((x + (w / 2)).SvgFormat()).Append("\" y=\"").Append(textY.SvgFormat())
-				.Append("\" text-anchor=\"middle\" dy=\"0.35em\" font-size=\"")
-				.Append(QuadrantLabelFontSize).Append("\" font-weight=\"600\" fill=\"var(--_text-sec)\">");
-			MultilineUtils.AppendEscapedXml(sb, label.AsSpan());
-			_ = sb.Append("</text>");
+			_ = sb.Append("\n  ");
+			ds.AppendChartText(sb, label.ToUpperInvariant(), x + 16, y + 22, TypeRole.Eyebrow, invest ? ds.Accent.Ink : null, anchor: "start");
 		}
+
+		_ = sb.Append("\n</g>");
 	}
 
-	private static void AppendAxisLabels(StringBuilder sb, QuadrantChart chart, double chartLeft, double chartTop, bool hasPoints, double axisBottomPad)
+	private static void AppendAxisLabels(StringBuilder sb, DesignSystem ds, QuadrantChart chart, double chartLeft, double chartTop)
 	{
 		var bottom = chartTop + ChartSize;
-		var half = ChartSize / 2;
+		if (chart.XAxisLeft is { Length: > 0 } || chart.XAxisRight is { Length: > 0 })
+		{
+			_ = sb.Append('\n');
+			ds.AppendGridLine(sb, chartLeft, bottom + 18, chartLeft + ChartSize, bottom + 18);
+			if (chart.XAxisLeft is { Length: > 0 } xl)
+			{
+				_ = sb.Append('\n');
+				ds.AppendChartText(sb, xl, chartLeft, bottom + 18 + 18, TypeRole.Caption, anchor: "start");
+			}
 
-		if (hasPoints && axisBottomPad > 0)
-		{
-			if (chart.XAxisLeft is { Length: > 0 })
+			if (chart.XAxisRight is { Length: > 0 } xr)
 			{
-				_ = sb.Append("\n<text x=\"").Append(chartLeft.SvgFormat())
-					.Append("\" y=\"").Append((bottom + AxisLabelPad + 16).SvgFormat())
-					.Append("\" text-anchor=\"start\" font-size=\"").Append(AxisLabelFontSize)
-					.Append("\" fill=\"var(--_text-sec)\">");
-				MultilineUtils.AppendEscapedXml(sb, chart.XAxisLeft.AsSpan());
-				_ = sb.Append("</text>");
-			}
-			if (chart.XAxisRight is { Length: > 0 })
-			{
-				_ = sb.Append("\n<text x=\"").Append((chartLeft + ChartSize).SvgFormat())
-					.Append("\" y=\"").Append((bottom + AxisLabelPad + 16).SvgFormat())
-					.Append("\" text-anchor=\"end\" font-size=\"").Append(AxisLabelFontSize)
-					.Append("\" fill=\"var(--_text-sec)\">");
-				MultilineUtils.AppendEscapedXml(sb, chart.XAxisRight.AsSpan());
-				_ = sb.Append("</text>");
-			}
-		}
-		else if (axisBottomPad > 0)
-		{
-			if (chart.XAxisLeft is { Length: > 0 })
-			{
-				_ = sb.Append("\n<text x=\"").Append((chartLeft + (half / 2)).SvgFormat())
-					.Append("\" y=\"").Append((bottom + AxisLabelPad + 16).SvgFormat())
-					.Append("\" text-anchor=\"middle\" font-size=\"").Append(AxisLabelFontSize)
-					.Append("\" fill=\"var(--_text-sec)\">");
-				MultilineUtils.AppendEscapedXml(sb, chart.XAxisLeft.AsSpan());
-				_ = sb.Append("</text>");
-			}
-			if (chart.XAxisRight is { Length: > 0 })
-			{
-				_ = sb.Append("\n<text x=\"").Append((chartLeft + half + (half / 2)).SvgFormat())
-					.Append("\" y=\"").Append((bottom + AxisLabelPad + 16).SvgFormat())
-					.Append("\" text-anchor=\"middle\" font-size=\"").Append(AxisLabelFontSize)
-					.Append("\" fill=\"var(--_text-sec)\">");
-				MultilineUtils.AppendEscapedXml(sb, chart.XAxisRight.AsSpan());
-				_ = sb.Append("</text>");
+				_ = sb.Append('\n');
+				ds.AppendChartText(sb, xr, chartLeft + ChartSize, bottom + 18 + 18, TypeRole.Caption, anchor: "end");
 			}
 		}
 
-		if (chart.YAxisBottom is { Length: > 0 })
+		var axisX = chartLeft - 22;
+		if (chart.YAxisTop is { Length: > 0 } yt)
 		{
-			var yPos = hasPoints ? bottom : chartTop + half + (half / 2);
-			_ = sb.Append("\n<text x=\"").Append((chartLeft - AxisLabelPad).SvgFormat())
-				.Append("\" y=\"").Append(yPos.SvgFormat())
-				.Append("\" text-anchor=\"end\" font-size=\"").Append(AxisLabelFontSize)
-				.Append("\" fill=\"var(--_text-sec)\" transform=\"rotate(-90, ")
-				.Append((chartLeft - AxisLabelPad).SvgFormat()).Append(", ").Append(yPos.SvgFormat()).Append(")\">");
-			MultilineUtils.AppendEscapedXml(sb, chart.YAxisBottom.AsSpan());
-			_ = sb.Append("</text>");
+			_ = sb.Append('\n');
+			ds.AppendRotatedText(sb, yt, axisX, chartTop, TypeRole.Caption, anchor: "end");
 		}
 
-		if (chart.YAxisTop is { Length: > 0 })
+		if (chart.YAxisBottom is { Length: > 0 } yb)
 		{
-			var yPos = hasPoints ? chartTop : chartTop + (half / 2);
-			_ = sb.Append("\n<text x=\"").Append((chartLeft - AxisLabelPad).SvgFormat())
-				.Append("\" y=\"").Append(yPos.SvgFormat())
-				.Append("\" text-anchor=\"end\" font-size=\"").Append(AxisLabelFontSize)
-				.Append("\" fill=\"var(--_text-sec)\" transform=\"rotate(-90, ")
-				.Append((chartLeft - AxisLabelPad).SvgFormat()).Append(", ").Append(yPos.SvgFormat()).Append(")\">");
-			MultilineUtils.AppendEscapedXml(sb, chart.YAxisTop.AsSpan());
-			_ = sb.Append("</text>");
+			_ = sb.Append('\n');
+			ds.AppendRotatedText(sb, yb, axisX, bottom, TypeRole.Caption, anchor: "start");
 		}
 	}
 
-	private static void AppendPoint(StringBuilder sb, QuadrantPoint point, double chartLeft, double chartTop)
+	private static void AppendPoint(StringBuilder sb, DesignSystem ds, QuadrantPoint point, double chartLeft, double chartTop)
 	{
-		var px = chartLeft + (point.X * ChartSize);
-		var py = chartTop + ((1 - point.Y) * ChartSize);
+		var px = Math.Round(chartLeft + (Math.Clamp(point.X, 0, 1) * ChartSize), 3);
+		var py = Math.Round(chartTop + ((1 - Math.Clamp(point.Y, 0, 1)) * ChartSize), 3);
 
-		_ = sb.Append("\n<circle cx=\"").Append(px.SvgFormat()).Append("\" cy=\"").Append(py.SvgFormat())
-			.Append("\" r=\"").Append(PointRadius)
-			.Append("\" fill=\"var(--_arrow)\" stroke=\"var(--bg)\" stroke-width=\"1.5\" />");
+		_ = sb.Append("\n<g class=\"quadrant-point\">\n  <circle cx=\"").Append(px.SvgFormat()).Append("\" cy=\"").Append(py.SvgFormat())
+			.Append("\" r=\"").Append(PointHalo.SvgFormat()).Append("\" fill=\"").Append(ds.Accent.Soft).Append("\" fill-opacity=\"0.7\" />\n  ");
+		ds.AppendPoint(sb, px, py, ColorFamily.AccentBase, PointRadius);
 
-		_ = sb.Append("\n<text x=\"").Append(px.SvgFormat()).Append("\" y=\"").Append((py + PointRadius + 12).SvgFormat())
-			.Append("\" text-anchor=\"middle\" font-size=\"").Append(PointLabelFontSize)
-			.Append("\" fill=\"var(--_text)\">");
-		MultilineUtils.AppendEscapedXml(sb, point.Label.AsSpan());
-		_ = sb.Append("</text>");
+		// label right of the point, flipped left when it would run off the chart
+		var w = DesignSystem.MeasureRole(point.Label, TypeRole.Label);
+		var flip = px + LabelOffset + w > chartLeft + ChartSize;
+		_ = sb.Append("\n  ");
+		ds.AppendHaloText(sb, point.Label, flip ? px - LabelOffset : px + LabelOffset, py, TypeRole.Label, anchor: flip ? "end" : "start");
+		_ = sb.Append("\n</g>");
 	}
-
 }

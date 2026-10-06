@@ -14,7 +14,7 @@ Edges:
   Assembler ----> Search [Right->Left] [R D R]
   Assembler ----> Site [Right->Left] [R U R U R]
   Catalog ----> DocSet [Right->Left] [R D R]
-  Changelog ----> Notes [Right->Left] [R D R U R]
+  Changelog ----> Notes [Right->Left] [R U R D R]
   Codex ----> Site [Right->Left] [R U R U R]
   DocSet ----> Assembler [Right->Left] [R]
   DocSet ----> Codex [Right->Left] [R D R]
@@ -22,12 +22,12 @@ Edges:
   DocSet --api: spec + repository--> SpecIndex [Right->Left] [R D R U R]
   Isolated ----> Links [Right->Left] [R D R]
   Isolated ----> Site [Right->Left] [R U R D R]
-  Links ----> Assembler [Left->Right] [L U L]
+  Links ----> Assembler [Left->Right] [L D L]
   Links ----> Codex [Left->Right] [L D L]
-  Notes ----> Site [Right->Left] [R U R]
+  Notes ----> Site [Right->Left] [R]
   OpenApi --api: local spec--> DocSet [Right->Left] [R D R]
   OpenApi --published per version--> SpecIndex [Right->Left] [R D R U R]
-  Repo ----> Changelog [Right->Left] [R]
+  Repo ----> Changelog [Right->Left] [R D R]
   Repo ----> DocSet [Right->Left] [R U R]
   Repo ----> OpenApi [Right->Left] [R U R]
   SpecIndex ----> Assembler [Left->Right] [L U L]
@@ -36,10 +36,10 @@ Ports:
   Assembler Right: edge1,edge11,edge19,edge0
   Codex Right: edge4,edge12
   DocSet Left: edge2,edge14,edge17
-  DocSet Right: edge7,edge5,edge6,edge8
+  DocSet Right: edge7,edge5,edge8,edge6
   Isolated Right: edge10,edge9,edge20
   Links Left: edge9,edge11,edge12
   OpenApi Right: edge14,edge15
   Repo Right: edge17,edge18,edge16
-  Site Left: edge10,edge13,edge1,edge4
+  Site Left: edge13,edge10,edge1,edge4
   SpecIndex Left: edge20,edge19,edge15,edge8

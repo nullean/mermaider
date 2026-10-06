@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 using Mermaider.Models;
 using Mermaider.Text;
@@ -6,37 +7,26 @@ using Mermaider.Theming;
 namespace Mermaider.Rendering;
 
 /// <summary>
-/// User-journey renderer matching mermaid.js layout (journeyRenderer + svgDraw):
-/// fixed-width task columns, section banners, actor dots, timeline arrow at height*4,
-/// dashed drop-lines, faces at cy = 300 + (5-score)*30.
+/// User-journey renderer: sections are the shared container (families p1, p2 … in document order), tasks are nodes in their
+/// section family, each task's score is a face (in the section family) on the accent sentiment curve below, and the actors
+/// legend sits in the title row in the next palette families.
 /// </summary>
 internal static class JourneySvgRenderer
 {
-	// Defaults from mermaid JourneyDiagramConfig / journeyRenderer
-	private const double TaskWidth = 150;
-	private const double TaskHeight = 50;
-	private const double TaskMargin = 50;
-	private const double DiagramMarginX = 50;
-	private const double LeftMarginBase = 150;
-	private const double SectionY = 50;
-	private const double FaceBaseY = 300;
-	private const double FaceStepY = 30;
-	private const double FaceRadius = 15;
-	private const double ActorDotR = 7;
-	private const double TitleY = 25;
-	private const double TopPad = 8;
+	private const double MinTaskWidth = 168;
+	private const double MaxTaskWidth = 220;
+	private const double MinTaskHeight = 44;
+	private const double TaskGap = 24;
+	private const double SectionPad = 12;
+	private const double SectionGap = 24;
+	private const double SectionBottomPad = 24;
+	private const double FacesBelow = 44;
+	private const double FaceStep = 44;
+	private const double ActorDotR = 6;
+	private const double LegendRowH = 22;
+	private const double LegendItemGap = 20;
 
-	// Face bottom extent pad used for drop-lines and default content height
-	private const double MaxFaceY = FaceBaseY + (5 * FaceStepY) + FaceRadius + 20;
-
-	// Actor legend: cy starts 60, +20 per row
-	private const double LegendStartY = 60;
-	private const double LegendStepY = 20;
-
-	// Sections and actors take their colours from the shared auto palette (tinted fills, darker borders, like every other diagram);
-	// the faces read through the role colours: 4-5 success, 3 warning, 1-2 failure.
-	private const string DropLineStroke = "var(--_line)";
-	private const string TimelineStroke = "var(--_line)";
+	private readonly record struct Placed(JourneyTask Task, int Section, double X);
 
 	internal static string Render(JourneyDiagram diagram, SvgRenderContext context)
 	{
@@ -55,258 +45,172 @@ internal static class JourneySvgRenderer
 	internal static StringBuilder RenderToBuilder(JourneyDiagram diagram, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
+		var ds = DesignSystem.For(context);
+		var margin = DesignSystem.BoardMargin;
 
 		var hasTitle = diagram.Title is { Length: > 0 };
+		var titleW = hasTitle ? DesignSystem.TitleIndent + TextMetrics.MeasureTextWidth(diagram.Title!, DesignSystem.Px(TypeRole.Title), 700) : 0;
 		var actors = CollectActors(diagram);
-		var palette = context.Styles.Colors.AutoPalette();
-		var colors = context.Styles.Colors;
-		var actorMap = new Dictionary<string, (string Color, int Pos)>(StringComparer.Ordinal);
-		// actors continue after the sections in the palette, so a dot never repeats a section's colour
+		var sectionCount = diagram.Sections.Count;
+		// actors continue after the sections in the palette, so a dot never repeats a section's family
+		var actorFamily = new Dictionary<string, ColorFamily>(StringComparer.Ordinal);
 		for (var i = 0; i < actors.Count; i++)
-			actorMap[actors[i]] = (palette[(diagram.Sections.Count + i) % palette.Length], i);
+			actorFamily[actors[i]] = ds.Cluster(sectionCount + 1 + i);
 
-		// left margin expands with longest actor name (mermaid measures text; we estimate)
-		var legendLabelW = 0.0;
-		foreach (var a in actors)
-			legendLabelW = Math.Max(legendLabelW, EstimateTextWidth(a));
-		var leftMargin = LeftMarginBase + Math.Max(0, legendLabelW - 40);
+		// task geometry: one size for every task, wide enough for the longest name up to a cap, then wrapped
+		var allTasks = diagram.Sections.SelectMany(s => s.Tasks).ToList();
+		var labelPx = DesignSystem.Px(TypeRole.Label);
+		var labelWeight = DesignSystem.MeasureWeight(TypeRole.Label);
+		var widest = allTasks.Count == 0 ? 0 : allTasks.Max(t => TextMetrics.MeasureTextWidth(t.Name, labelPx, labelWeight));
+		var taskW = Math.Clamp(widest + 40, MinTaskWidth, MaxTaskWidth);
+		var lines = allTasks.Select(t => DesignSystem.Wrap(t.Name, taskW - 24, TypeRole.Label)).ToList();
+		var taskH = Math.Max(MinTaskHeight, DesignSystem.TextHeight(lines.Count == 0 ? 1 : lines.Max(l => l.Count), TypeRole.Label) + 20);
 
-		var flat = Flatten(diagram);
-		var legendBottom = LegendBottom(actors.Count);
-		if (flat.Count == 0)
+		// horizontal placement
+		var placed = new List<Placed>(allTasks.Count);
+		var sections = new List<(double X, double W, int Index)>();
+		var x = margin;
+		for (var s = 0; s < diagram.Sections.Count; s++)
 		{
-			var emptyW = leftMargin + 200;
-			var emptyH = Math.Max(120.0, legendBottom + 16);
-			StyleBlock.AppendSvgOpenTag(sb, emptyW, emptyH, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-			StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
-			if (hasTitle)
-				AppendTitle(sb, diagram.Title!, leftMargin);
-			_ = sb.Append("\n</svg>");
+			var section = diagram.Sections[s];
+			if (section.Tasks.Count == 0)
+				continue;
+			var sx = x;
+			x += SectionPad;
+			foreach (var task in section.Tasks)
+			{
+				placed.Add(new Placed(task, s, x));
+				x += taskW + TaskGap;
+			}
+
+			x = x - TaskGap + SectionPad;
+			sections.Add((sx, x - sx, s));
+			x += SectionGap;
+		}
+
+		var contentRight = placed.Count == 0 ? margin + 200 : x - SectionGap;
+
+		// legend in the title row, right-aligned, wrapping into more rows when it does not fit
+		var legendItems = actors.Select(a => (Name: a, W: DesignSystem.SwatchSize + 8 + TextMetrics.MeasureTextWidth(a, labelPx, labelWeight))).ToList();
+		var available = Math.Max(160, contentRight - margin - (hasTitle ? titleW + 32 : 0));
+		var legendRows = new List<List<(string Name, double W)>>();
+		foreach (var item in legendItems)
+		{
+			if (legendRows.Count == 0 || legendRows[^1].Sum(i => i.W + LegendItemGap) + item.W > available)
+				legendRows.Add([]);
+			legendRows[^1].Add(item);
+		}
+
+		var legendWidest = legendRows.Count == 0 ? 0 : legendRows.Max(r => r.Sum(i => i.W) + (LegendItemGap * (r.Count - 1)));
+		var width = Math.Max(contentRight, margin + (hasTitle ? titleW + 32 : 0) + legendWidest) + margin;
+		var headerRows = Math.Max(hasTitle ? 1 : 0, legendRows.Count);
+		var top = headerRows == 0 ? margin : DesignSystem.BoardTitleCy + ((headerRows - 1) * LegendRowH) + (DesignSystem.BoardTitledTop - DesignSystem.BoardTitleCy);
+
+		var taskY = top + DesignSystem.BoardHeaderSpace;
+		var bandBottom = taskY + taskH + SectionBottomPad;
+		var faceTop = bandBottom + FacesBelow;
+		var faceBottom = faceTop + (4 * FaceStep);
+		var dropBottom = faceBottom + DesignSystem.FaceRadius + 12;
+		var height = placed.Count == 0 ? top + margin : dropBottom + margin;
+
+		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendStyleBlock(sb, context.Styles);
+
+		if (hasTitle)
+			ds.AppendTitle(sb, margin, DesignSystem.BoardTitleCy, diagram.Title!);
+
+		AppendLegend(sb, ds, legendRows, width - margin, actorFamily);
+
+		if (placed.Count == 0)
+		{
+			ds.Close(sb);
 			return sb;
 		}
 
-		// task.x = i * taskMargin + i * width + leftMargin  (mermaid)
-		// column pitch = TaskWidth + TaskMargin = 200
-		var pitch = TaskWidth + TaskMargin;
-		var lastTaskRight = leftMargin + ((flat.Count - 1) * pitch) + TaskWidth;
-		var width = lastTaskRight + DiagramMarginX + 24;
-		// Content bottom: faces and dashed lines, or actor legend when many actors
-		var height = Math.Max(MaxFaceY + 16, legendBottom + 16);
-		// room for title above section row
-		var viewTop = hasTitle ? -8.0 : 0;
-		var totalHeight = height - viewTop;
-
-		StyleBlock.AppendSvgOpenTag(sb, width, totalHeight, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
-
-		// Arrow marker (mermaid arrowhead)
-		_ = sb.Append("\n<defs>\n  <marker id=\"journey-arrow\" refX=\"5\" refY=\"2\" markerWidth=\"6\" markerHeight=\"4\" orient=\"auto\">")
-			.Append("\n    <path d=\"M 0,0 V 4 L6,2 Z\" fill=\"").Append(TimelineStroke).Append("\" />")
-			.Append("\n  </marker>\n</defs>\n");
-
-		// Translate so title can sit above y=0 section area like mermaid viewBox
-		_ = sb.Append("\n<g transform=\"translate(0,").Append((-viewTop).SvgFormat()).Append(")\">");
-
-		if (hasTitle)
-			AppendTitle(sb, diagram.Title!, leftMargin);
-
-		AppendActorLegend(sb, actors, actorMap);
-
-		// sectionVHeight = height*2 + diagramMarginY = 110; task.y = 110
-		var taskY = (TaskHeight * 2) + 10;
-		// timeline at height * 4 = 200
-		var timelineY = TaskHeight * 4;
-
-		// Sections: tinted banners with the title in the border colour
-		var sectionNum = 0;
-		foreach (var section in diagram.Sections)
+		foreach (var (sx, sw, index) in sections)
 		{
-			if (section.Tasks.Count == 0)
-				continue;
-
-			var firstIdx = flat.FindIndex(t => t.SectionIndex == sectionNum);
-			var count = section.Tasks.Count;
-			if (firstIdx < 0)
-			{
-				sectionNum++;
-				continue;
-			}
-
-			var sectionColor = palette[sectionNum % palette.Length];
-			var secX = leftMargin + (firstIdx * pitch);
-			var secW = (count * TaskWidth) + ((count - 1) * TaskMargin);
-
-			_ = sb.Append("\n<rect x=\"").Append(secX.SvgFormat()).Append("\" y=\"").Append(SectionY.SvgFormat())
-				.Append("\" width=\"").Append(secW.SvgFormat()).Append("\" height=\"").Append(TaskHeight.SvgFormat())
-				.Append("\" rx=\"").Append(RenderConstants.Radii.Group).Append("\" ry=\"").Append(RenderConstants.Radii.Group)
-				.Append("\" fill=\"").Append(VisualLanguage.Tint(sectionColor, VisualLanguage.HeaderTint))
-				.Append("\" stroke=\"").Append(VisualLanguage.Border(sectionColor)).Append("\" stroke-width=\"")
-				.Append(RenderConstants.StrokeWidths.OuterBox.SvgFormat()).Append("\" />");
-
-			if (section.Name is { Length: > 0 })
-			{
-				_ = sb.Append("\n<text x=\"").Append((secX + (secW / 2)).SvgFormat())
-					.Append("\" y=\"").Append((SectionY + (TaskHeight / 2)).SvgFormat())
-					.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
-					.Append("\" font-size=\"14\" font-weight=\"600\" fill=\"").Append(VisualLanguage.Border(sectionColor)).Append("\">");
-				MultilineUtils.AppendEscapedXml(sb, section.Name.AsSpan());
-				_ = sb.Append("</text>");
-			}
-
-			sectionNum++;
+			var data = new StringBuilder("data-section=\"").Append(index.ToString(CultureInfo.InvariantCulture)).Append('"');
+			ds.AppendContainerBody(sb, sx, top, sw, bandBottom - top, SectionFamily(ds, index), 0, "subgraph", data.ToString());
 		}
 
-		// Tasks + faces + drop lines
-		for (var i = 0; i < flat.Count; i++)
+		foreach (var (sx, sw, index) in sections)
 		{
-			var item = flat[i];
-			var task = item.Task;
-			var taskX = leftMargin + (i * pitch);
-			var center = taskX + (TaskWidth / 2);
-			var sectionColor = palette[item.SectionIndex % palette.Length];
-			var score = Math.Clamp(task.Score, 1, 5);
-			var faceCy = FaceBaseY + ((5 - score) * FaceStepY);
+			if (diagram.Sections[index].Name is { Length: > 0 } name)
+				ds.AppendContainerHeader(sb, sx, top, sw, name, SectionFamily(ds, index));
+		}
 
-			// dashed line (under the box so only the lower part shows)
-			_ = sb.Append("\n<line x1=\"").Append(center.SvgFormat()).Append("\" y1=\"").Append(taskY.SvgFormat())
-				.Append("\" x2=\"").Append(center.SvgFormat()).Append("\" y2=\"").Append(MaxFaceY.SvgFormat())
-				.Append("\" stroke=\"").Append(DropLineStroke)
-				.Append("\" stroke-width=\"1\" stroke-dasharray=\"4 2\" />");
+		// drop-lines from each task down through its face
+		foreach (var p in placed)
+		{
+			var cx = p.X + (taskW / 2);
+			_ = sb.Append("\n<line class=\"drop-line\" x1=\"").Append(cx.SvgFormat()).Append("\" y1=\"").Append((taskY + taskH).SvgFormat())
+				.Append("\" x2=\"").Append(cx.SvgFormat()).Append("\" y2=\"").Append(dropBottom.SvgFormat())
+				.Append("\" stroke=\"var(--_line-soft)\" stroke-width=\"1.25\" stroke-dasharray=\"").Append(DesignSystem.DashArray).Append("\" />");
+		}
 
-			AppendFace(sb, center, faceCy, score, colors);
+		// tasks: nodes in the section family, actor dots on their top edge
+		for (var i = 0; i < placed.Count; i++)
+		{
+			var p = placed[i];
+			var family = SectionFamily(ds, p.Section);
+			_ = sb.Append("\n<g class=\"node journey-task\" data-label=\"");
+			MultilineUtils.AppendEscapedAttr(sb, p.Task.Name.AsSpan());
+			_ = sb.Append("\" data-score=\"").Append(Score(p.Task).ToString(CultureInfo.InvariantCulture)).Append("\">\n  ");
+			ds.AppendBox(sb, p.X, taskY, taskW, taskH, family);
+			_ = sb.Append("\n  ");
+			ds.AppendText(sb, string.Join('\n', lines[i]), p.X + (taskW / 2), taskY + (taskH / 2), TypeRole.Label);
+			_ = sb.Append("\n</g>");
 
-			// task box: white card with the section's border, like an ER row
-			_ = sb.Append("\n<rect x=\"").Append(taskX.SvgFormat()).Append("\" y=\"").Append(taskY.SvgFormat())
-				.Append("\" width=\"").Append(TaskWidth.SvgFormat()).Append("\" height=\"").Append(TaskHeight.SvgFormat())
-				.Append("\" rx=\"").Append(RenderConstants.Radii.Rectangle).Append("\" ry=\"").Append(RenderConstants.Radii.Rectangle)
-				.Append("\" fill=\"").Append(VisualLanguage.Tint(sectionColor, VisualLanguage.NodeTint))
-				.Append("\" stroke=\"").Append(VisualLanguage.Border(sectionColor)).Append("\" stroke-width=\"")
-				.Append(RenderConstants.StrokeWidths.OuterBox.SvgFormat()).Append("\" />");
-
-			// actor dots along top of task (mermaid: xPos = task.x + 14, step 10)
-			var dotX = taskX + 14;
-			foreach (var person in task.Actors)
+			var dotX = p.X + taskW - 14;
+			foreach (var person in p.Task.Actors)
 			{
-				if (!actorMap.TryGetValue(person, out var info))
+				if (!actorFamily.TryGetValue(person, out var af))
 					continue;
-				_ = sb.Append("\n<circle cx=\"").Append(dotX.SvgFormat()).Append("\" cy=\"").Append(taskY.SvgFormat())
-					.Append("\" r=\"").Append(ActorDotR)
-					.Append("\" fill=\"").Append(VisualLanguage.Tint(info.Color, 60))
-					.Append("\" stroke=\"").Append(VisualLanguage.Border(info.Color)).Append("\" stroke-width=\"1.5\">")
-					.Append("<title>");
+				_ = sb.Append("\n<circle class=\"actor-dot\" cx=\"").Append(dotX.SvgFormat()).Append("\" cy=\"").Append(taskY.SvgFormat())
+					.Append("\" r=\"").Append(ActorDotR.SvgFormat()).Append("\" fill=\"").Append(af.Base)
+					.Append("\" stroke=\"var(--bg)\" stroke-width=\"2\"><title>");
 				MultilineUtils.AppendEscapedXml(sb, person.AsSpan());
 				_ = sb.Append("</title></circle>");
-				dotX += 10;
+				dotX -= 14;
 			}
-
-			_ = sb.Append("\n<text x=\"").Append(center.SvgFormat()).Append("\" y=\"").Append((taskY + (TaskHeight / 2)).SvgFormat())
-				.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
-				.Append("\" font-size=\"14\" fill=\"var(--_text)\">");
-			MultilineUtils.AppendEscapedXml(sb, task.Name.AsSpan());
-			_ = sb.Append("</text>");
 		}
 
-		// activity line + arrow: anchor to task geometry (not width - leftMargin, which
-		// detaches when leftMargin expands for long actor legend labels)
-		var lineX1 = leftMargin;
-		var lineX2 = lastTaskRight - 4;
-		_ = sb.Append("\n<line x1=\"").Append(lineX1.SvgFormat()).Append("\" y1=\"").Append(timelineY.SvgFormat())
-			.Append("\" x2=\"").Append(lineX2.SvgFormat()).Append("\" y2=\"").Append(timelineY.SvgFormat())
-			.Append("\" stroke=\"").Append(TimelineStroke)
-			.Append("\" stroke-width=\"3\" marker-end=\"url(#journey-arrow)\" />");
+		// the sentiment curve is the accent story line; the faces sit on it in their section family
+		var curve = placed.Select(p => new Point(p.X + (taskW / 2), FaceY(faceTop, Score(p.Task)))).ToList();
+		ds.AppendStoryLine(sb, curve, "journey-line");
+		for (var i = 0; i < placed.Count; i++)
+			ds.AppendFace(sb, curve[i].X, curve[i].Y, Score(placed[i].Task), SectionFamily(ds, placed[i].Section));
 
-		_ = sb.Append("\n</g>\n</svg>");
+		ds.Close(sb);
 		return sb;
 	}
 
-	private static void AppendTitle(StringBuilder sb, string title, double x)
+	private static ColorFamily SectionFamily(DesignSystem ds, int section) => ds.Cluster(section + 1);
+
+	private static int Score(JourneyTask task) => Math.Clamp(task.Score, 1, 5);
+
+	private static double FaceY(double faceTop, int score) => faceTop + ((5 - score) * FaceStep);
+
+	private static void AppendLegend(StringBuilder sb, DesignSystem ds, List<List<(string Name, double W)>> rows, double right, Dictionary<string, ColorFamily> families)
 	{
-		// mermaid: x = leftMargin, y = 25, bold, font-size 4ex ≈ 16-18px
-		_ = sb.Append("\n<text x=\"").Append(x.SvgFormat()).Append("\" y=\"").Append(TitleY)
-			.Append("\" font-size=\"18\" font-weight=\"bold\" fill=\"var(--_text)\">");
-		MultilineUtils.AppendEscapedXml(sb, title.AsSpan());
-		_ = sb.Append("</text>");
-	}
-
-	private static void AppendActorLegend(
-		StringBuilder sb,
-		List<string> actors,
-		Dictionary<string, (string Color, int Pos)> actorMap)
-	{
-		// mermaid: cx=20, cy starts 60, r=7, label x=40, y=cy+7, step ~20
-		var yPos = LegendStartY;
-		foreach (var person in actors)
+		if (rows.Count == 0)
+			return;
+		_ = sb.Append("\n<g class=\"legend\">");
+		for (var r = 0; r < rows.Count; r++)
 		{
-			var color = actorMap[person].Color;
-			_ = sb.Append("\n<circle cx=\"20\" cy=\"").Append(yPos.SvgFormat())
-				.Append("\" r=\"").Append(ActorDotR)
-				.Append("\" fill=\"").Append(VisualLanguage.Tint(color, 60)).Append("\" stroke=\"").Append(VisualLanguage.Border(color)).Append("\" stroke-width=\"1.5\" />");
-			_ = sb.Append("\n<text x=\"40\" y=\"").Append((yPos + 5).SvgFormat())
-				.Append("\" font-size=\"14\" fill=\"var(--_text)\">");
-			MultilineUtils.AppendEscapedXml(sb, person.AsSpan());
-			_ = sb.Append("</text>");
-			yPos += LegendStepY;
+			var row = rows[r];
+			var rowW = row.Sum(i => i.W) + (LegendItemGap * (row.Count - 1));
+			var lx = right - rowW;
+			var cy = DesignSystem.BoardTitleCy + (r * LegendRowH);
+			foreach (var (name, w) in row)
+			{
+				_ = sb.Append("\n  ");
+				_ = ds.AppendLegendItem(sb, lx, cy, name, families[name].Base);
+				lx += w + LegendItemGap;
+			}
 		}
-	}
 
-	/// <summary>Bottom Y of actor legend (last row circle + pad), or 0 when empty.</summary>
-	private static double LegendBottom(int actorCount)
-	{
-		if (actorCount <= 0)
-			return 0;
-		// last row cy + radius; text sits at cy+5 with ~14px font
-		return LegendStartY + ((actorCount - 1) * LegendStepY) + Math.Max(ActorDotR, 12);
-	}
-
-	/// <summary>mermaid svgDraw.drawFace — radius 15, smile/sad/ambivalent by score.</summary>
-	private static void AppendFace(StringBuilder sb, double cx, double cy, int score, DiagramColors colors)
-	{
-		var mouthStroke = VisualLanguage.Border(colors.RoleColor(score >= 4 ? ColorRole.Success : score == 3 ? ColorRole.Warning : ColorRole.Failure));
-		var role = colors.RoleColor(score >= 4 ? ColorRole.Success : score == 3 ? ColorRole.Warning : ColorRole.Failure);
-		_ = sb.Append("\n<circle class=\"face\" cx=\"").Append(cx.SvgFormat()).Append("\" cy=\"").Append(cy.SvgFormat())
-			.Append("\" r=\"").Append(FaceRadius)
-			.Append("\" fill=\"").Append(VisualLanguage.Tint(role, VisualLanguage.HeaderTint))
-			.Append("\" stroke=\"").Append(VisualLanguage.Border(role))
-			.Append("\" stroke-width=\"2\" />");
-
-		// eyes
-		var eyeOffset = FaceRadius / 3;
-		var eyeY = cy - eyeOffset;
-		_ = sb.Append("\n<circle cx=\"").Append((cx - eyeOffset).SvgFormat()).Append("\" cy=\"").Append(eyeY.SvgFormat())
-			.Append("\" r=\"1.5\" fill=\"").Append(mouthStroke).Append("\" stroke=\"").Append(mouthStroke).Append("\" />");
-		_ = sb.Append("\n<circle cx=\"").Append((cx + eyeOffset).SvgFormat()).Append("\" cy=\"").Append(eyeY.SvgFormat())
-			.Append("\" r=\"1.5\" fill=\"").Append(mouthStroke).Append("\" stroke=\"").Append(mouthStroke).Append("\" />");
-
-		if (score > 3)
-		{
-			// smile: lower semicircle arc (d3 arc start π/2 end 3π/2)
-			// Approximate with cubic: open upward smile
-			var r = FaceRadius / 2.1;
-			_ = sb.Append("\n<path class=\"mouth\" d=\"M ")
-				.Append((cx - r).SvgFormat()).Append(' ').Append((cy + 2).SvgFormat())
-				.Append(" A ").Append(r.SvgFormat()).Append(' ').Append(r.SvgFormat())
-				.Append(" 0 0 0 ").Append((cx + r).SvgFormat()).Append(' ').Append((cy + 2).SvgFormat())
-				.Append("\" fill=\"none\" stroke=\"").Append(mouthStroke)
-				.Append("\" stroke-width=\"1.5\" />");
-		}
-		else if (score < 3)
-		{
-			// sad: upper arc, translated down
-			var r = FaceRadius / 2.1;
-			_ = sb.Append("\n<path class=\"mouth\" d=\"M ")
-				.Append((cx - r).SvgFormat()).Append(' ').Append((cy + 7).SvgFormat())
-				.Append(" A ").Append(r.SvgFormat()).Append(' ').Append(r.SvgFormat())
-				.Append(" 0 0 1 ").Append((cx + r).SvgFormat()).Append(' ').Append((cy + 7).SvgFormat())
-				.Append("\" fill=\"none\" stroke=\"").Append(mouthStroke)
-				.Append("\" stroke-width=\"1.5\" />");
-		}
-		else
-		{
-			// ambivalent line
-			_ = sb.Append("\n<line class=\"mouth\" x1=\"").Append((cx - 5).SvgFormat()).Append("\" y1=\"").Append((cy + 7).SvgFormat())
-				.Append("\" x2=\"").Append((cx + 5).SvgFormat()).Append("\" y2=\"").Append((cy + 7).SvgFormat())
-				.Append("\" stroke=\"").Append(mouthStroke).Append("\" stroke-width=\"1\" />");
-		}
+		_ = sb.Append("\n</g>");
 	}
 
 	private static List<string> CollectActors(JourneyDiagram diagram)
@@ -324,22 +228,7 @@ internal static class JourneySvgRenderer
 				}
 			}
 		}
+
 		return list;
 	}
-
-	private static List<FlatTask> Flatten(JourneyDiagram diagram)
-	{
-		var list = new List<FlatTask>();
-		for (var s = 0; s < diagram.Sections.Count; s++)
-		{
-			foreach (var task in diagram.Sections[s].Tasks)
-				list.Add(new FlatTask(task, s));
-		}
-		return list;
-	}
-
-	private static double EstimateTextWidth(string text) => text.Length * 7.5;
-
-	private readonly record struct FlatTask(JourneyTask Task, int SectionIndex);
-
 }

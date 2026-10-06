@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 272.832 408.4" width="272.832" height="408.4" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 335.36 367.2" width="335.36" height="367.2" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,87 +26,56 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<defs>
-  <marker id="cls-inherit" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-  <marker id="cls-composition" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="6 0, 12 6, 6 12, 0 6" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" />
-  </marker>
-  <marker id="cls-aggregation" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="6 0, 12 6, 6 12, 0 6" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-  <marker id="cls-arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polyline points="0 0, 12 6, 0 12" fill="none" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-  <marker id="cls-lollipop" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto-start-reverse">
-    <circle cx="6" cy="6" r="5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-</defs>
-
-<path class="class-relationship" data-from="Customer" data-to="Order" data-type="association" data-marker-at="to" data-label="places" d="M79.856,88 L79.85600000000001,180.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
-<path class="class-relationship" data-from="Order" data-to="LineItem" data-type="composition" data-marker-at="from" data-label="contains" d="M79.85600000000001,228.2 L79.856,320.4" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-composition)" />
-<path class="class-relationship" data-from="Student" data-to="Course" data-type="association" data-marker-at="to" data-label="enrolls" d="M200.272,88 L200.272,180.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
+<path class="class-relationship" data-from="Customer" data-to="Order" data-type="association" data-marker-at="to" data-label="places" d="M93.68,76 L93.67999999999999,165.6" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="class-relationship" data-from="Order" data-to="LineItem" data-type="composition" data-marker-at="from" data-label="contains" d="M93.67999999999999,201.6 L93.67999999999999,291.2" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-start="url(#m1814eb8b-mk-diamond-s)" />
+<path class="class-relationship" data-from="Student" data-to="Course" data-type="association" data-marker-at="to" data-label="enrolls" d="M245.36,76 L245.36,165.6" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
 <g class="class-node" data-id="Customer" data-label="Customer">
-  <rect x="40" y="40" width="79.712" height="48" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M40,72 L40,46 Q40,40 46,40 L113.712,40 Q119.712,40 119.712,46 L119.712,72 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <text x="79.856" y="56" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Customer</text>
-  <line x1="40" y1="72" x2="119.712" y2="72" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="40" y1="80" x2="119.712" y2="80" stroke="#3B5B7D" stroke-width="1.75" />
-  <rect x="40" y="40" width="79.712" height="48" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <rect x="40" y="40" width="107.36" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="93.68" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Customer</text>
 </g>
 <g class="class-node" data-id="Order" data-label="Order">
-  <rect x="49.85600000000001" y="180.2" width="60" height="48" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M49.85600000000001,212.2 L49.85600000000001,186.2 Q49.85600000000001,180.2 55.85600000000001,180.2 L103.85600000000001,180.2 Q109.85600000000001,180.2 109.85600000000001,186.2 L109.85600000000001,212.2 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <text x="79.85600000000001" y="196.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Order</text>
-  <line x1="49.85600000000001" y1="212.2" x2="109.85600000000001" y2="212.2" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="49.85600000000001" y1="220.2" x2="109.85600000000001" y2="220.2" stroke="#3B5B7D" stroke-width="1.75" />
-  <rect x="49.85600000000001" y="180.2" width="60" height="48" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <rect x="43.67999999999999" y="165.6" width="100" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="93.68" y="183.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Order</text>
 </g>
 <g class="class-node" data-id="LineItem" data-label="LineItem">
-  <rect x="44.56" y="320.4" width="70.592" height="48" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M44.56,352.4 L44.56,326.4 Q44.56,320.4 50.56,320.4 L109.152,320.4 Q115.152,320.4 115.152,326.4 L115.152,352.4 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <text x="79.856" y="336.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">LineItem</text>
-  <line x1="44.56" y1="352.4" x2="115.152" y2="352.4" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="44.56" y1="360.4" x2="115.152" y2="360.4" stroke="#3B5B7D" stroke-width="1.75" />
-  <rect x="44.56" y="320.4" width="70.592" height="48" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <rect x="43.67999999999999" y="291.2" width="100" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="93.68" y="309.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">LineItem</text>
 </g>
 <g class="class-node" data-id="Student" data-label="Student">
-  <rect x="167.712" y="40" width="65.12" height="48" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M167.712,72 L167.712,46 Q167.712,40 173.712,40 L226.832,40 Q232.832,40 232.832,46 L232.832,72 Z" fill="color-mix(in srgb, #f28e2b 24%, var(--bg))" />
-  <text x="200.272" y="56" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Student</text>
-  <line x1="167.712" y1="72" x2="232.832" y2="72" stroke="#D36F0D" stroke-width="1.75" />
-  <line x1="167.712" y1="80" x2="232.832" y2="80" stroke="#D36F0D" stroke-width="1.75" />
-  <rect x="167.712" y="40" width="65.12" height="48" rx="6" ry="6" fill="none" stroke="#D36F0D" stroke-width="1.75" />
+  <rect x="195.36" y="40" width="100" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="245.36" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Student</text>
 </g>
 <g class="class-node" data-id="Course" data-label="Course">
-  <rect x="167.712" y="180.2" width="65.12" height="48" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M167.712,212.2 L167.712,186.2 Q167.712,180.2 173.712,180.2 L226.832,180.2 Q232.832,180.2 232.832,186.2 L232.832,212.2 Z" fill="color-mix(in srgb, #f28e2b 24%, var(--bg))" />
-  <text x="200.272" y="196.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Course</text>
-  <line x1="167.712" y1="212.2" x2="232.832" y2="212.2" stroke="#D36F0D" stroke-width="1.75" />
-  <line x1="167.712" y1="220.2" x2="232.832" y2="220.2" stroke="#D36F0D" stroke-width="1.75" />
-  <rect x="167.712" y="180.2" width="65.12" height="48" rx="6" ry="6" fill="none" stroke="#D36F0D" stroke-width="1.75" />
+  <rect x="195.36" y="165.6" width="100" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="245.36" y="183.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Course</text>
 </g>
-<rect x="47.98127999999999" y="121.875" width="63.74944000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="79.856" y="134.1" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">places</text>
-<rect x="68.01527999999999" y="105.775" width="23.681440000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="79.856" y="118" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">1</text>
-<rect x="65.61120000000001" y="137.975" width="28.489600000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="79.85600000000001" y="150.2" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">*</text>
-<rect x="42.371759999999995" y="262.07499999999993" width="74.96848000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="79.85600000000001" y="274.29999999999995" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">contains</text>
-<rect x="68.01528" y="245.975" width="23.681440000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="79.85600000000001" y="258.2" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">1</text>
-<rect x="60.80303999999999" y="278.17499999999995" width="38.10592000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="79.856" y="290.4" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">1..*</text>
-<rect x="167.59591999999998" y="121.875" width="65.35216000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="200.272" y="134.1" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">enrolls</text>
-<rect x="178.81495999999999" y="105.775" width="42.91408" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="200.272" y="118" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">0..*</text>
-<rect x="181.21903999999998" y="137.975" width="38.10592000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="200.272" y="150.2" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">1..*</text>
+<g class="edge-label" data-from="Customer" data-to="Order">
+  <rect x="66.31200000000001" y="110" width="54.736" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="93.68" y="120.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">places</text>
+  <rect x="83.412" y="95.2" width="20.536" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="93.68" y="106" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">1</text>
+  <rect x="81.35999999999999" y="124.8" width="24.64" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="93.68" y="135.6" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">*</text>
+</g>
+<g class="edge-label" data-from="Order" data-to="LineItem">
+  <rect x="61.523999999999994" y="235.59999999999997" width="64.312" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="93.68" y="246.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">contains</text>
+  <rect x="83.41199999999999" y="220.79999999999998" width="20.536" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="93.68" y="231.6" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">1</text>
+  <rect x="77.256" y="250.39999999999998" width="32.848" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="93.68" y="261.2" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">1..*</text>
+</g>
+<g class="edge-label" data-from="Student" data-to="Course">
+  <rect x="217.30800000000002" y="110" width="56.10399999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="245.36" y="120.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">enrolls</text>
+  <rect x="226.88400000000001" y="95.2" width="36.952" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="245.36" y="106" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">0..*</text>
+  <rect x="228.936" y="124.8" width="32.848" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="245.36" y="135.6" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">1..*</text>
+</g>
+<defs>
+  <linearGradient id="m1814eb8b-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 7%, var(--bg))" /></linearGradient>
+  <marker id="m1814eb8b-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
+  </marker>
+  <marker id="m1814eb8b-mk-diamond-s" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="12" refX="0" refY="6" orient="auto">
+    <polygon points="0,6 6,1.5 12,6 6,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
+  </marker>
+</defs>
 </svg>

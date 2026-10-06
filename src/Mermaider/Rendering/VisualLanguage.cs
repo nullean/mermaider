@@ -13,11 +13,11 @@ namespace Mermaider.Rendering;
 /// </summary>
 internal static class VisualLanguage
 {
-	/// <summary>Node / entity-body tint of the cluster colour, in percent.</summary>
-	internal const int NodeTint = 16;
+	/// <summary>Node / entity-body tint of the cluster colour, in percent (the family "flat" stage).</summary>
+	internal const int NodeTint = (int)ColorFamily.FlatRatio;
 
-	/// <summary>Entity / class header tint of the cluster colour, in percent.</summary>
-	internal const int HeaderTint = 24;
+	/// <summary>Entity / class header tint of the cluster colour, in percent (the family "band" stage).</summary>
+	internal const int HeaderTint = (int)ColorFamily.BandRatio;
 
 	/// <summary>Subgraph / namespace tint at nesting depth 0, in percent; every level adds <see cref="GroupTintStep"/>.</summary>
 	internal const int GroupTintBase = 6;
@@ -35,16 +35,21 @@ internal static class VisualLanguage
 	/// decision (diamond / state choice) = accent tint, terminal (stadium) = neutral tint, data store (cylinder) = muted tint.
 	/// Null for every other shape (they keep the cluster colour).
 	/// </summary>
-	internal static string? ShapeFill(NodeShape shape) => shape switch
+	internal static string? ShapeFill(NodeShape shape) => ShapeFamily(shape)?.Flat;
+
+	/// <summary>Border override of a meaningful shape; null keeps the cluster border.</summary>
+	internal static string? ShapeStroke(NodeShape shape) => ShapeFamily(shape)?.Stroke;
+
+	/// <summary>
+	/// The family of a shape with a conventional meaning: decision / choice = accent, terminal (stadium) and data store
+	/// (cylinder) = neutral. Null for every other shape (it keeps its cluster family).
+	/// </summary>
+	internal static ColorFamily? ShapeFamily(NodeShape shape, double tint = 1.0) => shape switch
 	{
-		NodeShape.Diamond => "var(--_accent-fill)",
-		NodeShape.Stadium => "color-mix(in srgb, var(--fg) 9%, var(--bg))",
-		NodeShape.Cylinder => "color-mix(in srgb, var(--_text-muted) 18%, var(--bg))",
+		NodeShape.Diamond => ColorFamily.Accent(tint),
+		NodeShape.Stadium or NodeShape.Cylinder => ColorFamily.Neutral(tint),
 		_ => null,
 	};
-
-	/// <summary>Border override of a meaningful shape (data store only); null keeps the cluster border.</summary>
-	internal static string? ShapeStroke(NodeShape shape) => shape == NodeShape.Cylinder ? "var(--_text-muted)" : null;
 
 	/// <summary>Terminals read as stronger: their border is this much heavier than a normal node's.</summary>
 	internal const double TerminalExtraStroke = 0.5;
@@ -52,9 +57,14 @@ internal static class VisualLanguage
 	/// <summary>A tint of <paramref name="color"/> over the page background.</summary>
 	internal static string Tint(string color, int percent) => $"color-mix(in srgb, {color} {percent}%, var(--bg))";
 
-	internal static string Border(string color) => ColorUtils.AdjustLightness(color, BorderDarken);
+	/// <summary>Outline of a box in <paramref name="color"/>: the family "stroke" stage (74% towards the foreground).</summary>
+	internal static string Border(string color) => ColorFamily.Mix(color, ColorFamily.StrokeRatio, "var(--fg)");
 
-	internal static string GroupBorder(string color) => ColorUtils.AdjustLightness(color, GroupBorderDarken);
+	/// <summary>Container border in <paramref name="color"/>: the family "edge" stage.</summary>
+	internal static string GroupBorder(string color) => ColorFamily.Mix(color, ColorFamily.EdgeRatio, "var(--bg)");
+
+	/// <summary>Text drawn in a family colour (container titles, stereotypes): the "ink" stage, ≥ 4.5:1 on the band.</summary>
+	internal static string Ink(string color) => ColorFamily.Mix(color, ColorFamily.InkRatio, "var(--fg)");
 
 	internal static string GroupFill(string color, int depth) => Tint(color, GroupTintBase + (depth * GroupTintStep));
 
@@ -65,8 +75,8 @@ internal static class VisualLanguage
 	internal static void AppendLabelPill(StringBuilder sb, double centreX, double centreY, double textWidth, double textHeight)
 	{
 		var w = ErSvgRenderer.LabelBoxWidth(textWidth);
-		var h = textHeight + ErSvgRenderer.LabelPadY;
-		var r = Math.Min(RenderConstants.Radii.EdgeLabel, h / 2);
+		var h = Math.Max(DesignSystem.PillHeight, textHeight + 6);
+		var r = h / 2;
 		_ = sb.Append("<rect x=\"").Append(centreX - (w / 2)).Append("\" y=\"").Append(centreY - (h / 2))
 			.Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
 			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
@@ -77,16 +87,13 @@ internal static class VisualLanguage
 	/// The tinted header of an entity / class box: a path with rounded top corners and a square bottom, so the box border drawn
 	/// on top reads as one rounded rectangle.
 	/// </summary>
-	internal static void AppendHeaderPath(StringBuilder sb, double x, double y, double width, double headerHeight, double radius, string fill)
-	{
-		_ = sb.Append("  <path d=\"M").Append(x).Append(',').Append(y + headerHeight)
+	internal static void AppendHeaderPath(StringBuilder sb, double x, double y, double width, double headerHeight, double radius, string fill) => _ = sb.Append("  <path d=\"M").Append(x).Append(',').Append(y + headerHeight)
 			.Append(" L").Append(x).Append(',').Append(y + radius)
 			.Append(" Q").Append(x).Append(',').Append(y).Append(' ').Append(x + radius).Append(',').Append(y)
 			.Append(" L").Append(x + width - radius).Append(',').Append(y)
 			.Append(" Q").Append(x + width).Append(',').Append(y).Append(' ').Append(x + width).Append(',').Append(y + radius)
 			.Append(" L").Append(x + width).Append(',').Append(y + headerHeight)
 			.Append(" Z\" fill=\"").Append(fill).Append("\" />\n");
-	}
 
 	/// <summary>Point halfway along a polyline's length (not the middle vertex).</summary>
 	internal static Point PathMidpoint(IReadOnlyList<Point> points)

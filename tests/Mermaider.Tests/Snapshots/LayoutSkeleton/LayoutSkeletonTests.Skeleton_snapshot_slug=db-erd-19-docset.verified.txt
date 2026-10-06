@@ -7,7 +7,7 @@ Edges:
   CrossLinkDeclaration --registry:// prefix--> Registry [Bottom->Top] [D R D]
   CrossLinkDeclaration --repository name--> Repository [Bottom->Top] [D L D]
   CrossLinkItem --crosslink--> CrossLinkUri [Bottom->Top] [D]
-  DocumentationSet --api--> ApiDeclaration [Bottom->Top] [D R D]
+  DocumentationSet --api--> ApiDeclaration [Bottom->Top] [D]
   DocumentationSet --codex.group--> CodexGroup [Bottom->Top] [D R D]
   DocumentationSet --cross_links--> CrossLinkDeclaration [Bottom->Top] [D L D]
   DocumentationSet --cta--> Cta [Bottom->Top] [D L D L D]

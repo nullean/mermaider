@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 500" width="700" height="500" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 500" width="760" height="500" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,66 +26,67 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<defs>
-</defs>
-
-<text x="350" y="24" text-anchor="middle" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)">An Example Chart</text>
-<line x1="70" y1="422" x2="670" y2="422" stroke="var(--_line)" stroke-width="1.5" />
-<line x1="70" y1="68" x2="70" y2="422" stroke="var(--_line)" stroke-width="1.5" />
-<line x1="66" y1="68" x2="70" y2="68" stroke="var(--_line)" stroke-width="1" />
-<text x="62" y="68" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text-sec)">200</text>
-<line x1="66" y1="138.8" x2="70" y2="138.8" stroke="var(--_line)" stroke-width="1" />
-<text x="62" y="138.8" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text-sec)">160</text>
-<line x1="66" y1="209.6" x2="70" y2="209.6" stroke="var(--_line)" stroke-width="1" />
-<text x="62" y="209.6" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text-sec)">120</text>
-<line x1="66" y1="280.4" x2="70" y2="280.4" stroke="var(--_line)" stroke-width="1" />
-<text x="62" y="280.4" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text-sec)">80</text>
-<line x1="66" y1="351.2" x2="70" y2="351.2" stroke="var(--_line)" stroke-width="1" />
-<text x="62" y="351.2" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text-sec)">40</text>
-<line x1="66" y1="422" x2="70" y2="422" stroke="var(--_line)" stroke-width="1" />
-<text x="62" y="422" text-anchor="end" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text-sec)">0</text>
-<line x1="120" y1="422" x2="120" y2="426" stroke="var(--_line)" stroke-width="1" />
-<text x="120" y="438" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">90d</text>
-<line x1="220" y1="422" x2="220" y2="426" stroke="var(--_line)" stroke-width="1" />
-<text x="220" y="438" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">60d</text>
-<line x1="320" y1="422" x2="320" y2="426" stroke="var(--_line)" stroke-width="1" />
-<text x="320" y="438" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">30d</text>
-<line x1="420" y1="422" x2="420" y2="426" stroke="var(--_line)" stroke-width="1" />
-<text x="420" y="438" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">7d</text>
-<line x1="520" y1="422" x2="520" y2="426" stroke="var(--_line)" stroke-width="1" />
-<text x="520" y="438" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">1d</text>
-<line x1="620" y1="422" x2="620" y2="426" stroke="var(--_line)" stroke-width="1" />
-<text x="620" y="438" text-anchor="middle" font-size="var(--fs-xs)" fill="var(--_text-sec)">Current</text>
-<text x="16" y="245" text-anchor="middle" transform="rotate(-90 16 245)" font-size="var(--fs-s)" fill="var(--_text)">Seconds</text>
-<polyline fill="none" stroke="#4e79a7" stroke-width="2" points="120,336.86 220,348.55 320,341.11 420,293.14 520,302.17 620,315.98" />
-<circle cx="120" cy="336.86" r="3" fill="#4e79a7" />
-<circle cx="220" cy="348.55" r="3" fill="#4e79a7" />
-<circle cx="320" cy="341.11" r="3" fill="#4e79a7" />
-<circle cx="420" cy="293.14" r="3" fill="#4e79a7" />
-<circle cx="520" cy="302.17" r="3" fill="#4e79a7" />
-<circle cx="620" cy="315.98" r="3" fill="#4e79a7" />
-<polyline fill="none" stroke="#f28e2b" stroke-width="2" points="120,354.39 220,356.86 320,351.73 420,325.54 520,335.27 620,354.03" />
-<circle cx="120" cy="354.39" r="3" fill="#f28e2b" />
-<circle cx="220" cy="356.86" r="3" fill="#f28e2b" />
-<circle cx="320" cy="351.73" r="3" fill="#f28e2b" />
-<circle cx="420" cy="325.54" r="3" fill="#f28e2b" />
-<circle cx="520" cy="335.27" r="3" fill="#f28e2b" />
-<circle cx="620" cy="354.03" r="3" fill="#f28e2b" />
-<polyline fill="none" stroke="#e15759" stroke-width="2" points="120,223.41 220,288.72 320,239.69 420,108.71 520,103.05 620,228.36" />
-<circle cx="120" cy="223.41" r="3" fill="#e15759" />
-<circle cx="220" cy="288.72" r="3" fill="#e15759" />
-<circle cx="320" cy="239.69" r="3" fill="#e15759" />
-<circle cx="420" cy="108.71" r="3" fill="#e15759" />
-<circle cx="520" cy="103.05" r="3" fill="#e15759" />
-<circle cx="620" cy="228.36" r="3" fill="#e15759" />
-<rect x="70" y="478" width="12" height="12" rx="2" fill="#4e79a7" />
-<text x="86" y="486" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text)">avg</text>
-<rect x="123" y="478" width="12" height="12" rx="2" fill="#f28e2b" />
-<text x="139" y="486" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text)">p50</text>
-<rect x="176" y="478" width="12" height="12" rx="2" fill="#e15759" />
-<text x="192" y="486" dy="0.35em" font-size="var(--fs-xs)" fill="var(--_text)">p95</text>
+<g class="diagram-title">
+  <rect x="40" y="35.5" width="9" height="9" rx="2" ry="2" fill="var(--accent, var(--fg))" />
+  <text x="56" y="40" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">An Example Chart</text>
+</g>
+<g class="xy-grid">
+  <line x1="100" y1="408" x2="720" y2="408" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="88" y="408" text-anchor="end" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">0</text>
+  <line x1="100" y1="344.8" x2="720" y2="344.8" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="88" y="344.8" text-anchor="end" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">40</text>
+  <line x1="100" y1="281.6" x2="720" y2="281.6" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="88" y="281.6" text-anchor="end" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">80</text>
+  <line x1="100" y1="218.4" x2="720" y2="218.4" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="88" y="218.4" text-anchor="end" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">120</text>
+  <line x1="100" y1="155.2" x2="720" y2="155.2" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="88" y="155.2" text-anchor="end" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">160</text>
+  <line x1="100" y1="92" x2="720" y2="92" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="88" y="92" text-anchor="end" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">200</text>
+  <text x="151.67" y="428" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">90d</text>
+  <text x="255" y="428" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">60d</text>
+  <text x="358.33" y="428" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">30d</text>
+  <text x="461.67" y="428" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">7d</text>
+  <text x="565" y="428" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">1d</text>
+  <text x="668.33" y="428" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">Current</text>
+</g>
+<g transform="translate(46 250) rotate(-90)"><text x="0" y="0" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Seconds</text></g>
+<line x1="100" y1="408" x2="720" y2="408" stroke="var(--_line)" stroke-width="1.25" />
+<g class="xy-line" data-series="0">
+  <polyline points="151.67,332 255,342.43 358.33,335.79 461.67,292.98 565,301.03 668.33,313.36" fill="none" stroke="#4e79a7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="151.667" cy="332.002" r="3.5" fill="#4e79a7" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="255" cy="342.43" r="3.5" fill="#4e79a7" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="358.333" cy="335.794" r="3.5" fill="#4e79a7" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="461.667" cy="292.976" r="3.5" fill="#4e79a7" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="565" cy="301.034" r="3.5" fill="#4e79a7" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="668.333" cy="313.358" r="3.5" fill="#4e79a7" stroke="var(--bg)" stroke-width="1.5" />
+</g>
+<g class="xy-line" data-series="1">
+  <polyline points="151.67,347.64 255,349.86 358.33,345.27 461.67,321.89 565,330.58 668.33,347.33" fill="none" stroke="#f28e2b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="151.667" cy="347.644" r="3.5" fill="#f28e2b" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="255" cy="349.856" r="3.5" fill="#f28e2b" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="358.333" cy="345.274" r="3.5" fill="#f28e2b" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="461.667" cy="321.89" r="3.5" fill="#f28e2b" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="565" cy="330.58" r="3.5" fill="#f28e2b" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="668.333" cy="347.328" r="3.5" fill="#f28e2b" stroke="var(--bg)" stroke-width="1.5" />
+</g>
+<g class="xy-line" data-series="2">
+  <polyline points="151.67,230.72 255,289.03 358.33,245.26 461.67,128.34 565,123.28 668.33,235.15" fill="none" stroke="#e15759" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="151.667" cy="230.724" r="3.5" fill="#e15759" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="255" cy="289.026" r="3.5" fill="#e15759" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="358.333" cy="245.26" r="3.5" fill="#e15759" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="461.667" cy="128.34" r="3.5" fill="#e15759" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="565" cy="123.284" r="3.5" fill="#e15759" stroke="var(--bg)" stroke-width="1.5" />
+  <circle cx="668.333" cy="235.148" r="3.5" fill="#e15759" stroke="var(--bg)" stroke-width="1.5" />
+</g>
+<rect x="100" y="447" width="10" height="10" rx="3" ry="3" fill="#4e79a7" stroke="none" />
+  <text x="118" y="452" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">avg</text>
+<rect x="168.04" y="447" width="10" height="10" rx="3" ry="3" fill="#f28e2b" stroke="none" />
+  <text x="186.04" y="452" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">p50</text>
+<rect x="236.07999999999998" y="447" width="10" height="10" rx="3" ry="3" fill="#e15759" stroke="none" />
+  <text x="254.08" y="452" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">p95</text>
 </svg>

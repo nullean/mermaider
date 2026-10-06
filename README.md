@@ -56,12 +56,12 @@ one theming model, consistent output regardless of diagram type.
 
 - **[Pure .NET, zero interop](#pure-net-parsing-and-rendering):** just a NuGet reference. No Chromium, no Node.js, no subprocess management.
 - **[Native AOT](#native-aot):** every public API proven in CI on Linux, macOS, and Windows.
-- **[Built-in layout engine](#built-in-layout-engine):** zero-dependency Sugiyama, far leaner than MSAGL.
+- **[Built-in layout engine](#built-in-layout-engine):** zero-dependency layered layout with compound subgraphs and an orthogonal edge router.
 - **[24 diagram types](#supported-diagrams):** one API, one theming model for all of them.
 - **[Unified theming](#theming):** 15 themes, live-switchable via CSS custom properties.
 - **[Always-on SVG sanitization](#svg-sanitization):** allowlist-only, no opt-out.
 - **[Strict styling mode](#strict-styling):** enforce your design system on user-authored diagrams.
-- **[Fast](#benchmarks):** ~23 µs, ~46 KB allocated for a simple flowchart.
+- **[Fast](#benchmarks):** ~95 µs, ~209 KB allocated to render a simple flowchart end to end.
 
 ### Pure .NET parsing and rendering
 
@@ -71,26 +71,38 @@ penalty, and trivial deployment: just a NuGet reference.
 
 ### Built-in layout engine
 
-Graph-based diagrams (flowchart, state, class, ER) need a layout algorithm to position nodes and route
-edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, gantt,
-journey, C4, sankey, xychart, requirement, packet, kanban, architecture, block, treeview) use
-purpose-built layout arithmetic directly in their renderers. Rather than depending on an external engine, Mermaider ships its own lightweight
-[Sugiyama layout engine](src/Sugiyama/) with zero dependencies.
+Flowchart, state, class, ER and requirement diagrams need a graph layout to place nodes and route edges. Mermaider
+ships its own engine for them, the zero-dependency [`Sugiyama`](src/Sugiyama/) package. It is the default and the
+recommended engine. Architecture diagrams use a directional-grid layout, because their edges name explicit sides.
+Every other diagram type uses layout arithmetic built into its renderer.
 
-During development, [Microsoft MSAGL](https://github.com/microsoft/automatic-graph-layout) (Automatic Graph
-Layout) was evaluated as the layout backend. MSAGL is a capable research-grade library, but it carries
-baggage from a different era of .NET: high allocations (~554 KB for a 6-node flowchart), WPF-era
-`BinaryFormatter` usage, and trim/AOT warnings that make it unsuitable for modern deployment targets.
+The package name refers to the layered (Sugiyama) framework, the same family as Graphviz `dot`, dagre and ELK
+Layered. The engine goes well beyond the textbook framework:
 
-The built-in engine is purpose-built for the small-to-medium directed graphs Mermaid produces:
+- **Ranking.** Network simplex, plus a nesting graph that keeps each subgraph in one band of layers.
+- **Ordering.** Barycentre sweeps, then swap and insertion refinement, then deterministic restarts.
+- **Placement.** Brandes–Köpf coordinates on evenly spread ports, with a column reserved for every edge label.
+- **Compound layout.** Each subgraph is laid out on its own and placed as one node of its parent, so subgraph boxes
+  never overlap.
+- **Routing.** An obstacle-aware orthogonal router. It uses the label columns as routes and falls back to an A\*
+  grid search that penalises crossings, overlaps, near-parallel runs and foreign subgraphs, with rip-up passes.
+
+The [`Sugiyama` README](src/Sugiyama/README.md) and the [layout docs](docs/layout/index.md) describe each phase.
+
+The engine is also much leaner than [Microsoft MSAGL](https://github.com/microsoft/automatic-graph-layout), the
+layout backend evaluated during early development. On a simple 6-node flowchart:
 
 | Phase             |                 MSAGL |   Built-in Sugiyama | Improvement                              |
 |-------------------|----------------------:|--------------------:|------------------------------------------|
-| Layout only       | 247 &micro;s / 558 KB |  3.4 &micro;s / 16 KB | 73&times; faster, 35&times; less memory |
-| End-to-end render | 351 &micro;s / 586 KB |   24 &micro;s / 46 KB | 15&times; faster, 13&times; less memory |
+| Layout only       | 226 &micro;s / 549 KB |   24 &micro;s / 82 KB | 9.6&times; faster, 6.7&times; less memory |
+| End-to-end render | 423 &micro;s / 683 KB |  109 &micro;s / 209 KB | 3.9&times; faster, 3.3&times; less memory |
 
-If you still want MSAGL for its higher-fidelity edge routing on complex graphs, install the optional
-`Mermaider.Layout.Msagl` package (see [below](#msagl-layout-provider)).
+The layout-only row runs each layout provider on the same parsed flowchart: node sizing, layering, placement and edge
+routing (the built-in side includes the compound layout and the orthogonal router). The end-to-end row adds parsing,
+rendering and sanitizing.
+
+MSAGL remains available as an optional, legacy-compatible provider. It does not support several features of the
+built-in engine; see [MSAGL Layout Provider](#msagl-layout-provider).
 
 ### Native AOT
 
@@ -116,6 +128,7 @@ Coverage: [unit tests](tests/Mermaider.Tests/Rendering/SvgSanitizerTests.cs) and
 All 24 diagram types render from the same [`RenderOptions`](#render-options). A single set of values controls:
 
 - **Colors**: `Bg`, `Fg`, `Accent`, `Muted`, `Surface`, `Border`, `Line`
+- **Style preset**: `Style` (Quiet, Blueprint, Tonal) plus `Gradient`, `Tint` and `Elevation`
 - **Typography**: `Font`, `MonoFont`, `FontSize` and size ratios
 - **Data palette**: categorical colors for pie, sankey, timeline, gitgraph, and the rest
 
@@ -158,6 +171,24 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 Because the SVG uses CSS custom properties, themes switch live without re-rendering: just update the
 `--bg` / `--fg` properties on the root `<svg>` element.
 
+### Style presets
+
+Three presets restyle every diagram type without changing layout: **Quiet** (default; tinted gradient boxes, strip
+headers, outlined label pills), **Blueprint** (outline-first technical drawing, square corners, dashed containers, mono
+captions, no shadows) and **Tonal** (soft filled blocks, no outlines, big radii, chip headers).
+
+```csharp
+var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
+{
+    Style = DiagramStyle.Tonal,
+    Gradient = false,   // flat fills
+    Tint = 0.8,         // 0.5–1.5, softer tints (useful on dark themes)
+    Elevation = 2,      // 0 none, 1 default, 2 adds an ambient shadow
+});
+```
+
+See [Theming](docs/theming/index.md#style-presets) and [`DESIGN.md`](DESIGN.md) for the full knob table.
+
 ### Built-in themes
 
 15 themes ship out of the box. Pass the name via the `theme` init directive in your diagram source, or
@@ -199,7 +230,7 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 |--------|------|---------|-------------|
 | `Bg` | `string?` | `"#FFFFFF"` | Background color (hex or CSS) |
 | `Fg` | `string?` | `"#27272A"` | Foreground / primary text color |
-| `Line` | `string?` | derived | Edge/connector stroke color |
+| `Line` | `string?` | default box border | Edge/connector stroke colour; unset, it follows the border of an ordinary box (`Default` role) |
 | `Accent` | `string?` | derived | Arrowheads, highlights |
 | `Muted` | `string?` | derived | Secondary text, edge labels |
 | `Surface` | `string?` | derived | Node fill tint |
@@ -211,10 +242,14 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 | `FontSizeExtraSmall` | `double?` | `0.75` | Ratio for extra-small text (`--fs-xs`) |
 | `FontSizeLarge` | `double?` | `1.125` | Ratio for large text (`--fs-l`) |
 | `DataPalette` | `string[]?` | theme default | Categorical colors for pie, sankey, timeline, gitgraph, radar, mindmap, venn, journey, packet, xychart, treemap; flowchart/state/ER/class auto colouring uses it minus the role hues |
-| `Default` | `string?` | first non-role palette colour (blue) | Colour of an ordinary box (first cluster of nodes, entities, classes) |
+| `Default` | `string?` | theme's default box colour (slate in the zinc themes), else the first non-role palette colour | Colour of an ordinary box (first cluster of nodes, entities, classes) |
 | `Success` / `Failure` / `Warning` / `Info` | `string?` | palette green / red / yellow / blue | Semantic role colours (class `success`, `failure`, `warning`, `info`); auto colouring avoids the first three |
 | `AllowedDiagrams` | `DiagramTypes` | `DiagramTypes.All` | Allowlist of accepted diagram types; diagrams outside this set throw `MermaidParseException` |
-| `RoundedEdges` | `bool` | `true` | Rounded corners (6px radius) on edge paths |
+| `Style` | `DiagramStyle` | `Quiet` | Style preset: `Quiet`, `Blueprint` or `Tonal`. Paint only; layout is the same |
+| `Gradient` | `bool` | `true` | Gradient fills on boxes, containers and bars; `false` = flat fills |
+| `Tint` | `double?` | `1` | Strength of every derived tint, clamped to 0.5–1.5 |
+| `Elevation` | `int?` | `1` | Shadows: 0 none, 1 boxes + containers, 2 adds ambient. Ignored by Blueprint |
+| `RoundedEdges` | `bool` | `true` | Rounded bends on edge paths (radius from the style preset) |
 | `Transparent` | `bool` | `true` | Transparent background |
 | `Padding` | `double?` | `40` | Canvas padding in px |
 | `NodeSpacing` | `double?` | `28` | Horizontal spacing between sibling nodes |
@@ -500,6 +535,8 @@ echo 'graph TD
   A --> B' | mermaid > diagram.svg
 
 mermaid input.mmd -o output.svg --theme github-dark
+mermaid input.mmd -o output.svg --style blueprint --elevation 0
+mermaid input.mmd -o output.svg --style tonal --no-gradient --tint 0.8
 mermaid input.mmd --ascii          # draw it as text
 mermaid input.mmd --plain --width 80
 mermaid --list-themes
@@ -507,7 +544,22 @@ mermaid --list-themes
 
 ## <a name="msagl-layout-provider"></a>MSAGL Layout Provider
 
-If you prefer MSAGL for its edge routing fidelity on complex graphs, install the optional package:
+The optional `Mermaider.Layout.Msagl` package swaps in [Microsoft MSAGL](https://github.com/microsoft/automatic-graph-layout)
+for flowchart, state, class and ER diagrams. It exists for compatibility with output from earlier Mermaider versions.
+The built-in engine is the recommended choice: it is faster, and MSAGL lacks the following.
+
+- **No compound layout.** MSAGL lays out the nodes without their subgraphs. Subgraph boxes are drawn around the
+  members afterwards and can overlap each other or unrelated nodes.
+- **No orthogonal router features.** MSAGL uses its own rectilinear router. There are no label columns, no ports
+  spread along node sides or on diamond and ellipse outlines, and edges written against a subgraph end on a member
+  node rather than on the subgraph border.
+- **Older box sizes for class and ER diagrams.** The class and ER providers still use the header, row and column
+  measurements from before the current design system, so their boxes are sized differently from the built-in
+  layout's.
+- **Missing class and state features.** The MSAGL providers ignore class namespaces, class notes, lollipop
+  interface targets and state-diagram notes.
+- **Not used for every graph diagram.** Requirement diagrams always use the built-in engine, and so does the text
+  output.
 
 ```bash
 dotnet add package Mermaider.Layout.Msagl
@@ -547,16 +599,16 @@ dotnet publish -c Release
 ## Benchmarks
 
 Graph-based diagram types use the built-in Sugiyama engine. Measured with `[MemoryDiagnoser]` on .NET 10
-(Apple M2 Pro):
+(Apple M2, BenchmarkDotNet medium run):
 
 | Method             |         Mean | Allocated |
 |--------------------|-------------:|----------:|
-| Flowchart (simple) | ~23 &micro;s |    ~46 KB |
-| Flowchart (large)  | ~71 &micro;s |   ~145 KB |
-| Sequence           | ~12 &micro;s |    ~28 KB |
-| State              | ~17 &micro;s |    ~47 KB |
-| Class              | ~13 &micro;s |    ~36 KB |
-| ER                 | ~17 &micro;s |    ~45 KB |
+| Flowchart (simple) |  ~95 &micro;s |   ~209 KB |
+| Flowchart (large)  | ~682 &micro;s |   ~829 KB |
+| Sequence           |  ~98 &micro;s |   ~173 KB |
+| State              | ~110 &micro;s |   ~233 KB |
+| Class              | ~112 &micro;s |   ~219 KB |
+| ER                 | ~208 &micro;s |   ~697 KB |
 
 ```bash
 dotnet run --project tests/Mermaider.Benchmarks -c Release
@@ -580,7 +632,7 @@ types. Every diagram respects the same `Bg`, `Fg`, `Accent`, `Muted`, `Font`, `M
 `DataPalette` options.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/playground.png" alt="Mermaider playground - all diagram types with theme controls" />
+  <img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/playground.png" alt="Mermaider playground - all diagram types with theme controls" />
 </p>
 
 ### Flowchart
@@ -596,7 +648,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/flowchart.svg" alt="Flowchart" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/flowchart.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/flowchart.light.svg" alt="Flowchart" /></picture></p>
 
 ### Sequence
 
@@ -612,7 +664,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/sequence.svg" alt="Sequence diagram" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/sequence.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/sequence.light.svg" alt="Sequence" /></picture></p>
 
 ### State
 
@@ -628,7 +680,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/state.svg" alt="State diagram" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/state.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/state.light.svg" alt="State" /></picture></p>
 
 ### Class
 
@@ -647,7 +699,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/class.svg" alt="Class diagram" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/class.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/class.light.svg" alt="Class" /></picture></p>
 
 ### ER (Entity-Relationship)
 
@@ -667,7 +719,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/er.svg" alt="ER diagram" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/er.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/er.light.svg" alt="ER (Entity-Relationship)" /></picture></p>
 
 ### Pie Chart
 
@@ -681,7 +733,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/pie.svg" alt="Pie chart" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/pie.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/pie.light.svg" alt="Pie Chart" /></picture></p>
 
 ### Quadrant Chart
 
@@ -701,7 +753,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/quadrant.svg" alt="Quadrant chart" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/quadrant.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/quadrant.light.svg" alt="Quadrant Chart" /></picture></p>
 
 ### Timeline
 
@@ -718,7 +770,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/timeline.svg" alt="Timeline diagram" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/timeline.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/timeline.light.svg" alt="Timeline" /></picture></p>
 
 ### GitGraph
 
@@ -737,7 +789,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/gitgraph.svg" alt="GitGraph" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/gitgraph.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/gitgraph.light.svg" alt="GitGraph" /></picture></p>
 
 ### Radar Chart
 
@@ -753,7 +805,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/radar.svg" alt="Radar chart" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/radar.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/radar.light.svg" alt="Radar Chart" /></picture></p>
 
 ### Treemap
 
@@ -767,7 +819,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/treemap.svg" alt="Treemap" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/treemap.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/treemap.light.svg" alt="Treemap" /></picture></p>
 
 ### Venn Diagram
 
@@ -782,7 +834,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/venn.svg" alt="Venn diagram" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/venn.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/venn.light.svg" alt="Venn Diagram" /></picture></p>
 
 ### Mindmap
 
@@ -802,7 +854,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/mindmap.svg" alt="Mindmap" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/mindmap.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/mindmap.light.svg" alt="Mindmap" /></picture></p>
 
 ### Gantt
 
@@ -820,6 +872,8 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/gantt.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/gantt.light.svg" alt="Gantt" /></picture></p>
+
 ### User Journey
 
 ```csharp
@@ -836,6 +890,8 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/journey.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/journey.light.svg" alt="User Journey" /></picture></p>
+
 ### C4 Architecture
 
 ```csharp
@@ -850,9 +906,9 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-Supports `Rel`, `BiRel`, `Rel_Back` (arrow reversed vs argument order), and `RelIndex`. Directional forms (`Rel_U` / `Rel_D` / `Rel_L` / `Rel_R` and aliases) parse as plain `Rel`; layout direction hints are ignored in v1.
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/c4.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/c4.light.svg" alt="C4 Architecture" /></picture></p>
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/c4.svg" alt="C4 diagram" /></p>
+Supports `Rel`, `BiRel`, `Rel_Back` (arrow reversed vs argument order), and `RelIndex`. Directional forms (`Rel_U` / `Rel_D` / `Rel_L` / `Rel_R` and aliases) parse as plain `Rel`; layout direction hints are ignored in v1.
 
 ### Sankey Diagram
 
@@ -865,7 +921,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/sankey.svg" alt="Sankey diagram" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/sankey.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/sankey.light.svg" alt="Sankey Diagram" /></picture></p>
 
 ### XY Chart
 
@@ -880,7 +936,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/xychart.svg" alt="XY chart" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/xychart.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/xychart.light.svg" alt="XY Chart" /></picture></p>
 
 ### Requirement Diagram
 
@@ -903,7 +959,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/requirement.svg" alt="Requirement diagram" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/requirement.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/requirement.light.svg" alt="Requirement Diagram" /></picture></p>
 
 ### Packet Diagram
 
@@ -918,9 +974,9 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-Supports range fields (`0-15: "Label"`), single-bit fields (`106: "URG"`), and bit-count form (`+16: "Source Port"`).
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/packet.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/packet.light.svg" alt="Packet Diagram" /></picture></p>
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/packet.svg" alt="Packet diagram" /></p>
+Supports range fields (`0-15: "Label"`), single-bit fields (`106: "URG"`), and bit-count form (`+16: "Source Port"`).
 
 ### Kanban
 
@@ -937,7 +993,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/kanban.svg" alt="Kanban board" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/kanban.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/kanban.light.svg" alt="Kanban" /></picture></p>
 
 ### Architecture
 
@@ -963,7 +1019,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/architecture.svg" alt="Architecture diagram" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/architecture.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/architecture.light.svg" alt="Architecture" /></picture></p>
 
 #### Built-in icons
 
@@ -1037,7 +1093,7 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/block.svg" alt="Block diagram" /></p>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/block.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/block.light.svg" alt="Block Diagram" /></picture></p>
 
 ### TreeView
 
@@ -1055,12 +1111,12 @@ MermaidRenderer.RenderSvg("""
     """);
 ```
 
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/treeview.dark.svg" /><img src="https://raw.githubusercontent.com/nullean/mermaider/main/.github/readme/treeview.light.svg" alt="TreeView" /></picture></p>
+
 Supports indentation-based and box-drawing (`├──`/`└──`/`│`) input formats. Annotations:
 `:::className` (highlighting), `## description` (inline notes), `icon(name)` (custom icons).
 Built-in icons: `file`, `folder`, `folder-open`, `file:code`, `file:image`, `file:document`,
 `file:config`, `file:data`.
-
-<p align="center"><img src="https://raw.githubusercontent.com/nullean/mermaider/main/docs/screenshots/treeview.svg" alt="Tree view diagram" /></p>
 
 ---
 

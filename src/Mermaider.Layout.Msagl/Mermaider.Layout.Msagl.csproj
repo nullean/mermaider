@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Description>Optional MSAGL-based layout engine for Mermaider. Provides higher-fidelity graph layout using Microsoft Automatic Graph Layout at the cost of higher allocations.</Description>
+    <Description>Optional, legacy-compatible Microsoft MSAGL layout provider for Mermaider. The built-in layout engine is faster and supports compound subgraph layout and orthogonal routing; use this package to keep output from earlier versions.</Description>
     <NoWarn>CS1591</NoWarn>
     <PackageTags>mermaid;layout;msagl;graph;optional</PackageTags>
   </PropertyGroup>

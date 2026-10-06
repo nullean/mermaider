@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2504 272" width="2504" height="272" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2312 360" width="2312" height="360" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,100 +26,176 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
+<g class="diagram-title">
+  <rect x="40" y="35.5" width="9" height="9" rx="2" ry="2" fill="var(--accent, var(--fg))" />
+  <text x="56" y="40" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">A Year in Product</text>
+</g>
+<g class="subgraph" data-label="Q1">
+  <rect x="40" y="72" width="552" height="248" rx="12" ry="12" fill="url(#m1814eb8b-cw-p1-0)" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
+  <path d="M40,100 L40,84 Q40,72 52,72 L580,72 Q592,72 592,84 L592,100 Z" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" />
+  <line x1="40" y1="100" x2="592" y2="100" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
+</g>
+<g class="subgraph" data-label="Q2">
+  <rect x="604" y="72" width="552" height="248" rx="12" ry="12" fill="url(#m1814eb8b-cw-p2-0)" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1.25" />
+  <path d="M604,100 L604,84 Q604,72 616,72 L1144,72 Q1156,72 1156,84 L1156,100 Z" fill="color-mix(in srgb, #76b7b2 22%, var(--bg))" />
+  <line x1="604" y1="100" x2="1156" y2="100" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1.25" />
+</g>
+<g class="subgraph" data-label="Q3">
+  <rect x="1168" y="72" width="552" height="248" rx="12" ry="12" fill="url(#m1814eb8b-cw-p3-0)" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1.25" />
+  <path d="M1168,100 L1168,84 Q1168,72 1180,72 L1708,72 Q1720,72 1720,84 L1720,100 Z" fill="color-mix(in srgb, #b07aa1 22%, var(--bg))" />
+  <line x1="1168" y1="100" x2="1720" y2="100" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1.25" />
+</g>
+<g class="subgraph" data-label="Q4">
+  <rect x="1732" y="72" width="552" height="248" rx="12" ry="12" fill="url(#m1814eb8b-cw-p4-0)" stroke="color-mix(in srgb, #9c755f 42%, var(--bg))" stroke-width="1.25" />
+  <path d="M1732,100 L1732,84 Q1732,72 1744,72 L2272,72 Q2284,72 2284,84 L2284,100 Z" fill="color-mix(in srgb, #9c755f 22%, var(--bg))" />
+  <line x1="1732" y1="100" x2="2284" y2="100" stroke="color-mix(in srgb, #9c755f 42%, var(--bg))" stroke-width="1.25" />
+</g>
+<text x="52" y="86" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.9">Q1</text>
+<text x="616" y="86" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.9">Q2</text>
+<text x="1180" y="86" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #b07aa1 44%, var(--fg))" dy="4.9">Q3</text>
+<text x="1744" y="86" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #9c755f 44%, var(--fg))" dy="4.9">Q4</text>
+<line x1="132" y1="152" x2="132" y2="304" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="5 4" />
+<line x1="316" y1="152" x2="316" y2="304" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="5 4" />
+<line x1="500" y1="152" x2="500" y2="304" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="5 4" />
+<line x1="696" y1="152" x2="696" y2="304" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="5 4" />
+<line x1="880" y1="152" x2="880" y2="304" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="5 4" />
+<line x1="1064" y1="152" x2="1064" y2="304" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="5 4" />
+<line x1="1260" y1="152" x2="1260" y2="304" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="5 4" />
+<line x1="1444" y1="152" x2="1444" y2="304" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="5 4" />
+<line x1="1628" y1="152" x2="1628" y2="304" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="5 4" />
+<line x1="1824" y1="152" x2="1824" y2="304" stroke="color-mix(in srgb, #9c755f 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="5 4" />
+<line x1="2008" y1="152" x2="2008" y2="304" stroke="color-mix(in srgb, #9c755f 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="5 4" />
+<line x1="2192" y1="152" x2="2192" y2="304" stroke="color-mix(in srgb, #9c755f 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="5 4" />
+<path class="timeline-axis" d="M40,192 L2274,192" fill="none" stroke="var(--accent, var(--fg))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<polygon points="2280,192 2271,187.5 2271,196.5" fill="var(--accent, var(--fg))" stroke="var(--accent, var(--fg))" stroke-width="1.5" stroke-linejoin="round" />
+<g class="node timeline-period" data-label="Jan">
+  <rect x="52" y="116" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="132" y="134" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Jan</text>
+</g>
+<circle cx="132" cy="192" r="6" fill="var(--bg)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="2" />
+<g class="node timeline-event">
+  <rect x="52" y="224" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="132" y="242" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Planning</text>
+</g>
+<g class="node timeline-period" data-label="Feb">
+  <rect x="236" y="116" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="316" y="134" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Feb</text>
+</g>
+<circle cx="316" cy="192" r="6" fill="var(--bg)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="2" />
+<g class="node timeline-event">
+  <rect x="236" y="224" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="316" y="242" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Prototype</text>
+</g>
+<g class="node timeline-event">
+  <rect x="236" y="268" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="316" y="286" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Customer interviews</text>
+</g>
+<g class="node timeline-period" data-label="Mar">
+  <rect x="420" y="116" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="500" y="134" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Mar</text>
+</g>
+<circle cx="500" cy="192" r="6" fill="var(--bg)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="2" />
+<g class="node timeline-event">
+  <rect x="420" y="224" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="500" y="242" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Alpha</text>
+</g>
+<g class="node timeline-period" data-label="Apr">
+  <rect x="616" y="116" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="696" y="134" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Apr</text>
+</g>
+<circle cx="696" cy="192" r="6" fill="var(--bg)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="2" />
+<g class="node timeline-event">
+  <rect x="616" y="224" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="696" y="242" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Beta</text>
+</g>
+<g class="node timeline-event">
+  <rect x="616" y="268" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="696" y="286" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Docs</text>
+</g>
+<g class="node timeline-period" data-label="May">
+  <rect x="800" y="116" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="880" y="134" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">May</text>
+</g>
+<circle cx="880" cy="192" r="6" fill="var(--bg)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="2" />
+<g class="node timeline-event">
+  <rect x="800" y="224" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="880" y="242" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Feedback</text>
+</g>
+<g class="node timeline-period" data-label="Jun">
+  <rect x="984" y="116" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1064" y="134" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Jun</text>
+</g>
+<circle cx="1064" cy="192" r="6" fill="var(--bg)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="2" />
+<g class="node timeline-event">
+  <rect x="984" y="224" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1064" y="242" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Launch</text>
+</g>
+<g class="node timeline-period" data-label="Jul">
+  <rect x="1180" y="116" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1260" y="134" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Jul</text>
+</g>
+<circle cx="1260" cy="192" r="6" fill="var(--bg)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="2" />
+<g class="node timeline-event">
+  <rect x="1180" y="224" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1260" y="242" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Scale-out</text>
+</g>
+<g class="node timeline-period" data-label="Aug">
+  <rect x="1364" y="116" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1444" y="134" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Aug</text>
+</g>
+<circle cx="1444" cy="192" r="6" fill="var(--bg)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="2" />
+<g class="node timeline-event">
+  <rect x="1364" y="224" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1444" y="242" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Pricing</text>
+</g>
+<g class="node timeline-period" data-label="Sep">
+  <rect x="1548" y="116" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1628" y="134" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Sep</text>
+</g>
+<circle cx="1628" cy="192" r="6" fill="var(--bg)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="2" />
+<g class="node timeline-event">
+  <rect x="1548" y="224" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1628" y="242" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Partnerships</text>
+</g>
+<g class="node timeline-period" data-label="Oct">
+  <rect x="1744" y="116" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1824" y="134" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Oct</text>
+</g>
+<circle cx="1824" cy="192" r="6" fill="var(--bg)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="2" />
+<g class="node timeline-event">
+  <rect x="1744" y="224" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
+  <text x="1824" y="242" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Enterprise</text>
+</g>
+<g class="node timeline-period" data-label="Nov">
+  <rect x="1928" y="116" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
+  <text x="2008" y="134" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Nov</text>
+</g>
+<circle cx="2008" cy="192" r="6" fill="var(--bg)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="2" />
+<g class="node timeline-event">
+  <rect x="1928" y="224" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
+  <text x="2008" y="242" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Security audit</text>
+</g>
+<g class="node timeline-period" data-label="Dec">
+  <rect x="2112" y="116" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
+  <text x="2192" y="134" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Dec</text>
+</g>
+<circle cx="2192" cy="192" r="6" fill="var(--bg)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="2" />
+<g class="node timeline-event">
+  <rect x="2112" y="224" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
+  <text x="2192" y="242" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Retrospective</text>
+</g>
 <defs>
-  <marker id="timeline-arrow" refX="6" refY="3" markerWidth="8" markerHeight="6" orient="auto">
-    <path d="M 0,0 V 6 L8,3 Z" fill="var(--_line)" />
-  </marker>
+  <linearGradient id="m1814eb8b-cw-p1-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-cw-p2-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #76b7b2 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #76b7b2 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #76b7b2 6%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-cw-p3-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #b07aa1 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #b07aa1 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #b07aa1 6%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-cw-p4-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #9c755f 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #9c755f 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #9c755f 6%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #76b7b2 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #76b7b2 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #b07aa1 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #b07aa1 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #9c755f 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #9c755f 7%, var(--bg))" /></linearGradient>
 </defs>
-
-<text x="1252" y="28" text-anchor="middle" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)">A Year in Product</text>
-<rect x="32" y="44" width="604" height="212" rx="8" ry="8" fill="color-mix(in srgb, #4e79a7 6%, var(--bg))" stroke="#4B74A0" stroke-width="1.75" />
-<text x="334" y="62" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="#4B74A0">Q1</text>
-<rect x="644" y="44" width="604" height="212" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
-<text x="946" y="62" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="#F18921">Q2</text>
-<rect x="1256" y="44" width="604" height="212" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 6%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
-<text x="1558" y="62" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="#6FB3AE">Q3</text>
-<rect x="1868" y="44" width="604" height="212" rx="8" ry="8" fill="color-mix(in srgb, #b07aa1 6%, var(--bg))" stroke="#AC749C" stroke-width="1.75" />
-<text x="2170" y="62" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="#AC749C">Q4</text>
-<line x1="130" y1="114" x2="130" y2="250" stroke="color-mix(in srgb, #4e79a7 45%, var(--bg))" stroke-width="1.5" stroke-dasharray="4 4" />
-<line x1="334" y1="114" x2="334" y2="250" stroke="color-mix(in srgb, #4e79a7 45%, var(--bg))" stroke-width="1.5" stroke-dasharray="4 4" />
-<line x1="538" y1="114" x2="538" y2="250" stroke="color-mix(in srgb, #4e79a7 45%, var(--bg))" stroke-width="1.5" stroke-dasharray="4 4" />
-<line x1="742" y1="114" x2="742" y2="250" stroke="color-mix(in srgb, #f28e2b 45%, var(--bg))" stroke-width="1.5" stroke-dasharray="4 4" />
-<line x1="946" y1="114" x2="946" y2="250" stroke="color-mix(in srgb, #f28e2b 45%, var(--bg))" stroke-width="1.5" stroke-dasharray="4 4" />
-<line x1="1150" y1="114" x2="1150" y2="250" stroke="color-mix(in srgb, #f28e2b 45%, var(--bg))" stroke-width="1.5" stroke-dasharray="4 4" />
-<line x1="1354" y1="114" x2="1354" y2="250" stroke="color-mix(in srgb, #76b7b2 45%, var(--bg))" stroke-width="1.5" stroke-dasharray="4 4" />
-<line x1="1558" y1="114" x2="1558" y2="250" stroke="color-mix(in srgb, #76b7b2 45%, var(--bg))" stroke-width="1.5" stroke-dasharray="4 4" />
-<line x1="1762" y1="114" x2="1762" y2="250" stroke="color-mix(in srgb, #76b7b2 45%, var(--bg))" stroke-width="1.5" stroke-dasharray="4 4" />
-<line x1="1966" y1="114" x2="1966" y2="250" stroke="color-mix(in srgb, #b07aa1 45%, var(--bg))" stroke-width="1.5" stroke-dasharray="4 4" />
-<line x1="2170" y1="114" x2="2170" y2="250" stroke="color-mix(in srgb, #b07aa1 45%, var(--bg))" stroke-width="1.5" stroke-dasharray="4 4" />
-<line x1="2374" y1="114" x2="2374" y2="250" stroke="color-mix(in srgb, #b07aa1 45%, var(--bg))" stroke-width="1.5" stroke-dasharray="4 4" />
-<line x1="28" y1="142" x2="2496" y2="142" stroke="var(--_line)" stroke-width="3" marker-end="url(#timeline-arrow)" />
-<rect x="40" y="78" width="180" height="36" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="130" y="96" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">Jan</text>
-<circle cx="130" cy="142" r="6" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<rect x="50" y="168" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="130" y="182" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Planning</text>
-<rect x="244" y="78" width="180" height="36" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="334" y="96" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">Feb</text>
-<circle cx="334" cy="142" r="6" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<rect x="254" y="168" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="334" y="182" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Prototype</text>
-<rect x="254" y="202" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="334" y="216" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Customer interviews</text>
-<rect x="448" y="78" width="180" height="36" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="538" y="96" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">Mar</text>
-<circle cx="538" cy="142" r="6" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<rect x="458" y="168" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="538" y="182" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Alpha</text>
-<rect x="652" y="78" width="180" height="36" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 24%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-<text x="742" y="96" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">Apr</text>
-<circle cx="742" cy="142" r="6" fill="color-mix(in srgb, #f28e2b 24%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-<rect x="662" y="168" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-<text x="742" y="182" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Beta</text>
-<rect x="662" y="202" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-<text x="742" y="216" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Docs</text>
-<rect x="856" y="78" width="180" height="36" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 24%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-<text x="946" y="96" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">May</text>
-<circle cx="946" cy="142" r="6" fill="color-mix(in srgb, #f28e2b 24%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-<rect x="866" y="168" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-<text x="946" y="182" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Feedback</text>
-<rect x="1060" y="78" width="180" height="36" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 24%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-<text x="1150" y="96" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">Jun</text>
-<circle cx="1150" cy="142" r="6" fill="color-mix(in srgb, #f28e2b 24%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-<rect x="1070" y="168" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-<text x="1150" y="182" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Launch</text>
-<rect x="1264" y="78" width="180" height="36" rx="6" ry="6" fill="color-mix(in srgb, #76b7b2 24%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
-<text x="1354" y="96" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">Jul</text>
-<circle cx="1354" cy="142" r="6" fill="color-mix(in srgb, #76b7b2 24%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
-<rect x="1274" y="168" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
-<text x="1354" y="182" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Scale-out</text>
-<rect x="1468" y="78" width="180" height="36" rx="6" ry="6" fill="color-mix(in srgb, #76b7b2 24%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
-<text x="1558" y="96" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">Aug</text>
-<circle cx="1558" cy="142" r="6" fill="color-mix(in srgb, #76b7b2 24%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
-<rect x="1478" y="168" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
-<text x="1558" y="182" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Pricing</text>
-<rect x="1672" y="78" width="180" height="36" rx="6" ry="6" fill="color-mix(in srgb, #76b7b2 24%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
-<text x="1762" y="96" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">Sep</text>
-<circle cx="1762" cy="142" r="6" fill="color-mix(in srgb, #76b7b2 24%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
-<rect x="1682" y="168" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
-<text x="1762" y="182" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Partnerships</text>
-<rect x="1876" y="78" width="180" height="36" rx="6" ry="6" fill="color-mix(in srgb, #b07aa1 24%, var(--bg))" stroke="#955884" stroke-width="1.75" />
-<text x="1966" y="96" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">Oct</text>
-<circle cx="1966" cy="142" r="6" fill="color-mix(in srgb, #b07aa1 24%, var(--bg))" stroke="#955884" stroke-width="1.75" />
-<rect x="1886" y="168" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #b07aa1 16%, var(--bg))" stroke="#955884" stroke-width="1.75" />
-<text x="1966" y="182" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Enterprise</text>
-<rect x="2080" y="78" width="180" height="36" rx="6" ry="6" fill="color-mix(in srgb, #b07aa1 24%, var(--bg))" stroke="#955884" stroke-width="1.75" />
-<text x="2170" y="96" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">Nov</text>
-<circle cx="2170" cy="142" r="6" fill="color-mix(in srgb, #b07aa1 24%, var(--bg))" stroke="#955884" stroke-width="1.75" />
-<rect x="2090" y="168" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #b07aa1 16%, var(--bg))" stroke="#955884" stroke-width="1.75" />
-<text x="2170" y="182" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Security audit</text>
-<rect x="2284" y="78" width="180" height="36" rx="6" ry="6" fill="color-mix(in srgb, #b07aa1 24%, var(--bg))" stroke="#955884" stroke-width="1.75" />
-<text x="2374" y="96" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="var(--_text)">Dec</text>
-<circle cx="2374" cy="142" r="6" fill="color-mix(in srgb, #b07aa1 24%, var(--bg))" stroke="#955884" stroke-width="1.75" />
-<rect x="2294" y="168" width="160" height="28" rx="6" ry="6" fill="color-mix(in srgb, #b07aa1 16%, var(--bg))" stroke="#955884" stroke-width="1.75" />
-<text x="2374" y="182" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Retrospective</text>
 </svg>

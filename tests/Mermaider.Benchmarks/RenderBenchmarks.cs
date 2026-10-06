@@ -1,4 +1,5 @@
 using BenchmarkDotNet.Attributes;
+using Mermaider.Layout;
 using Mermaider.Layout.Msagl;
 using Mermaider.Models;
 using Mermaider.Parsing;
@@ -136,6 +137,7 @@ public class RenderBenchmarks
 public class PhaseBenchmarks
 {
 	private static readonly MsaglLayoutProvider MsaglProvider = new();
+	private static readonly DefaultLayoutProvider BuiltinProvider = new();
 
 	private static readonly string[] Lines = SimpleFlowchart
 		.Split('\n').Select(l => l.Trim()).Where(l => l.Length > 0 && !l.StartsWith("%%", StringComparison.OrdinalIgnoreCase)).ToArray();
@@ -144,7 +146,7 @@ public class PhaseBenchmarks
 	private static readonly PositionedGraph MsaglLayoutResult = MsaglProvider.LayoutFlowchart(ParsedGraph);
 	private static readonly DiagramColors Colors = new() { Bg = "#FFFFFF", Fg = "#27272A" };
 	private static readonly SvgRenderContext RenderContext = new(
-		new NormalizedRenderStyles(Colors, "Inter", null, FontScale.Default, false, null),
+		new NormalizedRenderStyles(Colors, "Inter", null, FontScale.Default, false, null, DesignInputs.Default),
 		new AccessibilityInfo(),
 		DiagramType.Flowchart,
 		6,
@@ -179,8 +181,13 @@ public class PhaseBenchmarks
 	[Benchmark]
 	public PositionedGraph Layout_Msagl() => MsaglProvider.LayoutFlowchart(ParsedGraph);
 
+	/// <summary>The built-in layout Mermaider renders with (compound layout + orthogonal router), on the same input as <see cref="Layout_Msagl"/>.</summary>
 	[Benchmark]
-	public ML.LayoutResult Layout_Lightweight() => ML.SugiyamaLayout.Compute(LightweightInput);
+	public PositionedGraph Layout_Builtin() => BuiltinProvider.LayoutFlowchart(ParsedGraph);
+
+	/// <summary>The standalone Sugiyama package's basic entry point on pre-sized nodes (what a package user calls directly).</summary>
+	[Benchmark]
+	public ML.LayoutResult Layout_SugiyamaCompute() => ML.SugiyamaLayout.Compute(LightweightInput);
 
 	[Benchmark]
 	public string Render() => SvgRenderer.Render(MsaglLayoutResult, RenderContext);

@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 181.41992000000002 602.55" width="181.41992000000002" height="602.55" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164.80487999999997 584.35" width="164.80487999999997" height="584.35" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,64 +26,57 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<defs>
-  <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
-  </marker>
-  <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
-    <polygon points="12 0, 0 6, 12 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
-  </marker>
-</defs>
-
-<path class="edge" data-from="_start" data-to="Draft" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M81.68,40 L81.68,70" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Draft" data-to="Review" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="submit" d="M66.17066666666668,114.8 L66.17066666666668,181.25 L66.17066666666668,181.25 L66.17066666666668,209.25" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Review" data-to="Published" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="approve" d="M81.68,254.05 L81.68,348.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Review" data-to="Draft" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="reject" d="M100.22933333333334,209.25 L100.22933333333334,187.25 Q100.22933333333334,181.25 106.22933333333334,181.25 L128.75064,181.25 Q134.75064,181.25 134.75064,175.25 L134.75064,148.8 Q134.75064,142.8 128.75064,142.8 L103.18933333333334,142.8 Q97.18933333333334,142.8 97.18933333333334,136.8 L97.18933333333334,114.8" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Published" data-to="Archived" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="archive" d="M81.68,393.3 L81.68,487.75" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Archived" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M81.68,532.55 L81.68,562.55" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="_start" data-to="Draft" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M68.97,40 L68.97,70" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="Draft" data-to="Review" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="submit" d="M56.89933333333333,112.2 L56.89933333333333,176.05 L56.89933333333333,176.05 L56.89933333333333,204.05" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="Review" data-to="Published" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="approve" d="M68.97,246.25 L68.97,338.1" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="Review" data-to="Draft" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="reject" d="M83.70066666666665,204.05 L83.70066666666665,184.05 Q83.70066666666665,176.05 91.70066666666665,176.05 L112.04995999999998,176.05 Q120.04995999999998,176.05 120.04995999999998,168.05 L120.04995999999998,148.2 Q120.04995999999998,140.2 112.04995999999998,140.2 L89.04066666666667,140.2 Q81.04066666666667,140.2 81.04066666666667,132.2 L81.04066666666667,112.2" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="Published" data-to="Archived" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="archive" d="M68.97,380.3 L68.97,472.15000000000003" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="Archived" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M68.97,514.35 L68.97,544.35" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
 <g class="edge-label" data-from="Draft" data-to="Review" data-label="submit">
-  <rect x="35.89866666666667" y="149.8" width="60.54400000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="66.17066666666668" y="162.025" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">submit</text>
+  <rect x="30.89933333333333" y="147.325" width="52" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="56.9" y="158.13" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">submit</text>
 </g>
 <g class="edge-label" data-from="Review" data-to="Published" data-label="approve">
-  <rect x="44.19576" y="289.04999999999995" width="74.96848000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="81.68" y="301.275" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">approve</text>
+  <rect x="36.81400000000001" y="281.375" width="64.31199999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="68.97" y="292.18" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">approve</text>
 </g>
 <g class="edge-label" data-from="Review" data-to="Draft" data-label="reject">
-  <rect x="106.08136" y="149.8" width="57.33856000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="134.75064" y="162.025" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">reject</text>
+  <rect x="95.41796" y="147.325" width="49.263999999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="120.05" y="158.13" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">reject</text>
 </g>
 <g class="edge-label" data-from="Published" data-to="Archived" data-label="archive">
-  <rect x="46.59984" y="428.29999999999995" width="70.16032000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="81.68" y="440.525" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">archive</text>
+  <rect x="38.866" y="415.425" width="60.208" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="68.97" y="426.23" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">archive</text>
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
-  <circle cx="81.68" cy="28" r="10" fill="var(--_text)" stroke="none" />
+  <circle cx="68.97" cy="28" r="10" fill="var(--accent, var(--fg))" />
   
 </g>
 <g class="node" data-id="Draft" data-label="Draft" data-shape="rounded">
-  <rect x="35.15200000000001" y="70" width="93.056" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="81.68" y="92.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Draft</text>
+  <rect x="32.758" y="70" width="72.42399999999999" height="42.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="68.97" y="91.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Draft</text>
 </g>
 <g class="node" data-id="Review" data-label="Review" data-shape="rounded">
-  <rect x="26.03200000000001" y="209.25" width="111.29599999999999" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="81.68" y="231.65" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Review</text>
+  <rect x="24.77799999999999" y="204.05" width="88.384" height="42.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="68.97" y="225.15" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Review</text>
 </g>
 <g class="node" data-id="Published" data-label="Published" data-shape="rounded">
-  <rect x="16" y="348.5" width="131.36" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="81.68" y="370.9" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Published</text>
+  <rect x="16" y="338.1" width="105.94" height="42.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="68.97" y="359.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Published</text>
 </g>
 <g class="node" data-id="Archived" data-label="Archived" data-shape="rounded">
-  <rect x="18.735999999999997" y="487.75" width="125.888" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="81.68" y="510.15" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Archived</text>
+  <rect x="18.394000000000005" y="472.15000000000003" width="101.152" height="42.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="68.97" y="493.25" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Archived</text>
 </g>
 <g class="node" data-id="_end" data-label="" data-shape="stateend">
-  <circle cx="81.68" cy="574.55" r="10" fill="none" stroke="var(--_text)" stroke-width="4" />
-<circle cx="81.68" cy="574.55" r="6" fill="var(--_text)" stroke="none" />
+  <circle cx="68.97" cy="556.35" r="10" fill="none" stroke="var(--accent, var(--fg))" stroke-width="2" />
+<circle cx="68.97" cy="556.35" r="6" fill="var(--accent, var(--fg))" />
   
 </g>
+<defs>
+  <linearGradient id="m1814eb8b-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+  <marker id="m1814eb8b-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
+  </marker>
+</defs>
 </svg>

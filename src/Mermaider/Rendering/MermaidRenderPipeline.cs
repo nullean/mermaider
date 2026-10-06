@@ -97,7 +97,8 @@ internal sealed record NormalizedRenderStyles(
 	string? MonoFont,
 	FontScale FontScale,
 	bool Transparent,
-	StrictStylingOptions? Strict);
+	StrictStylingOptions? Strict,
+	DesignInputs Design);
 
 internal sealed record NormalizedRenderConfiguration(
 	NormalizedRenderStyles Styles,
@@ -190,12 +191,13 @@ internal static class RenderConfigurationNormalizer
 			options?.MonoFont,
 			FontScale.From(options),
 			options?.Transparent ?? true,
-			strict);
+			strict,
+			DesignInputs.From(options));
 
 		return new NormalizedRenderConfiguration(
 			styles,
 			options?.LayoutProvider ?? MermaidRenderer.LayoutProvider,
-			options?.RoundedEdges != false ? 6.0 : 0);
+			options?.RoundedEdges != false ? styles.Design.Spec.EdgeBendRadius : 0);
 	}
 
 	private static DiagramColors BuildColors(RenderOptions? options, DiagramMetadata metadata)
@@ -209,7 +211,10 @@ internal static class RenderConfigurationNormalizer
 		{
 			Bg = SelectSafeColor(options?.Bg, baseColors.Bg),
 			Fg = SelectSafeColor(options?.Fg, baseColors.Fg),
-			Line = SelectSafeOptionalColor(options?.Line, baseColors.Line),
+			// a theme's line colour is its default box border; when the caller changes the box colour or the foreground
+			// without picking a line, the line is derived from their colours instead so it still matches the boxes
+			Line = SelectSafeOptionalColor(options?.Line,
+				options?.Default is not null || options?.Fg is not null ? null : baseColors.Line),
 			Accent = SelectSafeOptionalColor(options?.Accent, baseColors.Accent),
 			Muted = SelectSafeOptionalColor(options?.Muted, baseColors.Muted),
 			Surface = SelectSafeOptionalColor(options?.Surface, baseColors.Surface),

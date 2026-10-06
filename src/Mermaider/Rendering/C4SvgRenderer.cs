@@ -5,31 +5,47 @@ using Mermaider.Theming;
 
 namespace Mermaider.Rendering;
 
+/// <summary>
+/// C4 diagrams on the shared design system. Element kinds map to families: the system / container / component in scope is
+/// the accent, a person is cluster <c>p0</c>, anything external is the neutral; data stores are cylinders and queues are
+/// horizontal cylinders in the same family. Boxes are node-recipe cards with the <c>[kind]</c> tag, the name as a heading
+/// and the description wrapped to fit (the box grows, nothing is clipped). Boundaries are dashed shared containers,
+/// relations are orthogonal edges whose labels sit in the gaps between boxes, never over box text.
+/// </summary>
 internal static class C4SvgRenderer
 {
-	private const double BoxWidth = 200;
-	private const double BoxHeight = 120;
-	private const double GapX = 40;
-	private const double GapY = 50;
-	private const double BoundaryPad = 28;
-	private const double BoundaryHeader = 22;
+	private const double BoxWidth = 216;
+	private const double MinBoxHeight = 120;
+	private const double TextPad = 16;
+	private const double GapX = 56;
+	private const double GapY = 64;
+	private const double BoundarySidePad = 24;
+	private const double BoundaryTop = DesignSystem.StripHeight + 20;
+	private const double BoundaryBottomPad = 24;
 	private const double Margin = 40;
-	private const double TitleHeight = 36;
-	private const string TitleFontSize = RenderConstants.FsVar.L;
-	private const string LabelFontSize = RenderConstants.FsVar.S;
-	private const string TypeFontSize = RenderConstants.FsVar.Xs;
-	private const string DescFontSize = RenderConstants.FsVar.Xs;
 
-	// C4 palette (mermaid-compatible fixed style)
-	private static readonly (string Fill, string Stroke, string Text) PersonColors = ("#08427B", "#052E56", "#FFFFFF");
-	private static readonly (string Fill, string Stroke, string Text) PersonExtColors = ("#999999", "#8A8A8A", "#FFFFFF");
-	private static readonly (string Fill, string Stroke, string Text) SystemColors = ("#1168BD", "#0B4884", "#FFFFFF");
-	private static readonly (string Fill, string Stroke, string Text) SystemExtColors = ("#999999", "#8A8A8A", "#FFFFFF");
-	private static readonly (string Fill, string Stroke, string Text) ContainerColors = ("#438DD5", "#3C7FC0", "#FFFFFF");
-	private static readonly (string Fill, string Stroke, string Text) ContainerExtColors = ("#B3B3B3", "#A6A6A6", "#FFFFFF");
-	private static readonly (string Fill, string Stroke, string Text) ComponentColors = ("#85BBF0", "#78A8D8", "#000000");
-	private static readonly (string Fill, string Stroke, string Text) ComponentExtColors = ("#CCCCCC", "#B8B8B8", "#000000");
-	private static readonly (string Fill, string Stroke, string Text) NodeColors = ("#FFFFFF", "#666666", "#000000");
+	/// <summary>Title centre and where content starts below a title.</summary>
+	private const double TitleCy = 40;
+
+	private const double TitledContentTop = 88;
+
+	/// <summary>Half-height of the cap ellipse of a cylinder (db) and half-width of the caps of a queue.</summary>
+	private const double CapRy = 10;
+
+	private const double CapRx = 12;
+
+	/// <summary>Distance of a lane routed over a row from the boxes it clears, and between stacked lanes.</summary>
+	private const double LaneOffset = 32;
+
+	private const double LaneStep = 24;
+
+	// text is measured at the heaviest weight any preset uses, so layout never depends on the preset
+	private const int HeadingMeasureWeight = 700;
+	private const double HeadingLine = 21;
+	private const double BodyLine = 18.2;
+	private const double MetaLine = 15.6;
+	private const double TagLine = 16;
+	private const double GlyphRoom = 24;
 
 	private sealed class PlacedElement
 	{
@@ -37,7 +53,11 @@ internal static class C4SvgRenderer
 		public double X { get; set; }
 		public double Y { get; set; }
 		public double W { get; set; } = BoxWidth;
-		public double H { get; set; } = BoxHeight;
+		public double H { get; set; } = MinBoxHeight;
+		public double Right => X + W;
+		public double Bottom => Y + H;
+		public double Cx => X + (W / 2);
+		public double Cy => Y + (H / 2);
 	}
 
 	private sealed class PlacedBoundary
@@ -47,8 +67,15 @@ internal static class C4SvgRenderer
 		public double Y { get; set; }
 		public double W { get; set; }
 		public double H { get; set; }
+		public int Depth { get; init; }
+		public int Ordinal { get; init; }
 		public List<PlacedBoundary> Children { get; } = [];
 	}
+
+	private sealed record Route(IReadOnlyList<Point> Points, Point LabelAt, bool Self, bool LabelOnVertical = false);
+
+	/// <summary>Wrapped text of one element and the height it needs.</summary>
+	private sealed record ElementText(string Kind, IReadOnlyList<string> Name, IReadOnlyList<string> Tech, IReadOnlyList<string> Description, double Height);
 
 	internal static string Render(C4Diagram diagram, SvgRenderContext context)
 	{
@@ -67,408 +94,535 @@ internal static class C4SvgRenderer
 	internal static StringBuilder RenderToBuilder(C4Diagram diagram, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
+		var ds = DesignSystem.For(context);
 		var hasTitle = diagram.Title is { Length: > 0 };
-		var titleOffset = hasTitle ? TitleHeight : 0;
+		var contentTop = hasTitle ? TitledContentTop : Margin;
 
+		var texts = new Dictionary<string, ElementText>(StringComparer.Ordinal);
 		var placements = new Dictionary<string, PlacedElement>(StringComparer.Ordinal);
 		// Relation anchors include leaf elements + nested deployment-node boxes (not redrawn as leaves).
 		var relationAnchors = new Dictionary<string, PlacedElement>(StringComparer.Ordinal);
 		var rootBoundaries = new List<PlacedBoundary>();
+		var ordinal = 0;
 
-		var (contentW, contentH) = LayoutNodes(
-			diagram.RootNodes,
-			diagram.ShapeInRow,
-			diagram.BoundaryInRow,
-			Margin,
-			Margin + titleOffset,
-			placements,
-			relationAnchors,
-			rootBoundaries);
+		var layout = new LayoutState(diagram, texts, placements, relationAnchors);
+		_ = layout.LayoutNodes(diagram.RootNodes, Margin, contentTop, rootBoundaries, 0, ref ordinal);
 
-		var width = Math.Max(contentW + Margin, 320);
-		var height = Math.Max(contentH + Margin, 200);
-
-		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
-		StyleBlock.AppendStyleBlock(sb, context.Styles.Font, context.Styles.Strict, context.Styles.FontScale, context.Styles.MonoFont);
-		AppendDefs(sb);
-
-		if (hasTitle)
+		// lanes routed over a row may need room above the content: shift everything down until they clear the title
+		var routes = RouteAll(diagram.Relations, relationAnchors, placements);
+		var minY = contentTop;
+		foreach (var (_, route) in routes)
 		{
-			_ = sb.Append("\n<text x=\"").Append((width * 0.5).SvgFormat())
-				.Append("\" y=\"28\" text-anchor=\"middle\" font-size=\"")
-				.Append(TitleFontSize).Append("\" font-weight=\"700\" fill=\"var(--_text)\">");
-			MultilineUtils.AppendEscapedXml(sb, diagram.Title.AsSpan());
-			_ = sb.Append("</text>");
+			foreach (var pt in route.Points)
+				minY = Math.Min(minY, pt.Y);
+			minY = Math.Min(minY, route.LabelAt.Y - DesignSystem.PillHeight);
 		}
 
-		foreach (var b in rootBoundaries)
-			AppendBoundary(sb, b);
+		if (minY < contentTop)
+		{
+			var shift = contentTop - minY;
+			foreach (var p in relationAnchors.Values)
+				p.Y += shift;
+			foreach (var b in AllBoundaries(rootBoundaries))
+				b.Y += shift;
+			routes = RouteAll(diagram.Relations, relationAnchors, placements);
+		}
 
-		foreach (var rel in diagram.Relations)
-			AppendRelation(sb, rel, relationAnchors);
+		var maxX = Margin + 280;
+		var maxY = contentTop + 120;
+		foreach (var p in relationAnchors.Values)
+		{
+			maxX = Math.Max(maxX, p.Right);
+			maxY = Math.Max(maxY, p.Bottom);
+		}
+
+		foreach (var b in AllBoundaries(rootBoundaries))
+		{
+			maxX = Math.Max(maxX, b.X + b.W);
+			maxY = Math.Max(maxY, b.Y + b.H);
+		}
+
+		foreach (var (rel, route) in routes)
+		{
+			foreach (var pt in route.Points)
+			{
+				maxX = Math.Max(maxX, pt.X + 16);
+				maxY = Math.Max(maxY, pt.Y);
+			}
+
+			var labelW = DesignSystem.LabelBoxWidth(LabelWidth(rel));
+			maxX = Math.Max(maxX, route.LabelAt.X + (route.Self ? labelW : labelW / 2));
+			maxY = Math.Max(maxY, route.LabelAt.Y + DesignSystem.PillHeight);
+		}
+
+		if (hasTitle)
+			maxX = Math.Max(maxX, Margin + DesignSystem.TitleIndent + TextMetrics.MeasureTextWidth(diagram.Title!, DesignSystem.Px(TypeRole.Title), 700));
+
+		var width = maxX + Margin;
+		var height = maxY + Margin;
+
+		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendStyleBlock(sb, context.Styles);
+
+		if (hasTitle)
+			ds.AppendTitle(sb, Margin, TitleCy, diagram.Title!);
+
+		foreach (var b in rootBoundaries)
+			AppendBoundaryBody(sb, ds, b);
+
+		foreach (var (rel, route) in routes)
+			AppendRelation(sb, ds, rel, route, context.EdgeRadius);
+
+		foreach (var b in AllBoundaries(rootBoundaries))
+			AppendBoundaryHeader(sb, ds, b);
 
 		foreach (var p in placements.Values)
-			AppendElement(sb, p);
+			AppendElement(sb, ds, p, texts[p.Element.Alias]);
 
-		foreach (var rel in diagram.Relations)
-			AppendRelationLabel(sb, rel, relationAnchors);
+		foreach (var (rel, route) in routes)
+			AppendRelationLabel(sb, ds, rel, route);
 
-		_ = sb.Append("\n</svg>");
+		ds.Close(sb);
 		return sb;
 	}
 
-	private static (double MaxX, double MaxY) LayoutNodes(
-		IReadOnlyList<C4Node> nodes,
-		int shapeInRow,
-		int boundaryInRow,
-		double originX,
-		double originY,
+	// ========================================================================
+	// Layout
+	// ========================================================================
+
+	private sealed class LayoutState(
+		C4Diagram diagram,
+		Dictionary<string, ElementText> texts,
 		Dictionary<string, PlacedElement> placements,
-		Dictionary<string, PlacedElement> relationAnchors,
-		List<PlacedBoundary> outBoundaries)
+		Dictionary<string, PlacedElement> relationAnchors)
 	{
-		// Walk source order so Person → Boundary → System_Ext keeps left-to-right flow.
-		var cursorX = originX;
-		var cursorY = originY;
-		var rowMaxH = 0.0;
-		var leafCol = 0;
-		var boundaryCol = 0;
-		var maxX = originX;
-		var maxY = originY;
-
-		void NewRow()
+		/// <summary>Places <paramref name="nodes"/> in rows from (<paramref name="originX"/>, <paramref name="originY"/>); returns the extent.</summary>
+		internal (double MaxX, double MaxY) LayoutNodes(IReadOnlyList<C4Node> nodes, double originX, double originY, List<PlacedBoundary> outBoundaries, int depth, ref int ordinal)
 		{
-			cursorX = originX;
-			cursorY += rowMaxH + GapY;
-			rowMaxH = 0;
-			leafCol = 0;
-			boundaryCol = 0;
-		}
+			// Walk source order so Person → Boundary → System_Ext keeps left-to-right flow.
+			var cursorX = originX;
+			var cursorY = originY;
+			var rowMaxH = 0.0;
+			var leafCol = 0;
+			var boundaryCol = 0;
+			var maxX = originX;
+			var maxY = originY;
+			var rowLeaves = new List<PlacedElement>();
+			C4Node? previous = null;
 
-		foreach (var n in nodes)
-		{
-			if (n is C4Element el)
+			void EndRow()
 			{
-				if (leafCol >= shapeInRow)
+				// boxes in a row share one height, so the row reads as a row
+				var leafMax = rowLeaves.Count > 0 ? rowLeaves.Max(l => l.H) : 0;
+				foreach (var l in rowLeaves)
+					l.H = leafMax;
+				rowLeaves.Clear();
+			}
+
+			void NewRow()
+			{
+				EndRow();
+				cursorX = originX;
+				cursorY += rowMaxH + GapY;
+				rowMaxH = 0;
+				leafCol = 0;
+				boundaryCol = 0;
+				previous = null;
+			}
+
+			foreach (var n in nodes)
+			{
+				if (n is C4Element el)
+				{
+					if (leafCol >= diagram.ShapeInRow)
+						NewRow();
+
+					if (previous is not null)
+						cursorX += GapBetween(previous, n);
+
+					var text = MeasureElement(el);
+					texts[el.Alias] = text;
+					var placed = new PlacedElement { Element = el, X = cursorX, Y = cursorY, W = BoxWidth, H = text.Height };
+					placements[el.Alias] = placed;
+					relationAnchors[el.Alias] = placed;
+					rowLeaves.Add(placed);
+					cursorX += BoxWidth;
+					rowMaxH = Math.Max(rowMaxH, placed.H);
+					leafCol++;
+					maxX = Math.Max(maxX, placed.Right);
+					maxY = Math.Max(maxY, placed.Bottom);
+					previous = n;
+					continue;
+				}
+
+				if (n is not C4Boundary boundary)
+					continue;
+
+				if (boundaryCol >= diagram.BoundaryInRow)
 					NewRow();
 
-				var placed = new PlacedElement
+				if (previous is not null)
+					cursorX += GapBetween(previous, n);
+
+				var childBoundaries = new List<PlacedBoundary>();
+				var myOrdinal = ordinal++;
+				var (innerMaxX, innerMaxY) = LayoutNodes(
+					boundary.Children,
+					cursorX + BoundarySidePad,
+					cursorY + BoundaryTop,
+					childBoundaries,
+					depth + 1,
+					ref ordinal);
+
+				var titleW = TextMetrics.MeasureTextWidth(boundary.Label, DesignSystem.Px(TypeRole.Subheading), 700) + 80
+					+ (BoundaryTag(boundary) is { } tag ? TextMetrics.MeasureTextWidth(tag, DesignSystem.Px(TypeRole.Tag), 600) + 24 : 0);
+				var bw = Math.Max(Math.Max(BoxWidth + (BoundarySidePad * 2), titleW), innerMaxX - cursorX + BoundarySidePad);
+				var bh = Math.Max(MinBoxHeight + BoundaryTop + BoundaryBottomPad, innerMaxY - cursorY + BoundaryBottomPad);
+
+				var pb = new PlacedBoundary { Boundary = boundary, X = cursorX, Y = cursorY, W = bw, H = bh, Depth = depth, Ordinal = myOrdinal };
+				pb.Children.AddRange(childBoundaries);
+				outBoundaries.Add(pb);
+
+				// Nested deployment nodes are relation endpoints (outer box), not leaf redraws.
+				if (boundary.IsDeploymentNode)
 				{
-					Element = el,
-					X = cursorX,
-					Y = cursorY,
-					W = BoxWidth,
-					H = BoxHeight,
-				};
-				placements[el.Alias] = placed;
-				relationAnchors[el.Alias] = placed;
-				cursorX += BoxWidth + GapX;
-				rowMaxH = Math.Max(rowMaxH, BoxHeight);
-				leafCol++;
-				maxX = Math.Max(maxX, placed.X + placed.W);
-				maxY = Math.Max(maxY, placed.Y + placed.H);
-				continue;
+					relationAnchors[boundary.Alias] = new PlacedElement
+					{
+						Element = new C4Element(boundary.Alias, C4ElementType.DeploymentNode, boundary.Label, boundary.Technology, Description: null, External: false),
+						X = cursorX,
+						Y = cursorY,
+						W = bw,
+						H = bh,
+					};
+				}
+
+				cursorX += bw;
+				rowMaxH = Math.Max(rowMaxH, bh);
+				boundaryCol++;
+				maxX = Math.Max(maxX, pb.X + pb.W);
+				maxY = Math.Max(maxY, pb.Y + pb.H);
+				previous = n;
 			}
 
-			if (n is not C4Boundary boundary)
-				continue;
-
-			if (boundaryCol >= boundaryInRow)
-				NewRow();
-
-			var childPlacements = new Dictionary<string, PlacedElement>(StringComparer.Ordinal);
-			var childBoundaries = new List<PlacedBoundary>();
-			var innerOriginX = cursorX + BoundaryPad;
-			var innerOriginY = cursorY + BoundaryPad + BoundaryHeader;
-
-			var (innerMaxX, innerMaxY) = LayoutNodes(
-				boundary.Children,
-				shapeInRow,
-				boundaryInRow,
-				innerOriginX,
-				innerOriginY,
-				childPlacements,
-				relationAnchors,
-				childBoundaries);
-
-			foreach (var kv in childPlacements)
-				placements[kv.Key] = kv.Value;
-
-			var bw = Math.Max(BoxWidth + (BoundaryPad * 2), innerMaxX - cursorX + BoundaryPad);
-			var bh = Math.Max(BoxHeight + (BoundaryPad * 2) + BoundaryHeader, innerMaxY - cursorY + BoundaryPad);
-
-			var pb = new PlacedBoundary
-			{
-				Boundary = boundary,
-				X = cursorX,
-				Y = cursorY,
-				W = bw,
-				H = bh,
-			};
-			pb.Children.AddRange(childBoundaries);
-			outBoundaries.Add(pb);
-
-			// Nested deployment nodes are relation endpoints (outer box), not leaf redraws.
-			if (boundary.IsDeploymentNode)
-			{
-				relationAnchors[boundary.Alias] = new PlacedElement
-				{
-					Element = new C4Element(
-						boundary.Alias,
-						C4ElementType.DeploymentNode,
-						boundary.Label,
-						boundary.Technology,
-						Description: null,
-						External: false),
-					X = cursorX,
-					Y = cursorY,
-					W = bw,
-					H = bh,
-				};
-			}
-
-			cursorX += bw + GapX;
-			rowMaxH = Math.Max(rowMaxH, bh);
-			boundaryCol++;
-			maxX = Math.Max(maxX, pb.X + pb.W);
-			maxY = Math.Max(maxY, pb.Y + pb.H);
+			EndRow();
+			return (maxX, maxY);
 		}
 
-		return (maxX, maxY);
+		/// <summary>The gap before <paramref name="next"/>: wide enough for the widest label of a relation between the two neighbours.</summary>
+		private double GapBetween(C4Node prev, C4Node next)
+		{
+			var a = Aliases(prev);
+			var b = Aliases(next);
+			var widest = 0.0;
+			foreach (var rel in diagram.Relations)
+			{
+				if ((a.Contains(rel.From) && b.Contains(rel.To)) || (b.Contains(rel.From) && a.Contains(rel.To)))
+					widest = Math.Max(widest, DesignSystem.LabelBoxWidth(LabelWidth(rel)));
+			}
+
+			return Math.Max(GapX, widest + 32);
+		}
+
+		private static HashSet<string> Aliases(C4Node node)
+		{
+			var set = new HashSet<string>(StringComparer.Ordinal) { node.Alias };
+			if (node is C4Boundary b)
+			{
+				foreach (var c in b.Children)
+					set.UnionWith(Aliases(c));
+			}
+
+			return set;
+		}
 	}
 
-	private static void AppendDefs(StringBuilder sb)
+	private static string? BoundaryTag(C4Boundary b) =>
+		b.TypeLabel is { Length: > 0 } tl ? tl
+		: b.IsDeploymentNode && b.Technology is { Length: > 0 } techn ? techn
+		: null;
+
+	private static ElementText MeasureElement(C4Element el)
 	{
-		_ = sb.Append("\n<defs>\n");
-		_ = sb.Append("  <marker id=\"c4-arrow\" markerUnits=\"userSpaceOnUse\" markerWidth=\"10\" markerHeight=\"8\" refX=\"9\" refY=\"4\" orient=\"auto-start-reverse\">\n");
-		_ = sb.Append("    <polygon points=\"0 0, 10 4, 0 8\" fill=\"var(--_arrow)\" />\n");
-		_ = sb.Append("  </marker>\n");
-		_ = sb.Append("</defs>\n");
+		var inner = BoxWidth - (TextPad * 2);
+		if (IsQueue(el.Type))
+			inner -= CapRx * 2;
+		var name = DesignSystem.WrapWords(el.Label, inner, DesignSystem.Px(TypeRole.Heading), HeadingMeasureWeight);
+		var tech = el.Technology is { Length: > 0 } t
+			? DesignSystem.WrapWords("[" + t + "]", inner, DesignSystem.Px(TypeRole.Meta), 400)
+			: [];
+		var description = el.Description is { Length: > 0 } d
+			? DesignSystem.WrapWords(MultilineUtils.NormalizeBrTags(d).Replace('\n', ' '), inner, DesignSystem.Px(TypeRole.Body), 400)
+			: [];
+
+		var h = 14 + TagLine + 4 + (name.Count * HeadingLine) + (tech.Count * MetaLine) + (description.Count > 0 ? 4 + (description.Count * BodyLine) : 0) + 16;
+		if (el.Type == C4ElementType.Person)
+			h += GlyphRoom;
+		if (IsDb(el.Type))
+			h += CapRy * 2;
+		return new ElementText(TypeLabel(el), name, tech, description, Math.Max(MinBoxHeight, Math.Ceiling(h)));
 	}
 
-	private static void AppendBoundary(StringBuilder sb, PlacedBoundary b)
+	private static IEnumerable<PlacedBoundary> AllBoundaries(IEnumerable<PlacedBoundary> roots)
 	{
+		foreach (var b in roots)
+		{
+			yield return b;
+			foreach (var c in AllBoundaries(b.Children))
+				yield return c;
+		}
+	}
+
+	// ========================================================================
+	// Routing
+	// ========================================================================
+
+	private static List<(C4Relation Rel, Route Route)> RouteAll(
+		IReadOnlyList<C4Relation> relations, Dictionary<string, PlacedElement> anchors, Dictionary<string, PlacedElement> placements)
+	{
+		var obstacles = placements.Values.ToList();
+		var result = new List<(C4Relation, Route)>();
+		var lanes = 0;
+		foreach (var rel in relations)
+		{
+			if (!anchors.TryGetValue(rel.From, out var from) || !anchors.TryGetValue(rel.To, out var to))
+				continue;
+			result.Add((rel, RouteOne(from, to, obstacles, ref lanes)));
+		}
+
+		return result;
+	}
+
+	private static Route RouteOne(PlacedElement a, PlacedElement b, List<PlacedElement> obstacles, ref int lanes)
+	{
+		if (ReferenceEquals(a, b))
+		{
+			// self relation: a small loop on the right side, its label to the right of the loop
+			var sy = a.Y + (a.H * 0.35);
+			var ey = a.Y + (a.H * 0.65);
+			var lx = a.Right + 24;
+			return new Route([new(a.Right, sy), new(lx, sy), new(lx, ey), new(a.Right, ey)], new(lx + 8, (sy + ey) / 2), Self: true);
+		}
+
+		bool Blocked(Point p, Point q) => obstacles.Any(o =>
+			!ReferenceEquals(o, a) && !ReferenceEquals(o, b) && SegmentHitsBox(p, q, o));
+
+		var yTop = Math.Max(a.Y, b.Y);
+		var yBottom = Math.Min(a.Bottom, b.Bottom);
+		var xLeft = Math.Max(a.X, b.X);
+		var xRight = Math.Min(a.Right, b.Right);
+		var horizontallyApart = a.Right <= b.X || b.Right <= a.X;
+		var verticallyApart = a.Bottom <= b.Y || b.Bottom <= a.Y;
+
+		// side by side: a straight line through the gap, or a lane over the row when a box is in the way
+		if (horizontallyApart && yBottom - yTop > 24)
+		{
+			var y = (yTop + yBottom) / 2;
+			var (x1, x2) = a.Right <= b.X ? (a.Right, b.X) : (a.X, b.Right);
+			var p = new Point(x1, y);
+			var q = new Point(x2, y);
+			if (!Blocked(p, q))
+				return new Route([p, q], new((x1 + x2) / 2, y), Self: false);
+
+			var minX = Math.Min(a.Cx, b.Cx);
+			var maxX = Math.Max(a.Cx, b.Cx);
+			var top = obstacles.Where(o => o.Right > minX && o.X < maxX).Select(o => o.Y).Append(a.Y).Append(b.Y).Min();
+			var laneY = top - LaneOffset - (lanes++ * LaneStep);
+			return new Route([new(a.Cx, a.Y), new(a.Cx, laneY), new(b.Cx, laneY), new(b.Cx, b.Y)], new((a.Cx + b.Cx) / 2, laneY), Self: false);
+		}
+
+		// stacked: a straight vertical line through the gap
+		if (verticallyApart && xRight - xLeft > 24)
+		{
+			var x = (xLeft + xRight) / 2;
+			var (y1, y2) = a.Bottom <= b.Y ? (a.Bottom, b.Y) : (a.Y, b.Bottom);
+			return new Route([new(x, y1), new(x, y2)], new(x, (y1 + y2) / 2), Self: false, LabelOnVertical: true);
+		}
+
+		// diagonal neighbours: a Z through the gap between the rows, label on its middle run
+		if (verticallyApart)
+		{
+			var (y1, y2) = a.Bottom <= b.Y ? (a.Bottom, b.Y) : (a.Y, b.Bottom);
+			var midY = (y1 + y2) / 2;
+			return new Route([new(a.Cx, y1), new(a.Cx, midY), new(b.Cx, midY), new(b.Cx, y2)], new((a.Cx + b.Cx) / 2, midY), Self: false);
+		}
+
+		var (gx1, gx2) = a.Right <= b.X ? (a.Right, b.X) : (a.X, b.Right);
+		var midX = (gx1 + gx2) / 2;
+		return new Route([new(gx1, a.Cy), new(midX, a.Cy), new(midX, b.Cy), new(gx2, b.Cy)], new(midX, (a.Cy + b.Cy) / 2), Self: false, LabelOnVertical: true);
+	}
+
+	private static bool SegmentHitsBox(Point p, Point q, PlacedElement box)
+	{
+		var minX = Math.Min(p.X, q.X);
+		var maxX = Math.Max(p.X, q.X);
+		var minY = Math.Min(p.Y, q.Y);
+		var maxY = Math.Max(p.Y, q.Y);
+		return maxX > box.X && minX < box.Right && maxY > box.Y && minY < box.Bottom;
+	}
+
+	// ========================================================================
+	// Painting
+	// ========================================================================
+
+	/// <summary>Family of a boundary: deployment nodes are neutral, others alternate through the palette after the person.</summary>
+	private static ColorFamily BoundaryFamily(DesignSystem ds, PlacedBoundary b) =>
+		b.Boundary.IsDeploymentNode ? ds.Neutral : ds.Cluster(1 + b.Ordinal);
+
+	private static void AppendBoundaryBody(StringBuilder sb, DesignSystem ds, PlacedBoundary b)
+	{
+		var family = BoundaryFamily(ds, b);
+		var attrs = new StringBuilder("data-id=\"");
+		MultilineUtils.AppendEscapedAttr(attrs, b.Boundary.Alias.AsSpan());
+		_ = attrs.Append('"');
 		if (b.Boundary.IsDeploymentNode)
-		{
-			// Solid node chrome (not dashed enterprise boundary style)
-			_ = sb.Append("\n<rect x=\"").Append(b.X.SvgFormat()).Append("\" y=\"").Append(b.Y.SvgFormat())
-				.Append("\" width=\"").Append(b.W.SvgFormat()).Append("\" height=\"").Append(b.H.SvgFormat())
-				.Append("\" rx=\"4\" ry=\"4\" fill=\"").Append(NodeColors.Fill)
-				.Append("\" stroke=\"").Append(NodeColors.Stroke).Append("\" stroke-width=\"1.5\" />");
-		}
+			ds.AppendContainerBody(sb, b.X, b.Y, b.W, b.H, family, b.Depth, "c4-deployment-node", attrs.ToString());
 		else
-		{
-			_ = sb.Append("\n<rect x=\"").Append(b.X.SvgFormat()).Append("\" y=\"").Append(b.Y.SvgFormat())
-				.Append("\" width=\"").Append(b.W.SvgFormat()).Append("\" height=\"").Append(b.H.SvgFormat())
-				.Append("\" rx=\"4\" ry=\"4\" fill=\"none\" stroke=\"var(--_line)\" stroke-width=\"1.5\" stroke-dasharray=\"6 4\" />");
-		}
-
-		var header = b.Boundary.Label;
-		if (b.Boundary.TypeLabel is { Length: > 0 } tl)
-			header = $"{header} [{tl}]";
-		else if (b.Boundary.IsDeploymentNode && b.Boundary.Technology is { Length: > 0 } techn)
-			header = $"{header} [{techn}]";
-
-		var fill = b.Boundary.IsDeploymentNode ? NodeColors.Text : "var(--_text-sec)";
-		_ = sb.Append("\n<text x=\"").Append((b.X + 10).SvgFormat()).Append("\" y=\"").Append((b.Y + 16).SvgFormat())
-			.Append("\" dy=\"").Append(RenderConstants.TextBaselineShift)
-			.Append("\" font-size=\"").Append(LabelFontSize)
-			.Append("\" font-weight=\"600\" fill=\"").Append(fill).Append("\">");
-		MultilineUtils.AppendEscapedXml(sb, header.AsSpan());
-		_ = sb.Append("</text>");
+			ds.AppendDashedContainerBody(sb, b.X, b.Y, b.W, b.H, family, b.Depth, "c4-boundary", attrs.ToString());
 
 		foreach (var child in b.Children)
-			AppendBoundary(sb, child);
+			AppendBoundaryBody(sb, ds, child);
 	}
 
-	private static void AppendElement(StringBuilder sb, PlacedElement p)
-	{
-		var (fill, stroke, text) = ColorsFor(p.Element);
-		var isPerson = p.Element.Type == C4ElementType.Person;
-		var isDb = p.Element.Type is C4ElementType.SystemDb or C4ElementType.ContainerDb or C4ElementType.ComponentDb;
-		var isQueue = p.Element.Type is C4ElementType.SystemQueue or C4ElementType.ContainerQueue or C4ElementType.ComponentQueue;
+	private static void AppendBoundaryHeader(StringBuilder sb, DesignSystem ds, PlacedBoundary b) =>
+		ds.AppendContainerHeader(sb, b.X, b.Y, b.W, b.Boundary.Label, BoundaryFamily(ds, b), BoundaryTag(b.Boundary));
 
-		if (isPerson)
+	private static bool IsDb(C4ElementType t) => t is C4ElementType.SystemDb or C4ElementType.ContainerDb or C4ElementType.ComponentDb;
+
+	private static bool IsQueue(C4ElementType t) => t is C4ElementType.SystemQueue or C4ElementType.ContainerQueue or C4ElementType.ComponentQueue;
+
+	/// <summary>Kind → family: external = neutral, person = p0, everything in scope = accent.</summary>
+	private static ColorFamily FamilyFor(DesignSystem ds, C4Element el) => el.Type switch
+	{
+		_ when el.External => ds.Neutral,
+		C4ElementType.Person => ds.Cluster(0),
+		C4ElementType.DeploymentNode => ds.Neutral,
+		_ => ds.Accent,
+	};
+
+	private static void AppendElement(StringBuilder sb, DesignSystem ds, PlacedElement p, ElementText text)
+	{
+		var el = p.Element;
+		var family = FamilyFor(ds, el);
+		var isDb = IsDb(el.Type);
+		var isQueue = IsQueue(el.Type);
+
+		_ = sb.Append("\n<g class=\"node c4-element\" data-id=\"");
+		MultilineUtils.AppendEscapedAttr(sb, el.Alias.AsSpan());
+		_ = sb.Append("\" data-kind=\"").Append(el.Type.ToString().ToLowerInvariant())
+			.Append("\" data-external=\"").Append(el.External ? "true" : "false").Append("\">\n  ");
+
+		var fill = ds.NodeFill(family);
+		var stroke = ds.NodeStroke(family);
+		var sw = ds.NodeStrokeWidth;
+		// the cap seam stays visible when the preset has no outline
+		var seam = ds.Spec.OutlineWidth > 0 ? stroke : family.Edge;
+		var seamW = ds.Spec.OutlineWidth > 0 ? sw : "1.25";
+		if (isDb)
 		{
-			var cx = p.X + (p.W * 0.5);
-			var headR = 14.0;
-			var headCy = p.Y + 22;
-			_ = sb.Append("\n<circle cx=\"").Append(cx.SvgFormat()).Append("\" cy=\"").Append(headCy.SvgFormat())
-				.Append("\" r=\"").Append(headR.SvgFormat())
-				.Append("\" fill=\"").Append(fill).Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"1.5\" />");
-			_ = sb.Append("\n<path d=\"M ").Append((p.X + 30).SvgFormat()).Append(' ').Append((p.Y + 40).SvgFormat())
-				.Append(" Q ").Append(cx.SvgFormat()).Append(' ').Append((p.Y + 32).SvgFormat())
-				.Append(' ').Append((p.X + p.W - 30).SvgFormat()).Append(' ').Append((p.Y + 40).SvgFormat())
-				.Append(" L ").Append((p.X + p.W - 20).SvgFormat()).Append(' ').Append((p.Y + p.H - 12).SvgFormat())
-				.Append(" Q ").Append(cx.SvgFormat()).Append(' ').Append((p.Y + p.H).SvgFormat())
-				.Append(' ').Append((p.X + 20).SvgFormat()).Append(' ').Append((p.Y + p.H - 12).SvgFormat())
-				.Append(" Z\" fill=\"").Append(fill).Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"1.5\" />");
+			// cylinder: body + front of the top cap
+			_ = sb.Append("<path d=\"M").Append(p.X).Append(',').Append(p.Y + CapRy)
+				.Append(" A").Append(p.W / 2).Append(',').Append(CapRy).Append(" 0 0 1 ").Append(p.Right).Append(',').Append(p.Y + CapRy)
+				.Append(" L").Append(p.Right).Append(',').Append(p.Bottom - CapRy)
+				.Append(" A").Append(p.W / 2).Append(',').Append(CapRy).Append(" 0 0 1 ").Append(p.X).Append(',').Append(p.Bottom - CapRy)
+				.Append(" Z\" fill=\"").Append(fill).Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"").Append(sw).Append("\" />\n  ");
+			_ = sb.Append("<path d=\"M").Append(p.X).Append(',').Append(p.Y + CapRy)
+				.Append(" A").Append(p.W / 2).Append(',').Append(CapRy).Append(" 0 0 0 ").Append(p.Right).Append(',').Append(p.Y + CapRy)
+				.Append("\" fill=\"none\" stroke=\"").Append(seam).Append("\" stroke-width=\"").Append(seamW).Append("\" />");
 		}
-		else if (isDb)
+		else if (isQueue)
 		{
-			var rx = p.W * 0.5;
-			var ry = 12.0;
-			_ = sb.Append("\n<path d=\"M ").Append(p.X.SvgFormat()).Append(' ').Append((p.Y + ry).SvgFormat())
-				.Append(" A ").Append(rx.SvgFormat()).Append(' ').Append(ry.SvgFormat()).Append(" 0 0 1 ")
-				.Append((p.X + p.W).SvgFormat()).Append(' ').Append((p.Y + ry).SvgFormat())
-				.Append(" L ").Append((p.X + p.W).SvgFormat()).Append(' ').Append((p.Y + p.H - ry).SvgFormat())
-				.Append(" A ").Append(rx.SvgFormat()).Append(' ').Append(ry.SvgFormat()).Append(" 0 0 1 ")
-				.Append(p.X.SvgFormat()).Append(' ').Append((p.Y + p.H - ry).SvgFormat())
-				.Append(" Z\" fill=\"").Append(fill).Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"1.5\" />");
-			_ = sb.Append("\n<path d=\"M ").Append(p.X.SvgFormat()).Append(' ').Append((p.Y + ry).SvgFormat())
-				.Append(" A ").Append(rx.SvgFormat()).Append(' ').Append(ry.SvgFormat()).Append(" 0 0 0 ")
-				.Append((p.X + p.W).SvgFormat()).Append(' ').Append((p.Y + ry).SvgFormat())
-				.Append("\" fill=\"none\" stroke=\"").Append(stroke).Append("\" stroke-width=\"1.5\" />");
+			// horizontal cylinder: body + front of the right cap
+			_ = sb.Append("<path d=\"M").Append(p.X + CapRx).Append(',').Append(p.Y)
+				.Append(" L").Append(p.Right - CapRx).Append(',').Append(p.Y)
+				.Append(" A").Append(CapRx).Append(',').Append(p.H / 2).Append(" 0 0 1 ").Append(p.Right - CapRx).Append(',').Append(p.Bottom)
+				.Append(" L").Append(p.X + CapRx).Append(',').Append(p.Bottom)
+				.Append(" A").Append(CapRx).Append(',').Append(p.H / 2).Append(" 0 0 1 ").Append(p.X + CapRx).Append(',').Append(p.Y)
+				.Append(" Z\" fill=\"").Append(fill).Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"").Append(sw).Append("\" />\n  ");
+			_ = sb.Append("<path d=\"M").Append(p.Right - CapRx).Append(',').Append(p.Y)
+				.Append(" A").Append(CapRx).Append(',').Append(p.H / 2).Append(" 0 0 0 ").Append(p.Right - CapRx).Append(',').Append(p.Bottom)
+				.Append("\" fill=\"none\" stroke=\"").Append(seam).Append("\" stroke-width=\"").Append(seamW).Append("\" />");
 		}
 		else
 		{
-			var rx = isQueue ? 24 : 4;
-			_ = sb.Append("\n<rect x=\"").Append(p.X.SvgFormat()).Append("\" y=\"").Append(p.Y.SvgFormat())
-				.Append("\" width=\"").Append(p.W.SvgFormat()).Append("\" height=\"").Append(p.H.SvgFormat())
-				.Append("\" rx=\"").Append(rx).Append("\" ry=\"").Append(rx).Append("\" fill=\"").Append(fill)
-				.Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"1.5\" />");
+			ds.AppendBox(sb, p.X, p.Y, p.W, p.H, family);
 		}
 
-		var typeLabel = TypeLabel(p.Element);
-		var midX = p.X + (p.W * 0.5);
-		var textStartY = isPerson ? p.Y + 58 : p.Y + 28;
-
-		_ = sb.Append("\n<text x=\"").Append(midX.SvgFormat()).Append("\" y=\"").Append(textStartY.SvgFormat())
-			.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
-			.Append("\" font-size=\"").Append(TypeFontSize)
-			.Append("\" fill=\"").Append(text).Append("\" opacity=\"0.85\">");
-		MultilineUtils.AppendEscapedXml(sb, typeLabel.AsSpan());
-		_ = sb.Append("</text>");
-
-		_ = sb.Append("\n<text x=\"").Append(midX.SvgFormat()).Append("\" y=\"").Append((textStartY + 18).SvgFormat())
-			.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
-			.Append("\" font-size=\"").Append(LabelFontSize)
-			.Append("\" font-weight=\"700\" fill=\"").Append(text).Append("\">");
-		AppendTruncated(sb, p.Element.Label, 28);
-		_ = sb.Append("</text>");
-
-		if (p.Element.Technology is { Length: > 0 } techn)
+		// text column, top aligned: [glyph] [kind] name [tech] description
+		var cx = isQueue ? p.Cx - (CapRx / 2) : p.Cx;
+		var y = p.Y + 14 + (isDb ? CapRy * 2 : 0);
+		if (el.Type == C4ElementType.Person)
 		{
-			_ = sb.Append("\n<text x=\"").Append(midX.SvgFormat()).Append("\" y=\"").Append((textStartY + 34).SvgFormat())
-				.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
-				.Append("\" font-size=\"").Append(TypeFontSize)
-				.Append("\" fill=\"").Append(text).Append("\" opacity=\"0.9\">[");
-			AppendTruncated(sb, techn, 24);
-			_ = sb.Append("]</text>");
+			_ = sb.Append("\n  ");
+			DesignSystem.AppendGlyph(sb, DesignSystem.Glyph.Person, cx, y + 10, family.Ink);
+			y += GlyphRoom;
 		}
 
-		if (p.Element.Description is { Length: > 0 } descr)
+		// the kind is a tag in the family ink, set in mono so it reads as notation
+		_ = sb.Append("\n  ");
+		var tagAttrs = (ds.IsMono(TypeRole.Tag) ? "" : "class=\"mono\" ") + ds.TextAttributes(TypeRole.Tag, family.Ink);
+		MultilineUtils.AppendMultilineText(sb, text.Kind, cx, y + (TagLine / 2), DesignSystem.Px(TypeRole.Tag), tagAttrs);
+		y += TagLine + 4;
+
+		AppendLines(sb, ds, text.Name, cx, ref y, HeadingLine, TypeRole.Heading, null);
+		AppendLines(sb, ds, text.Tech, cx, ref y, MetaLine, TypeRole.Meta, null);
+		if (text.Description.Count > 0)
 		{
-			var descY = p.Element.Technology is { Length: > 0 } ? 50 : 36;
-			_ = sb.Append("\n<text x=\"").Append(midX.SvgFormat()).Append("\" y=\"").Append((textStartY + descY).SvgFormat())
-				.Append("\" text-anchor=\"middle\" dy=\"").Append(RenderConstants.TextBaselineShift)
-				.Append("\" font-size=\"").Append(DescFontSize)
-				.Append("\" fill=\"").Append(text).Append("\" opacity=\"0.8\">");
-			var cleaned = descr.Replace("<br/>", " ", StringComparison.OrdinalIgnoreCase)
-				.Replace("<br>", " ", StringComparison.OrdinalIgnoreCase);
-			AppendTruncated(sb, cleaned, 32);
-			_ = sb.Append("</text>");
+			y += 4;
+			AppendLines(sb, ds, text.Description, cx, ref y, BodyLine, TypeRole.Body, "var(--_text-sec)");
 		}
+
+		_ = sb.Append("\n</g>");
 	}
 
-	private static void AppendRelation(StringBuilder sb, C4Relation rel, Dictionary<string, PlacedElement> placements)
+	private static void AppendLines(StringBuilder sb, DesignSystem ds, IReadOnlyList<string> lines, double cx, ref double y, double lineHeight, TypeRole role, string? color)
 	{
-		if (!placements.TryGetValue(rel.From, out var from) || !placements.TryGetValue(rel.To, out var to))
-			return;
-
-		// Self-relation: small loop on the right side of the box (v1).
-		if (string.Equals(rel.From, rel.To, StringComparison.Ordinal))
+		foreach (var line in lines)
 		{
-			var sx = from.X + from.W;
-			var sy = from.Y + (from.H * 0.35);
-			var ex = from.X + from.W;
-			var ey = from.Y + (from.H * 0.65);
-			var cx = sx + 28;
-			_ = sb.Append("\n<path d=\"M ").Append(sx.SvgFormat()).Append(' ').Append(sy.SvgFormat())
-				.Append(" C ").Append(cx.SvgFormat()).Append(' ').Append(sy.SvgFormat())
-				.Append(' ').Append(cx.SvgFormat()).Append(' ').Append(ey.SvgFormat())
-				.Append(' ').Append(ex.SvgFormat()).Append(' ').Append(ey.SvgFormat())
-				.Append("\" fill=\"none\" stroke=\"var(--_arrow)\" stroke-width=\"1.5\" marker-end=\"url(#c4-arrow)\" />");
-			return;
+			_ = sb.Append("\n  ");
+			ds.AppendText(sb, line, cx, y + (lineHeight / 2), role, color);
+			y += lineHeight;
 		}
-
-		var x1 = from.X + (from.W * 0.5);
-		var y1 = from.Y + (from.H * 0.5);
-		var x2 = to.X + (to.W * 0.5);
-		var y2 = to.Y + (to.H * 0.5);
-
-		(x1, y1, x2, y2) = ClipToBoxes(x1, y1, x2, y2, from, to);
-
-		var marker = " marker-end=\"url(#c4-arrow)\"";
-		var markerStart = rel.Bidirectional ? " marker-start=\"url(#c4-arrow)\"" : "";
-
-		_ = sb.Append("\n<line x1=\"").Append(x1.SvgFormat()).Append("\" y1=\"").Append(y1.SvgFormat())
-			.Append("\" x2=\"").Append(x2.SvgFormat()).Append("\" y2=\"").Append(y2.SvgFormat())
-			.Append("\" stroke=\"var(--_arrow)\" stroke-width=\"1.5\"")
-			.Append(marker).Append(markerStart).Append(" />");
 	}
 
-	private static void AppendRelationLabel(StringBuilder sb, C4Relation rel, Dictionary<string, PlacedElement> placements)
+	private static void AppendRelation(StringBuilder sb, DesignSystem ds, C4Relation rel, Route route, double cornerRadius)
+	{
+		_ = sb.Append("\n<path class=\"c4-relation\" data-from=\"");
+		MultilineUtils.AppendEscapedAttr(sb, rel.From.AsSpan());
+		_ = sb.Append("\" data-to=\"");
+		MultilineUtils.AppendEscapedAttr(sb, rel.To.AsSpan());
+		_ = sb.Append("\" d=\"");
+		SvgRenderer.BuildOrthogonalPath(sb, route.Points, route.Self ? Math.Min(6, cornerRadius) : cornerRadius);
+		_ = sb.Append("\" fill=\"none\" stroke=\"").Append(DesignSystem.EdgeColor).Append("\" stroke-width=\"").Append(ds.EdgeWidth)
+			.Append("\" marker-end=\"").Append(ds.Marker(MarkerShape.Arrow)).Append('"');
+		if (rel.Bidirectional)
+			_ = sb.Append(" marker-start=\"").Append(ds.Marker(MarkerShape.Arrow, atStart: true)).Append('"');
+		_ = sb.Append(" />");
+	}
+
+	private static string LabelText(C4Relation rel) =>
+		rel.Technology is { Length: > 0 } t ? $"{rel.Label} [{t}]" : rel.Label ?? "";
+
+	private static double LabelWidth(C4Relation rel) =>
+		rel.Label is { Length: > 0 } ? TextMetrics.MeasureTextWidth(LabelText(rel), DesignSystem.Px(TypeRole.Caption), 600) : 0;
+
+	private static void AppendRelationLabel(StringBuilder sb, DesignSystem ds, C4Relation rel, Route route)
 	{
 		if (rel.Label is not { Length: > 0 })
 			return;
-		if (!placements.TryGetValue(rel.From, out var from) || !placements.TryGetValue(rel.To, out var to))
-			return;
 
-		var fromCx = from.X + (from.W * 0.5);
-		var fromCy = from.Y + (from.H * 0.5);
-		var toCx = to.X + (to.W * 0.5);
-		var toCy = to.Y + (to.H * 0.5);
-		var mx = (fromCx + toCx) * 0.5;
-		var my = ((fromCy + toCy) * 0.5) - 6;
-
-		var text = rel.Label;
-		if (rel.Technology is { Length: > 0 } t)
-			text = $"{text} [{t}]";
-
-		_ = sb.Append("\n<text x=\"").Append(mx.SvgFormat()).Append("\" y=\"").Append(my.SvgFormat())
-			.Append("\" text-anchor=\"middle\" font-size=\"").Append(TypeFontSize)
-			.Append("\" fill=\"var(--_text)\" font-weight=\"500\">");
-		MultilineUtils.AppendEscapedXml(sb, text.AsSpan());
-		_ = sb.Append("</text>");
+		var cx = route.Self ? route.LabelAt.X + (DesignSystem.LabelBoxWidth(LabelWidth(rel)) / 2) : route.LabelAt.X;
+		// halo labels have no box, so on a horizontal run they sit just above the line instead of on it
+		var cy = ds.Spec.Label == LabelKind.Halo && !route.Self && !route.LabelOnVertical
+			? route.LabelAt.Y - (DesignSystem.PillHeight / 2)
+			: route.LabelAt.Y;
+		_ = sb.Append("\n<g class=\"edge-label\" data-from=\"");
+		MultilineUtils.AppendEscapedAttr(sb, rel.From.AsSpan());
+		_ = sb.Append("\" data-to=\"");
+		MultilineUtils.AppendEscapedAttr(sb, rel.To.AsSpan());
+		_ = sb.Append("\">\n  ");
+		ds.AppendEdgeLabel(sb, cx, cy, LabelText(rel));
+		_ = sb.Append("\n</g>");
 	}
-
-	private static (double x1, double y1, double x2, double y2) ClipToBoxes(
-		double x1, double y1, double x2, double y2, PlacedElement from, PlacedElement to)
-	{
-		(x1, y1) = IntersectBoxEdge(x1, y1, x2, y2, from);
-		(x2, y2) = IntersectBoxEdge(x2, y2, x1, y1, to);
-		return (x1, y1, x2, y2);
-	}
-
-	private static (double x, double y) IntersectBoxEdge(double cx, double cy, double tx, double ty, PlacedElement box)
-	{
-		var dx = tx - cx;
-		var dy = ty - cy;
-		if (Math.Abs(dx) < 0.001 && Math.Abs(dy) < 0.001)
-			return (cx, cy);
-
-		var hw = box.W * 0.5;
-		var hh = box.H * 0.5;
-		var scaleX = Math.Abs(dx) < 0.001 ? double.MaxValue : hw / Math.Abs(dx);
-		var scaleY = Math.Abs(dy) < 0.001 ? double.MaxValue : hh / Math.Abs(dy);
-		var scale = Math.Min(scaleX, scaleY);
-		return (cx + (dx * scale), cy + (dy * scale));
-	}
-
-	private static (string Fill, string Stroke, string Text) ColorsFor(C4Element el) => el.Type switch
-	{
-		C4ElementType.Person when el.External => PersonExtColors,
-		C4ElementType.Person => PersonColors,
-		C4ElementType.System or C4ElementType.SystemDb or C4ElementType.SystemQueue when el.External => SystemExtColors,
-		C4ElementType.System or C4ElementType.SystemDb or C4ElementType.SystemQueue => SystemColors,
-		C4ElementType.Container or C4ElementType.ContainerDb or C4ElementType.ContainerQueue when el.External => ContainerExtColors,
-		C4ElementType.Container or C4ElementType.ContainerDb or C4ElementType.ContainerQueue => ContainerColors,
-		C4ElementType.Component or C4ElementType.ComponentDb or C4ElementType.ComponentQueue when el.External => ComponentExtColors,
-		C4ElementType.Component or C4ElementType.ComponentDb or C4ElementType.ComponentQueue => ComponentColors,
-		C4ElementType.DeploymentNode => NodeColors,
-		_ => SystemColors,
-	};
 
 	private static string TypeLabel(C4Element el)
 	{
@@ -489,16 +643,4 @@ internal static class C4SvgRenderer
 			_ => "[element]",
 		};
 	}
-
-	private static void AppendTruncated(StringBuilder sb, string text, int maxChars)
-	{
-		if (text.Length <= maxChars)
-		{
-			MultilineUtils.AppendEscapedXml(sb, text.AsSpan());
-			return;
-		}
-		MultilineUtils.AppendEscapedXml(sb, text.AsSpan(0, maxChars - 1));
-		_ = sb.Append('…');
-	}
-
 }

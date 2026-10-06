@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 714 374" width="714" height="374" style="--bg:#18181B;--fg:#FAFAFA;--line:#AFBAC9;--accent:#60a5fa">
+<style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, color-mix(in srgb, var(--bg) 35%, black) 55%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, color-mix(in srgb, var(--bg) 35%, black) 35%, transparent)); }
+</style>
+
+<g class="diagram-title">
+  <rect x="24" y="33.5" width="9" height="9" rx="2" ry="2" fill="var(--accent, var(--fg))" />
+  <text x="40" y="38" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">Shipping this file</text>
+</g>
+<g class="legend">
+  <rect x="374.272" y="32" width="12" height="12" rx="4" ry="4" fill="color-mix(in srgb, #94a3b8 26%, var(--bg))" stroke="color-mix(in srgb, #94a3b8 74%, var(--fg))" stroke-width="1.25" /> <text x="394.27" y="38" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Done</text>
+  <rect x="442.8" y="32" width="12" height="12" rx="4" ry="4" fill="#94a3b8" /> <rect x="439.8" y="29" width="18" height="18" rx="6" ry="6" fill="none" stroke="var(--accent, var(--fg))" stroke-width="1.5" /> <text x="462.8" y="38" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Active</text>
+  <rect x="524" y="32" width="12" height="12" rx="4" ry="4" fill="#EFA5A6" /> <text x="544" y="38" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Critical</text>
+  <rect x="619.6" y="32" width="12" height="12" rx="4" ry="4" fill="#94a3b8" /> <text x="639.6" y="38" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Planned</text>
+</g>
+<rect class="plot-panel" x="24" y="72" width="666" height="246" rx="12" ry="12" fill="var(--_group-fill)" stroke="none" stroke-width="1" />
+<g class="gantt-axis">
+  <line x1="198" y1="80" x2="198" y2="318" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="198" y="338" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">Jul 7</text>
+  <line x1="358" y1="80" x2="358" y2="318" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="358" y="338" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">Jul 8</text>
+  <line x1="518" y1="80" x2="518" y2="318" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="518" y="338" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">Jul 9</text>
+  <line x1="678" y1="80" x2="678" y2="318" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="678" y="338" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">Jul 10</text>
+  <line x1="198" y1="318" x2="678" y2="318" stroke="var(--_line)" stroke-width="1.25" />
+</g>
+<g class="gantt-section" data-section="0" data-label="Render">
+  <text x="38" y="100" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" letter-spacing="0.08em" fill="color-mix(in srgb, #94a3b8 44%, var(--fg))" dy="4.2">RENDER</text>
+  <line x1="109.64" y1="100" x2="184" y2="100" stroke="color-mix(in srgb, #94a3b8 42%, var(--bg))" stroke-width="1.25" />
+<g class="gantt-task" data-state="done">
+  <text x="38" y="136" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Spike the renderer</text>
+  <rect x="198" y="126" width="160" height="20" rx="6" ry="6" fill="color-mix(in srgb, #94a3b8 26%, var(--bg))" stroke="color-mix(in srgb, #94a3b8 74%, var(--fg))" stroke-width="1.25" />
+</g>
+<g class="gantt-task" data-state="active">
+  <text x="38" y="172" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Print this page</text>
+  <rect x="358" y="162" width="160" height="20" rx="6" ry="6" fill="#94a3b8" />
+  <rect x="355" y="159" width="166" height="26" rx="8" ry="8" fill="none" stroke="var(--accent, var(--fg))" stroke-width="1.5" />
+</g>
+</g>
+<g class="gantt-section" data-section="1" data-label="Polish">
+  <text x="38" y="208" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" letter-spacing="0.08em" fill="color-mix(in srgb, #F7BC81 44%, var(--fg))" dy="4.2">POLISH</text>
+  <line x1="103.88" y1="208" x2="184" y2="208" stroke="color-mix(in srgb, #F7BC81 42%, var(--bg))" stroke-width="1.25" />
+<g class="gantt-task" data-state="critical">
+  <text x="38" y="244" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Update tests</text>
+  <rect x="518" y="234" width="80" height="20" rx="6" ry="6" fill="#EFA5A6" />
+</g>
+<g class="gantt-task" data-state="planned">
+  <text x="38" y="280" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Update docs</text>
+  <rect x="598" y="270" width="40" height="20" rx="6" ry="6" fill="#F7BC81" />
+</g>
+</g>
+</svg>

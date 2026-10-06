@@ -23,6 +23,18 @@ internal static class ColorUtils
 		return luminance > 0.179 ? "#1a1a1a" : "#ffffff";
 	}
 
+	/// <summary>
+	/// <c>color-mix(in srgb, <paramref name="a"/> <paramref name="weightA"/>, <paramref name="b"/>)</c> computed to a hex colour:
+	/// a per-channel blend of the two sRGB values, exactly what CSS does for that expression.
+	/// </summary>
+	internal static string MixHex(string a, string b, double weightA)
+	{
+		var (ar, ag, ab) = ParseHex(a);
+		var (br, bg, bb) = ParseHex(b);
+		static int Ch(byte x, byte y, double w) => (int)Math.Round((x * w) + (y * (1 - w)));
+		return $"#{Ch(ar, br, weightA):X2}{Ch(ag, bg, weightA):X2}{Ch(ab, bb, weightA):X2}";
+	}
+
 	internal static string InvertLightness(string hex)
 	{
 		var (r, g, b) = ParseHex(hex);

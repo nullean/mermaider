@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 405.61600000000004 488" width="405.61600000000004" height="488" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390.93399999999997 488" width="390.93399999999997" height="488" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,55 +26,48 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<defs>
-  <marker id="seq-arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" />
-  </marker>
-  <marker id="seq-arrow-open" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polyline points="0 0, 12 6, 0 12" fill="none" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-</defs>
-
-<line class="lifeline" data-actor="A" x1="76.384" y1="70" x2="76.384" y2="458" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
-<line class="lifeline" data-actor="B" x1="216.38400000000001" y1="70" x2="216.38400000000001" y2="458" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="A" x1="72.586" y1="70" x2="72.586" y2="418" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
+<line class="lifeline" data-actor="B" x1="212.586" y1="70" x2="212.586" y2="418" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
 <g class="message" data-from="A" data-to="A" data-label="Initialize" data-line-style="solid" data-arrow-head="filled" data-self="true">
-  <polyline points="76.384,114 106.384,114 106.384,134 76.384,134" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
-  <rect x="114.38400000000001" y="111.775" width="71.76304" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="150.26552" y="124" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Initialize</text>
+  <polyline points="72.586,114 102.586,114 102.586,134 72.586,134" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#m1814eb8b-mk-arrow)" />
+  <rect x="110.586" y="113.2" width="61.57599999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="141.37" y="124" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Initialize</text>
 </g>
 <g class="message" data-from="A" data-to="B" data-label="Send message" data-line-style="solid" data-arrow-head="filled" data-self="false">
-  <line x1="76.384" y1="194" x2="216.38400000000001" y2="194" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
-  <rect x="89.26644000000002" y="163.775" width="114.23512" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="146.38400000000001" y="176" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Send message</text>
+  <line x1="72.586" y1="194" x2="212.586" y2="194" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+  <rect x="93.67200000000003" y="169.2" width="97.82799999999997" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="142.59" y="180" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Send message</text>
 </g>
 <g class="message" data-from="B" data-to="B" data-label="Process internally" data-line-style="solid" data-arrow-head="filled" data-self="true">
-  <polyline points="216.38400000000001,244 246.38400000000001,244 246.38400000000001,264 216.38400000000001,264" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#seq-arrow)" />
-  <rect x="254.38400000000001" y="241.775" width="138.27592" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="323.52196000000004" y="254" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Process internally</text>
+  <polyline points="212.586,244 242.586,244 242.586,264 212.586,264" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" marker-end="url(#m1814eb8b-mk-arrow)" />
+  <rect x="250.586" y="243.2" width="118.34799999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="309.76" y="254" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Process internally</text>
 </g>
 <g class="message" data-from="B" data-to="A" data-label="Acknowledgement" data-line-style="dashed" data-arrow-head="filled" data-self="false">
-  <line x1="216.38400000000001" y1="324" x2="76.384" y2="324" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
-  <rect x="78.44808" y="293.775" width="135.87184000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="146.38400000000001" y="306" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Acknowledgement</text>
+  <line x1="212.586" y1="324" x2="72.586" y2="324" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-arrow)" />
+  <rect x="84.43800000000002" y="299.2" width="116.29599999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="142.59" y="310" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Acknowledgement</text>
 </g>
 <g class="actor" data-id="A" data-label="Service" data-type="participant">
-  <rect x="30" y="30" width="92.768" height="40" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="76.384" y="50" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">Service</text>
+  <rect x="30" y="30" width="85.172" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="72.59" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Service</text>
 </g>
 <g class="actor" data-id="B" data-label="Queue" data-type="participant">
-  <rect x="175.472" y="30" width="81.824" height="40" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="216.38400000000001" y="50" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">Queue</text>
+  <rect x="172.586" y="30" width="80" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="212.59" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Queue</text>
 </g>
-<g class="actor" data-id="A" data-label="Service" data-type="participant">
-  <rect x="30" y="418" width="92.768" height="40" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="76.384" y="438" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">Service</text>
+<g class="actor actor-bottom" data-id="A" data-label="Service" data-type="participant">
+  <rect x="30" y="418" width="85.172" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="72.59" y="438" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Service</text>
 </g>
-<g class="actor" data-id="B" data-label="Queue" data-type="participant">
-  <rect x="175.472" y="418" width="81.824" height="40" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="216.38400000000001" y="438" font-size="var(--fs-m)" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="5.6">Queue</text>
+<g class="actor actor-bottom" data-id="B" data-label="Queue" data-type="participant">
+  <rect x="172.586" y="418" width="80" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="212.59" y="438" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Queue</text>
 </g>
+<defs>
+  <linearGradient id="m1814eb8b-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+  <marker id="m1814eb8b-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
+  </marker>
+</defs>
 </svg>

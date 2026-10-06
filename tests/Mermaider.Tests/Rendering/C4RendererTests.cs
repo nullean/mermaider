@@ -42,7 +42,8 @@ public class C4RendererTests
 		var svg = MermaidRenderer.RenderSvg(BasicContext);
 
 		svg.Should().Contain("fill=\"var(--_text)\"");
-		svg.Should().Contain("stroke=\"var(--_arrow)\"");
+		svg.Should().Contain("stroke=\"var(--_line)\"", "relations are edges in the line colour");
+		svg.Should().NotContain("var(--_arrow)");
 	}
 
 	[Test]
@@ -135,9 +136,9 @@ public class C4RendererTests
 		svg.Should().Contain("API");
 		svg.Should().Contain("Calls");
 		svg.Should().Contain("Hosts traffic");
-		// Deployment nodes use solid stroke (no dasharray on the outer node fill path is OK;
-		// enterprise boundaries use stroke-dasharray — deployment should still render the label).
-		svg.Should().Contain("#FFFFFF");
+		// deployment nodes are solid containers, not dashed boundaries
+		svg.Should().Contain("class=\"c4-deployment-node\"");
+		svg.Should().NotContain("class=\"c4-boundary\"");
 	}
 
 	[Test]

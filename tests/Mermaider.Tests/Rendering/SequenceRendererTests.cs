@@ -54,8 +54,9 @@ public class SequenceRendererTests
 	{
 		var svg = MermaidRenderer.RenderSvg(SimpleSequence);
 
-		svg.Should().Contain("id=\"seq-arrow\"");
-		svg.Should().Contain("id=\"seq-arrow-open\"");
+		// messages use the shared markers: filled for sync, open for async replies
+		svg.Should().MatchRegex("id=\"m[0-9a-f]{8}-mk-arrow\"");
+		MermaidRenderer.RenderSvg("sequenceDiagram\nA->B: open").Should().MatchRegex("id=\"m[0-9a-f]{8}-mk-open\"");
 	}
 
 	[Test]
@@ -112,7 +113,9 @@ public class SequenceRendererTests
 			""");
 
 		svg.Should().Contain("data-type=\"alt\"");
-		svg.Should().Contain("stroke-dasharray=\"6 4\"");
+		svg.Should().Contain($"stroke-dasharray=\"{Mermaider.Rendering.DesignSystem.DashArray}\"", "else separators use the dashed edge language");
+		svg.Should().Contain(">Invalid</text>", "the separator carries its condition as a subsection header");
+		svg.Should().NotContain("[Invalid]", "conditions are shown without brackets");
 	}
 
 	[Test]

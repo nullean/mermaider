@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 161.6" width="320" height="161.6" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 184" width="352" height="184" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,24 +26,40 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
+<g class="node" data-id="A" data-label="A" data-shape="rectangle">
+  <rect x="40" y="40" width="80" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="80" y="62" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">A</text>
+</g>
+<g class="node" data-id="B" data-label="B" data-shape="rectangle">
+  <rect x="136" y="40" width="80" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="176" y="62" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">B</text>
+</g>
+<g class="node" data-id="C" data-label="C" data-shape="rectangle">
+  <rect x="232" y="40" width="80" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="272" y="62" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">C</text>
+</g>
+<g class="node" data-id="D" data-label="D" data-shape="rectangle">
+  <rect x="40" y="100" width="80" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
+  <text x="80" y="122" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">D</text>
+</g>
+<g class="node" data-id="E" data-label="E" data-shape="rectangle">
+  <rect x="136" y="100" width="80" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
+  <text x="176" y="122" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">E</text>
+</g>
+<g class="node" data-id="F" data-label="F" data-shape="rectangle">
+  <rect x="232" y="100" width="80" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p5)" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" />
+  <text x="272" y="122" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">F</text>
+</g>
 <defs>
-<marker id="block-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--_line)" /></marker>
+  <linearGradient id="m1814eb8b-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #76b7b2 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #76b7b2 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #b07aa1 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #b07aa1 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #9c755f 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #9c755f 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #bab0ac 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #bab0ac 7%, var(--bg))" /></linearGradient>
 </defs>
-
-<rect x="24" y="24" width="80" height="48.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="64" y="48.4" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">A</text>
-<rect x="120" y="24" width="80" height="48.8" rx="6" ry="6" fill="color-mix(in srgb, #f28e2b 16%, var(--bg))" stroke="#D36F0D" stroke-width="1.75" />
-<text x="160" y="48.4" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">B</text>
-<rect x="216" y="24" width="80" height="48.8" rx="6" ry="6" fill="color-mix(in srgb, #76b7b2 16%, var(--bg))" stroke="#539D97" stroke-width="1.75" />
-<text x="256" y="48.4" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">C</text>
-<rect x="24" y="88.8" width="80" height="48.8" rx="6" ry="6" fill="color-mix(in srgb, #b07aa1 16%, var(--bg))" stroke="#955884" stroke-width="1.75" />
-<text x="64" y="113.2" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">D</text>
-<rect x="120" y="88.8" width="80" height="48.8" rx="6" ry="6" fill="color-mix(in srgb, #9c755f 16%, var(--bg))" stroke="#765848" stroke-width="1.75" />
-<text x="160" y="113.2" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">E</text>
-<rect x="216" y="88.8" width="80" height="48.8" rx="6" ry="6" fill="color-mix(in srgb, #bab0ac 16%, var(--bg))" stroke="#9E908B" stroke-width="1.75" />
-<text x="256" y="113.2" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">F</text>
 </svg>

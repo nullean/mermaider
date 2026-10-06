@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1424.9759999999999 456.2" width="1424.9759999999999" height="456.2" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1492.94456 494" width="1492.94456" height="494" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,155 +26,155 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
+<path class="req-relation" data-type="contains" d="M651.7156866666666,188 L651.7156866666666,194 Q651.7156866666666,200 645.7156866666666,200 L154.4014,200 Q146.4014,200 146.4014,208 L146.4014,306" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<circle cx="146.4014" cy="300" r="6" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M142.9014,300 L149.9014,300 M146.4014,296.5 L146.4014,303.5" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linecap="round" />
+<path class="req-relation" data-type="contains" d="M693.9853133333332,188 L693.9853133333332,199 Q693.9853133333332,207 685.9853133333332,207 L446.0225599999999,207 Q438.0225599999999,207 438.0225599999999,215 L438.0225599999999,306" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<circle cx="438.0225599999999" cy="300" r="6" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M434.5225599999999,300 L441.5225599999999,300 M438.0225599999999,296.5 L438.0225599999999,303.5" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linecap="round" />
+<path class="req-relation" data-type="contains" d="M736.2549399999999,188 L736.2549399999999,200 L736.2549399999999,200 L736.2549399999999,306" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<circle cx="736.2549399999999" cy="300" r="6" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M732.7549399999999,300 L739.7549399999999,300 M736.2549399999999,296.5 L736.2549399999999,303.5" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linecap="round" />
+<path class="req-relation" data-type="contains" d="M778.5245666666666,188 L778.5245666666666,194 Q778.5245666666666,200 784.5245666666666,200 L1024.8845999999999,200 Q1032.8845999999999,200 1032.8845999999999,208 L1032.8845999999999,306" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<circle cx="1032.8845999999999" cy="300" r="6" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M1029.3845999999999,300 L1036.3845999999999,300 M1032.8845999999999,296.5 L1032.8845999999999,303.5" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linecap="round" />
+<path class="req-relation" data-type="contains" d="M820.7941933333333,188 L820.7941933333333,199 Q820.7941933333333,207 828.7941933333333,207 L1318.1084799999999,207 Q1326.1084799999999,207 1326.1084799999999,215 L1326.1084799999999,306" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<circle cx="1326.1084799999999" cy="300" r="6" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
+<path d="M1322.6084799999999,300 L1329.6084799999999,300 M1326.1084799999999,296.5 L1326.1084799999999,303.5" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linecap="round" />
+<g class="req-node entity" data-id="base_req" data-kind="requirement">
+  <rect x="609.4460599999999" y="24" width="253.61776000000003" height="164" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M609.4460599999999,76 L609.4460599999999,32 Q609.4460599999999,24 617.4460599999999,24 L855.0638199999999,24 Q863.0638199999999,24 863.0638199999999,32 L863.0638199999999,76 Z" fill="url(#m1814eb8b-eb-p0)" />
+  <line x1="609.4460599999999" y1="76" x2="863.0638199999999" y2="76" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="609.4460599999999" y="24" width="253.61776000000003" height="164" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="621.4460599999999" y1="104" x2="851.0638199999999" y2="104" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="621.4460599999999" y1="132" x2="851.0638199999999" y2="132" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="621.4460599999999" y1="160" x2="851.0638199999999" y2="160" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="736.25" y="40.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.2">«Requirement»</text>
+  <text x="736.25" y="58.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">base_req</text>
+  <text x="625.45" y="90" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Id</text>
+  <text x="725.85" y="90" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">R-0</text>
+  <text x="625.45" y="118" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Text</text>
+  <text x="725.85" y="118" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Base requirement</text>
+  <text x="625.45" y="146" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Risk</text>
+  <rect x="725.8460599999999" y="137" width="51.28" height="18" rx="9" ry="9" fill="color-mix(in srgb, #59a14f 22%, var(--bg))" /><circle cx="734.8460599999999" cy="146" r="3" fill="color-mix(in srgb, #59a14f 44%, var(--fg))" /><text x="741.85" y="146" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #59a14f 44%, var(--fg))" dy="4.2">Low</text>
+  <text x="625.45" y="174" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Verification</text>
+  <text x="725.85" y="174" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Inspection</text>
+</g>
+<g class="req-node entity" data-id="functional_req" data-kind="requirement">
+  <rect x="24" y="306" width="244.8028" height="164" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M24,358 L24,314 Q24,306 32,306 L260.8028,306 Q268.8028,306 268.8028,314 L268.8028,358 Z" fill="url(#m1814eb8b-eb-p0)" />
+  <line x1="24" y1="358" x2="268.8028" y2="358" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="24" y="306" width="244.8028" height="164" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="36" y1="386" x2="256.8028" y2="386" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="36" y1="414" x2="256.8028" y2="414" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="36" y1="442" x2="256.8028" y2="442" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="146.4" y="322.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.2">«Functional Requirement»</text>
+  <text x="146.4" y="340.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">functional_req</text>
+  <text x="40" y="372" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Id</text>
+  <text x="140.4" y="372" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">R-1</text>
+  <text x="40" y="400" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Text</text>
+  <text x="140.4" y="400" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Must do the thing</text>
+  <text x="40" y="428" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Risk</text>
+  <rect x="140.39999999999998" y="419" width="70.72" height="18" rx="9" ry="9" fill="color-mix(in srgb, #edc948 22%, var(--bg))" /><circle cx="149.39999999999998" cy="428" r="3" fill="color-mix(in srgb, #edc948 44%, var(--fg))" /><text x="156.4" y="428" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #edc948 44%, var(--fg))" dy="4.2">Medium</text>
+  <text x="40" y="456" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Verification</text>
+  <text x="140.4" y="456" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Demonstration</text>
+</g>
+<g class="req-node entity" data-id="interface_req" data-kind="requirement">
+  <rect x="304.80279999999993" y="306" width="266.43951999999996" height="164" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M304.80279999999993,358 L304.80279999999993,314 Q304.80279999999993,306 312.80279999999993,306 L563.2423199999998,306 Q571.2423199999998,306 571.2423199999998,314 L571.2423199999998,358 Z" fill="url(#m1814eb8b-eb-p0)" />
+  <line x1="304.80279999999993" y1="358" x2="571.2423199999998" y2="358" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="304.80279999999993" y="306" width="266.43951999999996" height="164" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="316.80279999999993" y1="386" x2="559.2423199999998" y2="386" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="316.80279999999993" y1="414" x2="559.2423199999998" y2="414" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="316.80279999999993" y1="442" x2="559.2423199999998" y2="442" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="438.02" y="322.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.2">«Interface Requirement»</text>
+  <text x="438.02" y="340.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">interface_req</text>
+  <text x="320.8" y="372" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Id</text>
+  <text x="421.2" y="372" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">R-2</text>
+  <text x="320.8" y="400" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Text</text>
+  <text x="421.2" y="400" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Expose a REST API</text>
+  <text x="320.8" y="428" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Risk</text>
+  <rect x="421.2027999999999" y="419" width="51.28" height="18" rx="9" ry="9" fill="color-mix(in srgb, #59a14f 22%, var(--bg))" /><circle cx="430.2027999999999" cy="428" r="3" fill="color-mix(in srgb, #59a14f 44%, var(--fg))" /><text x="437.2" y="428" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #59a14f 44%, var(--fg))" dy="4.2">Low</text>
+  <text x="320.8" y="456" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Verification</text>
+  <text x="421.2" y="456" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Test</text>
+</g>
+<g class="req-node entity" data-id="performance_req" data-kind="requirement">
+  <rect x="607.2423199999998" y="306" width="275.25448000000006" height="164" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M607.2423199999998,358 L607.2423199999998,314 Q607.2423199999998,306 615.2423199999998,306 L874.4967999999999,306 Q882.4967999999999,306 882.4967999999999,314 L882.4967999999999,358 Z" fill="url(#m1814eb8b-eb-p0)" />
+  <line x1="607.2423199999998" y1="358" x2="882.4967999999999" y2="358" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="607.2423199999998" y="306" width="275.25448000000006" height="164" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="619.2423199999998" y1="386" x2="870.4967999999999" y2="386" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="619.2423199999998" y1="414" x2="870.4967999999999" y2="414" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="619.2423199999998" y1="442" x2="870.4967999999999" y2="442" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="744.87" y="322.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.2">«Performance Requirement»</text>
+  <text x="744.87" y="340.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">performance_req</text>
+  <text x="623.24" y="372" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Id</text>
+  <text x="723.64" y="372" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">R-3</text>
+  <text x="623.24" y="400" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Text</text>
+  <text x="723.64" y="400" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Respond within 100ms</text>
+  <text x="623.24" y="428" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Risk</text>
+  <rect x="723.6423199999998" y="419" width="52.72" height="18" rx="9" ry="9" fill="color-mix(in srgb, #e15759 22%, var(--bg))" /><circle cx="732.6423199999998" cy="428" r="3" fill="color-mix(in srgb, #e15759 44%, var(--fg))" /><text x="739.64" y="428" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #e15759 44%, var(--fg))" dy="4.2">High</text>
+  <text x="623.24" y="456" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Verification</text>
+  <text x="723.64" y="456" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Analysis</text>
+</g>
+<g class="req-node entity" data-id="physical_req" data-kind="requirement">
+  <rect x="918.4967999999999" y="306" width="228.7756" height="164" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M918.4967999999999,358 L918.4967999999999,314 Q918.4967999999999,306 926.4967999999999,306 L1139.2723999999998,306 Q1147.2723999999998,306 1147.2723999999998,314 L1147.2723999999998,358 Z" fill="url(#m1814eb8b-eb-p0)" />
+  <line x1="918.4967999999999" y1="358" x2="1147.2723999999998" y2="358" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="918.4967999999999" y="306" width="228.7756" height="164" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="930.4967999999999" y1="386" x2="1135.2723999999998" y2="386" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="930.4967999999999" y1="414" x2="1135.2723999999998" y2="414" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="930.4967999999999" y1="442" x2="1135.2723999999998" y2="442" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="1032.88" y="322.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.2">«Physical Requirement»</text>
+  <text x="1032.88" y="340.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">physical_req</text>
+  <text x="934.5" y="372" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Id</text>
+  <text x="1034.9" y="372" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">R-4</text>
+  <text x="934.5" y="400" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Text</text>
+  <text x="1034.9" y="400" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Fit in a 1U rack</text>
+  <text x="934.5" y="428" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Risk</text>
+  <rect x="1034.8968" y="419" width="51.28" height="18" rx="9" ry="9" fill="color-mix(in srgb, #59a14f 22%, var(--bg))" /><circle cx="1043.8968" cy="428" r="3" fill="color-mix(in srgb, #59a14f 44%, var(--fg))" /><text x="1050.9" y="428" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #59a14f 44%, var(--fg))" dy="4.2">Low</text>
+  <text x="934.5" y="456" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Verification</text>
+  <text x="1034.9" y="456" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Inspection</text>
+</g>
+<g class="req-node entity" data-id="design_constraint" data-kind="requirement">
+  <rect x="1183.2723999999998" y="306" width="285.67216" height="164" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M1183.2723999999998,358 L1183.2723999999998,314 Q1183.2723999999998,306 1191.2723999999998,306 L1460.94456,306 Q1468.94456,306 1468.94456,314 L1468.94456,358 Z" fill="url(#m1814eb8b-eb-p0)" />
+  <line x1="1183.2723999999998" y1="358" x2="1468.94456" y2="358" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="1183.2723999999998" y="306" width="285.67216" height="164" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="1195.2723999999998" y1="386" x2="1456.94456" y2="386" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="1195.2723999999998" y1="414" x2="1456.94456" y2="414" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="1195.2723999999998" y1="442" x2="1456.94456" y2="442" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="1326.11" y="322.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.2">«Design Constraint»</text>
+  <text x="1326.11" y="340.32" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">design_constraint</text>
+  <text x="1199.27" y="372" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Id</text>
+  <text x="1299.67" y="372" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">R-5</text>
+  <text x="1199.27" y="400" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Text</text>
+  <text x="1299.67" y="400" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Use the company stack</text>
+  <text x="1199.27" y="428" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Risk</text>
+  <rect x="1299.6724" y="419" width="70.72" height="18" rx="9" ry="9" fill="color-mix(in srgb, #edc948 22%, var(--bg))" /><circle cx="1308.6724" cy="428" r="3" fill="color-mix(in srgb, #edc948 44%, var(--fg))" /><text x="1315.67" y="428" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #edc948 44%, var(--fg))" dy="4.2">Medium</text>
+  <text x="1199.27" y="456" text-anchor="start" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text-muted)" dy="4.2">Verification</text>
+  <text x="1299.67" y="456" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Inspection</text>
+</g>
+<g class="edge-label" data-label="contains">
+  <rect x="114.24539999999999" y="236.2" width="64.312" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="146.4" y="247" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">contains</text>
+</g>
+<g class="edge-label" data-label="contains">
+  <rect x="405.8665599999999" y="236.2" width="64.312" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="438.02" y="247" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">contains</text>
+</g>
+<g class="edge-label" data-label="contains">
+  <rect x="704.09894" y="236.2" width="64.312" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="736.25" y="247" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">contains</text>
+</g>
+<g class="edge-label" data-label="contains">
+  <rect x="1000.7285999999999" y="236.2" width="64.312" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="1032.88" y="247" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">contains</text>
+</g>
+<g class="edge-label" data-label="contains">
+  <rect x="1293.95248" y="236.2" width="64.312" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="1326.11" y="247" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">contains</text>
+</g>
 <defs>
-  <marker id="req-arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
-  </marker>
+  <linearGradient id="m1814eb8b-eb-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /></linearGradient>
 </defs>
-
-<path class="req-relation" d="M622.717,170 L622.717,176 Q622.717,182 616.717,182 L146.04,182 Q140.04,182 140.04,188 L140.04,286.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#req-arrow)" />
-<rect x="102.55575999999998" y="215.875" width="74.96848000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="140.04" y="228.1" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">contains</text>
-<path class="req-relation" d="M662.7829999999999,170 L662.7829999999999,183 Q662.7829999999999,189 656.7829999999999,189 L424.32599999999996,189 Q418.32599999999996,189 418.32599999999996,195 L418.32599999999996,286.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#req-arrow)" />
-<rect x="380.84175999999997" y="215.875" width="74.96848000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="418.33" y="228.1" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">contains</text>
-<path class="req-relation" d="M702.8489999999999,170 L702.8489999999999,182 L702.8489999999999,182 L702.8489999999999,286.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#req-arrow)" />
-<rect x="665.3647599999999" y="215.875" width="74.96848000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="702.85" y="228.1" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">contains</text>
-<path class="req-relation" d="M742.915,170 L742.915,176 Q742.915,182 748.915,182 L979.8599999999999,182 Q985.8599999999999,182 985.8599999999999,188 L985.8599999999999,286.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#req-arrow)" />
-<rect x="948.3757599999999" y="215.875" width="74.96848000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="985.86" y="228.1" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">contains</text>
-<path class="req-relation" d="M782.981,170 L782.981,183 Q782.981,189 788.981,189 L1259.658,189 Q1265.658,189 1265.658,195 L1265.658,286.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#req-arrow)" />
-<rect x="1228.17376" y="215.875" width="74.96848000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="1265.66" y="228.1" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">contains</text>
-<g class="req-node" data-id="base_req">
-  <rect x="582.65" y="24" width="240.4" height="146" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M582.651,80 L582.651,30 Q582.651,24 588.651,24 L817.047,24 Q823.047,24 823.047,30 L823.047,80 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-
-  <text x="702.85" y="44" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#3B5B7D">Requirement</text>
-  <text x="702.85" y="64" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">base_req</text>
-  <line x1="582.65" y1="80" x2="823.05" y2="80" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="596.65" y="93" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Id</text>
-  <text x="688.35" y="93" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">R-0</text>
-  <line x1="582.65" y1="102.5" x2="823.05" y2="102.5" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="596.65" y="113" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Text</text>
-  <text x="688.35" y="113" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Base requirement</text>
-  <line x1="582.65" y1="122.5" x2="823.05" y2="122.5" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="596.65" y="133" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Risk</text>
-  <text x="688.35" y="133" dy="0.35em" font-size="var(--fs-s)" fill="#42783B">Low</text>
-  <line x1="582.65" y1="142.5" x2="823.05" y2="142.5" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="596.65" y="153" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Verification</text>
-  <text x="688.35" y="153" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Inspection</text>
-  <line x1="681.35" y1="80" x2="681.35" y2="170" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <rect x="582.65" y="24" width="240.4" height="146" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
-</g>
-<g class="req-node" data-id="functional_req">
-  <rect x="24" y="286.2" width="232.08" height="146" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M24,342.2 L24,292.2 Q24,286.2 30,286.2 L250.07999999999998,286.2 Q256.08,286.2 256.08,292.2 L256.08,342.2 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-
-  <text x="140.04" y="306.2" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#3B5B7D">Functional Requirement</text>
-  <text x="140.04" y="326.2" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">functional_req</text>
-  <line x1="24" y1="342.2" x2="256.08" y2="342.2" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="38" y="355.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Id</text>
-  <text x="129.7" y="355.2" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">R-1</text>
-  <line x1="24" y1="364.7" x2="256.08" y2="364.7" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="38" y="375.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Text</text>
-  <text x="129.7" y="375.2" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Must do the thing</text>
-  <line x1="24" y1="384.7" x2="256.08" y2="384.7" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="38" y="395.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Risk</text>
-  <text x="129.7" y="395.2" dy="0.35em" font-size="var(--fs-s)" fill="#E2B516">Medium</text>
-  <line x1="24" y1="404.7" x2="256.08" y2="404.7" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="38" y="415.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Verification</text>
-  <text x="129.7" y="415.2" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Demonstration</text>
-  <line x1="122.7" y1="342.2" x2="122.7" y2="432.2" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <rect x="24" y="286.2" width="232.08" height="146" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
-</g>
-<g class="req-node" data-id="interface_req">
-  <rect x="292.08" y="286.2" width="252.49" height="146" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M292.08,342.2 L292.08,292.2 Q292.08,286.2 298.08,286.2 L538.5719999999999,286.2 Q544.5719999999999,286.2 544.5719999999999,292.2 L544.5719999999999,342.2 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-
-  <text x="418.33" y="306.2" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#3B5B7D">Interface Requirement</text>
-  <text x="418.33" y="326.2" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">interface_req</text>
-  <line x1="292.08" y1="342.2" x2="544.57" y2="342.2" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="306.08" y="355.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Id</text>
-  <text x="397.78" y="355.2" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">R-2</text>
-  <line x1="292.08" y1="364.7" x2="544.57" y2="364.7" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="306.08" y="375.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Text</text>
-  <text x="397.78" y="375.2" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Expose a REST API</text>
-  <line x1="292.08" y1="384.7" x2="544.57" y2="384.7" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="306.08" y="395.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Risk</text>
-  <text x="397.78" y="395.2" dy="0.35em" font-size="var(--fs-s)" fill="#42783B">Low</text>
-  <line x1="292.08" y1="404.7" x2="544.57" y2="404.7" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="306.08" y="415.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Verification</text>
-  <text x="397.78" y="415.2" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Test</text>
-  <line x1="390.78" y1="342.2" x2="390.78" y2="432.2" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <rect x="292.08" y="286.2" width="252.49" height="146" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
-</g>
-<g class="req-node" data-id="performance_req">
-  <rect x="580.57" y="286.2" width="260.81" height="146" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M580.5719999999999,342.2 L580.5719999999999,292.2 Q580.5719999999999,286.2 586.5719999999999,286.2 L835.3799999999999,286.2 Q841.3799999999999,286.2 841.3799999999999,292.2 L841.3799999999999,342.2 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-
-  <text x="710.98" y="306.2" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#3B5B7D">Performance Requirement</text>
-  <text x="710.98" y="326.2" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">performance_req</text>
-  <line x1="580.57" y1="342.2" x2="841.38" y2="342.2" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="594.57" y="355.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Id</text>
-  <text x="686.27" y="355.2" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">R-3</text>
-  <line x1="580.57" y1="364.7" x2="841.38" y2="364.7" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="594.57" y="375.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Text</text>
-  <text x="686.27" y="375.2" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Respond within 100ms</text>
-  <line x1="580.57" y1="384.7" x2="841.38" y2="384.7" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="594.57" y="395.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Risk</text>
-  <text x="686.27" y="395.2" dy="0.35em" font-size="var(--fs-s)" fill="#D52629">High</text>
-  <line x1="580.57" y1="404.7" x2="841.38" y2="404.7" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="594.57" y="415.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Verification</text>
-  <text x="686.27" y="415.2" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Analysis</text>
-  <line x1="679.27" y1="342.2" x2="679.27" y2="432.2" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <rect x="580.57" y="286.2" width="260.81" height="146" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
-</g>
-<g class="req-node" data-id="physical_req">
-  <rect x="877.38" y="286.2" width="216.96" height="146" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M877.3799999999999,342.2 L877.3799999999999,292.2 Q877.3799999999999,286.2 883.3799999999999,286.2 L1088.34,286.2 Q1094.34,286.2 1094.34,292.2 L1094.34,342.2 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-
-  <text x="985.86" y="306.2" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#3B5B7D">Physical Requirement</text>
-  <text x="985.86" y="326.2" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">physical_req</text>
-  <line x1="877.38" y1="342.2" x2="1094.34" y2="342.2" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="891.38" y="355.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Id</text>
-  <text x="983.08" y="355.2" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">R-4</text>
-  <line x1="877.38" y1="364.7" x2="1094.34" y2="364.7" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="891.38" y="375.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Text</text>
-  <text x="983.08" y="375.2" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Fit in a 1U rack</text>
-  <line x1="877.38" y1="384.7" x2="1094.34" y2="384.7" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="891.38" y="395.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Risk</text>
-  <text x="983.08" y="395.2" dy="0.35em" font-size="var(--fs-s)" fill="#42783B">Low</text>
-  <line x1="877.38" y1="404.7" x2="1094.34" y2="404.7" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="891.38" y="415.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Verification</text>
-  <text x="983.08" y="415.2" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Inspection</text>
-  <line x1="976.08" y1="342.2" x2="976.08" y2="432.2" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <rect x="877.38" y="286.2" width="216.96" height="146" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
-</g>
-<g class="req-node" data-id="design_constraint">
-  <rect x="1130.34" y="286.2" width="270.64" height="146" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M1130.34,342.2 L1130.34,292.2 Q1130.34,286.2 1136.34,286.2 L1394.9759999999999,286.2 Q1400.9759999999999,286.2 1400.9759999999999,292.2 L1400.9759999999999,342.2 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-
-  <text x="1265.66" y="306.2" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="#3B5B7D">Design Constraint</text>
-  <text x="1265.66" y="326.2" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)">design_constraint</text>
-  <line x1="1130.34" y1="342.2" x2="1400.98" y2="342.2" stroke="#3B5B7D" stroke-width="1.75" />
-  <text x="1144.34" y="355.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Id</text>
-  <text x="1236.04" y="355.2" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">R-5</text>
-  <line x1="1130.34" y1="364.7" x2="1400.98" y2="364.7" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="1144.34" y="375.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Text</text>
-  <text x="1236.04" y="375.2" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Use the company stack</text>
-  <line x1="1130.34" y1="384.7" x2="1400.98" y2="384.7" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="1144.34" y="395.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Risk</text>
-  <text x="1236.04" y="395.2" dy="0.35em" font-size="var(--fs-s)" fill="#E2B516">Medium</text>
-  <line x1="1130.34" y1="404.7" x2="1400.98" y2="404.7" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text x="1144.34" y="415.2" dy="0.35em" font-size="var(--fs-s)" font-weight="600" fill="var(--_text-sec)">Verification</text>
-  <text x="1236.04" y="415.2" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">Inspection</text>
-  <line x1="1229.04" y1="342.2" x2="1229.04" y2="432.2" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <rect x="1130.34" y="286.2" width="270.64" height="146" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
-</g>
 </svg>

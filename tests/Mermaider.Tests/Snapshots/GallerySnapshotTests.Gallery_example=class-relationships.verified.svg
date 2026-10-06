@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 697.384 268.2" width="697.384" height="268.2" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 241.6" width="920" height="241.6" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,140 +26,106 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<defs>
-  <marker id="cls-inherit" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-  <marker id="cls-composition" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="6 0, 12 6, 6 12, 0 6" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" />
-  </marker>
-  <marker id="cls-aggregation" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="6 0, 12 6, 6 12, 0 6" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-  <marker id="cls-arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polyline points="0 0, 12 6, 0 12" fill="none" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-  <marker id="cls-lollipop" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto-start-reverse">
-    <circle cx="6" cy="6" r="5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-</defs>
-
-<path class="class-relationship" data-from="A" data-to="B" data-type="inheritance" data-marker-at="from" data-label="Inheritance" d="M79.07,88 L79.07,180.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-inherit)" />
-<path class="class-relationship" data-from="C" data-to="D" data-type="composition" data-marker-at="from" data-label="Composition" d="M187.07,88 L187.07,180.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-composition)" />
-<path class="class-relationship" data-from="E" data-to="F" data-type="aggregation" data-marker-at="from" data-label="Aggregation" d="M295.07,88 L295.07,180.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-start="url(#cls-aggregation)" />
-<path class="class-relationship" data-from="G" data-to="H" data-type="association" data-marker-at="to" data-label="Association" d="M403.07,88 L403.07,180.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
-<path class="class-relationship" data-from="I" data-to="J" data-type="dependency" data-marker-at="to" data-label="Dependency" d="M511.07,88 L511.07,180.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="4 4" marker-end="url(#cls-arrow)" />
-<path class="class-relationship" data-from="K" data-to="L" data-type="realization" data-marker-at="to" data-label="Realization" d="M619.07,88 L619.07,180.2" fill="none" stroke="var(--_line)" stroke-width="2.25" stroke-dasharray="4 4" marker-end="url(#cls-inherit)" />
+<path class="class-relationship" data-from="A" data-to="B" data-type="inheritance" data-marker-at="from" data-label="Inheritance" d="M90,76 L90,165.6" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-start="url(#m1814eb8b-mk-triangle-s)" />
+<path class="class-relationship" data-from="C" data-to="D" data-type="composition" data-marker-at="from" data-label="Composition" d="M238,76 L238,165.6" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-start="url(#m1814eb8b-mk-diamond-s)" />
+<path class="class-relationship" data-from="E" data-to="F" data-type="aggregation" data-marker-at="from" data-label="Aggregation" d="M386,76 L386,165.6" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-start="url(#m1814eb8b-mk-diamondhollow-s)" />
+<path class="class-relationship" data-from="G" data-to="H" data-type="association" data-marker-at="to" data-label="Association" d="M534,76 L534,165.6" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="class-relationship" data-from="I" data-to="J" data-type="dependency" data-marker-at="to" data-label="Dependency" d="M682,76 L682,165.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-open)" />
+<path class="class-relationship" data-from="K" data-to="L" data-type="realization" data-marker-at="to" data-label="Realization" d="M830,76 L830,165.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-triangle)" />
 <g class="class-node" data-id="A" data-label="A">
-  <rect x="49.07" y="40" width="60" height="48" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M49.07,72 L49.07,46 Q49.07,40 55.07,40 L103.07,40 Q109.07,40 109.07,46 L109.07,72 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <text x="79.07" y="56" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">A</text>
-  <line x1="49.07" y1="72" x2="109.07" y2="72" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="49.07" y1="80" x2="109.07" y2="80" stroke="#3B5B7D" stroke-width="1.75" />
-  <rect x="49.07" y="40" width="60" height="48" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <rect x="40" y="40" width="100" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="90" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">A</text>
 </g>
 <g class="class-node" data-id="B" data-label="B">
-  <rect x="49.07" y="180.2" width="60" height="48" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M49.07,212.2 L49.07,186.2 Q49.07,180.2 55.07,180.2 L103.07,180.2 Q109.07,180.2 109.07,186.2 L109.07,212.2 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <text x="79.07" y="196.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">B</text>
-  <line x1="49.07" y1="212.2" x2="109.07" y2="212.2" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="49.07" y1="220.2" x2="109.07" y2="220.2" stroke="#3B5B7D" stroke-width="1.75" />
-  <rect x="49.07" y="180.2" width="60" height="48" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <rect x="40" y="165.6" width="100" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="90" y="183.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">B</text>
 </g>
 <g class="class-node" data-id="C" data-label="C">
-  <rect x="157.07" y="40" width="60" height="48" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M157.07,72 L157.07,46 Q157.07,40 163.07,40 L211.07,40 Q217.07,40 217.07,46 L217.07,72 Z" fill="color-mix(in srgb, #f28e2b 24%, var(--bg))" />
-  <text x="187.07" y="56" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">C</text>
-  <line x1="157.07" y1="72" x2="217.07" y2="72" stroke="#D36F0D" stroke-width="1.75" />
-  <line x1="157.07" y1="80" x2="217.07" y2="80" stroke="#D36F0D" stroke-width="1.75" />
-  <rect x="157.07" y="40" width="60" height="48" rx="6" ry="6" fill="none" stroke="#D36F0D" stroke-width="1.75" />
+  <rect x="188" y="40" width="100" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="238" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">C</text>
 </g>
 <g class="class-node" data-id="D" data-label="D">
-  <rect x="157.07" y="180.2" width="60" height="48" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M157.07,212.2 L157.07,186.2 Q157.07,180.2 163.07,180.2 L211.07,180.2 Q217.07,180.2 217.07,186.2 L217.07,212.2 Z" fill="color-mix(in srgb, #f28e2b 24%, var(--bg))" />
-  <text x="187.07" y="196.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">D</text>
-  <line x1="157.07" y1="212.2" x2="217.07" y2="212.2" stroke="#D36F0D" stroke-width="1.75" />
-  <line x1="157.07" y1="220.2" x2="217.07" y2="220.2" stroke="#D36F0D" stroke-width="1.75" />
-  <rect x="157.07" y="180.2" width="60" height="48" rx="6" ry="6" fill="none" stroke="#D36F0D" stroke-width="1.75" />
+  <rect x="188" y="165.6" width="100" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="238" y="183.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">D</text>
 </g>
 <g class="class-node" data-id="E" data-label="E">
-  <rect x="265.07" y="40" width="60" height="48" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M265.07,72 L265.07,46 Q265.07,40 271.07,40 L319.07,40 Q325.07,40 325.07,46 L325.07,72 Z" fill="color-mix(in srgb, #76b7b2 24%, var(--bg))" />
-  <text x="295.07" y="56" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">E</text>
-  <line x1="265.07" y1="72" x2="325.07" y2="72" stroke="#539D97" stroke-width="1.75" />
-  <line x1="265.07" y1="80" x2="325.07" y2="80" stroke="#539D97" stroke-width="1.75" />
-  <rect x="265.07" y="40" width="60" height="48" rx="6" ry="6" fill="none" stroke="#539D97" stroke-width="1.75" />
+  <rect x="336" y="40" width="100" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="386" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">E</text>
 </g>
 <g class="class-node" data-id="F" data-label="F">
-  <rect x="265.07" y="180.2" width="60" height="48" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M265.07,212.2 L265.07,186.2 Q265.07,180.2 271.07,180.2 L319.07,180.2 Q325.07,180.2 325.07,186.2 L325.07,212.2 Z" fill="color-mix(in srgb, #76b7b2 24%, var(--bg))" />
-  <text x="295.07" y="196.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">F</text>
-  <line x1="265.07" y1="212.2" x2="325.07" y2="212.2" stroke="#539D97" stroke-width="1.75" />
-  <line x1="265.07" y1="220.2" x2="325.07" y2="220.2" stroke="#539D97" stroke-width="1.75" />
-  <rect x="265.07" y="180.2" width="60" height="48" rx="6" ry="6" fill="none" stroke="#539D97" stroke-width="1.75" />
+  <rect x="336" y="165.6" width="100" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="386" y="183.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">F</text>
 </g>
 <g class="class-node" data-id="G" data-label="G">
-  <rect x="373.07" y="40" width="60" height="48" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M373.07,72 L373.07,46 Q373.07,40 379.07,40 L427.07,40 Q433.07,40 433.07,46 L433.07,72 Z" fill="color-mix(in srgb, #b07aa1 24%, var(--bg))" />
-  <text x="403.07" y="56" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">G</text>
-  <line x1="373.07" y1="72" x2="433.07" y2="72" stroke="#955884" stroke-width="1.75" />
-  <line x1="373.07" y1="80" x2="433.07" y2="80" stroke="#955884" stroke-width="1.75" />
-  <rect x="373.07" y="40" width="60" height="48" rx="6" ry="6" fill="none" stroke="#955884" stroke-width="1.75" />
+  <rect x="484" y="40" width="100" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
+  <text x="534" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">G</text>
 </g>
 <g class="class-node" data-id="H" data-label="H">
-  <rect x="373.07" y="180.2" width="60" height="48" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M373.07,212.2 L373.07,186.2 Q373.07,180.2 379.07,180.2 L427.07,180.2 Q433.07,180.2 433.07,186.2 L433.07,212.2 Z" fill="color-mix(in srgb, #b07aa1 24%, var(--bg))" />
-  <text x="403.07" y="196.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">H</text>
-  <line x1="373.07" y1="212.2" x2="433.07" y2="212.2" stroke="#955884" stroke-width="1.75" />
-  <line x1="373.07" y1="220.2" x2="433.07" y2="220.2" stroke="#955884" stroke-width="1.75" />
-  <rect x="373.07" y="180.2" width="60" height="48" rx="6" ry="6" fill="none" stroke="#955884" stroke-width="1.75" />
+  <rect x="484" y="165.6" width="100" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
+  <text x="534" y="183.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">H</text>
 </g>
 <g class="class-node" data-id="I" data-label="I">
-  <rect x="481.07" y="40" width="60" height="48" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M481.07,72 L481.07,46 Q481.07,40 487.07,40 L535.0699999999999,40 Q541.0699999999999,40 541.0699999999999,46 L541.0699999999999,72 Z" fill="color-mix(in srgb, #9c755f 24%, var(--bg))" />
-  <text x="511.07" y="56" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">I</text>
-  <line x1="481.07" y1="72" x2="541.0699999999999" y2="72" stroke="#765848" stroke-width="1.75" />
-  <line x1="481.07" y1="80" x2="541.0699999999999" y2="80" stroke="#765848" stroke-width="1.75" />
-  <rect x="481.07" y="40" width="60" height="48" rx="6" ry="6" fill="none" stroke="#765848" stroke-width="1.75" />
+  <rect x="632" y="40" width="100" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
+  <text x="682" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">I</text>
 </g>
 <g class="class-node" data-id="J" data-label="J">
-  <rect x="481.07" y="180.2" width="60" height="48" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M481.07,212.2 L481.07,186.2 Q481.07,180.2 487.07,180.2 L535.0699999999999,180.2 Q541.0699999999999,180.2 541.0699999999999,186.2 L541.0699999999999,212.2 Z" fill="color-mix(in srgb, #9c755f 24%, var(--bg))" />
-  <text x="511.07" y="196.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">J</text>
-  <line x1="481.07" y1="212.2" x2="541.0699999999999" y2="212.2" stroke="#765848" stroke-width="1.75" />
-  <line x1="481.07" y1="220.2" x2="541.0699999999999" y2="220.2" stroke="#765848" stroke-width="1.75" />
-  <rect x="481.07" y="180.2" width="60" height="48" rx="6" ry="6" fill="none" stroke="#765848" stroke-width="1.75" />
+  <rect x="632" y="165.6" width="100" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
+  <text x="682" y="183.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">J</text>
 </g>
 <g class="class-node" data-id="K" data-label="K">
-  <rect x="589.07" y="40" width="60" height="48" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M589.07,72 L589.07,46 Q589.07,40 595.07,40 L643.07,40 Q649.07,40 649.07,46 L649.07,72 Z" fill="color-mix(in srgb, #bab0ac 24%, var(--bg))" />
-  <text x="619.07" y="56" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">K</text>
-  <line x1="589.07" y1="72" x2="649.07" y2="72" stroke="#9E908B" stroke-width="1.75" />
-  <line x1="589.07" y1="80" x2="649.07" y2="80" stroke="#9E908B" stroke-width="1.75" />
-  <rect x="589.07" y="40" width="60" height="48" rx="6" ry="6" fill="none" stroke="#9E908B" stroke-width="1.75" />
+  <rect x="780" y="40" width="100" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p5)" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" />
+  <text x="830" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">K</text>
 </g>
 <g class="class-node" data-id="L" data-label="L">
-  <rect x="589.07" y="180.2" width="60" height="48" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M589.07,212.2 L589.07,186.2 Q589.07,180.2 595.07,180.2 L643.07,180.2 Q649.07,180.2 649.07,186.2 L649.07,212.2 Z" fill="color-mix(in srgb, #bab0ac 24%, var(--bg))" />
-  <text x="619.07" y="196.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">L</text>
-  <line x1="589.07" y1="212.2" x2="649.07" y2="212.2" stroke="#9E908B" stroke-width="1.75" />
-  <line x1="589.07" y1="220.2" x2="649.07" y2="220.2" stroke="#9E908B" stroke-width="1.75" />
-  <rect x="589.07" y="180.2" width="60" height="48" rx="6" ry="6" fill="none" stroke="#9E908B" stroke-width="1.75" />
+  <rect x="780" y="165.6" width="100" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p5)" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" />
+  <text x="830" y="183.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">L</text>
 </g>
-<rect x="32.770799999999994" y="121.875" width="92.5984" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="79.07" y="134.1" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Inheritance</text>
-<rect x="138.36672" y="121.875" width="97.40656000000003" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="187.07" y="134.1" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Composition</text>
-<rect x="245.56536" y="121.875" width="99.00928" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="295.07" y="134.1" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Aggregation</text>
-<rect x="355.16808" y="121.875" width="95.80384000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="403.07" y="134.1" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Association</text>
-<rect x="459.96264" y="121.875" width="102.21471999999999" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="511.07" y="134.1" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Dependency</text>
-<rect x="573.57216" y="121.875" width="90.99568000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="619.07" y="134.1" font-size="var(--fs-s)" text-anchor="middle" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">Realization</text>
+<g class="edge-label" data-from="A" data-to="B">
+  <rect x="50.32000000000001" y="110" width="79.35999999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="90" y="120.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Inheritance</text>
+</g>
+<g class="edge-label" data-from="C" data-to="D">
+  <rect x="196.268" y="110" width="83.464" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="238" y="120.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Composition</text>
+</g>
+<g class="edge-label" data-from="E" data-to="F">
+  <rect x="343.584" y="110" width="84.832" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="386" y="120.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Aggregation</text>
+</g>
+<g class="edge-label" data-from="G" data-to="H">
+  <rect x="492.952" y="110" width="82.096" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="534" y="120.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Association</text>
+</g>
+<g class="edge-label" data-from="I" data-to="J">
+  <rect x="638.216" y="110" width="87.56799999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="682" y="120.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Dependency</text>
+</g>
+<g class="edge-label" data-from="K" data-to="L">
+  <rect x="791.004" y="110" width="77.99199999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="830" y="120.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Realization</text>
+</g>
+<defs>
+  <linearGradient id="m1814eb8b-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #76b7b2 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #76b7b2 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #b07aa1 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #b07aa1 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #9c755f 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #9c755f 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #bab0ac 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #bab0ac 7%, var(--bg))" /></linearGradient>
+  <marker id="m1814eb8b-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
+  </marker>
+  <marker id="m1814eb8b-mk-diamond-s" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="12" refX="0" refY="6" orient="auto">
+    <polygon points="0,6 6,1.5 12,6 6,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
+  </marker>
+  <marker id="m1814eb8b-mk-diamondhollow-s" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="12" refX="0" refY="6" orient="auto">
+    <polygon points="0,6 6,1.5 12,6 6,10.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.25" stroke-linejoin="miter" />
+  </marker>
+  <marker id="m1814eb8b-mk-open" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <path d="M0,1.5 L10,6 L0,10.5" fill="none" stroke="var(--_line)" stroke-width="1.25" stroke-linejoin="miter" stroke-linecap="round" />
+  </marker>
+  <marker id="m1814eb8b-mk-triangle" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <polygon points="0,0.5 10,6 0,11.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.25" stroke-linejoin="miter" />
+  </marker>
+  <marker id="m1814eb8b-mk-triangle-s" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="0" refY="6" orient="auto">
+    <polygon points="10,0.5 0,6 10,11.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.25" stroke-linejoin="miter" />
+  </marker>
+</defs>
 </svg>

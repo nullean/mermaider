@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 737.056 491.20000000000005" width="737.056" height="491.20000000000005" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660.7080000000001 480.79999999999995" width="660.7080000000001" height="480.79999999999995" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,66 +26,69 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<defs>
-  <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
-  </marker>
-  <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
-    <polygon points="12 0, 0 6, 12 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
-  </marker>
-</defs>
-
 <g class="subgraph" data-id="project" data-label="project">
-  <rect x="40" y="100.8" width="681.056" height="374.40000000000003" rx="8" ry="8" fill="color-mix(in srgb, #f28e2b 6%, var(--bg))" stroke="#F18921" stroke-width="1.75" />
+  <rect x="40" y="98.2" width="604.7080000000001" height="366.59999999999997" rx="12" ry="12" fill="url(#m1814eb8b-cw-p1-0)" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
+  <path d="M40,126.2 L40,110.2 Q40,98.2 52,98.2 L632.7080000000001,98.2 Q644.7080000000001,98.2 644.7080000000001,110.2 L644.7080000000001,126.2 Z" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" />
+  <line x1="40" y1="126.2" x2="644.7080000000001" y2="126.2" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
 </g>
-
 <g class="subgraph" data-id="subnet1" data-label="subnet1">
-  <rect x="64" y="241.60000000000002" width="293.05600000000004" height="124.8" rx="8" ry="8" fill="color-mix(in srgb, #76b7b2 9%, var(--bg))" stroke="#6FB3AE" stroke-width="1.75" />
+  <rect x="64" y="236.39999999999998" width="257.96000000000004" height="122.2" rx="12" ry="12" fill="url(#m1814eb8b-cw-p2-1)" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1.25" />
+  <path d="M64,264.4 L64,248.39999999999998 Q64,236.39999999999998 76,236.39999999999998 L309.96000000000004,236.39999999999998 Q321.96000000000004,236.39999999999998 321.96000000000004,248.39999999999998 L321.96000000000004,264.4 Z" fill="color-mix(in srgb, #76b7b2 22%, var(--bg))" />
+  <line x1="64" y1="264.4" x2="321.96000000000004" y2="264.4" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1.25" />
 </g>
-
 <g class="subgraph" data-id="subnet2" data-label="subnet2">
-  <rect x="393.05600000000004" y="241.60000000000002" width="304" height="124.8" rx="8" ry="8" fill="color-mix(in srgb, #b07aa1 9%, var(--bg))" stroke="#AC749C" stroke-width="1.75" />
+  <rect x="357.96000000000004" y="236.39999999999998" width="262.748" height="122.2" rx="12" ry="12" fill="url(#m1814eb8b-cw-p3-1)" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1.25" />
+  <path d="M357.96000000000004,264.4 L357.96000000000004,248.39999999999998 Q357.96000000000004,236.39999999999998 369.96000000000004,236.39999999999998 L608.7080000000001,236.39999999999998 Q620.7080000000001,236.39999999999998 620.7080000000001,248.39999999999998 L620.7080000000001,264.4 Z" fill="color-mix(in srgb, #b07aa1 22%, var(--bg))" />
+  <line x1="357.96000000000004" y1="264.4" x2="620.7080000000001" y2="264.4" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1.25" />
 </g>
-
-<path class="edge" data-from="internet" data-to="router" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M378,61 L378,157" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="router" data-to="compute1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M341.5,201.5 L341.5,210.60000000000002 Q341.5,216.60000000000002 335.5,216.60000000000002 L216.5,216.60000000000002 Q210.5,216.60000000000002 210.5,222.60000000000002 L210.5,241.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="router" data-to="compute2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M411.5,201.5 L411.5,210.60000000000002 Q411.5,216.60000000000002 417.5,216.60000000000002 L539,216.60000000000002 Q545,216.60000000000002 545,222.60000000000002 L545,241.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="compute1" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M210.5,366.5 L210.5,375.40000000000003 Q210.5,381.40000000000003 216.5,381.40000000000003 L341.5,381.40000000000003 Q347.5,381.40000000000003 347.5,387.40000000000003 L347.5,406.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="compute2" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M545,366.5 L545,375.40000000000003 Q545,381.40000000000003 539,381.40000000000003 L411.5,381.40000000000003 Q405.5,381.40000000000003 405.5,387.40000000000003 L405.5,406.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="nat" data-to="internet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M337.5,429 L22,429 Q16,429 16,423 L16,44.5 Q16,38.5 22,38.5 L324,38.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />  <text x="52" y="115.8" font-size="var(--fs-s)" font-weight="600" fill="#F18921" dy="4.8999999999999995">project</text>
-  <text x="76" y="256.6" font-size="var(--fs-s)" font-weight="600" fill="#6FB3AE" dy="4.8999999999999995">subnet1</text>
-  <text x="405.05600000000004" y="256.6" font-size="var(--fs-s)" font-weight="600" fill="#AC749C" dy="4.8999999999999995">subnet2</text>
-
+<path class="edge" data-from="internet" data-to="router" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M341,58 L341,154" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="router" data-to="compute1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M311,196.5 L311,203.95 Q311,211.39999999999998 303.55,211.39999999999998 L201,211.39999999999998 Q193,211.39999999999998 193,219.39999999999998 L193,236.39999999999998" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="router" data-to="compute2" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M370,196.5 L370,203.95 Q370,211.39999999999998 377.45,211.39999999999998 L481.5,211.39999999999998 Q489.5,211.39999999999998 489.5,219.39999999999998 L489.5,236.39999999999998" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="compute1" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M193,358.59999999999997 L193,366.09999999999997 Q193,373.59999999999997 200.5,373.59999999999997 L311,373.59999999999997 Q319,373.59999999999997 319,381.59999999999997 L319,398.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="compute2" data-to="nat" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M489.5,358.59999999999997 L489.5,366.09999999999997 Q489.5,373.59999999999997 482,373.59999999999997 L371,373.59999999999997 Q363,373.59999999999997 363,381.59999999999997 L363,398.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="nat" data-to="internet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M309,419.5 L24,419.5 Q16,419.5 16,411.5 L16,45 Q16,37 24,37 L297.5,37" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<text x="52" y="112.2" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.9">project</text>
+<text x="76" y="250.4" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.9">subnet1</text>
+<text x="369.96" y="250.4" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #b07aa1 44%, var(--fg))" dy="4.9">subnet2</text>
 <g class="node" data-id="internet" data-label="internet" data-shape="rectangle">
-  <rect x="323.968" y="16" width="113.12" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="380.528" y="38.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">internet</text>
+  <rect x="297.36400000000003" y="16" width="89.97999999999999" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="342.35" y="37.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">internet</text>
 </g>
 <g class="node" data-id="router" data-label="router" data-shape="rectangle">
-  <rect x="325.79200000000003" y="156.8" width="103.99999999999999" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="377.79200000000003" y="179.20000000000002" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">router</text>
+  <rect x="300.15700000000004" y="154.2" width="82" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="341.16" y="175.3" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">router</text>
 </g>
 <g class="node" data-id="nat" data-label="nat" data-shape="rectangle">
-  <rect x="337.648" y="406.40000000000003" width="80.288" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="377.79200000000003" y="428.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">nat</text>
+  <rect x="309.15700000000004" y="398.59999999999997" width="64" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="341.16" y="419.7" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">nat</text>
 </g>
 <g class="node" data-id="compute1" data-label="compute1" data-shape="rectangle">
-  <rect x="88" y="297.6" width="122.24000000000001" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="149.12" y="320" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">compute1</text>
+  <rect x="88" y="292.4" width="97.96000000000001" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="136.98" y="313.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">compute1</text>
 </g>
 <g class="node" data-id="lb1" data-label="lb1" data-shape="rectangle">
-  <rect x="258.24" y="297.6" width="74.816" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="295.648" y="320" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">lb1</text>
+  <rect x="233.96" y="292.4" width="64" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="265.96" y="313.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">lb1</text>
 </g>
 <g class="node" data-id="compute2" data-label="compute2" data-shape="rectangle">
-  <rect x="417.05600000000004" y="297.6" width="127.712" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="480.91200000000003" y="320" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">compute2</text>
+  <rect x="381.96000000000004" y="292.4" width="102.74799999999999" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="433.33" y="313.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">compute2</text>
 </g>
 <g class="node" data-id="lb2" data-label="lb2" data-shape="rectangle">
-  <rect x="592.768" y="297.6" width="80.288" height="44.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="632.912" y="320" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">lb2</text>
+  <rect x="532.7080000000001" y="292.4" width="64" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="564.71" y="313.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">lb2</text>
 </g>
+<defs>
+  <linearGradient id="m1814eb8b-cw-p1-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-cw-p2-1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #76b7b2 3.2%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #76b7b2 9%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #76b7b2 9%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-cw-p3-1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #b07aa1 3.2%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #b07aa1 9%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #b07aa1 9%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+  <marker id="m1814eb8b-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
+  </marker>
+</defs>
 </svg>

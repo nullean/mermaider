@@ -20,26 +20,8 @@ internal static partial class RendererStylesheetAllowlist
 		"emoji", "math", "fangsong",
 	}.ToFrozenSet(StringComparer.OrdinalIgnoreCase);
 
-	private static readonly string[] FixedSvgLines =
-	[
-		"  svg {",
-		"    --_text:          var(--fg);",
-		"    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));",
-		"    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));",
-		"    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));",
-		"    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));",
-		"    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));",
-		"    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));",
-		"    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));",
-		"    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));",
-		"    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));",
-		"    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));",
-		"    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));",
-		"    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));",
-		"    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));",
-		"    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));",
-		"    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));",
-	];
+	// The derived-token block is generated from the same source StyleBlock writes from.
+	private static string[] FixedSvgLines => ["  svg {", .. Theming.StyleBlock.TokenLines];
 
 	[GeneratedRegex(@"^'(?:[A-Za-z0-9 _-]|\\[0-9A-F]{1,4} )*'$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex QuotedFontPattern();
@@ -71,7 +53,7 @@ internal static partial class RendererStylesheetAllowlist
 			return false;
 
 		var lines = stylesheet.Split('\n', StringSplitOptions.None);
-		if (lines.Length < FixedSvgLines.Length + 11 || lines[0].Length != 0 || lines[^1].Length != 0)
+		if (lines.Length < FixedSvgLines.Length + 9 || lines[0].Length != 0 || lines[^1].Length != 0)
 			return false;
 
 		var index = 1;
@@ -89,10 +71,12 @@ internal static partial class RendererStylesheetAllowlist
 			|| !IsAllowedFontSizeLine(lines[index++], "    --fs-s:  ")
 			|| !IsAllowedFontSizeLine(lines[index++], "    --fs-m:  ")
 			|| !IsAllowedFontSizeLine(lines[index++], "    --fs-l:  ")
-			|| lines[index++] != "  }"
-			|| lines[index++] != "  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }"
-			|| lines[index++] != "  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }")
+			|| lines[index++] != "  }")
 			return false;
+
+		// zero to two elevation rules, each exactly one a preset can produce
+		for (var e = 0; e < 2 && index < lines.Length - 1 && Theming.StyleBlock.AllElevationLines.Contains(lines[index]); e++)
+			index++;
 
 		if (index == lines.Length - 1)
 			return true;

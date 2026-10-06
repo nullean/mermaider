@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 279.692 128" width="279.692" height="128" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 349.692 116" width="349.692" height="116" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,39 +26,21 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<defs>
-  <marker id="cls-inherit" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-  <marker id="cls-composition" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="6 0, 12 6, 6 12, 0 6" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" />
-  </marker>
-  <marker id="cls-aggregation" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="6 0, 12 6, 6 12, 0 6" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-  <marker id="cls-arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polyline points="0 0, 12 6, 0 12" fill="none" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-  <marker id="cls-lollipop" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto-start-reverse">
-    <circle cx="6" cy="6" r="5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-</defs>
-
 <g class="class-node" data-id="Animal" data-label="Animal">
-  <rect x="40" y="40" width="60" height="48" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M40,72 L40,46 Q40,40 46,40 L94,40 Q100,40 100,46 L100,72 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <text x="70" y="56" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Animal</text>
-  <line x1="40" y1="72" x2="100" y2="72" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="40" y1="80" x2="100" y2="80" stroke="#3B5B7D" stroke-width="1.75" />
-  <rect x="40" y="40" width="60" height="48" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <rect x="40" y="40" width="100" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="90" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Animal</text>
 </g>
 <g class="note">
-  <line x1="110" y1="55" x2="100" y2="64" stroke="var(--_accent-stroke)" stroke-width="1.5" stroke-dasharray="4 3" />
-  <rect x="110" y="40" width="159.692" height="30" rx="6" ry="6" fill="var(--_accent-fill)" stroke="var(--_accent-stroke)" stroke-width="2" />
-  <text x="189.846" y="55" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_accent-text)" dy="4.8999999999999995">Can be wild or domestic</text>
+  <line x1="164" y1="59.1" x2="140" y2="58" stroke="color-mix(in srgb, var(--accent, var(--fg)) 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="1.5 4.5" stroke-linecap="round" />
+  <rect x="164" y="40" width="175.692" height="38.2" rx="4" ry="4" fill="color-mix(in srgb, var(--accent, var(--fg)) 9%, var(--bg))" stroke="color-mix(in srgb, var(--accent, var(--fg)) 42%, var(--bg))" stroke-width="1" />
+  <rect x="164" y="40" width="3" height="38.2" fill="var(--accent, var(--fg))" />
+  <text x="253.35" y="59.1" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="color-mix(in srgb, var(--accent, var(--fg)) 44%, var(--fg))" dy="4.2">Can be wild or domestic</text>
 </g>
+<defs>
+  <linearGradient id="m1814eb8b-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+</defs>
 </svg>

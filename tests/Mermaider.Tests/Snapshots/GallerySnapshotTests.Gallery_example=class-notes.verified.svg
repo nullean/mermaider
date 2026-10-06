@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 423.624 316" width="423.624" height="316" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 457.82399999999996 340" width="457.82399999999996" height="340" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,61 +26,57 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<defs>
-  <marker id="cls-inherit" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-  <marker id="cls-composition" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="6 0, 12 6, 6 12, 0 6" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" />
-  </marker>
-  <marker id="cls-aggregation" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polygon points="6 0, 12 6, 6 12, 0 6" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-  <marker id="cls-arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-    <polyline points="0 0, 12 6, 0 12" fill="none" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-  <marker id="cls-lollipop" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto-start-reverse">
-    <circle cx="6" cy="6" r="5" fill="var(--bg)" stroke="var(--_line)" stroke-width="2" />
-  </marker>
-</defs>
-
-<path class="class-relationship" data-from="UserService" data-to="User" data-type="association" data-marker-at="to" d="M143.1,128 L143.1,188" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#cls-arrow)" />
+<path class="class-relationship" data-from="UserService" data-to="User" data-type="association" data-marker-at="to" d="M145.2,140 L145.2,200" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
 <g class="class-node" data-id="UserService" data-label="UserService">
-  <rect x="40" y="40" width="206.2" height="88" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M40,72 L40,46 Q40,40 46,40 L240.2,40 Q246.2,40 246.2,46 L246.2,72 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <text x="143.1" y="56" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">UserService</text>
-  <line x1="40" y1="72" x2="246.2" y2="72" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="40" y1="104" x2="246.2" y2="104" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="40" y1="80" x2="246.2" y2="80" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="86.6" y1="72" x2="86.6" y2="128" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="48" y="94" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">User</text><text class="mono" x="94.6" y="94" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">createUser()</tspan></text><text class="mono" x="238.2" y="94" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <text class="mono" x="48" y="114" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">void</text><text class="mono" x="94.6" y="114" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">deleteUser(id)</tspan></text><text class="mono" x="238.2" y="114" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <rect x="40" y="40" width="206.2" height="88" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <rect x="40" y="40" width="210.39999999999998" height="100" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M40,76 L40,48 Q40,40 48,40 L242.39999999999998,40 Q250.39999999999998,40 250.39999999999998,48 L250.39999999999998,76 Z" fill="url(#m1814eb8b-eb-p0)" />
+  <line x1="40" y1="76" x2="250.39999999999998" y2="76" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="40" y="40" width="210.39999999999998" height="100" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="52" y1="112" x2="238.39999999999998" y2="112" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="40" y1="84" x2="250.39999999999998" y2="84" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="145.2" y="58" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">UserService</text>
+  <text x="56" y="98" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">User</text>
+  <text x="234.4" y="98" class="mono" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.9">+</text>
+  <text x="96.8" y="98" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">createUser()</text>
+  <text x="56" y="126" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">void</text>
+  <text x="234.4" y="126" class="mono" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.9">+</text>
+  <text x="96.8" y="126" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">deleteUser(id)</text>
 </g>
 <g class="class-node" data-id="User" data-label="User">
-  <rect x="69.39999999999998" y="188" width="147.4" height="88" rx="6" ry="6" fill="var(--bg)" />
-  <path d="M69.39999999999998,220 L69.39999999999998,194 Q69.39999999999998,188 75.39999999999998,188 L210.79999999999998,188 Q216.79999999999998,188 216.79999999999998,194 L216.79999999999998,220 Z" fill="color-mix(in srgb, #4e79a7 24%, var(--bg))" />
-  <text x="143.09999999999997" y="204" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">User</text>
-  <line x1="69.39999999999998" y1="220" x2="216.79999999999998" y2="220" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="69.39999999999998" y1="244" x2="216.79999999999998" y2="244" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <line x1="69.39999999999998" y1="268" x2="216.79999999999998" y2="268" stroke="#3B5B7D" stroke-width="1.75" />
-  <line x1="132.79999999999998" y1="220" x2="132.79999999999998" y2="276" stroke="#3B5B7D" stroke-width="1" opacity="0.35" />
-  <text class="mono" x="77.39999999999998" y="234" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">String</text><text class="mono" x="140.79999999999998" y="234" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">name</tspan></text><text class="mono" x="208.79999999999998" y="234" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <text class="mono" x="77.39999999999998" y="254" dy="0.35em" font-size="var(--fs-s)" font-weight="400" fill="var(--_text-sec)">String</text><text class="mono" x="140.79999999999998" y="254" dy="0.35em" font-size="var(--fs-s)" font-weight="400"><tspan fill="var(--_text)">email</tspan></text><text class="mono" x="208.79999999999998" y="254" text-anchor="end" dy="0.35em" font-size="var(--fs-s)" font-weight="700" fill="#3B5B7D">+</text>
-  <rect x="69.39999999999998" y="188" width="147.4" height="88" rx="6" ry="6" fill="none" stroke="#3B5B7D" stroke-width="1.75" />
+  <rect x="70.6" y="200" width="149.2" height="100" rx="8" ry="8" fill="var(--bg)" stroke="none" />
+  <path d="M70.6,236 L70.6,208 Q70.6,200 78.6,200 L211.79999999999998,200 Q219.79999999999998,200 219.79999999999998,208 L219.79999999999998,236 Z" fill="url(#m1814eb8b-eb-p0)" />
+  <line x1="70.6" y1="236" x2="219.79999999999998" y2="236" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="70.6" y="200" width="149.2" height="100" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <line x1="82.6" y1="264" x2="207.79999999999998" y2="264" stroke="var(--_line-soft)" stroke-width="1" />
+  <line x1="70.6" y1="292" x2="219.79999999999998" y2="292" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="145.2" y="218" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">User</text>
+  <text x="86.6" y="250" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">String</text>
+  <text x="203.8" y="250" class="mono" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.9">+</text>
+  <text x="141.8" y="250" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">name</text>
+  <text x="86.6" y="278" class="mono" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">String</text>
+  <text x="203.8" y="278" class="mono" text-anchor="end" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #64748b 44%, var(--fg))" dy="4.9">+</text>
+  <text x="141.8" y="278" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">email</text>
 </g>
 <g class="note">
-  <line x1="256.2" y1="55" x2="246.2" y2="84" stroke="var(--_accent-stroke)" stroke-width="1.5" stroke-dasharray="4 3" />
-  <rect x="256.2" y="40" width="157.424" height="30" rx="6" ry="6" fill="var(--_accent-fill)" stroke="var(--_accent-stroke)" stroke-width="2" />
-  <text x="334.912" y="55" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_accent-text)" dy="4.8999999999999995">Handles all user CRUD</text>
+  <line x1="274.4" y1="59.1" x2="250.39999999999998" y2="90" stroke="color-mix(in srgb, var(--accent, var(--fg)) 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="1.5 4.5" stroke-linecap="round" />
+  <rect x="274.4" y="40" width="173.424" height="38.2" rx="4" ry="4" fill="color-mix(in srgb, var(--accent, var(--fg)) 9%, var(--bg))" stroke="color-mix(in srgb, var(--accent, var(--fg)) 42%, var(--bg))" stroke-width="1" />
+  <rect x="274.4" y="40" width="3" height="38.2" fill="var(--accent, var(--fg))" />
+  <text x="362.61" y="59.1" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="color-mix(in srgb, var(--accent, var(--fg)) 44%, var(--fg))" dy="4.2">Handles all user CRUD</text>
 </g>
 <g class="note">
-  <line x1="226.79999999999998" y1="203" x2="216.79999999999998" y2="232" stroke="var(--_accent-stroke)" stroke-width="1.5" stroke-dasharray="4 3" />
-  <rect x="226.79999999999998" y="188" width="130.964" height="30" rx="6" ry="6" fill="var(--_accent-fill)" stroke="var(--_accent-stroke)" stroke-width="2" />
-  <text x="292.282" y="203" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_accent-text)" dy="4.8999999999999995">Core domain entity</text>
+  <line x1="243.79999999999998" y1="219.1" x2="219.79999999999998" y2="250" stroke="color-mix(in srgb, var(--accent, var(--fg)) 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="1.5 4.5" stroke-linecap="round" />
+  <rect x="243.79999999999998" y="200" width="146.964" height="38.2" rx="4" ry="4" fill="color-mix(in srgb, var(--accent, var(--fg)) 9%, var(--bg))" stroke="color-mix(in srgb, var(--accent, var(--fg)) 42%, var(--bg))" stroke-width="1" />
+  <rect x="243.79999999999998" y="200" width="3" height="38.2" fill="var(--accent, var(--fg))" />
+  <text x="318.78" y="219.1" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="color-mix(in srgb, var(--accent, var(--fg)) 44%, var(--fg))" dy="4.2">Core domain entity</text>
 </g>
+<defs>
+  <linearGradient id="m1814eb8b-eb-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /></linearGradient>
+  <marker id="m1814eb8b-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
+  </marker>
+</defs>
 </svg>

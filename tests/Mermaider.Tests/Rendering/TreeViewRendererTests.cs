@@ -51,7 +51,7 @@ public class TreeViewRendererTests
 	{
 		var svg = MermaidRenderer.RenderSvg(BasicTree);
 
-		svg.Should().Contain("font-weight=\"700\"");
+		svg.Should().Contain("font-weight=\"600\"");
 	}
 
 	[Test]
@@ -70,17 +70,17 @@ public class TreeViewRendererTests
 	{
 		var svg = MermaidRenderer.RenderSvg(BasicTree);
 
-		svg.Should().Contain("<line");
-		svg.Should().Contain("var(--_line)");
+		svg.Should().Contain("class=\"treeview-branches\" fill=\"none\" stroke=\"var(--_line)\"");
+		svg.Should().Contain("<path d=\"M");
 	}
 
 	[Test]
-	public void Contains_icons_as_base64_images()
+	public void Default_icons_are_inline_family_glyphs()
 	{
 		var svg = MermaidRenderer.RenderSvg(BasicTree);
 
-		svg.Should().Contain("data:image/svg+xml;base64,");
-		svg.Should().Contain("<image");
+		svg.Should().Contain("class=\"treeview-icon\"");
+		svg.Should().NotContain("<image", "default folder / file icons are drawn inline so they take the family colour");
 	}
 
 	[Test]
@@ -113,8 +113,8 @@ public class TreeViewRendererTests
 			    important.ts :::highlight
 			""");
 
-		svg.Should().Contain("var(--_accent-fill)");
-		svg.Should().Contain("var(--_accent-stroke)");
+		svg.Should().Contain($"fill=\"{Theming.ColorFamily.Accent().Tint(2)}\"");
+		svg.Should().Contain($"stroke=\"{Theming.ColorFamily.Accent().Edge}\"");
 	}
 
 	[Test]
@@ -129,7 +129,7 @@ public class TreeViewRendererTests
 	}
 
 	[Test]
-	public void Description_renders_italic()
+	public void Description_renders_as_meta_text()
 	{
 		var svg = MermaidRenderer.RenderSvg("""
 			treeView-beta
@@ -137,8 +137,7 @@ public class TreeViewRendererTests
 			""");
 
 		svg.Should().Contain("entry point");
-		svg.Should().Contain("font-style=\"italic\"");
-		svg.Should().Contain("var(--_text-muted)");
+		svg.Should().MatchRegex("font-size=\"var\\(--fs-xs[^\"]*\" font-weight=\"400\" fill=\"var\\(--_text-muted\\)\"[^>]*>entry point<");
 	}
 
 	[Test]

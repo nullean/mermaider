@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 652.8496 371.37119999999993" width="652.8496" height="371.37119999999993" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 602.8599999999999 340.88" width="602.8599999999999" height="340.88" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,34 +26,50 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
+<path class="block-edge" data-from="Client" data-to="API" d="M158.78,74.84 L444.08,74.84" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="block-edge" data-from="API" data-to="Queue" d="M497.05,96.84 L497.05,114.64 Q497.05,122.64 489.05,122.64 L211.62,122.64 Q203.62,122.64 203.62,130.64 L203.62,210.24 Q203.62,218.24 195.62,218.24 L113.81,218.24 Q105.81,218.24 105.81,226.24 L105.81,244.04" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="block-edge" data-from="Queue" data-to="Worker" d="M158.78,266.04 L248.46,266.04" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="block-edge" data-from="Worker" data-to="DB" d="M354.4,266.04 L444.08,266.04" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<g class="node" data-id="Client" data-label="Client" data-shape="rectangle">
+  <rect x="52.839999999999996" y="52.839999999999996" width="105.93999999999998" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="105.81" y="74.84" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Client</text>
+</g>
+<g class="node" data-id="API" data-label="API" data-shape="rectangle">
+  <rect x="444.0799999999999" y="52.839999999999996" width="105.93999999999998" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="497.05" y="74.84" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">API</text>
+</g>
+<g class="node" data-id="Queue" data-label="Queue" data-shape="rectangle">
+  <rect x="52.839999999999996" y="244.04" width="105.93999999999998" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="105.81" y="266.04" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Queue</text>
+</g>
+<g class="node" data-id="Worker" data-label="Worker" data-shape="rectangle">
+  <rect x="248.45999999999998" y="244.04" width="105.93999999999998" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="301.43" y="266.04" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Worker</text>
+</g>
+<g class="node" data-id="DB" data-label="Database" data-shape="rectangle">
+  <rect x="444.0799999999999" y="244.04" width="105.93999999999998" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="497.05" y="266.04" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Database</text>
+</g>
+<g class="edge-label" data-from="Client" data-to="API">
+  <rect x="271.32599999999996" y="64.04" width="60.208" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="301.43" y="74.84" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">request</text>
+</g>
+<g class="edge-label" data-from="API" data-to="Queue">
+  <rect x="220.79" y="111.84" width="65.67999999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="253.63" y="122.64" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">enqueue</text>
+</g>
+<g class="edge-label" data-from="Queue" data-to="Worker">
+  <rect x="185.144" y="255.24" width="36.952" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="203.62" y="266.04" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">pull</text>
+</g>
+<g class="edge-label" data-from="Worker" data-to="DB">
+  <rect x="377.344" y="255.24" width="43.791999999999994" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="399.24" y="266.04" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">write</text>
+</g>
 <defs>
-<marker id="block-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--_line)" /></marker>
+  <linearGradient id="m1814eb8b-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+  <marker id="m1814eb8b-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
+  </marker>
 </defs>
-
-<path class="block-edge" d="M170,82.69 L482.85,82.69" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#block-arrow)" />
-<rect x="291.34484" y="70.465" width="70.16032000000001" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="326.43" y="82.69" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">request</text>
-<path class="block-edge" d="M538.71,107.09 L538.71,128.19 Q538.71,134.19 532.71,134.19 L226.28,134.19 Q220.28,134.19 220.28,140.19 L220.28,231.19 Q220.28,237.19 214.28,237.19 L120.14,237.19 Q114.14,237.19 114.14,243.19 L114.14,264.29" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#block-arrow)" />
-<rect x="236.63939999999997" y="121.965" width="76.5712" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="274.93" y="134.19" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">enqueue</text>
-<path class="block-edge" d="M170,288.69 L270.57,288.69" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#block-arrow)" />
-<rect x="198.82796" y="276.465" width="42.91408" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="220.29" y="288.69" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">pull</text>
-<path class="block-edge" d="M382.28,288.69 L482.85,288.69" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#block-arrow)" />
-<rect x="407.10116" y="276.465" width="50.92768" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-<text x="432.57" y="288.69" text-anchor="middle" dy="0.35em" font-size="var(--fs-s)" fill="var(--_text)">write</text>
-<rect x="58.29" y="58.29" width="111.71" height="48.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="114.14" y="82.69" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">Client</text>
-<rect x="482.85" y="58.29" width="111.71" height="48.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="538.71" y="82.69" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">API</text>
-<rect x="58.29" y="264.29" width="111.71" height="48.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="114.14" y="288.69" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">Queue</text>
-<rect x="270.57" y="264.29" width="111.71" height="48.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="326.42" y="288.69" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">Worker</text>
-<rect x="482.85" y="264.29" width="111.71" height="48.8" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="1.75" />
-<text x="538.71" y="288.69" text-anchor="middle" dy="0.35em" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)">Database</text>
 </svg>

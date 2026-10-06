@@ -161,9 +161,8 @@ public sealed record LayoutOptions
 	public int MaxComponentsPerRow { get; init; }
 
 	/// <summary>
-	/// When true, each source node (no incoming edges) is pushed independently to sit
-	/// directly above its nearest child, regardless of whether sibling sources exist.
-	/// Keeps ER entities close to what they connect to. Default: false.
+	/// When true, horizontal placement uses Brandes–Köpf coordinate assignment (four aligned layouts, balanced), which keeps
+	/// sources close to what they connect to; layering is network simplex either way. Default: false.
 	/// </summary>
 	public bool TightSourceLayering { get; init; }
 
@@ -195,8 +194,9 @@ public sealed record LayoutOptions
 	public bool UseRealFirstTiebreaker { get; init; }
 
 	/// <summary>
-	/// ER-style layout: ports distributed per node side, BK aligns ports and per-edge gap (label) dummies,
-	/// and edges are routed port → column → port with short jogs next to the nodes.
+	/// ER-style layout: ports distributed per node side and edges routed port → column → port with short jogs next to the
+	/// nodes. Brandes–Köpf aligns the ports and per-edge gap (label) dummies only when <see cref="TightSourceLayering"/> or
+	/// <see cref="BalancedPlacement"/> is also set.
 	/// </summary>
 	public bool PortAwareLayout { get; init; }
 

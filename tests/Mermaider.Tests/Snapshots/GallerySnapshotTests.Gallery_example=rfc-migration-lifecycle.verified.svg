@@ -1,21 +1,23 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 465.7431466666667 760" width="465.7431466666667" height="760" style="--bg:#FFFFFF;--fg:#27272A;--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 435.0700533333333 734" width="435.0700533333333" height="734" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
   svg {
     --_text:          var(--fg);
-    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 55%, var(--bg)));
-    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 35%, var(--bg)));
-    --_text-faint:    color-mix(in srgb, var(--fg) 20%, var(--bg));
-    --_line:          var(--line, color-mix(in srgb, var(--fg) 32%, var(--bg)));
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
     --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
     --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
     --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
-    --_group-fill:    color-mix(in srgb, var(--fg) 3%, var(--bg));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
     --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
     --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_inner-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
-    --_key-badge:     color-mix(in srgb, var(--fg) 8%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
     --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
     --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
     --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
@@ -24,75 +26,67 @@
     --fs-m:  1rem;
     --fs-l:  1.125rem;
   }
-  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 3px rgba(0,0,0,.07)); }
-  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px rgba(0,0,0,.04)); }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<defs>
-  <marker id="arrowhead" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto">
-    <polygon points="0 0, 12 6, 0 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
-  </marker>
-  <marker id="arrowhead-start" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="0" refY="6" orient="auto">
-    <polygon points="12 0, 0 6, 12 12" fill="var(--_line)" stroke="var(--_line)" stroke-width="0.75" stroke-linejoin="round" />
-  </marker>
-</defs>
-
-<path class="edge" data-from="_start" data-to="NotStarted" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M164.06852000000003,40 L164.06852,70" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="NotStarted" data-to="ShadowNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="add docset-v2.yml + toc-v2.yml to main" d="M164.06852,114.8 L164.06852,209.25" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="ShadowNav" data-to="VirtualRemap" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="assign new path_prefix in navigation-v2.yml" d="M164.06852,254.05 L164.06852,348.5" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+<path class="edge" data-from="_start" data-to="NotStarted" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M150.97328,40 L150.97327999999996,70" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="NotStarted" data-to="ShadowNav" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="add docset-v2.yml + toc-v2.yml to main" d="M150.97327999999996,112.2 L150.97328,204.05" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="ShadowNav" data-to="VirtualRemap" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="assign new path_prefix in navigation-v2.yml" d="M150.97328,246.25 L150.97328000000002,338.1" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
 <path class="edge" data-from="VirtualRemap" data-to="PhysicalRestructure" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="run apply-nav-restructure
-(only if content moves)" d="M130.62318666666667,393.3 L130.62318666666664,505.95" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="VirtualRemap" data-to="Cutover" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="no URL changes needed" d="M197.51385333333332,393.3 L197.51385333333332,415.3 Q197.51385333333332,421.3 203.51385333333332,421.3 L353.37254666666666,421.3 Q359.37254666666666,421.3 359.37254666666666,427.3 L359.37254666666666,611.2 Q359.37254666666666,617.2 353.37254666666666,617.2 L197.73785333333333,617.2 Q191.73785333333333,617.2 191.73785333333333,623.2 L191.73785333333333,645.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="PhysicalRestructure" data-to="Cutover" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="merge feature branch" d="M130.62318666666664,550.75 L130.62318666666667,645.2" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
-<path class="edge" data-from="Cutover" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M161.18052,690 L161.18052,720" fill="none" stroke="var(--_line)" stroke-width="2.25" marker-end="url(#arrowhead)" />
+(only if content moves)" d="M123.20861333333335,380.3 L123.2086133333333,487.75" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="VirtualRemap" data-to="Cutover" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="no URL changes needed" d="M178.7379466666667,380.3 L178.7379466666667,400.3 Q178.7379466666667,408.3 186.7379466666667,408.3 L328.2996533333333,408.3 Q336.2996533333333,408.3 336.2996533333333,416.3 L336.2996533333333,585.8 Q336.2996533333333,593.8 328.2996533333333,593.8 L181.68394666666666,593.8 Q173.68394666666666,593.8 173.68394666666666,601.8 L173.68394666666666,621.8" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="PhysicalRestructure" data-to="Cutover" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="merge feature branch" d="M123.2086133333333,529.95 L123.20861333333332,621.8" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="Cutover" data-to="_end" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M148.44627999999997,664 L148.44627999999994,694" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
 <g class="edge-label" data-from="NotStarted" data-to="ShadowNav" data-label="add docset-v2.yml + toc-v2.yml to main">
-  <rect x="36.431280000000015" y="149.8" width="255.27447999999998" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="164.06852" y="162.025" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">add docset-v2.yml + toc-v2.yml to main</text>
+  <rect x="41.86727999999998" y="147.325" width="218.21199999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="150.97" y="158.13" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">add docset-v2.yml + toc-v2.yml to main</text>
 </g>
 <g class="edge-label" data-from="ShadowNav" data-to="VirtualRemap" data-label="assign new path_prefix in navigation-v2.yml">
-  <rect x="18" y="289.04999999999995" width="292.13704" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="164.06852" y="301.275" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">assign new path_prefix in navigation-v2.yml</text>
+  <rect x="26.13528000000001" y="281.375" width="249.67599999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="150.97" y="292.18" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">assign new path_prefix in navigation-v2.yml</text>
 </g>
 <g class="edge-label" data-from="VirtualRemap" data-to="PhysicalRestructure" data-label="run apply-nav-restructure
 (only if content moves)">
-  <rect x="37.44442666666666" y="428.3" width="186.35752000000002" height="42.65" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="130.62318666666667" y="449.625" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)"><tspan x="130.62318666666667" dy="-4.2">run apply-nav-restructure</tspan><tspan x="130.62318666666667" dy="18.2">(only if content moves)</tspan></text>
+  <rect x="43.51461333333336" y="415.42499999999995" width="159.38799999999998" height="37.2" rx="18.6" ry="18.6" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="123.21" y="434.03" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)"><tspan x="123.21" dy="-3.6">run apply-nav-restructure</tspan><tspan x="123.21" dy="15.6">(only if content moves)</tspan></text>
 </g>
 <g class="edge-label" data-from="VirtualRemap" data-to="Cutover" data-label="no URL changes needed">
-  <rect x="271.00194666666664" y="437.4" width="176.74120000000002" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="359.37254666666666" y="449.625" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">no URL changes needed</text>
+  <rect x="260.70965333333334" y="423.22499999999997" width="151.18" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="336.3" y="434.03" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">no URL changes needed</text>
 </g>
 <g class="edge-label" data-from="PhysicalRestructure" data-to="Cutover" data-label="merge feature branch">
-  <rect x="52.26958666666664" y="585.75" width="156.7072" height="24.45" rx="10" ry="10" fill="var(--bg)" stroke="var(--_line)" stroke-width="2.25" />
-  <text x="130.62318666666664" y="597.975" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.8999999999999995">merge feature branch</text>
+  <rect x="56.16861333333331" y="565.075" width="134.07999999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="123.21" y="575.88" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">merge feature branch</text>
 </g>
 <g class="node" data-id="NotStarted" data-label="Not started" data-shape="rounded">
-  <rect x="96.10852" y="70" width="135.92000000000002" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="164.06852" y="92.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Not started</text>
+  <rect x="96.00827999999996" y="70" width="109.92999999999999" height="42.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="150.97" y="91.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Not started</text>
 </g>
 <g class="node" data-id="ShadowNav" data-label="Shadow nav created" data-shape="rounded">
-  <rect x="60.99652000000001" y="209.25" width="206.144" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="164.06852" y="231.65" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Shadow nav created</text>
+  <rect x="65.28528" y="204.05" width="171.376" height="42.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="150.97" y="225.15" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Shadow nav created</text>
 </g>
 <g class="node" data-id="VirtualRemap" data-label="Virtual remap active" data-shape="rounded">
-  <rect x="63.73252000000001" y="348.5" width="200.672" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="164.06852" y="370.9" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Virtual remap active</text>
+  <rect x="67.67928" y="338.1" width="166.58800000000002" height="42.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="150.97" y="359.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Virtual remap active</text>
 </g>
 <g class="node" data-id="PhysicalRestructure" data-label="Physical restructure" data-shape="rounded">
-  <rect x="26.183186666666643" y="505.95" width="208.88000000000002" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="130.62318666666664" y="528.35" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Physical restructure</text>
+  <rect x="36.3236133333333" y="487.75" width="173.77" height="42.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="123.21" y="508.85" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Physical restructure</text>
 </g>
 <g class="node" data-id="Cutover" data-label="Cutover complete" data-shape="rounded">
-  <rect x="69.50852" y="645.2" width="183.344" height="44.8" rx="10" ry="10" fill="color-mix(in srgb, #4e79a7 16%, var(--bg))" stroke="#3B5B7D" stroke-width="2" />
-  <text x="161.18052" y="667.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="500" fill="var(--_text)" dy="5.6">Cutover complete</text>
+  <rect x="72.73327999999998" y="621.8" width="151.426" height="42.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="148.45" y="642.9" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Cutover complete</text>
 </g>
 <g class="node" data-id="_start" data-label="" data-shape="statestart">
-  <circle cx="164.06852000000003" cy="28" r="10" fill="var(--_text)" stroke="none" />
+  <circle cx="150.97328" cy="28" r="10" fill="var(--accent, var(--fg))" />
   
 </g>
 <g class="node" data-id="_end" data-label="" data-shape="stateend">
-  <circle cx="161.18052" cy="732" r="10" fill="none" stroke="var(--_text)" stroke-width="4" />
-<circle cx="161.18052" cy="732" r="6" fill="var(--_text)" stroke="none" />
+  <circle cx="148.44627999999994" cy="706" r="10" fill="none" stroke="var(--accent, var(--fg))" stroke-width="2" />
+<circle cx="148.44627999999994" cy="706" r="6" fill="var(--accent, var(--fg))" />
   
 </g>
+<defs>
+  <linearGradient id="m1814eb8b-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+  <marker id="m1814eb8b-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
+  </marker>
+</defs>
 </svg>

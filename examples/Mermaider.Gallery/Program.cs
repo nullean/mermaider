@@ -24,6 +24,19 @@ var providerList = new (string Value, string Label)[]
 // The rendered SVGs are transparent by default (MermaidRenderer's Transparent option defaults to
 // true) — the ".provider-col" background is purely a page-chrome choice behind them, so switching
 // it never touches diagram rendering itself.
+// Diagram style presets for the compare / category pages (Quiet is the default and stays out of the URL).
+var styleChoices = new (string Value, string Label)[]
+{
+	("quiet", "Quiet"),
+	("blueprint", "Blueprint"),
+	("tonal", "Tonal"),
+};
+
+string? NormalizeStyle(string? value) =>
+	Enum.TryParse<DiagramStyle>(value, ignoreCase: true, out var parsed) && Enum.IsDefined(parsed) && parsed != DiagramStyle.Quiet
+		? parsed.ToString().ToLowerInvariant()
+		: null;
+
 var bgOptions = new (string Value, string Label)[]
 {
 	("", "Default"),
@@ -40,9 +53,10 @@ _ = app.MapGet("/", (ctx) =>
 	var p1 = ctx.Request.Query["p1"].FirstOrDefault();
 	var p2 = ctx.Request.Query["p2"].FirstOrDefault();
 	var bg = ctx.Request.Query["bg"].FirstOrDefault();
+	var style = NormalizeStyle(ctx.Request.Query["style"].FirstOrDefault());
 
 	ctx.Response.ContentType = "text/html; charset=utf-8";
-	return ctx.Response.WriteAsync(RenderComparePage(theme, engine, p1, p2, bg));
+	return ctx.Response.WriteAsync(RenderComparePage(theme, engine, p1, p2, bg, style));
 });
 
 foreach (var cat in Enum.GetValues<DiagramCategory>())
@@ -56,9 +70,10 @@ foreach (var cat in Enum.GetValues<DiagramCategory>())
 		var p1 = ctx.Request.Query["p1"].FirstOrDefault();
 		var p2 = ctx.Request.Query["p2"].FirstOrDefault();
 		var bg = ctx.Request.Query["bg"].FirstOrDefault();
+		var style = NormalizeStyle(ctx.Request.Query["style"].FirstOrDefault());
 
 		ctx.Response.ContentType = "text/html; charset=utf-8";
-		return ctx.Response.WriteAsync(RenderCategoryPage(category, theme, engine, p1, p2, bg));
+		return ctx.Response.WriteAsync(RenderCategoryPage(category, theme, engine, p1, p2, bg, style));
 	});
 }
 
@@ -184,6 +199,12 @@ RenderOptions? ResolveOptions(IQueryCollection q)
 	var muted = q["muted"].FirstOrDefault() ?? base_?.Muted;
 	var surface = q["surface"].FirstOrDefault() ?? base_?.Surface;
 	var border = q["border"].FirstOrDefault() ?? base_?.Border;
+	// colour roles: only what the query sets explicitly overrides the theme (unset roles keep the theme's own handling)
+	var roleDefault = q["default"].FirstOrDefault();
+	var roleSuccess = q["success"].FirstOrDefault();
+	var roleFailure = q["failure"].FirstOrDefault();
+	var roleWarning = q["warning"].FirstOrDefault();
+	var roleInfo = q["info"].FirstOrDefault();
 
 	// Render option overrides
 	double? padding = double.TryParse(q["padding"].FirstOrDefault(), out var p) ? p : null;
@@ -194,10 +215,18 @@ RenderOptions? ResolveOptions(IQueryCollection q)
 	var font = q["font"].FirstOrDefault();
 	var monoFont = q["monoFont"].FirstOrDefault();
 	var fontSize = q["fontSize"].FirstOrDefault();
+	DiagramStyle? style = Enum.TryParse<DiagramStyle>(q["style"].FirstOrDefault(), ignoreCase: true, out var st)
+		&& Enum.IsDefined(st) ? st : null;
+	bool? gradient = q["gradient"].FirstOrDefault() is { } gv ? gv is not ("false" or "0") : null;
+	double? tint = double.TryParse(q["tint"].FirstOrDefault(), System.Globalization.NumberStyles.Float,
+		System.Globalization.CultureInfo.InvariantCulture, out var tn) ? tn : null;
+	int? elevation = int.TryParse(q["elevation"].FirstOrDefault(), out var el) ? el : null;
 
 	// If nothing at all was set, skip allocating an options object
 	if (bg is null && fg is null && padding is null && nodeSpacing is null && layerSpacing is null
-		&& roundedEdges is null && transparent is null && font is null && monoFont is null && fontSize is null && provider is null)
+		&& roundedEdges is null && transparent is null && font is null && monoFont is null && fontSize is null && provider is null
+		&& style is null && gradient is null && tint is null && elevation is null
+		&& roleDefault is null && roleSuccess is null && roleFailure is null && roleWarning is null && roleInfo is null)
 		return null;
 
 	return new RenderOptions
@@ -209,11 +238,20 @@ RenderOptions? ResolveOptions(IQueryCollection q)
 		Muted = muted,
 		Surface = surface,
 		Border = border,
+		Default = roleDefault,
+		Success = roleSuccess,
+		Failure = roleFailure,
+		Warning = roleWarning,
+		Info = roleInfo,
 		Padding = padding,
 		NodeSpacing = nodeSpacing,
 		LayerSpacing = layerSpacing,
 		RoundedEdges = roundedEdges ?? true,
 		Transparent = transparent ?? true,
+		Style = style ?? DiagramStyle.Quiet,
+		Gradient = gradient ?? true,
+		Tint = tint,
+		Elevation = elevation,
 		Font = font,
 		MonoFont = monoFont,
 		FontSize = fontSize,
@@ -221,24 +259,25 @@ RenderOptions? ResolveOptions(IQueryCollection q)
 	};
 }
 
-string RenderSectionBar(string activePath, string? theme, string engine)
+string RenderSectionBar(string activePath, string? theme, string engine, string? style = null)
 {
 	var examplesActive = activePath != "/playground" ? " active" : "";
 	var playActive = activePath == "/playground" ? " active" : "";
-	var examplesHref = $"/{BuildPageQs(theme, engine)}";
+	var examplesHref = $"/{BuildPageQs(theme, engine, style: style)}";
+	var playgroundHref = style is null ? "/playground" : $"/playground?style={Uri.EscapeDataString(style)}";
 	return $"""
 		<a href="{examplesHref}" class="section-link{examplesActive}">Compare</a>
-		<a href="/playground" class="section-link{playActive}">Theme Playground</a>
+		<a href="{playgroundHref}" class="section-link{playActive}">Theme Playground</a>
 		""";
 }
 
-string RenderNav(string activePath, string? theme, string engine, string? p1 = null, string? p2 = null, string? bg = null)
+string RenderNav(string activePath, string? theme, string engine, string? p1 = null, string? p2 = null, string? bg = null, string? style = null)
 {
 	var cats = Enum.GetValues<DiagramCategory>();
 	var links = new List<string>();
 
 	var homeActive = activePath == "/" ? " active" : "";
-	links.Add($"<a href=\"/{BuildPageQs(theme, engine, p1, p2, bg)}\" class=\"nav-link{homeActive}\">Compare</a>");
+	links.Add($"<a href=\"/{BuildPageQs(theme, engine, p1, p2, bg, style)}\" class=\"nav-link{homeActive}\">Compare</a>");
 
 	foreach (var cat in cats)
 	{
@@ -246,13 +285,13 @@ string RenderNav(string activePath, string? theme, string engine, string? p1 = n
 		var label = DiagramExamples.CategoryLabel(cat);
 		var count = DiagramExamples.ByCategory(cat).Length;
 		var active = activePath == $"/{slug}" ? " active" : "";
-		links.Add($"<a href=\"/{slug}{BuildPageQs(theme, engine, p1, p2, bg)}\" class=\"nav-link{active}\">{label} <span class=\"count\">{count}</span></a>");
+		links.Add($"<a href=\"/{slug}{BuildPageQs(theme, engine, p1, p2, bg, style)}\" class=\"nav-link{active}\">{label} <span class=\"count\">{count}</span></a>");
 	}
 
 	return string.Join("\n    ", links);
 }
 
-string BuildPageQs(string? theme, string engine, string? p1 = null, string? p2 = null, string? bg = null)
+string BuildPageQs(string? theme, string engine, string? p1 = null, string? p2 = null, string? bg = null, string? style = null)
 {
 	var parts = new List<string>();
 	if (theme is not null)
@@ -265,6 +304,8 @@ string BuildPageQs(string? theme, string engine, string? p1 = null, string? p2 =
 		parts.Add($"p2={Uri.EscapeDataString(p2)}");
 	if (!string.IsNullOrEmpty(bg))
 		parts.Add($"bg={Uri.EscapeDataString(bg)}");
+	if (!string.IsNullOrEmpty(style))
+		parts.Add($"style={Uri.EscapeDataString(style)}");
 	return parts.Count > 0 ? "?" + string.Join("&", parts) : "";
 }
 
@@ -486,7 +527,10 @@ string SharedStyles(string pageBg, string pageFg) => $$"""
 	  outline: 1px solid color-mix(in srgb, {{pageFg}} 30%, transparent);
 	}
 	.play-ctrl-palette { min-width: unset; }
-	.palette-row { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 2px; }
+	.role-row { display: flex; gap: 10px; flex-wrap: wrap; }
+		    .role-pick { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; font-size: 11px; opacity: .8; }
+		    .role-pick input[type=color] { width: 34px; height: 26px; }
+		    .palette-row { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 2px; }
 	.palette-swatch {
 	  width: 20px; height: 20px; border-radius: 3px;
 	  border: 1px solid color-mix(in srgb, {{pageFg}} 15%, transparent);
@@ -665,7 +709,7 @@ string RenderCardCompare(DiagramExample e, string engine, string engineLabel, st
 		""";
 }
 
-string RenderCategoryPage(DiagramCategory category, string? theme, string engine, string? p1, string? p2, string? bg)
+string RenderCategoryPage(DiagramCategory category, string? theme, string engine, string? p1, string? p2, string? bg, string? style)
 {
 	if (p1 is not null && !providerList.Any(x => x.Value == p1))
 		p1 = null;
@@ -673,18 +717,19 @@ string RenderCategoryPage(DiagramCategory category, string? theme, string engine
 		p2 = null;
 
 	var (pageBg, pageFg) = PageColors(theme);
-	var themeQuery = theme is not null ? $"&theme={theme}" : "";
+	var themeQuery = (theme is not null ? $"&theme={theme}" : "") + (style is not null ? $"&style={style}" : "");
 	var catSlug = DiagramExamples.CategorySlug(category);
 	var catLabel = DiagramExamples.CategoryLabel(category);
 	var examples = DiagramExamples.ByCategory(category);
 
-	var themeLinks = RenderThemeBar(theme, engine, $"/{catSlug}", p1, p2, bg);
+	var themeLinks = RenderThemeBar(theme, engine, $"/{catSlug}", p1, p2, bg, style);
 	var engineOptions = BuildSelectOptions(engine, [("lightweight", "Sugiyama (built-in)"), ("msagl", "MSAGL")]);
 	var p1Options = BuildSelectOptions(p1 ?? "", [("", "— none —"), .. providerList]);
 	var p2Options = BuildSelectOptions(p2 ?? "", [("", "— none —"), .. providerList]);
 	var bgOptionsHtml = BuildSelectOptions(bg ?? "", bgOptions);
-	var navHtml = RenderNav($"/{catSlug}", theme, engine, p1, p2, bg);
-	var sectionBarHtml = RenderSectionBar($"/{catSlug}", theme, engine);
+	var styleSelectOptions = BuildSelectOptions(style ?? "quiet", styleChoices);
+	var navHtml = RenderNav($"/{catSlug}", theme, engine, p1, p2, bg, style);
+	var sectionBarHtml = RenderSectionBar($"/{catSlug}", theme, engine, style);
 
 	var activeProviders = new List<string>();
 	if (!string.IsNullOrEmpty(p1))
@@ -735,6 +780,12 @@ string RenderCategoryPage(DiagramCategory category, string? theme, string engine
 
 		    <div class="controls">
 		      <div class="control-group">
+		        <label for="sel-style">Diagram style</label>
+		        <select id="sel-style" onchange="nav('style', this.value === 'quiet' ? '' : this.value)">
+		{{styleSelectOptions}}
+		        </select>
+		      </div>
+		      <div class="control-group">
 		        <label for="sel-engine">Mermaider Engine</label>
 		        <select id="sel-engine" onchange="nav('engine', this.value)">
 		{{engineOptions}}
@@ -782,7 +833,7 @@ string RenderCategoryPage(DiagramCategory category, string? theme, string engine
 		""";
 }
 
-string RenderComparePage(string? theme, string engine, string? p1, string? p2, string? bg)
+string RenderComparePage(string? theme, string engine, string? p1, string? p2, string? bg, string? style)
 {
 	if (p1 is not null && !providerList.Any(x => x.Value == p1))
 		p1 = null;
@@ -790,15 +841,16 @@ string RenderComparePage(string? theme, string engine, string? p1, string? p2, s
 		p2 = null;
 
 	var (pageBg, pageFg) = PageColors(theme);
-	var themeQuery = theme is not null ? $"&theme={theme}" : "";
+	var themeQuery = (theme is not null ? $"&theme={theme}" : "") + (style is not null ? $"&style={style}" : "");
 
-	var themeLinks = RenderThemeBar(theme, engine, "/", p1, p2, bg);
+	var themeLinks = RenderThemeBar(theme, engine, "/", p1, p2, bg, style);
 	var engineOptions = BuildSelectOptions(engine, [("lightweight", "Sugiyama (built-in)"), ("msagl", "MSAGL")]);
 	var p1Options = BuildSelectOptions(p1 ?? "", [("", "— none —"), .. providerList]);
 	var p2Options = BuildSelectOptions(p2 ?? "", [("", "— none —"), .. providerList]);
 	var bgOptionsHtml = BuildSelectOptions(bg ?? "", bgOptions);
-	var navHtml = RenderNav("/", theme, engine, p1, p2, bg);
-	var sectionBarHtml = RenderSectionBar("/", theme, engine);
+	var styleSelectOptions = BuildSelectOptions(style ?? "quiet", styleChoices);
+	var navHtml = RenderNav("/", theme, engine, p1, p2, bg, style);
+	var sectionBarHtml = RenderSectionBar("/", theme, engine, style);
 
 	var activeProviders = new List<string>();
 	if (!string.IsNullOrEmpty(p1))
@@ -841,6 +893,12 @@ string RenderComparePage(string? theme, string engine, string? p1, string? p2, s
 		    {{themeLinks}}
 
 		    <div class="controls">
+		      <div class="control-group">
+		        <label for="sel-style">Diagram style</label>
+		        <select id="sel-style" onchange="nav('style', this.value === 'quiet' ? '' : this.value)">
+		{{styleSelectOptions}}
+		        </select>
+		      </div>
 		      <div class="control-group">
 		        <label for="sel-engine">Mermaider Engine</label>
 		        <select id="sel-engine" onchange="nav('engine', this.value)">
@@ -906,6 +964,9 @@ string RenderPlaygroundPage(string? theme, string engine, string? selectedSlug, 
 	var defaultMuted = q["muted"].FirstOrDefault() ?? baseColors?.Muted ?? "";
 	var defaultSurface = q["surface"].FirstOrDefault() ?? baseColors?.Surface ?? "";
 	var defaultBorder = q["border"].FirstOrDefault() ?? baseColors?.Border ?? "";
+	var roleSeeds = RoleSeeds(baseColors ?? Themes.Default);
+	string RoleValue(string key) => q[key].FirstOrDefault() ?? roleSeeds[key];
+	string RoleDirty(string key) => q[key].FirstOrDefault() is not null ? " data-dirty=\"1\"" : "";
 	var defaultPadding = q["padding"].FirstOrDefault() ?? "40";
 	var defaultNs = q["nodeSpacing"].FirstOrDefault() ?? "28";
 	var defaultLs = q["layerSpacing"].FirstOrDefault() ?? "48";
@@ -915,6 +976,16 @@ string RenderPlaygroundPage(string? theme, string engine, string? selectedSlug, 
 	var defaultMonoFont = q["monoFont"].FirstOrDefault() ?? "";
 	var roundedChecked = defaultRounded is not ("false" or "0") ? " checked" : "";
 	var transpChecked = defaultTransp is not ("false" or "0") ? " checked" : "";
+	var defaultStyle = q["style"].FirstOrDefault()?.ToLowerInvariant() ?? "quiet";
+	var defaultGradient = q["gradient"].FirstOrDefault() ?? "true";
+	var gradientChecked = defaultGradient is not ("false" or "0") ? " checked" : "";
+	var defaultTint = double.TryParse(q["tint"].FirstOrDefault(), System.Globalization.NumberStyles.Float,
+		System.Globalization.CultureInfo.InvariantCulture, out var qt) && double.IsFinite(qt)
+		? Math.Clamp(qt, 0.5, 1.5).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)
+		: "1";
+	var defaultElevation = q["elevation"].FirstOrDefault() ?? "1";
+	var styleOptions = BuildSelectOptions(defaultStyle, [("quiet", "Quiet"), ("blueprint", "Blueprint"), ("tonal", "Tonal")]);
+	var elevationOptions = BuildSelectOptions(defaultElevation, [("0", "0 — none"), ("1", "1 — default"), ("2", "2 — ambient")]);
 
 	// Build base theme picker options
 	var themeOptions = string.Join("\n",
@@ -978,11 +1049,27 @@ string RenderPlaygroundPage(string? theme, string engine, string? selectedSlug, 
 		{{themeOptions}}
 		          </select>
 		        </div>
+		        <div class="play-ctrl">
+		          <label title="Style preset: restyles every diagram type without changing layout">style</label>
+		          <select id="pg-style" onchange="pgScheduleRender()">
+		{{styleOptions}}
+		          </select>
+		        </div>
 		        <div class="play-ctrl"><label>bg</label><input type="color" id="pg-bg" value="{{defaultBg}}" oninput="pgScheduleRender()" /></div>
 		        <div class="play-ctrl"><label>fg</label><input type="color" id="pg-fg" value="{{defaultFg}}" oninput="pgScheduleRender()" /></div>
 		        <div class="play-ctrl"><label>accent</label><input type="color" id="pg-accent" value="{{defaultAccent}}" oninput="pgScheduleRender()" /></div>
-		        <div class="play-ctrl"><label>line</label><input type="color" id="pg-line" value="{{(defaultLine.Length > 0 ? defaultLine : "#888888")}}" oninput="pgScheduleRender()" /></div>
-		        <div class="play-ctrl"><label>muted</label><input type="color" id="pg-muted" value="{{(defaultMuted.Length > 0 ? defaultMuted : "#777777")}}" oninput="pgScheduleRender()" /></div>
+		        <div class="play-ctrl"><label title="Connectors, axes, rules. Follows the default box border unless set.">line</label><input type="color" id="pg-line" value="{{(defaultLine.Length > 0 ? defaultLine : ResolvedLineHex(baseColors ?? Themes.Default))}}"{{(q["line"].FirstOrDefault() is not null ? " data-dirty=\"1\"" : "")}} oninput="this.dataset.dirty='1';pgScheduleRender()" /></div>
+		        <div class="play-ctrl"><label title="Secondary text. Derived from fg unless set.">muted</label><input type="color" id="pg-muted" value="{{(defaultMuted.Length > 0 ? defaultMuted : "#777777")}}"{{(q["muted"].FirstOrDefault() is not null ? " data-dirty=\"1\"" : "")}} oninput="this.dataset.dirty='1';pgScheduleRender()" /></div>
+		        <div class="play-ctrl play-ctrl-roles">
+		          <label title="Colour roles. Default = an ordinary box (first cluster of nodes, entities, classes); success / failure / warning / info = role classes (:::success …), gantt critical, risk chips. Their hues are skipped by automatic cluster colouring.">roles</label>
+		          <div class="role-row">
+		            <span class="role-pick" title="default box"><input type="color" id="pg-role-default" data-role="default" value="{{RoleValue("default")}}"{{RoleDirty("default")}} oninput="this.dataset.dirty='1';pgScheduleRender()" /><span>default</span></span>
+		            <span class="role-pick" title="success"><input type="color" id="pg-role-success" data-role="success" value="{{RoleValue("success")}}"{{RoleDirty("success")}} oninput="this.dataset.dirty='1';pgScheduleRender()" /><span>success</span></span>
+		            <span class="role-pick" title="failure"><input type="color" id="pg-role-failure" data-role="failure" value="{{RoleValue("failure")}}"{{RoleDirty("failure")}} oninput="this.dataset.dirty='1';pgScheduleRender()" /><span>failure</span></span>
+		            <span class="role-pick" title="warning"><input type="color" id="pg-role-warning" data-role="warning" value="{{RoleValue("warning")}}"{{RoleDirty("warning")}} oninput="this.dataset.dirty='1';pgScheduleRender()" /><span>warning</span></span>
+		            <span class="role-pick" title="info"><input type="color" id="pg-role-info" data-role="info" value="{{RoleValue("info")}}"{{RoleDirty("info")}} oninput="this.dataset.dirty='1';pgScheduleRender()" /><span>info</span></span>
+		          </div>
+		        </div>
 		        <div class="play-ctrl play-ctrl-palette">
 		          <label title="Data palette used by pie, gantt, timeline, gitgraph, sankey, radar, mindmap, venn, journey, packet, xychart, treemap (CategoricalPalette.cs)">data palette</label>
 		          <div class="palette-row">{{PaletteSwatches()}}</div>
@@ -1028,6 +1115,21 @@ string RenderPlaygroundPage(string? theme, string engine, string? selectedSlug, 
 		        </div>
 		        <div class="play-ctrl"><label>transparent</label>
 		          <input type="checkbox" id="pg-transp"{{transpChecked}} onchange="pgScheduleRender()" />
+		        </div>
+		        <div class="play-ctrl"><label title="top-to-bottom gradient on boxes, containers and bars (off = flat fills)">gradient</label>
+		          <input type="checkbox" id="pg-gradient"{{gradientChecked}} onchange="pgScheduleRender()" />
+		        </div>
+		        <div class="play-ctrl">
+		          <label>tint <span class="ctrl-val" id="pg-tint-val">{{defaultTint}}</span></label>
+		          <input type="range" id="pg-tint" min="0.5" max="1.5" step="0.05" value="{{defaultTint}}"
+		            oninput="document.getElementById('pg-tint-val').textContent=this.value;pgScheduleRender()" />
+		          <span class="ctrl-hint">strength of family tints (lower for dark themes)</span>
+		        </div>
+		        <div class="play-ctrl">
+		          <label title="drop-shadow strength (Blueprint draws no shadows)">elevation</label>
+		          <select id="pg-elevation" onchange="pgScheduleRender()">
+		{{elevationOptions}}
+		          </select>
 		        </div>
 		      </div>
 		      <div class="pg-edit-block">
@@ -1077,11 +1179,16 @@ string PlaygroundScripts(string slugsJson, string initialSource) => $$"""
 	    const monoFont = document.getElementById('pg-mono-font').value;
 	    const rounded = document.getElementById('pg-rounded').checked ? 'true' : 'false';
 	    const transp = document.getElementById('pg-transp').checked ? 'true' : 'false';
+	    const style = document.getElementById('pg-style').value;
+	    const gradient = document.getElementById('pg-gradient').checked ? 'true' : 'false';
+	    const tint = document.getElementById('pg-tint').value;
+	    const elevation = document.getElementById('pg-elevation').value;
 	    if (bg) p.set('bg', bg);
 	    if (fg) p.set('fg', fg);
 	    if (accent) p.set('accent', accent);
-	    if (line) p.set('line', line);
-	    if (muted) p.set('muted', muted);
+	    // line and muted are derived from the theme unless the user picked one
+	    if (line && document.getElementById('pg-line').dataset.dirty) p.set('line', line);
+	    if (muted && document.getElementById('pg-muted').dataset.dirty) p.set('muted', muted);
 	    p.set('padding', pad);
 	    p.set('nodeSpacing', ns);
 	    p.set('layerSpacing', ls);
@@ -1089,6 +1196,11 @@ string PlaygroundScripts(string slugsJson, string initialSource) => $$"""
 	    if (monoFont) p.set('monoFont', monoFont);
 	    p.set('rounded', rounded);
 	    p.set('transparent', transp);
+	    if (style !== 'quiet') p.set('style', style);
+	    if (gradient !== 'true') p.set('gradient', gradient);
+	    if (tint !== '1') p.set('tint', tint);
+	    if (elevation !== '1') p.set('elevation', elevation);
+	    document.querySelectorAll('input[data-role]').forEach(el => { if (el.dataset.dirty) p.set(el.dataset.role, el.value); });
 	    return p.toString();
 	  }
 
@@ -1155,7 +1267,10 @@ string PlaygroundScripts(string slugsJson, string initialSource) => $$"""
 	      if (t.fg) document.getElementById('pg-fg').value = t.fg;
 	      if (t.accent) document.getElementById('pg-accent').value = t.accent;
 	      if (t.line) document.getElementById('pg-line').value = t.line;
+	      delete document.getElementById('pg-line').dataset.dirty;
 	      if (t.muted) document.getElementById('pg-muted').value = t.muted;
+	      delete document.getElementById('pg-muted').dataset.dirty;
+	      if (t.roles) document.querySelectorAll('input[data-role]').forEach(el => { el.value = t.roles[el.dataset.role]; delete el.dataset.dirty; });
 	      const palette = t.dataPalette || {{System.Text.Json.JsonSerializer.Serialize(Themes.DefaultDataPalette)}};
 	      const row = document.querySelector('.palette-row');
 	      if (row) row.innerHTML = palette.map(c => `<div class="palette-swatch" style="background:${c}" title="${c}"></div>`).join('');
@@ -1192,6 +1307,40 @@ string PaletteSwatches(string? themeName = null)
 		$"<div class=\"palette-swatch\" style=\"background:{c}\" title=\"{c}\"></div>"));
 }
 
+// The default line colour as a hex for the colour picker: the default box border, i.e. the Default role mixed 74% into fg
+// (the same sRGB mix the renderer emits as color-mix(in srgb, <default> 74%, var(--fg))).
+string ResolvedLineHex(DiagramColors c)
+{
+	static (int R, int G, int B) Rgb(string hex)
+	{
+		var h = hex.TrimStart('#');
+		if (h.Length == 3)
+			h = string.Concat(h.Select(ch => $"{ch}{ch}"));
+		return (Convert.ToInt32(h[0..2], 16), Convert.ToInt32(h[2..4], 16), Convert.ToInt32(h[4..6], 16));
+	}
+
+	var (dr, dg, db) = Rgb(RoleSeeds(c)["default"]);
+	var (fr, fg, fb) = Rgb(c.Fg);
+	int Mix(int a, int b) => (int)Math.Round((a * 0.74) + (b * 0.26));
+	return $"#{Mix(dr, fr):x2}{Mix(dg, fg):x2}{Mix(db, fb):x2}";
+}
+
+// Seed values for the role pickers: the theme's explicit role colours, else the palette hue the library falls back to
+// (default = first palette colour, success / failure / warning / info = the palette's green / red / yellow / blue).
+Dictionary<string, string> RoleSeeds(DiagramColors c)
+{
+	var palette = c.DataPalette ?? Themes.DefaultDataPalette;
+	string At(int i) => palette[i % palette.Length];
+	return new Dictionary<string, string>
+	{
+		["default"] = c.Default ?? At(0),
+		["success"] = c.Success ?? At(4),
+		["failure"] = c.Failure ?? At(2),
+		["warning"] = c.Warning ?? At(5),
+		["info"] = c.Info ?? At(0),
+	};
+}
+
 string ThemesJson()
 {
 	var entries = Themes.BuiltIn.Select(kv =>
@@ -1200,10 +1349,10 @@ string ThemesJson()
 		var parts = new List<string> { $"\"bg\":\"{c.Bg}\"", $"\"fg\":\"{c.Fg}\"" };
 		if (c.Accent is not null)
 			parts.Add($"\"accent\":\"{c.Accent}\"");
-		if (c.Line is not null)
-			parts.Add($"\"line\":\"{c.Line}\"");
+		parts.Add($"\"line\":\"{c.Line ?? ResolvedLineHex(c)}\"");
 		if (c.Muted is not null)
 			parts.Add($"\"muted\":\"{c.Muted}\"");
+		parts.Add("\"roles\":{" + string.Join(",", RoleSeeds(c).Select(r => $"\"{r.Key}\":\"{r.Value}\"")) + "}");
 		if (c.DataPalette is not null)
 		{
 			var paletteJson = "[" + string.Join(",", c.DataPalette.Select(p => $"\"{p}\"")) + "]";
@@ -1214,17 +1363,17 @@ string ThemesJson()
 	return "{" + string.Join(",", entries) + "}";
 }
 
-string RenderThemeBar(string? theme, string engine, string basePath, string? p1 = null, string? p2 = null, string? bg = null)
+string RenderThemeBar(string? theme, string engine, string basePath, string? p1 = null, string? p2 = null, string? bg = null, string? style = null)
 {
 	var themeLinks = string.Join("\n",
 		Themes.BuiltIn.Keys.OrderBy(k => k).Select(name =>
 		{
 			var active = name == theme ? " class=\"active\"" : "";
-			var qs = BuildFullQs(name, engine, basePath, p1, p2, bg);
+			var qs = BuildFullQs(name, engine, basePath, p1, p2, bg, style);
 			return $"    <a href=\"{basePath}{qs}\"{active}>{WebUtility.HtmlEncode(name)}</a>";
 		}));
 	var defaultActive = theme is null ? " class=\"active\"" : "";
-	var defaultQs = BuildFullQs(null, engine, basePath, p1, p2, bg);
+	var defaultQs = BuildFullQs(null, engine, basePath, p1, p2, bg, style);
 
 	return $"""
 		<div class="theme-bar">
@@ -1234,7 +1383,7 @@ string RenderThemeBar(string? theme, string engine, string basePath, string? p1 
 		""";
 }
 
-string BuildFullQs(string? theme, string engine, string basePath, string? p1 = null, string? p2 = null, string? bg = null)
+string BuildFullQs(string? theme, string engine, string basePath, string? p1 = null, string? p2 = null, string? bg = null, string? style = null)
 {
 	var parts = new List<string>();
 	if (theme is not null)
@@ -1247,6 +1396,8 @@ string BuildFullQs(string? theme, string engine, string basePath, string? p1 = n
 		parts.Add($"p2={Uri.EscapeDataString(p2)}");
 	if (!string.IsNullOrEmpty(bg))
 		parts.Add($"bg={Uri.EscapeDataString(bg)}");
+	if (!string.IsNullOrEmpty(style))
+		parts.Add($"style={Uri.EscapeDataString(style)}");
 	return parts.Count > 0 ? "?" + string.Join("&", parts) : "";
 }
 
