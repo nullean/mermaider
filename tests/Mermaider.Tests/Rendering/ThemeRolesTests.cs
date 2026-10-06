@@ -4,7 +4,7 @@ using Mermaider.Theming;
 
 namespace Mermaider.Tests.Rendering;
 
-/// <summary>Shipped themes define every colour role, and the line colour follows the default box border unless set.</summary>
+/// <summary>Shipped themes define every colour role and spell out their line colour: the default box border.</summary>
 public class ThemeRolesTests
 {
 	public static IEnumerable<string> ThemeNames() => Themes.BuiltIn.Keys.Order();
@@ -20,7 +20,7 @@ public class ThemeRolesTests
 		theme.Failure.Should().NotBeNullOrEmpty();
 		theme.Warning.Should().NotBeNullOrEmpty();
 		theme.Info.Should().NotBeNullOrEmpty();
-		theme.Line.Should().BeNull("shipped themes let lines follow the default box border");
+		theme.Line.Should().NotBeNullOrEmpty("shipped themes spell out every colour");
 	}
 
 	[Test]
@@ -28,12 +28,12 @@ public class ThemeRolesTests
 	public void The_line_colour_is_the_default_box_border(string name)
 	{
 		var theme = Themes.BuiltIn[name];
-		var border = new ColorFamily("p0", theme.Default!).Stroke;
+		// the hex the theme ships is the same sRGB mix the renderer outlines an ordinary box with
+		theme.Line.Should().Be(ColorUtils.MixHex(theme.Default!, theme.Fg, ColorFamily.StrokeRatio / 100));
+		new ColorFamily("p0", theme.Default!).Stroke.Should().Be($"color-mix(in srgb, {theme.Default} 74%, var(--fg))");
 
-		theme.ResolvedLine.Should().Be(border);
-		var svg = MermaidRenderer.RenderSvg("flowchart TD\n  A --> B", new RenderOptions { Bg = theme.Bg, Fg = theme.Fg, Default = theme.Default });
-		svg.Should().Contain($"--line:{border}", "lines are drawn in the border colour of an ordinary box");
-		svg.Should().Contain($"stroke=\"{border}\"", "the default box outline is that same colour");
+		var svg = MermaidRenderer.RenderSvg("flowchart TD\n  A --> B", new RenderOptions { Bg = theme.Bg, Fg = theme.Fg, Default = theme.Default, Line = theme.Line });
+		svg.Should().Contain($"--line:{theme.Line}");
 	}
 
 	[Test]

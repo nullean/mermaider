@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 406.56 619.2" width="406.56" height="619.2" style="--bg:#FFFFFF;--fg:#27272A;--line:color-mix(in srgb, #64748b 74%, var(--fg));--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 406.56 619.2" width="406.56" height="619.2" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -36,7 +36,7 @@
 <path class="er-relationship" data-entity1="POST" data-entity2="TAG" data-cardinality1="zeromany" data-cardinality2="zeromany" data-identifying="true" data-label="tagged" d="M150.70999999999998,383.6 L150.70999999999998,403.6 Q150.70999999999998,411.6 142.70999999999998,411.6 L111.94,411.6 Q103.94,411.6 103.94,419.6 L103.94,479.2" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <g class="entity" data-id="USER" data-label="USER">
   <rect x="164.42364000000003" y="20" width="201.47999999999996" height="120" rx="8" ry="8" fill="var(--bg)" stroke="none" />
-  <path d="M164.42364000000003,56 L164.42364000000003,28 Q164.42364000000003,20 172.42364000000003,20 L357.90364,20 Q365.90364,20 365.90364,28 L365.90364,56 Z" fill="url(#m0c36b112-eb-p0)" />
+  <path d="M164.42364000000003,56 L164.42364000000003,28 Q164.42364000000003,20 172.42364000000003,20 L357.90364,20 Q365.90364,20 365.90364,28 L365.90364,56 Z" fill="url(#m1814eb8b-eb-p0)" />
   <line x1="164.42364000000003" y1="56" x2="365.90364" y2="56" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <rect x="164.42364000000003" y="20" width="201.47999999999996" height="120" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <line x1="176.42364000000003" y1="84" x2="353.90364" y2="84" stroke="var(--_line-soft)" stroke-width="1" />
@@ -48,7 +48,7 @@
 </g>
 <g class="entity" data-id="POST" data-label="POST">
   <rect x="80.75" y="235.6" width="209.88" height="148" rx="8" ry="8" fill="var(--bg)" stroke="none" />
-  <path d="M80.75,271.6 L80.75,243.6 Q80.75,235.6 88.75,235.6 L282.63,235.6 Q290.63,235.6 290.63,243.6 L290.63,271.6 Z" fill="url(#m0c36b112-eb-p0)" />
+  <path d="M80.75,271.6 L80.75,243.6 Q80.75,235.6 88.75,235.6 L282.63,235.6 Q290.63,235.6 290.63,243.6 L290.63,271.6 Z" fill="url(#m1814eb8b-eb-p0)" />
   <line x1="80.75" y1="271.6" x2="290.63" y2="271.6" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <rect x="80.75" y="235.6" width="209.88" height="148" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <line x1="92.75" y1="299.6" x2="278.63" y2="299.6" stroke="var(--_line-soft)" stroke-width="1" />
@@ -62,7 +62,7 @@
 </g>
 <g class="entity" data-id="COMMENT" data-label="COMMENT">
   <rect x="207.88" y="479.2" width="178.68" height="120" rx="8" ry="8" fill="var(--bg)" stroke="none" />
-  <path d="M207.88,515.2 L207.88,487.2 Q207.88,479.2 215.88,479.2 L378.56,479.2 Q386.56,479.2 386.56,487.2 L386.56,515.2 Z" fill="url(#m0c36b112-eb-p0)" />
+  <path d="M207.88,515.2 L207.88,487.2 Q207.88,479.2 215.88,479.2 L378.56,479.2 Q386.56,479.2 386.56,487.2 L386.56,515.2 Z" fill="url(#m1814eb8b-eb-p0)" />
   <line x1="207.88" y1="515.2" x2="386.56" y2="515.2" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <rect x="207.88" y="479.2" width="178.68" height="120" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <line x1="219.88" y1="543.2" x2="374.56" y2="543.2" stroke="var(--_line-soft)" stroke-width="1" />
@@ -74,7 +74,7 @@
 </g>
 <g class="entity" data-id="TAG" data-label="TAG">
   <rect x="20" y="479.2" width="167.88" height="92" rx="8" ry="8" fill="var(--bg)" stroke="none" />
-  <path d="M20,515.2 L20,487.2 Q20,479.2 28,479.2 L179.88,479.2 Q187.88,479.2 187.88,487.2 L187.88,515.2 Z" fill="url(#m0c36b112-eb-p0)" />
+  <path d="M20,515.2 L20,487.2 Q20,479.2 28,479.2 L179.88,479.2 Q187.88,479.2 187.88,487.2 L187.88,515.2 Z" fill="url(#m1814eb8b-eb-p0)" />
   <line x1="20" y1="515.2" x2="187.88" y2="515.2" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <rect x="20" y="479.2" width="167.88" height="92" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <line x1="32" y1="543.2" x2="175.88" y2="543.2" stroke="var(--_line-soft)" stroke-width="1" />
@@ -111,6 +111,6 @@
   <rect x="76.572" y="420.59999999999997" width="54.736" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="103.94" y="431.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">tagged</text>
 </g>
 <defs>
-  <linearGradient id="m0c36b112-eb-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-eb-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /></linearGradient>
 </defs>
 </svg>

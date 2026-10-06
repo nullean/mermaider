@@ -7,12 +7,12 @@ namespace Mermaider.Theming;
 public static class Themes
 {
 	/// <summary>Default colors (zinc light).</summary>
-	public static DiagramColors Default { get; } = new()
+	public static DiagramColors Default { get; } = WithLine(new()
 	{
 		Bg = "#FFFFFF", Fg = "#27272A", Accent = "#3b82f6",
 		Default = "#64748b", Success = CategoricalPalette.Green, Failure = CategoricalPalette.Red,
 		Warning = CategoricalPalette.Yellow, Info = CategoricalPalette.Blue,
-	};
+	});
 
 	/// <summary>The canonical 12-color data palette used when a theme does not specify its own.</summary>
 	public static string[] DefaultDataPalette { get; } = CategoricalPalette.Colors;
@@ -123,5 +123,12 @@ public static class Themes
 				Default = "#828997", Success = "#98c379", Failure = "#e06c75", Warning = "#e5c07b", Info = "#61afef",
 				DataPalette = DarkDataPalette
 			},
-		}.ToFrozenDictionary();
+		}.ToFrozenDictionary(kv => kv.Key, kv => WithLine(kv.Value));
+
+	/// <summary>
+	/// Every built-in theme spells out its line colour: the border of an ordinary box (the <c>Default</c> role mixed 74% into
+	/// the foreground, the same mix the renderer outlines boxes with), so lines and boxes read as one family.
+	/// </summary>
+	private static DiagramColors WithLine(DiagramColors theme) =>
+		theme with { Line = ColorUtils.MixHex(theme.Default!, theme.Fg, ColorFamily.StrokeRatio / 100) };
 }

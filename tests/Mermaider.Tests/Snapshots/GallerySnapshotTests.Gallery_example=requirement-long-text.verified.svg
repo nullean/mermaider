@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 827.2384 304" width="827.2384" height="304" style="--bg:#FFFFFF;--fg:#27272A;--line:color-mix(in srgb, #64748b 74%, var(--fg));--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 827.2384 304" width="827.2384" height="304" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -30,10 +30,10 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<path class="req-relation" data-type="satisfies" d="M344.9932,152 L486.3132,152" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m0c36b112-mk-open)" />
+<path class="req-relation" data-type="satisfies" d="M344.9932,152 L486.3132,152" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-open)" />
 <g class="req-node entity" data-id="a_requirement_with_a_really_long_name_that_wraps" data-kind="requirement">
   <rect x="486.3132" y="24" width="316.9252" height="256" rx="8" ry="8" fill="var(--bg)" stroke="none" />
-  <path d="M486.3132,96 L486.3132,32 Q486.3132,24 494.3132,24 L795.2384,24 Q803.2384,24 803.2384,32 L803.2384,96 Z" fill="url(#m0c36b112-eb-p0)" />
+  <path d="M486.3132,96 L486.3132,32 Q486.3132,24 494.3132,24 L795.2384,24 Q803.2384,24 803.2384,32 L803.2384,96 Z" fill="url(#m1814eb8b-eb-p0)" />
   <line x1="486.3132" y1="96" x2="803.2384" y2="96" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <rect x="486.3132" y="24" width="316.9252" height="256" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <line x1="498.3132" y1="124" x2="791.2384" y2="124" stroke="var(--_line-soft)" stroke-width="1" />
@@ -56,7 +56,7 @@
 </g>
 <g class="req-node entity" data-id="retention_job" data-kind="element">
   <rect x="24" y="89" width="320.9932" height="126" rx="8" ry="8" fill="var(--bg)" stroke="none" />
-  <path d="M24,141 L24,97 Q24,89 32,89 L336.9932,89 Q344.9932,89 344.9932,97 L344.9932,141 Z" fill="url(#m0c36b112-eb-p0)" />
+  <path d="M24,141 L24,97 Q24,89 32,89 L336.9932,89 Q344.9932,89 344.9932,97 L344.9932,141 Z" fill="url(#m1814eb8b-eb-p0)" />
   <line x1="24" y1="141" x2="344.9932" y2="141" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <rect x="24" y="89" width="320.9932" height="126" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <line x1="36" y1="169" x2="332.9932" y2="169" stroke="var(--_line-soft)" stroke-width="1" />
@@ -72,8 +72,8 @@
   <rect x="384.1812" y="141.2" width="62.943999999999996" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="415.65" y="152" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">satisfies</text>
 </g>
 <defs>
-  <linearGradient id="m0c36b112-eb-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /></linearGradient>
-  <marker id="m0c36b112-mk-open" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+  <linearGradient id="m1814eb8b-eb-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /></linearGradient>
+  <marker id="m1814eb8b-mk-open" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
     <path d="M0,1.5 L10,6 L0,10.5" fill="none" stroke="var(--_line)" stroke-width="1.25" stroke-linejoin="miter" stroke-linecap="round" />
   </marker>
 </defs>

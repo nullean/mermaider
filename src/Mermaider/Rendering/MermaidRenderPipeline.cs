@@ -203,7 +203,10 @@ internal static class RenderConfigurationNormalizer
 		{
 			Bg = SelectSafeColor(options?.Bg, baseColors.Bg),
 			Fg = SelectSafeColor(options?.Fg, baseColors.Fg),
-			Line = SelectSafeOptionalColor(options?.Line, baseColors.Line),
+			// a theme's line colour is its default box border; when the caller changes the box colour or the foreground
+			// without picking a line, the line is derived from their colours instead so it still matches the boxes
+			Line = SelectSafeOptionalColor(options?.Line,
+				options?.Default is not null || options?.Fg is not null ? null : baseColors.Line),
 			Accent = SelectSafeOptionalColor(options?.Accent, baseColors.Accent),
 			Muted = SelectSafeOptionalColor(options?.Muted, baseColors.Muted),
 			Surface = SelectSafeOptionalColor(options?.Surface, baseColors.Surface),

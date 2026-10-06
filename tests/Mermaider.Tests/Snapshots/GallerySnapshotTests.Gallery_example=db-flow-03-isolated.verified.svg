@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1653.6997599999995 644.71" width="1653.6997599999995" height="644.71" style="--bg:#FFFFFF;--fg:#27272A;--line:color-mix(in srgb, #64748b 74%, var(--fg));--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1653.6997599999995 644.71" width="1653.6997599999995" height="644.71" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -31,38 +31,38 @@
 </style>
 
 <g class="subgraph" data-id="Inputs" data-label="Inputs">
-  <rect x="16" y="16" width="280.02399999999994" height="230.60000000000002" rx="12" ry="12" fill="url(#m0c36b112-cw-p1-0)" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
+  <rect x="16" y="16" width="280.02399999999994" height="230.60000000000002" rx="12" ry="12" fill="url(#m1814eb8b-cw-p1-0)" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
   <path d="M16,44 L16,28 Q16,16 28,16 L284.02399999999994,16 Q296.02399999999994,16 296.02399999999994,28 L296.02399999999994,44 Z" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" />
   <line x1="16" y1="44" x2="296.02399999999994" y2="44" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
 </g>
 <g class="subgraph" data-id="External" data-label="Read from outside, never checked out">
-  <rect x="16" y="290.25750000000005" width="344.8" height="302.6" rx="12" ry="12" fill="url(#m0c36b112-cw-p2-0)" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1.25" />
+  <rect x="16" y="290.25750000000005" width="344.8" height="302.6" rx="12" ry="12" fill="url(#m1814eb8b-cw-p2-0)" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1.25" />
   <path d="M16,318.25750000000005 L16,302.25750000000005 Q16,290.25750000000005 28,290.25750000000005 L348.8,290.25750000000005 Q360.8,290.25750000000005 360.8,302.25750000000005 L360.8,318.25750000000005 Z" fill="color-mix(in srgb, #76b7b2 22%, var(--bg))" />
   <line x1="16" y1="318.25750000000005" x2="360.8" y2="318.25750000000005" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1.25" />
 </g>
 <g class="subgraph" data-id="Build" data-label="Isolated build">
-  <rect x="573.36376" y="241.91000000000003" width="744.2719999999998" height="200.4" rx="12" ry="12" fill="url(#m0c36b112-cw-p3-0)" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1.25" />
+  <rect x="573.36376" y="241.91000000000003" width="744.2719999999998" height="200.4" rx="12" ry="12" fill="url(#m1814eb8b-cw-p3-0)" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1.25" />
   <path d="M573.36376,269.91 L573.36376,253.91000000000003 Q573.36376,241.91000000000003 585.36376,241.91000000000003 L1305.6357599999997,241.91000000000003 Q1317.6357599999997,241.91000000000003 1317.6357599999997,253.91000000000003 L1317.6357599999997,269.91 Z" fill="color-mix(in srgb, #b07aa1 22%, var(--bg))" />
   <line x1="573.36376" y1="269.91" x2="1317.6357599999997" y2="269.91" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1.25" />
 </g>
 <g class="subgraph" data-id="Outputs" data-label="Outputs">
-  <rect x="1373.6357599999997" y="235.91000000000008" width="264.06399999999996" height="392.8" rx="12" ry="12" fill="url(#m0c36b112-cw-p4-0)" stroke="color-mix(in srgb, #9c755f 42%, var(--bg))" stroke-width="1.25" />
+  <rect x="1373.6357599999997" y="235.91000000000008" width="264.06399999999996" height="392.8" rx="12" ry="12" fill="url(#m1814eb8b-cw-p4-0)" stroke="color-mix(in srgb, #9c755f 42%, var(--bg))" stroke-width="1.25" />
   <path d="M1373.6357599999997,263.9100000000001 L1373.6357599999997,247.91000000000008 Q1373.6357599999997,235.91000000000008 1385.6357599999997,235.91000000000008 L1625.6997599999995,235.91000000000008 Q1637.6997599999995,235.91000000000008 1637.6997599999995,247.91000000000008 L1637.6997599999995,263.9100000000001 Z" fill="color-mix(in srgb, #9c755f 22%, var(--bg))" />
   <line x1="1373.6357599999997" y1="263.9100000000001" x2="1637.6997599999995" y2="263.9100000000001" stroke="color-mix(in srgb, #9c755f 42%, var(--bg))" stroke-width="1.25" />
 </g>
-<path class="edge" data-from="Checkout" data-to="DocSet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M272,122.5 L557.5,122.5 Q565.5,122.5 565.5,130.5 L565.5,339 Q565.5,347 573.5,347 L597.5,347" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-<path class="edge" data-from="Vocab" data-to="DocSet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M258.5,212.5 L415,212.5 Q423,212.5 423,220.5 L423,353 Q423,361 431,361 L597.5,361" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-<path class="edge" data-from="DocSet" data-to="Toc" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M831,347 L838.5,347 Q846,347 846,339.5 L846,338 Q846,330 854,330 L871,330" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-<path class="edge" data-from="Toc" data-to="Nav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1020,330 L1075.25,330 Q1083.25,330 1083.25,338 L1083.25,339 Q1083.25,347 1091.25,347 L1156.5,347" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-<path class="edge" data-from="DocSet" data-to="Content" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M831,358 L843,358 Q851,358 851,366 L851,378 Q851,386 859,386 L871,386" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-<path class="edge" data-from="Content" data-to="Nav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1116.5,386 L1124,386 Q1131.5,386 1131.5,378.5 L1131.5,377 Q1131.5,369 1139.5,369 L1156.5,369" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-<path class="edge" data-from="LinkReg" data-to="Content" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="cross_links" d="M204.5,364.5 L361,364.5 Q369,364.5 369,372.5 L369,380.5 Q369,388.5 377,388.5 L836.5,388.5 Q839,388.5 839,391 L839,391 Q839,393.5 841.5,393.5 L871,393.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-<path class="edge" data-from="OpenApiRepo" data-to="Content" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="api" d="M247.5,446.5 L272.5,446.5 Q280.5,446.5 280.5,438.5 L280.5,409 Q280.5,401 288.5,401 L871,401" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-<path class="edge" data-from="Bundles" data-to="Content" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="release_notes" d="M297,536.5 L831,536.5 Q839,536.5 839,528.5 L839,416.5 Q839,408.5 847,408.5 L871,408.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-<path class="edge" data-from="Nav" data-to="Html" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1293.5,347 L1332.6357599999997,347 Q1340.6357599999997,347 1340.6357599999997,339 L1340.6357599999997,332 Q1340.6357599999997,324 1348.6357599999997,324 L1397.5,324" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-<path class="edge" data-from="Nav" data-to="Manifest" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1293.5,369 L1332.6357599999997,369 Q1340.6357599999997,369 1340.6357599999997,377 L1340.6357599999997,384 Q1340.6357599999997,392 1348.6357599999997,392 L1397.5,392" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-<path class="edge" data-from="DocSet" data-to="Redirects" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M831,369 L845,369 Q853,369 853,377 L853,474.5 Q853,482.5 861,482.5 L1397.5,482.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-<path class="edge" data-from="Manifest" data-to="LinkReg" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="published on push" d="M1397.5,406 L1345.5,406 Q1337.5,406 1337.5,414 L1337.5,438.5 Q1337.5,446.5 1329.5,446.5 L302,446.5 Q294,446.5 294,438.5 L294,386.5 Q294,378.5 286,378.5 L204.5,378.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
+<path class="edge" data-from="Checkout" data-to="DocSet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M272,122.5 L557.5,122.5 Q565.5,122.5 565.5,130.5 L565.5,339 Q565.5,347 573.5,347 L597.5,347" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="Vocab" data-to="DocSet" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M258.5,212.5 L415,212.5 Q423,212.5 423,220.5 L423,353 Q423,361 431,361 L597.5,361" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="DocSet" data-to="Toc" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M831,347 L838.5,347 Q846,347 846,339.5 L846,338 Q846,330 854,330 L871,330" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="Toc" data-to="Nav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1020,330 L1075.25,330 Q1083.25,330 1083.25,338 L1083.25,339 Q1083.25,347 1091.25,347 L1156.5,347" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="DocSet" data-to="Content" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M831,358 L843,358 Q851,358 851,366 L851,378 Q851,386 859,386 L871,386" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="Content" data-to="Nav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1116.5,386 L1124,386 Q1131.5,386 1131.5,378.5 L1131.5,377 Q1131.5,369 1139.5,369 L1156.5,369" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="LinkReg" data-to="Content" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="cross_links" d="M204.5,364.5 L361,364.5 Q369,364.5 369,372.5 L369,380.5 Q369,388.5 377,388.5 L836.5,388.5 Q839,388.5 839,391 L839,391 Q839,393.5 841.5,393.5 L871,393.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="OpenApiRepo" data-to="Content" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="api" d="M247.5,446.5 L272.5,446.5 Q280.5,446.5 280.5,438.5 L280.5,409 Q280.5,401 288.5,401 L871,401" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="Bundles" data-to="Content" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="release_notes" d="M297,536.5 L831,536.5 Q839,536.5 839,528.5 L839,416.5 Q839,408.5 847,408.5 L871,408.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="Nav" data-to="Html" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1293.5,347 L1332.6357599999997,347 Q1340.6357599999997,347 1340.6357599999997,339 L1340.6357599999997,332 Q1340.6357599999997,324 1348.6357599999997,324 L1397.5,324" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="Nav" data-to="Manifest" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M1293.5,369 L1332.6357599999997,369 Q1340.6357599999997,369 1340.6357599999997,377 L1340.6357599999997,384 Q1340.6357599999997,392 1348.6357599999997,392 L1397.5,392" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="DocSet" data-to="Redirects" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M831,369 L845,369 Q853,369 853,377 L853,474.5 Q853,482.5 861,482.5 L1397.5,482.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="Manifest" data-to="LinkReg" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="published on push" d="M1397.5,406 L1345.5,406 Q1337.5,406 1337.5,414 L1337.5,438.5 Q1337.5,446.5 1329.5,446.5 L302,446.5 Q294,446.5 294,438.5 L294,386.5 Q294,378.5 286,378.5 L204.5,378.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
 <text x="28" y="30" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.9">Inputs</text>
 <text x="28" y="304.26" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.9">Read from outside, never checked out</text>
 <text x="585.36" y="255.91" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #b07aa1 44%, var(--fg))" dy="4.9">Isolated build</text>
@@ -81,64 +81,64 @@
 </g>
 <g class="node" data-id="Checkout" data-label="Checkout (one repository, one
 branch)" data-shape="rectangle">
-  <rect x="40" y="72" width="232.02399999999994" height="60.4" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="40" y="72" width="232.02399999999994" height="60.4" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="156.01" y="102.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="156.01" dy="-4.2">Checkout (one repository, one</tspan><tspan x="156.01" dy="18.2">branch)</tspan></text>
 </g>
 <g class="node" data-id="Vocab" data-label="Shared vocabulary (config/)" data-shape="rectangle">
-  <rect x="40" y="180.4" width="218.458" height="42.2" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="40" y="180.4" width="218.458" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="149.23" y="201.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Shared vocabulary (config/)</text>
 </g>
 <g class="node" data-id="LinkReg" data-label="Link registry" data-shape="rectangle">
-  <rect x="79.96900000000002" y="346.25750000000005" width="124.29400000000001" height="42.2" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="79.96900000000002" y="346.25750000000005" width="124.29400000000001" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="142.12" y="367.36" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Link registry</text>
 </g>
 <g class="node" data-id="OpenApiRepo" data-label="OpenAPI repository" data-shape="rectangle">
-  <rect x="79.96900000000002" y="436.45750000000004" width="167.38600000000002" height="42.2" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="79.96900000000002" y="436.45750000000004" width="167.38600000000002" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="163.66" y="457.56" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">OpenAPI repository</text>
 </g>
 <g class="node" data-id="Bundles" data-label="Release note bundles (CDN)" data-shape="rectangle">
-  <rect x="79.96900000000002" y="526.6575" width="216.86199999999997" height="42.2" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="79.96900000000002" y="526.6575" width="216.86199999999997" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="188.4" y="547.76" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Release note bundles (CDN)</text>
 </g>
 <g class="node" data-id="DocSet" data-label="Documentation set (docset.yml)" data-shape="rectangle">
-  <rect x="597.36376" y="337.01000000000005" width="233.61999999999995" height="42.2" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="597.36376" y="337.01000000000005" width="233.61999999999995" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="714.17" y="358.11" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Documentation set (docset.yml)</text>
 </g>
 <g class="node" data-id="Toc" data-label="Table of contents" data-shape="rectangle">
-  <rect x="870.9837599999998" y="297.91" width="149.03199999999998" height="42.2" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="870.9837599999998" y="297.91" width="149.03199999999998" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="945.5" y="319.01" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Table of contents</text>
 </g>
 <g class="node" data-id="Content" data-label="Content: pages, snippets, images" data-shape="rectangle">
-  <rect x="870.9837599999998" y="376.11" width="245.58999999999995" height="42.2" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="870.9837599999998" y="376.11" width="245.58999999999995" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="993.78" y="397.21" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Content: pages, snippets, images</text>
 </g>
 <g class="node" data-id="Nav" data-label="Navigation tree" data-shape="rectangle">
-  <rect x="1156.5737599999998" y="337.01000000000005" width="137.062" height="42.2" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="1156.5737599999998" y="337.01000000000005" width="137.062" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="1225.1" y="358.11" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Navigation tree</text>
 </g>
 <g class="node" data-id="Html" data-label="HTML, llms.txt, Pagefind" data-shape="rectangle">
-  <rect x="1397.6357599999997" y="291.9100000000001" width="191.326" height="42.2" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="1397.6357599999997" y="291.9100000000001" width="191.326" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="1493.3" y="313.01" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">HTML, llms.txt, Pagefind</text>
 </g>
 <g class="node" data-id="Manifest" data-label="Link manifest (links.json)" data-shape="rectangle">
-  <rect x="1397.6357599999997" y="382.11000000000007" width="195.31600000000003" height="42.2" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="1397.6357599999997" y="382.11000000000007" width="195.31600000000003" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="1495.29" y="403.21" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Link manifest (links.json)</text>
 </g>
 <g class="node" data-id="Redirects" data-label="redirects.json" data-shape="rectangle">
-  <rect x="1397.6357599999997" y="472.3100000000001" width="131.476" height="42.2" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="1397.6357599999997" y="472.3100000000001" width="131.476" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="1463.37" y="493.41" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">redirects.json</text>
 </g>
 <g class="node" data-id="State" data-label="Generation state (.doc.state)" data-shape="rectangle">
-  <rect x="1397.6357599999997" y="562.5100000000001" width="216.06399999999994" height="42.2" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="1397.6357599999997" y="562.5100000000001" width="216.06399999999994" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="1505.67" y="583.61" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Generation state (.doc.state)</text>
 </g>
 <defs>
-  <linearGradient id="m0c36b112-cw-p1-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /></linearGradient>
-  <linearGradient id="m0c36b112-cw-p2-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #76b7b2 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #76b7b2 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #76b7b2 6%, var(--bg))" /></linearGradient>
-  <linearGradient id="m0c36b112-cw-p3-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #b07aa1 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #b07aa1 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #b07aa1 6%, var(--bg))" /></linearGradient>
-  <linearGradient id="m0c36b112-cw-p4-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #9c755f 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #9c755f 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #9c755f 6%, var(--bg))" /></linearGradient>
-  <linearGradient id="m0c36b112-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
-  <marker id="m0c36b112-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+  <linearGradient id="m1814eb8b-cw-p1-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-cw-p2-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #76b7b2 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #76b7b2 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #76b7b2 6%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-cw-p3-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #b07aa1 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #b07aa1 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #b07aa1 6%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-cw-p4-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #9c755f 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #9c755f 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #9c755f 6%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+  <marker id="m1814eb8b-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
     <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
   </marker>
 </defs>

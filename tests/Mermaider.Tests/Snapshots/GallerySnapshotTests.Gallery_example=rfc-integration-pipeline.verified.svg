@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1186.706 1239.3000000000002" width="1186.706" height="1239.3000000000002" style="--bg:#FFFFFF;--fg:#27272A;--line:color-mix(in srgb, #64748b 74%, var(--fg));--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1186.706 1239.3000000000002" width="1186.706" height="1239.3000000000002" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -31,40 +31,40 @@
 </style>
 
 <g class="subgraph" data-id="inputs" data-label="Inputs">
-  <rect x="291.3609166666666" y="16" width="876.706" height="176.8" rx="12" ry="12" fill="url(#m0c36b112-cw-p1-0)" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
+  <rect x="291.3609166666666" y="16" width="876.706" height="176.8" rx="12" ry="12" fill="url(#m1814eb8b-cw-p1-0)" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
   <path d="M291.3609166666666,44 L291.3609166666666,28 Q291.3609166666666,16 303.3609166666666,16 L1156.0669166666667,16 Q1168.0669166666667,16 1168.0669166666667,28 L1168.0669166666667,44 Z" fill="color-mix(in srgb, #f28e2b 22%, var(--bg))" />
   <line x1="291.3609166666666" y1="44" x2="1168.0669166666667" y2="44" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" />
 </g>
 <g class="subgraph" data-id="navAssembly" data-label="Navigation Assembly">
-  <rect x="97.1053333333334" y="308.65" width="599.1499999999999" height="240.8" rx="12" ry="12" fill="url(#m0c36b112-cw-p2-0)" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1.25" />
+  <rect x="97.1053333333334" y="308.65" width="599.1499999999999" height="240.8" rx="12" ry="12" fill="url(#m1814eb8b-cw-p2-0)" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1.25" />
   <path d="M97.1053333333334,336.65 L97.1053333333334,320.65 Q97.1053333333334,308.65 109.1053333333334,308.65 L684.2553333333333,308.65 Q696.2553333333333,308.65 696.2553333333333,320.65 L696.2553333333333,336.65 Z" fill="color-mix(in srgb, #76b7b2 22%, var(--bg))" />
   <line x1="97.1053333333334" y1="336.65" x2="696.2553333333333" y2="336.65" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1.25" />
 </g>
 <g class="subgraph" data-id="dualVal" data-label="Dual Validation — both must pass">
-  <rect x="16" y="589.45" width="561.644" height="176.8" rx="12" ry="12" fill="url(#m0c36b112-cw-p3-0)" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1.25" />
+  <rect x="16" y="589.45" width="561.644" height="176.8" rx="12" ry="12" fill="url(#m1814eb8b-cw-p3-0)" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1.25" />
   <path d="M16,617.45 L16,601.45 Q16,589.45 28,589.45 L565.644,589.45 Q577.644,589.45 577.644,601.45 L577.644,617.45 Z" fill="color-mix(in srgb, #b07aa1 22%, var(--bg))" />
   <line x1="16" y1="617.45" x2="577.644" y2="617.45" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1.25" />
 </g>
 <g class="subgraph" data-id="contentProc" data-label="Content Processing — per file">
-  <rect x="50.51350000000002" y="866.1" width="985.2339999999999" height="176.8" rx="12" ry="12" fill="url(#m0c36b112-cw-p4-0)" stroke="color-mix(in srgb, #9c755f 42%, var(--bg))" stroke-width="1.25" />
+  <rect x="50.51350000000002" y="866.1" width="985.2339999999999" height="176.8" rx="12" ry="12" fill="url(#m1814eb8b-cw-p4-0)" stroke="color-mix(in srgb, #9c755f 42%, var(--bg))" stroke-width="1.25" />
   <path d="M50.51350000000002,894.1 L50.51350000000002,878.1 Q50.51350000000002,866.1 62.51350000000002,866.1 L1023.7475,866.1 Q1035.7475,866.1 1035.7475,878.1 L1035.7475,894.1 Z" fill="color-mix(in srgb, #9c755f 22%, var(--bg))" />
   <line x1="50.51350000000002" y1="894.1" x2="1035.7475" y2="894.1" stroke="color-mix(in srgb, #9c755f 42%, var(--bg))" stroke-width="1.25" />
 </g>
 <g class="subgraph" data-id="outputLayer" data-label="Output">
-  <rect x="435.1719999999999" y="1082.9" width="735.534" height="140.4" rx="12" ry="12" fill="url(#m0c36b112-cw-p5-0)" stroke="color-mix(in srgb, #bab0ac 42%, var(--bg))" stroke-width="1.25" />
+  <rect x="435.1719999999999" y="1082.9" width="735.534" height="140.4" rx="12" ry="12" fill="url(#m1814eb8b-cw-p5-0)" stroke="color-mix(in srgb, #bab0ac 42%, var(--bg))" stroke-width="1.25" />
   <path d="M435.1719999999999,1110.9 L435.1719999999999,1094.9 Q435.1719999999999,1082.9 447.1719999999999,1082.9 L1158.706,1082.9 Q1170.706,1082.9 1170.706,1094.9 L1170.706,1110.9 Z" fill="color-mix(in srgb, #bab0ac 22%, var(--bg))" />
   <line x1="435.1719999999999" y1="1110.9" x2="1170.706" y2="1110.9" stroke="color-mix(in srgb, #bab0ac 42%, var(--bg))" stroke-width="1.25" />
 </g>
-<path class="edge" data-from="navYml" data-to="v1Nav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M626,114 L626,191.42499999999998 Q626,199.42499999999998 618,199.42499999999998 L404.5,199.42499999999998 Q396.5,199.42499999999998 396.5,207.42499999999998 L396.5,308.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-<path class="edge" data-from="navV2Yml" data-to="v1Nav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M749.5,114 L749.5,205.42499999999998 Q749.5,213.42499999999998 741.5,213.42499999999998 L418.5,213.42499999999998 Q410.5,213.42499999999998 410.5,221.42499999999998 L410.5,308.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-<path class="edge" data-from="repoCheckouts" data-to="v1Nav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M949,169 L949,278.5 Q949,286.5 941,286.5 L432.5,286.5 Q424.5,286.5 424.5,294.5 L424.5,308.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-<path class="edge" data-from="v1Nav" data-to="valV1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M396.5,549.5 L396.5,557 Q396.5,564.5 389,564.5 L305,564.5 Q297,564.5 297,572.5 L297,589.45" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-<path class="edge" data-from="v1Nav" data-to="fileLookup" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M258.5,425 L258.5,465" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-<path class="edge" data-from="fileLookup" data-to="relLinks" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M258.5,525.5 L258.5,541.5 Q258.5,549.5 266.5,549.5 L590,549.5 Q598,549.5 598,557.5 L598,824 Q598,832 590,832 L551,832 Q543,832 543,840 L543,866" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-<path class="edge" data-from="valV1" data-to="relLinks" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="both pass" d="M297,766.25 L297,836 Q297,844 305,844 L549,844 Q557,844 557,852 L557,866" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-<path class="edge" data-from="repoCheckouts" data-to="relLinks" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label=".md source files" d="M987.5,169 L987.5,808 Q987.5,816 979.5,816 L579,816 Q571,816 571,824 L571,866" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-<path class="edge" data-from="assemblerYml" data-to="pathProvider" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="nav-v2 flag" d="M473.5,132.5 L473.5,300.5 Q473.5,308.5 481.5,308.5 L1054,308.5 Q1062,308.5 1062,316.5 L1062,1035 Q1062,1043 1054,1043 L811,1043 Q803,1043 803,1051 L803,1082.9" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
-<path class="edge" data-from="relLinks" data-to="pathProvider" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M543,1043 L543,1055 Q543,1063 551,1063 L809,1063 Q817,1063 817,1071 L817,1082.9" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m0c36b112-mk-arrow)" />
+<path class="edge" data-from="navYml" data-to="v1Nav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M626,114 L626,191.42499999999998 Q626,199.42499999999998 618,199.42499999999998 L404.5,199.42499999999998 Q396.5,199.42499999999998 396.5,207.42499999999998 L396.5,308.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="navV2Yml" data-to="v1Nav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M749.5,114 L749.5,205.42499999999998 Q749.5,213.42499999999998 741.5,213.42499999999998 L418.5,213.42499999999998 Q410.5,213.42499999999998 410.5,221.42499999999998 L410.5,308.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="repoCheckouts" data-to="v1Nav" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M949,169 L949,278.5 Q949,286.5 941,286.5 L432.5,286.5 Q424.5,286.5 424.5,294.5 L424.5,308.5" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="v1Nav" data-to="valV1" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M396.5,549.5 L396.5,557 Q396.5,564.5 389,564.5 L305,564.5 Q297,564.5 297,572.5 L297,589.45" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="v1Nav" data-to="fileLookup" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M258.5,425 L258.5,465" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="fileLookup" data-to="relLinks" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M258.5,525.5 L258.5,541.5 Q258.5,549.5 266.5,549.5 L590,549.5 Q598,549.5 598,557.5 L598,824 Q598,832 590,832 L551,832 Q543,832 543,840 L543,866" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="valV1" data-to="relLinks" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="both pass" d="M297,766.25 L297,836 Q297,844 305,844 L549,844 Q557,844 557,852 L557,866" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="repoCheckouts" data-to="relLinks" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label=".md source files" d="M987.5,169 L987.5,808 Q987.5,816 979.5,816 L579,816 Q571,816 571,824 L571,866" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="assemblerYml" data-to="pathProvider" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="nav-v2 flag" d="M473.5,132.5 L473.5,300.5 Q473.5,308.5 481.5,308.5 L1054,308.5 Q1062,308.5 1062,316.5 L1062,1035 Q1062,1043 1054,1043 L811,1043 Q803,1043 803,1051 L803,1082.9" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="relLinks" data-to="pathProvider" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M543,1043 L543,1055 Q543,1063 551,1063 L809,1063 Q817,1063 817,1071 L817,1082.9" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
 <text x="303.36" y="30" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #f28e2b 44%, var(--fg))" dy="4.9">Inputs</text>
 <text x="109.11" y="322.65" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #76b7b2 44%, var(--fg))" dy="4.9">Navigation Assembly</text>
 <text x="28" y="603.45" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #b07aa1 44%, var(--fg))" dy="4.9">Dual Validation — both must pass</text>
@@ -81,100 +81,100 @@
 </g>
 <g class="node" data-id="assemblerYml" data-label="assembler.yml
 env config · feature flags" data-shape="rectangle">
-  <rect x="315.3609166666666" y="72" width="196.912" height="60.4" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="315.3609166666666" y="72" width="196.912" height="60.4" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="413.82" y="102.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="413.82" dy="-4.2">assembler.yml</tspan><tspan x="413.82" dy="18.2">env config · feature flags</tspan></text>
 </g>
 <g class="node" data-id="navYml" data-label="navigation.yml" data-shape="rectangle">
-  <rect x="560.2729166666666" y="72" width="131.476" height="42.2" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="560.2729166666666" y="72" width="131.476" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="626.01" y="93.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">navigation.yml</text>
 </g>
 <g class="node" data-id="navV2Yml" data-label="navigation-v2.yml" data-shape="rectangle">
-  <rect x="739.7489166666667" y="72" width="151.426" height="42.2" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="739.7489166666667" y="72" width="151.426" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="815.46" y="93.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">navigation-v2.yml</text>
 </g>
 <g class="node" data-id="repoCheckouts" data-label="Repo checkouts
 docset.yml / docset-v2.yml
 toc.yml / toc-v2.yml
 content .md files" data-shape="rectangle">
-  <rect x="939.1749166666666" y="72" width="204.89199999999997" height="96.8" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="939.1749166666666" y="72" width="204.89199999999997" height="96.8" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="1041.62" y="120.4" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="1041.62" dy="-22.4">Repo checkouts</tspan><tspan x="1041.62" dy="18.2">docset.yml / docset-v2.yml</tspan><tspan x="1041.62" dy="18.2">toc.yml / toc-v2.yml</tspan><tspan x="1041.62" dy="18.2">content .md files</tspan></text>
 </g>
 <g class="node" data-id="v1Nav" data-label="V1 SiteNavigation
 + V1 NavigationTocMappings" data-shape="rectangle">
-  <rect x="147.04033333333336" y="364.65" width="223.24599999999998" height="60.4" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="147.04033333333336" y="364.65" width="223.24599999999998" height="60.4" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="258.66" y="394.85" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="258.66" dy="-4.2">V1 SiteNavigation</tspan><tspan x="258.66" dy="18.2">+ V1 NavigationTocMappings</tspan></text>
 </g>
 <g class="node" data-id="fileLookup" data-label="NavigationDocumentationFileLookup
 file path → output URL" data-shape="rectangle">
-  <rect x="121.1053333333334" y="465.04999999999995" width="275.11599999999993" height="60.4" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="121.1053333333334" y="465.04999999999995" width="275.11599999999993" height="60.4" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="258.66" y="495.25" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="258.66" dy="-4.2">NavigationDocumentationFileLookup</tspan><tspan x="258.66" dy="18.2">file path → output URL</tspan></text>
 </g>
 <g class="node" data-id="v2Nav" data-label="V2 SiteNavigationV2
 + V2 NavigationTocMappings" data-shape="rectangle">
-  <rect x="444.22133333333335" y="364.65" width="228.03399999999993" height="60.4" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="444.22133333333335" y="364.65" width="228.03399999999993" height="60.4" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="558.24" y="394.85" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="558.24" dy="-4.2">V2 SiteNavigationV2</tspan><tspan x="558.24" dy="18.2">+ V2 NavigationTocMappings</tspan></text>
 </g>
 <g class="node" data-id="valV1" data-label="V1
 path prefixes · completeness ·
 links" data-shape="rectangle">
-  <rect x="40" y="645.45" width="235.21599999999998" height="78.6" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="40" y="645.45" width="235.21599999999998" height="78.6" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="157.61" y="684.75" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="157.61" dy="-13.3">V1</tspan><tspan x="157.61" dy="18.2">path prefixes · completeness ·</tspan><tspan x="157.61" dy="18.2">links</tspan></text>
 </g>
 <g class="node" data-id="valV2" data-label="V2
 path prefixes · completeness
 cross-nav aliasing · migration
 warnings" data-shape="rectangle">
-  <rect x="323.216" y="645.45" width="230.42799999999997" height="96.8" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="323.216" y="645.45" width="230.42799999999997" height="96.8" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="438.43" y="693.85" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="438.43" dy="-22.4">V2</tspan><tspan x="438.43" dy="18.2">path prefixes · completeness</tspan><tspan x="438.43" dy="18.2">cross-nav aliasing · migration</tspan><tspan x="438.43" dy="18.2">warnings</tspan></text>
 </g>
 <g class="node" data-id="relLinks" data-label="Relative links
 validate source-side
 emit URL from nav lookup" data-shape="rectangle">
-  <rect x="74.51350000000002" y="922.1" width="198.508" height="78.6" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="74.51350000000002" y="922.1" width="198.508" height="78.6" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="173.77" y="961.4" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="173.77" dy="-13.3">Relative links</tspan><tspan x="173.77" dy="18.2">validate source-side</tspan><tspan x="173.77" dy="18.2">emit URL from nav lookup</tspan></text>
 </g>
 <g class="node" data-id="images" data-label="Images
 validate source-side
 copy via path provider" data-shape="rectangle">
-  <rect x="321.02150000000006" y="922.1" width="183.346" height="78.6" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="321.02150000000006" y="922.1" width="183.346" height="78.6" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="412.69" y="961.4" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="412.69" dy="-13.3">Images</tspan><tspan x="412.69" dy="18.2">validate source-side</tspan><tspan x="412.69" dy="18.2">copy via path provider</tspan></text>
 </g>
 <g class="node" data-id="includes" data-label="Include directives
 100% source-based
 unaffected by path changes" data-shape="rectangle">
-  <rect x="552.3675000000001" y="922.1" width="213.67" height="78.6" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="552.3675000000001" y="922.1" width="213.67" height="78.6" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="659.2" y="961.4" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="659.2" dy="-13.3">Include directives</tspan><tspan x="659.2" dy="18.2">100% source-based</tspan><tspan x="659.2" dy="18.2">unaffected by path changes</tspan></text>
 </g>
 <g class="node" data-id="xlinks" data-label="Cross-links  repo://path
 resolved via
 NavigationTocMappings
 → V1 or V2 output URL" data-shape="rectangle">
-  <rect x="814.0375" y="922.1" width="197.70999999999998" height="96.8" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="814.0375" y="922.1" width="197.70999999999998" height="96.8" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="912.89" y="970.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="912.89" dy="-22.4">Cross-links  repo://path</tspan><tspan x="912.89" dy="18.2">resolved via</tspan><tspan x="912.89" dy="18.2">NavigationTocMappings</tspan><tspan x="912.89" dy="18.2">→ V1 or V2 output URL</tspan></text>
 </g>
 <g class="node" data-id="pathProvider" data-label="GlobalNavigationPathProvider
 flag-injected: V1 or V2 mappings" data-shape="rectangle">
-  <rect x="459.1719999999999" y="1138.9" width="236.01399999999998" height="60.4" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="459.1719999999999" y="1138.9" width="236.01399999999998" height="60.4" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="577.18" y="1169.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="577.18" dy="-4.2">GlobalNavigationPathProvider</tspan><tspan x="577.18" dy="18.2">flag-injected: V1 or V2 mappings</tspan></text>
 </g>
 <g class="node" data-id="sidebarHtml" data-label="Sidebar HTML
 V1 or V2 tree per flag" data-shape="rectangle">
-  <rect x="743.1859999999999" y="1138.9" width="168.982" height="60.4" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="743.1859999999999" y="1138.9" width="168.982" height="60.4" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="827.68" y="1169.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="827.68" dy="-4.2">Sidebar HTML</tspan><tspan x="827.68" dy="18.2">V1 or V2 tree per flag</tspan></text>
 </g>
 <g class="node" data-id="outputFiles" data-label="Output files
 written at V1 or V2 paths" data-shape="rectangle">
-  <rect x="960.1679999999999" y="1138.9" width="186.538" height="60.4" rx="8" ry="8" fill="url(#m0c36b112-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <rect x="960.1679999999999" y="1138.9" width="186.538" height="60.4" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <text x="1053.44" y="1169.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="1053.44" dy="-4.2">Output files</tspan><tspan x="1053.44" dy="18.2">written at V1 or V2 paths</tspan></text>
 </g>
 <defs>
-  <linearGradient id="m0c36b112-cw-p1-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /></linearGradient>
-  <linearGradient id="m0c36b112-cw-p2-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #76b7b2 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #76b7b2 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #76b7b2 6%, var(--bg))" /></linearGradient>
-  <linearGradient id="m0c36b112-cw-p3-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #b07aa1 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #b07aa1 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #b07aa1 6%, var(--bg))" /></linearGradient>
-  <linearGradient id="m0c36b112-cw-p4-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #9c755f 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #9c755f 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #9c755f 6%, var(--bg))" /></linearGradient>
-  <linearGradient id="m0c36b112-cw-p5-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #bab0ac 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #bab0ac 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #bab0ac 6%, var(--bg))" /></linearGradient>
-  <linearGradient id="m0c36b112-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
-  <marker id="m0c36b112-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+  <linearGradient id="m1814eb8b-cw-p1-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 6%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-cw-p2-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #76b7b2 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #76b7b2 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #76b7b2 6%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-cw-p3-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #b07aa1 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #b07aa1 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #b07aa1 6%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-cw-p4-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #9c755f 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #9c755f 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #9c755f 6%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-cw-p5-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #bab0ac 2.1%, var(--bg))" /><stop offset="0.55" stop-color="color-mix(in srgb, #bab0ac 6%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #bab0ac 6%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+  <marker id="m1814eb8b-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
     <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
   </marker>
 </defs>

@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 262.79999999999995 200" width="262.79999999999995" height="200" style="--bg:#FFFFFF;--fg:#27272A;--line:color-mix(in srgb, #64748b 74%, var(--fg));--accent:#3b82f6">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 262.79999999999995 200" width="262.79999999999995" height="200" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6">
 <style>
   text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
   .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
@@ -32,7 +32,7 @@
 
 <g class="class-node" data-id="MathUtils" data-label="MathUtils">
   <rect x="40" y="40" width="182.79999999999998" height="120" rx="8" ry="8" fill="var(--bg)" stroke="none" />
-  <path d="M40,76 L40,48 Q40,40 48,40 L214.79999999999998,40 Q222.79999999999998,40 222.79999999999998,48 L222.79999999999998,76 Z" fill="url(#m0c36b112-eb-p0)" />
+  <path d="M40,76 L40,48 Q40,40 48,40 L214.79999999999998,40 Q222.79999999999998,40 222.79999999999998,48 L222.79999999999998,76 Z" fill="url(#m1814eb8b-eb-p0)" />
   <line x1="40" y1="76" x2="222.79999999999998" y2="76" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <rect x="40" y="40" width="182.79999999999998" height="120" rx="8" ry="8" fill="none" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
   <line x1="52" y1="132" x2="210.79999999999998" y2="132" stroke="var(--_line-soft)" stroke-width="1" />
@@ -49,6 +49,6 @@
   <text x="111.2" y="146" class="mono" text-anchor="start" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" font-style="italic" dy="4.9">compute()</text>
 </g>
 <defs>
-  <linearGradient id="m0c36b112-eb-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-eb-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 22%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /></linearGradient>
 </defs>
 </svg>
