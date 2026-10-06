@@ -120,7 +120,7 @@ internal sealed partial class DesignSystem
 	internal ColorFamily Cluster(int i)
 	{
 		var slot = ((i % _autoPalette.Length) + _autoPalette.Length) % _autoPalette.Length;
-		return new ColorFamily("p" + slot.ToString(CultureInfo.InvariantCulture), _autoPalette[slot], TintStrength);
+		return ColorFamily.Cluster(slot, _autoPalette[slot], TintStrength, Colors);
 	}
 
 	/// <summary>Chart series family from the full data palette (charts may use role hues; entity diagrams may not).</summary>
@@ -132,14 +132,15 @@ internal sealed partial class DesignSystem
 		return new ColorFamily("d" + slot.ToString(CultureInfo.InvariantCulture), color, TintStrength);
 	}
 
-	internal ColorFamily Role(ColorRole role) => new(role switch
+	internal ColorFamily Role(ColorRole role) => role switch
 	{
-		ColorRole.Success => "s",
-		ColorRole.Failure => "f",
-		ColorRole.Warning => "w",
-		ColorRole.Info => "i",
-		_ => "p0",
-	}, Colors.RoleColor(role), TintStrength);
+		ColorRole.Success => new("s", Colors.RoleColor(role), TintStrength),
+		ColorRole.Failure => new("f", Colors.RoleColor(role), TintStrength),
+		ColorRole.Warning => new("w", Colors.RoleColor(role), TintStrength),
+		ColorRole.Info => new("i", Colors.RoleColor(role), TintStrength),
+		// the Default role is cluster slot 0, overrides included
+		_ => ColorFamily.Cluster(0, Colors.RoleColor(role), TintStrength, Colors),
+	};
 
 	/// <summary>The family of a role class name (<c>success</c>, <c>failure</c>, <c>warning</c>, <c>info</c>), else null.</summary>
 	internal ColorFamily? RoleByName(string? name) => name switch
@@ -155,16 +156,25 @@ internal sealed partial class DesignSystem
 	// Boxes
 	// ====================================================================
 
-	/// <summary>Fill of a node / card / cell in <paramref name="family"/>: gradient, flat, page knock-out or soft per preset.</summary>
-	internal string NodeFill(ColorFamily family) => Spec.Fill switch
+	/// <summary>
+	/// Fill of a node / card / cell in <paramref name="family"/>: gradient, flat, page knock-out or soft per preset. A family
+	/// carrying the caller's <c>Surface</c> override (the <c>Default</c> family) is filled with it, solid, in every preset.
+	/// </summary>
+	internal string NodeFill(ColorFamily family) => family.SurfaceOverride ?? Spec.Fill switch
 	{
 		FillKind.Knockout => "var(--bg)",
 		FillKind.Soft => family.Soft,
 		_ => Gradient ? VerticalGradient("ng-" + family.Key, family.Top, family.Bot) : family.Flat,
 	};
 
-	/// <summary>Outline colour of a node; <c>none</c> when the preset has no outlines.</summary>
-	internal string NodeStroke(ColorFamily family) => Spec.OutlineWidth > 0 ? family.Stroke : "none";
+	/// <summary>
+	/// Outline colour of a node; <c>none</c> when the preset has no outlines (Tonal, where a <c>Border</c> override therefore
+	/// has nothing to paint). A family carrying the caller's <c>Border</c> override is outlined in it.
+	/// </summary>
+	internal string NodeStroke(ColorFamily family) => Spec.OutlineWidth > 0 ? BoxOutline(family) : "none";
+
+	/// <summary>The family's box outline colour, ignoring the preset: the <c>Border</c> override when it carries one, else its stroke stage.</summary>
+	internal static string BoxOutline(ColorFamily family) => family.BorderOverride ?? family.Stroke;
 
 	internal string NodeStrokeWidth => Num(Spec.OutlineWidth);
 

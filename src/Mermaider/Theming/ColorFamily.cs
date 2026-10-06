@@ -34,6 +34,36 @@ internal sealed record ColorFamily
 
 	internal static ColorFamily Neutral(double tint = 1.0) => new("n", NeutralBase, tint);
 
+	/// <summary>
+	/// The caller's <c>Surface</c> override: when set, it replaces this family's box fill (node body, entity header band) in
+	/// every preset. Only the <c>Default</c> role's family (cluster slot 0) ever carries one; see <see cref="Cluster"/>.
+	/// </summary>
+	internal string? SurfaceOverride { get; init; }
+
+	/// <summary>
+	/// The caller's <c>Border</c> override: when set, it replaces this family's box outline (node outline, entity frame and
+	/// header rule) in presets that draw outlines. Only the <c>Default</c> role's family carries one.
+	/// </summary>
+	internal string? BorderOverride { get; init; }
+
+	/// <summary>Reference to the root <c>--surface</c> property (written only when the caller sets <c>Surface</c>).</summary>
+	internal const string SurfaceVar = "var(--surface)";
+
+	/// <summary>Reference to the root <c>--border</c> property (written only when the caller sets <c>Border</c>).</summary>
+	internal const string BorderVar = "var(--border)";
+
+	/// <summary>
+	/// Cluster family <c>p&lt;slot&gt;</c> of the auto palette. Slot 0 is always the <c>Default</c> role's colour (the ordinary
+	/// box), so it is the one family that takes the caller's <see cref="DiagramColors.Surface"/> / <see cref="DiagramColors.Border"/>
+	/// overrides. Every cluster family is built here, so the overrides apply the same way in every diagram type.
+	/// </summary>
+	internal static ColorFamily Cluster(int slot, string baseColor, double tint, DiagramColors colors) =>
+		new("p" + slot.ToString(CultureInfo.InvariantCulture), baseColor, tint)
+		{
+			SurfaceOverride = slot == 0 && colors.Surface is { Length: > 0 } ? SurfaceVar : null,
+			BorderOverride = slot == 0 && colors.Border is { Length: > 0 } ? BorderVar : null,
+		};
+
 	// Stage ratios (percent of the base mixed into bg, or into fg for stroke / ink), from the token spec.
 	internal const double TopRatio = 15;
 	internal const double BotRatio = 7;

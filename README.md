@@ -171,6 +171,18 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 Because the SVG uses CSS custom properties, themes switch live without re-rendering: just update the
 `--bg` / `--fg` properties on the root `<svg>` element.
 
+To pin the paint of ordinary boxes instead of deriving it, set `Surface` (fill) and `Border` (outline). They apply to
+boxes in the `Default` colour family in every style; other clusters, role classes, decisions, terminals, containers
+and charts keep their derived colours. Unless `Line` is set, connectors follow `Border`.
+
+```csharp
+var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
+{
+    Surface = "#FEFCE8",   // fill of ordinary boxes
+    Border  = "#A16207",   // their outline, and the line colour unless Line is set
+});
+```
+
 ### Style presets
 
 Three presets restyle every diagram type without changing layout: **Quiet** (default; tinted gradient boxes, strip
@@ -230,11 +242,11 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 |--------|------|---------|-------------|
 | `Bg` | `string?` | `"#FFFFFF"` | Background color (hex or CSS) |
 | `Fg` | `string?` | `"#27272A"` | Foreground / primary text color |
-| `Line` | `string?` | default box border | Edge/connector stroke colour; unset, it follows the border of an ordinary box (`Default` role) |
+| `Line` | `string?` | default box border | Edge/connector stroke colour; unset, it follows the border of an ordinary box (`Border` when set, else the `Default` role's outline) |
 | `Accent` | `string?` | derived | Arrowheads, highlights |
 | `Muted` | `string?` | derived | Secondary text, edge labels |
-| `Surface` | `string?` | derived | Node fill tint |
-| `Border` | `string?` | derived | Node/group stroke |
+| `Surface` | `string?` | unset | Optional solid fill for ordinary boxes (the `Default` family): first-cluster nodes, entity headers, participants, services. Wins in every style. No theme sets it |
+| `Border` | `string?` | unset | Optional outline for the same boxes, at the style's outline width (Tonal draws none). Lines follow it unless `Line` is set. No theme sets it |
 | `Font` | `string?` | `"Inter"` | Font family for all text |
 | `MonoFont` | `string?` | system stack | Monospace font for ER attribute types and Class member signatures |
 | `FontSize` | `string?` | `"1rem"` | Base font size (`--fs-m`). Accepts `px`, `rem`, `em`, and `%` units |
