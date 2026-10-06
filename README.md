@@ -553,13 +553,13 @@ The built-in engine is the recommended choice: it is faster, and MSAGL lacks the
 - **No orthogonal router features.** MSAGL uses its own rectilinear router. There are no label columns, no ports
   spread along node sides or on diamond and ellipse outlines, and edges written against a subgraph end on a member
   node rather than on the subgraph border.
-- **Older box sizes for class and ER diagrams.** The class and ER providers still use the header, row and column
-  measurements from before the current design system, so their boxes are sized differently from the built-in
-  layout's.
 - **Missing class and state features.** The MSAGL providers ignore class namespaces, class notes, lollipop
   interface targets and state-diagram notes.
 - **Not used for every graph diagram.** Requirement diagrams always use the built-in engine, and so does the text
   output.
+
+Node and box sizes come from the same code under both engines, so class, ER and flowchart text fits its boxes
+either way.
 
 ```bash
 dotnet add package Mermaider.Layout.Msagl

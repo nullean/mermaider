@@ -109,7 +109,8 @@ internal static class MsaglFlowchartLayout
 			positionedNodes.Add(new PositionedNode
 			{
 				Id = id,
-				Label = node.Label,
+				// sized for the wrapped label (NodeSizing.Estimate wraps), so draw the wrapped label like the built-in layout does
+				Label = NodeSizing.WrapLabel(node.Label),
 				Shape = node.Shape,
 				X = center.X - (w / 2) + offsetX,
 				Y = center.Y - (h / 2) + offsetY,

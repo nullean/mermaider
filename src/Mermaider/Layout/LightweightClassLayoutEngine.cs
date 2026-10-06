@@ -12,13 +12,7 @@ namespace Mermaider.Layout;
 internal static class LightweightClassLayoutEngine
 {
 	private const double Padding = 40;
-	// Shared entity geometry (class / ER / requirement): 36px header (+16 for a «stereotype»), 28px rows, no section padding.
-	private const double HeaderBaseHeight = 36;
-	private const double AnnotationHeight = 16;
-	private const double MemberRowHeight = DesignSystem.RowHeight;
-	private const double SectionPadY = 0;
-	private const double EmptySectionHeight = 8;
-	private const double MinWidth = 100;
+	// Box sizes come from EntityBoxSizing: the shared entity geometry (class / ER / requirement) every layout provider uses.
 	private const double NodeSpacing = 20;
 	private const double LayerSpacing = 60;
 
@@ -67,28 +61,7 @@ internal static class LightweightClassLayoutEngine
 				continue;
 			}
 
-			var headerHeight = cls.Annotation != null
-				? HeaderBaseHeight + AnnotationHeight
-				: HeaderBaseHeight;
-
-			// a class without members is just its header; otherwise an empty compartment keeps a sliver so both read
-			var hasMembers = cls.Attributes.Count > 0 || cls.Methods.Count > 0;
-			var attrHeight = cls.Attributes.Count > 0
-				? (cls.Attributes.Count * MemberRowHeight) + SectionPadY
-				: hasMembers ? EmptySectionHeight : 0;
-
-			var methodHeight = cls.Methods.Count > 0
-				? (cls.Methods.Count * MemberRowHeight) + SectionPadY
-				: hasMembers ? EmptySectionHeight : 0;
-
-			var headerW = EntityGrid.HeadingWidth(cls.Label);
-			if (cls.Annotation is { Length: > 0 } annotation)
-				headerW = Math.Max(headerW, EntityGrid.StereotypeWidth("«" + annotation + "»"));
-			var membersW = ClassMemberColumns.BoxWidth(cls.Attributes.Concat(cls.Methods));
-			var width = Math.Max(MinWidth, Math.Max(headerW, membersW));
-			var height = headerHeight + attrHeight + methodHeight;
-
-			classSizes[cls.Id] = (width, height, headerHeight, attrHeight, methodHeight);
+			classSizes[cls.Id] = EntityBoxSizing.Class(cls);
 		}
 
 		var layoutNodes = new List<LayoutNode>(diagram.Classes.Count);

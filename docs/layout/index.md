@@ -176,7 +176,7 @@ MSAGL is much slower (see the benchmark above) and lacks several features of the
 
 - It lays out nodes without their subgraphs, so subgraph boxes can overlap each other or unrelated nodes.
 - It has no label columns and no ports on node sides or shape outlines, and edges to a subgraph end on a member node.
-- Its class and ER layouts still use the box sizes from before the current design system.
 - It ignores class namespaces, class notes, lollipop interface targets and state-diagram notes.
 
-Requirement diagrams and text output always use the built-in engine.
+Requirement diagrams and text output always use the built-in engine. Node and box sizes come from the same code
+under both engines, so text fits its boxes either way.

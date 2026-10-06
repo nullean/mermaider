@@ -16,14 +16,6 @@ namespace Mermaider.Layout.Msagl;
 internal static class MsaglClassLayout
 {
 	private const double Padding = 40;
-	private const double BoxPadX = 8;
-	private const double HeaderBaseHeight = 32;
-	private const double AnnotationHeight = 16;
-	private const double MemberRowHeight = 20;
-	private const double SectionPadY = 8;
-	private const double EmptySectionHeight = 8;
-	private const double MinWidth = 120;
-	private static readonly double MemberFontSize = RenderConstants.FontSizes.Member;
 	private const double NodeSpacing = 40;
 	private const double LayerSpacing = 60;
 
@@ -36,25 +28,8 @@ internal static class MsaglClassLayout
 
 		foreach (var cls in diagram.Classes)
 		{
-			var headerHeight = cls.Annotation != null
-				? HeaderBaseHeight + AnnotationHeight
-				: HeaderBaseHeight;
-
-			var attrHeight = cls.Attributes.Count > 0
-				? (cls.Attributes.Count * MemberRowHeight) + SectionPadY
-				: EmptySectionHeight;
-
-			var methodHeight = cls.Methods.Count > 0
-				? (cls.Methods.Count * MemberRowHeight) + SectionPadY
-				: EmptySectionHeight;
-
-			var headerTextW = TextMetrics.MeasureTextWidth(cls.Label, RenderConstants.FontSizes.NodeLabel, RenderConstants.FontWeights.NodeLabel);
-			var maxAttrW = MaxMemberWidth(cls.Attributes);
-			var maxMethodW = MaxMemberWidth(cls.Methods);
-			var width = Math.Max(MinWidth, Math.Max(headerTextW + (BoxPadX * 2), Math.Max(maxAttrW + (BoxPadX * 2), maxMethodW + (BoxPadX * 2))));
-			var height = headerHeight + attrHeight + methodHeight;
-
-			classSizes[cls.Id] = (width, height, headerHeight, attrHeight, methodHeight);
+			// the same box geometry the built-in layout uses, so the renderer's header / member rows fit
+			classSizes[cls.Id] = EntityBoxSizing.Class(cls);
 		}
 
 		var geometryGraph = new GeometryGraph();
@@ -224,33 +199,5 @@ internal static class MsaglClassLayout
 		}
 
 		return points;
-	}
-
-	private static double MaxMemberWidth(IReadOnlyList<ClassMember> members)
-	{
-		var maxW = 0.0;
-		foreach (var m in members)
-		{
-			var text = MemberToString(m);
-			var w = TextMetrics.EstimateMonoTextWidth(text, MemberFontSize);
-			if (w > maxW)
-				maxW = w;
-		}
-		return maxW;
-	}
-
-	internal static string MemberToString(ClassMember m)
-	{
-		var vis = m.Visibility switch
-		{
-			ClassVisibility.Public => "+ ",
-			ClassVisibility.Private => "- ",
-			ClassVisibility.Protected => "# ",
-			ClassVisibility.Package => "~ ",
-			_ => "",
-		};
-		var name = m.IsMethod ? $"{m.Name}({m.Params ?? ""})" : m.Name;
-		var type = m.Type != null ? $": {m.Type}" : "";
-		return $"{vis}{name}{type}";
 	}
 }
