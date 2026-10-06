@@ -37,8 +37,9 @@ built-in engine, MSAGL has these limitations:
   unrelated nodes.
 - **No orthogonal router features.** There are no label columns, no ports spread along node sides or on diamond and
   ellipse outlines, and edges written against a subgraph end on a member node rather than on the subgraph border.
-- **Older box sizes for class and ER diagrams.** Their header, row and column measurements predate the current design
-  system.
 - **Missing class and state features.** Class namespaces, class notes, lollipop interface targets and state notes are
   ignored.
 - **Not used for every diagram.** Requirement diagrams and the text output always use the built-in engine.
+
+Node and box sizes come from the same code the built-in engine uses, so class, ER and flowchart text fits its boxes
+under either engine.

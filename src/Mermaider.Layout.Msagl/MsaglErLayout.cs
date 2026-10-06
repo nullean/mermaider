@@ -15,11 +15,8 @@ namespace Mermaider.Layout.Msagl;
 internal static class MsaglErLayout
 {
 	private const double Padding = 40;
-	private const double BoxPadX = 14;
-	private const double HeaderHeight = 34;
-	private const double RowHeight = 22;
-	private const double MinWidth = 140;
-	private static readonly double AttrFontSize = RenderConstants.FontSizes.Member;
+	private const double HeaderHeight = EntityBoxSizing.ErHeaderHeight;
+	private const double RowHeight = EntityBoxSizing.ErRowHeight;
 	private const double NodeSpacing = 70;
 	private const double LayerSpacing = 90;
 
@@ -32,19 +29,8 @@ internal static class MsaglErLayout
 
 		foreach (var entity in diagram.Entities)
 		{
-			var headerTextW = TextMetrics.MeasureTextWidth(
-				entity.Label, RenderConstants.FontSizes.NodeLabel, RenderConstants.FontWeights.NodeLabel);
-			var maxAttrW = 0.0;
-			foreach (var attr in entity.Attributes)
-			{
-				var attrText = $"{attr.Type}  {attr.Name}{(attr.Keys.Count > 0 ? "  " + string.Join(",", attr.Keys) : "")}";
-				var w = TextMetrics.EstimateMonoTextWidth(attrText, AttrFontSize);
-				if (w > maxAttrW)
-					maxAttrW = w;
-			}
-			var width = Math.Max(MinWidth, Math.Max(headerTextW + (BoxPadX * 2), maxAttrW + (BoxPadX * 2)));
-			var height = HeaderHeight + (Math.Max(entity.Attributes.Count, 1) * RowHeight);
-			entitySizes[entity.Id] = (width, height);
+			// the same box geometry the built-in layout uses, so the renderer's header / attribute rows fit
+			entitySizes[entity.Id] = EntityBoxSizing.Entity(entity, EntityBoxSizing.EntityDegree(diagram, entity.Id));
 		}
 
 		var geometryGraph = new GeometryGraph();

@@ -13,9 +13,8 @@ internal static class LightweightErLayoutEngine
 {
 	private const double Padding = 20;
 	// Shared entity geometry (class / ER / requirement): 36px header, 28px rows, the EntityGrid column grid.
-	private const double HeaderHeight = 36;
-	private const double RowHeight = DesignSystem.RowHeight;
-	private const double MinWidth = 120;
+	private const double HeaderHeight = EntityBoxSizing.ErHeaderHeight;
+	private const double RowHeight = EntityBoxSizing.ErRowHeight;
 	private const double NodeSpacing = 20;
 	private const double LayerSpacing = 72;
 
@@ -27,16 +26,7 @@ internal static class LightweightErLayoutEngine
 		var entitySizes = new Dictionary<string, (double Width, double Height)>();
 		foreach (var entity in diagram.Entities)
 		{
-			var (typeW, nameW, badgeW) = ErSvgRenderer.MeasureColumns(entity.Attributes);
-			var gridW = entity.Attributes.Count > 0 ? EntityGrid.BoxWidth(typeW, nameW, signs: false, badgeW) : 0;
-			// Edge anchors are spread evenly along a node side; keep them at least ~18px apart so crow's-foot markers don't overlap.
-			var degree = diagram.Relationships.Count(r => r.Entity1 != r.Entity2 && (r.Entity1 == entity.Id || r.Entity2 == entity.Id));
-			var anchorWidth = degree > 4 ? (degree * 18) + 24 : 0;
-			var width = Math.Max(Math.Max(MinWidth, anchorWidth), Math.Max(EntityGrid.HeadingWidth(entity.Label), gridW));
-			var height = entity.Attributes.Count == 0
-				? HeaderHeight + 8
-				: HeaderHeight + (entity.Attributes.Count * RowHeight);
-			entitySizes[entity.Id] = (width, height);
+			entitySizes[entity.Id] = EntityBoxSizing.Entity(entity, EntityBoxSizing.EntityDegree(diagram, entity.Id));
 		}
 
 		var layoutNodes = new List<LayoutNode>(diagram.Entities.Count);
