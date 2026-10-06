@@ -56,7 +56,7 @@ one theming model, consistent output regardless of diagram type.
 
 - **[Pure .NET, zero interop](#pure-net-parsing-and-rendering):** just a NuGet reference. No Chromium, no Node.js, no subprocess management.
 - **[Native AOT](#native-aot):** every public API proven in CI on Linux, macOS, and Windows.
-- **[Built-in layout engine](#built-in-layout-engine):** zero-dependency Sugiyama, far leaner than MSAGL.
+- **[Built-in layout engine](#built-in-layout-engine):** zero-dependency layered layout with compound subgraphs and an orthogonal edge router.
 - **[24 diagram types](#supported-diagrams):** one API, one theming model for all of them.
 - **[Unified theming](#theming):** 15 themes, live-switchable via CSS custom properties.
 - **[Always-on SVG sanitization](#svg-sanitization):** allowlist-only, no opt-out.
@@ -71,26 +71,37 @@ penalty, and trivial deployment: just a NuGet reference.
 
 ### Built-in layout engine
 
-Graph-based diagrams (flowchart, state, class, ER) need a layout algorithm to position nodes and route
-edges. Other diagram types (pie, quadrant, timeline, gitgraph, radar, treemap, venn, mindmap, gantt,
-journey, C4, sankey, xychart, requirement, packet, kanban, architecture, block, treeview) use
-purpose-built layout arithmetic directly in their renderers. Rather than depending on an external engine, Mermaider ships its own lightweight
-[Sugiyama layout engine](src/Sugiyama/) with zero dependencies.
+Flowchart, state, class, ER and requirement diagrams need a graph layout to place nodes and route edges. Mermaider
+ships its own engine for them, the zero-dependency [`Sugiyama`](src/Sugiyama/) package. It is the default and the
+recommended engine. Architecture diagrams use a directional-grid layout, because their edges name explicit sides.
+Every other diagram type uses layout arithmetic built into its renderer.
 
-During development, [Microsoft MSAGL](https://github.com/microsoft/automatic-graph-layout) (Automatic Graph
-Layout) was evaluated as the layout backend. MSAGL is a capable research-grade library, but it carries
-baggage from a different era of .NET: high allocations (~554 KB for a 6-node flowchart), WPF-era
-`BinaryFormatter` usage, and trim/AOT warnings that make it unsuitable for modern deployment targets.
+The package name refers to the layered (Sugiyama) framework, the same family as Graphviz `dot`, dagre and ELK
+Layered. The engine goes well beyond the textbook framework:
 
-The built-in engine is purpose-built for the small-to-medium directed graphs Mermaid produces:
+- **Ranking.** Network simplex, plus a nesting graph that keeps each subgraph in one band of layers.
+- **Ordering.** Barycentre sweeps, then swap and insertion refinement, then deterministic restarts.
+- **Placement.** Brandes–Köpf coordinates on evenly spread ports, with a column reserved for every edge label.
+- **Compound layout.** Each subgraph is laid out on its own and placed as one node of its parent, so subgraph boxes
+  never overlap.
+- **Routing.** An obstacle-aware orthogonal router. It uses the label columns as routes and falls back to an A\*
+  grid search that penalises crossings, overlaps, near-parallel runs and foreign subgraphs, with rip-up passes.
+
+The [`Sugiyama` README](src/Sugiyama/README.md) and the [layout docs](docs/layout/index.md) describe each phase.
+
+The engine is also much leaner than [Microsoft MSAGL](https://github.com/microsoft/automatic-graph-layout), the
+layout backend evaluated during early development. On a simple 6-node flowchart:
 
 | Phase             |                 MSAGL |   Built-in Sugiyama | Improvement                              |
 |-------------------|----------------------:|--------------------:|------------------------------------------|
 | Layout only       | 226 &micro;s / 549 KB |  6.0 &micro;s / 29 KB | 38&times; faster, 19&times; less memory |
 | End-to-end render | 423 &micro;s / 683 KB |  109 &micro;s / 209 KB | 3.9&times; faster, 3.3&times; less memory |
 
-If you still want MSAGL for its higher-fidelity edge routing on complex graphs, install the optional
-`Mermaider.Layout.Msagl` package (see [below](#msagl-layout-provider)).
+The layout-only row times the engine's default mode on unlabelled edges. The end-to-end row renders the same flowchart
+through each provider, so it includes the compound layout and the orthogonal router.
+
+MSAGL remains available as an optional, legacy-compatible provider. It does not support several features of the
+built-in engine; see [MSAGL Layout Provider](#msagl-layout-provider).
 
 ### Native AOT
 
@@ -532,7 +543,22 @@ mermaid --list-themes
 
 ## <a name="msagl-layout-provider"></a>MSAGL Layout Provider
 
-If you prefer MSAGL for its edge routing fidelity on complex graphs, install the optional package:
+The optional `Mermaider.Layout.Msagl` package swaps in [Microsoft MSAGL](https://github.com/microsoft/automatic-graph-layout)
+for flowchart, state, class and ER diagrams. It exists for compatibility with output from earlier Mermaider versions.
+The built-in engine is the recommended choice: it is faster, and MSAGL lacks the following.
+
+- **No compound layout.** MSAGL lays out the nodes without their subgraphs. Subgraph boxes are drawn around the
+  members afterwards and can overlap each other or unrelated nodes.
+- **No orthogonal router features.** MSAGL uses its own rectilinear router. There are no label columns, no ports
+  spread along node sides or on diamond and ellipse outlines, and edges written against a subgraph end on a member
+  node rather than on the subgraph border.
+- **Older box sizes for class and ER diagrams.** The class and ER providers still use the header, row and column
+  measurements from before the current design system, so their boxes are sized differently from the built-in
+  layout's.
+- **Missing class and state features.** The MSAGL providers ignore class namespaces, class notes, lollipop
+  interface targets and state-diagram notes.
+- **Not used for every graph diagram.** Requirement diagrams always use the built-in engine, and so does the text
+  output.
 
 ```bash
 dotnet add package Mermaider.Layout.Msagl
