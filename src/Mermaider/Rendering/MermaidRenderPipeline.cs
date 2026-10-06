@@ -46,7 +46,15 @@ internal static class MermaidRenderPipeline
 			token.ThrowIfCancellationRequested();
 
 			var request = new NormalizedRenderRequest(prepared, configuration, options, limits, token);
-			var rawSvg = DiagramSvgStage.Render(request);
+			string rawSvg;
+			try
+			{
+				rawSvg = DiagramSvgStage.Render(request);
+			}
+			catch (Exception ex) when (ex is not (MermaidParseException or MermaidSvgException or MermaidRenderException or OperationCanceledException or NotSupportedException))
+			{
+				throw new MermaidRenderException(prepared.DiagramType, ex);
+			}
 			token.ThrowIfCancellationRequested();
 
 			return SvgSanitizationStage.Apply(rawSvg, options?.SanitizeMode ?? SanitizeMode.Strip, options?.OnSanitized);
