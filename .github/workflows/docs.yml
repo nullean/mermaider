@@ -37,6 +37,11 @@ jobs:
       - name: Use custom landing page
         run: cp docs/mermaider-landing.html .artifacts/docs/html/index.html
 
+      # docs-builder writes canonical / og:url / og:image against its default host, and the action has no input to
+      # change it; point them at this site so links unfurl with the right card.
+      - name: Point canonical and social links at this site
+        run: grep -rlZ 'https://docs-v3-preview.elastic.dev' .artifacts/docs/html | xargs -0 -r sed -i 's#https://docs-v3-preview.elastic.dev#https://mermaider.nullean.net#g'
+
       - name: Setup Pages
         uses: actions/configure-pages@v6.0.0
 
