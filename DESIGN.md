@@ -16,7 +16,10 @@ that switch on the preset's **`StyleSpec`**. Renderers never pick a colour, rati
 ```
 
 Only `--bg` and `--fg` are required. Plus, from `RenderOptions` / `DiagramColors`: the data palette (12 colours,
-brightened on dark themes), and the optional roles `Default`, `Success`, `Failure`, `Warning`, `Info`. The zinc themes set `Default` (the colour of an ordinary box) to a cool slate (`#64748b` / `#94a3b8`) so the blue accent (`#3b82f6` / `#60a5fa`) is the one saturated "look here" colour.
+brightened on dark themes), and the optional roles `Default`, `Success`, `Failure`, `Warning`, `Info`.
+
+`--surface` / `--border` (`Surface` / `Border`) are optional explicit overrides of the **`Default` family's box paint**
+(§3). No built-in theme sets them; they are written on the root only when the caller sets them. The zinc themes set `Default` (the colour of an ordinary box) to a cool slate (`#64748b` / `#94a3b8`) so the blue accent (`#3b82f6` / `#60a5fa`) is the one saturated "look here" colour.
 
 `--accent` is the **"look here"** colour: terminals, decisions, the note rail, activation
 bars, the in-scope C4 system, the mindmap root, story lines (timeline axis, journey curve), the hottest treemap tile,
@@ -54,13 +57,13 @@ built-in themes.
 | `--_text-sec` | 72% (or `--muted`) | 55% | secondary text, edge / message labels, bar labels |
 | `--_text-muted` | 64% (or `--muted`) | 35% | types, ticks, captions, meta |
 | `--_text-faint` | 30% | 20% | decoration only, **never text** |
-| `--_line` | `--line` (always set: the caller's `Line`, else the default box border `color-mix(<Default> 74%, --fg)`; fg 50% only as a last fallback) | 32% | connectors, axes, the neutral family base |
+| `--_line` | `--line` (always set: the caller's `Line`, else `Border`, else the default box border `color-mix(<Default> 74%, --fg)`; fg 50% only as a last fallback) | 32% | connectors, axes, the neutral family base |
 | `--_line-soft` | 14% | new | grid, dividers, lifelines, pill border |
 | `--_line-strong` | 68% | new | terminals, emphasis rules |
 | `--_group-fill` | 4% | 3% | neutral panel (quadrant cell, gantt plot), zebra rows |
 | `--_key-badge` | 9% | 8% | neutral badge / count pill, Tonal label chip |
 | `--_inner-stroke` | 12% | 10% | dividers inside boxes |
-| `--_node-fill` / `--_node-stroke` | 10% / 22% (or `--surface` / `--border`) | — | legacy, kept for un-migrated chrome |
+| `--_node-fill` / `--_node-stroke` | 10% / 22% (or `--surface` / `--border`) | — | legacy, no renderer reads them; kept so host CSS that references them keeps working |
 | `--_arrow`, `--_group-hdr`, `--_group-stroke`, `--_accent-fill / -stroke / -text` | unchanged | — | legacy, kept for un-migrated chrome |
 
 New code paints neutrals through the **neutral family** (`ds.Neutral`) rather than the legacy tokens.
@@ -111,6 +114,22 @@ Flowchart / state (reference: `SvgRenderer.NodeFamily`), and the same order ever
    (`ClusterPalette.Build(...).WithTint(ds.TintStrength)`); containers alternate through the palette in document
    order and never take the family of a member;
 5. otherwise neutral.
+
+### Surface / Border overrides
+
+Cluster slot 0 is always the `Default` role, and every cluster family is built by `ColorFamily.Cluster`. When the
+caller sets `Surface` / `Border`, that factory gives the slot-0 family `SurfaceOverride = var(--surface)` /
+`BorderOverride = var(--border)`. The shared box components read them, so no renderer handles the overrides itself:
+
+- `ds.NodeFill` / `ds.AppendBox` fill with `Surface`, solid, in every preset (no gradient, no knock-out, no soft);
+- `ds.NodeStroke` (and `DesignSystem.BoxOutline`) outline with `Border` at the preset width; Tonal stays `none`;
+- `ds.AppendEntityFrame` fills the header with `Surface` in every preset (Plain included) and draws the frame and
+  header rule in `Border` (Band, Plain);
+- container, badge, ink, moment and chart stages ignore the overrides, so containers in slot 0 and text keep their
+  derived colours.
+
+When `Line` is unset, `--line` follows `Border` (`DiagramColors.ResolvedLine`), and the pipeline drops a theme's
+spelled-out line when the caller sets `Border`, as it does for `Default` and `Fg`.
 
 Class modifiers (`<<abstract>>`, `<<interface>>`, …) hash (FNV-1a) to a fixed auto-palette slot so every class with
 the same modifier shares one family. Charts use `ds.Series(i)` (role hues allowed); entity-like diagrams use
@@ -231,6 +250,8 @@ will look flat next to the others. `RendererStylesheetAllowlist` accepts exactly
 - Role classes (`success`, `failure`, …) must be allow-listed under strict mode; their colours always come from options
   or the theme.
 - Design inputs (`Style`, `Gradient`, `Tint`, `Elevation`) are host-only options and are never read from diagram source.
+- `Surface` / `Border` are host-only colour options: validated with `SvgValueAllowlist.IsAllowedColor` like every
+  other colour option, never set by a theme, `%%{init}%%` or `classDef`.
 
 ## 9 · Adding a diagram type: checklist
 

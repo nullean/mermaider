@@ -93,11 +93,11 @@ The accent colour is the "look here" colour in every preset: terminals, decision
 |---|---|---|---|
 | `--bg` | `Bg` | `#FFFFFF` | Canvas background |
 | `--fg` | `Fg` | `#27272A` | Primary text, including edge labels |
-| `--line` | `Line` | default box border | Connectors, axes and rules. Unset, it is the border of an ordinary box: `color-mix(in srgb, <Default> 74%, var(--fg))` |
+| `--line` | `Line` | default box border | Connectors, axes and rules. Unset, it is the border of an ordinary box: `Border` when set, else `color-mix(in srgb, <Default> 74%, var(--fg))` |
 | `--accent` | `Accent` | `#3b82f6` | The "look here" colour (see above) |
 | `--muted` | `Muted` | derived | Secondary text: captions, axis ticks, types, meta text |
-| `--surface` | `Surface` | — | Legacy node fill token; the current renderers paint boxes from colour families and do not read it |
-| `--border` | `Border` | — | Legacy node stroke token; the current renderers do not read it |
+| `--surface` | `Surface` | unset | Optional fill of ordinary boxes; see [Box surface and border](#box-surface-and-border) |
+| `--border` | `Border` | unset | Optional outline of ordinary boxes; see [Box surface and border](#box-surface-and-border) |
 
 `derived` values are computed with `color-mix(in srgb, var(--fg) X%, var(--bg))`, so they adapt when `--fg` and `--bg` change. You rarely need to set them.
 
@@ -152,7 +152,7 @@ var options = new RenderOptions
 };
 ```
 
-The line colour follows the `Default` role: unless `Line` is set, connectors are drawn in the border colour of an ordinary box, so lines and boxes read as one family.
+The line colour follows the `Default` role: unless `Line` is set, connectors are drawn in the border colour of an ordinary box (`Border` when set), so lines and boxes read as one family.
 
 In a diagram, give a node (or state) the class `success`, `failure`, `warning` or `info`:
 
@@ -163,6 +163,40 @@ flowchart LR
 ```
 
 An explicit `style` / `classDef` fill always wins. With strict styling the class must be on your allow-list.
+
+## Box surface and border
+
+`Surface` and `Border` are optional explicit overrides for ordinary boxes. Set them when you want a fixed fill and
+outline instead of the colours derived from the `Default` role. No built-in theme sets either one.
+
+```csharp
+var options = new RenderOptions
+{
+    Surface = "#FEFCE8",   // fill of ordinary boxes
+    Border  = "#A16207",   // their outline
+};
+```
+
+They apply to every box painted in the `Default` colour family, the first cluster:
+
+| Box | `Surface` paints | `Border` paints |
+|---|---|---|
+| Flowchart, state and block nodes, sequence participants, architecture services, C4 people, packet fields | The whole box | The box outline |
+| Class, ER and requirement entities | The header band | The frame and the rule under the header |
+| Entities without rows | The whole box | The box outline |
+
+`Surface` is a solid fill in every style: it replaces the Quiet gradient, the Blueprint knock-out and the Tonal soft
+fill. `Border` keeps each style's outline width. Tonal draws no outlines, so `Border` changes no box there.
+
+Other clusters, role classes (`:::success` …), decisions (accent), terminals and data stores (neutral), containers and
+charts keep their derived colours. Mindmap branches, timeline periods, journey sections and kanban columns start at
+the second cluster, so the overrides do not reach them.
+
+Unless `Line` is set, connectors follow `Border`. This also replaces the line colour a built-in theme spells out. An
+explicit `Line` always wins. Terminals and data stores are mixed from the line colour, so they follow it as well.
+
+Both are caller options: diagram source (`%%{init}%%`, `classDef`, `style`) never sets them, and unsafe values are
+ignored like any other colour option.
 
 ## Automatic colours
 

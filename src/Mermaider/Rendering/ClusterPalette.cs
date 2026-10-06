@@ -54,7 +54,7 @@ internal sealed class ClusterPalette(DiagramColors colors, Dictionary<string, in
 	private ColorFamily FamilyAt(int cluster)
 	{
 		var slot = cluster % _palette.Length;
-		return new ColorFamily("p" + slot.ToString(System.Globalization.CultureInfo.InvariantCulture), _palette[slot], TintStrength);
+		return ColorFamily.Cluster(slot, _palette[slot], TintStrength, colors);
 	}
 
 	// ---- flat string API (no gradients): the stages a renderer that does not own a DesignSystem can use ----

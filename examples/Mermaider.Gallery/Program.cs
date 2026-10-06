@@ -226,7 +226,8 @@ RenderOptions? ResolveOptions(IQueryCollection q)
 	if (bg is null && fg is null && padding is null && nodeSpacing is null && layerSpacing is null
 		&& roundedEdges is null && transparent is null && font is null && monoFont is null && fontSize is null && provider is null
 		&& style is null && gradient is null && tint is null && elevation is null
-		&& roleDefault is null && roleSuccess is null && roleFailure is null && roleWarning is null && roleInfo is null)
+		&& roleDefault is null && roleSuccess is null && roleFailure is null && roleWarning is null && roleInfo is null
+		&& surface is null && border is null)
 		return null;
 
 	return new RenderOptions
@@ -1060,6 +1061,8 @@ string RenderPlaygroundPage(string? theme, string engine, string? selectedSlug, 
 		        <div class="play-ctrl"><label>accent</label><input type="color" id="pg-accent" value="{{defaultAccent}}" oninput="pgScheduleRender()" /></div>
 		        <div class="play-ctrl"><label title="Connectors, axes, rules. Follows the default box border unless set.">line</label><input type="color" id="pg-line" value="{{(defaultLine.Length > 0 ? defaultLine : ResolvedLineHex(baseColors ?? Themes.Default))}}"{{(q["line"].FirstOrDefault() is not null ? " data-dirty=\"1\"" : "")}} oninput="this.dataset.dirty='1';pgScheduleRender()" /></div>
 		        <div class="play-ctrl"><label title="Secondary text. Derived from fg unless set.">muted</label><input type="color" id="pg-muted" value="{{(defaultMuted.Length > 0 ? defaultMuted : "#777777")}}"{{(q["muted"].FirstOrDefault() is not null ? " data-dirty=\"1\"" : "")}} oninput="this.dataset.dirty='1';pgScheduleRender()" /></div>
+		        <div class="play-ctrl"><label title="Optional fill override for ordinary boxes (the default role's family: first cluster nodes, entity headers, participants, services). Solid in every style. Only sent once picked; no theme sets it.">surface</label><input type="color" id="pg-surface" value="{{(defaultSurface.Length > 0 ? defaultSurface : defaultBg)}}"{{(q["surface"].FirstOrDefault() is not null ? " data-dirty=\"1\"" : "")}} oninput="this.dataset.dirty='1';pgScheduleRender()" /></div>
+		        <div class="play-ctrl"><label title="Optional outline override for the same boxes (none in Tonal). Lines follow it unless line is set. Only sent once picked; no theme sets it.">border</label><input type="color" id="pg-border" value="{{(defaultBorder.Length > 0 ? defaultBorder : (defaultLine.Length > 0 ? defaultLine : ResolvedLineHex(baseColors ?? Themes.Default)))}}"{{(q["border"].FirstOrDefault() is not null ? " data-dirty=\"1\"" : "")}} oninput="this.dataset.dirty='1';const l=document.getElementById('pg-line');if(!l.dataset.dirty)l.value=this.value;pgScheduleRender()" /></div>
 		        <div class="play-ctrl play-ctrl-roles">
 		          <label title="Colour roles. Default = an ordinary box (first cluster of nodes, entities, classes); success / failure / warning / info = role classes (:::success …), gantt critical, risk chips. Their hues are skipped by automatic cluster colouring.">roles</label>
 		          <div class="role-row">
@@ -1189,6 +1192,11 @@ string PlaygroundScripts(string slugsJson, string initialSource) => $$"""
 	    // line and muted are derived from the theme unless the user picked one
 	    if (line && document.getElementById('pg-line').dataset.dirty) p.set('line', line);
 	    if (muted && document.getElementById('pg-muted').dataset.dirty) p.set('muted', muted);
+	    // surface and border are optional overrides: sent only once picked
+	    for (const key of ['surface', 'border']) {
+	      const el = document.getElementById('pg-' + key);
+	      if (el.value && el.dataset.dirty) p.set(key, el.value);
+	    }
 	    p.set('padding', pad);
 	    p.set('nodeSpacing', ns);
 	    p.set('layerSpacing', ls);
@@ -1270,8 +1278,13 @@ string PlaygroundScripts(string slugsJson, string initialSource) => $$"""
 	      delete document.getElementById('pg-line').dataset.dirty;
 	      if (t.muted) document.getElementById('pg-muted').value = t.muted;
 	      delete document.getElementById('pg-muted').dataset.dirty;
+	      const surfacePick = document.getElementById('pg-surface');
+	      surfacePick.value = t.bg; delete surfacePick.dataset.dirty;
+	      const borderPick = document.getElementById('pg-border');
+	      if (t.line) borderPick.value = t.line;
+	      delete borderPick.dataset.dirty;
 	      if (t.roles) document.querySelectorAll('input[data-role]').forEach(el => { el.value = t.roles[el.dataset.role]; delete el.dataset.dirty; });
-	      const palette = t.dataPalette || {{System.Text.Json.JsonSerializer.Serialize(Themes.DefaultDataPalette)}};
+	      const palette = t.dataPalette || {{JsonSerializer.Serialize(Themes.DefaultDataPalette)}};
 	      const row = document.querySelector('.palette-row');
 	      if (row) row.innerHTML = palette.map(c => `<div class="palette-swatch" style="background:${c}" title="${c}"></div>`).join('');
 	    }
@@ -1291,7 +1304,7 @@ string PlaygroundScripts(string slugsJson, string initialSource) => $$"""
 	  });
 
 	  // Populate textarea with selected example source, then render
-	  document.getElementById('pg-edit').value = {{System.Text.Json.JsonSerializer.Serialize(initialSource)}};
+	  document.getElementById('pg-edit').value = {{JsonSerializer.Serialize(initialSource)}};
 	  pgRender();
 	</script>
 	""";

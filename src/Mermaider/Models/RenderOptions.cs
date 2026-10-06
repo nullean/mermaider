@@ -11,7 +11,10 @@ public sealed record RenderOptions
 	/// <summary>Foreground / primary text color. Default: "#27272A".</summary>
 	public string? Fg { get; init; }
 
-	/// <summary>Edge/connector color override.</summary>
+	/// <summary>
+	/// Edge/connector color override. When null, lines follow the border of an ordinary box: <see cref="Border"/> when set,
+	/// else the theme's line colour (the <see cref="Default"/> box border).
+	/// </summary>
 	public string? Line { get; init; }
 
 	/// <summary>Arrow heads, highlights color override.</summary>
@@ -20,10 +23,22 @@ public sealed record RenderOptions
 	/// <summary>Secondary text, edge labels color override.</summary>
 	public string? Muted { get; init; }
 
-	/// <summary>Node fill tint color override.</summary>
+	/// <summary>
+	/// Optional explicit fill for ordinary boxes: everything painted in the <see cref="Default"/> colour family, i.e. the first
+	/// cluster of flowchart / state / block nodes, sequence participants, architecture services, C4 people, packet fields, and the
+	/// header band of class, ER and requirement entities. Replaces the preset's fill with this solid colour in every style
+	/// (Quiet's gradient, Blueprint's page knock-out, Tonal's soft fill). Other clusters, role classes (<c>:::success</c> …),
+	/// the accent (decisions), neutral shapes (terminals, data stores), containers and charts keep their derived colours.
+	/// No built-in theme sets it. Default: null (boxes are painted from <see cref="Default"/>).
+	/// </summary>
 	public string? Surface { get; init; }
 
-	/// <summary>Node/group stroke color override.</summary>
+	/// <summary>
+	/// Optional explicit outline for the same boxes as <see cref="Surface"/> (node outline, entity frame and header rule), at
+	/// the preset's outline width. <see cref="DiagramStyle.Tonal"/> draws no outlines, so it has no visible effect there.
+	/// When <see cref="Line"/> is not set, connectors follow it too; an explicit <see cref="Line"/> wins. No built-in theme
+	/// sets it. Default: null (outlines are derived from <see cref="Default"/>).
+	/// </summary>
 	public string? Border { get; init; }
 
 	/// <summary>Font family for all text. Default: "Inter".</summary>

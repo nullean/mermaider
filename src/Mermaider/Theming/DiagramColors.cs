@@ -24,10 +24,20 @@ public sealed record DiagramColors
 	/// <summary>Secondary text, edge labels color override.</summary>
 	public string? Muted { get; init; }
 
-	/// <summary>Node fill tint color override.</summary>
+	/// <summary>
+	/// Optional explicit fill for ordinary boxes: everything painted in the <see cref="Default"/> role's colour family (the first
+	/// cluster of flowchart / state / block nodes, sequence participants, architecture services, C4 people, packet fields, and the
+	/// header band of class, ER and requirement entities). It replaces the preset's fill in every style (Quiet's gradient,
+	/// Blueprint's page knock-out, Tonal's soft fill) with this solid colour. Other clusters, role classes, the accent, neutral
+	/// shapes (terminals, data stores), containers and charts keep their derived colours. No built-in theme sets it.
+	/// </summary>
 	public string? Surface { get; init; }
 
-	/// <summary>Node/group stroke color override.</summary>
+	/// <summary>
+	/// Optional explicit outline for the same boxes as <see cref="Surface"/> (node outline, entity frame and header rule), at
+	/// the preset's outline width. Tonal draws no outlines, so it has no visible effect there. When <see cref="Line"/> is not
+	/// set, connectors follow it too (see <see cref="ResolvedLine"/>). No built-in theme sets it.
+	/// </summary>
 	public string? Border { get; init; }
 
 	/// <summary>
@@ -56,11 +66,14 @@ public sealed record DiagramColors
 
 	/// <summary>
 	/// The line colour diagrams draw connectors, axes and rules in: <see cref="Line"/> when set, otherwise the border of an
-	/// ordinary box (the <see cref="Default"/> role's outline stage), so lines and boxes read as one family.
+	/// ordinary box (<see cref="Border"/> when set, else the <see cref="Default"/> role's outline stage), so lines and boxes read
+	/// as one family.
 	/// </summary>
 	internal string ResolvedLine => Line is { Length: > 0 } line
 		? line
-		: ColorFamily.Mix(RoleColor(ColorRole.Default), ColorFamily.StrokeRatio, "var(--fg)");
+		: Border is { Length: > 0 } border
+			? border
+			: ColorFamily.Mix(RoleColor(ColorRole.Default), ColorFamily.StrokeRatio, "var(--fg)");
 
 	/// <summary>Returns color <paramref name="i"/> from the active data palette, wrapping around.</summary>
 	internal string PaletteAt(int i)

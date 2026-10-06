@@ -207,18 +207,20 @@ internal static class RenderConfigurationNormalizer
 			_ = Themes.BuiltIn.TryGetValue(themeName, out themeColors);
 
 		var baseColors = themeColors ?? Themes.Default;
+		// Surface / Border are caller-only options: no built-in theme sets them and diagram source never reaches them
+		var border = SelectSafeOptionalColor(options?.Border, baseColors.Border);
 		var colors = new DiagramColors
 		{
 			Bg = SelectSafeColor(options?.Bg, baseColors.Bg),
 			Fg = SelectSafeColor(options?.Fg, baseColors.Fg),
-			// a theme's line colour is its default box border; when the caller changes the box colour or the foreground
-			// without picking a line, the line is derived from their colours instead so it still matches the boxes
+			// a theme's line colour is its default box border; when the caller changes the box colour, the foreground or the
+			// box border without picking a line, the line is derived from their colours instead so it still matches the boxes
 			Line = SelectSafeOptionalColor(options?.Line,
-				options?.Default is not null || options?.Fg is not null ? null : baseColors.Line),
+				options?.Default is not null || options?.Fg is not null || border is not null ? null : baseColors.Line),
 			Accent = SelectSafeOptionalColor(options?.Accent, baseColors.Accent),
 			Muted = SelectSafeOptionalColor(options?.Muted, baseColors.Muted),
 			Surface = SelectSafeOptionalColor(options?.Surface, baseColors.Surface),
-			Border = SelectSafeOptionalColor(options?.Border, baseColors.Border),
+			Border = border,
 			DataPalette = SelectSafePalette(options?.DataPalette, baseColors.DataPalette),
 			Default = SelectSafeOptionalColor(options?.Default, baseColors.Default),
 			Success = SelectSafeOptionalColor(options?.Success, baseColors.Success),
