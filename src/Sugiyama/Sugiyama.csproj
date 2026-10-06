@@ -13,5 +13,6 @@
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="README.md" />
     <None Include="..\..\nuget-icon.png" Pack="true" PackagePath="nuget-icon.png" />
+    <None Include="..\..\THIRD-PARTY-NOTICES.md" Pack="true" PackagePath="THIRD-PARTY-NOTICES.md" />
   </ItemGroup>
 </Project>

@@ -479,12 +479,13 @@ On a 6-node flowchart (Apple M2, .NET 10, BenchmarkDotNet medium run):
 
 | | Time | Allocated |
 |---|---:|---:|
-| Sugiyama layout | **6.0 &micro;s** | **29 KB** |
-| Microsoft MSAGL | 226 &micro;s | 549 KB |
+| `SugiyamaLayout.Compute`, default mode | **6.0 &micro;s** | **29 KB** |
+| Compound layout with orthogonal routing (as used by Mermaider) | 24 &micro;s | 82 KB |
+| Microsoft MSAGL layered layout | 226 &micro;s | 549 KB |
 
-The Sugiyama row times `SugiyamaLayout.Compute` in the default mode on unlabelled edges. The MSAGL row times an MSAGL
-layered layout of the same graph, including node and label measurement. Balanced mode and
-`HierarchicalLayout.Compute` do more work than the default mode.
+The first row times `SugiyamaLayout.Compute` on pre-sized nodes and unlabelled edges. The last two rows lay out the
+same parsed flowchart including node and label measurement: `HierarchicalLayout.Compute` with the orthogonal router is
+about 9.6&times; faster than MSAGL and allocates 6.7&times; less.
 
 ## Credits and references
 

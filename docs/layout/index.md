@@ -61,10 +61,13 @@ Benchmarked on a 6-node flowchart (Apple M2, .NET 10, BenchmarkDotNet medium run
 
 | | Time | Allocated |
 |---|---:|---:|
-| `SugiyamaLayout.Compute` | **6.0 µs** | **29 KB** |
-| Microsoft MSAGL | 226 µs | 549 KB |
+| Built-in flowchart layout (what renders use) | **24 µs** | **82 KB** |
+| Microsoft MSAGL, same input | 226 µs | 549 KB |
+| `SugiyamaLayout.Compute`, default mode, pre-sized nodes | 6.0 µs | 29 KB |
 
-That is about **38× faster, with 19× less memory allocated**. The `SugiyamaLayout.Compute` row uses the default mode on unlabelled edges. A full flowchart render, including the compound layout and the orthogonal router, takes about 109 µs and 209 KB, against 423 µs and 683 KB with MSAGL. Reproduce the layout numbers with:
+The first two rows run each layout provider on the same parsed flowchart, including node sizing and edge routing: the
+built-in layout is about **9.6× faster, with 6.7× less memory allocated**. The last row is the standalone package's basic
+entry point on unlabelled edges, without the compound layout or the orthogonal router. A full flowchart render, including the compound layout and the orthogonal router, takes about 109 µs and 209 KB, against 423 µs and 683 KB with MSAGL. Reproduce the layout numbers with:
 
 ```bash
 dotnet run -c Release --project tests/Mermaider.Benchmarks/Mermaider.Benchmarks.csproj -- --filter '*PhaseBenchmarks.Layout_*'

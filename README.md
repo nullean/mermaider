@@ -94,11 +94,12 @@ layout backend evaluated during early development. On a simple 6-node flowchart:
 
 | Phase             |                 MSAGL |   Built-in Sugiyama | Improvement                              |
 |-------------------|----------------------:|--------------------:|------------------------------------------|
-| Layout only       | 226 &micro;s / 549 KB |  6.0 &micro;s / 29 KB | 38&times; faster, 19&times; less memory |
+| Layout only       | 226 &micro;s / 549 KB |   24 &micro;s / 82 KB | 9.6&times; faster, 6.7&times; less memory |
 | End-to-end render | 423 &micro;s / 683 KB |  109 &micro;s / 209 KB | 3.9&times; faster, 3.3&times; less memory |
 
-The layout-only row times the engine's default mode on unlabelled edges. The end-to-end row renders the same flowchart
-through each provider, so it includes the compound layout and the orthogonal router.
+The layout-only row runs each layout provider on the same parsed flowchart: node sizing, layering, placement and edge
+routing (the built-in side includes the compound layout and the orthogonal router). The end-to-end row adds parsing,
+rendering and sanitizing.
 
 MSAGL remains available as an optional, legacy-compatible provider. It does not support several features of the
 built-in engine; see [MSAGL Layout Provider](#msagl-layout-provider).
