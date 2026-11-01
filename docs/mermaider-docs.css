@@ -1,0 +1,269 @@
+/*
+ * docs/mermaider-docs.css: the mermaider theme for docs-builder's design system (NAVIGATION_PREVIEW).
+ * Appended to the emitted _static/ds.css by scripts/docs-finish.sh, so it comes after the default theme and wins by
+ * cascade order within the same layer, without !important. The palette is the landing page's
+ * (docs/mermaider-landing.html): near-black, cyan and violet in dark, a cool paper counterpart in light. Roles are
+ * named in docs-builder's Assets/ds/themes/bold-minimal.css; each pair is `var(--ds-l, light) var(--ds-d, dark)`.
+ */
+
+/* JetBrains Mono (400, 500, 700) already ships with the design system; Space Grotesk is the landing page's display
+   face. */
+@font-face {
+	font-family: 'Space Grotesk';
+	font-style: normal;
+	font-weight: 300 700;
+	font-display: swap;
+	src: url('/fonts/space-grotesk-latin-wght-normal.woff2') format('woff2');
+}
+
+@layer ds.tokens {
+	:root {
+		--font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+		--font-heading: 'Space Grotesk', system-ui, sans-serif;
+		--font-display: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+		--font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+		--radius-sm: 4px;
+		--radius-md: 6px;
+		--radius-lg: 8px;
+	}
+}
+
+@layer ds.theme {
+	:root,
+	[data-theme],
+	.hero-block:not(.hero-block--paper),
+	.band--ink,
+	.band--blue,
+	.band--dusk,
+	.band--aurora,
+	.cta-band:not(.cta-band--teal),
+	.band--lagoon,
+	.cta-band--teal {
+		--color-page: var(--ds-l, #f6f8fb) var(--ds-d, #08090b);
+		--color-surface: var(--ds-l, #ffffff) var(--ds-d, #0d1013);
+		--color-surface-sunken: var(--ds-l, #edf1f6) var(--ds-d, #060709);
+
+		--color-heading: var(--ds-l, #08090b) var(--ds-d, #f1f4f8);
+		--color-text: var(--ds-l, #1e242c) var(--ds-d, #d9dee5);
+		--color-text-muted: var(--ds-l, #525c69) var(--ds-d, #98a1ae);
+
+		/* The landing page's hairlines are cyan at 10%; these are their opaque equivalents. */
+		--color-border: var(--ds-l, #d8e0e9) var(--ds-d, #172127);
+		--color-border-strong: var(--ds-l, #08090b) var(--ds-d, #e9ecf1);
+		--color-border-control: var(--ds-l, #77838f) var(--ds-d, #606d7a);
+
+		/* Cyan: as on the landing page in dark; a deep teal-cyan in light so links hold 4.5:1 on paper. */
+		--color-accent: var(--ds-l, #006b87) var(--ds-d, #7fe0ff);
+		--color-accent-hover: var(--ds-l, #004c61) var(--ds-d, #b6d9ff);
+		--color-on-accent: var(--ds-l, #ffffff) var(--ds-d, #08090b);
+		--color-accent-surface: var(--ds-l, #e5f6fb) var(--ds-d, #0b1c23);
+		--color-accent-border: var(--ds-l, #93d6ea) var(--ds-d, #1d4a5a);
+
+		/* Buttons: the landing page's primary button, near-black on cyan, in both modes. */
+		--color-action: #7fe0ff;
+		--color-action-hover: #a5eaff;
+		--color-action-hover-deep: #4cc6ec;
+		--color-action-deep: #4cc6ec;
+		--color-action-edge: var(--ds-l, #1d9bc2) var(--ds-d, #7fe0ff);
+		--color-action-border: var(--ds-l, #1d9bc2) var(--ds-d, #7fe0ff);
+		--color-on-action: #08090b;
+
+		--color-brand-deep: var(--ds-l, #08090b) var(--ds-d, #7fe0ff);
+		--color-brand-bright: #d66fff;
+		--color-highlight: var(--ds-l, #8a2bb8) var(--ds-d, #e19bff);
+		--color-highlight-surface: var(--ds-l, #f6eafd) var(--ds-d, rgb(214 111 255 / 12%));
+		--color-emphasis: var(--ds-l, #08090b) var(--ds-d, #1b2126);
+		--color-on-emphasis: #7fe0ff;
+
+		--gradient-wash: var(--ds-l, linear-gradient(180deg, #f6f8fb 0%, #eef3f8 100%))
+			var(--ds-d, linear-gradient(180deg, #0d1013 0%, #08090b 100%));
+		--gradient-hero: radial-gradient(at 8% 18%, rgb(127 224 255 / 18%) 0, transparent 55%),
+			radial-gradient(at 92% 6%, rgb(214 111 255 / 24%) 0, transparent 50%), #08090b;
+		--color-hatch: var(--ds-l, rgb(8 9 11 / 4%)) var(--ds-d, rgb(127 224 255 / 4%));
+
+		/* Code is a dark panel in both modes, like the landing page's code panels, with its syntax colours. */
+		--color-code-bg: #0d1013;
+		--color-code-border: var(--ds-l, transparent) var(--ds-d, #172127);
+		--color-code-text: #e9ecf1;
+		--color-code-danger: #ff8f8f;
+		--color-code-warning: #e8b96a;
+		--color-code-info: #7fe0ff;
+		--color-code-muted: #7d8794;
+		--color-code-gutter: #5a6472;
+		--color-code-keyword: #c792ea;
+		--color-code-string: #c3e88d;
+		--color-code-number: #e8b96a;
+		--color-code-attr: #7fe0ff;
+		--color-code-type: #b6d9ff;
+		--color-code-variable: #e19bff;
+		--color-code-literal: #e8b96a;
+		--color-code-punctuation: #98a1ae;
+
+		--color-focus-ring: var(--ds-l, #006b87) var(--ds-d, #7fe0ff);
+
+		--color-important: var(--ds-l, #7a22a6) var(--ds-d, #e19bff);
+		--color-important-surface: var(--ds-l, #f6eefc) var(--ds-d, rgb(214 111 255 / 9%));
+		--color-warning: var(--ds-l, #8a5a00) var(--ds-d, #e8b96a);
+		--color-warning-surface: var(--ds-l, #fdf5e6) var(--ds-d, rgb(232 185 106 / 9%));
+
+		/* No offset slabs: the landing page lifts things with hairlines and a soft glow. */
+		--color-slab-plate: var(--ds-l, #d8e0e9) var(--ds-d, #0d1013);
+		--shadow-slab: 0 18px 40px rgb(0 0 0 / var(--ds-l, 10%) var(--ds-d, 50%));
+		--shadow-slab-sm: 0 8px 24px -8px var(--ds-l, rgb(8 9 11 / 14%)) var(--ds-d, rgb(127 224 255 / 12%));
+		--shadow-slab-rest: 0 1px 0 var(--color-border);
+		--shadow-overlay: 0 24px 60px rgb(0 0 0 / var(--ds-l, 18%) var(--ds-d, 60%));
+
+		/* The teal call to action becomes the landing page's cyan button. */
+		--cta-top: #a5eaff;
+		--cta-bottom: #7fe0ff;
+		--cta-edge: #1d9bc2;
+		--cta-border: #7fe0ff;
+		--cta-fg: #08090b;
+		--cta-glow: rgb(127 224 255 / 30%);
+		--cta-hover-top: #c4f1ff;
+		--cta-hover-bottom: #93e5ff;
+		--cta-active-top: #7fe0ff;
+		--cta-active-bottom: #4cc6ec;
+
+		--swatch-light: #f6f8fb;
+		--swatch-dark: #08090b;
+		--swatch-black: #000;
+	}
+
+	/* True black keeps the dark roles, on black. */
+	[data-theme='black'] {
+		--color-page: #000;
+		--color-surface: #08090b;
+		--color-surface-sunken: #040507;
+		--color-border: #141b20;
+		--color-code-bg: #08090b;
+	}
+}
+
+@layer ds.pages {
+	/* The landing page's mesh: cyan top left, violet top right and lower down, a pale blue haze in between. Fixed to
+	   the viewport like the landing page's, and quieter, so prose on it stays calm. Pastel on paper in light. */
+	body.navigation-preview {
+		background-color: var(--color-page);
+		background-image:
+			radial-gradient(at 8% 12%, rgb(127 224 255 / var(--ds-l, 16%) var(--ds-d, 10%)) 0, transparent 50%),
+			radial-gradient(at 94% 4%, rgb(214 111 255 / var(--ds-l, 12%) var(--ds-d, 14%)) 0, transparent 45%),
+			radial-gradient(at 70% 85%, rgb(214 111 255 / var(--ds-l, 7%) var(--ds-d, 7%)) 0, transparent 55%),
+			radial-gradient(at 85% 45%, rgb(182 217 255 / var(--ds-l, 10%) var(--ds-d, 5%)) 0, transparent 50%);
+		background-attachment: fixed;
+	}
+
+	[data-theme='black'] body.navigation-preview,
+	body.navigation-preview[data-theme='black'] {
+		background-image: none;
+	}
+
+	/* Light: the mesh spread over paper tints the whole reading column, and where cyan meets violet it turns muddy.
+	   Instead the two brand glows sit apart at the top of the page, behind the header and title, and scroll away, so
+	   prose reads on clean paper. */
+	body.navigation-preview {
+		--glow-light:
+			radial-gradient(55% 520px at 0% 0%, rgb(127 224 255 / 28%), transparent 72%),
+			radial-gradient(50% 460px at 100% 0%, rgb(214 111 255 / 14%), transparent 72%);
+	}
+
+	:root[data-theme='light'] body.navigation-preview {
+		background-image: var(--glow-light);
+		background-attachment: scroll;
+		background-repeat: no-repeat;
+	}
+
+	@media (prefers-color-scheme: light) {
+		:root:not([data-theme]) body.navigation-preview {
+			background-image: var(--glow-light);
+			background-attachment: scroll;
+			background-repeat: no-repeat;
+		}
+	}
+
+	.site-header {
+		background: color-mix(in srgb, var(--color-page) 72%, transparent);
+		backdrop-filter: blur(12px);
+	}
+
+	.site-header__brand,
+	.site-header__title {
+		font-family: var(--font-mono);
+		font-weight: 700;
+		font-size: 1.2rem;
+		letter-spacing: -0.03em;
+	}
+
+	/* The swimming fish from the landing page's nav (images/mermaider-fish-animated.svg, the docset's branding.icon),
+	   at the landing page's size. scripts/docs-pages.py puts it in the header. */
+	.site-header__logo {
+		width: 44px;
+		height: 33px;
+	}
+
+	/* Under reduced motion the <picture> around it loads the fish at #still (scripts/docs-pages.py). */
+	.site-header__brand > picture {
+		display: contents;
+	}
+
+	/* Navigation in the landing page's mono, its labels like the landing page's `// section` kickers. */
+	.nav-tree__link,
+	.toc__link,
+	.pager__title {
+		font-family: var(--font-mono);
+		font-size: 0.84rem;
+		letter-spacing: -0.01em;
+	}
+
+	.toc__title,
+	.pager__label {
+		font-family: var(--font-mono);
+		font-size: 0.7rem;
+		font-weight: 500;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--color-accent);
+	}
+
+	.prose :is(h1, h2, h3) {
+		font-weight: 700;
+		letter-spacing: -0.03em;
+		text-wrap: balance;
+	}
+
+	/* Sidebar: the current page in cyan, as the landing page marks what matters. */
+	.nav-tree__link[aria-current='page'] {
+		color: var(--color-accent);
+	}
+
+	/* The design system leaves .prose img uncapped, so a wide image runs past the column. */
+	.prose img {
+		max-width: 100%;
+		height: auto;
+	}
+
+	/* Diagrams are rendered for light (zinc-light, transparent), and so are docs-builder's own mermaid blocks. In dark
+	   they sit on a light card, the colours exactly as Mermaider renders them, framed like the landing page's
+	   gallery cards. */
+	.prose img[src*='/images/diagrams/'],
+	.prose img[src*='/images/styles/'],
+	.mermaid-container {
+		background: var(--ds-l, transparent) var(--ds-d, #f6f8fb);
+	}
+
+	.prose img[src*='/images/diagrams/'],
+	.prose img[src*='/images/styles/'] {
+		padding: var(--ds-l, 0) var(--ds-d, 1rem);
+		border-radius: var(--radius-lg);
+		box-shadow: var(--ds-l, none) var(--ds-d, 0 0 0 1px rgb(127 224 255 / 18%), 0 8px 30px -10px rgb(127 224 255 / 25%));
+	}
+
+	.mermaid-container {
+		border-color: var(--ds-l, var(--color-border)) var(--ds-d, rgb(127 224 255 / 18%));
+	}
+
+	.prose kbd,
+	.kbd {
+		font-family: var(--font-mono);
+	}
+}
