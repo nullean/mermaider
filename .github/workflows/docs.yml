@@ -31,16 +31,15 @@ jobs:
       - name: Render screenshots
         run: dotnet run scripts/screenshots.cs
 
+      # The design-system layout is behind a feature flag, read from the environment only.
       - name: Build documentation
         uses: elastic/docs-builder@main
+        env:
+          FEATURE_NAVIGATION_PREVIEW: true
 
-      - name: Use custom landing page
-        run: cp docs/mermaider-landing.html .artifacts/docs/html/index.html
-
-      # docs-builder writes canonical / og:url / og:image against its default host, and the action has no input to
-      # change it; point them at this site so links unfurl with the right card.
-      - name: Point canonical and social links at this site
-        run: grep -rlZ 'https://docs-v3-preview.elastic.dev' .artifacts/docs/html | xargs -0 -r sed -i 's#https://docs-v3-preview.elastic.dev#https://mermaider.nullean.net#g'
+      # The same post-build steps as scripts/docs.sh: theme, root links, animated header logo, landing page, fonts, and canonical and social links pointed at docs/CNAME's host instead of docs-builder's default.
+      - name: Theme and landing page
+        run: scripts/docs-finish.sh .artifacts/docs/html
 
       - name: Setup Pages
         uses: actions/configure-pages@v6.0.0

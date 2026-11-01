@@ -92,3 +92,27 @@ jobs:
     - run: dotnet nuget push 'build/output/*.nupkg' -k ${{secrets.NUGET_ORG_API_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols
       name: release to nuget.org
       if: github.event_name == 'push' && startswith(github.ref, 'refs/tags')
+
+  # The docs build as docs.yml publishes it, without publishing, so a PR proves the build and post-build steps.
+  docs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: ./global.json
+
+      - name: Render screenshots
+        run: dotnet run scripts/screenshots.cs
+
+      - name: Build documentation
+        uses: elastic/docs-builder@main
+        env:
+          FEATURE_NAVIGATION_PREVIEW: true
+
+      - name: Theme and landing page
+        run: scripts/docs-finish.sh .artifacts/docs/html
