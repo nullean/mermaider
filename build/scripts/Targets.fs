@@ -33,8 +33,10 @@ let private clean (arguments:ParseResults<Arguments>) =
 
 let private build (arguments:ParseResults<Arguments>) = exec "dotnet" ["build"; "-c"; "Release"] |> ignore
 
+// global.json selects Microsoft.Testing.Platform, so this runs every TUnit test executable (Mermaider.Tests and
+// Sugiyama.Tests); on GitHub Actions TUnit writes its own summary of the run to GITHUB_STEP_SUMMARY
 let private test (arguments:ParseResults<Arguments>) =
-    exec "dotnet" ["run"; "--project"; "tests/Mermaider.Tests/Mermaider.Tests.csproj"; "-c"; "Release"] |> ignore
+    exec "dotnet" ["test"; "-c"; "Release"] |> ignore
 
 let private generatePackages (arguments:ParseResults<Arguments>) =
     let output = Paths.RootRelative Paths.Output.FullName

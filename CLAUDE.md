@@ -22,9 +22,9 @@ See AGENTS.md for project conventions and architecture.
 
 ## Testing
 
-Run tests with: `dotnet run --project tests/Mermaider.Tests/Mermaider.Tests.csproj`
+Run tests with: `dotnet test` (Mermaider.Tests and Sugiyama.Tests), or one project with `dotnet run --project tests/Mermaider.Tests/Mermaider.Tests.csproj`
 
-Tests use TUnit (source-generated test runner) and AwesomeAssertions.
+Tests use TUnit (source-generated test runner), AwesomeAssertions and CsCheck.
 
 290 tests cover: flowchart parser (17), sequence parser (12), class parser (13), ER parser (7),
 SVG renderer (7), sequence renderer (12), class renderer (7), ER renderer (9), text metrics (1),
