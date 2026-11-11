@@ -20,6 +20,5 @@ public class GallerySnapshotTests
 		return Verifier.Verify(svg, "svg").UseParameters(example.Slug);
 	}
 
-	public static IEnumerable<DiagramExample> AllExamples() =>
-		DiagramExamples.All;
+	public static IEnumerable<DiagramExample> AllExamples() => DiagramExamples.All;
 }

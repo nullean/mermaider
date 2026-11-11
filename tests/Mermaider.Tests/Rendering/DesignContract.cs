@@ -25,8 +25,7 @@ internal static class DesignContract
 	internal static string InkText(string color) => $"fill=\"{Family(color).Ink}\"";
 
 	/// <summary>Regex: a text element reading <paramref name="text"/> drawn in the ink of <paramref name="color"/>.</summary>
-	internal static string InkTextRegex(string color, string text) =>
-		Regex.Escape(InkText(color)) + "[^>]*>" + Regex.Escape(text) + "</text>";
+	internal static string InkTextRegex(string color, string text) => Regex.Escape(InkText(color)) + "[^>]*>" + Regex.Escape(text) + "</text>";
 
 	/// <summary>Header band / badge fill in <paramref name="color"/>.</summary>
 	internal static string Band(string color) => Family(color).Band;

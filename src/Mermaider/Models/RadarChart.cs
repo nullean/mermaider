@@ -13,6 +13,11 @@ public sealed record RadarChart
 }
 
 public sealed record RadarAxis(string Id, string Label);
+
 public sealed record RadarCurve(string Id, string Label, IReadOnlyList<double> Values);
 
-public enum RadarGraticule { Circle, Polygon }
+public enum RadarGraticule
+{
+	Circle,
+	Polygon
+}

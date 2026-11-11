@@ -60,9 +60,10 @@ internal sealed partial record FontScale
 			return (1, "rem");
 
 		var match = SizePattern().Match(size);
-		if (!match.Success
-			|| !double.TryParse(match.Groups[1].Value, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out var value)
-			|| !double.IsFinite(value))
+		if (
+			!match.Success || !double.TryParse(match.Groups[1].Value, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out var value) ||
+			!double.IsFinite(value)
+		)
 			return (1, "rem");
 
 		var unit = match.Groups[2].Value.ToLowerInvariant();
@@ -72,8 +73,7 @@ internal sealed partial record FontScale
 	private static double NormalizeRatio(double? candidate, double fallback) =>
 		candidate is > 0 && double.IsFinite(candidate.Value) ? candidate.Value : fallback;
 
-	private static string FormatSize(double value, string unit) =>
-		$"{value.ToString("0.###", CultureInfo.InvariantCulture)}{unit}";
+	private static string FormatSize(double value, string unit) => $"{value.ToString("0.###", CultureInfo.InvariantCulture)}{unit}";
 
 	[GeneratedRegex(@"^((?:0|[1-9][0-9]*)(?:\.[0-9]{1,3})?)\s*(px|rem|em|%)$", RegexOptions.IgnoreCase, 2000)]
 	private static partial Regex SizePattern();

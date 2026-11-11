@@ -55,7 +55,13 @@ public class ColorRolesTests
 		mixed.AutoPalette().Should().BeEquivalentTo([DefaultBox, "#0000ff"], "the theme's default box colour leads, role hues are dropped");
 
 		var onlyRoles = Themes.Default with { DataPalette = ["#ff0000", "#00ff00"] };
-		onlyRoles.AutoPalette().Should().BeEquivalentTo([DefaultBox, "#ff0000", "#00ff00"], "an unusable palette is used as given (after the default box colour) instead of drawing nothing");
+		onlyRoles
+			.AutoPalette()
+			.Should()
+			.BeEquivalentTo(
+				[DefaultBox, "#ff0000", "#00ff00"],
+				"an unusable palette is used as given (after the default box colour) instead of drawing nothing"
+			);
 	}
 
 	[Test]
@@ -96,9 +102,7 @@ public class ColorRolesTests
 	[Test]
 	public void An_unsafe_role_colour_is_ignored()
 	{
-		var svg = MermaidRenderer.RenderSvg(
-			"flowchart TD\n  A:::success --> B",
-			new RenderOptions { Success = "red\" onload=\"alert(1)" });
+		var svg = MermaidRenderer.RenderSvg("flowchart TD\n  A:::success --> B", new RenderOptions { Success = "red\" onload=\"alert(1)" });
 
 		svg.Should().NotContain("onload");
 		svg.Should().Contain(NodeTop(CategoricalPalette.Green));

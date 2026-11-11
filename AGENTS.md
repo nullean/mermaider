@@ -13,9 +13,10 @@ and its tests target. The everyday tasks have the same names as in every nullean
 mise run build            # build the solution
 mise run test             # build, then run the tests
 mise run pack             # build, pack the NuGet packages and validate them
-mise run ci               # what CI's build job runs: test, pack, validate, diff the public API
+mise run ci               # what CI's build job runs: test, curb check, pack, validate, diff the public API
 mise run docs             # build the docs and serve them
-mise run check            # workflow security checks (zizmor)
+mise run format           # format the repository with curb
+mise run check            # formatting drift (curb) and workflow security checks (zizmor)
 mise run clean            # delete build output
 mise run release          # show the release draft; `mise run release publish` releases
 ```

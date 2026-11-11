@@ -17,21 +17,21 @@ public sealed class MermaidResourceLimitException : MermaidParseException
 	/// <summary>The configured limit that was exceeded.</summary>
 	public long LimitValue { get; }
 
-	public MermaidResourceLimitException(string limitName, long observed, long limit)
-		: base(
+	public MermaidResourceLimitException(string limitName, long observed, long limit) : base(
 			$"Resource limit exceeded — {limitName}: {observed:N0} > {limit:N0}. " +
-			$"Raise the limit via RenderOptions.Limits or use ResourceLimits.Unlimited for trusted input.")
+				$"Raise the limit via RenderOptions.Limits or use ResourceLimits.Unlimited for trusted input."
+		)
 	{
 		LimitName = limitName;
 		ObservedValue = observed;
 		LimitValue = limit;
 	}
 
-	internal MermaidResourceLimitException(string limitName, long observed, long limit, Exception inner)
-		: base(
+	internal MermaidResourceLimitException(string limitName, long observed, long limit, Exception inner) : base(
 			$"Resource limit exceeded — {limitName}: {observed:N0} > {limit:N0}. " +
-			$"Raise the limit via RenderOptions.Limits or use ResourceLimits.Unlimited for trusted input.",
-			inner)
+				$"Raise the limit via RenderOptions.Limits or use ResourceLimits.Unlimited for trusted input.",
+			inner
+		)
 	{
 		LimitName = limitName;
 		ObservedValue = observed;

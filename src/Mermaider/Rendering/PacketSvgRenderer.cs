@@ -121,8 +121,12 @@ internal static class PacketSvgRenderer
 		var w = Math.Max(1, (bitCount * BitWidth) - CellGap);
 		var family = ds.Cluster(seg.ColorIndex);
 
-		_ = sb.Append("\n<g class=\"node packet-field\" data-start=\"").Append(seg.Start.ToString(CultureInfo.InvariantCulture))
-			.Append("\" data-end=\"").Append(seg.End.ToString(CultureInfo.InvariantCulture)).Append("\">\n  ");
+		_ = sb
+			.Append("\n<g class=\"node packet-field\" data-start=\"")
+			.Append(seg.Start.ToString(CultureInfo.InvariantCulture))
+			.Append("\" data-end=\"")
+			.Append(seg.End.ToString(CultureInfo.InvariantCulture))
+			.Append("\">\n  ");
 		ds.AppendBox(sb, x, cellY, w, CellHeight, family, Math.Min(ds.Spec.NodeRadius, 10));
 		_ = sb.Append("\n  ");
 		ds.AppendText(sb, seg.Label, x + (w / 2), cellY + (CellHeight / 2), TypeRole.Label);
@@ -131,8 +135,14 @@ internal static class PacketSvgRenderer
 		var bitY = cellY - (BitLabelBand / 2);
 		var isSingle = seg.Start == seg.End;
 		_ = sb.Append("\n  ");
-		ds.AppendText(sb, seg.Start.ToString(CultureInfo.InvariantCulture), isSingle ? x + (w / 2) : x + 2, bitY, TypeRole.Meta,
-			anchor: isSingle ? "middle" : "start");
+		ds.AppendText(
+			sb,
+			seg.Start.ToString(CultureInfo.InvariantCulture),
+			isSingle ? x + (w / 2) : x + 2,
+			bitY,
+			TypeRole.Meta,
+			anchor: isSingle ? "middle" : "start"
+		);
 		if (!isSingle)
 		{
 			_ = sb.Append("\n  ");

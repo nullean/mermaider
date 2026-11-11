@@ -26,9 +26,15 @@ description = "Build, then run the tests"
 depends = ["setup"]
 run = "dotnet run --project build/scripts -- test"
 
+[tasks.format]
+description = "Format the repository with curb"
+depends = ["setup"]
+run = "dotnet curb format ."
+
 [tasks.check]
-description = "Fail on workflow findings (zizmor)"
-run = "zizmor --min-severity medium ."
+description = "Fail on formatting drift (curb) and on workflow findings (zizmor)"
+depends = ["setup"]
+run = ["dotnet curb check .", "zizmor --min-severity medium ."]
 
 [tasks.pack]
 description = "Build, pack the NuGet packages and validate them"
@@ -48,10 +54,11 @@ description = "Delete build output"
 run = "dotnet run --project build/scripts -- clean"
 
 [tasks.ci]
-description = "What CI's build job runs: test, then pack, validate and diff the public API"
+description = "What CI's build job runs: test, the curb formatting check, then pack, validate and diff the public API"
 depends = ["setup"]
 run = [
   "dotnet run --project build/scripts -- test",
+  "dotnet curb check .",
   "dotnet run --project build/scripts -- generatepackages -s true",
   "dotnet run --project build/scripts -- validatepackages -s true",
   "dotnet run --project build/scripts -- generateapichanges -s true",

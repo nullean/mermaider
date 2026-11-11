@@ -16,17 +16,12 @@ public sealed record RequirementNode(
 	string? Id = null,
 	string? Text = null,
 	RequirementRisk Risk = RequirementRisk.Unspecified,
-	RequirementVerifyMethod VerifyMethod = RequirementVerifyMethod.Unspecified);
+	RequirementVerifyMethod VerifyMethod = RequirementVerifyMethod.Unspecified
+);
 
-public sealed record RequirementElement(
-	string Name,
-	string? Type = null,
-	string? DocRef = null);
+public sealed record RequirementElement(string Name, string? Type = null, string? DocRef = null);
 
-public sealed record RequirementRelation(
-	string Source,
-	string Target,
-	RequirementRelationType Type);
+public sealed record RequirementRelation(string Source, string Target, RequirementRelationType Type);
 
 public enum RequirementKind
 {

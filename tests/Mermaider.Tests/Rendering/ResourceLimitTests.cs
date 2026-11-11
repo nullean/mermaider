@@ -24,8 +24,7 @@ public class ResourceLimitTests
 
 		var act = () => MermaidRenderer.RenderSvg(huge, options);
 
-		act.Should().ThrowExactly<MermaidResourceLimitException>()
-			.Which.LimitName.Should().Be(nameof(ResourceLimits.MaxInputLength));
+		act.Should().ThrowExactly<MermaidResourceLimitException>().Which.LimitName.Should().Be(nameof(ResourceLimits.MaxInputLength));
 	}
 
 	[Test]
@@ -34,9 +33,11 @@ public class ResourceLimitTests
 		var huge = "graph TD\n" + new string('A', 600_000);
 		var limits = new ResourceLimits { MaxInputLength = 100 };
 
-		var ex = (MermaidResourceLimitException)((Action)(() =>
-			MermaidRenderer.RenderSvg(huge, new RenderOptions { Limits = limits }))).Should()
-			.ThrowExactly<MermaidResourceLimitException>().Which;
+		var ex =
+			(MermaidResourceLimitException)((Action)(() => MermaidRenderer.RenderSvg(huge, new RenderOptions { Limits = limits })))
+				.Should()
+				.ThrowExactly<MermaidResourceLimitException>()
+				.Which;
 
 		ex.ObservedValue.Should().BeGreaterThan(600_000);
 		ex.LimitValue.Should().Be(100);
@@ -65,8 +66,7 @@ public class ResourceLimitTests
 		var limits = new ResourceLimits { MaxLines = 10 };
 		var act = () => MermaidRenderer.RenderSvg(sb.ToString(), new RenderOptions { Limits = limits });
 
-		act.Should().ThrowExactly<MermaidResourceLimitException>()
-			.Which.LimitName.Should().Be(nameof(ResourceLimits.MaxLines));
+		act.Should().ThrowExactly<MermaidResourceLimitException>().Which.LimitName.Should().Be(nameof(ResourceLimits.MaxLines));
 	}
 
 	// ────────────────────────────────────────────────────────────────────────────
@@ -82,8 +82,7 @@ public class ResourceLimitTests
 
 		var act = () => MermaidRenderer.RenderSvg(diagram, new RenderOptions { Limits = limits });
 
-		act.Should().ThrowExactly<MermaidResourceLimitException>()
-			.Which.LimitName.Should().Be(nameof(ResourceLimits.MaxLineLength));
+		act.Should().ThrowExactly<MermaidResourceLimitException>().Which.LimitName.Should().Be(nameof(ResourceLimits.MaxLineLength));
 	}
 
 	// ────────────────────────────────────────────────────────────────────────────
@@ -100,8 +99,7 @@ public class ResourceLimitTests
 		var limits = new ResourceLimits { MaxElements = 5 };
 		var act = () => MermaidRenderer.RenderSvg(sb.ToString(), new RenderOptions { Limits = limits });
 
-		act.Should().ThrowExactly<MermaidResourceLimitException>()
-			.Which.LimitName.Should().Be(nameof(ResourceLimits.MaxElements));
+		act.Should().ThrowExactly<MermaidResourceLimitException>().Which.LimitName.Should().Be(nameof(ResourceLimits.MaxElements));
 	}
 
 	[Test]
@@ -114,8 +112,7 @@ public class ResourceLimitTests
 		var limits = new ResourceLimits { MaxElements = 5 };
 		var act = () => MermaidRenderer.RenderSvg(sb.ToString(), new RenderOptions { Limits = limits });
 
-		act.Should().ThrowExactly<MermaidResourceLimitException>()
-			.Which.LimitName.Should().Be(nameof(ResourceLimits.MaxElements));
+		act.Should().ThrowExactly<MermaidResourceLimitException>().Which.LimitName.Should().Be(nameof(ResourceLimits.MaxElements));
 	}
 
 	[Test]
@@ -128,8 +125,7 @@ public class ResourceLimitTests
 		var limits = new ResourceLimits { MaxElements = 5 };
 		var act = () => MermaidRenderer.RenderSvg(sb.ToString(), new RenderOptions { Limits = limits });
 
-		act.Should().ThrowExactly<MermaidResourceLimitException>()
-			.Which.LimitName.Should().Be(nameof(ResourceLimits.MaxElements));
+		act.Should().ThrowExactly<MermaidResourceLimitException>().Which.LimitName.Should().Be(nameof(ResourceLimits.MaxElements));
 	}
 
 	// ────────────────────────────────────────────────────────────────────────────
@@ -148,8 +144,7 @@ public class ResourceLimitTests
 
 		var act = () => MermaidRenderer.RenderSvg(sb.ToString());
 
-		act.Should().ThrowExactly<MermaidResourceLimitException>()
-			.Which.LimitName.Should().Be(nameof(ResourceLimits.MaxRecursionDepth));
+		act.Should().ThrowExactly<MermaidResourceLimitException>().Which.LimitName.Should().Be(nameof(ResourceLimits.MaxRecursionDepth));
 	}
 
 	[Test]
@@ -162,8 +157,7 @@ public class ResourceLimitTests
 
 		var act = () => MermaidRenderer.RenderSvg(sb.ToString());
 
-		act.Should().ThrowExactly<MermaidResourceLimitException>()
-			.Which.LimitName.Should().Be(nameof(ResourceLimits.MaxRecursionDepth));
+		act.Should().ThrowExactly<MermaidResourceLimitException>().Which.LimitName.Should().Be(nameof(ResourceLimits.MaxRecursionDepth));
 	}
 
 	// ────────────────────────────────────────────────────────────────────────────
@@ -179,8 +173,7 @@ public class ResourceLimitTests
 
 		var act = () => MermaidRenderer.RenderSvg(diagram, new RenderOptions { Limits = limits });
 
-		act.Should().ThrowExactly<MermaidResourceLimitException>()
-			.Which.LimitName.Should().Be(nameof(ResourceLimits.MaxOutputLength));
+		act.Should().ThrowExactly<MermaidResourceLimitException>().Which.LimitName.Should().Be(nameof(ResourceLimits.MaxOutputLength));
 	}
 
 	// ────────────────────────────────────────────────────────────────────────────
@@ -195,10 +188,7 @@ public class ResourceLimitTests
 		for (var i = 0; i < 200; i++)
 			sb.AppendLine($"  N{i} --> N{i + 1}");
 
-		var svg = MermaidRenderer.RenderSvg(sb.ToString(), new RenderOptions
-		{
-			Limits = ResourceLimits.Unlimited,
-		});
+		var svg = MermaidRenderer.RenderSvg(sb.ToString(), new RenderOptions { Limits = ResourceLimits.Unlimited, });
 		svg.Should().Contain("<svg");
 	}
 
@@ -281,11 +271,7 @@ public class ResourceLimitTests
 		// not on a slow render.
 		const string diagram = "graph TD\n  A-->B";
 
-		var limits = new ResourceLimits
-		{
-			RenderDeadline = TimeSpan.FromSeconds(1),
-			TimeProvider = fake,
-		};
+		var limits = new ResourceLimits { RenderDeadline = TimeSpan.FromSeconds(1), TimeProvider = fake, };
 
 		// Verify the FakeTimeProvider / CTS plumbing: CTS created with FakeTimeProvider fires
 		// when fake.Advance is called. Since the render is synchronous on this thread, we can't
@@ -314,8 +300,7 @@ public class ResourceLimitTests
 		var act = () => MermaidRenderer.RenderSvg(huge, new RenderOptions { Limits = limits });
 
 		// Must be the exact subtype, and must also satisfy the base-type catch contract
-		act.Should().ThrowExactly<MermaidResourceLimitException>()
-			.Which.Should().BeAssignableTo<MermaidParseException>();
+		act.Should().ThrowExactly<MermaidResourceLimitException>().Which.Should().BeAssignableTo<MermaidParseException>();
 	}
 
 	// ────────────────────────────────────────────────────────────────────────────
@@ -334,7 +319,8 @@ public class ResourceLimitTests
 	[Test]
 	public void Default_limits_allow_venn_diagram()
 	{
-		const string venn = """
+		const string venn =
+			"""
 			venn-beta
 			  set A
 			  set B
@@ -348,7 +334,8 @@ public class ResourceLimitTests
 	[Test]
 	public void Default_limits_allow_mindmap()
 	{
-		const string mindmap = """
+		const string mindmap =
+			"""
 			mindmap
 			  root((Root))
 			    Branch1

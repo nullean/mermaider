@@ -4,7 +4,8 @@ namespace Mermaider.Tests.Rendering;
 
 public class KanbanRendererTests
 {
-	private const string FullBoard = """
+	private const string FullBoard =
+		"""
 		kanban
 		title Sprint Board
 		  Todo
@@ -70,11 +71,13 @@ public class KanbanRendererTests
 	[Test]
 	public void Renders_metadata_text()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			kanban
 			  Todo
 			    id4[Create parsing tests]@{ ticket: MC-2038, assigned: 'K.Sveidqvist', priority: 'High' }
-			""");
+			"""
+		);
 
 		svg.Should().Contain("Create parsing tests");
 		svg.Should().Contain("MC-2038");
@@ -87,13 +90,15 @@ public class KanbanRendererTests
 	[Test]
 	public void Renders_id_title_columns()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			kanban
 			  todo[To Do]
 			    t1[Write docs]
 			  done[Done]
 			    t2[Ship it]
-			""");
+			"""
+		);
 
 		svg.Should().Contain("To Do");
 		svg.Should().Contain("Write docs");

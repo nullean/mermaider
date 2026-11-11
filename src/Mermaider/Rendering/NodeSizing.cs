@@ -9,8 +9,10 @@ internal static class NodeSizing
 
 	internal static string WrapLabel(string label)
 	{
-		if (!label.Contains('\n') &&
-			TextMetrics.MeasureTextWidth(label, RenderConstants.FontSizes.NodeLabel, RenderConstants.FontWeights.NodeLabel) <= MaxContentWidth)
+		if (
+			!label.Contains('\n') && TextMetrics.MeasureTextWidth(label, RenderConstants.FontSizes.NodeLabel, RenderConstants.FontWeights.NodeLabel) <=
+				MaxContentWidth
+		)
 			return label;
 
 		var lines = label.Split('\n');

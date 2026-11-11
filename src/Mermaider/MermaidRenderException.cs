@@ -6,8 +6,10 @@ namespace Mermaider;
 /// </summary>
 /// <param name="diagramType">The type of diagram that was being rendered.</param>
 /// <param name="innerException">The underlying failure.</param>
-public sealed class MermaidRenderException(Models.DiagramType diagramType, Exception innerException)
-	: Exception($"Failed to render {diagramType} diagram: {innerException.Message}", innerException)
+public sealed class MermaidRenderException(Models.DiagramType diagramType, Exception innerException) : Exception(
+	$"Failed to render {diagramType} diagram: {innerException.Message}",
+	innerException
+)
 {
 	/// <summary>The type of diagram that was being rendered.</summary>
 	public Models.DiagramType DiagramType { get; } = diagramType;

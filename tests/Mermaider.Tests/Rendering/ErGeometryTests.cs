@@ -13,15 +13,12 @@ namespace Mermaider.Tests.Rendering;
 public partial class ErGeometryTests
 {
 	private const int TimeoutMs = 2000;
-	private const double SnapTolerance = 30.0;  // px — edge endpoints must be within this of entity edge
+	private const double SnapTolerance = 30.0; // px — edge endpoints must be within this of entity edge
 	private const double LabelInEntityTolerance = 4.0; // px — label center must be outside entity box by at least this
 
 	// ── every ER example in the shared catalog, including the docs-builder diagrams ──
 	// (merged into DiagramExamples.All — see examples/Mermaider.Examples/DiagramExamples.DocsBuilderErd.cs)
-	public static IEnumerable<string> PublicErSlugs() =>
-		DiagramExamples.All
-			.Where(d => d.Category == DiagramCategory.Er)
-			.Select(d => d.Slug);
+	public static IEnumerable<string> PublicErSlugs() => DiagramExamples.All.Where(d => d.Category == DiagramCategory.Er).Select(d => d.Slug);
 
 	/// <summary>
 	/// Regression: SpreadConvergentPorts was pulling source exit points outside the source
@@ -42,15 +39,25 @@ public partial class ErGeometryTests
 
 		foreach (var edge in edges)
 		{
-			if (!entities.TryGetValue(edge.Entity1, out var box1)) continue;
-			if (!entities.TryGetValue(edge.Entity2, out var box2)) continue;
+			if (!entities.TryGetValue(edge.Entity1, out var box1))
+				continue;
+			if (!entities.TryGetValue(edge.Entity2, out var box2))
+				continue;
 			// Use a tight tolerance: start point must touch entity1 box (± 4px)
-			box1.Expand(4).Contains(edge.Start)
-				.Should().BeTrue(
-					$"edge start ({edge.Start.X:F1},{edge.Start.Y:F1}) for {edge.Entity1}→{edge.Entity2} must touch entity '{edge.Entity1}' box {box1} after port spreading");
-			box2.Expand(4).Contains(edge.End)
-				.Should().BeTrue(
-					$"edge end ({edge.End.X:F1},{edge.End.Y:F1}) for {edge.Entity1}→{edge.Entity2} must touch entity '{edge.Entity2}' box {box2} after port spreading");
+			box1
+				.Expand(4)
+				.Contains(edge.Start)
+				.Should()
+				.BeTrue(
+					$"edge start ({edge.Start.X:F1},{edge.Start.Y:F1}) for {edge.Entity1}→{edge.Entity2} must touch entity '{edge.Entity1}' box {box1} after port spreading"
+				);
+			box2
+				.Expand(4)
+				.Contains(edge.End)
+				.Should()
+				.BeTrue(
+					$"edge end ({edge.End.X:F1},{edge.End.Y:F1}) for {edge.Entity1}→{edge.Entity2} must touch entity '{edge.Entity2}' box {box2} after port spreading"
+				);
 		}
 	}
 
@@ -69,7 +76,8 @@ public partial class ErGeometryTests
 	[Test]
 	public void Skip_layer_edge_does_not_pass_through_an_unrelated_entity()
 	{
-		const string diagram = """
+		const string diagram =
+			"""
 			erDiagram
 			  CodexSite ||--|| Registry : "environment = registry"
 			  CodexSite ||--o{ CodexGroup : "groups"
@@ -86,30 +94,43 @@ public partial class ErGeometryTests
 			var entity1 = m.Groups[1].Value;
 			var entity2 = m.Groups[2].Value;
 			var d = m.Groups[4].Value;
-			var points = NumericPairPattern().Matches(d)
-				.Select(pm => new Pt(
-					double.Parse(pm.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture),
-					double.Parse(pm.Groups[2].Value, System.Globalization.CultureInfo.InvariantCulture)))
+			var points = NumericPairPattern()
+				.Matches(d)
+				.Select(
+					pm => new Pt(
+						double.Parse(pm.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture),
+						double.Parse(pm.Groups[2].Value, System.Globalization.CultureInfo.InvariantCulture)
+					)
+				)
 				.ToList();
 			if (points.Count < 3)
 				continue; // simplified 2-point curves have no intermediate waypoints to check
 
 			foreach (var (entityId, box) in entities)
 			{
-				if (string.Equals(entityId, entity1, StringComparison.Ordinal)) continue;
-				if (string.Equals(entityId, entity2, StringComparison.Ordinal)) continue;
+				if (string.Equals(entityId, entity1, StringComparison.Ordinal))
+					continue;
+				if (string.Equals(entityId, entity2, StringComparison.Ordinal))
+					continue;
 				var shrunk = box.Shrink(2.0);
 
 				// Check every waypoint and every segment midpoint — a rectilinear route can
 				// clear a box at its corner waypoints while still cutting through it mid-segment.
 				for (var i = 0; i < points.Count; i++)
 				{
-					shrunk.Contains(points[i]).Should().BeFalse(
-						$"edge {entity1}->{entity2} waypoint ({points[i].X:F1},{points[i].Y:F1}) passes through unrelated entity '{entityId}' box {box}");
-					if (i == 0) continue;
+					shrunk
+						.Contains(points[i])
+						.Should()
+						.BeFalse(
+							$"edge {entity1}->{entity2} waypoint ({points[i].X:F1},{points[i].Y:F1}) passes through unrelated entity '{entityId}' box {box}"
+						);
+					if (i == 0)
+						continue;
 					var mid = new Pt((points[i - 1].X + points[i].X) / 2, (points[i - 1].Y + points[i].Y) / 2);
-					shrunk.Contains(mid).Should().BeFalse(
-						$"edge {entity1}->{entity2} segment midpoint ({mid.X:F1},{mid.Y:F1}) passes through unrelated entity '{entityId}' box {box}");
+					shrunk
+						.Contains(mid)
+						.Should()
+						.BeFalse($"edge {entity1}->{entity2} segment midpoint ({mid.X:F1},{mid.Y:F1}) passes through unrelated entity '{entityId}' box {box}");
 				}
 			}
 		}
@@ -136,16 +157,26 @@ public partial class ErGeometryTests
 		// The path's own points (not just first/last) must include an X well away from the
 		// shared start/end X — otherwise the loop rendered as a degenerate straight line.
 		var edgePath = EdgePattern().Match(svg).Groups[4].Value;
-		var xs = NumericPairPattern().Matches(edgePath).Select(m => double.Parse(m.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture)).ToList();
+		var xs = NumericPairPattern()
+			.Matches(edgePath)
+			.Select(m => double.Parse(m.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture))
+			.ToList();
 		var spread = xs.Max() - xs.Min();
-		spread.Should().BeGreaterThan(10.0,
-			$"self-loop path 'd={edgePath}' should bulge out visibly, not collapse to a near-vertical line (X spread was {spread:F1}px)");
+		spread.Should().BeGreaterThan(
+			10.0,
+			$"self-loop path 'd={edgePath}' should bulge out visibly, not collapse to a near-vertical line (X spread was {spread:F1}px)"
+		);
 
 		// The label must sit out at the bulge, not back on the entity's edge (start.X).
 		var labels = ParseLabelPositions(svg);
 		var label = labels.Should().ContainSingle(l => l.Text == "manages").Subject;
-		Math.Abs(label.Position.X - selfLoop.Start.X).Should().BeGreaterThan(10.0,
-			$"self-loop label 'manages' at x={label.Position.X:F1} should be offset from the entity edge at x={selfLoop.Start.X:F1}, not sitting on top of it");
+		Math
+			.Abs(label.Position.X - selfLoop.Start.X)
+			.Should()
+			.BeGreaterThan(
+				10.0,
+				$"self-loop label 'manages' at x={label.Position.X:F1} should be offset from the entity edge at x={selfLoop.Start.X:F1}, not sitting on top of it"
+			);
 	}
 
 	/// <summary>
@@ -159,7 +190,8 @@ public partial class ErGeometryTests
 	[Test]
 	public void Label_escapes_a_packed_row_of_entities_in_one_move()
 	{
-		const string diagram = """
+		const string diagram =
+			"""
 			erDiagram
 			  ApiDeclaration ||--o{ ApiSpecVersion : "renders"
 			  OpenApiRepository ||--|| ApiVersionIndex : "index.json"
@@ -175,9 +207,10 @@ public partial class ErGeometryTests
 			foreach (var (entityId, box) in entities)
 			{
 				var shrunk = box.Shrink(LabelInEntityTolerance);
-				shrunk.Contains(label.Position)
-					.Should().BeFalse(
-						$"label '{label.Text}' at ({label.Position.X:F1},{label.Position.Y:F1}) overlaps entity '{entityId}' box {box}");
+				shrunk
+					.Contains(label.Position)
+					.Should()
+					.BeFalse($"label '{label.Text}' at ({label.Position.X:F1},{label.Position.Y:F1}) overlaps entity '{entityId}' box {box}");
 			}
 		}
 	}
@@ -192,7 +225,8 @@ public partial class ErGeometryTests
 	[Test]
 	public void Many_labels_converging_on_one_entity_do_not_overlap()
 	{
-		const string diagram = """
+		const string diagram =
+			"""
 			erDiagram
 			  Repository ||--o{ OpenApiSpec : "publishes, per branch"
 			  OpenApiRepository ||--o{ OpenApiSpec : "org/repo/branch/spec"
@@ -210,20 +244,20 @@ public partial class ErGeometryTests
 				var b = labels[j];
 				var (aw, ah) = MeasureLabel(a.Text);
 				var (bw, bh) = MeasureLabel(b.Text);
-				var overlaps = Math.Abs(a.Position.X - b.Position.X) < ((aw + bw) / 2)
-					&& Math.Abs(a.Position.Y - b.Position.Y) < ((ah + bh) / 2);
+				var overlaps = Math.Abs(a.Position.X - b.Position.X) < ((aw + bw) / 2) && Math.Abs(a.Position.Y - b.Position.Y) < ((ah + bh) / 2);
 				overlaps.Should().BeFalse(
-					$"label '{a.Text}' at ({a.Position.X:F1},{a.Position.Y:F1}) overlaps label '{b.Text}' at ({b.Position.X:F1},{b.Position.Y:F1})");
+					$"label '{a.Text}' at ({a.Position.X:F1},{a.Position.Y:F1}) overlaps label '{b.Text}' at ({b.Position.X:F1},{b.Position.Y:F1})"
+				);
 			}
 		}
 	}
 
 	private static (double w, double h) MeasureLabel(string text)
 	{
-		var metrics = Mermaider.Text.TextMetrics.MeasureMultiline(
-			text.AsSpan(),
-			Mermaider.Rendering.RenderConstants.FontSizes.EdgeLabel,
-			Mermaider.Rendering.RenderConstants.FontWeights.EdgeLabel);
+		var metrics = Mermaider
+			.Text
+			.TextMetrics
+			.MeasureMultiline(text.AsSpan(), Mermaider.Rendering.RenderConstants.FontSizes.EdgeLabel, Mermaider.Rendering.RenderConstants.FontWeights.EdgeLabel);
 		return (metrics.Width + 8, metrics.Height + 6);
 	}
 
@@ -246,13 +280,19 @@ public partial class ErGeometryTests
 			var expandedBox1 = box1.Expand(SnapTolerance);
 			var expandedBox2 = box2.Expand(SnapTolerance);
 
-			expandedBox1.Contains(edge.Start)
-				.Should().BeTrue(
-					$"edge start ({edge.Start.X:F1},{edge.Start.Y:F1}) for {edge.Entity1}→{edge.Entity2} in '{slug}' should be near entity '{edge.Entity1}' box {box1}");
+			expandedBox1
+				.Contains(edge.Start)
+				.Should()
+				.BeTrue(
+					$"edge start ({edge.Start.X:F1},{edge.Start.Y:F1}) for {edge.Entity1}→{edge.Entity2} in '{slug}' should be near entity '{edge.Entity1}' box {box1}"
+				);
 
-			expandedBox2.Contains(edge.End)
-				.Should().BeTrue(
-					$"edge end ({edge.End.X:F1},{edge.End.Y:F1}) for {edge.Entity1}→{edge.Entity2} in '{slug}' should be near entity '{edge.Entity2}' box {box2}");
+			expandedBox2
+				.Contains(edge.End)
+				.Should()
+				.BeTrue(
+					$"edge end ({edge.End.X:F1},{edge.End.Y:F1}) for {edge.Entity1}→{edge.Entity2} in '{slug}' should be near entity '{edge.Entity2}' box {box2}"
+				);
 		}
 	}
 
@@ -270,9 +310,10 @@ public partial class ErGeometryTests
 			foreach (var (entityId, box) in entities)
 			{
 				var shrunk = box.Shrink(LabelInEntityTolerance);
-				shrunk.Contains(label.Position)
-					.Should().BeFalse(
-						$"label '{label.Text}' at ({label.Position.X:F1},{label.Position.Y:F1}) in '{slug}' overlaps entity '{entityId}' box {box}");
+				shrunk
+					.Contains(label.Position)
+					.Should()
+					.BeFalse($"label '{label.Text}' at ({label.Position.X:F1},{label.Position.Y:F1}) in '{slug}' overlaps entity '{entityId}' box {box}");
 			}
 		}
 	}
@@ -291,7 +332,8 @@ public partial class ErGeometryTests
 		var edgesByLabel = new Dictionary<string, List<ParsedEdge>>(StringComparer.Ordinal);
 		foreach (var edge in edges)
 		{
-			if (string.IsNullOrEmpty(edge.Label)) continue;
+			if (string.IsNullOrEmpty(edge.Label))
+				continue;
 			if (!edgesByLabel.TryGetValue(edge.Label, out var list))
 				edgesByLabel[edge.Label] = list = [];
 			list.Add(edge);
@@ -306,8 +348,10 @@ public partial class ErGeometryTests
 			// We use 1× the distance between the two entity centers as the max allowed distance.
 			var anySane = matchingEdges.Any(edge =>
 			{
-				if (!entities.TryGetValue(edge.Entity1, out var box1)) return true;
-				if (!entities.TryGetValue(edge.Entity2, out var box2)) return true;
+				if (!entities.TryGetValue(edge.Entity1, out var box1))
+					return true;
+				if (!entities.TryGetValue(edge.Entity2, out var box2))
+					return true;
 
 				var c1 = box1.Center;
 				var c2 = box2.Center;
@@ -330,7 +374,8 @@ public partial class ErGeometryTests
 			});
 
 			anySane.Should().BeTrue(
-				$"label '{label.Text}' at ({label.Position.X:F1},{label.Position.Y:F1}) in '{slug}' appears to be floating — not near any edge that carries it");
+				$"label '{label.Text}' at ({label.Position.X:F1},{label.Position.Y:F1}) in '{slug}' appears to be floating — not near any edge that carries it"
+			);
 		}
 	}
 
@@ -353,8 +398,14 @@ public partial class ErGeometryTests
 			var e2 = m.Groups[2].Value;
 			if (e1 == e2)
 				continue;
-			var pts = NumericPairPattern().Matches(m.Groups[4].Value)
-				.Select(p => new Pt(double.Parse(p.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture), double.Parse(p.Groups[2].Value, System.Globalization.CultureInfo.InvariantCulture)))
+			var pts = NumericPairPattern()
+				.Matches(m.Groups[4].Value)
+				.Select(
+					p => new Pt(
+						double.Parse(p.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture),
+						double.Parse(p.Groups[2].Value, System.Globalization.CultureInfo.InvariantCulture)
+					)
+				)
 				.ToList();
 
 			foreach (var (id, box) in entities)
@@ -369,7 +420,8 @@ public partial class ErGeometryTests
 					var y1 = Math.Max(pts[i].Y, pts[i + 1].Y);
 					var crosses = x1 > box.X + inset && x0 < box.X + box.W - inset && y1 > box.Y + inset && y0 < box.Y + box.H - inset;
 					crosses.Should().BeFalse(
-						$"edge {e1}→{e2} in '{slug}' runs under entity '{id}' (segment ({pts[i].X:F0},{pts[i].Y:F0})→({pts[i + 1].X:F0},{pts[i + 1].Y:F0}))");
+						$"edge {e1}→{e2} in '{slug}' runs under entity '{id}' (segment ({pts[i].X:F0},{pts[i].Y:F0})→({pts[i + 1].X:F0},{pts[i + 1].Y:F0}))"
+					);
 				}
 			}
 		}
@@ -385,11 +437,16 @@ public partial class ErGeometryTests
 			var id = gm.Groups[1].Value;
 			var rest = gm.Groups[2].Value;
 			var rm = FirstRectPattern().Match(rest);
-			if (!rm.Success) continue;
-			if (!double.TryParse(rm.Groups[1].Value, out var x)) continue;
-			if (!double.TryParse(rm.Groups[2].Value, out var y)) continue;
-			if (!double.TryParse(rm.Groups[3].Value, out var w)) continue;
-			if (!double.TryParse(rm.Groups[4].Value, out var h)) continue;
+			if (!rm.Success)
+				continue;
+			if (!double.TryParse(rm.Groups[1].Value, out var x))
+				continue;
+			if (!double.TryParse(rm.Groups[2].Value, out var y))
+				continue;
+			if (!double.TryParse(rm.Groups[3].Value, out var w))
+				continue;
+			if (!double.TryParse(rm.Groups[4].Value, out var h))
+				continue;
 			result[id] = new BBox(x, y, w, h);
 		}
 		return result;
@@ -406,7 +463,8 @@ public partial class ErGeometryTests
 			var d = m.Groups[4].Value;
 			var start = ExtractFirstPoint(d);
 			var end = ExtractLastPoint(d);
-			if (start is null || end is null) continue;
+			if (start is null || end is null)
+				continue;
 			result.Add(new ParsedEdge(e1, e2, label, start.Value, end.Value));
 		}
 		return result;
@@ -417,10 +475,13 @@ public partial class ErGeometryTests
 		var result = new List<ParsedLabel>();
 		foreach (Match m in LabelTextPattern().Matches(svg))
 		{
-			if (!double.TryParse(m.Groups[1].Value, out var x)) continue;
-			if (!double.TryParse(m.Groups[2].Value, out var y)) continue;
+			if (!double.TryParse(m.Groups[1].Value, out var x))
+				continue;
+			if (!double.TryParse(m.Groups[2].Value, out var y))
+				continue;
 			var text = m.Groups[3].Value.Trim();
-			if (string.IsNullOrEmpty(text)) continue;
+			if (string.IsNullOrEmpty(text))
+				continue;
 			result.Add(new ParsedLabel(new Pt(x, y), text));
 		}
 		return result;
@@ -431,9 +492,12 @@ public partial class ErGeometryTests
 	private static Pt? ExtractFirstPoint(string d)
 	{
 		var m = FirstMovePattern().Match(d);
-		if (!m.Success) return null;
-		if (!double.TryParse(m.Groups[1].Value, out var x)) return null;
-		if (!double.TryParse(m.Groups[2].Value, out var y)) return null;
+		if (!m.Success)
+			return null;
+		if (!double.TryParse(m.Groups[1].Value, out var x))
+			return null;
+		if (!double.TryParse(m.Groups[2].Value, out var y))
+			return null;
 		return new Pt(x, y);
 	}
 
@@ -444,8 +508,10 @@ public partial class ErGeometryTests
 		Pt? last = null;
 		foreach (Match m in NumericPairPattern().Matches(d))
 		{
-			if (!double.TryParse(m.Groups[1].Value, out var x)) continue;
-			if (!double.TryParse(m.Groups[2].Value, out var y)) continue;
+			if (!double.TryParse(m.Groups[1].Value, out var x))
+				continue;
+			if (!double.TryParse(m.Groups[2].Value, out var y))
+				continue;
 			last = new Pt(x, y);
 		}
 		return last;
@@ -480,10 +546,8 @@ public partial class ErGeometryTests
 			{
 				var (idA, boxA) = entities[i];
 				var (idB, boxB) = entities[j];
-				var overlaps = (boxA.X < boxB.X + boxB.W) && (boxA.X + boxA.W > boxB.X)
-					&& (boxA.Y < boxB.Y + boxB.H) && (boxA.Y + boxA.H > boxB.Y);
-				overlaps.Should().BeFalse(
-					$"entity '{idA}' box {boxA} overlaps entity '{idB}' box {boxB} in '{slug}'");
+				var overlaps = (boxA.X < boxB.X + boxB.W) && (boxA.X + boxA.W > boxB.X) && (boxA.Y < boxB.Y + boxB.H) && (boxA.Y + boxA.H > boxB.Y);
+				overlaps.Should().BeFalse($"entity '{idA}' box {boxA} overlaps entity '{idB}' box {boxB} in '{slug}'");
 			}
 		}
 	}
@@ -495,56 +559,45 @@ public partial class ErGeometryTests
 		var source = DiagramExamples.All.First(d => d.Slug == slug).Source;
 		var svg = MermaidRenderer.RenderSvg(source);
 		var vbMatch = ViewBoxPattern().Match(svg);
-		if (!vbMatch.Success) return;
-		if (!double.TryParse(vbMatch.Groups[1].Value, out var w)) return;
-		if (!double.TryParse(vbMatch.Groups[2].Value, out var h)) return;
-		if (w <= 0) return;
-		(h / w).Should().BeLessThan(4.0,
-			$"diagram '{slug}' aspect ratio h/w={(h / w):F1} is too tall — suggests many long spanning edges");
+		if (!vbMatch.Success)
+			return;
+		if (!double.TryParse(vbMatch.Groups[1].Value, out var w))
+			return;
+		if (!double.TryParse(vbMatch.Groups[2].Value, out var h))
+			return;
+		if (w <= 0)
+			return;
+		(h / w).Should().BeLessThan(4.0, $"diagram '{slug}' aspect ratio h/w={(h / w):F1} is too tall — suggests many long spanning edges");
 	}
 
 	// ── regex patterns ────────────────────────────────────────────────────────────
 
-	[GeneratedRegex(
-		@"viewBox=""[^""]*?\s([\d.]+)\s([\d.]+)""",
-		RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"viewBox=""[^""]*?\s([\d.]+)\s([\d.]+)""", RegexOptions.None, TimeoutMs)]
 	private static partial Regex ViewBoxPattern();
 
 	// Matches <g class="entity" data-id="X" ...> and captures up to the next </g>
 	// We capture id and a chunk of the group body to find the first rect.
-	[GeneratedRegex(
-		@"<g class=""entity"" data-id=""([^""]+)""[^>]*>([\s\S]*?)</g>",
-		RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"<g class=""entity"" data-id=""([^""]+)""[^>]*>([\s\S]*?)</g>", RegexOptions.None, TimeoutMs)]
 	private static partial Regex EntityGroupPattern();
 
 	// First rect inside an entity group: x, y, width, height
-	[GeneratedRegex(
-		@"<rect x=""([^""]+)"" y=""([^""]+)"" width=""([^""]+)"" height=""([^""]+)""",
-		RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"<rect x=""([^""]+)"" y=""([^""]+)"" width=""([^""]+)"" height=""([^""]+)""", RegexOptions.None, TimeoutMs)]
 	private static partial Regex FirstRectPattern();
 
 	// ER relationship path
-	[GeneratedRegex(
-		@"<path class=""er-relationship"" data-entity1=""([^""]+)"" data-entity2=""([^""]+)""[^>]*data-label=""([^""]*)""[^>]*d=""([^""]+)""",
-		RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"<path class=""er-relationship"" data-entity1=""([^""]+)"" data-entity2=""([^""]+)""[^>]*data-label=""([^""]*)""[^>]*d=""([^""]+)""", RegexOptions.None, TimeoutMs)]
 	private static partial Regex EdgePattern();
 
 	// Edge label text: the first <text> inside a <g class="edge-label"> group (after the optional pill / chip rect).
-	[GeneratedRegex(
-		@"<g class=""edge-label""[^>]*>\s*(?:<rect[^>]*>\s*)?<text x=""([^""]+)"" y=""([^""]+)""[^>]*>([^<]+)</text>",
-		RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"<g class=""edge-label""[^>]*>\s*(?:<rect[^>]*>\s*)?<text x=""([^""]+)"" y=""([^""]+)""[^>]*>([^<]+)</text>", RegexOptions.None, TimeoutMs)]
 	private static partial Regex LabelTextPattern();
 
 	// First M x,y in path d
-	[GeneratedRegex(
-		@"M\s*([\d.+-]+)[,\s]([\d.+-]+)",
-		RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"M\s*([\d.+-]+)[,\s]([\d.+-]+)", RegexOptions.None, TimeoutMs)]
 	private static partial Regex FirstMovePattern();
 
 	// Any consecutive pair of numbers in a path d string (for last-point extraction)
-	[GeneratedRegex(
-		@"(-?[\d.]+)[,\s](-?[\d.]+)",
-		RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"(-?[\d.]+)[,\s](-?[\d.]+)", RegexOptions.None, TimeoutMs)]
 	private static partial Regex NumericPairPattern();
 
 	// ── value types ──────────────────────────────────────────────────────────────
@@ -561,5 +614,6 @@ public partial class ErGeometryTests
 	}
 
 	private readonly record struct ParsedEdge(string Entity1, string Entity2, string Label, Pt Start, Pt End);
+
 	private readonly record struct ParsedLabel(Pt Position, string Text);
 }

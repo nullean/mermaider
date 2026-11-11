@@ -48,10 +48,7 @@ internal static class SequenceLayout
 		var actorWidths = new double[diagram.Actors.Count];
 		for (var i = 0; i < diagram.Actors.Count; i++)
 		{
-			var textW = TextMetrics.MeasureTextWidth(
-				diagram.Actors[i].Label,
-				DesignSystem.Px(TypeRole.Label),
-				RenderConstants.FontWeights.NodeLabel);
+			var textW = TextMetrics.MeasureTextWidth(diagram.Actors[i].Label, DesignSystem.Px(TypeRole.Label), RenderConstants.FontWeights.NodeLabel);
 			// an actor carries a person glyph in front of its name
 			if (diagram.Actors[i].Type == SequenceActorType.Actor)
 				textW += SequenceSvgRenderer.GlyphWidth;
@@ -282,16 +279,11 @@ internal static class SequenceLayout
 		var notes = new List<PositionedSequenceNote>(diagram.Notes.Count);
 		foreach (var note in diagram.Notes)
 		{
-			var textW = TextMetrics.MeasureTextWidth(
-				note.Text,
-				NoteFontSize,
-				RenderConstants.FontWeights.EdgeLabel) + (NoteHPad * 2);
+			var textW = TextMetrics.MeasureTextWidth(note.Text, NoteFontSize, RenderConstants.FontWeights.EdgeLabel) + (NoteHPad * 2);
 			var noteW = Math.Max(NoteWidth, textW);
 			var noteH = NoteFontSize + (NoteVPad * 2);
 
-			var refMsg = note.AfterIndex >= 0 && note.AfterIndex < messages.Count
-				? messages[note.AfterIndex]
-				: null;
+			var refMsg = note.AfterIndex >= 0 && note.AfterIndex < messages.Count ? messages[note.AfterIndex] : null;
 			// a note after a self-message sits below its loop, not on top of the loop's label
 			var noteY = (refMsg?.Y ?? (actorY + ActorHeight)) + (refMsg?.IsSelf == true ? SelfMessageHeight : 0) + 10;
 
@@ -360,10 +352,7 @@ internal static class SequenceLayout
 				const double loopW = 30;
 				const double labelPadding = 8;
 				var labelLeft = m.X1 + loopW + labelPadding;
-				var labelWidth = TextMetrics.MeasureTextWidth(
-					m.Label,
-					RenderConstants.FontSizes.EdgeLabel,
-					RenderConstants.FontWeights.EdgeLabel);
+				var labelWidth = TextMetrics.MeasureTextWidth(m.Label, RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel);
 				globalMaxX = Math.Max(globalMaxX, labelLeft + labelWidth + 8);
 			}
 		}

@@ -9,14 +9,7 @@ public class ClassParserTests
 	[Test]
 	public void Parses_class_with_attributes_and_methods()
 	{
-		var lines = new[]
-		{
-			"classDiagram",
-			"class Animal {",
-			"+String name",
-			"+eat() void",
-			"}",
-		};
+		var lines = new[] { "classDiagram", "class Animal {", "+String name", "+eat() void", "}", };
 
 		var diagram = ClassParser.Parse(lines);
 
@@ -35,13 +28,7 @@ public class ClassParserTests
 	[Test]
 	public void Parses_annotation()
 	{
-		var lines = new[]
-		{
-			"classDiagram",
-			"class Shape {",
-			"<<abstract>>",
-			"}",
-		};
+		var lines = new[] { "classDiagram", "class Shape {", "<<abstract>>", "}", };
 
 		var diagram = ClassParser.Parse(lines);
 
@@ -51,11 +38,7 @@ public class ClassParserTests
 	[Test]
 	public void Parses_inline_annotation()
 	{
-		var lines = new[]
-		{
-			"classDiagram",
-			"class IFlyable { <<interface>> }",
-		};
+		var lines = new[] { "classDiagram", "class IFlyable { <<interface>> }", };
 
 		var diagram = ClassParser.Parse(lines);
 
@@ -65,11 +48,7 @@ public class ClassParserTests
 	[Test]
 	public void Parses_inheritance_relationship()
 	{
-		var lines = new[]
-		{
-			"classDiagram",
-			"Animal <|-- Dog",
-		};
+		var lines = new[] { "classDiagram", "Animal <|-- Dog", };
 
 		var diagram = ClassParser.Parse(lines);
 
@@ -83,11 +62,7 @@ public class ClassParserTests
 	[Test]
 	public void Parses_composition_relationship()
 	{
-		var lines = new[]
-		{
-			"classDiagram",
-			"Car *-- Engine",
-		};
+		var lines = new[] { "classDiagram", "Car *-- Engine", };
 
 		var diagram = ClassParser.Parse(lines);
 
@@ -97,11 +72,7 @@ public class ClassParserTests
 	[Test]
 	public void Parses_aggregation_relationship()
 	{
-		var lines = new[]
-		{
-			"classDiagram",
-			"Car o-- Wheel",
-		};
+		var lines = new[] { "classDiagram", "Car o-- Wheel", };
 
 		var diagram = ClassParser.Parse(lines);
 
@@ -111,11 +82,7 @@ public class ClassParserTests
 	[Test]
 	public void Parses_dependency_relationship()
 	{
-		var lines = new[]
-		{
-			"classDiagram",
-			"A ..> B",
-		};
+		var lines = new[] { "classDiagram", "A ..> B", };
 
 		var diagram = ClassParser.Parse(lines);
 
@@ -125,11 +92,7 @@ public class ClassParserTests
 	[Test]
 	public void Parses_realization_relationship()
 	{
-		var lines = new[]
-		{
-			"classDiagram",
-			"A ..|> B",
-		};
+		var lines = new[] { "classDiagram", "A ..|> B", };
 
 		var diagram = ClassParser.Parse(lines);
 
@@ -139,11 +102,7 @@ public class ClassParserTests
 	[Test]
 	public void Parses_relationship_with_label_and_cardinality()
 	{
-		var lines = new[]
-		{
-			"classDiagram",
-			"Customer \"1\" --> \"*\" Order : places",
-		};
+		var lines = new[] { "classDiagram", "Customer \"1\" --> \"*\" Order : places", };
 
 		var diagram = ClassParser.Parse(lines);
 
@@ -155,11 +114,7 @@ public class ClassParserTests
 	[Test]
 	public void Parses_inline_attribute()
 	{
-		var lines = new[]
-		{
-			"classDiagram",
-			"Animal : +String name",
-		};
+		var lines = new[] { "classDiagram", "Animal : +String name", };
 
 		var diagram = ClassParser.Parse(lines);
 
@@ -170,13 +125,7 @@ public class ClassParserTests
 	[Test]
 	public void Parses_generic_class()
 	{
-		var lines = new[]
-		{
-			"classDiagram",
-			"class List~T~ {",
-			"+add(item) void",
-			"}",
-		};
+		var lines = new[] { "classDiagram", "class List~T~ {", "+add(item) void", "}", };
 
 		var diagram = ClassParser.Parse(lines);
 
@@ -186,13 +135,7 @@ public class ClassParserTests
 	[Test]
 	public void Parses_namespace()
 	{
-		var lines = new[]
-		{
-			"classDiagram",
-			"namespace MyApp {",
-			"class Service",
-			"}",
-		};
+		var lines = new[] { "classDiagram", "namespace MyApp {", "class Service", "}", };
 
 		var diagram = ClassParser.Parse(lines);
 
@@ -204,16 +147,7 @@ public class ClassParserTests
 	[Test]
 	public void Parses_visibility_modifiers()
 	{
-		var lines = new[]
-		{
-			"classDiagram",
-			"class Foo {",
-			"+public() void",
-			"-private() void",
-			"#protected() void",
-			"~package() void",
-			"}",
-		};
+		var lines = new[] { "classDiagram", "class Foo {", "+public() void", "-private() void", "#protected() void", "~package() void", "}", };
 
 		var diagram = ClassParser.Parse(lines);
 
@@ -226,11 +160,7 @@ public class ClassParserTests
 	[Test]
 	public void Auto_creates_classes_from_relationships()
 	{
-		var lines = new[]
-		{
-			"classDiagram",
-			"A --> B",
-		};
+		var lines = new[] { "classDiagram", "A --> B", };
 
 		var diagram = ClassParser.Parse(lines);
 

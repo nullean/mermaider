@@ -104,7 +104,9 @@ internal static class JourneySvgRenderer
 		var legendWidest = legendRows.Count == 0 ? 0 : legendRows.Max(r => r.Sum(i => i.W) + (LegendItemGap * (r.Count - 1)));
 		var width = Math.Max(contentRight, margin + (hasTitle ? titleW + 32 : 0) + legendWidest) + margin;
 		var headerRows = Math.Max(hasTitle ? 1 : 0, legendRows.Count);
-		var top = headerRows == 0 ? margin : DesignSystem.BoardTitleCy + ((headerRows - 1) * LegendRowH) + (DesignSystem.BoardTitledTop - DesignSystem.BoardTitleCy);
+		var top = headerRows == 0
+			? margin
+			: DesignSystem.BoardTitleCy + ((headerRows - 1) * LegendRowH) + (DesignSystem.BoardTitledTop - DesignSystem.BoardTitleCy);
 
 		var taskY = top + DesignSystem.BoardHeaderSpace;
 		var bandBottom = taskY + taskH + SectionBottomPad;
@@ -143,9 +145,18 @@ internal static class JourneySvgRenderer
 		foreach (var p in placed)
 		{
 			var cx = p.X + (taskW / 2);
-			_ = sb.Append("\n<line class=\"drop-line\" x1=\"").Append(cx.SvgFormat()).Append("\" y1=\"").Append((taskY + taskH).SvgFormat())
-				.Append("\" x2=\"").Append(cx.SvgFormat()).Append("\" y2=\"").Append(dropBottom.SvgFormat())
-				.Append("\" stroke=\"var(--_line-soft)\" stroke-width=\"1.25\" stroke-dasharray=\"").Append(DesignSystem.DashArray).Append("\" />");
+			_ = sb
+				.Append("\n<line class=\"drop-line\" x1=\"")
+				.Append(cx.SvgFormat())
+				.Append("\" y1=\"")
+				.Append((taskY + taskH).SvgFormat())
+				.Append("\" x2=\"")
+				.Append(cx.SvgFormat())
+				.Append("\" y2=\"")
+				.Append(dropBottom.SvgFormat())
+				.Append("\" stroke=\"var(--_line-soft)\" stroke-width=\"1.25\" stroke-dasharray=\"")
+				.Append(DesignSystem.DashArray)
+				.Append("\" />");
 		}
 
 		// tasks: nodes in the section family, actor dots on their top edge
@@ -166,8 +177,15 @@ internal static class JourneySvgRenderer
 			{
 				if (!actorFamily.TryGetValue(person, out var af))
 					continue;
-				_ = sb.Append("\n<circle class=\"actor-dot\" cx=\"").Append(dotX.SvgFormat()).Append("\" cy=\"").Append(taskY.SvgFormat())
-					.Append("\" r=\"").Append(ActorDotR.SvgFormat()).Append("\" fill=\"").Append(af.Base)
+				_ = sb
+					.Append("\n<circle class=\"actor-dot\" cx=\"")
+					.Append(dotX.SvgFormat())
+					.Append("\" cy=\"")
+					.Append(taskY.SvgFormat())
+					.Append("\" r=\"")
+					.Append(ActorDotR.SvgFormat())
+					.Append("\" fill=\"")
+					.Append(af.Base)
 					.Append("\" stroke=\"var(--bg)\" stroke-width=\"2\"><title>");
 				MultilineUtils.AppendEscapedXml(sb, person.AsSpan());
 				_ = sb.Append("</title></circle>");
@@ -191,7 +209,13 @@ internal static class JourneySvgRenderer
 
 	private static double FaceY(double faceTop, int score) => faceTop + ((5 - score) * FaceStep);
 
-	private static void AppendLegend(StringBuilder sb, DesignSystem ds, List<List<(string Name, double W)>> rows, double right, Dictionary<string, ColorFamily> families)
+	private static void AppendLegend(
+		StringBuilder sb,
+		DesignSystem ds,
+		List<List<(string Name, double W)>> rows,
+		double right,
+		Dictionary<string, ColorFamily> families
+	)
 	{
 		if (rows.Count == 0)
 			return;

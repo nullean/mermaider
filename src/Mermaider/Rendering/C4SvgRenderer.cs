@@ -194,10 +194,18 @@ internal static class C4SvgRenderer
 		C4Diagram diagram,
 		Dictionary<string, ElementText> texts,
 		Dictionary<string, PlacedElement> placements,
-		Dictionary<string, PlacedElement> relationAnchors)
+		Dictionary<string, PlacedElement> relationAnchors
+	)
 	{
 		/// <summary>Places <paramref name="nodes"/> in rows from (<paramref name="originX"/>, <paramref name="originY"/>); returns the extent.</summary>
-		internal (double MaxX, double MaxY) LayoutNodes(IReadOnlyList<C4Node> nodes, double originX, double originY, List<PlacedBoundary> outBoundaries, int depth, ref int ordinal)
+		internal (double MaxX, double MaxY) LayoutNodes(
+			IReadOnlyList<C4Node> nodes,
+			double originX,
+			double originY,
+			List<PlacedBoundary> outBoundaries,
+			int depth,
+			ref int ordinal
+		)
 		{
 			// Walk source order so Person → Boundary → System_Ext keeps left-to-right flow.
 			var cursorX = originX;
@@ -272,10 +280,11 @@ internal static class C4SvgRenderer
 					cursorY + BoundaryTop,
 					childBoundaries,
 					depth + 1,
-					ref ordinal);
+					ref ordinal
+				);
 
-				var titleW = TextMetrics.MeasureTextWidth(boundary.Label, DesignSystem.Px(TypeRole.Subheading), 700) + 80
-					+ (BoundaryTag(boundary) is { } tag ? TextMetrics.MeasureTextWidth(tag, DesignSystem.Px(TypeRole.Tag), 600) + 24 : 0);
+				var titleW = TextMetrics.MeasureTextWidth(boundary.Label, DesignSystem.Px(TypeRole.Subheading), 700) + 80 +
+					(BoundaryTag(boundary) is { } tag ? TextMetrics.MeasureTextWidth(tag, DesignSystem.Px(TypeRole.Tag), 600) + 24 : 0);
 				var bw = Math.Max(Math.Max(BoxWidth + (BoundarySidePad * 2), titleW), innerMaxX - cursorX + BoundarySidePad);
 				var bh = Math.Max(MinBoxHeight + BoundaryTop + BoundaryBottomPad, innerMaxY - cursorY + BoundaryBottomPad);
 
@@ -288,7 +297,14 @@ internal static class C4SvgRenderer
 				{
 					relationAnchors[boundary.Alias] = new PlacedElement
 					{
-						Element = new C4Element(boundary.Alias, C4ElementType.DeploymentNode, boundary.Label, boundary.Technology, Description: null, External: false),
+						Element = new C4Element(
+							boundary.Alias,
+							C4ElementType.DeploymentNode,
+							boundary.Label,
+							boundary.Technology,
+							Description: null,
+							External: false
+						),
 						X = cursorX,
 						Y = cursorY,
 						W = bw,
@@ -337,9 +353,7 @@ internal static class C4SvgRenderer
 	}
 
 	private static string? BoundaryTag(C4Boundary b) =>
-		b.TypeLabel is { Length: > 0 } tl ? tl
-		: b.IsDeploymentNode && b.Technology is { Length: > 0 } techn ? techn
-		: null;
+		b.TypeLabel is { Length: > 0 } tl ? tl : b.IsDeploymentNode && b.Technology is { Length: > 0 } techn ? techn : null;
 
 	private static ElementText MeasureElement(C4Element el)
 	{
@@ -347,9 +361,7 @@ internal static class C4SvgRenderer
 		if (IsQueue(el.Type))
 			inner -= CapRx * 2;
 		var name = DesignSystem.WrapWords(el.Label, inner, DesignSystem.Px(TypeRole.Heading), HeadingMeasureWeight);
-		var tech = el.Technology is { Length: > 0 } t
-			? DesignSystem.WrapWords("[" + t + "]", inner, DesignSystem.Px(TypeRole.Meta), 400)
-			: [];
+		var tech = el.Technology is { Length: > 0 } t ? DesignSystem.WrapWords("[" + t + "]", inner, DesignSystem.Px(TypeRole.Meta), 400) : [];
 		var description = el.Description is { Length: > 0 } d
 			? DesignSystem.WrapWords(MultilineUtils.NormalizeBrTags(d).Replace('\n', ' '), inner, DesignSystem.Px(TypeRole.Body), 400)
 			: [];
@@ -377,7 +389,10 @@ internal static class C4SvgRenderer
 	// ========================================================================
 
 	private static List<(C4Relation Rel, Route Route)> RouteAll(
-		IReadOnlyList<C4Relation> relations, Dictionary<string, PlacedElement> anchors, Dictionary<string, PlacedElement> placements)
+		IReadOnlyList<C4Relation> relations,
+		Dictionary<string, PlacedElement> anchors,
+		Dictionary<string, PlacedElement> placements
+	)
 	{
 		var obstacles = placements.Values.ToList();
 		var result = new List<(C4Relation, Route)>();
@@ -403,8 +418,7 @@ internal static class C4SvgRenderer
 			return new Route([new(a.Right, sy), new(lx, sy), new(lx, ey), new(a.Right, ey)], new(lx + 8, (sy + ey) / 2), Self: true);
 		}
 
-		bool Blocked(Point p, Point q) => obstacles.Any(o =>
-			!ReferenceEquals(o, a) && !ReferenceEquals(o, b) && SegmentHitsBox(p, q, o));
+		bool Blocked(Point p, Point q) => obstacles.Any(o => !ReferenceEquals(o, a) && !ReferenceEquals(o, b) && SegmentHitsBox(p, q, o));
 
 		var yTop = Math.Max(a.Y, b.Y);
 		var yBottom = Math.Min(a.Bottom, b.Bottom);
@@ -465,8 +479,7 @@ internal static class C4SvgRenderer
 	// ========================================================================
 
 	/// <summary>Family of a boundary: deployment nodes are neutral, others alternate through the palette after the person.</summary>
-	private static ColorFamily BoundaryFamily(DesignSystem ds, PlacedBoundary b) =>
-		b.Boundary.IsDeploymentNode ? ds.Neutral : ds.Cluster(1 + b.Ordinal);
+	private static ColorFamily BoundaryFamily(DesignSystem ds, PlacedBoundary b) => b.Boundary.IsDeploymentNode ? ds.Neutral : ds.Cluster(1 + b.Ordinal);
 
 	private static void AppendBoundaryBody(StringBuilder sb, DesignSystem ds, PlacedBoundary b)
 	{
@@ -508,8 +521,12 @@ internal static class C4SvgRenderer
 
 		_ = sb.Append("\n<g class=\"node c4-element\" data-id=\"");
 		MultilineUtils.AppendEscapedAttr(sb, el.Alias.AsSpan());
-		_ = sb.Append("\" data-kind=\"").Append(el.Type.ToString().ToLowerInvariant())
-			.Append("\" data-external=\"").Append(el.External ? "true" : "false").Append("\">\n  ");
+		_ = sb
+			.Append("\" data-kind=\"")
+			.Append(el.Type.ToString().ToLowerInvariant())
+			.Append("\" data-external=\"")
+			.Append(el.External ? "true" : "false")
+			.Append("\">\n  ");
 
 		var fill = ds.NodeFill(family);
 		var stroke = ds.NodeStroke(family);
@@ -520,27 +537,114 @@ internal static class C4SvgRenderer
 		if (isDb)
 		{
 			// cylinder: body + front of the top cap
-			_ = sb.Append("<path d=\"M").Append(p.X).Append(',').Append(p.Y + CapRy)
-				.Append(" A").Append(p.W / 2).Append(',').Append(CapRy).Append(" 0 0 1 ").Append(p.Right).Append(',').Append(p.Y + CapRy)
-				.Append(" L").Append(p.Right).Append(',').Append(p.Bottom - CapRy)
-				.Append(" A").Append(p.W / 2).Append(',').Append(CapRy).Append(" 0 0 1 ").Append(p.X).Append(',').Append(p.Bottom - CapRy)
-				.Append(" Z\" fill=\"").Append(fill).Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"").Append(sw).Append("\" />\n  ");
-			_ = sb.Append("<path d=\"M").Append(p.X).Append(',').Append(p.Y + CapRy)
-				.Append(" A").Append(p.W / 2).Append(',').Append(CapRy).Append(" 0 0 0 ").Append(p.Right).Append(',').Append(p.Y + CapRy)
-				.Append("\" fill=\"none\" stroke=\"").Append(seam).Append("\" stroke-width=\"").Append(seamW).Append("\" />");
+			_ = sb
+				.Append("<path d=\"M")
+				.Append(p.X)
+				.Append(',')
+				.Append(p.Y + CapRy)
+				.Append(" A")
+				.Append(p.W / 2)
+				.Append(',')
+				.Append(CapRy)
+				.Append(" 0 0 1 ")
+				.Append(p.Right)
+				.Append(',')
+				.Append(p.Y + CapRy)
+				.Append(" L")
+				.Append(p.Right)
+				.Append(',')
+				.Append(p.Bottom - CapRy)
+				.Append(" A")
+				.Append(p.W / 2)
+				.Append(',')
+				.Append(CapRy)
+				.Append(" 0 0 1 ")
+				.Append(p.X)
+				.Append(',')
+				.Append(p.Bottom - CapRy)
+				.Append(" Z\" fill=\"")
+				.Append(fill)
+				.Append("\" stroke=\"")
+				.Append(stroke)
+				.Append("\" stroke-width=\"")
+				.Append(sw)
+				.Append("\" />\n  ");
+			_ = sb
+				.Append("<path d=\"M")
+				.Append(p.X)
+				.Append(',')
+				.Append(p.Y + CapRy)
+				.Append(" A")
+				.Append(p.W / 2)
+				.Append(',')
+				.Append(CapRy)
+				.Append(" 0 0 0 ")
+				.Append(p.Right)
+				.Append(',')
+				.Append(p.Y + CapRy)
+				.Append("\" fill=\"none\" stroke=\"")
+				.Append(seam)
+				.Append("\" stroke-width=\"")
+				.Append(seamW)
+				.Append("\" />");
 		}
 		else if (isQueue)
 		{
 			// horizontal cylinder: body + front of the right cap
-			_ = sb.Append("<path d=\"M").Append(p.X + CapRx).Append(',').Append(p.Y)
-				.Append(" L").Append(p.Right - CapRx).Append(',').Append(p.Y)
-				.Append(" A").Append(CapRx).Append(',').Append(p.H / 2).Append(" 0 0 1 ").Append(p.Right - CapRx).Append(',').Append(p.Bottom)
-				.Append(" L").Append(p.X + CapRx).Append(',').Append(p.Bottom)
-				.Append(" A").Append(CapRx).Append(',').Append(p.H / 2).Append(" 0 0 1 ").Append(p.X + CapRx).Append(',').Append(p.Y)
-				.Append(" Z\" fill=\"").Append(fill).Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"").Append(sw).Append("\" />\n  ");
-			_ = sb.Append("<path d=\"M").Append(p.Right - CapRx).Append(',').Append(p.Y)
-				.Append(" A").Append(CapRx).Append(',').Append(p.H / 2).Append(" 0 0 0 ").Append(p.Right - CapRx).Append(',').Append(p.Bottom)
-				.Append("\" fill=\"none\" stroke=\"").Append(seam).Append("\" stroke-width=\"").Append(seamW).Append("\" />");
+			_ = sb
+				.Append("<path d=\"M")
+				.Append(p.X + CapRx)
+				.Append(',')
+				.Append(p.Y)
+				.Append(" L")
+				.Append(p.Right - CapRx)
+				.Append(',')
+				.Append(p.Y)
+				.Append(" A")
+				.Append(CapRx)
+				.Append(',')
+				.Append(p.H / 2)
+				.Append(" 0 0 1 ")
+				.Append(p.Right - CapRx)
+				.Append(',')
+				.Append(p.Bottom)
+				.Append(" L")
+				.Append(p.X + CapRx)
+				.Append(',')
+				.Append(p.Bottom)
+				.Append(" A")
+				.Append(CapRx)
+				.Append(',')
+				.Append(p.H / 2)
+				.Append(" 0 0 1 ")
+				.Append(p.X + CapRx)
+				.Append(',')
+				.Append(p.Y)
+				.Append(" Z\" fill=\"")
+				.Append(fill)
+				.Append("\" stroke=\"")
+				.Append(stroke)
+				.Append("\" stroke-width=\"")
+				.Append(sw)
+				.Append("\" />\n  ");
+			_ = sb
+				.Append("<path d=\"M")
+				.Append(p.Right - CapRx)
+				.Append(',')
+				.Append(p.Y)
+				.Append(" A")
+				.Append(CapRx)
+				.Append(',')
+				.Append(p.H / 2)
+				.Append(" 0 0 0 ")
+				.Append(p.Right - CapRx)
+				.Append(',')
+				.Append(p.Bottom)
+				.Append("\" fill=\"none\" stroke=\"")
+				.Append(seam)
+				.Append("\" stroke-width=\"")
+				.Append(seamW)
+				.Append("\" />");
 		}
 		else
 		{
@@ -574,7 +678,16 @@ internal static class C4SvgRenderer
 		_ = sb.Append("\n</g>");
 	}
 
-	private static void AppendLines(StringBuilder sb, DesignSystem ds, IReadOnlyList<string> lines, double cx, ref double y, double lineHeight, TypeRole role, string? color)
+	private static void AppendLines(
+		StringBuilder sb,
+		DesignSystem ds,
+		IReadOnlyList<string> lines,
+		double cx,
+		ref double y,
+		double lineHeight,
+		TypeRole role,
+		string? color
+	)
 	{
 		foreach (var line in lines)
 		{
@@ -592,15 +705,20 @@ internal static class C4SvgRenderer
 		MultilineUtils.AppendEscapedAttr(sb, rel.To.AsSpan());
 		_ = sb.Append("\" d=\"");
 		SvgRenderer.BuildOrthogonalPath(sb, route.Points, route.Self ? Math.Min(6, cornerRadius) : cornerRadius);
-		_ = sb.Append("\" fill=\"none\" stroke=\"").Append(DesignSystem.EdgeColor).Append("\" stroke-width=\"").Append(ds.EdgeWidth)
-			.Append("\" marker-end=\"").Append(ds.Marker(MarkerShape.Arrow)).Append('"');
+		_ = sb
+			.Append("\" fill=\"none\" stroke=\"")
+			.Append(DesignSystem.EdgeColor)
+			.Append("\" stroke-width=\"")
+			.Append(ds.EdgeWidth)
+			.Append("\" marker-end=\"")
+			.Append(ds.Marker(MarkerShape.Arrow))
+			.Append('"');
 		if (rel.Bidirectional)
 			_ = sb.Append(" marker-start=\"").Append(ds.Marker(MarkerShape.Arrow, atStart: true)).Append('"');
 		_ = sb.Append(" />");
 	}
 
-	private static string LabelText(C4Relation rel) =>
-		rel.Technology is { Length: > 0 } t ? $"{rel.Label} [{t}]" : rel.Label ?? "";
+	private static string LabelText(C4Relation rel) => rel.Technology is { Length: > 0 } t ? $"{rel.Label} [{t}]" : rel.Label ?? "";
 
 	private static double LabelWidth(C4Relation rel) =>
 		rel.Label is { Length: > 0 } ? TextMetrics.MeasureTextWidth(LabelText(rel), DesignSystem.Px(TypeRole.Caption), 600) : 0;
@@ -612,9 +730,7 @@ internal static class C4SvgRenderer
 
 		var cx = route.Self ? route.LabelAt.X + (DesignSystem.LabelBoxWidth(LabelWidth(rel)) / 2) : route.LabelAt.X;
 		// halo labels have no box, so on a horizontal run they sit just above the line instead of on it
-		var cy = ds.Spec.Label == LabelKind.Halo && !route.Self && !route.LabelOnVertical
-			? route.LabelAt.Y - (DesignSystem.PillHeight / 2)
-			: route.LabelAt.Y;
+		var cy = ds.Spec.Label == LabelKind.Halo && !route.Self && !route.LabelOnVertical ? route.LabelAt.Y - (DesignSystem.PillHeight / 2) : route.LabelAt.Y;
 		_ = sb.Append("\n<g class=\"edge-label\" data-from=\"");
 		MultilineUtils.AppendEscapedAttr(sb, rel.From.AsSpan());
 		_ = sb.Append("\" data-to=\"");

@@ -9,18 +9,18 @@ namespace Mermaider.Tests.Snapshots;
 // Output lands in tests/Mermaider.Tests/Snapshots/Reference/mermaidjs/{slug}.svg
 public static class MmdcReferenceGenerator
 {
-	private static string GetSourceDirectory([CallerFilePath] string path = "") =>
-		Path.GetDirectoryName(path)!;
+	private static string GetSourceDirectory([CallerFilePath] string path = "") => Path.GetDirectoryName(path)!;
 
 	public static async Task RunAsync(string[] slugFilter, CancellationToken ct = default)
 	{
 		var outDir = Path.Combine(GetSourceDirectory(), "Reference", "mermaidjs");
 		Directory.CreateDirectory(outDir);
 
-		var examples = DiagramExamples.All
-			.Where(e => slugFilter.Length == 0 ||
-				slugFilter.Any(f => e.Slug.Contains(f, StringComparison.OrdinalIgnoreCase) ||
-					e.Category.ToString().Contains(f, StringComparison.OrdinalIgnoreCase)));
+		var examples = DiagramExamples.All.Where(
+			e => slugFilter.Length == 0 || slugFilter.Any(
+				f => e.Slug.Contains(f, StringComparison.OrdinalIgnoreCase) || e.Category.ToString().Contains(f, StringComparison.OrdinalIgnoreCase)
+			)
+		);
 
 		foreach (var ex in examples)
 		{

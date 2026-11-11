@@ -4,7 +4,8 @@ namespace Mermaider.Tests.Rendering;
 
 public class QuadrantRendererTests
 {
-	private const string FullChart = """
+	private const string FullChart =
+		"""
 		quadrantChart
 		title Priority Matrix
 		x-axis Low Effort --> High Effort
@@ -69,14 +70,16 @@ public class QuadrantRendererTests
 	[Test]
 	public void Renders_without_points()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			quadrantChart
 			title Empty
 			quadrant-1 Q1
 			quadrant-2 Q2
 			quadrant-3 Q3
 			quadrant-4 Q4
-			""");
+			"""
+		);
 
 		svg.Should().StartWith("<svg");
 		svg.Should().Contain("Q1");

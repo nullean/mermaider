@@ -30,29 +30,35 @@ public class InjectionTests
 		var doc = ParseSvg(svg);
 
 		AllAttributeNames(doc)
-			.Should().NotContain(n => n.StartsWith("on", StringComparison.OrdinalIgnoreCase),
-				"no event-handler attribute may survive into published SVG");
+			.Should()
+			.NotContain(n => n.StartsWith("on", StringComparison.OrdinalIgnoreCase), "no event-handler attribute may survive into published SVG");
 
-		doc.Root!.DescendantsAndSelf().Select(e => e.Name.LocalName)
-			.Should().NotContain("script")
-			.And.NotContain("foreignObject");
+		doc.Root!.DescendantsAndSelf().Select(e => e.Name.LocalName).Should().NotContain("script").And.NotContain("foreignObject");
 
-		doc.Root.DescendantsAndSelf()
+		doc
+			.Root
+			.DescendantsAndSelf()
 			.Where(e => e.Attributes().Any(a => a.Name.LocalName == "href"))
-			.Should().OnlyContain(e =>
-				e.Name.LocalName == "image"
-				&& e.Attributes().Single(a => a.Name.LocalName == "href").Value
-					.StartsWith("data:image/", StringComparison.Ordinal));
+			.Should()
+			.OnlyContain(
+				e => e.Name.LocalName == "image" && e
+					.Attributes()
+					.Single(a => a.Name.LocalName == "href")
+					.Value
+					.StartsWith("data:image/", StringComparison.Ordinal)
+			);
 	}
 
 	[Test]
 	public void Node_style_cannot_break_out_of_fill_attribute()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			graph TD
 			  A[hi]
 			  style A fill:red" onmouseover="alert(document.domain)
-			""");
+			"""
+		);
 
 		ShouldHaveNoEventHandlersOrScripts(svg);
 		// The value-level paint allowlist removes the entire invalid fill value.
@@ -63,11 +69,13 @@ public class InjectionTests
 	[Test]
 	public void ClassDef_style_cannot_break_out_of_attribute()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			graph TD
 			  A:::bad
 			  classDef bad fill:red" onmouseover="alert(1)
-			""");
+			"""
+		);
 
 		ShouldHaveNoEventHandlersOrScripts(svg);
 		svg.Should().NotContain("onmouseover=\"");
@@ -101,11 +109,13 @@ public class InjectionTests
 	[Test]
 	public void Stroke_dasharray_cannot_break_out_of_attribute()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			graph TD
 			  A --> B
 			  linkStyle 0 stroke-dasharray:4" onload="alert(1)
-			""");
+			"""
+		);
 
 		ShouldHaveNoEventHandlersOrScripts(svg);
 	}
@@ -113,13 +123,15 @@ public class InjectionTests
 	[Test]
 	public void Subgraph_style_cannot_break_out_of_attribute()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			graph TD
 			  subgraph G
 			    A --> B
 			  end
 			  style G fill:red" onmouseover="alert(1)
-			""");
+			"""
+		);
 
 		ShouldHaveNoEventHandlersOrScripts(svg);
 	}
@@ -127,11 +139,13 @@ public class InjectionTests
 	[Test]
 	public void State_diagram_style_cannot_break_out_of_attribute()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			stateDiagram-v2
 			  [*] --> S
 			  style S fill:red" onmouseover="alert(1)
-			""");
+			"""
+		);
 
 		ShouldHaveNoEventHandlersOrScripts(svg);
 		svg.Should().NotContain("onmouseover=\"");
@@ -179,13 +193,15 @@ public class InjectionTests
 	{
 		// `box` color is a free-form non-whitespace token; a crafted value must not
 		// escape the fill="..." attribute on the box <rect>.
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			sequenceDiagram
 			  box "/><image href=x onerror=alert(1)/> Team
 			  participant A
 			  end
 			  A->>A: hi
-			""");
+			"""
+		);
 
 		ShouldHaveNoEventHandlersOrScripts(svg);
 		var doc = ParseSvg(svg);
@@ -213,10 +229,11 @@ public class InjectionTests
 		// the root <svg style="--bg:...">. A crafted color must not break out of that attribute.
 		var svg = MermaidRenderer.RenderSvg(
 			"""%%{init: {"themeVariables": {"background": "red\"><script>alert(1)</script>"}}}%%""" + "\n" +
-			"""
+				"""
 			graph TD
 			  A --> B
-			""");
+			"""
+		);
 
 		ShouldHaveNoEventHandlersOrScripts(svg);
 		svg.Should().NotContain("<script");
@@ -225,11 +242,13 @@ public class InjectionTests
 	[Test]
 	public void Legitimate_styles_are_preserved_unescaped()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			graph TD
 			  A[hi]
 			  style A fill:#f00,stroke:#00f,stroke-width:3px
-			""");
+			"""
+		);
 
 		ParseSvg(svg); // well-formed
 		svg.Should().Contain("fill=\"#f00\"");
@@ -240,25 +259,25 @@ public class InjectionTests
 	[Test]
 	public void External_url_in_source_paint_is_removed()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			graph TD
 			  A[hi]
 			  style A fill:url(https://attacker.invalid/pixel)
-			""");
+			"""
+		);
 
 		ShouldHaveNoEventHandlersOrScripts(svg);
 		var doc = ParseSvg(svg);
-		var fills = doc.Descendants()
-			.Where(e => e.Name.LocalName == "rect")
-			.Select(e => e.Attribute("fill")?.Value)
-			.Where(value => value is not null);
+		var fills = doc.Descendants().Where(e => e.Name.LocalName == "rect").Select(e => e.Attribute("fill")?.Value).Where(value => value is not null);
 		string.Join('\n', fills).Should().NotContain("attacker.invalid");
 	}
 
 	[Test]
 	public void Accessibility_and_frontmatter_strings_cannot_inject_markup()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			---
 			title: </title><script>frontmatter-marker</script><title>
 			---
@@ -266,7 +285,8 @@ public class InjectionTests
 			  accTitle: </title><script>accessibility-title-marker</script><title>
 			  accDescr: </desc><foreignObject>accessibility-description-marker</foreignObject><desc>
 			  A --> B
-			""");
+			"""
+		);
 
 		ShouldHaveNoEventHandlersOrScripts(svg);
 		svg.Should().Contain("frontmatter-marker");
@@ -284,7 +304,8 @@ public class InjectionTests
 				Bg = "red;position:fixed",
 				Font = "x';} body { display:none }/*",
 				DataPalette = ["red\"/><script>palette-marker</script><rect fill=\"red"],
-			});
+			}
+		);
 
 		ShouldHaveNoEventHandlersOrScripts(svg);
 		svg.Should().NotContain("position:fixed");
@@ -295,9 +316,7 @@ public class InjectionTests
 	[Test]
 	public void Invalid_or_null_palette_entries_fall_back_without_reaching_svg()
 	{
-		var act = () => MermaidRenderer.RenderSvg(
-			"pie\n\"A\" : 1",
-			new RenderOptions { DataPalette = [null!, "red;display:none"] });
+		var act = () => MermaidRenderer.RenderSvg("pie\n\"A\" : 1", new RenderOptions { DataPalette = [null!, "red;display:none"] });
 
 		act.Should().NotThrow();
 		var svg = act();
@@ -318,8 +337,8 @@ public class InjectionTests
 	public static IEnumerable<(string Name, string Source)> DiagramInjectionCases()
 	{
 		const string payload = "attack-marker</text><script>x</script><text>";
-		static string Source(string template, string value) =>
-			template.Replace("PAYLOAD", value, StringComparison.Ordinal);
+
+		static string Source(string template, string value) => template.Replace("PAYLOAD", value, StringComparison.Ordinal);
 
 		yield return ("flowchart node label", Source("""
 			graph TD
@@ -375,11 +394,14 @@ public class InjectionTests
 			  root
 			    PAYLOAD
 			""", payload));
-		yield return ("gantt task label", Source("""
+		yield return ("gantt task label", Source(
+			"""
 			gantt
 			  dateFormat YYYY-MM-DD
 			  PAYLOAD : a1, 2026-01-01, 1d
-			""", payload));
+			""",
+			payload
+		));
 		yield return ("journey task label", Source("""
 			journey
 			  PAYLOAD: 3: User
@@ -397,12 +419,15 @@ public class InjectionTests
 			  title "PAYLOAD"
 			  bar [1]
 			""", payload));
-		yield return ("requirement text", Source("""
+		yield return ("requirement text", Source(
+			"""
 			requirementDiagram
 			  requirement r {
 			    text: PAYLOAD
 			  }
-			""", payload));
+			""",
+			payload
+		));
 		yield return ("packet field label", Source("""
 			packet-beta
 			  0-7: "PAYLOAD"
@@ -431,56 +456,77 @@ public class InjectionTests
 			graph TD
 			  A -->|PAYLOAD| B
 			""", payload));
-		yield return ("flowchart subgraph label", Source("""
+		yield return ("flowchart subgraph label", Source(
+			"""
 			graph TD
 			  subgraph G[PAYLOAD]
 			    A --> B
 			  end
-			""", payload));
+			""",
+			payload
+		));
 		yield return ("state transition label", Source("""
 			stateDiagram-v2
 			  A --> B : PAYLOAD
 			""", payload));
-		yield return ("sequence participant alias", Source("""
+		yield return ("sequence participant alias", Source(
+			"""
 			sequenceDiagram
 			  participant A as PAYLOAD
 			  A->>A: safe
-			""", payload));
-		yield return ("sequence note", Source("""
+			""",
+			payload
+		));
+		yield return ("sequence note", Source(
+			"""
 			sequenceDiagram
 			  participant A
 			  Note right of A: PAYLOAD
-			""", payload));
-		yield return ("sequence block label", Source("""
+			""",
+			payload
+		));
+		yield return ("sequence block label", Source(
+			"""
 			sequenceDiagram
 			  loop PAYLOAD
 			    A->>A: safe
 			  end
-			""", payload));
-		yield return ("class member", Source("""
+			""",
+			payload
+		));
+		yield return ("class member", Source(
+			"""
 			classDiagram
 			  class A {
 			    +String PAYLOAD
 			  }
-			""", payload));
-		yield return ("class annotation", Source("""
+			""",
+			payload
+		));
+		yield return ("class annotation", Source(
+			"""
 			classDiagram
 			  class A {
 			    <<PAYLOAD>>
 			  }
-			""", payload));
+			""",
+			payload
+		));
 		yield return ("ER attribute type", Source("""
 			erDiagram
 			  A {
 			    PAYLOAD field
 			  }
 			""", payload));
-		yield return ("ER attribute comment", Source("""
+		yield return ("ER attribute comment", Source(
+			"""
 			erDiagram
 			  A {
 			    string field "PAYLOAD"
 			  }
-			""", payload));
+			""",
+			payload
+		));
 		yield return ("pie title", Source("""
 			pie
 			  title PAYLOAD
@@ -491,16 +537,22 @@ public class InjectionTests
 			  title PAYLOAD
 			  A: [0.5, 0.5]
 			""", payload));
-		yield return ("quadrant axis label", Source("""
+		yield return ("quadrant axis label", Source(
+			"""
 			quadrantChart
 			  x-axis PAYLOAD --> Right
 			  A: [0.5, 0.5]
-			""", payload));
-		yield return ("quadrant region label", Source("""
+			""",
+			payload
+		));
+		yield return ("quadrant region label", Source(
+			"""
 			quadrantChart
 			  quadrant-1 PAYLOAD
 			  A: [0.5, 0.5]
-			""", payload));
+			""",
+			payload
+		));
 		yield return ("timeline title", Source("""
 			timeline
 			  title PAYLOAD
@@ -539,24 +591,33 @@ public class InjectionTests
 			  "PAYLOAD"
 			    "child": 1
 			""", payload));
-		yield return ("venn union label", Source("""
+		yield return ("venn union label", Source(
+			"""
 			venn-beta
 			  set A
 			  set B
 			  union A, B["PAYLOAD"]
-			""", payload));
-		yield return ("gantt title", Source("""
+			""",
+			payload
+		));
+		yield return ("gantt title", Source(
+			"""
 			gantt
 			  title PAYLOAD
 			  dateFormat YYYY-MM-DD
 			  Safe : a1, 2026-01-01, 1d
-			""", payload));
-		yield return ("gantt section", Source("""
+			""",
+			payload
+		));
+		yield return ("gantt section", Source(
+			"""
 			gantt
 			  dateFormat YYYY-MM-DD
 			  section PAYLOAD
 			  Safe : a1, 2026-01-01, 1d
-			""", payload));
+			""",
+			payload
+		));
 		yield return ("journey title", Source("""
 			journey
 			  title PAYLOAD
@@ -580,18 +641,24 @@ public class InjectionTests
 			C4Context
 			  Person(p, "safe", "PAYLOAD")
 			""", payload));
-		yield return ("C4 relationship label", Source("""
+		yield return ("C4 relationship label", Source(
+			"""
 			C4Context
 			  Person(a, "A")
 			  System(b, "B")
 			  Rel(a, b, "PAYLOAD", "HTTPS")
-			""", payload));
-		yield return ("C4 relationship technology", Source("""
+			""",
+			payload
+		));
+		yield return ("C4 relationship technology", Source(
+			"""
 			C4Context
 			  Person(a, "A")
 			  System(b, "B")
 			  Rel(a, b, "safe", "PAYLOAD")
-			""", payload));
+			""",
+			payload
+		));
 		yield return ("XY category label", Source("""
 			xychart-beta
 			  x-axis ["PAYLOAD"]
@@ -606,24 +673,33 @@ public class InjectionTests
 			xychart-beta
 			  line "PAYLOAD" [1]
 			""", payload));
-		yield return ("requirement title", Source("""
+		yield return ("requirement title", Source(
+			"""
 			requirementDiagram
 			  title PAYLOAD
 			  requirement r {
 			  }
-			""", payload));
-		yield return ("requirement element type", Source("""
+			""",
+			payload
+		));
+		yield return ("requirement element type", Source(
+			"""
 			requirementDiagram
 			  element e {
 			    type: PAYLOAD
 			  }
-			""", payload));
-		yield return ("requirement document reference", Source("""
+			""",
+			payload
+		));
+		yield return ("requirement document reference", Source(
+			"""
 			requirementDiagram
 			  element e {
 			    docRef: PAYLOAD
 			  }
-			""", payload));
+			""",
+			payload
+		));
 		yield return ("packet title", Source("""
 			packet-beta
 			  title PAYLOAD
@@ -640,21 +716,30 @@ public class InjectionTests
 			  column[PAYLOAD]
 			    Safe
 			""", payload));
-		yield return ("kanban assigned metadata", Source("""
+		yield return ("kanban assigned metadata", Source(
+			"""
 			kanban
 			  Todo
 			    task[Safe]@{ assigned: 'PAYLOAD' }
-			""", payload));
-		yield return ("kanban ticket metadata", Source("""
+			""",
+			payload
+		));
+		yield return ("kanban ticket metadata", Source(
+			"""
 			kanban
 			  Todo
 			    task[Safe]@{ ticket: 'PAYLOAD' }
-			""", payload));
-		yield return ("architecture group label", Source("""
+			""",
+			payload
+		));
+		yield return ("architecture group label", Source(
+			"""
 			architecture-beta
 			  group g(cloud)[PAYLOAD]
 			  service s(server)[safe] in g
-			""", payload));
+			""",
+			payload
+		));
 		yield return ("block title", Source("""
 			block-beta
 			  title PAYLOAD

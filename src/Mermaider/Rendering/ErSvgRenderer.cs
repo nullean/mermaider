@@ -24,7 +24,15 @@ internal static class ErSvgRenderer
 	internal static StringBuilder RenderToBuilder(PositionedErDiagram diagram, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
-		StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendSvgOpenTag(
+			sb,
+			diagram.Width,
+			diagram.Height,
+			context.Styles.Colors,
+			context.Styles.Transparent,
+			context.Accessibility,
+			context.DiagramType
+		);
 		StyleBlock.AppendStyleBlock(sb, context.Styles);
 		var ds = DesignSystem.For(context);
 
@@ -133,7 +141,10 @@ internal static class ErSvgRenderer
 	// Computes final label positions from bezier midpoints and resolves any remaining overlaps —
 	// both against other labels and against entity boxes a long/skip-layer edge happens to pass near.
 	private static Point?[] ResolveErLabelPositions(
-		IReadOnlyList<PositionedErRelationship> rels, IReadOnlyList<PositionedErEntity> entities, double canvasWidth)
+		IReadOnlyList<PositionedErRelationship> rels,
+		IReadOnlyList<PositionedErEntity> entities,
+		double canvasWidth
+	)
 	{
 		var positions = new Point?[rels.Count];
 		var sizes = new (double w, double h)[rels.Count];
@@ -147,10 +158,7 @@ internal static class ErSvgRenderer
 			if (rel.Label.Length == 0 || rel.Points.Count < 2)
 				continue;
 			var pos = rel.LabelPosition is { } routed ? routed : ComputeRenderedMidpoint(rel.Points);
-			var metrics = TextMetrics.MeasureMultiline(
-				rel.Label.AsSpan(),
-				RenderConstants.FontSizes.EdgeLabel,
-				RenderConstants.FontWeights.EdgeLabel);
+			var metrics = TextMetrics.MeasureMultiline(rel.Label.AsSpan(), RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel);
 			positions[i] = pos;
 			sizes[i] = (LabelBoxWidth(metrics.Width), metrics.Height + LabelPadY);
 		}
@@ -290,8 +298,7 @@ internal static class ErSvgRenderer
 		return best;
 	}
 
-	private static bool TrySeparateVertically(
-		PositionedErRelationship ra, PositionedErRelationship rb, ref Point pa, ref Point pb, double ha, double hb)
+	private static bool TrySeparateVertically(PositionedErRelationship ra, PositionedErRelationship rb, ref Point pa, ref Point pb, double ha, double hb)
 	{
 		if (VerticalRun(ra.Points, pa.X, ha) is not { } runA || VerticalRun(rb.Points, pb.X, hb) is not { } runB)
 			return false;
@@ -322,8 +329,7 @@ internal static class ErSvgRenderer
 	// Guards against edges that pass near/through an unrelated entity — e.g. a long "skip
 	// layer" edge whose bezier midpoint happens to fall inside an intervening entity's box.
 	// Self-loop labels intentionally sit at their own entity's edge, so that entity is skipped.
-	private static Point PushOutOfEntityBoxes(
-		Point pos, double w, double h, IReadOnlyList<PositionedErEntity> entities, string entity1, string entity2)
+	private static Point PushOutOfEntityBoxes(Point pos, double w, double h, IReadOnlyList<PositionedErEntity> entities, string entity1, string entity2)
 	{
 		const double margin = 6.0;
 		var isSelfLoop = string.Equals(entity1, entity2, StringComparison.Ordinal);
@@ -383,10 +389,11 @@ internal static class ErSvgRenderer
 			var pushDown = bottom - ty;
 			var minPush = Math.Min(Math.Min(pushLeft, pushRight), Math.Min(pushUp, pushDown));
 
-			pos = minPush == pushUp ? pos with { Y = pos.Y - pushUp }
-				: minPush == pushDown ? pos with { Y = pos.Y + pushDown }
-				: minPush == pushLeft ? pos with { X = pos.X - pushLeft }
-				: pos with { X = pos.X + pushRight };
+			pos = minPush == pushUp
+				? pos with { Y = pos.Y - pushUp }
+				: minPush == pushDown
+					? pos with { Y = pos.Y + pushDown }
+					: minPush == pushLeft ? pos with { X = pos.X - pushLeft } : pos with { X = pos.X + pushRight };
 		}
 		return pos;
 	}
@@ -522,8 +529,14 @@ internal static class ErSvgRenderer
 		}
 		_ = sb.Append(" d=\"");
 		BuildErPath(sb, rel.Points, cornerRadius);
-		_ = sb.Append("\" fill=\"none\" stroke=\"").Append(DesignSystem.EdgeColor).Append("\" stroke-width=\"")
-			.Append(ds.EdgeWidth).Append('"').Append(dashArray).Append(" />");
+		_ = sb
+			.Append("\" fill=\"none\" stroke=\"")
+			.Append(DesignSystem.EdgeColor)
+			.Append("\" stroke-width=\"")
+			.Append(ds.EdgeWidth)
+			.Append('"')
+			.Append(dashArray)
+			.Append(" />");
 	}
 
 	// ER edges are pure orthogonal polylines (port → column → port, as routed by the layout) with
@@ -552,9 +565,19 @@ internal static class ErSvgRenderer
 				_ = sb.Append(" L").Append(cur.X).Append(',').Append(cur.Y);
 				continue;
 			}
-			_ = sb.Append(" L").Append(cur.X - (inDx * r)).Append(',').Append(cur.Y - (inDy * r))
-				.Append(" Q").Append(cur.X).Append(',').Append(cur.Y)
-				.Append(' ').Append(cur.X + (outDx * r)).Append(',').Append(cur.Y + (outDy * r));
+			_ = sb
+				.Append(" L")
+				.Append(cur.X - (inDx * r))
+				.Append(',')
+				.Append(cur.Y - (inDy * r))
+				.Append(" Q")
+				.Append(cur.X)
+				.Append(',')
+				.Append(cur.Y)
+				.Append(' ')
+				.Append(cur.X + (outDx * r))
+				.Append(',')
+				.Append(cur.Y + (outDy * r));
 		}
 		var last = points[^1];
 		_ = sb.Append(" L").Append(last.X).Append(',').Append(last.Y);
@@ -614,23 +637,64 @@ internal static class ErSvgRenderer
 		void Bar(double along)
 		{
 			var (p, q) = (At(along, -halfBar), At(along, halfBar));
-			_ = sb.Append("\n<path d=\"M").Append(p.X).Append(',').Append(p.Y).Append(" L").Append(q.X).Append(',').Append(q.Y)
-				.Append("\" fill=\"none\" stroke=\"").Append(color).Append("\" stroke-width=\"").Append(sw).Append('"').Append(join).Append(" />");
+			_ = sb
+				.Append("\n<path d=\"M")
+				.Append(p.X)
+				.Append(',')
+				.Append(p.Y)
+				.Append(" L")
+				.Append(q.X)
+				.Append(',')
+				.Append(q.Y)
+				.Append("\" fill=\"none\" stroke=\"")
+				.Append(color)
+				.Append("\" stroke-width=\"")
+				.Append(sw)
+				.Append('"')
+				.Append(join)
+				.Append(" />");
 		}
 
 		void Circle(double along)
 		{
 			var c = At(along, 0);
-			_ = sb.Append("\n<circle cx=\"").Append(c.X).Append("\" cy=\"").Append(c.Y).Append("\" r=\"").Append(circleR)
-				.Append("\" fill=\"var(--bg)\" stroke=\"").Append(color).Append("\" stroke-width=\"").Append(sw).Append("\" />");
+			_ = sb
+				.Append("\n<circle cx=\"")
+				.Append(c.X)
+				.Append("\" cy=\"")
+				.Append(c.Y)
+				.Append("\" r=\"")
+				.Append(circleR)
+				.Append("\" fill=\"var(--bg)\" stroke=\"")
+				.Append(color)
+				.Append("\" stroke-width=\"")
+				.Append(sw)
+				.Append("\" />");
 		}
 
 		void Foot()
 		{
 			var (tip, left, right) = (At(apex, 0), At(0, -fan), At(0, fan));
-			_ = sb.Append("\n<path d=\"M").Append(left.X).Append(',').Append(left.Y).Append(" L").Append(tip.X).Append(',').Append(tip.Y)
-				.Append(" L").Append(right.X).Append(',').Append(right.Y)
-				.Append("\" fill=\"none\" stroke=\"").Append(color).Append("\" stroke-width=\"").Append(sw).Append('"').Append(join).Append(" />");
+			_ = sb
+				.Append("\n<path d=\"M")
+				.Append(left.X)
+				.Append(',')
+				.Append(left.Y)
+				.Append(" L")
+				.Append(tip.X)
+				.Append(',')
+				.Append(tip.Y)
+				.Append(" L")
+				.Append(right.X)
+				.Append(',')
+				.Append(right.Y)
+				.Append("\" fill=\"none\" stroke=\"")
+				.Append(color)
+				.Append("\" stroke-width=\"")
+				.Append(sw)
+				.Append('"')
+				.Append(join)
+				.Append(" />");
 		}
 
 		switch (cardinality)

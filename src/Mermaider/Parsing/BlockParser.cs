@@ -28,9 +28,7 @@ internal static partial class BlockParser
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
-			throw new MermaidParseException(
-				$"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.",
-				ex);
+			throw new MermaidParseException($"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.", ex);
 		}
 	}
 
@@ -68,10 +66,9 @@ internal static partial class BlockParser
 			var edgeMatch = EdgePattern().Match(line);
 			if (edgeMatch.Success)
 			{
-				var label = edgeMatch.Groups[2].Success ? edgeMatch.Groups[2].Value
-					: edgeMatch.Groups[3].Success ? edgeMatch.Groups[3].Value.Trim()
-					: edgeMatch.Groups[4].Success ? edgeMatch.Groups[4].Value.Trim()
-					: null;
+				var label = edgeMatch.Groups[2].Success
+					? edgeMatch.Groups[2].Value
+					: edgeMatch.Groups[3].Success ? edgeMatch.Groups[3].Value.Trim() : edgeMatch.Groups[4].Success ? edgeMatch.Groups[4].Value.Trim() : null;
 				edges.Add(new BlockEdge(edgeMatch.Groups[1].Value, edgeMatch.Groups[5].Value, label is { Length: > 0 } ? label : null));
 				continue;
 			}
@@ -79,13 +76,7 @@ internal static partial class BlockParser
 			ParseNodeLine(line, nodes, seenIds);
 		}
 
-		return new BlockDiagram
-		{
-			Title = title,
-			Columns = columns,
-			Nodes = nodes,
-			Edges = edges,
-		};
+		return new BlockDiagram { Title = title, Columns = columns, Nodes = nodes, Edges = edges, };
 	}
 
 	private static void ParseNodeLine(string line, List<BlockNode> nodes, HashSet<string> seenIds)
@@ -220,6 +211,5 @@ internal static partial class BlockParser
 		}
 	}
 
-	private static string Unquote(string value) =>
-		value is ['"', .., '"'] or ['\'', .., '\''] ? value[1..^1] : value;
+	private static string Unquote(string value) => value is ['"', .., '"'] or ['\'', .., '\''] ? value[1..^1] : value;
 }

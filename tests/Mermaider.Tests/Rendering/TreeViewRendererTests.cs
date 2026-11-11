@@ -5,7 +5,8 @@ namespace Mermaider.Tests.Rendering;
 
 public class TreeViewRendererTests
 {
-	private const string BasicTree = """
+	private const string BasicTree =
+		"""
 		treeView-beta
 		    project/
 		        src/
@@ -25,12 +26,14 @@ public class TreeViewRendererTests
 	[Test]
 	public void Contains_role_description()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			treeView-beta
 			accTitle: Tree
 			    src/
 			        main.ts
-			""");
+			"""
+		);
 
 		svg.Should().Contain("aria-roledescription=\"tree view\"");
 	}
@@ -151,22 +154,19 @@ public class TreeViewRendererTests
 	[Test]
 	public void Strict_mode_rejects_unknown_class()
 	{
-		var act = () => MermaidRenderer.RenderSvg(
-			"""
+		var act =
+			() => MermaidRenderer.RenderSvg(
+				"""
 			treeView-beta
 			    file.txt :::unknown-class
 			""",
-			new RenderOptions
-			{
-				Strict = new StrictStylingOptions
+				new RenderOptions
 				{
-					Mode = StrictStylingMode.Block,
-					AllowedClasses = [new DiagramClass { Name = "highlight" }],
+					Strict = new StrictStylingOptions { Mode = StrictStylingMode.Block, AllowedClasses = [new DiagramClass { Name = "highlight" }], }
 				}
-			});
+			);
 
-		act.Should().Throw<MermaidParseException>()
-			.WithMessage("*unknown*class*unknown-class*");
+		act.Should().Throw<MermaidParseException>().WithMessage("*unknown*class*unknown-class*");
 	}
 
 	[Test]
@@ -177,13 +177,8 @@ public class TreeViewRendererTests
 			treeView-beta
 			    file.txt :::highlight
 			""",
-			new RenderOptions
-			{
-				Strict = new StrictStylingOptions
-				{
-					AllowedClasses = [new DiagramClass { Name = "highlight" }],
-				}
-			});
+			new RenderOptions { Strict = new StrictStylingOptions { AllowedClasses = [new DiagramClass { Name = "highlight" }], } }
+		);
 
 		svg.Should().Contain("highlight");
 	}
@@ -191,12 +186,14 @@ public class TreeViewRendererTests
 	[Test]
 	public void Box_drawing_renders_correctly()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			treeView-beta
 			├── src/
 			│   └── main.ts
 			└── README.md
-			""");
+			"""
+		);
 
 		svg.Should().StartWith("<svg");
 		svg.Should().Contain("src");
@@ -207,11 +204,7 @@ public class TreeViewRendererTests
 	[Test]
 	public void Theming_respects_render_options()
 	{
-		var svg = MermaidRenderer.RenderSvg(BasicTree, new RenderOptions
-		{
-			Bg = "#1E1E2E",
-			Fg = "#CDD6F4",
-		});
+		var svg = MermaidRenderer.RenderSvg(BasicTree, new RenderOptions { Bg = "#1E1E2E", Fg = "#CDD6F4", });
 
 		svg.Should().Contain("--bg:#1E1E2E");
 		svg.Should().Contain("--fg:#CDD6F4");

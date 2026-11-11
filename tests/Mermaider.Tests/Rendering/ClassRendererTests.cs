@@ -4,7 +4,8 @@ namespace Mermaider.Tests.Rendering;
 
 public class ClassRendererTests
 {
-	private const string SimpleClass = """
+	private const string SimpleClass =
+		"""
 		classDiagram
 		class Animal {
 		+String name
@@ -55,13 +56,15 @@ public class ClassRendererTests
 	[Test]
 	public void Renders_annotation()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			classDiagram
 			class Shape {
 			<<abstract>>
 			+draw() void
 			}
-			""");
+			"""
+		);
 
 		svg.Should().Contain("data-annotation=\"abstract\"");
 		svg.Should().Contain(">«abstract»<");

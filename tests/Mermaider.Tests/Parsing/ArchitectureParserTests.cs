@@ -10,13 +10,7 @@ public class ArchitectureParserTests
 	[Test]
 	public void Parses_groups_services_and_junction()
 	{
-		var lines = new[]
-		{
-			"architecture-beta",
-			"group k8s(cloud)[k8s]",
-			"service edot(server)[EDOT] in k8s",
-			"junction otlp",
-		};
+		var lines = new[] { "architecture-beta", "group k8s(cloud)[k8s]", "service edot(server)[EDOT] in k8s", "junction otlp", };
 
 		var diagram = ArchitectureParser.Parse(lines);
 
@@ -38,13 +32,7 @@ public class ArchitectureParserTests
 	[Test]
 	public void Parses_nested_groups()
 	{
-		var lines = new[]
-		{
-			"architecture-beta",
-			"group outer(cloud)[Outer]",
-			"group inner(cloud)[Inner] in outer",
-			"service a(server)[A] in inner",
-		};
+		var lines = new[] { "architecture-beta", "group outer(cloud)[Outer]", "group inner(cloud)[Inner] in outer", "service a(server)[A] in inner", };
 
 		var diagram = ArchitectureParser.Parse(lines);
 
@@ -56,13 +44,7 @@ public class ArchitectureParserTests
 	[Test]
 	public void Parses_edge_sides_and_arrow_direction()
 	{
-		var lines = new[]
-		{
-			"architecture-beta",
-			"service a(server)[A]",
-			"service b(server)[B]",
-			"a:L -- R:b",
-		};
+		var lines = new[] { "architecture-beta", "service a(server)[A]", "service b(server)[B]", "a:L -- R:b", };
 
 		var diagram = ArchitectureParser.Parse(lines);
 
@@ -83,13 +65,7 @@ public class ArchitectureParserTests
 	[Arguments("--", false, false)]
 	public void Parses_arrow_variants(string arrow, bool expectSourceArrow, bool expectTargetArrow)
 	{
-		var lines = new[]
-		{
-			"architecture-beta",
-			"service a(server)[A]",
-			"service b(server)[B]",
-			$"a:R {arrow} L:b",
-		};
+		var lines = new[] { "architecture-beta", "service a(server)[A]", "service b(server)[B]", $"a:R {arrow} L:b", };
 
 		var diagram = ArchitectureParser.Parse(lines);
 
@@ -100,11 +76,7 @@ public class ArchitectureParserTests
 	[Test]
 	public void Service_without_icon_falls_back_to_generic()
 	{
-		var lines = new[]
-		{
-			"architecture-beta",
-			"service a[A]",
-		};
+		var lines = new[] { "architecture-beta", "service a[A]", };
 
 		var diagram = ArchitectureParser.Parse(lines);
 
@@ -132,7 +104,9 @@ public class ArchitectureParserTests
 			oteldemo:L -- R:edot
 			kbn:L -- T:es
 			apm:L -- R:es
-			""".Split('\n');
+			""".Split(
+			'\n'
+		);
 
 		var diagram = ArchitectureParser.Parse(lines);
 

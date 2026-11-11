@@ -49,20 +49,20 @@ internal static partial class MermaidJsFlowchartSkeletonExtractor
 			var missing = graph.Nodes.Keys.Where(id => !found.Contains(id));
 			throw new InvalidOperationException(
 				$"mermaid.js flowchart SVG node extraction found {boxes.Count} box(es) but the diagram source has " +
-				$"{graph.Nodes.Count} nodes. Missing: {string.Join(", ", missing)}.");
+					$"{graph.Nodes.Count} nodes. Missing: {string.Join(", ", missing)}."
+			);
 		}
 
 		var subgraphIds = new HashSet<string>(StringComparer.Ordinal);
 		CollectSubgraphIds(graph.Subgraphs, subgraphIds);
-		var clusterBoxById = ExtractClusterBoxes(svg)
-			.Where(g => subgraphIds.Contains(g.Id))
-			.ToDictionary(g => g.Id, StringComparer.Ordinal);
+		var clusterBoxById = ExtractClusterBoxes(svg).Where(g => subgraphIds.Contains(g.Id)).ToDictionary(g => g.Id, StringComparer.Ordinal);
 		if (clusterBoxById.Count != subgraphIds.Count)
 		{
 			var missing = subgraphIds.Where(id => !clusterBoxById.ContainsKey(id));
 			throw new InvalidOperationException(
 				$"mermaid.js flowchart SVG cluster extraction found {clusterBoxById.Count} cluster(s) but the " +
-				$"diagram source has {subgraphIds.Count} subgraphs. Missing: {string.Join(", ", missing)}.");
+					$"diagram source has {subgraphIds.Count} subgraphs. Missing: {string.Join(", ", missing)}."
+			);
 		}
 
 		var groups = new List<(string Id, string? ParentId, IReadOnlyList<string> MemberNodeIds, double X, double Y, double W, double H)>();
@@ -99,7 +99,8 @@ internal static partial class MermaidJsFlowchartSkeletonExtractor
 			{
 				throw new InvalidOperationException(
 					$"mermaid.js flowchart SVG has no edge with data-id '{dataId}' — expected one for declaration-order " +
-					$"edge {e.Source} -> {e.Target} (duplicate index {idx}).");
+						$"edge {e.Source} -> {e.Target} (duplicate index {idx})."
+				);
 			}
 			edges.Add((e.Source, e.Target, e.Label ?? "", pts));
 		}
@@ -120,7 +121,8 @@ internal static partial class MermaidJsFlowchartSkeletonExtractor
 		IReadOnlyList<MermaidSubgraph> subgraphs,
 		Dictionary<string, (string Id, double X, double Y, double W, double H)> clusterBoxById,
 		string? parentId,
-		List<(string Id, string? ParentId, IReadOnlyList<string> MemberNodeIds, double X, double Y, double W, double H)> result)
+		List<(string Id, string? ParentId, IReadOnlyList<string> MemberNodeIds, double X, double Y, double W, double H)> result
+	)
 	{
 		foreach (var sg in subgraphs)
 		{
@@ -184,7 +186,9 @@ internal static partial class MermaidJsFlowchartSkeletonExtractor
 		var polygon = PolygonPattern().Match(window);
 		if (polygon.Success)
 		{
-			var points = polygon.Groups[1].Value
+			var points = polygon
+				.Groups[1]
+				.Value
 				.Split(' ', StringSplitOptions.RemoveEmptyEntries)
 				.Select(p => p.Split(','))
 				.Select(xy => (X: ParseDouble(xy[0]), Y: ParseDouble(xy[1])))
@@ -236,7 +240,8 @@ internal static partial class MermaidJsFlowchartSkeletonExtractor
 		var barePlainPath = BarePlainPathPattern().Match(window);
 		if (barePlainPath.Success)
 		{
-			var coords = CoordPairPattern().Matches(barePlainPath.Groups[1].Value)
+			var coords = CoordPairPattern()
+				.Matches(barePlainPath.Groups[1].Value)
 				.Select(m => (X: ParseDouble(m.Groups[1].Value), Y: ParseDouble(m.Groups[2].Value)))
 				.ToList();
 			if (coords.Count > 0)
@@ -293,34 +298,22 @@ internal static partial class MermaidJsFlowchartSkeletonExtractor
 		return result;
 	}
 
-	[GeneratedRegex(
-		@"<g class=""node[^""]*"" id=""my-svg-flowchart-([A-Za-z0-9_]+)-\d+""[^>]*transform=""translate\((-?[\d.]+),\s*(-?[\d.]+)\)""[^>]*>",
-		RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"<g class=""node[^""]*"" id=""my-svg-flowchart-([A-Za-z0-9_]+)-\d+""[^>]*transform=""translate\((-?[\d.]+),\s*(-?[\d.]+)\)""[^>]*>", RegexOptions.None, TimeoutMs)]
 	private static partial Regex NodeHeaderPattern();
 
-	[GeneratedRegex(
-		@"\A<rect class=""[^""]*label-container[^""]*""[^>]*?\sx=""(-?[\d.]+)""[^>]*?\sy=""(-?[\d.]+)""[^>]*?\swidth=""([\d.]+)""[^>]*?\sheight=""([\d.]+)""",
-		RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"\A<rect class=""[^""]*label-container[^""]*""[^>]*?\sx=""(-?[\d.]+)""[^>]*?\sy=""(-?[\d.]+)""[^>]*?\swidth=""([\d.]+)""[^>]*?\sheight=""([\d.]+)""", RegexOptions.None, TimeoutMs)]
 	private static partial Regex RectPattern();
 
-	[GeneratedRegex(
-		@"\A<g class=""[^""]*outer-path""(?:\s+transform=""translate\((-?[\d.]+),\s*(-?[\d.]+)\)"")?[^>]*><path d=""M(-?[\d.]+)\s(-?[\d.]+)\s",
-		RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"\A<g class=""[^""]*outer-path""(?:\s+transform=""translate\((-?[\d.]+),\s*(-?[\d.]+)\)"")?[^>]*><path d=""M(-?[\d.]+)\s(-?[\d.]+)\s", RegexOptions.None, TimeoutMs)]
 	private static partial Regex OuterPathPattern();
 
-	[GeneratedRegex(
-		@"\A<polygon points=""([^""]+)""[^>]*?(?:transform=""translate\((-?[\d.]+),\s*(-?[\d.]+)\)"")?",
-		RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"\A<polygon points=""([^""]+)""[^>]*?(?:transform=""translate\((-?[\d.]+),\s*(-?[\d.]+)\)"")?", RegexOptions.None, TimeoutMs)]
 	private static partial Regex PolygonPattern();
 
-	[GeneratedRegex(
-		@"\A<circle class=""[^""]*label-container[^""]*""[^>]*?\sr=""([\d.]+)""(?:[^>]*?\scx=""(-?[\d.]+)"")?(?:[^>]*?\scy=""(-?[\d.]+)"")?",
-		RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"\A<circle class=""[^""]*label-container[^""]*""[^>]*?\sr=""([\d.]+)""(?:[^>]*?\scx=""(-?[\d.]+)"")?(?:[^>]*?\scy=""(-?[\d.]+)"")?", RegexOptions.None, TimeoutMs)]
 	private static partial Regex CirclePattern();
 
-	[GeneratedRegex(
-		@"\A<path d=""M[^""]*""\s*class=""[^""]*outer-path[^""]*""[^>]*?\stransform=""translate\((-?[\d.]+),\s*(-?[\d.]+)\)""",
-		RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"\A<path d=""M[^""]*""\s*class=""[^""]*outer-path[^""]*""[^>]*?\stransform=""translate\((-?[\d.]+),\s*(-?[\d.]+)\)""", RegexOptions.None, TimeoutMs)]
 	private static partial Regex BarePathPattern();
 
 	[GeneratedRegex(@"\A<g>\s*<path d=""([^""]+)""", RegexOptions.None, TimeoutMs)]
@@ -329,13 +322,9 @@ internal static partial class MermaidJsFlowchartSkeletonExtractor
 	[GeneratedRegex(@"(-?\d+(?:\.\d+)?)[ ,](-?\d+(?:\.\d+)?)", RegexOptions.None, TimeoutMs)]
 	private static partial Regex CoordPairPattern();
 
-	[GeneratedRegex(
-		@"<g class=""cluster[^""]*"" id=""my-svg-([A-Za-z0-9_]+)""[^>]*>\s*<rect[^>]*?\sx=""(-?[\d.]+)""[^>]*?\sy=""(-?[\d.]+)""[^>]*?\swidth=""([\d.]+)""[^>]*?\sheight=""([\d.]+)""",
-		RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"<g class=""cluster[^""]*"" id=""my-svg-([A-Za-z0-9_]+)""[^>]*>\s*<rect[^>]*?\sx=""(-?[\d.]+)""[^>]*?\sy=""(-?[\d.]+)""[^>]*?\swidth=""([\d.]+)""[^>]*?\sheight=""([\d.]+)""", RegexOptions.None, TimeoutMs)]
 	private static partial Regex ClusterPattern();
 
-	[GeneratedRegex(
-		@"<path[^>]*class=""[^""]*flowchart-link[^""]*""[^>]*data-id=""(L_[^""]+)""[^>]*data-points=""([^""]+)""",
-		RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"<path[^>]*class=""[^""]*flowchart-link[^""]*""[^>]*data-id=""(L_[^""]+)""[^>]*data-points=""([^""]+)""", RegexOptions.None, TimeoutMs)]
 	private static partial Regex EdgePattern();
 }

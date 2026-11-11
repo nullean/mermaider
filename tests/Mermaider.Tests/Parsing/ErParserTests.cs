@@ -9,15 +9,7 @@ public class ErParserTests
 	[Test]
 	public void Parses_entity_with_attributes()
 	{
-		var lines = new[]
-		{
-			"erDiagram",
-			"CUSTOMER {",
-			"string name PK",
-			"int age",
-			"string email UK \"user email\"",
-			"}",
-		};
+		var lines = new[] { "erDiagram", "CUSTOMER {", "string name PK", "int age", "string email UK \"user email\"", "}", };
 
 		var diagram = ErParser.Parse(lines);
 
@@ -35,11 +27,7 @@ public class ErParserTests
 	[Test]
 	public void Parses_identifying_relationship()
 	{
-		var lines = new[]
-		{
-			"erDiagram",
-			"CUSTOMER ||--o{ ORDER : places",
-		};
+		var lines = new[] { "erDiagram", "CUSTOMER ||--o{ ORDER : places", };
 
 		var diagram = ErParser.Parse(lines);
 
@@ -55,11 +43,7 @@ public class ErParserTests
 	[Test]
 	public void Parses_non_identifying_relationship()
 	{
-		var lines = new[]
-		{
-			"erDiagram",
-			"CUSTOMER ||..o{ ORDER : places",
-		};
+		var lines = new[] { "erDiagram", "CUSTOMER ||..o{ ORDER : places", };
 
 		var diagram = ErParser.Parse(lines);
 
@@ -69,11 +53,7 @@ public class ErParserTests
 	[Test]
 	public void Parses_zero_one_cardinality()
 	{
-		var lines = new[]
-		{
-			"erDiagram",
-			"PERSON |o--|| ADDRESS : lives-at",
-		};
+		var lines = new[] { "erDiagram", "PERSON |o--|| ADDRESS : lives-at", };
 
 		var diagram = ErParser.Parse(lines);
 
@@ -84,11 +64,7 @@ public class ErParserTests
 	[Test]
 	public void Parses_many_cardinality()
 	{
-		var lines = new[]
-		{
-			"erDiagram",
-			"ORDER }|--|{ PRODUCT : contains",
-		};
+		var lines = new[] { "erDiagram", "ORDER }|--|{ PRODUCT : contains", };
 
 		var diagram = ErParser.Parse(lines);
 
@@ -99,11 +75,7 @@ public class ErParserTests
 	[Test]
 	public void Auto_creates_entities_from_relationships()
 	{
-		var lines = new[]
-		{
-			"erDiagram",
-			"A ||--o{ B : has",
-		};
+		var lines = new[] { "erDiagram", "A ||--o{ B : has", };
 
 		var diagram = ErParser.Parse(lines);
 
@@ -113,12 +85,7 @@ public class ErParserTests
 	[Test]
 	public void Parses_entity_without_attributes()
 	{
-		var lines = new[]
-		{
-			"erDiagram",
-			"SIMPLE {",
-			"}",
-		};
+		var lines = new[] { "erDiagram", "SIMPLE {", "}", };
 
 		var diagram = ErParser.Parse(lines);
 

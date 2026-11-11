@@ -79,8 +79,14 @@ internal static class VennSvgRenderer
 			setPositions[set.Id] = (px, py);
 			_ = sb.Append("\n<g class=\"venn-set\" data-set=\"");
 			MultilineUtils.AppendEscapedAttr(sb, set.Id);
-			_ = sb.Append("\">\n  <circle cx=\"").Append(px.SvgFormat()).Append("\" cy=\"").Append(py.SvgFormat())
-				.Append("\" r=\"").Append(Radius.SvgFormat()).Append('"');
+			_ = sb
+				.Append("\">\n  <circle cx=\"")
+				.Append(px.SvgFormat())
+				.Append("\" cy=\"")
+				.Append(py.SvgFormat())
+				.Append("\" r=\"")
+				.Append(Radius.SvgFormat())
+				.Append('"');
 			ds.AppendAreaAttributes(sb, ds.Series(i));
 			_ = sb.Append(" />\n</g>");
 		}

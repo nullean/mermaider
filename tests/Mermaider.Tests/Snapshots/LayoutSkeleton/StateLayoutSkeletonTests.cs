@@ -11,10 +11,7 @@ namespace Mermaider.Tests.Snapshots.LayoutSkeleton;
 // install required. Mirrors LayoutSkeletonTests (ER) / FlowchartLayoutSkeletonTests.
 public class StateLayoutSkeletonTests
 {
-	public static IEnumerable<string> StateSlugs() =>
-		DiagramExamples.All
-			.Where(d => d.Category == DiagramCategory.State)
-			.Select(d => d.Slug);
+	public static IEnumerable<string> StateSlugs() => DiagramExamples.All.Where(d => d.Category == DiagramCategory.State).Select(d => d.Slug);
 
 	private static MermaidGraph ParseState(string source)
 	{
@@ -32,8 +29,7 @@ public class StateLayoutSkeletonTests
 		var positioned = LightweightLayoutEngine.Layout(graph);
 		var skeleton = MermaiderGraphSkeletonExtractor.Extract(graph, positioned);
 
-		SkeletonComparer.TopologicalInversions(skeleton)
-			.Should().Be(0, $"'{slug}' layering should route every edge layer-to-layer without going backwards");
+		SkeletonComparer.TopologicalInversions(skeleton).Should().Be(0, $"'{slug}' layering should route every edge layer-to-layer without going backwards");
 	}
 
 	[Test]

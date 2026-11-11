@@ -20,23 +20,24 @@ namespace Sugiyama.Internal;
 /// </summary>
 internal static class CycleRemover
 {
-	private enum NodeState : byte { Unvisited, InStack, Done }
+	private enum NodeState : byte
+	{
+		Unvisited,
+		InStack,
+		Done
+	}
 
 	internal static void Run(GraphBuffer graph)
 	{
 		var nodeCount = graph.NodeCount;
-		var state = nodeCount <= 64
-			? stackalloc NodeState[nodeCount]
-			: new NodeState[nodeCount];
+		var state = nodeCount <= 64 ? stackalloc NodeState[nodeCount] : new NodeState[nodeCount];
 
 		// Build per-node out-edge lists (target + edge index) in O(E)
 		// We need edge indices for the reversal step, so we can't use the CSR directly.
 		var outEdgesPerNode = new List<(int To, int EdgeIdx)>[nodeCount];
 		for (var i = 0; i < nodeCount; i++)
 			outEdgesPerNode[i] = [];
-		var inDegree = nodeCount <= 64
-			? stackalloc int[nodeCount]
-			: new int[nodeCount];
+		var inDegree = nodeCount <= 64 ? stackalloc int[nodeCount] : new int[nodeCount];
 		for (var i = 0; i < graph.Edges.Count; i++)
 		{
 			var e = graph.Edges[i];
@@ -72,8 +73,7 @@ internal static class CycleRemover
 		}
 	}
 
-	private static void Dfs(List<(int To, int EdgeIdx)>[] outEdgesPerNode, int start,
-		Span<NodeState> state, List<int> reversals)
+	private static void Dfs(List<(int To, int EdgeIdx)>[] outEdgesPerNode, int start, Span<NodeState> state, List<int> reversals)
 	{
 		var stack = new Stack<(int Node, int AdjPos)>();
 		state[start] = NodeState.InStack;

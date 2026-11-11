@@ -6,7 +6,9 @@ public class ArchitectureSpecTests
 {
 	[Test]
 	public Task Groups_and_services_with_icons() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+		Verifier.Verify(
+			MermaidRenderer.RenderSvg(
+				"""
 			architecture-beta
 			group api(cloud)[API]
 			service db(database)[Database] in api
@@ -14,22 +16,32 @@ public class ArchitectureSpecTests
 			service server(server)[Server] in api
 			server:T -- B:disk1
 			server:L -- R:db
-			"""), "svg");
+			"""
+			),
+			"svg"
+		);
 
 	[Test]
 	public Task Nested_groups() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+		Verifier.Verify(
+			MermaidRenderer.RenderSvg(
+				"""
 			architecture-beta
 			group outer(cloud)[Outer]
 			group inner(cloud)[Inner] in outer
 			service a(server)[A] in inner
 			service b(server)[B] in outer
 			a:R -- L:b
-			"""), "svg");
+			"""
+			),
+			"svg"
+		);
 
 	[Test]
 	public Task Junction_routing() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+		Verifier.Verify(
+			MermaidRenderer.RenderSvg(
+				"""
 			architecture-beta
 			service a(server)[A]
 			service b(server)[B]
@@ -38,11 +50,16 @@ public class ArchitectureSpecTests
 			a:R -- L:j
 			j:R -- L:b
 			j:B -- T:c
-			"""), "svg");
+			"""
+			),
+			"svg"
+		);
 
 	[Test]
 	public Task All_edge_arrow_directions() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+		Verifier.Verify(
+			MermaidRenderer.RenderSvg(
+				"""
 			architecture-beta
 			service a(server)[A]
 			service b(server)[B]
@@ -51,11 +68,16 @@ public class ArchitectureSpecTests
 			a:R -- L:b
 			b:R --> L:c
 			c:R <-- L:d
-			"""), "svg");
+			"""
+			),
+			"svg"
+		);
 
 	[Test]
 	public Task Vendor_icon_packs() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+		Verifier.Verify(
+			MermaidRenderer.RenderSvg(
+				"""
 			architecture-beta
 			group cloud1(cloud)[Cloud]
 			service compute(aws:compute)[EC2] in cloud1
@@ -63,11 +85,16 @@ public class ArchitectureSpecTests
 			service search(elastic:elasticsearch)[Elasticsearch] in cloud1
 			compute:R -- L:storage
 			compute:B -- T:search
-			"""), "svg");
+			"""
+			),
+			"svg"
+		);
 
 	[Test]
 	public Task Reported_k8s_ech_diagram() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+		Verifier.Verify(
+			MermaidRenderer.RenderSvg(
+				"""
 			architecture-beta
 			group k8s(cloud)[k8s]
 			group ech(cloud)[ECH]
@@ -85,5 +112,8 @@ public class ArchitectureSpecTests
 			oteldemo:L -- R:edot
 			kbn:L -- T:es
 			apm:L -- R:es
-			"""), "svg");
+			"""
+			),
+			"svg"
+		);
 }

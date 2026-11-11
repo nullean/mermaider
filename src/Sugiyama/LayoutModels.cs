@@ -10,14 +10,21 @@ public readonly record struct LayoutPoint(double X, double Y);
 // ====================================================================
 
 /// <summary>Direction for graph layout.</summary>
-public enum LayoutDirection { TD, LR, BT, RL }
+public enum LayoutDirection
+{
+	TD,
+	LR,
+	BT,
+	RL
+}
 
 /// <summary>A graph to be laid out.</summary>
 public sealed record LayoutGraph(
 	LayoutDirection Direction,
 	IReadOnlyList<LayoutNode> Nodes,
 	IReadOnlyList<LayoutEdge> Edges,
-	IReadOnlyList<LayoutSubgraph> Subgraphs)
+	IReadOnlyList<LayoutSubgraph> Subgraphs
+)
 {
 	/// <summary>
 	/// Pairs of node IDs that must be placed on the same layer (rank).
@@ -61,11 +68,7 @@ public sealed record LayoutEdge(string Source, string Target, double LabelWidth 
 }
 
 /// <summary>A subgraph grouping a set of node IDs with optional children.</summary>
-public sealed record LayoutSubgraph(
-	string Id,
-	string Label,
-	IReadOnlyList<string> NodeIds,
-	IReadOnlyList<LayoutSubgraph> Children);
+public sealed record LayoutSubgraph(string Id, string Label, IReadOnlyList<string> NodeIds, IReadOnlyList<LayoutSubgraph> Children);
 
 // ====================================================================
 // Options
@@ -214,8 +217,6 @@ public sealed record LayoutOptions
 
 	/// <summary>Space reserved for a subgraph header above its content (compound layout).</summary>
 	public double GroupHeaderHeight { get; init; } = 32;
-
-
 }
 
 // ====================================================================
@@ -228,21 +229,14 @@ public sealed record LayoutResult(
 	double Height,
 	IReadOnlyList<LayoutNodeResult> Nodes,
 	IReadOnlyList<LayoutEdgeResult> Edges,
-	IReadOnlyList<LayoutGroupResult> Groups);
+	IReadOnlyList<LayoutGroupResult> Groups
+);
 
 /// <summary>A positioned node.</summary>
 public sealed record LayoutNodeResult(string Id, double X, double Y, double Width, double Height);
 
 /// <summary>A positioned edge with a polyline path.</summary>
-public sealed record LayoutEdgeResult(
-	int OriginalIndex,
-	IReadOnlyList<LayoutPoint> Points,
-	LayoutPoint? LabelPosition);
+public sealed record LayoutEdgeResult(int OriginalIndex, IReadOnlyList<LayoutPoint> Points, LayoutPoint? LabelPosition);
 
 /// <summary>A positioned subgraph group rectangle.</summary>
-public sealed record LayoutGroupResult(
-	string Id,
-	string Label,
-	double X, double Y,
-	double Width, double Height,
-	IReadOnlyList<LayoutGroupResult> Children);
+public sealed record LayoutGroupResult(string Id, string Label, double X, double Y, double Width, double Height, IReadOnlyList<LayoutGroupResult> Children);

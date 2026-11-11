@@ -14,14 +14,17 @@ namespace Mermaider.Tests.Snapshots.LayoutSkeleton;
 /// </summary>
 public class FlowchartVisualLintTests
 {
-	private static string BaselinePath([CallerFilePath] string here = "") =>
-		Path.Combine(Path.GetDirectoryName(here)!, "visual-lint-baseline.txt");
+	private static string BaselinePath([CallerFilePath] string here = "") => Path.Combine(Path.GetDirectoryName(here)!, "visual-lint-baseline.txt");
 
 	public static IEnumerable<string> Slugs() =>
-		DiagramExamples.All
-			.Where(d => d.Source.TrimStart().StartsWith("flowchart", StringComparison.Ordinal)
-				|| d.Source.TrimStart().StartsWith("graph", StringComparison.Ordinal)
-				|| d.Source.TrimStart().StartsWith("stateDiagram", StringComparison.Ordinal))
+		DiagramExamples
+			.All
+			.Where(
+				d => d.Source.TrimStart().StartsWith("flowchart", StringComparison.Ordinal) || d
+					.Source
+					.TrimStart()
+					.StartsWith("graph", StringComparison.Ordinal) || d.Source.TrimStart().StartsWith("stateDiagram", StringComparison.Ordinal)
+			)
 			.Select(d => d.Slug);
 
 	internal static (MermaidGraph Graph, PositionedGraph Positioned) Layout(string slug)
@@ -29,9 +32,7 @@ public class FlowchartVisualLintTests
 		var example = DiagramExamples.All.Single(e => e.Slug == slug);
 		var (cleaned, _) = DiagramPreprocessor.Process(example.Source);
 		var lines = MermaidRenderer.PreprocessLines(cleaned);
-		var graph = example.Source.TrimStart().StartsWith("stateDiagram", StringComparison.Ordinal)
-			? StateParser.Parse(lines)
-			: FlowchartParser.Parse(lines);
+		var graph = example.Source.TrimStart().StartsWith("stateDiagram", StringComparison.Ordinal) ? StateParser.Parse(lines) : FlowchartParser.Parse(lines);
 		return (graph, LightweightLayoutEngine.Layout(graph));
 	}
 
@@ -62,9 +63,7 @@ public class FlowchartVisualLintTests
 		{
 			var found = violations.Where(v => v.Check == check).ToList();
 			var allowed = baseline.GetValueOrDefault((slug, check), 0);
-			found.Count.Should().BeLessThanOrEqualTo(
-				allowed,
-				$"'{slug}' {check}: {string.Join("; ", found.Select(f => f.Detail))}");
+			found.Count.Should().BeLessThanOrEqualTo(allowed, $"'{slug}' {check}: {string.Join("; ", found.Select(f => f.Detail))}");
 		}
 	}
 

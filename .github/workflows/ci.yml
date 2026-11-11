@@ -75,6 +75,8 @@ jobs:
 
     - run: ./build.sh build -s true
       name: Build
+    - name: Check formatting (curb)
+      run: dotnet tool restore && dotnet curb check .
     - run: ./build.sh test -s true
       name: Test
     - run: ./build.sh generatepackages -s true

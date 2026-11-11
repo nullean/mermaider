@@ -74,6 +74,7 @@ public class VisualLanguageContractTests
 		var tonal = DesignContract.Render(src, Models.DiagramStyle.Tonal);
 
 		static string ViewBox(string svg) => System.Text.RegularExpressions.Regex.Match(svg, "viewBox=\"([^\"]+)\"").Groups[1].Value;
+
 		ViewBox(blueprint).Should().Be(ViewBox(quiet), "presets only change paint, never layout");
 		ViewBox(tonal).Should().Be(ViewBox(quiet));
 
@@ -91,6 +92,7 @@ public class VisualLanguageContractTests
 		var dark = MermaidRenderer.RenderSvg("flowchart TD\n  A --> B", new Models.RenderOptions { Bg = "#18181B", Fg = "#FAFAFA" });
 
 		static IEnumerable<string> Ids(string svg) => System.Text.RegularExpressions.Regex.Matches(svg, " id=\"([^\"]+)\"").Select(m => m.Groups[1].Value);
+
 		Ids(light).Should().NotBeEmpty();
 		Ids(light).Intersect(Ids(dark)).Should().BeEmpty();
 	}

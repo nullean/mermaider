@@ -5,10 +5,10 @@ using Microsoft.Msagl.Core.Geometry.Curves;
 using Microsoft.Msagl.Core.Layout;
 using Microsoft.Msagl.Core.Routing;
 using Microsoft.Msagl.Layout.Layered;
+using PlaneTransformation = Microsoft.Msagl.Core.Geometry.Curves.PlaneTransformation;
+using MsaglPoint = Microsoft.Msagl.Core.Geometry.Point;
 using MsaglEdge = Microsoft.Msagl.Core.Layout.Edge;
 using MsaglNode = Microsoft.Msagl.Core.Layout.Node;
-using MsaglPoint = Microsoft.Msagl.Core.Geometry.Point;
-using PlaneTransformation = Microsoft.Msagl.Core.Geometry.Curves.PlaneTransformation;
 
 namespace Mermaider.Layout.Msagl;
 
@@ -34,17 +34,13 @@ internal static class MsaglFlowchartLayout
 		var edgeMap = new List<(MsaglEdge MsaglEdge, MermaidEdge MermaidEdge)>();
 		foreach (var edge in graph.Edges)
 		{
-			if (!msaglNodes.TryGetValue(edge.Source, out var sourceNode) ||
-				!msaglNodes.TryGetValue(edge.Target, out var targetNode))
+			if (!msaglNodes.TryGetValue(edge.Source, out var sourceNode) || !msaglNodes.TryGetValue(edge.Target, out var targetNode))
 				continue;
 
 			var msaglEdge = new MsaglEdge(sourceNode, targetNode);
 			if (edge.Label is { Length: > 0 })
 			{
-				var metrics = TextMetrics.MeasureMultiline(
-					edge.Label.AsSpan(),
-					RenderConstants.FontSizes.EdgeLabel,
-					RenderConstants.FontWeights.EdgeLabel);
+				var metrics = TextMetrics.MeasureMultiline(edge.Label.AsSpan(), RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel);
 				msaglEdge.Label = new Label(metrics.Width + 8, metrics.Height + 6, msaglEdge);
 			}
 			edgeMap.Add((msaglEdge, edge));
@@ -55,11 +51,7 @@ internal static class MsaglFlowchartLayout
 		{
 			NodeSeparation = nodeSpacing,
 			LayerSeparation = layerSpacing,
-			EdgeRoutingSettings =
-			{
-				EdgeRoutingMode = EdgeRoutingMode.Rectilinear,
-				Padding = 4
-			}
+			EdgeRoutingSettings = { EdgeRoutingMode = EdgeRoutingMode.Rectilinear, Padding = 4 }
 		};
 
 		ConfigureDirection(settings, graph.Direction);
@@ -87,7 +79,8 @@ internal static class MsaglFlowchartLayout
 		Dictionary<string, MsaglNode> msaglNodes,
 		List<(MsaglEdge MsaglEdge, MermaidEdge MermaidEdge)> edgeMap,
 		double padding,
-		StrictStylingOptions? strict = null)
+		StrictStylingOptions? strict = null
+	)
 	{
 		var bb = geometryGraph.BoundingBox;
 		var offsetX = -bb.Left + padding;
@@ -224,8 +217,10 @@ internal static class MsaglFlowchartLayout
 	private static IReadOnlyList<PositionedGroup> ExtractGroups(
 		MermaidGraph graph,
 		Dictionary<string, MsaglNode> msaglNodes,
-		double offsetX, double offsetY,
-		StrictStylingOptions? strict)
+		double offsetX,
+		double offsetY,
+		StrictStylingOptions? strict
+	)
 	{
 		if (graph.Subgraphs.Count == 0)
 			return [];
@@ -240,8 +235,10 @@ internal static class MsaglFlowchartLayout
 		MermaidSubgraph sg,
 		MermaidGraph graph,
 		Dictionary<string, MsaglNode> msaglNodes,
-		double offsetX, double offsetY,
-		StrictStylingOptions? strict)
+		double offsetX,
+		double offsetY,
+		StrictStylingOptions? strict
+	)
 	{
 		var groupPadding = 16.0;
 		var headerHeight = 28.0;
@@ -297,8 +294,7 @@ internal static class MsaglFlowchartLayout
 	{
 		Dictionary<string, string>? result = null;
 
-		if (graph.ClassAssignments.TryGetValue(nodeId, out var className) &&
-			graph.ClassDefs.TryGetValue(className, out var classDef))
+		if (graph.ClassAssignments.TryGetValue(nodeId, out var className) && graph.ClassDefs.TryGetValue(className, out var classDef))
 		{
 			result = [with(classDef)];
 		}

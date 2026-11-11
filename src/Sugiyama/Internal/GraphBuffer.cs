@@ -48,12 +48,12 @@ internal sealed class GraphBuffer : IDisposable
 	internal double[] ColumnX = [];
 
 	// CSR out-adjacency: for node n, out-neighbors are OutAdjNeighbor[OutAdjStart[n]..OutAdjStart[n+1])
-	internal int[] OutAdjStart = [];    // length NodeCount + 1
+	internal int[] OutAdjStart = []; // length NodeCount + 1
 	internal int[] OutAdjNeighbor = []; // target node ordinals
 
 	// CSR in-adjacency
-	internal int[] InAdjStart = [];     // length NodeCount + 1
-	internal int[] InAdjNeighbor = [];  // source node ordinals
+	internal int[] InAdjStart = []; // length NodeCount + 1
+	internal int[] InAdjNeighbor = []; // source node ordinals
 
 	internal bool AdjacencyBuilt { get; private set; }
 

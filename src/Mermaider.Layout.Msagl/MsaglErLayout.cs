@@ -5,10 +5,10 @@ using Microsoft.Msagl.Core.Geometry.Curves;
 using Microsoft.Msagl.Core.Layout;
 using Microsoft.Msagl.Core.Routing;
 using Microsoft.Msagl.Layout.Layered;
+using PlaneTransformation = Microsoft.Msagl.Core.Geometry.Curves.PlaneTransformation;
+using MsaglPoint = Microsoft.Msagl.Core.Geometry.Point;
 using MsaglEdge = Microsoft.Msagl.Core.Layout.Edge;
 using MsaglNode = Microsoft.Msagl.Core.Layout.Node;
-using MsaglPoint = Microsoft.Msagl.Core.Geometry.Point;
-using PlaneTransformation = Microsoft.Msagl.Core.Geometry.Curves.PlaneTransformation;
 
 namespace Mermaider.Layout.Msagl;
 
@@ -47,8 +47,7 @@ internal static class MsaglErLayout
 		var edgeMap = new List<(MsaglEdge MsaglEdge, ErRelationship Rel)>();
 		foreach (var rel in diagram.Relationships)
 		{
-			if (!msaglNodes.TryGetValue(rel.Entity1, out var sourceNode) ||
-				!msaglNodes.TryGetValue(rel.Entity2, out var targetNode))
+			if (!msaglNodes.TryGetValue(rel.Entity1, out var sourceNode) || !msaglNodes.TryGetValue(rel.Entity2, out var targetNode))
 				continue;
 
 			var msaglEdge = new MsaglEdge(sourceNode, targetNode);
@@ -79,7 +78,8 @@ internal static class MsaglErLayout
 		GeometryGraph geometryGraph,
 		ErDiagram diagram,
 		Dictionary<string, MsaglNode> msaglNodes,
-		List<(MsaglEdge MsaglEdge, ErRelationship Rel)> edgeMap)
+		List<(MsaglEdge MsaglEdge, ErRelationship Rel)> edgeMap
+	)
 	{
 		var bb = geometryGraph.BoundingBox;
 		var offsetX = -bb.Left + Padding;

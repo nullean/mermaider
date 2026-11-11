@@ -20,7 +20,15 @@ internal static class FlowEdgeRouter
 
 	internal sealed record GroupBox(string Id, double X, double Y, double W, double H, HashSet<string> NodeIds, double LabelW = 0);
 
-	internal sealed record RouteEdge(int Index, string Source, string Target, double LabelW, double LabelH, string? SourceGroup = null, string? TargetGroup = null)
+	internal sealed record RouteEdge(
+		int Index,
+		string Source,
+		string Target,
+		double LabelW,
+		double LabelH,
+		string? SourceGroup = null,
+		string? TargetGroup = null
+	)
 	{
 		/// <summary>Route produced by the level layout (ports aligned to label columns); used when it is collision-free.</summary>
 		internal IReadOnlyList<LayoutPoint>? Hint { get; init; }
@@ -74,8 +82,11 @@ internal static class FlowEdgeRouter
 	}
 
 	internal static List<LayoutEdgeResult> Route(
-		IReadOnlyList<Box> boxes, IReadOnlyList<GroupBox> groups, IReadOnlyList<RouteEdge> edges,
-		LayoutDirection direction)
+		IReadOnlyList<Box> boxes,
+		IReadOnlyList<GroupBox> groups,
+		IReadOnlyList<RouteEdge> edges,
+		LayoutDirection direction
+	)
 	{
 		var byId = boxes.ToDictionary(b => b.Id, StringComparer.Ordinal);
 		var results = new LayoutEdgeResult?[edges.Count];
@@ -202,9 +213,7 @@ internal static class FlowEdgeRouter
 		var gapY = Math.Max(t.Y - s.Bottom, s.Y - t.Bottom);
 		var gapX = Math.Max(t.X - s.Right, s.X - t.Right);
 		var useVertical = vertical ? gapY >= 0 || gapX < 0 : gapX < 0 && gapY >= 0;
-		return useVertical
-			? (dy >= 0 ? 1 : 3, dy >= 0 ? 3 : 1)
-			: (dx >= 0 ? 0 : 2, dx >= 0 ? 2 : 0);
+		return useVertical ? (dy >= 0 ? 1 : 3, dy >= 0 ? 3 : 1) : (dx >= 0 ? 0 : 2, dx >= 0 ? 2 : 0);
 	}
 
 	// Several arrows into a tiny node (an end state) would pile onto a few pixels: the outer ones come in from the sides instead.
@@ -237,6 +246,7 @@ internal static class FlowEdgeRouter
 	{
 		var groups = new Dictionary<(string, int), List<(Plan Plan, bool IsSource, double Key)>>();
 		var boxes = new Dictionary<string, Box>(StringComparer.Ordinal);
+
 		void Add(Box b, int side, Plan p, bool src, Box other)
 		{
 			boxes[b.Id] = b;
@@ -389,10 +399,7 @@ internal static class FlowEdgeRouter
 	{
 		var q = Math.Min(b.H / 4, 12);
 		var x = b.Right + 28;
-		var pts = new List<LayoutPoint>
-		{
-			new(b.Right, b.Cy - q), new(x, b.Cy - q), new(x, b.Cy + q), new(b.Right, b.Cy + q),
-		};
+		var pts = new List<LayoutPoint> { new(b.Right, b.Cy - q), new(x, b.Cy - q), new(x, b.Cy + q), new(b.Right, b.Cy + q), };
 		var label = e.LabelW > 0 ? new LayoutPoint(x + (e.LabelW / 2) + 4, b.Cy) : (LayoutPoint?)null;
 		return new LayoutEdgeResult(e.Index, pts, label);
 	}
@@ -439,7 +446,10 @@ internal static class FlowEdgeRouter
 			if (x >= p.T.X + 8 && x <= p.T.Right - 8 && !PortTaken(plans, p, p.T, p.TSide, x, pts[3].Y))
 				return [pts[0], new LayoutPoint(x, pts[1].Y), new LayoutPoint(x, pts[2].Y), new LayoutPoint(x, pts[3].Y)];
 			x = pts[3].X;
-			if (p.Fixed is null && p.S.Outline == PortOutline.Rectangle && x >= p.S.X + 8 && x <= p.S.Right - 8 && !PortTaken(plans, p, p.S, p.SSide, x, pts[0].Y))
+			if (
+				p.Fixed is null && p.S.Outline == PortOutline.Rectangle && x >= p.S.X + 8 && x <= p.S.Right - 8 &&
+				!PortTaken(plans, p, p.S, p.SSide, x, pts[0].Y)
+			)
 				return [new LayoutPoint(x, pts[0].Y), new LayoutPoint(x, pts[1].Y), new LayoutPoint(x, pts[2].Y), pts[3]];
 			return pts;
 		}
@@ -461,7 +471,9 @@ internal static class FlowEdgeRouter
 	{
 		if (pts.Count < 2)
 			return null;
+
 		static bool On(Box b, LayoutPoint q) => q.X >= b.X - 1 && q.X <= b.Right + 1 && q.Y >= b.Y - 1 && q.Y <= b.Bottom + 1;
+
 		if (!On(p.S, pts[0]) || !On(p.T, pts[^1]))
 			return null;
 
@@ -554,7 +566,13 @@ internal static class FlowEdgeRouter
 		return AcceptWithoutOverlap(p, Simplify(pts), boxes, groups, routed);
 	}
 
-	private static List<LayoutPoint>? AcceptWithoutOverlap(Plan p, List<LayoutPoint> pts, IReadOnlyList<Box> boxes, IReadOnlyList<GroupBox> groups, List<Seg> routed)
+	private static List<LayoutPoint>? AcceptWithoutOverlap(
+		Plan p,
+		List<LayoutPoint> pts,
+		IReadOnlyList<Box> boxes,
+		IReadOnlyList<GroupBox> groups,
+		List<Seg> routed
+	)
 	{
 		if (ValidatePath(p, pts, boxes, groups) is not { } ok)
 			return null;
@@ -565,9 +583,19 @@ internal static class FlowEdgeRouter
 			{
 				if (seg.Horizontal == r.Horizontal)
 				{
-					if (seg.Horizontal && Math.Abs(seg.Y0 - r.Y0) < CrowdedGap && Math.Min(Math.Max(seg.X0, seg.X1), Math.Max(r.X0, r.X1)) - Math.Max(Math.Min(seg.X0, seg.X1), Math.Min(r.X0, r.X1)) > 6)
+					if (
+						seg.Horizontal && Math.Abs(seg.Y0 - r.Y0) < CrowdedGap && Math.Min(Math.Max(seg.X0, seg.X1), Math.Max(r.X0, r.X1)) - Math.Max(
+							Math.Min(seg.X0, seg.X1),
+							Math.Min(r.X0, r.X1)
+						) > 6
+					)
 						return null;
-					if (!seg.Horizontal && Math.Abs(seg.X0 - r.X0) < CrowdedGap && Math.Min(Math.Max(seg.Y0, seg.Y1), Math.Max(r.Y0, r.Y1)) - Math.Max(Math.Min(seg.Y0, seg.Y1), Math.Min(r.Y0, r.Y1)) > 6)
+					if (
+						!seg.Horizontal && Math.Abs(seg.X0 - r.X0) < CrowdedGap && Math.Min(Math.Max(seg.Y0, seg.Y1), Math.Max(r.Y0, r.Y1)) - Math.Max(
+							Math.Min(seg.Y0, seg.Y1),
+							Math.Min(r.Y0, r.Y1)
+						) > 6
+					)
 						return null;
 				}
 				else if (SegmentsCross(seg, r))
@@ -613,10 +641,12 @@ internal static class FlowEdgeRouter
 		// labelled edges keep their label column: it is what keeps neighbouring pills apart
 		if (pts.Count != 6 || p.Edge.LabelW > 0)
 			return pts;
-		var vertical = Math.Abs(pts[0].X - pts[1].X) < 0.01 && Math.Abs(pts[1].Y - pts[2].Y) < 0.01 && Math.Abs(pts[2].X - pts[3].X) < 0.01
-			&& Math.Abs(pts[3].Y - pts[4].Y) < 0.01 && Math.Abs(pts[4].X - pts[5].X) < 0.01;
-		var horizontal = Math.Abs(pts[0].Y - pts[1].Y) < 0.01 && Math.Abs(pts[1].X - pts[2].X) < 0.01 && Math.Abs(pts[2].Y - pts[3].Y) < 0.01
-			&& Math.Abs(pts[3].X - pts[4].X) < 0.01 && Math.Abs(pts[4].Y - pts[5].Y) < 0.01;
+		var vertical = Math.Abs(pts[0].X - pts[1].X) < 0.01 && Math.Abs(pts[1].Y - pts[2].Y) < 0.01 && Math.Abs(pts[2].X - pts[3].X) < 0.01 && Math.Abs(
+			pts[3].Y - pts[4].Y
+		) < 0.01 && Math.Abs(pts[4].X - pts[5].X) < 0.01;
+		var horizontal = Math.Abs(pts[0].Y - pts[1].Y) < 0.01 && Math.Abs(pts[1].X - pts[2].X) < 0.01 && Math.Abs(pts[2].Y - pts[3].Y) < 0.01 && Math.Abs(
+			pts[3].X - pts[4].X
+		) < 0.01 && Math.Abs(pts[4].Y - pts[5].Y) < 0.01;
 		if (!vertical && !horizontal)
 			return pts;
 		// forward only: the long run must continue in the flow direction
@@ -646,7 +676,9 @@ internal static class FlowEdgeRouter
 				zs.Add((p, false));
 		}
 
-		foreach (var grp in zs.GroupBy(z => (z.Vertical, Math.Round((z.Vertical ? z.Plan.S.Cy : z.Plan.S.Cx) / 8), Math.Round((z.Vertical ? z.Plan.T.Cy : z.Plan.T.Cx) / 8))))
+		foreach (var grp in zs.GroupBy(
+			z => (z.Vertical, Math.Round((z.Vertical ? z.Plan.S.Cy : z.Plan.S.Cx) / 8), Math.Round((z.Vertical ? z.Plan.T.Cy : z.Plan.T.Cx) / 8))
+		))
 		{
 			var list = grp.ToList();
 			if (list.Count < 2)
@@ -674,7 +706,11 @@ internal static class FlowEdgeRouter
 			foreach (var z in sorted)
 			{
 				var (a, b) = Span(z.Plan);
-				var home = clusters.FirstOrDefault(c => c.Any(o => { var (oa, ob) = Span(o.Plan); return a < ob - 2 && b > oa + 2; }));
+				var home = clusters.FirstOrDefault(c => c.Any(o =>
+				{
+					var (oa, ob) = Span(o.Plan);
+					return a < ob - 2 && b > oa + 2;
+				}));
 				if (home is null)
 					clusters.Add([z]);
 				else
@@ -767,8 +803,14 @@ internal static class FlowEdgeRouter
 	// ---- label placement ------------------------------------------------------------------------------------
 
 	private static LayoutPoint? PlaceLabel(
-		List<LayoutPoint> pts, RouteEdge e, IReadOnlyList<Box> boxes, IReadOnlyList<GroupBox> groups,
-		List<(double X0, double Y0, double X1, double Y1)> placed, List<Seg> routed, LayoutPoint? preferred = null)
+		List<LayoutPoint> pts,
+		RouteEdge e,
+		IReadOnlyList<Box> boxes,
+		IReadOnlyList<GroupBox> groups,
+		List<(double X0, double Y0, double X1, double Y1)> placed,
+		List<Seg> routed,
+		LayoutPoint? preferred = null
+	)
 	{
 		var segs = new List<(int I, double Len)>();
 		for (var i = 0; i < pts.Count - 1; i++)
@@ -787,10 +829,10 @@ internal static class FlowEdgeRouter
 		{
 			foreach (var f in new[] { 0.5, 0.35, 0.65, 0.25, 0.75, 0.15, 0.85 })
 			{
-				candidates.Add((
-					pts[i].X + ((pts[i + 1].X - pts[i].X) * f),
-					pts[i].Y + ((pts[i + 1].Y - pts[i].Y) * f),
-					((1 - (len / maxLen)) * 30) + (Math.Abs(f - 0.5) * 20)));
+				candidates.Add(
+					(pts[i].X + ((pts[i + 1].X - pts[i].X) * f), pts[i].Y + ((pts[i + 1].Y - pts[i].Y) * f), ((1 - (len / maxLen)) * 30) +
+						(Math.Abs(f - 0.5) * 20))
+				);
 			}
 		}
 
@@ -870,8 +912,10 @@ internal static class FlowEdgeRouter
 	{
 		for (var i = 0; i < pts.Count - 1; i++)
 		{
-			if (Math.Abs(pts[i].X - s.X0) < 0.01 && Math.Abs(pts[i].Y - s.Y0) < 0.01
-				&& Math.Abs(pts[i + 1].X - s.X1) < 0.01 && Math.Abs(pts[i + 1].Y - s.Y1) < 0.01)
+			if (
+				Math.Abs(pts[i].X - s.X0) < 0.01 && Math.Abs(pts[i].Y - s.Y0) < 0.01 && Math.Abs(pts[i + 1].X - s.X1) < 0.01 && Math.Abs(pts[i + 1].Y - s.Y1) <
+					0.01
+			)
 				return true;
 		}
 		return false;
@@ -1273,9 +1317,7 @@ internal static class FlowEdgeRouter
 
 		private double Heuristic(int x, int y, int tx, int ty) => Math.Abs(_xs[x] - _xs[tx]) + Math.Abs(_ys[y] - _ys[ty]);
 
-		private double StepCost(
-			int x, int y, int nx, int ny, int nd, int dir,
-			List<GroupBox> foreign, List<GroupBox> common)
+		private double StepCost(int x, int y, int nx, int ny, int nd, int dir, List<GroupBox> foreign, List<GroupBox> common)
 		{
 			double x0 = _xs[x], y0 = _ys[y], x1 = _xs[nx], y1 = _ys[ny];
 			var len = Math.Abs(x1 - x0) + Math.Abs(y1 - y0);

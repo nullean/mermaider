@@ -62,14 +62,36 @@ internal sealed partial class DesignSystem
 	internal double TileRadius => Math.Max(2, Spec.NodeRadius - 2);
 
 	/// <summary><see cref="AppendText"/> with coordinates rounded to 3 decimals (chart geometry is trigonometry-heavy).</summary>
-	internal void AppendChartText(StringBuilder sb, string text, double x, double cy, TypeRole role, string? color = null, string anchor = "middle", int? weight = null) =>
-		AppendText(sb, text, Math.Round(x, 3), Math.Round(cy, 3), role, color, anchor, weight);
+	internal void AppendChartText(
+		StringBuilder sb,
+		string text,
+		double x,
+		double cy,
+		TypeRole role,
+		string? color = null,
+		string anchor = "middle",
+		int? weight = null
+	) => AppendText(sb, text, Math.Round(x, 3), Math.Round(cy, 3), role, color, anchor, weight);
 
 	/// <summary>Text with a page-background halo so it stays legible over marks, ribbons and grid.</summary>
-	internal void AppendHaloText(StringBuilder sb, string text, double x, double cy, TypeRole role, string? color = null, string anchor = "middle", int? weight = null) =>
-		MultilineUtils.AppendMultilineText(sb, text, Math.Round(x, 3), Math.Round(cy, 3), Px(role),
-			TextAttributes(role, color, anchor, weight) + HaloAttributes);
-
+	internal void AppendHaloText(
+		StringBuilder sb,
+		string text,
+		double x,
+		double cy,
+		TypeRole role,
+		string? color = null,
+		string anchor = "middle",
+		int? weight = null
+	) =>
+		MultilineUtils.AppendMultilineText(
+			sb,
+			text,
+			Math.Round(x, 3),
+			Math.Round(cy, 3),
+			Px(role),
+			TextAttributes(role, color, anchor, weight) + HaloAttributes
+		);
 
 	/// <summary>Text rotated -90° around (<paramref name="x"/>, <paramref name="cy"/>) (vertical axis titles).</summary>
 	internal void AppendRotatedText(StringBuilder sb, string text, double x, double cy, TypeRole role, string? color = null, string anchor = "middle")
@@ -95,8 +117,14 @@ internal sealed partial class DesignSystem
 	/// <summary>A grid path (graticule ring / polygon) in the grid stroke; dotted under Blueprint.</summary>
 	internal void AppendGridPath(StringBuilder sb, string d)
 	{
-		_ = sb.Append("<path d=\"").Append(d).Append("\" fill=\"none\" stroke=\"").Append(GridStroke)
-			.Append("\" stroke-width=\"").Append(Num(GridWidth)).Append("\" stroke-linejoin=\"round\"");
+		_ = sb
+			.Append("<path d=\"")
+			.Append(d)
+			.Append("\" fill=\"none\" stroke=\"")
+			.Append(GridStroke)
+			.Append("\" stroke-width=\"")
+			.Append(Num(GridWidth))
+			.Append("\" stroke-linejoin=\"round\"");
 		if (Spec.Style == Models.DiagramStyle.Blueprint)
 			_ = sb.Append(" stroke-dasharray=\"").Append(DotArray).Append("\" stroke-linecap=\"round\"");
 		_ = sb.Append(" />");
@@ -105,8 +133,18 @@ internal sealed partial class DesignSystem
 	/// <summary>A grid circle (radar graticule).</summary>
 	internal void AppendGridCircle(StringBuilder sb, double cx, double cy, double r)
 	{
-		_ = sb.Append("<circle cx=\"").Append(Num(cx)).Append("\" cy=\"").Append(Num(cy)).Append("\" r=\"").Append(Num(r))
-			.Append("\" fill=\"none\" stroke=\"").Append(GridStroke).Append("\" stroke-width=\"").Append(Num(GridWidth)).Append('"');
+		_ = sb
+			.Append("<circle cx=\"")
+			.Append(Num(cx))
+			.Append("\" cy=\"")
+			.Append(Num(cy))
+			.Append("\" r=\"")
+			.Append(Num(r))
+			.Append("\" fill=\"none\" stroke=\"")
+			.Append(GridStroke)
+			.Append("\" stroke-width=\"")
+			.Append(Num(GridWidth))
+			.Append('"');
 		if (Spec.Style == Models.DiagramStyle.Blueprint)
 			_ = sb.Append(" stroke-dasharray=\"").Append(DotArray).Append("\" stroke-linecap=\"round\"");
 		_ = sb.Append(" />");
@@ -130,6 +168,5 @@ internal sealed partial class DesignSystem
 	}
 
 	/// <summary>Measured width of a text in a role (layout-time, preset-independent weights are close enough).</summary>
-	internal static double MeasureRole(string text, TypeRole role, int weight = 600) =>
-		TextMetrics.MeasureMultiline(text.AsSpan(), Px(role), weight).Width;
+	internal static double MeasureRole(string text, TypeRole role, int weight = 600) => TextMetrics.MeasureMultiline(text.AsSpan(), Px(role), weight).Width;
 }

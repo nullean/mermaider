@@ -33,13 +33,11 @@ public class RendererStylesheetAllowlistTests
 			EmitStylesheet(),
 			EmitStylesheet(font: "system-ui", monoFont: "monospace"),
 			EmitStylesheet(font: "Inter Display", monoFont: "JetBrains Mono"),
-			EmitStylesheet(font: "A'B\n{}\\💥", monoFont: "M;/*x*/", fontScale: FontScale.From(new RenderOptions
-			{
-				FontSize = "12.5px",
-				FontSizeExtraSmall = 0.5,
-				FontSizeSmall = 0.75,
-				FontSizeLarge = 2,
-			})),
+			EmitStylesheet(
+				font: "A'B\n{}\\💥",
+				monoFont: "M;/*x*/",
+				fontScale: FontScale.From(new RenderOptions { FontSize = "12.5px", FontSizeExtraSmall = 0.5, FontSizeSmall = 0.75, FontSizeLarge = 2, })
+			),
 			EmitStylesheet(strict: strict),
 		};
 
@@ -60,7 +58,11 @@ public class RendererStylesheetAllowlistTests
 			valid.Replace("--_line:", "--_evil:", StringComparison.Ordinal),
 			valid.Replace("--fs-xs: 0.75rem;", "--fs-xs: calc(1rem + 1px);", StringComparison.Ordinal),
 			valid.Replace("--fs-s:  0.875rem;", "--fs-s:  -1rem;", StringComparison.Ordinal),
-			valid.Replace("drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent))", "url(https://attacker.invalid/filter)", StringComparison.Ordinal),
+			valid.Replace(
+				"drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent))",
+				"url(https://attacker.invalid/filter)",
+				StringComparison.Ordinal
+			),
 			valid.Replace("var(--fg) 12%, transparent", "red 100%, transparent", StringComparison.Ordinal),
 			valid.Replace(".subgraph, .kanban-column", ".subgraph, body", StringComparison.Ordinal),
 			valid.Replace("\n", "\r\n", StringComparison.Ordinal),
@@ -85,7 +87,10 @@ public class RendererStylesheetAllowlistTests
 					var sb = new StringBuilder();
 					StyleBlock.AppendStyleBlock(sb, design: design, darkBg: dark);
 					var stylesheet = ExtractStylesheet(sb.ToString());
-					RendererStylesheetAllowlist.IsAllowed(stylesheet).Should().BeTrue($"{style} at elevation {elevation} (dark: {dark}) is a stylesheet the renderer emits");
+					RendererStylesheetAllowlist
+						.IsAllowed(stylesheet)
+						.Should()
+						.BeTrue($"{style} at elevation {elevation} (dark: {dark}) is a stylesheet the renderer emits");
 				}
 			}
 		}
@@ -96,8 +101,19 @@ public class RendererStylesheetAllowlistTests
 	{
 		string[] keywords =
 		[
-			"serif", "sans-serif", "monospace", "cursive", "fantasy", "system-ui",
-			"ui-serif", "ui-sans-serif", "ui-monospace", "ui-rounded", "emoji", "math", "fangsong",
+			"serif",
+			"sans-serif",
+			"monospace",
+			"cursive",
+			"fantasy",
+			"system-ui",
+			"ui-serif",
+			"ui-sans-serif",
+			"ui-monospace",
+			"ui-rounded",
+			"emoji",
+			"math",
+			"fangsong",
 			"SANS-SERIF",
 		];
 
@@ -113,10 +129,7 @@ public class RendererStylesheetAllowlistTests
 	{
 		var valid = EmitStylesheet(strict: new StrictStylingOptions
 		{
-			AllowedClasses =
-			[
-				new DiagramClass { Name = "safe", Fill = "#123", Stroke = "#456", Color = "#789" },
-			],
+			AllowedClasses = [new DiagramClass { Name = "safe", Fill = "#123", Stroke = "#456", Color = "#789" },],
 		});
 
 		RendererStylesheetAllowlist.IsAllowed(valid).Should().BeTrue();
@@ -151,11 +164,7 @@ public class RendererStylesheetAllowlistTests
 		rendererOutput.HasViolations.Should().BeFalse();
 	}
 
-	private static string EmitStylesheet(
-		string? font = null,
-		string? monoFont = null,
-		FontScale? fontScale = null,
-		StrictStylingOptions? strict = null)
+	private static string EmitStylesheet(string? font = null, string? monoFont = null, FontScale? fontScale = null, StrictStylingOptions? strict = null)
 	{
 		var sb = new StringBuilder();
 		StyleBlock.AppendStyleBlock(sb, font, strict, fontScale, monoFont);

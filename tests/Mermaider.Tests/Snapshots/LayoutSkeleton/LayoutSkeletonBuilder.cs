@@ -14,7 +14,8 @@ internal static class LayoutSkeletonBuilder
 		IReadOnlyList<(string Id, double X, double Y, double W, double H)> boxes,
 		IReadOnlyList<(string From, string To, string Label, IReadOnlyList<Point> Points)> edges,
 		IReadOnlyList<(string Id, string? ParentId, IReadOnlyList<string> MemberNodeIds, double X, double Y, double W, double H)>? groups = null,
-		Direction direction = Direction.TB)
+		Direction direction = Direction.TB
+	)
 	{
 		var n = boxes.Count;
 		var indexById = new Dictionary<string, int>(StringComparer.Ordinal);
@@ -53,12 +54,8 @@ internal static class LayoutSkeletonBuilder
 		{
 			var isSelfLoop = string.Equals(e.From, e.To, StringComparison.Ordinal);
 			var pts = e.Points;
-			var fromSide = indexById.TryGetValue(e.From, out var fi2) && pts.Count >= 1
-				? ClassifySide(pts[0], boxes[fi2])
-				: EdgeSide.Bottom;
-			var toSide = indexById.TryGetValue(e.To, out var ti2) && pts.Count >= 2
-				? ClassifySide(pts[^1], boxes[ti2])
-				: EdgeSide.Top;
+			var fromSide = indexById.TryGetValue(e.From, out var fi2) && pts.Count >= 1 ? ClassifySide(pts[0], boxes[fi2]) : EdgeSide.Bottom;
+			var toSide = indexById.TryGetValue(e.To, out var ti2) && pts.Count >= 2 ? ClassifySide(pts[^1], boxes[ti2]) : EdgeSide.Top;
 			var routeSig = isSelfLoop ? "" : ComputeRouteSig(pts);
 			skeletonEdges.Add(new SkeletonEdge(e.From, e.To, e.Label, fromSide, toSide, isSelfLoop, routeSig));
 		}
@@ -76,7 +73,8 @@ internal static class LayoutSkeletonBuilder
 	// relative position as that other cluster" a well-defined question.
 	private static List<SkeletonGroup> BuildGroups(
 		IReadOnlyList<(string Id, string? ParentId, IReadOnlyList<string> MemberNodeIds, double X, double Y, double W, double H)>? groups,
-		Direction direction)
+		Direction direction
+	)
 	{
 		if (groups is null || groups.Count == 0)
 			return [];
@@ -87,9 +85,7 @@ internal static class LayoutSkeletonBuilder
 		for (var i = 0; i < groups.Count; i++)
 		{
 			var g = groups[i];
-			result.Add(new SkeletonGroup(
-				g.Id, g.ParentId, g.MemberNodeIds, layerOf[i], orderOf[i],
-				g.X + (g.W / 2), g.Y + (g.H / 2), g.W, g.H));
+			result.Add(new SkeletonGroup(g.Id, g.ParentId, g.MemberNodeIds, layerOf[i], orderOf[i], g.X + (g.W / 2), g.Y + (g.H / 2), g.W, g.H));
 		}
 		return result;
 	}
@@ -97,9 +93,7 @@ internal static class LayoutSkeletonBuilder
 	// Compute port attachment order: for each (node, side) with ≥2 edges, order edges by
 	// their attachment coordinate (X for Top/Bottom, Y for Left/Right). Edge indices reference
 	// the stable-sorted position of each edge in the serialized edge list.
-	private static List<SkeletonPort> BuildPorts(
-		IReadOnlyList<SkeletonEdge> skeletonEdges,
-		IReadOnlyList<IReadOnlyList<Point>> polylines)
+	private static List<SkeletonPort> BuildPorts(IReadOnlyList<SkeletonEdge> skeletonEdges, IReadOnlyList<IReadOnlyList<Point>> polylines)
 	{
 		// Build stable-sorted edge index map: maps original edge index → sorted position
 		// matching Serialize() order (From, To, Label).
@@ -126,20 +120,21 @@ internal static class LayoutSkeletonBuilder
 		for (var origIdx = 0; origIdx < skeletonEdges.Count; origIdx++)
 		{
 			var e = skeletonEdges[origIdx];
-			if (e.IsSelfLoop) continue;
+			if (e.IsSelfLoop)
+				continue;
 			var pts = polylines[origIdx];
-			if (pts.Count < 2) continue;
+			if (pts.Count < 2)
+				continue;
 			var sortedIdx = sortedEdgeMap[origIdx];
 			AddToBucket(e.From, e.FromSide, sortedIdx, pts[0]);
 			AddToBucket(e.To, e.ToSide, sortedIdx, pts[^1]);
 		}
 
 		var result = new List<SkeletonPort>();
-		foreach (var kv in buckets
-			.OrderBy(kv => kv.Key.NodeId, StringComparer.Ordinal)
-			.ThenBy(kv => kv.Key.Side.ToString(), StringComparer.Ordinal))
+		foreach (var kv in buckets.OrderBy(kv => kv.Key.NodeId, StringComparer.Ordinal).ThenBy(kv => kv.Key.Side.ToString(), StringComparer.Ordinal))
 		{
-			if (kv.Value.Count < 2) continue; // single edge: no order to compare
+			if (kv.Value.Count < 2)
+				continue; // single edge: no order to compare
 			var sortedEdgeIndices = kv.Value.OrderBy(x => x.AttachCoord).Select(x => x.SortedIdx).ToList();
 			result.Add(new SkeletonPort(kv.Key.NodeId, kv.Key.Side, sortedEdgeIndices));
 		}
@@ -162,30 +157,38 @@ internal static class LayoutSkeletonBuilder
 			var dy = points[i + 1].Y - points[i].Y;
 			if (Math.Abs(dy) >= Math.Abs(dx))
 			{
-				if (dy > Epsilon)       dirs.Add('D');
-				else if (dy < -Epsilon) dirs.Add('U');
+				if (dy > Epsilon)
+					dirs.Add('D');
+				else if (dy < -Epsilon)
+					dirs.Add('U');
 				// else: near-zero — skip degenerate segment
 			}
 			else
 			{
-				if (dx > Epsilon)       dirs.Add('R');
-				else if (dx < -Epsilon) dirs.Add('L');
+				if (dx > Epsilon)
+					dirs.Add('R');
+				else if (dx < -Epsilon)
+					dirs.Add('L');
 			}
 		}
 
-		if (dirs.Count == 0) return "";
+		if (dirs.Count == 0)
+			return "";
 
 		// Run-length encode: merge consecutive equal directions, join with spaces.
 		var sb = new System.Text.StringBuilder(dirs.Count * 2);
 		var cur = dirs[0];
 		for (var i = 1; i < dirs.Count; i++)
 		{
-			if (dirs[i] == cur) continue;
-			if (sb.Length > 0) sb.Append(' ');
+			if (dirs[i] == cur)
+				continue;
+			if (sb.Length > 0)
+				sb.Append(' ');
 			sb.Append(cur);
 			cur = dirs[i];
 		}
-		if (sb.Length > 0) sb.Append(' ');
+		if (sb.Length > 0)
+			sb.Append(' ');
 		sb.Append(cur);
 		return sb.ToString();
 	}
@@ -207,7 +210,10 @@ internal static class LayoutSkeletonBuilder
 	// only two Y-bands because Y-overlap is nearly meaningless for a left-to-right flow where
 	// rank is expressed in X.
 	private static (int[] LayerOf, int[] OrderOf) AssignLayersAndOrder(
-		IReadOnlyList<(double X, double Y, double W, double H)> boxes, Direction direction, HashSet<(int, int)> noMerge)
+		IReadOnlyList<(double X, double Y, double W, double H)> boxes,
+		Direction direction,
+		HashSet<(int, int)> noMerge
+	)
 	{
 		var horizontal = direction is Direction.LR or Direction.RL;
 
@@ -237,7 +243,9 @@ internal static class LayoutSkeletonBuilder
 		}
 
 		double RankStart((double X, double Y, double W, double H) b) => horizontal ? b.X : b.Y;
+
 		double RankExtent((double X, double Y, double W, double H) b) => horizontal ? b.W : b.H;
+
 		double OrderCenter((double X, double Y, double W, double H) b) => horizontal ? b.Y + (b.H / 2) : b.X + (b.W / 2);
 
 		for (var i = 0; i < n; i++)
@@ -265,7 +273,8 @@ internal static class LayoutSkeletonBuilder
 			}
 		}
 
-		var clusters = Enumerable.Range(0, n)
+		var clusters = Enumerable
+			.Range(0, n)
 			.GroupBy(Find)
 			.Select(g => (Indices: g.ToList(), MeanRank: g.Average(i => RankStart(boxes[i]) + (RankExtent(boxes[i]) / 2))))
 			.OrderBy(c => c.MeanRank)
