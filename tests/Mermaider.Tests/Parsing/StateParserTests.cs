@@ -245,4 +245,66 @@ public class StateParserTests
 		graph.Edges.Should().HaveCount(2);
 		graph.Edges[1].Label.Should().Be("task complete");
 	}
+
+	// #81: a transition naming a composite nested in another composite, or a composite that holds only composites
+	[Test]
+	[Arguments("stateDiagram-v2\nstate P {\n  a --> R\n  state R {\n    [*] --> f\n  }\n}")]
+	[Arguments("stateDiagram-v2\nstate P {\n  state R {\n    [*] --> f\n  }\n  a --> R\n}")]
+	[Arguments("stateDiagram-v2\nstate P {\n  a\n  state R {\n    [*] --> f\n  }\n}\nR --> a")]
+	[Arguments("stateDiagram-v2\nstate P {\n  state R {\n    [*] --> f\n  }\n}\na --> P")]
+	[Arguments("stateDiagram-v2\nstate P {\n  state R {\n    [*] --> f\n  }\n}\nP --> a")]
+	public void Edges_to_nested_composites_resolve_to_states_inside_them(string source)
+	{
+		var graph = MermaidRenderer.Parse(source);
+
+		foreach (var edge in graph.Edges)
+		{
+			graph.Nodes.Should().ContainKey(edge.Source, "every edge endpoint must be a laid-out node");
+			graph.Nodes.Should().ContainKey(edge.Target, "every edge endpoint must be a laid-out node");
+		}
+		AllNodeIds(graph.Subgraphs).Should().OnlyContain(id => graph.Nodes.ContainsKey(id), "a composite is not a node of its parent");
+
+		var svg = MermaidRenderer.RenderSvg(source);
+		svg.Should().Contain("<svg");
+	}
+
+	[Test]
+	public void Edge_to_nested_composite_enters_at_its_start_state()
+	{
+		var graph = MermaidRenderer.Parse("""
+			stateDiagram-v2
+			state P {
+				a --> R
+				state R {
+					[*] --> f
+				}
+			}
+			""");
+
+		var edge = graph.Edges.Single(e => e.Source == "a");
+		graph.Nodes[edge.Target].Shape.Should().Be(NodeShape.StateStart);
+		graph.SubgraphEdgeRedirections.Values.Should().Contain(r => r.TargetSubgraph == "R");
+		graph.Subgraphs.Single().NodeIds.Should().Equal("a");
+	}
+
+	[Test]
+	public void Edge_to_composite_holding_only_composites_enters_through_its_first_child()
+	{
+		var graph = MermaidRenderer.Parse("""
+			stateDiagram-v2
+			state P {
+				state R {
+					[*] --> f
+				}
+			}
+			a --> P
+			""");
+
+		var edge = graph.Edges.Single(e => e.Source == "a");
+		graph.Nodes[edge.Target].Shape.Should().Be(NodeShape.StateStart);
+		graph.SubgraphEdgeRedirections.Values.Should().Contain(r => r.TargetSubgraph == "P");
+	}
+
+	private static IEnumerable<string> AllNodeIds(IReadOnlyList<MermaidSubgraph> subgraphs) =>
+		subgraphs.SelectMany(sg => sg.NodeIds.Concat(AllNodeIds(sg.Children)));
 }

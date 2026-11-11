@@ -66,6 +66,7 @@ internal static partial class StateParser
 		var subgraphs = new List<MermaidSubgraph>();
 		var compositeStack = new Stack<(string Id, string Label, List<string> NodeIds, List<MermaidSubgraph> Children, Direction? Dir)>();
 		var compositeStateIds = new HashSet<string>();
+		var compositeNodeIdLists = new List<List<string>>();
 		var startCount = 0;
 		var endCount = 0;
 		// every [*] in one scope (the diagram or one composite state) is the same start / end node, as in mermaid.js
@@ -173,7 +174,9 @@ internal static partial class StateParser
 			{
 				var label = compositeMatch.Groups[1].Success ? compositeMatch.Groups[1].Value : compositeMatch.Groups[2].Value;
 				var id = compositeMatch.Groups[2].Value;
-				compositeStack.Push((id, label, [], [], null));
+				var compositeNodeIds = new List<string>();
+				compositeStack.Push((id, label, compositeNodeIds, [], null));
+				compositeNodeIdLists.Add(compositeNodeIds);
 				_ = compositeStateIds.Add(id);
 				_ = nodes.Remove(id);
 				continue;
@@ -306,14 +309,22 @@ internal static partial class StateParser
 			}
 		}
 
+		// A transition may name a composite before its block is declared, which registered it as a plain state
+		// in the enclosing composite; once it is a composite it is not a node of that composite any more
+		if (compositeStateIds.Count > 0)
+		{
+			foreach (var nodeIds in compositeNodeIdLists)
+				_ = nodeIds.RemoveAll(compositeStateIds.Contains);
+		}
+
 		// Redirect edges that reference composite state IDs to their entry/exit nodes,
 		// so the Sugiyama engine can order composites correctly (First above Second, etc.)
 		var redirections = new Dictionary<int, (string? SourceSg, string? TargetSg)>();
 		if (compositeStateIds.Count > 0)
 		{
+			// nested composites are edge endpoints too, not only the top-level ones
 			var compositeMap = new Dictionary<string, MermaidSubgraph>();
-			foreach (var sg in subgraphs)
-				compositeMap[sg.Id] = sg;
+			AddComposites(subgraphs, compositeMap);
 
 			for (var i = 0; i < edges.Count; i++)
 			{
@@ -321,11 +332,11 @@ internal static partial class StateParser
 				var src = edge.Source;
 				var tgt = edge.Target;
 
-				if (compositeMap.TryGetValue(src, out _))
-					src = FindCompositeExitNode(compositeMap[src], nodes) ?? src;
+				if (compositeMap.TryGetValue(src, out var srcSg))
+					src = FindCompositeExitNode(srcSg, nodes) ?? src;
 
-				if (compositeMap.TryGetValue(tgt, out _))
-					tgt = FindCompositeEntryNode(compositeMap[tgt], nodes) ?? tgt;
+				if (compositeMap.TryGetValue(tgt, out var tgtSg))
+					tgt = FindCompositeEntryNode(tgtSg, nodes) ?? tgt;
 
 				if (src != edge.Source || tgt != edge.Target)
 				{
@@ -383,6 +394,16 @@ internal static partial class StateParser
 		}
 	}
 
+	private static void AddComposites(IReadOnlyList<MermaidSubgraph> composites, Dictionary<string, MermaidSubgraph> map)
+	{
+		foreach (var sg in composites)
+		{
+			map[sg.Id] = sg;
+			AddComposites(sg.Children, map);
+		}
+	}
+
+	// a composite that holds only composites is entered through its first child composite
 	private static string? FindCompositeEntryNode(MermaidSubgraph sg, Dictionary<string, MermaidNode> nodes)
 	{
 		foreach (var id in sg.NodeIds)
@@ -390,9 +411,12 @@ internal static partial class StateParser
 			if (nodes.TryGetValue(id, out var n) && n.Shape == NodeShape.StateStart)
 				return id;
 		}
-		return sg.NodeIds.Count > 0 ? sg.NodeIds[0] : null;
+		if (sg.NodeIds.Count > 0)
+			return sg.NodeIds[0];
+		return sg.Children.Count > 0 ? FindCompositeEntryNode(sg.Children[0], nodes) : null;
 	}
 
+	// a composite that holds only composites is left through its last child composite
 	private static string? FindCompositeExitNode(MermaidSubgraph sg, Dictionary<string, MermaidNode> nodes)
 	{
 		foreach (var id in sg.NodeIds)
@@ -400,7 +424,9 @@ internal static partial class StateParser
 			if (nodes.TryGetValue(id, out var n) && n.Shape == NodeShape.StateEnd)
 				return id;
 		}
-		return sg.NodeIds.Count > 0 ? sg.NodeIds[^1] : null;
+		if (sg.NodeIds.Count > 0)
+			return sg.NodeIds[^1];
+		return sg.Children.Count > 0 ? FindCompositeExitNode(sg.Children[^1], nodes) : null;
 	}
 
 	private static IReadOnlyDictionary<string, string> ParseStyleProps(string propsStr)
