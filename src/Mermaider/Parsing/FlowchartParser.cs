@@ -494,7 +494,7 @@ internal static partial class FlowchartParser
 					rawLabel = rawLabel[1..^1];
 				var isMarkdown = rawLabel.StartsWith('`') && rawLabel.EndsWith('`');
 				var label = isMarkdown
-					? rawLabel[1..^1].Trim().Replace("\\n", "\n")
+					? MultilineUtils.DecodeEntities(rawLabel[1..^1].Trim().Replace("\\n", "\n"))
 					: MultilineUtils.NormalizeBrTags(rawLabel).Replace("\\n", "\n");
 				RegisterNode(nodes, subgraphStack, new MermaidNode(id, label, shape, isMarkdown));
 				remaining = text[match.Length..];
