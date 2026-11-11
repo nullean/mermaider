@@ -21,6 +21,9 @@ internal static class LightweightClassLayoutEngine
 
 	private const double NamespaceLayerSpacing = 76;
 
+	/// <summary>Room between a namespace's border and its members.</summary>
+	private const double NamespacePad = 12;
+
 	private const double LollipopSize = 20;
 
 	// circle (diameter 16) + gap + one line of label
@@ -69,8 +72,14 @@ internal static class LightweightClassLayoutEngine
 		}
 
 		var layoutEdges = new List<LayoutEdge>(diagram.Relationships.Count);
-		foreach (var rel in diagram.Relationships)
+		// relationship index → layout edge index; self-relations are kept out of Sugiyama and drawn by ClassSelfLoops
+		var edgeOfRel = new Dictionary<int, int>(diagram.Relationships.Count);
+		for (var i = 0; i < diagram.Relationships.Count; i++)
 		{
+			var rel = diagram.Relationships[i];
+			if (rel.From == rel.To)
+				continue;
+			edgeOfRel[i] = layoutEdges.Count;
 			double labelW = 0, labelH = 0;
 			if (rel.Label is { Length: > 0 })
 			{
@@ -112,7 +121,8 @@ internal static class LightweightClassLayoutEngine
 			}
 		);
 
-		return ExtractPositioned(result, diagram, classSizes, lollipopTargets);
+		var loops = ClassSelfLoops.Place(ref result, diagram, Padding, NodeSpacing, NamespacePad + NamespaceHeader);
+		return ExtractPositioned(result, diagram, classSizes, lollipopTargets, edgeOfRel, loops);
 	}
 
 	/// <summary>
@@ -149,7 +159,9 @@ internal static class LightweightClassLayoutEngine
 		LayoutResult result,
 		ClassDiagram diagram,
 		Dictionary<string, (double Width, double Height, double HeaderHeight, double AttrHeight, double MethodHeight)> classSizes,
-		HashSet<string> lollipopTargets
+		HashSet<string> lollipopTargets,
+		Dictionary<int, int> edgeOfRel,
+		Dictionary<int, ClassSelfLoops.Loop> loops
 	)
 	{
 		var nodeLookup = result.Nodes.ToDictionary(n => n.Id);
@@ -182,12 +194,18 @@ internal static class LightweightClassLayoutEngine
 		for (var i = 0; i < diagram.Relationships.Count; i++)
 		{
 			var rel = diagram.Relationships[i];
-			var edge = result.Edges.FirstOrDefault(e => e.OriginalIndex == i);
-			if (edge is null)
-				continue;
-
-			var points = edge.Points.Select(p => new Point(p.X, p.Y)).ToList();
-			Point? labelPos = edge.LabelPosition is { } lp ? new Point(lp.X, lp.Y) : null;
+			List<Point> points;
+			Point? labelPos;
+			if (loops.TryGetValue(i, out var loop))
+				(points, labelPos) = (loop.Points, loop.LabelPosition);
+			else
+			{
+				var edge = edgeOfRel.TryGetValue(i, out var edgeIndex) ? result.Edges.FirstOrDefault(e => e.OriginalIndex == edgeIndex) : null;
+				if (edge is null)
+					continue;
+				points = edge.Points.Select(p => new Point(p.X, p.Y)).ToList();
+				labelPos = edge.LabelPosition is { } lp ? new Point(lp.X, lp.Y) : null;
+			}
 
 			positionedRels.Add(new PositionedClassRelationship
 			{
@@ -238,7 +256,6 @@ internal static class LightweightClassLayoutEngine
 			}
 		}
 
-		const double nsPad = 12;
 		var positionedNs = new List<PositionedClassNamespace>(diagram.Namespaces.Count);
 		foreach (var ns in diagram.Namespaces)
 		{
@@ -255,16 +272,23 @@ internal static class LightweightClassLayoutEngine
 				minY = Math.Min(minY, positioned.Y);
 				maxNsX = Math.Max(maxNsX, positioned.X + positioned.Width);
 				maxNsY = Math.Max(maxNsY, positioned.Y + positioned.Height);
+				foreach (var loop in loops.Values.Where(l => l.ClassId == clsId))
+				{
+					minX = Math.Min(minX, loop.MinX);
+					minY = Math.Min(minY, loop.MinY);
+					maxNsX = Math.Max(maxNsX, loop.MaxX);
+					maxNsY = Math.Max(maxNsY, loop.MaxY);
+				}
 			}
 			if (minX == double.MaxValue)
 				continue;
 			positionedNs.Add(new PositionedClassNamespace
 			{
 				Name = ns.Name,
-				X = minX - nsPad,
-				Y = minY - nsPad - NamespaceHeader,
-				Width = maxNsX - minX + (nsPad * 2),
-				Height = maxNsY - minY + (nsPad * 2) + NamespaceHeader,
+				X = minX - NamespacePad,
+				Y = minY - NamespacePad - NamespaceHeader,
+				Width = maxNsX - minX + (NamespacePad * 2),
+				Height = maxNsY - minY + (NamespacePad * 2) + NamespaceHeader,
 			});
 		}
 

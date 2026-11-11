@@ -273,4 +273,19 @@ public class ClassSpecTests
 			""")
 			.Should()
 			.MatchSnapshot(SvgSnapshotFormat.Instance);
+
+	[Test]
+	public void Self_relationship_with_cardinalities() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
+			classDiagram
+			class Animal
+			class Duck
+			Animal "1" --> "0..*" Animal : parent
+			Animal <|-- Duck
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 }

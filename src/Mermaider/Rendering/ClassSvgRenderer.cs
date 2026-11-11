@@ -362,10 +362,13 @@ internal static class ClassSvgRenderer
 		_ = sb.Append("\n</g>");
 	}
 
+	/// <summary>How far along its line, from the class, a cardinality label is centred (shorter lines clamp it).</summary>
+	internal const double CardinalityDistance = 30;
+
 	// A cardinality is a small edge label on the line next to the class it belongs to (clear of the end marker).
 	private static void AppendCardinality(StringBuilder sb, DesignSystem ds, string text, Point end, Point toward)
 	{
-		const double distance = 30;
+		const double distance = CardinalityDistance;
 		var dx = toward.X - end.X;
 		var dy = toward.Y - end.Y;
 		var len = Math.Sqrt((dx * dx) + (dy * dy));
