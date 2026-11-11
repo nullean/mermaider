@@ -55,7 +55,8 @@ public static class SugiyamaLayout
 		if (buf.NodeCount > options.MaxNodeCount)
 			throw new InvalidOperationException(
 				$"Layout node count {buf.NodeCount} exceeds limit {options.MaxNodeCount} " +
-				$"(MaxNodesAfterLayout). Raise ResourceLimits.MaxNodesAfterLayout or simplify the diagram.");
+					$"(MaxNodesAfterLayout). Raise ResourceLimits.MaxNodesAfterLayout or simplify the diagram."
+			);
 
 		if (input.Subgraphs.Count > 0)
 			PromoteDisconnectedSubgraphNodes(buf, input);
@@ -91,7 +92,8 @@ public static class SugiyamaLayout
 			{
 				var fan = Math.Max(
 					outDeg.Where(kv => kv.Key.Gap == gap).Select(kv => kv.Value).DefaultIfEmpty(0).Max(),
-					inDeg.Where(kv => kv.Key.Gap == gap).Select(kv => kv.Value).DefaultIfEmpty(0).Max());
+					inDeg.Where(kv => kv.Key.Gap == gap).Select(kv => kv.Value).DefaultIfEmpty(0).Max()
+				);
 				if (fan > 2)
 					gaps[gap] += (fan - 2) * 8;
 			}
@@ -99,8 +101,16 @@ public static class SugiyamaLayout
 		}
 
 		var tied = options.PortAwareLayout && options.CrossingRestarts > 0 ? new List<int[]>() : null;
-		CrossingMinimizer.Run(buf, options.CrossingIterations, options.UseModelOrderForVirtualNodes,
-			options.UseModelOrderForRealNodes, options.UseRealFirstTiebreaker, options.CrossingRestarts, tied, options.CancellationToken);
+		CrossingMinimizer.Run(
+			buf,
+			options.CrossingIterations,
+			options.UseModelOrderForVirtualNodes,
+			options.UseModelOrderForRealNodes,
+			options.UseRealFirstTiebreaker,
+			options.CrossingRestarts,
+			tied,
+			options.CancellationToken
+		);
 		if (tied is { Count: > 1 })
 			ChooseOrderByRoutedGeometry(buf, input, options, tied);
 		CoordinateAssigner.Run(buf, options.NodeSpacing, options.LayerSpacing, options.TightSourceLayering || options.BalancedPlacement);
@@ -226,8 +236,7 @@ public static class SugiyamaLayout
 			ConnectSubgraphNodes(adj, child);
 	}
 
-	private static LayoutResult ComputeMultiComponent(
-		LayoutGraph input, List<HashSet<string>> components, LayoutOptions options)
+	private static LayoutResult ComputeMultiComponent(LayoutGraph input, List<HashSet<string>> components, LayoutOptions options)
 	{
 		var componentResults = new List<(LayoutResult Result, Dictionary<int, int> EdgeMap)>();
 
@@ -253,13 +262,8 @@ public static class SugiyamaLayout
 			}
 
 			var subSubgraphs = FilterSubgraphs(input.Subgraphs, component);
-			var subSameRank = input.SameRankConstraints
-				.Where(c => component.Contains(c.A) && component.Contains(c.B))
-				.ToList();
-			var subGraph = new LayoutGraph(input.Direction, subNodes, subEdges, subSubgraphs)
-			{
-				SameRankConstraints = subSameRank,
-			};
+			var subSameRank = input.SameRankConstraints.Where(c => component.Contains(c.A) && component.Contains(c.B)).ToList();
+			var subGraph = new LayoutGraph(input.Direction, subNodes, subEdges, subSubgraphs) { SameRankConstraints = subSameRank, };
 			var result = ComputeSingle(subGraph, options);
 			componentResults.Add((result, edgeMap));
 		}
@@ -267,8 +271,7 @@ public static class SugiyamaLayout
 		return ArrangeComponents(componentResults, input.Direction, options);
 	}
 
-	private static List<LayoutSubgraph> FilterSubgraphs(
-		IReadOnlyList<LayoutSubgraph> subgraphs, HashSet<string> component)
+	private static List<LayoutSubgraph> FilterSubgraphs(IReadOnlyList<LayoutSubgraph> subgraphs, HashSet<string> component)
 	{
 		var result = new List<LayoutSubgraph>();
 		foreach (var sg in subgraphs)
@@ -286,7 +289,8 @@ public static class SugiyamaLayout
 	private static LayoutResult ArrangeComponents(
 		List<(LayoutResult Result, Dictionary<int, int> EdgeMap)> components,
 		LayoutDirection direction,
-		LayoutOptions options)
+		LayoutOptions options
+	)
 	{
 		// For TD/BT tile horizontally; for LR/RL tile vertically
 		var tileHorizontally = direction is LayoutDirection.TD or LayoutDirection.BT;
@@ -301,10 +305,10 @@ public static class SugiyamaLayout
 		// When tiling, collapse adjacent paddings into a single componentSpacing gap.
 
 		// Track row/column offsets for grid wrapping
-		var primaryOffset = 0.0;   // offset along the primary tiling axis
+		var primaryOffset = 0.0; // offset along the primary tiling axis
 		var secondaryOffset = 0.0; // offset along the perpendicular axis (for new rows)
-		var rowMaxExtent = 0.0;    // tallest component in the current row
-		var colInRow = 0;          // how many components placed in the current row
+		var rowMaxExtent = 0.0; // tallest component in the current row
+		var colInRow = 0; // how many components placed in the current row
 
 		// Track overall extents for computing final canvas size
 		var totalPrimary = 0.0;
@@ -336,9 +340,7 @@ public static class SugiyamaLayout
 				foreach (var p in edge.Points)
 					shiftedPoints.Add(new LayoutPoint(p.X + shiftX, p.Y + shiftY));
 
-				var shiftedLabel = edge.LabelPosition is { } lp
-					? new LayoutPoint(lp.X + shiftX, lp.Y + shiftY)
-					: edge.LabelPosition;
+				var shiftedLabel = edge.LabelPosition is { } lp ? new LayoutPoint(lp.X + shiftX, lp.Y + shiftY) : edge.LabelPosition;
 
 				allEdges.Add(new LayoutEdgeResult(originalIndex, shiftedPoints, shiftedLabel));
 			}
@@ -415,9 +417,7 @@ public static class SugiyamaLayout
 			LayerAssigner.BuildLayerArrays(buf);
 	}
 
-	private static bool PromoteInSubgraph(
-		GraphBuffer buf, LayoutSubgraph sg,
-		Dictionary<string, int> nodeIndex, bool[] hasEdge)
+	private static bool PromoteInSubgraph(GraphBuffer buf, LayoutSubgraph sg, Dictionary<string, int> nodeIndex, bool[] hasEdge)
 	{
 		var changed = false;
 		foreach (var child in sg.Children)
@@ -453,8 +453,7 @@ public static class SugiyamaLayout
 	// Compact disconnected subgraph nodes next to their connected siblings
 	// ========================================================================
 
-	private static void CompactDisconnectedSubgraphNodes(
-		GraphBuffer buf, LayoutGraph input, double nodeSpacing)
+	private static void CompactDisconnectedSubgraphNodes(GraphBuffer buf, LayoutGraph input, double nodeSpacing)
 	{
 		var nodeIndex = new Dictionary<string, int>(buf.RealNodeCount);
 		for (var i = 0; i < buf.RealNodeCount; i++)
@@ -473,8 +472,12 @@ public static class SugiyamaLayout
 	}
 
 	private static void CompactSiblings(
-		GraphBuffer buf, IReadOnlyList<LayoutSubgraph> siblings,
-		Dictionary<string, int> nodeIndex, bool[] hasEdge, double spacing)
+		GraphBuffer buf,
+		IReadOnlyList<LayoutSubgraph> siblings,
+		Dictionary<string, int> nodeIndex,
+		bool[] hasEdge,
+		double spacing
+	)
 	{
 		foreach (var sg in siblings)
 			CompactSiblings(buf, sg.Children, nodeIndex, hasEdge, spacing);
@@ -542,8 +545,7 @@ public static class SugiyamaLayout
 	// them from the source's sides so they avoid the subgraph header text
 	// ========================================================================
 
-	private static void RerouteSubgraphCrossingEdges(
-		GraphBuffer buf, List<EdgeRouter.RoutedEdge> routes, LayoutGraph input)
+	private static void RerouteSubgraphCrossingEdges(GraphBuffer buf, List<EdgeRouter.RoutedEdge> routes, LayoutGraph input)
 	{
 		var nodeSubgraph = new Dictionary<string, string>();
 		foreach (var sg in input.Subgraphs)
@@ -567,8 +569,7 @@ public static class SugiyamaLayout
 			if (route.OriginalIndex >= input.Edges.Count)
 				continue;
 			var edge = input.Edges[route.OriginalIndex];
-			if (!nodeIndex.TryGetValue(edge.Source, out var srcIdx) ||
-				!nodeIndex.TryGetValue(edge.Target, out var tgtIdx))
+			if (!nodeIndex.TryGetValue(edge.Source, out var srcIdx) || !nodeIndex.TryGetValue(edge.Target, out var tgtIdx))
 				continue;
 
 			_ = nodeSubgraph.TryGetValue(edge.Source, out var srcSg);
@@ -617,9 +618,7 @@ public static class SugiyamaLayout
 			var sorted = routeIndices.OrderBy(ri =>
 			{
 				var e = input.Edges[routes[ri].OriginalIndex];
-				return nodeIndex.TryGetValue(e.Target, out var ti)
-					? buf.Y[ti]
-					: 0.0;
+				return nodeIndex.TryGetValue(e.Target, out var ti) ? buf.Y[ti] : 0.0;
 			}).ToList();
 
 			for (var i = 0; i < sorted.Count; i++)
@@ -632,33 +631,19 @@ public static class SugiyamaLayout
 
 				var tgtCY = buf.Y[tgtIdx] + (buf.NodeHeights[tgtIdx] / 2.0);
 
-				var goRight = sorted.Count == 1
-					? tgtCY > srcCY
-					: i % 2 == 0;
+				var goRight = sorted.Count == 1 ? tgtCY > srcCY : i % 2 == 0;
 
-				var tgtBorderX = goRight
-					? buf.X[tgtIdx] + buf.NodeWidths[tgtIdx]
-					: buf.X[tgtIdx];
-				var laneX = goRight
-					? Math.Max(srcRight, tgtBorderX) + sideExtension
-					: Math.Min(srcLeft, tgtBorderX) - sideExtension;
+				var tgtBorderX = goRight ? buf.X[tgtIdx] + buf.NodeWidths[tgtIdx] : buf.X[tgtIdx];
+				var laneX = goRight ? Math.Max(srcRight, tgtBorderX) + sideExtension : Math.Min(srcLeft, tgtBorderX) - sideExtension;
 
-				var points = new List<LayoutPoint>
-				{
-					new(goRight ? srcRight : srcLeft, srcCY),
-					new(laneX, srcCY),
-					new(laneX, tgtCY),
-					new(tgtBorderX, tgtCY),
-				};
+				var points = new List<LayoutPoint> { new(goRight ? srcRight : srcLeft, srcCY), new(laneX, srcCY), new(laneX, tgtCY), new(tgtBorderX, tgtCY), };
 
 				route.ReplacePoints(points);
 			}
 		}
 	}
 
-	private static void ComputeSubgraphTopY(
-		LayoutSubgraph sg, Dictionary<string, int> nodeIndex, GraphBuffer buf,
-		Dictionary<string, double> result)
+	private static void ComputeSubgraphTopY(LayoutSubgraph sg, Dictionary<string, int> nodeIndex, GraphBuffer buf, Dictionary<string, double> result)
 	{
 		var minY = double.MaxValue;
 		foreach (var nodeId in sg.NodeIds)
@@ -691,8 +676,7 @@ public static class SugiyamaLayout
 
 	// Orderings with the same permutation-crossing count can still route very differently (a jog crossing another edge's
 	// column is invisible to the permutation count). Lay out and route each tied candidate, keep the best geometry.
-	private static void ChooseOrderByRoutedGeometry(
-		GraphBuffer buf, LayoutGraph input, LayoutOptions options, List<int[]> candidates)
+	private static void ChooseOrderByRoutedGeometry(GraphBuffer buf, LayoutGraph input, LayoutOptions options, List<int[]> candidates)
 	{
 		// Candidate 0 is the deterministic model-order result: only a strictly lower routed-crossing count may replace it
 		// (bends/length are ignored so mirror images and near-ties never flip an already-optimal ordering).
@@ -939,8 +923,14 @@ public static class SugiyamaLayout
 	}
 
 	private static void ShiftForkDescendants(
-		GraphBuffer buf, int node, int convergence, double shift, double nodeSpacing,
-		Dictionary<int, List<int>> realOutgoing, HashSet<int> visited)
+		GraphBuffer buf,
+		int node,
+		int convergence,
+		double shift,
+		double nodeSpacing,
+		Dictionary<int, List<int>> realOutgoing,
+		HashSet<int> visited
+	)
 	{
 		// Defense-in-depth: convert an uncatchable StackOverflowException into a
 		// catchable InsufficientExecutionStackException for any future pathological
@@ -1062,9 +1052,7 @@ public static class SugiyamaLayout
 		}
 	}
 
-	private static void CollectSubgraphYBounds(
-		LayoutSubgraph sg, Dictionary<string, int> nodeIndex, GraphBuffer buf,
-		ref double minY, ref double maxY)
+	private static void CollectSubgraphYBounds(LayoutSubgraph sg, Dictionary<string, int> nodeIndex, GraphBuffer buf, ref double minY, ref double maxY)
 	{
 		foreach (var nodeId in sg.NodeIds)
 		{
@@ -1123,9 +1111,7 @@ public static class SugiyamaLayout
 				var curr = layerNodes[pos];
 				var next = layerNodes[pos + 1];
 
-				if (!nodeSubgraph.TryGetValue(curr, out var sgA) ||
-					!nodeSubgraph.TryGetValue(next, out var sgB) ||
-					sgA == sgB)
+				if (!nodeSubgraph.TryGetValue(curr, out var sgA) || !nodeSubgraph.TryGetValue(next, out var sgB) || sgA == sgB)
 					continue;
 
 				var actualGap = buf.X[next] - (buf.X[curr] + buf.NodeWidths[curr]);
@@ -1139,10 +1125,7 @@ public static class SugiyamaLayout
 		}
 	}
 
-	private static void MapNodesToTopSubgraph(
-		LayoutSubgraph sg, string topId,
-		Dictionary<string, int> nodeIndex,
-		Dictionary<int, string> nodeSubgraph)
+	private static void MapNodesToTopSubgraph(LayoutSubgraph sg, string topId, Dictionary<string, int> nodeIndex, Dictionary<int, string> nodeSubgraph)
 	{
 		foreach (var nodeId in sg.NodeIds)
 		{
@@ -1174,8 +1157,7 @@ public static class SugiyamaLayout
 		for (var i = 0; i < input.Edges.Count; i++)
 		{
 			var edge = input.Edges[i];
-			if (nodeIndex.TryGetValue(edge.Source, out var from) &&
-				nodeIndex.TryGetValue(edge.Target, out var to))
+			if (nodeIndex.TryGetValue(edge.Source, out var from) && nodeIndex.TryGetValue(edge.Target, out var to))
 			{
 				buf.Edges.Add(new GraphEdge(from, to, i, MinLength: input.Edges[i].MinLength));
 			}
@@ -1200,8 +1182,7 @@ public static class SugiyamaLayout
 	/// list of real node indices that belong to no subgraph at all (dagre's top-level loose
 	/// nodes, which still need a direct root edge for nesting-graph's connectivity guarantee).
 	/// </summary>
-	private static (List<int> LooseNodes, List<NestingGraphRanker.Group> Groups) BuildNestingGroups(
-		LayoutGraph input, GraphBuffer buf)
+	private static (List<int> LooseNodes, List<NestingGraphRanker.Group> Groups) BuildNestingGroups(LayoutGraph input, GraphBuffer buf)
 	{
 		var nodeIndex = new Dictionary<string, int>(buf.RealNodeCount);
 		for (var i = 0; i < buf.RealNodeCount; i++)
@@ -1222,8 +1203,7 @@ public static class SugiyamaLayout
 		return (loose, groups);
 	}
 
-	private static NestingGraphRanker.Group BuildNestingGroup(
-		LayoutSubgraph sg, Dictionary<string, int> nodeIndex, HashSet<int> claimed)
+	private static NestingGraphRanker.Group BuildNestingGroup(LayoutSubgraph sg, Dictionary<string, int> nodeIndex, HashSet<int> claimed)
 	{
 		var group = new NestingGraphRanker.Group();
 		foreach (var id in sg.NodeIds)
@@ -1243,8 +1223,7 @@ public static class SugiyamaLayout
 	// Result extraction
 	// ========================================================================
 
-	private static LayoutResult ExtractResult(
-		GraphBuffer buf, LayoutGraph input, List<EdgeRouter.RoutedEdge> routes, double padding)
+	private static LayoutResult ExtractResult(GraphBuffer buf, LayoutGraph input, List<EdgeRouter.RoutedEdge> routes, double padding)
 	{
 		var maxX = 0.0;
 		var maxY = 0.0;
@@ -1259,12 +1238,7 @@ public static class SugiyamaLayout
 			if (bottom > maxY)
 				maxY = bottom;
 
-			nodes.Add(new LayoutNodeResult(
-				buf.NodeIds[i],
-				buf.X[i],
-				buf.Y[i],
-				buf.NodeWidths[i],
-				buf.NodeHeights[i]));
+			nodes.Add(new LayoutNodeResult(buf.NodeIds[i], buf.X[i], buf.Y[i], buf.NodeWidths[i], buf.NodeHeights[i]));
 		}
 
 		var edges = new List<LayoutEdgeResult>(routes.Count);
@@ -1341,11 +1315,7 @@ public static class SugiyamaLayout
 		}
 	}
 
-	private static void ShiftAll(
-		List<LayoutNodeResult> nodes,
-		List<LayoutEdgeResult> edges,
-		List<LayoutGroupResult> groups,
-		double dx, double dy)
+	private static void ShiftAll(List<LayoutNodeResult> nodes, List<LayoutEdgeResult> edges, List<LayoutGroupResult> groups, double dx, double dy)
 	{
 		for (var i = 0; i < nodes.Count; i++)
 		{
@@ -1360,9 +1330,7 @@ public static class SugiyamaLayout
 			foreach (var p in e.Points)
 				shifted.Add(new LayoutPoint(p.X + dx, p.Y + dy));
 
-			var labelPos = e.LabelPosition is { } lp
-				? new LayoutPoint(lp.X + dx, lp.Y + dy)
-				: e.LabelPosition;
+			var labelPos = e.LabelPosition is { } lp ? new LayoutPoint(lp.X + dx, lp.Y + dy) : e.LabelPosition;
 
 			edges[i] = new LayoutEdgeResult(e.OriginalIndex, shifted, labelPos);
 		}
@@ -1396,8 +1364,7 @@ public static class SugiyamaLayout
 		return groups;
 	}
 
-	private static LayoutGroupResult ComputeGroup(
-		GraphBuffer buf, LayoutSubgraph sg, Dictionary<string, int> nodeIndex)
+	private static LayoutGroupResult ComputeGroup(GraphBuffer buf, LayoutSubgraph sg, Dictionary<string, int> nodeIndex)
 	{
 		const double groupPadding = 16.0;
 		const double headerHeight = 28.0;
@@ -1439,11 +1406,13 @@ public static class SugiyamaLayout
 		}
 
 		return new LayoutGroupResult(
-			sg.Id, sg.Label,
+			sg.Id,
+			sg.Label,
 			minX - groupPadding,
 			minY - groupPadding - headerHeight,
 			maxX - minX + (groupPadding * 2),
 			maxY - minY + (groupPadding * 2) + headerHeight,
-			children);
+			children
+		);
 	}
 }

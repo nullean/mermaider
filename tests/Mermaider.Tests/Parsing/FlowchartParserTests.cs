@@ -37,7 +37,8 @@ public class FlowchartParserTests
 			  D([Stadium])
 			  E((Circle))
 			  F --> A
-			""");
+			"""
+		);
 
 		graph.Nodes["A"].Shape.Should().Be(NodeShape.Rectangle);
 		graph.Nodes["B"].Shape.Should().Be(NodeShape.Rounded);
@@ -49,8 +50,7 @@ public class FlowchartParserTests
 	[Test]
 	public void ParsesEdgeStyles()
 	{
-		var graph = MermaidRenderer.Parse(
-			"""
+		var graph = MermaidRenderer.Parse("""
 			graph TD
 			  A --> B
 			  B -.-> C
@@ -82,7 +82,8 @@ public class FlowchartParserTests
 			    A --> B
 			  end
 			  C --> A
-			""");
+			"""
+		);
 
 		graph.Subgraphs.Should().HaveCount(1);
 		graph.Subgraphs[0].Id.Should().Be("sg");
@@ -126,12 +127,14 @@ public class FlowchartParserTests
 	[Test]
 	public void ParsesClassDefAndAssignment()
 	{
-		var graph = MermaidRenderer.Parse("""
+		var graph = MermaidRenderer.Parse(
+			"""
 			graph TD
 			classDef red fill:#f00,color:#fff
 			A --> B
 			class A red
-			""");
+			"""
+		);
 
 		graph.ClassDefs.Should().ContainKey("red");
 		graph.ClassAssignments.Should().ContainKey("A");

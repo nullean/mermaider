@@ -77,9 +77,7 @@ internal static class StyleBlock
 		// (it would glow), so the shadow is the page colour deepened, which keeps the theme's own hue in it.
 		var shadow = darkBg ? DarkShadow(55) : "color-mix(in srgb, var(--fg) 12%, transparent)";
 		var ambient = darkBg ? DarkShadow(35) : "color-mix(in srgb, var(--fg) 7%, transparent)";
-		var box = spec.Style == DiagramStyle.Tonal
-			? $"drop-shadow(0 2px 6px {shadow})"
-			: $"drop-shadow(0 1px 2px {shadow})";
+		var box = spec.Style == DiagramStyle.Tonal ? $"drop-shadow(0 2px 6px {shadow})" : $"drop-shadow(0 1px 2px {shadow})";
 		if (elevation >= 2)
 			box += $" drop-shadow(0 6px 14px {ambient})";
 
@@ -91,27 +89,37 @@ internal static class StyleBlock
 		return [.. lines];
 	}
 
-	private static string DarkShadow(int strength) =>
-		$"color-mix(in srgb, color-mix(in srgb, var(--bg) 35%, black) {strength}%, transparent)";
+	private static string DarkShadow(int strength) => $"color-mix(in srgb, color-mix(in srgb, var(--bg) 35%, black) {strength}%, transparent)";
 
 	/// <summary>Every elevation line any preset / level / background can produce (the allowlist accepts exactly these).</summary>
-	internal static readonly FrozenSet<string> AllElevationLines =
-		new[] { StyleSpec.Quiet, StyleSpec.Blueprint, StyleSpec.Tonal }
-			.SelectMany(spec => new[] { 1, 2 }.SelectMany(level => new[] { false, true }.SelectMany(dark => ElevationLines(spec, level, dark))))
-			.ToFrozenSet(StringComparer.Ordinal);
+	internal static readonly FrozenSet<string> AllElevationLines = new[] { StyleSpec.Quiet, StyleSpec.Blueprint, StyleSpec.Tonal }.SelectMany(
+		spec => new[] { 1, 2 }.SelectMany(level => new[] { false, true }.SelectMany(dark => ElevationLines(spec, level, dark)))
+	).ToFrozenSet(StringComparer.Ordinal);
 
 	internal static void AppendSvgOpenTag(
-		StringBuilder sb, double width, double height,
-		DiagramColors colors, bool transparent,
-		AccessibilityInfo? accessibility = null, DiagramType? diagramType = null,
-		double minX = 0)
+		StringBuilder sb,
+		double width,
+		double height,
+		DiagramColors colors,
+		bool transparent,
+		AccessibilityInfo? accessibility = null,
+		DiagramType? diagramType = null,
+		double minX = 0
+	)
 	{
 		var viewWidth = width - minX;
-		_ = sb.Append("<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"")
-			.Append(minX).Append(" 0 ")
-			.Append(viewWidth).Append(' ').Append(height)
-			.Append("\" width=\"").Append(viewWidth)
-			.Append("\" height=\"").Append(height).Append('"');
+		_ = sb
+			.Append("<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"")
+			.Append(minX)
+			.Append(" 0 ")
+			.Append(viewWidth)
+			.Append(' ')
+			.Append(height)
+			.Append("\" width=\"")
+			.Append(viewWidth)
+			.Append("\" height=\"")
+			.Append(height)
+			.Append('"');
 
 		if (accessibility?.HasContent == true)
 		{
@@ -129,8 +137,7 @@ internal static class StyleBlock
 		// Colors may originate from source-authored %%{init}%% themeVariables (non-strict mode),
 		// so they are user-controlled and must be escaped before landing in the style="..."
 		// attribute — otherwise a value like `red"><script>...` breaks out of the attribute.
-		_ = sb.Append(" style=\"--bg:").Append(Text.MultilineUtils.EscapeAttr(colors.Bg))
-			.Append(";--fg:").Append(Text.MultilineUtils.EscapeAttr(colors.Fg));
+		_ = sb.Append(" style=\"--bg:").Append(Text.MultilineUtils.EscapeAttr(colors.Bg)).Append(";--fg:").Append(Text.MultilineUtils.EscapeAttr(colors.Fg));
 
 		// always set: an explicit line colour, or the default box border it follows otherwise
 		_ = sb.Append(";--line:").Append(Text.MultilineUtils.EscapeAttr(colors.ResolvedLine));
@@ -201,13 +208,24 @@ internal static class StyleBlock
 	};
 
 	// CSS generic font family keywords must not be quoted in font-family declarations.
-	private static readonly System.Collections.Frozen.FrozenSet<string> GenericFontKeywords =
-		FrozenSet.ToFrozenSet(
+	private static readonly System.Collections.Frozen.FrozenSet<string> GenericFontKeywords = FrozenSet.ToFrozenSet(
 		[
-			"serif", "sans-serif", "monospace", "cursive", "fantasy",
-			"system-ui", "ui-serif", "ui-sans-serif", "ui-monospace", "ui-rounded",
-			"emoji", "math", "fangsong"
-		], StringComparer.OrdinalIgnoreCase);
+			"serif",
+			"sans-serif",
+			"monospace",
+			"cursive",
+			"fantasy",
+			"system-ui",
+			"ui-serif",
+			"ui-sans-serif",
+			"ui-monospace",
+			"ui-rounded",
+			"emoji",
+			"math",
+			"fangsong"
+		],
+		StringComparer.OrdinalIgnoreCase
+	);
 
 	private static void AppendFontFamilyCss(StringBuilder sb, string selector, string fontName, string fallbackStack)
 	{
@@ -240,16 +258,22 @@ internal static class StyleBlock
 				continue;
 			}
 
-			_ = sb.Append('\\')
-				.Append(((int)c).ToString("X", CultureInfo.InvariantCulture))
-				.Append(' ');
+			_ = sb.Append('\\').Append(((int)c).ToString("X", CultureInfo.InvariantCulture)).Append(' ');
 		}
 	}
 
 	internal static void AppendStyleBlock(StringBuilder sb, Rendering.NormalizedRenderStyles styles) =>
 		AppendStyleBlock(sb, styles.Font, styles.Strict, styles.FontScale, styles.MonoFont, styles.Design, ColorUtils.IsDark(styles.Colors.Bg));
 
-	internal static void AppendStyleBlock(StringBuilder sb, string? font = null, StrictStylingOptions? strict = null, Rendering.FontScale? fontScale = null, string? monoFont = null, DesignInputs? design = null, bool darkBg = false)
+	internal static void AppendStyleBlock(
+		StringBuilder sb,
+		string? font = null,
+		StrictStylingOptions? strict = null,
+		Rendering.FontScale? fontScale = null,
+		string? monoFont = null,
+		DesignInputs? design = null,
+		bool darkBg = false
+	)
 	{
 		_ = sb.Append("\n<style>\n");
 
@@ -309,9 +333,20 @@ internal static class StyleBlock
 
 		foreach (var (selector, fill, stroke, color) in lightRules)
 		{
-			_ = sb.Append("  ").Append(selector).Append(" rect, ").Append(selector).Append(" polygon, ")
-				.Append(selector).Append(" circle, ").Append(selector).Append(" ellipse { fill: ")
-				.Append(fill).Append("; stroke: ").Append(stroke).Append("; }\n");
+			_ = sb
+				.Append("  ")
+				.Append(selector)
+				.Append(" rect, ")
+				.Append(selector)
+				.Append(" polygon, ")
+				.Append(selector)
+				.Append(" circle, ")
+				.Append(selector)
+				.Append(" ellipse { fill: ")
+				.Append(fill)
+				.Append("; stroke: ")
+				.Append(stroke)
+				.Append("; }\n");
 			if (color is not null)
 				_ = sb.Append("  ").Append(selector).Append(" text { fill: ").Append(color).Append("; }\n");
 		}
@@ -319,9 +354,20 @@ internal static class StyleBlock
 		_ = sb.Append("  @media (prefers-color-scheme: dark) {\n");
 		foreach (var (selector, fill, stroke, color) in darkRules)
 		{
-			_ = sb.Append("    ").Append(selector).Append(" rect, ").Append(selector).Append(" polygon, ")
-				.Append(selector).Append(" circle, ").Append(selector).Append(" ellipse { fill: ")
-				.Append(fill).Append("; stroke: ").Append(stroke).Append("; }\n");
+			_ = sb
+				.Append("    ")
+				.Append(selector)
+				.Append(" rect, ")
+				.Append(selector)
+				.Append(" polygon, ")
+				.Append(selector)
+				.Append(" circle, ")
+				.Append(selector)
+				.Append(" ellipse { fill: ")
+				.Append(fill)
+				.Append("; stroke: ")
+				.Append(stroke)
+				.Append("; }\n");
 			if (color is not null)
 				_ = sb.Append("    ").Append(selector).Append(" text { fill: ").Append(color).Append("; }\n");
 		}

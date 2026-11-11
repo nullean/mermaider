@@ -179,7 +179,10 @@ public class IconRegistryTests
 	{
 		try
 		{
-			IconRegistry.Register("server", """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" fill="#123456"/></svg>""");
+			IconRegistry.Register(
+				"server",
+				"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" fill="#123456"/></svg>"""
+			);
 
 			IconRegistry.TryGet("server", out var svg).Should().BeTrue();
 			svg.Should().Contain("#123456");
@@ -196,9 +199,11 @@ public class IconRegistryTests
 	[Test]
 	public void Register_rejects_icon_containing_script()
 	{
-		var act = () => IconRegistry.Register(
-			"test:malicious-icon",
-			"""<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script><rect x="0" y="0" width="10" height="10"/></svg>""");
+		var act =
+			() => IconRegistry.Register(
+				"test:malicious-icon",
+				"""<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script><rect x="0" y="0" width="10" height="10"/></svg>"""
+			);
 
 		act.Should().ThrowExactly<MermaidSvgException>();
 		IconRegistry.TryGet("test:malicious-icon", out _).Should().BeFalse();
@@ -207,9 +212,11 @@ public class IconRegistryTests
 	[Test]
 	public void Register_rejects_icon_with_event_handler()
 	{
-		var act = () => IconRegistry.Register(
-			"test:malicious-onclick-icon",
-			"""<svg xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="10" height="10" onclick="alert(1)"/></svg>""");
+		var act =
+			() => IconRegistry.Register(
+				"test:malicious-onclick-icon",
+				"""<svg xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="10" height="10" onclick="alert(1)"/></svg>"""
+			);
 
 		act.Should().ThrowExactly<MermaidSvgException>();
 		IconRegistry.TryGet("test:malicious-onclick-icon", out _).Should().BeFalse();
@@ -218,9 +225,11 @@ public class IconRegistryTests
 	[Test]
 	public void Register_rejects_icon_with_external_href()
 	{
-		var act = () => IconRegistry.Register(
-			"test:malicious-href-icon",
-			"""<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><image xlink:href="http://evil.example/x.png" width="10" height="10"/></svg>""");
+		var act =
+			() => IconRegistry.Register(
+				"test:malicious-href-icon",
+				"""<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><image xlink:href="http://evil.example/x.png" width="10" height="10"/></svg>"""
+			);
 
 		act.Should().ThrowExactly<MermaidSvgException>();
 		IconRegistry.TryGet("test:malicious-href-icon", out _).Should().BeFalse();
@@ -229,9 +238,11 @@ public class IconRegistryTests
 	[Test]
 	public void Register_rejects_icon_with_children_under_image()
 	{
-		var act = () => IconRegistry.Register(
-			"test:image-with-children",
-			"""<svg xmlns="http://www.w3.org/2000/svg"><image href="data:image/svg+xml;base64,PHN2ZyAvPg=="><rect x="0" y="0" width="4" height="4"/></image></svg>""");
+		var act =
+			() => IconRegistry.Register(
+				"test:image-with-children",
+				"""<svg xmlns="http://www.w3.org/2000/svg"><image href="data:image/svg+xml;base64,PHN2ZyAvPg=="><rect x="0" y="0" width="4" height="4"/></image></svg>"""
+			);
 
 		act.Should().ThrowExactly<MermaidSvgException>();
 		IconRegistry.TryGet("test:image-with-children", out _).Should().BeFalse();

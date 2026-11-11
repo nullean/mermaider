@@ -70,8 +70,7 @@ internal static class NetworkSimplexRanker
 		return rank;
 	}
 
-	private static void RankComponent(
-		int nodeCount, List<SimplexEdge> edges, List<int>[] incident, int[] componentOf, int component, int[] rank)
+	private static void RankComponent(int nodeCount, List<SimplexEdge> edges, List<int>[] incident, int[] componentOf, int component, int[] rank)
 	{
 		var seed = -1;
 		for (var i = 0; i < nodeCount; i++)
@@ -144,11 +143,7 @@ internal static class NetworkSimplexRanker
 			if (index.TryGetValue(key, out var idx))
 			{
 				var existing = result[idx];
-				result[idx] = existing with
-				{
-					Weight = existing.Weight + e.Weight,
-					MinLength = Math.Max(existing.MinLength, e.MinLength),
-				};
+				result[idx] = existing with { Weight = existing.Weight + e.Weight, MinLength = Math.Max(existing.MinLength, e.MinLength), };
 			}
 			else
 			{
@@ -348,7 +343,14 @@ internal static class NetworkSimplexRanker
 	// ------------------------------------------------------------------
 
 	private static SimplexTree BuildFeasibleTree(
-		int nodeCount, List<SimplexEdge> edges, List<int>[] incident, int[] componentOf, int component, int seed, int[] rank)
+		int nodeCount,
+		List<SimplexEdge> edges,
+		List<int>[] incident,
+		int[] componentOf,
+		int component,
+		int seed,
+		int[] rank
+	)
 	{
 		var tree = new SimplexTree(nodeCount);
 		var inTree = new bool[nodeCount];
@@ -403,8 +405,7 @@ internal static class NetworkSimplexRanker
 	/// absorbing newly-reachable nodes into the tree. Re-run after every rank shift because a
 	/// shift can make a previously-slack edge newly tight.
 	/// </summary>
-	private static void TightTreeExtend(
-		SimplexTree tree, bool[] inTree, List<int> treeOrder, List<SimplexEdge> edges, List<int>[] incident, int[] rank)
+	private static void TightTreeExtend(SimplexTree tree, bool[] inTree, List<int> treeOrder, List<SimplexEdge> edges, List<int>[] incident, int[] rank)
 	{
 		var snapshot = treeOrder.ToArray();
 		foreach (var seed in snapshot)

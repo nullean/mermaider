@@ -144,7 +144,8 @@ internal static class GanttSvgRenderer
 
 		var panelWidth = PanelInsetX + labelColumn + chartWidth + ChartRightInset + Math.Max(0, overflow);
 		var panelHeight = PanelInsetTop + contentHeight + PanelInsetBottom;
-		var headerWidth = (hasTitle ? DesignSystem.TitleIndent + TextMetrics.MeasureTextWidth(diagram.Title!, DesignSystem.Px(TypeRole.Title), 700) + 32 : 0) + legendWidth;
+		var headerWidth = (hasTitle ? DesignSystem.TitleIndent + TextMetrics.MeasureTextWidth(diagram.Title!, DesignSystem.Px(TypeRole.Title), 700) + 32 : 0) +
+			legendWidth;
 		var width = Math.Max(panelX + panelWidth + Pad, Pad + headerWidth + Pad);
 		var height = panelTop + panelHeight + AxisLabelBand + Pad;
 
@@ -188,9 +189,18 @@ internal static class GanttSvgRenderer
 				var ruleEnd = chartLeft - PanelInsetX;
 				if (ruleEnd > ruleStart + 8)
 				{
-					_ = sb.Append("\n  <line x1=\"").Append(DesignSystem.Num(ruleStart)).Append("\" y1=\"").Append(DesignSystem.Num(cy))
-						.Append("\" x2=\"").Append(DesignSystem.Num(ruleEnd)).Append("\" y2=\"").Append(DesignSystem.Num(cy))
-						.Append("\" stroke=\"").Append(family.Edge).Append("\" stroke-width=\"1.25\" />");
+					_ = sb
+						.Append("\n  <line x1=\"")
+						.Append(DesignSystem.Num(ruleStart))
+						.Append("\" y1=\"")
+						.Append(DesignSystem.Num(cy))
+						.Append("\" x2=\"")
+						.Append(DesignSystem.Num(ruleEnd))
+						.Append("\" y2=\"")
+						.Append(DesignSystem.Num(cy))
+						.Append("\" stroke=\"")
+						.Append(family.Edge)
+						.Append("\" stroke-width=\"1.25\" />");
 				}
 
 				y += RowHeight;
@@ -220,14 +230,11 @@ internal static class GanttSvgRenderer
 		return 365;
 	}
 
-	private static double EyebrowWidth(string caps) =>
-		DesignSystem.XsWidth(caps, 600, letterSpacingPerChar: 1.0);
+	private static double EyebrowWidth(string caps) => DesignSystem.XsWidth(caps, 600, letterSpacingPerChar: 1.0);
 
-	private static double BodyWidth(string text) =>
-		TextMetrics.MeasureTextWidth(text, DesignSystem.Px(TypeRole.Body), 400);
+	private static double BodyWidth(string text) => TextMetrics.MeasureTextWidth(text, DesignSystem.Px(TypeRole.Body), 400);
 
-	private static bool IsMilestone(GanttTask task) =>
-		(task.Tags & GanttTaskTags.Milestone) != 0;
+	private static bool IsMilestone(GanttTask task) => (task.Tags & GanttTaskTags.Milestone) != 0;
 
 	private static TaskState Classify(GanttTaskTags tags)
 	{
@@ -284,8 +291,16 @@ internal static class GanttSvgRenderer
 	}
 
 	private static void AppendTimeAxis(
-		StringBuilder sb, DesignSystem ds, DateTime min, DateTime max, double tickDays,
-		double chartLeft, double panelTop, double chartWidth, double plotBottom)
+		StringBuilder sb,
+		DesignSystem ds,
+		DateTime min,
+		DateTime max,
+		double tickDays,
+		double chartLeft,
+		double panelTop,
+		double chartWidth,
+		double plotBottom
+	)
 	{
 		var span = max - min;
 
@@ -297,9 +312,7 @@ internal static class GanttSvgRenderer
 			_ = sb.Append("\n  ");
 			ds.AppendGridLine(sb, x, panelTop + 8, x, plotBottom);
 
-			var label = tickDays >= 28
-				? t.ToString("MMM yyyy", CultureInfo.InvariantCulture)
-				: t.ToString("MMM d", CultureInfo.InvariantCulture);
+			var label = tickDays >= 28 ? t.ToString("MMM yyyy", CultureInfo.InvariantCulture) : t.ToString("MMM d", CultureInfo.InvariantCulture);
 			_ = sb.Append("\n  ");
 			ds.AppendText(sb, label, x, plotBottom + AxisLabelGap, TypeRole.Meta, anchor: "middle");
 		}
@@ -310,8 +323,17 @@ internal static class GanttSvgRenderer
 	}
 
 	private static void AppendTaskRow(
-		StringBuilder sb, DesignSystem ds, GanttTask task, ColorFamily sectionFamily, double rowY, double labelX,
-		double chartLeft, double chartWidth, DateTime min, DateTime max)
+		StringBuilder sb,
+		DesignSystem ds,
+		GanttTask task,
+		ColorFamily sectionFamily,
+		double rowY,
+		double labelX,
+		double chartLeft,
+		double chartWidth,
+		DateTime min,
+		DateTime max
+	)
 	{
 		var span = (max - min).TotalDays;
 		if (span <= 0)
@@ -332,11 +354,7 @@ internal static class GanttSvgRenderer
 		var family = isCrit ? ds.Role(ColorRole.Failure) : sectionFamily;
 
 		// done = soft + outline; active = solid base (+ accent ring below); critical / planned = the family's solid mark
-		var (fill, stroke) = isDone
-			? (family.Soft, family.Stroke)
-			: isActive
-				? (family.Base, "none")
-				: (ds.MarkFill(family), ds.MarkStroke(family));
+		var (fill, stroke) = isDone ? (family.Soft, family.Stroke) : isActive ? (family.Base, "none") : (ds.MarkFill(family), ds.MarkStroke(family));
 
 		var state = isCrit ? "critical" : isActive ? "active" : isDone ? "done" : "planned";
 		_ = sb.Append("\n<g class=\"gantt-task\" data-state=\"").Append(state).Append(IsMilestone(task) ? "\" data-milestone=\"true\">" : "\">");
@@ -377,14 +395,33 @@ internal static class GanttSvgRenderer
 
 	private static void AppendDiamond(StringBuilder sb, double cx, double cy, double r, string fill, string stroke, double strokeWidth)
 	{
-		_ = sb.Append("<polygon points=\"")
-			.Append(DesignSystem.Num(cx)).Append(',').Append(DesignSystem.Num(cy - r)).Append(' ')
-			.Append(DesignSystem.Num(cx + r)).Append(',').Append(DesignSystem.Num(cy)).Append(' ')
-			.Append(DesignSystem.Num(cx)).Append(',').Append(DesignSystem.Num(cy + r)).Append(' ')
-			.Append(DesignSystem.Num(cx - r)).Append(',').Append(DesignSystem.Num(cy))
-			.Append("\" fill=\"").Append(fill).Append('"');
+		_ = sb
+			.Append("<polygon points=\"")
+			.Append(DesignSystem.Num(cx))
+			.Append(',')
+			.Append(DesignSystem.Num(cy - r))
+			.Append(' ')
+			.Append(DesignSystem.Num(cx + r))
+			.Append(',')
+			.Append(DesignSystem.Num(cy))
+			.Append(' ')
+			.Append(DesignSystem.Num(cx))
+			.Append(',')
+			.Append(DesignSystem.Num(cy + r))
+			.Append(' ')
+			.Append(DesignSystem.Num(cx - r))
+			.Append(',')
+			.Append(DesignSystem.Num(cy))
+			.Append("\" fill=\"")
+			.Append(fill)
+			.Append('"');
 		if (stroke != "none")
-			_ = sb.Append(" stroke=\"").Append(stroke).Append("\" stroke-width=\"").Append(DesignSystem.Num(strokeWidth)).Append("\" stroke-linejoin=\"round\"");
+			_ = sb
+				.Append(" stroke=\"")
+				.Append(stroke)
+				.Append("\" stroke-width=\"")
+				.Append(DesignSystem.Num(strokeWidth))
+				.Append("\" stroke-linejoin=\"round\"");
 		_ = sb.Append(" />");
 	}
 }

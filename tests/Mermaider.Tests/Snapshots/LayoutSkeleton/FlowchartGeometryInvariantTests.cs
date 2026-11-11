@@ -18,12 +18,12 @@ public class FlowchartGeometryInvariantTests
 	}
 
 	public static IEnumerable<string> Slugs() =>
-		DiagramExamples.All
+		DiagramExamples
+			.All
 			.Where(d => d.Category == DiagramCategory.Flowchart && !d.Source.Contains("stateDiagram", StringComparison.Ordinal))
 			.Select(d => d.Slug);
 
-	private static IEnumerable<PositionedGroup> Flatten(IEnumerable<PositionedGroup> gs) =>
-		gs.SelectMany(g => new[] { g }.Concat(Flatten(g.Children)));
+	private static IEnumerable<PositionedGroup> Flatten(IEnumerable<PositionedGroup> gs) => gs.SelectMany(g => new[] { g }.Concat(Flatten(g.Children)));
 
 	private static bool Overlap(double ax, double ay, double aw, double ah, double bx, double by, double bw, double bh) =>
 		ax < bx + bw - 1 && ax + aw > bx + 1 && ay < by + bh - 1 && ay + ah > by + 1;
@@ -64,7 +64,8 @@ public class FlowchartGeometryInvariantTests
 					var x0 = Math.Min(p.X, q.X);
 					var y0 = Math.Min(p.Y, q.Y);
 					Overlap(x0, y0, Math.Abs(p.X - q.X), Math.Abs(p.Y - q.Y), n.X + 2, n.Y + 2, n.Width - 4, n.Height - 4)
-						.Should().BeFalse($"'{slug}': edge {e.Source}->{e.Target} passes through node {n.Id}");
+						.Should()
+						.BeFalse($"'{slug}': edge {e.Source}->{e.Target} passes through node {n.Id}");
 				}
 			}
 		}
@@ -84,8 +85,7 @@ public class FlowchartGeometryInvariantTests
 			// edges addressed to a subgraph (`a --> subnet1`) end on the subgraph border instead of the inner node
 			var onNode = end.X >= t.X - 2 && end.X <= t.X + t.Width + 2 && end.Y >= t.Y - 2 && end.Y <= t.Y + t.Height + 2;
 			var onGroup = Flatten(layout.Groups).Any(g => end.X >= g.X - 2 && end.X <= g.X + g.Width + 2 && end.Y >= g.Y - 2 && end.Y <= g.Y + g.Height + 2);
-			(onNode || onGroup)
-				.Should().BeTrue($"'{slug}': edge {e.Source}->{e.Target} ends off its target node");
+			(onNode || onGroup).Should().BeTrue($"'{slug}': edge {e.Source}->{e.Target} ends off its target node");
 		}
 	}
 }

@@ -17,10 +17,12 @@ namespace Sugiyama.Internal;
 internal static class LayerAssigner
 {
 	internal static void Run(
-		GraphBuffer graph, bool naturalBackEdgeRouting = false,
+		GraphBuffer graph,
+		bool naturalBackEdgeRouting = false,
 		IReadOnlyList<int>? topLevelLooseNodes = null,
 		IReadOnlyList<NestingGraphRanker.Group>? topLevelGroups = null,
-		bool reverseSourceOrder = false)
+		bool reverseSourceOrder = false
+	)
 	{
 		graph.RebuildAdjacency();
 		AssignLayersViaNetworkSimplex(graph, topLevelLooseNodes, topLevelGroups);
@@ -34,7 +36,8 @@ internal static class LayerAssigner
 	private static void AssignLayersViaNetworkSimplex(
 		GraphBuffer graph,
 		IReadOnlyList<int>? topLevelLooseNodes,
-		IReadOnlyList<NestingGraphRanker.Group>? topLevelGroups)
+		IReadOnlyList<NestingGraphRanker.Group>? topLevelGroups
+	)
 	{
 		var n = graph.NodeCount;
 		var simplexEdges = new List<NetworkSimplexRanker.SimplexEdge>(graph.Edges.Count);

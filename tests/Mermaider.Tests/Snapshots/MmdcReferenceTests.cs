@@ -19,15 +19,12 @@ namespace Mermaider.Tests.Snapshots;
 [Skip("Run manually to refresh mermaid.js reference SVGs and committed skeleton IR files")]
 public class MmdcReferenceTests
 {
-	private static string GetSourceDirectory([CallerFilePath] string path = "") =>
-		Path.GetDirectoryName(path)!;
+	private static string GetSourceDirectory([CallerFilePath] string path = "") => Path.GetDirectoryName(path)!;
 
-	private static readonly string ReferenceDir =
-		Path.Combine(GetSourceDirectory(), "Reference", "mermaidjs");
+	private static readonly string ReferenceDir = Path.Combine(GetSourceDirectory(), "Reference", "mermaidjs");
 
 	// Committed IR files for skeleton tests — does NOT contain the gitignored SVGs.
-	private static readonly string IrReferenceDir =
-		Path.Combine(GetSourceDirectory(), "LayoutSkeleton", "Reference");
+	private static readonly string IrReferenceDir = Path.Combine(GetSourceDirectory(), "LayoutSkeleton", "Reference");
 
 	[Test]
 	[MethodDataSource(nameof(AllExamples))]
@@ -45,8 +42,7 @@ public class MmdcReferenceTests
 			await File.WriteAllTextAsync(Path.Combine(IrReferenceDir, $"{example.Slug}.mjs.ir.txt"), irText);
 	}
 
-	public static IEnumerable<DiagramExample> AllExamples() =>
-		DiagramExamples.All;
+	public static IEnumerable<DiagramExample> AllExamples() => DiagramExamples.All;
 
 	// Returns null (silently, not a test failure) when the diagram category has no mjs extractor.
 	// A failure inside an extractor is re-thrown so it surfaces as a red test, not a missing file.

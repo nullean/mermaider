@@ -37,14 +37,8 @@ public class SvgSanitizerFuzzTests
 {
 	private const string SvgNamespace = "http://www.w3.org/2000/svg";
 	private const string XLinkNamespace = "http://www.w3.org/1999/xlink";
-	private static readonly HashSet<string> PaintAttributes =
-	[
-		"color", "fill", "stroke", "stop-color", "flood-color",
-	];
-	private static readonly HashSet<string> LocalReferenceAttributes =
-	[
-		"marker-start", "marker-mid", "marker-end",
-	];
+	private static readonly HashSet<string> PaintAttributes = ["color", "fill", "stroke", "stop-color", "flood-color",];
+	private static readonly HashSet<string> LocalReferenceAttributes = ["marker-start", "marker-mid", "marker-end",];
 
 	private static readonly string[] Corpus =
 	[
@@ -62,12 +56,29 @@ public class SvgSanitizerFuzzTests
 
 	private static readonly string[] MutationTokens =
 	[
-		"<script>", "</script>", "<style>", "</style>", "<foreignObject>",
-		" onclick=\"alert(1)\"", " onload=\"alert(1)\"", " href=\"javascript:alert(1)\"",
-		" style=\"background:url(https://attacker.invalid/x)\"", "url(#local)",
-		"url(https://attacker.invalid/x)", "data:image/svg+xml;base64,PHN2ZyAvPg==",
-		"&lt;", "&amp;", "<![CDATA[", "]]>", "<!--", "-->", "<?xml-stylesheet?>",
-		"xmlns:e=\"https://attacker.invalid/ns\"", "e:data-value=\"x\"", "\0", "\uD800",
+		"<script>",
+		"</script>",
+		"<style>",
+		"</style>",
+		"<foreignObject>",
+		" onclick=\"alert(1)\"",
+		" onload=\"alert(1)\"",
+		" href=\"javascript:alert(1)\"",
+		" style=\"background:url(https://attacker.invalid/x)\"",
+		"url(#local)",
+		"url(https://attacker.invalid/x)",
+		"data:image/svg+xml;base64,PHN2ZyAvPg==",
+		"&lt;",
+		"&amp;",
+		"<![CDATA[",
+		"]]>",
+		"<!--",
+		"-->",
+		"<?xml-stylesheet?>",
+		"xmlns:e=\"https://attacker.invalid/ns\"",
+		"e:data-value=\"x\"",
+		"\0",
+		"\uD800",
 	];
 
 	/// <summary>
@@ -76,46 +87,94 @@ public class SvgSanitizerFuzzTests
 	/// </summary>
 	private readonly record struct Mutation(int Kind, double At, double From, double Length, int Token);
 
-	private static readonly Gen<Mutation> GenMutation =
-		Gen.Select(Gen.Int[0, 4], Gen.Double[0, 1], Gen.Double[0, 1], Gen.Double[0, 1], Gen.Int[0, MutationTokens.Length - 1],
-			(kind, at, from, length, token) => new Mutation(kind, at, from, length, token));
+	private static readonly Gen<Mutation> GenMutation = Gen.Select(
+		Gen.Int[0, 4],
+		Gen.Double[0, 1],
+		Gen.Double[0, 1],
+		Gen.Double[0, 1],
+		Gen.Int[0, MutationTokens.Length - 1],
+		(kind, at, from, length, token) => new Mutation(kind, at, from, length, token)
+	);
 
-	private static readonly Gen<string> GenMutatedSvg =
-		Gen.Select(Gen.Int[0, Corpus.Length - 1], GenMutation.Array[1, 6], (seed, mutations) => Mutate(Corpus[seed], mutations));
+	private static readonly Gen<string> GenMutatedSvg = Gen.Select(
+		Gen.Int[0, Corpus.Length - 1],
+		GenMutation.Array[1, 6],
+		(seed, mutations) => Mutate(Corpus[seed], mutations)
+	);
 
 	[Test]
 	public void Mutational_fuzzer_preserves_the_safety_invariant() =>
-		GenMutatedSvg.Sample(input => AssertSafeAndIdempotent(input, SvgSanitizer.Sanitize(input), "the output must be safe to embed in HTML"),
-			iter: 2_500, print: input => input);
+		GenMutatedSvg.Sample(
+			input => AssertSafeAndIdempotent(input, SvgSanitizer.Sanitize(input), "the output must be safe to embed in HTML"),
+			iter: 2_500,
+			print: input => input
+		);
 
 	private static readonly string[] Elements =
 	[
-		"g", "rect", "path", "text", "title", "desc", "image", "style",
-		"script", "foreignObject", "animate", "use", "a", "iframe", "object",
+		"g",
+		"rect",
+		"path",
+		"text",
+		"title",
+		"desc",
+		"image",
+		"style",
+		"script",
+		"foreignObject",
+		"animate",
+		"use",
+		"a",
+		"iframe",
+		"object",
 	];
 
 	private static readonly string[] Attributes =
 	[
-		"fill", "stroke", "marker-end", "style", "href", "xlink:href",
-		"onclick", "onload", "data-value", "aria-label", "unknown",
+		"fill",
+		"stroke",
+		"marker-end",
+		"style",
+		"href",
+		"xlink:href",
+		"onclick",
+		"onload",
+		"data-value",
+		"aria-label",
+		"unknown",
 	];
 
 	private static readonly string[] Values =
 	[
-		"#fff", "red", "rgb(1, 2, 3)", "var(--_text)", "url(#local)",
-		"url(https://attacker.invalid/x)", "javascript:alert(1)",
+		"#fff",
+		"red",
+		"rgb(1, 2, 3)",
+		"var(--_text)",
+		"url(#local)",
+		"url(https://attacker.invalid/x)",
+		"javascript:alert(1)",
 		"data:image/svg+xml;base64,PHN2ZyAvPg==",
-		"data:image/png;base64,iVBORw0KGgo=", "\"/><script>alert(1)</script>",
-		"u\\72l(https://attacker.invalid/x)", "red;position:fixed", "<>&\"'",
+		"data:image/png;base64,iVBORw0KGgo=",
+		"\"/><script>alert(1)</script>",
+		"u\\72l(https://attacker.invalid/x)",
+		"red;position:fixed",
+		"<>&\"'",
 	];
 
 	[Test]
 	public void Structured_fuzzer_covers_element_attribute_and_value_cross_product() =>
-		Gen.Select(Gen.OneOf(Elements), Gen.OneOf(Attributes), Gen.OneOf(Values), Gen.OneOf(MutationTokens),
-				(element, attribute, value, text) =>
-				$"<svg xmlns=\"{SvgNamespace}\" xmlns:xlink=\"{XLinkNamespace}\"><{element} {attribute}=\"{EscapeAttribute(value)}\">{EscapeText(text)}</{element}></svg>")
-			.Sample(input => AssertSafeAndIdempotent(input, SvgSanitizer.Sanitize(input), "the output must be safe to embed in HTML"),
-				iter: 1_500, print: input => input);
+		Gen.Select(
+			Gen.OneOf(Elements),
+			Gen.OneOf(Attributes),
+			Gen.OneOf(Values),
+			Gen.OneOf(MutationTokens),
+			(element, attribute, value, text) =>
+				$"<svg xmlns=\"{SvgNamespace}\" xmlns:xlink=\"{XLinkNamespace}\"><{element} {attribute}=\"{EscapeAttribute(value)}\">{EscapeText(text)}</{element}></svg>"
+		).Sample(
+			input => AssertSafeAndIdempotent(input, SvgSanitizer.Sanitize(input), "the output must be safe to embed in HTML"),
+			iter: 1_500,
+			print: input => input
+		);
 
 	private static int Scale(double fraction, int count) => Math.Min((int)(fraction * count), count - 1);
 
@@ -176,8 +235,7 @@ public class SvgSanitizerFuzzTests
 		root.Name.LocalName.Should().Be("svg", because);
 		root.Name.NamespaceName.Should().BeOneOf(["", SvgNamespace], because);
 
-		root.DescendantsAndSelf().Should().OnlyContain(
-			e => SvgSanitizer.DefaultAllowedElements.Contains(e.Name.LocalName), because);
+		root.DescendantsAndSelf().Should().OnlyContain(e => SvgSanitizer.DefaultAllowedElements.Contains(e.Name.LocalName), because);
 		root.DescendantsAndSelf().Should().NotContain(e => e.Name.LocalName == "style", because);
 		root.DescendantNodes().Should().NotContain(node => node is XProcessingInstruction, because);
 
@@ -199,16 +257,19 @@ public class SvgSanitizerFuzzTests
 				if (attribute.Name.LocalName == "href")
 				{
 					element.Name.LocalName.Should().Be("image", because);
-					var allowedImageType = attribute.Value.StartsWith("data:image/svg+xml;base64,", StringComparison.Ordinal)
-						|| attribute.Value.StartsWith("data:image/png;base64,", StringComparison.Ordinal);
+					var allowedImageType = attribute.Value.StartsWith("data:image/svg+xml;base64,", StringComparison.Ordinal) || attribute.Value.StartsWith(
+						"data:image/png;base64,",
+						StringComparison.Ordinal
+					);
 					allowedImageType.Should().BeTrue(because);
 					continue;
 				}
 
 				attribute.Name.NamespaceName.Should().BeEmpty(because);
-				var allowedByName = SvgSanitizer.DefaultAllowedAttributes.Contains(attribute.Name.LocalName)
-					|| attribute.Name.LocalName.StartsWith("data-", StringComparison.Ordinal)
-					|| attribute.Name.LocalName.StartsWith("aria-", StringComparison.Ordinal);
+				var allowedByName = SvgSanitizer.DefaultAllowedAttributes.Contains(attribute.Name.LocalName) || attribute
+					.Name
+					.LocalName
+					.StartsWith("data-", StringComparison.Ordinal) || attribute.Name.LocalName.StartsWith("aria-", StringComparison.Ordinal);
 				allowedByName.Should().BeTrue(because);
 
 				if (PaintAttributes.Contains(attribute.Name.LocalName))
@@ -219,14 +280,13 @@ public class SvgSanitizerFuzzTests
 		}
 	}
 
-	private static string EscapeAttribute(string value) => value
-		.Replace("&", "&amp;", StringComparison.Ordinal)
-		.Replace("\"", "&quot;", StringComparison.Ordinal)
-		.Replace("<", "&lt;", StringComparison.Ordinal)
-		.Replace(">", "&gt;", StringComparison.Ordinal);
+	private static string EscapeAttribute(string value) =>
+		value
+			.Replace("&", "&amp;", StringComparison.Ordinal)
+			.Replace("\"", "&quot;", StringComparison.Ordinal)
+			.Replace("<", "&lt;", StringComparison.Ordinal)
+			.Replace(">", "&gt;", StringComparison.Ordinal);
 
-	private static string EscapeText(string value) => value
-		.Replace("&", "&amp;", StringComparison.Ordinal)
-		.Replace("<", "&lt;", StringComparison.Ordinal)
-		.Replace(">", "&gt;", StringComparison.Ordinal);
+	private static string EscapeText(string value) =>
+		value.Replace("&", "&amp;", StringComparison.Ordinal).Replace("<", "&lt;", StringComparison.Ordinal).Replace(">", "&gt;", StringComparison.Ordinal);
 }

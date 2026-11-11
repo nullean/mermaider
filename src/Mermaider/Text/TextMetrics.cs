@@ -59,6 +59,5 @@ internal static partial class TextMetrics
 		return new MultilineMetrics(maxWidth, lineCount * lineHeight, lineCount, lineHeight);
 	}
 
-	internal static double EstimateMonoTextWidth(ReadOnlySpan<char> text, double fontSize) =>
-		text.Length * fontSize * 0.6;
+	internal static double EstimateMonoTextWidth(ReadOnlySpan<char> text, double fontSize) => text.Length * fontSize * 0.6;
 }

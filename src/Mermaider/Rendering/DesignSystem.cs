@@ -82,9 +82,26 @@ internal sealed partial class DesignSystem
 
 	private static string IdPrefix(DiagramColors colors, DesignInputs inputs)
 	{
-		var key = string.Join('|', colors.Bg, colors.Fg, colors.Accent, colors.Line, colors.Muted, colors.Surface, colors.Border,
-			colors.DataPalette is null ? "" : string.Join(',', colors.DataPalette), colors.Default, colors.Success, colors.Failure,
-			colors.Warning, colors.Info, inputs.Spec.Style, inputs.Gradient, inputs.Tint, inputs.Elevation);
+		var key = string.Join(
+			'|',
+			colors.Bg,
+			colors.Fg,
+			colors.Accent,
+			colors.Line,
+			colors.Muted,
+			colors.Surface,
+			colors.Border,
+			colors.DataPalette is null ? "" : string.Join(',', colors.DataPalette),
+			colors.Default,
+			colors.Success,
+			colors.Failure,
+			colors.Warning,
+			colors.Info,
+			inputs.Spec.Style,
+			inputs.Gradient,
+			inputs.Tint,
+			inputs.Elevation
+		);
 		var hash = 2166136261u;
 		foreach (var c in key)
 			hash = (hash ^ c) * 16777619u;
@@ -160,12 +177,13 @@ internal sealed partial class DesignSystem
 	/// Fill of a node / card / cell in <paramref name="family"/>: gradient, flat, page knock-out or soft per preset. A family
 	/// carrying the caller's <c>Surface</c> override (the <c>Default</c> family) is filled with it, solid, in every preset.
 	/// </summary>
-	internal string NodeFill(ColorFamily family) => family.SurfaceOverride ?? Spec.Fill switch
-	{
-		FillKind.Knockout => "var(--bg)",
-		FillKind.Soft => family.Soft,
-		_ => Gradient ? VerticalGradient("ng-" + family.Key, family.Top, family.Bot) : family.Flat,
-	};
+	internal string NodeFill(ColorFamily family) =>
+		family.SurfaceOverride ?? Spec.Fill switch
+		{
+			FillKind.Knockout => "var(--bg)",
+			FillKind.Soft => family.Soft,
+			_ => Gradient ? VerticalGradient("ng-" + family.Key, family.Top, family.Bot) : family.Flat,
+		};
 
 	/// <summary>
 	/// Outline colour of a node; <c>none</c> when the preset has no outlines (Tonal, where a <c>Border</c> override therefore
@@ -185,12 +203,26 @@ internal sealed partial class DesignSystem
 	internal void AppendBox(StringBuilder sb, double x, double y, double w, double h, ColorFamily family, double? radius = null)
 	{
 		var r = Num(radius ?? Spec.NodeRadius);
-		_ = sb.Append("<rect x=\"").Append(x).Append("\" y=\"").Append(y)
-			.Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
-			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"").Append(NodeFill(family))
-			.Append("\" stroke=\"").Append(NodeStroke(family))
-			.Append("\" stroke-width=\"").Append(NodeStrokeWidth).Append("\" />");
+		_ = sb
+			.Append("<rect x=\"")
+			.Append(x)
+			.Append("\" y=\"")
+			.Append(y)
+			.Append("\" width=\"")
+			.Append(w)
+			.Append("\" height=\"")
+			.Append(h)
+			.Append("\" rx=\"")
+			.Append(r)
+			.Append("\" ry=\"")
+			.Append(r)
+			.Append("\" fill=\"")
+			.Append(NodeFill(family))
+			.Append("\" stroke=\"")
+			.Append(NodeStroke(family))
+			.Append("\" stroke-width=\"")
+			.Append(NodeStrokeWidth)
+			.Append("\" />");
 	}
 
 	// ====================================================================
@@ -207,9 +239,12 @@ internal sealed partial class DesignSystem
 	internal string ContainerFill(ColorFamily family, int depth) => Spec.Container switch
 	{
 		ContainerKind.Tab => "none",
-		_ when Gradient => DiagonalGradient(
-			"cw-" + family.Key + "-" + depth.ToString(CultureInfo.InvariantCulture),
-			family.Mix((ColorFamily.TintRatio + (ColorFamily.TintStep * depth)) * 0.35 * TintStrength), family.Tint(depth)),
+		_ when Gradient =>
+			DiagonalGradient(
+				"cw-" + family.Key + "-" + depth.ToString(CultureInfo.InvariantCulture),
+				family.Mix((ColorFamily.TintRatio + (ColorFamily.TintStep * depth)) * 0.35 * TintStrength),
+				family.Tint(depth)
+			),
 		_ => family.Tint(depth),
 	};
 
@@ -230,18 +265,42 @@ internal sealed partial class DesignSystem
 	/// The container body: everything drawn underneath the edges. Call <see cref="AppendContainerHeader"/> after the edges so
 	/// titles stay on top. <paramref name="cssClass"/> keeps the elevation rule (<c>subgraph</c>, <c>kanban-column</c>, …).
 	/// </summary>
-	internal void AppendContainerBody(StringBuilder sb, double x, double y, double w, double h, ColorFamily family, int depth, string cssClass = "subgraph", string? dataAttrs = null)
+	internal void AppendContainerBody(
+		StringBuilder sb,
+		double x,
+		double y,
+		double w,
+		double h,
+		ColorFamily family,
+		int depth,
+		string cssClass = "subgraph",
+		string? dataAttrs = null
+	)
 	{
 		var r = Num(Spec.ContainerRadius);
 		_ = sb.Append("\n<g class=\"").Append(cssClass).Append('"');
 		if (dataAttrs is not null)
 			_ = sb.Append(' ').Append(dataAttrs);
-		_ = sb.Append(">\n  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
-			.Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
-			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"").Append(ContainerFill(family, depth))
-			.Append("\" stroke=\"").Append(ContainerOutline(family))
-			.Append("\" stroke-width=\"").Append(ContainerStrokeWidth).Append('"');
+		_ = sb
+			.Append(">\n  <rect x=\"")
+			.Append(x)
+			.Append("\" y=\"")
+			.Append(y)
+			.Append("\" width=\"")
+			.Append(w)
+			.Append("\" height=\"")
+			.Append(h)
+			.Append("\" rx=\"")
+			.Append(r)
+			.Append("\" ry=\"")
+			.Append(r)
+			.Append("\" fill=\"")
+			.Append(ContainerFill(family, depth))
+			.Append("\" stroke=\"")
+			.Append(ContainerOutline(family))
+			.Append("\" stroke-width=\"")
+			.Append(ContainerStrokeWidth)
+			.Append('"');
 		if (Spec.DashedContainers)
 			_ = sb.Append(" stroke-dasharray=\"3 4\"");
 		_ = sb.Append(" />");
@@ -251,9 +310,20 @@ internal sealed partial class DesignSystem
 			// header strip: rounded top, square bottom, in the family band, with a hairline under it
 			_ = sb.Append("\n  ");
 			AppendTopRoundedRect(sb, x, y, w, StripHeight, Spec.ContainerRadius, family.Band);
-			_ = sb.Append("\n  <line x1=\"").Append(x).Append("\" y1=\"").Append(y + StripHeight)
-				.Append("\" x2=\"").Append(x + w).Append("\" y2=\"").Append(y + StripHeight)
-				.Append("\" stroke=\"").Append(family.Edge).Append("\" stroke-width=\"").Append(ContainerStrokeWidth).Append("\" />");
+			_ = sb
+				.Append("\n  <line x1=\"")
+				.Append(x)
+				.Append("\" y1=\"")
+				.Append(y + StripHeight)
+				.Append("\" x2=\"")
+				.Append(x + w)
+				.Append("\" y2=\"")
+				.Append(y + StripHeight)
+				.Append("\" stroke=\"")
+				.Append(family.Edge)
+				.Append("\" stroke-width=\"")
+				.Append(ContainerStrokeWidth)
+				.Append("\" />");
 		}
 
 		_ = sb.Append("\n</g>");
@@ -274,10 +344,22 @@ internal sealed partial class DesignSystem
 					var textW = XsWidth(caps, 600, letterSpacingPerChar: 1.0);
 					var tabX = x + 12;
 					// knock the border out behind the tab, then tick + caps title
-					_ = sb.Append("\n<rect x=\"").Append(tabX - 4).Append("\" y=\"").Append(y - 1)
-						.Append("\" width=\"").Append(textW + 20).Append("\" height=\"2\" fill=\"var(--bg)\" />");
-					_ = sb.Append("\n<rect x=\"").Append(tabX).Append("\" y=\"").Append(y - 5)
-						.Append("\" width=\"2\" height=\"10\" fill=\"").Append(family.Stroke).Append("\" />");
+					_ = sb
+						.Append("\n<rect x=\"")
+						.Append(tabX - 4)
+						.Append("\" y=\"")
+						.Append(y - 1)
+						.Append("\" width=\"")
+						.Append(textW + 20)
+						.Append("\" height=\"2\" fill=\"var(--bg)\" />");
+					_ = sb
+						.Append("\n<rect x=\"")
+						.Append(tabX)
+						.Append("\" y=\"")
+						.Append(y - 5)
+						.Append("\" width=\"2\" height=\"10\" fill=\"")
+						.Append(family.Stroke)
+						.Append("\" />");
 					_ = sb.Append('\n');
 					AppendText(sb, caps, tabX + 8, y, TypeRole.Eyebrow, family.Ink, anchor: "start");
 					if (count is not null)
@@ -292,10 +374,24 @@ internal sealed partial class DesignSystem
 				{
 					var textW = TextMetrics.MeasureTextWidth(title, Px(TypeRole.Subheading), 700);
 					var chipW = textW + 34;
-					_ = sb.Append("\n<rect x=\"").Append(x + 10).Append("\" y=\"").Append(y + 8)
-						.Append("\" width=\"").Append(chipW).Append("\" height=\"22\" rx=\"11\" ry=\"11\" fill=\"").Append(family.Band).Append("\" />");
-					_ = sb.Append("\n<circle cx=\"").Append(x + 22).Append("\" cy=\"").Append(y + 19)
-						.Append("\" r=\"3.5\" fill=\"").Append(family.Stroke).Append("\" />");
+					_ = sb
+						.Append("\n<rect x=\"")
+						.Append(x + 10)
+						.Append("\" y=\"")
+						.Append(y + 8)
+						.Append("\" width=\"")
+						.Append(chipW)
+						.Append("\" height=\"22\" rx=\"11\" ry=\"11\" fill=\"")
+						.Append(family.Band)
+						.Append("\" />");
+					_ = sb
+						.Append("\n<circle cx=\"")
+						.Append(x + 22)
+						.Append("\" cy=\"")
+						.Append(y + 19)
+						.Append("\" r=\"3.5\" fill=\"")
+						.Append(family.Stroke)
+						.Append("\" />");
 					_ = sb.Append('\n');
 					AppendText(sb, title, x + 30, y + 19, TypeRole.Subheading, family.Ink, anchor: "start", weight: 700);
 					if (count is not null)
@@ -385,9 +481,10 @@ internal sealed partial class DesignSystem
 
 		var body = shape switch
 		{
-			MarkerShape.Arrow => Spec.Marker == MarkerKind.Thin
-				? $"<path d=\"M{Pt(back, cy - half)} L{Pt(tip, cy)} L{Pt(back, cy + half)}\" fill=\"none\" stroke=\"{color}\" stroke-width=\"1.25\" stroke-linejoin=\"{join}\" stroke-linecap=\"round\" />"
-				: $"<polygon points=\"{Pt(back, cy - half)} {Pt(tip, cy)} {Pt(back, cy + half)}\" fill=\"{color}\" stroke=\"{color}\" stroke-width=\"{Num(sw)}\" stroke-linejoin=\"{join}\" />",
+			MarkerShape.Arrow =>
+				Spec.Marker == MarkerKind.Thin
+					? $"<path d=\"M{Pt(back, cy - half)} L{Pt(tip, cy)} L{Pt(back, cy + half)}\" fill=\"none\" stroke=\"{color}\" stroke-width=\"1.25\" stroke-linejoin=\"{join}\" stroke-linecap=\"round\" />"
+					: $"<polygon points=\"{Pt(back, cy - half)} {Pt(tip, cy)} {Pt(back, cy + half)}\" fill=\"{color}\" stroke=\"{color}\" stroke-width=\"{Num(sw)}\" stroke-linejoin=\"{join}\" />",
 			MarkerShape.Open =>
 				$"<path d=\"M{Pt(back, cy - half)} L{Pt(tip, cy)} L{Pt(back, cy + half)}\" fill=\"none\" stroke=\"{color}\" stroke-width=\"{Num(sw + 0.25)}\" stroke-linejoin=\"{join}\" stroke-linecap=\"round\" />",
 			MarkerShape.Triangle =>
@@ -401,9 +498,7 @@ internal sealed partial class DesignSystem
 		};
 
 		var w = shape is MarkerShape.Diamond or MarkerShape.DiamondHollow or MarkerShape.Circle ? size + 2 : size;
-		var refX = shape is MarkerShape.Diamond or MarkerShape.DiamondHollow or MarkerShape.Circle
-			? (atStart ? 0 : w)
-			: tip;
+		var refX = shape is MarkerShape.Diamond or MarkerShape.DiamondHollow or MarkerShape.Circle ? (atStart ? 0 : w) : tip;
 		return $"  <marker id=\"{id}\" markerUnits=\"userSpaceOnUse\" markerWidth=\"{Num(w + 1)}\" markerHeight=\"12\" refX=\"{Num(refX)}\" refY=\"{Num(cy)}\" orient=\"auto\">\n    {body}\n  </marker>";
 	}
 
@@ -434,28 +529,59 @@ internal sealed partial class DesignSystem
 		switch (Spec.Label)
 		{
 			case LabelKind.Pill:
-				_ = sb.Append("<rect x=\"").Append(cx - (w / 2)).Append("\" y=\"").Append(cy - (h / 2))
-					.Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
-					.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-					.Append("\" fill=\"var(--bg)\" stroke=\"").Append(EdgeColor).Append("\" stroke-width=\"").Append(EdgeWidth).Append("\" />");
+				_ = sb
+					.Append("<rect x=\"")
+					.Append(cx - (w / 2))
+					.Append("\" y=\"")
+					.Append(cy - (h / 2))
+					.Append("\" width=\"")
+					.Append(w)
+					.Append("\" height=\"")
+					.Append(h)
+					.Append("\" rx=\"")
+					.Append(r)
+					.Append("\" ry=\"")
+					.Append(r)
+					.Append("\" fill=\"var(--bg)\" stroke=\"")
+					.Append(EdgeColor)
+					.Append("\" stroke-width=\"")
+					.Append(EdgeWidth)
+					.Append("\" />");
 				break;
 			case LabelKind.Halo:
 				// a borderless page-coloured knock-out: the halo alone lets the line show through the gaps between words
-				_ = sb.Append("<rect x=\"").Append(cx - (metrics.Width / 2) - 3).Append("\" y=\"").Append(cy - (metrics.Height / 2) - 1)
-					.Append("\" width=\"").Append(metrics.Width + 6).Append("\" height=\"").Append(metrics.Height + 2)
+				_ = sb
+					.Append("<rect x=\"")
+					.Append(cx - (metrics.Width / 2) - 3)
+					.Append("\" y=\"")
+					.Append(cy - (metrics.Height / 2) - 1)
+					.Append("\" width=\"")
+					.Append(metrics.Width + 6)
+					.Append("\" height=\"")
+					.Append(metrics.Height + 2)
 					.Append("\" fill=\"var(--bg)\" stroke=\"none\" />");
 				break;
 			case LabelKind.Chip:
-				_ = sb.Append("<rect x=\"").Append(cx - (w / 2)).Append("\" y=\"").Append(cy - (h / 2))
-					.Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
-					.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
+				_ = sb
+					.Append("<rect x=\"")
+					.Append(cx - (w / 2))
+					.Append("\" y=\"")
+					.Append(cy - (h / 2))
+					.Append("\" width=\"")
+					.Append(w)
+					.Append("\" height=\"")
+					.Append(h)
+					.Append("\" rx=\"")
+					.Append(r)
+					.Append("\" ry=\"")
+					.Append(r)
 					.Append("\" fill=\"var(--_key-badge)\" stroke=\"none\" />");
 				break;
 		}
 
 		_ = sb.Append(' ');
-		var attrs = TextAttributes(TypeRole.Caption, colorOverride ?? "var(--_text)", anchor: "middle", weight: Spec.Label == LabelKind.Chip ? 600 : null)
-			+ (Spec.Label == LabelKind.Halo ? HaloAttributes : "");
+		var attrs = TextAttributes(TypeRole.Caption, colorOverride ?? "var(--_text)", anchor: "middle", weight: Spec.Label == LabelKind.Chip ? 600 : null) +
+			(Spec.Label == LabelKind.Halo ? HaloAttributes : "");
 		MultilineUtils.AppendMultilineText(sb, text, cx, cy, px, attrs);
 	}
 
@@ -474,10 +600,20 @@ internal sealed partial class DesignSystem
 		};
 		if (Spec.Badge != BadgeKind.Bracket)
 		{
-			_ = sb.Append("<rect x=\"").Append(left).Append("\" y=\"").Append(cy - 8)
-				.Append("\" width=\"").Append(w).Append("\" height=\"16\" rx=\"")
-				.Append(Spec.Badge == BadgeKind.Chip ? "8" : "4").Append("\" ry=\"").Append(Spec.Badge == BadgeKind.Chip ? "8" : "4")
-				.Append("\" fill=\"").Append(Spec.Badge == BadgeKind.Chip ? family.Soft : family.Band).Append("\" />");
+			_ = sb
+				.Append("<rect x=\"")
+				.Append(left)
+				.Append("\" y=\"")
+				.Append(cy - 8)
+				.Append("\" width=\"")
+				.Append(w)
+				.Append("\" height=\"16\" rx=\"")
+				.Append(Spec.Badge == BadgeKind.Chip ? "8" : "4")
+				.Append("\" ry=\"")
+				.Append(Spec.Badge == BadgeKind.Chip ? "8" : "4")
+				.Append("\" fill=\"")
+				.Append(Spec.Badge == BadgeKind.Chip ? family.Soft : family.Band)
+				.Append("\" />");
 		}
 
 		AppendText(sb, shown, left + (w / 2), cy, TypeRole.Tag, family.Ink, anchor: "middle");
@@ -490,9 +626,19 @@ internal sealed partial class DesignSystem
 		_ = sb.Append("\n<g class=\"note\">");
 		if (linkFrom is { } lf && linkTo is { } lt)
 		{
-			_ = sb.Append("\n  <line x1=\"").Append(lf.X).Append("\" y1=\"").Append(lf.Y)
-				.Append("\" x2=\"").Append(lt.X).Append("\" y2=\"").Append(lt.Y)
-				.Append("\" stroke=\"").Append(Accent.Edge).Append("\" stroke-width=\"1.25\" stroke-dasharray=\"").Append(DotArray)
+			_ = sb
+				.Append("\n  <line x1=\"")
+				.Append(lf.X)
+				.Append("\" y1=\"")
+				.Append(lf.Y)
+				.Append("\" x2=\"")
+				.Append(lt.X)
+				.Append("\" y2=\"")
+				.Append(lt.Y)
+				.Append("\" stroke=\"")
+				.Append(Accent.Edge)
+				.Append("\" stroke-width=\"1.25\" stroke-dasharray=\"")
+				.Append(DotArray)
 				.Append("\" stroke-linecap=\"round\" />");
 		}
 
@@ -503,35 +649,99 @@ internal sealed partial class DesignSystem
 				{
 					const double t = 6;
 					var a = ColorFamily.AccentBase;
-					_ = sb.Append("<path d=\"M").Append(x).Append(',').Append(y + t).Append(" V").Append(y).Append(" H").Append(x + t)
-						.Append(" M").Append(x + w - t).Append(',').Append(y).Append(" H").Append(x + w).Append(" V").Append(y + t)
-						.Append(" M").Append(x + w).Append(',').Append(y + h - t).Append(" V").Append(y + h).Append(" H").Append(x + w - t)
-						.Append(" M").Append(x + t).Append(',').Append(y + h).Append(" H").Append(x).Append(" V").Append(y + h - t)
-						.Append("\" fill=\"none\" stroke=\"").Append(a).Append("\" stroke-width=\"1.5\" />");
+					_ = sb
+						.Append("<path d=\"M")
+						.Append(x)
+						.Append(',')
+						.Append(y + t)
+						.Append(" V")
+						.Append(y)
+						.Append(" H")
+						.Append(x + t)
+						.Append(" M")
+						.Append(x + w - t)
+						.Append(',')
+						.Append(y)
+						.Append(" H")
+						.Append(x + w)
+						.Append(" V")
+						.Append(y + t)
+						.Append(" M")
+						.Append(x + w)
+						.Append(',')
+						.Append(y + h - t)
+						.Append(" V")
+						.Append(y + h)
+						.Append(" H")
+						.Append(x + w - t)
+						.Append(" M")
+						.Append(x + t)
+						.Append(',')
+						.Append(y + h)
+						.Append(" H")
+						.Append(x)
+						.Append(" V")
+						.Append(y + h - t)
+						.Append("\" fill=\"none\" stroke=\"")
+						.Append(a)
+						.Append("\" stroke-width=\"1.5\" />");
 					break;
 				}
 			case NoteKind.Sticker:
-				_ = sb.Append("<rect x=\"").Append(x).Append("\" y=\"").Append(y)
-					.Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
-					.Append("\" rx=\"10\" ry=\"10\" fill=\"").Append(Accent.Band).Append("\" stroke=\"none\" />");
+				_ = sb
+					.Append("<rect x=\"")
+					.Append(x)
+					.Append("\" y=\"")
+					.Append(y)
+					.Append("\" width=\"")
+					.Append(w)
+					.Append("\" height=\"")
+					.Append(h)
+					.Append("\" rx=\"10\" ry=\"10\" fill=\"")
+					.Append(Accent.Band)
+					.Append("\" stroke=\"none\" />");
 				_ = sb.Append("\n  ");
 				AppendText(sb, "“", x + 9, y + 11, TypeRole.Heading, ColorFamily.AccentBase, anchor: "middle", weight: 700);
 				break;
 			default:
-				_ = sb.Append("<rect x=\"").Append(x).Append("\" y=\"").Append(y)
-					.Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
-					.Append("\" rx=\"4\" ry=\"4\" fill=\"").Append(Accent.Tint(1)).Append("\" stroke=\"").Append(Accent.Edge)
+				_ = sb
+					.Append("<rect x=\"")
+					.Append(x)
+					.Append("\" y=\"")
+					.Append(y)
+					.Append("\" width=\"")
+					.Append(w)
+					.Append("\" height=\"")
+					.Append(h)
+					.Append("\" rx=\"4\" ry=\"4\" fill=\"")
+					.Append(Accent.Tint(1))
+					.Append("\" stroke=\"")
+					.Append(Accent.Edge)
 					.Append("\" stroke-width=\"1\" />");
-				_ = sb.Append("\n  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
-					.Append("\" width=\"3\" height=\"").Append(h).Append("\" fill=\"").Append(ColorFamily.AccentBase).Append("\" />");
+				_ = sb
+					.Append("\n  <rect x=\"")
+					.Append(x)
+					.Append("\" y=\"")
+					.Append(y)
+					.Append("\" width=\"3\" height=\"")
+					.Append(h)
+					.Append("\" fill=\"")
+					.Append(ColorFamily.AccentBase)
+					.Append("\" />");
 				break;
 		}
 
 		_ = sb.Append("\n  ");
 		// layouts size notes at the caption tier, so the text is set at that tier too
 		var px = Px(TypeRole.Caption);
-		MultilineUtils.AppendMultilineText(sb, text, x + (w / 2) + (Spec.Note == NoteKind.Rail ? 1.5 : 0), y + (h / 2), px,
-			TextAttributes(TypeRole.Caption, Accent.Ink, anchor: "middle"));
+		MultilineUtils.AppendMultilineText(
+			sb,
+			text,
+			x + (w / 2) + (Spec.Note == NoteKind.Rail ? 1.5 : 0),
+			y + (h / 2),
+			px,
+			TextAttributes(TypeRole.Caption, Accent.Ink, anchor: "middle")
+		);
 		_ = sb.Append("\n</g>");
 	}
 
@@ -545,12 +755,18 @@ internal sealed partial class DesignSystem
 		_ = sb.Append("\n<g class=\"diagram-title\">\n  ");
 		_ = Spec.TitleMark switch
 		{
-			TitleMark.Rule => sb.Append("<rect x=\"").Append(x).Append("\" y=\"").Append(cy - 9)
-								.Append("\" width=\"3\" height=\"18\" fill=\"").Append(a).Append("\" />"),
-			TitleMark.Disc => sb.Append("<circle cx=\"").Append(x + 5).Append("\" cy=\"").Append(cy)
-								.Append("\" r=\"5\" fill=\"").Append(a).Append("\" />"),
-			_ => sb.Append("<rect x=\"").Append(x).Append("\" y=\"").Append(cy - 4.5)
-								.Append("\" width=\"9\" height=\"9\" rx=\"2\" ry=\"2\" fill=\"").Append(a).Append("\" />"),
+			TitleMark.Rule =>
+				sb.Append("<rect x=\"").Append(x).Append("\" y=\"").Append(cy - 9).Append("\" width=\"3\" height=\"18\" fill=\"").Append(a).Append("\" />"),
+			TitleMark.Disc => sb.Append("<circle cx=\"").Append(x + 5).Append("\" cy=\"").Append(cy).Append("\" r=\"5\" fill=\"").Append(a).Append("\" />"),
+			_ =>
+				sb
+					.Append("<rect x=\"")
+					.Append(x)
+					.Append("\" y=\"")
+					.Append(cy - 4.5)
+					.Append("\" width=\"9\" height=\"9\" rx=\"2\" ry=\"2\" fill=\"")
+					.Append(a)
+					.Append("\" />"),
 		};
 		_ = sb.Append("\n  ");
 		AppendText(sb, title, x + TitleIndent, cy, TypeRole.Title, null, anchor: "start");
@@ -566,17 +782,46 @@ internal sealed partial class DesignSystem
 			var s = r * 1.6;
 			if (end)
 			{
-				_ = sb.Append("<rect x=\"").Append(cx - (s / 2)).Append("\" y=\"").Append(cy - (s / 2))
-					.Append("\" width=\"").Append(s).Append("\" height=\"").Append(s)
-					.Append("\" fill=\"none\" stroke=\"").Append(a).Append("\" stroke-width=\"1.5\" />\n");
+				_ = sb
+					.Append("<rect x=\"")
+					.Append(cx - (s / 2))
+					.Append("\" y=\"")
+					.Append(cy - (s / 2))
+					.Append("\" width=\"")
+					.Append(s)
+					.Append("\" height=\"")
+					.Append(s)
+					.Append("\" fill=\"none\" stroke=\"")
+					.Append(a)
+					.Append("\" stroke-width=\"1.5\" />\n");
 				var inner = s * 0.5;
-				_ = sb.Append("<rect x=\"").Append(cx - (inner / 2)).Append("\" y=\"").Append(cy - (inner / 2))
-					.Append("\" width=\"").Append(inner).Append("\" height=\"").Append(inner).Append("\" fill=\"").Append(a).Append("\" />");
+				_ = sb
+					.Append("<rect x=\"")
+					.Append(cx - (inner / 2))
+					.Append("\" y=\"")
+					.Append(cy - (inner / 2))
+					.Append("\" width=\"")
+					.Append(inner)
+					.Append("\" height=\"")
+					.Append(inner)
+					.Append("\" fill=\"")
+					.Append(a)
+					.Append("\" />");
 			}
 			else
 			{
-				_ = sb.Append("<rect x=\"").Append(cx - (s / 2)).Append("\" y=\"").Append(cy - (s / 2))
-					.Append("\" width=\"").Append(s).Append("\" height=\"").Append(s).Append("\" fill=\"").Append(a).Append("\" />");
+				_ = sb
+					.Append("<rect x=\"")
+					.Append(cx - (s / 2))
+					.Append("\" y=\"")
+					.Append(cy - (s / 2))
+					.Append("\" width=\"")
+					.Append(s)
+					.Append("\" height=\"")
+					.Append(s)
+					.Append("\" fill=\"")
+					.Append(a)
+					.Append("\" />");
 			}
 
 			return;
@@ -585,15 +830,30 @@ internal sealed partial class DesignSystem
 		var rr = Spec.Terminal == TerminalKind.Disc ? Math.Min(r, 8) : r;
 		if (end)
 		{
-			_ = sb.Append("<circle cx=\"").Append(cx).Append("\" cy=\"").Append(cy).Append("\" r=\"").Append(rr)
-				.Append("\" fill=\"none\" stroke=\"").Append(a).Append("\" stroke-width=\"2\" />\n");
-			_ = sb.Append("<circle cx=\"").Append(cx).Append("\" cy=\"").Append(cy).Append("\" r=\"").Append(Math.Max(2, rr - 4))
-				.Append("\" fill=\"").Append(a).Append("\" />");
+			_ = sb
+				.Append("<circle cx=\"")
+				.Append(cx)
+				.Append("\" cy=\"")
+				.Append(cy)
+				.Append("\" r=\"")
+				.Append(rr)
+				.Append("\" fill=\"none\" stroke=\"")
+				.Append(a)
+				.Append("\" stroke-width=\"2\" />\n");
+			_ = sb
+				.Append("<circle cx=\"")
+				.Append(cx)
+				.Append("\" cy=\"")
+				.Append(cy)
+				.Append("\" r=\"")
+				.Append(Math.Max(2, rr - 4))
+				.Append("\" fill=\"")
+				.Append(a)
+				.Append("\" />");
 		}
 		else
 		{
-			_ = sb.Append("<circle cx=\"").Append(cx).Append("\" cy=\"").Append(cy).Append("\" r=\"").Append(rr)
-				.Append("\" fill=\"").Append(a).Append("\" />");
+			_ = sb.Append("<circle cx=\"").Append(cx).Append("\" cy=\"").Append(cy).Append("\" r=\"").Append(rr).Append("\" fill=\"").Append(a).Append("\" />");
 		}
 	}
 
@@ -637,8 +897,7 @@ internal sealed partial class DesignSystem
 	};
 
 	/// <summary>True when the role renders in the mono font under this preset.</summary>
-	internal bool IsMono(TypeRole role) =>
-		Spec.MonoXs && role is TypeRole.Caption or TypeRole.Tag or TypeRole.Meta or TypeRole.Eyebrow;
+	internal bool IsMono(TypeRole role) => Spec.MonoXs && role is TypeRole.Caption or TypeRole.Tag or TypeRole.Meta or TypeRole.Eyebrow;
 
 	/// <summary>Attribute string for a text element in <paramref name="role"/> (size, weight, colour, anchor, mono, tracking).</summary>
 	internal string TextAttributes(TypeRole role, string? color = null, string anchor = "middle", int? weight = null)
@@ -646,8 +905,14 @@ internal sealed partial class DesignSystem
 		var sb = new StringBuilder(160);
 		if (IsMono(role))
 			_ = sb.Append("class=\"mono\" ");
-		_ = sb.Append("text-anchor=\"").Append(anchor).Append("\" font-size=\"").Append(FsVar(role))
-			.Append("\" font-weight=\"").Append(weight ?? Weight(role)).Append('"');
+		_ = sb
+			.Append("text-anchor=\"")
+			.Append(anchor)
+			.Append("\" font-size=\"")
+			.Append(FsVar(role))
+			.Append("\" font-weight=\"")
+			.Append(weight ?? Weight(role))
+			.Append('"');
 		if (role == TypeRole.Eyebrow)
 			_ = sb.Append(" letter-spacing=\"0.08em\"");
 		_ = sb.Append(" fill=\"").Append(color ?? DefaultColor(role)).Append('"');
@@ -655,8 +920,16 @@ internal sealed partial class DesignSystem
 	}
 
 	/// <summary>Appends a (possibly multi-line) text centred vertically on <paramref name="cy"/>.</summary>
-	internal void AppendText(StringBuilder sb, string text, double x, double cy, TypeRole role, string? color = null, string anchor = "middle", int? weight = null) =>
-		MultilineUtils.AppendMultilineText(sb, text, x, cy, Px(role), TextAttributes(role, color, anchor, weight));
+	internal void AppendText(
+		StringBuilder sb,
+		string text,
+		double x,
+		double cy,
+		TypeRole role,
+		string? color = null,
+		string anchor = "middle",
+		int? weight = null
+	) => MultilineUtils.AppendMultilineText(sb, text, x, cy, Px(role), TextAttributes(role, color, anchor, weight));
 
 	// ====================================================================
 	// Gradients and defs
@@ -672,9 +945,11 @@ internal sealed partial class DesignSystem
 
 	/// <summary>Registers a gradient in user space between two points (sankey ribbons) and returns its <c>url(#id)</c>.</summary>
 	internal string SpanGradient(string id, double x1, double y1, double x2, double y2, string from, string to, double opacity) =>
-		RegisterGradient(id,
+		RegisterGradient(
+			id,
 			$"gradientUnits=\"userSpaceOnUse\" x1=\"{Num(x1)}\" y1=\"{Num(y1)}\" x2=\"{Num(x2)}\" y2=\"{Num(y2)}\"",
-			[(0, from, opacity), (1, to, opacity)]);
+			[(0, from, opacity), (1, to, opacity)]
+		);
 
 	/// <summary>
 	/// Registers a radial gradient in user space (centre <paramref name="cx"/>, <paramref name="cy"/>, radius <paramref name="r"/>)
@@ -685,17 +960,18 @@ internal sealed partial class DesignSystem
 		id = _idPrefix + id;
 		if (!_gradients.ContainsKey(id))
 		{
-			_gradients[id] = $"  <radialGradient id=\"{id}\" gradientUnits=\"userSpaceOnUse\" cx=\"{Num(cx)}\" cy=\"{Num(cy)}\" r=\"{Num(r)}\">"
-				+ $"<stop offset=\"{Num(startOffset)}\" stop-color=\"{centre}\" /><stop offset=\"1\" stop-color=\"{rim}\" /></radialGradient>";
+			_gradients[id] = $"  <radialGradient id=\"{id}\" gradientUnits=\"userSpaceOnUse\" cx=\"{Num(cx)}\" cy=\"{Num(cy)}\" r=\"{Num(r)}\">" +
+				$"<stop offset=\"{Num(startOffset)}\" stop-color=\"{centre}\" /><stop offset=\"1\" stop-color=\"{rim}\" /></radialGradient>";
 		}
 
 		return "url(#" + id + ")";
 	}
 
 	/// <summary>Fill for a bar / column in a series colour: gradient (base → lighter) when gradients are on, else solid.</summary>
-	internal string BarFill(ColorFamily family) => Gradient && Spec.ChartMarks != ChartMarkKind.Outline
-		? VerticalGradient("bg-" + family.Key, family.Base, ColorFamily.Mix(family.Base, 62, "var(--bg)"))
-		: Spec.ChartMarks == ChartMarkKind.Outline ? family.Mix(ColorFamily.AreaOpacity * 100) : family.Base;
+	internal string BarFill(ColorFamily family) =>
+		Gradient && Spec.ChartMarks != ChartMarkKind.Outline
+			? VerticalGradient("bg-" + family.Key, family.Base, ColorFamily.Mix(family.Base, 62, "var(--bg)"))
+			: Spec.ChartMarks == ChartMarkKind.Outline ? family.Mix(ColorFamily.AreaOpacity * 100) : family.Base;
 
 	private string RegisterGradient(string id, string geometry, (double Offset, string Color, double? Opacity)[] stops)
 	{
@@ -748,13 +1024,42 @@ internal sealed partial class DesignSystem
 	internal static void AppendTopRoundedRect(StringBuilder sb, double x, double y, double w, double h, double radius, string fill)
 	{
 		var r = Math.Min(radius, Math.Min(w / 2, h));
-		_ = sb.Append("<path d=\"M").Append(x).Append(',').Append(y + h)
-			.Append(" L").Append(x).Append(',').Append(y + r)
-			.Append(" Q").Append(x).Append(',').Append(y).Append(' ').Append(x + r).Append(',').Append(y)
-			.Append(" L").Append(x + w - r).Append(',').Append(y)
-			.Append(" Q").Append(x + w).Append(',').Append(y).Append(' ').Append(x + w).Append(',').Append(y + r)
-			.Append(" L").Append(x + w).Append(',').Append(y + h)
-			.Append(" Z\" fill=\"").Append(fill).Append("\" />");
+		_ = sb
+			.Append("<path d=\"M")
+			.Append(x)
+			.Append(',')
+			.Append(y + h)
+			.Append(" L")
+			.Append(x)
+			.Append(',')
+			.Append(y + r)
+			.Append(" Q")
+			.Append(x)
+			.Append(',')
+			.Append(y)
+			.Append(' ')
+			.Append(x + r)
+			.Append(',')
+			.Append(y)
+			.Append(" L")
+			.Append(x + w - r)
+			.Append(',')
+			.Append(y)
+			.Append(" Q")
+			.Append(x + w)
+			.Append(',')
+			.Append(y)
+			.Append(' ')
+			.Append(x + w)
+			.Append(',')
+			.Append(y + r)
+			.Append(" L")
+			.Append(x + w)
+			.Append(',')
+			.Append(y + h)
+			.Append(" Z\" fill=\"")
+			.Append(fill)
+			.Append("\" />");
 	}
 
 	internal static string Num(double v) => Math.Round(v, 3).ToString(CultureInfo.InvariantCulture);

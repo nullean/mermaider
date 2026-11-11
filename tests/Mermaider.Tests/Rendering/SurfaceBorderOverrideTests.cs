@@ -18,8 +18,13 @@ public partial class SurfaceBorderOverrideTests
 
 	public static IEnumerable<DiagramStyle> Styles() => [DiagramStyle.Quiet, DiagramStyle.Blueprint, DiagramStyle.Tonal];
 
-	private static string Render(string source, DiagramStyle style = DiagramStyle.Quiet, string? surface = Surface, string? border = Border, string? line = null) =>
-		MermaidRenderer.RenderSvg(source, new RenderOptions { Style = style, Surface = surface, Border = border, Line = line });
+	private static string Render(
+		string source,
+		DiagramStyle style = DiagramStyle.Quiet,
+		string? surface = Surface,
+		string? border = Border,
+		string? line = null
+	) => MermaidRenderer.RenderSvg(source, new RenderOptions { Style = style, Surface = surface, Border = border, Line = line });
 
 	/// <summary>The first shape element inside the <c>&lt;g&gt;</c> carrying <c>data-id="<paramref name="id"/>"</c>.</summary>
 	private static string Shape(string svg, string id)
@@ -161,7 +166,10 @@ public partial class SurfaceBorderOverrideTests
 		{
 			theme.Surface.Should().BeNull(name);
 			theme.Border.Should().BeNull(name);
-			theme.Line.Should().Be(ColorUtils.MixHex(theme.Default!, theme.Fg, ColorFamily.StrokeRatio / 100), $"{name} spells out its line as the default box border");
+			theme
+				.Line
+				.Should()
+				.Be(ColorUtils.MixHex(theme.Default!, theme.Fg, ColorFamily.StrokeRatio / 100), $"{name} spells out its line as the default box border");
 		}
 	}
 
@@ -181,12 +189,10 @@ public partial class SurfaceBorderOverrideTests
 	[Test]
 	public void Strict_mode_keeps_the_caller_override()
 	{
-		var svg = MermaidRenderer.RenderSvg(Flow, new RenderOptions
-		{
-			Surface = Surface,
-			Border = Border,
-			Strict = new StrictStylingOptions { AllowedClasses = [] },
-		});
+		var svg = MermaidRenderer.RenderSvg(
+			Flow,
+			new RenderOptions { Surface = Surface, Border = Border, Strict = new StrictStylingOptions { AllowedClasses = [] }, }
+		);
 
 		Shape(svg, "A").Should().Contain(SurfaceFill).And.Contain(BorderStroke);
 	}

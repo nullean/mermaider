@@ -38,6 +38,7 @@ public static class HierarchicalLayout
 
 		// node -> ancestor subgraph path (first wins for overlapping membership)
 		var paths = new Dictionary<string, List<string>>(StringComparer.Ordinal);
+
 		void Walk(LayoutSubgraph sg, List<string> prefix)
 		{
 			var path = new List<string>(prefix) { sg.Id };
@@ -54,6 +55,7 @@ public static class HierarchicalLayout
 			Walk(sg, []);
 
 		var subById = new Dictionary<string, LayoutSubgraph>(StringComparer.Ordinal);
+
 		void Index(LayoutSubgraph sg)
 		{
 			subById[sg.Id] = sg;
@@ -132,8 +134,13 @@ public static class HierarchicalLayout
 			// A pair of unlabelled parallel edges between the same two items lays out as one (ports aligned, parent centred over the target)
 			var firstOf = new HashSet<(string, string)>();
 			var parallel = itemEdges.Where(e => e.LabelWidth <= 0).GroupBy(e => (e.Source, e.Target)).ToDictionary(g => g.Key, g => g.Count());
-			var distinct = Enumerable.Range(0, itemEdges.Count)
-				.Where(i => itemEdges[i].LabelWidth > 0 || parallel[(itemEdges[i].Source, itemEdges[i].Target)] != 2 || firstOf.Add((itemEdges[i].Source, itemEdges[i].Target)))
+			var distinct = Enumerable
+				.Range(0, itemEdges.Count)
+				.Where(
+					i => itemEdges[i].LabelWidth > 0 || parallel[(itemEdges[i].Source, itemEdges[i].Target)] != 2 || firstOf.Add(
+						(itemEdges[i].Source, itemEdges[i].Target)
+					)
+				)
 				.ToList();
 			if (distinct.Count != itemEdges.Count)
 			{
@@ -151,7 +158,8 @@ public static class HierarchicalLayout
 			var itemIds = itemNodes.Select(n => n.Id).ToList();
 			var order = GreedyOrder(itemIds, itemEdges);
 			var pairs = itemEdges.Select(e => (e.Source, e.Target)).ToHashSet();
-			var keep = Enumerable.Range(0, itemEdges.Count)
+			var keep = Enumerable
+				.Range(0, itemEdges.Count)
 				.Where(i => order[itemEdges[i].Source] <= order[itemEdges[i].Target] || pairs.Contains((itemEdges[i].Target, itemEdges[i].Source)))
 				.ToList();
 			// (a single loop-closing edge only: dense graphs with many back edges keep them in the layout)
@@ -171,8 +179,7 @@ public static class HierarchicalLayout
 				BalancedPlacement = true,
 				CrossingRestarts = Math.Max(options.CrossingRestarts, 16),
 			};
-			var flat = SugiyamaLayout.Compute(
-				new LayoutGraph(input.Direction, itemNodes, itemEdges, []), levelOptions);
+			var flat = SugiyamaLayout.Compute(new LayoutGraph(input.Direction, itemNodes, itemEdges, []), levelOptions);
 
 			// Routes between two plain nodes of this level follow the layout's own columns (uniform jogs, label columns).
 			{
@@ -182,8 +189,10 @@ public static class HierarchicalLayout
 						continue;
 					var item = itemEdges[fe.OriginalIndex];
 					var orig = input.Edges[itemOrigin[fe.OriginalIndex]];
-					if (item.Source.StartsWith("\u0001sg:", StringComparison.Ordinal) || item.Target.StartsWith("\u0001sg:", StringComparison.Ordinal)
-						|| orig.SourceGroup is not null || orig.TargetGroup is not null)
+					if (
+						item.Source.StartsWith("\u0001sg:", StringComparison.Ordinal) || item.Target.StartsWith("\u0001sg:", StringComparison.Ordinal) ||
+						orig.SourceGroup is not null || orig.TargetGroup is not null
+					)
 						continue;
 					var pts = fe.Points.ToList();
 					if (item.Source != orig.Source)
@@ -227,8 +236,7 @@ public static class HierarchicalLayout
 			return placed;
 		}
 
-		IEnumerable<string> DirectNodes(LayoutSubgraph sg) =>
-			sg.NodeIds.Where(id => PathOf(id).Count > 0 && PathOf(id)[^1] == sg.Id);
+		IEnumerable<string> DirectNodes(LayoutSubgraph sg) => sg.NodeIds.Where(id => PathOf(id).Count > 0 && PathOf(id)[^1] == sg.Id);
 
 		var rootNodes = input.Nodes.Select(n => n.Id).Where(id => PathOf(id).Count == 0).ToList();
 		var root = LayoutLevel([], rootNodes, input.Subgraphs, true);
@@ -246,6 +254,7 @@ public static class HierarchicalLayout
 		foreach (var (id, r) in root.Nodes)
 			abs.Add(new FlowEdgeRouter.Box(id, r.X + pad, r.Y + pad, r.W, r.H, nodeById[id].Outline));
 		var groupBoxes = new List<FlowEdgeRouter.GroupBox>();
+
 		void Flatten(GroupRect g)
 		{
 			groupBoxes.Add(new FlowEdgeRouter.GroupBox(g.Id, g.X + pad, g.Y + pad, g.W, g.H, g.NodeIds, Math.Min(g.W, 20 + (g.Label.Length * 7.8))));
@@ -273,6 +282,7 @@ public static class HierarchicalLayout
 		// Bounds over everything that is drawn: nodes, subgraph boxes, route points and label pills. Content that sticks out
 		// to the left/top (a route hugging a node, a pill centred on it) shifts the whole drawing so nothing is clipped.
 		double minX = double.MaxValue, minY = double.MaxValue, maxX = 0, maxY = 0;
+
 		void Grow(double x0, double y0, double x1, double y1)
 		{
 			minX = Math.Min(minX, x0);
@@ -302,17 +312,19 @@ public static class HierarchicalLayout
 		var height = maxY + dy;
 		if (dx > 0 || dy > 0)
 		{
-			routes = routes.Select(r => r with
-			{
-				Points = r.Points.Select(p => new LayoutPoint(p.X + dx, p.Y + dy)).ToList(),
-				LabelPosition = r.LabelPosition is { } l ? new LayoutPoint(l.X + dx, l.Y + dy) : null,
-			}).ToList();
+			routes = routes.Select(
+				r =>
+					r with
+					{
+						Points = r.Points.Select(p => new LayoutPoint(p.X + dx, p.Y + dy)).ToList(),
+						LabelPosition = r.LabelPosition is { } l ? new LayoutPoint(l.X + dx, l.Y + dy) : null,
+					}
+			).ToList();
 		}
 
 		var nodesOut = abs.Select(b => new LayoutNodeResult(b.Id, b.X + dx, b.Y + dy, b.W, b.H)).ToList();
 
-		LayoutGroupResult ToResult(GroupRect g) => new(
-			g.Id, g.Label, g.X + pad + dx, g.Y + pad + dy, g.W, g.H, g.Children.Select(ToResult).ToList());
+		LayoutGroupResult ToResult(GroupRect g) => new(g.Id, g.Label, g.X + pad + dx, g.Y + pad + dy, g.W, g.H, g.Children.Select(ToResult).ToList());
 
 		return new LayoutResult(width + pad, height + pad, nodesOut, routes, root.Groups.Select(ToResult).ToList());
 	}
@@ -324,16 +336,25 @@ public static class HierarchicalLayout
 	/// the fan is centred on its parent, provided the moved box stays clear of every other box.
 	/// </summary>
 	private static void CentreFansUnderParents(
-		Dictionary<string, (double X, double Y, double W, double H)> nodes, List<GroupRect> roots, LayoutGraph input, LayoutOptions options)
+		Dictionary<string, (double X, double Y, double W, double H)> nodes,
+		List<GroupRect> roots,
+		LayoutGraph input,
+		LayoutOptions options
+	)
 	{
 		var vertical = input.Direction is LayoutDirection.TD or LayoutDirection.BT;
 		var sign = input.Direction is LayoutDirection.BT or LayoutDirection.RL ? -1 : 1;
+
 		double Flow((double X, double Y, double W, double H) r) => sign * (vertical ? r.Y + (r.H / 2) : r.X + (r.W / 2));
+
 		double Cross((double X, double Y, double W, double H) r) => vertical ? r.X + (r.W / 2) : r.Y + (r.H / 2);
 
-		var forward = input.Edges
-			.Where(e => e.Source != e.Target && nodes.ContainsKey(e.Source) && nodes.ContainsKey(e.Target)
-				&& e.SourceGroup is null && e.TargetGroup is null && Flow(nodes[e.Target]) > Flow(nodes[e.Source]) + 1)
+		var forward = input
+			.Edges
+			.Where(
+				e => e.Source != e.Target && nodes.ContainsKey(e.Source) && nodes.ContainsKey(e.Target) && e.SourceGroup is null &&
+					e.TargetGroup is null && Flow(nodes[e.Target]) > Flow(nodes[e.Source]) + 1
+			)
 			.Select(e => (e.Source, e.Target))
 			.Distinct()
 			.ToList();
@@ -360,11 +381,14 @@ public static class HierarchicalLayout
 			var (bx, by) = vertical ? (box.X + shift, box.Y) : (box.X, box.Y + shift);
 			if (bx < 0 || by < 0)
 				continue;
+
 			static bool Hits(double ax, double ay, double aw, double ah, double x, double y, double w, double h, double m) =>
 				ax < x + w + m && ax + aw > x - m && ay < y + h + m && ay + ah > y - m;
+
 			var spacing = options.NodeSpacing / 2;
-			var free = nodes.Where(kv => !box.NodeIds.Contains(kv.Key)).All(kv => !Hits(bx, by, box.W, box.H, kv.Value.X, kv.Value.Y, kv.Value.W, kv.Value.H, spacing))
-				&& roots.Where(g => !ReferenceEquals(g, box)).All(g => !Hits(bx, by, box.W, box.H, g.X, g.Y, g.W, g.H, spacing));
+			var free = nodes.Where(kv => !box.NodeIds.Contains(kv.Key)).All(
+				kv => !Hits(bx, by, box.W, box.H, kv.Value.X, kv.Value.Y, kv.Value.W, kv.Value.H, spacing)
+			) && roots.Where(g => !ReferenceEquals(g, box)).All(g => !Hits(bx, by, box.W, box.H, g.X, g.Y, g.W, g.H, spacing));
 			if (!free)
 				continue;
 			var (dx, dy) = vertical ? (shift, 0.0) : (0.0, shift);
@@ -385,7 +409,10 @@ public static class HierarchicalLayout
 	/// number of crossings between straight centre-to-centre edges.
 	/// </summary>
 	private static void ReduceCrossingsBySwaps(
-		Dictionary<string, (double X, double Y, double W, double H)> nodes, LayoutGraph input, Func<string, List<string>> pathOf)
+		Dictionary<string, (double X, double Y, double W, double H)> nodes,
+		LayoutGraph input,
+		Func<string, List<string>> pathOf
+	)
 	{
 		var vertical = input.Direction is LayoutDirection.TD or LayoutDirection.BT;
 		var edges = input.Edges.Where(e => e.Source != e.Target && nodes.ContainsKey(e.Source) && nodes.ContainsKey(e.Target)).ToList();
@@ -396,7 +423,9 @@ public static class HierarchicalLayout
 
 		bool Cross((double X, double Y) a, (double X, double Y) b, (double X, double Y) c, (double X, double Y) d)
 		{
-			static double Orient((double X, double Y) p, (double X, double Y) q, (double X, double Y) r) => ((q.X - p.X) * (r.Y - p.Y)) - ((q.Y - p.Y) * (r.X - p.X));
+			static double Orient((double X, double Y) p, (double X, double Y) q, (double X, double Y) r) =>
+				((q.X - p.X) * (r.Y - p.Y)) - ((q.Y - p.Y) * (r.X - p.X));
+
 			var s1 = Orient(a, b, c) * Orient(a, b, d);
 			var s2 = Orient(c, d, a) * Orient(c, d, b);
 			return s1 < -1e-6 && s2 < -1e-6;
@@ -421,7 +450,8 @@ public static class HierarchicalLayout
 			return n;
 		}
 
-		var layers = nodes.Keys
+		var layers = nodes
+			.Keys
 			.GroupBy(id => (string.Join('/', pathOf(id)), Math.Round(vertical ? C(id).Y : C(id).X)))
 			.Where(g => g.Count() > 1)
 			.Select(g => g.ToList())
@@ -490,6 +520,7 @@ public static class HierarchicalLayout
 		var inner = edges.Where(e => scc[e.Source] == scc[e.Target]).ToList();
 		var declared = ids.Select((id, i) => (id, i)).ToDictionary(t => t.id, t => t.i, StringComparer.Ordinal);
 		var greedy = GreedyOrder(ids, inner);
+
 		int Back(Dictionary<string, int> pos) => inner.Count(e => pos[e.Source] > pos[e.Target]);
 		// Cycles whose edges all weigh the same have no better answer than the default cycle breaking; weighted ones
 		// (several edges one way, few the other) follow whichever order turns the fewest edges backwards.
@@ -497,7 +528,9 @@ public static class HierarchicalLayout
 		if (!weighted && Back(greedy) >= Back(declared))
 			return edges;
 		var pos = Back(greedy) < Back(declared) ? greedy : declared;
-		return edges.Select(e => scc[e.Source] == scc[e.Target] && pos[e.Source] > pos[e.Target] ? e with { Source = e.Target, Target = e.Source } : e).ToList();
+		return edges.Select(
+			e => scc[e.Source] == scc[e.Target] && pos[e.Source] > pos[e.Target] ? e with { Source = e.Target, Target = e.Source } : e
+		).ToList();
 	}
 
 	/// <summary>Items that reference each other (edges in both directions) are laid out in the direction that carries more edges.</summary>
@@ -527,6 +560,7 @@ public static class HierarchicalLayout
 		var remaining = ids.ToHashSet(StringComparer.Ordinal);
 		var left = new List<string>();
 		var right = new List<string>();
+
 		void Remove(string id)
 		{
 			_ = remaining.Remove(id);
@@ -632,6 +666,7 @@ public static class HierarchicalLayout
 	private static int ComponentsPerRow(List<LayoutNode> nodes, List<LayoutEdge> edges)
 	{
 		var parent = nodes.ToDictionary(n => n.Id, n => n.Id, StringComparer.Ordinal);
+
 		string Find(string id)
 		{
 			while (parent[id] != id)

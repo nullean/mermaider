@@ -8,13 +8,7 @@ public class TreemapParserTests
 	[Test]
 	public void Parses_flat_leaves()
 	{
-		var lines = new[]
-		{
-			"treemap-beta",
-			"  \"A\": 30",
-			"  \"B\": 20",
-			"  \"C\": 50",
-		};
+		var lines = new[] { "treemap-beta", "  \"A\": 30", "  \"B\": 20", "  \"C\": 50", };
 
 		var diagram = TreemapParser.Parse(lines);
 
@@ -26,15 +20,7 @@ public class TreemapParserTests
 	[Test]
 	public void Parses_nested_hierarchy()
 	{
-		var lines = new[]
-		{
-			"treemap-beta",
-			"  \"Section A\"",
-			"    \"Item 1\": 30",
-			"    \"Item 2\": 20",
-			"  \"Section B\"",
-			"    \"Item 3\": 50",
-		};
+		var lines = new[] { "treemap-beta", "  \"Section A\"", "    \"Item 1\": 30", "    \"Item 2\": 20", "  \"Section B\"", "    \"Item 3\": 50", };
 
 		var diagram = TreemapParser.Parse(lines);
 
@@ -50,13 +36,7 @@ public class TreemapParserTests
 	[Test]
 	public void Computes_parent_value_from_children()
 	{
-		var lines = new[]
-		{
-			"treemap-beta",
-			"  \"Parent\"",
-			"    \"A\": 10",
-			"    \"B\": 20",
-		};
+		var lines = new[] { "treemap-beta", "  \"Parent\"", "    \"A\": 10", "    \"B\": 20", };
 
 		var diagram = TreemapParser.Parse(lines);
 
@@ -66,10 +46,7 @@ public class TreemapParserTests
 	[Test]
 	public void Handles_empty_treemap()
 	{
-		var lines = new[]
-		{
-			"treemap-beta",
-		};
+		var lines = new[] { "treemap-beta", };
 
 		var diagram = TreemapParser.Parse(lines);
 

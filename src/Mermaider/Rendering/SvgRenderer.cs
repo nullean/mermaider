@@ -38,7 +38,16 @@ internal static class SvgRenderer
 	internal static StringBuilder RenderToBuilder(PositionedGraph graph, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
-		StyleBlock.AppendSvgOpenTag(sb, graph.Width, graph.Height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType, graph.MinX);
+		StyleBlock.AppendSvgOpenTag(
+			sb,
+			graph.Width,
+			graph.Height,
+			context.Styles.Colors,
+			context.Styles.Transparent,
+			context.Accessibility,
+			context.DiagramType,
+			graph.MinX
+		);
 		StyleBlock.AppendStyleBlock(sb, context.Styles);
 		var ds = DesignSystem.For(context);
 
@@ -78,8 +87,7 @@ internal static class SvgRenderer
 	// Group rendering
 	// ========================================================================
 
-	private static ColorFamily GroupFamily(DesignSystem ds, PositionedGroup group, ClusterPalette? palette) =>
-		palette?.GroupFamily(group.Id) ?? ds.Neutral;
+	private static ColorFamily GroupFamily(DesignSystem ds, PositionedGroup group, ClusterPalette? palette) => palette?.GroupFamily(group.Id) ?? ds.Neutral;
 
 	private static void AppendGroupBody(StringBuilder sb, DesignSystem ds, PositionedGroup group, ClusterPalette? palette, int depth)
 	{
@@ -101,12 +109,28 @@ internal static class SvgRenderer
 			// author styling (non-strict): honour fill / stroke on a plain container box
 			var r = DesignSystem.Num(ds.Spec.ContainerRadius);
 			var sw = InlineStyleValue(group.InlineStyle, "stroke-width") ?? "1";
-			_ = sb.Append("\n<g class=\"subgraph\" ").Append(dataAttrs).Append(">\n  <rect x=\"").Append(group.X).Append("\" y=\"").Append(group.Y)
-				.Append("\" width=\"").Append(group.Width).Append("\" height=\"").Append(group.Height)
-				.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-				.Append("\" fill=\"").Append(inlineFill ?? family.Tint(depth))
-				.Append("\" stroke=\"").Append(inlineStroke ?? family.Edge)
-				.Append("\" stroke-width=\"").Append(sw).Append("\" />\n</g>");
+			_ = sb
+				.Append("\n<g class=\"subgraph\" ")
+				.Append(dataAttrs)
+				.Append(">\n  <rect x=\"")
+				.Append(group.X)
+				.Append("\" y=\"")
+				.Append(group.Y)
+				.Append("\" width=\"")
+				.Append(group.Width)
+				.Append("\" height=\"")
+				.Append(group.Height)
+				.Append("\" rx=\"")
+				.Append(r)
+				.Append("\" ry=\"")
+				.Append(r)
+				.Append("\" fill=\"")
+				.Append(inlineFill ?? family.Tint(depth))
+				.Append("\" stroke=\"")
+				.Append(inlineStroke ?? family.Edge)
+				.Append("\" stroke-width=\"")
+				.Append(sw)
+				.Append("\" />\n</g>");
 		}
 
 		foreach (var child in group.Children)
@@ -119,8 +143,14 @@ internal static class SvgRenderer
 		if (InlineStyleValue(group.InlineStyle, "stroke") is { } stroke)
 		{
 			_ = sb.Append('\n');
-			MultilineUtils.AppendMultilineText(sb, group.Label, group.X + 12, group.Y + (DesignSystem.StripHeight / 2),
-				DesignSystem.Px(TypeRole.Subheading), ds.TextAttributes(TypeRole.Subheading, stroke, anchor: "start"));
+			MultilineUtils.AppendMultilineText(
+				sb,
+				group.Label,
+				group.X + 12,
+				group.Y + (DesignSystem.StripHeight / 2),
+				DesignSystem.Px(TypeRole.Subheading),
+				ds.TextAttributes(TypeRole.Subheading, stroke, anchor: "start")
+			);
 		}
 		else
 		{
@@ -148,8 +178,7 @@ internal static class SvgRenderer
 			? $" stroke-dasharray=\"{inlineDashArray}\""
 			: edge.Style == EdgeStyle.Dotted ? $" stroke-dasharray=\"{DesignSystem.DashArray}\"" : "";
 
-		var strokeWidth = inlineStrokeWidth
-			?? (edge.Style == EdgeStyle.Thick ? ds.ThickEdgeWidth : ds.EdgeWidth);
+		var strokeWidth = inlineStrokeWidth ?? (edge.Style == EdgeStyle.Thick ? ds.ThickEdgeWidth : ds.EdgeWidth);
 
 		_ = sb.Append("\n<path class=\"edge\" data-from=\"");
 		MultilineUtils.AppendEscapedAttr(sb, edge.Source.AsSpan());
@@ -172,8 +201,13 @@ internal static class SvgRenderer
 			BuildOrthogonalPath(sb, edge.Points, cornerRadius);
 		else
 			BuildRoundedPath(sb, edge.Points, cornerRadius);
-		_ = sb.Append("\" fill=\"none\" stroke=\"").Append(inlineStroke ?? DesignSystem.EdgeColor)
-			.Append("\" stroke-width=\"").Append(strokeWidth).Append('"').Append(dashArray);
+		_ = sb
+			.Append("\" fill=\"none\" stroke=\"")
+			.Append(inlineStroke ?? DesignSystem.EdgeColor)
+			.Append("\" stroke-width=\"")
+			.Append(strokeWidth)
+			.Append('"')
+			.Append(dashArray);
 
 		if (edge.HasArrowEnd)
 			_ = sb.Append(" marker-end=\"").Append(ds.Marker(MarkerShape.Arrow)).Append('"');
@@ -219,9 +253,19 @@ internal static class SvgRenderer
 				_ = sb.Append(" L").Append(cur.X).Append(',').Append(cur.Y);
 				continue;
 			}
-			_ = sb.Append(" L").Append(cur.X - (inDx * r)).Append(',').Append(cur.Y - (inDy * r))
-				.Append(" Q").Append(cur.X).Append(',').Append(cur.Y)
-				.Append(' ').Append(cur.X + (outDx * r)).Append(',').Append(cur.Y + (outDy * r));
+			_ = sb
+				.Append(" L")
+				.Append(cur.X - (inDx * r))
+				.Append(',')
+				.Append(cur.Y - (inDy * r))
+				.Append(" Q")
+				.Append(cur.X)
+				.Append(',')
+				.Append(cur.Y)
+				.Append(' ')
+				.Append(cur.X + (outDx * r))
+				.Append(',')
+				.Append(cur.Y + (outDy * r));
 		}
 		var last = points[^1];
 		_ = sb.Append(" L").Append(last.X).Append(',').Append(last.Y);
@@ -245,33 +289,52 @@ internal static class SvgRenderer
 			var y2 = points[2].Y;
 			var x3 = points[3].X;
 			var y3 = points[3].Y;
-			var isVerticalZBend = Math.Abs(x0 - x1) < 3.0
-				&& Math.Abs(y1 - y2) < 3.0
-				&& Math.Abs(x2 - x3) < 3.0
-				&& Math.Abs(x0 - x2) > 3.0;
+			var isVerticalZBend = Math.Abs(x0 - x1) < 3.0 && Math.Abs(y1 - y2) < 3.0 && Math.Abs(x2 - x3) < 3.0 && Math.Abs(x0 - x2) > 3.0;
 			if (isVerticalZBend)
 			{
 				var ym = (y0 + y3) / 2.0;
-				_ = sb.Append('M').Append(x0).Append(',').Append(y0)
-					.Append(" C").Append(x0).Append(',').Append(ym)
-					.Append(' ').Append(x3).Append(',').Append(ym)
-					.Append(' ').Append(x3).Append(',').Append(y3);
+				_ = sb
+					.Append('M')
+					.Append(x0)
+					.Append(',')
+					.Append(y0)
+					.Append(" C")
+					.Append(x0)
+					.Append(',')
+					.Append(ym)
+					.Append(' ')
+					.Append(x3)
+					.Append(',')
+					.Append(ym)
+					.Append(' ')
+					.Append(x3)
+					.Append(',')
+					.Append(y3);
 				return;
 			}
 			// Only apply to downward-going cross-column paths (y increases = forward edges
 			// in TD/subgraph) with distinct source and target X (degenerate when x0==x3).
-			var isHorizontalZBend = Math.Abs(y0 - y1) < 1.0
-				&& Math.Abs(x1 - x2) < 1.0
-				&& Math.Abs(y2 - y3) < 1.0
-				&& y2 > y0 + 1.0
-				&& Math.Abs(x0 - x3) > 1.0;
+			var isHorizontalZBend = Math.Abs(y0 - y1) < 1.0 && Math.Abs(x1 - x2) < 1.0 && Math.Abs(y2 - y3) < 1.0 && y2 > y0 + 1.0 && Math.Abs(x0 - x3) > 1.0;
 			if (isHorizontalZBend)
 			{
 				var xm = (x0 + x3) / 2.0;
-				_ = sb.Append('M').Append(x0).Append(',').Append(y0)
-					.Append(" C").Append(xm).Append(',').Append(y0)
-					.Append(' ').Append(xm).Append(',').Append(y3)
-					.Append(' ').Append(x3).Append(',').Append(y3);
+				_ = sb
+					.Append('M')
+					.Append(x0)
+					.Append(',')
+					.Append(y0)
+					.Append(" C")
+					.Append(xm)
+					.Append(',')
+					.Append(y0)
+					.Append(' ')
+					.Append(xm)
+					.Append(',')
+					.Append(y3)
+					.Append(' ')
+					.Append(x3)
+					.Append(',')
+					.Append(y3);
 				return;
 			}
 		}
@@ -324,8 +387,7 @@ internal static class SvgRenderer
 			var endY = curr.Y + (dy2 / len2 * r);
 
 			_ = sb.Append(" L").Append(startX).Append(',').Append(startY);
-			_ = sb.Append(" Q").Append(curr.X).Append(',').Append(curr.Y)
-				.Append(' ').Append(endX).Append(',').Append(endY);
+			_ = sb.Append(" Q").Append(curr.X).Append(',').Append(curr.Y).Append(' ').Append(endX).Append(',').Append(endY);
 		}
 
 		_ = sb.Append(" L").Append(points[^1].X).Append(',').Append(points[^1].Y);
@@ -356,8 +418,7 @@ internal static class SvgRenderer
 		_ = sb.Append("\n<g class=\"node");
 		if (node.CssClassName is not null)
 		{
-			var isExternal = strict?.AllowedClasses
-				.Any(c => c.Name == node.CssClassName && c.IsExternal) ?? false;
+			var isExternal = strict?.AllowedClasses.Any(c => c.Name == node.CssClassName && c.IsExternal) ?? false;
 			_ = sb.Append(isExternal ? " " : " cls-").Append(node.CssClassName);
 		}
 		_ = sb.Append("\" data-id=\"");
@@ -455,12 +516,26 @@ internal static class SvgRenderer
 	}
 
 	private static void AppendRect(StringBuilder sb, double x, double y, double w, double h, string rx, string fill, string stroke, string sw) =>
-		sb.Append("<rect x=\"").Append(x).Append("\" y=\"").Append(y)
-			.Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
-			.Append("\" rx=\"").Append(rx).Append("\" ry=\"").Append(rx)
-			.Append("\" fill=\"").Append(fill)
-			.Append("\" stroke=\"").Append(stroke)
-			.Append("\" stroke-width=\"").Append(sw).Append("\" />");
+		sb
+			.Append("<rect x=\"")
+			.Append(x)
+			.Append("\" y=\"")
+			.Append(y)
+			.Append("\" width=\"")
+			.Append(w)
+			.Append("\" height=\"")
+			.Append(h)
+			.Append("\" rx=\"")
+			.Append(rx)
+			.Append("\" ry=\"")
+			.Append(rx)
+			.Append("\" fill=\"")
+			.Append(fill)
+			.Append("\" stroke=\"")
+			.Append(stroke)
+			.Append("\" stroke-width=\"")
+			.Append(sw)
+			.Append("\" />");
 
 	private static void AppendDiamond(StringBuilder sb, double x, double y, double w, double h, string fill, string stroke, string sw)
 	{
@@ -468,14 +543,30 @@ internal static class SvgRenderer
 		var cy = y + (h / 2);
 		var hw = w / 2;
 		var hh = h / 2;
-		_ = sb.Append("<polygon points=\"")
-			.Append(cx).Append(',').Append(cy - hh).Append(' ')
-			.Append(cx + hw).Append(',').Append(cy).Append(' ')
-			.Append(cx).Append(',').Append(cy + hh).Append(' ')
-			.Append(cx - hw).Append(',').Append(cy)
-			.Append("\" fill=\"").Append(fill)
-			.Append("\" stroke=\"").Append(stroke)
-			.Append("\" stroke-width=\"").Append(sw).Append("\" />");
+		_ = sb
+			.Append("<polygon points=\"")
+			.Append(cx)
+			.Append(',')
+			.Append(cy - hh)
+			.Append(' ')
+			.Append(cx + hw)
+			.Append(',')
+			.Append(cy)
+			.Append(' ')
+			.Append(cx)
+			.Append(',')
+			.Append(cy + hh)
+			.Append(' ')
+			.Append(cx - hw)
+			.Append(',')
+			.Append(cy)
+			.Append("\" fill=\"")
+			.Append(fill)
+			.Append("\" stroke=\"")
+			.Append(stroke)
+			.Append("\" stroke-width=\"")
+			.Append(sw)
+			.Append("\" />");
 	}
 
 	private static void AppendCircle(StringBuilder sb, double x, double y, double w, double h, string fill, string stroke, string sw)
@@ -483,11 +574,20 @@ internal static class SvgRenderer
 		var cx = x + (w / 2);
 		var cy = y + (h / 2);
 		var r = Math.Min(w, h) / 2;
-		_ = sb.Append("<circle cx=\"").Append(cx).Append("\" cy=\"").Append(cy)
-			.Append("\" r=\"").Append(r)
-			.Append("\" fill=\"").Append(fill)
-			.Append("\" stroke=\"").Append(stroke)
-			.Append("\" stroke-width=\"").Append(sw).Append("\" />");
+		_ = sb
+			.Append("<circle cx=\"")
+			.Append(cx)
+			.Append("\" cy=\"")
+			.Append(cy)
+			.Append("\" r=\"")
+			.Append(r)
+			.Append("\" fill=\"")
+			.Append(fill)
+			.Append("\" stroke=\"")
+			.Append(stroke)
+			.Append("\" stroke-width=\"")
+			.Append(sw)
+			.Append("\" />");
 	}
 
 	private static void AppendDoubleCircle(StringBuilder sb, double x, double y, double w, double h, string fill, string stroke, string sw)
@@ -496,43 +596,105 @@ internal static class SvgRenderer
 		var cy = y + (h / 2);
 		var outerR = Math.Min(w, h) / 2;
 		var innerR = outerR - 5;
-		_ = sb.Append("<circle cx=\"").Append(cx).Append("\" cy=\"").Append(cy)
-			.Append("\" r=\"").Append(outerR)
-			.Append("\" fill=\"").Append(fill)
-			.Append("\" stroke=\"").Append(stroke)
-			.Append("\" stroke-width=\"").Append(sw).Append("\" />\n");
-		_ = sb.Append("<circle cx=\"").Append(cx).Append("\" cy=\"").Append(cy)
-			.Append("\" r=\"").Append(innerR)
-			.Append("\" fill=\"").Append(fill)
-			.Append("\" stroke=\"").Append(stroke)
-			.Append("\" stroke-width=\"").Append(sw).Append("\" />");
+		_ = sb
+			.Append("<circle cx=\"")
+			.Append(cx)
+			.Append("\" cy=\"")
+			.Append(cy)
+			.Append("\" r=\"")
+			.Append(outerR)
+			.Append("\" fill=\"")
+			.Append(fill)
+			.Append("\" stroke=\"")
+			.Append(stroke)
+			.Append("\" stroke-width=\"")
+			.Append(sw)
+			.Append("\" />\n");
+		_ = sb
+			.Append("<circle cx=\"")
+			.Append(cx)
+			.Append("\" cy=\"")
+			.Append(cy)
+			.Append("\" r=\"")
+			.Append(innerR)
+			.Append("\" fill=\"")
+			.Append(fill)
+			.Append("\" stroke=\"")
+			.Append(stroke)
+			.Append("\" stroke-width=\"")
+			.Append(sw)
+			.Append("\" />");
 	}
 
 	private static void AppendSubroutine(StringBuilder sb, double x, double y, double w, double h, string fill, string stroke, string sw)
 	{
 		const int inset = 8;
 		AppendRect(sb, x, y, w, h, rx: Radii.Rectangle.ToString(CultureInfo.InvariantCulture), fill, stroke, sw);
-		_ = sb.Append("\n<line x1=\"").Append(x + inset).Append("\" y1=\"").Append(y)
-			.Append("\" x2=\"").Append(x + inset).Append("\" y2=\"").Append(y + h)
-			.Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"").Append(sw).Append("\" />\n");
-		_ = sb.Append("<line x1=\"").Append(x + w - inset).Append("\" y1=\"").Append(y)
-			.Append("\" x2=\"").Append(x + w - inset).Append("\" y2=\"").Append(y + h)
-			.Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"").Append(sw).Append("\" />");
+		_ = sb
+			.Append("\n<line x1=\"")
+			.Append(x + inset)
+			.Append("\" y1=\"")
+			.Append(y)
+			.Append("\" x2=\"")
+			.Append(x + inset)
+			.Append("\" y2=\"")
+			.Append(y + h)
+			.Append("\" stroke=\"")
+			.Append(stroke)
+			.Append("\" stroke-width=\"")
+			.Append(sw)
+			.Append("\" />\n");
+		_ = sb
+			.Append("<line x1=\"")
+			.Append(x + w - inset)
+			.Append("\" y1=\"")
+			.Append(y)
+			.Append("\" x2=\"")
+			.Append(x + w - inset)
+			.Append("\" y2=\"")
+			.Append(y + h)
+			.Append("\" stroke=\"")
+			.Append(stroke)
+			.Append("\" stroke-width=\"")
+			.Append(sw)
+			.Append("\" />");
 	}
 
 	private static void AppendHexagon(StringBuilder sb, double x, double y, double w, double h, string fill, string stroke, string sw)
 	{
 		var inset = h / 4;
-		_ = sb.Append("<polygon points=\"")
-			.Append(x + inset).Append(',').Append(y).Append(' ')
-			.Append(x + w - inset).Append(',').Append(y).Append(' ')
-			.Append(x + w).Append(',').Append(y + (h / 2)).Append(' ')
-			.Append(x + w - inset).Append(',').Append(y + h).Append(' ')
-			.Append(x + inset).Append(',').Append(y + h).Append(' ')
-			.Append(x).Append(',').Append(y + (h / 2))
-			.Append("\" fill=\"").Append(fill)
-			.Append("\" stroke=\"").Append(stroke)
-			.Append("\" stroke-width=\"").Append(sw).Append("\" />");
+		_ = sb
+			.Append("<polygon points=\"")
+			.Append(x + inset)
+			.Append(',')
+			.Append(y)
+			.Append(' ')
+			.Append(x + w - inset)
+			.Append(',')
+			.Append(y)
+			.Append(' ')
+			.Append(x + w)
+			.Append(',')
+			.Append(y + (h / 2))
+			.Append(' ')
+			.Append(x + w - inset)
+			.Append(',')
+			.Append(y + h)
+			.Append(' ')
+			.Append(x + inset)
+			.Append(',')
+			.Append(y + h)
+			.Append(' ')
+			.Append(x)
+			.Append(',')
+			.Append(y + (h / 2))
+			.Append("\" fill=\"")
+			.Append(fill)
+			.Append("\" stroke=\"")
+			.Append(stroke)
+			.Append("\" stroke-width=\"")
+			.Append(sw)
+			.Append("\" />");
 	}
 
 	private static void AppendCylinder(StringBuilder sb, double x, double y, double w, double h, string fill, string stroke, string sw)
@@ -542,86 +704,212 @@ internal static class SvgRenderer
 		var bodyTop = y + ry;
 		var bodyH = h - (2 * ry);
 
-		_ = sb.Append("<rect x=\"").Append(x).Append("\" y=\"").Append(bodyTop)
-			.Append("\" width=\"").Append(w).Append("\" height=\"").Append(bodyH)
-			.Append("\" fill=\"").Append(fill).Append("\" stroke=\"none\" />\n");
-		_ = sb.Append("<line x1=\"").Append(x).Append("\" y1=\"").Append(bodyTop)
-			.Append("\" x2=\"").Append(x).Append("\" y2=\"").Append(bodyTop + bodyH)
-			.Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"").Append(sw).Append("\" />\n");
-		_ = sb.Append("<line x1=\"").Append(x + w).Append("\" y1=\"").Append(bodyTop)
-			.Append("\" x2=\"").Append(x + w).Append("\" y2=\"").Append(bodyTop + bodyH)
-			.Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"").Append(sw).Append("\" />\n");
-		_ = sb.Append("<ellipse cx=\"").Append(cx).Append("\" cy=\"").Append(y + h - ry)
-			.Append("\" rx=\"").Append(w / 2).Append("\" ry=\"").Append(ry)
-			.Append("\" fill=\"").Append(fill)
-			.Append("\" stroke=\"").Append(stroke)
-			.Append("\" stroke-width=\"").Append(sw).Append("\" />\n");
-		_ = sb.Append("<ellipse cx=\"").Append(cx).Append("\" cy=\"").Append(bodyTop)
-			.Append("\" rx=\"").Append(w / 2).Append("\" ry=\"").Append(ry)
-			.Append("\" fill=\"").Append(fill)
-			.Append("\" stroke=\"").Append(stroke)
-			.Append("\" stroke-width=\"").Append(sw).Append("\" />");
+		_ = sb
+			.Append("<rect x=\"")
+			.Append(x)
+			.Append("\" y=\"")
+			.Append(bodyTop)
+			.Append("\" width=\"")
+			.Append(w)
+			.Append("\" height=\"")
+			.Append(bodyH)
+			.Append("\" fill=\"")
+			.Append(fill)
+			.Append("\" stroke=\"none\" />\n");
+		_ = sb
+			.Append("<line x1=\"")
+			.Append(x)
+			.Append("\" y1=\"")
+			.Append(bodyTop)
+			.Append("\" x2=\"")
+			.Append(x)
+			.Append("\" y2=\"")
+			.Append(bodyTop + bodyH)
+			.Append("\" stroke=\"")
+			.Append(stroke)
+			.Append("\" stroke-width=\"")
+			.Append(sw)
+			.Append("\" />\n");
+		_ = sb
+			.Append("<line x1=\"")
+			.Append(x + w)
+			.Append("\" y1=\"")
+			.Append(bodyTop)
+			.Append("\" x2=\"")
+			.Append(x + w)
+			.Append("\" y2=\"")
+			.Append(bodyTop + bodyH)
+			.Append("\" stroke=\"")
+			.Append(stroke)
+			.Append("\" stroke-width=\"")
+			.Append(sw)
+			.Append("\" />\n");
+		_ = sb
+			.Append("<ellipse cx=\"")
+			.Append(cx)
+			.Append("\" cy=\"")
+			.Append(y + h - ry)
+			.Append("\" rx=\"")
+			.Append(w / 2)
+			.Append("\" ry=\"")
+			.Append(ry)
+			.Append("\" fill=\"")
+			.Append(fill)
+			.Append("\" stroke=\"")
+			.Append(stroke)
+			.Append("\" stroke-width=\"")
+			.Append(sw)
+			.Append("\" />\n");
+		_ = sb
+			.Append("<ellipse cx=\"")
+			.Append(cx)
+			.Append("\" cy=\"")
+			.Append(bodyTop)
+			.Append("\" rx=\"")
+			.Append(w / 2)
+			.Append("\" ry=\"")
+			.Append(ry)
+			.Append("\" fill=\"")
+			.Append(fill)
+			.Append("\" stroke=\"")
+			.Append(stroke)
+			.Append("\" stroke-width=\"")
+			.Append(sw)
+			.Append("\" />");
 	}
 
 	private static void AppendAsymmetric(StringBuilder sb, double x, double y, double w, double h, string fill, string stroke, string sw)
 	{
 		const int indent = 12;
-		_ = sb.Append("<polygon points=\"")
-			.Append(x + indent).Append(',').Append(y).Append(' ')
-			.Append(x + w).Append(',').Append(y).Append(' ')
-			.Append(x + w).Append(',').Append(y + h).Append(' ')
-			.Append(x + indent).Append(',').Append(y + h).Append(' ')
-			.Append(x).Append(',').Append(y + (h / 2))
-			.Append("\" fill=\"").Append(fill)
-			.Append("\" stroke=\"").Append(stroke)
-			.Append("\" stroke-width=\"").Append(sw).Append("\" />");
+		_ = sb
+			.Append("<polygon points=\"")
+			.Append(x + indent)
+			.Append(',')
+			.Append(y)
+			.Append(' ')
+			.Append(x + w)
+			.Append(',')
+			.Append(y)
+			.Append(' ')
+			.Append(x + w)
+			.Append(',')
+			.Append(y + h)
+			.Append(' ')
+			.Append(x + indent)
+			.Append(',')
+			.Append(y + h)
+			.Append(' ')
+			.Append(x)
+			.Append(',')
+			.Append(y + (h / 2))
+			.Append("\" fill=\"")
+			.Append(fill)
+			.Append("\" stroke=\"")
+			.Append(stroke)
+			.Append("\" stroke-width=\"")
+			.Append(sw)
+			.Append("\" />");
 	}
 
 	private static void AppendTrapezoid(StringBuilder sb, double x, double y, double w, double h, string fill, string stroke, string sw)
 	{
 		var inset = w * 0.15;
-		_ = sb.Append("<polygon points=\"")
-			.Append(x + inset).Append(',').Append(y).Append(' ')
-			.Append(x + w - inset).Append(',').Append(y).Append(' ')
-			.Append(x + w).Append(',').Append(y + h).Append(' ')
-			.Append(x).Append(',').Append(y + h)
-			.Append("\" fill=\"").Append(fill)
-			.Append("\" stroke=\"").Append(stroke)
-			.Append("\" stroke-width=\"").Append(sw).Append("\" />");
+		_ = sb
+			.Append("<polygon points=\"")
+			.Append(x + inset)
+			.Append(',')
+			.Append(y)
+			.Append(' ')
+			.Append(x + w - inset)
+			.Append(',')
+			.Append(y)
+			.Append(' ')
+			.Append(x + w)
+			.Append(',')
+			.Append(y + h)
+			.Append(' ')
+			.Append(x)
+			.Append(',')
+			.Append(y + h)
+			.Append("\" fill=\"")
+			.Append(fill)
+			.Append("\" stroke=\"")
+			.Append(stroke)
+			.Append("\" stroke-width=\"")
+			.Append(sw)
+			.Append("\" />");
 	}
 
 	private static void AppendTrapezoidAlt(StringBuilder sb, double x, double y, double w, double h, string fill, string stroke, string sw)
 	{
 		var inset = w * 0.15;
-		_ = sb.Append("<polygon points=\"")
-			.Append(x).Append(',').Append(y).Append(' ')
-			.Append(x + w).Append(',').Append(y).Append(' ')
-			.Append(x + w - inset).Append(',').Append(y + h).Append(' ')
-			.Append(x + inset).Append(',').Append(y + h)
-			.Append("\" fill=\"").Append(fill)
-			.Append("\" stroke=\"").Append(stroke)
-			.Append("\" stroke-width=\"").Append(sw).Append("\" />");
+		_ = sb
+			.Append("<polygon points=\"")
+			.Append(x)
+			.Append(',')
+			.Append(y)
+			.Append(' ')
+			.Append(x + w)
+			.Append(',')
+			.Append(y)
+			.Append(' ')
+			.Append(x + w - inset)
+			.Append(',')
+			.Append(y + h)
+			.Append(' ')
+			.Append(x + inset)
+			.Append(',')
+			.Append(y + h)
+			.Append("\" fill=\"")
+			.Append(fill)
+			.Append("\" stroke=\"")
+			.Append(stroke)
+			.Append("\" stroke-width=\"")
+			.Append(sw)
+			.Append("\" />");
 	}
 
 	/// <summary>A rectangle sheared along the x axis: <c>[/text/]</c> leans right, <c>[\text\]</c> leans left.</summary>
 	private static void AppendParallelogram(StringBuilder sb, double x, double y, double w, double h, string fill, string stroke, string sw, bool leansRight)
 	{
 		var lean = w * 0.15;
-		var (topLeft, topRight, bottomRight, bottomLeft) = leansRight
-			? (x + lean, x + w, x + w - lean, x)
-			: (x, x + w - lean, x + w, x + lean);
-		_ = sb.Append("<polygon points=\"")
-			.Append(topLeft).Append(',').Append(y).Append(' ')
-			.Append(topRight).Append(',').Append(y).Append(' ')
-			.Append(bottomRight).Append(',').Append(y + h).Append(' ')
-			.Append(bottomLeft).Append(',').Append(y + h)
-			.Append("\" fill=\"").Append(fill)
-			.Append("\" stroke=\"").Append(stroke)
-			.Append("\" stroke-width=\"").Append(sw).Append("\" />");
+		var (topLeft, topRight, bottomRight, bottomLeft) = leansRight ? (x + lean, x + w, x + w - lean, x) : (x, x + w - lean, x + w, x + lean);
+		_ = sb
+			.Append("<polygon points=\"")
+			.Append(topLeft)
+			.Append(',')
+			.Append(y)
+			.Append(' ')
+			.Append(topRight)
+			.Append(',')
+			.Append(y)
+			.Append(' ')
+			.Append(bottomRight)
+			.Append(',')
+			.Append(y + h)
+			.Append(' ')
+			.Append(bottomLeft)
+			.Append(',')
+			.Append(y + h)
+			.Append("\" fill=\"")
+			.Append(fill)
+			.Append("\" stroke=\"")
+			.Append(stroke)
+			.Append("\" stroke-width=\"")
+			.Append(sw)
+			.Append("\" />");
 	}
 
-	private static void AppendForkJoin(StringBuilder sb, double x, double y, double w, double h) => _ = sb.Append("<rect x=\"").Append(x).Append("\" y=\"").Append(y)
-			.Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
+	private static void AppendForkJoin(StringBuilder sb, double x, double y, double w, double h) =>
+		_ = sb
+			.Append("<rect x=\"")
+			.Append(x)
+			.Append("\" y=\"")
+			.Append(y)
+			.Append("\" width=\"")
+			.Append(w)
+			.Append("\" height=\"")
+			.Append(h)
 			.Append("\" rx=\"2\" ry=\"2\" fill=\"var(--_line-strong)\" stroke=\"none\" />");
 
 	private static void AppendNodeLabel(StringBuilder sb, DesignSystem ds, PositionedNode node)
@@ -646,8 +934,7 @@ internal static class SvgRenderer
 		var totalHeight = lines.Length * lineHeight;
 		var startY = cy - (totalHeight / 2) + (lineHeight / 2);
 
-		_ = sb.Append("<text text-anchor=\"middle\" font-size=\"").Append(fontSizeVar)
-			.Append("\" fill=\"").Append(fill).Append("\">");
+		_ = sb.Append("<text text-anchor=\"middle\" font-size=\"").Append(fontSizeVar).Append("\" fill=\"").Append(fill).Append("\">");
 
 		var inBold = false;
 		var inItalic = false;
@@ -657,8 +944,7 @@ internal static class SvgRenderer
 			var line = lines[li];
 			var y = startY + (li * lineHeight);
 
-			_ = sb.Append("<tspan x=\"").Append(cx).Append("\" y=\"").Append(y)
-				.Append("\" dy=\"").Append(TextBaselineShift).Append("\">");
+			_ = sb.Append("<tspan x=\"").Append(cx).Append("\" y=\"").Append(y).Append("\" dy=\"").Append(TextBaselineShift).Append("\">");
 
 			if (inBold)
 				_ = sb.Append("<tspan font-weight=\"bold\">");

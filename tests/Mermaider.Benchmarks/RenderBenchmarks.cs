@@ -13,7 +13,8 @@ namespace Mermaider.Benchmarks;
 [ShortRunJob]
 public class RenderBenchmarks
 {
-	private const string SimpleFlowchart = """
+	private const string SimpleFlowchart =
+		"""
 		graph TD
 		A[Start] --> B{Decision}
 		B -->|Yes| C[OK]
@@ -22,7 +23,8 @@ public class RenderBenchmarks
 		D --> E
 		""";
 
-	private const string LargeFlowchart = """
+	private const string LargeFlowchart =
+		"""
 		graph TD
 		A[Entry] --> B[Validate]
 		B --> C{Valid?}
@@ -43,7 +45,8 @@ public class RenderBenchmarks
 		M --> P
 		""";
 
-	private const string SequenceDiagram = """
+	private const string SequenceDiagram =
+		"""
 		sequenceDiagram
 		participant C as Client
 		participant S as Server
@@ -58,7 +61,8 @@ public class RenderBenchmarks
 		S-->>C: 200 OK
 		""";
 
-	private const string ClassDiagram = """
+	private const string ClassDiagram =
+		"""
 		classDiagram
 		class Animal {
 		+String name
@@ -78,7 +82,8 @@ public class RenderBenchmarks
 		Animal <|-- Cat
 		""";
 
-	private const string StateDiagram = """
+	private const string StateDiagram =
+		"""
 		stateDiagram-v2
 		[*] --> Idle
 		Idle --> Processing : submit
@@ -88,7 +93,8 @@ public class RenderBenchmarks
 		Failed --> Idle : retry
 		""";
 
-	private const string ErDiagram = """
+	private const string ErDiagram =
+		"""
 		erDiagram
 		CUSTOMER ||--o{ ORDER : places
 		ORDER ||--|{ LINE_ITEM : contains
@@ -140,7 +146,10 @@ public class PhaseBenchmarks
 	private static readonly DefaultLayoutProvider BuiltinProvider = new();
 
 	private static readonly string[] Lines = SimpleFlowchart
-		.Split('\n').Select(l => l.Trim()).Where(l => l.Length > 0 && !l.StartsWith("%%", StringComparison.OrdinalIgnoreCase)).ToArray();
+		.Split('\n')
+		.Select(l => l.Trim())
+		.Where(l => l.Length > 0 && !l.StartsWith("%%", StringComparison.OrdinalIgnoreCase))
+		.ToArray();
 
 	private static readonly MermaidGraph ParsedGraph = FlowchartParser.Parse(Lines);
 	private static readonly PositionedGraph MsaglLayoutResult = MsaglProvider.LayoutFlowchart(ParsedGraph);
@@ -150,9 +159,11 @@ public class PhaseBenchmarks
 		new AccessibilityInfo(),
 		DiagramType.Flowchart,
 		6,
-		ResourceLimits.Default);
+		ResourceLimits.Default
+	);
 
-	private const string SimpleFlowchart = """
+	private const string SimpleFlowchart =
+		"""
 		graph TD
 		A[Start] --> B{Decision}
 		B -->|Yes| C[OK]
@@ -193,8 +204,7 @@ public class PhaseBenchmarks
 	public string Render() => SvgRenderer.Render(MsaglLayoutResult, RenderContext);
 
 	[Benchmark]
-	public string EndToEnd_Msagl() => MermaidRenderer.RenderSvg(SimpleFlowchart,
-		new RenderOptions { LayoutProvider = MsaglProvider });
+	public string EndToEnd_Msagl() => MermaidRenderer.RenderSvg(SimpleFlowchart, new RenderOptions { LayoutProvider = MsaglProvider });
 
 	[Benchmark]
 	public string EndToEnd_Lightweight() => MermaidRenderer.RenderSvg(SimpleFlowchart);

@@ -6,7 +6,9 @@ public class StateSpecTests
 {
 	[Test]
 	public Task Simple_lifecycle() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+		Verifier.Verify(
+			MermaidRenderer.RenderSvg(
+				"""
 			stateDiagram-v2
 			[*] --> Draft
 			Draft --> Review : submit
@@ -14,11 +16,16 @@ public class StateSpecTests
 			Review --> Draft : reject
 			Published --> Archived : archive
 			Archived --> [*]
-			"""), "svg");
+			"""
+			),
+			"svg"
+		);
 
 	[Test]
 	public Task Multiple_end_states() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+		Verifier.Verify(
+			MermaidRenderer.RenderSvg(
+				"""
 			stateDiagram-v2
 			[*] --> Active
 			Active --> Inactive : disable
@@ -26,11 +33,16 @@ public class StateSpecTests
 			Inactive --> Active : reactivate
 			Inactive --> Closed : close
 			Closed --> [*]
-			"""), "svg");
+			"""
+			),
+			"svg"
+		);
 
 	[Test]
 	public Task Branching_transitions() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+		Verifier.Verify(
+			MermaidRenderer.RenderSvg(
+				"""
 			stateDiagram-v2
 			[*] --> Idle
 			Idle --> Processing : submit
@@ -39,11 +51,16 @@ public class StateSpecTests
 			Success --> [*]
 			Failed --> Idle : retry
 			Failed --> [*] : abort
-			"""), "svg");
+			"""
+			),
+			"svg"
+		);
 
 	[Test]
 	public Task State_descriptions() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+		Verifier.Verify(
+			MermaidRenderer.RenderSvg(
+				"""
 			stateDiagram-v2
 			[*] --> Booting
 			Booting : System is starting up
@@ -52,11 +69,16 @@ public class StateSpecTests
 			Ready --> Processing : request
 			Processing : Handling request
 			Processing --> Ready : done
-			"""), "svg");
+			"""
+			),
+			"svg"
+		);
 
 	[Test]
 	public Task V1_syntax() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+		Verifier.Verify(
+			MermaidRenderer.RenderSvg(
+				"""
 			stateDiagram
 			[*] --> Still
 			Still --> [*]
@@ -64,11 +86,16 @@ public class StateSpecTests
 			Moving --> Still
 			Moving --> Crash
 			Crash --> [*]
-			"""), "svg");
+			"""
+			),
+			"svg"
+		);
 
 	[Test]
 	public Task Linear_pipeline() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+		Verifier.Verify(
+			MermaidRenderer.RenderSvg(
+				"""
 			stateDiagram-v2
 			[*] --> Received
 			Received --> Validated : validate
@@ -76,11 +103,16 @@ public class StateSpecTests
 			Enriched --> Stored : persist
 			Stored --> Published : notify
 			Published --> [*]
-			"""), "svg");
+			"""
+			),
+			"svg"
+		);
 
 	[Test]
 	public Task Error_recovery_pattern() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+		Verifier.Verify(
+			MermaidRenderer.RenderSvg(
+				"""
 			stateDiagram-v2
 			[*] --> Running
 			Running --> Error : exception
@@ -90,11 +122,16 @@ public class StateSpecTests
 			Running --> Stopped : shutdown
 			Fatal --> Stopped : operator
 			Stopped --> [*]
-			"""), "svg");
+			"""
+			),
+			"svg"
+		);
 
 	[Test]
 	public Task Order_workflow() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+		Verifier.Verify(
+			MermaidRenderer.RenderSvg(
+				"""
 			stateDiagram-v2
 			[*] --> Pending
 			Pending --> Confirmed : payment_ok
@@ -106,21 +143,31 @@ public class StateSpecTests
 			Shipped --> Returned : return_request
 			Returned --> Refunded : process_refund
 			Refunded --> [*]
-			"""), "svg");
+			"""
+			),
+			"svg"
+		);
 
 	[Test]
 	public Task Choice_pseudostate() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+		Verifier.Verify(
+			MermaidRenderer.RenderSvg(
+				"""
 			stateDiagram-v2
 			state isPositive <<choice>>
 			[*] --> isPositive
 			isPositive --> Positive : if n > 0
 			isPositive --> Negative : if n < 0
-			"""), "svg");
+			"""
+			),
+			"svg"
+		);
 
 	[Test]
 	public Task Fork_and_join() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+		Verifier.Verify(
+			MermaidRenderer.RenderSvg(
+				"""
 			stateDiagram-v2
 			state fork_state <<fork>>
 			state join_state <<join>>
@@ -130,20 +177,30 @@ public class StateSpecTests
 			A --> join_state
 			B --> join_state
 			join_state --> [*]
-			"""), "svg");
+			"""
+			),
+			"svg"
+		);
 
 	[Test]
 	public Task State_note() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+		Verifier.Verify(
+			MermaidRenderer.RenderSvg(
+				"""
 			stateDiagram-v2
 			[*] --> Active
 			Active --> Inactive
 			note right of Active : Important state
-			"""), "svg");
+			"""
+			),
+			"svg"
+		);
 
 	[Test]
 	public Task Composite_state() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+		Verifier.Verify(
+			MermaidRenderer.RenderSvg(
+				"""
 			stateDiagram-v2
 			[*] --> First
 			state First {
@@ -151,5 +208,8 @@ public class StateSpecTests
 				second --> third
 			}
 			First --> Last
-			"""), "svg");
+			"""
+			),
+			"svg"
+		);
 }

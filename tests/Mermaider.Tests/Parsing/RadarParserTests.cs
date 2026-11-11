@@ -9,11 +9,7 @@ public class RadarParserTests
 	[Test]
 	public void Parses_title()
 	{
-		var lines = new[]
-		{
-			"radar-beta",
-			"title Skills",
-		};
+		var lines = new[] { "radar-beta", "title Skills", };
 
 		var chart = RadarParser.Parse(lines);
 
@@ -23,11 +19,7 @@ public class RadarParserTests
 	[Test]
 	public void Parses_axes()
 	{
-		var lines = new[]
-		{
-			"radar-beta",
-			"axis A, B, C",
-		};
+		var lines = new[] { "radar-beta", "axis A, B, C", };
 
 		var chart = RadarParser.Parse(lines);
 
@@ -40,11 +32,7 @@ public class RadarParserTests
 	[Test]
 	public void Parses_axes_with_labels()
 	{
-		var lines = new[]
-		{
-			"radar-beta",
-			"axis design[\"Design\"], code[\"Code\"]",
-		};
+		var lines = new[] { "radar-beta", "axis design[\"Design\"], code[\"Code\"]", };
 
 		var chart = RadarParser.Parse(lines);
 
@@ -57,12 +45,7 @@ public class RadarParserTests
 	[Test]
 	public void Parses_curves()
 	{
-		var lines = new[]
-		{
-			"radar-beta",
-			"axis A, B, C",
-			"curve c1{1, 2, 3}",
-		};
+		var lines = new[] { "radar-beta", "axis A, B, C", "curve c1{1, 2, 3}", };
 
 		var chart = RadarParser.Parse(lines);
 
@@ -76,12 +59,7 @@ public class RadarParserTests
 	[Test]
 	public void Parses_curve_with_label()
 	{
-		var lines = new[]
-		{
-			"radar-beta",
-			"axis A, B",
-			"curve c1[\"Team Alpha\"]{4, 5}",
-		};
+		var lines = new[] { "radar-beta", "axis A, B", "curve c1[\"Team Alpha\"]{4, 5}", };
 
 		var chart = RadarParser.Parse(lines);
 
@@ -91,13 +69,7 @@ public class RadarParserTests
 	[Test]
 	public void Parses_max_and_min()
 	{
-		var lines = new[]
-		{
-			"radar-beta",
-			"axis A, B",
-			"min 0",
-			"max 100",
-		};
+		var lines = new[] { "radar-beta", "axis A, B", "min 0", "max 100", };
 
 		var chart = RadarParser.Parse(lines);
 
@@ -108,12 +80,7 @@ public class RadarParserTests
 	[Test]
 	public void Parses_graticule_polygon()
 	{
-		var lines = new[]
-		{
-			"radar-beta",
-			"axis A, B",
-			"graticule polygon",
-		};
+		var lines = new[] { "radar-beta", "axis A, B", "graticule polygon", };
 
 		var chart = RadarParser.Parse(lines);
 
@@ -123,11 +90,7 @@ public class RadarParserTests
 	[Test]
 	public void Default_graticule_is_circle()
 	{
-		var lines = new[]
-		{
-			"radar-beta",
-			"axis A, B",
-		};
+		var lines = new[] { "radar-beta", "axis A, B", };
 
 		var chart = RadarParser.Parse(lines);
 

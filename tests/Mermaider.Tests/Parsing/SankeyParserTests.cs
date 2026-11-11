@@ -8,12 +8,7 @@ public class SankeyParserTests
 	[Test]
 	public void Parses_basic_links()
 	{
-		var diagram = SankeyParser.Parse(
-		[
-			"sankey-beta",
-			"A,B,10",
-			"B,C,5",
-		]);
+		var diagram = SankeyParser.Parse(["sankey-beta", "A,B,10", "B,C,5",]);
 
 		diagram.Links.Should().HaveCount(2);
 		diagram.Links[0].Source.Should().Be("A");
@@ -25,11 +20,7 @@ public class SankeyParserTests
 	[Test]
 	public void Parses_quoted_fields_with_commas()
 	{
-		var diagram = SankeyParser.Parse(
-		[
-			"sankey",
-			"Pumped heat,\"Heating and cooling, homes\",193.026",
-		]);
+		var diagram = SankeyParser.Parse(["sankey", "Pumped heat,\"Heating and cooling, homes\",193.026",]);
 
 		diagram.Links.Should().HaveCount(1);
 		diagram.Links[0].Target.Should().Be("Heating and cooling, homes");
@@ -47,16 +38,7 @@ public class SankeyParserTests
 	[Test]
 	public void Skips_empty_and_invalid_rows()
 	{
-		var diagram = SankeyParser.Parse(
-		[
-			"sankey-beta",
-			"",
-			"A,B,0",
-			"A,B,-1",
-			"onlytwo,fields",
-			"A,B,notanumber",
-			"A,B,3",
-		]);
+		var diagram = SankeyParser.Parse(["sankey-beta", "", "A,B,0", "A,B,-1", "onlytwo,fields", "A,B,notanumber", "A,B,3",]);
 
 		diagram.Links.Should().HaveCount(1);
 		diagram.Links[0].Value.Should().Be(3);
@@ -65,11 +47,7 @@ public class SankeyParserTests
 	[Test]
 	public void Accepts_sankey_without_beta()
 	{
-		var diagram = SankeyParser.Parse(
-		[
-			"sankey",
-			"X,Y,1",
-		]);
+		var diagram = SankeyParser.Parse(["sankey", "X,Y,1",]);
 
 		diagram.Links.Should().HaveCount(1);
 	}
@@ -77,13 +55,7 @@ public class SankeyParserTests
 	[Test]
 	public void Rejects_nan_and_infinity()
 	{
-		var diagram = SankeyParser.Parse(
-		[
-			"sankey-beta",
-			"A,B,NaN",
-			"A,B,Infinity",
-			"A,B,1",
-		]);
+		var diagram = SankeyParser.Parse(["sankey-beta", "A,B,NaN", "A,B,Infinity", "A,B,1",]);
 
 		diagram.Links.Should().HaveCount(1);
 		diagram.Links[0].Value.Should().Be(1);

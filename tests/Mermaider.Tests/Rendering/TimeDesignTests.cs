@@ -12,7 +12,8 @@ namespace Mermaider.Tests.Rendering;
 /// </summary>
 public partial class TimeDesignTests
 {
-	private const string Gantt = """
+	private const string Gantt =
+		"""
 		gantt
 		title Shipping this file
 		dateFormat  YYYY-MM-DD
@@ -25,7 +26,8 @@ public partial class TimeDesignTests
 		Ship               :milestone, m1, after a2, 0d
 		""";
 
-	private const string Git = """
+	private const string Git =
+		"""
 		gitGraph
 		commit id: "init"
 		branch feature
@@ -36,7 +38,8 @@ public partial class TimeDesignTests
 		commit id: "hi" type: HIGHLIGHT
 		""";
 
-	private const string Packet = """
+	private const string Packet =
+		"""
 		packet
 		title UDP Header
 		0-15: "Source Port"
@@ -44,7 +47,8 @@ public partial class TimeDesignTests
 		32-63: "Length"
 		""";
 
-	private const string Tree = """
+	private const string Tree =
+		"""
 		treeView-beta
 		    repo/
 		        src/

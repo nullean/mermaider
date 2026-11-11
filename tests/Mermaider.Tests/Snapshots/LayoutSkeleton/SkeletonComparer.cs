@@ -32,9 +32,7 @@ internal static class SkeletonComparer
 		for (var i = 0; i < ids.Count; i++)
 			indexOf[ids[i]] = i;
 
-		var edges = skeleton.Edges
-			.Where(e => !e.IsSelfLoop && indexOf.ContainsKey(e.From) && indexOf.ContainsKey(e.To))
-			.ToList();
+		var edges = skeleton.Edges.Where(e => !e.IsSelfLoop && indexOf.ContainsKey(e.From) && indexOf.ContainsKey(e.To)).ToList();
 		var sameCycle = MutualReachability(ids.Count, indexOf, edges);
 
 		var layerById = skeleton.Nodes.ToDictionary(n => n.Id, n => n.Layer, StringComparer.Ordinal);
@@ -82,8 +80,7 @@ internal static class SkeletonComparer
 	/// the same in the other. Layer index offsets/gaps don't matter, only relative order, so
 	/// this is meaningful even though the two engines number layers independently.
 	/// </summary>
-	public static double LayerAgreement(LayoutSkeleton reference, LayoutSkeleton actual) =>
-		PairwiseAgreement(reference, actual, static n => n.Layer);
+	public static double LayerAgreement(LayoutSkeleton reference, LayoutSkeleton actual) => PairwiseAgreement(reference, actual, static n => n.Layer);
 
 	/// <summary>
 	/// Fraction (0..1) of entity pairs that share a layer in <paramref name="reference"/> whose
@@ -151,9 +148,7 @@ internal static class SkeletonComparer
 
 		// Group common ids by their reference layer, then for each group compute the max actual
 		// OrderInLayer so we can invert as maxOrder - order.
-		var byRefLayer = commonIds
-			.GroupBy(id => refById[id].Layer)
-			.ToDictionary(g => g.Key, g => g.ToList());
+		var byRefLayer = commonIds.GroupBy(id => refById[id].Layer).ToDictionary(g => g.Key, g => g.ToList());
 
 		// Build a mirrored actual dictionary: id → mirrored OrderInLayer within its ref-layer group.
 		var mirroredOrder = new Dictionary<string, int>(StringComparer.Ordinal);
@@ -182,8 +177,8 @@ internal static class SkeletonComparer
 				total++;
 				var refSign = Math.Sign(refA.OrderInLayer - refB.OrderInLayer);
 				var mirroredSign = Math.Sign(
-					(mirroredOrder.TryGetValue(commonIds[i], out var mo_i) ? mo_i : 0) -
-					(mirroredOrder.TryGetValue(commonIds[j], out var mo_j) ? mo_j : 0));
+					(mirroredOrder.TryGetValue(commonIds[i], out var mo_i) ? mo_i : 0) - (mirroredOrder.TryGetValue(commonIds[j], out var mo_j) ? mo_j : 0)
+				);
 				if (refSign == mirroredSign)
 					agree++;
 			}
@@ -214,10 +209,7 @@ internal static class SkeletonComparer
 		var isMirrored = tolerant - raw > 0.1 && tolerant > 0.5;
 
 		// Index actual edges by (From, To, Label) for O(1) lookup.
-		var actualEdges = actual.Edges.ToDictionary(
-			e => (e.From, e.To, e.Label),
-			e => e,
-			TupleStringComparer.Instance);
+		var actualEdges = actual.Edges.ToDictionary(e => (e.From, e.To, e.Label), e => e, TupleStringComparer.Instance);
 
 		var total = 0;
 		var agree = 0;
@@ -228,7 +220,7 @@ internal static class SkeletonComparer
 
 			total++;
 			var actualFrom = isMirrored ? actualEdge.FromSide.MirrorLR() : actualEdge.FromSide;
-			var actualTo   = isMirrored ? actualEdge.ToSide.MirrorLR()   : actualEdge.ToSide;
+			var actualTo = isMirrored ? actualEdge.ToSide.MirrorLR() : actualEdge.ToSide;
 			if (actualFrom == refEdge.FromSide && actualTo == refEdge.ToSide)
 				agree++;
 		}
@@ -241,14 +233,16 @@ internal static class SkeletonComparer
 	{
 		public static readonly TupleStringComparer Instance = new();
 		public bool Equals((string, string, string) x, (string, string, string) y) =>
-			StringComparer.Ordinal.Equals(x.Item1, y.Item1) &&
-			StringComparer.Ordinal.Equals(x.Item2, y.Item2) &&
-			StringComparer.Ordinal.Equals(x.Item3, y.Item3);
+			StringComparer.Ordinal.Equals(x.Item1, y.Item1) && StringComparer.Ordinal.Equals(x.Item2, y.Item2) && StringComparer.Ordinal.Equals(
+				x.Item3,
+				y.Item3
+			);
 		public int GetHashCode((string, string, string) obj) =>
 			HashCode.Combine(
 				StringComparer.Ordinal.GetHashCode(obj.Item1),
 				StringComparer.Ordinal.GetHashCode(obj.Item2),
-				StringComparer.Ordinal.GetHashCode(obj.Item3));
+				StringComparer.Ordinal.GetHashCode(obj.Item3)
+			);
 	}
 
 	/// <summary>
@@ -256,8 +250,7 @@ internal static class SkeletonComparer
 	/// exact (non-mirror-tolerant) within-layer order score. Use this in reports and assertions
 	/// where you want to see real ordering differences without mirror-tolerance hiding them.
 	/// </summary>
-	public static double ExactOrderAgreement(LayoutSkeleton reference, LayoutSkeleton actual) =>
-		WithinLayerOrderAgreement(reference, actual);
+	public static double ExactOrderAgreement(LayoutSkeleton reference, LayoutSkeleton actual) => WithinLayerOrderAgreement(reference, actual);
 
 	/// <summary>
 	/// Fraction (0..1) of non-self-loop edges — matched by (From, To, Label) between the two
@@ -270,18 +263,18 @@ internal static class SkeletonComparer
 	/// </summary>
 	public static double RouteShapeAgreement(LayoutSkeleton reference, LayoutSkeleton actual)
 	{
-		var actualEdges = actual.Edges.ToDictionary(
-			e => (e.From, e.To, e.Label),
-			e => e,
-			TupleStringComparer.Instance);
+		var actualEdges = actual.Edges.ToDictionary(e => (e.From, e.To, e.Label), e => e, TupleStringComparer.Instance);
 
 		var total = 0;
 		var agree = 0;
 		foreach (var refEdge in reference.Edges)
 		{
-			if (refEdge.IsSelfLoop || refEdge.RouteSig.Length == 0) continue;
-			if (!actualEdges.TryGetValue((refEdge.From, refEdge.To, refEdge.Label), out var actualEdge)) continue;
-			if (actualEdge.IsSelfLoop || actualEdge.RouteSig.Length == 0) continue;
+			if (refEdge.IsSelfLoop || refEdge.RouteSig.Length == 0)
+				continue;
+			if (!actualEdges.TryGetValue((refEdge.From, refEdge.To, refEdge.Label), out var actualEdge))
+				continue;
+			if (actualEdge.IsSelfLoop || actualEdge.RouteSig.Length == 0)
+				continue;
 
 			total++;
 			if (string.Equals(refEdge.RouteSig, actualEdge.RouteSig, StringComparison.Ordinal))
@@ -304,9 +297,7 @@ internal static class SkeletonComparer
 	{
 		// Build an (from,to,label) → position-in-port lookup for actual.
 		// Index actual ports by (nodeId, side).
-		var actualPortMap = actual.Ports.ToDictionary(
-			p => (p.NodeId, p.Side),
-			EqualityComparer<(string, EdgeSide)>.Default);
+		var actualPortMap = actual.Ports.ToDictionary(p => (p.NodeId, p.Side), EqualityComparer<(string, EdgeSide)>.Default);
 
 		// Map sorted edge index → edge key for each skeleton.
 		(string From, string To, string Label)[] BuildSortedKeyMap(IReadOnlyList<SkeletonEdge> edgeList) =>
@@ -317,14 +308,15 @@ internal static class SkeletonComparer
 				.Select(e => (e.From, e.To, e.Label))
 				.ToArray();
 
-		var refKeyMap  = BuildSortedKeyMap(reference.Edges);
-		var actKeyMap  = BuildSortedKeyMap(actual.Edges);
+		var refKeyMap = BuildSortedKeyMap(reference.Edges);
+		var actKeyMap = BuildSortedKeyMap(actual.Edges);
 
 		// Actual edge key → position in actual port (for fast lookup).
 		Dictionary<(string, string, string), int> BuildActualPortPositions(SkeletonPort? port)
 		{
 			var dict = new Dictionary<(string, string, string), int>(TupleStringComparer.Instance);
-			if (port is null) return dict;
+			if (port is null)
+				return dict;
 			for (var pos = 0; pos < port.EdgeIndices.Count; pos++)
 			{
 				var idx = port.EdgeIndices[pos];
@@ -341,19 +333,18 @@ internal static class SkeletonComparer
 		{
 			if (!actualPortMap.TryGetValue((refPort.NodeId, refPort.Side), out var actualPort))
 				continue;
-			if (actualPort.EdgeIndices.Count < 2) continue;
+			if (actualPort.EdgeIndices.Count < 2)
+				continue;
 
 			// Build ref port's ordered list of edge keys
-			var refKeys = refPort.EdgeIndices
-				.Where(i => i >= 0 && i < refKeyMap.Length)
-				.Select(i => refKeyMap[i])
-				.ToList();
+			var refKeys = refPort.EdgeIndices.Where(i => i >= 0 && i < refKeyMap.Length).Select(i => refKeyMap[i]).ToList();
 
 			var actPositions = BuildActualPortPositions(actualPort);
 
 			// Find keys common to both ports
 			var commonKeys = refKeys.Where(k => actPositions.ContainsKey(k)).ToList();
-			if (commonKeys.Count < 2) continue;
+			if (commonKeys.Count < 2)
+				continue;
 
 			var refPositions = refKeys
 				.Select((k, pos) => (k, pos))
@@ -367,7 +358,8 @@ internal static class SkeletonComparer
 					total++;
 					var refSign = Math.Sign(refPositions[commonKeys[i]] - refPositions[commonKeys[j]]);
 					var actSign = Math.Sign(actPositions[commonKeys[i]] - actPositions[commonKeys[j]]);
-					if (refSign == actSign) agree++;
+					if (refSign == actSign)
+						agree++;
 				}
 			}
 		}
@@ -417,7 +409,7 @@ internal static class SkeletonComparer
 
 		throw new InvalidOperationException(
 			$"Skeletons share zero entity ids (reference has {reference.Nodes.Count}, actual has " +
-			$"{actual.Nodes.Count}) — this almost certainly means extraction failed on one side, " +
-			"not that the comparison is trivially perfect.");
+				$"{actual.Nodes.Count}) — this almost certainly means extraction failed on one side, " + "not that the comparison is trivially perfect."
+		);
 	}
 }

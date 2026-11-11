@@ -44,7 +44,10 @@ public partial class BlockRendererTests
 		var svg = MermaidRenderer.RenderSvg(SimpleGrid);
 
 		svg.Should().Contain("fill=\"var(--_text)\"");
-		svg.Should().Contain($"stroke=\"{Mermaider.Rendering.VisualLanguage.Border(Theming.Themes.Default.AutoPaletteAt(0))}\"", "blocks take their cluster colour");
+		svg.Should().Contain(
+			$"stroke=\"{Mermaider.Rendering.VisualLanguage.Border(Theming.Themes.Default.AutoPaletteAt(0))}\"",
+			"blocks take their cluster colour"
+		);
 	}
 
 	[Test]
@@ -154,12 +157,14 @@ public partial class BlockRendererTests
 	[Test]
 	public void Edge_labels_are_pills()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			block-beta
 			columns 2
 			  A["A"] B["B"]
 			  A -- "sends" --> B
-			""");
+			"""
+		);
 
 		svg.Should().Contain(">sends</text>");
 		svg.Should().Contain("<rect ", "the label sits on a pill");
@@ -175,8 +180,7 @@ public partial class BlockRendererTests
 			  A B C
 			""");
 
-		var widths = MyRegex().Matches(svg)
-			.Select(m => double.Parse(m.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture)).ToList();
+		var widths = MyRegex().Matches(svg).Select(m => double.Parse(m.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture)).ToList();
 		widths.Max().Should().BeGreaterThan(widths.Min() * 2.5, "a three-column block is as wide as three cells and their gaps");
 	}
 

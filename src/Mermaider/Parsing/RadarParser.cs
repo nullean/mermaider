@@ -43,9 +43,7 @@ internal static partial class RadarParser
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
-			throw new MermaidParseException(
-				$"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.",
-				ex);
+			throw new MermaidParseException($"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.", ex);
 		}
 	}
 
@@ -111,9 +109,7 @@ internal static partial class RadarParser
 			var gratMatch = GraticulePattern().Match(line);
 			if (gratMatch.Success)
 			{
-				graticule = gratMatch.Groups[1].Value.Equals("polygon", StringComparison.OrdinalIgnoreCase)
-					? RadarGraticule.Polygon
-					: RadarGraticule.Circle;
+				graticule = gratMatch.Groups[1].Value.Equals("polygon", StringComparison.OrdinalIgnoreCase) ? RadarGraticule.Polygon : RadarGraticule.Circle;
 				continue;
 			}
 
@@ -165,9 +161,7 @@ internal static partial class RadarParser
 		var match = CurveDetailPattern().Match(text);
 		while (match.Success)
 		{
-			var id = match.Groups[1].Success ? match.Groups[1].Value
-				: match.Groups[2].Success ? match.Groups[2].Value
-				: "";
+			var id = match.Groups[1].Success ? match.Groups[1].Value : match.Groups[2].Success ? match.Groups[2].Value : "";
 			var label = match.Groups[3].Success ? match.Groups[3].Value : id;
 			var valuesStr = match.Groups[4].Value;
 			var values = ParseValues(valuesStr);

@@ -8,11 +8,7 @@ public class JourneyParserTests
 	[Test]
 	public void Parses_title()
 	{
-		var lines = new[]
-		{
-			"journey",
-			"title My working day",
-		};
+		var lines = new[] { "journey", "title My working day", };
 
 		var diagram = JourneyParser.Parse(lines);
 
@@ -22,12 +18,7 @@ public class JourneyParserTests
 	[Test]
 	public void Parses_title_on_header_line()
 	{
-		var lines = new[]
-		{
-			"journey title Compact Day",
-			"section A",
-			"Task: 3: Me",
-		};
+		var lines = new[] { "journey title Compact Day", "section A", "Task: 3: Me", };
 
 		var diagram = JourneyParser.Parse(lines);
 
@@ -71,11 +62,7 @@ public class JourneyParserTests
 	[Test]
 	public void Parses_task_without_actors()
 	{
-		var lines = new[]
-		{
-			"journey",
-			"Only score: 4",
-		};
+		var lines = new[] { "journey", "Only score: 4", };
 
 		var diagram = JourneyParser.Parse(lines);
 
@@ -88,12 +75,7 @@ public class JourneyParserTests
 	[Test]
 	public void Clamps_score_to_1_through_5()
 	{
-		var lines = new[]
-		{
-			"journey",
-			"Too low: 0: Me",
-			"Too high: 9: Me",
-		};
+		var lines = new[] { "journey", "Too low: 0: Me", "Too high: 9: Me", };
 
 		var diagram = JourneyParser.Parse(lines);
 
@@ -127,11 +109,7 @@ public class JourneyParserTests
 	[Test]
 	public void Handles_empty_journey()
 	{
-		var lines = new[]
-		{
-			"journey",
-			"title Empty",
-		};
+		var lines = new[] { "journey", "title Empty", };
 
 		var diagram = JourneyParser.Parse(lines);
 

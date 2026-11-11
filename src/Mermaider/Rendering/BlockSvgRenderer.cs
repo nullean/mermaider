@@ -107,14 +107,9 @@ internal static class BlockSvgRenderer
 				col = 0;
 			}
 
-			cells.Add(new Cell(
-				node,
-				originX + (col * (cellW + gapX)),
-				originY + (row * (cellH + gapY)),
-				(span * cellW) + ((span - 1) * gapX),
-				cellH,
-				row,
-				span));
+			cells.Add(
+				new Cell(node, originX + (col * (cellW + gapX)), originY + (row * (cellH + gapY)), (span * cellW) + ((span - 1) * gapX), cellH, row, span)
+			);
 			col += span;
 			if (col >= columns)
 			{
@@ -138,7 +133,8 @@ internal static class BlockSvgRenderer
 			byId.Values.Select(c => new ClusterBox(c.Node.Id, c.X, c.Y, c.W, c.H)).ToList(),
 			diagram.Edges.Where(e => byId.ContainsKey(e.From) && byId.ContainsKey(e.To)).Select(e => (e.From, e.To)),
 			[],
-			context.Styles.Colors).WithTint(ds.TintStrength);
+			context.Styles.Colors
+		).WithTint(ds.TintStrength);
 
 		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
 		StyleBlock.AppendStyleBlock(sb, context.Styles);
@@ -183,8 +179,7 @@ internal static class BlockSvgRenderer
 		return sb;
 	}
 
-	private static double TitleWidth(string title) =>
-		DesignSystem.TitleIndent + TextMetrics.MeasureTextWidth(title, DesignSystem.Px(TypeRole.Title), 700);
+	private static double TitleWidth(string title) => DesignSystem.TitleIndent + TextMetrics.MeasureTextWidth(title, DesignSystem.Px(TypeRole.Title), 700);
 
 	private static void AppendBlock(StringBuilder sb, DesignSystem ds, Cell cell, ClusterPalette palette)
 	{
@@ -215,8 +210,14 @@ internal static class BlockSvgRenderer
 			SvgRenderer.BuildOrthogonalPath(sb, points, cornerRadius);
 		else
 			SvgRenderer.BuildRoundedPath(sb, points, cornerRadius);
-		_ = sb.Append("\" fill=\"none\" stroke=\"").Append(DesignSystem.EdgeColor).Append("\" stroke-width=\"").Append(ds.EdgeWidth)
-			.Append("\" marker-end=\"").Append(ds.Marker(MarkerShape.Arrow)).Append("\" />");
+		_ = sb
+			.Append("\" fill=\"none\" stroke=\"")
+			.Append(DesignSystem.EdgeColor)
+			.Append("\" stroke-width=\"")
+			.Append(ds.EdgeWidth)
+			.Append("\" marker-end=\"")
+			.Append(ds.Marker(MarkerShape.Arrow))
+			.Append("\" />");
 	}
 
 	/// <summary>
@@ -263,8 +264,7 @@ internal static class BlockSvgRenderer
 			var leaveChannel = down ? a.Bottom + (g.GapY / 2) : a.Y - (g.GapY / 2);
 			var enterChannel = down ? b.Y - (g.GapY / 2) : b.Bottom + (g.GapY / 2);
 			var columnChannel = b.Cx > a.Cx ? b.X - (g.GapX / 2) : b.Right + (g.GapX / 2);
-			return
-			[
+			return [
 				new Point(a.Cx, down ? a.Bottom : a.Y),
 				new Point(a.Cx, leaveChannel),
 				new Point(columnChannel, leaveChannel),

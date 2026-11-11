@@ -10,13 +10,7 @@ public class StrictStylingTests
 	{
 		AllowedClasses =
 		[
-			new DiagramClass
-			{
-				Name = "success",
-				Fill = "#D4EDDA",
-				Stroke = "#28A745",
-				Color = "#155724"
-			},
+			new DiagramClass { Name = "success", Fill = "#D4EDDA", Stroke = "#28A745", Color = "#155724" },
 			new DiagramClass
 			{
 				Name = "danger",
@@ -46,8 +40,7 @@ public class StrictStylingTests
 
 		var act = () => MermaidRenderer.RenderSvg(input, options);
 
-		act.Should().Throw<MermaidParseException>()
-			.WithMessage("*classDef*not allowed*");
+		act.Should().Throw<MermaidParseException>().WithMessage("*classDef*not allowed*");
 	}
 
 	[Test]
@@ -62,8 +55,7 @@ public class StrictStylingTests
 
 		var act = () => MermaidRenderer.RenderSvg(input, options);
 
-		act.Should().Throw<MermaidParseException>()
-			.WithMessage("*style*not allowed*");
+		act.Should().Throw<MermaidParseException>().WithMessage("*style*not allowed*");
 	}
 
 	[Test]
@@ -77,8 +69,7 @@ public class StrictStylingTests
 
 		var act = () => MermaidRenderer.RenderSvg(input, options);
 
-		act.Should().Throw<MermaidParseException>()
-			.WithMessage("*unknown class 'unknown'*");
+		act.Should().Throw<MermaidParseException>().WithMessage("*unknown class 'unknown'*");
 	}
 
 	[Test]
@@ -93,8 +84,7 @@ public class StrictStylingTests
 
 		var act = () => MermaidRenderer.RenderSvg(input, options);
 
-		act.Should().Throw<MermaidParseException>()
-			.WithMessage("*unknown class 'unknown'*");
+		act.Should().Throw<MermaidParseException>().WithMessage("*unknown class 'unknown'*");
 	}
 
 	[Test]
@@ -182,10 +172,7 @@ public class StrictStylingTests
 			graph TD
 			  A:::whatever --> B
 			""";
-		var options = new RenderOptions
-		{
-			Strict = new StrictStylingOptions { AllowedClasses = [] }
-		};
+		var options = new RenderOptions { Strict = new StrictStylingOptions { AllowedClasses = [] } };
 
 		var svg = MermaidRenderer.RenderSvg(input, options);
 		svg.Should().Contain("</svg>");
@@ -248,8 +235,7 @@ public class StrictStylingTests
 
 		var act = () => MermaidRenderer.RenderSvg(input, options);
 
-		act.Should().Throw<MermaidParseException>()
-			.WithMessage("*Strict mode*theme*");
+		act.Should().Throw<MermaidParseException>().WithMessage("*Strict mode*theme*");
 	}
 
 	[Test]
@@ -264,8 +250,7 @@ public class StrictStylingTests
 
 		var act = () => MermaidRenderer.RenderSvg(input, options);
 
-		act.Should().Throw<MermaidParseException>()
-			.WithMessage("*Strict mode*theme*");
+		act.Should().Throw<MermaidParseException>().WithMessage("*Strict mode*theme*");
 	}
 
 	[Test]
@@ -301,8 +286,7 @@ public class StrictStylingTests
 
 		var act = () => MermaidRenderer.RenderSvg(input, options);
 
-		act.Should().Throw<MermaidParseException>()
-			.WithMessage("*linkStyle*not allowed*");
+		act.Should().Throw<MermaidParseException>().WithMessage("*linkStyle*not allowed*");
 	}
 
 	[Test]
@@ -317,8 +301,7 @@ public class StrictStylingTests
 
 		var act = () => MermaidRenderer.RenderSvg(input, options);
 
-		act.Should().Throw<MermaidParseException>()
-			.WithMessage("*Update*Style*not allowed*");
+		act.Should().Throw<MermaidParseException>().WithMessage("*Update*Style*not allowed*");
 	}
 
 	[Test]
@@ -333,8 +316,7 @@ public class StrictStylingTests
 
 		var act = () => MermaidRenderer.RenderSvg(input, options);
 
-		act.Should().Throw<MermaidParseException>()
-			.WithMessage("*Update*Style*not allowed*");
+		act.Should().Throw<MermaidParseException>().WithMessage("*Update*Style*not allowed*");
 	}
 
 	[Test]
@@ -357,19 +339,22 @@ public class StrictStylingTests
 	{
 		string[] invalidNames =
 		[
-			"", "1starts-with-digit", "contains space", "contains.dot", "contains:colon",
-			"quote'", "double\"quote", "close}", "comma,name", "slash/name", "é",
+			"",
+			"1starts-with-digit",
+			"contains space",
+			"contains.dot",
+			"contains:colon",
+			"quote'",
+			"double\"quote",
+			"close}",
+			"comma,name",
+			"slash/name",
+			"é",
 		];
 
 		foreach (var name in invalidNames)
 		{
-			var options = new RenderOptions
-			{
-				Strict = new StrictStylingOptions
-				{
-					AllowedClasses = [new DiagramClass { Name = name }],
-				},
-			};
+			var options = new RenderOptions { Strict = new StrictStylingOptions { AllowedClasses = [new DiagramClass { Name = name }], }, };
 			var act = () => MermaidRenderer.RenderSvg("graph TD\nA --> B", options);
 
 			act.Should().ThrowExactly<MermaidParseException>($"'{name}' is outside the class-name allowlist");
@@ -383,13 +368,7 @@ public class StrictStylingTests
 
 		foreach (var name in validNames)
 		{
-			var options = new RenderOptions
-			{
-				Strict = new StrictStylingOptions
-				{
-					AllowedClasses = [new DiagramClass { Name = name }],
-				},
-			};
+			var options = new RenderOptions { Strict = new StrictStylingOptions { AllowedClasses = [new DiagramClass { Name = name }], }, };
 			var act = () => MermaidRenderer.RenderSvg("graph TD\nA --> B", options);
 
 			act.Should().NotThrow($"'{name}' is inside the class-name allowlist");
@@ -399,17 +378,10 @@ public class StrictStylingTests
 	[Test]
 	public void Styled_class_requires_fill()
 	{
-		var options = new RenderOptions
-		{
-			Strict = new StrictStylingOptions
-			{
-				AllowedClasses = [new DiagramClass { Name = "invalid", Color = "#fff" }],
-			},
-		};
+		var options = new RenderOptions { Strict = new StrictStylingOptions { AllowedClasses = [new DiagramClass { Name = "invalid", Color = "#fff" }], }, };
 		var act = () => MermaidRenderer.RenderSvg("graph TD\nA --> B", options);
 
-		act.Should().ThrowExactly<MermaidParseException>()
-			.WithMessage("*must define Fill*");
+		act.Should().ThrowExactly<MermaidParseException>().WithMessage("*must define Fill*");
 	}
 
 	[Test]
@@ -427,14 +399,10 @@ public class StrictStylingTests
 
 		foreach (var (property, invalidClass) in invalidClasses)
 		{
-			var options = new RenderOptions
-			{
-				Strict = new StrictStylingOptions { AllowedClasses = [invalidClass] },
-			};
+			var options = new RenderOptions { Strict = new StrictStylingOptions { AllowedClasses = [invalidClass] }, };
 			var act = () => MermaidRenderer.RenderSvg("graph TD\nA --> B", options);
 
-			act.Should().ThrowExactly<MermaidParseException>()
-				.WithMessage($"*{property}*hexadecimal color*");
+			act.Should().ThrowExactly<MermaidParseException>().WithMessage($"*{property}*hexadecimal color*");
 		}
 	}
 
@@ -452,17 +420,12 @@ public class StrictStylingTests
 			  A --> B
 			""";
 		var stripped = new List<StrictStylingViolation>();
-		var options = new RenderOptions
-		{
-			Strict = DefaultStrict with { OnStripped = v => stripped.AddRange(v) }
-		};
+		var options = new RenderOptions { Strict = DefaultStrict with { OnStripped = v => stripped.AddRange(v) } };
 
 		var svg = MermaidRenderer.RenderSvg(input, options);
 
 		svg.Should().Contain("</svg>");
-		stripped.Should().ContainSingle(v =>
-			v.Kind == StrictStylingViolationKind.ClassDefDirective &&
-			v.Line == 2);
+		stripped.Should().ContainSingle(v => v.Kind == StrictStylingViolationKind.ClassDefDirective && v.Line == 2);
 	}
 
 	[Test]
@@ -474,17 +437,12 @@ public class StrictStylingTests
 			  style A fill:#f00
 			""";
 		var stripped = new List<StrictStylingViolation>();
-		var options = new RenderOptions
-		{
-			Strict = DefaultStrict with { OnStripped = v => stripped.AddRange(v) }
-		};
+		var options = new RenderOptions { Strict = DefaultStrict with { OnStripped = v => stripped.AddRange(v) } };
 
 		var svg = MermaidRenderer.RenderSvg(input, options);
 
 		svg.Should().Contain("</svg>");
-		stripped.Should().ContainSingle(v =>
-			v.Kind == StrictStylingViolationKind.StyleDirective &&
-			v.Line == 3);
+		stripped.Should().ContainSingle(v => v.Kind == StrictStylingViolationKind.StyleDirective && v.Line == 3);
 	}
 
 	[Test]
@@ -496,19 +454,14 @@ public class StrictStylingTests
 			  linkStyle 0 stroke:#f00,stroke-width:4px
 			""";
 		var stripped = new List<StrictStylingViolation>();
-		var options = new RenderOptions
-		{
-			Strict = DefaultStrict with { OnStripped = v => stripped.AddRange(v) }
-		};
+		var options = new RenderOptions { Strict = DefaultStrict with { OnStripped = v => stripped.AddRange(v) } };
 
 		var svg = MermaidRenderer.RenderSvg(input, options);
 
 		svg.Should().Contain("</svg>");
 		// Source linkStyle must not appear as inline stroke on the edge
 		svg.Should().NotContain("#f00");
-		stripped.Should().ContainSingle(v =>
-			v.Kind == StrictStylingViolationKind.LinkStyleDirective &&
-			v.Line == 3);
+		stripped.Should().ContainSingle(v => v.Kind == StrictStylingViolationKind.LinkStyleDirective && v.Line == 3);
 	}
 
 	[Test]
@@ -519,17 +472,12 @@ public class StrictStylingTests
 			  A:::whatever --> B
 			""";
 		var stripped = new List<StrictStylingViolation>();
-		var options = new RenderOptions
-		{
-			Strict = DefaultStrict with { OnStripped = v => stripped.AddRange(v) }
-		};
+		var options = new RenderOptions { Strict = DefaultStrict with { OnStripped = v => stripped.AddRange(v) } };
 
 		var svg = MermaidRenderer.RenderSvg(input, options);
 
 		svg.Should().Contain("</svg>");
-		stripped.Should().ContainSingle(v =>
-			v.Kind == StrictStylingViolationKind.UnknownClassReference &&
-			v.Source == "whatever");
+		stripped.Should().ContainSingle(v => v.Kind == StrictStylingViolationKind.UnknownClassReference && v.Source == "whatever");
 	}
 
 	[Test]
@@ -541,17 +489,12 @@ public class StrictStylingTests
 			  class A whatever
 			""";
 		var stripped = new List<StrictStylingViolation>();
-		var options = new RenderOptions
-		{
-			Strict = DefaultStrict with { OnStripped = v => stripped.AddRange(v) }
-		};
+		var options = new RenderOptions { Strict = DefaultStrict with { OnStripped = v => stripped.AddRange(v) } };
 
 		var svg = MermaidRenderer.RenderSvg(input, options);
 
 		svg.Should().Contain("</svg>");
-		stripped.Should().ContainSingle(v =>
-			v.Kind == StrictStylingViolationKind.UnknownClassReference &&
-			v.Source == "whatever");
+		stripped.Should().ContainSingle(v => v.Kind == StrictStylingViolationKind.UnknownClassReference && v.Source == "whatever");
 	}
 
 	[Test]
@@ -575,16 +518,15 @@ public class StrictStylingTests
 		svg.Should().Contain("</svg>");
 		// Host background color must appear; dark theme defaults must NOT override it.
 		svg.Should().Contain("#123456");
-		stripped.Should().ContainSingle(v =>
-			v.Kind == StrictStylingViolationKind.ThemeOverride &&
-			v.Line == 0);
+		stripped.Should().ContainSingle(v => v.Kind == StrictStylingViolationKind.ThemeOverride && v.Line == 0);
 	}
 
 	[Test]
 	public void Strip_mode_no_callback_renders_silently_without_throwing()
 	{
 		// Sanity: strip mode with no OnStripped callback must not throw.
-		var input = """
+		var input =
+			"""
 			graph TD
 			  classDef red fill:#f00
 			  A:::unknown --> B
@@ -607,17 +549,12 @@ public class StrictStylingTests
 		// Host-config errors (bad AllowedClasses) must always throw, regardless of Mode.
 		var options = new RenderOptions
 		{
-			Strict = new StrictStylingOptions
-			{
-				Mode = StrictStylingMode.Strip,
-				AllowedClasses = [new DiagramClass { Name = "invalid", Color = "#fff" }],
-			}
+			Strict = new StrictStylingOptions { Mode = StrictStylingMode.Strip, AllowedClasses = [new DiagramClass { Name = "invalid", Color = "#fff" }], }
 		};
 
 		var act = () => MermaidRenderer.RenderSvg("graph TD\nA --> B", options);
 
-		act.Should().ThrowExactly<MermaidParseException>()
-			.WithMessage("*must define Fill*");
+		act.Should().ThrowExactly<MermaidParseException>().WithMessage("*must define Fill*");
 	}
 
 	// ========================================================================
@@ -628,10 +565,7 @@ public class StrictStylingTests
 	public void OnSanitized_not_called_when_no_violations()
 	{
 		var called = false;
-		var options = new RenderOptions
-		{
-			OnSanitized = _ => called = true
-		};
+		var options = new RenderOptions { OnSanitized = _ => called = true };
 
 		_ = MermaidRenderer.RenderSvg("graph TD\n  A --> B", options);
 

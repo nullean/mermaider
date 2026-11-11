@@ -8,13 +8,7 @@ public class PacketParserTests
 	[Test]
 	public void Parses_range_fields()
 	{
-		var lines = new[]
-		{
-			"packet-beta",
-			"0-15: \"Header\"",
-			"16-31: \"Source\"",
-			"32-47: \"Destination\"",
-		};
+		var lines = new[] { "packet-beta", "0-15: \"Header\"", "16-31: \"Source\"", "32-47: \"Destination\"", };
 
 		var diagram = PacketParser.Parse(lines);
 
@@ -33,11 +27,7 @@ public class PacketParserTests
 	[Test]
 	public void Parses_single_bit_field()
 	{
-		var lines = new[]
-		{
-			"packet",
-			"106: \"URG\"",
-		};
+		var lines = new[] { "packet", "106: \"URG\"", };
 
 		var diagram = PacketParser.Parse(lines);
 
@@ -50,13 +40,7 @@ public class PacketParserTests
 	[Test]
 	public void Parses_bit_count_form()
 	{
-		var lines = new[]
-		{
-			"packet",
-			"+16: \"Source Port\"",
-			"+16: \"Dest Port\"",
-			"+32: \"Sequence\"",
-		};
+		var lines = new[] { "packet", "+16: \"Source Port\"", "+16: \"Dest Port\"", "+32: \"Sequence\"", };
 
 		var diagram = PacketParser.Parse(lines);
 
@@ -75,13 +59,7 @@ public class PacketParserTests
 	[Test]
 	public void Parses_title()
 	{
-		var lines = new[]
-		{
-			"packet",
-			"title UDP Header",
-			"0-15: \"Source Port\"",
-			"16-31: \"Destination Port\"",
-		};
+		var lines = new[] { "packet", "title UDP Header", "0-15: \"Source Port\"", "16-31: \"Destination Port\"", };
 
 		var diagram = PacketParser.Parse(lines);
 
@@ -92,11 +70,7 @@ public class PacketParserTests
 	[Test]
 	public void Parses_compact_header_title()
 	{
-		var lines = new[]
-		{
-			"packet-beta title TCP Segment",
-			"0-15: \"Source Port\"",
-		};
+		var lines = new[] { "packet-beta title TCP Segment", "0-15: \"Source Port\"", };
 
 		var diagram = PacketParser.Parse(lines);
 
@@ -107,13 +81,7 @@ public class PacketParserTests
 	[Test]
 	public void Parses_mixed_forms()
 	{
-		var lines = new[]
-		{
-			"packet",
-			"0-15: \"Source Port\"",
-			"+16: \"Dest Port\"",
-			"32: \"Flag\"",
-		};
+		var lines = new[] { "packet", "0-15: \"Source Port\"", "+16: \"Dest Port\"", "32: \"Flag\"", };
 
 		var diagram = PacketParser.Parse(lines);
 
@@ -128,10 +96,7 @@ public class PacketParserTests
 	[Test]
 	public void Handles_empty_packet()
 	{
-		var lines = new[]
-		{
-			"packet-beta",
-		};
+		var lines = new[] { "packet-beta", };
 
 		var diagram = PacketParser.Parse(lines);
 
@@ -142,12 +107,7 @@ public class PacketParserTests
 	[Test]
 	public void Ignores_zero_bit_count()
 	{
-		var lines = new[]
-		{
-			"packet",
-			"+0: \"Bad\"",
-			"+8: \"OK\"",
-		};
+		var lines = new[] { "packet", "+0: \"Bad\"", "+8: \"OK\"", };
 
 		var diagram = PacketParser.Parse(lines);
 
@@ -160,12 +120,7 @@ public class PacketParserTests
 	[Test]
 	public void Rejects_range_beyond_max_bit_index()
 	{
-		var lines = new[]
-		{
-			"packet",
-			"0-999999: \"Huge\"",
-			"0-7: \"OK\"",
-		};
+		var lines = new[] { "packet", "0-999999: \"Huge\"", "0-7: \"OK\"", };
 
 		var diagram = PacketParser.Parse(lines);
 
@@ -178,12 +133,7 @@ public class PacketParserTests
 	[Test]
 	public void Rejects_single_bit_beyond_max_bit_index()
 	{
-		var lines = new[]
-		{
-			"packet",
-			"2147483646: \"x\"",
-			"0: \"OK\"",
-		};
+		var lines = new[] { "packet", "2147483646: \"x\"", "0: \"OK\"", };
 
 		var diagram = PacketParser.Parse(lines);
 
@@ -195,12 +145,7 @@ public class PacketParserTests
 	[Test]
 	public void Rejects_count_form_that_exceeds_max_bit_index()
 	{
-		var lines = new[]
-		{
-			"packet",
-			"+999999: \"Overflow\"",
-			"+8: \"OK\"",
-		};
+		var lines = new[] { "packet", "+999999: \"Overflow\"", "+8: \"OK\"", };
 
 		var diagram = PacketParser.Parse(lines);
 
@@ -213,12 +158,7 @@ public class PacketParserTests
 	[Test]
 	public void Rejects_inverted_range_end_less_than_start()
 	{
-		var lines = new[]
-		{
-			"packet",
-			"15-0: \"Bad\"",
-			"0-7: \"OK\"",
-		};
+		var lines = new[] { "packet", "15-0: \"Bad\"", "0-7: \"OK\"", };
 
 		var diagram = PacketParser.Parse(lines);
 
@@ -230,11 +170,7 @@ public class PacketParserTests
 	public void Accepts_field_at_max_bit_index()
 	{
 		var max = Mermaider.Models.PacketDiagram.MaxBitIndex;
-		var lines = new[]
-		{
-			"packet",
-			$"{max}: \"Last\"",
-		};
+		var lines = new[] { "packet", $"{max}: \"Last\"", };
 
 		var diagram = PacketParser.Parse(lines);
 

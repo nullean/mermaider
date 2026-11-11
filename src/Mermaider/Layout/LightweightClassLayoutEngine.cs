@@ -37,10 +37,7 @@ internal static class LightweightClassLayoutEngine
 
 		// A class is a lollipop target if it only appears as the To side of Lollipop relationships
 		// and never as the From side of any relationship or the To side of a non-lollipop relationship.
-		var lollipopTargets = new HashSet<string>(
-			diagram.Relationships
-				.Where(r => r.Type == ClassRelationType.Lollipop)
-				.Select(r => r.To));
+		var lollipopTargets = new HashSet<string>(diagram.Relationships.Where(r => r.Type == ClassRelationType.Lollipop).Select(r => r.To));
 		foreach (var rel in diagram.Relationships)
 		{
 			if (rel.Type != ClassRelationType.Lollipop)
@@ -100,19 +97,20 @@ internal static class LightweightClassLayoutEngine
 		// sharing a rank with (and rendering inside the box of) a sibling namespace's member.
 		var namespaceSubgraphs = diagram.Namespaces.Count == 0
 			? []
-			: diagram.Namespaces
-				.Select(ns => new LayoutSubgraph(ns.Name, ns.Name, ns.ClassIds, []))
-				.ToList();
+			: diagram.Namespaces.Select(ns => new LayoutSubgraph(ns.Name, ns.Name, ns.ClassIds, [])).ToList();
 		var layoutGraph = new LayoutGraph(layoutDir, layoutNodes, layoutEdges, namespaceSubgraphs);
-		var result = HierarchicalLayout.Compute(layoutGraph, new LayoutOptions
-		{
-			Padding = Padding,
-			NodeSpacing = NodeSpacing,
-			// namespace boxes wrap their members after layout: leave room for two borders and a header strip between layers
-			LayerSpacing = diagram.Namespaces.Count > 0 ? NamespaceLayerSpacing : LayerSpacing,
-			NaturalBackEdgeRouting = true,
-			ForceBottomExitFanOut = true,
-		});
+		var result = HierarchicalLayout.Compute(
+			layoutGraph,
+			new LayoutOptions
+			{
+				Padding = Padding,
+				NodeSpacing = NodeSpacing,
+				// namespace boxes wrap their members after layout: leave room for two borders and a header strip between layers
+				LayerSpacing = diagram.Namespaces.Count > 0 ? NamespaceLayerSpacing : LayerSpacing,
+				NaturalBackEdgeRouting = true,
+				ForceBottomExitFanOut = true,
+			}
+		);
 
 		return ExtractPositioned(result, diagram, classSizes, lollipopTargets);
 	}
@@ -124,15 +122,12 @@ internal static class LightweightClassLayoutEngine
 	/// </summary>
 	private static ClassDiagram SplitDeclaredLollipopTargets(ClassDiagram diagram)
 	{
-		var declared = diagram.Classes
+		var declared = diagram
+			.Classes
 			.Where(c => c.Annotation is { Length: > 0 } || c.Attributes.Count > 0 || c.Methods.Count > 0)
 			.Select(c => c.Id)
 			.ToHashSet();
-		var split = diagram.Relationships
-			.Where(r => r.Type == ClassRelationType.Lollipop && declared.Contains(r.To))
-			.Select(r => r.To)
-			.Distinct()
-			.ToList();
+		var split = diagram.Relationships.Where(r => r.Type == ClassRelationType.Lollipop && declared.Contains(r.To)).Select(r => r.To).Distinct().ToList();
 		if (split.Count == 0)
 			return diagram;
 
@@ -143,7 +138,8 @@ internal static class LightweightClassLayoutEngine
 			classes.Add(new ClassNode { Id = id + LollipopSuffix, Label = original.Label, Attributes = [], Methods = [] });
 		}
 
-		var relationships = diagram.Relationships
+		var relationships = diagram
+			.Relationships
 			.Select(r => r.Type == ClassRelationType.Lollipop && split.Contains(r.To) ? r with { To = r.To + LollipopSuffix } : r)
 			.ToList();
 		return diagram with { Classes = classes, Relationships = relationships };
@@ -153,7 +149,8 @@ internal static class LightweightClassLayoutEngine
 		LayoutResult result,
 		ClassDiagram diagram,
 		Dictionary<string, (double Width, double Height, double HeaderHeight, double AttrHeight, double MethodHeight)> classSizes,
-		HashSet<string> lollipopTargets)
+		HashSet<string> lollipopTargets
+	)
 	{
 		var nodeLookup = result.Nodes.ToDictionary(n => n.Id);
 		var positionedClasses = new List<PositionedClassNode>(diagram.Classes.Count);

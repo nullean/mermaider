@@ -10,8 +10,7 @@ public sealed class MermaidSvgException : Exception
 	public IReadOnlyList<SvgViolation> Violations { get; }
 
 	/// <summary>Creates an exception for a rejected SVG sanitization result.</summary>
-	public MermaidSvgException(IReadOnlyList<SvgViolation> violations)
-		: base(CreateMessage(violations))
+	public MermaidSvgException(IReadOnlyList<SvgViolation> violations) : base(CreateMessage(violations))
 	{
 		ArgumentNullException.ThrowIfNull(violations);
 		if (violations.Count == 0)

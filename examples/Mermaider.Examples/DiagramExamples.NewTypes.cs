@@ -3,8 +3,12 @@ namespace Mermaider.Examples;
 public static partial class DiagramExamples
 {
 	private static DiagramExample[] CreateNewDiagramTypeExamples() =>
-	[
-		new("gantt-shipping", "Shipping Schedule", DiagramCategory.Gantt, """
+		[
+			new(
+				"gantt-shipping",
+				"Shipping Schedule",
+				DiagramCategory.Gantt,
+				"""
 			gantt
 			  title Shipping this file
 			  dateFormat  YYYY-MM-DD
@@ -14,9 +18,13 @@ public static partial class DiagramExamples
 			  section Polish
 			  Update tests       :crit, after a2, 12h
 			  Update docs        : 6h
-			"""),
-
-		new("gantt-milestones", "Milestones", DiagramCategory.Gantt, """
+			"""
+			),
+			new(
+				"gantt-milestones",
+				"Milestones",
+				DiagramCategory.Gantt,
+				"""
 			gantt
 			  title Release train
 			  dateFormat YYYY-MM-DD
@@ -26,9 +34,13 @@ public static partial class DiagramExamples
 			  section Ship
 			  RC cut           :milestone, m1, after p2, 0d
 			  GA               :crit, p3, after m1, 5d
-			"""),
-
-		new("gantt-multi-after", "Multi-dependency", DiagramCategory.Gantt, """
+			"""
+			),
+			new(
+				"gantt-multi-after",
+				"Multi-dependency",
+				DiagramCategory.Gantt,
+				"""
 			gantt
 			  title Multi-dependency demo
 			  dateFormat YYYY-MM-DD
@@ -42,9 +54,13 @@ public static partial class DiagramExamples
 			  Integration   :crit, r1, after b2 f2, 2d
 			  QA            :crit, r2, after r1, 1d
 			  Launch        :milestone, m1, after r2, 0d
-			"""),
-
-		new("journey-workday", "Working Day", DiagramCategory.Journey, """
+			"""
+			),
+			new(
+				"journey-workday",
+				"Working Day",
+				DiagramCategory.Journey,
+				"""
 			journey
 			  title My working day
 			  section Go to work
@@ -54,9 +70,13 @@ public static partial class DiagramExamples
 			  section Go home
 			    Go downstairs: 5: Me
 			    Sit down: 5: Me
-			"""),
-
-		new("journey-onboarding", "App Onboarding", DiagramCategory.Journey, """
+			"""
+			),
+			new(
+				"journey-onboarding",
+				"App Onboarding",
+				DiagramCategory.Journey,
+				"""
 			journey
 			  title First-time login
 			  section Discover
@@ -67,9 +87,13 @@ public static partial class DiagramExamples
 			    Confirm MFA: 2: User, System
 			  section Success
 			    Reach dashboard: 5: User
-			"""),
-
-		new("c4-context", "System Context", DiagramCategory.C4, """
+			"""
+			),
+			new(
+				"c4-context",
+				"System Context",
+				DiagramCategory.C4,
+				"""
 			C4Context
 			title System Context diagram for Internet Banking System
 			Person(customer, "Banking Customer", "A customer of the bank, with personal bank accounts.")
@@ -79,9 +103,13 @@ public static partial class DiagramExamples
 			Rel(customer, banking, "Uses")
 			Rel(banking, mail, "Sends e-mails", "SMTP")
 			Rel(banking, mainframe, "Uses")
-			"""),
-
-		new("c4-container", "Container Diagram", DiagramCategory.C4, """
+			"""
+			),
+			new(
+				"c4-container",
+				"Container Diagram",
+				DiagramCategory.C4,
+				"""
 			C4Container
 			title Container diagram for Internet Banking System
 			Person(customer, "Customer", "A customer of the bank")
@@ -95,9 +123,13 @@ public static partial class DiagramExamples
 			Rel(spa, api, "Uses", "JSON/HTTPS")
 			Rel(api, db, "Reads from and writes to", "JDBC")
 			Rel(api, mail, "Sends e-mails", "SMTP")
-			"""),
-
-		new("sankey-energy", "Energy Flow", DiagramCategory.Sankey, """
+			"""
+			),
+			new(
+				"sankey-energy",
+				"Energy Flow",
+				DiagramCategory.Sankey,
+				"""
 			sankey-beta
 			Electricity grid,Over generation / exports,104.453
 			Electricity grid,Heating and cooling - homes,113.726
@@ -106,34 +138,50 @@ public static partial class DiagramExamples
 			Thermal generation,Electricity grid,525.531
 			Nuclear,Thermal generation,839.978
 			Wind,Electricity grid,289.366
-			"""),
-
-		new("sankey-funnel", "Funnel", DiagramCategory.Sankey, """
+			"""
+			),
+			new(
+				"sankey-funnel",
+				"Funnel",
+				DiagramCategory.Sankey,
+				"""
 			sankey-beta
 			Visitors,Signups,1000
 			Signups,Trials,400
 			Trials,Paid,120
 			Trials,Churned,280
-			"""),
-
-		new("sankey-quoted", "Quoted Names", DiagramCategory.Sankey, """
+			"""
+			),
+			new(
+				"sankey-quoted",
+				"Quoted Names",
+				DiagramCategory.Sankey,
+				"""
 			sankey-beta
 			"Pumped heat","Heating and cooling, homes",193.026
 			"Pumped heat","Heating and cooling, commercial",70.672
 			"Solar thermal","Heating and cooling, homes",11.606
 			"Solar thermal","Heating and cooling, commercial",3.3
-			"""),
-
-		new("xychart-sales", "Sales Revenue", DiagramCategory.XyChart, """
+			"""
+			),
+			new(
+				"xychart-sales",
+				"Sales Revenue",
+				DiagramCategory.XyChart,
+				"""
 			xychart-beta
 			title "Sales Revenue"
 			x-axis [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]
 			y-axis "Revenue (in $)" 4000 --> 11000
 			bar [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
 			line [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
-			"""),
-
-		new("xychart-latency", "Latency Lines", DiagramCategory.XyChart, """
+			"""
+			),
+			new(
+				"xychart-latency",
+				"Latency Lines",
+				DiagramCategory.XyChart,
+				"""
 			xychart-beta
 			title "An Example Chart"
 			x-axis ["90d", "60d", "30d", "7d", "1d", "Current"]
@@ -141,27 +189,39 @@ public static partial class DiagramExamples
 			line "avg" [48.1, 41.5, 45.7, 72.8, 67.7, 59.9]
 			line "p50" [38.2, 36.8, 39.7, 54.5, 49.0, 38.4]
 			line "p95" [112.2, 75.3, 103.0, 177.0, 180.2, 109.4]
-			"""),
-
-		new("packet-udp", "UDP Header", DiagramCategory.Packet, """
+			"""
+			),
+			new(
+				"packet-udp",
+				"UDP Header",
+				DiagramCategory.Packet,
+				"""
 			packet-beta
 			title UDP Header
 			0-15: "Source Port"
 			16-31: "Destination Port"
 			32-47: "Length"
 			48-63: "Checksum"
-			"""),
-
-		new("packet-tcp-flags", "Bit-count Form", DiagramCategory.Packet, """
+			"""
+			),
+			new(
+				"packet-tcp-flags",
+				"Bit-count Form",
+				DiagramCategory.Packet,
+				"""
 			packet
 			title TCP Segment (partial)
 			+16: "Source Port"
 			+16: "Dest Port"
 			+32: "Sequence Number"
 			+32: "Ack Number"
-			"""),
-
-		new("kanban-sprint", "Sprint Board", DiagramCategory.Kanban, """
+			"""
+			),
+			new(
+				"kanban-sprint",
+				"Sprint Board",
+				DiagramCategory.Kanban,
+				"""
 			kanban
 			  Todo
 			    Task1
@@ -170,9 +230,13 @@ public static partial class DiagramExamples
 			    Task3
 			  Done
 			    Task4
-			"""),
-
-		new("kanban-metadata", "Tasks with Metadata", DiagramCategory.Kanban, """
+			"""
+			),
+			new(
+				"kanban-metadata",
+				"Tasks with Metadata",
+				DiagramCategory.Kanban,
+				"""
 			kanban
 			  todo[To Do]
 			    docs[Create Documentation]
@@ -181,9 +245,13 @@ public static partial class DiagramExamples
 			    id4[Create parsing tests]@{ ticket: MC-2038, assigned: 'K.Sveidqvist', priority: 'High' }
 			  done[Done]
 			    id5[define getData]
-			"""),
-
-		new("kanban-priorities", "Priority Levels", DiagramCategory.Kanban, """
+			"""
+			),
+			new(
+				"kanban-priorities",
+				"Priority Levels",
+				DiagramCategory.Kanban,
+				"""
 			kanban
 			  backlog[Backlog]
 			    p1[Security audit]@{ priority: 'Very High' }
@@ -193,9 +261,13 @@ public static partial class DiagramExamples
 			  review[Review]
 			    p5[API redesign]@{ assigned: 'alice', priority: 'High' }
 			    p6[Changelog]@{ assigned: 'bob', ticket: CH-99, priority: 'Very Low' }
-			"""),
-
-		new("kanban-bare-columns", "Bare Column Titles", DiagramCategory.Kanban, """
+			"""
+			),
+			new(
+				"kanban-bare-columns",
+				"Bare Column Titles",
+				DiagramCategory.Kanban,
+				"""
 			kanban
 			  [To Do]
 			    t1[Implement feature]
@@ -204,34 +276,50 @@ public static partial class DiagramExamples
 			    t3[PR for auth flow]
 			  [Done]
 			    t4[Deploy to staging]
-			"""),
-
-		new("block-grid", "3×2 Grid", DiagramCategory.Block, """
+			"""
+			),
+			new(
+				"block-grid",
+				"3×2 Grid",
+				DiagramCategory.Block,
+				"""
 			block-beta
 			columns 3
 			  A["A"] B["B"] C["C"]
 			  D["D"] E["E"] F["F"]
-			"""),
-
-		new("block-pipeline", "Pipeline with Edges", DiagramCategory.Block, """
+			"""
+			),
+			new(
+				"block-pipeline",
+				"Pipeline with Edges",
+				DiagramCategory.Block,
+				"""
 			block-beta
 			columns 4
 			  In["Input"] Process["Process"] Out["Output"] Store["Store"]
 			  In --> Process
 			  Process --> Out
 			  Out --> Store
-			"""),
-
-		new("block-spans", "Column Spans", DiagramCategory.Block, """
+			"""
+			),
+			new(
+				"block-spans",
+				"Column Spans",
+				DiagramCategory.Block,
+				"""
 			block-beta
 			columns 3
 			  Header["Header spans all three"]:3
 			  Nav["Nav"] Content["Content"]:2
 			  Sidebar:2 Aside
 			  Footer["Footer"]:3
-			"""),
-
-		new("block-labelled-edges", "Labelled Edges", DiagramCategory.Block, """
+			"""
+			),
+			new(
+				"block-labelled-edges",
+				"Labelled Edges",
+				DiagramCategory.Block,
+				"""
 			block-beta
 			columns 3
 			  Client["Client"] space API["API"]
@@ -241,9 +329,13 @@ public static partial class DiagramExamples
 			  API -- "enqueue" --> Queue
 			  Queue -- "pull" --> Worker
 			  Worker -- "write" --> DB
-			"""),
-
-		new("block-routing", "Routing Around Blocks", DiagramCategory.Block, """
+			"""
+			),
+			new(
+				"block-routing",
+				"Routing Around Blocks",
+				DiagramCategory.Block,
+				"""
 			block-beta
 			columns 3
 			  A["Source"] B["Middle"] C["Target"]
@@ -254,9 +346,13 @@ public static partial class DiagramExamples
 			  E --> H
 			  D --> F
 			  C --> G
-			"""),
-
-		new("block-title-rounded", "Title, Spaces and Rounded Blocks", DiagramCategory.Block, """
+			"""
+			),
+			new(
+				"block-title-rounded",
+				"Title, Spaces and Rounded Blocks",
+				DiagramCategory.Block,
+				"""
 			block-beta
 			title Release train
 			columns 4
@@ -266,9 +362,13 @@ public static partial class DiagramExamples
 			  Build --> Test
 			  Test --> Review
 			  Review --> Ship
-			"""),
-
-		new("block-layers", "Layered Architecture", DiagramCategory.Block, """
+			"""
+			),
+			new(
+				"block-layers",
+				"Layered Architecture",
+				DiagramCategory.Block,
+				"""
 			block-beta
 			columns 4
 			  UI["User interface"]:4
@@ -281,9 +381,13 @@ public static partial class DiagramExamples
 			  Billing --> Core
 			  Search --> Core
 			  Reports --> Core
-			"""),
-
-		new("block-long-labels", "Long Labels", DiagramCategory.Block, """
+			"""
+			),
+			new(
+				"block-long-labels",
+				"Long Labels",
+				DiagramCategory.Block,
+				"""
 			block-beta
 			columns 3
 			  A["A block with a rather long label"] B["Short"] C["Another long label here"]
@@ -292,9 +396,13 @@ public static partial class DiagramExamples
 			  B --> C
 			  C --> F
 			  D --> E
-			"""),
-
-		new("kanban-release-board", "Release Board", DiagramCategory.Kanban, """
+			"""
+			),
+			new(
+				"kanban-release-board",
+				"Release Board",
+				DiagramCategory.Kanban,
+				"""
 			kanban
 			  backlog[Backlog]
 			    a1[Customer export]@{ ticket: PRJ-101, priority: 'Low' }
@@ -312,18 +420,26 @@ public static partial class DiagramExamples
 			    e1[Webhook retries]@{ ticket: PRJ-050 }
 			    e2[Onboarding emails]@{ ticket: PRJ-061 }
 			    e3[Faster CSV import]@{ ticket: PRJ-066 }
-			"""),
-
-		new("kanban-long-titles", "Long Card Titles", DiagramCategory.Kanban, """
+			"""
+			),
+			new(
+				"kanban-long-titles",
+				"Long Card Titles",
+				DiagramCategory.Kanban,
+				"""
 			kanban
 			  todo[To Do]
 			    t1[Investigate why the nightly reconciliation job occasionally double counts refunds]@{ ticket: OPS-2210, assigned: 'a.very.long.assignee.name', priority: 'High' }
 			    t2[Short]
 			  doing[Doing]
 			    t3[Write the migration guide for the new permissions model and review it with support]@{ assigned: 'dana' }
-			"""),
-
-		new("journey-support-ticket", "Support Ticket Journey", DiagramCategory.Journey, """
+			"""
+			),
+			new(
+				"journey-support-ticket",
+				"Support Ticket Journey",
+				DiagramCategory.Journey,
+				"""
 			journey
 			  title Resolving a support ticket
 			  section Report
@@ -340,9 +456,13 @@ public static partial class DiagramExamples
 			  section Follow up
 			    Update the docs: 3: Support
 			    Send satisfaction survey: 5: Customer
-			"""),
-
-		new("journey-bad-day", "Rough Day", DiagramCategory.Journey, """
+			"""
+			),
+			new(
+				"journey-bad-day",
+				"Rough Day",
+				DiagramCategory.Journey,
+				"""
 			journey
 			  title A rough deployment
 			  section Deploy
@@ -353,6 +473,7 @@ public static partial class DiagramExamples
 			    Rollback: 2: Dev, Ops
 			    Postmortem: 3: Dev, Ops
 			    Celebrate the fix: 5: Dev
-			"""),
-	];
+			"""
+			),
+		];
 }

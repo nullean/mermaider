@@ -13,9 +13,7 @@ internal static partial class RequirementParser
 	[GeneratedRegex(@"^direction\s+(TB|BT|LR|RL)\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex DirectionPattern();
 
-	[GeneratedRegex(
-		@"^(requirement|functionalRequirement|interfaceRequirement|performanceRequirement|physicalRequirement|designConstraint)\s+(.+?)\s*\{\s*$",
-		RegexOptions.IgnoreCase, TimeoutMs)]
+	[GeneratedRegex(@"^(requirement|functionalRequirement|interfaceRequirement|performanceRequirement|physicalRequirement|designConstraint)\s+(.+?)\s*\{\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex RequirementOpenPattern();
 
 	[GeneratedRegex(@"^element\s+(.+?)\s*\{\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
@@ -25,15 +23,11 @@ internal static partial class RequirementParser
 	private static partial Regex PropertyPattern();
 
 	// A - type -> B
-	[GeneratedRegex(
-		@"^(.+?)\s+-\s+(contains|copies|derives|satisfies|verifies|refines|traces)\s+->\s+(.+)$",
-		RegexOptions.IgnoreCase, TimeoutMs)]
+	[GeneratedRegex(@"^(.+?)\s+-\s+(contains|copies|derives|satisfies|verifies|refines|traces)\s+->\s+(.+)$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex ForwardRelationPattern();
 
 	// B <- type - A
-	[GeneratedRegex(
-		@"^(.+?)\s+<-\s+(contains|copies|derives|satisfies|verifies|refines|traces)\s+-\s+(.+)$",
-		RegexOptions.IgnoreCase, TimeoutMs)]
+	[GeneratedRegex(@"^(.+?)\s+<-\s+(contains|copies|derives|satisfies|verifies|refines|traces)\s+-\s+(.+)$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex ReverseRelationPattern();
 
 	internal static RequirementDiagram Parse(string[] lines)
@@ -44,9 +38,7 @@ internal static partial class RequirementParser
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
-			throw new MermaidParseException(
-				$"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.",
-				ex);
+			throw new MermaidParseException($"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.", ex);
 		}
 	}
 
@@ -114,18 +106,10 @@ internal static partial class RequirementParser
 			}
 		}
 
-		return new RequirementDiagram
-		{
-			Title = title,
-			Direction = direction,
-			Requirements = requirements,
-			Elements = elements,
-			Relations = relations,
-		};
+		return new RequirementDiagram { Title = title, Direction = direction, Requirements = requirements, Elements = elements, Relations = relations, };
 	}
 
-	private static int ParseRequirementBody(
-		string[] lines, int start, string name, RequirementKind kind, List<RequirementNode> requirements)
+	private static int ParseRequirementBody(string[] lines, int start, string name, RequirementKind kind, List<RequirementNode> requirements)
 	{
 		string? id = null;
 		string? text = null;
@@ -152,8 +136,7 @@ internal static partial class RequirementParser
 				text = value;
 			else if (key.Equals("risk", StringComparison.OrdinalIgnoreCase))
 				risk = ParseRisk(value);
-			else if (key.Equals("verifymethod", StringComparison.OrdinalIgnoreCase)
-				|| key.Equals("verifyMethod", StringComparison.OrdinalIgnoreCase))
+			else if (key.Equals("verifymethod", StringComparison.OrdinalIgnoreCase) || key.Equals("verifyMethod", StringComparison.OrdinalIgnoreCase))
 				verify = ParseVerifyMethod(value);
 		}
 
@@ -161,8 +144,7 @@ internal static partial class RequirementParser
 		return i;
 	}
 
-	private static int ParseElementBody(
-		string[] lines, int start, string name, List<RequirementElement> elements)
+	private static int ParseElementBody(string[] lines, int start, string name, List<RequirementElement> elements)
 	{
 		string? type = null;
 		string? docRef = null;
@@ -183,8 +165,7 @@ internal static partial class RequirementParser
 
 			if (key.Equals("type", StringComparison.OrdinalIgnoreCase))
 				type = value;
-			else if (key.Equals("docref", StringComparison.OrdinalIgnoreCase)
-				|| key.Equals("docRef", StringComparison.OrdinalIgnoreCase))
+			else if (key.Equals("docref", StringComparison.OrdinalIgnoreCase) || key.Equals("docRef", StringComparison.OrdinalIgnoreCase))
 				docRef = value;
 		}
 

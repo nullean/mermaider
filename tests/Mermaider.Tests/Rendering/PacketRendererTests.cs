@@ -57,12 +57,14 @@ public class PacketRendererTests
 	[Test]
 	public void Contains_title()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			packet
 			title UDP Header
 			0-15: "Source Port"
 			16-31: "Dest Port"
-			""");
+			"""
+		);
 
 		svg.Should().Contain("UDP Header");
 		svg.Should().Contain("Source Port");
@@ -103,13 +105,15 @@ public class PacketRendererTests
 	[Test]
 	public void Renders_multi_row_when_exceeding_32_bits()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			packet
 			0-15: "A"
 			16-31: "B"
 			32-47: "C"
 			48-63: "D"
-			""");
+			"""
+		);
 
 		// 32 bits/row → two rows → at least two distinct y positions for rects
 		svg.Should().Contain("A");

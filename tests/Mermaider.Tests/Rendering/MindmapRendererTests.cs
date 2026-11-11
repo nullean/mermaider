@@ -81,7 +81,8 @@ public class MindmapRendererTests
 	[Test]
 	public void Renders_nested_tree()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			mindmap
 			  root
 			    A
@@ -89,7 +90,8 @@ public class MindmapRendererTests
 			      A2
 			    B
 			      B1
-			""");
+			"""
+		);
 
 		svg.Should().StartWith("<svg");
 		svg.Should().Contain("A1");

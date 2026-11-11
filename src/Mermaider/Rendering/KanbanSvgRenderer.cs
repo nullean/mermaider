@@ -46,7 +46,15 @@ internal static class KanbanSvgRenderer
 
 		if (diagram.Columns.Count == 0)
 		{
-			StyleBlock.AppendSvgOpenTag(sb, Math.Max(200, titleW + (margin * 2)), top + 60, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+			StyleBlock.AppendSvgOpenTag(
+				sb,
+				Math.Max(200, titleW + (margin * 2)),
+				top + 60,
+				context.Styles.Colors,
+				context.Styles.Transparent,
+				context.Accessibility,
+				context.DiagramType
+			);
 			StyleBlock.AppendStyleBlock(sb, context.Styles);
 			if (hasTitle)
 				ds.AppendTitle(sb, margin, DesignSystem.BoardTitleCy, diagram.Title!);
@@ -61,8 +69,11 @@ internal static class KanbanSvgRenderer
 		{
 			var col = diagram.Columns[i];
 			// header: chip / strip title (measured at the heaviest weight any preset uses) + count badge
-			var headerW = TextMetrics.MeasureTextWidth(col.Title, DesignSystem.Px(TypeRole.Subheading), 700) + 34
-				+ TextMetrics.MeasureTextWidth("[" + col.Tasks.Count.ToString(CultureInfo.InvariantCulture) + "]", DesignSystem.Px(TypeRole.Tag), 600) + 12 + 12;
+			var headerW = TextMetrics.MeasureTextWidth(col.Title, DesignSystem.Px(TypeRole.Subheading), 700) + 34 + TextMetrics.MeasureTextWidth(
+				"[" + col.Tasks.Count.ToString(CultureInfo.InvariantCulture) + "]",
+				DesignSystem.Px(TypeRole.Tag),
+				600
+			) + 12 + 12;
 			var contentWidth = headerW - (ColumnPad * 2);
 			foreach (var task in col.Tasks)
 			{
@@ -106,7 +117,16 @@ internal static class KanbanSvgRenderer
 		return sb;
 	}
 
-	private static void AppendColumn(StringBuilder sb, DesignSystem ds, KanbanColumn column, double x, double y, double width, double height, ColorFamily family)
+	private static void AppendColumn(
+		StringBuilder sb,
+		DesignSystem ds,
+		KanbanColumn column,
+		double x,
+		double y,
+		double width,
+		double height,
+		ColorFamily family
+	)
 	{
 		var data = new StringBuilder("data-id=\"");
 		MultilineUtils.AppendEscapedAttr(data, column.Id.AsSpan());
@@ -125,9 +145,8 @@ internal static class KanbanSvgRenderer
 	}
 
 	/// <summary>The card outline: a hairline on paper (Quiet), the line colour (Blueprint), none (Tonal: the card floats).</summary>
-	private static string CardStroke(DesignSystem ds) => ds.Spec.OutlineWidth <= 0
-		? "none"
-		: ds.Spec.Fill == FillKind.Knockout ? "var(--_line)" : "var(--_line-soft)";
+	private static string CardStroke(DesignSystem ds) =>
+		ds.Spec.OutlineWidth <= 0 ? "none" : ds.Spec.Fill == FillKind.Knockout ? "var(--_line)" : "var(--_line-soft)";
 
 	private static void AppendCard(StringBuilder sb, DesignSystem ds, KanbanTask task, double x, double y, double width, double height, ColorFamily family)
 	{
@@ -140,10 +159,24 @@ internal static class KanbanSvgRenderer
 		_ = sb.Append(">\n  ");
 
 		var r = DesignSystem.Num(ds.Spec.NodeRadius);
-		_ = sb.Append("<rect x=\"").Append(x.SvgFormat()).Append("\" y=\"").Append(y.SvgFormat())
-			.Append("\" width=\"").Append(width.SvgFormat()).Append("\" height=\"").Append(height.SvgFormat())
-			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"var(--bg)\" stroke=\"").Append(CardStroke(ds)).Append("\" stroke-width=\"").Append(ds.NodeStrokeWidth).Append("\" />");
+		_ = sb
+			.Append("<rect x=\"")
+			.Append(x.SvgFormat())
+			.Append("\" y=\"")
+			.Append(y.SvgFormat())
+			.Append("\" width=\"")
+			.Append(width.SvgFormat())
+			.Append("\" height=\"")
+			.Append(height.SvgFormat())
+			.Append("\" rx=\"")
+			.Append(r)
+			.Append("\" ry=\"")
+			.Append(r)
+			.Append("\" fill=\"var(--bg)\" stroke=\"")
+			.Append(CardStroke(ds))
+			.Append("\" stroke-width=\"")
+			.Append(ds.NodeStrokeWidth)
+			.Append("\" />");
 
 		var lines = TitleLines(task, width);
 		var lineH = DesignSystem.TextHeight(1, TypeRole.Label);
@@ -197,16 +230,15 @@ internal static class KanbanSvgRenderer
 	/// Priority reads through the role families (very high = failure, high = warning, medium = info, low = success, very low =
 	/// neutral) and always carries its word.
 	/// </summary>
-	private static (string Word, ColorRole? Role)? Priority(KanbanTask task) =>
-		task.Priority?.Trim().ToUpperInvariant() switch
-		{
-			"VERY HIGH" => ("Very high", ColorRole.Failure),
-			"HIGH" => ("High", ColorRole.Warning),
-			"MEDIUM" => ("Medium", ColorRole.Info),
-			"LOW" => ("Low", ColorRole.Success),
-			"VERY LOW" => ("Very low", null),
-			_ => null,
-		};
+	private static (string Word, ColorRole? Role)? Priority(KanbanTask task) => task.Priority?.Trim().ToUpperInvariant() switch
+	{
+		"VERY HIGH" => ("Very high", ColorRole.Failure),
+		"HIGH" => ("High", ColorRole.Warning),
+		"MEDIUM" => ("Medium", ColorRole.Info),
+		"LOW" => ("Low", ColorRole.Success),
+		"VERY LOW" => ("Very low", null),
+		_ => null,
+	};
 
 	private static IEnumerable<string> MetaLines(KanbanTask task)
 	{
