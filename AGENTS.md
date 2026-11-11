@@ -20,7 +20,8 @@ mise run clean            # delete build output
 mise run release          # show the release draft; `mise run release publish` releases
 ```
 
-`./build.sh <target>` runs the same build targets directly. Without mise:
+`./build.sh <target>` runs the same build targets directly (`./build.sh --help` lists them), from the F# build in
+`build/scripts` ([Nullean.Make.Fs](https://www.nuget.org/packages/Nullean.Make.Fs), net11.0). Without mise:
 
 ```bash
 dotnet build mermaid-dotnet.slnx
@@ -50,6 +51,8 @@ skills, and `mise run release` for the current draft.
 - Every package ships an agent skill at `src/<Project>/skills/<name>/SKILL.md`, written from the code. Change it with
   the public API it describes, and compile its snippets before committing
 - MIT license (no per-file headers required)
+- Build targets are Make.Fs `target { }` blocks in `build/scripts/Program.fs` whose commands are Proc.Fs `sh $"…"`
+  lines; values come from `text`/`lines` inside `shell { }`. Do not call the C# `ProcNet` API from the build
 
 ## Architecture
 
