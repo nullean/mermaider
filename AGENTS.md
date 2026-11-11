@@ -33,6 +33,9 @@ dotnet run --project tests/Mermaider.Tests/Mermaider.Tests.csproj
 - `[GeneratedRegex]` with 2s timeout for all regex patterns (ReDoS protection)
 - Minimize allocations: `ReadOnlySpan<char>`, `ObjectPool<StringBuilder>`, `SearchValues<char>`, `FrozenDictionary` (static/long-lived data only; prefer `IReadOnlyDictionary` for parse results)
 - TUnit for tests, AwesomeAssertions for fluent assertions, Verify.TUnit for golden file snapshots
+- Package versions live only in `Directory.Packages.props`; a `PackageReference` never carries a `Version`
+- Every package ships an agent skill at `src/<Project>/skills/<name>/SKILL.md`, written from the code. Change it with
+  the public API it describes, and compile its snippets before committing
 - MIT license (no per-file headers required)
 
 ## Architecture
