@@ -92,17 +92,21 @@ public class SequenceParserTests
 	}
 
 	[Test]
-	public void Parses_cross_arrow_as_filled()
+	public void Parses_cross_arrows()
 	{
 		var lines = new[]
 		{
 			"sequenceDiagram",
 			"A-xB: Lost",
+			"A--xB: Async lost",
 		};
 
 		var diagram = SequenceParser.Parse(lines);
 
-		diagram.Messages[0].ArrowHead.Should().Be(SequenceArrowHead.Filled);
+		diagram.Messages[0].ArrowHead.Should().Be(SequenceArrowHead.Cross);
+		diagram.Messages[0].LineStyle.Should().Be(SequenceLineStyle.Solid);
+		diagram.Messages[1].ArrowHead.Should().Be(SequenceArrowHead.Cross);
+		diagram.Messages[1].LineStyle.Should().Be(SequenceLineStyle.Dashed);
 	}
 
 	[Test]

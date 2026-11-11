@@ -160,6 +160,10 @@ internal static class SequenceSvgRenderer
 		var dashed = msg.LineStyle == SequenceLineStyle.Dashed;
 		var dashArray = dashed ? $" stroke-dasharray=\"{DesignSystem.DashArray}\"" : "";
 		var shape = msg.ArrowHead == SequenceArrowHead.Filled ? MarkerShape.Arrow : MarkerShape.Open;
+		var markerEnd = msg.ArrowHead == SequenceArrowHead.Cross ? "" : $" marker-end=\"{ds.Marker(shape)}\"";
+		// a lost message into a destroyed participant ends at the destroy cross, so it draws no second one
+		var drawCross = msg.ArrowHead == SequenceArrowHead.Cross
+			&& !destroys.Any(d => Math.Abs(d.Y - msg.Y) < 0.5 && Math.Abs(d.X - msg.X2) < (2 * DestroySize) + 4);
 
 		_ = sb.Append("\n<g class=\"message\" data-from=\"");
 		MultilineUtils.AppendEscapedAttr(sb, msg.From.AsSpan());
@@ -168,7 +172,12 @@ internal static class SequenceSvgRenderer
 		_ = sb.Append("\" data-label=\"");
 		MultilineUtils.AppendEscapedAttr(sb, msg.Label.AsSpan());
 		_ = sb.Append("\" data-line-style=\"").Append(dashed ? "dashed" : "solid");
-		_ = sb.Append("\" data-arrow-head=\"").Append(msg.ArrowHead == SequenceArrowHead.Filled ? "filled" : "open");
+		_ = sb.Append("\" data-arrow-head=\"").Append(msg.ArrowHead switch
+		{
+			SequenceArrowHead.Filled => "filled",
+			SequenceArrowHead.Cross => "cross",
+			_ => "open",
+		});
 		_ = sb.Append("\" data-self=\"").Append(msg.IsSelf ? "true" : "false");
 		_ = sb.Append("\">\n");
 
@@ -186,7 +195,9 @@ internal static class SequenceSvgRenderer
 				.Append(msg.X2).Append(',').Append(msg.Y + loopH)
 				.Append("\" fill=\"none\" stroke=\"").Append(DesignSystem.EdgeColor).Append("\" stroke-width=\"").Append(ds.EdgeWidth)
 				.Append("\" stroke-linejoin=\"round\"").Append(dashArray)
-				.Append(" marker-end=\"").Append(ds.Marker(shape)).Append("\" />\n  ");
+				.Append(markerEnd).Append(" />\n  ");
+			if (drawCross)
+				AppendCross(sb, msg.X2, msg.Y + loopH);
 
 			AppendAutoNumberBadge(sb, ds, ref label, msg.X1, msg.Y);
 			if (label.Length > 0)
@@ -203,7 +214,9 @@ internal static class SequenceSvgRenderer
 			_ = sb.Append("  <line x1=\"").Append(msg.X1).Append("\" y1=\"").Append(msg.Y)
 				.Append("\" x2=\"").Append(msg.X2).Append("\" y2=\"").Append(msg.Y)
 				.Append("\" stroke=\"").Append(DesignSystem.EdgeColor).Append("\" stroke-width=\"").Append(ds.EdgeWidth).Append('"').Append(dashArray)
-				.Append(" marker-end=\"").Append(ds.Marker(shape)).Append('"').Append(markerStart).Append(" />\n  ");
+				.Append(markerEnd).Append(markerStart).Append(" />\n  ");
+			if (drawCross)
+				AppendCross(sb, msg.X2, msg.Y);
 
 			AppendAutoNumberBadge(sb, ds, ref label, msg.X1, msg.Y);
 			if (label.Length > 0)
@@ -301,14 +314,20 @@ internal static class SequenceSvgRenderer
 
 	private static void AppendDestroyMarker(StringBuilder sb, PositionedDestroyMarker dm)
 	{
-		const double size = DestroySize;
-		_ = sb.Append("\n<g class=\"destroy\">\n");
-		_ = sb.Append("  <path d=\"M").Append(dm.X - size).Append(',').Append(dm.Y - size)
-			.Append(" L").Append(dm.X + size).Append(',').Append(dm.Y + size)
-			.Append(" M").Append(dm.X + size).Append(',').Append(dm.Y - size)
-			.Append(" L").Append(dm.X - size).Append(',').Append(dm.Y + size)
-			.Append("\" fill=\"none\" stroke=\"var(--_line-strong)\" stroke-width=\"2\" stroke-linecap=\"round\" />\n");
+		_ = sb.Append("\n<g class=\"destroy\">\n  ");
+		AppendCross(sb, dm.X, dm.Y);
 		_ = sb.Append("</g>");
+	}
+
+	/// <summary>The X drawn for a destroyed participant and at the end of a lost (<c>-x</c> / <c>--x</c>) message.</summary>
+	private static void AppendCross(StringBuilder sb, double x, double y)
+	{
+		const double size = DestroySize;
+		_ = sb.Append("<path d=\"M").Append(x - size).Append(',').Append(y - size)
+			.Append(" L").Append(x + size).Append(',').Append(y + size)
+			.Append(" M").Append(x + size).Append(',').Append(y - size)
+			.Append(" L").Append(x - size).Append(',').Append(y + size)
+			.Append("\" fill=\"none\" stroke=\"var(--_line-strong)\" stroke-width=\"2\" stroke-linecap=\"round\" />\n");
 	}
 
 	private static void AppendBox(StringBuilder sb, DesignSystem ds, PositionedSequenceBox box, ColorFamily family, int index, bool strict)

@@ -49,8 +49,8 @@
   <line x1="350" y1="294" x2="210" y2="294" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-arrow)" />
   <rect x="254" y="269.2" width="52" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="280" y="280" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Result</text>
 </g>
-<g class="message" data-from="Bob" data-to="Worker" data-label="Terminate" data-line-style="solid" data-arrow-head="filled" data-self="false">
-  <line x1="210" y1="344" x2="340" y2="344" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<g class="message" data-from="Bob" data-to="Worker" data-label="Terminate" data-line-style="solid" data-arrow-head="cross" data-self="false">
+  <line x1="210" y1="344" x2="340" y2="344" stroke="var(--_line)" stroke-width="1.5" />
   <rect x="238.74" y="319.2" width="72.52" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="275" y="330" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Terminate</text>
 </g>
 <g class="message" data-from="Bob" data-to="Alice" data-label="Done" data-line-style="dashed" data-arrow-head="filled" data-self="false">

@@ -28,7 +28,7 @@ public sealed record SequenceMessage(
 );
 
 public enum SequenceLineStyle { Solid, Dashed }
-public enum SequenceArrowHead { Filled, Open }
+public enum SequenceArrowHead { Filled, Open, Cross }
 
 public sealed record SequenceBlock
 {

@@ -48,13 +48,15 @@
   <line x1="210" y1="264" x2="70" y2="264" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-open)" />
   <rect x="95.19" y="239.2" width="89.61999999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="250" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Dashed open</text>
 </g>
-<g class="message" data-from="A" data-to="B" data-label="Solid cross" data-line-style="solid" data-arrow-head="filled" data-self="false">
-  <line x1="70" y1="314" x2="210" y2="314" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
-  <rect x="99.97800000000001" y="289.2" width="80.04399999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="300" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Solid cross</text>
+<g class="message" data-from="A" data-to="B" data-label="Solid cross" data-line-style="solid" data-arrow-head="cross" data-self="false">
+  <line x1="70" y1="314" x2="210" y2="314" stroke="var(--_line)" stroke-width="1.5" />
+  <path d="M204,308 L216,320 M216,308 L204,320" fill="none" stroke="var(--_line-strong)" stroke-width="2" stroke-linecap="round" />
+<rect x="99.97800000000001" y="289.2" width="80.04399999999998" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="300" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Solid cross</text>
 </g>
-<g class="message" data-from="B" data-to="A" data-label="Dashed cross" data-line-style="dashed" data-arrow-head="filled" data-self="false">
-  <line x1="210" y1="364" x2="70" y2="364" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-arrow)" />
-  <rect x="92.45400000000001" y="339.2" width="95.092" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="350" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Dashed cross</text>
+<g class="message" data-from="B" data-to="A" data-label="Dashed cross" data-line-style="dashed" data-arrow-head="cross" data-self="false">
+  <line x1="210" y1="364" x2="70" y2="364" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" />
+  <path d="M64,358 L76,370 M76,358 L64,370" fill="none" stroke="var(--_line-strong)" stroke-width="2" stroke-linecap="round" />
+<rect x="92.45400000000001" y="339.2" width="95.092" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="140" y="350" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Dashed cross</text>
 </g>
 <g class="actor" data-id="A" data-label="A" data-type="participant">
   <rect x="30" y="30" width="80" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />

@@ -176,4 +176,19 @@ public class SequenceRendererTests
 		svg.Should().Contain("--_text:");
 		svg.Should().Contain("--_line:");
 	}
+
+	[Test]
+	public void Renders_lost_messages_with_a_cross()
+	{
+		var svg = MermaidRenderer.RenderSvg("""
+			sequenceDiagram
+			A--xB: async lost
+			A-xB: sync lost
+			""");
+
+		svg.Should().Contain("data-arrow-head=\"cross\"");
+		svg.Should().NotContain("data-arrow-head=\"filled\"");
+		svg.Should().NotContain("marker-end=");
+		svg.Should().MatchRegex("data-label=\"async lost\"[^\\n]*\\n[^\\n]*<line[^>]*/>\\n\\s*<path d=\"M[^\"]* M[^\"]*\"");
+	}
 }
