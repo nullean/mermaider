@@ -33,13 +33,6 @@ let private clean (arguments:ParseResults<Arguments>) =
 
 let private build (arguments:ParseResults<Arguments>) = exec "dotnet" ["build"; "-c"; "Release"] |> ignore
 
-let private pristineCheck (arguments:ParseResults<Arguments>) =
-    let doCheck = arguments.TryGetResult CleanCheckout |> Option.defaultValue true
-    match doCheck, Information.isCleanWorkingCopy "." with
-    | _, true  -> printfn "The checkout folder does not have pending changes, proceeding"
-    | false, _ -> printf "Checkout is dirty but -c was specified to ignore this"
-    | _ -> failwithf "The checkout folder has pending changes, aborting"
-
 let private test (arguments:ParseResults<Arguments>) =
     exec "dotnet" ["run"; "--project"; "tests/Mermaider.Tests/Mermaider.Tests.csproj"; "-c"; "Release"] |> ignore
 
@@ -80,51 +73,6 @@ let private generateApiChanges (arguments:ParseResults<Arguments>) =
         exec "dotnet" args |> ignore
     )
 
-let private generateReleaseNotes (arguments:ParseResults<Arguments>) =
-    let currentVersion = currentVersion.Value
-    let output =
-        Paths.RootRelative <| Path.Combine(Paths.Output.FullName, sprintf "release-notes-%s.md" currentVersion)
-    let tokenArgs =
-        match arguments.TryGetResult Token with
-        | None -> []
-        | Some token -> ["--token"; token;]
-    let releaseNotesArgs =
-        (Paths.Repository.Split("/") |> Seq.toList)
-        @ ["--version"; currentVersion
-           "--label"; "enhancement"; "New Features"
-           "--label"; "bug"; "Bug Fixes"
-           "--label"; "documentation"; "Docs Improvements"
-        ] @ tokenArgs
-        @ ["--output"; output]
-
-    exec "dotnet" (["release-notes"] @ releaseNotesArgs) |> ignore
-
-let private createReleaseOnGithub (arguments:ParseResults<Arguments>) =
-    let currentVersion = currentVersion.Value
-    let tokenArgs =
-        match arguments.TryGetResult Token with
-        | None -> []
-        | Some token -> ["--token"; token;]
-    let releaseNotes = Paths.RootRelative <| Path.Combine(Paths.Output.FullName, sprintf "release-notes-%s.md" currentVersion)
-    let breakingChanges =
-        let breakingChangesDocs = Paths.Output.GetFiles("breaking-changes-*.md")
-        breakingChangesDocs
-        |> Seq.map(fun f -> ["--body"; Paths.RootRelative f.FullName])
-        |> Seq.collect id
-        |> Seq.toList
-    let releaseArgs =
-        (Paths.Repository.Split("/") |> Seq.toList)
-        @ ["create-release"
-           "--version"; currentVersion
-           "--body"; releaseNotes;
-        ] @ breakingChanges @ tokenArgs
-
-    exec "dotnet" (["release-notes"] @ releaseArgs) |> ignore
-
-let private release (arguments:ParseResults<Arguments>) = printfn "release"
-
-let private publish (arguments:ParseResults<Arguments>) = printfn "publish"
-
 let Setup (parsed:ParseResults<Arguments>) (subCommand:Arguments) =
     let step (name:string) action = Targets.Target(name, new Action(fun _ -> action(parsed)))
 
@@ -143,21 +91,9 @@ let Setup (parsed:ParseResults<Arguments>) (subCommand:Arguments) =
 
     cmd Test.Name (Some [Build.Name;]) None <| fun _ -> test parsed
 
-    step PristineCheck.Name pristineCheck
     step GeneratePackages.Name generatePackages
     step ValidatePackages.Name validatePackages
-    step GenerateReleaseNotes.Name generateReleaseNotes
     step GenerateApiChanges.Name generateApiChanges
-    cmd Release.Name
-        (Some [PristineCheck.Name; Test.Name;])
-        (Some [GeneratePackages.Name; ValidatePackages.Name; GenerateReleaseNotes.Name; GenerateApiChanges.Name])
-        <| fun _ -> release parsed
-
-    step CreateReleaseOnGithub.Name createReleaseOnGithub
-    cmd Publish.Name
-        (Some [Release.Name])
-        (Some [CreateReleaseOnGithub.Name; ])
-        <| fun _ -> publish parsed
 
     cmd Docs.Name None None
         <| fun _ ->

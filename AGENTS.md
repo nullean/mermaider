@@ -17,6 +17,7 @@ mise run ci               # what CI's build job runs: test, pack, validate, diff
 mise run docs             # build the docs and serve them
 mise run check            # workflow security checks (zizmor)
 mise run clean            # delete build output
+mise run release          # show the release draft; `mise run release publish` releases
 ```
 
 `./build.sh <target>` runs the same build targets directly. Without mise:
@@ -25,6 +26,16 @@ mise run clean            # delete build output
 dotnet build mermaid-dotnet.slnx
 dotnet run --project tests/Mermaider.Tests/Mermaider.Tests.csproj
 ```
+
+## Releasing
+
+release-drafter keeps a draft release current from the labels of merged pull requests; every pull request carries
+exactly one release label (`pr-labels.yml` enforces it). **Publishing the draft** releases: it creates the tag and runs
+`ci.yml` on it, whose `build` job tests, packs at the tag's version, pushes the packages to nuget.org with trusted
+publishing and appends the public API changes to the release notes. Pushing a tag on its own does nothing. In 0.x a
+`breaking` label bumps the minor version; 1.0 is the maintainer's call. See the
+[releasing](.claude/skills/releasing/SKILL.md) and [breaking-changes](.claude/skills/breaking-changes/SKILL.md)
+skills, and `mise run release` for the current draft.
 
 ## Conventions
 
