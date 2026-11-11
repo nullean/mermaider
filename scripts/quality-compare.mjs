@@ -4,6 +4,7 @@
 import ELK from "elkjs/lib/elk.bundled.js";
 import fs from "node:fs";
 import { toElkGraph } from "./elk-options.mjs";
+import { gallerySvg } from "./snapshot-paths.mjs";
 
 const snap = "tests/Mermaider.Tests/Snapshots/";
 const dir = snap + "LayoutSkeleton/elk/";
@@ -69,9 +70,8 @@ function oursBoxes(svg) {
   return [...svg.matchAll(/<rect x="([\d.]+)" y="([\d.]+)" width="([\d.]+)" height="([\d.]+)" rx="6"[^>]*\/>\s*<text[^>]*>([^<]+)</g)].map(m => ({ id: m[5], x: +m[1], y: +m[2], w: +m[3], h: +m[4] }));
 }
 function oursFromSvg(slug) {
-  let f = `${snap}GallerySnapshotTests.Gallery_example=${slug}.received.svg`;
-  if (!fs.existsSync(f)) f = `${snap}GallerySnapshotTests.Gallery_example=${slug}.verified.svg`;
-  if (!fs.existsSync(f)) return null;
+  const f = gallerySvg(slug);
+  if (!f) return null;
   const svg = fs.readFileSync(f, "utf8"); const edges = [];
   for (const m of svg.matchAll(/<path class="er-relationship" data-entity1="([^"]+)" data-entity2="([^"]+)"([^>]*?) d="([^"]+)"/g)) {
     const lab = /data-label="([^"]*)"/.exec(m[3])?.[1] ?? "";

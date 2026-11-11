@@ -46,8 +46,10 @@ skills, and `mise run release` for the current draft.
 - Tab indentation, Allman braces, `_camelCase` private fields, `s_camelCase` static private fields
 - `[GeneratedRegex]` with 2s timeout for all regex patterns (ReDoS protection)
 - Minimize allocations: `ReadOnlySpan<char>`, `ObjectPool<StringBuilder>`, `SearchValues<char>`, `FrozenDictionary` (static/long-lived data only; prefer `IReadOnlyDictionary` for parse results)
-- TUnit for tests, AwesomeAssertions for fluent assertions, CsCheck for property-based tests and fuzzing, Verify.TUnit
-  for golden file snapshots
+- TUnit for tests, AwesomeAssertions for fluent assertions, CsCheck for property-based tests and fuzzing,
+  Nullean.Snapshots for golden file snapshots (`value.Should().MatchSnapshot(...)`; SVGs pass `SvgSnapshotFormat.Instance`).
+  Verified files live in `tests/Mermaider.Tests/.snapshots/`, received ones in `.artifacts/.snapshots/received/`; review
+  and accept them with `dotnet snap` (a local tool), or `SNAPSHOT_ACCEPT=1` outside CI. Nothing is ever accepted for you
 - Package versions live only in `Directory.Packages.props`; a `PackageReference` never carries a `Version`
 - Every package ships an agent skill at `src/<Project>/skills/<name>/SKILL.md`, written from the code. Change it with
   the public API it describes, and compile its snippets before committing

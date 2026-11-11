@@ -12,10 +12,11 @@
   </ItemGroup>
   <ItemGroup>
     <!-- Test dependencies -->
-    <PackageVersion Include="TUnit" Version="1.17.25" />
-    <PackageVersion Include="AwesomeAssertions" Version="9.4.0" />
+    <PackageVersion Include="TUnit" Version="1.80.0" />
+    <PackageVersion Include="AwesomeAssertions" Version="9.6.0" />
     <PackageVersion Include="CsCheck" Version="5.0.1" />
-    <PackageVersion Include="Verify.TUnit" Version="31.13.2" />
+    <PackageVersion Include="Nullean.Snapshots.AwesomeAssertions" Version="0.11.0" />
+    <PackageVersion Include="Nullean.Snapshots.TUnit" Version="0.11.0" />
     <PackageVersion Include="Microsoft.Extensions.TimeProvider.Testing" Version="10.8.0" />
   </ItemGroup>
   <ItemGroup>

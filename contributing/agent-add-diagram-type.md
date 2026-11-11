@@ -329,7 +329,7 @@ test_entity - satisfies -> test_req
 - Header regex should capture kind + optional compact `title`; `DetectKind` must use `StartsWith` / capture group, not `Contains` (avoids `C4Context` matching `C4Container` substring myths and order bugs).
 - Self-relations need an explicit loop path; edge clipping collapses zero-length segments.
 - Primary-constructor private classes: **camelCase** parameter names (IDE1006).
-- Add Verify snapshot for at least one happy-path SVG early.
+- Add an SVG snapshot (`.Should().MatchSnapshot(SvgSnapshotFormat.Instance)`) for at least one happy-path diagram early.
 - InternalsVisibleTo already covers parser unit tests calling internal helpers.
 
 ### Sankey (2026-07)
@@ -348,7 +348,7 @@ test_entity - satisfies -> test_req
 - Header kind detection: capture group / `StartsWith`, not `Contains`.
 - Self-relations need an explicit loop path.
 - Primary-constructor private classes: **camelCase** parameter names (IDE1006).
-- Add Verify snapshot early.
+- Add an SVG snapshot early.
 
 ### Sankey (2026-07)
 

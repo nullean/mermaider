@@ -1,6 +1,7 @@
 // Can an emulation of ELK's randomised restarts (mode of the outcome distribution) predict ELK's order better
 // than a single deterministic sweep? Scored against ELK output for 13 seeds per RNG-driven diagram.
 import fs from "node:fs";
+import { erSkeletonTxt } from "./snapshot-paths.mjs";
 const dir = "tests/Mermaider.Tests/Snapshots/LayoutSkeleton/elk";
 const draws = JSON.parse(fs.readFileSync(`${dir}/seed-draws.json`));
 
@@ -81,7 +82,7 @@ function consensus(g, mode) {
 function deterministic(g, v = {}) { const P = prep(g); let o = modelOrder(g);
   if (v.reverseInit) o = o.map(l => [...l].reverse());
   const r = sweeps(o, P, g.nl, v.upFirst ? false : true, v.iters ?? 12, v); if (v.greedy) greedy(r.order, P); return r.order; }
-function engineOrder(slug) { const f = `tests/Mermaider.Tests/Snapshots/LayoutSkeleton/LayoutSkeletonTests.Skeleton_snapshot_slug=${slug}.verified.txt`; if (!fs.existsSync(f)) return null;
+function engineOrder(slug) { const f = erSkeletonTxt(slug); if (!f) return null;
   const o = []; for (const l of fs.readFileSync(f, "utf8").replace(/^\uFEFF/, "").split("\n")) { const r = /^Layer (\d+): (.*)$/.exec(l); if (r) o[+r[1]] = r[2].split(", "); } return o; }
 
 const agree = (order, draw) => { const d = new Map(draw); let n = 0, t = 0; order.forEach((l) => l.filter(x => !x.startsWith("v")).forEach((id, i) => { t++; const w = d.get(id); if (w && w[1] === i) n++; })); return 100 * n / t; };
