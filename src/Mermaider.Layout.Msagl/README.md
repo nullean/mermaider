@@ -1,18 +1,24 @@
 # Mermaider.Layout.Msagl
 
-Optional [Microsoft MSAGL](https://github.com/microsoft/automatic-graph-layout) layout provider for
-[Mermaider](https://github.com/nullean/mermaider).
+![Mermaider](https://raw.githubusercontent.com/nullean/mermaider/main/docs/images/png/mermaider-mark-180.png)
+
+An optional [Microsoft MSAGL](https://github.com/microsoft/automatic-graph-layout) layout provider for
+[Mermaider](https://github.com/nullean/mermaider), for output that matches earlier Mermaider versions.
+
+[![NuGet](https://img.shields.io/nuget/v/Mermaider.Layout.Msagl?style=flat-square)](https://www.nuget.org/packages/Mermaider.Layout.Msagl)
 
 Mermaider ships with a fast, zero-dependency layered layout engine, and that engine is the recommended choice. This
 package swaps in Microsoft's Automatic Graph Layout library for flowchart, state, class and ER diagrams, for
 compatibility with output from earlier Mermaider versions. On a simple flowchart it is about 10&times; slower and
 allocates about 7&times; more.
 
-## Usage
+## Install
 
-```bash
+```sh
 dotnet add package Mermaider.Layout.Msagl
 ```
+
+## Quick start
 
 ```csharp
 using Mermaider;
@@ -43,3 +49,8 @@ built-in engine, MSAGL has these limitations:
 
 Node and box sizes come from the same code the built-in engine uses, so class, ER and flowchart text fits its boxes
 under either engine.
+
+## Learn more
+
+- Documentation: https://mermaider.nullean.net/layout
+- Source and issues: https://github.com/nullean/mermaider
