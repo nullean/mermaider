@@ -2,13 +2,7 @@ name: Always be deploying
 
 on:
   pull_request:
-    paths-ignore:
-      - 'README.md'
-      - '.editorconfig'
   push:
-    paths-ignore:
-      - 'README.md'
-      - '.editorconfig'
     branches:
       - main
   # Publishing the release-drafter draft creates the tag and releases from here: nuget.org's trusted publishing
