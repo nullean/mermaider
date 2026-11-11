@@ -44,6 +44,9 @@ internal static partial class ClassParser
 	[GeneratedRegex(@"^note\s+(?:for\s+(\S+)\s+)?""([^""]+)""$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex NotePattern();
 
+	[GeneratedRegex(@"^([^~\s]+)~([^~\s]+)~$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex GenericNamePattern();
+
 	[GeneratedRegex(@"^(\S+?)\s+(--\(\)|\.\.?\(\)|\(\)--|\.?\(\)\.\.)\s+(\S+?)(?:\s*:\s*(.+))?$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex LollipopPattern();
 
@@ -184,7 +187,7 @@ internal static partial class ClassParser
 				var rest = inlineAttrMatch.Groups[2].Value;
 				if (!ArrowCheckPattern().IsMatch(rest))
 				{
-					var (node, attrs, methods) = EnsureClass(classMap, inlineAttrMatch.Groups[1].Value);
+					var (node, attrs, methods) = EnsureClassRef(classMap, inlineAttrMatch.Groups[1].Value);
 					var member = ParseMember(rest);
 					if (member.HasValue)
 					{
@@ -209,10 +212,8 @@ internal static partial class ClassParser
 			var lollipopMatch = LollipopPattern().Match(line);
 			if (lollipopMatch.Success)
 			{
-				var from = lollipopMatch.Groups[1].Value;
-				var to = lollipopMatch.Groups[3].Value;
-				_ = EnsureClass(classMap, from);
-				_ = EnsureClass(classMap, to);
+				var from = EnsureClassRef(classMap, lollipopMatch.Groups[1].Value).Node.Id;
+				var to = EnsureClassRef(classMap, lollipopMatch.Groups[3].Value).Node.Id;
 				var label = lollipopMatch.Groups[4].Success ? lollipopMatch.Groups[4].Value.Trim() : null;
 				relationships.Add(new ClassRelationship(from, to, ClassRelationType.Lollipop, ClassMarkerAt.To, label));
 				continue;
@@ -221,9 +222,9 @@ internal static partial class ClassParser
 			var rel = ParseRelationship(line);
 			if (rel != null)
 			{
-				_ = EnsureClass(classMap, rel.From);
-				_ = EnsureClass(classMap, rel.To);
-				relationships.Add(rel);
+				var from = EnsureClassRef(classMap, rel.From).Node.Id;
+				var to = EnsureClassRef(classMap, rel.To).Node.Id;
+				relationships.Add(rel with { From = from, To = to });
 			}
 		}
 
@@ -244,6 +245,29 @@ internal static partial class ClassParser
 		var attrs = new List<ClassMember>();
 		var methods = new List<ClassMember>();
 		classMap[id] = (node, attrs, methods);
+		return (node, attrs, methods);
+	}
+
+	/// <summary>
+	/// <see cref="EnsureClass"/> for a class named where it is used, such as a relationship endpoint: <c>List~T~</c> is
+	/// the class <c>List</c>, labelled <c>List&lt;T&gt;</c> unless it was declared with a label already.
+	/// </summary>
+	private static (ClassNode Node, List<ClassMember> Attrs, List<ClassMember> Methods) EnsureClassRef(
+		Dictionary<string, (ClassNode Node, List<ClassMember> Attrs, List<ClassMember> Methods)> classMap,
+		string name
+	)
+	{
+		var generic = GenericNamePattern().Match(name);
+		if (!generic.Success)
+			return EnsureClass(classMap, name);
+
+		var id = generic.Groups[1].Value;
+		var (node, attrs, methods) = EnsureClass(classMap, id);
+		if (node.Label == id)
+		{
+			node = node with { Label = $"{id}<{generic.Groups[2].Value}>" };
+			classMap[id] = (node, attrs, methods);
+		}
 		return (node, attrs, methods);
 	}
 
