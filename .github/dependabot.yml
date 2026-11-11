@@ -10,11 +10,6 @@ updates:
     groups:
       nuget:
         patterns: ["*"]
-    ignore:
-      # Naiad 2 adds a SponsorCheck build target (SC021) that fails the build unless the repository declares a
-      # time-boxed sponsorship exemption; staying on 1.x until that is decided.
-      - dependency-name: Naiad
-        versions: [">= 2.0.0"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
