@@ -1,0 +1,58 @@
+# Bootstraps the toolchain and is the one entry point: `mise run <task>`, the same task names in every nullean repo.
+# The .NET SDK version lives only in global.json: the first dotnet entry reads it from there (sdk.version is the first
+# "version" key). The net10.0 runtime is listed after it because Mermaider and its tests target net10.0.
+
+[env]
+DOTNET_NOLOGO = "1"
+DOTNET_CLI_TELEMETRY_OPTOUT = "1"
+DOTNET_SKIP_FIRST_TIME_EXPERIENCE = "1"
+
+[tools]
+dotnet = ["""{{ read_file(path='global.json') | split(pat='"version"') | nth(n=1) | split(pat='"') | nth(n=1) }}""", "10"]
+gh = "latest"
+zizmor = "1"
+
+[tasks.setup]
+description = "Restore the local .NET tools (minver, nupkg-validator, assembly-differ, ...)"
+run = "dotnet tool restore"
+
+[tasks.build]
+description = "Build the solution"
+depends = ["setup"]
+run = "dotnet run --project build/scripts -- build"
+
+[tasks.test]
+description = "Build, then run the tests"
+depends = ["setup"]
+run = "dotnet run --project build/scripts -- test"
+
+[tasks.check]
+description = "Fail on workflow findings (zizmor)"
+run = "zizmor --min-severity medium ."
+
+[tasks.pack]
+description = "Build, pack the NuGet packages and validate them"
+depends = ["setup"]
+run = [
+  "dotnet run --project build/scripts -- build",
+  "dotnet run --project build/scripts -- generatepackages -s true",
+  "dotnet run --project build/scripts -- validatepackages -s true",
+]
+
+[tasks.docs]
+description = "Build the documentation and serve it locally"
+run = "dotnet run --project build/scripts -- docs"
+
+[tasks.clean]
+description = "Delete build output"
+run = "dotnet run --project build/scripts -- clean"
+
+[tasks.ci]
+description = "What CI's build job runs: test, then pack, validate and diff the public API"
+depends = ["setup"]
+run = [
+  "dotnet run --project build/scripts -- test",
+  "dotnet run --project build/scripts -- generatepackages -s true",
+  "dotnet run --project build/scripts -- validatepackages -s true",
+  "dotnet run --project build/scripts -- generateapichanges -s true",
+]
