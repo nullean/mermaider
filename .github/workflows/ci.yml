@@ -15,7 +15,7 @@ on:
       - "*.*.*"
 
 permissions:
-  contents: write
+  contents: read # jobs that publish raise their own permissions
 
 env:
   ARTIFACTS: 'build/output/*.nupkg'
@@ -34,11 +34,15 @@ jobs:
         - runner: windows-latest
           binary: mermaid-aot-smoketest.exe
     steps:
-    - uses: actions/checkout@v6
-
-    - uses: actions/setup-dotnet@v5
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
-        global-json-file: ./global.json
+        persist-credentials: false
+
+    - uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
+      with:
+        cache: false # this workflow publishes what these jobs build; never restore a cache a PR could have written
+      env:
+        MISE_JOBS: "1" # dotnet versions share one DOTNET_ROOT; installing them in parallel races
 
     - name: Publish AOT
       run: dotnet publish examples/mermaid-aot-smoketest
@@ -54,17 +58,19 @@ jobs:
       issues: write
       id-token: write   # NuGet trusted publishing: exchange the workflow's OIDC token for a short-lived key
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         fetch-depth: 1
+        persist-credentials: false
     - run: |
         git fetch --prune --unshallow --tags
         echo exit code $?
         git tag --list
-    - uses: actions/setup-dotnet@v5
+    - uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
       with:
-        dotnet-version: |
-          10.0.x
+        cache: false # this workflow publishes what these jobs build; never restore a cache a PR could have written
+      env:
+        MISE_JOBS: "1" # dotnet versions share one DOTNET_ROOT; installing them in parallel races
 
     - run: ./build.sh build -s true
       name: Build
@@ -80,15 +86,19 @@ jobs:
     - name: publish to github package repository
       if: github.event_name == 'push' && startswith(github.ref, 'refs/heads')
       shell: bash
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
       run: |
-         until dotnet nuget push 'build/output/*.nupkg' -s https://nuget.pkg.github.com/nullean/index.json -k ${{secrets.GITHUB_TOKEN}} --skip-duplicate --no-symbols; do echo "Retrying"; sleep 1; done;
+         until dotnet nuget push 'build/output/*.nupkg' -s https://nuget.pkg.github.com/nullean/index.json -k "$GITHUB_TOKEN" --skip-duplicate --no-symbols; do echo "Retrying"; sleep 1; done;
 
     - run: ./build.sh generatereleasenotes -s true
       name: Generate release notes for tag
       if: github.event_name == 'push' && startswith(github.ref, 'refs/tags')
-    - run: ./build.sh createreleaseongithub -s true --token ${{secrets.GITHUB_TOKEN}}
+    - run: ./build.sh createreleaseongithub -s true --token "$GITHUB_TOKEN"
       if: github.event_name == 'push' && startswith(github.ref, 'refs/tags')
       name: Create or update release for tag on github
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
 
     # Trusted publishing: nuget.org trusts this repository's ci.yml (a policy owned by the nullean
     # organization), so there is no long-lived API key to expire. The key it returns lasts an hour, so the
@@ -96,13 +106,15 @@ jobs:
     - name: Log in to nuget.org (trusted publishing)
       id: nuget-login
       if: github.event_name == 'push' && startswith(github.ref, 'refs/tags')
-      uses: NuGet/login@v1
+      uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.2.0
       with:
         user: ${{ secrets.NUGET_USER }}
 
-    - run: dotnet nuget push 'build/output/*.nupkg' -k ${{ steps.nuget-login.outputs.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols
+    - run: dotnet nuget push 'build/output/*.nupkg' -k "$NUGET_API_KEY" -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols
       name: release to nuget.org
       if: github.event_name == 'push' && startswith(github.ref, 'refs/tags')
+      env:
+        NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
 
   # The docs build as docs.yml publishes it, without publishing, so a PR proves the build and post-build steps.
   docs:
@@ -110,20 +122,30 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set up .NET
-        uses: actions/setup-dotnet@v5
+        uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
         with:
-          global-json-file: ./global.json
+          cache: false # docs.yml publishes what this job builds; never restore a cache a PR could have written
+        env:
+          MISE_JOBS: "1" # dotnet versions share one DOTNET_ROOT; installing them in parallel races
 
       - name: Render screenshots
         run: dotnet run scripts/screenshots.cs
 
       - name: Build documentation
-        uses: elastic/docs-builder@main
+        uses: elastic/docs-builder@036a375759d876e2df67955ebec0382cd6b09249 # v1
         env:
           FEATURE_NAVIGATION_PREVIEW: true
 
       - name: Theme and landing page
         run: scripts/docs-finish.sh .artifacts/docs/html
+
+  # Static analysis of these workflows (nullean/.github).
+  zizmor:
+    uses: nullean/.github/.github/workflows/zizmor.yml@09af1fa16762b8ae42d899d45430a4267df5300c # v1.2.0
+    permissions:
+      contents: read

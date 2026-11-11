@@ -72,8 +72,8 @@ internal sealed partial class DesignSystem
 	internal DiagramColors Colors { get; }
 
 	private readonly string[] _autoPalette;
-	private readonly Dictionary<string, string> _gradients = new(StringComparer.Ordinal);
-	private readonly SortedDictionary<string, string> _markers = new(StringComparer.Ordinal);
+	private readonly Dictionary<string, string> _gradients = [with(StringComparer.Ordinal)];
+	private readonly SortedDictionary<string, string> _markers = [with(StringComparer.Ordinal)];
 
 	// Gradient / marker ids are document-global when several SVGs are inlined in one page, and their colours resolve
 	// in the defining SVG. Prefixing every id with a hash of the colour and design inputs keeps two differently themed

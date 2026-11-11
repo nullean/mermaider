@@ -21,19 +21,23 @@ jobs:
 
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v5
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set up .NET
-        uses: actions/setup-dotnet@v5
+        uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
         with:
-          global-json-file: ./global.json
+          cache: false # this workflow publishes what it builds; never restore a cache a PR could have written
+        env:
+          MISE_JOBS: "1" # dotnet versions share one DOTNET_ROOT; installing them in parallel races
 
       - name: Render screenshots
         run: dotnet run scripts/screenshots.cs
 
       # The design-system layout is behind a feature flag, read from the environment only.
       - name: Build documentation
-        uses: elastic/docs-builder@main
+        uses: elastic/docs-builder@036a375759d876e2df67955ebec0382cd6b09249 # v1
         env:
           FEATURE_NAVIGATION_PREVIEW: true
 
@@ -42,13 +46,13 @@ jobs:
         run: scripts/docs-finish.sh .artifacts/docs/html
 
       - name: Setup Pages
-        uses: actions/configure-pages@v6.0.0
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v5.0.0
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: .artifacts/docs/html
 
       - name: Deploy artifact
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

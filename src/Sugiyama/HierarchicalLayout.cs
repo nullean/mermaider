@@ -11,7 +11,7 @@ public static class HierarchicalLayout
 {
 	private sealed class Placed
 	{
-		internal Dictionary<string, (double X, double Y, double W, double H)> Nodes = new(StringComparer.Ordinal);
+		internal Dictionary<string, (double X, double Y, double W, double H)> Nodes = [with(StringComparer.Ordinal)];
 		internal List<GroupRect> Groups = [];
 		internal double Width;
 		internal double Height;
@@ -29,7 +29,7 @@ public static class HierarchicalLayout
 		internal double W = w;
 		internal double H = h;
 		internal List<GroupRect> Children = [];
-		internal HashSet<string> NodeIds = new(StringComparer.Ordinal);
+		internal HashSet<string> NodeIds = [with(StringComparer.Ordinal)];
 	}
 
 	public static LayoutResult Compute(LayoutGraph input, LayoutOptions options)

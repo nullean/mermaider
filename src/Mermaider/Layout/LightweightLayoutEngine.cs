@@ -285,7 +285,7 @@ internal static class LightweightLayoutEngine
 		if (graph.ClassAssignments.TryGetValue(nodeId, out var className) &&
 			graph.ClassDefs.TryGetValue(className, out var classDef))
 		{
-			result = new Dictionary<string, string>(classDef);
+			result = [with(classDef)];
 		}
 
 		if (graph.NodeStyles.TryGetValue(nodeId, out var nodeStyle))
@@ -304,7 +304,7 @@ internal static class LightweightLayoutEngine
 
 		if (graph.DefaultEdgeStyle is { } defaults)
 		{
-			result = new Dictionary<string, string>(defaults);
+			result = [with(defaults)];
 		}
 
 		if (graph.EdgeStyles.TryGetValue(edgeIndex, out var specific))

@@ -68,7 +68,7 @@ internal sealed class GraphBuffer : IDisposable
 		NodeIds = new string[nodeCount];
 		NodeWidths = new double[nodeCount];
 		NodeHeights = new double[nodeCount];
-		Edges = new List<GraphEdge>(edgeCapacity);
+		Edges = [with(edgeCapacity)];
 		Layers = RentInt(capacity);
 		NodePositionInLayer = RentInt(capacity);
 		X = new double[capacity];
