@@ -1,11 +1,12 @@
 using System.Text;
 using System.Xml.Linq;
 using AwesomeAssertions;
+using CsCheck;
 
 namespace Mermaider.Tests.Rendering;
 
 /// <summary>
-/// Deterministic fuzzing of the complete standalone untrusted-SVG boundary:
+/// Property-based fuzzing (CsCheck) of the complete standalone untrusted-SVG boundary:
 /// <code>
 /// seed SVG corpus -- token/character mutations --+
 ///                                                +-- SvgSanitizer.Sanitize -- safety oracle
@@ -29,7 +30,7 @@ namespace Mermaider.Tests.Rendering;
 /// standalone CSS or processing instructions, data-image links only on empty image elements,
 /// and text-only title/description metadata. A second sanitizer pass must be an exact no-op,
 /// proving that sanitization converges and cannot expose a new construct after serialization.
-/// Fixed seeds keep all 4,000 generated cases reproducible in the ordinary test suite.
+/// Every run draws 4,000 new cases; a failure is shrunk to a minimal input and reports the seed that reproduces it.
 /// </para>
 /// </summary>
 public class SvgSanitizerFuzzTests
@@ -69,86 +70,86 @@ public class SvgSanitizerFuzzTests
 		"xmlns:e=\"https://attacker.invalid/ns\"", "e:data-value=\"x\"", "\0", "\uD800",
 	];
 
+	/// <summary>
+	/// One edit of a seed SVG. Positions are fractions of the current length, so an edit stays valid whatever the
+	/// earlier edits did to the text, and shrinking moves an edit towards the start instead of out of range.
+	/// </summary>
+	private readonly record struct Mutation(int Kind, double At, double From, double Length, int Token);
+
+	private static readonly Gen<Mutation> GenMutation =
+		Gen.Select(Gen.Int[0, 4], Gen.Double[0, 1], Gen.Double[0, 1], Gen.Double[0, 1], Gen.Int[0, MutationTokens.Length - 1],
+			(kind, at, from, length, token) => new Mutation(kind, at, from, length, token));
+
+	private static readonly Gen<string> GenMutatedSvg =
+		Gen.Select(Gen.Int[0, Corpus.Length - 1], GenMutation.Array[1, 6], (seed, mutations) => Mutate(Corpus[seed], mutations));
+
 	[Test]
-	public void Mutational_fuzzer_preserves_the_safety_invariant()
-	{
-		var random = new Random(0x5A17_2026);
+	public void Mutational_fuzzer_preserves_the_safety_invariant() =>
+		GenMutatedSvg.Sample(input => AssertSafeAndIdempotent(input, SvgSanitizer.Sanitize(input), "the output must be safe to embed in HTML"),
+			iter: 2_500, print: input => input);
 
-		for (var i = 0; i < 2_500; i++)
-		{
-			var input = Mutate(Corpus[random.Next(Corpus.Length)], random);
-			var result = SvgSanitizer.Sanitize(input);
-			AssertSafeAndIdempotent(input, result, $"mutation {i}");
-		}
-	}
+	private static readonly string[] Elements =
+	[
+		"g", "rect", "path", "text", "title", "desc", "image", "style",
+		"script", "foreignObject", "animate", "use", "a", "iframe", "object",
+	];
+
+	private static readonly string[] Attributes =
+	[
+		"fill", "stroke", "marker-end", "style", "href", "xlink:href",
+		"onclick", "onload", "data-value", "aria-label", "unknown",
+	];
+
+	private static readonly string[] Values =
+	[
+		"#fff", "red", "rgb(1, 2, 3)", "var(--_text)", "url(#local)",
+		"url(https://attacker.invalid/x)", "javascript:alert(1)",
+		"data:image/svg+xml;base64,PHN2ZyAvPg==",
+		"data:image/png;base64,iVBORw0KGgo=", "\"/><script>alert(1)</script>",
+		"u\\72l(https://attacker.invalid/x)", "red;position:fixed", "<>&\"'",
+	];
 
 	[Test]
-	public void Structured_fuzzer_covers_element_attribute_and_value_cross_product()
-	{
-		var random = new Random(0x51C0_2026);
-		var elements = new[]
-		{
-			"g", "rect", "path", "text", "title", "desc", "image", "style",
-			"script", "foreignObject", "animate", "use", "a", "iframe", "object",
-		};
-		var attributes = new[]
-		{
-			"fill", "stroke", "marker-end", "style", "href", "xlink:href",
-			"onclick", "onload", "data-value", "aria-label", "unknown",
-		};
-		var values = new[]
-		{
-			"#fff", "red", "rgb(1, 2, 3)", "var(--_text)", "url(#local)",
-			"url(https://attacker.invalid/x)", "javascript:alert(1)",
-			"data:image/svg+xml;base64,PHN2ZyAvPg==",
-			"data:image/png;base64,iVBORw0KGgo=", "\"/><script>alert(1)</script>",
-			"u\\72l(https://attacker.invalid/x)", "red;position:fixed", "<>&\"'",
-		};
+	public void Structured_fuzzer_covers_element_attribute_and_value_cross_product() =>
+		Gen.Select(Gen.OneOf(Elements), Gen.OneOf(Attributes), Gen.OneOf(Values), Gen.OneOf(MutationTokens),
+				(element, attribute, value, text) =>
+				$"<svg xmlns=\"{SvgNamespace}\" xmlns:xlink=\"{XLinkNamespace}\"><{element} {attribute}=\"{EscapeAttribute(value)}\">{EscapeText(text)}</{element}></svg>")
+			.Sample(input => AssertSafeAndIdempotent(input, SvgSanitizer.Sanitize(input), "the output must be safe to embed in HTML"),
+				iter: 1_500, print: input => input);
 
-		for (var i = 0; i < 1_500; i++)
-		{
-			var element = elements[random.Next(elements.Length)];
-			var attribute = attributes[random.Next(attributes.Length)];
-			var value = values[random.Next(values.Length)];
-			var text = MutationTokens[random.Next(MutationTokens.Length)];
-			var input = $"<svg xmlns=\"{SvgNamespace}\" xmlns:xlink=\"{XLinkNamespace}\"><{element} {attribute}=\"{EscapeAttribute(value)}\">{EscapeText(text)}</{element}></svg>";
+	private static int Scale(double fraction, int count) => Math.Min((int)(fraction * count), count - 1);
 
-			var result = SvgSanitizer.Sanitize(input);
-			AssertSafeAndIdempotent(input, result, $"structured case {i}: {element}/{attribute}");
-		}
-	}
-
-	private static string Mutate(string seed, Random random)
+	private static string Mutate(string seed, Mutation[] mutations)
 	{
 		var value = new StringBuilder(seed);
-		var mutationCount = random.Next(1, 7);
 
-		for (var i = 0; i < mutationCount; i++)
+		foreach (var m in mutations)
 		{
-			switch (random.Next(5))
+			var token = MutationTokens[m.Token];
+			switch (m.Kind)
 			{
 				case 0:
-					_ = value.Insert(random.Next(value.Length + 1), MutationTokens[random.Next(MutationTokens.Length)]);
+					_ = value.Insert(Scale(m.At, value.Length + 1), token);
 					break;
 				case 1 when value.Length > 0:
 					{
-						var start = random.Next(value.Length);
-						var length = random.Next(1, Math.Min(24, value.Length - start) + 1);
+						var start = Scale(m.From, value.Length);
+						var length = 1 + Scale(m.Length, Math.Min(24, value.Length - start));
 						_ = value.Remove(start, length);
 						break;
 					}
 				case 2 when value.Length > 0:
-					value[random.Next(value.Length)] = MutationTokens[random.Next(MutationTokens.Length)][0];
+					value[Scale(m.At, value.Length)] = token[0];
 					break;
 				case 3 when value.Length > 0:
 					{
-						var start = random.Next(value.Length);
-						var length = Math.Min(random.Next(1, 17), value.Length - start);
-						_ = value.Insert(random.Next(value.Length + 1), value.ToString(start, length));
+						var start = Scale(m.From, value.Length);
+						var length = Math.Min(1 + Scale(m.Length, 16), value.Length - start);
+						_ = value.Insert(Scale(m.At, value.Length + 1), value.ToString(start, length));
 						break;
 					}
 				default:
-					_ = value.Append(MutationTokens[random.Next(MutationTokens.Length)]);
+					_ = value.Append(token);
 					break;
 			}
 

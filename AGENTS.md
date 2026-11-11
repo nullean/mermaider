@@ -24,7 +24,8 @@ mise run release          # show the release draft; `mise run release publish` r
 
 ```bash
 dotnet build mermaid-dotnet.slnx
-dotnet run --project tests/Mermaider.Tests/Mermaider.Tests.csproj
+dotnet test                # every test project (global.json selects Microsoft.Testing.Platform)
+dotnet run --project tests/Mermaider.Tests/Mermaider.Tests.csproj   # one project
 ```
 
 ## Releasing
@@ -43,7 +44,8 @@ skills, and `mise run release` for the current draft.
 - Tab indentation, Allman braces, `_camelCase` private fields, `s_camelCase` static private fields
 - `[GeneratedRegex]` with 2s timeout for all regex patterns (ReDoS protection)
 - Minimize allocations: `ReadOnlySpan<char>`, `ObjectPool<StringBuilder>`, `SearchValues<char>`, `FrozenDictionary` (static/long-lived data only; prefer `IReadOnlyDictionary` for parse results)
-- TUnit for tests, AwesomeAssertions for fluent assertions, Verify.TUnit for golden file snapshots
+- TUnit for tests, AwesomeAssertions for fluent assertions, CsCheck for property-based tests and fuzzing, Verify.TUnit
+  for golden file snapshots
 - Package versions live only in `Directory.Packages.props`; a `PackageReference` never carries a `Version`
 - Every package ships an agent skill at `src/<Project>/skills/<name>/SKILL.md`, written from the code. Change it with
   the public API it describes, and compile its snippets before committing
