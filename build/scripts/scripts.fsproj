@@ -8,11 +8,12 @@
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <!-- explicit: under central package management the SDK adds no FSharp.Core, so it resolved an old transitive one -->
+    <PackageReference Include="FSharp.Core" />
     <PackageReference Include="Argu" />
     <PackageReference Include="Bullseye" />
     <PackageReference Include="Proc" />
     <PackageReference Include="Fake.Tools.Git" />
-    <PackageReference Update="MinVer" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>

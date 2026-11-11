@@ -29,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <!-- Build script dependencies -->
+    <PackageVersion Include="FSharp.Core" Version="11.0.101" />
     <PackageVersion Include="Argu" Version="6.0.0" />
     <PackageVersion Include="Bullseye" Version="6.0.0" />
     <PackageVersion Include="Proc" Version="0.9.1" />
