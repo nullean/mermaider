@@ -14,7 +14,7 @@ var msaglProvider = new MsaglLayoutProvider();
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-var providerList = new (string Value, string Label)[] { ("mermaidjs", "mermaid.js"), ("beautiful-mermaid", "beautiful-mermaid"), ("naiad", "Naiad"), };
+var providerList = new (string Value, string Label)[] { ("mermaidjs", "mermaid.js"), ("beautiful-mermaid", "beautiful-mermaid"), };
 
 // The rendered SVGs are transparent by default (MermaidRenderer's Transparent option defaults to
 // true) — the ".provider-col" background is purely a page-chrome choice behind them, so switching
@@ -71,23 +71,9 @@ app.MapGet("/svg/{slug}", (HttpContext ctx, string slug) =>
 {
 	var q = ctx.Request.Query;
 	var theme = q["theme"].FirstOrDefault();
-	var engine = q["engine"].FirstOrDefault();
 	var example = DiagramExamples.All.FirstOrDefault(e => e.Slug == slug);
 	if (example is null)
 		return Results.NotFound($"Unknown diagram: {slug}");
-
-	if (engine == "naiad")
-	{
-		try
-		{
-			var svg = MermaidSharp.Mermaid.Render(example.Source, MermaidSharp.RenderOptions.Default);
-			return Results.Content(svg, "image/svg+xml");
-		}
-		catch (Exception ex)
-		{
-			return Results.Content(ErrorSvg(ex.Message), "image/svg+xml");
-		}
-	}
 
 	var options = ResolveOptions(q);
 	try
@@ -1440,13 +1426,11 @@ string RenderProviderColumn(string provider, string slug, string title, string h
 	{
 		"mermaidjs" => "mermaid.js",
 		"beautiful-mermaid" => "beautiful-mermaid",
-		"naiad" => "Naiad",
 		_ => provider
 	};
 
 	var content = provider switch
 	{
-		"naiad" => $"<img src=\"/svg/{slug}?engine=naiad\" alt=\"{WebUtility.HtmlEncode(title)} — Naiad\" loading=\"lazy\" />",
 		"mermaidjs" => $"<div class=\"mjs-render\" data-source=\"{htmlSafeJson}\"><span class=\"render-loading\">loading…</span></div>",
 		"beautiful-mermaid" => $"<div class=\"bm-render\" data-source=\"{htmlSafeJson}\"><span class=\"render-loading\">loading…</span></div>",
 		_ => ""
