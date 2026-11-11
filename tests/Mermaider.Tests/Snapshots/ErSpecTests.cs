@@ -1,13 +1,14 @@
-using VerifyTUnit;
+using AwesomeAssertions;
+using Nullean.Snapshots;
 
 namespace Mermaider.Tests.Snapshots;
 
 public class ErSpecTests
 {
 	[Test]
-	public Task All_cardinality_combinations() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void All_cardinality_combinations() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			erDiagram
 			A ||--|| B : one-to-one
@@ -15,28 +16,28 @@ public class ErSpecTests
 			E ||--o{ F : one-to-zero-or-many
 			G ||--|{ H : one-to-one-or-many
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Non_identifying_relationships() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void Non_identifying_relationships() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			erDiagram
 			PARENT ||--|{ CHILD : has
 			CATEGORY ||..o{ PRODUCT : classifies
 			TEAM }|..|{ MEMBER : includes
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Attributes_with_keys() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void Attributes_with_keys() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			erDiagram
 			USER {
@@ -54,14 +55,14 @@ public class ErSpecTests
 			}
 			USER ||--o{ SESSION : has
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Attributes_with_comments() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void Attributes_with_comments() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			erDiagram
 			PRODUCT {
@@ -71,14 +72,14 @@ public class ErSpecTests
 			int stock "Non-negative"
 			}
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Complex_blog_schema() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void Complex_blog_schema() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			erDiagram
 			USER ||--o{ POST : writes
@@ -108,14 +109,14 @@ public class ErSpecTests
 			string name UK
 			}
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Recursive_relationship() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void Recursive_relationship() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			erDiagram
 			EMPLOYEE ||--o{ EMPLOYEE : manages
@@ -125,14 +126,14 @@ public class ErSpecTests
 			int manager_id FK
 			}
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Entities_without_attributes() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void Entities_without_attributes() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			erDiagram
 			CUSTOMER ||--o{ ORDER : places
@@ -140,14 +141,14 @@ public class ErSpecTests
 			LINE_ITEM }|--|| PRODUCT : references
 			PRODUCT }o--o{ CATEGORY : belongs_to
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Ecommerce_schema() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void Ecommerce_schema() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			erDiagram
 			CUSTOMER ||--o{ ORDER : places
@@ -181,39 +182,39 @@ public class ErSpecTests
 			string description
 			}
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Direction_top_down() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void Direction_top_down() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			erDiagram
 			direction TD
 			CUSTOMER ||--o{ ORDER : places
 			ORDER ||--|{ LINE-ITEM : contains
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Optional_relationship_label() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg("""
+	public void Optional_relationship_label() =>
+		MermaidRenderer
+			.RenderSvg("""
 			erDiagram
 			CUSTOMER ||--o{ ORDER
 			ORDER ||--|{ LINE-ITEM : contains
-			"""),
-			"svg"
-		);
+			""")
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Entity_alias() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void Entity_alias() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			erDiagram
 			p["Customer Account"] {
@@ -226,7 +227,7 @@ public class ErSpecTests
 			}
 			p ||--o{ o : places
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 }

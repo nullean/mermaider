@@ -103,7 +103,7 @@ internal sealed record LayoutSkeleton(
 	/// <summary>
 	/// Human-readable layer-by-layer dump: entities per layer in left-to-right order, then
 	/// every edge with its label, attachment sides and route signature, then ports. Meant to
-	/// be eyeballed directly in a test failure or a Verify snapshot diff — no SVG viewer required.
+	/// be eyeballed directly in a test failure or a snapshot diff — no SVG viewer required.
 	/// </summary>
 	public string ToAsciiArt()
 	{

@@ -1,13 +1,14 @@
-using VerifyTUnit;
+using AwesomeAssertions;
+using Nullean.Snapshots;
 
 namespace Mermaider.Tests.Snapshots;
 
 public class StateSpecTests
 {
 	[Test]
-	public Task Simple_lifecycle() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void Simple_lifecycle() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			stateDiagram-v2
 			[*] --> Draft
@@ -17,14 +18,14 @@ public class StateSpecTests
 			Published --> Archived : archive
 			Archived --> [*]
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Multiple_end_states() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void Multiple_end_states() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			stateDiagram-v2
 			[*] --> Active
@@ -34,14 +35,14 @@ public class StateSpecTests
 			Inactive --> Closed : close
 			Closed --> [*]
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Branching_transitions() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void Branching_transitions() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			stateDiagram-v2
 			[*] --> Idle
@@ -52,14 +53,14 @@ public class StateSpecTests
 			Failed --> Idle : retry
 			Failed --> [*] : abort
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task State_descriptions() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void State_descriptions() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			stateDiagram-v2
 			[*] --> Booting
@@ -70,14 +71,14 @@ public class StateSpecTests
 			Processing : Handling request
 			Processing --> Ready : done
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task V1_syntax() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void V1_syntax() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			stateDiagram
 			[*] --> Still
@@ -87,14 +88,14 @@ public class StateSpecTests
 			Moving --> Crash
 			Crash --> [*]
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Linear_pipeline() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void Linear_pipeline() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			stateDiagram-v2
 			[*] --> Received
@@ -104,14 +105,14 @@ public class StateSpecTests
 			Stored --> Published : notify
 			Published --> [*]
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Error_recovery_pattern() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void Error_recovery_pattern() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			stateDiagram-v2
 			[*] --> Running
@@ -123,14 +124,14 @@ public class StateSpecTests
 			Fatal --> Stopped : operator
 			Stopped --> [*]
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Order_workflow() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void Order_workflow() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			stateDiagram-v2
 			[*] --> Pending
@@ -144,14 +145,14 @@ public class StateSpecTests
 			Returned --> Refunded : process_refund
 			Refunded --> [*]
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Choice_pseudostate() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void Choice_pseudostate() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			stateDiagram-v2
 			state isPositive <<choice>>
@@ -159,14 +160,14 @@ public class StateSpecTests
 			isPositive --> Positive : if n > 0
 			isPositive --> Negative : if n < 0
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Fork_and_join() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void Fork_and_join() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			stateDiagram-v2
 			state fork_state <<fork>>
@@ -178,28 +179,28 @@ public class StateSpecTests
 			B --> join_state
 			join_state --> [*]
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task State_note() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void State_note() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			stateDiagram-v2
 			[*] --> Active
 			Active --> Inactive
 			note right of Active : Important state
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Composite_state() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void Composite_state() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			stateDiagram-v2
 			[*] --> First
@@ -209,7 +210,7 @@ public class StateSpecTests
 			}
 			First --> Last
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 }

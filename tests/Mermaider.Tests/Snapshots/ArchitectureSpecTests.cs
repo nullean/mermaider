@@ -1,13 +1,14 @@
-using VerifyTUnit;
+using AwesomeAssertions;
+using Nullean.Snapshots;
 
 namespace Mermaider.Tests.Snapshots;
 
 public class ArchitectureSpecTests
 {
 	[Test]
-	public Task Groups_and_services_with_icons() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void Groups_and_services_with_icons() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			architecture-beta
 			group api(cloud)[API]
@@ -17,14 +18,14 @@ public class ArchitectureSpecTests
 			server:T -- B:disk1
 			server:L -- R:db
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Nested_groups() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void Nested_groups() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			architecture-beta
 			group outer(cloud)[Outer]
@@ -33,14 +34,14 @@ public class ArchitectureSpecTests
 			service b(server)[B] in outer
 			a:R -- L:b
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Junction_routing() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void Junction_routing() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			architecture-beta
 			service a(server)[A]
@@ -51,14 +52,14 @@ public class ArchitectureSpecTests
 			j:R -- L:b
 			j:B -- T:c
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task All_edge_arrow_directions() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void All_edge_arrow_directions() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			architecture-beta
 			service a(server)[A]
@@ -69,14 +70,14 @@ public class ArchitectureSpecTests
 			b:R --> L:c
 			c:R <-- L:d
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Vendor_icon_packs() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void Vendor_icon_packs() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			architecture-beta
 			group cloud1(cloud)[Cloud]
@@ -86,14 +87,14 @@ public class ArchitectureSpecTests
 			compute:R -- L:storage
 			compute:B -- T:search
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Reported_k8s_ech_diagram() =>
-		Verifier.Verify(
-			MermaidRenderer.RenderSvg(
+	public void Reported_k8s_ech_diagram() =>
+		MermaidRenderer
+			.RenderSvg(
 				"""
 			architecture-beta
 			group k8s(cloud)[k8s]
@@ -113,7 +114,7 @@ public class ArchitectureSpecTests
 			kbn:L -- T:es
 			apm:L -- R:es
 			"""
-			),
-			"svg"
-		);
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 }

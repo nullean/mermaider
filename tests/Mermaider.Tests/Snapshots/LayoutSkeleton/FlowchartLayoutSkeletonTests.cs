@@ -3,7 +3,7 @@ using Mermaider.Examples;
 using Mermaider.Layout;
 using Mermaider.Models;
 using Mermaider.Parsing;
-using VerifyTUnit;
+using Nullean.Snapshots;
 
 namespace Mermaider.Tests.Snapshots.LayoutSkeleton;
 
@@ -37,13 +37,13 @@ public class FlowchartLayoutSkeletonTests
 
 	[Test]
 	[MethodDataSource(nameof(FlowchartSlugs))]
-	public Task Skeleton_snapshot(string slug)
+	public void Skeleton_snapshot(string slug)
 	{
 		var example = DiagramExamples.All.Single(e => e.Slug == slug);
 		var graph = ParseFlowchart(example.Source);
 		var positioned = LightweightLayoutEngine.Layout(graph);
 		var skeleton = MermaiderGraphSkeletonExtractor.Extract(graph, positioned);
 
-		return Verifier.Verify(skeleton.ToAsciiArt(), "txt").UseParameters(slug);
+		skeleton.ToAsciiArt().Should().MatchSnapshot(SnapshotFormats.Text, slug);
 	}
 }

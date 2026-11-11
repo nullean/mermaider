@@ -3,6 +3,7 @@
 // Usage: node scripts/flow-parity.mjs [slugFilter]
 import fs from "node:fs";
 import { parse, metrics } from "./flow-metrics.mjs";
+import { gallerySvg } from "./snapshot-paths.mjs";
 
 const snap = "tests/Mermaider.Tests/Snapshots/";
 const ref = snap + "Reference/mermaidjs/";
@@ -56,7 +57,7 @@ let worse = 0, total = 0;
 for (const f of fs.readdirSync(ref).filter(f => /^(flowchart|db-flow|rfc|state|class)-.*\.svg$/.test(f)).sort()) {
   const slug = f.replace(".svg", "");
   if (filter && !slug.includes(filter)) continue;
-  const ours = ["received", "verified"].map(k => snap + `GallerySnapshotTests.Gallery_example=${slug}.${k}.svg`).find(p => fs.existsSync(p));
+  const ours = gallerySvg(slug);
   if (!ours) continue;
   const a = parse(fs.readFileSync(ours, "utf8"));
   let b; try { b = parseMjs(fs.readFileSync(ref + f, "utf8")); } catch { continue; }

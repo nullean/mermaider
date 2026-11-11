@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import { erSkeletonTxt } from "./snapshot-paths.mjs";
 const base = "tests/Mermaider.Tests/Snapshots/LayoutSkeleton";
 const slugs = fs.readdirSync(base + "/elk").filter(f => f.endsWith(".elk.output.json")).map(f => f.replace(".elk.output.json", ""));
 function elkNodes(slug) {
@@ -15,7 +16,7 @@ function mjsNodes(slug) {
   return m;
 }
 function oursNodes(slug) {
-  const f = `${base}/LayoutSkeletonTests.Skeleton_snapshot_slug=${slug}.verified.txt`; if (!fs.existsSync(f)) return null;
+  const f = erSkeletonTxt(slug); if (!f) return null;
   const m = new Map();
   for (const l of fs.readFileSync(f, "utf8").replace(/^﻿/, "").split("\n")) {
     const r = /^Layer (\d+): (.*)$/.exec(l); if (r) r[2].split(", ").forEach((id, i) => m.set(id, [+r[1], i]));
