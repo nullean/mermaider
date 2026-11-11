@@ -101,6 +101,29 @@ public class SequenceRendererTests
 	}
 
 	[Test]
+	public void Note_after_self_message_sits_below_the_loop_and_its_label()
+	{
+		var diagram = Mermaider.Parsing.SequenceParser.Parse(
+		[
+			"sequenceDiagram",
+			"A->>J: hi",
+			"J->>J: Fight against hypochondria",
+			"Note right of J: Rational thoughts",
+			"J-->>A: Great",
+		]);
+
+		var positioned = Mermaider.Layout.SequenceLayout.Layout(diagram);
+
+		var self = positioned.Messages[1];
+		var next = positioned.Messages[2];
+		var note = positioned.Notes.Should().ContainSingle().Subject;
+		self.IsSelf.Should().BeTrue();
+		// the loop drops 20px and its label pill is centred on the loop, so its bottom edge is past the loop
+		note.Y.Should().BeGreaterThanOrEqualTo(self.Y + 30, "the note must clear the self-message loop and its label");
+		(note.Y + note.Height).Should().BeLessThan(next.Y, "the note stays above the next message");
+	}
+
+	[Test]
 	public void Renders_alt_block_with_dividers()
 	{
 		var svg = MermaidRenderer.RenderSvg("""
