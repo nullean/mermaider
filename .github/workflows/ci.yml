@@ -153,7 +153,7 @@ jobs:
         run: dotnet run scripts/screenshots.cs
 
       - name: Build documentation
-        uses: elastic/docs-builder@036a375759d876e2df67955ebec0382cd6b09249 # v1
+        uses: elastic/docs-builder@fb4e5bc87826cc2e62dee489a2c68a238690b168 # v1.71.0
         env:
           FEATURE_NAVIGATION_PREVIEW: true
 
