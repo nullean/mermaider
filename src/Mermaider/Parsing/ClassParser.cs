@@ -273,7 +273,9 @@ internal static partial class ClassParser
 		{
 			var name = methodMatch.Groups[1].Value.Trim();
 			var parms = methodMatch.Groups[2].Success && methodMatch.Groups[2].Value.Trim().Length > 0 ? methodMatch.Groups[2].Value.Trim() : null;
-			var type = methodMatch.Groups[3].Success && methodMatch.Groups[3].Value.Trim().Length > 0 ? methodMatch.Groups[3].Value.Trim() : null;
+			// the classifier ($ static, * abstract) sits right after () or after the return type: `sleep()$`, `add()$ int`, `walk() bool*`
+			var typeText = methodMatch.Groups[3].Success ? methodMatch.Groups[3].Value.Trim().Trim('$', '*').Trim() : "";
+			var type = typeText.Length > 0 ? typeText : null;
 			var isStatic = name.EndsWith('$') || rest.Contains('$');
 			var isAbstract = name.EndsWith('*') || rest.Contains('*');
 

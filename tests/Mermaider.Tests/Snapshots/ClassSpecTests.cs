@@ -273,4 +273,22 @@ public class ClassSpecTests
 			""")
 			.Should()
 			.MatchSnapshot(SvgSnapshotFormat.Instance);
+
+	[Test]
+	public void Method_classifiers() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
+			classDiagram
+			class Animal {
+				+int count$
+				+sleep()$
+				+wake() bool$
+				+run()*
+				+walk() bool*
+			}
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 }
