@@ -292,7 +292,8 @@ internal static class SequenceLayout
 			var refMsg = note.AfterIndex >= 0 && note.AfterIndex < messages.Count
 				? messages[note.AfterIndex]
 				: null;
-			var noteY = (refMsg?.Y ?? (actorY + ActorHeight)) + 10;
+			// a note after a self-message sits below its loop, not on top of the loop's label
+			var noteY = (refMsg?.Y ?? (actorY + ActorHeight)) + (refMsg?.IsSelf == true ? SelfMessageHeight : 0) + 10;
 
 			_ = actorIndex.TryGetValue(note.ActorIds[0], out var firstActorIdx);
 			double noteX;
