@@ -11,8 +11,10 @@ on:
       - '.editorconfig'
     branches:
       - main
-    tags:
-      - "*.*.*"
+  # Publishing the release-drafter draft creates the tag and releases from here: nuget.org's trusted publishing
+  # policy names this file. Pushing a tag on its own releases nothing.
+  release:
+    types: [published]
 
 permissions:
   contents: read # jobs that publish raise their own permissions
@@ -53,9 +55,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write   # append the public API changes to the release notes
       packages: write
-      issues: write
       id-token: write   # NuGet trusted publishing: exchange the workflow's OIDC token for a short-lived key
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -91,30 +92,45 @@ jobs:
       run: |
          until dotnet nuget push 'build/output/*.nupkg' -s https://nuget.pkg.github.com/nullean/index.json -k "$GITHUB_TOKEN" --skip-duplicate --no-symbols; do echo "Retrying"; sleep 1; done;
 
-    - run: ./build.sh generatereleasenotes -s true
-      name: Generate release notes for tag
-      if: github.event_name == 'push' && startswith(github.ref, 'refs/tags')
-    - run: ./build.sh createreleaseongithub -s true --token "$GITHUB_TOKEN"
-      if: github.event_name == 'push' && startswith(github.ref, 'refs/tags')
-      name: Create or update release for tag on github
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-
     # Trusted publishing: nuget.org trusts this repository's ci.yml (a policy owned by the nullean
     # organization), so there is no long-lived API key to expire. The key it returns lasts an hour, so the
     # login sits right before the push. NUGET_USER is the nuget.org profile name, set at the org level.
     - name: Log in to nuget.org (trusted publishing)
       id: nuget-login
-      if: github.event_name == 'push' && startswith(github.ref, 'refs/tags')
+      if: github.event_name == 'release'
       uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.2.0
       with:
         user: ${{ secrets.NUGET_USER }}
 
     - run: dotnet nuget push 'build/output/*.nupkg' -k "$NUGET_API_KEY" -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols
       name: release to nuget.org
-      if: github.event_name == 'push' && startswith(github.ref, 'refs/tags')
+      if: github.event_name == 'release'
       env:
         NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
+
+    # After the push, so the notes gain the API changes only once the packages are out. The notes themselves are the
+    # draft release-drafter kept from the merged pull requests; a re-run appends nothing twice.
+    - name: Append the public API changes to the release notes
+      if: github.event_name == 'release'
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        TAG: ${{ github.event.release.tag_name }}
+      run: |
+        shopt -s nullglob
+        files=(build/output/breaking-changes-*.md)
+        if [ ${#files[@]} -eq 0 ]; then
+          echo "no public API changes to add"
+          exit 0
+        fi
+        notes=$(gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json body --jq .body)
+        marker="<!-- public-api-changes -->"
+        case "$notes" in *"$marker"*) echo "already appended"; exit 0 ;; esac
+        {
+          printf '%s\n\n%s\n' "$notes" "$marker"
+          for f in "${files[@]}"; do printf '\n'; cat "$f"; printf '\n'; done
+        } > "$RUNNER_TEMP/notes.md"
+        gh release edit "$TAG" --repo "$GITHUB_REPOSITORY" --notes-file "$RUNNER_TEMP/notes.md"
 
   # The docs build as docs.yml publishes it, without publishing, so a PR proves the build and post-build steps.
   docs:
