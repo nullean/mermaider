@@ -122,6 +122,33 @@ public class ClassSpecTests
 			.Should()
 			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
+	// #88: a cardinality sits beside its line next to its own class, clear of the relation label at the midpoint
+	[Test]
+	public void Cardinality_beside_relation_label() =>
+		MermaidRenderer
+			.RenderSvg("""
+			classDiagram
+			Pond o-- "many" Duck : holds
+			Duck *-- "2" Wing : has
+			""")
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
+
+	[Test]
+	public void Cardinality_beside_relation_label_lr() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
+			classDiagram
+			direction LR
+			Customer "1" --> "0..*" Order : places
+			Order "1" *-- "1..*" LineItem : contains
+			Customer "1" --> "1" Address
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
+
 	[Test]
 	public void Namespace_grouping() =>
 		MermaidRenderer
