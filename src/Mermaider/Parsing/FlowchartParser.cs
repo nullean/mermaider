@@ -36,7 +36,7 @@ internal static partial class FlowchartParser
 	[GeneratedRegex(@"^([\w-]+)\s*\[(.+)\]$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex SubgraphBracketPattern();
 
-	[GeneratedRegex(@"^(<)?(-{2,}>|-{3,}|-\.+->|-\.+-|={2,}>|={3,}|~{3,})(?:\|([^|]*)\|)?", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^(<)?(-{2,}>|-{3,}|-\.+->|-\.+-|={2,}>|={3,}|~{3,})(?:\|(""[^""]*""|[^|]*)\|)?", RegexOptions.None, TimeoutMs)]
 	private static partial Regex ArrowPattern();
 
 	[GeneratedRegex(@"^(<)?(-{2}|={2}|-\.)\s+(.+?)\s+(-{2}>|={2}>|\.->)", RegexOptions.None, TimeoutMs)]
@@ -45,46 +45,46 @@ internal static partial class FlowchartParser
 	[GeneratedRegex(@"^:::([\w][\w-]*)", RegexOptions.None, TimeoutMs)]
 	private static partial Regex ClassShorthandPattern();
 
-	[GeneratedRegex(@"^([\w-]+)\(\(\((.+?)\)\)\)", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^([\w-]+)\(\(\((""[^""]*""|.+?)\)\)\)", RegexOptions.None, TimeoutMs)]
 	private static partial Regex DoubleCirclePattern();
 
-	[GeneratedRegex(@"^([\w-]+)\(\[(.+?)\]\)", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^([\w-]+)\(\[(""[^""]*""|.+?)\]\)", RegexOptions.None, TimeoutMs)]
 	private static partial Regex StadiumPattern();
 
-	[GeneratedRegex(@"^([\w-]+)\(\((.+?)\)\)", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^([\w-]+)\(\((""[^""]*""|.+?)\)\)", RegexOptions.None, TimeoutMs)]
 	private static partial Regex CirclePattern();
 
-	[GeneratedRegex(@"^([\w-]+)\[\[(.+?)\]\]", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^([\w-]+)\[\[(""[^""]*""|.+?)\]\]", RegexOptions.None, TimeoutMs)]
 	private static partial Regex SubroutinePattern();
 
-	[GeneratedRegex(@"^([\w-]+)\[\((.+?)\)\]", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^([\w-]+)\[\((""[^""]*""|.+?)\)\]", RegexOptions.None, TimeoutMs)]
 	private static partial Regex CylinderPattern();
 
-	[GeneratedRegex(@"^([\w-]+)\[/(.+?)\\\]", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^([\w-]+)\[/(""[^""]*""|.+?)\\\]", RegexOptions.None, TimeoutMs)]
 	private static partial Regex TrapezoidPattern();
 
-	[GeneratedRegex(@"^([\w-]+)\[/(.+?)/\]", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^([\w-]+)\[/(""[^""]*""|.+?)/\]", RegexOptions.None, TimeoutMs)]
 	private static partial Regex ParallelogramPattern();
 
-	[GeneratedRegex(@"^([\w-]+)\[\\(.+?)\\\]", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^([\w-]+)\[\\(""[^""]*""|.+?)\\\]", RegexOptions.None, TimeoutMs)]
 	private static partial Regex ParallelogramAltPattern();
 
-	[GeneratedRegex(@"^([\w-]+)\[\\(.+?)/\]", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^([\w-]+)\[\\(""[^""]*""|.+?)/\]", RegexOptions.None, TimeoutMs)]
 	private static partial Regex TrapezoidAltPattern();
 
-	[GeneratedRegex(@"^([\w-]+)>(.+?)\]", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^([\w-]+)>(""[^""]*""|.+?)\]", RegexOptions.None, TimeoutMs)]
 	private static partial Regex AsymmetricPattern();
 
-	[GeneratedRegex(@"^([\w-]+)\{\{(.+?)\}\}", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^([\w-]+)\{\{(""[^""]*""|.+?)\}\}", RegexOptions.None, TimeoutMs)]
 	private static partial Regex HexagonPattern();
 
-	[GeneratedRegex(@"^([\w-]+)\[(.+?)\]", RegexOptions.Singleline, TimeoutMs)]
+	[GeneratedRegex(@"^([\w-]+)\[(""[^""]*""|.+?)\]", RegexOptions.Singleline, TimeoutMs)]
 	private static partial Regex RectanglePattern();
 
-	[GeneratedRegex(@"^([\w-]+)\((.+?)\)", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^([\w-]+)\((""[^""]*""|.+?)\)", RegexOptions.None, TimeoutMs)]
 	private static partial Regex RoundedPattern();
 
-	[GeneratedRegex(@"^([\w-]+)\{(.+?)\}", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^([\w-]+)\{(""[^""]*""|.+?)\}", RegexOptions.None, TimeoutMs)]
 	private static partial Regex DiamondPattern();
 
 	[GeneratedRegex(@"^([\w]+(?:-[\w]+)*)", RegexOptions.None, TimeoutMs)]
@@ -486,7 +486,9 @@ internal static partial class FlowchartParser
 				if (rawLabel.Length >= 2 && rawLabel[0] == '"' && rawLabel[^1] == '"')
 					rawLabel = rawLabel[1..^1];
 				var isMarkdown = rawLabel.StartsWith('`') && rawLabel.EndsWith('`');
-				var label = isMarkdown ? rawLabel[1..^1].Trim().Replace("\\n", "\n") : MultilineUtils.NormalizeBrTags(rawLabel).Replace("\\n", "\n");
+				var label = isMarkdown
+					? MultilineUtils.DecodeEntities(rawLabel[1..^1].Trim().Replace("\\n", "\n"))
+					: MultilineUtils.NormalizeBrTags(rawLabel).Replace("\\n", "\n");
 				RegisterNode(nodes, subgraphStack, new MermaidNode(id, label, shape, isMarkdown));
 				remaining = text[match.Length..];
 				break;

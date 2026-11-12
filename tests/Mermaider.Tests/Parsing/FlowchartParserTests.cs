@@ -167,4 +167,28 @@ public class FlowchartParserTests
 		var act = () => MermaidRenderer.Parse("");
 		act.Should().Throw<MermaidParseException>();
 	}
+
+	[Test]
+	public void Quoted_labels_keep_closing_delimiters()
+	{
+		var graph = MermaidRenderer.Parse(
+			"""
+			flowchart LR
+			  A["a ] b"] --> B
+			  C --> D["d ] e"]
+			  E -->|"x | y"| F
+			  G(["s ] t"]) --> H("r ) s")
+			"""
+		);
+
+		graph.Nodes.Should().HaveCount(8);
+		graph.Nodes["A"].Label.Should().Be("a ] b");
+		graph.Nodes["D"].Label.Should().Be("d ] e");
+		graph.Nodes["G"].Label.Should().Be("s ] t");
+		graph.Nodes["H"].Label.Should().Be("r ) s");
+		graph.Edges.Should().HaveCount(4);
+		graph.Edges[2].Source.Should().Be("E");
+		graph.Edges[2].Target.Should().Be("F");
+		graph.Edges[2].Label.Should().Be("x | y");
+	}
 }
