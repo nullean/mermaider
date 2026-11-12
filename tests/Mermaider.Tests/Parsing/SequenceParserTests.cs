@@ -73,12 +73,7 @@ public class SequenceParserTests
 	[Test]
 	public void Parses_cross_arrows()
 	{
-		var lines = new[]
-		{
-			"sequenceDiagram",
-			"A-xB: Lost",
-			"A--xB: Async lost",
-		};
+		var lines = new[] { "sequenceDiagram", "A-xB: Lost", "A--xB: Async lost", };
 
 		var diagram = SequenceParser.Parse(lines);
 

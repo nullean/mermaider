@@ -31,8 +31,18 @@ public sealed record SequenceMessage(
 	bool Bidirectional = false
 );
 
-public enum SequenceLineStyle { Solid, Dashed }
-public enum SequenceArrowHead { Filled, Open, Cross }
+public enum SequenceLineStyle
+{
+	Solid,
+	Dashed
+}
+
+public enum SequenceArrowHead
+{
+	Filled,
+	Open,
+	Cross
+}
 
 public sealed record SequenceBlock
 {

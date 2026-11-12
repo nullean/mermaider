@@ -186,8 +186,8 @@ internal static class SequenceSvgRenderer
 		var shape = msg.ArrowHead == SequenceArrowHead.Filled ? MarkerShape.Arrow : MarkerShape.Open;
 		var markerEnd = msg.ArrowHead == SequenceArrowHead.Cross ? "" : $" marker-end=\"{ds.Marker(shape)}\"";
 		// a lost message into a destroyed participant ends at the destroy cross, so it draws no second one
-		var drawCross = msg.ArrowHead == SequenceArrowHead.Cross
-			&& !destroys.Any(d => Math.Abs(d.Y - msg.Y) < 0.5 && Math.Abs(d.X - msg.X2) < (2 * DestroySize) + 4);
+		var drawCross = msg.ArrowHead == SequenceArrowHead.Cross &&
+			!destroys.Any(d => Math.Abs(d.Y - msg.Y) < 0.5 && Math.Abs(d.X - msg.X2) < (2 * DestroySize) + 4);
 
 		_ = sb.Append("\n<g class=\"message\" data-from=\"");
 		MultilineUtils.AppendEscapedAttr(sb, msg.From.AsSpan());
@@ -212,14 +212,31 @@ internal static class SequenceSvgRenderer
 			const double loopH = 20;
 			const double labelPadding = 8;
 
-			_ = sb.Append("  <polyline points=\"")
-				.Append(msg.X1).Append(',').Append(msg.Y).Append(' ')
-				.Append(msg.X1 + loopW).Append(',').Append(msg.Y).Append(' ')
-				.Append(msg.X1 + loopW).Append(',').Append(msg.Y + loopH).Append(' ')
-				.Append(msg.X2).Append(',').Append(msg.Y + loopH)
-				.Append("\" fill=\"none\" stroke=\"").Append(DesignSystem.EdgeColor).Append("\" stroke-width=\"").Append(ds.EdgeWidth)
-				.Append("\" stroke-linejoin=\"round\"").Append(dashArray)
-				.Append(markerEnd).Append(" />\n  ");
+			_ = sb
+				.Append("  <polyline points=\"")
+				.Append(msg.X1)
+				.Append(',')
+				.Append(msg.Y)
+				.Append(' ')
+				.Append(msg.X1 + loopW)
+				.Append(',')
+				.Append(msg.Y)
+				.Append(' ')
+				.Append(msg.X1 + loopW)
+				.Append(',')
+				.Append(msg.Y + loopH)
+				.Append(' ')
+				.Append(msg.X2)
+				.Append(',')
+				.Append(msg.Y + loopH)
+				.Append("\" fill=\"none\" stroke=\"")
+				.Append(DesignSystem.EdgeColor)
+				.Append("\" stroke-width=\"")
+				.Append(ds.EdgeWidth)
+				.Append("\" stroke-linejoin=\"round\"")
+				.Append(dashArray)
+				.Append(markerEnd)
+				.Append(" />\n  ");
 			if (drawCross)
 				AppendCross(sb, msg.X2, msg.Y + loopH);
 
@@ -235,10 +252,24 @@ internal static class SequenceSvgRenderer
 		else
 		{
 			var markerStart = msg.Bidirectional ? $" marker-start=\"{ds.Marker(shape, atStart: true)}\"" : "";
-			_ = sb.Append("  <line x1=\"").Append(msg.X1).Append("\" y1=\"").Append(msg.Y)
-				.Append("\" x2=\"").Append(msg.X2).Append("\" y2=\"").Append(msg.Y)
-				.Append("\" stroke=\"").Append(DesignSystem.EdgeColor).Append("\" stroke-width=\"").Append(ds.EdgeWidth).Append('"').Append(dashArray)
-				.Append(markerEnd).Append(markerStart).Append(" />\n  ");
+			_ = sb
+				.Append("  <line x1=\"")
+				.Append(msg.X1)
+				.Append("\" y1=\"")
+				.Append(msg.Y)
+				.Append("\" x2=\"")
+				.Append(msg.X2)
+				.Append("\" y2=\"")
+				.Append(msg.Y)
+				.Append("\" stroke=\"")
+				.Append(DesignSystem.EdgeColor)
+				.Append("\" stroke-width=\"")
+				.Append(ds.EdgeWidth)
+				.Append('"')
+				.Append(dashArray)
+				.Append(markerEnd)
+				.Append(markerStart)
+				.Append(" />\n  ");
 			if (drawCross)
 				AppendCross(sb, msg.X2, msg.Y);
 
@@ -367,10 +398,23 @@ internal static class SequenceSvgRenderer
 	private static void AppendCross(StringBuilder sb, double x, double y)
 	{
 		const double size = DestroySize;
-		_ = sb.Append("<path d=\"M").Append(x - size).Append(',').Append(y - size)
-			.Append(" L").Append(x + size).Append(',').Append(y + size)
-			.Append(" M").Append(x + size).Append(',').Append(y - size)
-			.Append(" L").Append(x - size).Append(',').Append(y + size)
+		_ = sb
+			.Append("<path d=\"M")
+			.Append(x - size)
+			.Append(',')
+			.Append(y - size)
+			.Append(" L")
+			.Append(x + size)
+			.Append(',')
+			.Append(y + size)
+			.Append(" M")
+			.Append(x + size)
+			.Append(',')
+			.Append(y - size)
+			.Append(" L")
+			.Append(x - size)
+			.Append(',')
+			.Append(y + size)
 			.Append("\" fill=\"none\" stroke=\"var(--_line-strong)\" stroke-width=\"2\" stroke-linecap=\"round\" />\n");
 	}
 

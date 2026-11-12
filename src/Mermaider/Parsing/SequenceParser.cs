@@ -241,9 +241,7 @@ internal static partial class SequenceParser
 				EnsureActor(actors, actorIds, to);
 
 				var lineStyle = arrow.StartsWith("--", StringComparison.OrdinalIgnoreCase) ? SequenceLineStyle.Dashed : SequenceLineStyle.Solid;
-				var arrowHead = arrow.EndsWith('x') ? SequenceArrowHead.Cross
-					: arrow.Contains(">>") ? SequenceArrowHead.Filled
-					: SequenceArrowHead.Open;
+				var arrowHead = arrow.EndsWith('x') ? SequenceArrowHead.Cross : arrow.Contains(">>") ? SequenceArrowHead.Filled : SequenceArrowHead.Open;
 
 				messages.Add(new SequenceMessage(from, to, label, lineStyle, arrowHead, Activate: activationMark == "+", Deactivate: activationMark == "-"));
 
