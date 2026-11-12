@@ -34,8 +34,9 @@ dotnet run --project tests/Mermaider.Tests/Mermaider.Tests.csproj   # one projec
 
 release-drafter keeps a draft release current from the labels of merged pull requests; every pull request carries
 exactly one release label (`pr-labels.yml` enforces it). **Publishing the draft** releases: it creates the tag and runs
-`ci.yml` on it, whose `build` job tests, packs at the tag's version, pushes the packages to nuget.org with trusted
-publishing and appends the public API changes to the release notes. Pushing a tag on its own does nothing. In 0.x a
+`ci.yml` on it. No tests run again: `main-green` waits for main's `ci.yml` push run on the released commit and fails
+unless it passed, then the `release` job packs at the tag's version, pushes the packages to nuget.org with trusted
+publishing and appends the public API changes to the release notes. macOS runs only on pushes to main. Pushing a tag on its own does nothing. In 0.x a
 `breaking` label bumps the minor version; 1.0 is the maintainer's call. See the
 [releasing](.claude/skills/releasing/SKILL.md) and [breaking-changes](.claude/skills/breaking-changes/SKILL.md)
 skills, and `mise run release` for the current draft.
