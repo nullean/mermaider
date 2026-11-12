@@ -32,7 +32,7 @@ internal static partial class ClassParser
 	[GeneratedRegex(@"<\|--|--|\*--|o--|-->|\.\.>|\.\.\|>", RegexOptions.None, TimeoutMs)]
 	private static partial Regex ArrowCheckPattern();
 
-	[GeneratedRegex(@"^(\S+?)\s+(?:""([^""]*?)""\s+)?(<\|--|<\|\.\.|\*--|o--|-->|--\*|--o|--\|>|\.\.>|\.\.\|>|<--|<\.\.?|--)\s+(?:""([^""]*?)""\s+)?(\S+?)(?:\s*:\s*(.+))?$", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^(\S+?)\s+(?:""([^""]*?)""\s+)?(<\|--|<\|\.\.|\*--|o--|-->|--\*|--o|--\|>|\.\.>|\.\.\|>|<--|<\.\.?|--|\.\.)\s+(?:""([^""]*?)""\s+)?(\S+?)(?:\s*:\s*(.+))?$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex RelationshipPattern();
 
 	[GeneratedRegex(@"^[+\-#~]", RegexOptions.None, TimeoutMs)]
@@ -333,7 +333,8 @@ internal static partial class ClassParser
 		"<--" => (ClassRelationType.Association, ClassMarkerAt.From),
 		"..>" => (ClassRelationType.Dependency, ClassMarkerAt.To),
 		"<.." => (ClassRelationType.Dependency, ClassMarkerAt.From),
-		"--" => (ClassRelationType.Association, ClassMarkerAt.To),
+		"--" => (ClassRelationType.Link, ClassMarkerAt.To),
+		".." => (ClassRelationType.DashedLink, ClassMarkerAt.To),
 		_ => null,
 	};
 }

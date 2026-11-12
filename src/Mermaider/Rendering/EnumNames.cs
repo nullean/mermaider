@@ -53,6 +53,8 @@ internal static class EnumNames
 		ClassRelationType.Dependency => "dependency",
 		ClassRelationType.Realization => "realization",
 		ClassRelationType.Lollipop => "lollipop",
+		ClassRelationType.Link => "link",
+		ClassRelationType.DashedLink => "dashed-link",
 		_ => t.ToString().ToLowerInvariant(),
 	};
 
