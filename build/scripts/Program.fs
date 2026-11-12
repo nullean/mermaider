@@ -39,8 +39,8 @@ let main argv =
               if Paths.Output.Exists then Paths.Output.Delete true
               sh $"dotnet clean" }
         | Build -> command {
-              composes [Clean]
-              executes (shell { sh $"dotnet build -c Release" }) }
+              composes [Clean] }
+                   |> executes { sh $"dotnet build -c Release" }
         // global.json selects Microsoft.Testing.Platform, so this runs every TUnit test executable (Mermaider.Tests and
         // Sugiyama.Tests); on GitHub Actions TUnit writes its own summary of the run to GITHUB_STEP_SUMMARY
         | Test -> target [Build] { sh $"dotnet test -c Release" }
