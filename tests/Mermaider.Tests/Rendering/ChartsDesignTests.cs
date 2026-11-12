@@ -19,11 +19,14 @@ public partial class ChartsDesignTests
 
 	private const string Pie = "pie\n  title Pets\n  \"Dogs\" : 386\n  \"Cats\" : 85\n  \"Rats\" : 15";
 	private const string Xy = "xychart-beta\n  title \"Sales\"\n  x-axis [a, b, c]\n  y-axis \"Rev\" 0 --> 10\n  bar [2, 5, 8]\n  line [2, 5, 8]";
-	private const string Quadrant = "quadrantChart\n  title Skills\n  quadrant-1 Invest\n  quadrant-2 Maintain\n  quadrant-3 Drop\n  quadrant-4 Phase out\n  Rust: [0.3, 0.7]";
+	private const string Quadrant =
+		"quadrantChart\n  title Skills\n  quadrant-1 Invest\n  quadrant-2 Maintain\n  quadrant-3 Drop\n  quadrant-4 Phase out\n  Rust: [0.3, 0.7]";
 	private const string Radar = "radar-beta\n  title Compare\n  axis A, B, C\n  curve c1[\"One\"]{1, 2, 3}\n  max 5";
 	private const string Sankey = "sankey-beta\nA,B,10\nB,C,6";
-	private const string Treemap = "treemap-beta\n  \"Technology\"\n    \"Frontend\": 30\n    \"Backend\": 40\n    \"DevOps\": 15\n  \"Business\"\n    \"Sales\": 25\n    \"Marketing\": 20";
-	private const string Venn = "venn-beta\n  set A[\"Design\"]\n  set B[\"Engineering\"]\n  set C[\"Product\"]\n  union A, B[\"Design Systems\"]\n  union B, C[\"Technical PM\"]\n  union A, C[\"UX Research\"]";
+	private const string Treemap =
+		"treemap-beta\n  \"Technology\"\n    \"Frontend\": 30\n    \"Backend\": 40\n    \"DevOps\": 15\n  \"Business\"\n    \"Sales\": 25\n    \"Marketing\": 20";
+	private const string Venn =
+		"venn-beta\n  set A[\"Design\"]\n  set B[\"Engineering\"]\n  set C[\"Product\"]\n  union A, B[\"Design Systems\"]\n  union B, C[\"Technical PM\"]\n  union A, C[\"UX Research\"]";
 
 	[Test]
 	[Arguments(Pie)]
@@ -48,7 +51,10 @@ public partial class ChartsDesignTests
 		svg.Should().Contain($"stroke=\"{SeriesFamily(0).Stroke}\" stroke-width=\"1.25\"", "slices are outlined in their family stroke like every other box");
 		svg.Should().Contain("stroke=\"var(--_line)\" stroke-width=\"1.25\" stroke-linecap=\"round\"", "outside labels hang on leader lines");
 		svg.Should().Contain(">79.42%</text>");
-		svg.Should().MatchRegex("font-size=\"var\\(--fs-xs\\)\" font-weight=\"400\" fill=\"var\\(--_text-muted\\)\" dy=\"[\\d.]+\">79.42%</text>", "the legend value is meta text");
+		svg.Should().MatchRegex(
+			"font-size=\"var\\(--fs-xs\\)\" font-weight=\"400\" fill=\"var\\(--_text-muted\\)\" dy=\"[\\d.]+\">79.42%</text>",
+			"the legend value is meta text"
+		);
 	}
 
 	[Test]
@@ -80,12 +86,18 @@ public partial class ChartsDesignTests
 	[Test]
 	public void Xy_marks_follow_the_preset()
 	{
-		DesignContract.Render(Xy, DiagramStyle.Blueprint).Should()
+		DesignContract
+			.Render(Xy, DiagramStyle.Blueprint)
+			.Should()
 			.Contain($"fill=\"{SeriesFamily(0).Mix(20)}\" stroke=\"{Series(0)}\" stroke-width=\"1.25\"", "outline bars: area tint + series stroke")
-			.And.Contain("<rect x=", "square points / bars");
-		DesignContract.Render(Xy, DiagramStyle.Tonal).Should()
+			.And
+			.Contain("<rect x=", "square points / bars");
+		DesignContract
+			.Render(Xy, DiagramStyle.Tonal)
+			.Should()
 			.Contain($"stroke=\"{Series(1)}\" stroke-width=\"3\"", "fat smooth line")
-			.And.Contain(" C ", "the fat line is a smooth curve");
+			.And
+			.Contain(" C ", "the fat line is a smooth curve");
 	}
 
 	[Test]
@@ -121,7 +133,9 @@ public partial class ChartsDesignTests
 	{
 		var svg = DesignContract.Render(Sankey, style);
 
-		svg.Should().MatchRegex($"<stop offset=\"0\" stop-color=\"{Regex.Escape(Series(0))}\" stop-opacity=\"{Regex.Escape(opacity)}\" /><stop offset=\"1\" stop-color=\"{Regex.Escape(Series(1))}\"");
+		svg.Should().MatchRegex(
+			$"<stop offset=\"0\" stop-color=\"{Regex.Escape(Series(0))}\" stop-opacity=\"{Regex.Escape(opacity)}\" /><stop offset=\"1\" stop-color=\"{Regex.Escape(Series(1))}\""
+		);
 
 		var flat = DesignContract.Render(Sankey, style, gradient: false);
 		flat.Should().NotContain("linearGradient");
@@ -181,7 +195,8 @@ public partial class ChartsDesignTests
 
 		var ux = TextX(svg, "UX");
 		var ds = TextX(svg, "Design");
-		var halfWidths = (Mermaider.Text.TextMetrics.MeasureTextWidth("Research", 14, 500) / 2) + (Mermaider.Text.TextMetrics.MeasureTextWidth("Systems", 14, 500) / 2);
+		var halfWidths = (Mermaider.Text.TextMetrics.MeasureTextWidth("Research", 14, 500) / 2) +
+			(Mermaider.Text.TextMetrics.MeasureTextWidth("Systems", 14, 500) / 2);
 		Math.Abs(ds.X - ux.X).Should().BeGreaterThan(halfWidths, "the two upper pair labels sit side by side without colliding");
 	}
 

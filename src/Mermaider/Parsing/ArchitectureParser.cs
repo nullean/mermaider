@@ -30,9 +30,7 @@ internal static partial class ArchitectureParser
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
-			throw new MermaidParseException(
-				$"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.",
-				ex);
+			throw new MermaidParseException($"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.", ex);
 		}
 	}
 
@@ -105,13 +103,7 @@ internal static partial class ArchitectureParser
 			}
 		}
 
-		return new ArchitectureDiagram
-		{
-			Groups = groups,
-			Services = services,
-			Junctions = junctions,
-			Edges = edges,
-		};
+		return new ArchitectureDiagram { Groups = groups, Services = services, Junctions = junctions, Edges = edges, };
 	}
 
 	private static ArchitectureSide? ParseSide(Group group) =>

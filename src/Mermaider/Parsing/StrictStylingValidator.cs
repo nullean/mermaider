@@ -54,16 +54,14 @@ internal static partial class StrictStylingValidator
 
 			if (ClassDefDirective().IsMatch(line))
 			{
-				var msg = $"Strict mode: 'classDef' directives are not allowed (line {i + 1}: \"{line}\"). " +
-					"Use pre-defined allowed classes instead.";
+				var msg = $"Strict mode: 'classDef' directives are not allowed (line {i + 1}: \"{line}\"). " + "Use pre-defined allowed classes instead.";
 				RejectOrCollect(strict, violations, StrictStylingViolationKind.ClassDefDirective, msg, i + 1, line);
 				continue;
 			}
 
 			if (StyleDirective().IsMatch(line))
 			{
-				var msg = $"Strict mode: 'style' directives are not allowed (line {i + 1}: \"{line}\"). " +
-					"Use pre-defined allowed classes instead.";
+				var msg = $"Strict mode: 'style' directives are not allowed (line {i + 1}: \"{line}\"). " + "Use pre-defined allowed classes instead.";
 				RejectOrCollect(strict, violations, StrictStylingViolationKind.StyleDirective, msg, i + 1, line);
 				continue;
 			}
@@ -93,19 +91,19 @@ internal static partial class StrictStylingValidator
 	/// Throws <see cref="MermaidParseException"/> in Block mode; appends a violation to
 	/// <paramref name="violations"/> in Strip mode (caller fires <see cref="StrictStylingOptions.OnStripped"/> once).
 	/// </summary>
-	private static void RejectOrCollect(StrictStylingOptions strict, List<StrictStylingViolation> violations,
-		StrictStylingViolationKind kind, string message, int line, string source)
+	private static void RejectOrCollect(
+		StrictStylingOptions strict,
+		List<StrictStylingViolation> violations,
+		StrictStylingViolationKind kind,
+		string message,
+		int line,
+		string source
+	)
 	{
 		if (strict.Mode == StrictStylingMode.Block)
 			throw new MermaidParseException(message);
 
-		violations.Add(new StrictStylingViolation
-		{
-			Kind = kind,
-			Message = message,
-			Line = line,
-			Source = source,
-		});
+		violations.Add(new StrictStylingViolation { Kind = kind, Message = message, Line = line, Source = source, });
 	}
 
 	private static void ValidateAllowedClasses(StrictStylingOptions strict)
@@ -113,12 +111,10 @@ internal static partial class StrictStylingValidator
 		foreach (var cls in strict.AllowedClasses)
 		{
 			if (!SafeClassName().IsMatch(cls.Name))
-				throw new MermaidParseException(
-					$"Strict mode: class name '{cls.Name}' contains characters outside the allowed class-name grammar.");
+				throw new MermaidParseException($"Strict mode: class name '{cls.Name}' contains characters outside the allowed class-name grammar.");
 
 			if (cls.Fill is null && !cls.IsExternal)
-				throw new MermaidParseException(
-					$"Strict mode: styled class '{cls.Name}' must define Fill.");
+				throw new MermaidParseException($"Strict mode: styled class '{cls.Name}' must define Fill.");
 
 			ValidateHexColor(cls.Name, nameof(cls.Fill), cls.Fill);
 			ValidateHexColor(cls.Name, nameof(cls.Stroke), cls.Stroke);
@@ -132,12 +128,16 @@ internal static partial class StrictStylingValidator
 	private static void ValidateHexColor(string className, string property, string? value)
 	{
 		if (value is not null && !SvgValueAllowlist.IsAllowedHexColor(value))
-			throw new MermaidParseException(
-				$"Strict mode: {property} for class '{className}' must be a 3, 4, 6, or 8 digit hexadecimal color.");
+			throw new MermaidParseException($"Strict mode: {property} for class '{className}' must be a 3, 4, 6, or 8 digit hexadecimal color.");
 	}
 
-	private static void ValidateClassAssignment(string line, FrozenSet<string> allowed, int lineIndex,
-		StrictStylingOptions strict, List<StrictStylingViolation> violations)
+	private static void ValidateClassAssignment(
+		string line,
+		FrozenSet<string> allowed,
+		int lineIndex,
+		StrictStylingOptions strict,
+		List<StrictStylingViolation> violations
+	)
 	{
 		var match = ClassAssignDirective().Match(line);
 		if (!match.Success)
@@ -146,14 +146,18 @@ internal static partial class StrictStylingValidator
 		if (allowed.Contains(name))
 			return;
 
-		var msg = $"Strict mode: unknown class '{name}' (line {lineIndex + 1}). " +
-			$"Allowed classes: {string.Join(", ", allowed)}.";
+		var msg = $"Strict mode: unknown class '{name}' (line {lineIndex + 1}). " + $"Allowed classes: {string.Join(", ", allowed)}.";
 
 		RejectOrCollect(strict, violations, StrictStylingViolationKind.UnknownClassReference, msg, lineIndex + 1, name);
 	}
 
-	private static void ValidateClassShorthand(string line, FrozenSet<string> allowed, int lineIndex,
-		StrictStylingOptions strict, List<StrictStylingViolation> violations)
+	private static void ValidateClassShorthand(
+		string line,
+		FrozenSet<string> allowed,
+		int lineIndex,
+		StrictStylingOptions strict,
+		List<StrictStylingViolation> violations
+	)
 	{
 		foreach (var match in ClassShorthand().EnumerateMatches(line))
 		{
@@ -161,8 +165,7 @@ internal static partial class StrictStylingValidator
 			if (allowed.Contains(name))
 				continue;
 
-			var msg = $"Strict mode: unknown class '{name}' (line {lineIndex + 1}). " +
-				$"Allowed classes: {string.Join(", ", allowed)}.";
+			var msg = $"Strict mode: unknown class '{name}' (line {lineIndex + 1}). " + $"Allowed classes: {string.Join(", ", allowed)}.";
 
 			RejectOrCollect(strict, violations, StrictStylingViolationKind.UnknownClassReference, msg, lineIndex + 1, name);
 		}

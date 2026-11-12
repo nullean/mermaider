@@ -48,7 +48,15 @@ internal static class TimelineSvgRenderer
 		var totalPeriods = diagram.Sections.Sum(s => s.Periods.Count);
 		if (totalPeriods == 0)
 		{
-			StyleBlock.AppendSvgOpenTag(sb, Math.Max(200, titleW + (margin * 2)), top + 60, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+			StyleBlock.AppendSvgOpenTag(
+				sb,
+				Math.Max(200, titleW + (margin * 2)),
+				top + 60,
+				context.Styles.Colors,
+				context.Styles.Transparent,
+				context.Accessibility,
+				context.DiagramType
+			);
 			StyleBlock.AppendStyleBlock(sb, context.Styles);
 			if (hasTitle)
 				ds.AppendTitle(sb, margin, DesignSystem.BoardTitleCy, diagram.Title!);
@@ -134,9 +142,20 @@ internal static class TimelineSvgRenderer
 		foreach (var c in columns)
 		{
 			var cx = c.X + (PeriodWidth / 2);
-			_ = sb.Append("\n<line x1=\"").Append(cx.SvgFormat()).Append("\" y1=\"").Append((periodTop + periodH).SvgFormat())
-				.Append("\" x2=\"").Append(cx.SvgFormat()).Append("\" y2=\"").Append(eventsBottom.SvgFormat())
-				.Append("\" stroke=\"").Append(c.Family.Edge).Append("\" stroke-width=\"1.25\" stroke-dasharray=\"").Append(DesignSystem.DashArray).Append("\" />");
+			_ = sb
+				.Append("\n<line x1=\"")
+				.Append(cx.SvgFormat())
+				.Append("\" y1=\"")
+				.Append((periodTop + periodH).SvgFormat())
+				.Append("\" x2=\"")
+				.Append(cx.SvgFormat())
+				.Append("\" y2=\"")
+				.Append(eventsBottom.SvgFormat())
+				.Append("\" stroke=\"")
+				.Append(c.Family.Edge)
+				.Append("\" stroke-width=\"1.25\" stroke-dasharray=\"")
+				.Append(DesignSystem.DashArray)
+				.Append("\" />");
 		}
 
 		// the time axis is the accent story line
@@ -153,7 +172,16 @@ internal static class TimelineSvgRenderer
 
 	private static double LineHeight(TypeRole role) => DesignSystem.TextHeight(1, role);
 
-	private static void AppendPeriod(StringBuilder sb, DesignSystem ds, Column column, List<string> labelLines, double periodTop, double periodH, double axisY, double eventTop)
+	private static void AppendPeriod(
+		StringBuilder sb,
+		DesignSystem ds,
+		Column column,
+		List<string> labelLines,
+		double periodTop,
+		double periodH,
+		double axisY,
+		double eventTop
+	)
 	{
 		var cx = column.X + (PeriodWidth / 2);
 		var family = column.Family;
@@ -181,8 +209,7 @@ internal static class TimelineSvgRenderer
 		}
 	}
 
-	private static double EventHeight(string evt) =>
-		Math.Max(MinBoxHeight, (EventLines(evt).Count * LineHeight(TypeRole.Body)) + (BoxPadY * 2));
+	private static double EventHeight(string evt) => Math.Max(MinBoxHeight, (EventLines(evt).Count * LineHeight(TypeRole.Body)) + (BoxPadY * 2));
 
 	private static List<string> EventLines(string text) => DesignSystem.Wrap(text, PeriodWidth - (BoxPadX * 2), TypeRole.Body);
 }

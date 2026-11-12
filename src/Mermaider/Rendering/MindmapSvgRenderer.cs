@@ -16,7 +16,6 @@ internal static class MindmapSvgRenderer
 	private const double NodePadY = 10;
 	private const double Margin = DesignSystem.BoardMargin;
 
-
 	internal static string Render(MindmapDiagram diagram, SvgRenderContext context)
 	{
 		var sb = RenderToBuilder(diagram, context);
@@ -87,13 +86,22 @@ internal static class MindmapSvgRenderer
 	}
 
 	private sealed record PositionedMindmapNode(
-		double X, double Y, double W, double H,
-		string Label, MindmapShape Shape, int Branch,
-		int Depth, double? ParentCx, double? ParentCy, double ParentHalfW = 0, double ParentHalfH = 0);
+		double X,
+		double Y,
+		double W,
+		double H,
+		string Label,
+		MindmapShape Shape,
+		int Branch,
+		int Depth,
+		double? ParentCx,
+		double? ParentCy,
+		double ParentHalfW = 0,
+		double ParentHalfH = 0
+	);
 
 	// the root is the accent; every top-level branch takes a cluster family of its own (p1, p2 …)
-	private static ColorFamily Family(DesignSystem ds, PositionedMindmapNode node) =>
-		node.Branch < 0 ? ds.Accent : ds.Cluster(node.Branch);
+	private static ColorFamily Family(DesignSystem ds, PositionedMindmapNode node) => node.Branch < 0 ? ds.Accent : ds.Cluster(node.Branch);
 
 	// Like mermaid.js, the root sits in the middle and its branches spread to both sides; the sides are balanced by height.
 	private static (double W, double H) Extent(List<PositionedMindmapNode> nodes) =>
@@ -141,7 +149,17 @@ internal static class MindmapSvgRenderer
 			for (var i = 0; i < result.Count; i++)
 			{
 				var n = result[i];
-				result[i] = n with { X = n.Y, Y = n.X, W = n.H, H = n.W, ParentCx = n.ParentCy, ParentCy = n.ParentCx, ParentHalfW = n.ParentHalfH, ParentHalfH = n.ParentHalfW };
+				result[i] = n with
+				{
+					X = n.Y,
+					Y = n.X,
+					W = n.H,
+					H = n.W,
+					ParentCx = n.ParentCy,
+					ParentCy = n.ParentCx,
+					ParentHalfW = n.ParentHalfH,
+					ParentHalfH = n.ParentHalfW
+				};
 			}
 		}
 
@@ -161,7 +179,13 @@ internal static class MindmapSvgRenderer
 		}
 	}
 
-	private static void PlaceSide(List<(List<PositionedMindmapNode> Nodes, double Height)> side, int dir, double rootW, double rootH, List<PositionedMindmapNode> result)
+	private static void PlaceSide(
+		List<(List<PositionedMindmapNode> Nodes, double Height)> side,
+		int dir,
+		double rootW,
+		double rootH,
+		List<PositionedMindmapNode> result
+	)
 	{
 		if (side.Count == 0)
 			return;
@@ -216,7 +240,16 @@ internal static class MindmapSvgRenderer
 		return (label, w, h);
 	}
 
-	private static double LayoutTree(MindmapNode node, double x, double y, int depth, List<PositionedMindmapNode> result, ResourceLimits limits, int branch, bool transposed)
+	private static double LayoutTree(
+		MindmapNode node,
+		double x,
+		double y,
+		int depth,
+		List<PositionedMindmapNode> result,
+		ResourceLimits limits,
+		int branch,
+		bool transposed
+	)
 	{
 		ResourceGuard.CheckRecursionDepth(depth, limits);
 		var (label, w, h) = Measure(node, depth, transposed);
@@ -323,8 +356,12 @@ internal static class MindmapSvgRenderer
 			points = [points[0], points[3]]; // in line with its parent: a straight link
 		_ = sb.Append("\n<path class=\"mindmap-link\" d=\"");
 		SvgRenderer.BuildOrthogonalPath(sb, points, radius);
-		_ = sb.Append("\" fill=\"none\" stroke=\"").Append(family.Stroke)
-			.Append("\" stroke-width=\"").Append(DesignSystem.Num(ds.Spec.EdgeWidth + 0.25)).Append("\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />");
+		_ = sb
+			.Append("\" fill=\"none\" stroke=\"")
+			.Append(family.Stroke)
+			.Append("\" stroke-width=\"")
+			.Append(DesignSystem.Num(ds.Spec.EdgeWidth + 0.25))
+			.Append("\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />");
 	}
 
 	// A scalloped outline: bumps along an ellipse, each drawn as a quadratic bulging outwards.
@@ -363,21 +400,48 @@ internal static class MindmapSvgRenderer
 		{
 			case MindmapShape.Circle:
 				var r = Math.Max(node.W, node.H) / 2;
-				_ = sb.Append("\n<circle cx=\"").Append(cx.SvgFormat()).Append("\" cy=\"").Append(cy.SvgFormat())
-					.Append("\" r=\"").Append(r.SvgFormat())
-					.Append("\" ").Append(paint).Append(" />");
+				_ = sb
+					.Append("\n<circle cx=\"")
+					.Append(cx.SvgFormat())
+					.Append("\" cy=\"")
+					.Append(cy.SvgFormat())
+					.Append("\" r=\"")
+					.Append(r.SvgFormat())
+					.Append("\" ")
+					.Append(paint)
+					.Append(" />");
 				break;
 			case MindmapShape.Hexagon:
 				var hy = node.H / 2;
 				var inset = hy * 0.6;
-				_ = sb.Append("\n<polygon points=\"")
-					.Append((node.X + inset).SvgFormat()).Append(',').Append(node.Y.SvgFormat()).Append(' ')
-					.Append((node.X + node.W - inset).SvgFormat()).Append(',').Append(node.Y.SvgFormat()).Append(' ')
-					.Append((node.X + node.W).SvgFormat()).Append(',').Append(cy.SvgFormat()).Append(' ')
-					.Append((node.X + node.W - inset).SvgFormat()).Append(',').Append((node.Y + node.H).SvgFormat()).Append(' ')
-					.Append((node.X + inset).SvgFormat()).Append(',').Append((node.Y + node.H).SvgFormat()).Append(' ')
-					.Append(node.X.SvgFormat()).Append(',').Append(cy.SvgFormat())
-					.Append("\" ").Append(paint).Append(" stroke-linejoin=\"round\" />");
+				_ = sb
+					.Append("\n<polygon points=\"")
+					.Append((node.X + inset).SvgFormat())
+					.Append(',')
+					.Append(node.Y.SvgFormat())
+					.Append(' ')
+					.Append((node.X + node.W - inset).SvgFormat())
+					.Append(',')
+					.Append(node.Y.SvgFormat())
+					.Append(' ')
+					.Append((node.X + node.W).SvgFormat())
+					.Append(',')
+					.Append(cy.SvgFormat())
+					.Append(' ')
+					.Append((node.X + node.W - inset).SvgFormat())
+					.Append(',')
+					.Append((node.Y + node.H).SvgFormat())
+					.Append(' ')
+					.Append((node.X + inset).SvgFormat())
+					.Append(',')
+					.Append((node.Y + node.H).SvgFormat())
+					.Append(' ')
+					.Append(node.X.SvgFormat())
+					.Append(',')
+					.Append(cy.SvgFormat())
+					.Append("\" ")
+					.Append(paint)
+					.Append(" stroke-linejoin=\"round\" />");
 				break;
 			case MindmapShape.Bang:
 				_ = sb.Append("\n<polygon points=\"");
@@ -386,8 +450,11 @@ internal static class MindmapSvgRenderer
 				{
 					var angle = Math.PI * i / spikes;
 					var k = i % 2 == 0 ? 1.0 : 0.78;
-					_ = sb.Append((cx + (Math.Cos(angle) * node.W / 2 * k)).SvgFormat()).Append(',')
-						.Append((cy + (Math.Sin(angle) * node.H / 2 * k)).SvgFormat()).Append(' ');
+					_ = sb
+						.Append((cx + (Math.Cos(angle) * node.W / 2 * k)).SvgFormat())
+						.Append(',')
+						.Append((cy + (Math.Sin(angle) * node.H / 2 * k)).SvgFormat())
+						.Append(' ');
 				}
 
 				_ = sb.Append("\" ").Append(paint).Append(" stroke-linejoin=\"round\" />");

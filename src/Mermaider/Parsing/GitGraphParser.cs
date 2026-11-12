@@ -43,9 +43,7 @@ internal static partial class GitGraphParser
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
-			throw new MermaidParseException(
-				$"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.",
-				ex);
+			throw new MermaidParseException($"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.", ex);
 		}
 	}
 
@@ -83,11 +81,7 @@ internal static partial class GitGraphParser
 			if (mergeMatch.Success)
 			{
 				var rest = mergeMatch.Groups[2].Success ? mergeMatch.Groups[2].Value : "";
-				actions.Add(new GitMergeAction(
-					mergeMatch.Groups[1].Value,
-					ExtractAttr(IdAttr(), rest),
-					ExtractAttr(TagAttr(), rest),
-					ExtractType(rest)));
+				actions.Add(new GitMergeAction(mergeMatch.Groups[1].Value, ExtractAttr(IdAttr(), rest), ExtractAttr(TagAttr(), rest), ExtractType(rest)));
 				continue;
 			}
 
@@ -95,9 +89,7 @@ internal static partial class GitGraphParser
 			if (cherryMatch.Success)
 			{
 				var rest = cherryMatch.Groups[1].Value;
-				actions.Add(new GitCherryPickAction(
-					ExtractAttr(IdAttr(), rest) ?? "",
-					ExtractAttr(ParentAttr(), rest)));
+				actions.Add(new GitCherryPickAction(ExtractAttr(IdAttr(), rest) ?? "", ExtractAttr(ParentAttr(), rest)));
 				continue;
 			}
 
@@ -105,12 +97,7 @@ internal static partial class GitGraphParser
 			if (commitMatch.Success)
 			{
 				var rest = commitMatch.Groups[1].Success ? commitMatch.Groups[1].Value : "";
-				actions.Add(new GitCommitAction
-				{
-					Id = ExtractAttr(IdAttr(), rest),
-					Tag = ExtractAttr(TagAttr(), rest),
-					Type = ExtractType(rest),
-				});
+				actions.Add(new GitCommitAction { Id = ExtractAttr(IdAttr(), rest), Tag = ExtractAttr(TagAttr(), rest), Type = ExtractType(rest), });
 			}
 		}
 

@@ -71,9 +71,23 @@ RenderOptions Options(string themeName, DiagramStyle style, bool transparent)
 	var t = Themes.BuiltIn[themeName];
 	return new RenderOptions
 	{
-		Bg = t.Bg, Fg = t.Fg, Line = t.Line, Accent = t.Accent, Muted = t.Muted, Surface = t.Surface, Border = t.Border,
-		DataPalette = t.DataPalette, Default = t.Default, Success = t.Success, Failure = t.Failure, Warning = t.Warning, Info = t.Info,
-		Font = "Inter", Style = style, Transparent = transparent, Strict = new StrictStylingOptions(),
+		Bg = t.Bg,
+		Fg = t.Fg,
+		Line = t.Line,
+		Accent = t.Accent,
+		Muted = t.Muted,
+		Surface = t.Surface,
+		Border = t.Border,
+		DataPalette = t.DataPalette,
+		Default = t.Default,
+		Success = t.Success,
+		Failure = t.Failure,
+		Warning = t.Warning,
+		Info = t.Info,
+		Font = "Inter",
+		Style = style,
+		Transparent = transparent,
+		Strict = new StrictStylingOptions(),
 	};
 }
 
@@ -97,8 +111,10 @@ foreach (var (type, slug) in showcase)
 		{
 			foreach (var theme in new[] { light, dark })
 			{
-				Write($"docs/screenshots/{style.ToString().ToLowerInvariant()}/{theme}/{type}.svg",
-					MermaidRenderer.RenderSvg(Source(slug), Options(theme, style, transparent: false)));
+				Write(
+					$"docs/screenshots/{style.ToString().ToLowerInvariant()}/{theme}/{type}.svg",
+					MermaidRenderer.RenderSvg(Source(slug), Options(theme, style, transparent: false))
+				);
 				count++;
 			}
 		}
@@ -107,18 +123,32 @@ foreach (var (type, slug) in showcase)
 
 // Theming page: the same flowchart in each style preset (committed, unlike the landing variants).
 foreach (var style in styles)
-	Write($"docs/images/styles/{style.ToString().ToLowerInvariant()}.svg", MermaidRenderer.RenderSvg(Source("flowchart-subgraphs"), Options("zinc-light", style, transparent: true)));
+	Write(
+		$"docs/images/styles/{style.ToString().ToLowerInvariant()}.svg",
+		MermaidRenderer.RenderSvg(Source("flowchart-subgraphs"), Options("zinc-light", style, transparent: true))
+	);
 
 // Hero: the exact diagram the landing page's code sample renders, in the page's own colours, transparent.
-Write("docs/screenshots/hero.svg", MermaidRenderer.RenderSvg("""
+Write(
+	"docs/screenshots/hero.svg",
+	MermaidRenderer.RenderSvg(
+		"""
 	flowchart TD
 	  A[Parse] --> B[Layout]
 	  B --> C[Render SVG]
-	""", new RenderOptions
-{
-	Bg = "#08090B", Fg = "#E9ECF1", Accent = "#7FE0FF", Default = "#7FE0FF",
-	Font = "Inter", Transparent = true, Strict = new StrictStylingOptions(),
-}));
+	""",
+		new RenderOptions
+		{
+			Bg = "#08090B",
+			Fg = "#E9ECF1",
+			Accent = "#7FE0FF",
+			Default = "#7FE0FF",
+			Font = "Inter",
+			Transparent = true,
+			Strict = new StrictStylingOptions(),
+		}
+	)
+);
 
 var readmeCount = RenderReadme();
 
@@ -174,7 +204,8 @@ int RenderReadme()
 
 		Write($".github/readme/{type}.light.svg", MermaidRenderer.RenderSvg(source, Options("zinc-light", DiagramStyle.Quiet, transparent: true)));
 		Write($".github/readme/{type}.dark.svg", MermaidRenderer.RenderSvg(source, Options("zinc-dark", DiagramStyle.Quiet, transparent: true)));
-		var picture = $"<p align=\"center\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"{rawBase}{type}.dark.svg\" /><img src=\"{rawBase}{type}.light.svg\" alt=\"{heading}\" /></picture></p>";
+		var picture =
+			$"<p align=\"center\"><picture><source media=\"(prefers-color-scheme: dark)\" srcset=\"{rawBase}{type}.dark.svg\" /><img src=\"{rawBase}{type}.light.svg\" alt=\"{heading}\" /></picture></p>";
 		lines.InsertRange(fence + 1, ["", picture]);
 		end += 2;
 		rendered++;

@@ -53,7 +53,15 @@ internal static class TreemapSvgRenderer
 		var ds = DesignSystem.For(context);
 		var pad = DesignSystem.ChartPad;
 
-		StyleBlock.AppendSvgOpenTag(sb, ChartWidth + (pad * 2), ChartHeight + (pad * 2), context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendSvgOpenTag(
+			sb,
+			ChartWidth + (pad * 2),
+			ChartHeight + (pad * 2),
+			context.Styles.Colors,
+			context.Styles.Transparent,
+			context.Accessibility,
+			context.DiagramType
+		);
 		StyleBlock.AppendStyleBlock(sb, context.Styles);
 
 		var roots = diagram.Roots.Where(r => r.ComputedValue > 0).ToList();
@@ -121,15 +129,15 @@ internal static class TreemapSvgRenderer
 	{
 		var ds = state.Ds;
 		var count = FormatValue(node.ComputedValue);
-		ds.AppendContainerBody(sb, r.X, r.Y, r.W, r.H, family, depth, "treemap-section",
-			"data-label=\"" + Escape(node.Label) + "\"");
+		ds.AppendContainerBody(sb, r.X, r.Y, r.W, r.H, family, depth, "treemap-section", "data-label=\"" + Escape(node.Label) + "\"");
 		ds.AppendContainerHeader(sb, r.X, r.Y, r.W, node.Label, family, count);
 
 		var inner = new Rect(
 			r.X + DesignSystem.ContainerInset - (TileGap / 2),
 			r.Y + SectionHeader - (TileGap / 2),
 			r.W - (DesignSystem.ContainerInset * 2) + TileGap,
-			r.H - SectionHeader - DesignSystem.ContainerInset + TileGap);
+			r.H - SectionHeader - DesignSystem.ContainerInset + TileGap
+		);
 		if (inner.W <= TileGap || inner.H <= TileGap)
 			return;
 
@@ -149,11 +157,26 @@ internal static class TreemapSvgRenderer
 		var fill = family.Mix(outline ? ramp / 3 : ramp);
 		var rr = DesignSystem.Num(Math.Min(ds.TileRadius, Math.Min(r.W, r.H) / 2));
 
-		_ = sb.Append("\n<g class=\"treemap-tile\" data-label=\"").Append(Escape(node.Label)).Append("\" data-value=\"")
-			.Append(FormatValue(value)).Append("\">\n  <rect x=\"").Append(r.X.SvgFormat()).Append("\" y=\"").Append(r.Y.SvgFormat())
-			.Append("\" width=\"").Append(r.W.SvgFormat()).Append("\" height=\"").Append(r.H.SvgFormat())
-			.Append("\" rx=\"").Append(rr).Append("\" ry=\"").Append(rr)
-			.Append("\" fill=\"").Append(fill).Append('"');
+		_ = sb
+			.Append("\n<g class=\"treemap-tile\" data-label=\"")
+			.Append(Escape(node.Label))
+			.Append("\" data-value=\"")
+			.Append(FormatValue(value))
+			.Append("\">\n  <rect x=\"")
+			.Append(r.X.SvgFormat())
+			.Append("\" y=\"")
+			.Append(r.Y.SvgFormat())
+			.Append("\" width=\"")
+			.Append(r.W.SvgFormat())
+			.Append("\" height=\"")
+			.Append(r.H.SvgFormat())
+			.Append("\" rx=\"")
+			.Append(rr)
+			.Append("\" ry=\"")
+			.Append(rr)
+			.Append("\" fill=\"")
+			.Append(fill)
+			.Append('"');
 		if (outline)
 			_ = sb.Append(" stroke=\"").Append(family.Edge).Append("\" stroke-width=\"1\"");
 		_ = sb.Append(" />");
@@ -189,8 +212,14 @@ internal static class TreemapSvgRenderer
 
 		if (ReferenceEquals(node, state.Hottest) && showName && r.W >= nameW + (TilePad * 2) + 16)
 		{
-			_ = sb.Append("\n  <circle cx=\"").Append((r.X + r.W - TilePad).SvgFormat()).Append("\" cy=\"").Append((r.Y + 20).SvgFormat())
-				.Append("\" r=\"4.5\" fill=\"").Append(ColorFamily.AccentBase).Append("\" />");
+			_ = sb
+				.Append("\n  <circle cx=\"")
+				.Append((r.X + r.W - TilePad).SvgFormat())
+				.Append("\" cy=\"")
+				.Append((r.Y + 20).SvgFormat())
+				.Append("\" r=\"4.5\" fill=\"")
+				.Append(ColorFamily.AccentBase)
+				.Append("\" />");
 		}
 
 		_ = sb.Append("\n</g>");

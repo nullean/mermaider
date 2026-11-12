@@ -9,11 +9,7 @@ public class MindmapParserTests
 	[Test]
 	public void Parses_root_node()
 	{
-		var lines = new[]
-		{
-			"mindmap",
-			"  root((Central Idea))",
-		};
+		var lines = new[] { "mindmap", "  root((Central Idea))", };
 
 		var diagram = MindmapParser.Parse(lines);
 
@@ -24,13 +20,7 @@ public class MindmapParserTests
 	[Test]
 	public void Parses_children()
 	{
-		var lines = new[]
-		{
-			"mindmap",
-			"  root",
-			"    Topic A",
-			"    Topic B",
-		};
+		var lines = new[] { "mindmap", "  root", "    Topic A", "    Topic B", };
 
 		var diagram = MindmapParser.Parse(lines);
 
@@ -42,15 +32,7 @@ public class MindmapParserTests
 	[Test]
 	public void Parses_nested_children()
 	{
-		var lines = new[]
-		{
-			"mindmap",
-			"  root",
-			"    Topic A",
-			"      Subtopic 1",
-			"      Subtopic 2",
-			"    Topic B",
-		};
+		var lines = new[] { "mindmap", "  root", "    Topic A", "      Subtopic 1", "      Subtopic 2", "    Topic B", };
 
 		var diagram = MindmapParser.Parse(lines);
 
@@ -62,11 +44,7 @@ public class MindmapParserTests
 	[Test]
 	public void Parses_square_shape()
 	{
-		var lines = new[]
-		{
-			"mindmap",
-			"  [Square Node]",
-		};
+		var lines = new[] { "mindmap", "  [Square Node]", };
 
 		var diagram = MindmapParser.Parse(lines);
 
@@ -77,11 +55,7 @@ public class MindmapParserTests
 	[Test]
 	public void Parses_rounded_shape()
 	{
-		var lines = new[]
-		{
-			"mindmap",
-			"  (Rounded Node)",
-		};
+		var lines = new[] { "mindmap", "  (Rounded Node)", };
 
 		var diagram = MindmapParser.Parse(lines);
 
@@ -92,11 +66,7 @@ public class MindmapParserTests
 	[Test]
 	public void Parses_hexagon_shape()
 	{
-		var lines = new[]
-		{
-			"mindmap",
-			"  {{Hexagon Node}}",
-		};
+		var lines = new[] { "mindmap", "  {{Hexagon Node}}", };
 
 		var diagram = MindmapParser.Parse(lines);
 
@@ -119,10 +89,7 @@ public class MindmapParserTests
 	[Test]
 	public void Handles_empty_mindmap()
 	{
-		var lines = new[]
-		{
-			"mindmap",
-		};
+		var lines = new[] { "mindmap", };
 
 		var diagram = MindmapParser.Parse(lines);
 

@@ -4,7 +4,8 @@ namespace Mermaider.Tests.Rendering;
 
 public class RequirementRendererTests
 {
-	private const string Basic = """
+	private const string Basic =
+		"""
 		requirementDiagram
 
 		requirement test_req {
@@ -71,7 +72,8 @@ public class RequirementRendererTests
 	[Test]
 	public void Renders_with_direction_LR()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			requirementDiagram
 			direction LR
 			requirement a {
@@ -81,7 +83,8 @@ public class RequirementRendererTests
 			type: x
 			}
 			b - verifies -> a
-			""");
+			"""
+		);
 
 		svg.Should().StartWith("<svg");
 		svg.Should().Contain("verifies");
@@ -90,12 +93,14 @@ public class RequirementRendererTests
 	[Test]
 	public void Renders_title()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			requirementDiagram
 			title My Requirements
 			requirement a {
 			}
-			""");
+			"""
+		);
 
 		svg.Should().Contain("My Requirements");
 	}
@@ -127,7 +132,8 @@ public class RequirementRendererTests
 	public void Duplicate_names_first_wins_does_not_throw()
 	{
 		// Requirement first, then element with same name — keep requirement, skip element
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			requirementDiagram
 			requirement shared {
 			id: REQ-1
@@ -136,7 +142,8 @@ public class RequirementRendererTests
 			element shared {
 			type: should_be_skipped
 			}
-			""");
+			"""
+		);
 
 		svg.Should().StartWith("<svg");
 		svg.Should().Contain("REQ-1");
@@ -149,14 +156,9 @@ public class RequirementRendererTests
 	[Test]
 	public void Long_text_wraps_inside_box_without_overflow_glyphs()
 	{
-		var source =
-			"requirementDiagram\n" +
-			"requirement long_req {\n" +
-			"id: L1\n" +
+		var source = "requirementDiagram\n" + "requirement long_req {\n" + "id: L1\n" +
 			"text: Users must authenticate with multi-factor authentication before accessing any protected administrative resources in the system.\n" +
-			"risk: high\n" +
-			"verifymethod: test\n" +
-			"}";
+			"risk: high\n" + "verifymethod: test\n" + "}";
 		var svg = MermaidRenderer.RenderSvg(source);
 
 		svg.Should().StartWith("<svg");
@@ -179,7 +181,8 @@ public class RequirementRendererTests
 	[Test]
 	public void Renders_docRef_and_functional_kind_label()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			requirementDiagram
 			functionalRequirement login {
 			id: REQ-1
@@ -190,7 +193,8 @@ public class RequirementRendererTests
 			docRef: design/auth.md
 			}
 			auth_service - satisfies -> login
-			""");
+			"""
+		);
 
 		svg.Should().Contain("Functional Requirement");
 		svg.Should().Contain(">Doc ref<").And.Contain(">design/auth.md<");
@@ -199,13 +203,15 @@ public class RequirementRendererTests
 	[Test]
 	public void Escapes_special_characters_in_text()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			requirementDiagram
 			requirement xss {
 			id: 1
 			text: use <script> & "quotes"
 			}
-			""");
+			"""
+		);
 
 		svg.Should().Contain("&lt;script&gt;");
 		svg.Should().Contain("&amp;");

@@ -13,9 +13,7 @@ internal sealed class DefaultLayoutProvider : IGraphLayoutProvider
 	public PositionedGraph LayoutFlowchart(MermaidGraph graph, RenderOptions? options = null, StrictStylingOptions? strict = null) =>
 		LightweightLayoutEngine.Layout(graph, options, strict);
 
-	public PositionedClassDiagram LayoutClass(ClassDiagram diagram) =>
-		LightweightClassLayoutEngine.Layout(diagram);
+	public PositionedClassDiagram LayoutClass(ClassDiagram diagram) => LightweightClassLayoutEngine.Layout(diagram);
 
-	public PositionedErDiagram LayoutEr(ErDiagram diagram) =>
-		LightweightErLayoutEngine.Layout(diagram);
+	public PositionedErDiagram LayoutEr(ErDiagram diagram) => LightweightErLayoutEngine.Layout(diagram);
 }

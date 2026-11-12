@@ -1,6 +1,10 @@
 # Sugiyama
 
-**A layered layout engine for .NET (network simplex, Brandes–Köpf, orthogonal routing)**
+![Mermaider](https://raw.githubusercontent.com/nullean/mermaider/main/docs/images/png/mermaider-mark-180.png)
+
+A layered layout engine for .NET: network simplex, Brandes–Köpf, orthogonal routing.
+
+[![NuGet](https://img.shields.io/nuget/v/Sugiyama?style=flat-square)](https://www.nuget.org/packages/Sugiyama)
 
 `Sugiyama` lays out directed graphs in layers, top to bottom or left to right. It has no dependencies, works with
 Native AOT, and keeps allocations low. It is tuned for the small-to-medium graphs that diagrams produce, typically
@@ -20,7 +24,7 @@ diagrams. The package itself knows nothing about Mermaid.
 
 ## Install
 
-```bash
+```sh
 dotnet add package Sugiyama
 ```
 
@@ -518,3 +522,8 @@ The public API is in `SugiyamaLayout.cs`, `HierarchicalLayout.cs` and `LayoutMod
 | `ErEdgeRouter.cs` | Routing | Port → column → port router for balanced and port-aware mode |
 | `FlowEdgeRouter.cs` | Routing | Obstacle-aware orthogonal router for `HierarchicalLayout.Compute` |
 | `DirectionTransform.cs` | Output | Rotates or mirrors the top-down result and normalises it to the padding |
+
+## Learn more
+
+- Documentation: https://mermaider.nullean.net/layout
+- Source and issues: https://github.com/nullean/mermaider

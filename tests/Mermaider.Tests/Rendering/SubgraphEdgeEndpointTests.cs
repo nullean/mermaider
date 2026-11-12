@@ -7,7 +7,8 @@ public class SubgraphEdgeEndpointTests
 	[Test]
 	public void EdgeToSubgraphThatOnlyContainsNestedSubgraphsRenders()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			flowchart LR
 			  UI --> X
 			  subgraph OUTER["Outer"]
@@ -17,7 +18,8 @@ public class SubgraphEdgeEndpointTests
 			  end
 			  UI --> OUTER
 			  OUTER --> Z
-			""");
+			"""
+		);
 
 		svg.Should().StartWith("<svg");
 	}

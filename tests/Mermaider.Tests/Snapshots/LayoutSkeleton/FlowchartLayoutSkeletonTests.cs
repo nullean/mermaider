@@ -3,7 +3,7 @@ using Mermaider.Examples;
 using Mermaider.Layout;
 using Mermaider.Models;
 using Mermaider.Parsing;
-using VerifyTUnit;
+using Nullean.Snapshots;
 
 namespace Mermaider.Tests.Snapshots.LayoutSkeleton;
 
@@ -11,10 +11,7 @@ namespace Mermaider.Tests.Snapshots.LayoutSkeleton;
 // required. Mirrors LayoutSkeletonTests (ER); see that file's header for the rationale.
 public class FlowchartLayoutSkeletonTests
 {
-	public static IEnumerable<string> FlowchartSlugs() =>
-		DiagramExamples.All
-			.Where(d => d.Category == DiagramCategory.Flowchart)
-			.Select(d => d.Slug);
+	public static IEnumerable<string> FlowchartSlugs() => DiagramExamples.All.Where(d => d.Category == DiagramCategory.Flowchart).Select(d => d.Slug);
 
 	private static MermaidGraph ParseFlowchart(string source)
 	{
@@ -35,19 +32,18 @@ public class FlowchartLayoutSkeletonTests
 		var positioned = LightweightLayoutEngine.Layout(graph);
 		var skeleton = MermaiderGraphSkeletonExtractor.Extract(graph, positioned);
 
-		SkeletonComparer.TopologicalInversions(skeleton)
-			.Should().Be(0, $"'{slug}' layering should route every edge layer-to-layer without going backwards");
+		SkeletonComparer.TopologicalInversions(skeleton).Should().Be(0, $"'{slug}' layering should route every edge layer-to-layer without going backwards");
 	}
 
 	[Test]
 	[MethodDataSource(nameof(FlowchartSlugs))]
-	public Task Skeleton_snapshot(string slug)
+	public void Skeleton_snapshot(string slug)
 	{
 		var example = DiagramExamples.All.Single(e => e.Slug == slug);
 		var graph = ParseFlowchart(example.Source);
 		var positioned = LightweightLayoutEngine.Layout(graph);
 		var skeleton = MermaiderGraphSkeletonExtractor.Extract(graph, positioned);
 
-		return Verifier.Verify(skeleton.ToAsciiArt(), "txt").UseParameters(slug);
+		skeleton.ToAsciiArt().Should().MatchSnapshot(SnapshotFormats.Text, slug);
 	}
 }

@@ -6,10 +6,39 @@ Mermaider — Render Mermaid diagrams to SVG in pure .NET.
 
 ## Build & Test
 
+`mise install` provides the toolchain: the .NET 11 SDK pinned in `global.json`, plus the net10.0 runtime Mermaider
+and its tests target. The everyday tasks have the same names as in every nullean repository:
+
+```bash
+mise run build            # build the solution
+mise run test             # build, then run the tests
+mise run pack             # build, pack the NuGet packages and validate them
+mise run ci               # what CI's build job runs: test, curb check, pack, validate, diff the public API
+mise run docs             # build the docs and serve them
+mise run format           # format the repository with curb
+mise run check            # formatting drift (curb) and workflow security checks (zizmor)
+mise run clean            # delete build output
+mise run release          # show the release draft; `mise run release publish` releases
+```
+
+`./build.sh <target>` runs the same build targets directly (`./build.sh --help` lists them), from the F# build in
+`build/scripts` ([Nullean.Make.Fs](https://www.nuget.org/packages/Nullean.Make.Fs), net11.0). Without mise:
+
 ```bash
 dotnet build mermaid-dotnet.slnx
-dotnet run --project tests/Mermaider.Tests/Mermaider.Tests.csproj
+dotnet test                # every test project (global.json selects Microsoft.Testing.Platform)
+dotnet run --project tests/Mermaider.Tests/Mermaider.Tests.csproj   # one project
 ```
+
+## Releasing
+
+release-drafter keeps a draft release current from the labels of merged pull requests; every pull request carries
+exactly one release label (`pr-labels.yml` enforces it). **Publishing the draft** releases: it creates the tag and runs
+`ci.yml` on it, whose `build` job tests, packs at the tag's version, pushes the packages to nuget.org with trusted
+publishing and appends the public API changes to the release notes. Pushing a tag on its own does nothing. In 0.x a
+`breaking` label bumps the minor version; 1.0 is the maintainer's call. See the
+[releasing](.claude/skills/releasing/SKILL.md) and [breaking-changes](.claude/skills/breaking-changes/SKILL.md)
+skills, and `mise run release` for the current draft.
 
 ## Conventions
 
@@ -17,8 +46,16 @@ dotnet run --project tests/Mermaider.Tests/Mermaider.Tests.csproj
 - Tab indentation, Allman braces, `_camelCase` private fields, `s_camelCase` static private fields
 - `[GeneratedRegex]` with 2s timeout for all regex patterns (ReDoS protection)
 - Minimize allocations: `ReadOnlySpan<char>`, `ObjectPool<StringBuilder>`, `SearchValues<char>`, `FrozenDictionary` (static/long-lived data only; prefer `IReadOnlyDictionary` for parse results)
-- TUnit for tests, AwesomeAssertions for fluent assertions, Verify.TUnit for golden file snapshots
+- TUnit for tests, AwesomeAssertions for fluent assertions, CsCheck for property-based tests and fuzzing,
+  Nullean.Snapshots for golden file snapshots (`value.Should().MatchSnapshot(...)`; SVGs pass `SvgSnapshotFormat.Instance`).
+  Verified files live in `tests/Mermaider.Tests/.snapshots/`, received ones in `.artifacts/.snapshots/received/`; review
+  and accept them with `dotnet snap` (a local tool), or `SNAPSHOT_ACCEPT=1` outside CI. Nothing is ever accepted for you
+- Package versions live only in `Directory.Packages.props`; a `PackageReference` never carries a `Version`
+- Every package ships an agent skill at `src/<Project>/skills/<name>/SKILL.md`, written from the code. Change it with
+  the public API it describes, and compile its snippets before committing
 - MIT license (no per-file headers required)
+- Build targets are Make.Fs `target { }` blocks in `build/scripts/Program.fs` whose commands are Proc.Fs `sh $"…"`
+  lines; values come from `text`/`lines` inside `shell { }`. Do not call the C# `ProcNet` API from the build
 
 ## Architecture
 

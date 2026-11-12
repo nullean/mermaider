@@ -4,7 +4,8 @@ namespace Mermaider.Tests.Rendering;
 
 public class TimelineRendererTests
 {
-	private const string FullTimeline = """
+	private const string FullTimeline =
+		"""
 		timeline
 		title History of Social Media
 		section Early Days

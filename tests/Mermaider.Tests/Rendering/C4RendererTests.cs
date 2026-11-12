@@ -4,7 +4,8 @@ namespace Mermaider.Tests.Rendering;
 
 public class C4RendererTests
 {
-	private const string BasicContext = """
+	private const string BasicContext =
+		"""
 		C4Context
 		title System Context diagram for Internet Banking System
 		Person(customer, "Banking Customer", "A customer of the bank.")
@@ -49,13 +50,15 @@ public class C4RendererTests
 	[Test]
 	public void Renders_boundaries()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			C4Context
 			title Nested
 			Enterprise_Boundary(b0, "Enterprise") {
 			  System(s1, "Core System")
 			}
-			""");
+			"""
+		);
 
 		svg.Should().Contain("Enterprise");
 		svg.Should().Contain("Core System");
@@ -65,7 +68,8 @@ public class C4RendererTests
 	[Test]
 	public void Renders_container_diagram()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			C4Container
 			title Containers
 			Person(customer, "Customer")
@@ -74,7 +78,8 @@ public class C4RendererTests
 			  ContainerDb(db, "Database", "SQL", "Data")
 			}
 			Rel(customer, spa, "Uses", "HTTPS")
-			""");
+			"""
+		);
 
 		svg.Should().StartWith("<svg");
 		svg.Should().Contain("SPA");
@@ -94,12 +99,14 @@ public class C4RendererTests
 	[Test]
 	public void Detects_c4_not_flowchart()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			C4Dynamic
 			Component(a, "A")
 			Component(b, "B")
 			Rel(a, b, "calls")
-			""");
+			"""
+		);
 
 		svg.Should().Contain("[component]");
 		svg.Should().Contain("calls");
@@ -121,7 +128,8 @@ public class C4RendererTests
 	[Test]
 	public void Renders_deployment_node_relations()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			C4Deployment
 			Deployment_Node(mob, "Mobile device", "iOS") {
 			  Container(app, "Mobile App", "Xamarin", "UI")
@@ -129,7 +137,8 @@ public class C4RendererTests
 			Container(api, "API", "Java", "Backend")
 			Rel(app, api, "Calls", "HTTPS")
 			Rel(mob, api, "Hosts traffic")
-			""");
+			"""
+		);
 
 		svg.Should().Contain("Mobile device");
 		svg.Should().Contain("Mobile App");
@@ -144,11 +153,13 @@ public class C4RendererTests
 	[Test]
 	public void Renders_self_relation_loop()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			C4Component
 			Component(c1, "Controller", "MVC", "Handles")
 			Rel(c1, c1, "self")
-			""");
+			"""
+		);
 
 		svg.Should().Contain("<path");
 		svg.Should().Contain("self");

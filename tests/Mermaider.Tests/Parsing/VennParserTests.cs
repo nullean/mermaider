@@ -8,12 +8,7 @@ public class VennParserTests
 	[Test]
 	public void Parses_sets()
 	{
-		var lines = new[]
-		{
-			"venn-beta",
-			"set A",
-			"set B",
-		};
+		var lines = new[] { "venn-beta", "set A", "set B", };
 
 		var diagram = VennParser.Parse(lines);
 
@@ -25,11 +20,7 @@ public class VennParserTests
 	[Test]
 	public void Parses_set_with_label()
 	{
-		var lines = new[]
-		{
-			"venn-beta",
-			"set A[\"Frontend\"]",
-		};
+		var lines = new[] { "venn-beta", "set A[\"Frontend\"]", };
 
 		var diagram = VennParser.Parse(lines);
 
@@ -40,11 +31,7 @@ public class VennParserTests
 	[Test]
 	public void Parses_set_with_size()
 	{
-		var lines = new[]
-		{
-			"venn-beta",
-			"set A: 100",
-		};
+		var lines = new[] { "venn-beta", "set A: 100", };
 
 		var diagram = VennParser.Parse(lines);
 
@@ -54,13 +41,7 @@ public class VennParserTests
 	[Test]
 	public void Parses_unions()
 	{
-		var lines = new[]
-		{
-			"venn-beta",
-			"set A",
-			"set B",
-			"union A, B[\"Overlap\"]",
-		};
+		var lines = new[] { "venn-beta", "set A", "set B", "union A, B[\"Overlap\"]", };
 
 		var diagram = VennParser.Parse(lines);
 
@@ -74,11 +55,7 @@ public class VennParserTests
 	[Test]
 	public void Parses_quoted_set_id()
 	{
-		var lines = new[]
-		{
-			"venn-beta",
-			"set \"Front End\"",
-		};
+		var lines = new[] { "venn-beta", "set \"Front End\"", };
 
 		var diagram = VennParser.Parse(lines);
 
@@ -88,10 +65,7 @@ public class VennParserTests
 	[Test]
 	public void Handles_empty_diagram()
 	{
-		var lines = new[]
-		{
-			"venn-beta",
-		};
+		var lines = new[] { "venn-beta", };
 
 		var diagram = VennParser.Parse(lines);
 

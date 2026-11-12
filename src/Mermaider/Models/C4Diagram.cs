@@ -23,13 +23,7 @@ public enum C4DiagramKind
 /// <summary>Either a leaf element or a nested boundary.</summary>
 public abstract record C4Node(string Alias);
 
-public sealed record C4Element(
-	string Alias,
-	C4ElementType Type,
-	string Label,
-	string? Technology,
-	string? Description,
-	bool External) : C4Node(Alias);
+public sealed record C4Element(string Alias, C4ElementType Type, string Label, string? Technology, string? Description, bool External) : C4Node(Alias);
 
 public sealed record C4Boundary(
 	string Alias,
@@ -38,7 +32,8 @@ public sealed record C4Boundary(
 	string? TypeLabel,
 	IReadOnlyList<C4Node> Children,
 	bool IsDeploymentNode = false,
-	string? Technology = null) : C4Node(Alias);
+	string? Technology = null
+) : C4Node(Alias);
 
 public enum C4ElementType
 {
@@ -63,9 +58,4 @@ public enum C4BoundaryType
 	Container,
 }
 
-public sealed record C4Relation(
-	string From,
-	string To,
-	string? Label,
-	string? Technology,
-	bool Bidirectional);
+public sealed record C4Relation(string From, string To, string? Label, string? Technology, bool Bidirectional);

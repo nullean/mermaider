@@ -18,9 +18,7 @@ public sealed class MsaglLayoutProvider : IGraphLayoutProvider
 	public PositionedGraph LayoutFlowchart(MermaidGraph graph, RenderOptions? options = null, StrictStylingOptions? strict = null) =>
 		MsaglFlowchartLayout.Layout(graph, options, strict);
 
-	public PositionedClassDiagram LayoutClass(ClassDiagram diagram) =>
-		MsaglClassLayout.Layout(diagram);
+	public PositionedClassDiagram LayoutClass(ClassDiagram diagram) => MsaglClassLayout.Layout(diagram);
 
-	public PositionedErDiagram LayoutEr(ErDiagram diagram) =>
-		MsaglErLayout.Layout(diagram);
+	public PositionedErDiagram LayoutEr(ErDiagram diagram) => MsaglErLayout.Layout(diagram);
 }

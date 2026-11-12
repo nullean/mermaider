@@ -5,6 +5,8 @@ namespace Mermaider.Rendering;
 
 internal static class SharedStringBuilderPool
 {
-	internal static readonly ObjectPool<StringBuilder> Instance =
-		new DefaultObjectPoolProvider().CreateStringBuilderPool(initialCapacity: 4096, maximumRetainedCapacity: 64 * 1024);
+	internal static readonly ObjectPool<StringBuilder> Instance = new DefaultObjectPoolProvider().CreateStringBuilderPool(
+		initialCapacity: 4096,
+		maximumRetainedCapacity: 64 * 1024
+	);
 }

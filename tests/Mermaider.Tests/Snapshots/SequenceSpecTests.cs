@@ -1,22 +1,30 @@
-using VerifyTUnit;
+using AwesomeAssertions;
+using Nullean.Snapshots;
 
 namespace Mermaider.Tests.Snapshots;
 
 public class SequenceSpecTests
 {
 	[Test]
-	public Task Actor_stick_figures() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Actor_stick_figures() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			sequenceDiagram
 			actor Alice
 			actor Bob
 			Alice->>Bob: Hi Bob
 			Bob-->>Alice: Hey Alice
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Mixed_actor_participant() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Mixed_actor_participant() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			sequenceDiagram
 			actor User
 			participant API
@@ -25,11 +33,16 @@ public class SequenceSpecTests
 			API->>DB: SELECT *
 			DB-->>API: rows
 			API-->>User: 200 OK
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task All_arrow_types() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void All_arrow_types() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			sequenceDiagram
 			participant A
 			participant B
@@ -39,31 +52,46 @@ public class SequenceSpecTests
 			B--)A: Dashed open
 			A-xB: Solid cross
 			B--xA: Dashed cross
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Self_message() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Self_message() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			sequenceDiagram
 			participant Service
 			Service->>Service: Initialize
 			Service->>Service: Validate config
 			Service-->>Service: Ready
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Stacked_activations() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Stacked_activations() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			sequenceDiagram
 			Client->>+Server: Request 1
 			Client->>+Server: Request 2
 			Server-->>-Client: Response 2
 			Server-->>-Client: Response 1
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Opt_block() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Opt_block() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			sequenceDiagram
 			participant A
 			participant B
@@ -72,11 +100,16 @@ public class SequenceSpecTests
 			B->>B: Write to audit log
 			end
 			B-->>A: Response
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Par_block() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Par_block() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			sequenceDiagram
 			participant Client
 			participant Auth
@@ -88,11 +121,16 @@ public class SequenceSpecTests
 			Auth->>Data: Get permissions
 			end
 			Auth-->>Client: Combined result
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Critical_block() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Critical_block() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			sequenceDiagram
 			participant A
 			participant B
@@ -102,11 +140,16 @@ public class SequenceSpecTests
 			option Network timeout
 			A->>A: Retry
 			end
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Break_block() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Break_block() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			sequenceDiagram
 			participant Client
 			participant Server
@@ -115,11 +158,16 @@ public class SequenceSpecTests
 			Server-->>Client: 429 Too Many Requests
 			end
 			Server-->>Client: 200 OK
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Rect_highlight() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Rect_highlight() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			sequenceDiagram
 			participant A
 			participant B
@@ -128,11 +176,16 @@ public class SequenceSpecTests
 			B-->>A: Reply
 			end
 			A->>B: Outside highlight
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Note_left_of() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Note_left_of() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			sequenceDiagram
 			participant A
 			participant B
@@ -140,11 +193,16 @@ public class SequenceSpecTests
 			A->>B: Hello
 			Note right of B: Right note
 			Note over A,B: Spanning note
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Nested_blocks() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Nested_blocks() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			sequenceDiagram
 			participant Client
 			participant API
@@ -159,11 +217,16 @@ public class SequenceSpecTests
 			DB-->>API: Result
 			API-->>Client: Fresh
 			end
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Many_participants() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Many_participants() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			sequenceDiagram
 			participant Browser
 			participant CDN
@@ -181,11 +244,16 @@ public class SequenceSpecTests
 			App->>Cache: Store
 			App-->>LB: Response
 			LB-->>Browser: Response
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Three_participant_conversation() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Three_participant_conversation() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			sequenceDiagram
 			participant A as Alice
 			participant B as Bob
@@ -196,41 +264,61 @@ public class SequenceSpecTests
 			A->>J: How are you?
 			J-->>B: Tell Alice I'm fine
 			B-->>A: John says hi
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Autonumber_default() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Autonumber_default() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			sequenceDiagram
 			autonumber
 			Alice->>Bob: Hello
 			Bob->>Alice: Hi
 			Alice->>Bob: Bye
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Autonumber_with_start_and_step() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Autonumber_with_start_and_step() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			sequenceDiagram
 			autonumber 10 5
 			Alice->>Bob: First
 			Bob->>Alice: Second
 			Alice->>Bob: Third
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Bidirectional_arrows() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Bidirectional_arrows() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			sequenceDiagram
 			participant A
 			participant B
 			A<<->>B: Solid bidirectional
 			A<<-->>B: Dashed bidirectional
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Box_grouping() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Box_grouping() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			sequenceDiagram
 			box Purple Internal
 			participant A
@@ -241,11 +329,16 @@ public class SequenceSpecTests
 			end
 			A->>B: Internal msg
 			B->>C: External msg
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Create_and_destroy_actors() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Create_and_destroy_actors() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			sequenceDiagram
 			participant Alice
 			Alice->>Bob: Hello
@@ -254,5 +347,8 @@ public class SequenceSpecTests
 			Carol-->>Bob: Thanks
 			destroy Carol
 			Bob-xCarol: Goodbye
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 }

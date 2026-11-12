@@ -34,9 +34,7 @@ internal static partial class ErParser
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
-			throw new MermaidParseException(
-				$"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.",
-				ex);
+			throw new MermaidParseException($"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.", ex);
 		}
 	}
 
@@ -81,9 +79,7 @@ internal static partial class ErParser
 			if (entityMatch.Success)
 			{
 				var id = entityMatch.Groups[1].Value;
-				var alias = entityMatch.Groups[2].Success ? entityMatch.Groups[2].Value
-					: entityMatch.Groups[3].Success ? entityMatch.Groups[3].Value
-					: null;
+				var alias = entityMatch.Groups[2].Success ? entityMatch.Groups[2].Value : entityMatch.Groups[3].Success ? entityMatch.Groups[3].Value : null;
 				var (entity, attrs) = EnsureEntity(entityMap, id);
 				if (alias != null)
 				{
@@ -104,16 +100,15 @@ internal static partial class ErParser
 			}
 		}
 
-		var entities = entityMap.Values
-			.Select(v => v.Entity with { Attributes = v.Attrs })
-			.ToList();
+		var entities = entityMap.Values.Select(v => v.Entity with { Attributes = v.Attrs }).ToList();
 
 		return new ErDiagram { Entities = entities, Relationships = relationships, Direction = direction };
 	}
 
 	private static (ErEntity Entity, List<ErAttributeInfo> Attrs) EnsureEntity(
 		Dictionary<string, (ErEntity Entity, List<ErAttributeInfo> Attrs)> entityMap,
-		string id)
+		string id
+	)
 	{
 		if (entityMap.TryGetValue(id, out var existing))
 			return existing;

@@ -4,12 +4,18 @@
 set -euo pipefail
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
 SNAP="$REPO/tests/Mermaider.Tests/Snapshots"
+# Nullean.Snapshots names a gallery case Gallery.<slug>.<argument hash>; received files live under .artifacts
+VERIFIED="$REPO/tests/Mermaider.Tests/.snapshots/Snapshots/GallerySnapshotTests"
+RECEIVED="$REPO/.artifacts/.snapshots/received/Mermaider.Tests/Snapshots/GallerySnapshotTests"
 OUT="$1"; shift
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 mkdir -p "$OUT"
 for slug in "$@"; do
-  ours="$SNAP/GallerySnapshotTests.Gallery_example=$slug.received.svg"
-  [ -f "$ours" ] || ours="$SNAP/GallerySnapshotTests.Gallery_example=$slug.verified.svg"
+  ours=""
+  for f in "$RECEIVED/Gallery.$slug".????????.received.svg "$VERIFIED/Gallery.$slug".????????.verified.svg; do
+    if [ -f "$f" ]; then ours="$f"; break; fi
+  done
+  [ -n "$ours" ] || { echo "no gallery snapshot for $slug" >&2; exit 1; }
   ref="$SNAP/Reference/mermaidjs/$slug.svg"
   html="$OUT/$slug.html"
   cat > "$html" <<HTML

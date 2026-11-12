@@ -147,12 +147,17 @@ internal static class PieSvgRenderer
 		var inner = donut ? Radius * DonutHole : 0;
 		if (full)
 		{
-			_ = sb.Append("<circle cx=\"").Append(cx.SvgFormat()).Append("\" cy=\"").Append(cy.SvgFormat())
-				.Append("\" r=\"").Append((donut ? (Radius + inner) / 2 : Radius).SvgFormat()).Append('"');
+			_ = sb
+				.Append("<circle cx=\"")
+				.Append(cx.SvgFormat())
+				.Append("\" cy=\"")
+				.Append(cy.SvgFormat())
+				.Append("\" r=\"")
+				.Append((donut ? (Radius + inner) / 2 : Radius).SvgFormat())
+				.Append('"');
 			if (donut)
 			{
-				_ = sb.Append(" fill=\"none\" stroke=\"").Append(family.Base).Append("\" stroke-width=\"")
-					.Append((Radius - inner).SvgFormat()).Append("\" />");
+				_ = sb.Append(" fill=\"none\" stroke=\"").Append(family.Base).Append("\" stroke-width=\"").Append((Radius - inner).SvgFormat()).Append("\" />");
 				return;
 			}
 
@@ -170,19 +175,59 @@ internal static class PieSvgRenderer
 		{
 			var (ix1, iy1) = Polar(cx, cy, inner, end);
 			var (ix2, iy2) = Polar(cx, cy, inner, start);
-			_ = sb.Append('M').Append(ox1.SvgFormat()).Append(' ').Append(oy1.SvgFormat())
-				.Append(" A ").Append(Radius.SvgFormat()).Append(' ').Append(Radius.SvgFormat()).Append(" 0 ").Append(largeArc).Append(" 1 ")
-				.Append(ox2.SvgFormat()).Append(' ').Append(oy2.SvgFormat())
-				.Append(" L ").Append(ix1.SvgFormat()).Append(' ').Append(iy1.SvgFormat())
-				.Append(" A ").Append(inner.SvgFormat()).Append(' ').Append(inner.SvgFormat()).Append(" 0 ").Append(largeArc).Append(" 0 ")
-				.Append(ix2.SvgFormat()).Append(' ').Append(iy2.SvgFormat()).Append(" Z\"");
+			_ = sb
+				.Append('M')
+				.Append(ox1.SvgFormat())
+				.Append(' ')
+				.Append(oy1.SvgFormat())
+				.Append(" A ")
+				.Append(Radius.SvgFormat())
+				.Append(' ')
+				.Append(Radius.SvgFormat())
+				.Append(" 0 ")
+				.Append(largeArc)
+				.Append(" 1 ")
+				.Append(ox2.SvgFormat())
+				.Append(' ')
+				.Append(oy2.SvgFormat())
+				.Append(" L ")
+				.Append(ix1.SvgFormat())
+				.Append(' ')
+				.Append(iy1.SvgFormat())
+				.Append(" A ")
+				.Append(inner.SvgFormat())
+				.Append(' ')
+				.Append(inner.SvgFormat())
+				.Append(" 0 ")
+				.Append(largeArc)
+				.Append(" 0 ")
+				.Append(ix2.SvgFormat())
+				.Append(' ')
+				.Append(iy2.SvgFormat())
+				.Append(" Z\"");
 		}
 		else
 		{
-			_ = sb.Append("M ").Append(cx.SvgFormat()).Append(' ').Append(cy.SvgFormat())
-				.Append(" L ").Append(ox1.SvgFormat()).Append(' ').Append(oy1.SvgFormat())
-				.Append(" A ").Append(Radius.SvgFormat()).Append(' ').Append(Radius.SvgFormat()).Append(" 0 ").Append(largeArc).Append(" 1 ")
-				.Append(ox2.SvgFormat()).Append(' ').Append(oy2.SvgFormat()).Append(" Z\"");
+			_ = sb
+				.Append("M ")
+				.Append(cx.SvgFormat())
+				.Append(' ')
+				.Append(cy.SvgFormat())
+				.Append(" L ")
+				.Append(ox1.SvgFormat())
+				.Append(' ')
+				.Append(oy1.SvgFormat())
+				.Append(" A ")
+				.Append(Radius.SvgFormat())
+				.Append(' ')
+				.Append(Radius.SvgFormat())
+				.Append(" 0 ")
+				.Append(largeArc)
+				.Append(" 1 ")
+				.Append(ox2.SvgFormat())
+				.Append(' ')
+				.Append(oy2.SvgFormat())
+				.Append(" Z\"");
 		}
 
 		if (ds.Spec.ChartMarks == ChartMarkKind.Outline)
@@ -199,14 +244,24 @@ internal static class PieSvgRenderer
 		if (ds.Spec.OutlineWidth > 0)
 		{
 			// outlined like every other box: the family stroke at node-outline weight
-			_ = sb.Append(" fill=\"").Append(fill).Append("\" stroke=\"").Append(family.Stroke).Append("\" stroke-width=\"")
-				.Append(ds.NodeStrokeWidth).Append("\" stroke-linejoin=\"round\" />");
+			_ = sb
+				.Append(" fill=\"")
+				.Append(fill)
+				.Append("\" stroke=\"")
+				.Append(family.Stroke)
+				.Append("\" stroke-width=\"")
+				.Append(ds.NodeStrokeWidth)
+				.Append("\" stroke-linejoin=\"round\" />");
 			return;
 		}
 
 		// presets without outlines: page-coloured separators between neighbours (rounded on the donut)
-		_ = sb.Append(" fill=\"").Append(fill).Append("\" stroke=\"var(--bg)\" stroke-width=\"")
-			.Append(donut ? "3" : "2.5").Append("\" stroke-linejoin=\"round\" />");
+		_ = sb
+			.Append(" fill=\"")
+			.Append(fill)
+			.Append("\" stroke=\"var(--bg)\" stroke-width=\"")
+			.Append(donut ? "3" : "2.5")
+			.Append("\" stroke-linejoin=\"round\" />");
 	}
 
 	/// <summary>Percent labels outside the pie on short leader lines, nudged apart per side so they never overlap.</summary>
@@ -250,19 +305,29 @@ internal static class PieSvgRenderer
 				textX = label.Right ? Math.Max(textX, x2 + 10) : Math.Min(textX, x2 - 10);
 
 			// a nudged label gets an elbow: leader to the label's row, then a short horizontal run
-			_ = sb.Append("\n<path d=\"M ").Append(x1.SvgFormat()).Append(' ').Append(y1.SvgFormat())
-				.Append(" L ").Append(x2.SvgFormat()).Append(' ').Append((nudged ? label.Y : y2).SvgFormat());
+			_ = sb
+				.Append("\n<path d=\"M ")
+				.Append(x1.SvgFormat())
+				.Append(' ')
+				.Append(y1.SvgFormat())
+				.Append(" L ")
+				.Append(x2.SvgFormat())
+				.Append(' ')
+				.Append((nudged ? label.Y : y2).SvgFormat());
 			if (nudged)
 				_ = sb.Append(" H ").Append((textX - (dir * 4)).SvgFormat());
-			_ = sb.Append("\" fill=\"none\" stroke=\"").Append(DesignSystem.AxisStroke).Append("\" stroke-width=\"")
-				.Append(DesignSystem.AxisWidth.SvgFormat()).Append("\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />");
+			_ = sb
+				.Append("\" fill=\"none\" stroke=\"")
+				.Append(DesignSystem.AxisStroke)
+				.Append("\" stroke-width=\"")
+				.Append(DesignSystem.AxisWidth.SvgFormat())
+				.Append("\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />");
 			_ = sb.Append('\n');
 			ds.AppendChartText(sb, label.Text, textX, label.Y, TypeRole.Label, null, anchor: label.Right ? "start" : "end", weight: 600);
 		}
 	}
 
-	private static (double X, double Y) Polar(double cx, double cy, double r, double angle) =>
-		(cx + (r * Math.Cos(angle)), cy + (r * Math.Sin(angle)));
+	private static (double X, double Y) Polar(double cx, double cy, double r, double angle) => (cx + (r * Math.Cos(angle)), cy + (r * Math.Sin(angle)));
 
 	private static string FormatPercent(double pct) => pct.ToString("0.##", CultureInfo.InvariantCulture) + "%";
 

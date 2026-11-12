@@ -28,9 +28,7 @@ internal static partial class TreeViewParser
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
-			throw new MermaidParseException(
-				$"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.",
-				ex);
+			throw new MermaidParseException($"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.", ex);
 		}
 	}
 
@@ -41,9 +39,7 @@ internal static partial class TreeViewParser
 
 		var isBoxDrawing = DetectBoxDrawingMode(lines);
 
-		var nodes = isBoxDrawing
-			? ParseBoxDrawing(lines)
-			: ParseIndentation(lines);
+		var nodes = isBoxDrawing ? ParseBoxDrawing(lines) : ParseIndentation(lines);
 
 		return new TreeViewDiagram { Roots = nodes };
 	}
@@ -161,7 +157,8 @@ internal static partial class TreeViewParser
 	}
 
 	private static IReadOnlyList<TreeViewNode> BuildTreeFromFlatList(
-		List<(int Depth, string Label, bool IsDir, string? Desc, string? CssClass, string? Icon)> items)
+		List<(int Depth, string Label, bool IsDir, string? Desc, string? CssClass, string? Icon)> items
+	)
 	{
 		if (items.Count == 0)
 			return [];
@@ -244,9 +241,7 @@ internal static partial class TreeViewParser
 		if (iconMatch.Success)
 		{
 			var iconName = iconMatch.Groups[1].Value.Trim();
-			icon = iconName.Length == 0 || iconName.Equals("none", StringComparison.OrdinalIgnoreCase)
-				? ""
-				: iconName;
+			icon = iconName.Length == 0 || iconName.Equals("none", StringComparison.OrdinalIgnoreCase) ? "" : iconName;
 			working = working[..iconMatch.Index] + working[(iconMatch.Index + iconMatch.Length)..];
 			working = working.Trim();
 		}
@@ -264,7 +259,8 @@ internal static partial class TreeViewParser
 	}
 
 	private static TreeViewNode BuildNode(
-		(int Indent, string Label, bool IsDir, string? Desc, string? CssClass, string? Icon, List<TreeViewNode> Children) entry) =>
+		(int Indent, string Label, bool IsDir, string? Desc, string? CssClass, string? Icon, List<TreeViewNode> Children) entry
+	) =>
 		new()
 		{
 			Label = entry.Label,

@@ -6,7 +6,8 @@ namespace Mermaider.Tests.Rendering;
 /// <summary>Classes with a modifier (<c>&lt;&lt;abstract&gt;&gt;</c>, <c>&lt;&lt;interface&gt;&gt;</c>, …) are coloured by that modifier.</summary>
 public class ClassAnnotationColourTests
 {
-	private const string Source = """
+	private const string Source =
+		"""
 		classDiagram
 		  class Shape {
 		    <<abstract>>
@@ -84,7 +85,9 @@ public class ClassAnnotationColourTests
 	[Test]
 	public void A_declared_lollipop_target_keeps_its_box_next_to_the_lollipop_like_mermaidjs()
 	{
-		var svg = MermaidRenderer.RenderSvg("classDiagram\n  class Drawable {\n    <<interface>>\n    +draw() void\n  }\n  class Circle {\n    +area() double\n  }\n  Circle --() Drawable");
+		var svg = MermaidRenderer.RenderSvg(
+			"classDiagram\n  class Drawable {\n    <<interface>>\n    +draw() void\n  }\n  class Circle {\n    +area() double\n  }\n  Circle --() Drawable"
+		);
 
 		svg.Should().Contain("<g class=\"class-node\" data-id=\"Drawable\"", "the declared class keeps its box and members");
 		svg.Should().Contain("class-node lollipop\" data-id=\"Drawable__lollipop\"", "the lollipop is its own node");

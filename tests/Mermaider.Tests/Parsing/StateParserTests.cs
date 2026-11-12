@@ -8,12 +8,14 @@ public class StateParserTests
 	[Test]
 	public void ParsesClassDef()
 	{
-		var graph = MermaidRenderer.Parse("""
+		var graph = MermaidRenderer.Parse(
+			"""
 			stateDiagram-v2
 			classDef badEvent fill:#f00,color:white
 			[*] --> Crash
 			Crash --> [*]
-			""");
+			"""
+		);
 
 		graph.ClassDefs.Should().ContainKey("badEvent");
 		graph.ClassDefs["badEvent"].Should().ContainKey("fill");
@@ -24,13 +26,15 @@ public class StateParserTests
 	[Test]
 	public void ParsesClassAssignment()
 	{
-		var graph = MermaidRenderer.Parse("""
+		var graph = MermaidRenderer.Parse(
+			"""
 			stateDiagram-v2
 			classDef badEvent fill:#f00,color:white
 			[*] --> Crash
 			Crash --> [*]
 			class Crash badEvent
-			""");
+			"""
+		);
 
 		graph.ClassAssignments.Should().ContainKey("Crash");
 		graph.ClassAssignments["Crash"].Should().Be("badEvent");
@@ -39,14 +43,16 @@ public class StateParserTests
 	[Test]
 	public void ParsesMultipleClassAssignments()
 	{
-		var graph = MermaidRenderer.Parse("""
+		var graph = MermaidRenderer.Parse(
+			"""
 			stateDiagram-v2
 			classDef highlight fill:#ff0
 			[*] --> A
 			A --> B
 			B --> [*]
 			class A,B highlight
-			""");
+			"""
+		);
 
 		graph.ClassAssignments.Should().ContainKey("A");
 		graph.ClassAssignments.Should().ContainKey("B");
@@ -57,13 +63,15 @@ public class StateParserTests
 	[Test]
 	public void ParsesClassShorthandStandalone()
 	{
-		var graph = MermaidRenderer.Parse("""
+		var graph = MermaidRenderer.Parse(
+			"""
 			stateDiagram-v2
 			classDef movement font-style:italic
 			[*] --> Moving
 			Moving --> [*]
 			Moving:::movement
-			""");
+			"""
+		);
 
 		graph.ClassAssignments.Should().ContainKey("Moving");
 		graph.ClassAssignments["Moving"].Should().Be("movement");
@@ -72,12 +80,14 @@ public class StateParserTests
 	[Test]
 	public void ParsesClassShorthandInTransitionSource()
 	{
-		var graph = MermaidRenderer.Parse("""
+		var graph = MermaidRenderer.Parse(
+			"""
 			stateDiagram-v2
 			classDef movement font-style:italic
 			[*] --> Moving
 			Moving:::movement --> Still
-			""");
+			"""
+		);
 
 		graph.ClassAssignments.Should().ContainKey("Moving");
 		graph.ClassAssignments["Moving"].Should().Be("movement");
@@ -87,11 +97,13 @@ public class StateParserTests
 	[Test]
 	public void ParsesClassShorthandInTransitionTarget()
 	{
-		var graph = MermaidRenderer.Parse("""
+		var graph = MermaidRenderer.Parse(
+			"""
 			stateDiagram-v2
 			classDef badEvent fill:#f00
 			Moving --> Crash:::badEvent
-			""");
+			"""
+		);
 
 		graph.ClassAssignments.Should().ContainKey("Crash");
 		graph.ClassAssignments["Crash"].Should().Be("badEvent");
@@ -100,12 +112,14 @@ public class StateParserTests
 	[Test]
 	public void ParsesStyleDirective()
 	{
-		var graph = MermaidRenderer.Parse("""
+		var graph = MermaidRenderer.Parse(
+			"""
 			stateDiagram-v2
 			[*] --> Active
 			Active --> [*]
 			style Active fill:#0f0,stroke:#333
-			""");
+			"""
+		);
 
 		graph.NodeStyles.Should().ContainKey("Active");
 		graph.NodeStyles["Active"]["fill"].Should().Be("#0f0");
@@ -115,13 +129,15 @@ public class StateParserTests
 	[Test]
 	public void ParsesClassDefDefault()
 	{
-		var graph = MermaidRenderer.Parse("""
+		var graph = MermaidRenderer.Parse(
+			"""
 			stateDiagram-v2
 			classDef default fill:#ddd
 			[*] --> Still
 			Still --> Moving
 			Moving --> [*]
-			""");
+			"""
+		);
 
 		graph.ClassDefs.Should().ContainKey("default");
 		graph.ClassAssignments.Should().ContainKey("Still");
@@ -133,7 +149,8 @@ public class StateParserTests
 	[Test]
 	public void ClassDefDefaultDoesNotOverrideExplicit()
 	{
-		var graph = MermaidRenderer.Parse("""
+		var graph = MermaidRenderer.Parse(
+			"""
 			stateDiagram-v2
 			classDef default fill:#ddd
 			classDef special fill:#f00
@@ -141,7 +158,8 @@ public class StateParserTests
 			Still --> Moving
 			Moving --> [*]
 			class Moving special
-			""");
+			"""
+		);
 
 		graph.ClassAssignments["Still"].Should().Be("default");
 		graph.ClassAssignments["Moving"].Should().Be("special");
@@ -150,7 +168,8 @@ public class StateParserTests
 	[Test]
 	public void ParsesFullExample()
 	{
-		var graph = MermaidRenderer.Parse("""
+		var graph = MermaidRenderer.Parse(
+			"""
 			stateDiagram-v2
 			classDef badBadEvent fill:#f00,color:white,font-weight:bold,stroke-width:2px,stroke:yellow
 			classDef movement font-style:italic
@@ -165,7 +184,8 @@ public class StateParserTests
 			class Moving movement
 			class Crash badBadEvent
 			SomeState:::movement
-			""");
+			"""
+		);
 
 		graph.ClassDefs.Should().HaveCount(3);
 		graph.ClassDefs.Should().ContainKey("badBadEvent");
@@ -183,12 +203,14 @@ public class StateParserTests
 	[Test]
 	public void TransitionWithClassPreservesLabel()
 	{
-		var graph = MermaidRenderer.Parse("""
+		var graph = MermaidRenderer.Parse(
+			"""
 			stateDiagram-v2
 			classDef highlight fill:#ff0
 			[*] --> Active
 			Active:::highlight --> Done : finished
-			""");
+			"""
+		);
 
 		graph.ClassAssignments["Active"].Should().Be("highlight");
 		var edge = graph.Edges[1];
@@ -200,13 +222,15 @@ public class StateParserTests
 	[Test]
 	public void StyleDirectiveMultipleNodes()
 	{
-		var graph = MermaidRenderer.Parse("""
+		var graph = MermaidRenderer.Parse(
+			"""
 			stateDiagram-v2
 			[*] --> A
 			A --> B
 			B --> [*]
 			style A,B fill:#0f0
-			""");
+			"""
+		);
 
 		graph.NodeStyles.Should().ContainKey("A");
 		graph.NodeStyles.Should().ContainKey("B");
@@ -217,7 +241,8 @@ public class StateParserTests
 	[Test]
 	public void ExistingTransitionsStillWork()
 	{
-		var graph = MermaidRenderer.Parse("""
+		var graph = MermaidRenderer.Parse(
+			"""
 			stateDiagram-v2
 			[*] --> Still
 			Still --> [*]
@@ -225,7 +250,8 @@ public class StateParserTests
 			Moving --> Still
 			Moving --> Crash
 			Crash --> [*]
-			""");
+			"""
+		);
 
 		graph.Edges.Should().HaveCount(6);
 		graph.Nodes.Should().ContainKey("Still");
@@ -271,7 +297,8 @@ public class StateParserTests
 	[Test]
 	public void Edge_to_nested_composite_enters_at_its_start_state()
 	{
-		var graph = MermaidRenderer.Parse("""
+		var graph = MermaidRenderer.Parse(
+			"""
 			stateDiagram-v2
 			state P {
 				a --> R
@@ -279,7 +306,8 @@ public class StateParserTests
 					[*] --> f
 				}
 			}
-			""");
+			"""
+		);
 
 		var edge = graph.Edges.Single(e => e.Source == "a");
 		graph.Nodes[edge.Target].Shape.Should().Be(NodeShape.StateStart);
@@ -290,7 +318,8 @@ public class StateParserTests
 	[Test]
 	public void Edge_to_composite_holding_only_composites_enters_through_its_first_child()
 	{
-		var graph = MermaidRenderer.Parse("""
+		var graph = MermaidRenderer.Parse(
+			"""
 			stateDiagram-v2
 			state P {
 				state R {
@@ -298,7 +327,8 @@ public class StateParserTests
 				}
 			}
 			a --> P
-			""");
+			"""
+		);
 
 		var edge = graph.Edges.Single(e => e.Source == "a");
 		graph.Nodes[edge.Target].Shape.Should().Be(NodeShape.StateStart);

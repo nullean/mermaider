@@ -4,7 +4,8 @@ namespace Mermaider.Tests.Rendering;
 
 public class ErRendererTests
 {
-	private const string SimpleEr = """
+	private const string SimpleEr =
+		"""
 		erDiagram
 		CUSTOMER ||--o{ ORDER : places
 		CUSTOMER {

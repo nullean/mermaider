@@ -66,20 +66,16 @@ internal static class RenderConstants
 
 	internal static class TextAttrs
 	{
-		internal static readonly string NodeLabelCenterFill =
-			$"text-anchor=\"middle\" font-size=\"{FsVar.S}\" font-weight=\"{FontWeights.NodeLabel}\" fill=\"";
+		internal static readonly string NodeLabelCenterFill = $"text-anchor=\"middle\" font-size=\"{FsVar.S}\" font-weight=\"{FontWeights.NodeLabel}\" fill=\"";
 
-		internal static readonly string NodeLabelBoldCenterFill =
-			$"text-anchor=\"middle\" font-size=\"{FsVar.S}\" font-weight=\"700\" fill=\"";
+		internal static readonly string NodeLabelBoldCenterFill = $"text-anchor=\"middle\" font-size=\"{FsVar.S}\" font-weight=\"700\" fill=\"";
 
 		internal static readonly string EdgeLabelCenterFill =
 			$"text-anchor=\"middle\" font-size=\"{FsVar.Xs}\" font-weight=\"{FontWeights.EdgeLabel}\" fill=\"";
 
-		internal static readonly string GroupHeaderFill =
-			$"font-size=\"{FsVar.S}\" font-weight=\"{FontWeights.GroupHeader}\" fill=\"";
+		internal static readonly string GroupHeaderFill = $"font-size=\"{FsVar.S}\" font-weight=\"{FontWeights.GroupHeader}\" fill=\"";
 
-		internal static readonly string SeqNodeLabelFill =
-			$"font-size=\"{FsVar.S}\" text-anchor=\"middle\" font-weight=\"{FontWeights.NodeLabel}\" fill=\"";
+		internal static readonly string SeqNodeLabelFill = $"font-size=\"{FsVar.S}\" text-anchor=\"middle\" font-weight=\"{FontWeights.NodeLabel}\" fill=\"";
 
 		internal static readonly string SeqEdgeLabelCenterFill =
 			$"font-size=\"{FsVar.Xs}\" text-anchor=\"middle\" font-weight=\"{FontWeights.EdgeLabel}\" fill=\"";
@@ -93,13 +89,10 @@ internal static class RenderConstants
 		internal static readonly string SeqMessageLabelStartFill =
 			$"font-size=\"{FsVar.Xs}\" text-anchor=\"start\" font-weight=\"{FontWeights.EdgeLabel}\" fill=\"";
 
-		internal static readonly string SeqNoteCenterFill =
-			$"font-size=\"{FsVar.S}\" text-anchor=\"middle\" font-weight=\"{FontWeights.EdgeLabel}\" fill=\"";
+		internal static readonly string SeqNoteCenterFill = $"font-size=\"{FsVar.S}\" text-anchor=\"middle\" font-weight=\"{FontWeights.EdgeLabel}\" fill=\"";
 
-		internal static readonly string SeqBlockTabFill =
-			$"font-size=\"{FsVar.S}\" font-weight=\"{FontWeights.GroupHeader}\" fill=\"";
+		internal static readonly string SeqBlockTabFill = $"font-size=\"{FsVar.S}\" font-weight=\"{FontWeights.GroupHeader}\" fill=\"";
 
-		internal static readonly string ClassRelLabelFill =
-			$"font-size=\"{FsVar.Xs}\" text-anchor=\"middle\" font-weight=\"{FontWeights.EdgeLabel}\" fill=\"";
+		internal static readonly string ClassRelLabelFill = $"font-size=\"{FsVar.Xs}\" text-anchor=\"middle\" font-weight=\"{FontWeights.EdgeLabel}\" fill=\"";
 	}
 }

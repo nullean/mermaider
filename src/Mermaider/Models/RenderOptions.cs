@@ -131,7 +131,6 @@ public sealed record RenderOptions
 	/// <summary>Semantic role colour for information (class <c>info</c>). Default: the theme's info colour; without one, palette blue.</summary>
 	public string? Info { get; init; }
 
-
 	/// <summary>
 	/// Enable strict styling to enforce visual uniformity (not a security feature —
 	/// SVG output is always sanitized regardless; see <see cref="SanitizeMode"/>).

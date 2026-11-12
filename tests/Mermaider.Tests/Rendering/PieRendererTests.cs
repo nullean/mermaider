@@ -95,11 +95,7 @@ public class PieRendererTests
 	[Test]
 	public void Respects_custom_colors()
 	{
-		var svg = MermaidRenderer.RenderSvg(SimplePie, new()
-		{
-			Bg = "#1e1e2e",
-			Fg = "#cdd6f4",
-		});
+		var svg = MermaidRenderer.RenderSvg(SimplePie, new() { Bg = "#1e1e2e", Fg = "#cdd6f4", });
 
 		svg.Should().Contain("--bg:#1e1e2e");
 		svg.Should().Contain("--fg:#cdd6f4");

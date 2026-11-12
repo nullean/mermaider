@@ -23,8 +23,8 @@ internal static class MermaidRenderPipeline
 		// and advance time to trigger the deadline deterministically without wall-clock delays.
 		// When the caller also supplies a CancellationToken, we link both into a combined source
 		// so either the deadline or the caller's cancellation aborts the render.
-		CancellationTokenSource? deadlineCts = null;    // fires after RenderDeadline elapses
-		CancellationTokenSource? linkedCts = null;      // union of deadline + caller token
+		CancellationTokenSource? deadlineCts = null; // fires after RenderDeadline elapses
+		CancellationTokenSource? linkedCts = null; // union of deadline + caller token
 		if (limits.RenderDeadline.HasValue)
 		{
 			deadlineCts = new CancellationTokenSource(limits.RenderDeadline.Value, limits.TimeProvider);
@@ -89,7 +89,8 @@ internal sealed record PreparedDiagram(
 	string[] Lines,
 	string[] FilteredLines,
 	DiagramType DiagramType,
-	AccessibilityInfo Accessibility);
+	AccessibilityInfo Accessibility
+);
 
 internal sealed record NormalizedRenderStyles(
 	DiagramColors Colors,
@@ -98,19 +99,18 @@ internal sealed record NormalizedRenderStyles(
 	FontScale FontScale,
 	bool Transparent,
 	StrictStylingOptions? Strict,
-	DesignInputs Design);
+	DesignInputs Design
+);
 
-internal sealed record NormalizedRenderConfiguration(
-	NormalizedRenderStyles Styles,
-	IGraphLayoutProvider LayoutProvider,
-	double EdgeRadius);
+internal sealed record NormalizedRenderConfiguration(NormalizedRenderStyles Styles, IGraphLayoutProvider LayoutProvider, double EdgeRadius);
 
 internal sealed record NormalizedRenderRequest(
 	PreparedDiagram Diagram,
 	NormalizedRenderConfiguration Configuration,
 	RenderOptions? Options,
 	ResourceLimits Limits,
-	CancellationToken CancellationToken);
+	CancellationToken CancellationToken
+);
 
 /// <summary>Normalized rendering inputs shared by every SVG renderer.</summary>
 internal readonly record struct SvgRenderContext(
@@ -118,12 +118,12 @@ internal readonly record struct SvgRenderContext(
 	AccessibilityInfo Accessibility,
 	DiagramType DiagramType,
 	double EdgeRadius,
-	ResourceLimits Limits);
+	ResourceLimits Limits
+);
 
 internal static class DiagramPreparationStage
 {
-	internal static PreparedDiagram Prepare(string text, RenderOptions? options,
-		ResourceLimits limits, CancellationToken ct = default)
+	internal static PreparedDiagram Prepare(string text, RenderOptions? options, ResourceLimits limits, CancellationToken ct = default)
 	{
 		var (cleaned, metadata) = DiagramPreprocessor.Process(text);
 		var lines = MermaidRenderer.PreprocessLines(cleaned);
@@ -139,8 +139,8 @@ internal static class DiagramPreparationStage
 		var allowedDiagrams = options?.AllowedDiagrams ?? DiagramTypes.All;
 		if ((allowedDiagrams & diagramType.ToFlag()) == 0)
 			throw new MermaidParseException(
-				$"Diagram type '{diagramType}' is not in the allowed set. " +
-				$"Adjust RenderOptions.AllowedDiagrams to include it.");
+				$"Diagram type '{diagramType}' is not in the allowed set. " + $"Adjust RenderOptions.AllowedDiagrams to include it."
+			);
 
 		var (accessibility, filteredLines) = AccessibilityParser.Extract(lines);
 		return new PreparedDiagram(cleaned, metadata, lines, filteredLines, diagramType, accessibility);
@@ -159,10 +159,8 @@ internal static class RenderConfigurationNormalizer
 
 			if (metadata.Theme is { Length: > 0 } || metadata.ThemeVariables is not null)
 			{
-				const string themeMsg =
-					"Strict mode: source-authored 'theme' / 'themeVariables' overrides are not allowed. " +
-					"Styling is controlled by the host design system; remove the %%{init}%% theme directive " +
-					"or frontmatter 'theme:' key.";
+				const string themeMsg = "Strict mode: source-authored 'theme' / 'themeVariables' overrides are not allowed. " +
+					"Styling is controlled by the host design system; remove the %%{init}%% theme directive " + "or frontmatter 'theme:' key.";
 
 				if (strict.Mode == StrictStylingMode.Block)
 					throw new MermaidParseException(themeMsg);
@@ -192,12 +190,14 @@ internal static class RenderConfigurationNormalizer
 			FontScale.From(options),
 			options?.Transparent ?? true,
 			strict,
-			DesignInputs.From(options));
+			DesignInputs.From(options)
+		);
 
 		return new NormalizedRenderConfiguration(
 			styles,
 			options?.LayoutProvider ?? MermaidRenderer.LayoutProvider,
-			options?.RoundedEdges != false ? styles.Design.Spec.EdgeBendRadius : 0);
+			options?.RoundedEdges != false ? styles.Design.Spec.EdgeBendRadius : 0
+		);
 	}
 
 	private static DiagramColors BuildColors(RenderOptions? options, DiagramMetadata metadata)
@@ -215,8 +215,10 @@ internal static class RenderConfigurationNormalizer
 			Fg = SelectSafeColor(options?.Fg, baseColors.Fg),
 			// a theme's line colour is its default box border; when the caller changes the box colour, the foreground or the
 			// box border without picking a line, the line is derived from their colours instead so it still matches the boxes
-			Line = SelectSafeOptionalColor(options?.Line,
-				options?.Default is not null || options?.Fg is not null || border is not null ? null : baseColors.Line),
+			Line = SelectSafeOptionalColor(
+				options?.Line,
+				options?.Default is not null || options?.Fg is not null || border is not null ? null : baseColors.Line
+			),
 			Accent = SelectSafeOptionalColor(options?.Accent, baseColors.Accent),
 			Muted = SelectSafeOptionalColor(options?.Muted, baseColors.Muted),
 			Surface = SelectSafeOptionalColor(options?.Surface, baseColors.Surface),
@@ -251,8 +253,7 @@ internal static class RenderConfigurationNormalizer
 
 	private static string[]? SelectSafePalette(string[]? candidate, string[]? fallback)
 	{
-		if (candidate is not { Length: > 0 }
-			|| candidate.Any(color => color is null || !SvgValueAllowlist.IsAllowedColor(color)))
+		if (candidate is not { Length: > 0 } || candidate.Any(color => color is null || !SvgValueAllowlist.IsAllowedColor(color)))
 			return fallback;
 
 		return candidate.Select(color => color.Trim()).ToArray();
@@ -334,9 +335,7 @@ internal static class DiagramSvgStage
 				}
 			case DiagramType.Treemap:
 				{
-					sb = TreemapSvgRenderer.RenderToBuilder(
-						TreemapParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource)),
-						context);
+					sb = TreemapSvgRenderer.RenderToBuilder(TreemapParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource)), context);
 					break;
 				}
 			case DiagramType.Venn:
@@ -348,9 +347,7 @@ internal static class DiagramSvgStage
 				}
 			case DiagramType.Mindmap:
 				{
-					sb = MindmapSvgRenderer.RenderToBuilder(
-						MindmapParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource)),
-						context);
+					sb = MindmapSvgRenderer.RenderToBuilder(MindmapParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource)), context);
 					break;
 				}
 			case DiagramType.Gantt:
@@ -392,15 +389,14 @@ internal static class DiagramSvgStage
 				{
 					sb = KanbanSvgRenderer.RenderToBuilder(
 						KanbanParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource, accessibility)),
-						context);
+						context
+					);
 					break;
 				}
 			case DiagramType.Architecture:
 				{
 					var parsed = ArchitectureParser.Parse(lines);
-					ResourceGuard.CheckElements(
-						parsed.Services.Count + parsed.Groups.Count + parsed.Edges.Count + parsed.Junctions.Count,
-						limits);
+					ResourceGuard.CheckElements(parsed.Services.Count + parsed.Groups.Count + parsed.Edges.Count + parsed.Junctions.Count, limits);
 					ct.ThrowIfCancellationRequested();
 					sb = ArchitectureSvgRenderer.RenderToBuilder(ArchitectureLayout.Layout(parsed), context);
 					break;
@@ -414,7 +410,8 @@ internal static class DiagramSvgStage
 				{
 					sb = TreeViewSvgRenderer.RenderToBuilder(
 						TreeViewParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource, accessibility)),
-						context);
+						context
+					);
 					break;
 				}
 			default:

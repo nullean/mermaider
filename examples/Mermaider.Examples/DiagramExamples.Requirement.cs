@@ -3,10 +3,14 @@ namespace Mermaider.Examples;
 public static partial class DiagramExamples
 {
 	private static DiagramExample[] CreateRequirementExamples() =>
-	[
-		// ── Requirement ────────────────────────────────────────────────
+		[
+			// ── Requirement ────────────────────────────────────────────────
 
-		new("requirement-basic", "Basic Requirement", DiagramCategory.Requirement, """
+			new(
+				"requirement-basic",
+				"Basic Requirement",
+				DiagramCategory.Requirement,
+				"""
 			requirementDiagram
 
 			requirement test_req {
@@ -21,9 +25,13 @@ public static partial class DiagramExamples
 			}
 
 			test_entity - satisfies -> test_req
-			"""),
-
-		new("requirement-sysml", "SysML Traceability", DiagramCategory.Requirement, """
+			"""
+			),
+			new(
+				"requirement-sysml",
+				"SysML Traceability",
+				DiagramCategory.Requirement,
+				"""
 			requirementDiagram
 			direction LR
 
@@ -53,9 +61,13 @@ public static partial class DiagramExamples
 			auth_service - satisfies -> login
 			login_ui - verifies -> login
 			latency - derives -> login
-			"""),
-
-			new("requirement-kinds", "All Requirement Kinds", DiagramCategory.Requirement, """
+			"""
+			),
+			new(
+				"requirement-kinds",
+				"All Requirement Kinds",
+				DiagramCategory.Requirement,
+				"""
 				requirementDiagram
 
 				requirement base_req {
@@ -105,9 +117,13 @@ public static partial class DiagramExamples
 				base_req - contains -> performance_req
 				base_req - contains -> physical_req
 				base_req - contains -> design_constraint
-				"""),
-
-			new("requirement-relations", "Relation Types", DiagramCategory.Requirement, """
+				"""
+			),
+			new(
+				"requirement-relations",
+				"Relation Types",
+				DiagramCategory.Requirement,
+				"""
 				requirementDiagram
 
 				requirement parent {
@@ -153,9 +169,13 @@ public static partial class DiagramExamples
 				design_doc - refines -> parent
 				test_suite - verifies -> copy
 				design_doc - traces -> child
-				"""),
-
-			new("requirement-two-systems", "Two Disconnected Systems", DiagramCategory.Requirement, """
+				"""
+			),
+			new(
+				"requirement-two-systems",
+				"Two Disconnected Systems",
+				DiagramCategory.Requirement,
+				"""
 				requirementDiagram
 
 				functionalRequirement checkout {
@@ -184,9 +204,13 @@ public static partial class DiagramExamples
 				}
 
 				pager_rules - satisfies -> alerting
-				"""),
-
-			new("requirement-long-text", "Long Text and Names", DiagramCategory.Requirement, """
+				"""
+			),
+			new(
+				"requirement-long-text",
+				"Long Text and Names",
+				DiagramCategory.Requirement,
+				"""
 				requirementDiagram
 				direction LR
 
@@ -203,7 +227,7 @@ public static partial class DiagramExamples
 				}
 
 				retention_job - satisfies -> a_requirement_with_a_really_long_name_that_wraps
-				"""),
-	];
+				"""
+			),
+		];
 }
-

@@ -11,12 +11,7 @@ public sealed record GanttDiagram
 
 public sealed record GanttSection(string? Name, IReadOnlyList<GanttTask> Tasks);
 
-public sealed record GanttTask(
-	string Name,
-	string? Id,
-	DateTime Start,
-	DateTime End,
-	GanttTaskTags Tags);
+public sealed record GanttTask(string Name, string? Id, DateTime Start, DateTime End, GanttTaskTags Tags);
 
 [Flags]
 public enum GanttTaskTags

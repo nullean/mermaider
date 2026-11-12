@@ -25,19 +25,58 @@ internal sealed partial class DesignSystem
 		_ = sb.Append("\n  ");
 		if (!lastRow)
 		{
-			_ = sb.Append("<rect x=\"").Append(x).Append("\" y=\"").Append(y).Append("\" width=\"").Append(w)
-				.Append("\" height=\"").Append(h).Append("\" fill=\"").Append(fill).Append("\" />");
+			_ = sb
+				.Append("<rect x=\"")
+				.Append(x)
+				.Append("\" y=\"")
+				.Append(y)
+				.Append("\" width=\"")
+				.Append(w)
+				.Append("\" height=\"")
+				.Append(h)
+				.Append("\" fill=\"")
+				.Append(fill)
+				.Append("\" />");
 			return;
 		}
 
 		var r = Math.Min(Spec.NodeRadius, Math.Min(w / 2, h));
-		_ = sb.Append("<path d=\"M").Append(x).Append(',').Append(y)
-			.Append(" L").Append(x + w).Append(',').Append(y)
-			.Append(" L").Append(x + w).Append(',').Append(y + h - r)
-			.Append(" Q").Append(x + w).Append(',').Append(y + h).Append(' ').Append(x + w - r).Append(',').Append(y + h)
-			.Append(" L").Append(x + r).Append(',').Append(y + h)
-			.Append(" Q").Append(x).Append(',').Append(y + h).Append(' ').Append(x).Append(',').Append(y + h - r)
-			.Append(" Z\" fill=\"").Append(fill).Append("\" />");
+		_ = sb
+			.Append("<path d=\"M")
+			.Append(x)
+			.Append(',')
+			.Append(y)
+			.Append(" L")
+			.Append(x + w)
+			.Append(',')
+			.Append(y)
+			.Append(" L")
+			.Append(x + w)
+			.Append(',')
+			.Append(y + h - r)
+			.Append(" Q")
+			.Append(x + w)
+			.Append(',')
+			.Append(y + h)
+			.Append(' ')
+			.Append(x + w - r)
+			.Append(',')
+			.Append(y + h)
+			.Append(" L")
+			.Append(x + r)
+			.Append(',')
+			.Append(y + h)
+			.Append(" Q")
+			.Append(x)
+			.Append(',')
+			.Append(y + h)
+			.Append(' ')
+			.Append(x)
+			.Append(',')
+			.Append(y + h - r)
+			.Append(" Z\" fill=\"")
+			.Append(fill)
+			.Append("\" />");
 	}
 
 	/// <summary>
@@ -75,9 +114,20 @@ internal sealed partial class DesignSystem
 	{
 		var card = Spec.Entity == EntityKind.Card;
 		var (x1, x2) = card ? (x + RowDividerInset, x + w - RowDividerInset) : (x, x + w);
-		_ = sb.Append("\n  <line x1=\"").Append(x1).Append("\" y1=\"").Append(y)
-			.Append("\" x2=\"").Append(x2).Append("\" y2=\"").Append(y)
-			.Append("\" stroke=\"").Append(card ? family.Band : BoxOutline(family)).Append("\" stroke-width=\"").Append(card ? "2" : NodeStrokeWidth).Append("\" />");
+		_ = sb
+			.Append("\n  <line x1=\"")
+			.Append(x1)
+			.Append("\" y1=\"")
+			.Append(y)
+			.Append("\" x2=\"")
+			.Append(x2)
+			.Append("\" y2=\"")
+			.Append(y)
+			.Append("\" stroke=\"")
+			.Append(card ? family.Band : BoxOutline(family))
+			.Append("\" stroke-width=\"")
+			.Append(card ? "2" : NodeStrokeWidth)
+			.Append("\" />");
 	}
 
 	/// <summary>Text attributes for an entity cell in the mono font (types, names, keys), whatever the preset's xs setting.</summary>
@@ -88,9 +138,25 @@ internal sealed partial class DesignSystem
 	}
 
 	/// <summary>Appends a single-line mono cell text vertically centred on <paramref name="cy"/>.</summary>
-	internal void AppendMonoText(StringBuilder sb, string text, double x, double cy, TypeRole role, string? color = null, string anchor = "start", int? weight = null, string? extraAttrs = null) =>
-		MultilineUtils.AppendMultilineText(sb, text, x, cy, Px(role),
-			MonoAttributes(role, color, anchor, weight) + (extraAttrs is null ? "" : " " + extraAttrs));
+	internal void AppendMonoText(
+		StringBuilder sb,
+		string text,
+		double x,
+		double cy,
+		TypeRole role,
+		string? color = null,
+		string anchor = "start",
+		int? weight = null,
+		string? extraAttrs = null
+	) =>
+		MultilineUtils.AppendMultilineText(
+			sb,
+			text,
+			x,
+			cy,
+			Px(role),
+			MonoAttributes(role, color, anchor, weight) + (extraAttrs is null ? "" : " " + extraAttrs)
+		);
 
 	/// <summary>
 	/// A role chip (dot + word) starting at <paramref name="x"/>, centred on <paramref name="cy"/>: requirement risk, critical
@@ -104,14 +170,29 @@ internal sealed partial class DesignSystem
 		var w = textW + 25;
 		if (Spec.Badge != BadgeKind.Bracket)
 		{
-			_ = sb.Append("<rect x=\"").Append(x).Append("\" y=\"").Append(cy - 9)
-				.Append("\" width=\"").Append(w).Append("\" height=\"18\" rx=\"9\" ry=\"9\" fill=\"")
-				.Append(Spec.Badge == BadgeKind.Chip ? role.Soft : role.Band).Append("\" />");
+			_ = sb
+				.Append("<rect x=\"")
+				.Append(x)
+				.Append("\" y=\"")
+				.Append(cy - 9)
+				.Append("\" width=\"")
+				.Append(w)
+				.Append("\" height=\"18\" rx=\"9\" ry=\"9\" fill=\"")
+				.Append(Spec.Badge == BadgeKind.Chip ? role.Soft : role.Band)
+				.Append("\" />");
 		}
 
 		var dotX = Spec.Badge == BadgeKind.Bracket ? x + dotR : x + 9;
-		_ = sb.Append("<circle cx=\"").Append(dotX).Append("\" cy=\"").Append(cy).Append("\" r=\"").Append(dotR)
-			.Append("\" fill=\"").Append(role.Ink).Append("\" />");
+		_ = sb
+			.Append("<circle cx=\"")
+			.Append(dotX)
+			.Append("\" cy=\"")
+			.Append(cy)
+			.Append("\" r=\"")
+			.Append(dotR)
+			.Append("\" fill=\"")
+			.Append(role.Ink)
+			.Append("\" />");
 		AppendText(sb, word, dotX + dotR + 4, cy, TypeRole.Tag, role.Ink, anchor: "start");
 		return Spec.Badge == BadgeKind.Bracket ? textW + (dotR * 2) + 4 : w;
 	}

@@ -77,23 +77,65 @@ internal static class VisualLanguage
 		var w = ErSvgRenderer.LabelBoxWidth(textWidth);
 		var h = Math.Max(DesignSystem.PillHeight, textHeight + 6);
 		var r = h / 2;
-		_ = sb.Append("<rect x=\"").Append(centreX - (w / 2)).Append("\" y=\"").Append(centreY - (h / 2))
-			.Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
-			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"").Append(RenderConstants.StrokeWidths.Connector).Append("\" />");
+		_ = sb
+			.Append("<rect x=\"")
+			.Append(centreX - (w / 2))
+			.Append("\" y=\"")
+			.Append(centreY - (h / 2))
+			.Append("\" width=\"")
+			.Append(w)
+			.Append("\" height=\"")
+			.Append(h)
+			.Append("\" rx=\"")
+			.Append(r)
+			.Append("\" ry=\"")
+			.Append(r)
+			.Append("\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"")
+			.Append(RenderConstants.StrokeWidths.Connector)
+			.Append("\" />");
 	}
 
 	/// <summary>
 	/// The tinted header of an entity / class box: a path with rounded top corners and a square bottom, so the box border drawn
 	/// on top reads as one rounded rectangle.
 	/// </summary>
-	internal static void AppendHeaderPath(StringBuilder sb, double x, double y, double width, double headerHeight, double radius, string fill) => _ = sb.Append("  <path d=\"M").Append(x).Append(',').Append(y + headerHeight)
-			.Append(" L").Append(x).Append(',').Append(y + radius)
-			.Append(" Q").Append(x).Append(',').Append(y).Append(' ').Append(x + radius).Append(',').Append(y)
-			.Append(" L").Append(x + width - radius).Append(',').Append(y)
-			.Append(" Q").Append(x + width).Append(',').Append(y).Append(' ').Append(x + width).Append(',').Append(y + radius)
-			.Append(" L").Append(x + width).Append(',').Append(y + headerHeight)
-			.Append(" Z\" fill=\"").Append(fill).Append("\" />\n");
+	internal static void AppendHeaderPath(StringBuilder sb, double x, double y, double width, double headerHeight, double radius, string fill) =>
+		_ = sb
+			.Append("  <path d=\"M")
+			.Append(x)
+			.Append(',')
+			.Append(y + headerHeight)
+			.Append(" L")
+			.Append(x)
+			.Append(',')
+			.Append(y + radius)
+			.Append(" Q")
+			.Append(x)
+			.Append(',')
+			.Append(y)
+			.Append(' ')
+			.Append(x + radius)
+			.Append(',')
+			.Append(y)
+			.Append(" L")
+			.Append(x + width - radius)
+			.Append(',')
+			.Append(y)
+			.Append(" Q")
+			.Append(x + width)
+			.Append(',')
+			.Append(y)
+			.Append(' ')
+			.Append(x + width)
+			.Append(',')
+			.Append(y + radius)
+			.Append(" L")
+			.Append(x + width)
+			.Append(',')
+			.Append(y + headerHeight)
+			.Append(" Z\" fill=\"")
+			.Append(fill)
+			.Append("\" />\n");
 
 	/// <summary>Point halfway along a polyline's length (not the middle vertex).</summary>
 	internal static Point PathMidpoint(IReadOnlyList<Point> points)
@@ -114,9 +156,7 @@ internal static class VisualLanguage
 			if (remaining <= segLen)
 			{
 				var t = remaining / segLen;
-				return new Point(
-					points[i - 1].X + (t * (points[i].X - points[i - 1].X)),
-					points[i - 1].Y + (t * (points[i].Y - points[i - 1].Y)));
+				return new Point(points[i - 1].X + (t * (points[i].X - points[i - 1].X)), points[i - 1].Y + (t * (points[i].Y - points[i - 1].Y)));
 			}
 
 			remaining -= segLen;
@@ -125,8 +165,7 @@ internal static class VisualLanguage
 		return points[^1];
 	}
 
-	private static double Dist(Point a, Point b) =>
-		Math.Sqrt(((b.X - a.X) * (b.X - a.X)) + ((b.Y - a.Y) * (b.Y - a.Y)));
+	private static double Dist(Point a, Point b) => Math.Sqrt(((b.X - a.X) * (b.X - a.X)) + ((b.Y - a.Y) * (b.Y - a.Y)));
 
 	private static readonly string NoteTextAttrs = RenderConstants.TextAttrs.EdgeLabelCenterFill + "var(--_accent-text)\"";
 
@@ -136,22 +175,40 @@ internal static class VisualLanguage
 		_ = sb.Append("\n<g class=\"note\">");
 		if (note.LineFrom is { } lf && note.LineTo is { } lt)
 		{
-			_ = sb.Append("\n  <line x1=\"").Append(lf.X).Append("\" y1=\"").Append(lf.Y)
-				.Append("\" x2=\"").Append(lt.X).Append("\" y2=\"").Append(lt.Y)
+			_ = sb
+				.Append("\n  <line x1=\"")
+				.Append(lf.X)
+				.Append("\" y1=\"")
+				.Append(lf.Y)
+				.Append("\" x2=\"")
+				.Append(lt.X)
+				.Append("\" y2=\"")
+				.Append(lt.Y)
 				.Append("\" stroke=\"var(--_accent-stroke)\" stroke-width=\"1.5\" stroke-dasharray=\"4 3\" />");
 		}
 
-		_ = sb.Append("\n  <rect x=\"").Append(note.X).Append("\" y=\"").Append(note.Y)
-			.Append("\" width=\"").Append(note.Width).Append("\" height=\"").Append(note.Height)
+		_ = sb
+			.Append("\n  <rect x=\"")
+			.Append(note.X)
+			.Append("\" y=\"")
+			.Append(note.Y)
+			.Append("\" width=\"")
+			.Append(note.Width)
+			.Append("\" height=\"")
+			.Append(note.Height)
 			.Append("\" rx=\"6\" ry=\"6\"")
 			.Append(" fill=\"var(--_accent-fill)\" stroke=\"var(--_accent-stroke)\" stroke-width=\"")
-			.Append(RenderConstants.StrokeWidths.InnerBox).Append("\" />\n  ");
+			.Append(RenderConstants.StrokeWidths.InnerBox)
+			.Append("\" />\n  ");
 
 		MultilineUtils.AppendMultilineText(
-			sb, note.Text,
-			note.X + (note.Width / 2), note.Y + (note.Height / 2),
+			sb,
+			note.Text,
+			note.X + (note.Width / 2),
+			note.Y + (note.Height / 2),
 			RenderConstants.FontSizes.EdgeLabel,
-			NoteTextAttrs);
+			NoteTextAttrs
+		);
 		_ = sb.Append("\n</g>");
 	}
 }

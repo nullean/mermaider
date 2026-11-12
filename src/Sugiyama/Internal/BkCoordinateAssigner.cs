@@ -262,7 +262,6 @@ internal static class BkCoordinateAssigner
 		}
 	}
 
-
 	private static bool EnforceSpacing(Lg lg, double[] x, double nodeSpacing)
 	{
 		var changed = false;
@@ -321,9 +320,9 @@ internal static class BkCoordinateAssigner
 		}
 	}
 
-
-	private static double Gap(Lg g, int u, int w, double nodeSpacing)
-		=> g.Virt[u] && g.Virt[w] && g.W[u] > 0 && g.W[w] > 0 ? nodeSpacing * 1.2 // two label columns: keep their labels visibly apart
+	private static double Gap(Lg g, int u, int w, double nodeSpacing) =>
+		g.Virt[u] && g.Virt[w] && g.W[u] > 0 && g.W[w] > 0
+			? nodeSpacing * 1.2 // two label columns: keep their labels visibly apart
 			: (g.Virt[u] || g.Virt[w]) ? nodeSpacing * 0.75 : nodeSpacing;
 
 	// ---------------------------------------------------------------- structure
@@ -369,11 +368,7 @@ internal static class BkCoordinateAssigner
 				dummyCount++;
 		}
 
-		var lg = new Lg
-		{
-			OrigN = n0,
-			N = n0 + dummyCount,
-		};
+		var lg = new Lg { OrigN = n0, N = n0 + dummyCount, };
 		lg.W = new double[lg.N];
 		lg.Virt = new bool[lg.N];
 		lg.Layer = new int[lg.N];
@@ -558,9 +553,9 @@ internal static class BkCoordinateAssigner
 
 		double PortFacing(int a, int b)
 		{
-			var off = edgeOf.TryGetValue(((long)a * g.N) + b, out var e1) ? g.OutOff[e1]
-				: edgeOf.TryGetValue(((long)b * g.N) + a, out var e2) ? g.InOff[e2]
-				: g.W[a] / 2;
+			var off = edgeOf.TryGetValue(((long)a * g.N) + b, out var e1)
+				? g.OutOff[e1]
+				: edgeOf.TryGetValue(((long)b * g.N) + a, out var e2) ? g.InOff[e2] : g.W[a] / 2;
 			return leftward ? off : g.W[a] - off;
 		}
 
@@ -669,8 +664,19 @@ internal static class BkCoordinateAssigner
 	}
 
 	private static void PlaceBlock(
-		Lg g, int[][] view, int[] pos, int[] root, int[] align, double[] inner,
-		int[] sink, double[] shift, double[] x, bool[] placed, double nodeSpacing, int v)
+		Lg g,
+		int[][] view,
+		int[] pos,
+		int[] root,
+		int[] align,
+		double[] inner,
+		int[] sink,
+		double[] shift,
+		double[] x,
+		bool[] placed,
+		double nodeSpacing,
+		int v
+	)
 	{
 		placed[v] = true;
 
@@ -680,7 +686,8 @@ internal static class BkCoordinateAssigner
 		{
 			minInner = Math.Min(minInner, inner[t]);
 			t = align[t];
-		} while (t != v);
+		}
+		while (t != v);
 		x[v] = -minInner;
 
 		var w = v;
@@ -713,7 +720,8 @@ internal static class BkCoordinateAssigner
 				}
 			}
 			w = align[w];
-		} while (w != v);
+		}
+		while (w != v);
 	}
 
 	/// <summary>

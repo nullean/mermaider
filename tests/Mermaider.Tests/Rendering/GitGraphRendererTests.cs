@@ -4,7 +4,8 @@ namespace Mermaider.Tests.Rendering;
 
 public class GitGraphRendererTests
 {
-	private const string BasicGitGraph = """
+	private const string BasicGitGraph =
+		"""
 		gitGraph
 		commit
 		commit

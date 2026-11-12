@@ -8,13 +8,7 @@ public class BlockParserTests
 	[Test]
 	public void Parses_grid_nodes_and_columns()
 	{
-		var diagram = BlockParser.Parse(
-		[
-			"block-beta",
-			"columns 3",
-			"A[\"A\"] B[\"B\"] C[\"C\"]",
-			"D[\"D\"] E[\"E\"] F[\"F\"]",
-		]);
+		var diagram = BlockParser.Parse(["block-beta", "columns 3", "A[\"A\"] B[\"B\"] C[\"C\"]", "D[\"D\"] E[\"E\"] F[\"F\"]",]);
 
 		diagram.Columns.Should().Be(3);
 		diagram.Nodes.Should().HaveCount(6);
@@ -36,12 +30,7 @@ public class BlockParserTests
 	[Test]
 	public void Defaults_columns_to_one()
 	{
-		var diagram = BlockParser.Parse(
-		[
-			"block-beta",
-			"A[\"First\"]",
-			"B[\"Second\"]",
-		]);
+		var diagram = BlockParser.Parse(["block-beta", "A[\"First\"]", "B[\"Second\"]",]);
 
 		diagram.Columns.Should().Be(1);
 		diagram.Nodes.Should().HaveCount(2);
@@ -50,12 +39,7 @@ public class BlockParserTests
 	[Test]
 	public void Parses_id_only_and_unquoted_labels()
 	{
-		var diagram = BlockParser.Parse(
-		[
-			"block-beta",
-			"columns 2",
-			"A B[Label]",
-		]);
+		var diagram = BlockParser.Parse(["block-beta", "columns 2", "A B[Label]",]);
 
 		diagram.Nodes.Should().HaveCount(2);
 		diagram.Nodes[0].Id.Should().Be("A");
@@ -67,11 +51,7 @@ public class BlockParserTests
 	[Test]
 	public void Parses_rounded_paren_form()
 	{
-		var diagram = BlockParser.Parse(
-		[
-			"block-beta",
-			"R(\"Rounded\")",
-		]);
+		var diagram = BlockParser.Parse(["block-beta", "R(\"Rounded\")",]);
 
 		diagram.Nodes.Should().HaveCount(1);
 		diagram.Nodes[0].Rounded.Should().BeTrue();
@@ -81,32 +61,17 @@ public class BlockParserTests
 	[Test]
 	public void Parses_title_line_and_compact_header()
 	{
-		var withLine = BlockParser.Parse(
-		[
-			"block-beta",
-			"title Grid Layout",
-			"A[\"A\"]",
-		]);
+		var withLine = BlockParser.Parse(["block-beta", "title Grid Layout", "A[\"A\"]",]);
 		withLine.Title.Should().Be("Grid Layout");
 
-		var compact = BlockParser.Parse(
-		[
-			"block-beta title Compact",
-			"A[\"A\"]",
-		]);
+		var compact = BlockParser.Parse(["block-beta title Compact", "A[\"A\"]",]);
 		compact.Title.Should().Be("Compact");
 	}
 
 	[Test]
 	public void Parses_simple_edges()
 	{
-		var diagram = BlockParser.Parse(
-		[
-			"block-beta",
-			"columns 2",
-			"A[\"A\"] B[\"B\"]",
-			"A --> B",
-		]);
+		var diagram = BlockParser.Parse(["block-beta", "columns 2", "A[\"A\"] B[\"B\"]", "A --> B",]);
 
 		diagram.Edges.Should().HaveCount(1);
 		diagram.Edges[0].From.Should().Be("A");
@@ -116,11 +81,7 @@ public class BlockParserTests
 	[Test]
 	public void Skips_duplicate_ids()
 	{
-		var diagram = BlockParser.Parse(
-		[
-			"block-beta",
-			"A[\"First\"] A[\"Second\"]",
-		]);
+		var diagram = BlockParser.Parse(["block-beta", "A[\"First\"] A[\"Second\"]",]);
 
 		diagram.Nodes.Should().HaveCount(1);
 		diagram.Nodes[0].Label.Should().Be("First");
@@ -129,12 +90,7 @@ public class BlockParserTests
 	[Test]
 	public void Parses_space_spacers()
 	{
-		var diagram = BlockParser.Parse(
-		[
-			"block-beta",
-			"columns 3",
-			"A[\"A\"] space B[\"B\"]",
-		]);
+		var diagram = BlockParser.Parse(["block-beta", "columns 3", "A[\"A\"] space B[\"B\"]",]);
 
 		diagram.Nodes.Should().HaveCount(3);
 		diagram.Nodes[1].IsSpace.Should().BeTrue();
@@ -146,12 +102,7 @@ public class BlockParserTests
 	[Test]
 	public void Literal_space_prefixed_ids_are_not_spacers()
 	{
-		var diagram = BlockParser.Parse(
-		[
-			"block-beta",
-			"columns 2",
-			"__space_0[\"Slot\"] space",
-		]);
+		var diagram = BlockParser.Parse(["block-beta", "columns 2", "__space_0[\"Slot\"] space",]);
 
 		diagram.Nodes.Should().HaveCount(2);
 		diagram.Nodes[0].Id.Should().Be("__space_0");
@@ -163,12 +114,7 @@ public class BlockParserTests
 	[Test]
 	public void Ignores_invalid_columns()
 	{
-		var diagram = BlockParser.Parse(
-		[
-			"block-beta",
-			"columns 0",
-			"A[\"A\"]",
-		]);
+		var diagram = BlockParser.Parse(["block-beta", "columns 0", "A[\"A\"]",]);
 
 		diagram.Columns.Should().Be(1);
 	}

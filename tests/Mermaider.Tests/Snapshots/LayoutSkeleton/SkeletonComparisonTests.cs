@@ -63,76 +63,73 @@ public class SkeletonComparisonTests
 	// formatting. Every slug returned by ErSlugsWithReferences() must have an entry; a missing
 	// entry fails loudly (see Layout_matches_mermaidjs_ordering) rather than silently skipping,
 	// so a newly-added ER example can't accidentally go uncalibrated.
-	private static readonly IReadOnlyDictionary<string, (double MinLayerAgreement, double MinWithinLayerOrderAgreement)> Baselines =
-		new Dictionary<string, (double, double)>(StringComparer.Ordinal)
-		{
-			["db-erd-02-shared-vocab"] = (0.95, 0.0), // ELK order is seed-dependent here; ours is its mirror image (mirror-tolerant 100%)
-			["db-erd-05-building-blocks"] = (0.90, 0.25),
-			["db-erd-06-catalog"] = (0.95, 0.95),
-			["db-erd-07-source"] = (0.95, 0.95),
-			["db-erd-08-docset"] = (0.95, 0.95),
-			["db-erd-09-content"] = (0.95, 0.95),
-			["db-erd-10-navigation"] = (0.95, 0.95),
-			["db-erd-11-link-graph"] = (0.95, 0.95),
-			["db-erd-12-assembly"] = (0.95, 0.95),
-			["db-erd-13-codex"] = (0.95, 0.95),
-			["db-erd-14-release-notes"] = (0.95, 0.95),
-			["db-erd-15-api-search"] = (0.95, 0.80), // ELK order is seed-dependent; fewer crossings than the single reference draw
-			["db-erd-16-relationships-overview"] = (0.95, 0.10), // ELK order is seed-dependent; ours is near-mirror of the reference (mirror-tolerant 85%) with 0 crossings
-			["db-erd-17-catalog"] = (0.95, 0.95),
-			["db-erd-18-source"] = (0.95, 0.15),
-			// Unifying rank assignment across disconnected components (dagre always connects every
-			// top-level node to a dummy root — see SugiyamaLayout's SeparateComponents=false comment)
-			// fixed layer agreement to 100% for both, at the cost of within-layer order agreement —
-			// an explicitly-documented both-valid tie-break dimension (see class remarks), not a bug.
-			["db-erd-19-docset"] = (0.95, 0.25),
-			["db-erd-20-content"] = (0.95, 0.15), // ELK order is seed-dependent; judged on crossings (see ErEdgeCrossingTests)
-			["db-erd-21-navigation"] = (0.90, 0.78),
-			["db-erd-22-link-graph"] = (0.95, 0.95),
-			["db-erd-23-publishing"] = (0.95, 0.25),
-			// UseRealFirstTiebreaker (ELK NODES_AND_EDGES real-before-virtual seed ordering) improved
-			// er-complex COMMENT/TAG from 0% to 100%, at the cost of a local-minimum shift here
-			// (was 100% when virtual-first anchored these layers; real-first finds a different minimum).
-			["db-erd-24-codex"] = (0.95, 0.70),
-			// Network simplex improved this: 78%/60% -> 99%/76%. DFS-from-sources initial order
-			// subsequently changed within-layer convergence: 99%/76% -> 99%/56%. The layer
-			// agreement is excellent; the order difference is a valid-but-different local minimum.
-			["db-erd-25-release-notes"] = (0.95, 0.52),
-			// UseRealFirstTiebreaker shifts the local minimum in diagrams that have long skip-layer
-			// edges whose virtual nodes previously anchored the ordering; 56% matches the new
-			// local minimum under ELK's real-before-virtual seeding.
-			["db-erd-26-api-reference"] = (0.95, 0.10), // ELK order is seed-dependent; ours mirrors the reference (mirror-tolerant 89%)
-			["db-erd-27-search"] = (0.95, 0.95),
-			["er-aliases"] = (0.95, 0.95),
-			["er-basic"] = (0.95, 0.95),
-			// UseRealFirstTiebreaker (ELK NODES_AND_EDGES real-before-virtual seed ordering) fixes
-			// COMMENT/TAG sibling order: virtual node for USER→COMMENT (edge idx 2) now seeds after
-			// POST (node idx 1), giving barycenters TAG=0 COMMENT=0.5, matching mjs exactly.
-			["er-complex"] = (0.95, 0.95),
-			["er-direction"] = (0.95, 0.95),
-		};
+	private static readonly IReadOnlyDictionary<string, (double MinLayerAgreement, double MinWithinLayerOrderAgreement)> Baselines = new Dictionary<string, (double, double)>(
+		StringComparer.Ordinal
+	)
+	{
+		["db-erd-02-shared-vocab"] = (0.95, 0.0), // ELK order is seed-dependent here; ours is its mirror image (mirror-tolerant 100%)
+		["db-erd-05-building-blocks"] = (0.90, 0.25),
+		["db-erd-06-catalog"] = (0.95, 0.95),
+		["db-erd-07-source"] = (0.95, 0.95),
+		["db-erd-08-docset"] = (0.95, 0.95),
+		["db-erd-09-content"] = (0.95, 0.95),
+		["db-erd-10-navigation"] = (0.95, 0.95),
+		["db-erd-11-link-graph"] = (0.95, 0.95),
+		["db-erd-12-assembly"] = (0.95, 0.95),
+		["db-erd-13-codex"] = (0.95, 0.95),
+		["db-erd-14-release-notes"] = (0.95, 0.95),
+		["db-erd-15-api-search"] = (0.95, 0.80), // ELK order is seed-dependent; fewer crossings than the single reference draw
+		["db-erd-16-relationships-overview"] =
+			(0.95, 0.10), // ELK order is seed-dependent; ours is near-mirror of the reference (mirror-tolerant 85%) with 0 crossings
+		["db-erd-17-catalog"] = (0.95, 0.95),
+		["db-erd-18-source"] = (0.95, 0.15),
+		// Unifying rank assignment across disconnected components (dagre always connects every
+		// top-level node to a dummy root — see SugiyamaLayout's SeparateComponents=false comment)
+		// fixed layer agreement to 100% for both, at the cost of within-layer order agreement —
+		// an explicitly-documented both-valid tie-break dimension (see class remarks), not a bug.
+		["db-erd-19-docset"] = (0.95, 0.25),
+		["db-erd-20-content"] = (0.95, 0.15), // ELK order is seed-dependent; judged on crossings (see ErEdgeCrossingTests)
+		["db-erd-21-navigation"] = (0.90, 0.78),
+		["db-erd-22-link-graph"] = (0.95, 0.95),
+		["db-erd-23-publishing"] = (0.95, 0.25),
+		// UseRealFirstTiebreaker (ELK NODES_AND_EDGES real-before-virtual seed ordering) improved
+		// er-complex COMMENT/TAG from 0% to 100%, at the cost of a local-minimum shift here
+		// (was 100% when virtual-first anchored these layers; real-first finds a different minimum).
+		["db-erd-24-codex"] = (0.95, 0.70),
+		// Network simplex improved this: 78%/60% -> 99%/76%. DFS-from-sources initial order
+		// subsequently changed within-layer convergence: 99%/76% -> 99%/56%. The layer
+		// agreement is excellent; the order difference is a valid-but-different local minimum.
+		["db-erd-25-release-notes"] = (0.95, 0.52),
+		// UseRealFirstTiebreaker shifts the local minimum in diagrams that have long skip-layer
+		// edges whose virtual nodes previously anchored the ordering; 56% matches the new
+		// local minimum under ELK's real-before-virtual seeding.
+		["db-erd-26-api-reference"] = (0.95, 0.10), // ELK order is seed-dependent; ours mirrors the reference (mirror-tolerant 89%)
+		["db-erd-27-search"] = (0.95, 0.95),
+		["er-aliases"] = (0.95, 0.95),
+		["er-basic"] = (0.95, 0.95),
+		// UseRealFirstTiebreaker (ELK NODES_AND_EDGES real-before-virtual seed ordering) fixes
+		// COMMENT/TAG sibling order: virtual node for USER→COMMENT (edge idx 2) now seeds after
+		// POST (node idx 1), giving barycenters TAG=0 COMMENT=0.5, matching mjs exactly.
+		["er-complex"] = (0.95, 0.95),
+		["er-direction"] = (0.95, 0.95),
+	};
 
-	private static string GetSourceDirectory([CallerFilePath] string path = "") =>
-		Path.GetDirectoryName(path)!;
+	private static string GetSourceDirectory([CallerFilePath] string path = "") => Path.GetDirectoryName(path)!;
 
 	// Committed skeleton IR files for the mermaid.js reference — generated by MmdcReferenceTests
 	// and checked in so this suite runs in CI without any SVG or node dependency.
-	private static readonly string IrReferenceDir =
-		Path.Combine(GetSourceDirectory(), "Reference");
+	private static readonly string IrReferenceDir = Path.Combine(GetSourceDirectory(), "Reference");
 
 	// Gitignored SVG dir — only used for Calibration_report() where the caller already has SVGs.
-	private static readonly string SvgReferenceDir =
-		Path.Combine(GetSourceDirectory(), "..", "Reference", "mermaidjs");
+	private static readonly string SvgReferenceDir = Path.Combine(GetSourceDirectory(), "..", "Reference", "mermaidjs");
 
 	public static IEnumerable<string> ErSlugsWithReferences()
 	{
 		if (!Directory.Exists(IrReferenceDir))
 			return [];
-		var erSlugs = DiagramExamples.All
-			.Where(d => d.Category == DiagramCategory.Er)
-			.Select(d => d.Slug)
-			.ToHashSet(StringComparer.Ordinal);
-		return Directory.EnumerateFiles(IrReferenceDir, "*.mjs.ir.txt")
+		var erSlugs = DiagramExamples.All.Where(d => d.Category == DiagramCategory.Er).Select(d => d.Slug).ToHashSet(StringComparer.Ordinal);
+		return Directory
+			.EnumerateFiles(IrReferenceDir, "*.mjs.ir.txt")
 			.Select(p => Path.GetFileName(p)[..^".mjs.ir.txt".Length])
 			.Where(slug => erSlugs.Contains(slug))
 			.Order(StringComparer.Ordinal);
@@ -156,8 +153,8 @@ public class SkeletonComparisonTests
 		var irPath = Path.Combine(IrReferenceDir, $"{slug}.mjs.ir.txt");
 		if (!File.Exists(irPath))
 			throw new InvalidOperationException(
-				$"Missing committed IR reference for '{slug}' at {irPath}. " +
-				"Run MmdcReferenceTests.Generate_reference to regenerate.");
+				$"Missing committed IR reference for '{slug}' at {irPath}. " + "Run MmdcReferenceTests.Generate_reference to regenerate."
+			);
 		var mjsSkeleton = LayoutSkeleton.Parse(await File.ReadAllTextAsync(irPath));
 
 		var layerAgreement = SkeletonComparer.LayerAgreement(mjsSkeleton, mermaiderSkeleton);
@@ -165,14 +162,22 @@ public class SkeletonComparisonTests
 		var mirrorOrder = SkeletonComparer.MirrorToleratedOrderAgreement(mjsSkeleton, mermaiderSkeleton);
 		var sideAgreement = SkeletonComparer.SideAgreement(mjsSkeleton, mermaiderSkeleton);
 
-		Baselines.TryGetValue(slug, out var baseline).Should().BeTrue(
-			$"'{slug}' has no entry in {nameof(Baselines)} — run Calibration_report(), inspect its score " +
-			"(layer={layerAgreement:P0}, order={orderAgreement:P0}), and add a floored entry for it");
+		Baselines
+			.TryGetValue(slug, out var baseline)
+			.Should()
+			.BeTrue(
+				$"'{slug}' has no entry in {nameof(Baselines)} — run Calibration_report(), inspect its score " +
+					"(layer={layerAgreement:P0}, order={orderAgreement:P0}), and add a floored entry for it"
+			);
 
-		layerAgreement.Should().BeGreaterThanOrEqualTo(baseline.MinLayerAgreement,
-			$"'{slug}' entity layer placement regressed vs its calibrated baseline (got {layerAgreement:P0})");
-		orderAgreement.Should().BeGreaterThanOrEqualTo(baseline.MinWithinLayerOrderAgreement,
-			$"'{slug}' within-layer ordering regressed vs its calibrated baseline (got {orderAgreement:P0}); mirror-tolerant={mirrorOrder:P0}, sides={sideAgreement:P0}");
+		layerAgreement.Should().BeGreaterThanOrEqualTo(
+			baseline.MinLayerAgreement,
+			$"'{slug}' entity layer placement regressed vs its calibrated baseline (got {layerAgreement:P0})"
+		);
+		orderAgreement.Should().BeGreaterThanOrEqualTo(
+			baseline.MinWithinLayerOrderAgreement,
+			$"'{slug}' within-layer ordering regressed vs its calibrated baseline (got {orderAgreement:P0}); mirror-tolerant={mirrorOrder:P0}, sides={sideAgreement:P0}"
+		);
 	}
 
 	// Writes a Markdown quality report to Tests/Snapshots/Reference/mermaidjs/skeleton-comparison-report.md
@@ -210,15 +215,16 @@ public class SkeletonComparisonTests
 		}
 
 		var sb = new StringBuilder();
-		sb.AppendLine(System.Globalization.CultureInfo.InvariantCulture,
-			$"# ER layout skeleton agreement vs mermaid.js — {rows.Count} diagrams");
+		sb.AppendLine(System.Globalization.CultureInfo.InvariantCulture, $"# ER layout skeleton agreement vs mermaid.js — {rows.Count} diagrams");
 		sb.AppendLine();
 		sb.AppendLine("| Slug | Layer | Order | Order (mirror-tol.) | Sides | Routes | Ports | Own inversions |");
 		sb.AppendLine("|---|---|---|---|---|---|---|---|");
 		foreach (var r in rows.OrderBy(r => r.Slug, StringComparer.Ordinal))
 		{
 			var cell = r.Error is null
-				? FormattableString.Invariant($"| {r.Slug} | {r.Layer:P0} | {r.Order:P0} | {r.Mirror:P0} | {r.Sides:P0} | {r.Routes:P0} | {r.Ports:P0} | {r.Inversions} |")
+				? FormattableString.Invariant(
+					$"| {r.Slug} | {r.Layer:P0} | {r.Order:P0} | {r.Mirror:P0} | {r.Sides:P0} | {r.Routes:P0} | {r.Ports:P0} | {r.Inversions} |"
+				)
 				: $"| {r.Slug} | error: {r.Error} | — | — | — | — | — | {r.Inversions} |";
 			sb.AppendLine(cell);
 		}

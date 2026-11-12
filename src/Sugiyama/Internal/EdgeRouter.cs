@@ -10,11 +10,7 @@ namespace Sugiyama.Internal;
 /// </summary>
 internal static class EdgeRouter
 {
-	internal sealed class RoutedEdge(
-		int originalIndex,
-		bool reversed,
-		List<LayoutPoint> points,
-		LayoutPoint? labelPosition)
+	internal sealed class RoutedEdge(int originalIndex, bool reversed, List<LayoutPoint> points, LayoutPoint? labelPosition)
 	{
 		internal int OriginalIndex { get; } = originalIndex;
 		internal bool Reversed { get; } = reversed;
@@ -33,11 +29,13 @@ internal static class EdgeRouter
 	private const double MinGapFromNode = 22;
 
 	internal static List<RoutedEdge> Run(
-		GraphBuffer graph, bool useSideRouting = false,
+		GraphBuffer graph,
+		bool useSideRouting = false,
 		IReadOnlyList<LayoutEdge>? inputEdges = null,
 		bool strictTopDownFanout = false,
 		bool naturalBackEdgeRouting = false,
-		bool forceBottomExitFanOut = false)
+		bool forceBottomExitFanOut = false
+	)
 	{
 		var edgeChains = BuildEdgeChains(graph);
 		var results = new List<RoutedEdge>(edgeChains.Count);
@@ -361,7 +359,12 @@ internal static class EdgeRouter
 	private const double SnapThreshold = 16;
 
 	private static List<LayoutPoint> RouteChain(
-		GraphBuffer graph, List<int> chain, bool useSideRouting, bool strictTopDownFanout = false, bool forceBottomExitFanOut = false)
+		GraphBuffer graph,
+		List<int> chain,
+		bool useSideRouting,
+		bool strictTopDownFanout = false,
+		bool forceBottomExitFanOut = false
+	)
 	{
 		var points = new List<LayoutPoint>(chain.Count * 2);
 
@@ -379,9 +382,7 @@ internal static class EdgeRouter
 			else if (i == chain.Count - 1)
 			{
 				var chainSource = chain[0];
-				var srcCX = chainSource < graph.RealNodeCount
-					? graph.X[chainSource] + (graph.NodeWidths[chainSource] / 2.0)
-					: graph.X[chainSource];
+				var srcCX = chainSource < graph.RealNodeCount ? graph.X[chainSource] + (graph.NodeWidths[chainSource] / 2.0) : graph.X[chainSource];
 				AddTargetPort(graph, points, node, cx, cy, isReal, srcCX);
 			}
 			else
@@ -418,9 +419,7 @@ internal static class EdgeRouter
 
 	private const double SideEntryThreshold = 20;
 
-	private static void AddTargetPort(
-		GraphBuffer graph, List<LayoutPoint> points,
-		int node, double cx, double cy, bool isReal, double sourceCX = double.NaN)
+	private static void AddTargetPort(GraphBuffer graph, List<LayoutPoint> points, int node, double cx, double cy, bool isReal, double sourceCX = double.NaN)
 	{
 		var prevPoint = points[^1];
 		var portY = graph.Y[node];
@@ -517,9 +516,17 @@ internal static class EdgeRouter
 	/// source node (which becomes top/bottom after direction transform).
 	/// </summary>
 	private static void AddSourcePort(
-		GraphBuffer graph, List<LayoutPoint> points, List<int> chain,
-		int node, double cx, double cy, bool isReal, bool useSideRouting,
-		bool strictTopDownFanout = false, bool forceBottomExitFanOut = false)
+		GraphBuffer graph,
+		List<LayoutPoint> points,
+		List<int> chain,
+		int node,
+		double cx,
+		double cy,
+		bool isReal,
+		bool useSideRouting,
+		bool strictTopDownFanout = false,
+		bool forceBottomExitFanOut = false
+	)
 	{
 		if (!isReal || chain.Count < 2)
 		{
@@ -530,9 +537,7 @@ internal static class EdgeRouter
 		}
 
 		var nextNode = chain[1];
-		var nextCX = nextNode < graph.RealNodeCount
-			? graph.X[nextNode] + (graph.NodeWidths[nextNode] / 2.0)
-			: graph.X[nextNode];
+		var nextCX = nextNode < graph.RealNodeCount ? graph.X[nextNode] + (graph.NodeWidths[nextNode] / 2.0) : graph.X[nextNode];
 
 		var deltaX = nextCX - cx;
 		var halfW = graph.NodeWidths[node] / 2.0;
@@ -557,17 +562,11 @@ internal static class EdgeRouter
 		else if (HasFanOut(graph, node))
 		{
 			var target = chain[^1];
-			var tgtCX = target < graph.RealNodeCount
-				? graph.X[target] + (graph.NodeWidths[target] / 2.0)
-				: graph.X[target];
+			var tgtCX = target < graph.RealNodeCount ? graph.X[target] + (graph.NodeWidths[target] / 2.0) : graph.X[target];
 
-			var goRight = Math.Abs(deltaX) > SideEntryThreshold
-				? deltaX > 0
-				: FanOutSide(graph, node, target);
+			var goRight = Math.Abs(deltaX) > SideEntryThreshold ? deltaX > 0 : FanOutSide(graph, node, target);
 
-			var sideX = goRight
-				? graph.X[node] + graph.NodeWidths[node]
-				: graph.X[node];
+			var sideX = goRight ? graph.X[node] + graph.NodeWidths[node] : graph.X[node];
 
 			// Guard: fall back to bottom-center if the horizontal side-exit segment
 			// would pass through a same-layer sibling, or if the exit point overshoots
@@ -613,9 +612,7 @@ internal static class EdgeRouter
 			if (forceBottomExitFanOut && chain.Count > 2 && HasSidewaysForwardSibling(graph, node, cx))
 			{
 				var finalTarget = chain[^1];
-				var finalTgtCX = finalTarget < graph.RealNodeCount
-					? graph.X[finalTarget] + (graph.NodeWidths[finalTarget] / 2.0)
-					: graph.X[finalTarget];
+				var finalTgtCX = finalTarget < graph.RealNodeCount ? graph.X[finalTarget] + (graph.NodeWidths[finalTarget] / 2.0) : graph.X[finalTarget];
 				if (Math.Abs(finalTgtCX - cx) <= SideEntryThreshold)
 				{
 					points.Add(new LayoutPoint(graph.X[node], graph.Y[node] + graph.NodeHeights[node]));
@@ -837,13 +834,7 @@ internal static class EdgeRouter
 				return RouteBackEdge(graph, source, target);
 		}
 
-		return
-		[
-			new(srcCX, srcBottom),
-			new(srcCX, midY),
-			new(tgtCX, midY),
-			new(tgtCX, tgtTop),
-		];
+		return [new(srcCX, srcBottom), new(srcCX, midY), new(tgtCX, midY), new(tgtCX, tgtTop),];
 	}
 
 	private static List<LayoutPoint> RouteBackEdge(GraphBuffer graph, int source, int target)
@@ -865,13 +856,7 @@ internal static class EdgeRouter
 		var srcRight = graph.X[source] + graph.NodeWidths[source];
 		var tgtRight = graph.X[target] + graph.NodeWidths[target];
 
-		return
-		[
-			new(srcRight, srcCY),
-			new(detourX, srcCY),
-			new(detourX, tgtCY),
-			new(tgtRight, tgtCY),
-		];
+		return [new(srcRight, srcCY), new(detourX, srcCY), new(detourX, tgtCY), new(tgtRight, tgtCY),];
 	}
 
 	/// <summary>
@@ -889,9 +874,7 @@ internal static class EdgeRouter
 		var runStart = 0;
 		for (var i = 1; i < points.Count; i++)
 		{
-			var isCollinear = i < points.Count - 1 &&
-				Math.Abs(points[i].X - points[runStart].X) < 0.5 &&
-				Math.Abs(points[i + 1].X - points[runStart].X) < 0.5;
+			var isCollinear = i < points.Count - 1 && Math.Abs(points[i].X - points[runStart].X) < 0.5 && Math.Abs(points[i + 1].X - points[runStart].X) < 0.5;
 
 			if (!isCollinear || i == points.Count - 1)
 			{

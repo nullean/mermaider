@@ -13,9 +13,7 @@ open System.Net
 open System.Net.Http
 open System.Text
 open System.Threading.Tasks
-open ProcNet
-
-let private exec binary args = Proc.Exec(binary, List.toArray args) |> ignore
+open Proc.Fs
 
 /// The sub-path GitHub Pages serves this repo from. Empty when the site is hosted at the domain
 /// root (mermaider.nullean.net). Three files have to agree on it: this one,
@@ -127,10 +125,10 @@ let build () =
     checkPrefixesAgree ()
     let tool = ensureTool ()
 
-    let args =
-        if PathPrefix = "" then ["build"; "--path"; docsSource]
-        else ["build"; "--path"; docsSource; "--path-prefix"; PathPrefix]
-    exec tool args
+    shell {
+        if PathPrefix = "" then sh $"{tool} build --path {docsSource}"
+        else sh $"{tool} build --path {docsSource} --path-prefix {PathPrefix}"
+    }
 
     if not (Directory.Exists htmlOutput) then
         failwithf "docs-builder reported success but %s does not exist" htmlOutput
@@ -233,13 +231,11 @@ let serve (port: int) =
         |> List.exists (fun v -> not (String.IsNullOrEmpty(Environment.GetEnvironmentVariable v)))
     if not headless then
         try
-            let opener, args =
-                if OperatingSystem.IsMacOS() then "open", url
-                elif OperatingSystem.IsWindows() then "cmd", sprintf "/c start %s" url
-                else "xdg-open", url
-            Diagnostics.ProcessStartInfo(opener, Arguments = args, UseShellExecute = false)
-            |> Diagnostics.Process.Start
-            |> ignore
+            shell {
+                if OperatingSystem.IsMacOS() then sh $"open {url}"
+                elif OperatingSystem.IsWindows() then sh $"cmd /c start {url}"
+                else sh $"xdg-open {url}"
+            }
         with _ -> ()
 
     let mutable running = true

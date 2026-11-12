@@ -26,12 +26,14 @@ public class AccessibilityTests
 	[Test]
 	public void Flowchart_accDescr_adds_desc_element()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			graph TD
 			accTitle: My Flowchart
 			accDescr: This shows the login process
 			A --> B
-			""");
+			"""
+		);
 
 		svg.Should().Contain("<title>My Flowchart</title>");
 		svg.Should().Contain("<desc>This shows the login process</desc>");
@@ -40,7 +42,8 @@ public class AccessibilityTests
 	[Test]
 	public void Flowchart_accDescr_multiline()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			graph TD
 			accTitle: My Flowchart
 			accDescr {
@@ -48,7 +51,8 @@ public class AccessibilityTests
 			Line two of description
 			}
 			A --> B
-			""");
+			"""
+		);
 
 		svg.Should().Contain("<title>My Flowchart</title>");
 		svg.Should().Contain("<desc>Line one of description\nLine two of description</desc>");
@@ -117,12 +121,14 @@ public class AccessibilityTests
 	[Test]
 	public void Sequence_diagram_accessibility()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			sequenceDiagram
 			accTitle: Auth Flow
 			accDescr: Shows authentication sequence
 			Alice->>Bob: Hello
-			""");
+			"""
+		);
 
 		svg.Should().Contain("role=\"img\"");
 		svg.Should().Contain("aria-roledescription=\"sequence diagram\"");
@@ -133,12 +139,14 @@ public class AccessibilityTests
 	[Test]
 	public void Class_diagram_accessibility()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			classDiagram
 			accTitle: Class Hierarchy
 			accDescr: Shows inheritance
 			class Animal
-			""");
+			"""
+		);
 
 		svg.Should().Contain("role=\"img\"");
 		svg.Should().Contain("aria-roledescription=\"class diagram\"");
@@ -149,12 +157,14 @@ public class AccessibilityTests
 	[Test]
 	public void Er_diagram_accessibility()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			erDiagram
 			accTitle: DB Schema
 			accDescr: Database entity relationships
 			CUSTOMER ||--o{ ORDER : places
-			""");
+			"""
+		);
 
 		svg.Should().Contain("role=\"img\"");
 		svg.Should().Contain("aria-roledescription=\"ER diagram\"");
@@ -165,14 +175,16 @@ public class AccessibilityTests
 	[Test]
 	public void Pie_chart_accessibility()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			pie
 			accTitle: Market Share
 			accDescr: Browser usage statistics
 			"Chrome" : 70
 			"Firefox" : 20
 			"Other" : 10
-			""");
+			"""
+		);
 
 		svg.Should().Contain("role=\"img\"");
 		svg.Should().Contain("aria-roledescription=\"pie chart\"");
@@ -183,13 +195,15 @@ public class AccessibilityTests
 	[Test]
 	public void State_diagram_accessibility()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			stateDiagram-v2
 			accTitle: Order States
 			accDescr: Order lifecycle
 			[*] --> Pending
 			Pending --> Shipped
-			""");
+			"""
+		);
 
 		svg.Should().Contain("role=\"img\"");
 		svg.Should().Contain("aria-roledescription=\"state diagram\"");
@@ -200,7 +214,8 @@ public class AccessibilityTests
 	[Test]
 	public void Quadrant_chart_accessibility()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			quadrantChart
 			accTitle: Priority Matrix
 			accDescr: Effort vs impact analysis
@@ -210,7 +225,8 @@ public class AccessibilityTests
 			quadrant-2 Do First
 			quadrant-3 Delegate
 			quadrant-4 Eliminate
-			""");
+			"""
+		);
 
 		svg.Should().Contain("role=\"img\"");
 		svg.Should().Contain("aria-roledescription=\"quadrant chart\"");
@@ -221,13 +237,15 @@ public class AccessibilityTests
 	[Test]
 	public void Timeline_accessibility()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			timeline
 			accTitle: Project Timeline
 			accDescr: Key milestones
 			section Phase 1
 			Task A : 2024
-			""");
+			"""
+		);
 
 		svg.Should().Contain("role=\"img\"");
 		svg.Should().Contain("aria-roledescription=\"timeline\"");
@@ -238,14 +256,16 @@ public class AccessibilityTests
 	[Test]
 	public void GitGraph_accessibility()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			gitGraph
 			accTitle: Release History
 			accDescr: Git branching model
 			commit
 			branch develop
 			commit
-			""");
+			"""
+		);
 
 		svg.Should().Contain("role=\"img\"");
 		svg.Should().Contain("aria-roledescription=\"git graph\"");
@@ -256,13 +276,15 @@ public class AccessibilityTests
 	[Test]
 	public void Radar_chart_accessibility()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			radar-beta
 			accTitle: Skill Assessment
 			accDescr: Developer skills radar
 			axis A, B, C
 			curve Team1: 3, 4, 5
-			""");
+			"""
+		);
 
 		svg.Should().Contain("role=\"img\"");
 		svg.Should().Contain("aria-roledescription=\"radar chart\"");
@@ -273,14 +295,16 @@ public class AccessibilityTests
 	[Test]
 	public void Treemap_accessibility()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			treemap-beta
 			accTitle: File Sizes
 			accDescr: Disk usage treemap
 			root
 			  A: 100
 			  B: 200
-			""");
+			"""
+		);
 
 		svg.Should().Contain("role=\"img\"");
 		svg.Should().Contain("aria-roledescription=\"treemap\"");
@@ -291,13 +315,15 @@ public class AccessibilityTests
 	[Test]
 	public void Venn_diagram_accessibility()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			venn-beta
 			accTitle: Set Overlaps
 			accDescr: Venn diagram of groups
 			set A
 			set B
-			""");
+			"""
+		);
 
 		svg.Should().Contain("role=\"img\"");
 		svg.Should().Contain("aria-roledescription=\"venn diagram\"");
@@ -308,14 +334,16 @@ public class AccessibilityTests
 	[Test]
 	public void Mindmap_accessibility()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			mindmap
 			accTitle: Ideas
 			accDescr: Brainstorm map
 			  root((Central))
 			    Topic A
 			    Topic B
-			""");
+			"""
+		);
 
 		svg.Should().Contain("role=\"img\"");
 		svg.Should().Contain("aria-roledescription=\"mindmap\"");
@@ -326,14 +354,16 @@ public class AccessibilityTests
 	[Test]
 	public void Architecture_diagram_accessibility()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			architecture-beta
 			accTitle: Cloud Layout
 			accDescr: API with storage
 			    group api(cloud)[API]
 			    service db(database)[Database]
 			    api:B --> db:T
-			""");
+			"""
+		);
 
 		svg.Should().Contain("role=\"img\"");
 		svg.Should().Contain("aria-roledescription=\"architecture diagram\"");
@@ -380,13 +410,7 @@ public class AccessibilityTests
 	[Test]
 	public void Parser_extracts_title_and_single_line_description()
 	{
-		var lines = new[]
-		{
-			"graph TD",
-			"accTitle: Test Title",
-			"accDescr: Test Description",
-			"A --> B",
-		};
+		var lines = new[] { "graph TD", "accTitle: Test Title", "accDescr: Test Description", "A --> B", };
 
 		var (info, filtered) = Mermaider.Parsing.AccessibilityParser.Extract(lines);
 
@@ -401,16 +425,7 @@ public class AccessibilityTests
 	[Test]
 	public void Parser_extracts_multiline_description()
 	{
-		var lines = new[]
-		{
-			"graph TD",
-			"accTitle: Test Title",
-			"accDescr {",
-			"First line",
-			"Second line",
-			"}",
-			"A --> B",
-		};
+		var lines = new[] { "graph TD", "accTitle: Test Title", "accDescr {", "First line", "Second line", "}", "A --> B", };
 
 		var (info, filtered) = Mermaider.Parsing.AccessibilityParser.Extract(lines);
 
@@ -422,11 +437,7 @@ public class AccessibilityTests
 	[Test]
 	public void Parser_returns_empty_info_when_no_directives()
 	{
-		var lines = new[]
-		{
-			"graph TD",
-			"A --> B",
-		};
+		var lines = new[] { "graph TD", "A --> B", };
 
 		var (info, filtered) = Mermaider.Parsing.AccessibilityParser.Extract(lines);
 
@@ -439,7 +450,8 @@ public class AccessibilityTests
 	[Test]
 	public void Kanban_accTitle_and_accDescr()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			kanban
 			accTitle: Sprint Board
 			accDescr: Team task board
@@ -447,7 +459,8 @@ public class AccessibilityTests
 			    Task1
 			  Done
 			    Task2
-			""");
+			"""
+		);
 
 		svg.Should().Contain("role=\"img\"");
 		svg.Should().Contain("aria-roledescription=\"kanban board\"");

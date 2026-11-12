@@ -9,13 +9,7 @@ public class GitGraphParserTests
 	[Test]
 	public void Parses_simple_commits()
 	{
-		var lines = new[]
-		{
-			"gitGraph",
-			"commit",
-			"commit",
-			"commit",
-		};
+		var lines = new[] { "gitGraph", "commit", "commit", "commit", };
 
 		var graph = GitGraphParser.Parse(lines);
 
@@ -26,11 +20,7 @@ public class GitGraphParserTests
 	[Test]
 	public void Parses_commit_with_id()
 	{
-		var lines = new[]
-		{
-			"gitGraph",
-			"commit id: \"abc123\"",
-		};
+		var lines = new[] { "gitGraph", "commit id: \"abc123\"", };
 
 		var graph = GitGraphParser.Parse(lines);
 
@@ -41,11 +31,7 @@ public class GitGraphParserTests
 	[Test]
 	public void Parses_commit_with_tag()
 	{
-		var lines = new[]
-		{
-			"gitGraph",
-			"commit tag: \"v1.0\"",
-		};
+		var lines = new[] { "gitGraph", "commit tag: \"v1.0\"", };
 
 		var graph = GitGraphParser.Parse(lines);
 
@@ -56,12 +42,7 @@ public class GitGraphParserTests
 	[Test]
 	public void Parses_commit_type()
 	{
-		var lines = new[]
-		{
-			"gitGraph",
-			"commit type: HIGHLIGHT",
-			"commit type: REVERSE",
-		};
+		var lines = new[] { "gitGraph", "commit type: HIGHLIGHT", "commit type: REVERSE", };
 
 		var graph = GitGraphParser.Parse(lines);
 
@@ -72,15 +53,7 @@ public class GitGraphParserTests
 	[Test]
 	public void Parses_branch_and_checkout()
 	{
-		var lines = new[]
-		{
-			"gitGraph",
-			"commit",
-			"branch develop",
-			"commit",
-			"checkout main",
-			"commit",
-		};
+		var lines = new[] { "gitGraph", "commit", "branch develop", "commit", "checkout main", "commit", };
 
 		var graph = GitGraphParser.Parse(lines);
 
@@ -92,15 +65,7 @@ public class GitGraphParserTests
 	[Test]
 	public void Parses_merge()
 	{
-		var lines = new[]
-		{
-			"gitGraph",
-			"commit",
-			"branch develop",
-			"commit",
-			"checkout main",
-			"merge develop",
-		};
+		var lines = new[] { "gitGraph", "commit", "branch develop", "commit", "checkout main", "merge develop", };
 
 		var graph = GitGraphParser.Parse(lines);
 
@@ -111,15 +76,7 @@ public class GitGraphParserTests
 	[Test]
 	public void Parses_merge_with_attributes()
 	{
-		var lines = new[]
-		{
-			"gitGraph",
-			"commit",
-			"branch develop",
-			"commit",
-			"checkout main",
-			"merge develop id: \"m1\" tag: \"release\" type: HIGHLIGHT",
-		};
+		var lines = new[] { "gitGraph", "commit", "branch develop", "commit", "checkout main", "merge develop id: \"m1\" tag: \"release\" type: HIGHLIGHT", };
 
 		var graph = GitGraphParser.Parse(lines);
 
@@ -132,13 +89,7 @@ public class GitGraphParserTests
 	[Test]
 	public void Parses_cherry_pick()
 	{
-		var lines = new[]
-		{
-			"gitGraph",
-			"commit id: \"abc\"",
-			"branch develop",
-			"cherry-pick id: \"abc\"",
-		};
+		var lines = new[] { "gitGraph", "commit id: \"abc\"", "branch develop", "cherry-pick id: \"abc\"", };
 
 		var graph = GitGraphParser.Parse(lines);
 
@@ -149,11 +100,7 @@ public class GitGraphParserTests
 	[Test]
 	public void Parses_TB_orientation()
 	{
-		var lines = new[]
-		{
-			"gitGraph TB:",
-			"commit",
-		};
+		var lines = new[] { "gitGraph TB:", "commit", };
 
 		var graph = GitGraphParser.Parse(lines);
 
@@ -163,11 +110,7 @@ public class GitGraphParserTests
 	[Test]
 	public void Parses_branch_with_order()
 	{
-		var lines = new[]
-		{
-			"gitGraph",
-			"branch develop order: 2",
-		};
+		var lines = new[] { "gitGraph", "branch develop order: 2", };
 
 		var graph = GitGraphParser.Parse(lines);
 
@@ -179,11 +122,7 @@ public class GitGraphParserTests
 	[Test]
 	public void Parses_switch_as_checkout()
 	{
-		var lines = new[]
-		{
-			"gitGraph",
-			"switch main",
-		};
+		var lines = new[] { "gitGraph", "switch main", };
 
 		var graph = GitGraphParser.Parse(lines);
 
@@ -193,11 +132,7 @@ public class GitGraphParserTests
 	[Test]
 	public void Default_orientation_is_LR()
 	{
-		var lines = new[]
-		{
-			"gitGraph",
-			"commit",
-		};
+		var lines = new[] { "gitGraph", "commit", };
 
 		var graph = GitGraphParser.Parse(lines);
 
