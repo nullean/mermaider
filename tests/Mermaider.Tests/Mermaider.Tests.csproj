@@ -8,6 +8,8 @@
     <PackageReference Include="CsCheck" />
     <PackageReference Include="Nullean.Snapshots.AwesomeAssertions" />
     <PackageReference Include="Nullean.Snapshots.TUnit" />
+    <!-- the net11.0 build Nullean.Snapshots 0.12 does not ask for yet: see Directory.Packages.props -->
+    <PackageReference Include="Nullean.ScopedFileSystem" />
     <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" />
   </ItemGroup>
   <ItemGroup>

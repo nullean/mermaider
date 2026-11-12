@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net11.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -22,6 +22,10 @@
   <!-- src/ projects: packable, XML docs, signed -->
   <PropertyGroup Condition="$(MSBuildProjectDirectory.Replace('\','/').Contains('/src/'))">
     <IsPackable>true</IsPackable>
+    <!-- a library targets the oldest supported .NET as well as the current one; TargetFramework (from above) is
+         cleared, or MSBuild builds that single one. A dotnet tool is an executable and sets net11.0 alone. -->
+    <TargetFrameworks>net10.0;net11.0</TargetFrameworks>
+    <TargetFramework></TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)build/keys/keypair.snk</AssemblyOriginatorKeyFile>

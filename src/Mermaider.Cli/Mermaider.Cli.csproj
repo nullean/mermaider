@@ -1,6 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+    <!-- a dotnet tool, not a library: net11.0 alone, so the TargetFrameworks src/ libraries get from
+         Directory.Build.props is cleared -->
+    <TargetFrameworks></TargetFrameworks>
+    <TargetFramework>net11.0</TargetFramework>
     <Description>CLI tool to render Mermaid diagrams to SVG. Reads from stdin or file, writes to stdout or file.</Description>
     <PackageTags>mermaid;diagram;svg;cli;tool</PackageTags>
     <PackAsTool>true</PackAsTool>

@@ -17,6 +17,9 @@
     <PackageVersion Include="CsCheck" Version="5.0.1" />
     <PackageVersion Include="Nullean.Snapshots.AwesomeAssertions" Version="0.12.0" />
     <PackageVersion Include="Nullean.Snapshots.TUnit" Version="0.12.0" />
+    <!-- Nullean.Snapshots 0.12 asks for Nullean.ScopedFileSystem 0.7.1, whose net10.0 build does not load on net11.0
+         (IFile gained CreateHardLink); 0.7.2 ships net11.0 -->
+    <PackageVersion Include="Nullean.ScopedFileSystem" Version="0.7.2" />
     <PackageVersion Include="Microsoft.Extensions.TimeProvider.Testing" Version="11.0.0" />
   </ItemGroup>
   <ItemGroup>
@@ -27,6 +30,6 @@
     <!-- Build script dependencies -->
     <PackageVersion Include="FSharp.Core" Version="11.0.101" />
     <!-- brings Proc and Proc.Fs -->
-    <PackageVersion Include="Nullean.Make.Fs" Version="0.28.0" />
+    <PackageVersion Include="Nullean.Make.Fs" Version="0.30.0" />
   </ItemGroup>
 </Project>
