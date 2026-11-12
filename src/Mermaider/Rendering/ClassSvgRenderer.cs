@@ -359,13 +359,16 @@ internal static class ClassSvgRenderer
 		if (cardinalities != null)
 		{
 			if (rel.FromCardinality != null)
-				AppendCardinality(sb, ds, cardinalities, rel.FromCardinality, rel.Points, atEnd: false);
+				AppendCardinality(sb, ds, cardinalities, rel.FromCardinality, rel.Points, atEnd: false, ClassCardinalityPlacer.IsSelfLoop(rel));
 			if (rel.ToCardinality != null)
-				AppendCardinality(sb, ds, cardinalities, rel.ToCardinality, rel.Points, atEnd: true);
+				AppendCardinality(sb, ds, cardinalities, rel.ToCardinality, rel.Points, atEnd: true, ClassCardinalityPlacer.IsSelfLoop(rel));
 		}
 
 		_ = sb.Append("\n</g>");
 	}
+
+	/// <summary>How far along its stub, from the class, a self-loop's cardinality is centred (see ClassCardinalityPlacer.OnStub).</summary>
+	internal const double CardinalityDistance = 30;
 
 	// A cardinality is a small edge label beside the line, next to the class it belongs to (see ClassCardinalityPlacer).
 	private static void AppendCardinality(
@@ -374,11 +377,12 @@ internal static class ClassSvgRenderer
 		ClassCardinalityPlacer placer,
 		string text,
 		IReadOnlyList<Point> points,
-		bool atEnd
+		bool atEnd,
+		bool selfLoop
 	)
 	{
 		var (w, h) = ds.EdgeLabelSize(text);
-		var c = placer.Place(points, atEnd, w, h);
+		var c = selfLoop ? ClassCardinalityPlacer.OnStub(points, atEnd) : placer.Place(points, atEnd, w, h);
 		_ = sb.Append("\n  ");
 		ds.AppendEdgeLabel(sb, c.X, c.Y, text);
 	}

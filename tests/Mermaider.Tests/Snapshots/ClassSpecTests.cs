@@ -302,20 +302,14 @@ public class ClassSpecTests
 			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public void Method_classifiers() =>
+	public void Solid_and_dashed_links() =>
 		MermaidRenderer
-			.RenderSvg(
-				"""
+			.RenderSvg("""
 			classDiagram
-			class Animal {
-				+int count$
-				+sleep()$
-				+wake() bool$
-				+run()*
-				+walk() bool*
-			}
-			"""
-			)
+			A -- B
+			A --> C
+			C .. D : uses
+			""")
 			.Should()
 			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
@@ -336,14 +330,35 @@ public class ClassSpecTests
 			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public void Solid_and_dashed_links() =>
+	public void Method_classifiers() =>
 		MermaidRenderer
-			.RenderSvg("""
+			.RenderSvg(
+				"""
 			classDiagram
-			A -- B
-			A --> C
-			C .. D : uses
-			""")
+			class Animal {
+				+int count$
+				+sleep()$
+				+wake() bool$
+				+run()*
+				+walk() bool*
+			}
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
+
+	[Test]
+	public void Self_relationship_with_cardinalities() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
+			classDiagram
+			class Animal
+			class Duck
+			Animal "1" --> "0..*" Animal : parent
+			Animal <|-- Duck
+			"""
+			)
 			.Should()
 			.MatchSnapshot(SvgSnapshotFormat.Instance);
 }

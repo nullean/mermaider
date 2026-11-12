@@ -56,7 +56,38 @@ internal sealed class ClassCardinalityPlacer
 				var (w, h) = ds.EdgeLabelSize(rel.Label);
 				Add(new Obstacle(c.X - (w / 2), c.Y - (h / 2), c.X + (w / 2), c.Y + (h / 2), null));
 			}
+
+			// a self-loop's cardinalities sit on its stubs, which ClassSelfLoops sized for them: reserve them before any other
+			// cardinality is placed, so those keep clear of them whatever order the relationships come in
+			if (IsSelfLoop(rel) && rel.Points.Count >= 2)
+			{
+				foreach (var (text, atEnd) in (ReadOnlySpan<(string?, bool)>)[(rel.FromCardinality, false), (rel.ToCardinality, true)])
+				{
+					if (text == null)
+						continue;
+					var c = OnStub(rel.Points, atEnd);
+					var (w, h) = ds.EdgeLabelSize(text);
+					Add(new Obstacle(c.X - (w / 2), c.Y - (h / 2), c.X + (w / 2), c.Y + (h / 2), null));
+				}
+			}
 		}
+	}
+
+	internal static bool IsSelfLoop(PositionedClassRelationship rel) => rel.From == rel.To;
+
+	/// <summary>
+	/// Centre of a self-loop's cardinality: on its stub, <see cref="ClassSvgRenderer.CardinalityDistance"/> from the class
+	/// (shorter stubs clamp it). ClassSelfLoops spaces and sizes the stubs so these pills clear each other and the loop.
+	/// </summary>
+	internal static Point OnStub(IReadOnlyList<Point> points, bool atEnd)
+	{
+		var (end, toward) = atEnd ? (points[^1], points[^2]) : (points[0], points[1]);
+		var dx = toward.X - end.X;
+		var dy = toward.Y - end.Y;
+		var len = Math.Sqrt((dx * dx) + (dy * dy));
+		var (ux, uy) = len < 0.01 ? (0.0, 1.0) : (dx / len, dy / len);
+		var along = Math.Min(ClassSvgRenderer.CardinalityDistance, Math.Max(len - 8, 8));
+		return new Point(end.X + (ux * along), end.Y + (uy * along));
 	}
 
 	/// <summary>Where the relation label of <paramref name="rel"/> is centred: the layout's label slot, else the path midpoint.</summary>
