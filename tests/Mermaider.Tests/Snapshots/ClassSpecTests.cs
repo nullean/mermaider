@@ -275,6 +275,22 @@ public class ClassSpecTests
 			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
+	public void Generic_class_as_relationship_endpoint() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
+			classDiagram
+			class List~T~ {
+				+add(T item)
+			}
+			Duck ..> List~T~
+			List~T~ <|-- ArrayList
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
+
+	[Test]
 	public void Solid_and_dashed_links() =>
 		MermaidRenderer
 			.RenderSvg("""

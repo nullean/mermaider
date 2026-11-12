@@ -168,6 +168,35 @@ public class ClassParserTests
 	}
 
 	[Test]
+	public void Generic_relationship_endpoint_joins_the_declared_class()
+	{
+		var lines = new[] { "classDiagram", "class List~T~", "Duck ..> List~T~" };
+
+		var diagram = ClassParser.Parse(lines);
+
+		diagram.Classes.Select(c => c.Id).Should().BeEquivalentTo(["List", "Duck"]);
+		diagram.Classes.Single(c => c.Id == "List").Label.Should().Be("List<T>");
+		diagram.Relationships.Should().ContainSingle();
+		diagram.Relationships[0].From.Should().Be("Duck");
+		diagram.Relationships[0].To.Should().Be("List");
+	}
+
+	[Test]
+	public void Generic_endpoints_before_declaration_lollipop_and_inline_members_share_one_class()
+	{
+		var lines = new[] { "classDiagram", "Map~K,V~ <|-- Cache", "Repo~T~ : +find(id) T", "class Repo~T~", "Repo~T~ --() Queryable", };
+
+		var diagram = ClassParser.Parse(lines);
+
+		diagram.Classes.Select(c => c.Id).Should().BeEquivalentTo(["Map", "Cache", "Repo", "Queryable"]);
+		diagram.Classes.Single(c => c.Id == "Map").Label.Should().Be("Map<K,V>");
+		var repo = diagram.Classes.Single(c => c.Id == "Repo");
+		repo.Label.Should().Be("Repo<T>");
+		repo.Methods.Should().ContainSingle().Which.Name.Should().Be("find");
+		diagram.Relationships.Select(r => (r.From, r.To)).Should().Equal(("Map", "Cache"), ("Repo", "Queryable"));
+	}
+
+	[Test]
 	public void Parses_solid_and_dashed_links()
 	{
 		var lines = new[] { "classDiagram", "A -- B", "C .. D : uses" };
