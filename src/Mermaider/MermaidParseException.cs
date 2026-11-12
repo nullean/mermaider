@@ -8,7 +8,9 @@ namespace Mermaider;
 /// </summary>
 public class MermaidParseException : Exception
 {
-	public MermaidParseException(string message) : base(message) { }
+	public MermaidParseException(string message) : base(message)
+	{ }
 
-	public MermaidParseException(string message, Exception innerException) : base(message, innerException) { }
+	public MermaidParseException(string message, Exception innerException) : base(message, innerException)
+	{ }
 }

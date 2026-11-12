@@ -76,19 +76,21 @@ Conditional add-ons — each is one or two sentences with a bold lead-in, no hea
 
 **Do not** include bullet lists of changed files. Do not summarize what the diff already states plainly.
 
-### 6. Apply labels
+### 6. Apply exactly one release label
 
-Apply the labels this repo uses. Common defaults:
+The `pr-labels` check fails a PR without exactly one of these, and release-drafter turns them into the next version:
 
-| Label | Use when |
-|---|---|
-| `bug` | A defect in existing behaviour is fixed |
-| `enhancement` or `feature` | A capability is added or improved |
-| `chore` | Cleanup, refactor, internal restructure — no user-visible change |
-| `documentation` | Docs-only change |
-| `dependencies` | Dependency version bumps |
-
-Check `.github/workflows/` or the repo's CONTRIBUTING guide for any enforced label policy before creating the PR.
+| Label | Use when | Version |
+|---|---|---|
+| `breaking` | A consumer must change something after upgrading (see [breaking-changes](../breaking-changes/SKILL.md)) | 0.x: minor, 1.x+: major |
+| `feature` | A new capability | minor |
+| `enhancement` | An existing capability improved | minor |
+| `bug` / `fix` | A defect in existing behaviour is fixed | patch |
+| `documentation` | Docs only | patch |
+| `chore` | Cleanup, refactor, internal restructure; no user-visible change | patch |
+| `dependencies` | Dependency version bumps | patch |
+| `ci` | Build and automation | patch |
+| `changelog:skip` | Should not appear in the release notes | patch |
 
 ### 7. Check whether a PR already exists
 
@@ -155,6 +157,18 @@ EOF
 )"
 ```
 
-### 9. Return the PR URL
+### 9. Turn on auto-merge
+
+Every nullean repository squash-merges and requires the release label, zizmor and CI. Once the PR exists, let it merge
+itself when those pass, unless the user asked to hold it:
+
+```bash
+gh pr merge --auto --squash
+```
+
+Say so in your reply: "auto-merge is on; it squash-merges once the required checks pass". Don't merge it with `--admin`
+to skip checks.
+
+### 10. Return the PR URL
 
 Always print the URL so the user can open it directly.

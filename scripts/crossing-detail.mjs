@@ -1,8 +1,8 @@
 // Print the crossing pairs (with polylines) of one rendered ER SVG. Usage: node scripts/crossing-detail.mjs <slug>
 import fs from "node:fs";
-const snap = "tests/Mermaider.Tests/Snapshots/";
-let f = `${snap}GallerySnapshotTests.Gallery_example=${process.argv[2]}.received.svg`;
-if (!fs.existsSync(f)) f = f.replace(".received.", ".verified.");
+import { gallerySvg } from "./snapshot-paths.mjs";
+const f = gallerySvg(process.argv[2]);
+if (!f) throw new Error(`no gallery snapshot for ${process.argv[2]}`);
 const svg = fs.readFileSync(f, "utf8"); const edges = [];
 for (const m of svg.matchAll(/<path class="er-relationship" data-entity1="([^"]+)" data-entity2="([^"]+)"[^>]*? d="([^"]+)"/g)) {
   const pts = []; const t = m[3].match(/[MLQC]|-?[\d.]+/g); let i = 0, c = "";

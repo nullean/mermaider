@@ -8,11 +8,7 @@ public class QuadrantParserTests
 	[Test]
 	public void Parses_title()
 	{
-		var lines = new[]
-		{
-			"quadrantChart",
-			"title Priority Matrix",
-		};
+		var lines = new[] { "quadrantChart", "title Priority Matrix", };
 
 		var chart = QuadrantParser.Parse(lines);
 
@@ -42,11 +38,7 @@ public class QuadrantParserTests
 	[Test]
 	public void Body_title_overrides_header_title()
 	{
-		var lines = new[]
-		{
-			"quadrantChart title Header Title",
-			"title Body Title",
-		};
+		var lines = new[] { "quadrantChart title Header Title", "title Body Title", };
 
 		var chart = QuadrantParser.Parse(lines);
 
@@ -56,11 +48,7 @@ public class QuadrantParserTests
 	[Test]
 	public void Parses_x_axis_with_both_labels()
 	{
-		var lines = new[]
-		{
-			"quadrantChart",
-			"x-axis Low Effort --> High Effort",
-		};
+		var lines = new[] { "quadrantChart", "x-axis Low Effort --> High Effort", };
 
 		var chart = QuadrantParser.Parse(lines);
 
@@ -71,11 +59,7 @@ public class QuadrantParserTests
 	[Test]
 	public void Parses_x_axis_with_left_only()
 	{
-		var lines = new[]
-		{
-			"quadrantChart",
-			"x-axis Effort",
-		};
+		var lines = new[] { "quadrantChart", "x-axis Effort", };
 
 		var chart = QuadrantParser.Parse(lines);
 
@@ -86,11 +70,7 @@ public class QuadrantParserTests
 	[Test]
 	public void Parses_y_axis()
 	{
-		var lines = new[]
-		{
-			"quadrantChart",
-			"y-axis Low Impact --> High Impact",
-		};
+		var lines = new[] { "quadrantChart", "y-axis Low Impact --> High Impact", };
 
 		var chart = QuadrantParser.Parse(lines);
 
@@ -101,14 +81,7 @@ public class QuadrantParserTests
 	[Test]
 	public void Parses_quadrant_labels()
 	{
-		var lines = new[]
-		{
-			"quadrantChart",
-			"quadrant-1 Do First",
-			"quadrant-2 Schedule",
-			"quadrant-3 Delegate",
-			"quadrant-4 Eliminate",
-		};
+		var lines = new[] { "quadrantChart", "quadrant-1 Do First", "quadrant-2 Schedule", "quadrant-3 Delegate", "quadrant-4 Eliminate", };
 
 		var chart = QuadrantParser.Parse(lines);
 
@@ -121,12 +94,7 @@ public class QuadrantParserTests
 	[Test]
 	public void Parses_points()
 	{
-		var lines = new[]
-		{
-			"quadrantChart",
-			"Feature A: [0.8, 0.9]",
-			"Feature B: [0.3, 0.2]",
-		};
+		var lines = new[] { "quadrantChart", "Feature A: [0.8, 0.9]", "Feature B: [0.3, 0.2]", };
 
 		var chart = QuadrantParser.Parse(lines);
 
@@ -141,11 +109,7 @@ public class QuadrantParserTests
 	[Test]
 	public void Clamps_point_values_to_0_1()
 	{
-		var lines = new[]
-		{
-			"quadrantChart",
-			"Over: [1.5, -0.2]",
-		};
+		var lines = new[] { "quadrantChart", "Over: [1.5, -0.2]", };
 
 		var chart = QuadrantParser.Parse(lines);
 
@@ -156,10 +120,7 @@ public class QuadrantParserTests
 	[Test]
 	public void Handles_empty_chart()
 	{
-		var lines = new[]
-		{
-			"quadrantChart",
-		};
+		var lines = new[] { "quadrantChart", };
 
 		var chart = QuadrantParser.Parse(lines);
 

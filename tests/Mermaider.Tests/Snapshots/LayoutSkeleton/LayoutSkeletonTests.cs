@@ -3,7 +3,7 @@ using Mermaider.Examples;
 using Mermaider.Layout;
 using Mermaider.Models;
 using Mermaider.Parsing;
-using VerifyTUnit;
+using Nullean.Snapshots;
 
 namespace Mermaider.Tests.Snapshots.LayoutSkeleton;
 
@@ -15,15 +15,12 @@ namespace Mermaider.Tests.Snapshots.LayoutSkeleton;
 //    edges layer-to-layer without going backwards — a topological inversion means the
 //    layering itself contradicts the diagram's own edges, independent of anything mermaid.js
 //    does.
-// 2. Skeleton_snapshot: Verify-snapshots the ToAsciiArt() dump of Mermaider's own layout
+// 2. Skeleton_snapshot: snapshots the ToAsciiArt() dump of Mermaider's own layout
 //    skeleton for every ER example, so any change to layering/ordering shows up as a readable
 //    text diff in review instead of only a pixel diff in a .verified.svg.
 public class LayoutSkeletonTests
 {
-	public static IEnumerable<string> ErSlugs() =>
-		DiagramExamples.All
-			.Where(d => d.Category == DiagramCategory.Er)
-			.Select(d => d.Slug);
+	public static IEnumerable<string> ErSlugs() => DiagramExamples.All.Where(d => d.Category == DiagramCategory.Er).Select(d => d.Slug);
 
 	private static ErDiagram ParseEr(string source)
 	{
@@ -40,18 +37,17 @@ public class LayoutSkeletonTests
 		var positioned = LightweightErLayoutEngine.Layout(ParseEr(example.Source));
 		var skeleton = MermaiderSkeletonExtractor.Extract(positioned);
 
-		SkeletonComparer.TopologicalInversions(skeleton)
-			.Should().Be(0, $"'{slug}' layering should route every edge layer-to-layer without going backwards");
+		SkeletonComparer.TopologicalInversions(skeleton).Should().Be(0, $"'{slug}' layering should route every edge layer-to-layer without going backwards");
 	}
 
 	[Test]
 	[MethodDataSource(nameof(ErSlugs))]
-	public Task Skeleton_snapshot(string slug)
+	public void Skeleton_snapshot(string slug)
 	{
 		var example = DiagramExamples.All.Single(e => e.Slug == slug);
 		var positioned = LightweightErLayoutEngine.Layout(ParseEr(example.Source));
 		var skeleton = MermaiderSkeletonExtractor.Extract(positioned);
 
-		return Verifier.Verify(skeleton.ToAsciiArt(), "txt").UseParameters(slug);
+		skeleton.ToAsciiArt().Should().MatchSnapshot(SnapshotFormats.Text, slug);
 	}
 }

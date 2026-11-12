@@ -7,12 +7,14 @@ public class VennRendererTests
 	[Test]
 	public void Renders_valid_svg()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			venn-beta
 			set A["Frontend"]
 			set B["Backend"]
 			union A, B["Full Stack"]
-			""");
+			"""
+		);
 
 		svg.Should().StartWith("<svg");
 		svg.Should().EndWith("</svg>");
@@ -47,12 +49,14 @@ public class VennRendererTests
 	[Test]
 	public void Contains_union_label()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			venn-beta
 			set A["Frontend"]
 			set B["Backend"]
 			union A, B["Full Stack"]
-			""");
+			"""
+		);
 
 		svg.Should().Contain("Full Stack");
 	}
@@ -60,13 +64,15 @@ public class VennRendererTests
 	[Test]
 	public void Renders_three_set_venn()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			venn-beta
 			set A["Design"]
 			set B["Code"]
 			set C["Testing"]
 			union A, B["Design + Code"]
-			""");
+			"""
+		);
 
 		svg.Should().StartWith("<svg");
 		svg.Should().Contain("Design");

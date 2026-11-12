@@ -56,7 +56,12 @@ internal static class ErEdgeRouter
 	/// crossings and its label stays clear of every other edge and label.
 	/// </summary>
 	private static void ReduceCrossingsByVariants(
-		GraphBuffer g, List<EdgeRouter.RoutedEdge> routes, List<List<int>> chains, IReadOnlyList<LayoutEdge> input, bool horizontalFlow)
+		GraphBuffer g,
+		List<EdgeRouter.RoutedEdge> routes,
+		List<List<int>> chains,
+		IReadOnlyList<LayoutEdge> input,
+		bool horizontalFlow
+	)
 	{
 		bool Shares(int a, int b)
 		{
@@ -322,15 +327,7 @@ internal static class ErEdgeRouter
 				var gap = GapOf(y);
 				if (gap < 0)
 					continue;
-				var run = new HRun
-				{
-					Pts = pts,
-					I = i,
-					Y = y,
-					Xl = Math.Min(pts[i].X, pts[i + 1].X),
-					Xr = Math.Max(pts[i].X, pts[i + 1].X),
-					Gap = gap,
-				};
+				var run = new HRun { Pts = pts, I = i, Y = y, Xl = Math.Min(pts[i].X, pts[i + 1].X), Xr = Math.Max(pts[i].X, pts[i + 1].X), Gap = gap, };
 				if (pts[i - 1].Y < y)
 					run.XUp = pts[i].X;
 				else
@@ -344,7 +341,9 @@ internal static class ErEdgeRouter
 		}
 
 		var parent = Enumerable.Range(0, runs.Count).ToArray();
+
 		int Find(int x) => parent[x] == x ? x : parent[x] = Find(parent[x]);
+
 		for (var a = 0; a < runs.Count; a++)
 		{
 			for (var b = a + 1; b < runs.Count; b++)

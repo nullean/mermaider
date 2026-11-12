@@ -62,24 +62,21 @@ internal static partial class MermaidJsSkeletonExtractor
 			var missing = diagram.Entities.Select(e => e.Id).Where(id => !foundIds.Contains(id));
 			throw new InvalidOperationException(
 				$"mermaid.js SVG node extraction found {boxes.Count} box(es) but the diagram source has " +
-				$"{diagram.Entities.Count} entities. Missing: {string.Join(", ", missing)}.");
+					$"{diagram.Entities.Count} entities. Missing: {string.Join(", ", missing)}."
+			);
 		}
 
-		var geometricEdges = ExtractEdgesWithPoints(svg)
-			.OrderBy(e => e.Index)
-			.Select(e => e.Points)
-			.ToList();
+		var geometricEdges = ExtractEdgesWithPoints(svg).OrderBy(e => e.Index).Select(e => e.Points).ToList();
 
 		if (geometricEdges.Count != relationships.Count)
 		{
 			throw new InvalidOperationException(
 				$"mermaid.js SVG has {geometricEdges.Count} relationshipLine path(s) but the diagram source parses to " +
-				$"{relationships.Count} relationship(s) — cannot align edges by declaration order.");
+					$"{relationships.Count} relationship(s) — cannot align edges by declaration order."
+			);
 		}
 
-		var edges = relationships
-			.Select((rel, i) => (rel.Entity1, rel.Entity2, rel.Label, (IReadOnlyList<Point>)geometricEdges[i]))
-			.ToList();
+		var edges = relationships.Select((rel, i) => (rel.Entity1, rel.Entity2, rel.Label, (IReadOnlyList<Point>)geometricEdges[i])).ToList();
 
 		return LayoutSkeletonBuilder.Build(boxes, edges);
 	}
@@ -117,8 +114,7 @@ internal static partial class MermaidJsSkeletonExtractor
 		return boxes.Values.ToList();
 	}
 
-	private static double ParseDouble(string s) =>
-		double.Parse(s, System.Globalization.CultureInfo.InvariantCulture);
+	private static double ParseDouble(string s) => double.Parse(s, System.Globalization.CultureInfo.InvariantCulture);
 
 	// Returns (Index, full polyline) pairs ordered by mermaid.js's own global edge index (the
 	// trailing _{N} in data-id), which is the 0-based declaration order of relationships in
@@ -147,18 +143,12 @@ internal static partial class MermaidJsSkeletonExtractor
 		return result;
 	}
 
-	[GeneratedRegex(
-		@"<g class=""node default"" id=""[^""]*?entity-([A-Za-z0-9_]+)-\d+""[^>]*transform=""translate\((-?[\d.]+),\s*(-?[\d.]+)\)""[^>]*><g class=""outer-path""[^>]*><path d=""M(-?[\d.]+)\s(-?[\d.]+)\sL",
-		RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"<g class=""node default"" id=""[^""]*?entity-([A-Za-z0-9_]+)-\d+""[^>]*transform=""translate\((-?[\d.]+),\s*(-?[\d.]+)\)""[^>]*><g class=""outer-path""[^>]*><path d=""M(-?[\d.]+)\s(-?[\d.]+)\sL", RegexOptions.None, TimeoutMs)]
 	private static partial Regex AttributedNodePattern();
 
-	[GeneratedRegex(
-		@"<g class=""node default"" id=""[^""]*?entity-([A-Za-z0-9_]+)-\d+""[^>]*transform=""translate\((-?[\d.]+),\s*(-?[\d.]+)\)""[^>]*><rect class=""basic label-container""[^>]*x=""(-?[\d.]+)""\s*y=""(-?[\d.]+)""\s*width=""([\d.]+)""\s*height=""([\d.]+)""",
-		RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"<g class=""node default"" id=""[^""]*?entity-([A-Za-z0-9_]+)-\d+""[^>]*transform=""translate\((-?[\d.]+),\s*(-?[\d.]+)\)""[^>]*><rect class=""basic label-container""[^>]*x=""(-?[\d.]+)""\s*y=""(-?[\d.]+)""\s*width=""([\d.]+)""\s*height=""([\d.]+)""", RegexOptions.None, TimeoutMs)]
 	private static partial Regex LabelOnlyNodePattern();
 
-	[GeneratedRegex(
-		@"<path[^>]*class=""[^""]*relationshipLine[^""]*""[^>]*data-id=""id_entity-[A-Za-z0-9_]+-\d+_entity-[A-Za-z0-9_]+-\d+_(\d+)""[^>]*data-points=""([^""]+)""",
-		RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"<path[^>]*class=""[^""]*relationshipLine[^""]*""[^>]*data-id=""id_entity-[A-Za-z0-9_]+-\d+_entity-[A-Za-z0-9_]+-\d+_(\d+)""[^>]*data-points=""([^""]+)""", RegexOptions.None, TimeoutMs)]
 	private static partial Regex EdgePattern();
 }

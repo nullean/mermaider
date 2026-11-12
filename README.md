@@ -1,25 +1,48 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/nullean/mermaider/main/nuget-icon.png" alt="Mermaider" width="96" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/mermaider-lockup.svg">
+    <img src="https://raw.githubusercontent.com/nullean/nullean.github.io/main/assets/mermaider-lockup-light.svg" width="384" height="96" alt="Mermaider">
+  </picture>
 </p>
 
-<h1 align="center">Mermaider</h1>
+<p align="center">Render <a href="https://mermaid.js.org/">Mermaid</a> diagrams to SVG in pure .NET. No browser, no DOM, no JavaScript runtime. AOT-ready.</p>
 
 <p align="center">
-  Render <a href="https://mermaid.js.org/">Mermaid</a> diagrams to SVG in pure .NET.<br/>
-  No browser. No DOM. No JavaScript runtime. AOT-ready.
+  <a href="https://www.nuget.org/packages/Mermaider"><img src="https://img.shields.io/nuget/v/Mermaider?style=flat-square" alt="NuGet"></a>
+  <a href="https://github.com/nullean/mermaider/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/nullean/mermaider/ci.yml?branch=main&style=flat-square&label=ci" alt="CI"></a>
+  <a href="https://mermaider.nullean.net"><img src="https://img.shields.io/badge/docs-mermaider.nullean.net-20a0a0?style=flat-square" alt="Docs"></a>
 </p>
 
-<p align="center">
-  <a href="https://www.nuget.org/packages/Mermaider"><img src="https://img.shields.io/nuget/v/Mermaider.svg" alt="NuGet" /></a>
-  <a href="https://github.com/nullean/mermaider/actions"><img src="https://github.com/nullean/mermaider/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
-</p>
+![A flowchart with two subgraphs, labelled edges and dashed event edges, rendered by Mermaider](docs/images/png/mermaider-showcase.png)
 
----
+## Install
+
+```sh
+dotnet add package Mermaider
+```
+
+Or the command line tool, which installs as `mermaid`:
+
+```sh
+dotnet tool install -g Mermaider.Cli
+```
+
+## Quick start
+
+```csharp
+using Mermaider;
+
+var svg = MermaidRenderer.RenderSvg("""
+    graph TD
+      A[Start] --> B{Decision}
+      B -->|Yes| C[OK]
+      B -->|No| D[End]
+    """);
+```
 
 ## Table of Contents
 
 - [Why Mermaider?](#why-mermaider)
-- [Quick Start](#quick-start)
 - [Theming](#theming)
   - [Built-in themes](#built-in-themes)
 - [Render Options](#render-options)
@@ -35,13 +58,11 @@
 - [MSAGL Layout Provider](#msagl-layout-provider)
 - [AOT Support](#aot-support)
 - [Benchmarks](#benchmarks)
-- [Building from Source](#building-from-source)
 - [Supported Diagrams](#supported-diagrams)
+- [Packages](#packages)
 - [Attribution](#attribution)
 - [Projects using Mermaider](#projects-using-mermaider)
-- [License](#license)
-
----
+- [Learn more](#learn-more)
 
 ## Why Mermaider?
 
@@ -135,23 +156,6 @@ All 24 diagram types render from the same [`RenderOptions`](#render-options). A 
 There is no per-type color system or per-type font stack. The design token model is the only model.
 
 [Strict Styling](#strict-styling) goes further for user-authored content: `classDef`, `style`, `linkStyle`, and theme overrides are stripped (and optionally reported via callback), and nodes are constrained to a class allowlist you define.
-
-## Quick Start
-
-```bash
-dotnet add package Mermaider
-```
-
-```csharp
-using Mermaider;
-
-var svg = MermaidRenderer.RenderSvg("""
-    graph TD
-      A[Start] --> B{Decision}
-      B -->|Yes| C[OK]
-      B -->|No| D[End]
-    """);
-```
 
 ## Theming
 
@@ -298,24 +302,6 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 });
 ```
 
-The `CategoricalPalette` class exposes all 12 colors by semantic name for use in custom logic:
-
-```csharp
-using Mermaider.Rendering;
-
-// Named colors (index-stable)
-string blue  = CategoricalPalette.Blue;   // #4e79a7
-string red   = CategoricalPalette.Red;    // #e15759
-string green = CategoricalPalette.Green;  // #59a14f
-
-// Dark variants (same hue, ~20% lower lightness — suitable for strokes/borders)
-string redDark  = CategoricalPalette.RedDark;
-string blueDark = CategoricalPalette.BlueDark;
-
-// Ordinal access (wraps at 12)
-string color = CategoricalPalette.At(7);  // Pink
-```
-
 ### Allowed diagram types
 
 `AllowedDiagrams` is a `[Flags]` enum that controls which diagram types the renderer will accept.
@@ -324,19 +310,19 @@ Diagrams whose detected type is outside the set throw `MermaidParseException`. T
 
 ```csharp
 // Stable diagrams only, plus Architecture:
-var opts = new RenderOptions
+var stablePlusArchitecture = new RenderOptions
 {
     AllowedDiagrams = DiagramTypes.Stable | DiagramTypes.Architecture,
 };
 
 // Everything except TreeView and Block:
-var opts = new RenderOptions
+var allButTreeViewAndBlock = new RenderOptions
 {
     AllowedDiagrams = DiagramTypes.All & ~(DiagramTypes.TreeView | DiagramTypes.Block),
 };
 
 // Only flowcharts and sequence diagrams:
-var opts = new RenderOptions
+var flowchartsAndSequence = new RenderOptions
 {
     AllowedDiagrams = DiagramTypes.Flowchart | DiagramTypes.Sequence,
 };
@@ -412,7 +398,11 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
             },
             new DiagramClass { Name = "custom-highlight" },
         ],
-        OnStripped = v => logger.LogWarning("Strict mode stripped {Kind}: {Message}", v.Kind, v.Message),
+        OnStripped = violations =>
+        {
+            foreach (var v in violations)
+                logger.LogWarning("Strict mode stripped {Kind}: {Message}", v.Kind, v.Message);
+        },
     }
 });
 ```
@@ -420,11 +410,14 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 Set `Mode = StrictStylingMode.Block` to throw `MermaidParseException` instead (the original fail-closed behavior):
 
 ```csharp
-Strict = new StrictStylingOptions
+var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 {
-    Mode = StrictStylingMode.Block,
-    AllowedClasses = [ ... ],
-}
+    Strict = new StrictStylingOptions
+    {
+        Mode = StrictStylingMode.Block,
+        AllowedClasses = [new DiagramClass { Name = "ok" }],
+    }
+});
 ```
 
 Nodes reference classes via Mermaid's `:::` shorthand or `class` directive:
@@ -473,7 +466,11 @@ In `Strip` mode (the default), use `OnSanitized` to receive a callback for each 
 ```csharp
 var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 {
-    OnSanitized = v => logger.LogWarning("SVG sanitizer removed {Kind} '{Name}'", v.Kind, v.Name),
+    OnSanitized = violations =>
+    {
+        foreach (var v in violations)
+            logger.LogWarning("SVG sanitizer removed {Kind} '{Name}'", v.Kind, v.Name);
+    },
 });
 ```
 
@@ -509,10 +506,9 @@ var text = MermaidRenderer.RenderAscii("""
 ```
 
 ```
-                     ┌────────┐             ┌───────┐
-  ┌─────────────┐    │ Orders │             │ Order │
-  │ OrderEvents ├─2/s┤        ├────────────▶┤       │
-  └─────────────┘    └────────┘             └───────┘
+  ┌─────────────┐          ┌────────┐          ┌───────┐
+  │ OrderEvents ├─2/s─────▶┤ Orders ├─────────▶┤ Order │
+  └─────────────┘          └────────┘          └───────┘
 ```
 
 `AsciiOptions.Ascii` drops to plain ASCII for a terminal that cannot be trusted with box-drawing characters;
@@ -529,12 +525,16 @@ xychart-beta
     box [0.02, 0.03, 0.05, 0.09, 0.3]
 ```
 
+As text, with `--width 50` (`AsciiOptions.Width`):
+
 ```
 Effect latency (s)
 
 checkout ├▐┃━━▌────────────────────────────────┤
+
 search   ├┃▌─────┤
-         ──────────────────────────────────────
+
+         ────────────────────────────────────────
          0.01                                1.4
 ```
 
@@ -625,17 +625,6 @@ Graph-based diagram types use the built-in Sugiyama engine. Measured with `[Memo
 ```bash
 dotnet run --project tests/Mermaider.Benchmarks -c Release
 ```
-
-## Building from Source
-
-```bash
-git clone https://github.com/nullean/mermaider.git
-cd mermaider
-./build.sh build
-./build.sh test
-```
-
----
 
 ## Supported Diagrams
 
@@ -1130,7 +1119,14 @@ Supports indentation-based and box-drawing (`├──`/`└──`/`│`) input
 Built-in icons: `file`, `folder`, `folder-open`, `file:code`, `file:image`, `file:document`,
 `file:config`, `file:data`.
 
----
+## Packages
+
+| Package | What it is | |
+|---|---|---|
+| [`Mermaider`](src/Mermaider/README.md) | the parser, layout and SVG and text renderer for all 24 diagram types | [![NuGet](https://img.shields.io/nuget/v/Mermaider?style=flat-square)](https://www.nuget.org/packages/Mermaider) |
+| [`Mermaider.Cli`](src/Mermaider.Cli/README.md) | the `mermaid` command line tool | [![NuGet](https://img.shields.io/nuget/v/Mermaider.Cli?style=flat-square)](https://www.nuget.org/packages/Mermaider.Cli) |
+| [`Sugiyama`](src/Sugiyama/README.md) | the zero-dependency layered layout engine underneath, usable on its own | [![NuGet](https://img.shields.io/nuget/v/Sugiyama?style=flat-square)](https://www.nuget.org/packages/Sugiyama) |
+| [`Mermaider.Layout.Msagl`](src/Mermaider.Layout.Msagl/README.md) | optional, legacy-compatible MSAGL layout provider | [![NuGet](https://img.shields.io/nuget/v/Mermaider.Layout.Msagl?style=flat-square)](https://www.nuget.org/packages/Mermaider.Layout.Msagl) |
 
 ## Attribution
 
@@ -1159,6 +1155,12 @@ Projects that use Mermaider and have contributed back:
 - [elastic/docs-builder](https://github.com/elastic/docs-builder) - Elastic's documentation build toolchain
 - [tig/winprint](https://tig.github.io/winprint/) - WinPrint uses Mermaider as its default Mermaid renderer
 
-## License
+## Learn more
 
-MIT. See [LICENSE.txt](LICENSE.txt).
+- Documentation: https://mermaider.nullean.net
+- Building from source: `git clone git@github.com:nullean/mermaider.git`, then `mise run build` and `mise run test`
+  ([mise](https://mise.jdx.dev) installs the .NET SDK `global.json` names; `./build.sh build` and `./build.sh test` still work)
+- [Releases](https://github.com/nullean/mermaider/releases)
+- [Contributing](https://github.com/nullean/.github/blob/main/CONTRIBUTING.md)
+
+MIT licensed, see [LICENSE.txt](LICENSE.txt). Copyright Nullean and contributors.

@@ -1,0 +1,26 @@
+version: 2
+updates:
+  - package-ecosystem: nuget
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    labels: [dependencies]
+    groups:
+      nuget:
+        patterns: ["*"]
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    labels: [dependencies]
+    groups:
+      actions:
+        patterns: ["*"]
+    ignore:
+      # pinned to the commit of its v1 major tag on purpose; dependabot resolves it to an older, differently labelled
+      # release that zizmor's online audit then rejects
+      - dependency-name: elastic/docs-builder

@@ -13,8 +13,7 @@ namespace Sugiyama.Tests;
 /// </summary>
 public class NestingGraphRankerTests
 {
-	private static NetworkSimplexRanker.SimplexEdge E(int from, int to, int weight = 1, int minLength = 1) =>
-		new(from, to, weight, minLength);
+	private static NetworkSimplexRanker.SimplexEdge E(int from, int to, int weight = 1, int minLength = 1) => new(from, to, weight, minLength);
 
 	private static NestingGraphRanker.Group Group(params int[] ownNodes)
 	{
@@ -61,8 +60,7 @@ public class NestingGraphRankerTests
 		plain[0].Should().NotBe(plain[1], "plain network simplex pulls ProductRepo away from OrderRepo (the bug)");
 
 		var fixedRanks = NestingGraphRanker.Rank(4, edges, [], [infrastructure, domain]);
-		fixedRanks[0].Should().Be(fixedRanks[1],
-			"ProductRepo and OrderRepo must stay on the same rank — both belong to the compact Infrastructure subgraph");
+		fixedRanks[0].Should().Be(fixedRanks[1], "ProductRepo and OrderRepo must stay on the same rank — both belong to the compact Infrastructure subgraph");
 		fixedRanks[2].Should().BeGreaterThan(fixedRanks[1], "Order must still rank after its own predecessor OrderRepo");
 		fixedRanks[3].Should().BeGreaterThan(fixedRanks[2], "Product must still rank after Order");
 	}

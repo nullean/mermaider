@@ -73,21 +73,24 @@ internal static class LightweightErLayoutEngine
 		var componentCount = CountConnectedComponents(layoutNodes, layoutEdges);
 		// 1-3 components: one row; 4+: grid with ceil(sqrt(n)) per row
 		var maxPerRow = componentCount <= 3 ? componentCount : (int)Math.Ceiling(Math.Sqrt(componentCount));
-		var result = SugiyamaLayout.Compute(layoutGraph, new LayoutOptions
-		{
-			Padding = Padding,
-			NodeSpacing = NodeSpacing,
-			LayerSpacing = effectiveLayerSpacing,
-			CrossingIterations = 8,
-			StrictTopDownFanout = true,
-			ForceBottomExitFanOut = true,
-			MaxComponentsPerRow = maxPerRow,
-			TightSourceLayering = true,
-			SeparateComponents = false,
-			UseRealFirstTiebreaker = true,
-			PortAwareLayout = true,
-			CrossingRestarts = 160,
-		});
+		var result = SugiyamaLayout.Compute(
+			layoutGraph,
+			new LayoutOptions
+			{
+				Padding = Padding,
+				NodeSpacing = NodeSpacing,
+				LayerSpacing = effectiveLayerSpacing,
+				CrossingIterations = 8,
+				StrictTopDownFanout = true,
+				ForceBottomExitFanOut = true,
+				MaxComponentsPerRow = maxPerRow,
+				TightSourceLayering = true,
+				SeparateComponents = false,
+				UseRealFirstTiebreaker = true,
+				PortAwareLayout = true,
+				CrossingRestarts = 160,
+			}
+		);
 
 		return ExtractPositioned(result, diagram, layoutEdgeRelIndices);
 	}
@@ -218,7 +221,9 @@ internal static class LightweightErLayoutEngine
 			var sideX = left ? n.X : n.X + n.Width;
 			// The loop must be deep enough that the label pill (centred on the outer vertical) clears the markers beside the entity.
 			var labelBox = rel.Label.Length > 0
-				? ErSvgRenderer.LabelBoxWidth(TextMetrics.MeasureMultiline(rel.Label.AsSpan(), RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel).Width)
+				? ErSvgRenderer.LabelBoxWidth(
+					TextMetrics.MeasureMultiline(rel.Label.AsSpan(), RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel).Width
+				)
 				: 0;
 			var loopOut = 36 + (labelBox / 2);
 			var nth = loopsPerSide.GetValueOrDefault((n.Id, left));
@@ -275,11 +280,17 @@ internal static class LightweightErLayoutEngine
 		{
 			Width = width,
 			Entities = d.Entities.Select(e => e with { X = e.X + shift }).ToList(),
-			Relationships = d.Relationships.Select(r => r with
-			{
-				Points = r.Points.Select(p => new Point(p.X + shift, p.Y)).ToList(),
-				LabelPosition = r.LabelPosition is { } lp ? new Point(lp.X + shift, lp.Y) : null,
-			}).ToList(),
+			Relationships = d
+				.Relationships
+				.Select(
+					r =>
+						r with
+						{
+							Points = r.Points.Select(p => new Point(p.X + shift, p.Y)).ToList(),
+							LabelPosition = r.LabelPosition is { } lp ? new Point(lp.X + shift, lp.Y) : null,
+						}
+				)
+				.ToList(),
 		};
 	}
 
@@ -289,9 +300,7 @@ internal static class LightweightErLayoutEngine
 	/// edge has a distinct anchor.  Edges that already use different x positions are
 	/// left unchanged.
 	/// </summary>
-	private static void SpreadConvergentPorts(
-		List<PositionedErRelationship> rels,
-		List<PositionedErEntity> entities)
+	private static void SpreadConvergentPorts(List<PositionedErRelationship> rels, List<PositionedErEntity> entities)
 	{
 		const double portMarginFraction = 0.15;
 		const double snapY = 4.0;
@@ -464,7 +473,8 @@ internal static class LightweightErLayoutEngine
 	private static void RestoreUnsafeCollapses(
 		List<PositionedErRelationship> rels,
 		Dictionary<int, List<Point>> savedMultiHop,
-		List<PositionedErEntity> entities)
+		List<PositionedErEntity> entities
+	)
 	{
 		foreach (var (i, original) in savedMultiHop)
 		{
@@ -484,9 +494,7 @@ internal static class LightweightErLayoutEngine
 	/// from <paramref name="twoPoints"/> does not pass through any entity box.
 	/// The four segments are: vertical down from exit, horizontal bus at midY, vertical down to entry.
 	/// </summary>
-	private static bool IsOrthogonalPathEntitySafe(
-		IReadOnlyList<Point> twoPoints,
-		IReadOnlyList<PositionedErEntity> entities)
+	private static bool IsOrthogonalPathEntitySafe(IReadOnlyList<Point> twoPoints, IReadOnlyList<PositionedErEntity> entities)
 	{
 		var exit = twoPoints[0];
 		var entry = twoPoints[1];
@@ -533,10 +541,7 @@ internal static class LightweightErLayoutEngine
 			if (Math.Abs(b.X - a.X) < minHorizDelta)
 				continue;
 			var midY = (a.Y + b.Y) / 2.0;
-			rels[i] = rel with
-			{
-				Points = [a, new Point(a.X, midY), new Point(b.X, midY), b]
-			};
+			rels[i] = rel with { Points = [a, new Point(a.X, midY), new Point(b.X, midY), b] };
 		}
 	}
 
@@ -548,9 +553,7 @@ internal static class LightweightErLayoutEngine
 		for (var i = 0; i < rels.Count; i++)
 		{
 			var rel = rels[i];
-			var key = string.Compare(rel.Entity1, rel.Entity2, StringComparison.Ordinal) <= 0
-				? (rel.Entity1, rel.Entity2)
-				: (rel.Entity2, rel.Entity1);
+			var key = string.Compare(rel.Entity1, rel.Entity2, StringComparison.Ordinal) <= 0 ? (rel.Entity1, rel.Entity2) : (rel.Entity2, rel.Entity1);
 			if (!groups.TryGetValue(key, out var list))
 				groups[key] = list = [];
 			list.Add(i);

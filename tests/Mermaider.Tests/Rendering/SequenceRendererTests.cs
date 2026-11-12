@@ -4,7 +4,8 @@ namespace Mermaider.Tests.Rendering;
 
 public class SequenceRendererTests
 {
-	private const string SimpleSequence = """
+	private const string SimpleSequence =
+		"""
 		sequenceDiagram
 		participant A as Alice
 		participant B as Bob
@@ -74,12 +75,14 @@ public class SequenceRendererTests
 	[Test]
 	public void Renders_with_loop_block()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			sequenceDiagram
 			loop Every minute
 			A->>B: Ping
 			end
-			""");
+			"""
+		);
 
 		svg.Should().Contain("class=\"block\"");
 		svg.Should().Contain("data-type=\"loop\"");
@@ -88,13 +91,15 @@ public class SequenceRendererTests
 	[Test]
 	public void Renders_with_note()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			sequenceDiagram
 			participant A
 			participant B
 			A->>B: Hello
 			Note right of B: Important
-			""");
+			"""
+		);
 
 		svg.Should().Contain("class=\"note\"");
 		svg.Should().Contain("data-position=\"right\"");
@@ -103,14 +108,10 @@ public class SequenceRendererTests
 	[Test]
 	public void Note_after_self_message_sits_below_the_loop_and_its_label()
 	{
-		var diagram = Mermaider.Parsing.SequenceParser.Parse(
-		[
-			"sequenceDiagram",
-			"A->>J: hi",
-			"J->>J: Fight against hypochondria",
-			"Note right of J: Rational thoughts",
-			"J-->>A: Great",
-		]);
+		var diagram = Mermaider
+			.Parsing
+			.SequenceParser
+			.Parse(["sequenceDiagram", "A->>J: hi", "J->>J: Fight against hypochondria", "Note right of J: Rational thoughts", "J-->>A: Great",]);
 
 		var positioned = Mermaider.Layout.SequenceLayout.Layout(diagram);
 
@@ -126,14 +127,16 @@ public class SequenceRendererTests
 	[Test]
 	public void Renders_alt_block_with_dividers()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			sequenceDiagram
 			alt Valid
 			A->>B: OK
 			else Invalid
 			A->>B: Error
 			end
-			""");
+			"""
+		);
 
 		svg.Should().Contain("data-type=\"alt\"");
 		svg.Should().Contain($"stroke-dasharray=\"{Mermaider.Rendering.DesignSystem.DashArray}\"", "else separators use the dashed edge language");
@@ -144,12 +147,14 @@ public class SequenceRendererTests
 	[Test]
 	public void Renders_actor_stick_figure()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			sequenceDiagram
 			actor U as User
 			participant S as Server
 			U->>S: Request
-			""");
+			"""
+		);
 
 		svg.Should().Contain("data-type=\"actor\"");
 		svg.Should().Contain("data-type=\"participant\"");

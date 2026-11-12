@@ -19,14 +19,9 @@ internal static class MermaiderGraphSkeletonExtractor
 {
 	public static LayoutSkeleton Extract(MermaidGraph original, PositionedGraph positioned)
 	{
-		var boxes = positioned.Nodes
-			.Select(n => (n.Id, n.X, n.Y, n.Width, n.Height))
-			.ToList();
+		var boxes = positioned.Nodes.Select(n => (n.Id, n.X, n.Y, n.Width, n.Height)).ToList();
 
-		var edges = positioned.Edges
-			.Where(e => e.Points.Count >= 2)
-			.Select(e => (e.Source, e.Target, e.Label ?? "", (IReadOnlyList<Point>)e.Points))
-			.ToList();
+		var edges = positioned.Edges.Where(e => e.Points.Count >= 2).Select(e => (e.Source, e.Target, e.Label ?? "", (IReadOnlyList<Point>)e.Points)).ToList();
 
 		var groups = new List<(string Id, string? ParentId, IReadOnlyList<string> MemberNodeIds, double X, double Y, double W, double H)>();
 		CollectGroups(original.Subgraphs, positioned.Groups, parentId: null, groups);
@@ -38,7 +33,8 @@ internal static class MermaiderGraphSkeletonExtractor
 		IReadOnlyList<MermaidSubgraph> subgraphs,
 		IReadOnlyList<PositionedGroup> positionedGroups,
 		string? parentId,
-		List<(string Id, string? ParentId, IReadOnlyList<string> MemberNodeIds, double X, double Y, double W, double H)> result)
+		List<(string Id, string? ParentId, IReadOnlyList<string> MemberNodeIds, double X, double Y, double W, double H)> result
+	)
 	{
 		foreach (var sg in subgraphs)
 		{

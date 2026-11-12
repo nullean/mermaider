@@ -52,9 +52,7 @@ internal static partial class StateParser
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
-			throw new MermaidParseException(
-				$"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.",
-				ex);
+			throw new MermaidParseException($"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.", ex);
 		}
 	}
 
@@ -164,7 +162,9 @@ internal static partial class StateParser
 			var noteBlockMatch = NoteBlockStartPattern().Match(line);
 			if (noteBlockMatch.Success)
 			{
-				pendingNotePosition = noteBlockMatch.Groups[1].Value.Equals("left", StringComparison.OrdinalIgnoreCase) ? GraphNotePosition.Left : GraphNotePosition.Right;
+				pendingNotePosition = noteBlockMatch.Groups[1].Value.Equals("left", StringComparison.OrdinalIgnoreCase)
+					? GraphNotePosition.Left
+					: GraphNotePosition.Right;
 				pendingNoteTarget = noteBlockMatch.Groups[2].Value;
 				continue;
 			}
@@ -340,9 +340,7 @@ internal static partial class StateParser
 
 				if (src != edge.Source || tgt != edge.Target)
 				{
-					redirections[i] = (
-						src != edge.Source ? edge.Source : null,
-						tgt != edge.Target ? edge.Target : null);
+					redirections[i] = (src != edge.Source ? edge.Source : null, tgt != edge.Target ? edge.Target : null);
 					edges[i] = new MermaidEdge(src, tgt, edge.Label, edge.Style, edge.HasArrowStart, edge.HasArrowEnd);
 				}
 			}
@@ -359,16 +357,15 @@ internal static partial class StateParser
 			ClassDefs = classDefs,
 			ClassAssignments = classAssignments,
 			SubgraphEdgeRedirections = redirections,
-			NodeStyles = nodeStyles.ToDictionary(
-				kvp => kvp.Key,
-				kvp => (IReadOnlyDictionary<string, string>)kvp.Value),
+			NodeStyles = nodeStyles.ToDictionary(kvp => kvp.Key, kvp => (IReadOnlyDictionary<string, string>)kvp.Value),
 		};
 	}
 
 	private static void RegisterStateNode(
 		Dictionary<string, MermaidNode> nodes,
 		Stack<(string Id, string Label, List<string> NodeIds, List<MermaidSubgraph> Children, Direction? Dir)> compositeStack,
-		MermaidNode node)
+		MermaidNode node
+	)
 	{
 		_ = nodes.TryAdd(node.Id, node);
 		if (compositeStack.Count > 0)
@@ -382,7 +379,8 @@ internal static partial class StateParser
 	private static void EnsureStateNode(
 		Dictionary<string, MermaidNode> nodes,
 		Stack<(string Id, string Label, List<string> NodeIds, List<MermaidSubgraph> Children, Direction? Dir)> compositeStack,
-		string id)
+		string id
+	)
 	{
 		if (!nodes.ContainsKey(id))
 			RegisterStateNode(nodes, compositeStack, new MermaidNode(id, id, NodeShape.Rounded));

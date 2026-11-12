@@ -65,16 +65,16 @@ foreach (var (name, source) in diagrams)
 // Strict mode
 try
 {
-	var svg = MermaidRenderer.RenderSvg("""
+	var svg = MermaidRenderer.RenderSvg(
+		"""
 		graph TD
 		  A[Start]:::ok --> B[End]
-		""", new RenderOptions
-	{
-		Strict = new StrictStylingOptions
+		""",
+		new RenderOptions
 		{
-			AllowedClasses = [new DiagramClass { Name = "ok", Fill = "#D4EDDA", Stroke = "#28A745", Color = "#155724" }]
+			Strict = new StrictStylingOptions { AllowedClasses = [new DiagramClass { Name = "ok", Fill = "#D4EDDA", Stroke = "#28A745", Color = "#155724" }] }
 		}
-	});
+	);
 
 	if (!svg.Contains("<svg"))
 		throw new InvalidOperationException("Strict mode SVG missing root");

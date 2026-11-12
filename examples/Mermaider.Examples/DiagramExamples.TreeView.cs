@@ -3,8 +3,12 @@ namespace Mermaider.Examples;
 public static partial class DiagramExamples
 {
 	private static DiagramExample[] CreateTreeViewExamples() =>
-	[
-		new("treeview-basic", "Basic Project Structure", DiagramCategory.TreeView, """
+		[
+			new(
+				"treeview-basic",
+				"Basic Project Structure",
+				DiagramCategory.TreeView,
+				"""
 			treeView-beta
 			    my-project/
 			        src/
@@ -14,9 +18,13 @@ public static partial class DiagramExamples
 			            index.test.js
 			        package.json
 			        README.md
-			"""),
-
-		new("treeview-dotnet", ".NET Solution", DiagramCategory.TreeView, """
+			"""
+			),
+			new(
+				"treeview-dotnet",
+				".NET Solution",
+				DiagramCategory.TreeView,
+				"""
 			treeView-beta
 			    MyApp.sln/
 			        src/
@@ -36,9 +44,13 @@ public static partial class DiagramExamples
 			                UserServiceTests.cs
 			                MyApp.Tests.csproj
 			        README.md
-			"""),
-
-		new("treeview-box-drawing", "Box-Drawing Format", DiagramCategory.TreeView, """
+			"""
+			),
+			new(
+				"treeview-box-drawing",
+				"Box-Drawing Format",
+				DiagramCategory.TreeView,
+				"""
 			treeView-beta
 			├── src/
 			│   ├── components/
@@ -53,9 +65,13 @@ public static partial class DiagramExamples
 			│   └── index.html
 			├── package.json
 			└── tsconfig.json
-			"""),
-
-		new("treeview-highlighted", "Highlighted Nodes", DiagramCategory.TreeView, """
+			"""
+			),
+			new(
+				"treeview-highlighted",
+				"Highlighted Nodes",
+				DiagramCategory.TreeView,
+				"""
 			treeView-beta
 			    project/
 			        src/
@@ -64,9 +80,13 @@ public static partial class DiagramExamples
 			        dist/
 			            main.js :::highlight ## build output
 			        package.json
-			"""),
-
-		new("treeview-descriptions", "With Descriptions", DiagramCategory.TreeView, """
+			"""
+			),
+			new(
+				"treeview-descriptions",
+				"With Descriptions",
+				DiagramCategory.TreeView,
+				"""
 			treeView-beta
 			    infrastructure/
 			        terraform/
@@ -80,9 +100,13 @@ public static partial class DiagramExamples
 			            deployment.yaml ## pod spec
 			            service.yaml ## load balancer
 			            ingress.yaml ## external routing
-			"""),
-
-		new("treeview-icons", "Custom Icons", DiagramCategory.TreeView, """
+			"""
+			),
+			new(
+				"treeview-icons",
+				"Custom Icons",
+				DiagramCategory.TreeView,
+				"""
 			treeView-beta
 			    repo/ icon(folder-open)
 			        src/ icon(folder-open)
@@ -94,9 +118,13 @@ public static partial class DiagramExamples
 			            data.csv icon(file:data)
 			        .env icon(file:config)
 			        package.json icon(file:config)
-			"""),
-
-		new("treeview-monorepo", "Monorepo Layout", DiagramCategory.TreeView, """
+			"""
+			),
+			new(
+				"treeview-monorepo",
+				"Monorepo Layout",
+				DiagramCategory.TreeView,
+				"""
 			treeView-beta
 			    monorepo/
 			        packages/
@@ -124,9 +152,13 @@ public static partial class DiagramExamples
 			                package.json
 			        turbo.json
 			        package.json
-			"""),
-
-		new("treeview-mixed-annotations", "Combined Annotations", DiagramCategory.TreeView, """
+			"""
+			),
+			new(
+				"treeview-mixed-annotations",
+				"Combined Annotations",
+				DiagramCategory.TreeView,
+				"""
 			treeView-beta
 			    deploy/ icon(folder-open)
 			        Dockerfile :::highlight ## production image
@@ -137,9 +169,13 @@ public static partial class DiagramExamples
 			        scripts/
 			            deploy.sh ## CI/CD entry point
 			            rollback.sh
-			"""),
-
-		new("treeview-quoted-labels", "Quoted Labels with Spaces", DiagramCategory.TreeView, """
+			"""
+			),
+			new(
+				"treeview-quoted-labels",
+				"Quoted Labels with Spaces",
+				DiagramCategory.TreeView,
+				"""
 			treeView-beta
 			    "my project"/
 			        "source files"/
@@ -149,9 +185,13 @@ public static partial class DiagramExamples
 			            "app config.json"
 			            "env vars.env"
 			        "README (important).md" :::highlight
-			"""),
-
-		new("treeview-heavy-box", "Heavy Box-Drawing", DiagramCategory.TreeView, """
+			"""
+			),
+			new(
+				"treeview-heavy-box",
+				"Heavy Box-Drawing",
+				DiagramCategory.TreeView,
+				"""
 			treeView-beta
 			┣━━ src/
 			┃   ┣━━ lib/
@@ -160,9 +200,13 @@ public static partial class DiagramExamples
 			┃   ┗━━ main.rs
 			┣━━ Cargo.toml
 			┗━━ README.md
-			"""),
-
-		new("treeview-deep-nesting", "Deep Nesting", DiagramCategory.TreeView, """
+			"""
+			),
+			new(
+				"treeview-deep-nesting",
+				"Deep Nesting",
+				DiagramCategory.TreeView,
+				"""
 			treeView-beta
 			    app/
 			        domain/
@@ -181,6 +225,7 @@ public static partial class DiagramExamples
 			                commands/
 			                    PlaceOrder.cs
 			                Order.cs
-			"""),
-	];
+			"""
+			),
+		];
 }

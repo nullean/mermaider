@@ -79,9 +79,7 @@ internal static partial class DiagramPreprocessor
 		{
 			var lineStart = searchStart;
 			var lineEnd = rest[searchStart..].IndexOf('\n');
-			var line = lineEnd >= 0
-				? rest[lineStart..(lineStart + lineEnd)].Trim()
-				: rest[lineStart..].Trim();
+			var line = lineEnd >= 0 ? rest[lineStart..(lineStart + lineEnd)].Trim() : rest[lineStart..].Trim();
 
 			if (line is "---")
 			{
@@ -99,9 +97,7 @@ internal static partial class DiagramPreprocessor
 
 		// Extract YAML content between the two --- markers
 		var yamlContent = rest[..closingIndex].ToString();
-		var afterBlock = closingIndex < rest.Length
-			? rest[(closingIndex + 1)..].ToString()
-			: string.Empty;
+		var afterBlock = closingIndex < rest.Length ? rest[(closingIndex + 1)..].ToString() : string.Empty;
 
 		// Parse the one supported frontmatter key from simple YAML (no full YAML parser
 		// dependency). Every other key is ignored and removed with the frontmatter block;
@@ -114,9 +110,7 @@ internal static partial class DiagramPreprocessor
 			{
 				var value = trimmed["title:".Length..].Trim();
 				// Strip surrounding quotes if present
-				if (value.Length >= 2 &&
-					((value[0] == '"' && value[^1] == '"') ||
-					 (value[0] == '\'' && value[^1] == '\'')))
+				if (value.Length >= 2 && ((value[0] == '"' && value[^1] == '"') || (value[0] == '\'' && value[^1] == '\'')))
 				{
 					value = value[1..^1];
 				}
@@ -147,14 +141,12 @@ internal static partial class DiagramPreprocessor
 					using var doc = JsonDocument.Parse(json);
 					var root = doc.RootElement;
 
-					if (root.TryGetProperty("theme", out var themeElement) &&
-						themeElement.ValueKind == JsonValueKind.String)
+					if (root.TryGetProperty("theme", out var themeElement) && themeElement.ValueKind == JsonValueKind.String)
 					{
 						theme = themeElement.GetString();
 					}
 
-					if (root.TryGetProperty("themeVariables", out var varsElement) &&
-						varsElement.ValueKind == JsonValueKind.Object)
+					if (root.TryGetProperty("themeVariables", out var varsElement) && varsElement.ValueKind == JsonValueKind.Object)
 					{
 						themeVariables ??= [];
 						foreach (var prop in varsElement.EnumerateObject())
@@ -165,8 +157,7 @@ internal static partial class DiagramPreprocessor
 					}
 
 					// Mermaid also supports title in init
-					if (root.TryGetProperty("title", out var titleElement) &&
-						titleElement.ValueKind == JsonValueKind.String)
+					if (root.TryGetProperty("title", out var titleElement) && titleElement.ValueKind == JsonValueKind.String)
 					{
 						title = titleElement.GetString();
 					}

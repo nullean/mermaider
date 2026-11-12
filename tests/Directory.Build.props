@@ -6,10 +6,4 @@
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)../build/keys/keypair.snk</AssemblyOriginatorKeyFile>
     <NoWarn>$(NoWarn);CA1707</NoWarn>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="GitHubActionsTestLogger">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
 </Project>

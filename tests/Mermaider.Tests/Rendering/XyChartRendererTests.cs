@@ -5,7 +5,8 @@ namespace Mermaider.Tests.Rendering;
 
 public class XyChartRendererTests
 {
-	private const string Basic = """
+	private const string Basic =
+		"""
 		xychart-beta
 		title "Sales Revenue"
 		x-axis [jan, feb, mar, apr, may, jun]
@@ -64,12 +65,14 @@ public class XyChartRendererTests
 	[Test]
 	public void Named_series_legend()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			xychart-beta
 			x-axis [a, b]
 			line "avg" [1, 2]
 			line "p95" [3, 4]
-			""");
+			"""
+		);
 
 		svg.Should().Contain("avg");
 		svg.Should().Contain("p95");
@@ -92,12 +95,14 @@ public class XyChartRendererTests
 	public void Multi_bar_series_use_distinct_declaration_colors()
 	{
 		// Palette index 0 = #4e79a7, 1 = #f28e2b (declaration order).
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			xychart-beta
 			x-axis [a, b]
 			bar "first" [1, 2]
 			bar "second" [3, 4]
-			""");
+			"""
+		);
 
 		svg.Should().Contain("fill=\"#4e79a7\"");
 		svg.Should().Contain("fill=\"#f28e2b\"");
@@ -109,12 +114,14 @@ public class XyChartRendererTests
 	[Test]
 	public void Bar_then_line_colors_follow_declaration_index()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			xychart-beta
 			x-axis [a, b]
 			bar "bars" [1, 2]
 			line "trend" [1, 2]
-			""");
+			"""
+		);
 
 		svg.Should().Contain("fill=\"#4e79a7\"");
 		svg.Should().Contain("stroke=\"#f28e2b\"");

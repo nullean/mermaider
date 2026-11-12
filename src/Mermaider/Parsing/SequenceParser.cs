@@ -47,9 +47,7 @@ internal static partial class SequenceParser
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
-			throw new MermaidParseException(
-				$"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.",
-				ex);
+			throw new MermaidParseException($"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.", ex);
 		}
 	}
 
@@ -247,10 +245,7 @@ internal static partial class SequenceParser
 					: arrow.Contains(">>") ? SequenceArrowHead.Filled
 					: SequenceArrowHead.Open;
 
-				messages.Add(new SequenceMessage(
-					from, to, label, lineStyle, arrowHead,
-					Activate: activationMark == "+",
-					Deactivate: activationMark == "-"));
+				messages.Add(new SequenceMessage(from, to, label, lineStyle, arrowHead, Activate: activationMark == "+", Deactivate: activationMark == "-"));
 
 				if (pendingCreate != null)
 				{

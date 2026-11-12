@@ -28,7 +28,14 @@ public sealed record ClassMember(
 	string? Params = null
 );
 
-public enum ClassVisibility { None, Public, Private, Protected, Package }
+public enum ClassVisibility
+{
+	None,
+	Public,
+	Private,
+	Protected,
+	Package
+}
 
 public sealed record ClassRelationship(
 	string From,
@@ -40,8 +47,22 @@ public sealed record ClassRelationship(
 	string? ToCardinality = null
 );
 
-public enum ClassRelationType { Inheritance, Composition, Aggregation, Association, Dependency, Realization, Lollipop }
-public enum ClassMarkerAt { From, To }
+public enum ClassRelationType
+{
+	Inheritance,
+	Composition,
+	Aggregation,
+	Association,
+	Dependency,
+	Realization,
+	Lollipop
+}
+
+public enum ClassMarkerAt
+{
+	From,
+	To
+}
 
 public sealed record ClassNamespace(string Name, IReadOnlyList<string> ClassIds);
 

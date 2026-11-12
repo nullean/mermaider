@@ -9,14 +9,7 @@ public class TreeViewParserTests
 	[Test]
 	public void Parses_basic_indentation_tree()
 	{
-		var lines = new[]
-		{
-			"treeView-beta",
-			"    project/",
-			"        src/",
-			"            index.js",
-			"        README.md",
-		};
+		var lines = new[] { "treeView-beta", "    project/", "        src/", "            index.js", "        README.md", };
 
 		var diagram = TreeViewParser.Parse(lines);
 
@@ -35,14 +28,7 @@ public class TreeViewParserTests
 	[Test]
 	public void Parses_box_drawing_standard()
 	{
-		var lines = new[]
-		{
-			"treeView-beta",
-			"├── src/",
-			"│   ├── main.ts",
-			"│   └── utils.ts",
-			"└── package.json",
-		};
+		var lines = new[] { "treeView-beta", "├── src/", "│   ├── main.ts", "│   └── utils.ts", "└── package.json", };
 
 		var diagram = TreeViewParser.Parse(lines);
 
@@ -58,13 +44,7 @@ public class TreeViewParserTests
 	[Test]
 	public void Parses_box_drawing_heavy()
 	{
-		var lines = new[]
-		{
-			"treeView-beta",
-			"┣━━ src/",
-			"┃   ┗━━ main.rs",
-			"┗━━ Cargo.toml",
-		};
+		var lines = new[] { "treeView-beta", "┣━━ src/", "┃   ┗━━ main.rs", "┗━━ Cargo.toml", };
 
 		var diagram = TreeViewParser.Parse(lines);
 
@@ -79,12 +59,7 @@ public class TreeViewParserTests
 	[Test]
 	public void Detects_directories_by_trailing_slash()
 	{
-		var lines = new[]
-		{
-			"treeView-beta",
-			"    src/",
-			"    file.txt",
-		};
+		var lines = new[] { "treeView-beta", "    src/", "    file.txt", };
 
 		var diagram = TreeViewParser.Parse(lines);
 
@@ -97,12 +72,7 @@ public class TreeViewParserTests
 	[Test]
 	public void Parses_quoted_labels()
 	{
-		var lines = new[]
-		{
-			"treeView-beta",
-			"    \"my project\"/",
-			"        \"file with spaces.txt\"",
-		};
+		var lines = new[] { "treeView-beta", "    \"my project\"/", "        \"file with spaces.txt\"", };
 
 		var diagram = TreeViewParser.Parse(lines);
 
@@ -114,11 +84,7 @@ public class TreeViewParserTests
 	[Test]
 	public void Parses_class_annotation()
 	{
-		var lines = new[]
-		{
-			"treeView-beta",
-			"    important.ts :::highlight",
-		};
+		var lines = new[] { "treeView-beta", "    important.ts :::highlight", };
 
 		var diagram = TreeViewParser.Parse(lines);
 
@@ -129,11 +95,7 @@ public class TreeViewParserTests
 	[Test]
 	public void Parses_description_annotation()
 	{
-		var lines = new[]
-		{
-			"treeView-beta",
-			"    main.ts ## entry point",
-		};
+		var lines = new[] { "treeView-beta", "    main.ts ## entry point", };
 
 		var diagram = TreeViewParser.Parse(lines);
 
@@ -144,11 +106,7 @@ public class TreeViewParserTests
 	[Test]
 	public void Parses_icon_annotation()
 	{
-		var lines = new[]
-		{
-			"treeView-beta",
-			"    app.ts icon(file:code)",
-		};
+		var lines = new[] { "treeView-beta", "    app.ts icon(file:code)", };
 
 		var diagram = TreeViewParser.Parse(lines);
 
@@ -159,12 +117,7 @@ public class TreeViewParserTests
 	[Test]
 	public void Parses_icon_none_suppresses()
 	{
-		var lines = new[]
-		{
-			"treeView-beta",
-			"    hidden.txt icon(none)",
-			"    empty.txt icon()",
-		};
+		var lines = new[] { "treeView-beta", "    hidden.txt icon(none)", "    empty.txt icon()", };
 
 		var diagram = TreeViewParser.Parse(lines);
 
@@ -175,11 +128,7 @@ public class TreeViewParserTests
 	[Test]
 	public void Parses_combined_annotations()
 	{
-		var lines = new[]
-		{
-			"treeView-beta",
-			"    main.ts icon(file:code) :::highlight ## entry point",
-		};
+		var lines = new[] { "treeView-beta", "    main.ts icon(file:code) :::highlight ## entry point", };
 
 		var diagram = TreeViewParser.Parse(lines);
 
@@ -202,15 +151,7 @@ public class TreeViewParserTests
 	[Test]
 	public void Skips_empty_lines()
 	{
-		var lines = new[]
-		{
-			"treeView-beta",
-			"",
-			"    src/",
-			"",
-			"        main.ts",
-			"",
-		};
+		var lines = new[] { "treeView-beta", "", "    src/", "", "        main.ts", "", };
 
 		var diagram = TreeViewParser.Parse(lines);
 
@@ -221,13 +162,7 @@ public class TreeViewParserTests
 	[Test]
 	public void Expands_tabs_to_spaces()
 	{
-		var lines = new[]
-		{
-			"treeView-beta",
-			"\tproject/",
-			"\t\tsrc/",
-			"\t\t\tindex.js",
-		};
+		var lines = new[] { "treeView-beta", "\tproject/", "\t\tsrc/", "\t\t\tindex.js", };
 
 		var diagram = TreeViewParser.Parse(lines);
 
@@ -240,14 +175,7 @@ public class TreeViewParserTests
 	[Test]
 	public void Multiple_roots_in_indentation_mode()
 	{
-		var lines = new[]
-		{
-			"treeView-beta",
-			"    file1.txt",
-			"    file2.txt",
-			"    dir/",
-			"        nested.txt",
-		};
+		var lines = new[] { "treeView-beta", "    file1.txt", "    file2.txt", "    dir/", "        nested.txt", };
 
 		var diagram = TreeViewParser.Parse(lines);
 

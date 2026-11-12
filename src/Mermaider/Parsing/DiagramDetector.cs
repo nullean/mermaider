@@ -81,7 +81,6 @@ internal static partial class DiagramDetector
 	[GeneratedRegex(@"^treeView(?:-beta)?(?:\s|$)", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex TreeViewHeader();
 
-
 	internal static DiagramType Detect(ReadOnlySpan<char> text)
 	{
 		var firstLineEnd = text.IndexOf('\n');

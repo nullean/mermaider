@@ -98,7 +98,9 @@ public class VisualLanguageContractStructureTests
 		foreach (var svg in new[] { cls, er })
 		{
 			svg.Should().Contain(type);
-			svg.Should().MatchRegex("class=\"mono\" text-anchor=\"start\" font-size=\"var\\(--fs-s\\)\" font-weight=\"400\" fill=\"var\\(--_text\\)\"[^>]*>id<");
+			svg.Should().MatchRegex(
+				"class=\"mono\" text-anchor=\"start\" font-size=\"var\\(--fs-s\\)\" font-weight=\"400\" fill=\"var\\(--_text\\)\"[^>]*>id<"
+			);
 		}
 
 		// the visibility sign sits in the gutter before the name, in the family ink
@@ -135,7 +137,8 @@ public class VisualLanguageContractStructureTests
 		svg.Should().MatchRegex("<circle [^>]*fill=\"var\\(--bg\\)\" stroke=\"var\\(--_line\\)\"", "o{ is a page-filled circle in the line colour");
 	}
 
-	private const string Requirements = """
+	private const string Requirements =
+		"""
 		requirementDiagram
 		requirement a {
 		id: 1
@@ -203,10 +206,18 @@ public class VisualLanguageContractStructureTests
 	{
 		foreach (var style in new[] { DiagramStyle.Quiet, DiagramStyle.Blueprint, DiagramStyle.Tonal })
 		{
-			foreach (var source in new[] { Er, Requirements, "classDiagram\n  namespace N {\n    class A {\n      +int id\n    }\n  }\n  A <|-- B\n  note for A \"hi\"" })
+			foreach (var source in new[]
+			{
+				Er,
+				Requirements,
+				"classDiagram\n  namespace N {\n    class A {\n      +int id\n    }\n  }\n  A <|-- B\n  note for A \"hi\""
+			})
 			{
 				var svg = DesignContract.Render(source, style);
-				DesignContract.HexColours(svg.Replace("color-mix(in srgb, #", "", StringComparison.Ordinal)).Should().BeEmpty($"{style}: paint comes from families and tokens");
+				DesignContract
+					.HexColours(svg.Replace("color-mix(in srgb, #", "", StringComparison.Ordinal))
+					.Should()
+					.BeEmpty($"{style}: paint comes from families and tokens");
 			}
 		}
 	}

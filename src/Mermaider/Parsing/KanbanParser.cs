@@ -27,9 +27,7 @@ internal static partial class KanbanParser
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
-			throw new MermaidParseException(
-				$"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.",
-				ex);
+			throw new MermaidParseException($"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.", ex);
 		}
 	}
 
@@ -93,11 +91,7 @@ internal static partial class KanbanParser
 		return new KanbanDiagram { Title = title, Columns = columns };
 	}
 
-	private static void FlushColumn(
-		List<KanbanColumn> columns,
-		string? id,
-		string? title,
-		List<KanbanTask> tasks)
+	private static void FlushColumn(List<KanbanColumn> columns, string? id, string? title, List<KanbanTask> tasks)
 	{
 		if (id is null)
 			return;
@@ -144,11 +138,7 @@ internal static partial class KanbanParser
 		foreach (Match m in MetadataPairPattern().Matches(body))
 		{
 			var key = m.Groups[1].Value;
-			var value = m.Groups[2].Success
-				? m.Groups[2].Value
-				: m.Groups[3].Success
-					? m.Groups[3].Value
-					: m.Groups[4].Value.Trim();
+			var value = m.Groups[2].Success ? m.Groups[2].Value : m.Groups[3].Success ? m.Groups[3].Value : m.Groups[4].Value.Trim();
 
 			if (key.Equals("assigned", StringComparison.OrdinalIgnoreCase))
 				assigned = value;

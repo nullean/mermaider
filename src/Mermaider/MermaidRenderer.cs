@@ -25,8 +25,7 @@ public static class MermaidRenderer
 	/// Replace the built-in layout engine with a custom provider (e.g. MSAGL).
 	/// Install the <c>Mermaider.Layout.Msagl</c> NuGet package for the MSAGL provider.
 	/// </summary>
-	public static void SetLayoutProvider(IGraphLayoutProvider provider) =>
-		_layoutProvider = provider ?? throw new ArgumentNullException(nameof(provider));
+	public static void SetLayoutProvider(IGraphLayoutProvider provider) => _layoutProvider = provider ?? throw new ArgumentNullException(nameof(provider));
 
 	/// <summary>Returns the currently active layout provider.</summary>
 	public static IGraphLayoutProvider LayoutProvider => _layoutProvider;
@@ -40,8 +39,7 @@ public static class MermaidRenderer
 	/// <exception cref="MermaidParseException">Thrown when the input cannot be parsed.</exception>
 	/// <exception cref="MermaidResourceLimitException">Thrown when a resource limit is exceeded.</exception>
 	/// <exception cref="MermaidSvgException">Thrown when block mode rejects generated SVG.</exception>
-	public static string RenderSvg(string text, RenderOptions? options = null)
-		=> MermaidRenderPipeline.Execute(text, options);
+	public static string RenderSvg(string text, RenderOptions? options = null) => MermaidRenderPipeline.Execute(text, options);
 
 	/// <summary>
 	/// Render and sanitize Mermaid diagram text, then write the UTF-8 SVG to a <see cref="Stream"/>.
@@ -141,13 +139,12 @@ public static class MermaidRenderer
 		};
 	}
 
-	internal static MermaidGraph ParseInternal(string[] lines, DiagramType diagramType) =>
-		diagramType switch
-		{
-			DiagramType.Flowchart => FlowchartParser.Parse(lines),
-			DiagramType.State => StateParser.Parse(lines),
-			_ => throw new MermaidParseException($"Diagram type '{diagramType}' is not yet supported.")
-		};
+	internal static MermaidGraph ParseInternal(string[] lines, DiagramType diagramType) => diagramType switch
+	{
+		DiagramType.Flowchart => FlowchartParser.Parse(lines),
+		DiagramType.State => StateParser.Parse(lines),
+		_ => throw new MermaidParseException($"Diagram type '{diagramType}' is not yet supported.")
+	};
 
 	internal static string[] PreprocessLines(string text)
 	{

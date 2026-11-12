@@ -3,10 +3,14 @@ namespace Mermaider.Examples;
 public static partial class DiagramExamples
 {
 	private static DiagramExample[] CreateRealWorldExamples() =>
-	[
-		// ── Real World (RFC diagrams) ─────────────────────────────────
+		[
+			// ── Real World (RFC diagrams) ─────────────────────────────────
 
-		new("rfc-path-flow", "Path Flow (V1)", DiagramCategory.RealWorld, """
+			new(
+				"rfc-path-flow",
+				"Path Flow (V1)",
+				DiagramCategory.RealWorld,
+				"""
 			flowchart TD
 			    navYml["`**navigation.yml**`"] --> getToc["GetTocMappings()\nURI → path_prefix"]
 			    perRepo["`**Per-repo\ndocset.yml + toc.yml**`"] --> docSetNav["DocumentationSetNavigation\nURI → node tree"]
@@ -16,9 +20,13 @@ public static partial class DiagramExamples
 			    tocNodes --> siteNav
 			    siteNav --> pathProvider["GlobalNavigationPathProvider\ndetermines output file paths"]
 			    siteNav --> sidebar["Sidebar HTML rendering\ndetermines sidebar tree"]
-			"""),
-
-		new("rfc-loading-flow", "Loading Flow", DiagramCategory.RealWorld, """
+			"""
+			),
+			new(
+				"rfc-loading-flow",
+				"Loading Flow",
+				DiagramCategory.RealWorld,
+				"""
 			flowchart TD
 			    disk["All repos cloned to disk prior to build"]
 			    disk --> v1Load["Load docset.yml + toc.yml\n(every repo)"]
@@ -29,9 +37,13 @@ public static partial class DiagramExamples
 			    hasV2 -->|No| loadFallback["Use V1 toc nodes as fallback\nemits migration-progress warning"]
 			    loadV2 --> v2Nodes["V2 TableOfContentNodes"]
 			    loadFallback --> v2NodesFallback["V2 TableOfContentNodes\n(V1 structure)"]
-			"""),
-
-		new("rfc-virtual-remap", "Virtual Remap", DiagramCategory.RealWorld, """
+			"""
+			),
+			new(
+				"rfc-virtual-remap",
+				"Virtual Remap",
+				DiagramCategory.RealWorld,
+				"""
 			flowchart LR
 			    src["`manage-data/ingest/some-page.md
 			    *(source — unchanged on disk)*`"]
@@ -39,9 +51,13 @@ public static partial class DiagramExamples
 			    src --> v2["V2 build\npath_prefix: elasticsearch-fundamentals"]
 			    v1 --> v1out["/docs/manage-data/ingest/some-page"]
 			    v2 --> v2out["/docs/elasticsearch-fundamentals/ingest/some-page"]
-			"""),
-
-		new("rfc-dual-path", "Dual Path Providers", DiagramCategory.RealWorld, """
+			"""
+			),
+			new(
+				"rfc-dual-path",
+				"Dual Path Providers",
+				DiagramCategory.RealWorld,
+				"""
 			flowchart TD
 			    navYml[navigation.yml] -->|GetTocMappings| v1Map[V1 NavigationTocMappings]
 			    navV2Yml[navigation-v2.yml] -->|GetV2TocMappings| v2Map[V2 NavigationTocMappings]
@@ -51,9 +67,13 @@ public static partial class DiagramExamples
 			    v2Map --> flag
 			    flag -->|false| provV1["GlobalNavigationPathProvider\nwith V1 mappings → V1 paths + V1 sidebar"]
 			    flag -->|true| provV2["GlobalNavigationPathProvider\nwith V2 mappings → V2 paths + V2 sidebar"]
-			"""),
-
-		new("rfc-migration-lifecycle", "Migration Lifecycle", DiagramCategory.RealWorld, """
+			"""
+			),
+			new(
+				"rfc-migration-lifecycle",
+				"Migration Lifecycle",
+				DiagramCategory.RealWorld,
+				"""
 			stateDiagram-v2
 			    state "Not started" as NotStarted
 			    state "Shadow nav created" as ShadowNav
@@ -68,9 +88,13 @@ public static partial class DiagramExamples
 			    VirtualRemap --> Cutover : no URL changes needed
 			    PhysicalRestructure --> Cutover : merge feature branch
 			    Cutover --> [*]
-			"""),
-
-		new("rfc-build-flow", "Build Flow with Dual Validation", DiagramCategory.RealWorld, """
+			"""
+			),
+			new(
+				"rfc-build-flow",
+				"Build Flow with Dual Validation",
+				DiagramCategory.RealWorld,
+				"""
 			flowchart TD
 			    subgraph config [Config]
 			        navYml[navigation.yml]
@@ -100,9 +124,13 @@ public static partial class DiagramExamples
 			    valV2 -->|pass| flag
 			    flag -->|false| emitV1["V1 NavigationTocMappings injected\n→ V1 paths + V1 sidebar"]
 			    flag -->|true| emitV2["V2 NavigationTocMappings injected\n→ V2 paths + V2 sidebar"]
-			"""),
-
-		new("rfc-integration-pipeline", "Integration Pipeline", DiagramCategory.RealWorld, """
+			"""
+			),
+			new(
+				"rfc-integration-pipeline",
+				"Integration Pipeline",
+				DiagramCategory.RealWorld,
+				"""
 			flowchart TD
 			    subgraph inputs [Inputs]
 			        assemblerYml["assembler.yml\nenv config · feature flags"]
@@ -145,7 +173,7 @@ public static partial class DiagramExamples
 			    repoCheckouts -->|.md source files| contentProc
 			    assemblerYml -->|nav-v2 flag| outputLayer
 			    contentProc --> outputLayer
-			"""),
-	];
+			"""
+			),
+		];
 }
-

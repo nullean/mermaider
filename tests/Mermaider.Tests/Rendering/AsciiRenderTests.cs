@@ -9,7 +9,8 @@ namespace Mermaider.Tests.Rendering;
 /// </summary>
 public class AsciiRenderTests
 {
-	private const string Flow = """
+	private const string Flow =
+		"""
 		flowchart LR
 		  A[(OrderEvents)] -->|"2/s"| B{{Orders}}
 		  B --> C[Order]
@@ -55,12 +56,14 @@ public class AsciiRenderTests
 	[Test]
 	public void An_edge_against_the_flow_is_drawn_in_a_lane_of_its_own_past_everything()
 	{
-		var text = MermaidRenderer.RenderAscii("""
+		var text = MermaidRenderer.RenderAscii(
+			"""
 			flowchart LR
 			  A[Order] --> B[Refund]
 			  B --> C[Ledger]
 			  C -->|"settled"| A
-			""");
+			"""
+		);
 
 		var rows = Lines(text);
 		var boxes = rows.Select((line, i) => (line, i)).Where(r => r.line.Contains("│ ", StringComparison.Ordinal)).Select(r => r.i).ToList();
@@ -106,13 +109,15 @@ public class AsciiRenderTests
 	[Test]
 	public void A_box_series_is_drawn_as_one_box_and_whisker_per_category()
 	{
-		var text = MermaidRenderer.RenderAscii("""
+		var text = MermaidRenderer.RenderAscii(
+			"""
 			xychart-beta
 			    title "Effect latency"
 			    x-axis [checkout, search]
 			    box [0.01, 0.04, 0.08, 0.2, 1.4]
 			    box [0.02, 0.03, 0.05, 0.09, 0.3]
-			""");
+			"""
+		);
 
 		text.Should().Contain("Effect latency");
 		var rows = Lines(text);
@@ -132,17 +137,21 @@ public class AsciiRenderTests
 	[Test]
 	public void A_box_series_survives_an_unsorted_summary()
 	{
-		var jumbled = MermaidRenderer.RenderAscii("""
+		var jumbled = MermaidRenderer.RenderAscii(
+			"""
 			xychart-beta
 			    x-axis [one]
 			    box [1.4, 0.04, 0.01, 0.2, 0.08]
-			""");
+			"""
+		);
 
-		var sorted = MermaidRenderer.RenderAscii("""
+		var sorted = MermaidRenderer.RenderAscii(
+			"""
 			xychart-beta
 			    x-axis [one]
 			    box [0.01, 0.04, 0.08, 0.2, 1.4]
-			""");
+			"""
+		);
 
 		jumbled.Should().Be(sorted, "five numbers are a summary, and which order they arrive in is not information");
 	}
@@ -150,12 +159,14 @@ public class AsciiRenderTests
 	[Test]
 	public void Bars_are_plotted_against_an_axis_that_names_what_it_reaches()
 	{
-		var text = MermaidRenderer.RenderAscii("""
+		var text = MermaidRenderer.RenderAscii(
+			"""
 			xychart-beta
 			    title "Records a minute"
 			    x-axis [mon, tue, wed]
 			    bar [120, 300, 90]
-			""");
+			"""
+		);
 
 		text.Should().Contain("Records a minute");
 		text.Should().Contain("300", "the axis is labelled with the highest value it reaches");

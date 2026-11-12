@@ -40,7 +40,8 @@ internal static partial class MermaidJsStateSkeletonExtractor
 		var lines = MermaidRenderer.PreprocessLines(cleaned);
 		var graph = StateParser.Parse(lines);
 
-		var realNodeIds = graph.Nodes
+		var realNodeIds = graph
+			.Nodes
 			.Where(kv => kv.Value.Shape is not (NodeShape.StateStart or NodeShape.StateEnd))
 			.Select(kv => kv.Key)
 			.ToHashSet(StringComparer.Ordinal);
@@ -52,20 +53,20 @@ internal static partial class MermaidJsStateSkeletonExtractor
 			var missing = realNodeIds.Where(id => !found.Contains(id));
 			throw new InvalidOperationException(
 				$"mermaid.js state SVG node extraction found {boxes.Count} box(es) but the diagram source has " +
-				$"{realNodeIds.Count} real (non pseudostate) states. Missing: {string.Join(", ", missing)}.");
+					$"{realNodeIds.Count} real (non pseudostate) states. Missing: {string.Join(", ", missing)}."
+			);
 		}
 
 		var subgraphIds = new HashSet<string>(StringComparer.Ordinal);
 		CollectSubgraphIds(graph.Subgraphs, subgraphIds);
-		var clusterBoxById = ExtractClusterBoxes(svg)
-			.Where(g => subgraphIds.Contains(g.Id))
-			.ToDictionary(g => g.Id, StringComparer.Ordinal);
+		var clusterBoxById = ExtractClusterBoxes(svg).Where(g => subgraphIds.Contains(g.Id)).ToDictionary(g => g.Id, StringComparer.Ordinal);
 		if (clusterBoxById.Count != subgraphIds.Count)
 		{
 			var missing = subgraphIds.Where(id => !clusterBoxById.ContainsKey(id));
 			throw new InvalidOperationException(
 				$"mermaid.js state SVG cluster extraction found {clusterBoxById.Count} cluster(s) but the diagram " +
-				$"source has {subgraphIds.Count} composite states. Missing: {string.Join(", ", missing)}.");
+					$"source has {subgraphIds.Count} composite states. Missing: {string.Join(", ", missing)}."
+			);
 		}
 
 		var groups = new List<(string Id, string? ParentId, IReadOnlyList<string> MemberNodeIds, double X, double Y, double W, double H)>();
@@ -84,8 +85,8 @@ internal static partial class MermaidJsStateSkeletonExtractor
 			if (!edgePointsByIndex.TryGetValue(svgIndex, out var pts))
 			{
 				throw new InvalidOperationException(
-					$"mermaid.js state SVG has no edge{svgIndex} — expected one for declaration-order edge " +
-					$"{e.Source} -> {e.Target} (transition #{i}).");
+					$"mermaid.js state SVG has no edge{svgIndex} — expected one for declaration-order edge " + $"{e.Source} -> {e.Target} (transition #{i})."
+				);
 			}
 			edges.Add((e.Source, e.Target, e.Label ?? "", pts));
 		}
@@ -106,7 +107,8 @@ internal static partial class MermaidJsStateSkeletonExtractor
 		IReadOnlyList<MermaidSubgraph> subgraphs,
 		Dictionary<string, (string Id, double X, double Y, double W, double H)> clusterBoxById,
 		string? parentId,
-		List<(string Id, string? ParentId, IReadOnlyList<string> MemberNodeIds, double X, double Y, double W, double H)> result)
+		List<(string Id, string? ParentId, IReadOnlyList<string> MemberNodeIds, double X, double Y, double W, double H)> result
+	)
 	{
 		foreach (var sg in subgraphs)
 		{
@@ -208,19 +210,13 @@ internal static partial class MermaidJsStateSkeletonExtractor
 		return result;
 	}
 
-	[GeneratedRegex(
-		@"<g class=""node\s*[^""]*"" id=""my-svg-state-([A-Za-z0-9_]+)-\d+""[^>]*transform=""translate\((-?[\d.]+),\s*(-?[\d.]+)\)""[^>]*>",
-		RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"<g class=""node\s*[^""]*"" id=""my-svg-state-([A-Za-z0-9_]+)-\d+""[^>]*transform=""translate\((-?[\d.]+),\s*(-?[\d.]+)\)""[^>]*>", RegexOptions.None, TimeoutMs)]
 	private static partial Regex NodeHeaderPattern();
 
-	[GeneratedRegex(
-		@"<g class=""statediagram-state statediagram-cluster"" id=""[^""]*"" data-id=""([^""]+)""[^>]*>\s*<g>\s*<rect[^>]*?\sx=""(-?[\d.]+)""[^>]*?\sy=""(-?[\d.]+)""[^>]*?\swidth=""([\d.]+)""[^>]*?\sheight=""([\d.]+)""",
-		RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"<g class=""statediagram-state statediagram-cluster"" id=""[^""]*"" data-id=""([^""]+)""[^>]*>\s*<g>\s*<rect[^>]*?\sx=""(-?[\d.]+)""[^>]*?\sy=""(-?[\d.]+)""[^>]*?\swidth=""([\d.]+)""[^>]*?\sheight=""([\d.]+)""", RegexOptions.None, TimeoutMs)]
 	private static partial Regex ClusterPattern();
 
-	[GeneratedRegex(
-		@"<path[^>]*id=""my-svg-edge(\d+)""[^>]*data-points=""([^""]+)""",
-		RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"<path[^>]*id=""my-svg-edge(\d+)""[^>]*data-points=""([^""]+)""", RegexOptions.None, TimeoutMs)]
 	private static partial Regex EdgePattern();
 
 	[GeneratedRegex(@"^note\s+(left|right)\s+of\s+", RegexOptions.IgnoreCase, TimeoutMs)]

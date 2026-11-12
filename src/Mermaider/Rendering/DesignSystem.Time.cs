@@ -23,20 +23,45 @@ internal sealed partial class DesignSystem
 	internal static void AppendAccentRing(StringBuilder sb, double x, double y, double w, double h, double r)
 	{
 		var rr = r > 0 ? r + RingGap - 1 : 0;
-		_ = sb.Append("<rect x=\"").Append(Num(x - RingGap)).Append("\" y=\"").Append(Num(y - RingGap))
-			.Append("\" width=\"").Append(Num(w + (RingGap * 2))).Append("\" height=\"").Append(Num(h + (RingGap * 2)))
-			.Append("\" rx=\"").Append(Num(rr)).Append("\" ry=\"").Append(Num(rr))
-			.Append("\" fill=\"none\" stroke=\"").Append(ColorFamily.AccentBase)
-			.Append("\" stroke-width=\"").Append(Num(RingWidth)).Append("\" />");
+		_ = sb
+			.Append("<rect x=\"")
+			.Append(Num(x - RingGap))
+			.Append("\" y=\"")
+			.Append(Num(y - RingGap))
+			.Append("\" width=\"")
+			.Append(Num(w + (RingGap * 2)))
+			.Append("\" height=\"")
+			.Append(Num(h + (RingGap * 2)))
+			.Append("\" rx=\"")
+			.Append(Num(rr))
+			.Append("\" ry=\"")
+			.Append(Num(rr))
+			.Append("\" fill=\"none\" stroke=\"")
+			.Append(ColorFamily.AccentBase)
+			.Append("\" stroke-width=\"")
+			.Append(Num(RingWidth))
+			.Append("\" />");
 	}
 
 	/// <summary>A rectangle with explicit fill / stroke (state bars, cells); <paramref name="stroke"/> <c>none</c> draws no outline.</summary>
 	internal static void AppendRect(StringBuilder sb, double x, double y, double w, double h, double r, string fill, string stroke, double strokeWidth = 1.25)
 	{
-		_ = sb.Append("<rect x=\"").Append(Num(x)).Append("\" y=\"").Append(Num(y))
-			.Append("\" width=\"").Append(Num(w)).Append("\" height=\"").Append(Num(h))
-			.Append("\" rx=\"").Append(Num(r)).Append("\" ry=\"").Append(Num(r))
-			.Append("\" fill=\"").Append(fill).Append('"');
+		_ = sb
+			.Append("<rect x=\"")
+			.Append(Num(x))
+			.Append("\" y=\"")
+			.Append(Num(y))
+			.Append("\" width=\"")
+			.Append(Num(w))
+			.Append("\" height=\"")
+			.Append(Num(h))
+			.Append("\" rx=\"")
+			.Append(Num(r))
+			.Append("\" ry=\"")
+			.Append(Num(r))
+			.Append("\" fill=\"")
+			.Append(fill)
+			.Append('"');
 		if (stroke != "none")
 			_ = sb.Append(" stroke=\"").Append(stroke).Append("\" stroke-width=\"").Append(Num(strokeWidth)).Append('"');
 		_ = sb.Append(" />");
@@ -50,11 +75,24 @@ internal sealed partial class DesignSystem
 	{
 		var r = Num(Spec.ContainerRadius);
 		var tab = Spec.Container == ContainerKind.Tab;
-		_ = sb.Append("<rect class=\"plot-panel\" x=\"").Append(Num(x)).Append("\" y=\"").Append(Num(y))
-			.Append("\" width=\"").Append(Num(w)).Append("\" height=\"").Append(Num(h))
-			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"").Append(tab ? "none" : "var(--_group-fill)")
-			.Append("\" stroke=\"").Append(tab ? "var(--_line-soft)" : "none").Append("\" stroke-width=\"1\" />");
+		_ = sb
+			.Append("<rect class=\"plot-panel\" x=\"")
+			.Append(Num(x))
+			.Append("\" y=\"")
+			.Append(Num(y))
+			.Append("\" width=\"")
+			.Append(Num(w))
+			.Append("\" height=\"")
+			.Append(Num(h))
+			.Append("\" rx=\"")
+			.Append(r)
+			.Append("\" ry=\"")
+			.Append(r)
+			.Append("\" fill=\"")
+			.Append(tab ? "none" : "var(--_group-fill)")
+			.Append("\" stroke=\"")
+			.Append(tab ? "var(--_line-soft)" : "none")
+			.Append("\" stroke-width=\"1\" />");
 	}
 
 	/// <summary>
@@ -86,6 +124,6 @@ internal sealed partial class DesignSystem
 	/// measure and the mono estimate, since Blueprint sets this tier in mono. Layout stays preset-independent.
 	/// </summary>
 	internal static double XsWidth(string text, int weight, double letterSpacingPerChar = 0) =>
-		Math.Max(TextMetrics.MeasureTextWidth(text, Px(TypeRole.Caption), weight),
-			TextMetrics.EstimateMonoTextWidth(text, Px(TypeRole.Caption))) + (text.Length * letterSpacingPerChar);
+		Math.Max(TextMetrics.MeasureTextWidth(text, Px(TypeRole.Caption), weight), TextMetrics.EstimateMonoTextWidth(text, Px(TypeRole.Caption))) +
+			(text.Length * letterSpacingPerChar);
 }

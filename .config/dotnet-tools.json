@@ -9,13 +9,6 @@
       ],
       "rollForward": false
     },
-    "release-notes": {
-      "version": "0.10.0",
-      "commands": [
-        "release-notes"
-      ],
-      "rollForward": false
-    },
     "nupkg-validator": {
       "version": "0.10.1",
       "commands": [
@@ -27,6 +20,20 @@
       "version": "0.16.0",
       "commands": [
         "assembly-differ"
+      ],
+      "rollForward": false
+    },
+    "curb-cli": {
+      "version": "0.14.0",
+      "commands": [
+        "curb"
+      ],
+      "rollForward": false
+    },
+    "nullean.snapshots.cli": {
+      "version": "0.11.0",
+      "commands": [
+        "snap"
       ],
       "rollForward": false
     }

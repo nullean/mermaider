@@ -15,9 +15,7 @@ internal static class AsciiXyChartRenderer
 	internal static string Render(XyChart chart, AsciiOptions options)
 	{
 		var boxes = chart.Series.Where(s => s.Type == XySeriesType.Box && s.Values.Count >= 5).ToList();
-		return boxes.Count > 0 && boxes.Count == chart.Series.Count
-			? Boxes(chart, boxes, options)
-			: Plot(chart, options);
+		return boxes.Count > 0 && boxes.Count == chart.Series.Count ? Boxes(chart, boxes, options) : Plot(chart, options);
 	}
 
 	/// <summary>
@@ -119,9 +117,7 @@ internal static class AsciiXyChartRenderer
 	}
 
 	private static string Category(XyChart chart, int index) =>
-		chart.XCategories is { Count: > 0 } categories && index < categories.Count
-			? categories[index]
-			: (index + 1).ToString(CultureInfo.InvariantCulture);
+		chart.XCategories is { Count: > 0 } categories && index < categories.Count ? categories[index] : (index + 1).ToString(CultureInfo.InvariantCulture);
 
 	private static (double Low, double High) Range(IEnumerable<double> values)
 	{
@@ -138,8 +134,7 @@ internal static class AsciiXyChartRenderer
 		return high - low < 1e-9 ? (low, low + 1) : (low, high);
 	}
 
-	private static int Scale(double value, double low, double high, int size) =>
-		(int)Math.Round((value - low) / (high - low) * (size - 1));
+	private static int Scale(double value, double low, double high, int size) => (int)Math.Round((value - low) / (high - low) * (size - 1));
 
 	/// <summary>A number an axis can wear: no more digits than the value is worth.</summary>
 	private static string Number(double value)

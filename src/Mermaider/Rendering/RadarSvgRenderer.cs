@@ -99,7 +99,13 @@ internal static class RadarSvgRenderer
 			for (var i = 0; i < chart.Curves.Count; i++)
 			{
 				_ = sb.Append('\n');
-				_ = ds.AppendLegendItem(sb, legendX, top + (i * DesignSystem.RowHeight) + (DesignSystem.RowHeight / 2), chart.Curves[i].Label, ds.Series(i).Base);
+				_ = ds.AppendLegendItem(
+					sb,
+					legendX,
+					top + (i * DesignSystem.RowHeight) + (DesignSystem.RowHeight / 2),
+					chart.Curves[i].Label,
+					ds.Series(i).Base
+				);
 			}
 		}
 

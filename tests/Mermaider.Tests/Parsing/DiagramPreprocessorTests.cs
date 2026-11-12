@@ -316,7 +316,8 @@ public class DiagramPreprocessorTests
 	[Test]
 	public void Ignores_unsupported_ticketBaseUrl_in_frontmatter()
 	{
-		var input = """
+		var input =
+			"""
 			---
 			title: Sprint
 			ticketBaseUrl: https://jira.example.com/browse/#TICKET#

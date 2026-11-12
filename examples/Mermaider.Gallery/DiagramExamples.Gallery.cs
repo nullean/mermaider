@@ -10,12 +10,9 @@ public static class DiagramExamples
 {
 	public static readonly DiagramExample[] All = Mermaider.Examples.DiagramExamples.All;
 
-	public static DiagramExample[] ByCategory(DiagramCategory category) =>
-		All.Where(e => e.Category == category).ToArray();
+	public static DiagramExample[] ByCategory(DiagramCategory category) => All.Where(e => e.Category == category).ToArray();
 
-	public static string CategorySlug(DiagramCategory c) =>
-		Mermaider.Examples.DiagramExamples.CategorySlug(c);
+	public static string CategorySlug(DiagramCategory c) => Mermaider.Examples.DiagramExamples.CategorySlug(c);
 
-	public static string CategoryLabel(DiagramCategory c) =>
-		Mermaider.Examples.DiagramExamples.CategoryLabel(c);
+	public static string CategoryLabel(DiagramCategory c) => Mermaider.Examples.DiagramExamples.CategoryLabel(c);
 }

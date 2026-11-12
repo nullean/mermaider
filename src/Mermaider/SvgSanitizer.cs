@@ -10,9 +10,7 @@ namespace Mermaider;
 /// <summary>Describes a single element or attribute that violated the allowlist.</summary>
 public readonly record struct SvgViolation(string Kind, string Name, string? ParentElement = null)
 {
-	public override string ToString() => ParentElement is not null
-		? $"{Kind} '{Name}' on <{ParentElement}>"
-		: $"{Kind} <{Name}>";
+	public override string ToString() => ParentElement is not null ? $"{Kind} '{Name}' on <{ParentElement}>" : $"{Kind} <{Name}>";
 }
 
 /// <summary>Result of an SVG sanitization pass.</summary>
@@ -62,58 +60,149 @@ public static partial class SvgSanitizer
 	/// <summary>Default set of allowed SVG element local names.</summary>
 	public static readonly FrozenSet<string> DefaultAllowedElements = new[]
 	{
-		"svg", "g", "defs", "title", "desc",
-		"rect", "circle", "ellipse", "polygon", "polyline", "line", "path",
-		"text", "tspan",
-		"marker", "image",
-		"clipPath", "mask",
-		"linearGradient", "radialGradient", "stop",
-		"filter", "feGaussianBlur", "feOffset", "feBlend", "feFlood",
-		"feComposite", "feMerge", "feMergeNode", "feDropShadow",
-		"feColorMatrix", "feMorphology",
+		"svg",
+		"g",
+		"defs",
+		"title",
+		"desc",
+		"rect",
+		"circle",
+		"ellipse",
+		"polygon",
+		"polyline",
+		"line",
+		"path",
+		"text",
+		"tspan",
+		"marker",
+		"image",
+		"clipPath",
+		"mask",
+		"linearGradient",
+		"radialGradient",
+		"stop",
+		"filter",
+		"feGaussianBlur",
+		"feOffset",
+		"feBlend",
+		"feFlood",
+		"feComposite",
+		"feMerge",
+		"feMergeNode",
+		"feDropShadow",
+		"feColorMatrix",
+		"feMorphology",
 	}.ToFrozenSet(StringComparer.Ordinal);
 
 	/// <summary>Default set of allowed SVG attribute local names.</summary>
 	public static readonly FrozenSet<string> DefaultAllowedAttributes = new[]
 	{
-		"id", "class", "transform", "role",
-		"xmlns", "viewBox", "preserveAspectRatio", "width", "height",
-		"x", "y", "cx", "cy", "r", "rx", "ry",
-		"x1", "y1", "x2", "y2",
-		"points", "d",
-		"fill", "stroke", "stroke-width", "stroke-dasharray", "stroke-dashoffset",
-		"stroke-linecap", "stroke-linejoin", "stroke-miterlimit",
-		"stroke-opacity", "fill-opacity", "fill-rule", "clip-rule", "opacity",
-		"font-family", "font-size", "font-weight", "font-style",
-		"text-anchor", "dominant-baseline", "alignment-baseline",
-		"baseline-shift", "text-decoration", "letter-spacing", "paint-order",
-		"word-spacing", "direction", "unicode-bidi", "writing-mode",
-		"color", "color-interpolation", "color-interpolation-filters",
-		"marker-end", "marker-start", "marker-mid",
-		"markerWidth", "markerHeight", "markerUnits",
-		"refX", "refY", "orient",
-		"offset", "stop-color", "stop-opacity",
-		"gradientUnits", "gradientTransform", "spreadMethod",
-		"fx", "fy", "fr",
-		"in", "in2", "result", "stdDeviation", "dx", "dy", "mode",
-		"flood-color", "flood-opacity", "operator",
-		"k1", "k2", "k3", "k4",
-		"type", "values",
-		"filterUnits", "primitiveUnits",
-		"clipPathUnits", "maskUnits", "maskContentUnits",
-		"display", "visibility",
-		"patternUnits", "patternContentUnits", "patternTransform",
+		"id",
+		"class",
+		"transform",
+		"role",
+		"xmlns",
+		"viewBox",
+		"preserveAspectRatio",
+		"width",
+		"height",
+		"x",
+		"y",
+		"cx",
+		"cy",
+		"r",
+		"rx",
+		"ry",
+		"x1",
+		"y1",
+		"x2",
+		"y2",
+		"points",
+		"d",
+		"fill",
+		"stroke",
+		"stroke-width",
+		"stroke-dasharray",
+		"stroke-dashoffset",
+		"stroke-linecap",
+		"stroke-linejoin",
+		"stroke-miterlimit",
+		"stroke-opacity",
+		"fill-opacity",
+		"fill-rule",
+		"clip-rule",
+		"opacity",
+		"font-family",
+		"font-size",
+		"font-weight",
+		"font-style",
+		"text-anchor",
+		"dominant-baseline",
+		"alignment-baseline",
+		"baseline-shift",
+		"text-decoration",
+		"letter-spacing",
+		"paint-order",
+		"word-spacing",
+		"direction",
+		"unicode-bidi",
+		"writing-mode",
+		"color",
+		"color-interpolation",
+		"color-interpolation-filters",
+		"marker-end",
+		"marker-start",
+		"marker-mid",
+		"markerWidth",
+		"markerHeight",
+		"markerUnits",
+		"refX",
+		"refY",
+		"orient",
+		"offset",
+		"stop-color",
+		"stop-opacity",
+		"gradientUnits",
+		"gradientTransform",
+		"spreadMethod",
+		"fx",
+		"fy",
+		"fr",
+		"in",
+		"in2",
+		"result",
+		"stdDeviation",
+		"dx",
+		"dy",
+		"mode",
+		"flood-color",
+		"flood-opacity",
+		"operator",
+		"k1",
+		"k2",
+		"k3",
+		"k4",
+		"type",
+		"values",
+		"filterUnits",
+		"primitiveUnits",
+		"clipPathUnits",
+		"maskUnits",
+		"maskContentUnits",
+		"display",
+		"visibility",
+		"patternUnits",
+		"patternContentUnits",
+		"patternTransform",
 	}.ToFrozenSet(StringComparer.Ordinal);
 
-	private static readonly FrozenSet<string> PaintAttributes = new[]
-	{
-		"color", "fill", "stroke", "stop-color", "flood-color",
-	}.ToFrozenSet(StringComparer.Ordinal);
+	private static readonly FrozenSet<string> PaintAttributes = new[] { "color", "fill", "stroke", "stop-color", "flood-color", }.ToFrozenSet(
+		StringComparer.Ordinal
+	);
 
-	private static readonly FrozenSet<string> LocalReferenceAttributes = new[]
-	{
-		"marker-start", "marker-mid", "marker-end",
-	}.ToFrozenSet(StringComparer.Ordinal);
+	private static readonly FrozenSet<string> LocalReferenceAttributes = new[] { "marker-start", "marker-mid", "marker-end", }.ToFrozenSet(
+		StringComparer.Ordinal
+	);
 
 	// ========================================================================
 	// Public API
@@ -126,20 +215,14 @@ public static partial class SvgSanitizer
 	/// <param name="svg">Raw SVG markup.</param>
 	/// <returns>A result containing the cleaned SVG and any violations found.</returns>
 	public static SvgSanitizeResult Sanitize(string svg) =>
-		Sanitize(
-			svg,
-			DefaultAllowedElements,
-			DefaultAllowedAttributes,
-			allowRendererStyles: false,
-			nestedImageDepth: 0);
+		Sanitize(svg, DefaultAllowedElements, DefaultAllowedAttributes, allowRendererStyles: false, nestedImageDepth: 0);
 
 	/// <summary>
 	/// Sanitize an SVG string against the default allowlists, selecting whether violations
 	/// are stripped or rejected. Strip mode returns a valid empty SVG for malformed XML.
 	/// Block mode throws <see cref="MermaidSvgException"/> on any violation.
 	/// </summary>
-	public static SvgSanitizeResult Sanitize(string svg, SanitizeMode mode) =>
-		ApplyMode(Sanitize(svg), mode);
+	public static SvgSanitizeResult Sanitize(string svg, SanitizeMode mode) => ApplyMode(Sanitize(svg), mode);
 
 	/// <summary>
 	/// Sanitize an SVG string against custom allowlists. Custom sets can only restrict the
@@ -156,27 +239,15 @@ public static partial class SvgSanitizer
 	/// or <c>data:image/png</c> URI (used for diagram icons); every other scheme (<c>http(s):</c>,
 	/// <c>javascript:</c>, non-image data URIs) and any namespaced attribute is stripped.</param>
 	/// <returns>A result containing the cleaned SVG and any violations found.</returns>
-	public static SvgSanitizeResult Sanitize(
-		string svg,
-		FrozenSet<string> allowedElements,
-		FrozenSet<string> allowedAttributes)
-		=> Sanitize(
-			svg,
-			allowedElements,
-			allowedAttributes,
-			allowRendererStyles: false,
-			nestedImageDepth: 0);
+	public static SvgSanitizeResult Sanitize(string svg, FrozenSet<string> allowedElements, FrozenSet<string> allowedAttributes) =>
+		Sanitize(svg, allowedElements, allowedAttributes, allowRendererStyles: false, nestedImageDepth: 0);
 
 	/// <summary>
 	/// Sanitize an SVG string against custom allowlists, selecting whether violations are
 	/// stripped or rejected. Custom sets are intersected with the default safety sets;
 	/// structural and value-level safety rules remain mandatory.
 	/// </summary>
-	public static SvgSanitizeResult Sanitize(
-		string svg,
-		FrozenSet<string> allowedElements,
-		FrozenSet<string> allowedAttributes,
-		SanitizeMode mode) =>
+	public static SvgSanitizeResult Sanitize(string svg, FrozenSet<string> allowedElements, FrozenSet<string> allowedAttributes, SanitizeMode mode) =>
 		ApplyMode(Sanitize(svg, allowedElements, allowedAttributes), mode);
 
 	/// <summary>
@@ -185,12 +256,7 @@ public static partial class SvgSanitizer
 	/// untrusted SVG sanitization deliberately does not permit either CSS surface.
 	/// </summary>
 	internal static SvgSanitizeResult SanitizeRendererOutput(string svg) =>
-		Sanitize(
-			svg,
-			DefaultAllowedElements,
-			DefaultAllowedAttributes,
-			allowRendererStyles: true,
-			nestedImageDepth: 0);
+		Sanitize(svg, DefaultAllowedElements, DefaultAllowedAttributes, allowRendererStyles: true, nestedImageDepth: 0);
 
 	private static SvgSanitizeResult ApplyMode(SvgSanitizeResult result, SanitizeMode mode)
 	{
@@ -208,17 +274,14 @@ public static partial class SvgSanitizer
 		FrozenSet<string> allowedElements,
 		FrozenSet<string> allowedAttributes,
 		bool allowRendererStyles,
-		int nestedImageDepth)
+		int nestedImageDepth
+	)
 	{
 		ArgumentNullException.ThrowIfNull(svg);
 		ArgumentNullException.ThrowIfNull(allowedElements);
 		ArgumentNullException.ThrowIfNull(allowedAttributes);
 
-		var settings = new XmlReaderSettings
-		{
-			DtdProcessing = DtdProcessing.Prohibit,
-			XmlResolver = null,
-		};
+		var settings = new XmlReaderSettings { DtdProcessing = DtdProcessing.Prohibit, XmlResolver = null, };
 
 		XDocument doc;
 		try
@@ -229,12 +292,7 @@ public static partial class SvgSanitizer
 		}
 		catch (XmlException)
 		{
-			return new SvgSanitizeResult
-			{
-				Svg = SvgDocuments.Empty,
-				HasViolations = true,
-				Violations = [new SvgViolation("document", "malformed-xml")],
-			};
+			return new SvgSanitizeResult { Svg = SvgDocuments.Empty, HasViolations = true, Violations = [new SvgViolation("document", "malformed-xml")], };
 		}
 
 		if (doc.Root is null)
@@ -244,18 +302,13 @@ public static partial class SvgSanitizer
 		var root = doc.Root;
 		var rootNamespace = root.Name.NamespaceName;
 
-		if (root.Name.LocalName != "svg"
-			|| !allowedElements.Contains("svg")
-			|| rootNamespace is not ("" or SvgNamespace)
-			|| (rootNamespace == SvgNamespace && root.GetDefaultNamespace().NamespaceName != SvgNamespace))
+		if (
+			root.Name.LocalName != "svg" || !allowedElements.Contains("svg") || rootNamespace is not ("" or SvgNamespace) ||
+			(rootNamespace == SvgNamespace && root.GetDefaultNamespace().NamespaceName != SvgNamespace)
+		)
 		{
 			violations.Add(new SvgViolation("element", root.Name.LocalName));
-			return new SvgSanitizeResult
-			{
-				Svg = SvgDocuments.Empty,
-				HasViolations = true,
-				Violations = violations,
-			};
+			return new SvgSanitizeResult { Svg = SvgDocuments.Empty, HasViolations = true, Violations = violations, };
 		}
 
 		if (doc.Declaration is not null)
@@ -264,7 +317,8 @@ public static partial class SvgSanitizer
 			doc.Declaration = null;
 		}
 
-		var processingInstructions = doc.DescendantNodes()
+		var processingInstructions = doc
+			.DescendantNodes()
 			.OfType<XProcessingInstruction>()
 			.Concat(doc.Nodes().OfType<XProcessingInstruction>())
 			.Distinct()
@@ -276,17 +330,16 @@ public static partial class SvgSanitizer
 			instruction.Remove();
 		}
 
-		var rendererStyle = allowRendererStyles
-			? root.Elements().FirstOrDefault(IsSafeRendererStyleElement)
-			: null;
+		var rendererStyle = allowRendererStyles ? root.Elements().FirstOrDefault(IsSafeRendererStyleElement) : null;
 
-		var elementsToRemove = root.DescendantsAndSelf()
-			.Where(el =>
-				el.Name.NamespaceName != rootNamespace
-					|| (el.Name.LocalName == "style"
+		var elementsToRemove = root
+			.DescendantsAndSelf()
+			.Where(
+				el => el.Name.NamespaceName != rootNamespace ||
+					(el.Name.LocalName == "style"
 						? !ReferenceEquals(el, rendererStyle)
-						: !allowedElements.Contains(el.Name.LocalName)
-							|| !DefaultAllowedElements.Contains(el.Name.LocalName)))
+						: !allowedElements.Contains(el.Name.LocalName) || !DefaultAllowedElements.Contains(el.Name.LocalName))
+			)
 			.ToList();
 
 		foreach (var el in elementsToRemove)
@@ -299,15 +352,10 @@ public static partial class SvgSanitizer
 				el.Remove();
 		}
 
-		var attrsToRemove = root.DescendantsAndSelf()
+		var attrsToRemove = root
+			.DescendantsAndSelf()
 			.SelectMany(el => el.Attributes().Select(a => (Element: el, Attr: a)))
-			.Where(pair => !IsAllowedAttribute(
-				pair.Element,
-				pair.Attr,
-				root,
-				allowedAttributes,
-				allowRendererStyles,
-				nestedImageDepth))
+			.Where(pair => !IsAllowedAttribute(pair.Element, pair.Attr, root, allowedAttributes, allowRendererStyles, nestedImageDepth))
 			.ToList();
 
 		foreach (var (el, attr) in attrsToRemove)
@@ -319,9 +367,7 @@ public static partial class SvgSanitizer
 		// <image> is defined as an empty element in the SVG spec — it must never have children,
 		// regardless of whether those children would individually be allowlisted. Strip them
 		// unconditionally rather than trusting per-element allowlisting to cover this case.
-		var imagesWithChildren = root.DescendantsAndSelf()
-			.Where(el => el.Name.LocalName == "image" && el.Nodes().Any())
-			.ToList();
+		var imagesWithChildren = root.DescendantsAndSelf().Where(el => el.Name.LocalName == "image" && el.Nodes().Any()).ToList();
 
 		foreach (var image in imagesWithChildren)
 		{
@@ -338,9 +384,7 @@ public static partial class SvgSanitizer
 		// <title> and <desc> are metadata text containers, not alternate markup roots.
 		// Keeping nested allowlisted elements would create surprising parser state when the
 		// sanitized string is embedded into HTML, so retain text only.
-		var metadataElementsWithChildren = root.DescendantsAndSelf()
-			.Where(el => el.Name.LocalName is "title" or "desc")
-			.ToList();
+		var metadataElementsWithChildren = root.DescendantsAndSelf().Where(el => el.Name.LocalName is "title" or "desc").ToList();
 
 		foreach (var metadataElement in metadataElementsWithChildren)
 		{
@@ -357,12 +401,7 @@ public static partial class SvgSanitizer
 		if (violations.Count == 0)
 			return new SvgSanitizeResult { Svg = svg, HasViolations = false, Violations = [] };
 
-		return new SvgSanitizeResult
-		{
-			Svg = doc.ToString(SaveOptions.DisableFormatting),
-			HasViolations = true,
-			Violations = violations,
-		};
+		return new SvgSanitizeResult { Svg = doc.ToString(SaveOptions.DisableFormatting), HasViolations = true, Violations = violations, };
 	}
 
 	// ========================================================================
@@ -375,7 +414,8 @@ public static partial class SvgSanitizer
 		XElement root,
 		FrozenSet<string> allowed,
 		bool allowRendererStyles,
-		int nestedImageDepth)
+		int nestedImageDepth
+	)
 	{
 		// Pure allowlist: an attribute is denied unless one of the positive rules below
 		// affirms it as safe. There is deliberately NO blocklist of "known bad" names
@@ -391,8 +431,7 @@ public static partial class SvgSanitizer
 			if (!ReferenceEquals(element, root))
 				return false;
 
-			return (name == "xmlns" && attr.Value == SvgNamespace)
-				|| (name == "xlink" && attr.Value == XLinkNamespace);
+			return (name == "xmlns" && attr.Value == SvgNamespace) || (name == "xlink" && attr.Value == XLinkNamespace);
 		}
 
 		// Scoped positive exception: an <image> may carry a validated base64 image data URI.
@@ -400,9 +439,7 @@ public static partial class SvgSanitizer
 		if (name == "href")
 		{
 			var validNamespace = attr.Name.NamespaceName is "" or XLinkNamespace;
-			return validNamespace
-				&& element.Name.LocalName == "image"
-				&& IsSafeImageDataUri(attr.Value, nestedImageDepth);
+			return validNamespace && element.Name.LocalName == "image" && IsSafeImageDataUri(attr.Value, nestedImageDepth);
 		}
 
 		// The allowlist covers plain attributes only. Check this before the data-/aria-
@@ -412,8 +449,7 @@ public static partial class SvgSanitizer
 
 		// data-* attributes carry data, not behavior; aria-* attributes are accessibility
 		// metadata. Neither can execute script.
-		if (name.StartsWith("data-", StringComparison.Ordinal)
-			|| name.StartsWith("aria-", StringComparison.Ordinal))
+		if (name.StartsWith("data-", StringComparison.Ordinal) || name.StartsWith("aria-", StringComparison.Ordinal))
 			return true;
 
 		if (name == "style")
@@ -467,25 +503,19 @@ public static partial class SvgSanitizer
 		string nestedSvg;
 		try
 		{
-			nestedSvg = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false, throwOnInvalidBytes: true)
-				.GetString(bytes);
+			nestedSvg = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false, throwOnInvalidBytes: true).GetString(bytes);
 		}
 		catch (DecoderFallbackException)
 		{
 			return false;
 		}
 
-		var nestedResult = Sanitize(
-			nestedSvg,
-			DefaultAllowedElements,
-			DefaultAllowedAttributes,
-			allowRendererStyles: false,
-			nestedImageDepth + 1);
+		var nestedResult = Sanitize(nestedSvg, DefaultAllowedElements, DefaultAllowedAttributes, allowRendererStyles: false, nestedImageDepth + 1);
 		return !nestedResult.HasViolations;
 	}
 
-	private static bool IsSafeRendererStyleElement(XElement element) => element.Name.LocalName == "style"
-		&& !element.HasAttributes
-		&& element.Nodes().All(node => node is XText)
-		&& RendererStylesheetAllowlist.IsAllowed(element.Value);
+	private static bool IsSafeRendererStyleElement(XElement element) =>
+		element.Name.LocalName == "style" && !element.HasAttributes && element.Nodes().All(node => node is XText) && RendererStylesheetAllowlist.IsAllowed(
+			element.Value
+		);
 }

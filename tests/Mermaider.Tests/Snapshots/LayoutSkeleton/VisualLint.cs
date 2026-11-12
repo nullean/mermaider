@@ -39,6 +39,7 @@ internal static class VisualLint
 	internal static List<Violation> Run(PositionedGraph g, Direction direction)
 	{
 		var t = Transform(direction);
+
 		Rect Tr(double x0, double y0, double x1, double y1)
 		{
 			var (ax, ay) = t(x0, y0);
@@ -49,6 +50,7 @@ internal static class VisualLint
 		var nodes = g.Nodes.Select(n => new Box(n.Id, Tr(n.X, n.Y, n.X + n.Width, n.Y + n.Height))).ToList();
 		var canvas = Tr(g.MinX, 0, g.Width, g.Height);
 		var titles = new List<(string Id, Rect R, Rect Group)>();
+
 		void Groups(IEnumerable<PositionedGroup> gs)
 		{
 			foreach (var gr in gs)
@@ -161,7 +163,9 @@ internal static class VisualLint
 	private static void CheckCanvas(List<Violation> v, Rect canvas, List<Box> nodes, List<Route> routes, List<(string Id, Rect R, Rect Group)> titles)
 	{
 		const double tol = 0.5;
+
 		bool Inside(Rect r) => r.X0 >= canvas.X0 - tol && r.X1 <= canvas.X1 + tol && r.Y0 >= canvas.Y0 - tol && r.Y1 <= canvas.Y1 + tol;
+
 		foreach (var n in nodes.Where(n => !Inside(n.R)))
 			v.Add(new Violation(Canvas, $"node {n.Id} outside canvas"));
 		foreach (var r in routes)
@@ -250,7 +254,12 @@ internal static class VisualLint
 
 	private static double Dist((double X, double Y) a, (double X, double Y) b) => Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
 
-	private static double CollinearOverlap(((double X, double Y) A, (double X, double Y) B) s, ((double X, double Y) A, (double X, double Y) B) t, out (double X, double Y) from, out (double X, double Y) to)
+	private static double CollinearOverlap(
+		((double X, double Y) A, (double X, double Y) B) s,
+		((double X, double Y) A, (double X, double Y) B) t,
+		out (double X, double Y) from,
+		out (double X, double Y) to
+	)
 	{
 		from = default;
 		to = default;

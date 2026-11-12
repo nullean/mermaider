@@ -9,11 +9,7 @@ public class C4ParserTests
 	[Test]
 	public void Parses_title_and_kind()
 	{
-		var diagram = C4Parser.Parse(
-		[
-			"C4Context",
-			"title System Context",
-		]);
+		var diagram = C4Parser.Parse(["C4Context", "title System Context",]);
 
 		diagram.Kind.Should().Be(C4DiagramKind.Context);
 		diagram.Title.Should().Be("System Context");
@@ -22,8 +18,7 @@ public class C4ParserTests
 	[Test]
 	public void Parses_person_and_system()
 	{
-		var diagram = C4Parser.Parse(
-		[
+		var diagram = C4Parser.Parse([
 			"C4Context",
 			"""Person(customer, "Banking Customer", "A bank customer.")""",
 			"""System(banking, "Internet Banking", "Allows payments.")""",
@@ -45,8 +40,7 @@ public class C4ParserTests
 	[Test]
 	public void Parses_external_and_db_variants()
 	{
-		var diagram = C4Parser.Parse(
-		[
+		var diagram = C4Parser.Parse([
 			"C4Context",
 			"""Person_Ext(c, "External Customer")""",
 			"""SystemDb_Ext(db, "Mainframe DB", "Core data")""",
@@ -68,8 +62,7 @@ public class C4ParserTests
 	[Test]
 	public void Parses_nested_boundary()
 	{
-		var diagram = C4Parser.Parse(
-		[
+		var diagram = C4Parser.Parse([
 			"C4Context",
 			"""Enterprise_Boundary(b0, "Bank") {""",
 			"""System(s1, "Core")""",
@@ -92,8 +85,7 @@ public class C4ParserTests
 	[Test]
 	public void Parses_relations()
 	{
-		var diagram = C4Parser.Parse(
-		[
+		var diagram = C4Parser.Parse([
 			"C4Context",
 			"""Person(a, "A")""",
 			"""System(b, "B")""",
@@ -113,13 +105,7 @@ public class C4ParserTests
 	[Test]
 	public void Parses_rel_back_swaps_from_to()
 	{
-		var diagram = C4Parser.Parse(
-		[
-			"C4Context",
-			"""Person(a, "A")""",
-			"""System(b, "B")""",
-			"""Rel_Back(a, b, "Notified by", "Events")""",
-		]);
+		var diagram = C4Parser.Parse(["C4Context", """Person(a, "A")""", """System(b, "B")""", """Rel_Back(a, b, "Notified by", "Events")""",]);
 
 		diagram.Relations.Should().HaveCount(1);
 		// Rel_Back(a, b, …) means arrow b → a (reverse of argument order).
@@ -133,12 +119,7 @@ public class C4ParserTests
 	[Test]
 	public void Parses_container_with_technology()
 	{
-		var diagram = C4Parser.Parse(
-		[
-			"C4Container",
-			"""Container(spa, "SPA", "Angular", "UI layer")""",
-			"""ContainerDb(db, "DB", "SQL", "Stores data")""",
-		]);
+		var diagram = C4Parser.Parse(["C4Container", """Container(spa, "SPA", "Angular", "UI layer")""", """ContainerDb(db, "DB", "SQL", "Stores data")""",]);
 
 		diagram.Kind.Should().Be(C4DiagramKind.Container);
 		var spa = diagram.RootNodes[0].Should().BeOfType<C4Element>().Subject;
@@ -150,12 +131,7 @@ public class C4ParserTests
 	[Test]
 	public void Parses_layout_config()
 	{
-		var diagram = C4Parser.Parse(
-		[
-			"C4Context",
-			"""UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="1")""",
-			"""Person(a, "A")""",
-		]);
+		var diagram = C4Parser.Parse(["C4Context", """UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="1")""", """Person(a, "A")""",]);
 
 		diagram.ShapeInRow.Should().Be(3);
 		diagram.BoundaryInRow.Should().Be(1);
@@ -164,12 +140,7 @@ public class C4ParserTests
 	[Test]
 	public void Parses_component_and_rel_index()
 	{
-		var diagram = C4Parser.Parse(
-		[
-			"C4Component",
-			"""Component(c1, "Controller", "MVC", "Handles requests")""",
-			"""RelIndex(1, c1, c1, "self")""",
-		]);
+		var diagram = C4Parser.Parse(["C4Component", """Component(c1, "Controller", "MVC", "Handles requests")""", """RelIndex(1, c1, c1, "self")""",]);
 
 		diagram.Kind.Should().Be(C4DiagramKind.Component);
 		diagram.Relations.Should().HaveCount(1);
@@ -187,11 +158,7 @@ public class C4ParserTests
 	[Test]
 	public void Parses_compact_header_title()
 	{
-		var diagram = C4Parser.Parse(
-		[
-			"C4Context title Banking",
-			"""Person(a, "A")""",
-		]);
+		var diagram = C4Parser.Parse(["C4Context title Banking", """Person(a, "A")""",]);
 
 		diagram.Title.Should().Be("Banking");
 		diagram.Kind.Should().Be(C4DiagramKind.Context);
@@ -200,13 +167,7 @@ public class C4ParserTests
 	[Test]
 	public void Parses_nested_deployment_node()
 	{
-		var diagram = C4Parser.Parse(
-		[
-			"C4Deployment",
-			"""Deployment_Node(mob, "Mobile", "iOS") {""",
-			"""Container(app, "App", "Xamarin", "UI")""",
-			"}",
-		]);
+		var diagram = C4Parser.Parse(["C4Deployment", """Deployment_Node(mob, "Mobile", "iOS") {""", """Container(app, "App", "Xamarin", "UI")""", "}",]);
 
 		diagram.Kind.Should().Be(C4DiagramKind.Deployment);
 		var node = diagram.RootNodes[0].Should().BeOfType<C4Boundary>().Subject;

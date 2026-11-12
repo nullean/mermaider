@@ -7,9 +7,9 @@ using Microsoft.Msagl.Core.Geometry.Curves;
 using Microsoft.Msagl.Core.Layout;
 using Microsoft.Msagl.Core.Routing;
 using Microsoft.Msagl.Layout.Layered;
+using MsaglPoint = Microsoft.Msagl.Core.Geometry.Point;
 using MsaglEdge = Microsoft.Msagl.Core.Layout.Edge;
 using MsaglNode = Microsoft.Msagl.Core.Layout.Node;
-using MsaglPoint = Microsoft.Msagl.Core.Geometry.Point;
 
 namespace Mermaider.Layout.Msagl;
 
@@ -46,8 +46,7 @@ internal static class MsaglClassLayout
 		var edgeMap = new List<(MsaglEdge MsaglEdge, ClassRelationship Rel)>();
 		foreach (var rel in diagram.Relationships)
 		{
-			if (!msaglNodes.TryGetValue(rel.From, out var sourceNode) ||
-				!msaglNodes.TryGetValue(rel.To, out var targetNode))
+			if (!msaglNodes.TryGetValue(rel.From, out var sourceNode) || !msaglNodes.TryGetValue(rel.To, out var targetNode))
 				continue;
 
 			var msaglEdge = new MsaglEdge(sourceNode, targetNode);
@@ -78,7 +77,8 @@ internal static class MsaglClassLayout
 		ClassDiagram diagram,
 		Dictionary<string, (double Width, double Height, double HeaderHeight, double AttrHeight, double MethodHeight)> classSizes,
 		Dictionary<string, MsaglNode> msaglNodes,
-		List<(MsaglEdge MsaglEdge, ClassRelationship Rel)> edgeMap)
+		List<(MsaglEdge MsaglEdge, ClassRelationship Rel)> edgeMap
+	)
 	{
 		var bb = geometryGraph.BoundingBox;
 		var offsetX = -bb.Left + Padding;

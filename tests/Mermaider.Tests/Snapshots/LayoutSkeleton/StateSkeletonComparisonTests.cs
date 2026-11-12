@@ -15,34 +15,30 @@ namespace Mermaider.Tests.Snapshots.LayoutSkeleton;
 // matched string-for-string between Mermaider and mermaid.js.
 public class StateSkeletonComparisonTests
 {
-	private static readonly IReadOnlyDictionary<string, (double MinLayerAgreement, double MinWithinLayerOrderAgreement)> Baselines =
-		new Dictionary<string, (double, double)>(StringComparer.Ordinal)
-		{
-			// Positive/Neutral/Negative are three siblings under the `checkResult` choice
-			// pseudostate, each flowing to its own distinct terminal with no other edge
-			// constraining their relative order — an unconstrained sibling tie-break (same
-			// class of disagreement as ER's er-complex COMMENT/TAG), not a placement defect.
-			["state-choice"] = (0.95, 0.60),
-		};
+	private static readonly IReadOnlyDictionary<string, (double MinLayerAgreement, double MinWithinLayerOrderAgreement)> Baselines = new Dictionary<string, (double, double)>(
+		StringComparer.Ordinal
+	)
+	{
+		// Positive/Neutral/Negative are three siblings under the `checkResult` choice
+		// pseudostate, each flowing to its own distinct terminal with no other edge
+		// constraining their relative order — an unconstrained sibling tie-break (same
+		// class of disagreement as ER's er-complex COMMENT/TAG), not a placement defect.
+		["state-choice"] = (0.95, 0.60),
+	};
 
-	private static string GetSourceDirectory([CallerFilePath] string path = "") =>
-		Path.GetDirectoryName(path)!;
+	private static string GetSourceDirectory([CallerFilePath] string path = "") => Path.GetDirectoryName(path)!;
 
-	private static readonly string IrReferenceDir =
-		Path.Combine(GetSourceDirectory(), "Reference");
+	private static readonly string IrReferenceDir = Path.Combine(GetSourceDirectory(), "Reference");
 
-	private static readonly string SvgReferenceDir =
-		Path.Combine(GetSourceDirectory(), "..", "Reference", "mermaidjs");
+	private static readonly string SvgReferenceDir = Path.Combine(GetSourceDirectory(), "..", "Reference", "mermaidjs");
 
 	public static IEnumerable<string> StateSlugsWithReferences()
 	{
 		if (!Directory.Exists(IrReferenceDir))
 			return [];
-		var slugs = DiagramExamples.All
-			.Where(d => d.Category == DiagramCategory.State)
-			.Select(d => d.Slug)
-			.ToHashSet(StringComparer.Ordinal);
-		return Directory.EnumerateFiles(IrReferenceDir, "*.mjs.ir.txt")
+		var slugs = DiagramExamples.All.Where(d => d.Category == DiagramCategory.State).Select(d => d.Slug).ToHashSet(StringComparer.Ordinal);
+		return Directory
+			.EnumerateFiles(IrReferenceDir, "*.mjs.ir.txt")
 			.Select(p => Path.GetFileName(p)[..^".mjs.ir.txt".Length])
 			.Where(slug => slugs.Contains(slug))
 			.Order(StringComparer.Ordinal);
@@ -67,8 +63,8 @@ public class StateSkeletonComparisonTests
 		var irPath = Path.Combine(IrReferenceDir, $"{slug}.mjs.ir.txt");
 		if (!File.Exists(irPath))
 			throw new InvalidOperationException(
-				$"Missing committed IR reference for '{slug}' at {irPath}. " +
-				"Run MmdcReferenceTests.Generate_reference to regenerate.");
+				$"Missing committed IR reference for '{slug}' at {irPath}. " + "Run MmdcReferenceTests.Generate_reference to regenerate."
+			);
 		var mjsSkeleton = LayoutSkeleton.Parse(await File.ReadAllTextAsync(irPath));
 
 		var layerAgreement = SkeletonComparer.LayerAgreement(mjsSkeleton, mermaiderSkeleton);
@@ -77,10 +73,14 @@ public class StateSkeletonComparisonTests
 
 		var (minLayer, minOrder) = Baselines.GetValueOrDefault(slug, (0.90, 0.90));
 
-		layerAgreement.Should().BeGreaterThanOrEqualTo(minLayer,
-			$"'{slug}' entity layer placement regressed vs its calibrated baseline (got {layerAgreement:P0})");
-		orderAgreement.Should().BeGreaterThanOrEqualTo(minOrder,
-			$"'{slug}' within-layer ordering regressed vs its calibrated baseline (got {orderAgreement:P0}); mirror-tolerant={mirrorOrder:P0}");
+		layerAgreement.Should().BeGreaterThanOrEqualTo(
+			minLayer,
+			$"'{slug}' entity layer placement regressed vs its calibrated baseline (got {layerAgreement:P0})"
+		);
+		orderAgreement.Should().BeGreaterThanOrEqualTo(
+			minOrder,
+			$"'{slug}' within-layer ordering regressed vs its calibrated baseline (got {orderAgreement:P0}); mirror-tolerant={mirrorOrder:P0}"
+		);
 	}
 
 	[Test]
@@ -114,8 +114,7 @@ public class StateSkeletonComparisonTests
 		}
 
 		var sb = new StringBuilder();
-		sb.AppendLine(System.Globalization.CultureInfo.InvariantCulture,
-			$"# State layout skeleton agreement vs mermaid.js — {rows.Count} diagrams");
+		sb.AppendLine(System.Globalization.CultureInfo.InvariantCulture, $"# State layout skeleton agreement vs mermaid.js — {rows.Count} diagrams");
 		sb.AppendLine();
 		sb.AppendLine("| Slug | Layer | Order | Order (mirror-tol.) | Sides | Own inversions |");
 		sb.AppendLine("|---|---|---|---|---|---|");

@@ -8,7 +8,13 @@ namespace Mermaider.Tests.Snapshots.LayoutSkeleton;
 /// the same thing whether the box+point pair came from Mermaider's own model or from parsing
 /// a rendered mermaid.js SVG.
 /// </summary>
-internal enum EdgeSide { Top, Bottom, Left, Right }
+internal enum EdgeSide
+{
+	Top,
+	Bottom,
+	Left,
+	Right
+}
 
 /// <summary>Returns the mirror of a side along the order axis (Left↔Right for TB/BT layouts,
 /// Top↔Bottom for LR/RL). Used by mirror-tolerant comparisons.</summary>
@@ -16,9 +22,9 @@ internal static class EdgeSideExtensions
 {
 	public static EdgeSide MirrorLR(this EdgeSide s) => s switch
 	{
-		EdgeSide.Left  => EdgeSide.Right,
+		EdgeSide.Left => EdgeSide.Right,
 		EdgeSide.Right => EdgeSide.Left,
-		_              => s,
+		_ => s,
 	};
 }
 
@@ -29,8 +35,7 @@ internal static class EdgeSideExtensions
 /// are kept only as the raw geometry <see cref="LayoutSkeletonBuilder"/> derived Layer/
 /// OrderInLayer from — comparisons should use the ordinal fields, not these.
 /// </summary>
-internal sealed record SkeletonNode(
-	string Id, int Layer, int OrderInLayer, double CenterX, double CenterY, double Width, double Height);
+internal sealed record SkeletonNode(string Id, int Layer, int OrderInLayer, double CenterX, double CenterY, double Width, double Height);
 
 /// <summary>
 /// One relationship, reduced to its endpoints' entity ids, which side of each entity's
@@ -40,9 +45,7 @@ internal sealed record SkeletonNode(
 /// TB edge). Empty string for self-loops or degenerate paths. Interior waypoints are not
 /// stored — use the signature to compare routing strategy between engines.
 /// </summary>
-internal sealed record SkeletonEdge(
-	string From, string To, string Label, EdgeSide FromSide, EdgeSide ToSide, bool IsSelfLoop,
-	string RouteSig);
+internal sealed record SkeletonEdge(string From, string To, string Label, EdgeSide FromSide, EdgeSide ToSide, bool IsSelfLoop, string RouteSig);
 
 /// <summary>
 /// Port attachment order: which edges attach to a particular side of a node, ordered by
@@ -65,8 +68,16 @@ internal sealed record SkeletonPort(string NodeId, EdgeSide Side, IReadOnlyList<
 /// <see cref="Height"/> are raw geometry kept only for building Layer/OrderInLayer from.
 /// </summary>
 internal sealed record SkeletonGroup(
-	string Id, string? ParentId, IReadOnlyList<string> MemberNodeIds, int Layer, int OrderInLayer,
-	double CenterX, double CenterY, double Width, double Height);
+	string Id,
+	string? ParentId,
+	IReadOnlyList<string> MemberNodeIds,
+	int Layer,
+	int OrderInLayer,
+	double CenterX,
+	double CenterY,
+	double Width,
+	double Height
+);
 
 /// <summary>
 /// Renderer-agnostic snapshot of a diagram's layout structure: which layer each entity/node is
@@ -83,13 +94,16 @@ internal sealed record SkeletonGroup(
 /// nodes have at most one edge per side (no attachment ordering to compare).
 /// </summary>
 internal sealed record LayoutSkeleton(
-	IReadOnlyList<SkeletonNode> Nodes, IReadOnlyList<SkeletonEdge> Edges,
-	IReadOnlyList<SkeletonGroup> Groups, IReadOnlyList<SkeletonPort> Ports)
+	IReadOnlyList<SkeletonNode> Nodes,
+	IReadOnlyList<SkeletonEdge> Edges,
+	IReadOnlyList<SkeletonGroup> Groups,
+	IReadOnlyList<SkeletonPort> Ports
+)
 {
 	/// <summary>
 	/// Human-readable layer-by-layer dump: entities per layer in left-to-right order, then
 	/// every edge with its label, attachment sides and route signature, then ports. Meant to
-	/// be eyeballed directly in a test failure or a Verify snapshot diff — no SVG viewer required.
+	/// be eyeballed directly in a test failure or a snapshot diff — no SVG viewer required.
 	/// </summary>
 	public string ToAsciiArt()
 	{
@@ -104,14 +118,24 @@ internal sealed record LayoutSkeleton(
 		{
 			sb.AppendLine("Groups:");
 			var byParent = Groups.ToLookup(g => g.ParentId, StringComparer.Ordinal);
+
 			void WriteGroup(SkeletonGroup g, int depth)
 			{
-				sb.Append(new string(' ', depth * 2)).Append("- ").Append(g.Id)
-					.Append(" (layer=").Append(g.Layer).Append(" order=").Append(g.OrderInLayer)
-					.Append(") members=[").Append(string.Join(", ", g.MemberNodeIds)).AppendLine("]");
+				sb
+					.Append(new string(' ', depth * 2))
+					.Append("- ")
+					.Append(g.Id)
+					.Append(" (layer=")
+					.Append(g.Layer)
+					.Append(" order=")
+					.Append(g.OrderInLayer)
+					.Append(") members=[")
+					.Append(string.Join(", ", g.MemberNodeIds))
+					.AppendLine("]");
 				foreach (var child in byParent[g.Id].OrderBy(c => c.Layer).ThenBy(c => c.OrderInLayer))
 					WriteGroup(child, depth + 1);
 			}
+
 			foreach (var top in byParent[null].OrderBy(g => g.Layer).ThenBy(g => g.OrderInLayer))
 				WriteGroup(top, 0);
 		}
@@ -123,8 +147,20 @@ internal sealed record LayoutSkeleton(
 			{
 				var loopMark = e.IsSelfLoop ? " (self)" : "";
 				var routeMark = e.RouteSig.Length > 0 ? $" [{e.RouteSig}]" : "";
-				sb.Append("  ").Append(e.From).Append(" --").Append(e.Label).Append("--> ").Append(e.To)
-					.Append(" [").Append(e.FromSide).Append("->").Append(e.ToSide).Append(']').Append(loopMark).Append(routeMark)
+				sb
+					.Append("  ")
+					.Append(e.From)
+					.Append(" --")
+					.Append(e.Label)
+					.Append("--> ")
+					.Append(e.To)
+					.Append(" [")
+					.Append(e.FromSide)
+					.Append("->")
+					.Append(e.ToSide)
+					.Append(']')
+					.Append(loopMark)
+					.Append(routeMark)
 					.AppendLine();
 			}
 		}
@@ -133,8 +169,7 @@ internal sealed record LayoutSkeleton(
 		{
 			sb.AppendLine("Ports:");
 			foreach (var p in Ports.OrderBy(p => p.NodeId, StringComparer.Ordinal).ThenBy(p => p.Side.ToString(), StringComparer.Ordinal))
-				sb.Append("  ").Append(p.NodeId).Append(' ').Append(p.Side).Append(": ")
-					.AppendLine(string.Join(",", p.EdgeIndices.Select(i => $"edge{i}")));
+				sb.Append("  ").Append(p.NodeId).Append(' ').Append(p.Side).Append(": ").AppendLine(string.Join(",", p.EdgeIndices.Select(i => $"edge{i}")));
 		}
 
 		return sb.ToString();
@@ -165,32 +200,55 @@ internal sealed record LayoutSkeleton(
 			sb.Append('N').Append('\t').Append(n.Id).Append('\t').Append(n.Layer).Append('\t').Append(n.OrderInLayer).AppendLine();
 
 		// Edges: stable order by From then To then label
-		foreach (var e in Edges.OrderBy(e => e.From, StringComparer.Ordinal).ThenBy(e => e.To, StringComparer.Ordinal).ThenBy(e => e.Label, StringComparer.Ordinal))
+		foreach (var e in Edges
+			.OrderBy(e => e.From, StringComparer.Ordinal)
+			.ThenBy(e => e.To, StringComparer.Ordinal)
+			.ThenBy(e => e.Label, StringComparer.Ordinal))
 		{
 			var routeSig = e.RouteSig.Length > 0 ? e.RouteSig : "-";
-			sb.Append('E').Append('\t').Append(e.From).Append('\t').Append(e.To).Append('\t')
-			  .Append(EscapeLabel(e.Label)).Append('\t')
-			  .Append(e.FromSide).Append('\t').Append(e.ToSide).Append('\t').Append(e.IsSelfLoop)
-			  .Append('\t').Append(routeSig)
-			  .AppendLine();
+			sb
+				.Append('E')
+				.Append('\t')
+				.Append(e.From)
+				.Append('\t')
+				.Append(e.To)
+				.Append('\t')
+				.Append(EscapeLabel(e.Label))
+				.Append('\t')
+				.Append(e.FromSide)
+				.Append('\t')
+				.Append(e.ToSide)
+				.Append('\t')
+				.Append(e.IsSelfLoop)
+				.Append('\t')
+				.Append(routeSig)
+				.AppendLine();
 		}
 
 		// Ports: stable order by NodeId then Side; only ports with ≥2 edges
 		foreach (var p in Ports.OrderBy(p => p.NodeId, StringComparer.Ordinal).ThenBy(p => p.Side.ToString(), StringComparer.Ordinal))
 		{
-			if (p.EdgeIndices.Count < 2) continue;
-			sb.Append('P').Append('\t').Append(p.NodeId).Append('\t').Append(p.Side).Append('\t')
-			  .Append(string.Join(",", p.EdgeIndices))
-			  .AppendLine();
+			if (p.EdgeIndices.Count < 2)
+				continue;
+			sb.Append('P').Append('\t').Append(p.NodeId).Append('\t').Append(p.Side).Append('\t').Append(string.Join(",", p.EdgeIndices)).AppendLine();
 		}
 
 		// Groups: stable order by layer then order-in-layer then id
 		foreach (var g in Groups.OrderBy(g => g.Layer).ThenBy(g => g.OrderInLayer).ThenBy(g => g.Id, StringComparer.Ordinal))
 		{
-			sb.Append('G').Append('\t').Append(g.Id).Append('\t').Append(g.ParentId ?? "-").Append('\t')
-			  .Append(g.Layer).Append('\t').Append(g.OrderInLayer).Append('\t')
-			  .Append(string.Join(",", g.MemberNodeIds.OrderBy(m => m, StringComparer.Ordinal)))
-			  .AppendLine();
+			sb
+				.Append('G')
+				.Append('\t')
+				.Append(g.Id)
+				.Append('\t')
+				.Append(g.ParentId ?? "-")
+				.Append('\t')
+				.Append(g.Layer)
+				.Append('\t')
+				.Append(g.OrderInLayer)
+				.Append('\t')
+				.Append(string.Join(",", g.MemberNodeIds.OrderBy(m => m, StringComparer.Ordinal)))
+				.AppendLine();
 		}
 
 		return sb.ToString();
@@ -220,23 +278,33 @@ internal sealed record LayoutSkeleton(
 				{
 					case "N":
 						Expect(parts, 4, "N");
-						nodes.Add(new SkeletonNode(
-							parts[1],
-							int.Parse(parts[2], System.Globalization.CultureInfo.InvariantCulture),
-							int.Parse(parts[3], System.Globalization.CultureInfo.InvariantCulture),
-							CenterX: 0, CenterY: 0, Width: 0, Height: 0)); // geometry not persisted
+						nodes.Add(
+							new SkeletonNode(
+								parts[1],
+								int.Parse(parts[2], System.Globalization.CultureInfo.InvariantCulture),
+								int.Parse(parts[3], System.Globalization.CultureInfo.InvariantCulture),
+								CenterX: 0,
+								CenterY: 0,
+								Width: 0,
+								Height: 0
+							)
+						); // geometry not persisted
 						break;
 
 					case "E":
 						Expect(parts, 8, "E");
 						var routeSig = parts[7] == "-" ? "" : parts[7];
-						edges.Add(new SkeletonEdge(
-							parts[1], parts[2],
-							UnescapeLabel(parts[3]),
-							Enum.Parse<EdgeSide>(parts[4]),
-							Enum.Parse<EdgeSide>(parts[5]),
-							bool.Parse(parts[6]),
-							routeSig));
+						edges.Add(
+							new SkeletonEdge(
+								parts[1],
+								parts[2],
+								UnescapeLabel(parts[3]),
+								Enum.Parse<EdgeSide>(parts[4]),
+								Enum.Parse<EdgeSide>(parts[5]),
+								bool.Parse(parts[6]),
+								routeSig
+							)
+						);
 						break;
 
 					case "P":
@@ -250,14 +318,20 @@ internal sealed record LayoutSkeleton(
 					case "G":
 						Expect(parts, 6, "G");
 						var parentId = parts[2] == "-" ? null : parts[2];
-						var members = parts[5].Length > 0
-							? (IReadOnlyList<string>)parts[5].Split(',')
-							: [];
-						groups.Add(new SkeletonGroup(
-							parts[1], parentId, members,
-							int.Parse(parts[3], System.Globalization.CultureInfo.InvariantCulture),
-							int.Parse(parts[4], System.Globalization.CultureInfo.InvariantCulture),
-							CenterX: 0, CenterY: 0, Width: 0, Height: 0)); // geometry not persisted
+						var members = parts[5].Length > 0 ? (IReadOnlyList<string>)parts[5].Split(',') : [];
+						groups.Add(
+							new SkeletonGroup(
+								parts[1],
+								parentId,
+								members,
+								int.Parse(parts[3], System.Globalization.CultureInfo.InvariantCulture),
+								int.Parse(parts[4], System.Globalization.CultureInfo.InvariantCulture),
+								CenterX: 0,
+								CenterY: 0,
+								Width: 0,
+								Height: 0
+							)
+						); // geometry not persisted
 						break;
 
 					default:
@@ -288,11 +362,21 @@ internal sealed record LayoutSkeleton(
 		{
 			switch (c)
 			{
-				case '\\': sb.Append(@"\\"); break;
-				case '\t': sb.Append(@"\t"); break;
-				case '\r': sb.Append(@"\r"); break;
-				case '\n': sb.Append(@"\n"); break;
-				default:   sb.Append(c);    break;
+				case '\\':
+					sb.Append(@"\\");
+					break;
+				case '\t':
+					sb.Append(@"\t");
+					break;
+				case '\r':
+					sb.Append(@"\r");
+					break;
+				case '\n':
+					sb.Append(@"\n");
+					break;
+				default:
+					sb.Append(c);
+					break;
 			}
 		}
 		return sb.ToString();
@@ -308,7 +392,14 @@ internal sealed record LayoutSkeleton(
 		{
 			if (s[i] == '\\' && i + 1 < s.Length)
 			{
-				sb.Append(s[i + 1] switch { '\\' => '\\', 't' => '\t', 'r' => '\r', 'n' => '\n', var c => c });
+				sb.Append(s[i + 1] switch
+				{
+					'\\' => '\\',
+					't' => '\t',
+					'r' => '\r',
+					'n' => '\n',
+					var c => c
+				});
 				i += 2;
 			}
 			else

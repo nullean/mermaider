@@ -9,10 +9,14 @@ namespace Mermaider.Examples;
 public static partial class DiagramExamples
 {
 	private static DiagramExample[] DocsBuilderErdExamples() =>
-	[
-		// ── Flowchart diagrams from docs-builder ───────────────────────────
+		[
+			// ── Flowchart diagrams from docs-builder ───────────────────────────
 
-		new("db-flow-01-system", "DB: Level 0 — the system", DiagramCategory.Flowchart, """
+			new(
+				"db-flow-01-system",
+				"DB: Level 0 — the system",
+				DiagramCategory.Flowchart,
+				"""
 			flowchart LR
 			    subgraph Reference["Reference data (config/)"]
 			        Catalog["Products, versioning systems"]
@@ -58,9 +62,14 @@ public static partial class DiagramExamples
 			    Assembler --> Search
 			    Changelog --> Notes
 			    Notes --> Site
-			""", "docs-builder"),
-
-		new("db-flow-03-isolated", "DB: Level 2 — isolated build", DiagramCategory.Flowchart, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-flow-03-isolated",
+				"DB: Level 2 — isolated build",
+				DiagramCategory.Flowchart,
+				"""
 			flowchart LR
 			    subgraph Inputs["Inputs"]
 			        Checkout["Checkout (one repository, one branch)"]
@@ -95,9 +104,14 @@ public static partial class DiagramExamples
 			    Nav --> Manifest
 			    DocSet --> Redirects
 			    Manifest -->|"published on push"| LinkReg
-			""", "docs-builder"),
-
-		new("db-flow-04-composing", "DB: Level 3 — composing sites", DiagramCategory.Flowchart, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-flow-04-composing",
+				"DB: Level 3 — composing sites",
+				DiagramCategory.Flowchart,
+				"""
 			flowchart TB
 			    subgraph Repos["Repositories (each with its own isolated build)"]
 			        R1["elasticsearch"]
@@ -130,11 +144,16 @@ public static partial class DiagramExamples
 			    AsmCfg --> Env --> AsmClone --> AsmBuild --> AsmOut
 			    CodexReg --> CdxClone
 			    CdxCfg --> CdxClone --> CdxBuild --> CdxOut
-			""", "docs-builder"),
+			""",
+				"docs-builder"
+			),
+			// ── ER diagrams from docs-builder ─────────────────────────────────
 
-		// ── ER diagrams from docs-builder ─────────────────────────────────
-
-		new("db-erd-02-shared-vocab", "DB: Level 1 — shared vocabulary", DiagramCategory.Er, """
+			new(
+				"db-erd-02-shared-vocab",
+				"DB: Level 1 — shared vocabulary",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			    VersioningSystem ||--|| SemVersion : "base"
 			    VersioningSystem ||--|| SemVersion : "current"
@@ -147,9 +166,14 @@ public static partial class DiagramExamples
 			    ProductRelease }o--|| Product : "product"
 			    ProductRelease }o--|| ChangelogLifecycle : "lifecycle"
 			    ChangelogLifecycle }o--|| ProductLifecycle : "maps to"
-			""", "docs-builder"),
-
-		new("db-erd-05-building-blocks", "DB: Level 4 — how building blocks relate", DiagramCategory.Er, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-erd-05-building-blocks",
+				"DB: Level 4 — how building blocks relate",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			    Catalog ||--o{ DocumentationSet : "products, versioning"
 			    Catalog ||--o{ ReleaseNotes : "products"
@@ -173,25 +197,40 @@ public static partial class DiagramExamples
 			    DocumentationSet ||--o{ ApiReference : "api"
 			    ApiReference }o--|| OpenApiSpec : "spec + repository"
 			    Assembly ||--o{ SearchIndex : "per environment"
-			""", "docs-builder"),
-
-		new("db-erd-06-catalog", "DB: Catalog", DiagramCategory.Er, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-erd-06-catalog",
+				"DB: Catalog",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			    Product }o--o| VersioningSystem : "versioning"
 			    Product }o--o| Repository : "repository"
 			    LegacyUrlMapping }o--|| Product : "product"
-			""", "docs-builder"),
-
-		new("db-erd-07-source", "DB: Source", DiagramCategory.Er, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-erd-07-source",
+				"DB: Source",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			    Repository ||--o{ DocumentationSet : "≤1 per Registry"
 			    Repository ||--|| ContentSourceBranches : "current, next, edge"
 			    PublishEnvironment }o--|| ContentSource : "content_source"
 			    Checkout }o--|| Repository : "clones"
 			    Checkout }o--|| LinkRegistryEntry : "pinned commit"
-			""", "docs-builder"),
-
-		new("db-erd-08-docset", "DB: Documentation set", DiagramCategory.Er, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-erd-08-docset",
+				"DB: Documentation set",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			    DocumentationSet ||--|| TableOfContents : "toc"
 			    TableOfContents ||--o{ TocItem : "entries"
@@ -201,9 +240,14 @@ public static partial class DiagramExamples
 			    DocumentationSet ||--o{ ApiDeclaration : "api"
 			    DocumentationSet }o--o{ Product : "products"
 			    DocumentationSet }o--o| Registry : "registry"
-			""", "docs-builder"),
-
-		new("db-erd-09-content", "DB: Content", DiagramCategory.Er, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-erd-09-content",
+				"DB: Content",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			    DocumentationSet ||--o{ DocumentationFile : "files"
 			    Page ||--o| FrontMatter : "front matter"
@@ -213,25 +257,40 @@ public static partial class DiagramExamples
 			    CrossLink }o--|| CrossLinkUri : "repo://path"
 			    IncludeDirective }o--|| Snippet : "include"
 			    FrontMatter ||--o| Applicability : "applies_to"
-			""", "docs-builder"),
-
-		new("db-erd-10-navigation", "DB: Navigation", DiagramCategory.Er, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-erd-10-navigation",
+				"DB: Navigation",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			    TocItem ||--|| NavigationNode : "mirrors"
 			    SiteNavigation ||--|{ SiteMount : "toc"
 			    SiteMount }o--|| NavigationNode : "re-homes"
 			    SiteNavigation ||--o{ Phantom : "phantoms"
-			""", "docs-builder"),
-
-		new("db-erd-11-link-graph", "DB: Link graph", DiagramCategory.Er, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-erd-11-link-graph",
+				"DB: Link graph",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			    DocumentationSet ||--o{ LinkManifest : "per branch"
 			    Registry ||--|| LinkRegistry : "link-index.json"
 			    LinkRegistry ||--o{ LinkRegistryEntry : "repository, branch"
 			    LinkRegistryEntry ||--|| LinkManifest : "path"
-			""", "docs-builder"),
-
-		new("db-erd-12-assembly", "DB: Assembly", DiagramCategory.Er, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-erd-12-assembly",
+				"DB: Assembly",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			    Assembly ||--|{ Repository : "references"
 			    Assembly ||--|{ PublishEnvironment : "environments"
@@ -239,17 +298,27 @@ public static partial class DiagramExamples
 			    Build ||--|{ AssembledDocumentationSet : "assembles"
 			    Build ||--|| CloudfrontRedirectMap : "redirects.json"
 			    Build ||--o| SyncPlan : "deploy"
-			""", "docs-builder"),
-
-		new("db-erd-13-codex", "DB: Codex", DiagramCategory.Er, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-erd-13-codex",
+				"DB: Codex",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			    CodexSite ||--|| Registry : "environment"
 			    CodexSite ||--o{ CodexDocumentationSet : "from LinkRegistry"
 			    CodexDocumentationSet ||--|| DocumentationSet : "docset"
 			    CodexDocumentationSet }o--o| CodexGroup : "codex.group"
-			""", "docs-builder"),
-
-		new("db-erd-14-release-notes", "DB: Release notes", DiagramCategory.Er, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-erd-14-release-notes",
+				"DB: Release notes",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			    Repository ||--o| ChangelogConfiguration : "changelog.yml"
 			    ChangelogEntry ||--|{ ProductRelease : "products"
@@ -258,9 +327,14 @@ public static partial class DiagramExamples
 			    BundledEntry }o--|| ChangelogEntry : "name + checksum"
 			    Bundle ||--o{ BundleAmend : "amend-N"
 			    Product ||--o| BundleRegistry : "registry.json"
-			""", "docs-builder"),
-
-		new("db-erd-15-api-search", "DB: API reference and search", DiagramCategory.Er, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-erd-15-api-search",
+				"DB: API reference and search",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			    Repository ||--o{ OpenApiSpec : "publishes"
 			    OpenApiRepository ||--o{ OpenApiSpec : "org/repo/branch/spec"
@@ -275,9 +349,14 @@ public static partial class DiagramExamples
 			    ApiSupplementalDoc }o--o| ApiOperation : "op-{id}"
 			    Page ||--o| SearchDocument : "exported"
 			    SearchIndex ||--o{ SearchDocument : "contains"
-			""", "docs-builder"),
-
-		new("db-erd-16-relationships-overview", "DB: Relationships overview", DiagramCategory.Er, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-erd-16-relationships-overview",
+				"DB: Relationships overview",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			    Repository ||--o{ DocumentationSet : "holds (≤1 per Registry)"
 			    DocumentationSet }o--o| Registry : "registry"
@@ -294,9 +373,14 @@ public static partial class DiagramExamples
 			    Product }o--o| VersioningSystem : "versioning"
 			    Repository ||--o| ChangelogConfiguration : "changelog.yml"
 			    Product ||--o{ Bundle : "released in"
-			""", "docs-builder"),
-
-		new("db-erd-17-catalog", "DB: Relationships — Catalog", DiagramCategory.Er, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-erd-17-catalog",
+				"DB: Relationships — Catalog",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			    Product }o--o| VersioningSystem : "versioning (defaults to id)"
 			    Product }o--o| Repository : "repository (defaults to id)"
@@ -306,9 +390,14 @@ public static partial class DiagramExamples
 			    VersioningSystem ||--|| SemVersion : "base"
 			    VersioningSystem ||--|| SemVersion : "current"
 			    QueryRule }o--o{ SearchDocument : "actions.ids = path"
-			""", "docs-builder"),
-
-		new("db-erd-18-source", "DB: Relationships — Source", DiagramCategory.Er, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-erd-18-source",
+				"DB: Relationships — Source",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			    Assembly ||--|| NarrativeRepository : "narrative"
 			    Assembly ||--|{ Repository : "references"
@@ -319,9 +408,14 @@ public static partial class DiagramExamples
 			    Checkout ||--o| DocumentationSet : "resolves to"
 			    Checkout }o--|| LinkRegistryEntry : "pinned CommitSha"
 			    DocumentationSet }o--|| GitOrigin : "origin"
-			""", "docs-builder"),
-
-		new("db-erd-19-docset", "DB: Relationships — Documentation set", DiagramCategory.Er, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-erd-19-docset",
+				"DB: Relationships — Documentation set",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			    DocumentationSet ||--|| TableOfContents : "toc"
 			    TableOfContents ||--o{ TocItem : "toc entries"
@@ -346,9 +440,14 @@ public static partial class DiagramExamples
 			    DocumentationSet }o--o| CodexGroup : "codex.group"
 			    DocumentationSet ||--o{ FeatureToggle : "features"
 			    DocumentationSet ||--o{ HintSuppression : "suppress"
-			""", "docs-builder"),
-
-		new("db-erd-20-content", "DB: Relationships — Content", DiagramCategory.Er, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-erd-20-content",
+				"DB: Relationships — Content",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			    DocumentationSet ||--o{ DocumentationFile : "files"
 			    Page ||--o| FrontMatter : "--- yaml ---"
@@ -375,9 +474,14 @@ public static partial class DiagramExamples
 			    PageCardDirective }o--|| Page : "local link"
 			    Applicability ||--o{ ApplicabilityEntry : "per key"
 			    ApplicabilityEntry }o--|| VersionSpec : "version"
-			""", "docs-builder"),
-
-		new("db-erd-21-navigation", "DB: Relationships — Navigation", DiagramCategory.Er, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-erd-21-navigation",
+				"DB: Relationships — Navigation",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			    DocumentationSet ||--|| DocumentationSetNavigation : "builds"
 			    DocumentationSetNavigation ||--o{ NavigationNode : "tree"
@@ -392,9 +496,14 @@ public static partial class DiagramExamples
 			    SiteNavigation ||--o{ Phantom : "phantoms"
 			    Phantom }o--|| TableOfContents : "toc"
 			    SiteMount ||--|| HomeProvider : "re-homes subtree"
-			""", "docs-builder"),
-
-		new("db-erd-22-link-graph", "DB: Relationships — Link graph", DiagramCategory.Er, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-erd-22-link-graph",
+				"DB: Relationships — Link graph",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			    DocumentationSet ||--o{ LinkManifest : "per branch"
 			    LinkManifest ||--|| GitOrigin : "origin"
@@ -406,9 +515,14 @@ public static partial class DiagramExamples
 			    LinkRegistry ||--o{ LinkRegistryEntry : "repository, branch"
 			    LinkRegistryEntry ||--|| LinkManifest : "path"
 			    Checkout ||--|| LinkRegistrySnapshot : "link-index.snapshot.json"
-			""", "docs-builder"),
-
-		new("db-erd-23-publishing", "DB: Relationships — Publishing", DiagramCategory.Er, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-erd-23-publishing",
+				"DB: Relationships — Publishing",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			    Assembly ||--|{ PublishEnvironment : "environments"
 			    PublishEnvironment ||--o{ FeatureFlag : "feature_flags"
@@ -425,9 +539,14 @@ public static partial class DiagramExamples
 			    CloudfrontRedirectMap }o--|{ Redirect : "derived from"
 			    CloudfrontRedirectMap }o--|| RedirectStore : "deployed to"
 			    Build ||--o| SyncPlan : "deploy plan"
-			""", "docs-builder"),
-
-		new("db-erd-24-codex", "DB: Relationships — Codex", DiagramCategory.Er, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-erd-24-codex",
+				"DB: Relationships — Codex",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			    CodexSite ||--|| Registry : "environment = registry"
 			    CodexSite ||--o{ CodexGroup : "groups"
@@ -435,9 +554,14 @@ public static partial class DiagramExamples
 			    CodexDocumentationSet ||--|| DocumentationSet : "docset"
 			    CodexDocumentationSet }o--o| CodexGroup : "codex.group"
 			    Registry ||--|| LinkRegistry : "git: elastic/codex-link-index/{registry}"
-			""", "docs-builder"),
-
-		new("db-erd-25-release-notes", "DB: Relationships — Release notes", DiagramCategory.Er, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-erd-25-release-notes",
+				"DB: Relationships — Release notes",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			    Repository ||--o| ChangelogConfiguration : "changelog.yml"
 			    ChangelogConfiguration ||--o| Pivot : "pivot"
@@ -463,9 +587,14 @@ public static partial class DiagramExamples
 			    Product ||--o| BundleRegistry : "bundle/{product}/registry.json"
 			    BundleRegistry ||--o{ Bundle : "bundles[]"
 			    NotesIndex ||--o{ ChangelogNote : "notes[]"
-			""", "docs-builder"),
-
-		new("db-erd-26-api-reference", "DB: Relationships — API reference", DiagramCategory.Er, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-erd-26-api-reference",
+				"DB: Relationships — API reference",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			    Repository ||--o{ OpenApiSpec : "publishes, per branch"
 			    OpenApiRepository ||--o{ OpenApiSpec : "org/repo/branch/spec"
@@ -483,9 +612,14 @@ public static partial class DiagramExamples
 			    ApiSupplementalDoc }o--o| ApiTag : "tag-{slug}"
 			    ApiDeclaration ||--o{ ApiSupplementalDoc : "api/{key}/"
 			    ApiOperation ||--o| DocumentationDocument : "search export"
-			""", "docs-builder"),
-
-		new("db-erd-27-search", "DB: Relationships — Search", DiagramCategory.Er, """
+			""",
+				"docs-builder"
+			),
+			new(
+				"db-erd-27-search",
+				"DB: Relationships — Search",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			    SearchIndex ||--o{ SearchDocument : "contains"
 			    Page ||--o| DocumentationDocument : "exported"
@@ -494,6 +628,8 @@ public static partial class DiagramExamples
 			    DocumentationDocument ||--o{ ParentDocument : "parents (breadcrumbs)"
 			    DocumentationDocument ||--o{ AppliesToEntry : "applies_to"
 			    DocumentInference ||--|| DocumentationDocument : "decides product"
-			""", "docs-builder"),
-	];
+			""",
+				"docs-builder"
+			),
+		];
 }

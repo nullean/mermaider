@@ -16,17 +16,9 @@ internal sealed class AsciiCanvas
 	private const byte South = 4;
 	private const byte West = 8;
 
-	private static readonly char[] Rounded =
-	[
-		' ', '│', '─', '└', '│', '│', '┌', '├',
-		'─', '┘', '─', '┴', '┐', '┤', '┬', '┼',
-	];
+	private static readonly char[] Rounded = [' ', '│', '─', '└', '│', '│', '┌', '├', '─', '┘', '─', '┴', '┐', '┤', '┬', '┼',];
 
-	private static readonly char[] Plain =
-	[
-		' ', '|', '-', '+', '|', '|', '+', '+',
-		'-', '+', '-', '+', '+', '+', '+', '+',
-	];
+	private static readonly char[] Plain = [' ', '|', '-', '+', '|', '|', '+', '+', '-', '+', '-', '+', '+', '+', '+', '+',];
 
 	private readonly byte[] _lines;
 	private readonly char[] _glyphs;

@@ -7,7 +7,13 @@ namespace Sugiyama.Internal;
 /// </summary>
 internal static class DirectionTransform
 {
-	internal enum Direction { TD, LR, BT, RL }
+	internal enum Direction
+	{
+		TD,
+		LR,
+		BT,
+		RL
+	}
 
 	internal static void Run(GraphBuffer graph, List<EdgeRouter.RoutedEdge> routes, Direction direction)
 	{
@@ -56,14 +62,13 @@ internal static class DirectionTransform
 		}
 	}
 
-	private static (double X, double Y) Transform(double x, double y, Direction direction) =>
-		direction switch
-		{
-			Direction.LR => (y, x),
-			Direction.RL => (-y, x),
-			Direction.BT => (x, -y),
-			_ => (x, y),
-		};
+	private static (double X, double Y) Transform(double x, double y, Direction direction) => direction switch
+	{
+		Direction.LR => (y, x),
+		Direction.RL => (-y, x),
+		Direction.BT => (x, -y),
+		_ => (x, y),
+	};
 
 	/// <summary>
 	/// Transform a canonical top-left corner (x, y, w, h) to the visual top-left corner
@@ -71,21 +76,19 @@ internal static class DirectionTransform
 	/// (coordinate + extent) becomes the new min, so that axis's output is
 	/// -(coordinate + extent) instead of a plain reassignment.
 	/// </summary>
-	private static (double X, double Y, double W, double H) TransformBox(double x, double y, double w, double h, Direction direction) =>
-		direction switch
-		{
-			Direction.LR => (y, x, h, w),
-			Direction.RL => (-(y + h), x, h, w),
-			Direction.BT => (x, -(y + h), w, h),
-			_ => (x, y, w, h),
-		};
+	private static (double X, double Y, double W, double H) TransformBox(double x, double y, double w, double h, Direction direction) => direction switch
+	{
+		Direction.LR => (y, x, h, w),
+		Direction.RL => (-(y + h), x, h, w),
+		Direction.BT => (x, -(y + h), w, h),
+		_ => (x, y, w, h),
+	};
 
 	/// <summary>
 	/// Normalize coordinates so all values are non-negative (shift to origin).
 	/// Called after direction transform and before extracting the final result.
 	/// </summary>
-	internal static (double OffsetX, double OffsetY) Normalize(
-		GraphBuffer graph, List<EdgeRouter.RoutedEdge> routes, double padding)
+	internal static (double OffsetX, double OffsetY) Normalize(GraphBuffer graph, List<EdgeRouter.RoutedEdge> routes, double padding)
 	{
 		var minX = double.MaxValue;
 		var minY = double.MaxValue;

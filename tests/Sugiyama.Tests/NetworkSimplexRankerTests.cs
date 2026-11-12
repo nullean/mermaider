@@ -11,8 +11,7 @@ namespace Sugiyama.Tests;
 /// </summary>
 public class NetworkSimplexRankerTests
 {
-	private static NetworkSimplexRanker.SimplexEdge E(int from, int to, int weight = 1, int minLength = 1) =>
-		new(from, to, weight, minLength);
+	private static NetworkSimplexRanker.SimplexEdge E(int from, int to, int weight = 1, int minLength = 1) => new(from, to, weight, minLength);
 
 	[Test]
 	public void Single_node_has_rank_zero()
@@ -62,10 +61,17 @@ public class NetworkSimplexRankerTests
 		var rank = NetworkSimplexRanker.Rank(
 			8,
 			[
-				E(0, 1), E(1, 2), E(2, 3), E(3, 4), // a-b-c-d-h
-				E(0, 5), E(5, 6), E(6, 4),          // a-e-g-h
-				E(0, 7), E(7, 6),                   // a-f-g
-			]);
+				E(0, 1),
+				E(1, 2),
+				E(2, 3),
+				E(3, 4), // a-b-c-d-h
+				E(0, 5),
+				E(5, 6),
+				E(6, 4), // a-e-g-h
+				E(0, 7),
+				E(7, 6), // a-f-g
+			]
+		);
 
 		rank[0].Should().Be(0); // a
 		rank[1].Should().Be(1); // b
@@ -86,10 +92,14 @@ public class NetworkSimplexRankerTests
 		var rank = NetworkSimplexRanker.Rank(
 			5,
 			[
-				E(0, 1), E(1, 2), E(2, 3),       // a -> b -> c -> d
-				E(0, 4, weight: 2), E(4, 3),     // a -> e -> d
+				E(0, 1),
+				E(1, 2),
+				E(2, 3), // a -> b -> c -> d
+				E(0, 4, weight: 2),
+				E(4, 3), // a -> e -> d
 				E(1, 2, weight: 1, minLength: 2), // second b -> c edge, minlen 2
-			]);
+			]
+		);
 
 		rank[0].Should().Be(0); // a
 		rank[1].Should().Be(1); // b

@@ -164,10 +164,7 @@ internal static partial class MultilineUtils
 			AppendStyledSegment(sb, lineStr.AsSpan(lastIndex), bold, italic, underline, strikethrough);
 	}
 
-	private static void AppendStyledSegment(
-		StringBuilder sb,
-		ReadOnlySpan<char> text,
-		bool bold, bool italic, bool underline, bool strikethrough)
+	private static void AppendStyledSegment(StringBuilder sb, ReadOnlySpan<char> text, bool bold, bool italic, bool underline, bool strikethrough)
 	{
 		if (!bold && !italic && !underline && !strikethrough)
 		{
@@ -196,22 +193,23 @@ internal static partial class MultilineUtils
 		_ = sb.Append("</tspan>");
 	}
 
-	internal static void AppendMultilineText(
-		StringBuilder sb,
-		string text,
-		double cx, double cy,
-		double fontSize,
-		string attrs,
-		double baselineShift = 0.35)
+	internal static void AppendMultilineText(StringBuilder sb, string text, double cx, double cy, double fontSize, string attrs, double baselineShift = 0.35)
 	{
 		var lines = text.Split('\n');
 
 		if (lines.Length == 1)
 		{
 			var dy = fontSize * baselineShift;
-			_ = sb.Append("<text x=\"").Append(Rendering.SvgFormatExtensions.SvgFormat(cx)).Append("\" y=\"").Append(Rendering.SvgFormatExtensions.SvgFormat(cy))
-				.Append("\" ").Append(attrs)
-				.Append(" dy=\"").Append(Rendering.SvgFormatExtensions.SvgFormat(dy)).Append("\">");
+			_ = sb
+				.Append("<text x=\"")
+				.Append(Rendering.SvgFormatExtensions.SvgFormat(cx))
+				.Append("\" y=\"")
+				.Append(Rendering.SvgFormatExtensions.SvgFormat(cy))
+				.Append("\" ")
+				.Append(attrs)
+				.Append(" dy=\"")
+				.Append(Rendering.SvgFormatExtensions.SvgFormat(dy))
+				.Append("\">");
 			AppendLineContent(sb, text.AsSpan());
 			_ = sb.Append("</text>");
 			return;
@@ -220,13 +218,24 @@ internal static partial class MultilineUtils
 		var lineHeight = fontSize * TextMetrics.LineHeightRatio;
 		var firstDy = (-((lines.Length - 1) / 2.0) * lineHeight) + (fontSize * baselineShift);
 
-		_ = sb.Append("<text x=\"").Append(Rendering.SvgFormatExtensions.SvgFormat(cx)).Append("\" y=\"").Append(Rendering.SvgFormatExtensions.SvgFormat(cy))
-			.Append("\" ").Append(attrs).Append('>');
+		_ = sb
+			.Append("<text x=\"")
+			.Append(Rendering.SvgFormatExtensions.SvgFormat(cx))
+			.Append("\" y=\"")
+			.Append(Rendering.SvgFormatExtensions.SvgFormat(cy))
+			.Append("\" ")
+			.Append(attrs)
+			.Append('>');
 
 		for (var i = 0; i < lines.Length; i++)
 		{
 			var dy = i == 0 ? firstDy : lineHeight;
-			_ = sb.Append("<tspan x=\"").Append(Rendering.SvgFormatExtensions.SvgFormat(cx)).Append("\" dy=\"").Append(Rendering.SvgFormatExtensions.SvgFormat(dy)).Append("\">");
+			_ = sb
+				.Append("<tspan x=\"")
+				.Append(Rendering.SvgFormatExtensions.SvgFormat(cx))
+				.Append("\" dy=\"")
+				.Append(Rendering.SvgFormatExtensions.SvgFormat(dy))
+				.Append("\">");
 			AppendLineContent(sb, lines[i].AsSpan());
 			_ = sb.Append("</tspan>");
 		}
@@ -237,21 +246,31 @@ internal static partial class MultilineUtils
 	internal static void AppendMultilineTextWithBackground(
 		StringBuilder sb,
 		string text,
-		double cx, double cy,
-		double textWidth, double textHeight,
+		double cx,
+		double cy,
+		double textWidth,
+		double textHeight,
 		double fontSize,
 		double padding,
 		string textAttrs,
-		string bgAttrs)
+		string bgAttrs
+	)
 	{
 		var bgWidth = textWidth + (padding * 2);
 		var bgHeight = textHeight + (padding * 2);
 
-		_ = sb.Append("<rect x=\"").Append(cx - (bgWidth / 2))
-			.Append("\" y=\"").Append(cy - (bgHeight / 2))
-			.Append("\" width=\"").Append(bgWidth)
-			.Append("\" height=\"").Append(bgHeight)
-			.Append("\" ").Append(bgAttrs).Append(" />\n");
+		_ = sb
+			.Append("<rect x=\"")
+			.Append(cx - (bgWidth / 2))
+			.Append("\" y=\"")
+			.Append(cy - (bgHeight / 2))
+			.Append("\" width=\"")
+			.Append(bgWidth)
+			.Append("\" height=\"")
+			.Append(bgHeight)
+			.Append("\" ")
+			.Append(bgAttrs)
+			.Append(" />\n");
 
 		AppendMultilineText(sb, text, cx, cy, fontSize, textAttrs);
 	}

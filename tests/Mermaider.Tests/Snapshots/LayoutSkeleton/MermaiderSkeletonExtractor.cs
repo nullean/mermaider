@@ -13,14 +13,9 @@ internal static class MermaiderSkeletonExtractor
 {
 	public static LayoutSkeleton Extract(PositionedErDiagram diagram)
 	{
-		var boxes = diagram.Entities
-			.Select(e => (e.Id, e.X, e.Y, e.Width, e.Height))
-			.ToList();
+		var boxes = diagram.Entities.Select(e => (e.Id, e.X, e.Y, e.Width, e.Height)).ToList();
 
-		var edges = diagram.Relationships
-			.Where(r => r.Points.Count >= 2)
-			.Select(r => (r.Entity1, r.Entity2, r.Label, (IReadOnlyList<Point>)r.Points))
-			.ToList();
+		var edges = diagram.Relationships.Where(r => r.Points.Count >= 2).Select(r => (r.Entity1, r.Entity2, r.Label, (IReadOnlyList<Point>)r.Points)).ToList();
 
 		return LayoutSkeletonBuilder.Build(boxes, edges);
 	}

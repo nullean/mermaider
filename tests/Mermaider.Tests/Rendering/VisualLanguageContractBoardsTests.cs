@@ -35,8 +35,10 @@ public partial class VisualLanguageContractBoardsTests
 			var svg = DesignContract.Render(source, style);
 			var title = TitleText().Match(svg);
 			title.Success.Should().BeTrue($"{style}: the title is drawn by the shared title component");
-			double.Parse(title.Groups[1].Value, CultureInfo.InvariantCulture)
-				.Should().Be(DesignSystem.BoardMargin + DesignSystem.TitleIndent, "the title starts at the page margin, after its mark");
+			double
+				.Parse(title.Groups[1].Value, CultureInfo.InvariantCulture)
+				.Should()
+				.Be(DesignSystem.BoardMargin + DesignSystem.TitleIndent, "the title starts at the page margin, after its mark");
 			svg.Should().Contain("text-anchor=\"start\" font-size=\"var(--fs-l)\" font-weight=\"700\"");
 		}
 	}
@@ -83,7 +85,10 @@ public partial class VisualLanguageContractBoardsTests
 		svg.Should().Contain($"stroke=\"{ColorFamily.Accent().Stroke}\"", "the root is drawn in the accent family");
 		svg.Should().Contain(DesignContract.NodeGradientStop(DesignContract.Cluster(1)), "the first branch has its own family");
 		svg.Should().Contain(DesignContract.NodeGradientStop(DesignContract.Cluster(2)), "the second branch has its own family");
-		Regex.Count(svg, "class=\"mindmap-link\" d=\"[^\"]*\" fill=\"none\" stroke=\"" + Regex.Escape(DesignContract.Family(DesignContract.Cluster(1)).Stroke)).Should().Be(2, "a branch's links are in the branch family stroke");
+		Regex
+			.Count(svg, "class=\"mindmap-link\" d=\"[^\"]*\" fill=\"none\" stroke=\"" + Regex.Escape(DesignContract.Family(DesignContract.Cluster(1)).Stroke))
+			.Should()
+			.Be(2, "a branch's links are in the branch family stroke");
 	}
 
 	[Test]
@@ -107,8 +112,9 @@ public partial class VisualLanguageContractBoardsTests
 		var rects = MyRegex().Matches(svg);
 		var circle = Regex.Match(svg, "<circle cx=\"([0-9.]+)\"");
 		var rootX = double.Parse(circle.Groups[1].Value, CultureInfo.InvariantCulture);
-		var centres = rects.Select(m => double.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture)
-			+ (double.Parse(m.Groups[2].Value, CultureInfo.InvariantCulture) / 2)).ToList();
+		var centres = rects.Select(
+			m => double.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture) + (double.Parse(m.Groups[2].Value, CultureInfo.InvariantCulture) / 2)
+		).ToList();
 		centres.Should().Contain(c => c < rootX, "some branches sit left of the root");
 		centres.Should().Contain(c => c > rootX, "some branches sit right of the root");
 	}

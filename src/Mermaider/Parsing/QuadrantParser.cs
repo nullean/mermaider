@@ -31,9 +31,7 @@ internal static partial class QuadrantParser
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
-			throw new MermaidParseException(
-				$"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.",
-				ex);
+			throw new MermaidParseException($"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.", ex);
 		}
 	}
 

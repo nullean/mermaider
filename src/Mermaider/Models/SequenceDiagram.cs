@@ -14,7 +14,11 @@ public sealed record SequenceDiagram
 
 public readonly record struct SequenceActor(string Id, string Label, SequenceActorType Type);
 
-public enum SequenceActorType { Participant, Actor }
+public enum SequenceActorType
+{
+	Participant,
+	Actor
+}
 
 public sealed record SequenceMessage(
 	string From,
@@ -39,18 +43,27 @@ public sealed record SequenceBlock
 	public required IReadOnlyList<SequenceBlockDivider> Dividers { get; init; }
 }
 
-public enum SequenceBlockType { Loop, Alt, Opt, Par, Critical, Break, Rect }
+public enum SequenceBlockType
+{
+	Loop,
+	Alt,
+	Opt,
+	Par,
+	Critical,
+	Break,
+	Rect
+}
 
 public readonly record struct SequenceBlockDivider(int Index, string Label);
 
-public sealed record SequenceNote(
-	IReadOnlyList<string> ActorIds,
-	string Text,
-	SequenceNotePosition Position,
-	int AfterIndex
-);
+public sealed record SequenceNote(IReadOnlyList<string> ActorIds, string Text, SequenceNotePosition Position, int AfterIndex);
 
-public enum SequenceNotePosition { Left, Right, Over }
+public enum SequenceNotePosition
+{
+	Left,
+	Right,
+	Over
+}
 
 public sealed record SequenceBox(string? Color, string Title, IReadOnlyList<string> ActorIds);
 

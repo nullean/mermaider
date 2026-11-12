@@ -74,16 +74,15 @@ for (var i = 0; i < args.Length; i++)
 			gradient = false;
 			break;
 		case "--tint":
-			if (i + 1 >= args.Length
-				|| !double.TryParse(args[++i], NumberStyles.Float, CultureInfo.InvariantCulture, out var t)
-				|| !double.IsFinite(t) || t is < 0.5 or > 1.5)
+			if (
+				i + 1 >= args.Length || !double.TryParse(args[++i], NumberStyles.Float, CultureInfo.InvariantCulture, out var t) || !double.IsFinite(t) ||
+				t is < 0.5 or > 1.5
+			)
 				return UsageError("--tint expects a number between 0.5 and 1.5 (default 1)");
 			tint = t;
 			break;
 		case "--elevation":
-			if (i + 1 >= args.Length
-				|| !int.TryParse(args[++i], NumberStyles.None, CultureInfo.InvariantCulture, out var e)
-				|| e is < 0 or > 2)
+			if (i + 1 >= args.Length || !int.TryParse(args[++i], NumberStyles.None, CultureInfo.InvariantCulture, out var e) || e is < 0 or > 2)
 				return UsageError("--elevation expects 0 (none), 1 (default) or 2 (adds ambient shadow)");
 			elevation = e;
 			break;
@@ -121,13 +120,7 @@ if (string.IsNullOrWhiteSpace(input))
 	return 1;
 }
 
-var options = BuildOptions(themeName, transparent) with
-{
-	Style = style,
-	Gradient = gradient,
-	Tint = tint,
-	Elevation = elevation,
-};
+var options = BuildOptions(themeName, transparent) with { Style = style, Gradient = gradient, Tint = tint, Elevation = elevation, };
 
 try
 {
@@ -223,7 +216,9 @@ static int UsageError(string message)
 	return 1;
 }
 
-static void PrintHelp() => Console.WriteLine("""
+static void PrintHelp() =>
+	Console.WriteLine(
+		"""
 		mermaid - Render Mermaid diagrams to SVG
 
 		USAGE:
@@ -255,4 +250,5 @@ static void PrintHelp() => Console.WriteLine("""
 		  mermaid flow.mmd -t github-dark --style tonal --tint 0.8 -o flow.svg
 		  echo "graph TD; A-->B" | mermaid > simple.svg
 		  mermaid --list-themes
-		""");
+		"""
+	);

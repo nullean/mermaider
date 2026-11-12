@@ -59,18 +59,11 @@ internal static class AsciiFlowchartRenderer
 		// tight around where the members landed, and only when nothing else landed inside one
 		var layout = SugiyamaLayout.Compute(
 			new LayoutGraph(direction, nodes, edges, []),
-			new LayoutOptions
-			{
-				Padding = 2,
-				NodeSpacing = across ? 1 : 4,
-				LayerSpacing = across ? 10 : 4,
-				SeparateComponents = true,
-			});
+			new LayoutOptions { Padding = 2, NodeSpacing = across ? 1 : 4, LayerSpacing = across ? 10 : 4, SeparateComponents = true, }
+		);
 
 		var placed = layout.Nodes.ToDictionary(n => n.Id, StringComparer.Ordinal);
-		var boxes = layout.Nodes
-			.Select(n => (X: (int)Math.Round(n.X), Y: (int)Math.Round(n.Y), Width: (int)Math.Round(n.Width), Height: BoxHeight))
-			.ToList();
+		var boxes = layout.Nodes.Select(n => (X: (int)Math.Round(n.X), Y: (int)Math.Round(n.Y), Width: (int)Math.Round(n.Width), Height: BoxHeight)).ToList();
 
 		// an edge that runs against the flow is drawn in a lane of its own past the end of everything, the way
 		// a feedback line is drawn on paper. Straight through would cross every box between its two ends
@@ -88,7 +81,8 @@ internal static class AsciiFlowchartRenderer
 		var canvas = new AsciiCanvas(
 			(int)Math.Ceiling(layout.Width) + 2 + (across ? 0 : lanes),
 			(int)Math.Ceiling(layout.Height) + 2 + (across ? lanes : 0),
-			options.Ascii);
+			options.Ascii
+		);
 		foreach (var node in layout.Nodes)
 		{
 			var x = (int)Math.Round(node.X);
@@ -98,9 +92,7 @@ internal static class AsciiFlowchartRenderer
 			canvas.Centred(x + 1, width - 2, y + 1, labels.GetValueOrDefault(node.Id, node.Id));
 		}
 
-		var lane = across
-			? boxes.Max(b => b.Y + b.Height) + 1
-			: boxes.Max(b => b.X + b.Width) + 1;
+		var lane = across ? boxes.Max(b => b.Y + b.Height) + 1 : boxes.Max(b => b.X + b.Width) + 1;
 		foreach (var routed in layout.Edges)
 		{
 			if (routed.OriginalIndex < 0 || routed.OriginalIndex >= original.Count)
@@ -130,8 +122,7 @@ internal static class AsciiFlowchartRenderer
 	/// only the grouping line.
 	/// </summary>
 	/// <summary>Whether an edge runs against the flow, which on a grid is the one thing a straight line cannot do quietly.</summary>
-	private static bool Backward(LayoutNodeResult from, LayoutNodeResult to, bool across) =>
-		across ? to.X + to.Width <= from.X : to.Y + to.Height <= from.Y;
+	private static bool Backward(LayoutNodeResult from, LayoutNodeResult to, bool across) => across ? to.X + to.Width <= from.X : to.Y + to.Height <= from.Y;
 
 	/// <summary>
 	/// An edge against the flow, drawn out of the near side of its source, along a lane past everything, and
@@ -147,7 +138,8 @@ internal static class AsciiFlowchartRenderer
 		bool across,
 		int lane,
 		AsciiOptions options,
-		IReadOnlyList<(int X, int Y, int Width, int Height)> boxes)
+		IReadOnlyList<(int X, int Y, int Width, int Height)> boxes
+	)
 	{
 		var (fromX, fromY, fromWidth) = ((int)Math.Round(from.X), (int)Math.Round(from.Y), (int)Math.Round(from.Width));
 		var (toX, toY, toWidth) = ((int)Math.Round(to.X), (int)Math.Round(to.Y), (int)Math.Round(to.Width));
@@ -214,7 +206,8 @@ internal static class AsciiFlowchartRenderer
 		bool across,
 		AsciiOptions options,
 		Dictionary<string, LayoutNodeResult> nodes,
-		IReadOnlyList<(int X, int Y, int Width, int Height)> boxes)
+		IReadOnlyList<(int X, int Y, int Width, int Height)> boxes
+	)
 	{
 		if (routed.Points.Count < 2)
 			return;
@@ -247,9 +240,7 @@ internal static class AsciiFlowchartRenderer
 		// a bend that doubles back is a curve the routing wanted and the grid cannot have: on characters it
 		// reads as a second line going the wrong way, so an edge that is not monotone along the flow is drawn
 		// as one dogleg from end to end instead
-		var forward = across
-			? points[^1].X >= points[0].X
-			: points[^1].Y >= points[0].Y;
+		var forward = across ? points[^1].X >= points[0].X : points[^1].Y >= points[0].Y;
 		for (var i = 1; i < points.Count; i++)
 		{
 			var back = across
@@ -334,13 +325,18 @@ internal static class AsciiFlowchartRenderer
 	/// An edge's label, written into the gap between the source and whatever is next along the line. Anything
 	/// that does not fit in that gap is truncated rather than allowed to run over a box.
 	/// </summary>
-	private static void Label(AsciiCanvas canvas, List<(int X, int Y)> points, bool across, string label, IReadOnlyList<(int X, int Y, int Width, int Height)> boxes, bool ascii)
+	private static void Label(
+		AsciiCanvas canvas,
+		List<(int X, int Y)> points,
+		bool across,
+		string label,
+		IReadOnlyList<(int X, int Y, int Width, int Height)> boxes,
+		bool ascii
+	)
 	{
 		var (fromX, fromY) = points[0];
 		var (toX, toY) = points[1];
-		var (x, y, room) = across
-			? (Math.Min(fromX, toX) + 2, fromY, Math.Abs(toX - fromX) - 3)
-			: (fromX + 2, Turn(fromY, toY), 24);
+		var (x, y, room) = across ? (Math.Min(fromX, toX) + 2, fromY, Math.Abs(toX - fromX) - 3) : (fromX + 2, Turn(fromY, toY), 24);
 		if (room < 3 || (!across && Math.Abs(toY - fromY) < 2))
 			return;
 
@@ -364,9 +360,7 @@ internal static class AsciiFlowchartRenderer
 		var x = (int)Math.Round(node.X);
 		var y = (int)Math.Round(node.Y);
 		var width = (int)Math.Round(node.Width);
-		return across
-			? (point.X >= x + (width / 2) ? x + width - 1 : x, y + 1)
-			: (x + (width / 2), point.Y >= y + 1 ? y + BoxHeight - 1 : y);
+		return across ? (point.X >= x + (width / 2) ? x + width - 1 : x, y + 1) : (x + (width / 2), point.Y >= y + 1 ? y + BoxHeight - 1 : y);
 	}
 
 	/// <summary>
@@ -393,8 +387,5 @@ internal static class AsciiFlowchartRenderer
 
 	/// <summary>A label is one line here: a break in a box three rows tall has nowhere to go.</summary>
 	private static string Flatten(string label) =>
-		label.Replace("<br/>", " ", StringComparison.OrdinalIgnoreCase)
-			.Replace("<br>", " ", StringComparison.OrdinalIgnoreCase)
-			.Replace('\n', ' ')
-			.Trim();
+		label.Replace("<br/>", " ", StringComparison.OrdinalIgnoreCase).Replace("<br>", " ", StringComparison.OrdinalIgnoreCase).Replace('\n', ' ').Trim();
 }

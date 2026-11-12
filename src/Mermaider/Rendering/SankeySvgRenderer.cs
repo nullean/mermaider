@@ -18,7 +18,6 @@ internal static class SankeySvgRenderer
 	/// <summary>Vertical distance between a node name and its value line.</summary>
 	private const double ValueLineGap = 16;
 
-
 	private sealed class NodeLayout
 	{
 		public required string Name { get; init; }
@@ -179,11 +178,7 @@ internal static class SankeySvgRenderer
 
 		// Compact ranks to dense 0..k-1 so empty/inflated layers don't waste columns
 		// or cram nodes to the right after cycle handling.
-		var distinctLayers = nodes.Values
-			.Select(n => n.Layer)
-			.Distinct()
-			.OrderBy(l => l)
-			.ToArray();
+		var distinctLayers = nodes.Values.Select(n => n.Layer).Distinct().OrderBy(l => l).ToArray();
 		var layerRemap = new Dictionary<int, int>(distinctLayers.Length);
 		for (var i = 0; i < distinctLayers.Length; i++)
 			layerRemap[distinctLayers[i]] = i;
@@ -312,20 +307,55 @@ internal static class SankeySvgRenderer
 
 		// gradient on: blend source → target; off: the source colour flat at the same opacity
 		var fill = ds.Gradient
-			? ds.SpanGradient("sankey-grad-" + link.Index.ToString(CultureInfo.InvariantCulture), x0, 0, x1, 0,
-				link.Source.Family.Base, link.Target.Family.Base, ds.RibbonOpacity)
+			? ds.SpanGradient(
+				"sankey-grad-" + link.Index.ToString(CultureInfo.InvariantCulture),
+				x0,
+				0,
+				x1,
+				0,
+				link.Source.Family.Base,
+				link.Target.Family.Base,
+				ds.RibbonOpacity
+			)
 			: link.Source.Family.Base;
 
 		// Ribbon path: source edge → cubic → target edge → back
-		_ = sb.Append("\n<path class=\"sankey-link\" d=\"M ").Append(x0.SvgFormat()).Append(' ').Append(link.Sy0.SvgFormat())
-			.Append(" C ").Append(midX.SvgFormat()).Append(' ').Append(link.Sy0.SvgFormat())
-			.Append(' ').Append(midX.SvgFormat()).Append(' ').Append(link.Ty0.SvgFormat())
-			.Append(' ').Append(x1.SvgFormat()).Append(' ').Append(link.Ty0.SvgFormat())
-			.Append(" L ").Append(x1.SvgFormat()).Append(' ').Append(link.Ty1.SvgFormat())
-			.Append(" C ").Append(midX.SvgFormat()).Append(' ').Append(link.Ty1.SvgFormat())
-			.Append(' ').Append(midX.SvgFormat()).Append(' ').Append(link.Sy1.SvgFormat())
-			.Append(' ').Append(x0.SvgFormat()).Append(' ').Append(link.Sy1.SvgFormat())
-			.Append(" Z\" fill=\"").Append(fill).Append('"');
+		_ = sb
+			.Append("\n<path class=\"sankey-link\" d=\"M ")
+			.Append(x0.SvgFormat())
+			.Append(' ')
+			.Append(link.Sy0.SvgFormat())
+			.Append(" C ")
+			.Append(midX.SvgFormat())
+			.Append(' ')
+			.Append(link.Sy0.SvgFormat())
+			.Append(' ')
+			.Append(midX.SvgFormat())
+			.Append(' ')
+			.Append(link.Ty0.SvgFormat())
+			.Append(' ')
+			.Append(x1.SvgFormat())
+			.Append(' ')
+			.Append(link.Ty0.SvgFormat())
+			.Append(" L ")
+			.Append(x1.SvgFormat())
+			.Append(' ')
+			.Append(link.Ty1.SvgFormat())
+			.Append(" C ")
+			.Append(midX.SvgFormat())
+			.Append(' ')
+			.Append(link.Ty1.SvgFormat())
+			.Append(' ')
+			.Append(midX.SvgFormat())
+			.Append(' ')
+			.Append(link.Sy1.SvgFormat())
+			.Append(' ')
+			.Append(x0.SvgFormat())
+			.Append(' ')
+			.Append(link.Sy1.SvgFormat())
+			.Append(" Z\" fill=\"")
+			.Append(fill)
+			.Append('"');
 		if (!ds.Gradient)
 			_ = sb.Append(" fill-opacity=\"").Append(DesignSystem.Num(ds.RibbonOpacity)).Append('"');
 		_ = sb.Append(" stroke=\"none\" />");
@@ -343,9 +373,20 @@ internal static class SankeySvgRenderer
 		var rr = DesignSystem.Num(Math.Min(r, h / 2));
 		_ = sb.Append("\n<g class=\"sankey-node\" data-node=\"");
 		MultilineUtils.AppendEscapedAttr(sb, node.Name);
-		_ = sb.Append("\">\n  <rect x=\"").Append(node.X0.SvgFormat()).Append("\" y=\"").Append(node.Y0.SvgFormat())
-			.Append("\" width=\"").Append(NodeWidth.SvgFormat()).Append("\" height=\"").Append(h.SvgFormat())
-			.Append("\" rx=\"").Append(rr).Append("\" ry=\"").Append(rr).Append('"');
+		_ = sb
+			.Append("\">\n  <rect x=\"")
+			.Append(node.X0.SvgFormat())
+			.Append("\" y=\"")
+			.Append(node.Y0.SvgFormat())
+			.Append("\" width=\"")
+			.Append(NodeWidth.SvgFormat())
+			.Append("\" height=\"")
+			.Append(h.SvgFormat())
+			.Append("\" rx=\"")
+			.Append(rr)
+			.Append("\" ry=\"")
+			.Append(rr)
+			.Append('"');
 		ds.AppendMarkPaint(sb, node.Family);
 		_ = sb.Append(" />");
 
@@ -365,5 +406,4 @@ internal static class SankeySvgRenderer
 			return ((long)value).ToString(CultureInfo.InvariantCulture);
 		return value.ToString("0.##", CultureInfo.InvariantCulture);
 	}
-
 }
