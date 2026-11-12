@@ -45,8 +45,8 @@
   <line x1="350" y1="214" x2="210" y2="214" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-arrow)" />
   <rect x="249.89600000000002" y="189.2" width="60.208" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="280" y="200" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Thanks</text>
 </g>
-<g class="message" data-from="Bob" data-to="Carol" data-label="Goodbye" data-line-style="solid" data-arrow-head="filled" data-self="false">
-  <line x1="210" y1="264" x2="340" y2="264" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<g class="message" data-from="Bob" data-to="Carol" data-label="Goodbye" data-line-style="solid" data-arrow-head="cross" data-self="false">
+  <line x1="210" y1="264" x2="340" y2="264" stroke="var(--_line)" stroke-width="1.5" />
   <rect x="241.476" y="239.2" width="67.048" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="275" y="250" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">Goodbye</text>
 </g>
 <g class="actor" data-id="Alice" data-label="Alice" data-type="participant">

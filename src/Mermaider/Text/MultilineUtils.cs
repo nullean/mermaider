@@ -1,4 +1,5 @@
 using System.Buffers;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -31,6 +32,9 @@ internal static partial class MultilineUtils
 	[GeneratedRegex(@"~~(.+?)~~", RegexOptions.None, TimeoutMs)]
 	private static partial Regex MarkdownStrikethroughPattern();
 
+	[GeneratedRegex(@"#([A-Za-z][A-Za-z0-9]*|[0-9]+);", RegexOptions.None, TimeoutMs)]
+	private static partial Regex EntityCodePattern();
+
 	[GeneratedRegex(@"<(/?)(b|strong|i|em|u|s|del)\s*>", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex FormatTagPattern();
 
@@ -39,7 +43,7 @@ internal static partial class MultilineUtils
 
 	/// <summary>
 	/// Normalize label text: strip quotes, convert &lt;br&gt; tags and \n to newlines,
-	/// strip unsupported tags, convert markdown formatting to HTML tags.
+	/// strip unsupported tags, convert markdown formatting to HTML tags, decode entity codes.
 	/// </summary>
 	internal static string NormalizeBrTags(string label)
 	{
@@ -50,7 +54,24 @@ internal static partial class MultilineUtils
 		result = MarkdownBoldPattern().Replace(result, "<b>$1</b>");
 		result = MarkdownItalicPattern().Replace(result, "<i>$1</i>");
 		result = MarkdownStrikethroughPattern().Replace(result, "<s>$1</s>");
-		return result;
+		return DecodeEntities(result);
+	}
+
+	/// <summary>
+	/// Decodes Mermaid entity codes: <c>#quot;</c> by HTML entity name and <c>#35;</c> by decimal
+	/// code point. A code with no matching entity is left as written.
+	/// </summary>
+	internal static string DecodeEntities(string text)
+	{
+		if (!text.Contains('#'))
+			return text;
+
+		return EntityCodePattern().Replace(text, static m =>
+		{
+			var entity = string.Concat("&", char.IsAsciiDigit(m.Groups[1].Value[0]) ? "#" : "", m.Groups[1].Value, ";");
+			var decoded = WebUtility.HtmlDecode(entity);
+			return decoded == entity ? m.Value : decoded;
+		});
 	}
 
 	internal static void AppendEscapedXml(StringBuilder sb, ReadOnlySpan<char> value)

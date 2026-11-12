@@ -195,4 +195,20 @@ public class ClassParserTests
 		repo.Methods.Should().ContainSingle().Which.Name.Should().Be("find");
 		diagram.Relationships.Select(r => (r.From, r.To)).Should().Equal(("Map", "Cache"), ("Repo", "Queryable"));
 	}
+
+	[Test]
+	public void Parses_solid_and_dashed_links()
+	{
+		var lines = new[] { "classDiagram", "A -- B", "C .. D : uses" };
+
+		var diagram = ClassParser.Parse(lines);
+
+		diagram.Classes.Select(c => c.Id).Should().BeEquivalentTo(["A", "B", "C", "D"]);
+		diagram.Relationships.Should().HaveCount(2);
+		diagram.Relationships[0].Type.Should().Be(ClassRelationType.Link);
+		diagram.Relationships[1].Type.Should().Be(ClassRelationType.DashedLink);
+		diagram.Relationships[1].From.Should().Be("C");
+		diagram.Relationships[1].To.Should().Be("D");
+		diagram.Relationships[1].Label.Should().Be("uses");
+	}
 }

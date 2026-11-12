@@ -289,4 +289,16 @@ public class ClassSpecTests
 			)
 			.Should()
 			.MatchSnapshot(SvgSnapshotFormat.Instance);
+
+	[Test]
+	public void Solid_and_dashed_links() =>
+		MermaidRenderer
+			.RenderSvg("""
+			classDiagram
+			A -- B
+			A --> C
+			C .. D : uses
+			""")
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 }

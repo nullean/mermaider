@@ -89,4 +89,17 @@ public class ClassRendererTests
 
 		svg.Should().Contain("data-label=\"places\"");
 	}
+
+	[Test]
+	public void Links_draw_no_marker()
+	{
+		var svg = MermaidRenderer.RenderSvg("classDiagram\n  A -- B\n  C .. D");
+
+		svg.Should().Contain("data-type=\"link\"");
+		svg.Should().Contain("data-type=\"dashed-link\"");
+		svg.Should().NotContain("marker-end=");
+		svg.Should().NotContain("marker-start=");
+		svg.Should().MatchRegex("data-type=\"dashed-link\"[^>]*stroke-dasharray=");
+		svg.Should().NotMatchRegex("data-type=\"link\"[^>]*stroke-dasharray=");
+	}
 }
