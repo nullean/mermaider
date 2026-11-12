@@ -40,7 +40,8 @@ public enum SequenceLineStyle
 public enum SequenceArrowHead
 {
 	Filled,
-	Open
+	Open,
+	Cross
 }
 
 public sealed record SequenceBlock
