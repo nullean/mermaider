@@ -17,18 +17,18 @@ env:
   ARTIFACTS: 'build/output/*.nupkg'
 
 jobs:
+  # macOS runners are scarce: pull requests run Linux and Windows, main adds macOS. A release runs no tests of its own;
+  # main-green requires main's full run, macOS included, to have passed on the released commit.
   aot-validate:
+    if: github.event_name != 'release'
     runs-on: ${{ matrix.os.runner }}
     strategy:
       fail-fast: false
       matrix:
-        os:
-        - runner: ubuntu-latest
-          binary: mermaid-aot-smoketest
-        - runner: macos-latest
-          binary: mermaid-aot-smoketest
-        - runner: windows-latest
-          binary: mermaid-aot-smoketest.exe
+        os: >-
+          ${{ fromJSON(github.event_name == 'push'
+            && '[{"runner":"ubuntu-latest","binary":"mermaid-aot-smoketest"},{"runner":"macos-latest","binary":"mermaid-aot-smoketest"},{"runner":"windows-latest","binary":"mermaid-aot-smoketest.exe"}]'
+            || '[{"runner":"ubuntu-latest","binary":"mermaid-aot-smoketest"},{"runner":"windows-latest","binary":"mermaid-aot-smoketest.exe"}]') }}
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
@@ -46,12 +46,14 @@ jobs:
     - name: Run AOT binary
       run: ./.artifacts/publish/mermaid-aot-smoketest/release/${{ matrix.os.binary }}
 
+  # Builds, tests, packs and validates pull requests and main, and pushes main's packages to GitHub Packages. The release
+  # job below publishes to nuget.org.
   build:
+    if: github.event_name != 'release'
     runs-on: ubuntu-latest
     permissions:
-      contents: write   # append the public API changes to the release notes
-      packages: write
-      id-token: write   # NuGet trusted publishing: exchange the workflow's OIDC token for a short-lived key
+      contents: read
+      packages: write # push main's packages to GitHub Packages
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
@@ -88,26 +90,67 @@ jobs:
       run: |
          until dotnet nuget push 'build/output/*.nupkg' -s https://nuget.pkg.github.com/nullean/index.json -k "$GITHUB_TOKEN" --skip-duplicate --no-symbols; do echo "Retrying"; sleep 1; done;
 
+  # A release publishes only a commit main proved: it waits (up to an hour) for main's ci.yml push run on the released
+  # commit, and fails unless that run, macOS included, succeeded.
+  main-green:
+    if: github.event_name == 'release'
+    name: main is green
+    runs-on: ubuntu-latest
+    timeout-minutes: 70
+    permissions:
+      actions: read # read main's ci.yml runs
+    steps:
+      - uses: nullean/.github/actions/require-green-main@f9eb30d28e48b3f6b8ff1f4e7dae1d2b7b2d544b # v1.6.0
+
+  # main's build job tested this commit; pack it again (the tag gives the version), validate, and publish to nuget.org.
+  release:
+    if: github.event_name == 'release'
+    needs: main-green
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # append the public API changes to the release notes
+      id-token: write   # NuGet trusted publishing: exchange the workflow's OIDC token for a short-lived key
+    steps:
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        fetch-depth: 1
+        persist-credentials: false
+    - run: |
+        git fetch --prune --unshallow --tags
+        echo exit code $?
+        git tag --list
+    - uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
+      with:
+        cache: false # a release never restores a cache PR builds could have written
+      env:
+        MISE_JOBS: "1" # dotnet versions share one DOTNET_ROOT; installing them in parallel races
+
+    - run: ./build.sh build -s
+      name: Build
+    - run: ./build.sh generatepackages -s
+      name: Generate local nuget packages
+    - run: ./build.sh validatepackages -s
+      name: "validate *.nupkg files that were created"
+    - run: ./build.sh generateapichanges -s
+      name: "Inspect public API changes"
+
     # Trusted publishing: nuget.org trusts this repository's ci.yml (a policy owned by the nullean
     # organization), so there is no long-lived API key to expire. The key it returns lasts an hour, so the
     # login sits right before the push. NUGET_USER is the nuget.org profile name, set at the org level.
     - name: Log in to nuget.org (trusted publishing)
       id: nuget-login
-      if: github.event_name == 'release'
       uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.2.0
       with:
         user: ${{ secrets.NUGET_USER }}
 
     - run: dotnet nuget push 'build/output/*.nupkg' -k "$NUGET_API_KEY" -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols
       name: release to nuget.org
-      if: github.event_name == 'release'
       env:
         NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
 
     # After the push, so the notes gain the API changes only once the packages are out. The notes themselves are the
     # draft release-drafter kept from the merged pull requests; a re-run appends nothing twice.
     - name: Append the public API changes to the release notes
-      if: github.event_name == 'release'
       shell: bash
       env:
         GH_TOKEN: ${{ github.token }}
@@ -130,6 +173,7 @@ jobs:
 
   # The docs build as docs.yml publishes it, without publishing, so a PR proves the build and post-build steps.
   docs:
+    if: github.event_name != 'release'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -158,6 +202,6 @@ jobs:
 
   # Static analysis of these workflows (nullean/.github).
   zizmor:
-    uses: nullean/.github/.github/workflows/zizmor.yml@d850ce6eee9efa9f81b410d15fcd480409518d19 # v1.5.0
+    uses: nullean/.github/.github/workflows/zizmor.yml@e21d5f59405aa7078e51825cd4c407191e28562f # v1.6.1
     permissions:
       contents: read
