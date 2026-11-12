@@ -49,7 +49,7 @@ let main argv =
               let version = Versions.informational.Value
               for package in packages () do
                   let package = Paths.RootRelative package.FullName
-                  sh $"dotnet nupkg-validator {package} -v {version} -k {Paths.SignKey} -t {output} -d Microsoft.Extensions.ObjectPool.dll" }
+                  sh $"dotnet nupkg-validator validate {package} -v {version} -k {Paths.SignKey} -t {output} -d Microsoft.Extensions.ObjectPool.dll" }
         | Generateapichanges -> target [] {
               let version = Versions.current.Value
               for package in packages () do
@@ -57,7 +57,7 @@ let main argv =
                   printfn "(%s) -> (%s)" id version
                   let report = Path.Combine(output, $"breaking-changes-{id}.md")
                   // quoted: an unquoted | would pipe
-                  sh $"dotnet assembly-differ 'previous-nuget|{id}|{version}|{Paths.MainTFM}' 'directory|.artifacts/bin/{id}/release' -a true --target {id} -f github-comment --output {report}" }
+                  sh $"dotnet assembly-differ diff 'previous-nuget|{id}|{version}|{Paths.MainTFM}' 'directory|.artifacts/bin/{id}/release' -a --target {id} -f github-comment --output {report}" }
         | Docs -> target [] {
               Documentation.build ()
               Documentation.serve port.Value }
