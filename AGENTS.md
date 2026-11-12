@@ -6,8 +6,8 @@ Mermaider — Render Mermaid diagrams to SVG in pure .NET.
 
 ## Build & Test
 
-`mise install` provides the toolchain: the .NET 11 SDK pinned in `global.json`, plus the net10.0 runtime Mermaider
-and its tests target. The everyday tasks have the same names as in every nullean repository:
+`mise install` provides the toolchain: the .NET 11 SDK pinned in `global.json`. The libraries target net10.0
+and net11.0, the CLI, the tests and the examples net11.0. The everyday tasks have the same names as in every nullean repository:
 
 ```bash
 mise run build            # build the solution

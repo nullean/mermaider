@@ -57,7 +57,7 @@ let main argv =
                   printfn "(%s) -> (%s)" id version
                   let report = Path.Combine(output, $"breaking-changes-{id}.md")
                   // quoted: an unquoted | would pipe
-                  sh $"dotnet assembly-differ diff 'previous-nuget|{id}|{version}|{Paths.MainTFM}' 'directory|.artifacts/bin/{id}/release' -a --target {id} -f github-comment --output {report}" }
+                  sh $"dotnet assembly-differ diff 'previous-nuget|{id}|{version}|{Paths.MainTFM}' 'directory|{Paths.ApiDiffOutput id}' -a --target {id} -f github-comment --output {report}" }
         | Docs -> target [] {
               Documentation.build ()
               Documentation.serve port.Value }

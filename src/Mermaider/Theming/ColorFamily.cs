@@ -115,7 +115,9 @@ internal sealed record ColorFamily
 
 	internal static string Mix(string color, double percent, string target)
 	{
-		var p = Math.Clamp(Math.Round(percent, 1), 0, 100).ToString("0.#", CultureInfo.InvariantCulture);
+		// Round(percent * 10) / 10, not Round(percent, 1): .NET 11 rounds 3.15 to 3.1 where .NET 10 gives 3.2, and the
+		// net10.0 and net11.0 builds should draw the same SVG
+		var p = Math.Clamp(Math.Round(percent * 10) / 10, 0, 100).ToString("0.#", CultureInfo.InvariantCulture);
 		return $"color-mix(in srgb, {color} {p}%, {target})";
 	}
 }
