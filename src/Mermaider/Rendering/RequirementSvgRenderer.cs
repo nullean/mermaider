@@ -28,8 +28,7 @@ internal static class RequirementSvgRenderer
 	private static double KeyPx => DesignSystem.Px(TypeRole.Meta);
 	private static double ValuePx => DesignSystem.Px(TypeRole.Body);
 
-	internal static string Render(
-		RequirementDiagram diagram, SvgRenderContext context)
+	internal static string Render(RequirementDiagram diagram, SvgRenderContext context)
 	{
 		var sb = RenderToBuilder(diagram, context);
 		try
@@ -43,8 +42,7 @@ internal static class RequirementSvgRenderer
 		}
 	}
 
-	internal static StringBuilder RenderToBuilder(
-		RequirementDiagram diagram, SvgRenderContext context)
+	internal static StringBuilder RenderToBuilder(RequirementDiagram diagram, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
 		var ds = DesignSystem.For(context);
@@ -97,7 +95,8 @@ internal static class RequirementSvgRenderer
 			boxes.Values.Select(b => new ClusterBox(b.Name, b.X, b.Y, b.W, b.H)).ToList(),
 			diagram.Relations.Select(r => (r.Source, r.Target)),
 			[],
-			context.Styles.Colors).WithTint(ds.TintStrength);
+			context.Styles.Colors
+		).WithTint(ds.TintStrength);
 
 		foreach (var route in routes)
 			AppendRelation(sb, ds, route, context.EdgeRadius);
@@ -127,7 +126,8 @@ internal static class RequirementSvgRenderer
 		double X,
 		double Y,
 		double W,
-		double H);
+		double H
+	);
 
 	private static Dictionary<string, Box> BuildBoxes(RequirementDiagram diagram)
 	{
@@ -172,14 +172,25 @@ internal static class RequirementSvgRenderer
 		return boxes;
 	}
 
-	private static Box MakeBox(string name, bool isRequirement, string stereotype, List<(string Key, string Value, RequirementRisk Risk)> props, double contentW)
+	private static Box MakeBox(
+		string name,
+		bool isRequirement,
+		string stereotype,
+		List<(string Key, string Value, RequirementRisk Risk)> props,
+		double contentW
+	)
 	{
 		var nameLines = WrapText(name, contentW, NamePx, 700);
 		var keyColW = props.Count == 0 ? 0 : props.Max(p => KeyWidth(p.Key));
 		var valueW = Math.Max(40, contentW - keyColW - EntityGrid.ColumnGap);
-		var rows = props.Select(p => new Row(p.Key, p.Risk != RequirementRisk.Unspecified ? [p.Value] : WrapText(p.Value, valueW, ValuePx, 400), p.Risk)).ToList();
+		var rows = props.Select(
+			p => new Row(p.Key, p.Risk != RequirementRisk.Unspecified ? [p.Value] : WrapText(p.Value, valueW, ValuePx, 400), p.Risk)
+		).ToList();
 
-		var headerW = Math.Max(EntityGrid.StereotypeWidth(stereotype), (nameLines.Max(l => TextMetrics.MeasureTextWidth(l, NamePx, 700)) * ErSvgRenderer.TextWidthCorrection) + (EntityGrid.Pad * 2));
+		var headerW = Math.Max(
+			EntityGrid.StereotypeWidth(stereotype),
+			(nameLines.Max(l => TextMetrics.MeasureTextWidth(l, NamePx, 700)) * ErSvgRenderer.TextWidthCorrection) + (EntityGrid.Pad * 2)
+		);
 		var tableW = 0.0;
 		foreach (var row in rows)
 		{
@@ -200,8 +211,7 @@ internal static class RequirementSvgRenderer
 	private static double HeaderHeight(int nameLineCount) => HeaderPadY + StereotypeLine + (nameLineCount * NameLine) + HeaderPadY;
 
 	// the key column is mono in presets with mono xs text: measure both so layout never depends on the style
-	private static double KeyWidth(string key) =>
-		Math.Max(TextMetrics.MeasureTextWidth(key, KeyPx, 600), TextMetrics.EstimateMonoTextWidth(key, KeyPx) + 2);
+	private static double KeyWidth(string key) => Math.Max(TextMetrics.MeasureTextWidth(key, KeyPx, 600), TextMetrics.EstimateMonoTextWidth(key, KeyPx) + 2);
 
 	private static List<string> WrapText(string text, double maxWidth, double fontSize, int fontWeight)
 	{
@@ -256,8 +266,7 @@ internal static class RequirementSvgRenderer
 		while (start < word.Length)
 		{
 			var end = start + 1;
-			while (end < word.Length &&
-				TextMetrics.MeasureTextWidth(word.AsSpan(start, end - start + 1), fontSize, fontWeight) <= maxWidth)
+			while (end < word.Length && TextMetrics.MeasureTextWidth(word.AsSpan(start, end - start + 1), fontSize, fontWeight) <= maxWidth)
 			{
 				end++;
 			}
@@ -295,13 +304,10 @@ internal static class RequirementSvgRenderer
 			Direction.BT => LayoutDirection.BT,
 			_ => LayoutDirection.TD,
 		};
-		var result = HierarchicalLayout.Compute(new LayoutGraph(direction, nodes, edges, []), new LayoutOptions
-		{
-			Padding = Margin,
-			NodeSpacing = GapY,
-			LayerSpacing = GapX,
-			NaturalBackEdgeRouting = true,
-		});
+		var result = HierarchicalLayout.Compute(
+			new LayoutGraph(direction, nodes, edges, []),
+			new LayoutOptions { Padding = Margin, NodeSpacing = GapY, LayerSpacing = GapX, NaturalBackEdgeRouting = true, }
+		);
 
 		foreach (var n in result.Nodes)
 			boxes[n.Id] = boxes[n.Id] with { X = n.X, Y = n.Y };
@@ -436,11 +442,40 @@ internal static class RequirementSvgRenderer
 		var (cx, cy) = (end.X + (ux * r), end.Y + (uy * r));
 		var color = ds.OwnMarkerColor;
 		const double arm = 3.5;
-		_ = sb.Append("\n<circle cx=\"").Append(cx).Append("\" cy=\"").Append(cy).Append("\" r=\"").Append(r)
-			.Append("\" fill=\"var(--bg)\" stroke=\"").Append(color).Append("\" stroke-width=\"").Append(ds.EdgeWidth).Append("\" />");
-		_ = sb.Append("\n<path d=\"M").Append(cx - arm).Append(',').Append(cy).Append(" L").Append(cx + arm).Append(',').Append(cy)
-			.Append(" M").Append(cx).Append(',').Append(cy - arm).Append(" L").Append(cx).Append(',').Append(cy + arm)
-			.Append("\" fill=\"none\" stroke=\"").Append(color).Append("\" stroke-width=\"").Append(ds.EdgeWidth).Append("\" stroke-linecap=\"round\" />");
+		_ = sb
+			.Append("\n<circle cx=\"")
+			.Append(cx)
+			.Append("\" cy=\"")
+			.Append(cy)
+			.Append("\" r=\"")
+			.Append(r)
+			.Append("\" fill=\"var(--bg)\" stroke=\"")
+			.Append(color)
+			.Append("\" stroke-width=\"")
+			.Append(ds.EdgeWidth)
+			.Append("\" />");
+		_ = sb
+			.Append("\n<path d=\"M")
+			.Append(cx - arm)
+			.Append(',')
+			.Append(cy)
+			.Append(" L")
+			.Append(cx + arm)
+			.Append(',')
+			.Append(cy)
+			.Append(" M")
+			.Append(cx)
+			.Append(',')
+			.Append(cy - arm)
+			.Append(" L")
+			.Append(cx)
+			.Append(',')
+			.Append(cy + arm)
+			.Append("\" fill=\"none\" stroke=\"")
+			.Append(color)
+			.Append("\" stroke-width=\"")
+			.Append(ds.EdgeWidth)
+			.Append("\" stroke-linecap=\"round\" />");
 	}
 
 	private static void AppendRelationLabel(StringBuilder sb, DesignSystem ds, Route route)
@@ -493,5 +528,4 @@ internal static class RequirementSvgRenderer
 		RequirementRelationType.Traces => "traces",
 		_ => t.ToString().ToLowerInvariant(),
 	};
-
 }

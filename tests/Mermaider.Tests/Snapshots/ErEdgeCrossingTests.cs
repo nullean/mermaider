@@ -19,43 +19,41 @@ public partial class ErEdgeCrossingTests
 {
 	// Calibrated against ELK (elkjs run on the same entity sizes, 7 seeds; see scripts/quality-compare.mjs): every value is
 	// at or within one crossing of ELK's median/max for that diagram. Raise only with a reason; lower when the layout improves.
-	private static readonly IReadOnlyDictionary<string, int> MaxCrossings =
-		new Dictionary<string, int>(StringComparer.Ordinal)
-		{
-			["db-erd-02-shared-vocab"] = 1,
-			["db-erd-05-building-blocks"] = 3,
-			["db-erd-06-catalog"] = 0,
-			["db-erd-07-source"] = 0,
-			["db-erd-08-docset"] = 0,
-			["db-erd-09-content"] = 0,
-			["db-erd-10-navigation"] = 0,
-			["db-erd-11-link-graph"] = 0,
-			["db-erd-12-assembly"] = 0,
-			["db-erd-13-codex"] = 0,
-			["db-erd-14-release-notes"] = 0,
-			["db-erd-15-api-search"] = 0,
-			["db-erd-16-relationships-overview"] = 0,
-			["db-erd-17-catalog"] = 0,
-			["db-erd-18-source"] = 0,
-			["db-erd-19-docset"] = 0,
-			["db-erd-20-content"] = 0,
-			["db-erd-21-navigation"] = 0,
-			["db-erd-22-link-graph"] = 0,
-			["db-erd-23-publishing"] = 0,
-			["db-erd-24-codex"] = 0,
-			["db-erd-25-release-notes"] = 0,
-			["db-erd-26-api-reference"] = 0,
-			["db-erd-27-search"] = 0,
-			["er-aliases"] = 0,
-			["er-basic"] = 0,
-			["er-cardinalities"] = 0,
-			["er-complex"] = 0,
-			["er-direction"] = 0,
-			["er-optional-label"] = 0,
-		};
+	private static readonly IReadOnlyDictionary<string, int> MaxCrossings = new Dictionary<string, int>(StringComparer.Ordinal)
+	{
+		["db-erd-02-shared-vocab"] = 1,
+		["db-erd-05-building-blocks"] = 3,
+		["db-erd-06-catalog"] = 0,
+		["db-erd-07-source"] = 0,
+		["db-erd-08-docset"] = 0,
+		["db-erd-09-content"] = 0,
+		["db-erd-10-navigation"] = 0,
+		["db-erd-11-link-graph"] = 0,
+		["db-erd-12-assembly"] = 0,
+		["db-erd-13-codex"] = 0,
+		["db-erd-14-release-notes"] = 0,
+		["db-erd-15-api-search"] = 0,
+		["db-erd-16-relationships-overview"] = 0,
+		["db-erd-17-catalog"] = 0,
+		["db-erd-18-source"] = 0,
+		["db-erd-19-docset"] = 0,
+		["db-erd-20-content"] = 0,
+		["db-erd-21-navigation"] = 0,
+		["db-erd-22-link-graph"] = 0,
+		["db-erd-23-publishing"] = 0,
+		["db-erd-24-codex"] = 0,
+		["db-erd-25-release-notes"] = 0,
+		["db-erd-26-api-reference"] = 0,
+		["db-erd-27-search"] = 0,
+		["er-aliases"] = 0,
+		["er-basic"] = 0,
+		["er-cardinalities"] = 0,
+		["er-complex"] = 0,
+		["er-direction"] = 0,
+		["er-optional-label"] = 0,
+	};
 
-	public static IEnumerable<DiagramExample> ErExamples() =>
-		DiagramExamples.All.Where(e => e.Category == DiagramCategory.Er);
+	public static IEnumerable<DiagramExample> ErExamples() => DiagramExamples.All.Where(e => e.Category == DiagramCategory.Er);
 
 	[Test]
 	[MethodDataSource(nameof(ErExamples))]
@@ -67,15 +65,19 @@ public partial class ErEdgeCrossingTests
 		if (!MaxCrossings.TryGetValue(example.Slug, out var max))
 		{
 			// Unknown slug: assert 0 crossings so new diagrams are held to a high standard.
-			crossings.Should().Be(0,
+			crossings.Should().Be(
+				0,
 				$"'{example.Slug}' is not in MaxCrossings — new ER diagrams must render with 0 visual crossings, " +
-				$"or add a calibrated entry to MaxCrossings. Got {crossings} crossing(s).");
+					$"or add a calibrated entry to MaxCrossings. Got {crossings} crossing(s)."
+			);
 			return;
 		}
 
-		crossings.Should().BeLessThanOrEqualTo(max,
+		crossings.Should().BeLessThanOrEqualTo(
+			max,
 			$"'{example.Slug}' has {crossings} visual edge crossing(s) but max is {max}. " +
-			$"Crossing count increased — check layout regression in CrossingMinimizer or ER layout.");
+				$"Crossing count increased — check layout regression in CrossingMinimizer or ER layout."
+		);
 	}
 
 	/// <summary>
@@ -117,15 +119,17 @@ public partial class ErEdgeCrossingTests
 		return false;
 	}
 
-	private static bool SegmentsIntersect(
-		(double x, double y) p1, (double x, double y) p2,
-		(double x, double y) p3, (double x, double y) p4)
+	private static bool SegmentsIntersect((double x, double y) p1, (double x, double y) p2, (double x, double y) p3, (double x, double y) p4)
 	{
-		var dx1 = p2.x - p1.x; var dy1 = p2.y - p1.y;
-		var dx2 = p4.x - p3.x; var dy2 = p4.y - p3.y;
+		var dx1 = p2.x - p1.x;
+		var dy1 = p2.y - p1.y;
+		var dx2 = p4.x - p3.x;
+		var dy2 = p4.y - p3.y;
 		var denom = dx1 * dy2 - dy1 * dx2;
-		if (Math.Abs(denom) < 1e-10) return false;
-		var dx3 = p3.x - p1.x; var dy3 = p3.y - p1.y;
+		if (Math.Abs(denom) < 1e-10)
+			return false;
+		var dx3 = p3.x - p1.x;
+		var dy3 = p3.y - p1.y;
 		var t = (dx3 * dy2 - dy3 * dx2) / denom;
 		var u = (dx3 * dy1 - dy3 * dx1) / denom;
 		return t > 1e-4 && t < 1 - 1e-4 && u > 1e-4 && u < 1 - 1e-4;
@@ -144,42 +148,55 @@ public partial class ErEdgeCrossingTests
 			var tok = tokens[i].Value;
 			if (tok is "M" or "L" or "Q" or "C" or "S")
 			{
-				cmd = tok[0]; i++; continue;
+				cmd = tok[0];
+				i++;
+				continue;
 			}
 			switch (cmd)
 			{
 				case 'M':
-				{
-					cur = (double.Parse(tok), double.Parse(tokens[i + 1].Value));
-					pts.Add(cur); i += 2; break;
-				}
+					{
+						cur = (double.Parse(tok), double.Parse(tokens[i + 1].Value));
+						pts.Add(cur);
+						i += 2;
+						break;
+					}
 				case 'L':
-				{
-					var p1 = (double.Parse(tok), double.Parse(tokens[i + 1].Value));
-					for (var k = 1; k <= n; k++)
 					{
-						var tt = k / (double)n;
-						pts.Add((cur.x + tt * (p1.Item1 - cur.x), cur.y + tt * (p1.Item2 - cur.y)));
+						var p1 = (double.Parse(tok), double.Parse(tokens[i + 1].Value));
+						for (var k = 1; k <= n; k++)
+						{
+							var tt = k / (double)n;
+							pts.Add((cur.x + tt * (p1.Item1 - cur.x), cur.y + tt * (p1.Item2 - cur.y)));
+						}
+						cur = p1;
+						i += 2;
+						break;
 					}
-					cur = p1; i += 2; break;
-				}
 				case 'C':
-				{
-					var c1x = double.Parse(tok); var c1y = double.Parse(tokens[i + 1].Value);
-					var c2x = double.Parse(tokens[i + 2].Value); var c2y = double.Parse(tokens[i + 3].Value);
-					var ex = double.Parse(tokens[i + 4].Value); var ey = double.Parse(tokens[i + 5].Value);
-					for (var k = 1; k <= n; k++)
 					{
-						var tt = k / (double)n;
-						var mt = 1 - tt;
-						pts.Add((
-							mt * mt * mt * cur.x + 3 * mt * mt * tt * c1x + 3 * mt * tt * tt * c2x + tt * tt * tt * ex,
-							mt * mt * mt * cur.y + 3 * mt * mt * tt * c1y + 3 * mt * tt * tt * c2y + tt * tt * tt * ey
-						));
+						var c1x = double.Parse(tok);
+						var c1y = double.Parse(tokens[i + 1].Value);
+						var c2x = double.Parse(tokens[i + 2].Value);
+						var c2y = double.Parse(tokens[i + 3].Value);
+						var ex = double.Parse(tokens[i + 4].Value);
+						var ey = double.Parse(tokens[i + 5].Value);
+						for (var k = 1; k <= n; k++)
+						{
+							var tt = k / (double)n;
+							var mt = 1 - tt;
+							pts.Add(
+								(mt * mt * mt * cur.x + 3 * mt * mt * tt * c1x + 3 * mt * tt * tt * c2x + tt * tt * tt * ex, mt * mt * mt * cur.y + 3 * mt *
+									mt * tt * c1y + 3 * mt * tt * tt * c2y + tt * tt * tt * ey)
+							);
+						}
+						cur = (ex, ey);
+						i += 6;
+						break;
 					}
-					cur = (ex, ey); i += 6; break;
-				}
-				default: i++; break;
+				default:
+					i++;
+					break;
 			}
 		}
 		return pts;
@@ -188,8 +205,7 @@ public partial class ErEdgeCrossingTests
 	[GeneratedRegex(@"[MLQCS]|[0-9.-]+", RegexOptions.None, matchTimeoutMilliseconds: 2000)]
 	private static partial Regex PathTokenRe();
 
-	[GeneratedRegex(@"<path[^>]*data-entity1=""([^""]+)""[^>]*data-entity2=""([^""]+)""[^>]*d=""([^""]+)""",
-		RegexOptions.None, matchTimeoutMilliseconds: 2000)]
+	[GeneratedRegex(@"<path[^>]*data-entity1=""([^""]+)""[^>]*data-entity2=""([^""]+)""[^>]*d=""([^""]+)""", RegexOptions.None, matchTimeoutMilliseconds: 2000)]
 	private static partial Regex EdgePathRe();
 
 	private static List<(string entity1, string entity2, string d)> ExtractEdgePaths(string svg)

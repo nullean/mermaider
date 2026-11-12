@@ -13,16 +13,19 @@ namespace Mermaider.Layout;
 /// </summary>
 internal static class LightweightLayoutEngine
 {
-	internal static PositionedGraph Layout(MermaidGraph graph, RenderOptions? options = null, StrictStylingOptions? strict = null,
-		int maxNodesAfterLayout = int.MaxValue, CancellationToken ct = default)
+	internal static PositionedGraph Layout(
+		MermaidGraph graph,
+		RenderOptions? options = null,
+		StrictStylingOptions? strict = null,
+		int maxNodesAfterLayout = int.MaxValue,
+		CancellationToken ct = default
+	)
 	{
 		var padding = options?.Padding ?? 16;
 		var nodeSpacing = options?.NodeSpacing ?? LayoutDefaults.NodeSpacing;
 		var layerSpacing = options?.LayerSpacing ?? 40;
 
-		var nodeOrder = graph.NodeOrder.Count > 0
-			? graph.NodeOrder
-			: graph.Nodes.Keys.ToList();
+		var nodeOrder = graph.NodeOrder.Count > 0 ? graph.NodeOrder : graph.Nodes.Keys.ToList();
 
 		var layoutNodes = new List<LayoutNode>(graph.Nodes.Count);
 		foreach (var id in nodeOrder)
@@ -67,10 +70,7 @@ internal static class LightweightLayoutEngine
 			var minLength = edge.MinLength;
 			if (edge.Label is { Length: > 0 })
 			{
-				var metrics = TextMetrics.MeasureMultiline(
-					edge.Label.AsSpan(),
-					RenderConstants.FontSizes.EdgeLabel,
-					RenderConstants.FontWeights.EdgeLabel);
+				var metrics = TextMetrics.MeasureMultiline(edge.Label.AsSpan(), RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel);
 				labelW = ErSvgRenderer.LabelBoxWidth(metrics.Width) + 4;
 				labelH = metrics.Height + ErSvgRenderer.LabelPadY + 2;
 				if (applyLabelMinLength)
@@ -95,10 +95,7 @@ internal static class LightweightLayoutEngine
 			_ => LayoutDirection.TD,
 		};
 
-		var layoutGraph = new LayoutGraph(direction, layoutNodes, layoutEdges, layoutSubgraphs)
-		{
-			SameRankConstraints = sameRankConstraints,
-		};
+		var layoutGraph = new LayoutGraph(direction, layoutNodes, layoutEdges, layoutSubgraphs) { SameRankConstraints = sameRankConstraints, };
 
 		// The layer gap runs along the flow axis, so the label has to be measured along that axis too:
 		// on LR/RL a label sized by its height overhangs the nodes either side and they paint over it.
@@ -107,32 +104,29 @@ internal static class LightweightLayoutEngine
 		// When a diagram has subgraphs, exclude edges that are entirely within the same subgraph
 		// from the global spacing calculation. Inner edge labels (e.g. state transition labels)
 		// would otherwise inflate layer spacing for every node including outer ones.
-		var innerSubgraphNodeMap = graph.Subgraphs.Count > 0
-			? BuildInnerSubgraphNodeMap(graph.Subgraphs)
-			: null;
+		var innerSubgraphNodeMap = graph.Subgraphs.Count > 0 ? BuildInnerSubgraphNodeMap(graph.Subgraphs) : null;
 
 		// State diagrams use tighter layer spacing to match mermaid.js proportions (~53px center-to-center vs flowchart ~100px)
 		var baseLayerSpacing = isStateDiagramEarly ? Math.Min(30, layerSpacing) : layerSpacing;
 
 		var maxLabelExtent = layoutEdges
-			.Select(
-				e =>
-				{
-					if (innerSubgraphNodeMap != null
-						&& innerSubgraphNodeMap.TryGetValue(e.Source, out var srcSg)
-						&& innerSubgraphNodeMap.TryGetValue(e.Target, out var tgtSg)
-						&& srcSg == tgtSg)
-						return 0.0;
-					return horizontal ? e.LabelWidth : e.LabelHeight;
-				})
+			.Select(e =>
+			{
+				if (
+					innerSubgraphNodeMap != null && innerSubgraphNodeMap.TryGetValue(e.Source, out var srcSg) && innerSubgraphNodeMap.TryGetValue(
+						e.Target,
+						out var tgtSg
+					) && srcSg == tgtSg
+				)
+					return 0.0;
+				return horizontal ? e.LabelWidth : e.LabelHeight;
+			})
 			.Where(v => v > 0)
 			.DefaultIfEmpty(0)
 			.Max();
 		// For state diagrams, edge labels sit on the path and need less clearance than flowchart labels
 		var labelClearance = isStateDiagramEarly ? 8 : 16;
-		var effectiveLayerSpacing = maxLabelExtent > 0
-			? Math.Max(baseLayerSpacing, maxLabelExtent + labelClearance)
-			: baseLayerSpacing;
+		var effectiveLayerSpacing = maxLabelExtent > 0 ? Math.Max(baseLayerSpacing, maxLabelExtent + labelClearance) : baseLayerSpacing;
 
 		var layoutOptions = new LayoutOptions
 		{
@@ -153,13 +147,11 @@ internal static class LightweightLayoutEngine
 		}
 		catch (InvalidOperationException ex) when (ex.Message.Contains("MaxNodesAfterLayout") || ex.Message.Contains("node count"))
 		{
-			throw new MermaidResourceLimitException(
-				nameof(ResourceLimits.MaxNodesAfterLayout), 0, maxNodesAfterLayout, ex);
+			throw new MermaidResourceLimitException(nameof(ResourceLimits.MaxNodesAfterLayout), 0, maxNodesAfterLayout, ex);
 		}
 		catch (InsufficientExecutionStackException ex)
 		{
-			throw new MermaidResourceLimitException(
-				nameof(ResourceLimits.MaxRecursionDepth), 0, maxNodesAfterLayout, ex);
+			throw new MermaidResourceLimitException(nameof(ResourceLimits.MaxRecursionDepth), 0, maxNodesAfterLayout, ex);
 		}
 		var positioned = MapResult(result, graph, strict, layoutEdgeToOriginal);
 
@@ -172,13 +164,11 @@ internal static class LightweightLayoutEngine
 		return positioned;
 	}
 
-	private static LayoutSubgraph MapSubgraph(MermaidSubgraph sg) =>
-		new(sg.Id, sg.Label, sg.NodeIds, sg.Children.Select(MapSubgraph).ToList());
+	private static LayoutSubgraph MapSubgraph(MermaidSubgraph sg) => new(sg.Id, sg.Label, sg.NodeIds, sg.Children.Select(MapSubgraph).ToList());
 
 	// Returns nodeId → subgraphId for every node that belongs to a leaf-level subgraph.
 	// Used to exclude intra-subgraph edge labels from the global layer-spacing calculation.
-	private static Dictionary<string, string> BuildInnerSubgraphNodeMap(
-		IEnumerable<MermaidSubgraph> subgraphs)
+	private static Dictionary<string, string> BuildInnerSubgraphNodeMap(IEnumerable<MermaidSubgraph> subgraphs)
 	{
 		var map = new Dictionary<string, string>();
 		foreach (var sg in subgraphs)
@@ -217,7 +207,8 @@ internal static class LightweightLayoutEngine
 				InlineStyle = inlineStyle,
 				CssClassName = cssClass,
 				IsMarkdown = hasNode && mn.IsMarkdown,
-				SemanticRole = graph.ClassAssignments.TryGetValue(n.Id, out var roleClass) && (strict is null || strict.AllowedClasses.Any(c => c.Name == roleClass)) ? Rendering.ClusterPalette.RoleName(roleClass) : null,
+				SemanticRole = graph.ClassAssignments.TryGetValue(n.Id, out var roleClass) &&
+					(strict is null || strict.AllowedClasses.Any(c => c.Name == roleClass)) ? Rendering.ClusterPalette.RoleName(roleClass) : null,
 			});
 		}
 
@@ -235,9 +226,7 @@ internal static class LightweightLayoutEngine
 			foreach (var p in e.Points)
 				points.Add(new Models.Point(p.X, p.Y));
 
-			Models.Point? labelPos = e.LabelPosition is { } lp
-				? new Models.Point(lp.X, lp.Y)
-				: null;
+			Models.Point? labelPos = e.LabelPosition is { } lp ? new Models.Point(lp.X, lp.Y) : null;
 
 			positionedEdges.Add(new PositionedEdge
 			{
@@ -255,14 +244,7 @@ internal static class LightweightLayoutEngine
 
 		var groups = result.Groups.Select(g => MapGroup(g, graph, strict)).ToList();
 
-		return new PositionedGraph
-		{
-			Width = result.Width,
-			Height = result.Height,
-			Nodes = positionedNodes,
-			Edges = positionedEdges,
-			Groups = groups,
-		};
+		return new PositionedGraph { Width = result.Width, Height = result.Height, Nodes = positionedNodes, Edges = positionedEdges, Groups = groups, };
 	}
 
 	private static PositionedGroup MapGroup(LayoutGroupResult g, MermaidGraph graph, StrictStylingOptions? strict) =>
@@ -282,10 +264,9 @@ internal static class LightweightLayoutEngine
 	{
 		Dictionary<string, string>? result = null;
 
-		if (graph.ClassAssignments.TryGetValue(nodeId, out var className) &&
-			graph.ClassDefs.TryGetValue(className, out var classDef))
+		if (graph.ClassAssignments.TryGetValue(nodeId, out var className) && graph.ClassDefs.TryGetValue(className, out var classDef))
 		{
-			result = new Dictionary<string, string>(classDef);
+			result = [with(classDef)];
 		}
 
 		if (graph.NodeStyles.TryGetValue(nodeId, out var nodeStyle))
@@ -304,7 +285,7 @@ internal static class LightweightLayoutEngine
 
 		if (graph.DefaultEdgeStyle is { } defaults)
 		{
-			result = new Dictionary<string, string>(defaults);
+			result = [with(defaults)];
 		}
 
 		if (graph.EdgeStyles.TryGetValue(edgeIndex, out var specific))
@@ -445,17 +426,16 @@ internal static class LightweightLayoutEngine
 		return false;
 	}
 
-	private static bool IsInsideBox(Models.Point p, double bx, double by, double bw, double bh)
-		=> p.X >= bx && p.X <= bx + bw && p.Y >= by && p.Y <= by + bh;
+	private static bool IsInsideBox(Models.Point p, double bx, double by, double bw, double bh) => p.X >= bx && p.X <= bx + bw && p.Y >= by && p.Y <= by + bh;
 
 	private static Models.Point? IntersectSegmentRect(Models.Point a, Models.Point b, double rx, double ry, double rw, double rh)
 	{
 		Models.Point? best = null;
 		var bestDist = double.MaxValue;
 
-		TryEdge(a, b, rx, ry, rx + rw, ry, ref best, ref bestDist);         // top
+		TryEdge(a, b, rx, ry, rx + rw, ry, ref best, ref bestDist); // top
 		TryEdge(a, b, rx, ry + rh, rx + rw, ry + rh, ref best, ref bestDist); // bottom
-		TryEdge(a, b, rx, ry, rx, ry + rh, ref best, ref bestDist);           // left
+		TryEdge(a, b, rx, ry, rx, ry + rh, ref best, ref bestDist); // left
 		TryEdge(a, b, rx + rw, ry, rx + rw, ry + rh, ref best, ref bestDist); // right
 
 		return best;
@@ -481,7 +461,10 @@ internal static class LightweightLayoutEngine
 		var py = a.Y + (dy * t);
 		var d = t;
 		if (d < bestDist)
-		{ bestDist = d; best = new Models.Point(px, py); }
+		{
+			bestDist = d;
+			best = new Models.Point(px, py);
+		}
 	}
 
 	private const double NoteWidth = 120;
@@ -505,48 +488,26 @@ internal static class LightweightLayoutEngine
 			if (!nodeLookup.TryGetValue(note.TargetNodeId, out var target))
 				continue;
 
-			var textW = TextMetrics.MeasureTextWidth(
-				note.Text, RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel) + (NoteHPad * 2);
+			var textW = TextMetrics.MeasureTextWidth(note.Text, RenderConstants.FontSizes.EdgeLabel, RenderConstants.FontWeights.EdgeLabel) + (NoteHPad * 2);
 			var noteW = Math.Max(NoteWidth, textW);
 			var noteH = RenderConstants.FontSizes.EdgeLabel + (NoteVPad * 2);
 
 			var leftNote = note.Position == GraphNotePosition.Left;
-			var noteX = leftNote
-				? target.X - noteW - NoteGap
-				: target.X + target.Width + NoteGap;
+			var noteX = leftNote ? target.X - noteW - NoteGap : target.X + target.Width + NoteGap;
 
 			var noteY = target.Y + ((target.Height - noteH) / 2);
 			var midNoteY = noteY + (noteH / 2);
 
-			var lineFrom = leftNote
-				? new Point(noteX + noteW, midNoteY)
-				: new Point(noteX, midNoteY);
-			var lineTo = leftNote
-				? new Point(target.X, target.Y + (target.Height / 2))
-				: new Point(target.X + target.Width, target.Y + (target.Height / 2));
+			var lineFrom = leftNote ? new Point(noteX + noteW, midNoteY) : new Point(noteX, midNoteY);
+			var lineTo = leftNote ? new Point(target.X, target.Y + (target.Height / 2)) : new Point(target.X + target.Width, target.Y + (target.Height / 2));
 
-			notes.Add(new PositionedGraphNote
-			{
-				Text = note.Text,
-				X = noteX,
-				Y = noteY,
-				Width = noteW,
-				Height = noteH,
-				LineFrom = lineFrom,
-				LineTo = lineTo,
-			});
+			notes.Add(new PositionedGraphNote { Text = note.Text, X = noteX, Y = noteY, Width = noteW, Height = noteH, LineFrom = lineFrom, LineTo = lineTo, });
 
 			minX = Math.Min(minX, noteX - NoteGap);
 			maxX = Math.Max(maxX, noteX + noteW + NoteGap);
 			maxY = Math.Max(maxY, noteY + noteH + NoteGap);
 		}
 
-		return positioned with
-		{
-			MinX = minX,
-			Width = maxX,
-			Height = maxY,
-			Notes = notes,
-		};
+		return positioned with { MinX = minX, Width = maxX, Height = maxY, Notes = notes, };
 	}
 }

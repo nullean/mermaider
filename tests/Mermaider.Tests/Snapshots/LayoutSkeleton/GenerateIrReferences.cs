@@ -15,14 +15,11 @@ namespace Mermaider.Tests.Snapshots.LayoutSkeleton;
 [Skip("Run manually when mjs reference SVGs exist but IR files are missing or stale")]
 public class GenerateIrReferences
 {
-	private static string GetSourceDirectory([CallerFilePath] string path = "") =>
-		Path.GetDirectoryName(path)!;
+	private static string GetSourceDirectory([CallerFilePath] string path = "") => Path.GetDirectoryName(path)!;
 
-	private static readonly string SvgReferenceDir =
-		Path.Combine(GetSourceDirectory(), "..", "Reference", "mermaidjs");
+	private static readonly string SvgReferenceDir = Path.Combine(GetSourceDirectory(), "..", "Reference", "mermaidjs");
 
-	private static readonly string IrReferenceDir =
-		Path.Combine(GetSourceDirectory(), "Reference");
+	private static readonly string IrReferenceDir = Path.Combine(GetSourceDirectory(), "Reference");
 
 	[Test]
 	[MethodDataSource(nameof(CategoriesWithExtractor))]
@@ -30,14 +27,12 @@ public class GenerateIrReferences
 	{
 		if (!Directory.Exists(SvgReferenceDir))
 			throw new InvalidOperationException(
-				$"mermaid.js SVG reference directory not found at {SvgReferenceDir}. " +
-				"Run MmdcReferenceTests.Generate_reference first.");
+				$"mermaid.js SVG reference directory not found at {SvgReferenceDir}. " + "Run MmdcReferenceTests.Generate_reference first."
+			);
 
 		Directory.CreateDirectory(IrReferenceDir);
 
-		var examples = DiagramExamples.All
-			.Where(e => e.Category == category)
-			.ToDictionary(e => e.Slug, e => e, StringComparer.Ordinal);
+		var examples = DiagramExamples.All.Where(e => e.Category == category).ToDictionary(e => e.Slug, e => e, StringComparer.Ordinal);
 
 		var svgDir = new DirectoryInfo(SvgReferenceDir);
 		var written = 0;
@@ -76,6 +71,5 @@ public class GenerateIrReferences
 			throw new InvalidOperationException($"{errors.Count} extraction error(s):\n" + string.Join("\n", errors));
 	}
 
-	public static IEnumerable<DiagramCategory> CategoriesWithExtractor() =>
-		[DiagramCategory.Er, DiagramCategory.Flowchart, DiagramCategory.State];
+	public static IEnumerable<DiagramCategory> CategoriesWithExtractor() => [DiagramCategory.Er, DiagramCategory.Flowchart, DiagramCategory.State];
 }

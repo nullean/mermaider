@@ -14,23 +14,13 @@ var msaglProvider = new MsaglLayoutProvider();
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-var providerList = new (string Value, string Label)[]
-{
-	("mermaidjs", "mermaid.js"),
-	("beautiful-mermaid", "beautiful-mermaid"),
-	("naiad", "Naiad"),
-};
+var providerList = new (string Value, string Label)[] { ("mermaidjs", "mermaid.js"), ("beautiful-mermaid", "beautiful-mermaid"), };
 
 // The rendered SVGs are transparent by default (MermaidRenderer's Transparent option defaults to
 // true) — the ".provider-col" background is purely a page-chrome choice behind them, so switching
 // it never touches diagram rendering itself.
 // Diagram style presets for the compare / category pages (Quiet is the default and stays out of the URL).
-var styleChoices = new (string Value, string Label)[]
-{
-	("quiet", "Quiet"),
-	("blueprint", "Blueprint"),
-	("tonal", "Tonal"),
-};
+var styleChoices = new (string Value, string Label)[] { ("quiet", "Quiet"), ("blueprint", "Blueprint"), ("tonal", "Tonal"), };
 
 string? NormalizeStyle(string? value) =>
 	Enum.TryParse<DiagramStyle>(value, ignoreCase: true, out var parsed) && Enum.IsDefined(parsed) && parsed != DiagramStyle.Quiet
@@ -81,23 +71,9 @@ app.MapGet("/svg/{slug}", (HttpContext ctx, string slug) =>
 {
 	var q = ctx.Request.Query;
 	var theme = q["theme"].FirstOrDefault();
-	var engine = q["engine"].FirstOrDefault();
 	var example = DiagramExamples.All.FirstOrDefault(e => e.Slug == slug);
 	if (example is null)
 		return Results.NotFound($"Unknown diagram: {slug}");
-
-	if (engine == "naiad")
-	{
-		try
-		{
-			var svg = MermaidSharp.Mermaid.Render(example.Source, MermaidSharp.RenderOptions.Default);
-			return Results.Content(svg, "image/svg+xml");
-		}
-		catch (Exception ex)
-		{
-			return Results.Content(ErrorSvg(ex.Message), "image/svg+xml");
-		}
-	}
 
 	var options = ResolveOptions(q);
 	try
@@ -114,9 +90,7 @@ app.MapGet("/svg/{slug}", (HttpContext ctx, string slug) =>
 app.MapGet("/source/{slug}", (string slug) =>
 {
 	var example = DiagramExamples.All.FirstOrDefault(e => e.Slug == slug);
-	return example is null
-		? Results.NotFound($"Unknown diagram: {slug}")
-		: Results.Content(example.Source, "text/plain; charset=utf-8");
+	return example is null ? Results.NotFound($"Unknown diagram: {slug}") : Results.Content(example.Source, "text/plain; charset=utf-8");
 });
 
 app.MapPost("/render", async (HttpContext ctx) =>
@@ -150,9 +124,7 @@ app.MapGet("/playground", ctx =>
 	return ctx.Response.WriteAsync(RenderPlaygroundPage(theme, engine, slug, q));
 });
 
-var url = Environment.GetEnvironmentVariable("ASPNETCORE_URLS")
-	?? args.SkipWhile(a => a != "--urls").Skip(1).FirstOrDefault()
-	?? "http://localhost:5555";
+var url = Environment.GetEnvironmentVariable("ASPNETCORE_URLS") ?? args.SkipWhile(a => a != "--urls").Skip(1).FirstOrDefault() ?? "http://localhost:5555";
 Console.WriteLine($"Gallery running at {url}");
 app.Run(url);
 
@@ -172,8 +144,8 @@ string ProviderColStyle(string? bg) => bg switch
 {
 	"transparent" =>
 		"background-color:#ffffff;" +
-		"background-image:linear-gradient(45deg,#ccc 25%,transparent 25%),linear-gradient(-45deg,#ccc 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#ccc 75%),linear-gradient(-45deg,transparent 75%,#ccc 75%);" +
-		"background-size:20px 20px;background-position:0 0,0 10px,10px -10px,-10px 0px;",
+			"background-image:linear-gradient(45deg,#ccc 25%,transparent 25%),linear-gradient(-45deg,#ccc 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#ccc 75%),linear-gradient(-45deg,transparent 75%,#ccc 75%);" +
+			"background-size:20px 20px;background-position:0 0,0 10px,10px -10px,-10px 0px;",
 	"white" => "background:#ffffff;",
 	"light-gray" => "background:#e5e5e5;",
 	"dark" => "background:#1a1a1a;",
@@ -215,19 +187,22 @@ RenderOptions? ResolveOptions(IQueryCollection q)
 	var font = q["font"].FirstOrDefault();
 	var monoFont = q["monoFont"].FirstOrDefault();
 	var fontSize = q["fontSize"].FirstOrDefault();
-	DiagramStyle? style = Enum.TryParse<DiagramStyle>(q["style"].FirstOrDefault(), ignoreCase: true, out var st)
-		&& Enum.IsDefined(st) ? st : null;
+	DiagramStyle? style = Enum.TryParse<DiagramStyle>(q["style"].FirstOrDefault(), ignoreCase: true, out var st) && Enum.IsDefined(st) ? st : null;
 	bool? gradient = q["gradient"].FirstOrDefault() is { } gv ? gv is not ("false" or "0") : null;
-	double? tint = double.TryParse(q["tint"].FirstOrDefault(), System.Globalization.NumberStyles.Float,
-		System.Globalization.CultureInfo.InvariantCulture, out var tn) ? tn : null;
+	double? tint = double.TryParse(
+		q["tint"].FirstOrDefault(),
+		System.Globalization.NumberStyles.Float,
+		System.Globalization.CultureInfo.InvariantCulture,
+		out var tn
+	) ? tn : null;
 	int? elevation = int.TryParse(q["elevation"].FirstOrDefault(), out var el) ? el : null;
 
 	// If nothing at all was set, skip allocating an options object
-	if (bg is null && fg is null && padding is null && nodeSpacing is null && layerSpacing is null
-		&& roundedEdges is null && transparent is null && font is null && monoFont is null && fontSize is null && provider is null
-		&& style is null && gradient is null && tint is null && elevation is null
-		&& roleDefault is null && roleSuccess is null && roleFailure is null && roleWarning is null && roleInfo is null
-		&& surface is null && border is null)
+	if (
+		bg is null && fg is null && padding is null && nodeSpacing is null && layerSpacing is null && roundedEdges is null && transparent is null &&
+		font is null && monoFont is null && fontSize is null && provider is null && style is null && gradient is null && tint is null && elevation is null &&
+		roleDefault is null && roleSuccess is null && roleFailure is null && roleWarning is null && roleInfo is null && surface is null && border is null
+	)
 		return null;
 
 	return new RenderOptions
@@ -286,7 +261,9 @@ string RenderNav(string activePath, string? theme, string engine, string? p1 = n
 		var label = DiagramExamples.CategoryLabel(cat);
 		var count = DiagramExamples.ByCategory(cat).Length;
 		var active = activePath == $"/{slug}" ? " active" : "";
-		links.Add($"<a href=\"/{slug}{BuildPageQs(theme, engine, p1, p2, bg, style)}\" class=\"nav-link{active}\">{label} <span class=\"count\">{count}</span></a>");
+		links.Add(
+			$"<a href=\"/{slug}{BuildPageQs(theme, engine, p1, p2, bg, style)}\" class=\"nav-link{active}\">{label} <span class=\"count\">{count}</span></a>"
+		);
 	}
 
 	return string.Join("\n    ", links);
@@ -313,7 +290,8 @@ string BuildPageQs(string? theme, string engine, string? p1 = null, string? p2 =
 (string bg, string fg) PageColors(string? theme) =>
 	theme is not null && Themes.BuiltIn.TryGetValue(theme, out var tc) ? (tc.Bg, tc.Fg) : ("#f8f9fa", "#1a1a2e");
 
-string SharedStyles(string pageBg, string pageFg) => $$"""
+string SharedStyles(string pageBg, string pageFg) =>
+	$$"""
 	*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 	body {
 	  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -573,7 +551,8 @@ string SharedStyles(string pageBg, string pageFg) => $$"""
 	}
 	""";
 
-string SharedScripts(string engine, string themeQuery) => $$"""
+string SharedScripts(string engine, string themeQuery) =>
+	$$"""
 	<script>
 	  function nav(key, value) {
 	    const url = new URL(window.location);
@@ -601,7 +580,8 @@ string SharedScripts(string engine, string themeQuery) => $$"""
 	</script>
 	""";
 
-string MermaidJsScript() => """
+string MermaidJsScript() =>
+	"""
 	<script type="module">
 	  const mjsContainers = document.querySelectorAll('.mjs-render');
 	  const bmContainers = document.querySelectorAll('.bm-render');
@@ -657,9 +637,7 @@ string MermaidJsScript() => """
 string RenderCardSingle(DiagramExample e, string engine, string themeQuery, bool showFeature)
 {
 	var escapedSource = WebUtility.HtmlEncode(e.Source.Trim());
-	var featureTag = showFeature && e.Feature is not null
-		? $"<span class=\"feature-tag\">{WebUtility.HtmlEncode(e.Feature)}</span>"
-		: "";
+	var featureTag = showFeature && e.Feature is not null ? $"<span class=\"feature-tag\">{WebUtility.HtmlEncode(e.Feature)}</span>" : "";
 
 	return $$"""
 		    <div class="card">
@@ -675,15 +653,23 @@ string RenderCardSingle(DiagramExample e, string engine, string themeQuery, bool
 		""";
 }
 
-string RenderCardCompare(DiagramExample e, string engine, string engineLabel, string themeQuery, string gridColsClass, IReadOnlyList<string> activeProviders, string? bg, bool showFeature = false)
+string RenderCardCompare(
+	DiagramExample e,
+	string engine,
+	string engineLabel,
+	string themeQuery,
+	string gridColsClass,
+	IReadOnlyList<string> activeProviders,
+	string? bg,
+	bool showFeature = false
+)
 {
 	var escapedSource = WebUtility.HtmlEncode(e.Source.Trim());
 	var htmlSafeJson = WebUtility.HtmlEncode(JsonSerializer.Serialize(e.Source.Trim()));
-	var featureTag = showFeature && e.Feature is not null
-		? $"<span class=\"feature-tag\">{WebUtility.HtmlEncode(e.Feature)}</span>"
-		: "";
+	var featureTag = showFeature && e.Feature is not null ? $"<span class=\"feature-tag\">{WebUtility.HtmlEncode(e.Feature)}</span>" : "";
 
-	var mermaiderCol = $$"""
+	var mermaiderCol =
+		$$"""
 		        <div class="provider-col" style="{{ProviderColStyle(bg)}}">
 		          <div class="provider-label">{{engineLabel}}</div>
 		          <div class="svg-container">
@@ -692,8 +678,7 @@ string RenderCardCompare(DiagramExample e, string engine, string engineLabel, st
 		        </div>
 		""";
 
-	var extraCols = string.Join("\n", activeProviders.Select(prov =>
-		RenderProviderColumn(prov, e.Slug, e.Title, htmlSafeJson, bg)));
+	var extraCols = string.Join("\n", activeProviders.Select(prov => RenderProviderColumn(prov, e.Slug, e.Title, htmlSafeJson, bg)));
 
 	return $$"""
 		    <div class="card">
@@ -739,7 +724,12 @@ string RenderCategoryPage(DiagramCategory category, string? theme, string engine
 		activeProviders.Add(p2);
 
 	var colCount = 1 + activeProviders.Count;
-	var gridColsClass = colCount switch { 2 => " two-col", 3 => " three-col", _ => "" };
+	var gridColsClass = colCount switch
+	{
+		2 => " two-col",
+		3 => " three-col",
+		_ => ""
+	};
 	var engineLabel = engine == "msagl" ? "Mermaider (MSAGL)" : "Mermaider (Sugiyama)";
 
 	var features = examples.Where(e => e.Feature is not null).Select(e => e.Feature).Distinct().ToArray();
@@ -860,7 +850,12 @@ string RenderComparePage(string? theme, string engine, string? p1, string? p2, s
 		activeProviders.Add(p2);
 
 	var colCount = 1 + activeProviders.Count;
-	var gridColsClass = colCount switch { 2 => " two-col", 3 => " three-col", _ => "" };
+	var gridColsClass = colCount switch
+	{
+		2 => " two-col",
+		3 => " three-col",
+		_ => ""
+	};
 	var engineLabel = engine == "msagl" ? "Mermaider (MSAGL)" : "Mermaider (Sugiyama)";
 
 	var cards = colCount == 1
@@ -966,8 +961,11 @@ string RenderPlaygroundPage(string? theme, string engine, string? selectedSlug, 
 	var defaultSurface = q["surface"].FirstOrDefault() ?? baseColors?.Surface ?? "";
 	var defaultBorder = q["border"].FirstOrDefault() ?? baseColors?.Border ?? "";
 	var roleSeeds = RoleSeeds(baseColors ?? Themes.Default);
+
 	string RoleValue(string key) => q[key].FirstOrDefault() ?? roleSeeds[key];
+
 	string RoleDirty(string key) => q[key].FirstOrDefault() is not null ? " data-dirty=\"1\"" : "";
+
 	var defaultPadding = q["padding"].FirstOrDefault() ?? "40";
 	var defaultNs = q["nodeSpacing"].FirstOrDefault() ?? "28";
 	var defaultLs = q["layerSpacing"].FirstOrDefault() ?? "48";
@@ -980,28 +978,32 @@ string RenderPlaygroundPage(string? theme, string engine, string? selectedSlug, 
 	var defaultStyle = q["style"].FirstOrDefault()?.ToLowerInvariant() ?? "quiet";
 	var defaultGradient = q["gradient"].FirstOrDefault() ?? "true";
 	var gradientChecked = defaultGradient is not ("false" or "0") ? " checked" : "";
-	var defaultTint = double.TryParse(q["tint"].FirstOrDefault(), System.Globalization.NumberStyles.Float,
-		System.Globalization.CultureInfo.InvariantCulture, out var qt) && double.IsFinite(qt)
-		? Math.Clamp(qt, 0.5, 1.5).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)
-		: "1";
+	var defaultTint = double.TryParse(
+		q["tint"].FirstOrDefault(),
+		System.Globalization.NumberStyles.Float,
+		System.Globalization.CultureInfo.InvariantCulture,
+		out var qt
+	) && double.IsFinite(qt) ? Math.Clamp(qt, 0.5, 1.5).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture) : "1";
 	var defaultElevation = q["elevation"].FirstOrDefault() ?? "1";
 	var styleOptions = BuildSelectOptions(defaultStyle, [("quiet", "Quiet"), ("blueprint", "Blueprint"), ("tonal", "Tonal")]);
 	var elevationOptions = BuildSelectOptions(defaultElevation, [("0", "0 — none"), ("1", "1 — default"), ("2", "2 — ambient")]);
 
 	// Build base theme picker options
-	var themeOptions = string.Join("\n",
-		new[] { ("", "default") }.Concat(Themes.BuiltIn.Keys.OrderBy(k => k).Select(k => (k, k)))
-		.Select(t =>
-		{
-			var sel = (t.Item1 == theme) || (t.Item1 == "" && theme is null) ? " selected" : "";
-			return $"<option value=\"{WebUtility.HtmlEncode(t.Item1)}\"{sel}>{WebUtility.HtmlEncode(t.Item2)}</option>";
-		}));
+	var themeOptions = string.Join("\n", new[] { ("", "default") }.Concat(Themes.BuiltIn.Keys.OrderBy(k => k).Select(k => (k, k))).Select(t =>
+	{
+		var sel = (t.Item1 == theme) || (t.Item1 == "" && theme is null) ? " selected" : "";
+		return $"<option value=\"{WebUtility.HtmlEncode(t.Item1)}\"{sel}>{WebUtility.HtmlEncode(t.Item2)}</option>";
+	}));
 
 	// Filter chips
 	var categories = Enum.GetValues<DiagramCategory>();
-	var filterChips = "<button class=\"filter-chip active\" data-cat=\"\">All</button>\n" +
-		string.Join("\n", categories.Select(c =>
-			$"<button class=\"filter-chip\" data-cat=\"{DiagramExamples.CategorySlug(c)}\">{WebUtility.HtmlEncode(DiagramExamples.CategoryLabel(c))}</button>"));
+	var filterChips = "<button class=\"filter-chip active\" data-cat=\"\">All</button>\n" + string.Join(
+		"\n",
+		categories.Select(
+			c =>
+				$"<button class=\"filter-chip\" data-cat=\"{DiagramExamples.CategorySlug(c)}\">{WebUtility.HtmlEncode(DiagramExamples.CategoryLabel(c))}</button>"
+		)
+	);
 
 	// Gallery grid — cards are clickable to select the preview
 	var gridCards = string.Join("\n", allExamples.Select(e =>
@@ -1018,8 +1020,7 @@ string RenderPlaygroundPage(string? theme, string engine, string? selectedSlug, 
 	}));
 
 	// Slugs JSON for JS
-	var slugsJson = "[" + string.Join(",",
-		allExamples.Select(e => $"{{\"slug\":\"{e.Slug}\",\"cat\":\"{DiagramExamples.CategorySlug(e.Category)}\"}}")) + "]";
+	var slugsJson = "[" + string.Join(",", allExamples.Select(e => $"{{\"slug\":\"{e.Slug}\",\"cat\":\"{DiagramExamples.CategorySlug(e.Category)}\"}}")) + "]";
 
 	return $$"""
 		<!DOCTYPE html>
@@ -1162,7 +1163,8 @@ string RenderPlaygroundPage(string? theme, string engine, string? selectedSlug, 
 		""";
 }
 
-string PlaygroundScripts(string slugsJson, string initialSource) => $$"""
+string PlaygroundScripts(string slugsJson, string initialSource) =>
+	$$"""
 	<script>
 	  const PG_SLUGS = {{slugsJson}};
 	  let pgTimer = null;
@@ -1311,13 +1313,10 @@ string PlaygroundScripts(string slugsJson, string initialSource) => $$"""
 
 string PaletteSwatches(string? themeName = null)
 {
-	var colors = themeName is not null
-		&& Themes.BuiltIn.TryGetValue(themeName, out var tc)
-		&& tc.DataPalette is not null
+	var colors = themeName is not null && Themes.BuiltIn.TryGetValue(themeName, out var tc) && tc.DataPalette is not null
 		? tc.DataPalette
 		: Themes.DefaultDataPalette;
-	return string.Join("", colors.Select(c =>
-		$"<div class=\"palette-swatch\" style=\"background:{c}\" title=\"{c}\"></div>"));
+	return string.Join("", colors.Select(c => $"<div class=\"palette-swatch\" style=\"background:{c}\" title=\"{c}\"></div>"));
 }
 
 // The default line colour as a hex for the colour picker: the default box border, i.e. the Default role mixed 74% into fg
@@ -1334,7 +1333,9 @@ string ResolvedLineHex(DiagramColors c)
 
 	var (dr, dg, db) = Rgb(RoleSeeds(c)["default"]);
 	var (fr, fg, fb) = Rgb(c.Fg);
+
 	int Mix(int a, int b) => (int)Math.Round((a * 0.74) + (b * 0.26));
+
 	return $"#{Mix(dr, fr):x2}{Mix(dg, fg):x2}{Mix(db, fb):x2}";
 }
 
@@ -1343,7 +1344,9 @@ string ResolvedLineHex(DiagramColors c)
 Dictionary<string, string> RoleSeeds(DiagramColors c)
 {
 	var palette = c.DataPalette ?? Themes.DefaultDataPalette;
+
 	string At(int i) => palette[i % palette.Length];
+
 	return new Dictionary<string, string>
 	{
 		["default"] = c.Default ?? At(0),
@@ -1378,8 +1381,11 @@ string ThemesJson()
 
 string RenderThemeBar(string? theme, string engine, string basePath, string? p1 = null, string? p2 = null, string? bg = null, string? style = null)
 {
-	var themeLinks = string.Join("\n",
-		Themes.BuiltIn.Keys.OrderBy(k => k).Select(name =>
+	var themeLinks = string.Join("\n", Themes
+		.BuiltIn
+		.Keys
+		.OrderBy(k => k)
+		.Select(name =>
 		{
 			var active = name == theme ? " class=\"active\"" : "";
 			var qs = BuildFullQs(name, engine, basePath, p1, p2, bg, style);
@@ -1420,13 +1426,11 @@ string RenderProviderColumn(string provider, string slug, string title, string h
 	{
 		"mermaidjs" => "mermaid.js",
 		"beautiful-mermaid" => "beautiful-mermaid",
-		"naiad" => "Naiad",
 		_ => provider
 	};
 
 	var content = provider switch
 	{
-		"naiad" => $"<img src=\"/svg/{slug}?engine=naiad\" alt=\"{WebUtility.HtmlEncode(title)} — Naiad\" loading=\"lazy\" />",
 		"mermaidjs" => $"<div class=\"mjs-render\" data-source=\"{htmlSafeJson}\"><span class=\"render-loading\">loading…</span></div>",
 		"beautiful-mermaid" => $"<div class=\"bm-render\" data-source=\"{htmlSafeJson}\"><span class=\"render-loading\">loading…</span></div>",
 		_ => ""

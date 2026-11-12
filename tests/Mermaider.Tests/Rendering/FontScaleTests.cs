@@ -33,8 +33,21 @@ public class FontScaleTests
 	{
 		string?[] invalid =
 		[
-			"", " ", "1", "px", "-1rem", "+1rem", ".5rem", "1.0000rem", "1e2px",
-			"calc(1rem)", "var(--size)", "1vh", "1rem;display:none", "NaNpx", "Infinitypx",
+			"",
+			" ",
+			"1",
+			"px",
+			"-1rem",
+			"+1rem",
+			".5rem",
+			"1.0000rem",
+			"1e2px",
+			"calc(1rem)",
+			"var(--size)",
+			"1vh",
+			"1rem;display:none",
+			"NaNpx",
+			"Infinitypx",
 			new string('9', 1_000) + "px",
 		];
 
@@ -55,12 +68,7 @@ public class FontScaleTests
 
 		foreach (var value in invalid)
 		{
-			var scale = FontScale.From(new RenderOptions
-			{
-				FontSizeExtraSmall = value,
-				FontSizeSmall = value,
-				FontSizeLarge = value,
-			});
+			var scale = FontScale.From(new RenderOptions { FontSizeExtraSmall = value, FontSizeSmall = value, FontSizeLarge = value, });
 
 			scale.Xs.Should().Be(FontScale.Default.Xs);
 			scale.S.Should().Be(FontScale.Default.S);
@@ -71,13 +79,7 @@ public class FontScaleTests
 	[Test]
 	public void Valid_custom_ratios_are_formatted_invariantly()
 	{
-		var scale = FontScale.From(new RenderOptions
-		{
-			FontSize = "10px",
-			FontSizeExtraSmall = 0.3333,
-			FontSizeSmall = 1.25,
-			FontSizeLarge = 2.5,
-		});
+		var scale = FontScale.From(new RenderOptions { FontSize = "10px", FontSizeExtraSmall = 0.3333, FontSizeSmall = 1.25, FontSizeLarge = 2.5, });
 
 		scale.Xs.Should().Be("3.333px");
 		scale.S.Should().Be("12.5px");

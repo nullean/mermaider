@@ -14,14 +14,10 @@ internal static partial class C4Parser
 	[GeneratedRegex(@"^title\s+(.+)$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex TitlePattern();
 
-	[GeneratedRegex(
-		@"^(Person(?:_Ext)?|System(?:Db|Queue)?(?:_Ext)?|Container(?:Db|Queue)?(?:_Ext)?|Component(?:Db|Queue)?(?:_Ext)?|Deployment_Node|Node(?:_[LR])?|Boundary|Enterprise_Boundary|System_Boundary|Container_Boundary)\s*\((.+)\)\s*(\{)?\s*$",
-		RegexOptions.IgnoreCase, TimeoutMs)]
+	[GeneratedRegex(@"^(Person(?:_Ext)?|System(?:Db|Queue)?(?:_Ext)?|Container(?:Db|Queue)?(?:_Ext)?|Component(?:Db|Queue)?(?:_Ext)?|Deployment_Node|Node(?:_[LR])?|Boundary|Enterprise_Boundary|System_Boundary|Container_Boundary)\s*\((.+)\)\s*(\{)?\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex ElementOrBoundaryPattern();
 
-	[GeneratedRegex(
-		@"^(BiRel|Rel_Back|Rel_U|Rel_Up|Rel_D|Rel_Down|Rel_L|Rel_Left|Rel_R|Rel_Right|RelIndex|Rel)\s*\((.+)\)\s*$",
-		RegexOptions.IgnoreCase, TimeoutMs)]
+	[GeneratedRegex(@"^(BiRel|Rel_Back|Rel_U|Rel_Up|Rel_D|Rel_Down|Rel_L|Rel_Left|Rel_R|Rel_Right|RelIndex|Rel)\s*\((.+)\)\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex RelationPattern();
 
 	[GeneratedRegex(@"^UpdateLayoutConfig\s*\((.+)\)\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
@@ -30,13 +26,7 @@ internal static partial class C4Parser
 	[GeneratedRegex(@"^Update(?:Element|Rel)Style\s*\(", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex StyleUpdatePattern();
 
-	private sealed class BoundaryFrame(
-		string alias,
-		C4BoundaryType type,
-		string label,
-		string? typeLabel,
-		bool isDeploymentNode,
-		string? technology)
+	private sealed class BoundaryFrame(string alias, C4BoundaryType type, string label, string? typeLabel, bool isDeploymentNode, string? technology)
 	{
 		public string Alias { get; } = alias;
 		public C4BoundaryType Type { get; } = type;
@@ -55,21 +45,15 @@ internal static partial class C4Parser
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
-			throw new MermaidParseException(
-				$"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.",
-				ex);
+			throw new MermaidParseException($"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.", ex);
 		}
 	}
 
 	private static C4Diagram ParseCore(string[] lines)
 	{
 		var headerMatch = HeaderPattern().Match(lines[0]);
-		var kind = headerMatch.Success
-			? MapKind(headerMatch.Groups[1].Value)
-			: DetectKindFallback(lines[0]);
-		var title = headerMatch.Success && headerMatch.Groups[2].Success
-			? Unquote(headerMatch.Groups[2].Value.Trim())
-			: null;
+		var kind = headerMatch.Success ? MapKind(headerMatch.Groups[1].Value) : DetectKindFallback(lines[0]);
+		var title = headerMatch.Success && headerMatch.Groups[2].Success ? Unquote(headerMatch.Groups[2].Value.Trim()) : null;
 
 		var shapeInRow = 4;
 		var boundaryInRow = 2;
@@ -215,20 +199,19 @@ internal static partial class C4Parser
 		return C4DiagramKind.Context;
 	}
 
-	private static bool PeekOpensBrace(string[] lines, int i) =>
-		i + 1 < lines.Length && lines[i + 1] is "{";
+	private static bool PeekOpensBrace(string[] lines, int i) => i + 1 < lines.Length && lines[i + 1] is "{";
 
 	private static bool IsBoundaryKeyword(string typeName) =>
-		typeName.Equals("Boundary", StringComparison.OrdinalIgnoreCase)
-		|| typeName.Equals("Enterprise_Boundary", StringComparison.OrdinalIgnoreCase)
-		|| typeName.Equals("System_Boundary", StringComparison.OrdinalIgnoreCase)
-		|| typeName.Equals("Container_Boundary", StringComparison.OrdinalIgnoreCase);
+		typeName.Equals("Boundary", StringComparison.OrdinalIgnoreCase) || typeName.Equals(
+			"Enterprise_Boundary",
+			StringComparison.OrdinalIgnoreCase
+		) || typeName.Equals("System_Boundary", StringComparison.OrdinalIgnoreCase) || typeName.Equals("Container_Boundary", StringComparison.OrdinalIgnoreCase);
 
 	private static bool IsDeploymentNode(string typeName) =>
-		typeName.Equals("Deployment_Node", StringComparison.OrdinalIgnoreCase)
-		|| typeName.Equals("Node", StringComparison.OrdinalIgnoreCase)
-		|| typeName.Equals("Node_L", StringComparison.OrdinalIgnoreCase)
-		|| typeName.Equals("Node_R", StringComparison.OrdinalIgnoreCase);
+		typeName.Equals("Deployment_Node", StringComparison.OrdinalIgnoreCase) || typeName.Equals(
+			"Node",
+			StringComparison.OrdinalIgnoreCase
+		) || typeName.Equals("Node_L", StringComparison.OrdinalIgnoreCase) || typeName.Equals("Node_R", StringComparison.OrdinalIgnoreCase);
 
 	private static void AddNode(C4Node node, Stack<BoundaryFrame> stack, List<C4Node> root)
 	{
@@ -241,14 +224,7 @@ internal static partial class C4Parser
 	private static void FlushBoundary(Stack<BoundaryFrame> stack, List<C4Node> root)
 	{
 		var frame = stack.Pop();
-		var boundary = new C4Boundary(
-			frame.Alias,
-			frame.Type,
-			frame.Label,
-			frame.TypeLabel,
-			frame.Children,
-			frame.IsDeploymentNode,
-			frame.Technology);
+		var boundary = new C4Boundary(frame.Alias, frame.Type, frame.Label, frame.TypeLabel, frame.Children, frame.IsDeploymentNode, frame.Technology);
 		if (stack.Count > 0)
 			stack.Peek().Children.Add(boundary);
 		else

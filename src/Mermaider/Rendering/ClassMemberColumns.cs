@@ -32,8 +32,7 @@ internal static class EntityGrid
 	/// <summary>Px of the name column (body tier).</summary>
 	internal static double NamePx => DesignSystem.Px(TypeRole.Body);
 
-	internal static double TypeWidth(string? type) =>
-		type is { Length: > 0 } ? TextMetrics.EstimateMonoTextWidth(type, TypePx) : 0;
+	internal static double TypeWidth(string? type) => type is { Length: > 0 } ? TextMetrics.EstimateMonoTextWidth(type, TypePx) : 0;
 
 	internal static double NameWidth(string name) => TextMetrics.EstimateMonoTextWidth(name, NamePx);
 
@@ -45,8 +44,7 @@ internal static class EntityGrid
 	}
 
 	/// <summary>Offset of the name column from the box's left edge.</summary>
-	internal static double NameOffset(double typeWidth) =>
-		Pad + (typeWidth > 0 ? typeWidth + ColumnGap : 0);
+	internal static double NameOffset(double typeWidth) => Pad + (typeWidth > 0 ? typeWidth + ColumnGap : 0);
 
 	/// <summary>Right edge of the visibility-sign column, measured from the box's right edge.</summary>
 	internal static double SignInset => Pad;
@@ -56,12 +54,10 @@ internal static class EntityGrid
 		NameOffset(typeWidth) + nameWidth + (signs ? SignGutter : 0) + (badgeWidth > 0 ? BadgeGap + badgeWidth : 0) + Pad + Slack;
 
 	/// <summary>Width an entity / class name (heading tier, measured at the heaviest preset weight) needs.</summary>
-	internal static double HeadingWidth(string name) =>
-		TextMetrics.MeasureMultiline(name.AsSpan(), DesignSystem.Px(TypeRole.Heading), 700).Width + (Pad * 2);
+	internal static double HeadingWidth(string name) => TextMetrics.MeasureMultiline(name.AsSpan(), DesignSystem.Px(TypeRole.Heading), 700).Width + (Pad * 2);
 
 	/// <summary>Width a <c>«stereotype»</c> (tag tier) needs.</summary>
-	internal static double StereotypeWidth(string stereotype) =>
-		TextMetrics.MeasureTextWidth(stereotype, DesignSystem.Px(TypeRole.Tag), 600) + (Pad * 2);
+	internal static double StereotypeWidth(string stereotype) => TextMetrics.MeasureTextWidth(stereotype, DesignSystem.Px(TypeRole.Tag), 600) + (Pad * 2);
 }
 
 /// <summary>Class members on the shared <see cref="EntityGrid"/>: type | visibility sign + name (and parameters).</summary>

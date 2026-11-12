@@ -9,8 +9,7 @@ public class XyChartParserTests
 	[Test]
 	public void Parses_title_and_series()
 	{
-		var chart = XyChartParser.Parse(
-		[
+		var chart = XyChartParser.Parse([
 			"xychart-beta",
 			"title \"Sales Revenue\"",
 			"x-axis [jan, feb, mar]",
@@ -33,12 +32,7 @@ public class XyChartParserTests
 	[Test]
 	public void Parses_named_series()
 	{
-		var chart = XyChartParser.Parse(
-		[
-			"xychart",
-			"line \"avg\" [1, 2, 3]",
-			"bar p50 [4, 5, 6]",
-		]);
+		var chart = XyChartParser.Parse(["xychart", "line \"avg\" [1, 2, 3]", "bar p50 [4, 5, 6]",]);
 
 		chart.Series[0].Name.Should().Be("avg");
 		chart.Series[1].Name.Should().Be("p50");
@@ -47,11 +41,7 @@ public class XyChartParserTests
 	[Test]
 	public void Parses_horizontal_header()
 	{
-		var chart = XyChartParser.Parse(
-		[
-			"xychart horizontal",
-			"line [1, 2]",
-		]);
+		var chart = XyChartParser.Parse(["xychart horizontal", "line [1, 2]",]);
 
 		chart.Horizontal.Should().BeTrue();
 	}
@@ -59,11 +49,7 @@ public class XyChartParserTests
 	[Test]
 	public void Parses_compact_header_title()
 	{
-		var chart = XyChartParser.Parse(
-		[
-			"xychart-beta title Demo",
-			"bar [1]",
-		]);
+		var chart = XyChartParser.Parse(["xychart-beta title Demo", "bar [1]",]);
 
 		chart.Title.Should().Be("Demo");
 	}
@@ -71,12 +57,7 @@ public class XyChartParserTests
 	[Test]
 	public void Parses_quoted_categories()
 	{
-		var chart = XyChartParser.Parse(
-		[
-			"xychart",
-			"x-axis [\"non fiction\", other]",
-			"bar [1, 2]",
-		]);
+		var chart = XyChartParser.Parse(["xychart", "x-axis [\"non fiction\", other]", "bar [1, 2]",]);
 
 		chart.XCategories![0].Should().Be("non fiction");
 		chart.XCategories[1].Should().Be("other");
@@ -85,11 +66,7 @@ public class XyChartParserTests
 	[Test]
 	public void Ignores_point_labels_on_numbers()
 	{
-		var chart = XyChartParser.Parse(
-		[
-			"xychart",
-			"line [540 \"PaLM\", 65, 7]",
-		]);
+		var chart = XyChartParser.Parse(["xychart", "line [540 \"PaLM\", 65, 7]",]);
 
 		chart.Series[0].Values.Should().Equal(540, 65, 7);
 	}
@@ -97,11 +74,7 @@ public class XyChartParserTests
 	[Test]
 	public void Keeps_slot_for_invalid_numbers()
 	{
-		var chart = XyChartParser.Parse(
-		[
-			"xychart",
-			"bar [1, NaN, 3]",
-		]);
+		var chart = XyChartParser.Parse(["xychart", "bar [1, NaN, 3]",]);
 
 		chart.Series[0].Values.Should().Equal(1, 0, 3);
 	}
@@ -109,12 +82,7 @@ public class XyChartParserTests
 	[Test]
 	public void Rejects_nan_axis_range()
 	{
-		var chart = XyChartParser.Parse(
-		[
-			"xychart",
-			"y-axis NaN --> Infinity",
-			"bar [1, 2]",
-		]);
+		var chart = XyChartParser.Parse(["xychart", "y-axis NaN --> Infinity", "bar [1, 2]",]);
 
 		chart.YMin.Should().BeNull();
 		chart.YMax.Should().BeNull();

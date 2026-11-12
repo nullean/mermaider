@@ -8,11 +8,7 @@ public class TimelineParserTests
 	[Test]
 	public void Parses_title()
 	{
-		var lines = new[]
-		{
-			"timeline",
-			"title History of Tech",
-		};
+		var lines = new[] { "timeline", "title History of Tech", };
 
 		var diagram = TimelineParser.Parse(lines);
 
@@ -22,12 +18,7 @@ public class TimelineParserTests
 	[Test]
 	public void Parses_title_on_header_line()
 	{
-		var lines = new[]
-		{
-			"timeline title The long road (compact)",
-			"1998 : WinSpit ships",
-			"2026 : Mermaid too",
-		};
+		var lines = new[] { "timeline title The long road (compact)", "1998 : WinSpit ships", "2026 : Mermaid too", };
 
 		var diagram = TimelineParser.Parse(lines);
 
@@ -41,12 +32,7 @@ public class TimelineParserTests
 	[Test]
 	public void Body_title_overrides_header_title()
 	{
-		var lines = new[]
-		{
-			"timeline title Header Title",
-			"title Body Title",
-			"2000 : Event",
-		};
+		var lines = new[] { "timeline title Header Title", "title Body Title", "2000 : Event", };
 
 		var diagram = TimelineParser.Parse(lines);
 
@@ -56,12 +42,7 @@ public class TimelineParserTests
 	[Test]
 	public void Parses_periods_with_events()
 	{
-		var lines = new[]
-		{
-			"timeline",
-			"2002 : LinkedIn",
-			"2004 : Facebook : Google",
-		};
+		var lines = new[] { "timeline", "2002 : LinkedIn", "2004 : Facebook : Google", };
 
 		var diagram = TimelineParser.Parse(lines);
 
@@ -79,14 +60,7 @@ public class TimelineParserTests
 	[Test]
 	public void Parses_sections()
 	{
-		var lines = new[]
-		{
-			"timeline",
-			"section Early",
-			"2002 : LinkedIn",
-			"section Modern",
-			"2010 : Instagram",
-		};
+		var lines = new[] { "timeline", "section Early", "2002 : LinkedIn", "section Modern", "2010 : Instagram", };
 
 		var diagram = TimelineParser.Parse(lines);
 
@@ -100,13 +74,7 @@ public class TimelineParserTests
 	[Test]
 	public void Parses_continuation_events()
 	{
-		var lines = new[]
-		{
-			"timeline",
-			"2004 : Facebook",
-			": Google",
-			": Flickr",
-		};
+		var lines = new[] { "timeline", "2004 : Facebook", ": Google", ": Flickr", };
 
 		var diagram = TimelineParser.Parse(lines);
 
@@ -119,10 +87,7 @@ public class TimelineParserTests
 	[Test]
 	public void Handles_empty_timeline()
 	{
-		var lines = new[]
-		{
-			"timeline",
-		};
+		var lines = new[] { "timeline", };
 
 		var diagram = TimelineParser.Parse(lines);
 
@@ -133,14 +98,7 @@ public class TimelineParserTests
 	[Test]
 	public void Parses_mixed_sections_and_default()
 	{
-		var lines = new[]
-		{
-			"timeline",
-			"title Test",
-			"2000 : Event A",
-			"section Phase 2",
-			"2010 : Event B",
-		};
+		var lines = new[] { "timeline", "title Test", "2000 : Event A", "section Phase 2", "2010 : Event B", };
 
 		var diagram = TimelineParser.Parse(lines);
 

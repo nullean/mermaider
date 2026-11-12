@@ -8,17 +8,7 @@ public class KanbanParserTests
 	[Test]
 	public void Parses_bare_columns_and_tasks()
 	{
-		var lines = new[]
-		{
-			"kanban",
-			"  Todo",
-			"    Task1",
-			"    Task2",
-			"  In Progress",
-			"    Task3",
-			"  Done",
-			"    Task4",
-		};
+		var lines = new[] { "kanban", "  Todo", "    Task1", "    Task2", "  In Progress", "    Task3", "  Done", "    Task4", };
 
 		var diagram = KanbanParser.Parse(lines);
 
@@ -38,14 +28,7 @@ public class KanbanParserTests
 	[Test]
 	public void Parses_id_title_syntax()
 	{
-		var lines = new[]
-		{
-			"kanban",
-			"  todo[To Do]",
-			"    t1[Write docs]",
-			"  done[Done]",
-			"    t2[Ship it]",
-		};
+		var lines = new[] { "kanban", "  todo[To Do]", "    t1[Write docs]", "  done[Done]", "    t2[Ship it]", };
 
 		var diagram = KanbanParser.Parse(lines);
 
@@ -60,12 +43,7 @@ public class KanbanParserTests
 	[Test]
 	public void Parses_task_metadata()
 	{
-		var lines = new[]
-		{
-			"kanban",
-			"  Todo",
-			"    id4[Create parsing tests]@{ ticket: MC-2038, assigned: 'K.Sveidqvist', priority: 'High' }",
-		};
+		var lines = new[] { "kanban", "  Todo", "    id4[Create parsing tests]@{ ticket: MC-2038, assigned: 'K.Sveidqvist', priority: 'High' }", };
 
 		var diagram = KanbanParser.Parse(lines);
 
@@ -80,13 +58,7 @@ public class KanbanParserTests
 	[Test]
 	public void Parses_title()
 	{
-		var lines = new[]
-		{
-			"kanban",
-			"title Sprint Board",
-			"  Todo",
-			"    Task1",
-		};
+		var lines = new[] { "kanban", "title Sprint Board", "  Todo", "    Task1", };
 
 		var diagram = KanbanParser.Parse(lines);
 
@@ -97,10 +69,7 @@ public class KanbanParserTests
 	[Test]
 	public void Handles_empty_kanban()
 	{
-		var lines = new[]
-		{
-			"kanban",
-		};
+		var lines = new[] { "kanban", };
 
 		var diagram = KanbanParser.Parse(lines);
 
@@ -111,12 +80,7 @@ public class KanbanParserTests
 	[Test]
 	public void Bare_text_id_equals_label()
 	{
-		var lines = new[]
-		{
-			"kanban",
-			"  Review",
-			"    Design review",
-		};
+		var lines = new[] { "kanban", "  Review", "    Design review", };
 
 		var diagram = KanbanParser.Parse(lines);
 
@@ -129,12 +93,7 @@ public class KanbanParserTests
 	[Test]
 	public void Parses_unquoted_metadata_values()
 	{
-		var lines = new[]
-		{
-			"kanban",
-			"  Todo",
-			"    task[Work]@{ assigned: knsv, ticket: MC-1, priority: Low }",
-		};
+		var lines = new[] { "kanban", "  Todo", "    task[Work]@{ assigned: knsv, ticket: MC-1, priority: Low }", };
 
 		var diagram = KanbanParser.Parse(lines);
 
@@ -147,13 +106,7 @@ public class KanbanParserTests
 	[Test]
 	public void Column_without_tasks()
 	{
-		var lines = new[]
-		{
-			"kanban",
-			"  Empty",
-			"  Full",
-			"    Item",
-		};
+		var lines = new[] { "kanban", "  Empty", "  Full", "    Item", };
 
 		var diagram = KanbanParser.Parse(lines);
 
@@ -165,14 +118,7 @@ public class KanbanParserTests
 	[Test]
 	public void Parses_bare_bracket_column_title()
 	{
-		var lines = new[]
-		{
-			"kanban",
-			"  [To Do]",
-			"    t1[Implement feature]",
-			"  [Done]",
-			"    t2[Ship it]",
-		};
+		var lines = new[] { "kanban", "  [To Do]", "    t1[Implement feature]", "  [Done]", "    t2[Ship it]", };
 
 		var diagram = KanbanParser.Parse(lines);
 

@@ -4,7 +4,8 @@ namespace Mermaider.Tests.Rendering;
 
 public class ArchitectureRendererTests
 {
-	private const string Basic = """
+	private const string Basic =
+		"""
 		architecture-beta
 		group api(cloud)[API]
 		service db(database)[Database] in api
@@ -52,14 +53,16 @@ public class ArchitectureRendererTests
 	[Test]
 	public void Renders_junction_as_point()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			architecture-beta
 			service a(server)[A]
 			service b(server)[B]
 			junction j
 			a:R -- L:j
 			j:R -- L:b
-			""");
+			"""
+		);
 
 		svg.Should().Contain("class=\"architecture-junction\" data-id=\"j\"");
 	}
@@ -67,12 +70,14 @@ public class ArchitectureRendererTests
 	[Test]
 	public void Renders_arrowheads_for_directional_edges()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			architecture-beta
 			service a(server)[A]
 			service b(server)[B]
 			a:R --> L:b
-			""");
+			"""
+		);
 
 		svg.Should().MatchRegex("marker-end=\"url\\(#m[0-9a-f]{8}-mk-arrow\\)\"");
 	}
@@ -80,7 +85,8 @@ public class ArchitectureRendererTests
 	[Test]
 	public void Renders_reported_bug_diagram()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			architecture-beta
 			group k8s(cloud)[k8s]
 			group ech(cloud)[ECH]
@@ -98,7 +104,8 @@ public class ArchitectureRendererTests
 			oteldemo:L -- R:edot
 			kbn:L -- T:es
 			apm:L -- R:es
-			""");
+			"""
+		);
 
 		svg.Should().StartWith("<svg");
 		svg.Should().Contain("data-id=\"k8s\"");

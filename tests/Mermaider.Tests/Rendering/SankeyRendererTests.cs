@@ -6,7 +6,8 @@ namespace Mermaider.Tests.Rendering;
 
 public partial class SankeyRendererTests
 {
-	private const string Basic = """
+	private const string Basic =
+		"""
 		sankey-beta
 		Electricity grid,Over generation / exports,104.453
 		Electricity grid,Heating and cooling - homes,113.726

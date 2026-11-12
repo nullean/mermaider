@@ -19,7 +19,8 @@ public partial class VisualLanguageContractSystemsTests
 	private static readonly ColorFamily Accent = ColorFamily.Accent();
 	private static readonly ColorFamily Neutral = ColorFamily.Neutral();
 
-	private const string FullSequence = """
+	private const string FullSequence =
+		"""
 		sequenceDiagram
 		  actor U as User
 		  participant F as Frontend
@@ -35,7 +36,8 @@ public partial class VisualLanguageContractSystemsTests
 		  B-->>-F: Done
 		""";
 
-	private const string Context = """
+	private const string Context =
+		"""
 		C4Context
 		title System Context diagram for Internet Banking System
 		Person(customer, "Banking Customer", "A customer of the bank, with personal bank accounts.")
@@ -47,7 +49,8 @@ public partial class VisualLanguageContractSystemsTests
 		Rel(banking, mainframe, "Uses")
 		""";
 
-	private const string Architecture = """
+	private const string Architecture =
+		"""
 		architecture-beta
 		group api(cloud)[API]
 		service db(database)[Database] in api
@@ -107,7 +110,10 @@ public partial class VisualLanguageContractSystemsTests
 
 		svg.Should().Contain(DesignContract.Pill, "message labels are the same pill as flowchart edge labels");
 		svg.Should().Contain(">Click login</text>");
-		svg.Should().Contain($"stroke=\"{DesignSystem.EdgeColor}\" stroke-width=\"1.5\" stroke-dasharray=\"{DesignSystem.DashArray}\"", "replies are dashed in the dash language");
+		svg.Should().Contain(
+			$"stroke=\"{DesignSystem.EdgeColor}\" stroke-width=\"1.5\" stroke-dasharray=\"{DesignSystem.DashArray}\"",
+			"replies are dashed in the dash language"
+		);
 		svg.Should().MatchRegex("marker-end=\"url\\(#m[0-9a-f]{8}-mk-arrow\\)\"");
 		svg.Should().NotContain("var(--_arrow)");
 	}
@@ -154,8 +160,10 @@ public partial class VisualLanguageContractSystemsTests
 		const string src = "sequenceDiagram\n  box rgb(1,2,3) Team\n  participant A\n  end\n  A->>B: hi";
 
 		MermaidRenderer.RenderSvg(src).Should().Contain("rgb(1,2,3)", "non-strict honours the author colour");
-		MermaidRenderer.RenderSvg(src, new RenderOptions { Strict = new StrictStylingOptions() })
-			.Should().NotContain("rgb(1,2,3)", "strict mode never lets a source colour reach paint");
+		MermaidRenderer
+			.RenderSvg(src, new RenderOptions { Strict = new StrictStylingOptions() })
+			.Should()
+			.NotContain("rgb(1,2,3)", "strict mode never lets a source colour reach paint");
 	}
 
 	// ---------------------------------------------------------------- architecture
@@ -190,7 +198,9 @@ public partial class VisualLanguageContractSystemsTests
 	{
 		var svg = MermaidRenderer.RenderSvg(Architecture);
 
-		svg.Should().MatchRegex($"class=\"architecture-edge\"[^>]*stroke=\"{Regex.Escape(DesignSystem.EdgeColor)}\" stroke-width=\"1.5\" marker-end=\"url\\(#m[0-9a-f]{{8}}-mk-arrow\\)\"");
+		svg.Should().MatchRegex(
+			$"class=\"architecture-edge\"[^>]*stroke=\"{Regex.Escape(DesignSystem.EdgeColor)}\" stroke-width=\"1.5\" marker-end=\"url\\(#m[0-9a-f]{{8}}-mk-arrow\\)\""
+		);
 		svg.Should().NotContain("var(--_arrow)");
 	}
 
@@ -245,8 +255,10 @@ public partial class VisualLanguageContractSystemsTests
 		foreach (var word in longDescription.Split(' '))
 			text.Should().Contain(word);
 
-		var heights = Regex.Matches(svg, "<g class=\"node c4-element\"[^>]*>\\s*<rect [^>]*height=\"([0-9.]+)\"")
-			.Select(m => double.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture)).ToList();
+		var heights = Regex
+			.Matches(svg, "<g class=\"node c4-element\"[^>]*>\\s*<rect [^>]*height=\"([0-9.]+)\"")
+			.Select(m => double.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture))
+			.ToList();
 		heights.Should().HaveCount(2);
 		heights[0].Should().BeGreaterThan(120, "the box grows to fit its description");
 		heights[1].Should().Be(heights[0], "boxes in a row share one height");
@@ -258,11 +270,19 @@ public partial class VisualLanguageContractSystemsTests
 		foreach (var style in new[] { DiagramStyle.Quiet, DiagramStyle.Blueprint, DiagramStyle.Tonal })
 		{
 			var svg = DesignContract.Render(Context, style);
-			var boxes = Regex.Matches(svg, "<g class=\"node c4-element\"[^>]*>\\s*<(?:rect x=\"([0-9.]+)\" y=\"([0-9.]+)\" width=\"([0-9.]+)\" height=\"([0-9.]+)\"|path d=\"M([0-9.]+),([0-9.]+) A([0-9.]+),)")
-				.Select(Box).ToList();
+			var boxes = Regex
+				.Matches(
+					svg,
+					"<g class=\"node c4-element\"[^>]*>\\s*<(?:rect x=\"([0-9.]+)\" y=\"([0-9.]+)\" width=\"([0-9.]+)\" height=\"([0-9.]+)\"|path d=\"M([0-9.]+),([0-9.]+) A([0-9.]+),)"
+				)
+				.Select(Box)
+				.ToList();
 			boxes.Should().HaveCount(4);
 
-			var labels = Regex.Matches(svg, "<g class=\"edge-label\"[^>]*>\\s*(?:<rect x=\"([0-9.-]+)\" y=\"([0-9.-]+)\" width=\"([0-9.]+)\" height=\"([0-9.]+)\"|<text x=\"([0-9.-]+)\" y=\"([0-9.-]+)\")").ToList();
+			var labels = Regex.Matches(
+				svg,
+				"<g class=\"edge-label\"[^>]*>\\s*(?:<rect x=\"([0-9.-]+)\" y=\"([0-9.-]+)\" width=\"([0-9.]+)\" height=\"([0-9.]+)\"|<text x=\"([0-9.-]+)\" y=\"([0-9.-]+)\")"
+			).ToList();
 			labels.Should().HaveCount(3);
 			foreach (var label in labels)
 			{
@@ -279,15 +299,17 @@ public partial class VisualLanguageContractSystemsTests
 
 		static double D(Group g) => double.Parse(g.Value, CultureInfo.InvariantCulture);
 
-		static (double, double, double, double) Box(Match m) => m.Groups[1].Success
-			? (D(m.Groups[1]), D(m.Groups[2]), D(m.Groups[3]), D(m.Groups[4]))
-			: (D(m.Groups[5]), D(m.Groups[6]) - 10, D(m.Groups[7]) * 2, 140);
+		static (double, double, double, double) Box(Match m) =>
+			m.Groups[1].Success
+				? (D(m.Groups[1]), D(m.Groups[2]), D(m.Groups[3]), D(m.Groups[4]))
+				: (D(m.Groups[5]), D(m.Groups[6]) - 10, D(m.Groups[7]) * 2, 140);
 	}
 
 	[Test]
 	public void C4_boundaries_are_dashed_containers_in_every_preset()
 	{
-		const string src = """
+		const string src =
+			"""
 			C4Container
 			Person(customer, "Customer", "A customer of the bank")
 			Container_Boundary(c1, "Internet Banking") {

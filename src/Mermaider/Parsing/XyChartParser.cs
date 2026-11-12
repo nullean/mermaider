@@ -31,9 +31,7 @@ internal static partial class XyChartParser
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
-			throw new MermaidParseException(
-				$"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.",
-				ex);
+			throw new MermaidParseException($"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.", ex);
 		}
 	}
 
@@ -123,7 +121,8 @@ internal static partial class XyChartParser
 		ref IReadOnlyList<string>? categories,
 		ref double? min,
 		ref double? max,
-		bool allowCategories)
+		bool allowCategories
+	)
 	{
 		var bracket = body.IndexOf('[');
 		if (bracket >= 0 && allowCategories)
@@ -175,10 +174,12 @@ internal static partial class XyChartParser
 		{
 			if (tokens[p] != "-->" || p < 1 || p + 1 >= tokens.Length)
 				continue;
-			if (!double.TryParse(tokens[p - 1], NumberStyles.Float, CultureInfo.InvariantCulture, out var mn)
-				|| !double.TryParse(tokens[p + 1], NumberStyles.Float, CultureInfo.InvariantCulture, out var mx)
-				|| double.IsNaN(mn) || double.IsNaN(mx)
-				|| double.IsInfinity(mn) || double.IsInfinity(mx))
+			if (
+				!double.TryParse(tokens[p - 1], NumberStyles.Float, CultureInfo.InvariantCulture, out var mn) ||
+				!double.TryParse(tokens[p + 1], NumberStyles.Float, CultureInfo.InvariantCulture, out var mx) || double.IsNaN(mn) || double.IsNaN(
+					mx
+				) || double.IsInfinity(mn) || double.IsInfinity(mx)
+			)
 				continue;
 			string? title = null;
 			if (p >= 2)
@@ -198,10 +199,12 @@ internal static partial class XyChartParser
 			return false;
 		var left = text[..arrow].Trim();
 		var right = text[(arrow + 3)..].Trim();
-		return double.TryParse(left, NumberStyles.Float, CultureInfo.InvariantCulture, out min)
-			&& double.TryParse(right, NumberStyles.Float, CultureInfo.InvariantCulture, out max)
-			&& !double.IsNaN(min) && !double.IsNaN(max)
-			&& !double.IsInfinity(min) && !double.IsInfinity(max);
+		return double.TryParse(left, NumberStyles.Float, CultureInfo.InvariantCulture, out min) && double.TryParse(
+			right,
+			NumberStyles.Float,
+			CultureInfo.InvariantCulture,
+			out max
+		) && !double.IsNaN(min) && !double.IsNaN(max) && !double.IsInfinity(min) && !double.IsInfinity(max);
 	}
 
 	private static List<string> ParseCategoryList(string list)
@@ -258,8 +261,7 @@ internal static partial class XyChartParser
 			if (cut > 0)
 				trimmed = trimmed[..cut].Trim();
 			// Keep index alignment with categories: bad tokens become 0 (not dropped).
-			if (double.TryParse(trimmed, NumberStyles.Float, CultureInfo.InvariantCulture, out var v)
-				&& !double.IsNaN(v) && !double.IsInfinity(v))
+			if (double.TryParse(trimmed, NumberStyles.Float, CultureInfo.InvariantCulture, out var v) && !double.IsNaN(v) && !double.IsInfinity(v))
 				result.Add(v);
 			else
 				result.Add(0);

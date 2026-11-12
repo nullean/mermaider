@@ -9,16 +9,14 @@
 // Usage: node scripts/flow-quality.mjs [slugFilter]
 import fs from "node:fs";
 
-const snap = "tests/Mermaider.Tests/Snapshots/";
 const filter = process.argv[2];
 
 import { parse, metrics } from "./flow-metrics.mjs";
+import { galleryCases } from "./snapshot-paths.mjs";
 const rows = [];
-for (const f of fs.readdirSync(snap).filter(f => /^GallerySnapshotTests\.Gallery_example=(flowchart|db-flow|rfc)-?.*\.(received|verified)\.svg$/.test(f)).sort()) {
-  const slug = f.replace("GallerySnapshotTests.Gallery_example=", "").replace(/\.(received|verified)\.svg$/, "");
-  if (f.endsWith(".verified.svg") && fs.existsSync(snap + f.replace(".verified.", ".received."))) continue;
+for (const [slug, f] of [...galleryCases()].filter(([slug]) => /^(flowchart|db-flow|rfc)-?/.test(slug)).sort(([a], [b]) => (a + "." < b + "." ? -1 : a + "." > b + "." ? 1 : 0))) {
   if (filter && !slug.includes(filter)) continue;
-  const d = parse(fs.readFileSync(snap + f, "utf8")); if (!d.nodes.length) continue;
+  const d = parse(fs.readFileSync(f, "utf8")); if (!d.nodes.length) continue;
   rows.push({ slug, ...metrics(d), sgs: d.subgraphs.length, nodes: d.nodes.length, edges: d.edges.length });
 }
 const pad = (s, n) => String(s).padEnd(n);

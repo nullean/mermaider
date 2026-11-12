@@ -15,10 +15,7 @@ internal static partial class PacketParser
 	private static partial Regex TitlePattern();
 
 	// Range: 0-15: "Label"  |  single bit: 106: "Label"  |  bit-count: +16: "Label"
-	[GeneratedRegex(
-		@"^(?:\+(\d+)|(\d+)(?:-(\d+))?)\s*:\s*""([^""]*)""\s*$",
-		RegexOptions.None,
-		TimeoutMs)]
+	[GeneratedRegex(@"^(?:\+(\d+)|(\d+)(?:-(\d+))?)\s*:\s*""([^""]*)""\s*$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex FieldPattern();
 
 	internal static PacketDiagram Parse(string[] lines)
@@ -29,9 +26,7 @@ internal static partial class PacketParser
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
-			throw new MermaidParseException(
-				$"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.",
-				ex);
+			throw new MermaidParseException($"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.", ex);
 		}
 	}
 
@@ -70,8 +65,7 @@ internal static partial class PacketParser
 			if (fieldMatch.Groups[1].Success)
 			{
 				// +count form
-				if (!int.TryParse(fieldMatch.Groups[1].Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var count)
-					|| count <= 0)
+				if (!int.TryParse(fieldMatch.Groups[1].Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var count) || count <= 0)
 					continue;
 
 				// Reject when cursor is already past the cap (or would overflow).
@@ -87,16 +81,18 @@ internal static partial class PacketParser
 			}
 			else
 			{
-				if (!int.TryParse(fieldMatch.Groups[2].Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out start)
-					|| start < 0
-					|| start > PacketDiagram.MaxBitIndex)
+				if (
+					!int.TryParse(fieldMatch.Groups[2].Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out start) || start <
+						0 || start > PacketDiagram.MaxBitIndex
+				)
 					continue;
 
 				if (fieldMatch.Groups[3].Success)
 				{
-					if (!int.TryParse(fieldMatch.Groups[3].Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out end)
-						|| end < start
-						|| end > PacketDiagram.MaxBitIndex)
+					if (
+						!int.TryParse(fieldMatch.Groups[3].Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out end) || end <
+							start || end > PacketDiagram.MaxBitIndex
+					)
 						continue;
 				}
 				else

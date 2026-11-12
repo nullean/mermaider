@@ -16,15 +16,19 @@ public sealed record ErEntity
 
 public sealed record ErAttributeInfo(string Type, string Name, IReadOnlyList<ErKeyType> Keys, string? Comment = null);
 
-public enum ErKeyType { PK, FK, UK }
+public enum ErKeyType
+{
+	PK,
+	FK,
+	UK
+}
 
-public enum ErCardinality { One, ZeroOne, Many, ZeroMany }
+public enum ErCardinality
+{
+	One,
+	ZeroOne,
+	Many,
+	ZeroMany
+}
 
-public sealed record ErRelationship(
-	string Entity1,
-	string Entity2,
-	ErCardinality Cardinality1,
-	ErCardinality Cardinality2,
-	string Label,
-	bool Identifying
-);
+public sealed record ErRelationship(string Entity1, string Entity2, ErCardinality Cardinality1, ErCardinality Cardinality2, string Label, bool Identifying);

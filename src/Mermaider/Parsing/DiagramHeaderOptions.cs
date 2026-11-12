@@ -13,8 +13,7 @@ internal static class DiagramHeaderOptions
 	internal static (bool ShowData, string? Title) Parse(string headerLine, string keyword)
 	{
 		var span = headerLine.AsSpan().Trim();
-		if (span.StartsWith(keyword, StringComparison.OrdinalIgnoreCase) &&
-			(span.Length == keyword.Length || char.IsWhiteSpace(span[keyword.Length])))
+		if (span.StartsWith(keyword, StringComparison.OrdinalIgnoreCase) && (span.Length == keyword.Length || char.IsWhiteSpace(span[keyword.Length])))
 		{
 			span = span[keyword.Length..].TrimStart();
 		}
@@ -22,15 +21,13 @@ internal static class DiagramHeaderOptions
 		var showData = false;
 		string? title = null;
 
-		if (span.StartsWith("showData", StringComparison.OrdinalIgnoreCase) &&
-			(span.Length == 8 || char.IsWhiteSpace(span[8])))
+		if (span.StartsWith("showData", StringComparison.OrdinalIgnoreCase) && (span.Length == 8 || char.IsWhiteSpace(span[8])))
 		{
 			showData = true;
 			span = span[8..].TrimStart();
 		}
 
-		if (span.StartsWith("title", StringComparison.OrdinalIgnoreCase) &&
-			span.Length > 5 && char.IsWhiteSpace(span[5]))
+		if (span.StartsWith("title", StringComparison.OrdinalIgnoreCase) && span.Length > 5 && char.IsWhiteSpace(span[5]))
 		{
 			title = span[5..].Trim().ToString();
 		}

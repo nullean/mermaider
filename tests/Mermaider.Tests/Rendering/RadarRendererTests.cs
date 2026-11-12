@@ -4,7 +4,8 @@ namespace Mermaider.Tests.Rendering;
 
 public class RadarRendererTests
 {
-	private const string BasicRadar = """
+	private const string BasicRadar =
+		"""
 		radar-beta
 		title Skills Assessment
 		axis Design, Frontend, Backend, DevOps, Testing
@@ -72,12 +73,14 @@ public class RadarRendererTests
 	[Test]
 	public void Renders_polygon_graticule()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			radar-beta
 			axis A, B, C
 			curve c1{1, 2, 3}
 			graticule polygon
-			""");
+			"""
+		);
 
 		svg.Should().StartWith("<svg");
 	}

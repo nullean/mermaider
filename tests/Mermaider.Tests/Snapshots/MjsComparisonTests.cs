@@ -20,11 +20,9 @@ public partial class MjsComparisonTests
 	// Resolved from the compiled source location rather than AppContext.BaseDirectory —
 	// with <UseArtifactsOutput> the runtime output tree no longer mirrors the source tree
 	// by a fixed number of "..", so a build-output-relative path silently pointed nowhere.
-	private static string GetSourceDirectory([CallerFilePath] string path = "") =>
-		Path.GetDirectoryName(path)!;
+	private static string GetSourceDirectory([CallerFilePath] string path = "") => Path.GetDirectoryName(path)!;
 
-	private static readonly string ReferenceDir =
-		Path.Combine(GetSourceDirectory(), "Reference", "mermaidjs");
+	private static readonly string ReferenceDir = Path.Combine(GetSourceDirectory(), "Reference", "mermaidjs");
 
 	private static readonly string SnapshotDir = GetSourceDirectory();
 
@@ -57,7 +55,8 @@ public partial class MjsComparisonTests
 		var hIcon = Math.Abs(hDiff) <= 10 ? "✅" : Math.Abs(hDiff) <= 25 ? "⚠️" : "❌";
 
 		Console.WriteLine(
-			$"| {slug,-40} | {mer.Value.w,6:0}×{mer.Value.h,4:0} | {mjs.Value.w,6:0}×{mjs.Value.h,4:0} | {wIcon} {wDiff:+0.0;-0.0}% | {hIcon} {hDiff:+0.0;-0.0}% |");
+			$"| {slug,-40} | {mer.Value.w,6:0}×{mer.Value.h,4:0} | {mjs.Value.w,6:0}×{mjs.Value.h,4:0} | {wIcon} {wDiff:+0.0;-0.0}% | {hIcon} {hDiff:+0.0;-0.0}% |"
+		);
 	}
 
 	// Writes a Markdown quality report to Tests/Snapshots/Reference/comparison-report.md
@@ -76,10 +75,12 @@ public partial class MjsComparisonTests
 		{
 			var refPath = Path.Combine(ReferenceDir, $"{slug}.svg");
 			var verPath = Path.Combine(SnapshotDir, $"GallerySnapshotTests.Gallery_example={slug}.verified.svg");
-			if (!File.Exists(verPath)) continue;
+			if (!File.Exists(verPath))
+				continue;
 			var mjs = ExtractViewBox(File.ReadAllText(refPath));
 			var mer = ExtractViewBox(File.ReadAllText(verPath));
-			if (mjs is null || mer is null) continue;
+			if (mjs is null || mer is null)
+				continue;
 			var wDiff = (mer.Value.w - mjs.Value.w) / mjs.Value.w * 100;
 			var hDiff = (mer.Value.h - mjs.Value.h) / mjs.Value.h * 100;
 			rows.Add((slug, wDiff, hDiff, mer.Value.w, mer.Value.h, mjs.Value.w, mjs.Value.h));
@@ -99,8 +100,7 @@ public partial class MjsComparisonTests
 		{
 			var wIcon = Math.Abs(wDiff) <= 10 ? "✅" : Math.Abs(wDiff) <= 25 ? "⚠️" : "❌";
 			var hIcon = Math.Abs(hDiff) <= 10 ? "✅" : Math.Abs(hDiff) <= 25 ? "⚠️" : "❌";
-			sb.AppendLine(
-				$"| {slug,-40} | {merW,6:0}×{merH,4:0} | {mjsW,6:0}×{mjsH,4:0} | {wIcon} {wDiff:+0.0;-0.0}% | {hIcon} {hDiff:+0.0;-0.0}% |");
+			sb.AppendLine($"| {slug,-40} | {merW,6:0}×{merH,4:0} | {mjsW,6:0}×{mjsH,4:0} | {wIcon} {wDiff:+0.0;-0.0}% | {hIcon} {hDiff:+0.0;-0.0}% |");
 		}
 
 		var reportPath = Path.Combine(ReferenceDir, "comparison-report.md");
@@ -113,9 +113,7 @@ public partial class MjsComparisonTests
 	{
 		if (!Directory.Exists(ReferenceDir))
 			return [];
-		return Directory.EnumerateFiles(ReferenceDir, "*.svg")
-			.Select(f => Path.GetFileNameWithoutExtension(f))
-			.Order();
+		return Directory.EnumerateFiles(ReferenceDir, "*.svg").Select(f => Path.GetFileNameWithoutExtension(f)).Order();
 	}
 
 	[GeneratedRegex(@"viewBox=""[^""]*?\s([\d.]+)\s([\d.]+)""", RegexOptions.None, TimeoutMs)]
@@ -124,9 +122,12 @@ public partial class MjsComparisonTests
 	private static (double w, double h)? ExtractViewBox(string svg)
 	{
 		var m = ViewBoxPattern().Match(svg);
-		if (!m.Success) return null;
-		if (!double.TryParse(m.Groups[1].Value, out var w)) return null;
-		if (!double.TryParse(m.Groups[2].Value, out var h)) return null;
+		if (!m.Success)
+			return null;
+		if (!double.TryParse(m.Groups[1].Value, out var w))
+			return null;
+		if (!double.TryParse(m.Groups[2].Value, out var h))
+			return null;
 		return (w, h);
 	}
 }

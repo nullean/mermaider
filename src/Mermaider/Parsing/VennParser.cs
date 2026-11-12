@@ -22,9 +22,7 @@ internal static partial class VennParser
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
-			throw new MermaidParseException(
-				$"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.",
-				ex);
+			throw new MermaidParseException($"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.", ex);
 		}
 	}
 
@@ -42,9 +40,7 @@ internal static partial class VennParser
 			{
 				var id = setMatch.Groups[1].Success ? setMatch.Groups[1].Value : setMatch.Groups[2].Value;
 				var label = setMatch.Groups[3].Success ? setMatch.Groups[3].Value : id;
-				double? size = setMatch.Groups[4].Success
-					? double.Parse(setMatch.Groups[4].Value, CultureInfo.InvariantCulture)
-					: null;
+				double? size = setMatch.Groups[4].Success ? double.Parse(setMatch.Groups[4].Value, CultureInfo.InvariantCulture) : null;
 				sets.Add(new VennSet(id, label, size));
 				continue;
 			}
@@ -54,9 +50,7 @@ internal static partial class VennParser
 			{
 				var idsText = unionMatch.Groups[1].Value;
 				var label = unionMatch.Groups[2].Success ? unionMatch.Groups[2].Value : null;
-				double? size = unionMatch.Groups[3].Success
-					? double.Parse(unionMatch.Groups[3].Value, CultureInfo.InvariantCulture)
-					: null;
+				double? size = unionMatch.Groups[3].Success ? double.Parse(unionMatch.Groups[3].Value, CultureInfo.InvariantCulture) : null;
 
 				var ids = new List<string>();
 				foreach (var part in idsText.Split(','))

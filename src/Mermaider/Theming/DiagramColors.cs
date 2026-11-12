@@ -69,11 +69,10 @@ public sealed record DiagramColors
 	/// ordinary box (<see cref="Border"/> when set, else the <see cref="Default"/> role's outline stage), so lines and boxes read
 	/// as one family.
 	/// </summary>
-	internal string ResolvedLine => Line is { Length: > 0 } line
-		? line
-		: Border is { Length: > 0 } border
-			? border
-			: ColorFamily.Mix(RoleColor(ColorRole.Default), ColorFamily.StrokeRatio, "var(--fg)");
+	internal string ResolvedLine =>
+		Line is { Length: > 0 } line
+			? line
+			: Border is { Length: > 0 } border ? border : ColorFamily.Mix(RoleColor(ColorRole.Default), ColorFamily.StrokeRatio, "var(--fg)");
 
 	/// <summary>Returns color <paramref name="i"/> from the active data palette, wrapping around.</summary>
 	internal string PaletteAt(int i)
@@ -119,10 +118,9 @@ public sealed record DiagramColors
 				reserved.Add(hue);
 		}
 
-		var kept = palette.Where(c =>
-			!ColorUtils.TryHueSaturation(c, out var hue, out var sat)
-			|| sat <= 0.12
-			|| reserved.All(r => ColorUtils.HueDistance(hue, r) > RoleHueWindow)).ToArray();
+		var kept = palette.Where(
+			c => !ColorUtils.TryHueSaturation(c, out var hue, out var sat) || sat <= 0.12 || reserved.All(r => ColorUtils.HueDistance(hue, r) > RoleHueWindow)
+		).ToArray();
 		return kept.Length > 0 ? kept : palette;
 	}
 
@@ -138,11 +136,9 @@ public sealed record DiagramColors
 		if (!ColorUtils.TryHueSaturation(def, out var defHue, out var defSat) || defSat <= 0.12)
 			return free.Length > 0 && free[0] == def ? free : [def, .. free.Where(c => c != def)];
 
-		var rest = free.Where(c =>
-			c != def
-			&& (!ColorUtils.TryHueSaturation(c, out var hue, out var sat)
-				|| sat <= 0.12
-				|| ColorUtils.HueDistance(hue, defHue) > RoleHueWindow)).ToArray();
+		var rest = free.Where(
+			c => c != def && (!ColorUtils.TryHueSaturation(c, out var hue, out var sat) || sat <= 0.12 || ColorUtils.HueDistance(hue, defHue) > RoleHueWindow)
+		).ToArray();
 		return [def, .. rest];
 	}
 

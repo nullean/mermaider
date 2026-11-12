@@ -50,8 +50,7 @@ public enum DiagramTypes : long
 	/// Flowchart, Sequence, State, Class, ER, Pie, Quadrant, Timeline, GitGraph,
 	/// Mindmap, Gantt, Journey, C4, Requirement, Kanban.
 	/// </summary>
-	Stable = Flowchart | Sequence | State | Class | Er | Pie | Quadrant
-		   | Timeline | GitGraph | Mindmap | Gantt | Journey | C4 | Requirement | Kanban,
+	Stable = Flowchart | Sequence | State | Class | Er | Pie | Quadrant | Timeline | GitGraph | Mindmap | Gantt | Journey | C4 | Requirement | Kanban,
 
 	/// <summary>
 	/// Diagram types that use a <c>-beta</c> keyword in Mermaid source.

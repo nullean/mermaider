@@ -120,9 +120,7 @@ internal static partial class FlowchartParser
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
-			throw new MermaidParseException(
-				$"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.",
-				ex);
+			throw new MermaidParseException($"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.", ex);
 		}
 	}
 
@@ -304,9 +302,7 @@ internal static partial class FlowchartParser
 			var tgt = ResolveSubgraphRef(edge.Target, subgraphMap);
 			if (src != edge.Source || tgt != edge.Target)
 			{
-				redirections[e] = (
-					src != edge.Source ? edge.Source : null,
-					tgt != edge.Target ? edge.Target : null);
+				redirections[e] = (src != edge.Source ? edge.Source : null, tgt != edge.Target ? edge.Target : null);
 				edges[e] = new MermaidEdge(src, tgt, edge.Label, edge.Style, edge.HasArrowStart, edge.HasArrowEnd, edge.MinLength);
 			}
 		}
@@ -337,12 +333,8 @@ internal static partial class FlowchartParser
 			Subgraphs = subgraphs,
 			ClassDefs = classDefs,
 			ClassAssignments = classAssignments,
-			NodeStyles = nodeStyles.ToDictionary(
-				kvp => kvp.Key,
-				kvp => (IReadOnlyDictionary<string, string>)kvp.Value),
-			EdgeStyles = edgeStyles.ToDictionary(
-				kvp => kvp.Key,
-				kvp => (IReadOnlyDictionary<string, string>)kvp.Value),
+			NodeStyles = nodeStyles.ToDictionary(kvp => kvp.Key, kvp => (IReadOnlyDictionary<string, string>)kvp.Value),
+			EdgeStyles = edgeStyles.ToDictionary(kvp => kvp.Key, kvp => (IReadOnlyDictionary<string, string>)kvp.Value),
 			DefaultEdgeStyle = defaultEdgeStyle,
 			SubgraphEdgeRedirections = redirections
 		};
@@ -350,9 +342,7 @@ internal static partial class FlowchartParser
 
 	// Subgraph members come first (alphabetical by subgraph ID), matching dagre's
 	// node-insertion order so the DFS cycle-breaker picks the same back-edges.
-	private static List<string> BuildSubgraphFirstNodeOrder(
-		Dictionary<string, MermaidNode> nodes,
-		Dictionary<string, MermaidSubgraph> subgraphMap)
+	private static List<string> BuildSubgraphFirstNodeOrder(Dictionary<string, MermaidNode> nodes, Dictionary<string, MermaidSubgraph> subgraphMap)
 	{
 		var order = new List<string>(nodes.Count);
 		var seen = new HashSet<string>(StringComparer.Ordinal);
@@ -384,7 +374,8 @@ internal static partial class FlowchartParser
 		Dictionary<string, MermaidNode> nodes,
 		List<MermaidEdge> edges,
 		Dictionary<string, string> classAssignments,
-		Stack<(string Id, string Label, List<string> NodeIds, List<MermaidSubgraph> Children, Direction? Dir)> subgraphStack)
+		Stack<(string Id, string Label, List<string> NodeIds, List<MermaidSubgraph> Children, Direction? Dir)> subgraphStack
+	)
 	{
 		var remaining = line.Trim();
 
@@ -452,7 +443,8 @@ internal static partial class FlowchartParser
 		string text,
 		Dictionary<string, MermaidNode> nodes,
 		Dictionary<string, string> classAssignments,
-		Stack<(string Id, string Label, List<string> NodeIds, List<MermaidSubgraph> Children, Direction? Dir)> subgraphStack)
+		Stack<(string Id, string Label, List<string> NodeIds, List<MermaidSubgraph> Children, Direction? Dir)> subgraphStack
+	)
 	{
 		var (firstId, rest) = ConsumeNode(text, nodes, classAssignments, subgraphStack);
 		if (firstId is null)
@@ -478,7 +470,8 @@ internal static partial class FlowchartParser
 		string text,
 		Dictionary<string, MermaidNode> nodes,
 		Dictionary<string, string> classAssignments,
-		Stack<(string Id, string Label, List<string> NodeIds, List<MermaidSubgraph> Children, Direction? Dir)> subgraphStack)
+		Stack<(string Id, string Label, List<string> NodeIds, List<MermaidSubgraph> Children, Direction? Dir)> subgraphStack
+	)
 	{
 		string? id = null;
 		var remaining = text;
@@ -493,9 +486,7 @@ internal static partial class FlowchartParser
 				if (rawLabel.Length >= 2 && rawLabel[0] == '"' && rawLabel[^1] == '"')
 					rawLabel = rawLabel[1..^1];
 				var isMarkdown = rawLabel.StartsWith('`') && rawLabel.EndsWith('`');
-				var label = isMarkdown
-					? rawLabel[1..^1].Trim().Replace("\\n", "\n")
-					: MultilineUtils.NormalizeBrTags(rawLabel).Replace("\\n", "\n");
+				var label = isMarkdown ? rawLabel[1..^1].Trim().Replace("\\n", "\n") : MultilineUtils.NormalizeBrTags(rawLabel).Replace("\\n", "\n");
 				RegisterNode(nodes, subgraphStack, new MermaidNode(id, label, shape, isMarkdown));
 				remaining = text[match.Length..];
 				break;
@@ -536,7 +527,8 @@ internal static partial class FlowchartParser
 	private static void RegisterNode(
 		Dictionary<string, MermaidNode> nodes,
 		Stack<(string Id, string Label, List<string> NodeIds, List<MermaidSubgraph> Children, Direction? Dir)> subgraphStack,
-		MermaidNode node)
+		MermaidNode node
+	)
 	{
 		_ = nodes.TryAdd(node.Id, node);
 		AddToCurrentSubgraph(subgraphStack, node.Id);
@@ -544,7 +536,8 @@ internal static partial class FlowchartParser
 
 	private static void AddToCurrentSubgraph(
 		Stack<(string Id, string Label, List<string> NodeIds, List<MermaidSubgraph> Children, Direction? Dir)> subgraphStack,
-		string nodeId)
+		string nodeId
+	)
 	{
 		if (subgraphStack.Count > 0)
 		{
@@ -565,7 +558,6 @@ internal static partial class FlowchartParser
 		return EdgeStyle.Solid;
 	}
 
-
 	private static void CollectSubgraphMap(IReadOnlyList<MermaidSubgraph> sgs, Dictionary<string, MermaidSubgraph> map)
 	{
 		foreach (var sg in sgs)
@@ -583,7 +575,10 @@ internal static partial class FlowchartParser
 			foreach (var child in sg.NodeIds)
 			{
 				if (!sgMap.ContainsKey(child))
-				{ firstNonSg = child; break; }
+				{
+					firstNonSg = child;
+					break;
+				}
 			}
 			if (firstNonSg != null)
 				return firstNonSg;
@@ -612,5 +607,4 @@ internal static partial class FlowchartParser
 		}
 		return props;
 	}
-
 }

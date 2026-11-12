@@ -70,8 +70,7 @@ internal static class NetworkSimplexRanker
 		return rank;
 	}
 
-	private static void RankComponent(
-		int nodeCount, List<SimplexEdge> edges, List<int>[] incident, int[] componentOf, int component, int[] rank)
+	private static void RankComponent(int nodeCount, List<SimplexEdge> edges, List<int>[] incident, int[] componentOf, int component, int[] rank)
 	{
 		var seed = -1;
 		for (var i = 0; i < nodeCount; i++)
@@ -144,11 +143,7 @@ internal static class NetworkSimplexRanker
 			if (index.TryGetValue(key, out var idx))
 			{
 				var existing = result[idx];
-				result[idx] = existing with
-				{
-					Weight = existing.Weight + e.Weight,
-					MinLength = Math.Max(existing.MinLength, e.MinLength),
-				};
+				result[idx] = existing with { Weight = existing.Weight + e.Weight, MinLength = Math.Max(existing.MinLength, e.MinLength), };
 			}
 			else
 			{
@@ -269,11 +264,11 @@ internal static class NetworkSimplexRanker
 			stack.Push((start, 0));
 			state[start] = 1;
 
+		outer:
 			while (stack.Count > 0)
 			{
 				var (node, pos) = stack.Pop();
 				var outs = outEdges[node];
-				var advanced = false;
 				for (var i = pos; i < outs.Count; i++)
 				{
 					var target = edges[outs[i]].To;
@@ -282,12 +277,8 @@ internal static class NetworkSimplexRanker
 					stack.Push((node, i + 1));
 					state[target] = 1;
 					stack.Push((target, 0));
-					advanced = true;
-					break;
+					continue outer;
 				}
-
-				if (advanced)
-					continue;
 
 				var min = int.MaxValue;
 				foreach (var ei in outs)
@@ -324,7 +315,7 @@ internal static class NetworkSimplexRanker
 		public readonly int[] CutValue = new int[nodeCount];
 		public readonly int[] Low = new int[nodeCount];
 		public readonly int[] Lim = new int[nodeCount];
-		public readonly List<int> Postorder = new(nodeCount);
+		public readonly List<int> Postorder = [with(nodeCount)];
 
 		private static List<int>[] BuildEmptyAdj(int n)
 		{
@@ -352,7 +343,14 @@ internal static class NetworkSimplexRanker
 	// ------------------------------------------------------------------
 
 	private static SimplexTree BuildFeasibleTree(
-		int nodeCount, List<SimplexEdge> edges, List<int>[] incident, int[] componentOf, int component, int seed, int[] rank)
+		int nodeCount,
+		List<SimplexEdge> edges,
+		List<int>[] incident,
+		int[] componentOf,
+		int component,
+		int seed,
+		int[] rank
+	)
 	{
 		var tree = new SimplexTree(nodeCount);
 		var inTree = new bool[nodeCount];
@@ -407,8 +405,7 @@ internal static class NetworkSimplexRanker
 	/// absorbing newly-reachable nodes into the tree. Re-run after every rank shift because a
 	/// shift can make a previously-slack edge newly tight.
 	/// </summary>
-	private static void TightTreeExtend(
-		SimplexTree tree, bool[] inTree, List<int> treeOrder, List<SimplexEdge> edges, List<int>[] incident, int[] rank)
+	private static void TightTreeExtend(SimplexTree tree, bool[] inTree, List<int> treeOrder, List<SimplexEdge> edges, List<int>[] incident, int[] rank)
 	{
 		var snapshot = treeOrder.ToArray();
 		foreach (var seed in snapshot)
@@ -466,11 +463,11 @@ internal static class NetworkSimplexRanker
 		visited[root] = true;
 		lowAtEntry[root] = nextLim;
 
+	outer:
 		while (stack.Count > 0)
 		{
 			var (v, pos, parent) = stack.Pop();
 			var neighbors = tree.Adj[v];
-			var advanced = false;
 			for (var i = pos; i < neighbors.Count; i++)
 			{
 				var w = neighbors[i];
@@ -480,12 +477,8 @@ internal static class NetworkSimplexRanker
 				lowAtEntry[w] = nextLim;
 				stack.Push((v, i + 1, parent));
 				stack.Push((w, 0, v));
-				advanced = true;
-				break;
+				continue outer;
 			}
-
-			if (advanced)
-				continue;
 
 			tree.Low[v] = lowAtEntry[v];
 			tree.Lim[v] = nextLim++;

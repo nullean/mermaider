@@ -51,34 +51,42 @@ internal static class ArchitectureLayout
 
 		var cellW = serviceW + CellGap;
 		var cellH = ServiceHeight + CellGap;
+
 		double PixelX(int col) => Margin + ((col - minCol) * cellW);
+
 		double PixelY(int row) => Margin + ((row - minRow) * cellH);
 
-		var services = diagram.Services.Select(s =>
-		{
-			var (col, row) = cells[s.Id];
-			return new PositionedArchitectureService
+		var services = diagram
+			.Services
+			.Select(s =>
 			{
-				Id = s.Id,
-				Icon = s.Icon,
-				Title = s.Title,
-				X = PixelX(col),
-				Y = PixelY(row),
-				Width = serviceW,
-				Height = ServiceHeight,
-			};
-		}).ToList();
+				var (col, row) = cells[s.Id];
+				return new PositionedArchitectureService
+				{
+					Id = s.Id,
+					Icon = s.Icon,
+					Title = s.Title,
+					X = PixelX(col),
+					Y = PixelY(row),
+					Width = serviceW,
+					Height = ServiceHeight,
+				};
+			})
+			.ToList();
 
-		var junctions = diagram.Junctions.Select(j =>
-		{
-			var (col, row) = cells[j.Id];
-			return new PositionedArchitectureJunction
+		var junctions = diagram
+			.Junctions
+			.Select(j =>
 			{
-				Id = j.Id,
-				X = PixelX(col) + ((serviceW - JunctionSize) / 2),
-				Y = PixelY(row) + ((ServiceHeight - JunctionSize) / 2),
-			};
-		}).ToList();
+				var (col, row) = cells[j.Id];
+				return new PositionedArchitectureJunction
+				{
+					Id = j.Id,
+					X = PixelX(col) + ((serviceW - JunctionSize) / 2),
+					Y = PixelY(row) + ((ServiceHeight - JunctionSize) / 2),
+				};
+			})
+			.ToList();
 
 		var boxes = BuildBoxLookup(services, junctions);
 		var groups = BuildGroupBoxes(diagram, boxes);
@@ -101,7 +109,8 @@ internal static class ArchitectureLayout
 		groups = groups.Select(g => g with { X = g.X + shiftX, Y = g.Y + shiftY }).ToList();
 		boxes = boxes.ToDictionary(kv => kv.Key, kv => kv.Value with { X = kv.Value.X + shiftX, Y = kv.Value.Y + shiftY });
 
-		var edges = diagram.Edges
+		var edges = diagram
+			.Edges
 			.Where(e => boxes.ContainsKey(e.SourceId) && boxes.ContainsKey(e.TargetId))
 			.Select(e => RouteEdge(e, boxes[e.SourceId], boxes[e.TargetId]))
 			.ToList();
@@ -135,6 +144,7 @@ internal static class ArchitectureLayout
 	// ========================================================================
 
 	private readonly record struct Cell(int Col, int Row);
+
 	private readonly record struct Box(double X, double Y, double Width, double Height);
 
 	// Disconnected components are packed 2-per-row (like flex-wrap), then next row down — reads
@@ -154,6 +164,7 @@ internal static class ArchitectureLayout
 	private static Dictionary<string, Cell> AssignGridCells(HashSet<string> ids, IReadOnlyList<ArchitectureEdge> edges)
 	{
 		var adjacency = new Dictionary<string, List<(string Neighbor, int Dx, int Dy)>>();
+
 		void AddEdge(string a, string b, int dx, int dy)
 		{
 			if (!ids.Contains(a) || !ids.Contains(b))
@@ -227,9 +238,7 @@ internal static class ArchitectureLayout
 		var gridCols = Math.Min(ComponentGridCols, components.Count);
 		var gridRows = (components.Count + gridCols - 1) / gridCols;
 
-		var spans = components.Select(c => (
-			ColSpan: c.Values.Max(v => v.Col) + 1,
-			RowSpan: c.Values.Max(v => v.Row) + 1)).ToList();
+		var spans = components.Select(c => (ColSpan: c.Values.Max(v => v.Col) + 1, RowSpan: c.Values.Max(v => v.Row) + 1)).ToList();
 
 		var colWidths = new int[gridCols];
 		var rowHeights = new int[gridRows];
@@ -285,7 +294,8 @@ internal static class ArchitectureLayout
 
 	private static Dictionary<string, Box> BuildBoxLookup(
 		IReadOnlyList<PositionedArchitectureService> services,
-		IReadOnlyList<PositionedArchitectureJunction> junctions)
+		IReadOnlyList<PositionedArchitectureJunction> junctions
+	)
 	{
 		var boxes = new Dictionary<string, Box>();
 		foreach (var s in services)
@@ -297,11 +307,9 @@ internal static class ArchitectureLayout
 
 	private static List<PositionedArchitectureGroup> BuildGroupBoxes(ArchitectureDiagram diagram, Dictionary<string, Box> memberBoxes)
 	{
-		var childGroupsOf = diagram.Groups
-			.Where(g => g.ParentId is not null)
-			.GroupBy(g => g.ParentId!)
-			.ToDictionary(g => g.Key, g => g.ToList());
-		var directMemberIdsOf = diagram.Services
+		var childGroupsOf = diagram.Groups.Where(g => g.ParentId is not null).GroupBy(g => g.ParentId!).ToDictionary(g => g.Key, g => g.ToList());
+		var directMemberIdsOf = diagram
+			.Services
 			.Where(s => s.GroupId is not null)
 			.Select(s => (s.GroupId!, s.Id))
 			.Concat(diagram.Junctions.Where(j => j.GroupId is not null).Select(j => (j.GroupId!, j.Id)))
@@ -344,7 +352,8 @@ internal static class ArchitectureLayout
 				minX - GroupPadding,
 				minY - GroupPadding - GroupHeaderHeight,
 				maxX - minX + (2 * GroupPadding),
-				maxY - minY + (2 * GroupPadding) + GroupHeaderHeight);
+				maxY - minY + (2 * GroupPadding) + GroupHeaderHeight
+			);
 
 			computed[group.Id] = result;
 			return result;
@@ -378,9 +387,7 @@ internal static class ArchitectureLayout
 		var sourceHorizontal = edge.SourceSide is ArchitectureSide.Left or ArchitectureSide.Right or null;
 		if (Math.Abs(sourceAnchor.X - targetAnchor.X) > 0.5 && Math.Abs(sourceAnchor.Y - targetAnchor.Y) > 0.5)
 		{
-			var bend = sourceHorizontal
-				? new Point(targetAnchor.X, sourceAnchor.Y)
-				: new Point(sourceAnchor.X, targetAnchor.Y);
+			var bend = sourceHorizontal ? new Point(targetAnchor.X, sourceAnchor.Y) : new Point(sourceAnchor.X, targetAnchor.Y);
 			points.Add(bend);
 		}
 

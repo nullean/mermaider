@@ -11,7 +11,13 @@ internal static partial class SvgValueAllowlist
 
 	private static readonly FrozenSet<string> RootStyleProperties = new[]
 	{
-		"--bg", "--fg", "--line", "--accent", "--muted", "--surface", "--border",
+		"--bg",
+		"--fg",
+		"--line",
+		"--accent",
+		"--muted",
+		"--surface",
+		"--border",
 	}.ToFrozenSet(StringComparer.Ordinal);
 
 	[GeneratedRegex(@"^url\(#[A-Za-z_][A-Za-z0-9_.:-]*\)$", RegexOptions.None, TimeoutMs)]
@@ -29,9 +35,7 @@ internal static partial class SvgValueAllowlist
 	[GeneratedRegex(@"^var\(--(?:bg|fg|line|accent|muted|surface|border|_text|_text-sec|_text-muted|_text-faint|_line|_line-soft|_line-strong|_arrow|_node-fill|_node-stroke|_group-fill|_group-hdr|_group-stroke|_inner-stroke|_key-badge|_accent-fill|_accent-stroke|_accent-text)\)$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex InternalColorVariablePattern();
 
-	internal static bool IsAllowedLocalReference(string value) =>
-		value.Length <= 512
-		&& (value == "none" || IsMatch(LocalFragmentUrlPattern(), value));
+	internal static bool IsAllowedLocalReference(string value) => value.Length <= 512 && (value == "none" || IsMatch(LocalFragmentUrlPattern(), value));
 
 	internal static bool IsAllowedPaint(string value)
 	{
@@ -56,8 +60,7 @@ internal static partial class SvgValueAllowlist
 	internal static bool IsAllowedHexColor(string value)
 	{
 		var trimmed = value.AsSpan().Trim();
-		return trimmed.Length is 4 or 5 or 7 or 9
-			&& IsMatch(HexColorPattern(), trimmed.ToString());
+		return trimmed.Length is 4 or 5 or 7 or 9 && IsMatch(HexColorPattern(), trimmed.ToString());
 	}
 
 	internal static bool IsAllowedColorMix(string value)
@@ -67,9 +70,7 @@ internal static partial class SvgValueAllowlist
 		var suffix = "%, var(--bg))";
 		if (value.EndsWith("%, var(--fg))", StringComparison.Ordinal))
 			suffix = "%, var(--fg))";
-		if (value.Length is 0 or > 512
-			|| !value.StartsWith(prefix, StringComparison.Ordinal)
-			|| !value.EndsWith(suffix, StringComparison.Ordinal))
+		if (value.Length is 0 or > 512 || !value.StartsWith(prefix, StringComparison.Ordinal) || !value.EndsWith(suffix, StringComparison.Ordinal))
 			return false;
 
 		var components = value.AsSpan(prefix.Length, value.Length - prefix.Length - suffix.Length);
@@ -81,10 +82,9 @@ internal static partial class SvgValueAllowlist
 		var percentage = components[(separator + 1)..];
 		var safeColor = color == "var(--accent, var(--fg))" || IsAllowedBasicColor(color);
 
-		return safeColor
-			&& double.TryParse(percentage, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out var amount)
-			&& double.IsFinite(amount)
-			&& amount is >= 0 and <= 100;
+		return safeColor && double.TryParse(percentage, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out var amount) && double.IsFinite(
+			amount
+		) && amount is >= 0 and <= 100;
 	}
 
 	internal static bool IsAllowedRootStyle(string style)
@@ -119,11 +119,10 @@ internal static partial class SvgValueAllowlist
 	}
 
 	private static bool IsAllowedBasicColor(string value) =>
-		value == "var(--accent, var(--fg))"
-		|| IsMatch(HexColorPattern(), value)
-		|| IsMatch(InternalColorVariablePattern(), value)
-		|| IsMatch(ColorFunctionPattern(), value)
-		|| IsMatch(NamedPaintPattern(), value);
+		value == "var(--accent, var(--fg))" || IsMatch(HexColorPattern(), value) || IsMatch(InternalColorVariablePattern(), value) || IsMatch(
+			ColorFunctionPattern(),
+			value
+		) || IsMatch(NamedPaintPattern(), value);
 
 	private static bool IsMatch(Regex regex, string value)
 	{

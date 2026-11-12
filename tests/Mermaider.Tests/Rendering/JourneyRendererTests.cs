@@ -6,7 +6,8 @@ namespace Mermaider.Tests.Rendering;
 
 public partial class JourneyRendererTests
 {
-	private const string FullJourney = """
+	private const string FullJourney =
+		"""
 		journey
 		title My working day
 		section Go to work
@@ -110,12 +111,14 @@ public partial class JourneyRendererTests
 	[Test]
 	public void Detects_and_renders_via_public_api()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			journey
 			section A
 			Step one: 4: User
 			Step two: 2: User, Admin
-			""");
+			"""
+		);
 
 		svg.Should().Contain("Step one");
 		svg.Should().Contain("Admin");
@@ -125,23 +128,27 @@ public partial class JourneyRendererTests
 	public void Sentiment_curve_runs_through_every_face_under_its_task()
 	{
 		const string longActor = "SeniorPrincipalStaffEngineerCoordinator";
-		var svg = MermaidRenderer.RenderSvg($"""
+		var svg = MermaidRenderer.RenderSvg(
+			$"""
 			journey
 			title Day
 			section Work
 			Start: 5: {longActor}
 			Middle: 3: {longActor}
 			End: 1: {longActor}
-			""");
+			"""
+		);
 
 		var curve = Curve().Match(svg);
 		curve.Success.Should().BeTrue("the sentiment curve is drawn");
-		var points = CurvePoint().Matches(curve.Groups[1].Value)
+		var points = CurvePoint()
+			.Matches(curve.Groups[1].Value)
 			.Select(m => (X: double.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture), Y: double.Parse(m.Groups[2].Value, CultureInfo.InvariantCulture)))
 			.ToList();
 		points.Should().HaveCount(3);
 
-		var faces = Face().Matches(svg)
+		var faces = Face()
+			.Matches(svg)
 			.Select(m => (X: double.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture), Y: double.Parse(m.Groups[2].Value, CultureInfo.InvariantCulture)))
 			.ToList();
 		faces.Should().BeEquivalentTo(points, o => o.WithStrictOrdering(), "every face sits on the curve");
@@ -162,12 +169,14 @@ public partial class JourneyRendererTests
 	public void Many_actors_wrap_the_legend_and_push_the_content_down()
 	{
 		var actors = string.Join(", ", Enumerable.Range(1, 25).Select(i => $"Actor{i:D2}"));
-		var svg = MermaidRenderer.RenderSvg($"""
+		var svg = MermaidRenderer.RenderSvg(
+			$"""
 			journey
 			title Many actors
 			section A
 			Only task: 5: {actors}
-			""");
+			"""
+		);
 
 		svg.Should().Contain("Actor01");
 		svg.Should().Contain("Actor25");
@@ -177,41 +186,23 @@ public partial class JourneyRendererTests
 		taskY.Should().BeGreaterThan(legendYs.Max(), "content starts below the last legend row");
 	}
 
-	[GeneratedRegex(
-		@"<path class=""journey-line"" d=""([^""]+)""",
-		RegexOptions.CultureInvariant,
-		matchTimeoutMilliseconds: 2000)]
+	[GeneratedRegex(@"<path class=""journey-line"" d=""([^""]+)""", RegexOptions.CultureInvariant, matchTimeoutMilliseconds: 2000)]
 	private static partial Regex Curve();
 
-	[GeneratedRegex(
-		@"([\d.]+),([\d.]+)",
-		RegexOptions.CultureInvariant,
-		matchTimeoutMilliseconds: 2000)]
+	[GeneratedRegex(@"([\d.]+),([\d.]+)", RegexOptions.CultureInvariant, matchTimeoutMilliseconds: 2000)]
 	private static partial Regex CurvePoint();
 
-	[GeneratedRegex(
-		@"<g class=""face""[^>]*>\s*<circle cx=""([\d.]+)"" cy=""([\d.]+)""",
-		RegexOptions.CultureInvariant,
-		matchTimeoutMilliseconds: 2000)]
+	[GeneratedRegex(@"<g class=""face""[^>]*>\s*<circle cx=""([\d.]+)"" cy=""([\d.]+)""", RegexOptions.CultureInvariant, matchTimeoutMilliseconds: 2000)]
 	private static partial Regex Face();
 
-	[GeneratedRegex(
-		@"<g class=""node journey-task""[^>]*>\s*<rect x=""([\d.]+)"" y=""([\d.]+)"" width=""([\d.]+)""",
-		RegexOptions.CultureInvariant,
-		matchTimeoutMilliseconds: 2000)]
+	[GeneratedRegex(@"<g class=""node journey-task""[^>]*>\s*<rect x=""([\d.]+)"" y=""([\d.]+)"" width=""([\d.]+)""", RegexOptions.CultureInvariant, matchTimeoutMilliseconds: 2000)]
 	private static partial Regex TaskRect();
 
-	[GeneratedRegex(
-		@"<g class=""legend"">[\s\S]*?</g>",
-		RegexOptions.CultureInvariant,
-		matchTimeoutMilliseconds: 2000)]
+	[GeneratedRegex(@"<g class=""legend"">[\s\S]*?</g>", RegexOptions.CultureInvariant, matchTimeoutMilliseconds: 2000)]
 	private static partial Regex Legend();
 
 	private static MatchCollection LegendTextMatches(string svg) => LegendTextY().Matches(Legend().Match(svg).Value);
 
-	[GeneratedRegex(
-		@"<text x=""[\d.]+"" y=""([\d.]+)""",
-		RegexOptions.CultureInvariant,
-		matchTimeoutMilliseconds: 2000)]
+	[GeneratedRegex(@"<text x=""[\d.]+"" y=""([\d.]+)""", RegexOptions.CultureInvariant, matchTimeoutMilliseconds: 2000)]
 	private static partial Regex LegendTextY();
 }

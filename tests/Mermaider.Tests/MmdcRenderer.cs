@@ -38,8 +38,7 @@ internal static class MmdcRenderer
 				RedirectStandardError = true,
 				UseShellExecute = false,
 			};
-			using var proc = System.Diagnostics.Process.Start(psi)
-				?? throw new InvalidOperationException("Failed to start mmdc");
+			using var proc = System.Diagnostics.Process.Start(psi) ?? throw new InvalidOperationException("Failed to start mmdc");
 			await proc.WaitForExitAsync(ct);
 			if (proc.ExitCode != 0)
 			{
@@ -58,10 +57,7 @@ internal static class MmdcRenderer
 	}
 
 	// Generates mermaid.js reference SVGs for all gallery examples into the given directory.
-	public static async Task GenerateReferencesAsync(
-		IEnumerable<Mermaider.Examples.DiagramExample> examples,
-		string outputDir,
-		CancellationToken ct = default)
+	public static async Task GenerateReferencesAsync(IEnumerable<Mermaider.Examples.DiagramExample> examples, string outputDir, CancellationToken ct = default)
 	{
 		Directory.CreateDirectory(outputDir);
 		foreach (var ex in examples)

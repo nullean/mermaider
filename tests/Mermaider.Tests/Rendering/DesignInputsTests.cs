@@ -45,8 +45,7 @@ public class DesignInputsTests
 	[Arguments(double.NaN)]
 	[Arguments(double.PositiveInfinity)]
 	[Arguments(double.NegativeInfinity)]
-	public void Non_finite_tint_falls_back_to_one(double requested) =>
-		DesignInputs.From(new RenderOptions { Tint = requested }).Tint.Should().Be(1.0);
+	public void Non_finite_tint_falls_back_to_one(double requested) => DesignInputs.From(new RenderOptions { Tint = requested }).Tint.Should().Be(1.0);
 
 	[Test]
 	[Arguments(-5, 0)]
@@ -58,8 +57,7 @@ public class DesignInputsTests
 		DesignInputs.From(new RenderOptions { Elevation = requested }).Elevation.Should().Be(expected);
 
 	[Test]
-	public void Gradient_flag_is_carried_through() =>
-		DesignInputs.From(new RenderOptions { Gradient = false }).Gradient.Should().BeFalse();
+	public void Gradient_flag_is_carried_through() => DesignInputs.From(new RenderOptions { Gradient = false }).Gradient.Should().BeFalse();
 
 	[Test]
 	[Arguments(DiagramStyle.Quiet)]
@@ -127,6 +125,5 @@ public class DesignInputsTests
 
 	[Test]
 	public void Blueprint_ignores_elevation() =>
-		MermaidRenderer.RenderSvg(Flow, new RenderOptions { Style = DiagramStyle.Blueprint, Elevation = 2 })
-			.Should().NotContain("drop-shadow");
+		MermaidRenderer.RenderSvg(Flow, new RenderOptions { Style = DiagramStyle.Blueprint, Elevation = 2 }).Should().NotContain("drop-shadow");
 }

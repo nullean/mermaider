@@ -32,7 +32,10 @@ public class ThemeRolesTests
 		theme.Line.Should().Be(ColorUtils.MixHex(theme.Default!, theme.Fg, ColorFamily.StrokeRatio / 100));
 		new ColorFamily("p0", theme.Default!).Stroke.Should().Be($"color-mix(in srgb, {theme.Default} 74%, var(--fg))");
 
-		var svg = MermaidRenderer.RenderSvg("flowchart TD\n  A --> B", new RenderOptions { Bg = theme.Bg, Fg = theme.Fg, Default = theme.Default, Line = theme.Line });
+		var svg = MermaidRenderer.RenderSvg(
+			"flowchart TD\n  A --> B",
+			new RenderOptions { Bg = theme.Bg, Fg = theme.Fg, Default = theme.Default, Line = theme.Line }
+		);
 		svg.Should().Contain($"--line:{theme.Line}");
 	}
 

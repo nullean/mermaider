@@ -39,7 +39,11 @@ internal sealed partial class DesignSystem
 		_ = sb.Append("\n<path class=\"").Append(cssClass).Append("\" d=\"M").Append(Num(points[0].X)).Append(',').Append(Num(points[0].Y));
 		for (var i = 1; i < points.Count; i++)
 			_ = sb.Append(" L").Append(Num(points[i].X)).Append(',').Append(Num(points[i].Y));
-		_ = sb.Append("\" fill=\"none\" stroke=\"").Append(ColorFamily.AccentBase).Append("\" stroke-width=\"").Append(StoryLineWidth)
+		_ = sb
+			.Append("\" fill=\"none\" stroke=\"")
+			.Append(ColorFamily.AccentBase)
+			.Append("\" stroke-width=\"")
+			.Append(StoryLineWidth)
 			.Append("\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />");
 	}
 
@@ -55,17 +59,43 @@ internal sealed partial class DesignSystem
 		var a = ColorFamily.AccentBase;
 		if (Spec.Marker == MarkerKind.Thin)
 		{
-			_ = sb.Append("\n<path d=\"M").Append(Num(tipX - len)).Append(',').Append(Num(cy - half))
-				.Append(" L").Append(Num(tipX)).Append(',').Append(Num(cy))
-				.Append(" L").Append(Num(tipX - len)).Append(',').Append(Num(cy + half))
-				.Append("\" fill=\"none\" stroke=\"").Append(a).Append("\" stroke-width=\"1.25\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />");
+			_ = sb
+				.Append("\n<path d=\"M")
+				.Append(Num(tipX - len))
+				.Append(',')
+				.Append(Num(cy - half))
+				.Append(" L")
+				.Append(Num(tipX))
+				.Append(',')
+				.Append(Num(cy))
+				.Append(" L")
+				.Append(Num(tipX - len))
+				.Append(',')
+				.Append(Num(cy + half))
+				.Append("\" fill=\"none\" stroke=\"")
+				.Append(a)
+				.Append("\" stroke-width=\"1.25\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />");
 			return;
 		}
 
-		_ = sb.Append("\n<polygon points=\"").Append(Num(tipX)).Append(',').Append(Num(cy)).Append(' ')
-			.Append(Num(tipX - len)).Append(',').Append(Num(cy - half)).Append(' ')
-			.Append(Num(tipX - len)).Append(',').Append(Num(cy + half))
-			.Append("\" fill=\"").Append(a).Append("\" stroke=\"").Append(a).Append("\" stroke-width=\"1.5\" stroke-linejoin=\"round\" />");
+		_ = sb
+			.Append("\n<polygon points=\"")
+			.Append(Num(tipX))
+			.Append(',')
+			.Append(Num(cy))
+			.Append(' ')
+			.Append(Num(tipX - len))
+			.Append(',')
+			.Append(Num(cy - half))
+			.Append(' ')
+			.Append(Num(tipX - len))
+			.Append(',')
+			.Append(Num(cy + half))
+			.Append("\" fill=\"")
+			.Append(a)
+			.Append("\" stroke=\"")
+			.Append(a)
+			.Append("\" stroke-width=\"1.5\" stroke-linejoin=\"round\" />");
 	}
 
 	/// <summary>A moment on a story line: page-coloured dot (square in Blueprint) ringed in the family stroke.</summary>
@@ -73,15 +103,33 @@ internal sealed partial class DesignSystem
 	{
 		if (Spec.Terminal == TerminalKind.Square)
 		{
-			_ = sb.Append("\n<rect x=\"").Append(Num(cx - r)).Append("\" y=\"").Append(Num(cy - r))
-				.Append("\" width=\"").Append(Num(r * 2)).Append("\" height=\"").Append(Num(r * 2))
-				.Append("\" fill=\"var(--bg)\" stroke=\"").Append(family.Stroke).Append("\" stroke-width=\"2\" />");
+			_ = sb
+				.Append("\n<rect x=\"")
+				.Append(Num(cx - r))
+				.Append("\" y=\"")
+				.Append(Num(cy - r))
+				.Append("\" width=\"")
+				.Append(Num(r * 2))
+				.Append("\" height=\"")
+				.Append(Num(r * 2))
+				.Append("\" fill=\"var(--bg)\" stroke=\"")
+				.Append(family.Stroke)
+				.Append("\" stroke-width=\"2\" />");
 			return;
 		}
 
-		_ = sb.Append("\n<circle cx=\"").Append(Num(cx)).Append("\" cy=\"").Append(Num(cy)).Append("\" r=\"").Append(Num(r))
-			.Append("\" fill=\"").Append(Spec.Terminal == TerminalKind.Disc ? family.Soft : "var(--bg)")
-			.Append("\" stroke=\"").Append(family.Stroke).Append("\" stroke-width=\"2\" />");
+		_ = sb
+			.Append("\n<circle cx=\"")
+			.Append(Num(cx))
+			.Append("\" cy=\"")
+			.Append(Num(cy))
+			.Append("\" r=\"")
+			.Append(Num(r))
+			.Append("\" fill=\"")
+			.Append(Spec.Terminal == TerminalKind.Disc ? family.Soft : "var(--bg)")
+			.Append("\" stroke=\"")
+			.Append(family.Stroke)
+			.Append("\" stroke-width=\"2\" />");
 	}
 
 	/// <summary>Radius of a journey face.</summary>
@@ -96,22 +144,61 @@ internal sealed partial class DesignSystem
 		const double r = FaceRadius;
 		var ink = family.Ink;
 		_ = sb.Append("\n<g class=\"face\" data-score=\"").Append(score).Append("\">");
-		_ = sb.Append("\n  <circle cx=\"").Append(Num(cx)).Append("\" cy=\"").Append(Num(cy)).Append("\" r=\"").Append(Num(r))
-			.Append("\" fill=\"").Append(family.Soft).Append("\" stroke=\"").Append(Spec.OutlineWidth > 0 ? family.Stroke : family.Edge)
+		_ = sb
+			.Append("\n  <circle cx=\"")
+			.Append(Num(cx))
+			.Append("\" cy=\"")
+			.Append(Num(cy))
+			.Append("\" r=\"")
+			.Append(Num(r))
+			.Append("\" fill=\"")
+			.Append(family.Soft)
+			.Append("\" stroke=\"")
+			.Append(Spec.OutlineWidth > 0 ? family.Stroke : family.Edge)
 			.Append("\" stroke-width=\"1.75\" />");
 		foreach (var ex in new[] { cx - 5.5, cx + 5.5 })
 		{
-			_ = sb.Append("\n  <circle cx=\"").Append(Num(ex)).Append("\" cy=\"").Append(Num(cy - 3.5))
-				.Append("\" r=\"1.75\" fill=\"").Append(ink).Append("\" />");
+			_ = sb
+				.Append("\n  <circle cx=\"")
+				.Append(Num(ex))
+				.Append("\" cy=\"")
+				.Append(Num(cy - 3.5))
+				.Append("\" r=\"1.75\" fill=\"")
+				.Append(ink)
+				.Append("\" />");
 		}
 
 		_ = sb.Append("\n  <path class=\"mouth\" d=\"");
 		_ = score switch
 		{
-			> 3 => sb.Append('M').Append(Num(cx - 6.5)).Append(',').Append(Num(cy + 3))
-				.Append(" Q").Append(Num(cx)).Append(',').Append(Num(cy + 10)).Append(' ').Append(Num(cx + 6.5)).Append(',').Append(Num(cy + 3)),
-			< 3 => sb.Append('M').Append(Num(cx - 6.5)).Append(',').Append(Num(cy + 9))
-				.Append(" Q").Append(Num(cx)).Append(',').Append(Num(cy + 2)).Append(' ').Append(Num(cx + 6.5)).Append(',').Append(Num(cy + 9)),
+			> 3 =>
+				sb
+					.Append('M')
+					.Append(Num(cx - 6.5))
+					.Append(',')
+					.Append(Num(cy + 3))
+					.Append(" Q")
+					.Append(Num(cx))
+					.Append(',')
+					.Append(Num(cy + 10))
+					.Append(' ')
+					.Append(Num(cx + 6.5))
+					.Append(',')
+					.Append(Num(cy + 3)),
+			< 3 =>
+				sb
+					.Append('M')
+					.Append(Num(cx - 6.5))
+					.Append(',')
+					.Append(Num(cy + 9))
+					.Append(" Q")
+					.Append(Num(cx))
+					.Append(',')
+					.Append(Num(cy + 2))
+					.Append(' ')
+					.Append(Num(cx + 6.5))
+					.Append(',')
+					.Append(Num(cy + 9)),
 			_ => sb.Append('M').Append(Num(cx - 5.5)).Append(',').Append(Num(cy + 6)).Append(" H").Append(Num(cx + 5.5)),
 		};
 		_ = sb.Append("\" fill=\"none\" stroke=\"").Append(ink).Append("\" stroke-width=\"1.75\" stroke-linecap=\"round\" />\n</g>");
@@ -119,8 +206,16 @@ internal sealed partial class DesignSystem
 
 	/// <summary>A small round marker dot (kanban card family, priority role) of radius <paramref name="r"/>.</summary>
 	internal static void AppendDot(StringBuilder sb, double cx, double cy, string color, double r = 3.5) =>
-		sb.Append("<circle cx=\"").Append(Num(cx)).Append("\" cy=\"").Append(Num(cy)).Append("\" r=\"").Append(Num(r))
-			.Append("\" fill=\"").Append(color).Append("\" />");
+		sb
+			.Append("<circle cx=\"")
+			.Append(Num(cx))
+			.Append("\" cy=\"")
+			.Append(Num(cy))
+			.Append("\" r=\"")
+			.Append(Num(r))
+			.Append("\" fill=\"")
+			.Append(color)
+			.Append("\" />");
 
 	/// <summary>
 	/// Word-wraps <paramref name="text"/> to lines no wider than <paramref name="maxWidth"/> at the tier of <paramref name="role"/>.

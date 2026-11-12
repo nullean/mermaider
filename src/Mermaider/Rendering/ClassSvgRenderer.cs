@@ -24,7 +24,15 @@ internal static class ClassSvgRenderer
 	internal static StringBuilder RenderToBuilder(PositionedClassDiagram diagram, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
-		StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendSvgOpenTag(
+			sb,
+			diagram.Width,
+			diagram.Height,
+			context.Styles.Colors,
+			context.Styles.Transparent,
+			context.Accessibility,
+			context.DiagramType
+		);
 		StyleBlock.AppendStyleBlock(sb, context.Styles);
 		var ds = DesignSystem.For(context);
 
@@ -35,7 +43,8 @@ internal static class ClassSvgRenderer
 			diagram.Relationships.Select(r => (r.From, r.To)),
 			diagram.Namespaces.Select(n => new ClusterGroup(n.Name, n.X, n.Y, n.Width, n.Height, [])).ToList(),
 			context.Styles.Colors,
-			AnnotationSlots(diagram.Classes, context.Styles.Colors.AutoPalette().Length)).WithTint(ds.TintStrength);
+			AnnotationSlots(diagram.Classes, context.Styles.Colors.AutoPalette().Length)
+		).WithTint(ds.TintStrength);
 
 		foreach (var ns in diagram.Namespaces)
 			ds.AppendContainerBody(sb, ns.X, ns.Y, ns.Width, ns.Height, palette.GroupFamily(ns.Name), 0, "subgraph ns-box", NamespaceAttrs(ns));
@@ -90,8 +99,14 @@ internal static class ClassSvgRenderer
 			return string.IsNullOrEmpty(name) ? null : name == "enum" ? "enumeration" : name;
 		}
 
-		var names = classes.Where(c => !c.IsLollipopTarget).Select(c => Normalise(c.Annotation)).Where(n => n is not null).Select(n => n!)
-			.Distinct().OrderBy(n => n, StringComparer.Ordinal).ToList();
+		var names = classes
+			.Where(c => !c.IsLollipopTarget)
+			.Select(c => Normalise(c.Annotation))
+			.Where(n => n is not null)
+			.Select(n => n!)
+			.Distinct()
+			.OrderBy(n => n, StringComparer.Ordinal)
+			.ToList();
 		var slotOfName = new Dictionary<string, int>(StringComparer.Ordinal);
 		var usable = paletteLength - 1;
 		foreach (var name in names)
@@ -128,16 +143,24 @@ internal static class ClassSvgRenderer
 		var cy = cls.Y + LollipopRadius;
 		_ = sb.Append("\n<g class=\"class-node lollipop\" data-id=\"");
 		MultilineUtils.AppendEscapedAttr(sb, cls.Id.AsSpan());
-		_ = sb.Append("\">\n  <circle cx=\"").Append(cx).Append("\" cy=\"").Append(cy)
-			.Append("\" r=\"").Append(LollipopRadius)
-			.Append("\" fill=\"var(--bg)\" stroke=\"").Append(ds.OwnMarkerColor).Append("\" stroke-width=\"").Append(ds.EdgeWidth).Append("\" />\n  ");
+		_ = sb
+			.Append("\">\n  <circle cx=\"")
+			.Append(cx)
+			.Append("\" cy=\"")
+			.Append(cy)
+			.Append("\" r=\"")
+			.Append(LollipopRadius)
+			.Append("\" fill=\"var(--bg)\" stroke=\"")
+			.Append(ds.OwnMarkerColor)
+			.Append("\" stroke-width=\"")
+			.Append(ds.EdgeWidth)
+			.Append("\" />\n  ");
 		ds.AppendText(sb, cls.Label, cx, cy + LollipopRadius + 14, TypeRole.Label);
 		_ = sb.Append("\n</g>");
 	}
 
 	/// <summary>Height of one member row: the shared 28px row, or less when an external layout packed the rows tighter.</summary>
-	private static double MemberRowHeight(double sectionHeight, int count) =>
-		count == 0 ? 0 : Math.Min(DesignSystem.RowHeight, sectionHeight / count);
+	private static double MemberRowHeight(double sectionHeight, int count) => count == 0 ? 0 : Math.Min(DesignSystem.RowHeight, sectionHeight / count);
 
 	private static void AppendClassBox(StringBuilder sb, DesignSystem ds, PositionedClassNode cls, ColorFamily family)
 	{
@@ -177,7 +200,15 @@ internal static class ClassSvgRenderer
 		for (var i = 0; i < cls.Attributes.Count; i++)
 			ds.AppendZebraRow(sb, x, attrTop + (i * attrRow), width, attrRow, i, lastRow: false);
 		for (var i = 0; i < cls.Methods.Count; i++)
-			ds.AppendZebraRow(sb, x, methodTop + (i * methodRow), width, methodRow, i, lastRow: i == cls.Methods.Count - 1 && methodTop + cls.MethodHeight >= y + height - 0.5);
+			ds.AppendZebraRow(
+				sb,
+				x,
+				methodTop + (i * methodRow),
+				width,
+				methodRow,
+				i,
+				lastRow: i == cls.Methods.Count - 1 && methodTop + cls.MethodHeight >= y + height - 0.5
+			);
 		for (var i = 1; i < cls.Attributes.Count; i++)
 			ds.AppendEntityRowDivider(sb, x, width, attrTop + (i * attrRow));
 		for (var i = 1; i < cls.Methods.Count; i++)
@@ -185,24 +216,51 @@ internal static class ClassSvgRenderer
 		ds.AppendCompartmentDivider(sb, x, width, methodTop, family);
 
 		_ = sb.Append("\n  ");
-		ds.AppendEntityName(sb, x, y, width, headerHeight, cls.Label, family,
-			cls.Annotation is { Length: > 0 } annotation ? "«" + annotation + "»" : null);
+		ds.AppendEntityName(sb, x, y, width, headerHeight, cls.Label, family, cls.Annotation is { Length: > 0 } annotation ? "«" + annotation + "»" : null);
 
 		var members = cls.Attributes.Concat(cls.Methods).ToList();
 		var (typeW, _) = ClassMemberColumns.Measure(members);
 		var nameX = x + EntityGrid.NameOffset(typeW);
 		for (var i = 0; i < cls.Attributes.Count; i++)
-			AppendMember(sb, ds, cls.Attributes[i], x + EntityGrid.Pad, nameX, x + width - EntityGrid.SignInset, attrTop + (i * attrRow) + (attrRow / 2), family);
+			AppendMember(
+				sb,
+				ds,
+				cls.Attributes[i],
+				x + EntityGrid.Pad,
+				nameX,
+				x + width - EntityGrid.SignInset,
+				attrTop + (i * attrRow) + (attrRow / 2),
+				family
+			);
 		for (var i = 0; i < cls.Methods.Count; i++)
-			AppendMember(sb, ds, cls.Methods[i], x + EntityGrid.Pad, nameX, x + width - EntityGrid.SignInset, methodTop + (i * methodRow) + (methodRow / 2), family);
+			AppendMember(
+				sb,
+				ds,
+				cls.Methods[i],
+				x + EntityGrid.Pad,
+				nameX,
+				x + width - EntityGrid.SignInset,
+				methodTop + (i * methodRow) + (methodRow / 2),
+				family
+			);
 
 		_ = sb.Append("\n</g>");
 	}
 
 	// type (meta, muted mono) | name (body mono) | visibility sign (family ink) right-aligned at the box edge
-	private static void AppendMember(StringBuilder sb, DesignSystem ds, ClassMember member, double typeX, double nameX, double signRight, double y, ColorFamily family)
+	private static void AppendMember(
+		StringBuilder sb,
+		DesignSystem ds,
+		ClassMember member,
+		double typeX,
+		double nameX,
+		double signRight,
+		double y,
+		ColorFamily family
+	)
 	{
-		var extra = (member.IsAbstract ? "font-style=\"italic\"" : "") + (member.IsStatic ? (member.IsAbstract ? " " : "") + "text-decoration=\"underline\"" : "");
+		var extra = (member.IsAbstract ? "font-style=\"italic\"" : "") +
+			(member.IsStatic ? (member.IsAbstract ? " " : "") + "text-decoration=\"underline\"" : "");
 
 		if (member.Type is { Length: > 0 })
 		{
@@ -247,8 +305,13 @@ internal static class ClassSvgRenderer
 			SvgRenderer.BuildOrthogonalPath(sb, rel.Points, cornerRadius);
 		else
 			SvgRenderer.BuildRoundedPath(sb, rel.Points, cornerRadius);
-		_ = sb.Append("\" fill=\"none\" stroke=\"").Append(DesignSystem.EdgeColor).Append("\" stroke-width=\"")
-			.Append(ds.EdgeWidth).Append('"').Append(dashArray);
+		_ = sb
+			.Append("\" fill=\"none\" stroke=\"")
+			.Append(DesignSystem.EdgeColor)
+			.Append("\" stroke-width=\"")
+			.Append(ds.EdgeWidth)
+			.Append('"')
+			.Append(dashArray);
 
 		if (MarkerShapeOf(rel.Type) is { } shape)
 		{

@@ -27,7 +27,15 @@ internal static class ArchitectureSvgRenderer
 	internal static StringBuilder RenderToBuilder(PositionedArchitectureDiagram diagram, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
-		StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendSvgOpenTag(
+			sb,
+			diagram.Width,
+			diagram.Height,
+			context.Styles.Colors,
+			context.Styles.Transparent,
+			context.Accessibility,
+			context.DiagramType
+		);
 		StyleBlock.AppendStyleBlock(sb, context.Styles);
 		var ds = DesignSystem.For(context);
 
@@ -35,7 +43,9 @@ internal static class ArchitectureSvgRenderer
 		// groups are the shared container, nesting follows their geometry.
 		var groupTree = BuildGroupTree(diagram.Groups);
 		// junctions are members too, so services joined through one share a colour
-		var members = diagram.Services.Select(sv => new ClusterBox(sv.Id, sv.X, sv.Y, sv.Width, sv.Height))
+		var members = diagram
+			.Services
+			.Select(sv => new ClusterBox(sv.Id, sv.X, sv.Y, sv.Width, sv.Height))
 			.Concat(diagram.Junctions.Select(j => new ClusterBox(j.Id, j.X, j.Y, 12, 12)))
 			.ToList();
 		var memberIds = members.Select(m => m.Id).ToHashSet(StringComparer.Ordinal);
@@ -43,7 +53,8 @@ internal static class ArchitectureSvgRenderer
 			members,
 			diagram.Edges.Where(e => memberIds.Contains(e.SourceId) && memberIds.Contains(e.TargetId)).Select(e => (e.SourceId, e.TargetId)),
 			groupTree.Roots,
-			context.Styles.Colors).WithTint(ds.TintStrength);
+			context.Styles.Colors
+		).WithTint(ds.TintStrength);
 
 		var ordered = diagram.Groups.OrderBy(g => groupTree.Depth[g.Id]).ToList();
 		foreach (var group in ordered)
@@ -81,8 +92,14 @@ internal static class ArchitectureSvgRenderer
 		_ = sb.Append("\">");
 		if (group.Icon is { Length: > 0 } icon)
 		{
-			ds.AppendContainerHeaderWithIcon(sb, group.X, group.Y, group.Title, family,
-				(b, cx, cy) => AppendIcon(b, ds, icon, cx, cy, DesignSystem.HeaderIconSize, family.Ink));
+			ds.AppendContainerHeaderWithIcon(
+				sb,
+				group.X,
+				group.Y,
+				group.Title,
+				family,
+				(b, cx, cy) => AppendIcon(b, ds, icon, cx, cy, DesignSystem.HeaderIconSize, family.Ink)
+			);
 		}
 		else
 		{
@@ -113,8 +130,12 @@ internal static class ArchitectureSvgRenderer
 		AppendIcon(sb, ds, service.Icon, cx, service.Y + IconCenterY, ServiceIconSize, family.Ink);
 		_ = sb.Append("\n  ");
 
-		var lines = DesignSystem.WrapWords(service.Title, service.Width - (2 * ArchitectureLayout.ServiceTextPad),
-			DesignSystem.Px(TypeRole.Label), ds.Weight(TypeRole.Label));
+		var lines = DesignSystem.WrapWords(
+			service.Title,
+			service.Width - (2 * ArchitectureLayout.ServiceTextPad),
+			DesignSystem.Px(TypeRole.Label),
+			ds.Weight(TypeRole.Label)
+		);
 		var label = string.Join('\n', lines);
 		ds.AppendText(sb, label, cx, service.Y + (lines.Count > 1 ? 70 : 72), TypeRole.Label);
 		_ = sb.Append("\n</g>");
@@ -159,18 +180,39 @@ internal static class ArchitectureSvgRenderer
 		{
 			// vendor glyphs are white on transparent: they sit on a small badge in the vendor's own colours
 			var fill = ds.DiagonalGradient("vi-" + SanitizeId(iconName.ToLowerInvariant()), gradient.Light, gradient.Dark);
-			_ = sb.Append("<rect x=\"").Append(cx - (size / 2)).Append("\" y=\"").Append(cy - (size / 2))
-				.Append("\" width=\"").Append(size).Append("\" height=\"").Append(size)
-				.Append("\" rx=\"").Append(DesignSystem.Num(size / 4)).Append("\" ry=\"").Append(DesignSystem.Num(size / 4))
-				.Append("\" fill=\"").Append(fill).Append("\" />");
+			_ = sb
+				.Append("<rect x=\"")
+				.Append(cx - (size / 2))
+				.Append("\" y=\"")
+				.Append(cy - (size / 2))
+				.Append("\" width=\"")
+				.Append(size)
+				.Append("\" height=\"")
+				.Append(size)
+				.Append("\" rx=\"")
+				.Append(DesignSystem.Num(size / 4))
+				.Append("\" ry=\"")
+				.Append(DesignSystem.Num(size / 4))
+				.Append("\" fill=\"")
+				.Append(fill)
+				.Append("\" />");
 			inner = size * 0.7;
 		}
 
 		var svg = IconRegistry.Resolve(iconName);
 		var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(svg));
-		_ = sb.Append("<image x=\"").Append(cx - (inner / 2)).Append("\" y=\"").Append(cy - (inner / 2))
-			.Append("\" width=\"").Append(inner).Append("\" height=\"").Append(inner)
-			.Append("\" href=\"data:image/svg+xml;base64,").Append(base64).Append("\" />");
+		_ = sb
+			.Append("<image x=\"")
+			.Append(cx - (inner / 2))
+			.Append("\" y=\"")
+			.Append(cy - (inner / 2))
+			.Append("\" width=\"")
+			.Append(inner)
+			.Append("\" height=\"")
+			.Append(inner)
+			.Append("\" href=\"data:image/svg+xml;base64,")
+			.Append(base64)
+			.Append("\" />");
 	}
 
 	/// <summary>Strips anything unsafe for an XML <c>id</c> attribute value.</summary>
@@ -189,8 +231,14 @@ internal static class ArchitectureSvgRenderer
 	{
 		_ = sb.Append("\n<circle class=\"architecture-junction\" data-id=\"");
 		MultilineUtils.AppendEscapedAttr(sb, junction.Id.AsSpan());
-		_ = sb.Append("\" cx=\"").Append(junction.X + 6).Append("\" cy=\"").Append(junction.Y + 6)
-			.Append("\" r=\"3.5\" fill=\"").Append(DesignSystem.EdgeColor).Append("\" />");
+		_ = sb
+			.Append("\" cx=\"")
+			.Append(junction.X + 6)
+			.Append("\" cy=\"")
+			.Append(junction.Y + 6)
+			.Append("\" r=\"3.5\" fill=\"")
+			.Append(DesignSystem.EdgeColor)
+			.Append("\" />");
 	}
 
 	private static void AppendEdge(StringBuilder sb, DesignSystem ds, PositionedArchitectureEdge edge, double cornerRadius, HashSet<string> serviceIds)
@@ -224,9 +272,16 @@ internal static class ArchitectureSvgRenderer
 	}
 
 	private static void AppendPort(StringBuilder sb, DesignSystem ds, Point p) =>
-		sb.Append("\n<circle class=\"architecture-port\" cx=\"").Append(p.X).Append("\" cy=\"").Append(p.Y)
-			.Append("\" r=\"3\" fill=\"var(--bg)\" stroke=\"").Append(DesignSystem.EdgeColor)
-			.Append("\" stroke-width=\"").Append(ds.EdgeWidth).Append("\" />");
+		sb
+			.Append("\n<circle class=\"architecture-port\" cx=\"")
+			.Append(p.X)
+			.Append("\" cy=\"")
+			.Append(p.Y)
+			.Append("\" r=\"3\" fill=\"var(--bg)\" stroke=\"")
+			.Append(DesignSystem.EdgeColor)
+			.Append("\" stroke-width=\"")
+			.Append(ds.EdgeWidth)
+			.Append("\" />");
 
 	private sealed record GroupTree(IReadOnlyList<ClusterGroup> Roots, Dictionary<string, int> Depth);
 
@@ -234,9 +289,8 @@ internal static class ArchitectureSvgRenderer
 	private static GroupTree BuildGroupTree(IReadOnlyList<PositionedArchitectureGroup> groups)
 	{
 		static bool Contains(PositionedArchitectureGroup outer, PositionedArchitectureGroup inner) =>
-			outer.X <= inner.X + 0.5 && outer.Y <= inner.Y + 0.5
-			&& outer.X + outer.Width >= inner.X + inner.Width - 0.5 && outer.Y + outer.Height >= inner.Y + inner.Height - 0.5
-			&& outer.Width * outer.Height > inner.Width * inner.Height;
+			outer.X <= inner.X + 0.5 && outer.Y <= inner.Y + 0.5 && outer.X + outer.Width >= inner.X + inner.Width -
+				0.5 && outer.Y + outer.Height >= inner.Y + inner.Height - 0.5 && outer.Width * outer.Height > inner.Width * inner.Height;
 
 		var parent = new Dictionary<string, string?>(StringComparer.Ordinal);
 		foreach (var g in groups)

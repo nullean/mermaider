@@ -8,8 +8,7 @@ internal sealed class ClusterAssigner
 {
 	private readonly Dictionary<string, string> _parent;
 
-	internal ClusterAssigner(IEnumerable<string> ids) =>
-		_parent = ids.ToDictionary(i => i, i => i, StringComparer.Ordinal);
+	internal ClusterAssigner(IEnumerable<string> ids) => _parent = ids.ToDictionary(i => i, i => i, StringComparer.Ordinal);
 
 	internal string Find(string id)
 	{

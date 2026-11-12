@@ -608,11 +608,13 @@ internal static class CoordinateAssigner
 	}
 
 	private static void MedianPull(
-		GraphBuffer graph, int layer,
+		GraphBuffer graph,
+		int layer,
 		Dictionary<int, List<int>> adjacency,
 		double nodeSpacing,
 		bool sweepDown,
-		HashSet<int>? skipNodes)
+		HashSet<int>? skipNodes
+	)
 	{
 		var nodes = graph.LayerNodes[layer];
 		var targetLayer = sweepDown ? layer - 1 : layer + 1;
@@ -684,9 +686,7 @@ internal static class CoordinateAssigner
 				// Clamping here strands the current node at the wrong far-left position.
 				// The pushed-down source's own position is corrected by the minX constraint once
 				// the current node has moved to its correct position in a later sweep pass.
-				var nextIsPushedSource = next < graph.RealNodeCount
-					&& graph.Layers[next] > 0
-					&& graph.InAdjStart[next + 1] - graph.InAdjStart[next] == 0;
+				var nextIsPushedSource = next < graph.RealNodeCount && graph.Layers[next] > 0 && graph.InAdjStart[next + 1] - graph.InAdjStart[next] == 0;
 				if (!nextIsPushedSource)
 				{
 					var maxX = graph.X[next] - nodeSpacing - nodeW;

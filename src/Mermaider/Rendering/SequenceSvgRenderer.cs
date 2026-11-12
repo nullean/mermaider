@@ -35,7 +35,15 @@ internal static class SequenceSvgRenderer
 	internal static StringBuilder RenderToBuilder(PositionedSequenceDiagram diagram, SvgRenderContext context)
 	{
 		var sb = SharedStringBuilderPool.Instance.Get();
-		StyleBlock.AppendSvgOpenTag(sb, diagram.Width, diagram.Height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
+		StyleBlock.AppendSvgOpenTag(
+			sb,
+			diagram.Width,
+			diagram.Height,
+			context.Styles.Colors,
+			context.Styles.Transparent,
+			context.Accessibility,
+			context.DiagramType
+		);
 		StyleBlock.AppendStyleBlock(sb, context.Styles);
 		var ds = DesignSystem.For(context);
 		var strict = context.Styles.Strict is not null;
@@ -45,7 +53,8 @@ internal static class SequenceSvgRenderer
 			diagram.Actors.Select(a => new ClusterBox(a.Id, a.X - (a.Width / 2), a.Y, a.Width, a.Height)).ToList(),
 			diagram.Messages.Select(m => (m.From, m.To)),
 			diagram.Boxes.Select((b, i) => new ClusterGroup("box" + i, b.X, b.Y, b.Width, b.Height, [])).ToList(),
-			context.Styles.Colors).WithTint(ds.TintStrength);
+			context.Styles.Colors
+		).WithTint(ds.TintStrength);
 		var clusterCount = diagram.Actors.Select(a => palette.Has(a.Id) ? palette.Family(a.Id).Key : a.Id).Distinct().Count();
 
 		for (var i = 0; i < diagram.Boxes.Count; i++)
@@ -129,10 +138,15 @@ internal static class SequenceSvgRenderer
 	{
 		_ = sb.Append("\n<line class=\"lifeline\" data-actor=\"");
 		MultilineUtils.AppendEscapedAttr(sb, lifeline.ActorId.AsSpan());
-		_ = sb.Append("\" x1=\"").Append(lifeline.X)
-			.Append("\" y1=\"").Append(lifeline.TopY)
-			.Append("\" x2=\"").Append(lifeline.X)
-			.Append("\" y2=\"").Append(lifeline.BottomY)
+		_ = sb
+			.Append("\" x1=\"")
+			.Append(lifeline.X)
+			.Append("\" y1=\"")
+			.Append(lifeline.TopY)
+			.Append("\" x2=\"")
+			.Append(lifeline.X)
+			.Append("\" y2=\"")
+			.Append(lifeline.BottomY)
 			.Append("\" stroke=\"var(--_line-soft)\" stroke-width=\"1.25\" stroke-dasharray=\"4 4\" />");
 	}
 
@@ -141,13 +155,23 @@ internal static class SequenceSvgRenderer
 		var r = DesignSystem.Num(Math.Min(3, ds.Spec.NodeRadius));
 		_ = sb.Append("\n<rect class=\"activation\" data-actor=\"");
 		MultilineUtils.AppendEscapedAttr(sb, activation.ActorId.AsSpan());
-		_ = sb.Append("\" x=\"").Append(activation.X)
-			.Append("\" y=\"").Append(activation.TopY)
-			.Append("\" width=\"").Append(activation.Width)
-			.Append("\" height=\"").Append(activation.BottomY - activation.TopY)
-			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"").Append(ds.Accent.Top)
-			.Append("\" stroke=\"").Append(ds.Accent.Stroke)
+		_ = sb
+			.Append("\" x=\"")
+			.Append(activation.X)
+			.Append("\" y=\"")
+			.Append(activation.TopY)
+			.Append("\" width=\"")
+			.Append(activation.Width)
+			.Append("\" height=\"")
+			.Append(activation.BottomY - activation.TopY)
+			.Append("\" rx=\"")
+			.Append(r)
+			.Append("\" ry=\"")
+			.Append(r)
+			.Append("\" fill=\"")
+			.Append(ds.Accent.Top)
+			.Append("\" stroke=\"")
+			.Append(ds.Accent.Stroke)
 			.Append("\" stroke-width=\"1.25\" />");
 	}
 
@@ -179,14 +203,32 @@ internal static class SequenceSvgRenderer
 			const double loopH = 20;
 			const double labelPadding = 8;
 
-			_ = sb.Append("  <polyline points=\"")
-				.Append(msg.X1).Append(',').Append(msg.Y).Append(' ')
-				.Append(msg.X1 + loopW).Append(',').Append(msg.Y).Append(' ')
-				.Append(msg.X1 + loopW).Append(',').Append(msg.Y + loopH).Append(' ')
-				.Append(msg.X2).Append(',').Append(msg.Y + loopH)
-				.Append("\" fill=\"none\" stroke=\"").Append(DesignSystem.EdgeColor).Append("\" stroke-width=\"").Append(ds.EdgeWidth)
-				.Append("\" stroke-linejoin=\"round\"").Append(dashArray)
-				.Append(" marker-end=\"").Append(ds.Marker(shape)).Append("\" />\n  ");
+			_ = sb
+				.Append("  <polyline points=\"")
+				.Append(msg.X1)
+				.Append(',')
+				.Append(msg.Y)
+				.Append(' ')
+				.Append(msg.X1 + loopW)
+				.Append(',')
+				.Append(msg.Y)
+				.Append(' ')
+				.Append(msg.X1 + loopW)
+				.Append(',')
+				.Append(msg.Y + loopH)
+				.Append(' ')
+				.Append(msg.X2)
+				.Append(',')
+				.Append(msg.Y + loopH)
+				.Append("\" fill=\"none\" stroke=\"")
+				.Append(DesignSystem.EdgeColor)
+				.Append("\" stroke-width=\"")
+				.Append(ds.EdgeWidth)
+				.Append("\" stroke-linejoin=\"round\"")
+				.Append(dashArray)
+				.Append(" marker-end=\"")
+				.Append(ds.Marker(shape))
+				.Append("\" />\n  ");
 
 			AppendAutoNumberBadge(sb, ds, ref label, msg.X1, msg.Y);
 			if (label.Length > 0)
@@ -200,10 +242,26 @@ internal static class SequenceSvgRenderer
 		else
 		{
 			var markerStart = msg.Bidirectional ? $" marker-start=\"{ds.Marker(shape, atStart: true)}\"" : "";
-			_ = sb.Append("  <line x1=\"").Append(msg.X1).Append("\" y1=\"").Append(msg.Y)
-				.Append("\" x2=\"").Append(msg.X2).Append("\" y2=\"").Append(msg.Y)
-				.Append("\" stroke=\"").Append(DesignSystem.EdgeColor).Append("\" stroke-width=\"").Append(ds.EdgeWidth).Append('"').Append(dashArray)
-				.Append(" marker-end=\"").Append(ds.Marker(shape)).Append('"').Append(markerStart).Append(" />\n  ");
+			_ = sb
+				.Append("  <line x1=\"")
+				.Append(msg.X1)
+				.Append("\" y1=\"")
+				.Append(msg.Y)
+				.Append("\" x2=\"")
+				.Append(msg.X2)
+				.Append("\" y2=\"")
+				.Append(msg.Y)
+				.Append("\" stroke=\"")
+				.Append(DesignSystem.EdgeColor)
+				.Append("\" stroke-width=\"")
+				.Append(ds.EdgeWidth)
+				.Append('"')
+				.Append(dashArray)
+				.Append(" marker-end=\"")
+				.Append(ds.Marker(shape))
+				.Append('"')
+				.Append(markerStart)
+				.Append(" />\n  ");
 
 			AppendAutoNumberBadge(sb, ds, ref label, msg.X1, msg.Y);
 			if (label.Length > 0)
@@ -235,8 +293,16 @@ internal static class SequenceSvgRenderer
 
 		// a round accent marker on the message's start, number knocked out in the page colour
 		const double r = 9;
-		_ = sb.Append("<g class=\"autonumber\"><circle cx=\"").Append(DesignSystem.Num(x)).Append("\" cy=\"").Append(DesignSystem.Num(y))
-			.Append("\" r=\"").Append(r).Append("\" fill=\"").Append(ColorFamily.AccentBase).Append("\" stroke=\"var(--bg)\" stroke-width=\"1.5\" />");
+		_ = sb
+			.Append("<g class=\"autonumber\"><circle cx=\"")
+			.Append(DesignSystem.Num(x))
+			.Append("\" cy=\"")
+			.Append(DesignSystem.Num(y))
+			.Append("\" r=\"")
+			.Append(r)
+			.Append("\" fill=\"")
+			.Append(ColorFamily.AccentBase)
+			.Append("\" stroke=\"var(--bg)\" stroke-width=\"1.5\" />");
 		ds.AppendText(sb, numStr, x, y, TypeRole.Tag, "var(--bg)");
 		_ = sb.Append("</g>\n  ");
 	}
@@ -259,10 +325,22 @@ internal static class SequenceSvgRenderer
 				? new ColorFamily("rc", MultilineUtils.EscapeAttr(block.Label.Trim()), ds.TintStrength).Band
 				: family.Tint(0);
 			var r = DesignSystem.Num(ds.Spec.NodeRadius + 2);
-			_ = sb.Append("  <rect x=\"").Append(block.X).Append("\" y=\"").Append(block.Y)
-				.Append("\" width=\"").Append(block.Width).Append("\" height=\"").Append(block.Height)
-				.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-				.Append("\" fill=\"").Append(tint).Append("\" stroke=\"none\" />\n");
+			_ = sb
+				.Append("  <rect x=\"")
+				.Append(block.X)
+				.Append("\" y=\"")
+				.Append(block.Y)
+				.Append("\" width=\"")
+				.Append(block.Width)
+				.Append("\" height=\"")
+				.Append(block.Height)
+				.Append("\" rx=\"")
+				.Append(r)
+				.Append("\" ry=\"")
+				.Append(r)
+				.Append("\" fill=\"")
+				.Append(tint)
+				.Append("\" stroke=\"none\" />\n");
 			_ = sb.Append("</g>");
 			return;
 		}
@@ -303,10 +381,23 @@ internal static class SequenceSvgRenderer
 	{
 		const double size = DestroySize;
 		_ = sb.Append("\n<g class=\"destroy\">\n");
-		_ = sb.Append("  <path d=\"M").Append(dm.X - size).Append(',').Append(dm.Y - size)
-			.Append(" L").Append(dm.X + size).Append(',').Append(dm.Y + size)
-			.Append(" M").Append(dm.X + size).Append(',').Append(dm.Y - size)
-			.Append(" L").Append(dm.X - size).Append(',').Append(dm.Y + size)
+		_ = sb
+			.Append("  <path d=\"M")
+			.Append(dm.X - size)
+			.Append(',')
+			.Append(dm.Y - size)
+			.Append(" L")
+			.Append(dm.X + size)
+			.Append(',')
+			.Append(dm.Y + size)
+			.Append(" M")
+			.Append(dm.X + size)
+			.Append(',')
+			.Append(dm.Y - size)
+			.Append(" L")
+			.Append(dm.X - size)
+			.Append(',')
+			.Append(dm.Y + size)
 			.Append("\" fill=\"none\" stroke=\"var(--_line-strong)\" stroke-width=\"2\" stroke-linecap=\"round\" />\n");
 		_ = sb.Append("</g>");
 	}
@@ -316,7 +407,11 @@ internal static class SequenceSvgRenderer
 		// `box Aqua Team`: the colour names the hue of the box (non-strict only); otherwise the group takes its palette family.
 		// box.Color is a free-form \S+ token from source, so it is only used when it is an allowed colour and is escaped.
 		if (!strict && box.Color is { } boxColor && SvgValueAllowlist.IsAllowedColor(boxColor))
-			family = new ColorFamily("bx" + index.ToString(System.Globalization.CultureInfo.InvariantCulture), MultilineUtils.EscapeAttr(boxColor.Trim()), ds.TintStrength);
+			family = new ColorFamily(
+				"bx" + index.ToString(System.Globalization.CultureInfo.InvariantCulture),
+				MultilineUtils.EscapeAttr(boxColor.Trim()),
+				ds.TintStrength
+			);
 
 		string? dataAttrs = null;
 		if (box.Title.Length > 0)

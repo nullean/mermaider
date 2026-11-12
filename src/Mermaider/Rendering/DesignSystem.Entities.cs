@@ -24,10 +24,22 @@ internal sealed partial class DesignSystem
 		var r = Num(Spec.Entity == EntityKind.Plain ? Spec.NodeRadius : Spec.NodeRadius);
 		var body = Spec.Entity == EntityKind.Card ? family.Tint(1) : "var(--bg)";
 		var stroke = Spec.Entity == EntityKind.Card ? "none" : BoxOutline(family);
-		_ = sb.Append("<rect x=\"").Append(x).Append("\" y=\"").Append(y)
-			.Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
-			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"").Append(body).Append("\" stroke=\"none\" />\n  ");
+		_ = sb
+			.Append("<rect x=\"")
+			.Append(x)
+			.Append("\" y=\"")
+			.Append(y)
+			.Append("\" width=\"")
+			.Append(w)
+			.Append("\" height=\"")
+			.Append(h)
+			.Append("\" rx=\"")
+			.Append(r)
+			.Append("\" ry=\"")
+			.Append(r)
+			.Append("\" fill=\"")
+			.Append(body)
+			.Append("\" stroke=\"none\" />\n  ");
 
 		if (family.SurfaceOverride is { } surface)
 		{
@@ -36,8 +48,15 @@ internal sealed partial class DesignSystem
 		}
 		else if (Spec.Entity == EntityKind.Band)
 		{
-			AppendTopRoundedRect(sb, x, y, w, headerHeight, Spec.NodeRadius,
-				Gradient ? VerticalGradient("eb-" + family.Key, family.Band, family.Top) : family.Band);
+			AppendTopRoundedRect(
+				sb,
+				x,
+				y,
+				w,
+				headerHeight,
+				Spec.NodeRadius,
+				Gradient ? VerticalGradient("eb-" + family.Key, family.Band, family.Top) : family.Band
+			);
 		}
 		else if (Spec.Entity == EntityKind.Card)
 		{
@@ -46,27 +65,69 @@ internal sealed partial class DesignSystem
 
 		if (Spec.Entity != EntityKind.Card)
 		{
-			_ = sb.Append("\n  <line x1=\"").Append(x).Append("\" y1=\"").Append(y + headerHeight)
-				.Append("\" x2=\"").Append(x + w).Append("\" y2=\"").Append(y + headerHeight)
-				.Append("\" stroke=\"").Append(BoxOutline(family)).Append("\" stroke-width=\"").Append(NodeStrokeWidth).Append("\" />");
+			_ = sb
+				.Append("\n  <line x1=\"")
+				.Append(x)
+				.Append("\" y1=\"")
+				.Append(y + headerHeight)
+				.Append("\" x2=\"")
+				.Append(x + w)
+				.Append("\" y2=\"")
+				.Append(y + headerHeight)
+				.Append("\" stroke=\"")
+				.Append(BoxOutline(family))
+				.Append("\" stroke-width=\"")
+				.Append(NodeStrokeWidth)
+				.Append("\" />");
 		}
 
-		_ = sb.Append("\n  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
-			.Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
-			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"none\" stroke=\"").Append(stroke).Append("\" stroke-width=\"").Append(NodeStrokeWidth).Append("\" />");
+		_ = sb
+			.Append("\n  <rect x=\"")
+			.Append(x)
+			.Append("\" y=\"")
+			.Append(y)
+			.Append("\" width=\"")
+			.Append(w)
+			.Append("\" height=\"")
+			.Append(h)
+			.Append("\" rx=\"")
+			.Append(r)
+			.Append("\" ry=\"")
+			.Append(r)
+			.Append("\" fill=\"none\" stroke=\"")
+			.Append(stroke)
+			.Append("\" stroke-width=\"")
+			.Append(NodeStrokeWidth)
+			.Append("\" />");
 
 		if (Spec.Entity == EntityKind.Plain)
 		{
-			_ = sb.Append("\n  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
-				.Append("\" width=\"").Append(w).Append("\" height=\"3\" fill=\"").Append(ColorFamily.AccentBase).Append("\" />");
+			_ = sb
+				.Append("\n  <rect x=\"")
+				.Append(x)
+				.Append("\" y=\"")
+				.Append(y)
+				.Append("\" width=\"")
+				.Append(w)
+				.Append("\" height=\"3\" fill=\"")
+				.Append(ColorFamily.AccentBase)
+				.Append("\" />");
 		}
 	}
 
 	/// <summary>
 	/// The entity name (and optional <c>«stereotype»</c> above it) in the header: centred for Band / Card, left aligned for Plain.
 	/// </summary>
-	internal void AppendEntityName(StringBuilder sb, double x, double y, double w, double headerHeight, string name, ColorFamily family, string? stereotype = null)
+	internal void AppendEntityName(
+		StringBuilder sb,
+		double x,
+		double y,
+		double w,
+		double headerHeight,
+		string name,
+		ColorFamily family,
+		string? stereotype = null
+	)
 	{
 		var left = Spec.Entity == EntityKind.Plain;
 		var tx = left ? x + CellPad : x + (w / 2);
@@ -87,8 +148,15 @@ internal sealed partial class DesignSystem
 
 	/// <summary>A hairline between rows / compartments of an entity.</summary>
 	internal static void AppendRowDivider(StringBuilder sb, double x1, double x2, double y) =>
-		sb.Append("<line x1=\"").Append(x1).Append("\" y1=\"").Append(y)
-			.Append("\" x2=\"").Append(x2).Append("\" y2=\"").Append(y)
+		sb
+			.Append("<line x1=\"")
+			.Append(x1)
+			.Append("\" y1=\"")
+			.Append(y)
+			.Append("\" x2=\"")
+			.Append(x2)
+			.Append("\" y2=\"")
+			.Append(y)
 			.Append("\" stroke=\"var(--_line-soft)\" stroke-width=\"1\" />");
 
 	/// <summary>Zebra fill for row <paramref name="index"/> (Card preset only); null when the row is not shaded.</summary>

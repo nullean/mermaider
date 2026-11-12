@@ -19,8 +19,7 @@ public partial class MermaidShowcaseTests
 	private static string LoadShowcaseMarkdown()
 	{
 		var path = Path.Combine(AppContext.BaseDirectory, "Fixtures", "mermaid.md");
-		File.Exists(path).Should().BeTrue(
-			$"Showcase fixture missing at {path}. Ensure Fixtures/mermaid.md is copied to the test output.");
+		File.Exists(path).Should().BeTrue($"Showcase fixture missing at {path}. Ensure Fixtures/mermaid.md is copied to the test output.");
 		return File.ReadAllText(path);
 	}
 
@@ -72,9 +71,7 @@ public partial class MermaidShowcaseTests
 			}
 		}
 
-		failures.Should().BeEmpty(
-			"every fence in mermaid.md must either render SVG or throw MermaidParseException:\n"
-			+ string.Join("\n", failures));
+		failures.Should().BeEmpty("every fence in mermaid.md must either render SVG or throw MermaidParseException:\n" + string.Join("\n", failures));
 	}
 
 	[Test]
@@ -89,9 +86,10 @@ public partial class MermaidShowcaseTests
 				var titleIdx = f.Header.IndexOf(" title ", StringComparison.OrdinalIgnoreCase);
 				if (titleIdx < 0)
 					return false;
-				return f.Header.StartsWith("pie", StringComparison.OrdinalIgnoreCase)
-					|| f.Header.StartsWith("quadrantChart", StringComparison.OrdinalIgnoreCase)
-					|| f.Header.StartsWith("timeline", StringComparison.OrdinalIgnoreCase);
+				return f.Header.StartsWith("pie", StringComparison.OrdinalIgnoreCase) || f.Header.StartsWith(
+					"quadrantChart",
+					StringComparison.OrdinalIgnoreCase
+				) || f.Header.StartsWith("timeline", StringComparison.OrdinalIgnoreCase);
 			})
 			.ToList();
 
@@ -113,7 +111,8 @@ public partial class MermaidShowcaseTests
 	[Test]
 	public void Showcase_pie_showData_title_on_header_renders()
 	{
-		var source = """
+		var source =
+			"""
 			pie showData title Pets adopted by volunteers
 			"Dogs" : 386
 			"Cats" : 85

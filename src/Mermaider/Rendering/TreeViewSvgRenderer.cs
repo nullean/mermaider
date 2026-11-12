@@ -83,7 +83,16 @@ internal static class TreeViewSvgRenderer
 	/// Flattens the tree in display order. Family assignment: with a single root, the root takes family 0 and each folder
 	/// directly under it starts a new family; with several roots, each root folder starts one. Everything else inherits.
 	/// </summary>
-	private static void FlattenTree(TreeViewNode node, int depth, int parentIndex, int inheritedFamily, bool singleRoot, ref int counter, List<FlatRow> rows, ResourceLimits limits)
+	private static void FlattenTree(
+		TreeViewNode node,
+		int depth,
+		int parentIndex,
+		int inheritedFamily,
+		bool singleRoot,
+		ref int counter,
+		List<FlatRow> rows,
+		ResourceLimits limits
+	)
 	{
 		ResourceGuard.CheckRecursionDepth(depth, limits);
 		var startsBranch = node.IsDirectory && (depth == 0 || (singleRoot && depth == 1));
@@ -108,8 +117,7 @@ internal static class TreeViewSvgRenderer
 	/// </summary>
 	private static int MeasureWeight(FlatRow row) => RoleOf(row) == TypeRole.Heading ? 700 : 600;
 
-	private static double LabelWidth(FlatRow row) =>
-		TextMetrics.MeasureTextWidth(row.Node.Label, DesignSystem.Px(RoleOf(row)), MeasureWeight(row));
+	private static double LabelWidth(FlatRow row) => TextMetrics.MeasureTextWidth(row.Node.Label, DesignSystem.Px(RoleOf(row)), MeasureWeight(row));
 
 	private static double MeasureMaxWidth(List<FlatRow> rows)
 	{
@@ -127,8 +135,12 @@ internal static class TreeViewSvgRenderer
 
 	private static void AppendConnectors(StringBuilder sb, List<FlatRow> rows, double radius)
 	{
-		_ = sb.Append("\n<g class=\"treeview-branches\" fill=\"none\" stroke=\"").Append(DesignSystem.EdgeColor)
-			.Append("\" stroke-width=\"").Append(DesignSystem.Num(ConnectorWidth)).Append("\" stroke-linecap=\"round\">");
+		_ = sb
+			.Append("\n<g class=\"treeview-branches\" fill=\"none\" stroke=\"")
+			.Append(DesignSystem.EdgeColor)
+			.Append("\" stroke-width=\"")
+			.Append(DesignSystem.Num(ConnectorWidth))
+			.Append("\" stroke-linecap=\"round\">");
 		for (var i = 0; i < rows.Count; i++)
 		{
 			var row = rows[i];
@@ -175,8 +187,17 @@ internal static class TreeViewSvgRenderer
 				totalW += DescGap + DesignSystem.XsWidth(descM, 400);
 			var r = Math.Min(ds.Spec.NodeRadius, 8);
 			_ = sb.Append("\n  ");
-			DesignSystem.AppendRect(sb, x - HighlightPadX, midY - (HighlightHeight / 2), totalW + (HighlightPadX * 2), HighlightHeight, r,
-				ds.Accent.Tint(2), ds.Spec.OutlineWidth > 0 ? ds.Accent.Edge : "none", 1);
+			DesignSystem.AppendRect(
+				sb,
+				x - HighlightPadX,
+				midY - (HighlightHeight / 2),
+				totalW + (HighlightPadX * 2),
+				HighlightHeight,
+				r,
+				ds.Accent.Tint(2),
+				ds.Spec.OutlineWidth > 0 ? ds.Accent.Edge : "none",
+				1
+			);
 		}
 
 		var iconName = ResolveIconName(node);
@@ -220,18 +241,59 @@ internal static class TreeViewSvgRenderer
 	private static void AppendGlyph(StringBuilder sb, DesignSystem ds, bool folder, ColorFamily family, double x, double y)
 	{
 		static string N(double v) => DesignSystem.Num(v);
+
 		var fill = ds.Spec.Fill == FillKind.Knockout ? "var(--bg)" : folder ? family.Band : "var(--bg)";
 		_ = folder
-			? sb.Append("<path class=\"treeview-icon\" d=\"M").Append(N(x + 1)).Append(',').Append(N(y + 3.5))
-				.Append(" H").Append(N(x + 6)).Append(" L").Append(N(x + 7.5)).Append(',').Append(N(y + 5))
-				.Append(" H").Append(N(x + 15)).Append(" V").Append(N(y + 13.5)).Append(" H").Append(N(x + 1)).Append(" Z")
-				.Append("\" fill=\"").Append(fill).Append("\" stroke=\"").Append(family.Ink)
+			? sb
+				.Append("<path class=\"treeview-icon\" d=\"M")
+				.Append(N(x + 1))
+				.Append(',')
+				.Append(N(y + 3.5))
+				.Append(" H")
+				.Append(N(x + 6))
+				.Append(" L")
+				.Append(N(x + 7.5))
+				.Append(',')
+				.Append(N(y + 5))
+				.Append(" H")
+				.Append(N(x + 15))
+				.Append(" V")
+				.Append(N(y + 13.5))
+				.Append(" H")
+				.Append(N(x + 1))
+				.Append(" Z")
+				.Append("\" fill=\"")
+				.Append(fill)
+				.Append("\" stroke=\"")
+				.Append(family.Ink)
 				.Append("\" stroke-width=\"1.1\" stroke-linejoin=\"round\" />")
-			: sb.Append("<path class=\"treeview-icon\" d=\"M").Append(N(x + 3)).Append(',').Append(N(y + 1.5))
-				.Append(" H").Append(N(x + 9.5)).Append(" L").Append(N(x + 13)).Append(',').Append(N(y + 5))
-				.Append(" V").Append(N(y + 14.5)).Append(" H").Append(N(x + 3)).Append(" Z M").Append(N(x + 9.5)).Append(',').Append(N(y + 1.5))
-				.Append(" V").Append(N(y + 5)).Append(" H").Append(N(x + 13))
-				.Append("\" fill=\"").Append(fill).Append("\" stroke=\"").Append(family.Ink)
+			: sb
+				.Append("<path class=\"treeview-icon\" d=\"M")
+				.Append(N(x + 3))
+				.Append(',')
+				.Append(N(y + 1.5))
+				.Append(" H")
+				.Append(N(x + 9.5))
+				.Append(" L")
+				.Append(N(x + 13))
+				.Append(',')
+				.Append(N(y + 5))
+				.Append(" V")
+				.Append(N(y + 14.5))
+				.Append(" H")
+				.Append(N(x + 3))
+				.Append(" Z M")
+				.Append(N(x + 9.5))
+				.Append(',')
+				.Append(N(y + 1.5))
+				.Append(" V")
+				.Append(N(y + 5))
+				.Append(" H")
+				.Append(N(x + 13))
+				.Append("\" fill=\"")
+				.Append(fill)
+				.Append("\" stroke=\"")
+				.Append(family.Ink)
 				.Append("\" stroke-width=\"1.1\" stroke-linejoin=\"round\" />");
 	}
 
@@ -241,11 +303,18 @@ internal static class TreeViewSvgRenderer
 			svg = IconRegistry.Resolve(null);
 
 		var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(svg));
-		_ = sb.Append("<image x=\"").Append(x.SvgFormat())
-			.Append("\" y=\"").Append(y.SvgFormat())
-			.Append("\" width=\"").Append(IconSize.SvgFormat())
-			.Append("\" height=\"").Append(IconSize.SvgFormat())
-			.Append("\" href=\"data:image/svg+xml;base64,").Append(base64).Append("\" />");
+		_ = sb
+			.Append("<image x=\"")
+			.Append(x.SvgFormat())
+			.Append("\" y=\"")
+			.Append(y.SvgFormat())
+			.Append("\" width=\"")
+			.Append(IconSize.SvgFormat())
+			.Append("\" height=\"")
+			.Append(IconSize.SvgFormat())
+			.Append("\" href=\"data:image/svg+xml;base64,")
+			.Append(base64)
+			.Append("\" />");
 	}
 
 	private sealed record FlatRow(TreeViewNode Node, int Depth, int ParentIndex, int Family);

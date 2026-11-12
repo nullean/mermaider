@@ -131,8 +131,15 @@ internal static class GitGraphSvgRenderer
 		_ = sb.Append("\n<path d=\"");
 		if (Math.Abs(y1 - y2) < 0.01)
 		{
-			_ = sb.Append('M').Append(DesignSystem.Num(x1)).Append(',').Append(DesignSystem.Num(y1))
-				.Append(" L").Append(DesignSystem.Num(x2)).Append(',').Append(DesignSystem.Num(y2));
+			_ = sb
+				.Append('M')
+				.Append(DesignSystem.Num(x1))
+				.Append(',')
+				.Append(DesignSystem.Num(y1))
+				.Append(" L")
+				.Append(DesignSystem.Num(x2))
+				.Append(',')
+				.Append(DesignSystem.Num(y2));
 		}
 		else
 		{
@@ -143,9 +150,14 @@ internal static class GitGraphSvgRenderer
 			SvgRenderer.BuildOrthogonalPath(sb, points, radius);
 		}
 
-		_ = sb.Append("\" class=\"gitgraph-link\" data-kind=\"").Append(link.Kind.ToString().ToLowerInvariant())
-			.Append("\" fill=\"none\" stroke=\"").Append(family.Stroke)
-			.Append("\" stroke-width=\"").Append(ds.EdgeWidth).Append("\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />");
+		_ = sb
+			.Append("\" class=\"gitgraph-link\" data-kind=\"")
+			.Append(link.Kind.ToString().ToLowerInvariant())
+			.Append("\" fill=\"none\" stroke=\"")
+			.Append(family.Stroke)
+			.Append("\" stroke-width=\"")
+			.Append(ds.EdgeWidth)
+			.Append("\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />");
 	}
 
 	private static void AppendCommit(StringBuilder sb, DesignSystem ds, CommitInfo commit, Geometry geo, bool isHead)
@@ -156,7 +168,9 @@ internal static class GitGraphSvgRenderer
 		var color = family.Stroke;
 		var square = ds.Spec.Terminal == TerminalKind.Square;
 
-		_ = sb.Append("\n<g class=\"commit\" data-type=\"").Append(commit.Type.ToString().ToLowerInvariant())
+		_ = sb
+			.Append("\n<g class=\"commit\" data-type=\"")
+			.Append(commit.Type.ToString().ToLowerInvariant())
 			.Append(commit.IsMerge ? "\" data-merge=\"true" : "")
 			.Append(isHead ? "\" data-head=\"true" : "")
 			.Append("\">\n  ");
@@ -169,12 +183,30 @@ internal static class GitGraphSvgRenderer
 			case GitCommitType.Reverse:
 				AppendRing(sb, cx, cy, MergeR + 1, color, square);
 				const double k = 3;
-				_ = sb.Append("\n  <line x1=\"").Append(DesignSystem.Num(cx - k)).Append("\" y1=\"").Append(DesignSystem.Num(cy - k))
-					.Append("\" x2=\"").Append(DesignSystem.Num(cx + k)).Append("\" y2=\"").Append(DesignSystem.Num(cy + k))
-					.Append("\" stroke=\"").Append(color).Append("\" stroke-width=\"1.5\" stroke-linecap=\"round\" />");
-				_ = sb.Append("\n  <line x1=\"").Append(DesignSystem.Num(cx + k)).Append("\" y1=\"").Append(DesignSystem.Num(cy - k))
-					.Append("\" x2=\"").Append(DesignSystem.Num(cx - k)).Append("\" y2=\"").Append(DesignSystem.Num(cy + k))
-					.Append("\" stroke=\"").Append(color).Append("\" stroke-width=\"1.5\" stroke-linecap=\"round\" />");
+				_ = sb
+					.Append("\n  <line x1=\"")
+					.Append(DesignSystem.Num(cx - k))
+					.Append("\" y1=\"")
+					.Append(DesignSystem.Num(cy - k))
+					.Append("\" x2=\"")
+					.Append(DesignSystem.Num(cx + k))
+					.Append("\" y2=\"")
+					.Append(DesignSystem.Num(cy + k))
+					.Append("\" stroke=\"")
+					.Append(color)
+					.Append("\" stroke-width=\"1.5\" stroke-linecap=\"round\" />");
+				_ = sb
+					.Append("\n  <line x1=\"")
+					.Append(DesignSystem.Num(cx + k))
+					.Append("\" y1=\"")
+					.Append(DesignSystem.Num(cy - k))
+					.Append("\" x2=\"")
+					.Append(DesignSystem.Num(cx - k))
+					.Append("\" y2=\"")
+					.Append(DesignSystem.Num(cy + k))
+					.Append("\" stroke=\"")
+					.Append(color)
+					.Append("\" stroke-width=\"1.5\" stroke-linecap=\"round\" />");
 				break;
 			default:
 				if (commit.IsMerge)
@@ -190,12 +222,32 @@ internal static class GitGraphSvgRenderer
 			const double hr = 10;
 			_ = sb.Append("\n  ");
 			_ = square
-				? sb.Append("<rect x=\"").Append(DesignSystem.Num(cx - hr)).Append("\" y=\"").Append(DesignSystem.Num(cy - hr))
-					.Append("\" width=\"").Append(DesignSystem.Num(hr * 2)).Append("\" height=\"").Append(DesignSystem.Num(hr * 2))
-					.Append("\" fill=\"none\" stroke=\"").Append(ColorFamily.AccentBase).Append("\" stroke-width=\"").Append(DesignSystem.Num(DesignSystem.RingWidth)).Append("\" />")
-				: sb.Append("<circle cx=\"").Append(DesignSystem.Num(cx)).Append("\" cy=\"").Append(DesignSystem.Num(cy))
-					.Append("\" r=\"").Append(DesignSystem.Num(hr)).Append("\" fill=\"none\" stroke=\"").Append(ColorFamily.AccentBase)
-					.Append("\" stroke-width=\"").Append(DesignSystem.Num(DesignSystem.RingWidth)).Append("\" />");
+				? sb
+					.Append("<rect x=\"")
+					.Append(DesignSystem.Num(cx - hr))
+					.Append("\" y=\"")
+					.Append(DesignSystem.Num(cy - hr))
+					.Append("\" width=\"")
+					.Append(DesignSystem.Num(hr * 2))
+					.Append("\" height=\"")
+					.Append(DesignSystem.Num(hr * 2))
+					.Append("\" fill=\"none\" stroke=\"")
+					.Append(ColorFamily.AccentBase)
+					.Append("\" stroke-width=\"")
+					.Append(DesignSystem.Num(DesignSystem.RingWidth))
+					.Append("\" />")
+				: sb
+					.Append("<circle cx=\"")
+					.Append(DesignSystem.Num(cx))
+					.Append("\" cy=\"")
+					.Append(DesignSystem.Num(cy))
+					.Append("\" r=\"")
+					.Append(DesignSystem.Num(hr))
+					.Append("\" fill=\"none\" stroke=\"")
+					.Append(ColorFamily.AccentBase)
+					.Append("\" stroke-width=\"")
+					.Append(DesignSystem.Num(DesignSystem.RingWidth))
+					.Append("\" />");
 		}
 
 		if (commit.Label is { Length: > 0 })
@@ -214,12 +266,30 @@ internal static class GitGraphSvgRenderer
 	}
 
 	/// <summary>A hollow commit (merge / revert): page-coloured core inside a family ring; square in the Blueprint preset.</summary>
-	private static void AppendRing(StringBuilder sb, double cx, double cy, double r, string color, bool square) => _ = square
-			? sb.Append("<rect x=\"").Append(DesignSystem.Num(cx - r)).Append("\" y=\"").Append(DesignSystem.Num(cy - r))
-				.Append("\" width=\"").Append(DesignSystem.Num(r * 2)).Append("\" height=\"").Append(DesignSystem.Num(r * 2))
-				.Append("\" fill=\"var(--bg)\" stroke=\"").Append(color).Append("\" stroke-width=\"2\" />")
-			: sb.Append("<circle cx=\"").Append(DesignSystem.Num(cx)).Append("\" cy=\"").Append(DesignSystem.Num(cy))
-				.Append("\" r=\"").Append(DesignSystem.Num(r)).Append("\" fill=\"var(--bg)\" stroke=\"").Append(color).Append("\" stroke-width=\"2.5\" />");
+	private static void AppendRing(StringBuilder sb, double cx, double cy, double r, string color, bool square) =>
+		_ = square
+			? sb
+				.Append("<rect x=\"")
+				.Append(DesignSystem.Num(cx - r))
+				.Append("\" y=\"")
+				.Append(DesignSystem.Num(cy - r))
+				.Append("\" width=\"")
+				.Append(DesignSystem.Num(r * 2))
+				.Append("\" height=\"")
+				.Append(DesignSystem.Num(r * 2))
+				.Append("\" fill=\"var(--bg)\" stroke=\"")
+				.Append(color)
+				.Append("\" stroke-width=\"2\" />")
+			: sb
+				.Append("<circle cx=\"")
+				.Append(DesignSystem.Num(cx))
+				.Append("\" cy=\"")
+				.Append(DesignSystem.Num(cy))
+				.Append("\" r=\"")
+				.Append(DesignSystem.Num(r))
+				.Append("\" fill=\"var(--bg)\" stroke=\"")
+				.Append(color)
+				.Append("\" stroke-width=\"2.5\" />");
 
 	private enum LinkKind
 	{

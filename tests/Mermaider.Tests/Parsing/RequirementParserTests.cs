@@ -65,14 +65,17 @@ public class RequirementParserTests
 
 		var diagram = RequirementParser.Parse(lines);
 
-		diagram.Requirements.Select(r => r.Kind).Should().BeEquivalentTo(
-		[
-			RequirementKind.FunctionalRequirement,
-			RequirementKind.InterfaceRequirement,
-			RequirementKind.PerformanceRequirement,
-			RequirementKind.PhysicalRequirement,
-			RequirementKind.DesignConstraint,
-		]);
+		diagram
+			.Requirements
+			.Select(r => r.Kind)
+			.Should()
+			.BeEquivalentTo([
+				RequirementKind.FunctionalRequirement,
+				RequirementKind.InterfaceRequirement,
+				RequirementKind.PerformanceRequirement,
+				RequirementKind.PhysicalRequirement,
+				RequirementKind.DesignConstraint,
+			]);
 	}
 
 	[Test]
@@ -106,15 +109,7 @@ public class RequirementParserTests
 	[Test]
 	public void Parses_reverse_relation()
 	{
-		var lines = new[]
-		{
-			"requirementDiagram",
-			"requirement a {",
-			"}",
-			"element b {",
-			"}",
-			"a <- traces - b",
-		};
+		var lines = new[] { "requirementDiagram", "requirement a {", "}", "element b {", "}", "a <- traces - b", };
 
 		var diagram = RequirementParser.Parse(lines);
 
@@ -127,10 +122,7 @@ public class RequirementParserTests
 	[Test]
 	public void Parses_all_relation_types()
 	{
-		var types = new[]
-		{
-			"contains", "copies", "derives", "satisfies", "verifies", "refines", "traces",
-		};
+		var types = new[] { "contains", "copies", "derives", "satisfies", "verifies", "refines", "traces", };
 
 		var lines = new List<string> { "requirementDiagram", "requirement a {", "}", "element b {", "}" };
 		foreach (var t in types)
@@ -139,28 +131,25 @@ public class RequirementParserTests
 		var diagram = RequirementParser.Parse([.. lines]);
 
 		diagram.Relations.Should().HaveCount(7);
-		diagram.Relations.Select(r => r.Type).Should().BeEquivalentTo(
-		[
-			RequirementRelationType.Contains,
-			RequirementRelationType.Copies,
-			RequirementRelationType.Derives,
-			RequirementRelationType.Satisfies,
-			RequirementRelationType.Verifies,
-			RequirementRelationType.Refines,
-			RequirementRelationType.Traces,
-		]);
+		diagram
+			.Relations
+			.Select(r => r.Type)
+			.Should()
+			.BeEquivalentTo([
+				RequirementRelationType.Contains,
+				RequirementRelationType.Copies,
+				RequirementRelationType.Derives,
+				RequirementRelationType.Satisfies,
+				RequirementRelationType.Verifies,
+				RequirementRelationType.Refines,
+				RequirementRelationType.Traces,
+			]);
 	}
 
 	[Test]
 	public void Parses_direction()
 	{
-		var lines = new[]
-		{
-			"requirementDiagram",
-			"direction LR",
-			"requirement a {",
-			"}",
-		};
+		var lines = new[] { "requirementDiagram", "direction LR", "requirement a {", "}", };
 
 		var diagram = RequirementParser.Parse(lines);
 
@@ -170,13 +159,7 @@ public class RequirementParserTests
 	[Test]
 	public void Parses_title()
 	{
-		var lines = new[]
-		{
-			"requirementDiagram",
-			"title System Requirements",
-			"requirement a {",
-			"}",
-		};
+		var lines = new[] { "requirementDiagram", "title System Requirements", "requirement a {", "}", };
 
 		var diagram = RequirementParser.Parse(lines);
 
@@ -186,12 +169,7 @@ public class RequirementParserTests
 	[Test]
 	public void Default_direction_is_TB()
 	{
-		var lines = new[]
-		{
-			"requirementDiagram",
-			"requirement a {",
-			"}",
-		};
+		var lines = new[] { "requirementDiagram", "requirement a {", "}", };
 
 		var diagram = RequirementParser.Parse(lines);
 

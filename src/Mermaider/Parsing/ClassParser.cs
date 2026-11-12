@@ -55,9 +55,7 @@ internal static partial class ClassParser
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
-			throw new MermaidParseException(
-				$"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.",
-				ex);
+			throw new MermaidParseException($"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.", ex);
 		}
 	}
 
@@ -229,16 +227,15 @@ internal static partial class ClassParser
 			}
 		}
 
-		var classes = classMap.Values
-			.Select(v => v.Node with { Attributes = v.Attrs, Methods = v.Methods })
-			.ToList();
+		var classes = classMap.Values.Select(v => v.Node with { Attributes = v.Attrs, Methods = v.Methods }).ToList();
 
 		return new ClassDiagram { Classes = classes, Relationships = relationships, Namespaces = namespaces, Direction = direction, Notes = notes };
 	}
 
 	private static (ClassNode Node, List<ClassMember> Attrs, List<ClassMember> Methods) EnsureClass(
 		Dictionary<string, (ClassNode Node, List<ClassMember> Attrs, List<ClassMember> Methods)> classMap,
-		string id)
+		string id
+	)
 	{
 		if (classMap.TryGetValue(id, out var existing))
 			return existing;
@@ -275,23 +272,12 @@ internal static partial class ClassParser
 		if (methodMatch.Success)
 		{
 			var name = methodMatch.Groups[1].Value.Trim();
-			var parms = methodMatch.Groups[2].Success && methodMatch.Groups[2].Value.Trim().Length > 0
-				? methodMatch.Groups[2].Value.Trim()
-				: null;
-			var type = methodMatch.Groups[3].Success && methodMatch.Groups[3].Value.Trim().Length > 0
-				? methodMatch.Groups[3].Value.Trim()
-				: null;
+			var parms = methodMatch.Groups[2].Success && methodMatch.Groups[2].Value.Trim().Length > 0 ? methodMatch.Groups[2].Value.Trim() : null;
+			var type = methodMatch.Groups[3].Success && methodMatch.Groups[3].Value.Trim().Length > 0 ? methodMatch.Groups[3].Value.Trim() : null;
 			var isStatic = name.EndsWith('$') || rest.Contains('$');
 			var isAbstract = name.EndsWith('*') || rest.Contains('*');
 
-			return (new ClassMember(
-				visibility,
-				name.TrimEnd('$', '*'),
-				type,
-				isStatic,
-				isAbstract,
-				IsMethod: true,
-				parms), true);
+			return (new ClassMember(visibility, name.TrimEnd('$', '*'), type, isStatic, isAbstract, IsMethod: true, parms), true);
 		}
 
 		var parts = rest.Split(' ', StringSplitOptions.RemoveEmptyEntries);
@@ -310,12 +296,7 @@ internal static partial class ClassParser
 		var isStaticAttr = memberName.EndsWith('$');
 		var isAbstractAttr = memberName.EndsWith('*');
 
-		return (new ClassMember(
-			visibility,
-			memberName.TrimEnd('$', '*'),
-			memberType,
-			isStaticAttr,
-			isAbstractAttr), false);
+		return (new ClassMember(visibility, memberName.TrimEnd('$', '*'), memberType, isStaticAttr, isAbstractAttr), false);
 	}
 
 	private static ClassRelationship? ParseRelationship(string line)
@@ -338,22 +319,21 @@ internal static partial class ClassParser
 		return new ClassRelationship(from, to, parsed.Value.Type, parsed.Value.MarkerAt, label, fromCard, toCard);
 	}
 
-	private static (ClassRelationType Type, ClassMarkerAt MarkerAt)? ParseArrow(string arrow) =>
-		arrow switch
-		{
-			"<|--" => (ClassRelationType.Inheritance, ClassMarkerAt.From),
-			"--|>" => (ClassRelationType.Inheritance, ClassMarkerAt.To),
-			"<|.." => (ClassRelationType.Realization, ClassMarkerAt.From),
-			"..|>" => (ClassRelationType.Realization, ClassMarkerAt.To),
-			"*--" => (ClassRelationType.Composition, ClassMarkerAt.From),
-			"--*" => (ClassRelationType.Composition, ClassMarkerAt.To),
-			"o--" => (ClassRelationType.Aggregation, ClassMarkerAt.From),
-			"--o" => (ClassRelationType.Aggregation, ClassMarkerAt.To),
-			"-->" => (ClassRelationType.Association, ClassMarkerAt.To),
-			"<--" => (ClassRelationType.Association, ClassMarkerAt.From),
-			"..>" => (ClassRelationType.Dependency, ClassMarkerAt.To),
-			"<.." => (ClassRelationType.Dependency, ClassMarkerAt.From),
-			"--" => (ClassRelationType.Association, ClassMarkerAt.To),
-			_ => null,
-		};
+	private static (ClassRelationType Type, ClassMarkerAt MarkerAt)? ParseArrow(string arrow) => arrow switch
+	{
+		"<|--" => (ClassRelationType.Inheritance, ClassMarkerAt.From),
+		"--|>" => (ClassRelationType.Inheritance, ClassMarkerAt.To),
+		"<|.." => (ClassRelationType.Realization, ClassMarkerAt.From),
+		"..|>" => (ClassRelationType.Realization, ClassMarkerAt.To),
+		"*--" => (ClassRelationType.Composition, ClassMarkerAt.From),
+		"--*" => (ClassRelationType.Composition, ClassMarkerAt.To),
+		"o--" => (ClassRelationType.Aggregation, ClassMarkerAt.From),
+		"--o" => (ClassRelationType.Aggregation, ClassMarkerAt.To),
+		"-->" => (ClassRelationType.Association, ClassMarkerAt.To),
+		"<--" => (ClassRelationType.Association, ClassMarkerAt.From),
+		"..>" => (ClassRelationType.Dependency, ClassMarkerAt.To),
+		"<.." => (ClassRelationType.Dependency, ClassMarkerAt.From),
+		"--" => (ClassRelationType.Association, ClassMarkerAt.To),
+		_ => null,
+	};
 }

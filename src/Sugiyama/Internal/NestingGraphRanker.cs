@@ -67,7 +67,8 @@ internal static class NestingGraphRanker
 		int realNodeCount,
 		IReadOnlyList<NetworkSimplexRanker.SimplexEdge> edges,
 		IReadOnlyList<int> topLevelLooseNodes,
-		IReadOnlyList<Group> topLevelGroups)
+		IReadOnlyList<Group> topLevelGroups
+	)
 	{
 		if (topLevelGroups.Count == 0)
 			return NetworkSimplexRanker.Rank(realNodeCount, edges);
@@ -176,6 +177,7 @@ internal static class NestingGraphRanker
 		{
 			// Map every real node to its enclosing top-level group (recursively).
 			var nodeToGroup = new Dictionary<int, Group>();
+
 			void MapGroup(Group g, Group top)
 			{
 				foreach (var n in g.OwnNodes)
@@ -183,6 +185,7 @@ internal static class NestingGraphRanker
 				foreach (var c in g.Children)
 					MapGroup(c, top);
 			}
+
 			foreach (var g in topLevelGroups)
 				MapGroup(g, g);
 
@@ -194,9 +197,7 @@ internal static class NestingGraphRanker
 			var clusterEdgeSet = new HashSet<(int, int)>();
 			foreach (var e in edges)
 			{
-				if (!nodeToGroup.TryGetValue(e.From, out var sg) ||
-					!nodeToGroup.TryGetValue(e.To, out var tg) ||
-					sg == tg)
+				if (!nodeToGroup.TryGetValue(e.From, out var sg) || !nodeToGroup.TryGetValue(e.To, out var tg) || sg == tg)
 					continue;
 				_ = clusterEdgeSet.Add((clusterIndex[sg], clusterIndex[tg]));
 			}
@@ -204,9 +205,7 @@ internal static class NestingGraphRanker
 			// Add border edges only for unidirectional cluster pairs (no reverse exists).
 			foreach (var e in edges)
 			{
-				if (!nodeToGroup.TryGetValue(e.From, out var sg) ||
-					!nodeToGroup.TryGetValue(e.To, out var tg) ||
-					sg == tg)
+				if (!nodeToGroup.TryGetValue(e.From, out var sg) || !nodeToGroup.TryGetValue(e.To, out var tg) || sg == tg)
 					continue;
 				var si = clusterIndex[sg];
 				var ti = clusterIndex[tg];

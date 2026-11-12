@@ -1,12 +1,15 @@
-using VerifyTUnit;
+using AwesomeAssertions;
+using Nullean.Snapshots;
 
 namespace Mermaider.Tests.Snapshots;
 
 public class ClassSpecTests
 {
 	[Test]
-	public Task All_relationship_types() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void All_relationship_types() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			classDiagram
 			A <|-- B : Inheritance
 			C *-- D : Composition
@@ -14,11 +17,16 @@ public class ClassSpecTests
 			G --> H : Association
 			I ..> J : Dependency
 			K ..|> L : Realization
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Visibility_modifiers() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Visibility_modifiers() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			classDiagram
 			class Account {
 			+String publicField
@@ -30,22 +38,32 @@ public class ClassSpecTests
 			#reset() void
 			~internal() void
 			}
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Static_and_abstract_members() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Static_and_abstract_members() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			classDiagram
 			class MathUtils {
 			+PI$ double
 			+add(a, b)$ int
 			+compute()* void
 			}
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Generics() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Generics() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			classDiagram
 			class Repository~T~ {
 			+getById(id) T
@@ -56,11 +74,16 @@ public class ClassSpecTests
 			+getById(id) User
 			}
 			Repository~T~ <|-- UserRepo
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Interface_and_implementations() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Interface_and_implementations() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			classDiagram
 			class ILogger {
 			<<interface>>
@@ -80,20 +103,30 @@ public class ClassSpecTests
 			}
 			ILogger <|.. ConsoleLogger
 			ILogger <|.. FileLogger
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Cardinality_labels() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Cardinality_labels() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			classDiagram
 			Customer "1" --> "*" Order : places
 			Order "1" *-- "1..*" LineItem : contains
 			Student "0..*" --> "1..*" Course : enrolls
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Namespace_grouping() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Namespace_grouping() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			classDiagram
 			namespace Domain {
 			class User {
@@ -113,11 +146,16 @@ public class ClassSpecTests
 			}
 			User --> Order
 			Order --> Database
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Annotation_types() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Annotation_types() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			classDiagram
 			class Shape {
 			<<abstract>>
@@ -139,11 +177,16 @@ public class ClassSpecTests
 			}
 			Shape <|-- Circle
 			Drawable <|.. Circle
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Inline_attributes() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Inline_attributes() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			classDiagram
 			Animal : +String name
 			Animal : +int age
@@ -151,11 +194,16 @@ public class ClassSpecTests
 			Dog : +String breed
 			Dog : +bark() void
 			Animal <|-- Dog
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Complex_class_hierarchy() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Complex_class_hierarchy() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
 			classDiagram
 			class Vehicle {
 			<<abstract>>
@@ -185,32 +233,44 @@ public class ClassSpecTests
 			+int horsepower
 			+String type
 			}
-			"""), "svg");
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Direction_left_right() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Direction_left_right() =>
+		MermaidRenderer
+			.RenderSvg("""
 			classDiagram
 			direction LR
 			class A
 			class B
 			A --> B
-			"""), "svg");
+			""")
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Lollipop_interface() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Lollipop_interface() =>
+		MermaidRenderer
+			.RenderSvg("""
 			classDiagram
 			class Shape
 			class Drawable
 			Shape --() Drawable
-			"""), "svg");
+			""")
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
 	[Test]
-	public Task Class_note() =>
-		Verifier.Verify(MermaidRenderer.RenderSvg("""
+	public void Class_note() =>
+		MermaidRenderer
+			.RenderSvg("""
 			classDiagram
 			class Animal
 			note for Animal "Can be wild or domestic"
-			"""), "svg");
+			""")
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
 }

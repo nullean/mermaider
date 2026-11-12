@@ -1,5 +1,5 @@
-using AwesomeAssertions;
 using System.Globalization;
+using AwesomeAssertions;
 
 namespace Mermaider.Tests.Rendering;
 
@@ -89,11 +89,7 @@ public class SvgRendererTests
 		var svg = MermaidRenderer.RenderSvg("""
 			graph TD
 			  A --> B
-			""", new()
-		{
-			Bg = "#1e1e2e",
-			Fg = "#cdd6f4",
-		});
+			""", new() { Bg = "#1e1e2e", Fg = "#cdd6f4", });
 
 		svg.Should().Contain("--bg:#1e1e2e");
 		svg.Should().Contain("--fg:#cdd6f4");
@@ -173,12 +169,14 @@ public class SvgRendererTests
 	[Test]
 	public void LinkStyleDefaultAppliesStrokeToAllEdges()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			graph LR
 			  A --> B
 			  B --> C
 			  linkStyle default stroke:#333,stroke-width:1px
-			""");
+			"""
+		);
 
 		// Both edges should have the custom stroke
 		svg.Should().Contain("stroke=\"#333\"");
@@ -200,7 +198,8 @@ public class SvgRendererTests
 	[Test]
 	public void NearAlignedVerticalEdgesDoNotRenderTinyDoglegs()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			graph TB
 			  Root["Painless Operators"]
 			  Ref["Reference"]
@@ -209,7 +208,8 @@ public class SvgRendererTests
 			  Root --> Ref
 			  Ref --> Desc
 			  Desc --> Detail
-			""");
+			"""
+		);
 
 		var path = GetEdgePath(svg, "Desc", "Detail");
 
@@ -219,14 +219,16 @@ public class SvgRendererTests
 	[Test]
 	public void EdgesSharingHorizontalTrunkUseAlignedStems()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			flowchart LR
 			  A[Start] --> B{Decision}
 			  B -->|Yes| C[Action 1]
 			  B -->|No| D[Action 2]
 			  C --> E[End]
 			  D --> E
-			""");
+			"""
+		);
 
 		var cToE = GetEdgePath(svg, "C", "E");
 		var dToE = GetEdgePath(svg, "D", "E");

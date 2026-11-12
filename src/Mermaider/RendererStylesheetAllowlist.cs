@@ -15,9 +15,19 @@ internal static partial class RendererStylesheetAllowlist
 
 	private static readonly FrozenSet<string> GenericFontKeywords = new[]
 	{
-		"serif", "sans-serif", "monospace", "cursive", "fantasy",
-		"system-ui", "ui-serif", "ui-sans-serif", "ui-monospace", "ui-rounded",
-		"emoji", "math", "fangsong",
+		"serif",
+		"sans-serif",
+		"monospace",
+		"cursive",
+		"fantasy",
+		"system-ui",
+		"ui-serif",
+		"ui-sans-serif",
+		"ui-monospace",
+		"ui-rounded",
+		"emoji",
+		"math",
+		"fangsong",
 	}.ToFrozenSet(StringComparer.OrdinalIgnoreCase);
 
 	// The derived-token block is generated from the same source StyleBlock writes from.
@@ -57,8 +67,7 @@ internal static partial class RendererStylesheetAllowlist
 			return false;
 
 		var index = 1;
-		if (!IsAllowedFontRule(lines[index++], "text", SansFallback)
-			|| !IsAllowedFontRule(lines[index++], ".mono", MonoFallback))
+		if (!IsAllowedFontRule(lines[index++], "text", SansFallback) || !IsAllowedFontRule(lines[index++], ".mono", MonoFallback))
 			return false;
 
 		foreach (var expected in FixedSvgLines)
@@ -67,11 +76,10 @@ internal static partial class RendererStylesheetAllowlist
 				return false;
 		}
 
-		if (!IsAllowedFontSizeLine(lines[index++], "    --fs-xs: ")
-			|| !IsAllowedFontSizeLine(lines[index++], "    --fs-s:  ")
-			|| !IsAllowedFontSizeLine(lines[index++], "    --fs-m:  ")
-			|| !IsAllowedFontSizeLine(lines[index++], "    --fs-l:  ")
-			|| lines[index++] != "  }")
+		if (
+			!IsAllowedFontSizeLine(lines[index++], "    --fs-xs: ") || !IsAllowedFontSizeLine(lines[index++], "    --fs-s:  ") ||
+			!IsAllowedFontSizeLine(lines[index++], "    --fs-m:  ") || !IsAllowedFontSizeLine(lines[index++], "    --fs-l:  ") || lines[index++] != "  }"
+		)
 			return false;
 
 		// zero to two elevation rules, each exactly one a preset can produce
@@ -89,9 +97,7 @@ internal static partial class RendererStylesheetAllowlist
 			lightRuleCount++;
 		}
 
-		if (lightRuleCount == 0
-			|| index >= lines.Length - 1
-			|| lines[index++] != "  @media (prefers-color-scheme: dark) {")
+		if (lightRuleCount == 0 || index >= lines.Length - 1 || lines[index++] != "  @media (prefers-color-scheme: dark) {")
 			return false;
 
 		var darkRuleCount = 0;
@@ -102,17 +108,14 @@ internal static partial class RendererStylesheetAllowlist
 			darkRuleCount++;
 		}
 
-		return darkRuleCount > 0
-			&& index == lines.Length - 2
-			&& lines[index] == "  }";
+		return darkRuleCount > 0 && index == lines.Length - 2 && lines[index] == "  }";
 	}
 
 	private static bool IsAllowedFontRule(string line, string selector, string fallback)
 	{
 		var prefix = $"  {selector} {{ font-family: ";
 		const string ruleSuffix = "; }";
-		if (!line.StartsWith(prefix, StringComparison.Ordinal)
-			|| !line.EndsWith(ruleSuffix, StringComparison.Ordinal))
+		if (!line.StartsWith(prefix, StringComparison.Ordinal) || !line.EndsWith(ruleSuffix, StringComparison.Ordinal))
 			return false;
 
 		var familyList = line[prefix.Length..^ruleSuffix.Length];
@@ -128,21 +131,19 @@ internal static partial class RendererStylesheetAllowlist
 	}
 
 	private static bool IsAllowedFontSizeLine(string line, string prefix) =>
-		line.StartsWith(prefix, StringComparison.Ordinal)
-		&& line.EndsWith(';')
-		&& FontSizePattern().IsMatch(line.AsSpan(prefix.Length, line.Length - prefix.Length - 1).ToString());
+		line.StartsWith(prefix, StringComparison.Ordinal) && line.EndsWith(';') && FontSizePattern().IsMatch(
+			line.AsSpan(prefix.Length, line.Length - prefix.Length - 1).ToString()
+		);
 
 	private static bool IsAllowedStrictRule(string line, string indent)
 	{
 		var shape = StrictShapeRulePattern().Match(line);
 		if (shape.Success)
-			return shape.Groups["indent"].Value == indent
-				&& SvgValueAllowlist.IsAllowedHexColor(shape.Groups["fill"].Value)
-				&& SvgValueAllowlist.IsAllowedHexColor(shape.Groups["stroke"].Value);
+			return shape.Groups["indent"].Value == indent && SvgValueAllowlist.IsAllowedHexColor(
+				shape.Groups["fill"].Value
+			) && SvgValueAllowlist.IsAllowedHexColor(shape.Groups["stroke"].Value);
 
 		var text = StrictTextRulePattern().Match(line);
-		return text.Success
-			&& text.Groups["indent"].Value == indent
-			&& SvgValueAllowlist.IsAllowedHexColor(text.Groups["fill"].Value);
+		return text.Success && text.Groups["indent"].Value == indent && SvgValueAllowlist.IsAllowedHexColor(text.Groups["fill"].Value);
 	}
 }

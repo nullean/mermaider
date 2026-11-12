@@ -13,11 +13,9 @@ namespace Mermaider.Tests.Snapshots.LayoutSkeleton;
 //   ELK_EMIT=1 dotnet run --project tests/Mermaider.Tests -- --treenode-filter "/*/*/EmitElkInputs/*"
 public class EmitElkInputs
 {
-	private static string Dir([CallerFilePath] string path = "") =>
-		Path.Combine(Path.GetDirectoryName(path)!, "elk");
+	private static string Dir([CallerFilePath] string path = "") => Path.Combine(Path.GetDirectoryName(path)!, "elk");
 
-	public static IEnumerable<string> ErSlugs() =>
-		DiagramExamples.All.Where(d => d.Category == DiagramCategory.Er).Select(d => d.Slug);
+	public static IEnumerable<string> ErSlugs() => DiagramExamples.All.Where(d => d.Category == DiagramCategory.Er).Select(d => d.Slug);
 
 	[Test]
 	[MethodDataSource(nameof(ErSlugs))]
@@ -48,12 +46,22 @@ public class EmitElkInputs
 		}
 
 		Directory.CreateDirectory(Dir());
-		await File.WriteAllTextAsync(Path.Combine(Dir(), slug + ".ours.json"), JsonSerializer.Serialize(new
-		{
-			nodes = positioned.Entities.Select(e => new { id = e.Id, x = e.X, y = e.Y, w = e.Width, h = e.Height }),
-			edges = positioned.Relationships.Select(r => new { source = r.Entity1, target = r.Entity2, label = r.Label, points = r.Points.Select(p => new[] { p.X, p.Y }) }),
-		}, new JsonSerializerOptions { WriteIndented = false }));
-		await File.WriteAllTextAsync(Path.Combine(Dir(), slug + ".elk.input.json"),
-			JsonSerializer.Serialize(new { slug, nodes, edges }, new JsonSerializerOptions { WriteIndented = true }));
+		await File.WriteAllTextAsync(
+			Path.Combine(Dir(), slug + ".ours.json"),
+			JsonSerializer.Serialize(
+				new
+				{
+					nodes = positioned.Entities.Select(e => new { id = e.Id, x = e.X, y = e.Y, w = e.Width, h = e.Height }),
+					edges = positioned.Relationships.Select(
+						r => new { source = r.Entity1, target = r.Entity2, label = r.Label, points = r.Points.Select(p => new[] { p.X, p.Y }) }
+					),
+				},
+				new JsonSerializerOptions { WriteIndented = false }
+			)
+		);
+		await File.WriteAllTextAsync(
+			Path.Combine(Dir(), slug + ".elk.input.json"),
+			JsonSerializer.Serialize(new { slug, nodes, edges }, new JsonSerializerOptions { WriteIndented = true })
+		);
 	}
 }

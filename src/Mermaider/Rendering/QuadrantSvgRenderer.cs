@@ -106,10 +106,26 @@ internal static class QuadrantSvgRenderer
 			_ = sb.Append('"');
 		}
 
-		_ = sb.Append(">\n  <rect x=\"").Append(x.SvgFormat())
-			.Append("\" y=\"").Append(y.SvgFormat()).Append("\" width=\"").Append(Cell.SvgFormat()).Append("\" height=\"").Append(Cell.SvgFormat())
-			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"").Append(fill).Append("\" stroke=\"").Append(stroke).Append("\" stroke-width=\"").Append(strokeWidth).Append('"');
+		_ = sb
+			.Append(">\n  <rect x=\"")
+			.Append(x.SvgFormat())
+			.Append("\" y=\"")
+			.Append(y.SvgFormat())
+			.Append("\" width=\"")
+			.Append(Cell.SvgFormat())
+			.Append("\" height=\"")
+			.Append(Cell.SvgFormat())
+			.Append("\" rx=\"")
+			.Append(r)
+			.Append("\" ry=\"")
+			.Append(r)
+			.Append("\" fill=\"")
+			.Append(fill)
+			.Append("\" stroke=\"")
+			.Append(stroke)
+			.Append("\" stroke-width=\"")
+			.Append(strokeWidth)
+			.Append('"');
 		if (dashed)
 			_ = sb.Append(" stroke-dasharray=\"2 3\"");
 		_ = sb.Append(" />");
@@ -162,8 +178,16 @@ internal static class QuadrantSvgRenderer
 		var px = Math.Round(chartLeft + (Math.Clamp(point.X, 0, 1) * ChartSize), 3);
 		var py = Math.Round(chartTop + ((1 - Math.Clamp(point.Y, 0, 1)) * ChartSize), 3);
 
-		_ = sb.Append("\n<g class=\"quadrant-point\">\n  <circle cx=\"").Append(px.SvgFormat()).Append("\" cy=\"").Append(py.SvgFormat())
-			.Append("\" r=\"").Append(PointHalo.SvgFormat()).Append("\" fill=\"").Append(ds.Accent.Soft).Append("\" fill-opacity=\"0.7\" />\n  ");
+		_ = sb
+			.Append("\n<g class=\"quadrant-point\">\n  <circle cx=\"")
+			.Append(px.SvgFormat())
+			.Append("\" cy=\"")
+			.Append(py.SvgFormat())
+			.Append("\" r=\"")
+			.Append(PointHalo.SvgFormat())
+			.Append("\" fill=\"")
+			.Append(ds.Accent.Soft)
+			.Append("\" fill-opacity=\"0.7\" />\n  ");
 		ds.AppendPoint(sb, px, py, ColorFamily.AccentBase, PointRadius);
 
 		// label right of the point, flipped left when it would run off the chart

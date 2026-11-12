@@ -18,6 +18,7 @@ internal static class ColorUtils
 			var c = v / 255.0;
 			return c <= 0.04045 ? c / 12.92 : Math.Pow((c + 0.055) / 1.055, 2.4);
 		}
+
 		var luminance = (0.2126 * Lin(r)) + (0.7152 * Lin(g)) + (0.0722 * Lin(b));
 		// Contrast against white (L=1) vs near-black (L≈0): pick whichever is ≥4.5:1
 		return luminance > 0.179 ? "#1a1a1a" : "#ffffff";
@@ -31,7 +32,9 @@ internal static class ColorUtils
 	{
 		var (ar, ag, ab) = ParseHex(a);
 		var (br, bg, bb) = ParseHex(b);
+
 		static int Ch(byte x, byte y, double w) => (int)Math.Round((x * w) + (y * (1 - w)));
+
 		return $"#{Ch(ar, br, weightA):X2}{Ch(ag, bg, weightA):X2}{Ch(ab, bb, weightA):X2}";
 	}
 
@@ -133,9 +136,7 @@ internal static class ColorUtils
 
 		var h = Math.Abs(max - rf) < double.Epsilon
 			? (((gf - bf) / d) + (gf < bf ? 6 : 0)) / 6.0
-			: Math.Abs(max - gf) < double.Epsilon ?
-				(((bf - rf) / d) + 2) / 6.0
-				: (((rf - gf) / d) + 4) / 6.0;
+			: Math.Abs(max - gf) < double.Epsilon ? (((bf - rf) / d) + 2) / 6.0 : (((rf - gf) / d) + 4) / 6.0;
 
 		return (h, s, l);
 	}
@@ -151,11 +152,9 @@ internal static class ColorUtils
 		var q = l < 0.5 ? l * (1 + s) : l + s - (l * s);
 		var p = (2 * l) - q;
 
-		return (
-			(byte)Math.Round(HueToRgb(p, q, h + (1.0 / 3.0)) * 255),
-			(byte)Math.Round(HueToRgb(p, q, h) * 255),
-			(byte)Math.Round(HueToRgb(p, q, h - (1.0 / 3.0)) * 255)
-		);
+		return ((byte)Math.Round(HueToRgb(p, q, h + (1.0 / 3.0)) * 255), (byte)Math.Round(HueToRgb(p, q, h) * 255), (byte)Math.Round(
+			HueToRgb(p, q, h - (1.0 / 3.0)) * 255
+		));
 	}
 
 	private static double HueToRgb(double p, double q, double t)

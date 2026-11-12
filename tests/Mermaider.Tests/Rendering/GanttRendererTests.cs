@@ -4,7 +4,8 @@ namespace Mermaider.Tests.Rendering;
 
 public class GanttRendererTests
 {
-	private const string FullGantt = """
+	private const string FullGantt =
+		"""
 		gantt
 		title Shipping this file
 		dateFormat  YYYY-MM-DD
@@ -64,11 +65,13 @@ public class GanttRendererTests
 	[Test]
 	public void Renders_milestone_as_polygon()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			gantt
 			dateFormat YYYY-MM-DD
 			Ship :milestone, m1, 2026-07-09, 0d
-			""");
+			"""
+		);
 
 		svg.Should().Contain("<polygon");
 		svg.Should().Contain("Ship");
@@ -89,12 +92,14 @@ public class GanttRendererTests
 	[Test]
 	public void Detects_and_renders_via_public_api()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			gantt
 			dateFormat YYYY-MM-DD
 			A : a1, 2026-01-01, 3d
 			B : after a1, 2d
-			""");
+			"""
+		);
 
 		svg.Should().Contain("A");
 		svg.Should().Contain("B");

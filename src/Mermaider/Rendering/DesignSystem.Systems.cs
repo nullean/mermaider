@@ -22,9 +22,19 @@ internal sealed partial class DesignSystem
 	internal void AppendGhostChip(StringBuilder sb, double x, double y, double w, double h, string label)
 	{
 		var r = Num(Spec.NodeRadius);
-		_ = sb.Append("<rect x=\"").Append(x).Append("\" y=\"").Append(y)
-			.Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
-			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
+		_ = sb
+			.Append("<rect x=\"")
+			.Append(x)
+			.Append("\" y=\"")
+			.Append(y)
+			.Append("\" width=\"")
+			.Append(w)
+			.Append("\" height=\"")
+			.Append(h)
+			.Append("\" rx=\"")
+			.Append(r)
+			.Append("\" ry=\"")
+			.Append(r)
 			.Append("\" fill=\"var(--bg)\" stroke=\"var(--_line-soft)\" stroke-width=\"1.25\" />\n  ");
 		AppendText(sb, label, x + (w / 2), y + (h / 2), TypeRole.Label, "var(--_text-muted)");
 	}
@@ -42,7 +52,6 @@ internal sealed partial class DesignSystem
 		MultilineUtils.AppendMultilineText(sb, text, cx, cy, px, attrs);
 	}
 
-
 	/// <summary>
 	/// A sequence frame (alt / loop / opt / par / critical / break) in the preset's container language: tinted body with a
 	/// family-band keyword tab (Quiet), dashed outline with a caps keyword (Blueprint), or a soft block with a keyword chip
@@ -57,10 +66,26 @@ internal sealed partial class DesignSystem
 		{
 			case ContainerKind.Tab:
 				{
-					_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
-						.Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
-						.Append("\" rx=\"").Append(Num(Spec.NodeRadius)).Append("\" ry=\"").Append(Num(Spec.NodeRadius))
-						.Append("\" fill=\"none\" stroke=\"").Append(family.Edge).Append("\" stroke-width=\"").Append(ContainerStrokeWidth).Append("\" stroke-dasharray=\"").Append(BoundaryDash).Append("\" />\n  ");
+					_ = sb
+						.Append("  <rect x=\"")
+						.Append(x)
+						.Append("\" y=\"")
+						.Append(y)
+						.Append("\" width=\"")
+						.Append(w)
+						.Append("\" height=\"")
+						.Append(h)
+						.Append("\" rx=\"")
+						.Append(Num(Spec.NodeRadius))
+						.Append("\" ry=\"")
+						.Append(Num(Spec.NodeRadius))
+						.Append("\" fill=\"none\" stroke=\"")
+						.Append(family.Edge)
+						.Append("\" stroke-width=\"")
+						.Append(ContainerStrokeWidth)
+						.Append("\" stroke-dasharray=\"")
+						.Append(BoundaryDash)
+						.Append("\" />\n  ");
 					var caps = keyword.ToUpperInvariant();
 					midY = y + 12;
 					AppendText(sb, caps, x + 12, midY, TypeRole.Eyebrow, family.Ink, anchor: "start");
@@ -69,14 +94,34 @@ internal sealed partial class DesignSystem
 				}
 			case ContainerKind.Chip:
 				{
-					_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
-						.Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
-						.Append("\" rx=\"").Append(Num(Spec.NodeRadius + 2)).Append("\" ry=\"").Append(Num(Spec.NodeRadius + 2))
-						.Append("\" fill=\"").Append(family.Tint(1)).Append("\" stroke=\"none\" />\n  ");
+					_ = sb
+						.Append("  <rect x=\"")
+						.Append(x)
+						.Append("\" y=\"")
+						.Append(y)
+						.Append("\" width=\"")
+						.Append(w)
+						.Append("\" height=\"")
+						.Append(h)
+						.Append("\" rx=\"")
+						.Append(Num(Spec.NodeRadius + 2))
+						.Append("\" ry=\"")
+						.Append(Num(Spec.NodeRadius + 2))
+						.Append("\" fill=\"")
+						.Append(family.Tint(1))
+						.Append("\" stroke=\"none\" />\n  ");
 					var chipW = TextMetrics.MeasureTextWidth(keyword, tagPx, 600) + 16;
 					midY = y + 18;
-					_ = sb.Append("<rect x=\"").Append(x + 8).Append("\" y=\"").Append(midY - 10)
-						.Append("\" width=\"").Append(chipW).Append("\" height=\"20\" rx=\"10\" ry=\"10\" fill=\"").Append(family.Band).Append("\" />\n  ");
+					_ = sb
+						.Append("<rect x=\"")
+						.Append(x + 8)
+						.Append("\" y=\"")
+						.Append(midY - 10)
+						.Append("\" width=\"")
+						.Append(chipW)
+						.Append("\" height=\"20\" rx=\"10\" ry=\"10\" fill=\"")
+						.Append(family.Band)
+						.Append("\" />\n  ");
 					AppendText(sb, keyword, x + 8 + (chipW / 2), midY, TypeRole.Tag, family.Ink);
 					conditionX = x + 8 + chipW + 10;
 					break;
@@ -84,20 +129,58 @@ internal sealed partial class DesignSystem
 			default:
 				{
 					var r = Num(Spec.NodeRadius + 2);
-					_ = sb.Append("  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
-						.Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
-						.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-						.Append("\" fill=\"").Append(family.Tint(0)).Append("\" stroke=\"").Append(family.Edge).Append("\" stroke-width=\"1.25\" />\n  ");
+					_ = sb
+						.Append("  <rect x=\"")
+						.Append(x)
+						.Append("\" y=\"")
+						.Append(y)
+						.Append("\" width=\"")
+						.Append(w)
+						.Append("\" height=\"")
+						.Append(h)
+						.Append("\" rx=\"")
+						.Append(r)
+						.Append("\" ry=\"")
+						.Append(r)
+						.Append("\" fill=\"")
+						.Append(family.Tint(0))
+						.Append("\" stroke=\"")
+						.Append(family.Edge)
+						.Append("\" stroke-width=\"1.25\" />\n  ");
 					var tabW = TextMetrics.MeasureTextWidth(keyword, tagPx, 600) + 20;
 					midY = y + (FrameTabHeight / 2);
 					// tab: rounded top-left corner only, in the family band
 					var tr = Math.Min(Spec.NodeRadius + 2, FrameTabHeight / 2);
-					_ = sb.Append("<path d=\"M").Append(x).Append(',').Append(y + FrameTabHeight)
-						.Append(" L").Append(x).Append(',').Append(y + tr)
-						.Append(" Q").Append(x).Append(',').Append(y).Append(' ').Append(x + tr).Append(',').Append(y)
-						.Append(" L").Append(x + tabW).Append(',').Append(y)
-						.Append(" L").Append(x + tabW).Append(',').Append(y + FrameTabHeight)
-						.Append(" Z\" fill=\"").Append(family.Band).Append("\" stroke=\"").Append(family.Edge).Append("\" stroke-width=\"1.25\" />\n  ");
+					_ = sb
+						.Append("<path d=\"M")
+						.Append(x)
+						.Append(',')
+						.Append(y + FrameTabHeight)
+						.Append(" L")
+						.Append(x)
+						.Append(',')
+						.Append(y + tr)
+						.Append(" Q")
+						.Append(x)
+						.Append(',')
+						.Append(y)
+						.Append(' ')
+						.Append(x + tr)
+						.Append(',')
+						.Append(y)
+						.Append(" L")
+						.Append(x + tabW)
+						.Append(',')
+						.Append(y)
+						.Append(" L")
+						.Append(x + tabW)
+						.Append(',')
+						.Append(y + FrameTabHeight)
+						.Append(" Z\" fill=\"")
+						.Append(family.Band)
+						.Append("\" stroke=\"")
+						.Append(family.Edge)
+						.Append("\" stroke-width=\"1.25\" />\n  ");
 					AppendText(sb, keyword, x + (tabW / 2), midY, TypeRole.Tag, family.Ink);
 					conditionX = x + tabW + 10;
 					break;
@@ -119,9 +202,20 @@ internal sealed partial class DesignSystem
 	/// <summary>An <c>else</c> / <c>and</c> separator inside a frame: dashed family edge, condition as caption text under it.</summary>
 	internal void AppendFrameDivider(StringBuilder sb, double x1, double x2, double y, ColorFamily family, string? condition)
 	{
-		_ = sb.Append("  <line x1=\"").Append(x1).Append("\" y1=\"").Append(y)
-			.Append("\" x2=\"").Append(x2).Append("\" y2=\"").Append(y)
-			.Append("\" stroke=\"").Append(family.Edge).Append("\" stroke-width=\"1.25\" stroke-dasharray=\"").Append(DashArray).Append("\" />\n");
+		_ = sb
+			.Append("  <line x1=\"")
+			.Append(x1)
+			.Append("\" y1=\"")
+			.Append(y)
+			.Append("\" x2=\"")
+			.Append(x2)
+			.Append("\" y2=\"")
+			.Append(y)
+			.Append("\" stroke=\"")
+			.Append(family.Edge)
+			.Append("\" stroke-width=\"1.25\" stroke-dasharray=\"")
+			.Append(DashArray)
+			.Append("\" />\n");
 		if (condition is { Length: > 0 })
 		{
 			_ = sb.Append("  ");
@@ -134,30 +228,76 @@ internal sealed partial class DesignSystem
 	/// A container body whose outline is dashed in every preset (C4 boundary): the preset's container fill and header band,
 	/// with a dashed family outline. Draw the title with <see cref="AppendContainerHeader"/>.
 	/// </summary>
-	internal void AppendDashedContainerBody(StringBuilder sb, double x, double y, double w, double h, ColorFamily family, int depth, string cssClass, string? dataAttrs = null)
+	internal void AppendDashedContainerBody(
+		StringBuilder sb,
+		double x,
+		double y,
+		double w,
+		double h,
+		ColorFamily family,
+		int depth,
+		string cssClass,
+		string? dataAttrs = null
+	)
 	{
 		var r = Num(Spec.ContainerRadius);
 		_ = sb.Append("\n<g class=\"").Append(cssClass).Append('"');
 		if (dataAttrs is not null)
 			_ = sb.Append(' ').Append(dataAttrs);
-		_ = sb.Append(">\n  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
-			.Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
-			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"").Append(ContainerFill(family, depth)).Append("\" stroke=\"none\" />");
+		_ = sb
+			.Append(">\n  <rect x=\"")
+			.Append(x)
+			.Append("\" y=\"")
+			.Append(y)
+			.Append("\" width=\"")
+			.Append(w)
+			.Append("\" height=\"")
+			.Append(h)
+			.Append("\" rx=\"")
+			.Append(r)
+			.Append("\" ry=\"")
+			.Append(r)
+			.Append("\" fill=\"")
+			.Append(ContainerFill(family, depth))
+			.Append("\" stroke=\"none\" />");
 		if (Spec.Container == ContainerKind.Strip)
 		{
 			_ = sb.Append("\n  ");
 			AppendTopRoundedRect(sb, x, y, w, StripHeight, Spec.ContainerRadius, family.Band);
-			_ = sb.Append("\n  <line x1=\"").Append(x).Append("\" y1=\"").Append(y + StripHeight)
-				.Append("\" x2=\"").Append(x + w).Append("\" y2=\"").Append(y + StripHeight)
-				.Append("\" stroke=\"").Append(family.Edge).Append("\" stroke-width=\"").Append(ContainerStrokeWidth).Append("\" />");
+			_ = sb
+				.Append("\n  <line x1=\"")
+				.Append(x)
+				.Append("\" y1=\"")
+				.Append(y + StripHeight)
+				.Append("\" x2=\"")
+				.Append(x + w)
+				.Append("\" y2=\"")
+				.Append(y + StripHeight)
+				.Append("\" stroke=\"")
+				.Append(family.Edge)
+				.Append("\" stroke-width=\"")
+				.Append(ContainerStrokeWidth)
+				.Append("\" />");
 		}
 
-		_ = sb.Append("\n  <rect x=\"").Append(x).Append("\" y=\"").Append(y)
-			.Append("\" width=\"").Append(w).Append("\" height=\"").Append(h)
-			.Append("\" rx=\"").Append(r).Append("\" ry=\"").Append(r)
-			.Append("\" fill=\"none\" stroke=\"").Append(Spec.Container == ContainerKind.Tab ? family.Stroke : family.Edge)
-			.Append("\" stroke-width=\"1.25\" stroke-dasharray=\"").Append(BoundaryDash).Append("\" />\n</g>");
+		_ = sb
+			.Append("\n  <rect x=\"")
+			.Append(x)
+			.Append("\" y=\"")
+			.Append(y)
+			.Append("\" width=\"")
+			.Append(w)
+			.Append("\" height=\"")
+			.Append(h)
+			.Append("\" rx=\"")
+			.Append(r)
+			.Append("\" ry=\"")
+			.Append(r)
+			.Append("\" fill=\"none\" stroke=\"")
+			.Append(Spec.Container == ContainerKind.Tab ? family.Stroke : family.Edge)
+			.Append("\" stroke-width=\"1.25\" stroke-dasharray=\"")
+			.Append(BoundaryDash)
+			.Append("\" />\n</g>");
 	}
 
 	/// <summary>Small line glyphs drawn in a family ink (person, cloud, database, disk, server, internet, generic).</summary>
@@ -185,7 +325,10 @@ internal sealed partial class DesignSystem
 			Glyph.Cloud => sb.Append("<path d=\"M-7 4.5 C-11 4.5 -11 -1.5 -6 -1.5 C-6 -6.5 3 -7.5 4 -1.5 C10 -2.5 11 4.5 6 4.5Z\" />"),
 			Glyph.Database => sb.Append("<ellipse cx=\"0\" cy=\"-8\" rx=\"9\" ry=\"3.5\" /><path d=\"M-9 -8 V8 C-9 10 9 10 9 8 V-8 M-9 0 C-9 2 9 2 9 0\" />"),
 			Glyph.Disk => sb.Append("<path d=\"M-9 -8 H9 L7 9 H-7Z\" /><path d=\"M-9 -8 C-9 -11 9 -11 9 -8\" />"),
-			Glyph.Server => sb.Append("<rect x=\"-10\" y=\"-9\" width=\"20\" height=\"7\" rx=\"2\" /><rect x=\"-10\" y=\"2\" width=\"20\" height=\"7\" rx=\"2\" /><path d=\"M-5 -5.5 H-4 M-5 5.5 H-4\" />"),
+			Glyph.Server =>
+				sb.Append(
+					"<rect x=\"-10\" y=\"-9\" width=\"20\" height=\"7\" rx=\"2\" /><rect x=\"-10\" y=\"2\" width=\"20\" height=\"7\" rx=\"2\" /><path d=\"M-5 -5.5 H-4 M-5 5.5 H-4\" />"
+				),
 			Glyph.Internet => sb.Append("<circle cx=\"0\" cy=\"0\" r=\"9\" /><path d=\"M-9 0 H9 M0 -9 C5 -4 5 4 0 9 M0 -9 C-5 -4 -5 4 0 9\" />"),
 			_ => sb.Append("<rect x=\"-8\" y=\"-8\" width=\"16\" height=\"16\" rx=\"3\" /><circle cx=\"0\" cy=\"0\" r=\"1.5\" />"),
 		};
@@ -238,7 +381,14 @@ internal sealed partial class DesignSystem
 	/// accent mark, caps tab knocked out of the border, chip with accent dot) and <paramref name="drawIcon"/> called with the
 	/// centre of an <see cref="HeaderIconSize"/> slot.
 	/// </summary>
-	internal void AppendContainerHeaderWithIcon(StringBuilder sb, double x, double y, string title, ColorFamily family, Action<StringBuilder, double, double> drawIcon)
+	internal void AppendContainerHeaderWithIcon(
+		StringBuilder sb,
+		double x,
+		double y,
+		string title,
+		ColorFamily family,
+		Action<StringBuilder, double, double> drawIcon
+	)
 	{
 		var slot = HeaderIconSize + 6;
 		switch (Spec.Container)
@@ -248,10 +398,24 @@ internal sealed partial class DesignSystem
 					var caps = title.ToUpperInvariant();
 					var textW = TextMetrics.MeasureTextWidth(caps, Px(TypeRole.Eyebrow), 600) + (caps.Length * 1.0);
 					var tabX = x + 12;
-					_ = sb.Append("\n<rect x=\"").Append(tabX - 4).Append("\" y=\"").Append(y - (HeaderIconSize / 2))
-						.Append("\" width=\"").Append(textW + slot + 20).Append("\" height=\"").Append(HeaderIconSize).Append("\" fill=\"var(--bg)\" />");
-					_ = sb.Append("\n<rect x=\"").Append(tabX).Append("\" y=\"").Append(y - 5)
-						.Append("\" width=\"2\" height=\"10\" fill=\"").Append(family.Stroke).Append("\" />\n");
+					_ = sb
+						.Append("\n<rect x=\"")
+						.Append(tabX - 4)
+						.Append("\" y=\"")
+						.Append(y - (HeaderIconSize / 2))
+						.Append("\" width=\"")
+						.Append(textW + slot + 20)
+						.Append("\" height=\"")
+						.Append(HeaderIconSize)
+						.Append("\" fill=\"var(--bg)\" />");
+					_ = sb
+						.Append("\n<rect x=\"")
+						.Append(tabX)
+						.Append("\" y=\"")
+						.Append(y - 5)
+						.Append("\" width=\"2\" height=\"10\" fill=\"")
+						.Append(family.Stroke)
+						.Append("\" />\n");
 					drawIcon(sb, tabX + 8 + (HeaderIconSize / 2), y);
 					_ = sb.Append('\n');
 					AppendText(sb, caps, tabX + 8 + slot, y, TypeRole.Eyebrow, family.Ink, anchor: "start");
@@ -261,10 +425,24 @@ internal sealed partial class DesignSystem
 				{
 					var textW = TextMetrics.MeasureTextWidth(title, Px(TypeRole.Subheading), 700);
 					var chipW = textW + 34 + slot;
-					_ = sb.Append("\n<rect x=\"").Append(x + 10).Append("\" y=\"").Append(y + 7)
-						.Append("\" width=\"").Append(chipW).Append("\" height=\"24\" rx=\"12\" ry=\"12\" fill=\"").Append(family.Band).Append("\" />");
-					_ = sb.Append("\n<circle cx=\"").Append(x + 22).Append("\" cy=\"").Append(y + 19)
-						.Append("\" r=\"3.5\" fill=\"").Append(family.Stroke).Append("\" />\n");
+					_ = sb
+						.Append("\n<rect x=\"")
+						.Append(x + 10)
+						.Append("\" y=\"")
+						.Append(y + 7)
+						.Append("\" width=\"")
+						.Append(chipW)
+						.Append("\" height=\"24\" rx=\"12\" ry=\"12\" fill=\"")
+						.Append(family.Band)
+						.Append("\" />");
+					_ = sb
+						.Append("\n<circle cx=\"")
+						.Append(x + 22)
+						.Append("\" cy=\"")
+						.Append(y + 19)
+						.Append("\" r=\"3.5\" fill=\"")
+						.Append(family.Stroke)
+						.Append("\" />\n");
 					drawIcon(sb, x + 30 + (HeaderIconSize / 2), y + 19);
 					_ = sb.Append('\n');
 					AppendText(sb, title, x + 30 + slot, y + 19, TypeRole.Subheading, family.Ink, anchor: "start", weight: 700);
@@ -281,5 +459,4 @@ internal sealed partial class DesignSystem
 				}
 		}
 	}
-
 }

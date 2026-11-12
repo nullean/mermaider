@@ -11,18 +11,30 @@ namespace Sugiyama.Internal;
 /// </summary>
 internal static class CrossingMinimizer
 {
-	internal static void Run(GraphBuffer graph, int iterations = 4, bool useModelOrderForVirtuals = false,
-		bool useModelOrderForRealNodes = false, bool useRealFirstTiebreaker = false, int restarts = 0,
-		CancellationToken ct = default)
-		=> Run(graph, iterations, useModelOrderForVirtuals, useModelOrderForRealNodes, useRealFirstTiebreaker, restarts, null, ct);
+	internal static void Run(
+		GraphBuffer graph,
+		int iterations = 4,
+		bool useModelOrderForVirtuals = false,
+		bool useModelOrderForRealNodes = false,
+		bool useRealFirstTiebreaker = false,
+		int restarts = 0,
+		CancellationToken ct = default
+	) => Run(graph, iterations, useModelOrderForVirtuals, useModelOrderForRealNodes, useRealFirstTiebreaker, restarts, null, ct);
 
 	/// <summary>
 	/// As above; when <paramref name="tiedBest"/> is supplied it receives every distinct ordering (position snapshots, capped)
 	/// that reached the minimum crossing count, the first being the deterministic model-order result.
 	/// </summary>
-	internal static void Run(GraphBuffer graph, int iterations, bool useModelOrderForVirtuals,
-		bool useModelOrderForRealNodes, bool useRealFirstTiebreaker, int restarts, List<int[]>? tiedBest,
-		CancellationToken ct)
+	internal static void Run(
+		GraphBuffer graph,
+		int iterations,
+		bool useModelOrderForVirtuals,
+		bool useModelOrderForRealNodes,
+		bool useRealFirstTiebreaker,
+		int restarts,
+		List<int[]>? tiedBest,
+		CancellationToken ct
+	)
 	{
 		if (graph.LayerCount <= 1)
 			return;
@@ -80,8 +92,10 @@ internal static class CrossingMinimizer
 				}
 			}
 
-			if (tiedBest is not null && total <= bestCrossings + slack && tiedBest.Count < maxTied
-				&& !tiedBest.Any(t => t.AsSpan().SequenceEqual(graph.NodePositionInLayer.AsSpan(0, graph.NodeCount))))
+			if (
+				tiedBest is not null && total <= bestCrossings + slack && tiedBest.Count < maxTied &&
+				!tiedBest.Any(t => t.AsSpan().SequenceEqual(graph.NodePositionInLayer.AsSpan(0, graph.NodeCount)))
+			)
 			{
 				tiedBest.Add(Snapshot(graph));
 				totals.Add(total);
@@ -101,8 +115,14 @@ internal static class CrossingMinimizer
 	/// <summary>Applies a position snapshot taken by <see cref="Run(GraphBuffer,int,bool,bool,bool,int,List{int[]},CancellationToken)"/>.</summary>
 	internal static void ApplyOrder(GraphBuffer graph, int[] positionSnapshot) => RestoreOrder(graph, positionSnapshot);
 
-	private static void Optimize(GraphBuffer graph, int iterations, bool useModelOrderForVirtuals,
-		bool useModelOrderForRealNodes, bool useRealFirstTiebreaker, CancellationToken ct)
+	private static void Optimize(
+		GraphBuffer graph,
+		int iterations,
+		bool useModelOrderForVirtuals,
+		bool useModelOrderForRealNodes,
+		bool useRealFirstTiebreaker,
+		CancellationToken ct
+	)
 	{
 		var barycenters = new double[graph.NodeCount];
 
@@ -192,7 +212,8 @@ internal static class CrossingMinimizer
 					changed = true;
 				}
 			}
-		} while (changed && ++rounds < 8);
+		}
+		while (changed && ++rounds < 8);
 	}
 
 	private static void MoveNode(GraphBuffer graph, int[] nodes, int from, int to)
@@ -294,10 +315,7 @@ internal static class CrossingMinimizer
 						// decreases. This handles both single-crossing elimination (1→0) and
 						// multi-crossing reduction (e.g. 2→1) without risking a regression in
 						// either pair.
-						var isImprovement =
-							aboveAfter <= aboveBefore &&
-							belowAfter <= belowBefore &&
-							aboveAfter + belowAfter < aboveBefore + belowBefore;
+						var isImprovement = aboveAfter <= aboveBefore && belowAfter <= belowBefore && aboveAfter + belowAfter < aboveBefore + belowBefore;
 
 						if (isImprovement)
 						{
@@ -325,7 +343,8 @@ internal static class CrossingMinimizer
 						break;
 				}
 			}
-		} while (changed);
+		}
+		while (changed);
 	}
 
 	/// <summary>
@@ -405,8 +424,15 @@ internal static class CrossingMinimizer
 		}
 	}
 
-	private static void SweepLayer(GraphBuffer graph, int layer, double[] barycenters, bool useInEdges,
-		bool useModelOrderForVirtuals, bool useModelOrderForRealNodes, bool useRealFirstTiebreaker = false)
+	private static void SweepLayer(
+		GraphBuffer graph,
+		int layer,
+		double[] barycenters,
+		bool useInEdges,
+		bool useModelOrderForVirtuals,
+		bool useModelOrderForRealNodes,
+		bool useRealFirstTiebreaker = false
+	)
 	{
 		var nodes = graph.LayerNodes[layer];
 		if (nodes.Length <= 1)
@@ -458,12 +484,8 @@ internal static class CrossingMinimizer
 				// virtual chain nodes carry OriginalEdgeIndex as model order, real nodes carry
 				// NodeIndex. When model orders equal, real nodes sort before virtual nodes.
 				// When both are real, fall through to stable sort by current position.
-				var aOrder = aVirt && graph.VirtualNodeModelOrder != null
-					? graph.VirtualNodeModelOrder[a - graph.RealNodeCount]
-					: a;
-				var bOrder = bVirt && graph.VirtualNodeModelOrder != null
-					? graph.VirtualNodeModelOrder[b - graph.RealNodeCount]
-					: b;
+				var aOrder = aVirt && graph.VirtualNodeModelOrder != null ? graph.VirtualNodeModelOrder[a - graph.RealNodeCount] : a;
+				var bOrder = bVirt && graph.VirtualNodeModelOrder != null ? graph.VirtualNodeModelOrder[b - graph.RealNodeCount] : b;
 				var orderCmp = aOrder.CompareTo(bOrder);
 				if (orderCmp != 0)
 					return orderCmp;

@@ -49,8 +49,7 @@ public static class IconRegistry
 	/// <param name="name">The icon name, e.g. <c>"server"</c> or <c>"aws:ec2"</c>. Case-insensitive.</param>
 	/// <param name="svg">UTF-8-encoded SVG markup for the icon.</param>
 	/// <exception cref="MermaidSvgException">Thrown when <paramref name="svg"/> is malformed or violates the SVG allowlist.</exception>
-	public static void Register(string name, ReadOnlySpan<byte> svg) =>
-		Register(name, Encoding.UTF8.GetString(svg));
+	public static void Register(string name, ReadOnlySpan<byte> svg) => Register(name, Encoding.UTF8.GetString(svg));
 
 	/// <summary>
 	/// Registers (or overwrites) an icon by reading UTF-8-encoded SVG from a stream — e.g. an
@@ -104,8 +103,7 @@ public static class IconRegistry
 	}
 
 	/// <summary>All icon names currently resolvable (built-in union custom registrations).</summary>
-	public static IEnumerable<string> Names =>
-		BuiltInIcons.Map.Keys.Concat(Custom.Keys).Distinct(StringComparer.OrdinalIgnoreCase);
+	public static IEnumerable<string> Names => BuiltInIcons.Map.Keys.Concat(Custom.Keys).Distinct(StringComparer.OrdinalIgnoreCase);
 
 	/// <summary>
 	/// Looks up the light/dark gradient pair a built-in vendor icon wants painted on the whole

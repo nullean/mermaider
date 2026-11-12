@@ -8,11 +8,7 @@ public class SugiyamaLayoutTests
 	[Test]
 	public void Single_node_produces_valid_result()
 	{
-		var graph = new LayoutGraph(
-			LayoutDirection.TD,
-			[new LayoutNode("A", 100, 40)],
-			[],
-			[]);
+		var graph = new LayoutGraph(LayoutDirection.TD, [new LayoutNode("A", 100, 40)], [], []);
 
 		var result = SugiyamaLayout.Compute(graph);
 
@@ -25,11 +21,7 @@ public class SugiyamaLayoutTests
 	[Test]
 	public void Two_nodes_one_edge_lays_out_vertically()
 	{
-		var graph = new LayoutGraph(
-			LayoutDirection.TD,
-			[new LayoutNode("A", 100, 40), new LayoutNode("B", 100, 40)],
-			[new LayoutEdge("A", "B")],
-			[]);
+		var graph = new LayoutGraph(LayoutDirection.TD, [new LayoutNode("A", 100, 40), new LayoutNode("B", 100, 40)], [new LayoutEdge("A", "B")], []);
 
 		var result = SugiyamaLayout.Compute(graph);
 
@@ -44,11 +36,7 @@ public class SugiyamaLayoutTests
 	[Test]
 	public void LR_direction_places_nodes_horizontally()
 	{
-		var graph = new LayoutGraph(
-			LayoutDirection.LR,
-			[new LayoutNode("A", 100, 40), new LayoutNode("B", 100, 40)],
-			[new LayoutEdge("A", "B")],
-			[]);
+		var graph = new LayoutGraph(LayoutDirection.LR, [new LayoutNode("A", 100, 40), new LayoutNode("B", 100, 40)], [new LayoutEdge("A", "B")], []);
 
 		var result = SugiyamaLayout.Compute(graph);
 
@@ -62,19 +50,10 @@ public class SugiyamaLayoutTests
 	{
 		var graph = new LayoutGraph(
 			LayoutDirection.TD,
-			[
-				new LayoutNode("A", 80, 40),
-				new LayoutNode("B", 80, 40),
-				new LayoutNode("C", 80, 40),
-				new LayoutNode("D", 80, 40),
-			],
-			[
-				new LayoutEdge("A", "B"),
-				new LayoutEdge("A", "C"),
-				new LayoutEdge("B", "D"),
-				new LayoutEdge("C", "D"),
-			],
-			[]);
+			[new LayoutNode("A", 80, 40), new LayoutNode("B", 80, 40), new LayoutNode("C", 80, 40), new LayoutNode("D", 80, 40),],
+			[new LayoutEdge("A", "B"), new LayoutEdge("A", "C"), new LayoutEdge("B", "D"), new LayoutEdge("C", "D"),],
+			[]
+		);
 
 		var result = SugiyamaLayout.Compute(graph);
 
@@ -97,17 +76,10 @@ public class SugiyamaLayoutTests
 	{
 		var graph = new LayoutGraph(
 			LayoutDirection.TD,
-			[
-				new LayoutNode("A", 80, 40),
-				new LayoutNode("B", 80, 40),
-				new LayoutNode("C", 80, 40),
-			],
-			[
-				new LayoutEdge("A", "B"),
-				new LayoutEdge("B", "C"),
-				new LayoutEdge("C", "A"),
-			],
-			[]);
+			[new LayoutNode("A", 80, 40), new LayoutNode("B", 80, 40), new LayoutNode("C", 80, 40),],
+			[new LayoutEdge("A", "B"), new LayoutEdge("B", "C"), new LayoutEdge("C", "A"),],
+			[]
+		);
 
 		var result = SugiyamaLayout.Compute(graph);
 
@@ -122,18 +94,10 @@ public class SugiyamaLayoutTests
 	{
 		var graph = new LayoutGraph(
 			LayoutDirection.TD,
-			[
-				new LayoutNode("A", 80, 40),
-				new LayoutNode("B", 80, 40),
-				new LayoutNode("C", 80, 40),
-			],
-			[
-				new LayoutEdge("A", "B"),
-				new LayoutEdge("B", "C"),
-			],
-			[
-				new LayoutSubgraph("sg1", "My Group", ["A", "B"], []),
-			]);
+			[new LayoutNode("A", 80, 40), new LayoutNode("B", 80, 40), new LayoutNode("C", 80, 40),],
+			[new LayoutEdge("A", "B"), new LayoutEdge("B", "C"),],
+			[new LayoutSubgraph("sg1", "My Group", ["A", "B"], []),]
+		);
 
 		var result = SugiyamaLayout.Compute(graph);
 
@@ -148,11 +112,7 @@ public class SugiyamaLayoutTests
 	[Test]
 	public void Edge_points_are_not_empty()
 	{
-		var graph = new LayoutGraph(
-			LayoutDirection.TD,
-			[new LayoutNode("A", 100, 40), new LayoutNode("B", 100, 40)],
-			[new LayoutEdge("A", "B")],
-			[]);
+		var graph = new LayoutGraph(LayoutDirection.TD, [new LayoutNode("A", 100, 40), new LayoutNode("B", 100, 40)], [new LayoutEdge("A", "B")], []);
 
 		var result = SugiyamaLayout.Compute(graph);
 
@@ -163,13 +123,9 @@ public class SugiyamaLayoutTests
 	[Test]
 	public void Large_graph_completes_without_error()
 	{
-		var nodes = Enumerable.Range(0, 20)
-			.Select(i => new LayoutNode($"N{i}", 80, 40))
-			.ToList();
+		var nodes = Enumerable.Range(0, 20).Select(i => new LayoutNode($"N{i}", 80, 40)).ToList();
 
-		var edges = Enumerable.Range(0, 19)
-			.Select(i => new LayoutEdge($"N{i}", $"N{i + 1}"))
-			.ToList();
+		var edges = Enumerable.Range(0, 19).Select(i => new LayoutEdge($"N{i}", $"N{i + 1}")).ToList();
 
 		var graph = new LayoutGraph(LayoutDirection.TD, nodes, edges, []);
 
@@ -184,11 +140,7 @@ public class SugiyamaLayoutTests
 	[Test]
 	public void BT_direction_reverses_vertical_order()
 	{
-		var graph = new LayoutGraph(
-			LayoutDirection.BT,
-			[new LayoutNode("A", 100, 40), new LayoutNode("B", 100, 40)],
-			[new LayoutEdge("A", "B")],
-			[]);
+		var graph = new LayoutGraph(LayoutDirection.BT, [new LayoutNode("A", 100, 40), new LayoutNode("B", 100, 40)], [new LayoutEdge("A", "B")], []);
 
 		var result = SugiyamaLayout.Compute(graph);
 
@@ -200,11 +152,7 @@ public class SugiyamaLayoutTests
 	[Test]
 	public void RL_direction_reverses_horizontal_order()
 	{
-		var graph = new LayoutGraph(
-			LayoutDirection.RL,
-			[new LayoutNode("A", 100, 40), new LayoutNode("B", 100, 40)],
-			[new LayoutEdge("A", "B")],
-			[]);
+		var graph = new LayoutGraph(LayoutDirection.RL, [new LayoutNode("A", 100, 40), new LayoutNode("B", 100, 40)], [new LayoutEdge("A", "B")], []);
 
 		var result = SugiyamaLayout.Compute(graph);
 
@@ -218,13 +166,10 @@ public class SugiyamaLayoutTests
 	{
 		var graph = new LayoutGraph(
 			LayoutDirection.TD,
-			[
-				new LayoutNode("A", 80, 40),
-				new LayoutNode("B", 80, 40),
-				new LayoutNode("C", 80, 40),
-			],
+			[new LayoutNode("A", 80, 40), new LayoutNode("B", 80, 40), new LayoutNode("C", 80, 40),],
 			[new LayoutEdge("A", "B")],
-			[]);
+			[]
+		);
 
 		var result = SugiyamaLayout.Compute(graph);
 
@@ -235,11 +180,7 @@ public class SugiyamaLayoutTests
 	[Test]
 	public void Custom_spacing_options_are_respected()
 	{
-		var graph = new LayoutGraph(
-			LayoutDirection.TD,
-			[new LayoutNode("A", 80, 40), new LayoutNode("B", 80, 40)],
-			[new LayoutEdge("A", "B")],
-			[]);
+		var graph = new LayoutGraph(LayoutDirection.TD, [new LayoutNode("A", 80, 40), new LayoutNode("B", 80, 40)], [new LayoutEdge("A", "B")], []);
 
 		var tight = SugiyamaLayout.Compute(graph, new LayoutOptions { NodeSpacing = 10, LayerSpacing = 20 });
 		var wide = SugiyamaLayout.Compute(graph, new LayoutOptions { NodeSpacing = 100, LayerSpacing = 200 });
@@ -266,8 +207,8 @@ public class SugiyamaLayoutTests
 		var graph = new LayoutGraph(
 			LayoutDirection.TD,
 			[
-				new LayoutNode("S",  240, 52),
-				new LayoutNode("O",  150, 52),
+				new LayoutNode("S", 240, 52),
+				new LayoutNode("O", 150, 52),
 				new LayoutNode("VX", 110, 52),
 				new LayoutNode("VY", 110, 52),
 				new LayoutNode("AX", 153, 52),
@@ -284,7 +225,8 @@ public class SugiyamaLayoutTests
 				new LayoutEdge("VY", "NG"),
 				new LayoutEdge("VY", "AP"),
 			],
-			[]);
+			[]
+		);
 
 		var result = SugiyamaLayout.Compute(graph);
 
@@ -293,7 +235,8 @@ public class SugiyamaLayoutTests
 		var oBottom = o.Y + o.Height;
 
 		// No edge point from VX's outgoing edges should lie inside O's bounding box.
-		var vxEdges = result.Edges
+		var vxEdges = result
+			.Edges
 			.Where(e => e.OriginalIndex is 3 or 4) // VX→AX, VX→AU
 			.ToList();
 
@@ -304,7 +247,8 @@ public class SugiyamaLayoutTests
 				var insideX = pt.X > o.X && pt.X < oRight;
 				var insideY = pt.Y > o.Y && pt.Y < oBottom;
 				(insideX && insideY).Should().BeFalse(
-					$"edge point ({pt.X:F1},{pt.Y:F1}) lies inside the 'other-events' node bounding box [{o.X:F1},{o.Y:F1},{oRight:F1},{oBottom:F1}]");
+					$"edge point ({pt.X:F1},{pt.Y:F1}) lies inside the 'other-events' node bounding box [{o.X:F1},{o.Y:F1},{oRight:F1},{oBottom:F1}]"
+				);
 			}
 		}
 	}
@@ -318,7 +262,8 @@ public class SugiyamaLayoutTests
 			LayoutDirection.TD,
 			[new LayoutNode("A", 100, 40), new LayoutNode("B", 100, 40)],
 			[new LayoutEdge("A", "A"), new LayoutEdge("A", "B")],
-			[]);
+			[]
+		);
 
 		var result = SugiyamaLayout.Compute(graph);
 
@@ -332,11 +277,7 @@ public class SugiyamaLayoutTests
 		// Mirrors the real-world firewall state machine from issue #49.
 		var graph = new LayoutGraph(
 			LayoutDirection.TD,
-			[
-				new LayoutNode("Start", 60, 30),
-				new LayoutNode("Ready", 100, 40),
-				new LayoutNode("Stopped", 100, 40),
-			],
+			[new LayoutNode("Start", 60, 30), new LayoutNode("Ready", 100, 40), new LayoutNode("Stopped", 100, 40),],
 			[
 				new LayoutEdge("Start", "Ready"),
 				new LayoutEdge("Ready", "Ready"),
@@ -344,7 +285,8 @@ public class SugiyamaLayoutTests
 				new LayoutEdge("Ready", "Ready"),
 				new LayoutEdge("Ready", "Stopped"),
 			],
-			[]);
+			[]
+		);
 
 		var result = SugiyamaLayout.Compute(graph);
 
@@ -360,7 +302,8 @@ public class SugiyamaLayoutTests
 			LayoutDirection.TD,
 			[new LayoutNode("A", 100, 40), new LayoutNode("B", 100, 40)],
 			[new LayoutEdge("A", "B"), new LayoutEdge("B", "A")],
-			[]);
+			[]
+		);
 
 		var result = SugiyamaLayout.Compute(graph);
 
@@ -371,11 +314,7 @@ public class SugiyamaLayoutTests
 	public void Self_loop_only_node_does_not_stackoverflow()
 	{
 		// A node with only a self-loop and no other edges.
-		var graph = new LayoutGraph(
-			LayoutDirection.TD,
-			[new LayoutNode("A", 100, 40)],
-			[new LayoutEdge("A", "A")],
-			[]);
+		var graph = new LayoutGraph(LayoutDirection.TD, [new LayoutNode("A", 100, 40)], [new LayoutEdge("A", "A")], []);
 
 		var result = SugiyamaLayout.Compute(graph);
 
@@ -395,7 +334,8 @@ public class SugiyamaLayoutTests
 			LayoutDirection.LR,
 			[new LayoutNode("A", 100, 40), new LayoutNode("B", 100, 40), new LayoutNode("C", 100, 40)],
 			[new LayoutEdge("A", "B", 60, 150), new LayoutEdge("A", "C", 60, 150)],
-			[]);
+			[]
+		);
 
 		var result = SugiyamaLayout.Compute(graph, new LayoutOptions { NodeSpacing = 20, LayerSpacing = 200 });
 
@@ -413,13 +353,19 @@ public class SugiyamaLayoutTests
 	// Negated-axis direction transform regression tests
 	// ====================================================================
 
-	private static LayoutGraph ThreeNodeChain(LayoutDirection direction) => new(
-		direction,
-		// Deliberately unequal widths: a chain where every node is the same size can't
-		// distinguish "mirrored correctly" from "mirrored using the wrong node's size".
-		[new LayoutNode("A", 93.056, 52.8), new LayoutNode("B", 106.736, 52.8), new LayoutNode("C", 87.584, 52.8)],
-		[new LayoutEdge("A", "B"), new LayoutEdge("B", "C")],
-		[]);
+	private static LayoutGraph ThreeNodeChain(LayoutDirection direction) =>
+		new(
+			direction,
+			// Deliberately unequal widths: a chain where every node is the same size can't
+			// distinguish "mirrored correctly" from "mirrored using the wrong node's size".
+			[
+				new LayoutNode("A", 93.056, 52.8),
+				new LayoutNode("B", 106.736, 52.8),
+				new LayoutNode("C", 87.584, 52.8)
+			],
+			[new LayoutEdge("A", "B"), new LayoutEdge("B", "C")],
+			[]
+		);
 
 	[Test]
 	public void RL_total_width_mirrors_LR()
@@ -478,11 +424,9 @@ public class SugiyamaLayoutTests
 		var graph = new LayoutGraph(
 			LayoutDirection.TD,
 			[new LayoutNode("A", 100, 40), new LayoutNode("B", 100, 40)],
-			[
-				new LayoutEdge("A", "A", MinLength: 3),
-				new LayoutEdge("A", "B"),
-			],
-			[]);
+			[new LayoutEdge("A", "A", MinLength: 3), new LayoutEdge("A", "B"),],
+			[]
+		);
 
 		var result = SugiyamaLayout.Compute(graph, new LayoutOptions { CancellationToken = ct });
 

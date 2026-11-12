@@ -25,19 +25,13 @@ internal static class EntityBoxSizing
 	/// <summary>Size of a class box and its header / attribute / method sections.</summary>
 	internal static (double Width, double Height, double HeaderHeight, double AttrHeight, double MethodHeight) Class(ClassNode cls)
 	{
-		var headerHeight = cls.Annotation != null
-			? ClassHeaderBaseHeight + ClassAnnotationHeight
-			: ClassHeaderBaseHeight;
+		var headerHeight = cls.Annotation != null ? ClassHeaderBaseHeight + ClassAnnotationHeight : ClassHeaderBaseHeight;
 
 		// a class without members is just its header; otherwise an empty compartment keeps a sliver so both read
 		var hasMembers = cls.Attributes.Count > 0 || cls.Methods.Count > 0;
-		var attrHeight = cls.Attributes.Count > 0
-			? (cls.Attributes.Count * ClassMemberRowHeight) + ClassSectionPadY
-			: hasMembers ? ClassEmptySectionHeight : 0;
+		var attrHeight = cls.Attributes.Count > 0 ? (cls.Attributes.Count * ClassMemberRowHeight) + ClassSectionPadY : hasMembers ? ClassEmptySectionHeight : 0;
 
-		var methodHeight = cls.Methods.Count > 0
-			? (cls.Methods.Count * ClassMemberRowHeight) + ClassSectionPadY
-			: hasMembers ? ClassEmptySectionHeight : 0;
+		var methodHeight = cls.Methods.Count > 0 ? (cls.Methods.Count * ClassMemberRowHeight) + ClassSectionPadY : hasMembers ? ClassEmptySectionHeight : 0;
 
 		var headerW = EntityGrid.HeadingWidth(cls.Label);
 		if (cls.Annotation is { Length: > 0 } annotation)
@@ -57,9 +51,7 @@ internal static class EntityBoxSizing
 		// Edge anchors are spread evenly along a node side; keep them at least ~18px apart so crow's-foot markers don't overlap.
 		var anchorWidth = degree > 4 ? (degree * 18) + 24 : 0;
 		var width = Math.Max(Math.Max(ErMinWidth, anchorWidth), Math.Max(EntityGrid.HeadingWidth(entity.Label), gridW));
-		var height = entity.Attributes.Count == 0
-			? ErHeaderHeight + 8
-			: ErHeaderHeight + (entity.Attributes.Count * ErRowHeight);
+		var height = entity.Attributes.Count == 0 ? ErHeaderHeight + 8 : ErHeaderHeight + (entity.Attributes.Count * ErRowHeight);
 		return (width, height);
 	}
 

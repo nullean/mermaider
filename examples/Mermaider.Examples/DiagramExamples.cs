@@ -1,6 +1,33 @@
 namespace Mermaider.Examples;
 
-public enum DiagramCategory { Flowchart, Sequence, State, Class, Er, Pie, Quadrant, Timeline, GitGraph, Radar, Treemap, Venn, Mindmap, Gantt, Journey, C4, Sankey, XyChart, Requirement, Packet, Kanban, Architecture, Block, TreeView, RealWorld }
+public enum DiagramCategory
+{
+	Flowchart,
+	Sequence,
+	State,
+	Class,
+	Er,
+	Pie,
+	Quadrant,
+	Timeline,
+	GitGraph,
+	Radar,
+	Treemap,
+	Venn,
+	Mindmap,
+	Gantt,
+	Journey,
+	C4,
+	Sankey,
+	XyChart,
+	Requirement,
+	Packet,
+	Kanban,
+	Architecture,
+	Block,
+	TreeView,
+	RealWorld
+}
 
 public sealed record DiagramExample(string Slug, string Title, DiagramCategory Category, string Source, string? Feature = null);
 
@@ -13,19 +40,27 @@ public static partial class DiagramExamples
 	public static readonly DiagramExample[] All = [.. CoreExamples(), .. DocsBuilderErdExamples()];
 
 	private static DiagramExample[] CoreExamples() =>
-	[
-		// ── Flowchart ──────────────────────────────────────────────────
+		[
+			// ── Flowchart ──────────────────────────────────────────────────
 
-		new("flowchart-simple", "Simple Flow", DiagramCategory.Flowchart, """
+			new(
+				"flowchart-simple",
+				"Simple Flow",
+				DiagramCategory.Flowchart,
+				"""
 			graph TD
 			  A[Start] --> B{Decision}
 			  B -->|Yes| C[OK]
 			  B -->|No| D[Cancel]
 			  C --> E[End]
 			  D --> E
-			"""),
-
-		new("flowchart-shapes", "All Shapes", DiagramCategory.Flowchart, """
+			"""
+			),
+			new(
+				"flowchart-shapes",
+				"All Shapes",
+				DiagramCategory.Flowchart,
+				"""
 			graph LR
 			  A[Rectangle] --> B(Rounded)
 			  B --> C([Stadium])
@@ -34,18 +69,26 @@ public static partial class DiagramExamples
 			  E --> F>Asymmetric]
 			  F --> G{{Hexagon}}
 			  G --> H[[Subroutine]]
-			"""),
-
-		new("flowchart-edges", "Edge Styles", DiagramCategory.Flowchart, """
+			"""
+			),
+			new(
+				"flowchart-edges",
+				"Edge Styles",
+				DiagramCategory.Flowchart,
+				"""
 			graph LR
 			  A -->|solid| B
 			  A -.->|dotted| C
 			  A ==>|thick| D
 			  E --- F
 			  G <--> H
-			"""),
-
-		new("flowchart-subgraphs", "Subgraphs", DiagramCategory.Flowchart, """
+			"""
+			),
+			new(
+				"flowchart-subgraphs",
+				"Subgraphs",
+				DiagramCategory.Flowchart,
+				"""
 			graph TD
 			  subgraph Backend
 			    direction LR
@@ -57,32 +100,48 @@ public static partial class DiagramExamples
 			  end
 			  UI --> API
 			  State --> API
-			"""),
-
-		new("flowchart-chained", "Chained & Parallel", DiagramCategory.Flowchart, """
+			"""
+			),
+			new(
+				"flowchart-chained",
+				"Chained & Parallel",
+				DiagramCategory.Flowchart,
+				"""
 			graph TD
 			  A --> B --> C --> D
 			  E & F --> G & H
-			"""),
-
-		new("flowchart-styled", "ClassDef Styling", DiagramCategory.Flowchart, """
+			"""
+			),
+			new(
+				"flowchart-styled",
+				"ClassDef Styling",
+				DiagramCategory.Flowchart,
+				"""
 			graph TD
 			  classDef important fill:#f96,color:#fff,stroke:#333,stroke-width:2px
 			  classDef muted fill:#eee,color:#999,stroke:#ccc
 			  A[Important]:::important --> B[Normal] --> C[Muted]:::muted
 			  B --> D[Also Important]:::important
-			"""),
-
-		new("flowchart-christmas", "Decision Tree", DiagramCategory.Flowchart, """
+			"""
+			),
+			new(
+				"flowchart-christmas",
+				"Decision Tree",
+				DiagramCategory.Flowchart,
+				"""
 			flowchart TD
 			  A[Christmas] -->|Get money| B(Go shopping)
 			  B --> C{Let me think}
 			  C -->|One| D[Laptop]
 			  C -->|Two| E[iPhone]
 			  C -->|Three| F[Car]
-			"""),
-
-		new("flowchart-network", "Nested Subgraphs", DiagramCategory.Flowchart, """
+			"""
+			),
+			new(
+				"flowchart-network",
+				"Nested Subgraphs",
+				DiagramCategory.Flowchart,
+				"""
 			flowchart TB
 			  internet
 			  nat
@@ -102,9 +161,13 @@ public static partial class DiagramExamples
 			  internet --> router
 			  router --> subnet1 & subnet2
 			  subnet1 & subnet2 --> nat --> internet
-			"""),
-
-		new("flowchart-long-edges", "Long & Mixed Edges", DiagramCategory.Flowchart, """
+			"""
+			),
+			new(
+				"flowchart-long-edges",
+				"Long & Mixed Edges",
+				DiagramCategory.Flowchart,
+				"""
 			graph TD
 			  A ----> B
 			  A ====> C
@@ -112,9 +175,13 @@ public static partial class DiagramExamples
 			  E -->|text| F
 			  E -. dotted text .-> G
 			  E == thick text ==> H
-			"""),
-
-		new("flowchart-styled-sub", "Styled Subgraphs", DiagramCategory.Flowchart, """
+			"""
+			),
+			new(
+				"flowchart-styled-sub",
+				"Styled Subgraphs",
+				DiagramCategory.Flowchart,
+				"""
 			flowchart TB
 			  A
 			  B
@@ -132,18 +199,27 @@ public static partial class DiagramExamples
 			  B-->D
 			  D-->E
 			  E-->A
-			"""),
-
-		new("flowchart-invisible", "Invisible Edges", DiagramCategory.Flowchart, """
+			"""
+			),
+			new(
+				"flowchart-invisible",
+				"Invisible Edges",
+				DiagramCategory.Flowchart,
+				"""
 			graph TD
 			  A[Positioned Left] ~~~ B[Positioned Right]
 			  A --> C[Connected Below]
 			  B --> D[Also Below]
 			  C --> E[Merged]
 			  D --> E
-			""", "invisible edges"),
-
-		new("flowchart-default-class", "Default ClassDef", DiagramCategory.Flowchart, """
+			""",
+				"invisible edges"
+			),
+			new(
+				"flowchart-default-class",
+				"Default ClassDef",
+				DiagramCategory.Flowchart,
+				"""
 			graph TD
 			  classDef default fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20
 			  A[All nodes] --> B[Get the]
@@ -152,18 +228,28 @@ public static partial class DiagramExamples
 			  classDef special fill:#fff3e0,stroke:#e65100,color:#bf360c
 			  D -->|Yes| E[Special]:::special
 			  D -->|No| F[Still default]
-			""", "default classDef"),
-
-		new("flowchart-markdown", "Markdown in Labels", DiagramCategory.Flowchart, """
+			""",
+				"default classDef"
+			),
+			new(
+				"flowchart-markdown",
+				"Markdown in Labels",
+				DiagramCategory.Flowchart,
+				"""
 			graph TD
 			  A["`The **cat** in the hat`"] --> B["`*Italic* emphasis`"]
 			  B --> C["`**Bold** and *italic* mixed`"]
 			  C --> D[Normal label]
-			""", "markdown labels"),
+			""",
+				"markdown labels"
+			),
+			// ── Sequence ───────────────────────────────────────────────────
 
-		// ── Sequence ───────────────────────────────────────────────────
-
-		new("sequence-basic", "Basic Messages", DiagramCategory.Sequence, """
+			new(
+				"sequence-basic",
+				"Basic Messages",
+				DiagramCategory.Sequence,
+				"""
 			sequenceDiagram
 			  participant A as Alice
 			  participant B as Bob
@@ -173,9 +259,13 @@ public static partial class DiagramExamples
 			  B->>C: Forward message
 			  C-->>B: Got it
 			  C->>A: Hey Alice, Charlie here
-			"""),
-
-		new("sequence-activation", "Activations", DiagramCategory.Sequence, """
+			"""
+			),
+			new(
+				"sequence-activation",
+				"Activations",
+				DiagramCategory.Sequence,
+				"""
 			sequenceDiagram
 			  Client->>+Server: POST /login
 			  Server->>+DB: SELECT user
@@ -183,9 +273,13 @@ public static partial class DiagramExamples
 			  Server->>+Auth: Validate token
 			  Auth-->>-Server: OK
 			  Server-->>-Client: 200 JWT
-			"""),
-
-		new("sequence-blocks", "Alt/Loop Blocks", DiagramCategory.Sequence, """
+			"""
+			),
+			new(
+				"sequence-blocks",
+				"Alt/Loop Blocks",
+				DiagramCategory.Sequence,
+				"""
 			sequenceDiagram
 			  participant Client
 			  participant API
@@ -202,9 +296,13 @@ public static partial class DiagramExamples
 			    Client->>API: Ping
 			    API-->>Client: Pong
 			  end
-			"""),
-
-		new("sequence-notes", "Notes", DiagramCategory.Sequence, """
+			"""
+			),
+			new(
+				"sequence-notes",
+				"Notes",
+				DiagramCategory.Sequence,
+				"""
 			sequenceDiagram
 			  participant A as Frontend
 			  participant B as Backend
@@ -214,9 +312,13 @@ public static partial class DiagramExamples
 			  Note over A,B: Subsequent requests use JWT
 			  A->>B: GET /data
 			  Note left of A: Display results
-			"""),
-
-		new("sequence-self", "Self Messages", DiagramCategory.Sequence, """
+			"""
+			),
+			new(
+				"sequence-self",
+				"Self Messages",
+				DiagramCategory.Sequence,
+				"""
 			sequenceDiagram
 			  participant A as Service
 			  participant B as Queue
@@ -224,9 +326,13 @@ public static partial class DiagramExamples
 			  A->>B: Send message
 			  B->>B: Process internally
 			  B-->>A: Acknowledgement
-			"""),
-
-		new("sequence-par", "Par Block", DiagramCategory.Sequence, """
+			"""
+			),
+			new(
+				"sequence-par",
+				"Par Block",
+				DiagramCategory.Sequence,
+				"""
 			sequenceDiagram
 			  participant Alice
 			  participant Bob
@@ -238,9 +344,13 @@ public static partial class DiagramExamples
 			  end
 			  Bob -->> Alice: Response 1
 			  John -->> Alice: Response 2
-			"""),
-
-		new("sequence-full", "Kitchen Sink", DiagramCategory.Sequence, """
+			"""
+			),
+			new(
+				"sequence-full",
+				"Kitchen Sink",
+				DiagramCategory.Sequence,
+				"""
 			sequenceDiagram
 			  actor U as User
 			  participant F as Frontend
@@ -263,9 +373,13 @@ public static partial class DiagramExamples
 			    F->>B: Heartbeat
 			    B-->>F: OK
 			  end
-			"""),
-
-		new("sequence-autonumber", "Autonumber", DiagramCategory.Sequence, """
+			"""
+			),
+			new(
+				"sequence-autonumber",
+				"Autonumber",
+				DiagramCategory.Sequence,
+				"""
 			sequenceDiagram
 			  autonumber
 			  participant Client
@@ -279,17 +393,27 @@ public static partial class DiagramExamples
 			  API->>DB: Fetch profile
 			  DB-->>API: Profile data
 			  API-->>Client: 200 OK
-			""", "autonumber"),
-
-		new("sequence-autonumber-custom", "Autonumber (Custom Start/Step)", DiagramCategory.Sequence, """
+			""",
+				"autonumber"
+			),
+			new(
+				"sequence-autonumber-custom",
+				"Autonumber (Custom Start/Step)",
+				DiagramCategory.Sequence,
+				"""
 			sequenceDiagram
 			  autonumber 100 10
 			  Alice->>Bob: First message
 			  Bob->>Charlie: Second message
 			  Charlie-->>Alice: Third message
-			""", "autonumber"),
-
-		new("sequence-bidirectional", "Bidirectional Arrows", DiagramCategory.Sequence, """
+			""",
+				"autonumber"
+			),
+			new(
+				"sequence-bidirectional",
+				"Bidirectional Arrows",
+				DiagramCategory.Sequence,
+				"""
 			sequenceDiagram
 			  participant A as Service A
 			  participant B as Service B
@@ -298,9 +422,14 @@ public static partial class DiagramExamples
 			  A<<-->>C: Dashed bidirectional
 			  B->>C: Normal one-way
 			  C-->>B: Dashed one-way
-			""", "bidirectional"),
-
-		new("sequence-box", "Box Grouping", DiagramCategory.Sequence, """
+			""",
+				"bidirectional"
+			),
+			new(
+				"sequence-box",
+				"Box Grouping",
+				DiagramCategory.Sequence,
+				"""
 			sequenceDiagram
 			  box rgb(200,220,255) Internal Services
 			  participant API
@@ -316,9 +445,14 @@ public static partial class DiagramExamples
 			  API->>DB: Query
 			  DB-->>API: Data
 			  API-->>Client: Response
-			""", "box grouping"),
-
-		new("sequence-create-destroy", "Create & Destroy", DiagramCategory.Sequence, """
+			""",
+				"box grouping"
+			),
+			new(
+				"sequence-create-destroy",
+				"Create & Destroy",
+				DiagramCategory.Sequence,
+				"""
 			sequenceDiagram
 			  participant Alice
 			  participant Bob
@@ -330,11 +464,16 @@ public static partial class DiagramExamples
 			  destroy Worker
 			  Bob-xWorker: Terminate
 			  Bob-->>Alice: Done
-			""", "create/destroy"),
+			""",
+				"create/destroy"
+			),
+			// ── State ──────────────────────────────────────────────────────
 
-		// ── State ──────────────────────────────────────────────────────
-
-		new("state-simple", "Simple States", DiagramCategory.State, """
+			new(
+				"state-simple",
+				"Simple States",
+				DiagramCategory.State,
+				"""
 			stateDiagram-v2
 			  [*] --> Idle
 			  Idle --> Processing : submit
@@ -342,9 +481,13 @@ public static partial class DiagramExamples
 			  Processing --> Failed : error
 			  Success --> [*]
 			  Failed --> Idle : retry
-			"""),
-
-		new("state-multi-end", "Multiple End States", DiagramCategory.State, """
+			"""
+			),
+			new(
+				"state-multi-end",
+				"Multiple End States",
+				DiagramCategory.State,
+				"""
 			stateDiagram-v2
 			  [*] --> Active
 			  Active --> Inactive : disable
@@ -352,17 +495,25 @@ public static partial class DiagramExamples
 			  Inactive --> Active : reactivate
 			  Inactive --> Closed : close
 			  Closed --> [*]
-			"""),
-
-		new("state-linear", "Linear Flow", DiagramCategory.State, """
+			"""
+			),
+			new(
+				"state-linear",
+				"Linear Flow",
+				DiagramCategory.State,
+				"""
 			stateDiagram-v2
 			  [*] --> Draft
 			  Draft --> Review : submit
 			  Review --> Published : approve
 			  Published --> [*]
-			"""),
-
-		new("state-choice", "Choice Pseudo-state", DiagramCategory.State, """
+			"""
+			),
+			new(
+				"state-choice",
+				"Choice Pseudo-state",
+				DiagramCategory.State,
+				"""
 			stateDiagram-v2
 			  [*] --> Evaluate
 			  state checkResult <<choice>>
@@ -374,9 +525,14 @@ public static partial class DiagramExamples
 			  Negative --> Retry
 			  Neutral --> [*]
 			  Retry --> Evaluate
-			""", "choice"),
-
-		new("state-fork-join", "Fork & Join", DiagramCategory.State, """
+			""",
+				"choice"
+			),
+			new(
+				"state-fork-join",
+				"Fork & Join",
+				DiagramCategory.State,
+				"""
 			stateDiagram-v2
 			  [*] --> Ready
 			  state fork_point <<fork>>
@@ -390,9 +546,14 @@ public static partial class DiagramExamples
 			  TaskC --> join_point
 			  join_point --> Complete
 			  Complete --> [*]
-			""", "fork/join"),
-
-		new("state-notes", "State Notes", DiagramCategory.State, """
+			""",
+				"fork/join"
+			),
+			new(
+				"state-notes",
+				"State Notes",
+				DiagramCategory.State,
+				"""
 			stateDiagram-v2
 			  [*] --> Active
 			  Active --> Paused : pause
@@ -401,9 +562,14 @@ public static partial class DiagramExamples
 			  note right of Active : This is the main working state
 			  note left of Paused : Temporarily suspended
 			  Done --> [*]
-			""", "notes"),
-
-		new("state-composite", "Composite States", DiagramCategory.State, """
+			""",
+				"notes"
+			),
+			new(
+				"state-composite",
+				"Composite States",
+				DiagramCategory.State,
+				"""
 			stateDiagram-v2
 			  [*] --> First
 			  state First {
@@ -419,11 +585,16 @@ public static partial class DiagramExamples
 			    Inner5 --> [*]
 			  }
 			  Second --> [*]
-			""", "composite"),
+			""",
+				"composite"
+			),
+			// ── Class ──────────────────────────────────────────────────────
 
-		// ── Class ──────────────────────────────────────────────────────
-
-		new("class-basic", "Inheritance", DiagramCategory.Class, """
+			new(
+				"class-basic",
+				"Inheritance",
+				DiagramCategory.Class,
+				"""
 			classDiagram
 			  class Animal {
 			    <<abstract>>
@@ -444,9 +615,13 @@ public static partial class DiagramExamples
 			  }
 			  Animal <|-- Dog
 			  Animal <|-- Cat
-			"""),
-
-		new("class-relationships", "All Relationships", DiagramCategory.Class, """
+			"""
+			),
+			new(
+				"class-relationships",
+				"All Relationships",
+				DiagramCategory.Class,
+				"""
 			classDiagram
 			  A <|-- B : Inheritance
 			  C *-- D : Composition
@@ -454,9 +629,13 @@ public static partial class DiagramExamples
 			  G --> H : Association
 			  I ..> J : Dependency
 			  K ..|> L : Realization
-			"""),
-
-		new("class-interface", "Interface & Service", DiagramCategory.Class, """
+			"""
+			),
+			new(
+				"class-interface",
+				"Interface & Service",
+				DiagramCategory.Class,
+				"""
 			classDiagram
 			  class ILogger {
 			    <<interface>>
@@ -476,9 +655,13 @@ public static partial class DiagramExamples
 			  }
 			  ILogger <|.. ConsoleLogger
 			  ILogger <|.. FileLogger
-			"""),
-
-		new("class-visibility", "Visibility Modifiers", DiagramCategory.Class, """
+			"""
+			),
+			new(
+				"class-visibility",
+				"Visibility Modifiers",
+				DiagramCategory.Class,
+				"""
 			classDiagram
 			  class MyService {
 			    +String publicField
@@ -490,9 +673,13 @@ public static partial class DiagramExamples
 			    #reset() void
 			    ~notify() void
 			  }
-			"""),
-
-		new("class-direction", "Direction Override (LR)", DiagramCategory.Class, """
+			"""
+			),
+			new(
+				"class-direction",
+				"Direction Override (LR)",
+				DiagramCategory.Class,
+				"""
 			classDiagram
 			  direction LR
 			  class Controller {
@@ -507,9 +694,14 @@ public static partial class DiagramExamples
 			  }
 			  Controller --> Service
 			  Service --> Repository
-			""", "direction"),
-
-		new("class-lollipop", "Lollipop Interface", DiagramCategory.Class, """
+			""",
+				"direction"
+			),
+			new(
+				"class-lollipop",
+				"Lollipop Interface",
+				DiagramCategory.Class,
+				"""
 			classDiagram
 			  class Shape {
 			    <<interface>>
@@ -526,9 +718,14 @@ public static partial class DiagramExamples
 			  }
 			  Circle ..|> Shape
 			  Circle --() Drawable
-			""", "lollipop"),
-
-		new("class-notes", "Class Notes", DiagramCategory.Class, """
+			""",
+				"lollipop"
+			),
+			new(
+				"class-notes",
+				"Class Notes",
+				DiagramCategory.Class,
+				"""
 			classDiagram
 			  class UserService {
 			    +createUser() User
@@ -541,9 +738,14 @@ public static partial class DiagramExamples
 			  UserService --> User
 			  note for UserService "Handles all user CRUD"
 			  note for User "Core domain entity"
-			""", "notes"),
-
-		new("class-namespace", "Namespace Grouping", DiagramCategory.Class, """
+			""",
+				"notes"
+			),
+			new(
+				"class-namespace",
+				"Namespace Grouping",
+				DiagramCategory.Class,
+				"""
 			classDiagram
 			  namespace Domain {
 			    class Order {
@@ -566,11 +768,15 @@ public static partial class DiagramExamples
 			  Order --> Product
 			  OrderRepo ..|> Order
 			  ProductRepo ..|> Product
-			"""),
+			"""
+			),
+			// ── ER ─────────────────────────────────────────────────────────
 
-		// ── ER ─────────────────────────────────────────────────────────
-
-		new("er-basic", "Basic ER", DiagramCategory.Er, """
+			new(
+				"er-basic",
+				"Basic ER",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			  CUSTOMER ||--o{ ORDER : places
 			  ORDER ||--|{ LINE_ITEM : contains
@@ -589,9 +795,13 @@ public static partial class DiagramExamples
 			    int quantity
 			    float price
 			  }
-			"""),
-
-		new("er-complex", "Complex Relations", DiagramCategory.Er, """
+			"""
+			),
+			new(
+				"er-complex",
+				"Complex Relations",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			  USER ||--o{ POST : writes
 			  USER ||--o{ COMMENT : writes
@@ -617,17 +827,25 @@ public static partial class DiagramExamples
 			    int id PK
 			    string name UK
 			  }
-			"""),
-
-		new("er-cardinalities", "All Cardinalities", DiagramCategory.Er, """
+			"""
+			),
+			new(
+				"er-cardinalities",
+				"All Cardinalities",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			  A ||--|| B : one-to-one
 			  C ||--o{ D : one-to-zero-or-many
 			  E ||--|{ F : one-to-one-or-many
 			  G }o--o{ H : zero-or-many-to-zero-or-many
-			"""),
-
-		new("er-direction", "Direction Override (TD)", DiagramCategory.Er, """
+			"""
+			),
+			new(
+				"er-direction",
+				"Direction Override (TD)",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			  direction TD
 			  CUSTOMER ||--o{ ORDER : places
@@ -644,17 +862,27 @@ public static partial class DiagramExamples
 			    int id PK
 			    int quantity
 			  }
-			""", "direction"),
-
-		new("er-optional-label", "Optional Labels", DiagramCategory.Er, """
+			""",
+				"direction"
+			),
+			new(
+				"er-optional-label",
+				"Optional Labels",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			  PERSON ||--o{ ADDRESS
 			  PERSON ||--|{ PHONE
 			  PERSON ||--o{ ORDER : places
 			  ORDER ||--|{ LINE_ITEM : contains
-			""", "optional labels"),
-
-		new("er-aliases", "Entity Aliases", DiagramCategory.Er, """
+			""",
+				"optional labels"
+			),
+			new(
+				"er-aliases",
+				"Entity Aliases",
+				DiagramCategory.Er,
+				"""
 			erDiagram
 			  cust["Customer Account"] {
 			    int id PK
@@ -673,19 +901,28 @@ public static partial class DiagramExamples
 			  }
 			  cust ||--o{ ord : places
 			  ord ||--|{ li : contains
-			""", "entity aliases"),
+			""",
+				"entity aliases"
+			),
+			// ── Pie Chart ──────────────────────────────────────────────────
 
-		// ── Pie Chart ──────────────────────────────────────────────────
-
-		new("pie-basic", "Basic Pie", DiagramCategory.Pie, """
+			new(
+				"pie-basic",
+				"Basic Pie",
+				DiagramCategory.Pie,
+				"""
 			pie
 			title Pet Adoption
 			"Dogs" : 386
 			"Cats" : 85
 			"Rats" : 15
-			"""),
-
-		new("pie-showdata", "Pie with Data Values", DiagramCategory.Pie, """
+			"""
+			),
+			new(
+				"pie-showdata",
+				"Pie with Data Values",
+				DiagramCategory.Pie,
+				"""
 			pie showData
 			title Browser Market Share
 			"Chrome" : 65.3
@@ -693,9 +930,14 @@ public static partial class DiagramExamples
 			"Firefox" : 3.2
 			"Edge" : 4.7
 			"Other" : 8.0
-			""", "showData"),
-
-		new("pie-many-slices", "Many Slices", DiagramCategory.Pie, """
+			""",
+				"showData"
+			),
+			new(
+				"pie-many-slices",
+				"Many Slices",
+				DiagramCategory.Pie,
+				"""
 			pie
 			title Revenue by Region
 			"North America" : 42
@@ -704,26 +946,39 @@ public static partial class DiagramExamples
 			"Latin America" : 7
 			"Middle East" : 3
 			"Africa" : 2
-			"""),
-
-		new("pie-inline-title", "Inline Title", DiagramCategory.Pie, """
+			"""
+			),
+			new(
+				"pie-inline-title",
+				"Inline Title",
+				DiagramCategory.Pie,
+				"""
 			pie title Team Lunch Vote
 			"Pizza" : 12
 			"Sushi" : 8
 			"Tacos" : 5
 			"Salad" : 3
-			"""),
-
-		new("pie-showdata-inline-title", "showData + Inline Title", DiagramCategory.Pie, """
+			"""
+			),
+			new(
+				"pie-showdata-inline-title",
+				"showData + Inline Title",
+				DiagramCategory.Pie,
+				"""
 			pie showData title CI Pipeline Outcomes
 			"Success" : 187
 			"Failed" : 23
 			"Cancelled" : 9
-			""", "showData"),
+			""",
+				"showData"
+			),
+			// ── Quadrant Chart ─────────────────────────────────────────────
 
-		// ── Quadrant Chart ─────────────────────────────────────────────
-
-		new("quadrant-basic", "Priority Matrix", DiagramCategory.Quadrant, """
+			new(
+				"quadrant-basic",
+				"Priority Matrix",
+				DiagramCategory.Quadrant,
+				"""
 			quadrantChart
 			title Priority Matrix
 			x-axis Low Effort --> High Effort
@@ -736,9 +991,13 @@ public static partial class DiagramExamples
 			Feature B: [0.2, 0.3]
 			Feature C: [0.6, 0.4]
 			Feature D: [0.3, 0.8]
-			"""),
-
-		new("quadrant-skills", "Skills Assessment", DiagramCategory.Quadrant, """
+			"""
+			),
+			new(
+				"quadrant-skills",
+				"Skills Assessment",
+				DiagramCategory.Quadrant,
+				"""
 			quadrantChart
 			title Technical Skills Matrix
 			x-axis Beginner --> Expert
@@ -752,9 +1011,13 @@ public static partial class DiagramExamples
 			COBOL: [0.3, 0.1]
 			Rust: [0.3, 0.7]
 			Python: [0.8, 0.9]
-			"""),
-
-		new("quadrant-inline-title", "Inline Title", DiagramCategory.Quadrant, """
+			"""
+			),
+			new(
+				"quadrant-inline-title",
+				"Inline Title",
+				DiagramCategory.Quadrant,
+				"""
 			quadrantChart title Feature Prioritization
 			x-axis Low Complexity --> High Complexity
 			y-axis Low Value --> High Value
@@ -766,11 +1029,15 @@ public static partial class DiagramExamples
 			SSO: [0.6, 0.9]
 			CSV Export: [0.2, 0.4]
 			AI Suggestions: [0.9, 0.7]
-			"""),
+			"""
+			),
+			// ── Timeline ───────────────────────────────────────────────────
 
-		// ── Timeline ───────────────────────────────────────────────────
-
-		new("timeline-sections", "Timeline with Sections", DiagramCategory.Timeline, """
+			new(
+				"timeline-sections",
+				"Timeline with Sections",
+				DiagramCategory.Timeline,
+				"""
 			timeline
 			title History of Social Media
 			section Early Days
@@ -782,18 +1049,26 @@ public static partial class DiagramExamples
 			section Modern Era
 			2016 : TikTok
 			2019 : Threads
-			"""),
-
-		new("timeline-simple", "Simple Timeline", DiagramCategory.Timeline, """
+			"""
+			),
+			new(
+				"timeline-simple",
+				"Simple Timeline",
+				DiagramCategory.Timeline,
+				"""
 			timeline
 			title Product Roadmap
 			Q1 2025 : Alpha Release
 			Q2 2025 : Beta Launch : Partner Onboarding
 			Q3 2025 : GA Release
 			Q4 2025 : Enterprise Features
-			"""),
-
-		new("timeline-inline-title", "Inline Title", DiagramCategory.Timeline, """
+			"""
+			),
+			new(
+				"timeline-inline-title",
+				"Inline Title",
+				DiagramCategory.Timeline,
+				"""
 			timeline title Programming Language Milestones
 			1972 : C
 			1983 : C++
@@ -802,9 +1077,13 @@ public static partial class DiagramExamples
 			2009 : Go
 			2015 : Rust
 			2016 : .NET Core
-			"""),
-
-		new("timeline-long-events", "Long Events", DiagramCategory.Timeline, """
+			"""
+			),
+			new(
+				"timeline-long-events",
+				"Long Events",
+				DiagramCategory.Timeline,
+				"""
 			timeline
 			title Company History
 			section Founding
@@ -815,9 +1094,13 @@ public static partial class DiagramExamples
 			2018 : Acquires a small analytics startup to extend the platform
 			section Today
 			2023 : Reaches ten thousand customers across forty countries
-			"""),
-
-		new("timeline-many-sections", "Many Sections", DiagramCategory.Timeline, """
+			"""
+			),
+			new(
+				"timeline-many-sections",
+				"Many Sections",
+				DiagramCategory.Timeline,
+				"""
 			timeline
 			title A Year in Product
 			section Q1
@@ -836,11 +1119,15 @@ public static partial class DiagramExamples
 			Oct : Enterprise
 			Nov : Security audit
 			Dec : Retrospective
-			"""),
+			"""
+			),
+			// ── GitGraph ───────────────────────────────────────────────────
 
-		// ── GitGraph ───────────────────────────────────────────────────
-
-		new("gitgraph-basic", "Basic Git Flow", DiagramCategory.GitGraph, """
+			new(
+				"gitgraph-basic",
+				"Basic Git Flow",
+				DiagramCategory.GitGraph,
+				"""
 			gitGraph
 			commit id: "init"
 			commit id: "feat-1"
@@ -851,9 +1138,13 @@ public static partial class DiagramExamples
 			checkout main
 			merge develop id: "merge-1"
 			commit id: "release" type: HIGHLIGHT tag: "v1.0"
-			"""),
-
-		new("gitgraph-feature", "Feature Branches", DiagramCategory.GitGraph, """
+			"""
+			),
+			new(
+				"gitgraph-feature",
+				"Feature Branches",
+				DiagramCategory.GitGraph,
+				"""
 			gitGraph
 			commit id: "init"
 			branch feature-a
@@ -868,9 +1159,13 @@ public static partial class DiagramExamples
 			merge feature-a id: "merge-a"
 			merge feature-b id: "merge-b"
 			commit id: "release" tag: "v2.0"
-			"""),
-
-		new("gitgraph-hotfix", "Hotfix Branch", DiagramCategory.GitGraph, """
+			"""
+			),
+			new(
+				"gitgraph-hotfix",
+				"Hotfix Branch",
+				DiagramCategory.GitGraph,
+				"""
 			gitGraph
 			commit id: "v1.0" tag: "v1.0"
 			branch develop
@@ -885,11 +1180,15 @@ public static partial class DiagramExamples
 			checkout develop
 			merge hotfix id: "sync"
 			commit id: "more-work"
-			"""),
+			"""
+			),
+			// ── Radar Chart ────────────────────────────────────────────────
 
-		// ── Radar Chart ────────────────────────────────────────────────
-
-		new("radar-skills", "Skills Comparison", DiagramCategory.Radar, """
+			new(
+				"radar-skills",
+				"Skills Comparison",
+				DiagramCategory.Radar,
+				"""
 			radar-beta
 			title Skills Assessment
 			axis Design, Frontend, Backend, DevOps, Testing
@@ -897,40 +1196,59 @@ public static partial class DiagramExamples
 			curve c2["Team B"]{3, 5, 2, 4, 3}
 			max 5
 			graticule polygon
-			"""),
-
-		new("radar-product", "Product Comparison", DiagramCategory.Radar, """
+			"""
+			),
+			new(
+				"radar-product",
+				"Product Comparison",
+				DiagramCategory.Radar,
+				"""
 			radar-beta
 			title Product Comparison
 			axis Price, Quality, Features, Support, Speed, UX
 			curve c1["Product A"]{4, 5, 3, 4, 5, 4}
 			curve c2["Product B"]{3, 3, 5, 2, 3, 5}
 			max 5
-			"""),
+			"""
+			),
+			// ── Treemap ────────────────────────────────────────────────────
 
-		// ── Treemap ────────────────────────────────────────────────────
-
-		new("treemap-flat", "Flat Treemap", DiagramCategory.Treemap, """
+			new(
+				"treemap-flat",
+				"Flat Treemap",
+				DiagramCategory.Treemap,
+				"""
 			treemap-beta
 			"Engineering": 50
 			"Marketing": 25
 			"Sales": 15
 			"Support": 10
-			"""),
+			"""
+			),
+			new(
+				"treemap-nested",
+				"Nested Treemap",
+				DiagramCategory.Treemap,
+				"treemap-beta\n  \"Technology\"\n    \"Frontend\": 30\n    \"Backend\": 40\n    \"DevOps\": 15\n  \"Business\"\n    \"Sales\": 25\n    \"Marketing\": 20"
+			),
+			// ── Venn Diagram ───────────────────────────────────────────────
 
-		new("treemap-nested", "Nested Treemap", DiagramCategory.Treemap,
-			"treemap-beta\n  \"Technology\"\n    \"Frontend\": 30\n    \"Backend\": 40\n    \"DevOps\": 15\n  \"Business\"\n    \"Sales\": 25\n    \"Marketing\": 20"),
-
-		// ── Venn Diagram ───────────────────────────────────────────────
-
-		new("venn-two", "Two-Set Venn", DiagramCategory.Venn, """
+			new(
+				"venn-two",
+				"Two-Set Venn",
+				DiagramCategory.Venn,
+				"""
 			venn-beta
 			set A["Frontend"]
 			set B["Backend"]
 			union A, B["Full Stack"]
-			"""),
-
-		new("venn-three", "Three-Set Venn", DiagramCategory.Venn, """
+			"""
+			),
+			new(
+				"venn-three",
+				"Three-Set Venn",
+				DiagramCategory.Venn,
+				"""
 			venn-beta
 			set A["Design"]
 			set B["Engineering"]
@@ -938,31 +1256,53 @@ public static partial class DiagramExamples
 			union A, B["Design Systems"]
 			union B, C["Technical PM"]
 			union A, C["UX Research"]
-			"""),
+			"""
+			),
+			// ── Mindmap ────────────────────────────────────────────────────
 
-		// ── Mindmap ────────────────────────────────────────────────────
+			new(
+				"mindmap-project",
+				"Project Mindmap",
+				DiagramCategory.Mindmap,
+				"mindmap\n  ((Project))\n    (Planning)\n      Requirements\n      Timeline\n    [Development]\n      Frontend\n      Backend\n    {{Testing}}\n      Unit Tests\n      Integration"
+			),
+			new(
+				"mindmap-learning",
+				"Learning Path",
+				DiagramCategory.Mindmap,
+				"mindmap\n  ((Web Development))\n    (Frontend)\n      HTML\n      CSS\n      JavaScript\n    (Backend)\n      .NET\n      Node.js\n    ))Cloud((\n      AWS\n      Azure"
+			),
+			new(
+				"mindmap-many-branches",
+				"Many Branches",
+				DiagramCategory.Mindmap,
+				"mindmap\n  ((Product Launch))\n    Marketing\n      Landing page\n      Email campaign\n      Social\n    Engineering\n      Feature flags\n      Load testing\n    Support\n      Runbooks\n      Training\n    Legal\n      Terms\n      Privacy\n    Finance\n      Pricing\n      Forecast\n    Sales\n      Playbook\n      Demo env\n    Operations\n      On-call\n      Dashboards\n    Design\n      Brand\n      Docs"
+			),
+			new(
+				"mindmap-deep",
+				"Deep Tree",
+				DiagramCategory.Mindmap,
+				"mindmap\n  ((Architecture))\n    (Frontend)\n      Components\n        Buttons\n        Forms\n          Validation\n          Masks\n      State\n        Store\n    (Backend)\n      API\n        REST\n        GraphQL\n      Data\n        SQL\n          Postgres\n        Cache"
+			),
+			new(
+				"mindmap-shapes",
+				"All Shapes",
+				DiagramCategory.Mindmap,
+				"mindmap\n  ((Shapes))\n    (Rounded)\n      Plain child\n    [Square]\n      Plain child\n    ((Circle))\n      Plain child\n    {{Hexagon}}\n      Plain child\n    ))Bang((\n      Plain child\n    )Cloud(\n      Plain child"
+			),
+			new(
+				"mindmap-long-labels",
+				"Long Labels",
+				DiagramCategory.Mindmap,
+				"mindmap\n  ((A mindmap with a fairly long root title))\n    (A branch with a descriptive name)\n      A leaf that explains something at length\n      Short\n    [Another considerably wordy branch]\n      Also a longer leaf label here"
+			),
+			// ── Architecture ───────────────────────────────────────────────
 
-		new("mindmap-project", "Project Mindmap", DiagramCategory.Mindmap,
-			"mindmap\n  ((Project))\n    (Planning)\n      Requirements\n      Timeline\n    [Development]\n      Frontend\n      Backend\n    {{Testing}}\n      Unit Tests\n      Integration"),
-
-		new("mindmap-learning", "Learning Path", DiagramCategory.Mindmap,
-			"mindmap\n  ((Web Development))\n    (Frontend)\n      HTML\n      CSS\n      JavaScript\n    (Backend)\n      .NET\n      Node.js\n    ))Cloud((\n      AWS\n      Azure"),
-
-		new("mindmap-many-branches", "Many Branches", DiagramCategory.Mindmap,
-			"mindmap\n  ((Product Launch))\n    Marketing\n      Landing page\n      Email campaign\n      Social\n    Engineering\n      Feature flags\n      Load testing\n    Support\n      Runbooks\n      Training\n    Legal\n      Terms\n      Privacy\n    Finance\n      Pricing\n      Forecast\n    Sales\n      Playbook\n      Demo env\n    Operations\n      On-call\n      Dashboards\n    Design\n      Brand\n      Docs"),
-
-		new("mindmap-deep", "Deep Tree", DiagramCategory.Mindmap,
-			"mindmap\n  ((Architecture))\n    (Frontend)\n      Components\n        Buttons\n        Forms\n          Validation\n          Masks\n      State\n        Store\n    (Backend)\n      API\n        REST\n        GraphQL\n      Data\n        SQL\n          Postgres\n        Cache"),
-
-		new("mindmap-shapes", "All Shapes", DiagramCategory.Mindmap,
-			"mindmap\n  ((Shapes))\n    (Rounded)\n      Plain child\n    [Square]\n      Plain child\n    ((Circle))\n      Plain child\n    {{Hexagon}}\n      Plain child\n    ))Bang((\n      Plain child\n    )Cloud(\n      Plain child"),
-
-		new("mindmap-long-labels", "Long Labels", DiagramCategory.Mindmap,
-			"mindmap\n  ((A mindmap with a fairly long root title))\n    (A branch with a descriptive name)\n      A leaf that explains something at length\n      Short\n    [Another considerably wordy branch]\n      Also a longer leaf label here"),
-
-		// ── Architecture ───────────────────────────────────────────────
-
-		new("architecture-icon-showcase", "Icon Showcase (all icons)", DiagramCategory.Architecture, """
+			new(
+				"architecture-icon-showcase",
+				"Icon Showcase (all icons)",
+				DiagramCategory.Architecture,
+				"""
 			architecture-beta
 			group defaultPack(cloud)[Default Icons]
 			service dCloud(cloud)[cloud] in defaultPack
@@ -1101,9 +1441,14 @@ public static partial class DiagramExamples
 			extLoadBalancer:B -- T:extCache
 			extQueue:R -- L:extCdn
 			extCdn:R -- L:extCache
-			""", Feature: "icons"),
-
-		new("architecture-basic", "Cloud API", DiagramCategory.Architecture, """
+			""",
+				Feature: "icons"
+			),
+			new(
+				"architecture-basic",
+				"Cloud API",
+				DiagramCategory.Architecture,
+				"""
 			architecture-beta
 			group api(cloud)[API]
 			service db(database)[Database] in api
@@ -1111,9 +1456,13 @@ public static partial class DiagramExamples
 			service server(server)[Server] in api
 			server:T -- B:disk1
 			server:L -- R:db
-			"""),
-
-		new("architecture-junction", "Junction Routing", DiagramCategory.Architecture, """
+			"""
+			),
+			new(
+				"architecture-junction",
+				"Junction Routing",
+				DiagramCategory.Architecture,
+				"""
 			architecture-beta
 			service a(server)[Gateway]
 			service b(server)[ServiceA]
@@ -1122,9 +1471,13 @@ public static partial class DiagramExamples
 			a:R -- L:j
 			j:R -- L:b
 			j:B -- T:c
-			"""),
-
-		new("architecture-arrow-directions", "Edge Arrow Directions", DiagramCategory.Architecture, """
+			"""
+			),
+			new(
+				"architecture-arrow-directions",
+				"Edge Arrow Directions",
+				DiagramCategory.Architecture,
+				"""
 			architecture-beta
 			service a(server)[Client]
 			service b(server)[Server]
@@ -1141,9 +1494,14 @@ public static partial class DiagramExamples
 			service g(server)[Node A]
 			service h(server)[Node B]
 			g:R <--> L:h
-			""", Feature: "arrows"),
-
-		new("architecture-vendor-icons", "Vendor Icon Packs", DiagramCategory.Architecture, """
+			""",
+				Feature: "arrows"
+			),
+			new(
+				"architecture-vendor-icons",
+				"Vendor Icon Packs",
+				DiagramCategory.Architecture,
+				"""
 			architecture-beta
 			group awsGroup(cloud)[AWS]
 			service awsCompute(aws:compute)[EC2] in awsGroup
@@ -1164,9 +1522,14 @@ public static partial class DiagramExamples
 			gcpCompute:R -- L:gcpStorage
 			awsStorage:B -- T:search
 			gcpStorage:B -- T:search
-			""", Feature: "icons"),
-
-		new("architecture-elastic-stack", "Elastic Stack", DiagramCategory.Architecture, """
+			""",
+				Feature: "icons"
+			),
+			new(
+				"architecture-elastic-stack",
+				"Elastic Stack",
+				DiagramCategory.Architecture,
+				"""
 			architecture-beta
 			group stack(cloud)[Elastic Stack]
 			service beats(elastic:beats)[Beats] in stack
@@ -1178,9 +1541,14 @@ public static partial class DiagramExamples
 			ls:R -- L:es
 			es:R -- L:kbn
 			fleet:T -- B:beats
-			""", Feature: "icons"),
-
-		new("architecture-networking", "Multi-Cloud Networking", DiagramCategory.Architecture, """
+			""",
+				Feature: "icons"
+			),
+			new(
+				"architecture-networking",
+				"Multi-Cloud Networking",
+				DiagramCategory.Architecture,
+				"""
 			architecture-beta
 			group awsNet(cloud)[AWS]
 			service awsVpc(aws:networking)[VPC] in awsNet
@@ -1196,9 +1564,14 @@ public static partial class DiagramExamples
 			service gcpVpc(gcp:networking)[VPC] in gcpNet
 			service gcpCompute(gcp:compute)[Compute Engine] in gcpNet
 			gcpVpc:R -- L:gcpCompute
-			""", Feature: "icons"),
-
-		new("architecture-observability", "Observability Pipeline (bug report)", DiagramCategory.Architecture, """
+			""",
+				Feature: "icons"
+			),
+			new(
+				"architecture-observability",
+				"Observability Pipeline (bug report)",
+				DiagramCategory.Architecture,
+				"""
 			architecture-beta
 			group k8s(cloud)[k8s]
 			group ech(cloud)[ECH]
@@ -1216,18 +1589,17 @@ public static partial class DiagramExamples
 			oteldemo:L -- R:edot
 			kbn:L -- T:es
 			apm:L -- R:es
-			"""),
+			"""
+			),
+			// ── Real World (RFC diagrams) ─────────────────────────────────
 
-		// ── Real World (RFC diagrams) ─────────────────────────────────
+			.. CreateNewDiagramTypeExamples(),
+			.. CreateRequirementExamples(),
+			.. CreateTreeViewExamples(),
+			.. CreateRealWorldExamples(),
+		];
 
-		..CreateNewDiagramTypeExamples(),
-		..CreateRequirementExamples(),
-		..CreateTreeViewExamples(),
-		..CreateRealWorldExamples(),
-	];
-
-	public static DiagramExample[] ByCategory(DiagramCategory category) =>
-		All.Where(e => e.Category == category).ToArray();
+	public static DiagramExample[] ByCategory(DiagramCategory category) => All.Where(e => e.Category == category).ToArray();
 
 	public static string CategoryLabel(DiagramCategory c) => c switch
 	{

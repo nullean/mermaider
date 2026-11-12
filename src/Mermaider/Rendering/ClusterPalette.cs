@@ -48,7 +48,17 @@ internal sealed class ClusterPalette(DiagramColors colors, Dictionary<string, in
 	internal ColorFamily RoleFamily(string role)
 	{
 		var r = RoleOf(role);
-		return new ColorFamily(r switch { ColorRole.Success => "s", ColorRole.Failure => "f", ColorRole.Warning => "w", _ => "i" }, colors.RoleColor(r), TintStrength);
+		return new ColorFamily(
+			r switch
+			{
+				ColorRole.Success => "s",
+				ColorRole.Failure => "f",
+				ColorRole.Warning => "w",
+				_ => "i"
+			},
+			colors.RoleColor(r),
+			TintStrength
+		);
 	}
 
 	private ColorFamily FamilyAt(int cluster)
@@ -83,11 +93,13 @@ internal sealed class ClusterPalette(DiagramColors colors, Dictionary<string, in
 	internal static ClusterPalette Build(PositionedGraph graph, DiagramColors colors)
 	{
 		static ClusterGroup Map(PositionedGroup g) => new(g.Id, g.X, g.Y, g.Width, g.Height, g.Children.Select(Map).ToList());
+
 		return Build(
 			graph.Nodes.Select(n => new ClusterBox(n.Id, n.X, n.Y, n.Width, n.Height)).ToList(),
 			graph.Edges.Select(e => (e.Source, e.Target)),
 			graph.Groups.Select(Map).ToList(),
-			colors);
+			colors
+		);
 	}
 
 	/// <summary>
@@ -95,7 +107,11 @@ internal sealed class ClusterPalette(DiagramColors colors, Dictionary<string, in
 	/// next palette slot that no fixed node uses, so a modifier's colour is never shared with an unrelated cluster.
 	/// </summary>
 	private static Dictionary<string, int> ApplyFixedSlots(
-		IReadOnlyList<ClusterBox> nodes, Dictionary<string, int> nodeCluster, IReadOnlyDictionary<string, int> fixedSlots, int paletteLength)
+		IReadOnlyList<ClusterBox> nodes,
+		Dictionary<string, int> nodeCluster,
+		IReadOnlyDictionary<string, int> fixedSlots,
+		int paletteLength
+	)
 	{
 		var used = fixedSlots.Values.Select(v => v % paletteLength).ToHashSet();
 		var slotOfCluster = new Dictionary<int, int>();
@@ -129,8 +145,12 @@ internal sealed class ClusterPalette(DiagramColors colors, Dictionary<string, in
 	/// the auto palette in document order and never take the colour of a member.
 	/// </summary>
 	internal static ClusterPalette Build(
-		IReadOnlyList<ClusterBox> nodes, IEnumerable<(string From, string To)> edges, IReadOnlyList<ClusterGroup> groups, DiagramColors colors,
-		IReadOnlyDictionary<string, int>? fixedSlots = null)
+		IReadOnlyList<ClusterBox> nodes,
+		IEnumerable<(string From, string To)> edges,
+		IReadOnlyList<ClusterGroup> groups,
+		DiagramColors colors,
+		IReadOnlyDictionary<string, int>? fixedSlots = null
+	)
 	{
 		var clusters = new ClusterAssigner(nodes.Select(n => n.Id));
 		foreach (var (from, to) in edges)
@@ -165,6 +185,7 @@ internal sealed class ClusterPalette(DiagramColors colors, Dictionary<string, in
 		var groupCluster = new Dictionary<string, int>(StringComparer.Ordinal);
 		var ordinal = 0;
 		var last = -1;
+
 		void AssignGroups(ClusterGroup g)
 		{
 			var held = nodes.Where(n => Inside(n, g)).Select(n => nodeCluster[n.Id]).ToHashSet();
