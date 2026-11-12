@@ -122,6 +122,33 @@ public class ClassSpecTests
 			.Should()
 			.MatchSnapshot(SvgSnapshotFormat.Instance);
 
+	// #88: a cardinality sits beside its line next to its own class, clear of the relation label at the midpoint
+	[Test]
+	public void Cardinality_beside_relation_label() =>
+		MermaidRenderer
+			.RenderSvg("""
+			classDiagram
+			Pond o-- "many" Duck : holds
+			Duck *-- "2" Wing : has
+			""")
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
+
+	[Test]
+	public void Cardinality_beside_relation_label_lr() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
+			classDiagram
+			direction LR
+			Customer "1" --> "0..*" Order : places
+			Order "1" *-- "1..*" LineItem : contains
+			Customer "1" --> "1" Address
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
+
 	[Test]
 	public void Namespace_grouping() =>
 		MermaidRenderer
@@ -271,6 +298,52 @@ public class ClassSpecTests
 			class Animal
 			note for Animal "Can be wild or domestic"
 			""")
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
+
+	[Test]
+	public void Solid_and_dashed_links() =>
+		MermaidRenderer
+			.RenderSvg("""
+			classDiagram
+			A -- B
+			A --> C
+			C .. D : uses
+			""")
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
+
+	[Test]
+	public void Generic_class_as_relationship_endpoint() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
+			classDiagram
+			class List~T~ {
+				+add(T item)
+			}
+			Duck ..> List~T~
+			List~T~ <|-- ArrayList
+			"""
+			)
+			.Should()
+			.MatchSnapshot(SvgSnapshotFormat.Instance);
+
+	[Test]
+	public void Method_classifiers() =>
+		MermaidRenderer
+			.RenderSvg(
+				"""
+			classDiagram
+			class Animal {
+				+int count$
+				+sleep()$
+				+wake() bool$
+				+run()*
+				+walk() bool*
+			}
+			"""
+			)
 			.Should()
 			.MatchSnapshot(SvgSnapshotFormat.Instance);
 

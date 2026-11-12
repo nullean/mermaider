@@ -55,7 +55,13 @@ public enum ClassRelationType
 	Association,
 	Dependency,
 	Realization,
-	Lollipop
+	Lollipop,
+
+	/// <summary>A solid line with no marker at either end (<c>A -- B</c>).</summary>
+	Link,
+
+	/// <summary>A dashed line with no marker at either end (<c>A .. B</c>).</summary>
+	DashedLink
 }
 
 public enum ClassMarkerAt

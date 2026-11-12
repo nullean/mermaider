@@ -32,7 +32,7 @@ internal static partial class ClassParser
 	[GeneratedRegex(@"<\|--|--|\*--|o--|-->|\.\.>|\.\.\|>", RegexOptions.None, TimeoutMs)]
 	private static partial Regex ArrowCheckPattern();
 
-	[GeneratedRegex(@"^(\S+?)\s+(?:""([^""]*?)""\s+)?(<\|--|<\|\.\.|\*--|o--|-->|--\*|--o|--\|>|\.\.>|\.\.\|>|<--|<\.\.?|--)\s+(?:""([^""]*?)""\s+)?(\S+?)(?:\s*:\s*(.+))?$", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^(\S+?)\s+(?:""([^""]*?)""\s+)?(<\|--|<\|\.\.|\*--|o--|-->|--\*|--o|--\|>|\.\.>|\.\.\|>|<--|<\.\.?|--|\.\.)\s+(?:""([^""]*?)""\s+)?(\S+?)(?:\s*:\s*(.+))?$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex RelationshipPattern();
 
 	[GeneratedRegex(@"^[+\-#~]", RegexOptions.None, TimeoutMs)]
@@ -43,6 +43,9 @@ internal static partial class ClassParser
 
 	[GeneratedRegex(@"^note\s+(?:for\s+(\S+)\s+)?""([^""]+)""$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex NotePattern();
+
+	[GeneratedRegex(@"^([^~\s]+)~([^~\s]+)~$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex GenericNamePattern();
 
 	[GeneratedRegex(@"^(\S+?)\s+(--\(\)|\.\.?\(\)|\(\)--|\.?\(\)\.\.)\s+(\S+?)(?:\s*:\s*(.+))?$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex LollipopPattern();
@@ -184,7 +187,7 @@ internal static partial class ClassParser
 				var rest = inlineAttrMatch.Groups[2].Value;
 				if (!ArrowCheckPattern().IsMatch(rest))
 				{
-					var (node, attrs, methods) = EnsureClass(classMap, inlineAttrMatch.Groups[1].Value);
+					var (node, attrs, methods) = EnsureClassRef(classMap, inlineAttrMatch.Groups[1].Value);
 					var member = ParseMember(rest);
 					if (member.HasValue)
 					{
@@ -209,10 +212,8 @@ internal static partial class ClassParser
 			var lollipopMatch = LollipopPattern().Match(line);
 			if (lollipopMatch.Success)
 			{
-				var from = lollipopMatch.Groups[1].Value;
-				var to = lollipopMatch.Groups[3].Value;
-				_ = EnsureClass(classMap, from);
-				_ = EnsureClass(classMap, to);
+				var from = EnsureClassRef(classMap, lollipopMatch.Groups[1].Value).Node.Id;
+				var to = EnsureClassRef(classMap, lollipopMatch.Groups[3].Value).Node.Id;
 				var label = lollipopMatch.Groups[4].Success ? lollipopMatch.Groups[4].Value.Trim() : null;
 				relationships.Add(new ClassRelationship(from, to, ClassRelationType.Lollipop, ClassMarkerAt.To, label));
 				continue;
@@ -221,9 +222,9 @@ internal static partial class ClassParser
 			var rel = ParseRelationship(line);
 			if (rel != null)
 			{
-				_ = EnsureClass(classMap, rel.From);
-				_ = EnsureClass(classMap, rel.To);
-				relationships.Add(rel);
+				var from = EnsureClassRef(classMap, rel.From).Node.Id;
+				var to = EnsureClassRef(classMap, rel.To).Node.Id;
+				relationships.Add(rel with { From = from, To = to });
 			}
 		}
 
@@ -244,6 +245,29 @@ internal static partial class ClassParser
 		var attrs = new List<ClassMember>();
 		var methods = new List<ClassMember>();
 		classMap[id] = (node, attrs, methods);
+		return (node, attrs, methods);
+	}
+
+	/// <summary>
+	/// <see cref="EnsureClass"/> for a class named where it is used, such as a relationship endpoint: <c>List~T~</c> is
+	/// the class <c>List</c>, labelled <c>List&lt;T&gt;</c> unless it was declared with a label already.
+	/// </summary>
+	private static (ClassNode Node, List<ClassMember> Attrs, List<ClassMember> Methods) EnsureClassRef(
+		Dictionary<string, (ClassNode Node, List<ClassMember> Attrs, List<ClassMember> Methods)> classMap,
+		string name
+	)
+	{
+		var generic = GenericNamePattern().Match(name);
+		if (!generic.Success)
+			return EnsureClass(classMap, name);
+
+		var id = generic.Groups[1].Value;
+		var (node, attrs, methods) = EnsureClass(classMap, id);
+		if (node.Label == id)
+		{
+			node = node with { Label = $"{id}<{generic.Groups[2].Value}>" };
+			classMap[id] = (node, attrs, methods);
+		}
 		return (node, attrs, methods);
 	}
 
@@ -273,7 +297,9 @@ internal static partial class ClassParser
 		{
 			var name = methodMatch.Groups[1].Value.Trim();
 			var parms = methodMatch.Groups[2].Success && methodMatch.Groups[2].Value.Trim().Length > 0 ? methodMatch.Groups[2].Value.Trim() : null;
-			var type = methodMatch.Groups[3].Success && methodMatch.Groups[3].Value.Trim().Length > 0 ? methodMatch.Groups[3].Value.Trim() : null;
+			// the classifier ($ static, * abstract) sits right after () or after the return type: `sleep()$`, `add()$ int`, `walk() bool*`
+			var typeText = methodMatch.Groups[3].Success ? methodMatch.Groups[3].Value.Trim().Trim('$', '*').Trim() : "";
+			var type = typeText.Length > 0 ? typeText : null;
 			var isStatic = name.EndsWith('$') || rest.Contains('$');
 			var isAbstract = name.EndsWith('*') || rest.Contains('*');
 
@@ -333,7 +359,8 @@ internal static partial class ClassParser
 		"<--" => (ClassRelationType.Association, ClassMarkerAt.From),
 		"..>" => (ClassRelationType.Dependency, ClassMarkerAt.To),
 		"<.." => (ClassRelationType.Dependency, ClassMarkerAt.From),
-		"--" => (ClassRelationType.Association, ClassMarkerAt.To),
+		"--" => (ClassRelationType.Link, ClassMarkerAt.To),
+		".." => (ClassRelationType.DashedLink, ClassMarkerAt.To),
 		_ => null,
 	};
 }

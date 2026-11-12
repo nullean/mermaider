@@ -166,4 +166,83 @@ public class ClassParserTests
 
 		diagram.Classes.Should().HaveCount(2);
 	}
+
+	[Test]
+	public void Method_classifiers_are_not_part_of_the_return_type()
+	{
+		var lines = new[]
+		{
+			"classDiagram",
+			"class Animal {",
+			"+int count$",
+			"+sleep()$",
+			"+wake() bool$",
+			"+run()*",
+			"+walk() bool*",
+			"+add(a, b)$ int",
+			"+compute()* void",
+			"}"
+		};
+
+		var animal = ClassParser.Parse(lines).Classes.Single();
+
+		animal.Attributes.Should().ContainSingle().Which.Should().Match<ClassMember>(a => a.Name == "count" && a.Type == "int" && a.IsStatic);
+		animal
+			.Methods
+			.Select(m => (m.Name, m.Type, m.IsStatic, m.IsAbstract))
+			.Should()
+			.Equal(
+				("sleep", null, true, false),
+				("wake", "bool", true, false),
+				("run", null, false, true),
+				("walk", "bool", false, true),
+				("add", "int", true, false),
+				("compute", "void", false, true)
+			);
+	}
+
+	[Test]
+	public void Generic_relationship_endpoint_joins_the_declared_class()
+	{
+		var lines = new[] { "classDiagram", "class List~T~", "Duck ..> List~T~" };
+
+		var diagram = ClassParser.Parse(lines);
+
+		diagram.Classes.Select(c => c.Id).Should().BeEquivalentTo(["List", "Duck"]);
+		diagram.Classes.Single(c => c.Id == "List").Label.Should().Be("List<T>");
+		diagram.Relationships.Should().ContainSingle();
+		diagram.Relationships[0].From.Should().Be("Duck");
+		diagram.Relationships[0].To.Should().Be("List");
+	}
+
+	[Test]
+	public void Generic_endpoints_before_declaration_lollipop_and_inline_members_share_one_class()
+	{
+		var lines = new[] { "classDiagram", "Map~K,V~ <|-- Cache", "Repo~T~ : +find(id) T", "class Repo~T~", "Repo~T~ --() Queryable", };
+
+		var diagram = ClassParser.Parse(lines);
+
+		diagram.Classes.Select(c => c.Id).Should().BeEquivalentTo(["Map", "Cache", "Repo", "Queryable"]);
+		diagram.Classes.Single(c => c.Id == "Map").Label.Should().Be("Map<K,V>");
+		var repo = diagram.Classes.Single(c => c.Id == "Repo");
+		repo.Label.Should().Be("Repo<T>");
+		repo.Methods.Should().ContainSingle().Which.Name.Should().Be("find");
+		diagram.Relationships.Select(r => (r.From, r.To)).Should().Equal(("Map", "Cache"), ("Repo", "Queryable"));
+	}
+
+	[Test]
+	public void Parses_solid_and_dashed_links()
+	{
+		var lines = new[] { "classDiagram", "A -- B", "C .. D : uses" };
+
+		var diagram = ClassParser.Parse(lines);
+
+		diagram.Classes.Select(c => c.Id).Should().BeEquivalentTo(["A", "B", "C", "D"]);
+		diagram.Relationships.Should().HaveCount(2);
+		diagram.Relationships[0].Type.Should().Be(ClassRelationType.Link);
+		diagram.Relationships[1].Type.Should().Be(ClassRelationType.DashedLink);
+		diagram.Relationships[1].From.Should().Be("C");
+		diagram.Relationships[1].To.Should().Be("D");
+		diagram.Relationships[1].Label.Should().Be("uses");
+	}
 }

@@ -63,8 +63,11 @@ internal static class ClassSvgRenderer
 				AppendClassBox(sb, ds, cls, palette.Family(cls.Id));
 		}
 
+		var cardinalities = diagram.Relationships.Any(r => r.FromCardinality != null || r.ToCardinality != null)
+			? new ClassCardinalityPlacer(diagram, ds)
+			: null;
 		foreach (var rel in diagram.Relationships)
-			AppendRelationshipLabels(sb, ds, rel);
+			AppendRelationshipLabels(sb, ds, rel, cardinalities);
 
 		foreach (var note in diagram.Notes)
 			ds.AppendNote(sb, note.X, note.Y, note.Width, note.Height, note.Text, note.LineFrom, note.LineTo);
@@ -284,8 +287,8 @@ internal static class ClassSvgRenderer
 		if (rel.Points.Count < 2)
 			return;
 
-		// dash language: solid = structure, dashed = dependency / realization
-		var isDashed = rel.Type is ClassRelationType.Dependency or ClassRelationType.Realization;
+		// dash language: solid = structure, dashed = dependency / realization / dashed link
+		var isDashed = rel.Type is ClassRelationType.Dependency or ClassRelationType.Realization or ClassRelationType.DashedLink;
 		var dashArray = isDashed ? $" stroke-dasharray=\"{DesignSystem.DashArray}\"" : "";
 
 		_ = sb.Append("\n<path class=\"class-relationship\" data-from=\"");
@@ -322,7 +325,7 @@ internal static class ClassSvgRenderer
 		_ = sb.Append(" />");
 	}
 
-	/// <summary>Inheritance / realization ▷, composition ◆, aggregation ◇, association → (filled), dependency ⟩ (open). Lollipop: the target is the circle.</summary>
+	/// <summary>Inheritance / realization ▷, composition ◆, aggregation ◇, association → (filled), dependency ⟩ (open). Lollipop: the target is the circle. Links (solid or dashed) draw no marker.</summary>
 	internal static MarkerShape? MarkerShapeOf(ClassRelationType type) => type switch
 	{
 		ClassRelationType.Inheritance or ClassRelationType.Realization => MarkerShape.Triangle,
@@ -333,7 +336,7 @@ internal static class ClassSvgRenderer
 		_ => null,
 	};
 
-	private static void AppendRelationshipLabels(StringBuilder sb, DesignSystem ds, PositionedClassRelationship rel)
+	private static void AppendRelationshipLabels(StringBuilder sb, DesignSystem ds, PositionedClassRelationship rel, ClassCardinalityPlacer? cardinalities)
 	{
 		if (rel.Label == null && rel.FromCardinality == null && rel.ToCardinality == null)
 			return;
@@ -348,33 +351,39 @@ internal static class ClassSvgRenderer
 
 		if (rel.Label != null)
 		{
-			var pos = rel.LabelPosition ?? VisualLanguage.PathMidpoint(rel.Points);
+			var pos = ClassCardinalityPlacer.LabelCenter(rel);
 			_ = sb.Append("\n  ");
 			ds.AppendEdgeLabel(sb, pos.X, pos.Y, rel.Label);
 		}
 
-		if (rel.FromCardinality != null)
-			AppendCardinality(sb, ds, rel.FromCardinality, rel.Points[0], rel.Points[1]);
-
-		if (rel.ToCardinality != null)
-			AppendCardinality(sb, ds, rel.ToCardinality, rel.Points[^1], rel.Points[^2]);
+		if (cardinalities != null)
+		{
+			if (rel.FromCardinality != null)
+				AppendCardinality(sb, ds, cardinalities, rel.FromCardinality, rel.Points, atEnd: false, ClassCardinalityPlacer.IsSelfLoop(rel));
+			if (rel.ToCardinality != null)
+				AppendCardinality(sb, ds, cardinalities, rel.ToCardinality, rel.Points, atEnd: true, ClassCardinalityPlacer.IsSelfLoop(rel));
+		}
 
 		_ = sb.Append("\n</g>");
 	}
 
-	/// <summary>How far along its line, from the class, a cardinality label is centred (shorter lines clamp it).</summary>
+	/// <summary>How far along its stub, from the class, a self-loop's cardinality is centred (see ClassCardinalityPlacer.OnStub).</summary>
 	internal const double CardinalityDistance = 30;
 
-	// A cardinality is a small edge label on the line next to the class it belongs to (clear of the end marker).
-	private static void AppendCardinality(StringBuilder sb, DesignSystem ds, string text, Point end, Point toward)
+	// A cardinality is a small edge label beside the line, next to the class it belongs to (see ClassCardinalityPlacer).
+	private static void AppendCardinality(
+		StringBuilder sb,
+		DesignSystem ds,
+		ClassCardinalityPlacer placer,
+		string text,
+		IReadOnlyList<Point> points,
+		bool atEnd,
+		bool selfLoop
+	)
 	{
-		const double distance = CardinalityDistance;
-		var dx = toward.X - end.X;
-		var dy = toward.Y - end.Y;
-		var len = Math.Sqrt((dx * dx) + (dy * dy));
-		var (ux, uy) = len < 0.01 ? (0.0, 1.0) : (dx / len, dy / len);
-		var along = Math.Min(distance, Math.Max(len - 8, 8));
+		var (w, h) = ds.EdgeLabelSize(text);
+		var c = selfLoop ? ClassCardinalityPlacer.OnStub(points, atEnd) : placer.Place(points, atEnd, w, h);
 		_ = sb.Append("\n  ");
-		ds.AppendEdgeLabel(sb, end.X + (ux * along), end.Y + (uy * along), text);
+		ds.AppendEdgeLabel(sb, c.X, c.Y, text);
 	}
 }
