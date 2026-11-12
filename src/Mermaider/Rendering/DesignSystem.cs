@@ -516,6 +516,15 @@ internal sealed partial class DesignSystem
 	internal static double LabelBoxWidth(double textWidth) => textWidth + 16;
 
 	/// <summary>
+	/// The box <see cref="AppendEdgeLabel"/> draws for <paramref name="text"/> as a pill or chip; the halo's knock-out is smaller and fits inside
+	/// it, so this is the room an edge label takes in every preset.
+	/// </summary>
+	internal (double Width, double Height) EdgeLabelSize(string text) => EdgeLabelBox(TextMetrics.MeasureMultiline(text.AsSpan(), Px(TypeRole.Caption), 500));
+
+	private static (double Width, double Height) EdgeLabelBox(MultilineMetrics metrics) =>
+		(LabelBoxWidth(metrics.Width), Math.Max(PillHeight, metrics.Height + 6));
+
+	/// <summary>
 	/// An edge / message label centred at (<paramref name="cx"/>, <paramref name="cy"/>) in the preset's label language:
 	/// outlined pill, halo text, or filled chip. Multi-line labels grow the box.
 	/// </summary>
@@ -523,8 +532,7 @@ internal sealed partial class DesignSystem
 	{
 		var px = Px(TypeRole.Caption);
 		var metrics = TextMetrics.MeasureMultiline(text.AsSpan(), px, 500);
-		var w = LabelBoxWidth(metrics.Width);
-		var h = Math.Max(PillHeight, metrics.Height + 6);
+		var (w, h) = EdgeLabelBox(metrics);
 		var r = Spec.Label == LabelKind.Chip ? Math.Min(6, h / 2) : h / 2;
 		switch (Spec.Label)
 		{

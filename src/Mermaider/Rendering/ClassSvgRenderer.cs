@@ -63,8 +63,11 @@ internal static class ClassSvgRenderer
 				AppendClassBox(sb, ds, cls, palette.Family(cls.Id));
 		}
 
+		var cardinalities = diagram.Relationships.Any(r => r.FromCardinality != null || r.ToCardinality != null)
+			? new ClassCardinalityPlacer(diagram, ds)
+			: null;
 		foreach (var rel in diagram.Relationships)
-			AppendRelationshipLabels(sb, ds, rel);
+			AppendRelationshipLabels(sb, ds, rel, cardinalities);
 
 		foreach (var note in diagram.Notes)
 			ds.AppendNote(sb, note.X, note.Y, note.Width, note.Height, note.Text, note.LineFrom, note.LineTo);
@@ -333,7 +336,7 @@ internal static class ClassSvgRenderer
 		_ => null,
 	};
 
-	private static void AppendRelationshipLabels(StringBuilder sb, DesignSystem ds, PositionedClassRelationship rel)
+	private static void AppendRelationshipLabels(StringBuilder sb, DesignSystem ds, PositionedClassRelationship rel, ClassCardinalityPlacer? cardinalities)
 	{
 		if (rel.Label == null && rel.FromCardinality == null && rel.ToCardinality == null)
 			return;
@@ -348,30 +351,35 @@ internal static class ClassSvgRenderer
 
 		if (rel.Label != null)
 		{
-			var pos = rel.LabelPosition ?? VisualLanguage.PathMidpoint(rel.Points);
+			var pos = ClassCardinalityPlacer.LabelCenter(rel);
 			_ = sb.Append("\n  ");
 			ds.AppendEdgeLabel(sb, pos.X, pos.Y, rel.Label);
 		}
 
-		if (rel.FromCardinality != null)
-			AppendCardinality(sb, ds, rel.FromCardinality, rel.Points[0], rel.Points[1]);
-
-		if (rel.ToCardinality != null)
-			AppendCardinality(sb, ds, rel.ToCardinality, rel.Points[^1], rel.Points[^2]);
+		if (cardinalities != null)
+		{
+			if (rel.FromCardinality != null)
+				AppendCardinality(sb, ds, cardinalities, rel.FromCardinality, rel.Points, atEnd: false);
+			if (rel.ToCardinality != null)
+				AppendCardinality(sb, ds, cardinalities, rel.ToCardinality, rel.Points, atEnd: true);
+		}
 
 		_ = sb.Append("\n</g>");
 	}
 
-	// A cardinality is a small edge label on the line next to the class it belongs to (clear of the end marker).
-	private static void AppendCardinality(StringBuilder sb, DesignSystem ds, string text, Point end, Point toward)
+	// A cardinality is a small edge label beside the line, next to the class it belongs to (see ClassCardinalityPlacer).
+	private static void AppendCardinality(
+		StringBuilder sb,
+		DesignSystem ds,
+		ClassCardinalityPlacer placer,
+		string text,
+		IReadOnlyList<Point> points,
+		bool atEnd
+	)
 	{
-		const double distance = 30;
-		var dx = toward.X - end.X;
-		var dy = toward.Y - end.Y;
-		var len = Math.Sqrt((dx * dx) + (dy * dy));
-		var (ux, uy) = len < 0.01 ? (0.0, 1.0) : (dx / len, dy / len);
-		var along = Math.Min(distance, Math.Max(len - 8, 8));
+		var (w, h) = ds.EdgeLabelSize(text);
+		var c = placer.Place(points, atEnd, w, h);
 		_ = sb.Append("\n  ");
-		ds.AppendEdgeLabel(sb, end.X + (ux * along), end.Y + (uy * along), text);
+		ds.AppendEdgeLabel(sb, c.X, c.Y, text);
 	}
 }
