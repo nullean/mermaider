@@ -178,7 +178,8 @@ public class FlowchartParserTests
 			  C --> D["d ] e"]
 			  E -->|"x | y"| F
 			  G(["s ] t"]) --> H("r ) s")
-			""");
+			"""
+		);
 
 		graph.Nodes.Should().HaveCount(8);
 		graph.Nodes["A"].Label.Should().Be("a ] b");
