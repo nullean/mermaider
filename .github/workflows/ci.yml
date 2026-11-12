@@ -67,17 +67,17 @@ jobs:
       env:
         MISE_JOBS: "1" # dotnet versions share one DOTNET_ROOT; installing them in parallel races
 
-    - run: ./build.sh build -s true
+    - run: ./build.sh build -s
       name: Build
     - name: Check formatting (curb)
       run: dotnet tool restore && dotnet curb check .
-    - run: ./build.sh test -s true
+    - run: ./build.sh test -s
       name: Test
-    - run: ./build.sh generatepackages -s true
+    - run: ./build.sh generatepackages -s
       name: Generate local nuget packages
-    - run: ./build.sh validatepackages -s true
+    - run: ./build.sh validatepackages -s
       name: "validate *.nupkg files that were created"
-    - run: ./build.sh generateapichanges -s true
+    - run: ./build.sh generateapichanges -s
       name: "Inspect public API changes"
 
     - name: publish to github package repository
@@ -149,7 +149,7 @@ jobs:
         run: dotnet run scripts/screenshots.cs
 
       - name: Build documentation
-        uses: elastic/docs-builder@036a375759d876e2df67955ebec0382cd6b09249 # v1
+        uses: elastic/docs-builder@b9a0947ff47feb910cb073400f0de44cde41ca17 # 1.75.0
         env:
           FEATURE_NAVIGATION_PREVIEW: true
 
@@ -158,6 +158,6 @@ jobs:
 
   # Static analysis of these workflows (nullean/.github).
   zizmor:
-    uses: nullean/.github/.github/workflows/zizmor.yml@09af1fa16762b8ae42d899d45430a4267df5300c # v1.2.0
+    uses: nullean/.github/.github/workflows/zizmor.yml@d850ce6eee9efa9f81b410d15fcd480409518d19 # v1.5.0
     permissions:
       contents: read

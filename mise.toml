@@ -41,8 +41,8 @@ description = "Build, pack the NuGet packages and validate them"
 depends = ["setup"]
 run = [
   "dotnet run --project build/scripts -- build",
-  "dotnet run --project build/scripts -- generatepackages -s true",
-  "dotnet run --project build/scripts -- validatepackages -s true",
+  "dotnet run --project build/scripts -- generatepackages -s",
+  "dotnet run --project build/scripts -- validatepackages -s",
 ]
 
 [tasks.docs]
@@ -59,9 +59,9 @@ depends = ["setup"]
 run = [
   "dotnet run --project build/scripts -- test",
   "dotnet curb check .",
-  "dotnet run --project build/scripts -- generatepackages -s true",
-  "dotnet run --project build/scripts -- validatepackages -s true",
-  "dotnet run --project build/scripts -- generateapichanges -s true",
+  "dotnet run --project build/scripts -- generatepackages -s",
+  "dotnet run --project build/scripts -- validatepackages -s",
+  "dotnet run --project build/scripts -- generateapichanges -s",
 ]
 
 [tasks.release]
