@@ -168,6 +168,40 @@ public class ClassParserTests
 	}
 
 	[Test]
+	public void Method_classifiers_are_not_part_of_the_return_type()
+	{
+		var lines = new[]
+		{
+			"classDiagram",
+			"class Animal {",
+			"+int count$",
+			"+sleep()$",
+			"+wake() bool$",
+			"+run()*",
+			"+walk() bool*",
+			"+add(a, b)$ int",
+			"+compute()* void",
+			"}"
+		};
+
+		var animal = ClassParser.Parse(lines).Classes.Single();
+
+		animal.Attributes.Should().ContainSingle().Which.Should().Match<ClassMember>(a => a.Name == "count" && a.Type == "int" && a.IsStatic);
+		animal
+			.Methods
+			.Select(m => (m.Name, m.Type, m.IsStatic, m.IsAbstract))
+			.Should()
+			.Equal(
+				("sleep", null, true, false),
+				("wake", "bool", true, false),
+				("run", null, false, true),
+				("walk", "bool", false, true),
+				("add", "int", true, false),
+				("compute", "void", false, true)
+			);
+	}
+
+	[Test]
 	public void Generic_relationship_endpoint_joins_the_declared_class()
 	{
 		var lines = new[] { "classDiagram", "class List~T~", "Duck ..> List~T~" };
