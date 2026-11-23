@@ -16,6 +16,19 @@
     <ProjectReference Include="../../src/Mermaider/Mermaider.csproj" />
     <ProjectReference Include="../../examples/Mermaider.Examples/Mermaider.Examples.csproj" />
   </ItemGroup>
+  <!--
+    dotnet test tests/Mermaider.Tests -p:LibraryTfm=netstandard2.0 (or netstandard2.1, net7.0) runs the suite against that
+    build of the library, on the current runtime. Two files test API that differs before .NET 8 (HashSet instead of
+    FrozenSet parameters, TimeProvider needing its package) and are left out.
+  -->
+  <ItemGroup Condition="'$(LibraryTfm)' != ''">
+    <ProjectReference Update="../../src/Mermaider/Mermaider.csproj" SetTargetFramework="TargetFramework=$(LibraryTfm)" />
+    <ProjectReference Include="../../src/Sugiyama/Sugiyama.csproj" SetTargetFramework="TargetFramework=$(LibraryTfm)" />
+    <PackageReference Include="Microsoft.Bcl.TimeProvider" />
+    <PackageReference Include="System.IO.Pipelines" />
+    <PackageReference Include="System.Text.Json" />
+    <Compile Remove="Rendering/ResourceLimitTests.cs;Rendering/SvgSanitizerTests.cs" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Fixtures\mermaid.md" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>

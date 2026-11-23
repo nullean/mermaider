@@ -27,7 +27,11 @@ internal static class MermaidRenderPipeline
 		CancellationTokenSource? linkedCts = null; // union of deadline + caller token
 		if (limits.RenderDeadline.HasValue)
 		{
+#if !NET8_0_OR_GREATER
+			deadlineCts = limits.TimeProvider.CreateCancellationTokenSource(limits.RenderDeadline.Value);
+#else
 			deadlineCts = new CancellationTokenSource(limits.RenderDeadline.Value, limits.TimeProvider);
+#endif
 			if (ct != default)
 				linkedCts = CancellationTokenSource.CreateLinkedTokenSource(deadlineCts.Token, ct);
 		}

@@ -296,7 +296,11 @@ internal static class MsaglFlowchartLayout
 
 		if (graph.ClassAssignments.TryGetValue(nodeId, out var className) && graph.ClassDefs.TryGetValue(className, out var classDef))
 		{
+#if NETSTANDARD2_0
+			result = classDef.ToDictionary(static kv => kv.Key, static kv => kv.Value);
+#else
 			result = [with(classDef)];
+#endif
 		}
 
 		if (graph.NodeStyles.TryGetValue(nodeId, out var nodeStyle))
@@ -315,7 +319,11 @@ internal static class MsaglFlowchartLayout
 
 		if (graph.DefaultEdgeStyle is { } defaults)
 		{
+#if NETSTANDARD2_0
+			result = defaults.ToDictionary(static kv => kv.Key, static kv => kv.Value);
+#else
 			result = [with(defaults)];
+#endif
 		}
 
 		if (graph.EdgeStyles.TryGetValue(edgeIndex, out var specific))

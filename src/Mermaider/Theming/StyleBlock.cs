@@ -1,4 +1,3 @@
-using System.Collections.Frozen;
 using System.Globalization;
 using System.Text;
 using Mermaider.Models;
@@ -92,7 +91,7 @@ internal static class StyleBlock
 	private static string DarkShadow(int strength) => $"color-mix(in srgb, color-mix(in srgb, var(--bg) 35%, black) {strength}%, transparent)";
 
 	/// <summary>Every elevation line any preset / level / background can produce (the allowlist accepts exactly these).</summary>
-	internal static readonly FrozenSet<string> AllElevationLines = new[] { StyleSpec.Quiet, StyleSpec.Blueprint, StyleSpec.Tonal }.SelectMany(
+	internal static readonly StringSet AllElevationLines = new[] { StyleSpec.Quiet, StyleSpec.Blueprint, StyleSpec.Tonal }.SelectMany(
 		spec => new[] { 1, 2 }.SelectMany(level => new[] { false, true }.SelectMany(dark => ElevationLines(spec, level, dark)))
 	).ToFrozenSet(StringComparer.Ordinal);
 
@@ -208,7 +207,7 @@ internal static class StyleBlock
 	};
 
 	// CSS generic font family keywords must not be quoted in font-family declarations.
-	private static readonly System.Collections.Frozen.FrozenSet<string> GenericFontKeywords = FrozenSet.ToFrozenSet(
+	private static readonly StringSet GenericFontKeywords = FrozenSet.ToFrozenSet(
 		[
 			"serif",
 			"sans-serif",

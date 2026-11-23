@@ -109,7 +109,7 @@ internal static partial class GanttParser
 			if (excludesMatch.Success)
 			{
 				// v1: implement "weekends" (Sat/Sun). Other exclude tokens are accepted but ignored.
-				var tokens = excludesMatch.Groups[1].Value.Split([',', ' '], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+				var tokens = excludesMatch.Groups[1].Value.SplitTrimmed([',', ' '], true);
 				foreach (var t in tokens)
 				{
 					if (t.Equals("weekends", StringComparison.OrdinalIgnoreCase))
@@ -528,7 +528,7 @@ internal static partial class GanttParser
 		var m = AfterPattern().Match(token);
 		if (!m.Success)
 			return [];
-		return m.Groups[1].Value.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+		return m.Groups[1].Value.SplitTrimmed(null, true);
 	}
 
 	private static bool IsDuration(string token) => DurationPattern().IsMatch(token);

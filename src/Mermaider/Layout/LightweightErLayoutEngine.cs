@@ -116,7 +116,7 @@ internal static class LightweightErLayoutEngine
 			if (adj.TryGetValue(e.Target, out var t))
 				_ = t.Add(e.Source);
 		}
-		var visited = new HashSet<string>(nodes.Count);
+		var visited = Sugiyama.Internal.Sets.New<string>(nodes.Count);
 		var count = 0;
 		var stack = new Stack<string>();
 		foreach (var n in nodes)

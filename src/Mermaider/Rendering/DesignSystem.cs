@@ -1010,7 +1010,11 @@ internal sealed partial class DesignSystem
 			return;
 
 		_ = sb.Append("\n<defs>\n");
+#if NET7_0_OR_GREATER
 		foreach (var id in _gradients.Keys.Order(StringComparer.Ordinal))
+#else
+		foreach (var id in _gradients.Keys.OrderBy(static k => k, StringComparer.Ordinal))
+#endif
 			_ = sb.Append(_gradients[id]).Append('\n');
 		foreach (var marker in _markers.Values)
 			_ = sb.Append(marker).Append('\n');

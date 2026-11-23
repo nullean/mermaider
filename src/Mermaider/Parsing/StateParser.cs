@@ -124,7 +124,7 @@ internal static partial class StateParser
 			var classAssignMatch = ClassAssignPattern().Match(line);
 			if (classAssignMatch.Success)
 			{
-				var nodeIds = classAssignMatch.Groups[1].Value.Split(',', StringSplitOptions.TrimEntries);
+				var nodeIds = classAssignMatch.Groups[1].Value.SplitTrimmed([','], false);
 				var className = classAssignMatch.Groups[2].Value;
 				foreach (var id in nodeIds)
 					classAssignments[id] = className;
@@ -134,7 +134,7 @@ internal static partial class StateParser
 			var styleMatch = StylePattern().Match(line);
 			if (styleMatch.Success)
 			{
-				var nodeIds = styleMatch.Groups[1].Value.Split(',', StringSplitOptions.TrimEntries);
+				var nodeIds = styleMatch.Groups[1].Value.SplitTrimmed([','], false);
 				var props = ParseStyleProps(styleMatch.Groups[2].Value);
 				foreach (var id in nodeIds)
 				{

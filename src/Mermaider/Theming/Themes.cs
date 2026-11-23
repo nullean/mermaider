@@ -1,4 +1,3 @@
-using System.Collections.Frozen;
 using Mermaider.Rendering;
 
 namespace Mermaider.Theming;
@@ -26,7 +25,7 @@ public static class Themes
 	private static readonly string[] DarkDataPalette = CategoricalPalette.BrightColors;
 
 	/// <summary>All 15 built-in themes.</summary>
-	public static FrozenDictionary<string, DiagramColors> BuiltIn { get; } = new Dictionary<string, DiagramColors>
+	public static ThemeMap BuiltIn { get; } = new Dictionary<string, DiagramColors>
 	{
 		["zinc-light"] = new()
 		{

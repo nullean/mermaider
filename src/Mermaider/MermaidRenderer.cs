@@ -62,7 +62,12 @@ public static class MermaidRenderer
 		// Execute on a thread-pool thread so the CancellationToken can interrupt CPU-bound work
 		// (the pipeline checks the token at phase boundaries and in hot layout loops).
 		var svg = await Task.Run(() => MermaidRenderPipeline.Execute(text, options, cancellationToken), cancellationToken).ConfigureAwait(false);
+#if NETSTANDARD2_0
+		var bytes = Encoding.UTF8.GetBytes(svg);
+		await destination.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
+#else
 		await destination.WriteAsync(Encoding.UTF8.GetBytes(svg), cancellationToken).ConfigureAwait(false);
+#endif
 	}
 
 	/// <summary>

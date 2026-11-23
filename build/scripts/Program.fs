@@ -21,6 +21,10 @@ type Target =
     /// Build documentation and serve locally for preview
     | Docs
 
+/// The library targets the test project is also run against (-p:LibraryTfm): the default run covers net10.0/net11.0 by
+/// building for the test runtime; these are the builds that carry their own fallbacks for what the runtime lacks
+let private fallbackTargets = [ "netstandard2.0"; "netstandard2.1"; "net7.0" ]
+
 /// build/output, relative to the repository root
 let private output = Paths.RootRelative Paths.Output.FullName
 
@@ -43,7 +47,11 @@ let main argv =
                    |> executes { sh $"dotnet build -c Release" }
         // global.json selects Microsoft.Testing.Platform, so this runs every TUnit test executable (Mermaider.Tests and
         // Sugiyama.Tests); on GitHub Actions TUnit writes its own summary of the run to GITHUB_STEP_SUMMARY
-        | Test -> target [Build] { sh $"dotnet test -c Release" }
+        // then Mermaider.Tests again per fallback target, against that build of the library (see the test project)
+        | Test -> target [Build] {
+              sh $"dotnet test -c Release"
+              for tfm in fallbackTargets do
+                  sh $"dotnet run -c Release --project tests/Mermaider.Tests/Mermaider.Tests.csproj -p:LibraryTfm={tfm}" }
         | Generatepackages -> target [] { sh $"dotnet pack -c Release -o {output}" }
         | Validatepackages -> target [] {
               let version = Versions.informational.Value

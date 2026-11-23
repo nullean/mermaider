@@ -465,7 +465,9 @@ internal static class FlowEdgeRouter
 
 	// The layout's own route (ports aligned to label columns, uniform jogs) is used when nothing is in its way.
 	private static List<LayoutPoint>? AcceptHint(Plan p, IReadOnlyList<Box> boxes, IReadOnlyList<GroupBox> groups) =>
+#pragma warning disable IDE0370
 		ValidatePath(p, Simplify(p.Edge.Hint!.ToList()), boxes, groups);
+#pragma warning restore IDE0370
 
 	private static List<LayoutPoint>? ValidatePath(Plan p, List<LayoutPoint> pts, IReadOnlyList<Box> boxes, IReadOnlyList<GroupBox> groups)
 	{
@@ -995,7 +997,7 @@ internal static class FlowEdgeRouter
 			_ys = Dedupe(AddMidlines(ys));
 			var n = _xs.Length * _ys.Length;
 			_owner = new int[n];
-			Array.Fill(_owner, -1);
+			_owner.AsSpan().Fill(-1);
 			for (var bi = 0; bi < boxes.Count; bi++)
 			{
 				// grid lines strictly inside the box's margin, found by binary search on the sorted lines
@@ -1050,7 +1052,7 @@ internal static class FlowEdgeRouter
 		// lines snapped to the half pixel, without repeats, ascending (the first of +0/-0 is kept, as Distinct would)
 		private static double[] Dedupe(List<double> v)
 		{
-			var seen = new HashSet<double>(v.Count);
+			var seen = Sets.New<double>(v.Count);
 			var r = new List<double>(v.Count);
 			foreach (var x in v)
 			{
@@ -1425,8 +1427,8 @@ internal static class FlowEdgeRouter
 		{
 			if (_version == int.MaxValue)
 			{
-				Array.Clear(States);
-				Array.Clear(Steps);
+				Array.Clear(States, 0, States.Length);
+				Array.Clear(Steps, 0, Steps.Length);
 				_version = 0;
 			}
 			return ++_version;
@@ -1451,7 +1453,7 @@ internal static class FlowEdgeRouter
 
 		internal void Build()
 		{
-			Array.Clear(_start);
+			Array.Clear(_start, 0, _start.Length);
 			foreach (var (_, lo, hi) in _spans)
 			{
 				for (var b = lo; b <= hi; b++)
@@ -1473,7 +1475,7 @@ internal static class FlowEdgeRouter
 	}
 
 	/// <summary>
-	/// The 4-ary min-heap of <see cref="PriorityQueue{TElement, TPriority}"/> with the same sift-up/sift-down rules, so equal
+	/// The 4-ary min-heap of <c>PriorityQueue&lt;TElement, TPriority&gt;</c> with the same sift-up/sift-down rules, so equal
 	/// priorities leave the queue in the same order; specialised to int states and double priorities (never NaN).
 	/// </summary>
 	private sealed class MinHeap

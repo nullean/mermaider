@@ -1,6 +1,6 @@
 # Bootstraps the toolchain and is the one entry point: `mise run <task>`, the same task names in every nullean repo.
 # The .NET SDK version lives only in global.json: the first dotnet entry reads it from there (sdk.version is the first
-# "version" key). The libraries also target net10.0, whose reference assemblies come from NuGet; the tests and the
+# "version" key). The libraries also target net10.0, net7.0 and netstandard2.0/2.1, whose reference assemblies come from NuGet; the tests and the
 # build run on net11.0, so no .NET 10 runtime is installed.
 
 [env]

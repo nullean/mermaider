@@ -64,7 +64,7 @@ public static class IconRegistry
 	public static void Register(string name, Stream svg)
 	{
 		ArgumentNullException.ThrowIfNull(svg);
-		using var reader = new StreamReader(svg, Encoding.UTF8, leaveOpen: true);
+		using var reader = new StreamReader(svg, Encoding.UTF8, true, 1024, leaveOpen: true);
 		Register(name, reader.ReadToEnd());
 	}
 
@@ -78,7 +78,7 @@ public static class IconRegistry
 	/// </summary>
 	public static string Resolve(string? name)
 	{
-		if (!string.IsNullOrWhiteSpace(name) && TryGet(name, out var svg))
+		if (name is not null && !string.IsNullOrWhiteSpace(name) && TryGet(name, out var svg))
 			return svg;
 		return BuiltInIcons.Map[FallbackName];
 	}

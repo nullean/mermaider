@@ -68,7 +68,7 @@ public static class SugiyamaLayout
 
 			// Each inter-layer gap fits the tallest label that starts in it (along the flow axis) plus two stubs for markers.
 			var gaps = new double[Math.Max(0, buf.LayerCount - 1)];
-			Array.Fill(gaps, options.LayerSpacing);
+			gaps.AsSpan().Fill(options.LayerSpacing);
 			foreach (var e in buf.Edges)
 			{
 				if (e.From >= buf.RealNodeCount || e.OriginalIndex >= input.Edges.Count || buf.Layers[e.From] >= gaps.Length)
@@ -187,7 +187,7 @@ public static class SugiyamaLayout
 		foreach (var sg in input.Subgraphs)
 			ConnectSubgraphNodes(adj, sg);
 
-		var visited = new HashSet<string>(input.Nodes.Count);
+		var visited = Sets.New<string>(input.Nodes.Count);
 		var components = new List<HashSet<string>>();
 
 		foreach (var node in input.Nodes)
@@ -1188,7 +1188,7 @@ public static class SugiyamaLayout
 		for (var i = 0; i < buf.RealNodeCount; i++)
 			nodeIndex[buf.NodeIds[i]] = i;
 
-		var claimed = new HashSet<int>(buf.RealNodeCount);
+		var claimed = Sets.New<int>(buf.RealNodeCount);
 		var groups = new List<NestingGraphRanker.Group>(input.Subgraphs.Count);
 		foreach (var sg in input.Subgraphs)
 			groups.Add(BuildNestingGroup(sg, nodeIndex, claimed));
