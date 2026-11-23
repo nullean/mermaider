@@ -1,4 +1,3 @@
-using System.Collections.Frozen;
 using System.Text.RegularExpressions;
 
 namespace Mermaider;
@@ -13,7 +12,7 @@ internal static partial class RendererStylesheetAllowlist
 	private const string SansFallback = "system-ui, -apple-system, 'Segoe UI', sans-serif";
 	private const string MonoFallback = "ui-monospace, 'SF Mono', 'Cascadia Code', monospace";
 
-	private static readonly FrozenSet<string> GenericFontKeywords = new[]
+	private static readonly StringSet GenericFontKeywords = new[]
 	{
 		"serif",
 		"sans-serif",

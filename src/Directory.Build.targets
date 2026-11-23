@@ -1,0 +1,6 @@
+<Project>
+  <!-- netstandard2.0 has no Span<T> / ArrayPool; the rest of what it lacks is in each project's NetStandard.cs -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Memory" />
+  </ItemGroup>
+</Project>

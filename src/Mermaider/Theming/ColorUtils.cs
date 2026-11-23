@@ -101,17 +101,17 @@ internal static class ColorUtils
 
 		if (span.Length == 3)
 		{
-			var r = byte.Parse(span[..1], NumberStyles.HexNumber, CultureInfo.InvariantCulture);
-			var g = byte.Parse(span[1..2], NumberStyles.HexNumber, CultureInfo.InvariantCulture);
-			var b = byte.Parse(span[2..3], NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+			var r = ParseHexByte(span[..1]);
+			var g = ParseHexByte(span[1..2]);
+			var b = ParseHexByte(span[2..3]);
 			return ((byte)(r * 17), (byte)(g * 17), (byte)(b * 17));
 		}
 
 		if (span.Length >= 6)
 		{
-			var r = byte.Parse(span[..2], NumberStyles.HexNumber, CultureInfo.InvariantCulture);
-			var g = byte.Parse(span[2..4], NumberStyles.HexNumber, CultureInfo.InvariantCulture);
-			var b = byte.Parse(span[4..6], NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+			var r = ParseHexByte(span[..2]);
+			var g = ParseHexByte(span[2..4]);
+			var b = ParseHexByte(span[4..6]);
 			return (r, g, b);
 		}
 
@@ -171,4 +171,11 @@ internal static class ColorUtils
 			return p + ((q - p) * ((2.0 / 3.0) - t) * 6.0);
 		return p;
 	}
+
+	private static byte ParseHexByte(ReadOnlySpan<char> hex) =>
+#if NETSTANDARD2_0
+		byte.Parse(hex.ToString(), NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+#else
+		byte.Parse(hex, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+#endif
 }

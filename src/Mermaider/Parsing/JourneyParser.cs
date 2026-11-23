@@ -96,7 +96,7 @@ internal static partial class JourneyParser
 
 	private static IReadOnlyList<string> ParseActors(string? text)
 	{
-		if (string.IsNullOrWhiteSpace(text))
+		if (text is null || string.IsNullOrWhiteSpace(text))
 			return [];
 
 		var parts = text.Split(',');

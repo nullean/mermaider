@@ -130,7 +130,7 @@ internal static partial class SequenceParser
 				var posStr = noteMatch.Groups[1].Value.ToLowerInvariant();
 				var actorsStr = noteMatch.Groups[2].Value.Trim();
 				var text = MultilineUtils.NormalizeBrTags(noteMatch.Groups[3].Value.Trim());
-				var noteActorIds = actorsStr.Split(',', StringSplitOptions.TrimEntries);
+				var noteActorIds = actorsStr.SplitTrimmed([','], false);
 
 				foreach (var aid in noteActorIds)
 					EnsureActor(actors, actorIds, aid);

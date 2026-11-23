@@ -1,4 +1,3 @@
-using System.Collections.Frozen;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -58,7 +57,7 @@ public static partial class SvgSanitizer
 	// ========================================================================
 
 	/// <summary>Default set of allowed SVG element local names.</summary>
-	public static readonly FrozenSet<string> DefaultAllowedElements = new[]
+	public static readonly StringSet DefaultAllowedElements = new[]
 	{
 		"svg",
 		"g",
@@ -95,7 +94,7 @@ public static partial class SvgSanitizer
 	}.ToFrozenSet(StringComparer.Ordinal);
 
 	/// <summary>Default set of allowed SVG attribute local names.</summary>
-	public static readonly FrozenSet<string> DefaultAllowedAttributes = new[]
+	public static readonly StringSet DefaultAllowedAttributes = new[]
 	{
 		"id",
 		"class",
@@ -196,13 +195,9 @@ public static partial class SvgSanitizer
 		"patternTransform",
 	}.ToFrozenSet(StringComparer.Ordinal);
 
-	private static readonly FrozenSet<string> PaintAttributes = new[] { "color", "fill", "stroke", "stop-color", "flood-color", }.ToFrozenSet(
-		StringComparer.Ordinal
-	);
+	private static readonly StringSet PaintAttributes = new[] { "color", "fill", "stroke", "stop-color", "flood-color", }.ToFrozenSet(StringComparer.Ordinal);
 
-	private static readonly FrozenSet<string> LocalReferenceAttributes = new[] { "marker-start", "marker-mid", "marker-end", }.ToFrozenSet(
-		StringComparer.Ordinal
-	);
+	private static readonly StringSet LocalReferenceAttributes = new[] { "marker-start", "marker-mid", "marker-end", }.ToFrozenSet(StringComparer.Ordinal);
 
 	// ========================================================================
 	// Public API
@@ -239,7 +234,7 @@ public static partial class SvgSanitizer
 	/// or <c>data:image/png</c> URI (used for diagram icons); every other scheme (<c>http(s):</c>,
 	/// <c>javascript:</c>, non-image data URIs) and any namespaced attribute is stripped.</param>
 	/// <returns>A result containing the cleaned SVG and any violations found.</returns>
-	public static SvgSanitizeResult Sanitize(string svg, FrozenSet<string> allowedElements, FrozenSet<string> allowedAttributes) =>
+	public static SvgSanitizeResult Sanitize(string svg, StringSet allowedElements, StringSet allowedAttributes) =>
 		Sanitize(svg, allowedElements, allowedAttributes, allowRendererStyles: false, nestedImageDepth: 0);
 
 	/// <summary>
@@ -247,7 +242,7 @@ public static partial class SvgSanitizer
 	/// stripped or rejected. Custom sets are intersected with the default safety sets;
 	/// structural and value-level safety rules remain mandatory.
 	/// </summary>
-	public static SvgSanitizeResult Sanitize(string svg, FrozenSet<string> allowedElements, FrozenSet<string> allowedAttributes, SanitizeMode mode) =>
+	public static SvgSanitizeResult Sanitize(string svg, StringSet allowedElements, StringSet allowedAttributes, SanitizeMode mode) =>
 		ApplyMode(Sanitize(svg, allowedElements, allowedAttributes), mode);
 
 	/// <summary>
@@ -271,8 +266,8 @@ public static partial class SvgSanitizer
 
 	private static SvgSanitizeResult Sanitize(
 		string svg,
-		FrozenSet<string> allowedElements,
-		FrozenSet<string> allowedAttributes,
+		StringSet allowedElements,
+		StringSet allowedAttributes,
 		bool allowRendererStyles,
 		int nestedImageDepth
 	)
@@ -408,14 +403,7 @@ public static partial class SvgSanitizer
 	// Attribute rules (always enforced regardless of allowlist)
 	// ========================================================================
 
-	private static bool IsAllowedAttribute(
-		XElement element,
-		XAttribute attr,
-		XElement root,
-		FrozenSet<string> allowed,
-		bool allowRendererStyles,
-		int nestedImageDepth
-	)
+	private static bool IsAllowedAttribute(XElement element, XAttribute attr, XElement root, StringSet allowed, bool allowRendererStyles, int nestedImageDepth)
 	{
 		// Pure allowlist: an attribute is denied unless one of the positive rules below
 		// affirms it as safe. There is deliberately NO blocklist of "known bad" names

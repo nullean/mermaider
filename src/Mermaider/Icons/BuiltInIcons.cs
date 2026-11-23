@@ -1,5 +1,3 @@
-using System.Collections.Frozen;
-
 namespace Mermaider.Icons;
 
 /// <summary>
@@ -19,10 +17,10 @@ namespace Mermaider.Icons;
 /// </summary>
 internal static class BuiltInIcons
 {
-	internal static readonly FrozenDictionary<string, string> Map = BuildMap();
+	internal static readonly StringMap Map = BuildMap();
 
 	/// <summary>Light/dark gradient stop colors per vendor/ext icon name, keyed the same as <see cref="Map"/>.</summary>
-	internal static readonly FrozenDictionary<string, (string Light, string Dark)> BadgeGradients = BuildGradients();
+	internal static readonly GradientMap BadgeGradients = BuildGradients();
 
 	// Vendor hue families, reused across every category that vendor offers.
 	private const string AwsLight = "#f7a55e";
@@ -36,7 +34,7 @@ internal static class BuiltInIcons
 	private const string ExtLight = "#94a3b8";
 	private const string ExtDark = "#475569";
 
-	private static FrozenDictionary<string, (string Light, string Dark)> BuildGradients() =>
+	private static GradientMap BuildGradients() =>
 		new Dictionary<string, (string Light, string Dark)>(StringComparer.OrdinalIgnoreCase)
 		{
 			// AWS
@@ -94,7 +92,7 @@ internal static class BuiltInIcons
 			["ext:cache"] = (ExtLight, ExtDark),
 		}.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
 
-	private static FrozenDictionary<string, string> BuildMap()
+	private static StringMap BuildMap()
 	{
 		var raw = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
 		{

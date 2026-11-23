@@ -312,7 +312,11 @@ internal static partial class ClassParser
 		if (parts.Length >= 2)
 		{
 			memberType = parts[0];
+#if NETSTANDARD2_0
+			memberName = string.Join(' ', parts.Skip(1));
+#else
 			memberName = string.Join(' ', parts[1..]);
+#endif
 		}
 		else
 		{

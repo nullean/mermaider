@@ -16,4 +16,34 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.ObjectPool" />
   </ItemGroup>
+  <ItemGroup>
+    <Using Include="Mermaider.Compat" />
+  </ItemGroup>
+  <PropertyGroup>
+    <!-- no System.Collections.Frozen / SearchValues / TimeProvider before .NET 8; falling back there is fine, so the
+         .NET 7 target exists for [GeneratedRegex] and the newer span APIs, not for those types -->
+    <PreNet8 Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netstandard2.1' or '$(TargetFramework)' == 'net7.0'">true</PreNet8>
+  </PropertyGroup>
+  <!-- Public collection types: frozen on .NET 8+, the plain BCL collections before (see PreNet8) -->
+  <ItemGroup Condition="'$(PreNet8)' != 'true'">
+    <Using Include="System.Collections.Frozen" />
+    <Using Include="System.Collections.Frozen.FrozenSet&lt;string&gt;" Alias="StringSet" />
+    <Using Include="System.Collections.Frozen.FrozenDictionary&lt;string, string&gt;" Alias="StringMap" />
+    <Using Include="System.Collections.Frozen.FrozenDictionary&lt;string, Mermaider.Theming.DiagramColors&gt;" Alias="ThemeMap" />
+    <Using Include="System.Collections.Frozen.FrozenDictionary&lt;string, (string Light, string Dark)&gt;" Alias="GradientMap" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(PreNet8)' == 'true'">
+    <Using Include="System.Collections.Generic.HashSet&lt;string&gt;" Alias="StringSet" />
+    <Using Include="System.Collections.Generic.Dictionary&lt;string, string&gt;" Alias="StringMap" />
+    <Using Include="System.Collections.Generic.Dictionary&lt;string, Mermaider.Theming.DiagramColors&gt;" Alias="ThemeMap" />
+    <Using Include="System.Collections.Generic.Dictionary&lt;string, (string Light, string Dark)&gt;" Alias="GradientMap" />
+    <PackageReference Include="Microsoft.Bcl.TimeProvider" />
+    <PackageReference Include="System.IO.Pipelines" />
+  </ItemGroup>
+  <!-- netstandard: a generator that gives [GeneratedRegex] a body (the real one needs .NET 7+), and the BCL pieces the newer targets have -->
+  <ItemGroup Condition="$(TargetFramework.StartsWith('netstandard'))">
+    <PackageReference Include="System.Text.Json" />
+    <ProjectReference Include="../../tools/GeneratedRegexShim/GeneratedRegexShim.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <Using Include="Sugiyama.Compat" />
+  </ItemGroup>
 </Project>

@@ -376,9 +376,9 @@ internal static class BkCoordinateAssigner
 		lg.DummyOfGraphEdge = new int[edges.Count];
 		lg.FirstHalf = new int[edges.Count];
 		lg.SecondHalf = new int[edges.Count];
-		Array.Fill(lg.DummyOfGraphEdge, -1);
-		Array.Fill(lg.FirstHalf, -1);
-		Array.Fill(lg.SecondHalf, -1);
+		lg.DummyOfGraphEdge.AsSpan().Fill(-1);
+		lg.FirstHalf.AsSpan().Fill(-1);
+		lg.SecondHalf.AsSpan().Fill(-1);
 
 		for (var i = 0; i < n0; i++)
 		{

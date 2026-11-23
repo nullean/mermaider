@@ -24,11 +24,17 @@
     <IsPackable>true</IsPackable>
     <!-- a library targets the oldest supported .NET as well as the current one; TargetFramework (from above) is
          cleared, or MSBuild builds that single one. A dotnet tool is an executable and sets net11.0 alone. -->
-    <TargetFrameworks>net10.0;net11.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net7.0;net10.0;net11.0</TargetFrameworks>
     <TargetFramework></TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)build/keys/keypair.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <!-- netstandard2.0 compiles the shared sources against an older BCL, which changes a few style/nullable-suppression
+       diagnostics; style is enforced on the modern targets that build the very same files -->
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('netstandard')) or '$(TargetFramework)' == 'net7.0'">
+    <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <!-- Package metadata, shared by every packable project; each project adds its Description and PackageTags -->

@@ -1,4 +1,3 @@
-using System.Collections.Frozen;
 using System.Text.RegularExpressions;
 using Mermaider.Models;
 
@@ -133,7 +132,7 @@ internal static partial class StrictStylingValidator
 
 	private static void ValidateClassAssignment(
 		string line,
-		FrozenSet<string> allowed,
+		StringSet allowed,
 		int lineIndex,
 		StrictStylingOptions strict,
 		List<StrictStylingViolation> violations
@@ -153,13 +152,17 @@ internal static partial class StrictStylingValidator
 
 	private static void ValidateClassShorthand(
 		string line,
-		FrozenSet<string> allowed,
+		StringSet allowed,
 		int lineIndex,
 		StrictStylingOptions strict,
 		List<StrictStylingViolation> violations
 	)
 	{
+#if NETSTANDARD
+		foreach (System.Text.RegularExpressions.Match match in ClassShorthand().Matches(line))
+#else
 		foreach (var match in ClassShorthand().EnumerateMatches(line))
+#endif
 		{
 			var name = line.AsSpan(match.Index + 3, match.Length - 3).ToString();
 			if (allowed.Contains(name))
@@ -171,6 +174,5 @@ internal static partial class StrictStylingValidator
 		}
 	}
 
-	private static FrozenSet<string> BuildAllowedSet(StrictStylingOptions strict) =>
-		strict.AllowedClasses.Select(c => c.Name).ToFrozenSet(StringComparer.Ordinal);
+	private static StringSet BuildAllowedSet(StrictStylingOptions strict) => strict.AllowedClasses.Select(c => c.Name).ToFrozenSet(StringComparer.Ordinal);
 }

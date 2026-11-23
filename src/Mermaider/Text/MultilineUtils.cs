@@ -154,7 +154,11 @@ internal static partial class MultilineUtils
 		var strikethrough = false;
 		var lastIndex = 0;
 
+#if NETSTANDARD
+		foreach (Match match in FormatTagPattern().Matches(lineStr))
+#else
 		foreach (var match in FormatTagPattern().EnumerateMatches(lineStr))
+#endif
 		{
 			var m = FormatTagPattern().Match(lineStr, match.Index, match.Length);
 			if (m.Index > lastIndex)

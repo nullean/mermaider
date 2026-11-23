@@ -1,4 +1,3 @@
-using System.Collections.Frozen;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -9,16 +8,9 @@ internal static partial class SvgValueAllowlist
 {
 	private const int TimeoutMs = 2000;
 
-	private static readonly FrozenSet<string> RootStyleProperties = new[]
-	{
-		"--bg",
-		"--fg",
-		"--line",
-		"--accent",
-		"--muted",
-		"--surface",
-		"--border",
-	}.ToFrozenSet(StringComparer.Ordinal);
+	private static readonly StringSet RootStyleProperties = new[] { "--bg", "--fg", "--line", "--accent", "--muted", "--surface", "--border", }.ToFrozenSet(
+		StringComparer.Ordinal
+	);
 
 	[GeneratedRegex(@"^url\(#[A-Za-z_][A-Za-z0-9_.:-]*\)$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex LocalFragmentUrlPattern();
@@ -92,7 +84,7 @@ internal static partial class SvgValueAllowlist
 		if (style.Length is 0 or > 4_096)
 			return false;
 
-		var declarations = style.Split(';', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+		var declarations = style.SplitTrimmed([';'], true);
 		if (declarations.Length == 0)
 			return false;
 
