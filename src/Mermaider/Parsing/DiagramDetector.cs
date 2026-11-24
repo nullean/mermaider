@@ -83,9 +83,7 @@ internal static partial class DiagramDetector
 
 	internal static DiagramType Detect(ReadOnlySpan<char> text)
 	{
-		var firstLineEnd = text.IndexOf('\n');
-		var firstLine = firstLineEnd >= 0 ? text[..firstLineEnd] : text;
-		firstLine = firstLine.Trim();
+		var firstLine = HeaderLine(text);
 
 		var firstLineStr = firstLine.ToString();
 		if (SequenceHeader().IsMatch(firstLineStr))
@@ -136,5 +134,21 @@ internal static partial class DiagramDetector
 			return DiagramType.TreeView;
 
 		return DiagramType.Flowchart;
+	}
+
+	/// <summary>
+	/// The diagram's header: the first line that is neither blank nor a <c>%%</c> comment, as mermaid.js reads it. A
+	/// diagram may open with a comment above its header.
+	/// </summary>
+	private static ReadOnlySpan<char> HeaderLine(ReadOnlySpan<char> text)
+	{
+		while (true)
+		{
+			var end = text.IndexOf('\n');
+			var line = (end >= 0 ? text[..end] : text).Trim();
+			if (end < 0 || (line.Length > 0 && !line.StartsWith("%%".AsSpan(), StringComparison.Ordinal)))
+				return line;
+			text = text[(end + 1)..];
+		}
 	}
 }
