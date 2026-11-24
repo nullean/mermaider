@@ -1,0 +1,15 @@
+sequenceDiagram
+  %% Sequence: a bare animate plays every message in order
+  participant B as Browser
+  participant A as API
+  participant C as Cache
+  participant D as Database
+  B->>A: GET /orders
+  A->>C: lookup
+  C-->>A: miss
+  A->>D: SELECT orders
+  D-->>A: rows
+  A->>C: store
+  A-->>B: 200 OK
+
+animate

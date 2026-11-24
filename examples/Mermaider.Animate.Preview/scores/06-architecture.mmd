@@ -1,0 +1,18 @@
+architecture-beta
+  %% architecture-beta: build it up, then send traffic through the groups
+  group edge(cloud)[Edge]
+  group app(server)[App]
+  service lb(internet)[Balancer] in edge
+  service api(server)[API] in app
+  service db(database)[DB] in app
+  lb:R --> L:api
+  api:R --> L:db
+
+animate
+  build
+  step "Traffic enters at the edge"
+    focus group edge
+    ping lb <-> api "request" "response"
+  step "The API reads from the database"
+    focus group app close
+    ping api <-> db "query" "rows"

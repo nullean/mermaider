@@ -1,0 +1,858 @@
+using System.Xml.Linq;
+using Mermaider.Animate.Scene;
+using Mermaider.Animate.Score;
+using Mermaider.Animate.Timeline;
+
+namespace Mermaider.Animate.Compile;
+
+/// <summary>A step as it plays: its caption and when it starts and ends, in milliseconds.</summary>
+internal sealed record StepSpan(string? Caption, double Start, double End);
+
+internal sealed record CompiledTimeline(IReadOnlyList<Channel> Channels, IReadOnlyList<StepSpan> Steps, double Duration, double ScoreEnd);
+
+/// <summary>
+/// Turns a score into channels over the scene. Statements in a step run one after another; <c>with</c> starts one
+/// alongside the statement before it. Every duration comes from the <see cref="MotionSpec"/>. Things the score uses
+/// before they are visible are brought in first (a token never travels an undrawn edge), so a short score still reads.
+/// </summary>
+internal sealed partial class Compiler
+{
+	private readonly SvgScene _scene;
+	private readonly MotionSpec _spec;
+	private readonly ScoreDocument _score;
+	private readonly List<AnimationDiagnostic> _diagnostics;
+	private readonly RoleColors _colors;
+	private readonly PlaybackMode _mode;
+	private readonly List<Channel> _channels = [];
+	private readonly Dictionary<(XElement, Property), Channel> _byElement = [];
+	private readonly Dictionary<XElement, XElement> _outer = [];
+	private readonly Dictionary<XElement, XElement> _state = [];
+	private readonly Dictionary<SceneEdge, EdgeVisual> _edgeVisuals = [];
+	private readonly Dictionary<(string, Role), XElement> _marks = [];
+	private readonly Dictionary<string, (XElement Ring, XElement Trail)> _rings = [];
+	private readonly List<Action<double>> _stepEnd = [];
+	private readonly List<Action<double>> _scoreEnd = [];
+	private readonly XElement _overlay;
+	private readonly XElement _camera;
+	private readonly XElement _sceneRoot;
+	private readonly XElement _defs;
+	private readonly Box _stage;
+	private int _ids;
+	private string? _ringAt;
+	private bool _dimmed;
+	private bool _zoomed;
+
+	private sealed class EdgeVisual
+	{
+		public XElement? Mask { get; set; }
+		public XElement? Arrow { get; set; }
+		public XElement? ArrowStart { get; set; }
+		public XElement? Cross { get; set; }
+		public bool Drawable => Mask is not null;
+	}
+
+	internal Compiler(SvgScene scene, ScoreDocument score, MotionSpec spec, PlaybackMode mode, RoleColors colors, List<AnimationDiagnostic> diagnostics)
+	{
+		_scene = scene;
+		_score = score;
+		_spec = spec;
+		_mode = mode;
+		_colors = colors;
+		_diagnostics = diagnostics;
+		_stage = scene.ViewBox;
+
+		var root = scene.Root;
+		_defs = new XElement(SvgScene.Ns + "defs");
+		var content = root.Nodes().Where(n => n is not XElement e || e.Name.LocalName is not ("style" or "defs" or "title" or "desc")).ToList();
+		foreach (var node in content)
+			node.Remove();
+		_overlay = new XElement(SvgScene.Ns + "g", new XAttribute("pointer-events", "none"));
+		_camera = new XElement(SvgScene.Ns + "g", content, _overlay);
+		_sceneRoot = new XElement(SvgScene.Ns + "g", _camera);
+		root.Add(_sceneRoot, _defs);
+	}
+
+	internal CompiledTimeline Compile()
+	{
+		var steps = new List<StepSpan>();
+		var cursor = _spec.Lead + (_mode == PlaybackMode.Loop ? _spec.LoopFade : 0);
+		var source = _score.IsDefault ? DefaultSteps() : _score.Steps;
+		var captions = source.Any(s => s.Caption is not null || s.Statements.OfType<CaptionStatement>().Any());
+		var captionY = _stage.Bottom + 26;
+		if (captions)
+			ExtendStage(40);
+
+		XElement? previousCaption = null;
+		foreach (var step in source)
+		{
+			var start = cursor;
+			XElement? caption = null;
+			if (step.Caption is not null)
+				caption = ShowCaption(step.Caption, start, captionY, ref previousCaption);
+
+			var lastStart = start;
+			var lastEnd = start;
+			var first = true;
+			foreach (var statement in step.Statements)
+			{
+				var at = statement.With ? lastStart : first ? start : lastEnd + _spec.Beat;
+				if (statement is CaptionStatement c)
+				{
+					caption = ShowCaption(c.Text, at, captionY, ref previousCaption);
+					lastEnd = Math.Max(lastEnd, at + _spec.ReadTime(c.Text));
+					continue;
+				}
+				var end = CompileStatement(statement, at);
+				lastStart = at;
+				lastEnd = statement.With ? Math.Max(lastEnd, end) : end;
+				first = false;
+			}
+
+			var stepEnd = Math.Max(lastEnd + _spec.Hold, start + _spec.ReadTime(step.Caption));
+			foreach (var action in _stepEnd)
+				action(stepEnd);
+			_stepEnd.Clear();
+			steps.Add(new StepSpan(step.Caption, start, stepEnd));
+			cursor = stepEnd;
+			_ = caption;
+		}
+
+		if (previousCaption is not null)
+			Opacity(previousCaption, ReducedMotion.Cut).Animate(cursor, _spec.Exit, Channel.Value(0), Easing.Exit);
+
+		var scoreEnd = cursor;
+		foreach (var action in _scoreEnd)
+			action(scoreEnd);
+
+		double duration;
+		if (_mode == PlaybackMode.Loop)
+		{
+			duration = scoreEnd + _spec.Rest + _spec.LoopFade;
+			var fade = Opacity(_sceneRoot, ReducedMotion.Cut, initial: 0);
+			fade.Animate(0, _spec.LoopFade, Channel.Value(1), Easing.Enter);
+			fade.Animate(duration - _spec.LoopFade, _spec.LoopFade, Channel.Value(0), Easing.Exit);
+		}
+		else
+			duration = scoreEnd + _spec.Hold;
+
+		return new CompiledTimeline(_channels, steps, duration, scoreEnd);
+	}
+
+	private XElement ShowCaption(string text, double at, double y, ref XElement? previous)
+	{
+		if (previous is not null)
+			Opacity(previous, ReducedMotion.Cut).Animate(at, _spec.Exit, Channel.Value(0), Easing.Exit);
+		var caption = Overlay.Caption(text, _stage.X + (_stage.Width / 2), y);
+		_sceneRoot.Add(caption);
+		Opacity(caption, ReducedMotion.Cut, initial: 0).Animate(at + (previous is null ? 0 : _spec.Exit * 0.6), _spec.Enter, Channel.Value(1), Easing.Enter);
+		previous = caption;
+		return caption;
+	}
+
+	private void ExtendStage(double by)
+	{
+		var vb = _scene.ViewBox;
+		_scene.ViewBox = vb with { Height = vb.Height + by };
+		var root = _scene.Root;
+		root.SetAttributeValue("viewBox", $"{Num.F(vb.X)} {Num.F(vb.Y)} {Num.F(vb.Width)} {Num.F(vb.Height + by)}");
+		var height = Num.Parse((string?)root.Attribute("height"));
+		if (!double.IsNaN(height))
+			root.SetAttributeValue("height", Num.F(height + by));
+	}
+
+	// ---- channels -------------------------------------------------------------------------------------------------
+
+	private Channel Opacity(XElement element, ReducedMotion reduced, double initial = 1) =>
+		ChannelFor(element, Property.Opacity, Channel.Value(initial), reduced);
+
+	private Channel ChannelFor(XElement element, Property property, double[] initial, ReducedMotion reduced)
+	{
+		if (_byElement.TryGetValue((element, property), out var channel))
+			return channel;
+		channel = new Channel(element, property, initial, reduced);
+		_byElement[(element, property)] = channel;
+		_channels.Add(channel);
+		return channel;
+	}
+
+	/// <summary>The wrapper that carries an element's visibility and movement, created around it on first use.</summary>
+	private XElement Outer(XElement element)
+	{
+		if (_outer.TryGetValue(element, out var wrapper))
+			return wrapper;
+		wrapper = new XElement(SvgScene.Ns + "g");
+		element.ReplaceWith(wrapper);
+		wrapper.Add(element);
+		_outer[element] = wrapper;
+		return wrapper;
+	}
+
+	/// <summary>A second wrapper inside <see cref="Outer"/>, for lasting state such as a cut edge, so focus and visibility stay independent.</summary>
+	private XElement State(XElement element)
+	{
+		_ = Outer(element);
+		if (_state.TryGetValue(element, out var wrapper))
+			return wrapper;
+		wrapper = new XElement(SvgScene.Ns + "g");
+		element.ReplaceWith(wrapper);
+		wrapper.Add(element);
+		_state[element] = wrapper;
+		return wrapper;
+	}
+
+	private Channel Visibility(XElement element) => Opacity(Outer(element), ReducedMotion.Cut);
+
+	private Channel Movement(XElement element, Vec origin)
+	{
+		var channel = ChannelFor(Outer(element), Property.Transform, Channel.Transform(0, 0, 1), ReducedMotion.Off);
+		channel.Origin = new Vec(origin.X - _stage.X, origin.Y - _stage.Y);
+		return channel;
+	}
+
+	private Channel Dim(XElement element) => Opacity(element, ReducedMotion.Cut);
+
+	private Channel Camera()
+	{
+		var channel = ChannelFor(_camera, Property.Transform, Channel.Transform(0, 0, 1), ReducedMotion.Cut);
+		channel.Origin = new Vec(-_stage.X, -_stage.Y);
+		return channel;
+	}
+
+	private string NextId(string kind) => $"{_scene.Prefix}-{kind}{_ids++}";
+
+	// ---- statements -----------------------------------------------------------------------------------------------
+
+	private double CompileStatement(Statement statement, double at) => statement switch
+	{
+		ShowStatement s => ShowAll(s.Targets, s.Edges, s.Each, at),
+		HideStatement s => HideAll(s.Targets, s.Edges, s.Each, at),
+		FocusStatement s => s.All ? Unfocus(at) : Focus(Resolve(s.Targets), s.Close, at),
+		PulseStatement s => PulseAll(Resolve(s.Targets), s.Each, at),
+		MarkStatement s => MarkAll(s, at),
+		DrawStatement s => Each(ResolveEdges(s.Edges), s.Each, at, (e, t) => Draw(e, t)),
+		EraseStatement s => Each(ResolveEdges(s.Edges), s.Each, at, (e, t) => Erase(e, t)),
+		CutStatement s => Each(ResolveEdges(s.Edges), false, at, (e, t) => Cut(e, t, cut: true)),
+		RestoreStatement s => Each(ResolveEdges(s.Edges), false, at, (e, t) => Cut(e, t, cut: false)),
+		SendStatement s => SendAll(s, at),
+		StreamStatement s => StreamAll(s, at),
+		TourStatement s => Tour(s, at),
+		RunStatement s => Run(s.Path, s.Line, at),
+		TryStatement s => Try(s, at),
+		PingStatement s => Ping(s, at),
+		BuildStatement s => Build(s.Line, at),
+		PlayStatement s => Play(s, at),
+		_ => at,
+	};
+
+	private double Each<T>(IReadOnlyList<T> items, bool each, double at, Func<T, double, double> action)
+	{
+		var end = at;
+		for (var i = 0; i < items.Count; i++)
+			end = Math.Max(end, action(items[i], at + (each ? i * _spec.Stagger : 0)));
+		return end;
+	}
+
+	private double ShowAll(IReadOnlyList<TargetRef> targets, IReadOnlyList<EdgeRef> edges, bool each, double at)
+	{
+		var resolved = Resolve(targets);
+		var end = Each(resolved, each, at, (t, s) => Show(t, s));
+		var edgeStart = each ? at + (resolved.Count * _spec.Stagger) : at;
+		return Math.Max(end, Each(ResolveEdges(edges), each, edgeStart, (e, s) => Draw(e, s)));
+	}
+
+	private double HideAll(IReadOnlyList<TargetRef> targets, IReadOnlyList<EdgeRef> edges, bool each, double at)
+	{
+		var end = Each(Resolve(targets), each, at, (t, s) =>
+		{
+			foreach (var element in t.Elements)
+				Visibility(element).Animate(s, _spec.Exit, Channel.Value(0), Easing.Exit);
+			return s + _spec.Exit;
+		});
+		return Math.Max(end, Each(ResolveEdges(edges), each, at, (e, s) =>
+		{
+			Visibility(e.Element).Animate(s, _spec.Exit, Channel.Value(0), Easing.Exit);
+			foreach (var label in e.Labels)
+				Visibility(label).Animate(s, _spec.Exit, Channel.Value(0), Easing.Exit);
+			return s + _spec.Exit;
+		}));
+	}
+
+	private double Show(SceneTarget target, double at)
+	{
+		// an element no statement has touched yet is visible only as a still; showing it means it appears here
+		if (HasVisibility(target) && IsVisible(target, at))
+			return at;
+		foreach (var element in target.Elements)
+		{
+			var visibility = Visibility(element);
+			if (!visibility.IsAnimated)
+				visibility.Initial[0] = 0;
+			visibility.Animate(at, _spec.Enter, Channel.Value(1), Easing.Enter);
+			if (target.Kind != TargetKind.Group)
+			{
+				var movement = Movement(element, target.Box.Center);
+				if (!movement.IsAnimated)
+					movement.Initial[1] = _spec.Rise;
+				var current = movement.ValueAt(at);
+				movement.Animate(at, _spec.Enter, Channel.Transform(0, 0, current[2]), Easing.Enter);
+			}
+		}
+		return at + _spec.Enter;
+	}
+
+	private bool HasVisibility(SceneTarget target) => target.Elements.Count > 0 && _byElement.ContainsKey((Outer(target.Elements[0]), Property.Opacity));
+
+	private bool IsVisible(SceneTarget target, double at) =>
+		target.Elements.Count == 0 || !_byElement.TryGetValue((Outer(target.Elements[0]), Property.Opacity), out var channel) || channel.ValueAt(at)[0] > 0.5;
+
+	private double PulseAll(IReadOnlyList<SceneTarget> targets, bool each, double at) => Each(targets, each, at, (t, s) => Pulse(t, s, _spec.PulseScale));
+
+	private double Pulse(SceneTarget target, double at, double scale)
+	{
+		foreach (var element in target.Elements)
+		{
+			var box = SvgScene.BoxOf(element);
+			var movement = Movement(element, box.IsEmpty ? target.Box.Center : box.Center);
+			var current = movement.ValueAt(at);
+			movement.Animate(at, _spec.Pulse * 0.4, Channel.Transform(current[0], current[1], scale), Easing.Enter);
+			movement.Animate(at + (_spec.Pulse * 0.4), _spec.Pulse * 0.6, Channel.Transform(current[0], current[1], 1), Easing.Move);
+		}
+		return at + _spec.Pulse;
+	}
+
+	// ---- focus and camera -----------------------------------------------------------------------------------------
+
+	private double Focus(IReadOnlyList<SceneTarget> targets, bool close, double at)
+	{
+		if (targets.Count == 0)
+			return at;
+		var keep = new HashSet<XElement>();
+		var ids = new HashSet<string>(targets.Select(t => t.Id), StringComparer.Ordinal);
+		foreach (var target in targets)
+		{
+			foreach (var element in target.Elements)
+				_ = keep.Add(element);
+			for (var parent = target.Parent; parent is not null; parent = _scene.Group(parent)?.Parent)
+				foreach (var element in _scene.Group(parent)?.Elements ?? [])
+					_ = keep.Add(element);
+			if (target.Kind == TargetKind.Group)
+				foreach (var member in _scene.Targets.Where(m => InGroup(m, target.Id)))
+				{
+					_ = ids.Add(member.Id);
+					foreach (var element in member.Elements)
+						_ = keep.Add(element);
+				}
+		}
+		foreach (var edge in _scene.Edges.Where(e => ids.Contains(e.From) && ids.Contains(e.To)))
+		{
+			_ = keep.Add(edge.Element);
+			foreach (var label in edge.Labels)
+				_ = keep.Add(label);
+		}
+
+		foreach (var element in _scene.AllElements)
+			Dim(element).Animate(at, _spec.Shift, Channel.Value(keep.Contains(element) ? 1 : _spec.Dim), Easing.Move);
+		foreach (var visual in _edgeVisuals)
+			foreach (var arrow in new[] { visual.Value.Arrow, visual.Value.ArrowStart })
+				if (arrow is not null)
+					Dim(arrow).Animate(at, _spec.Shift, Channel.Value(keep.Contains(visual.Key.Element) ? 1 : _spec.Dim), Easing.Move);
+		_dimmed = true;
+
+		var end = at + _spec.Shift;
+		if (close)
+		{
+			var box = targets.Aggregate(Box.Empty, (b, t) => b.Union(t.Box));
+			end = Math.Max(end, Zoom(box, at));
+		}
+		_stepEnd.Add(stepEnd => Unfocus(stepEnd));
+		return end;
+	}
+
+	private bool InGroup(SceneTarget target, string groupId)
+	{
+		for (var parent = target.Parent; parent is not null; parent = _scene.Group(parent)?.Parent)
+			if (parent == groupId)
+				return true;
+		return false;
+	}
+
+	private double Unfocus(double at)
+	{
+		var end = at;
+		if (_dimmed)
+		{
+			foreach (var element in _scene.AllElements)
+				if (_byElement.ContainsKey((element, Property.Opacity)))
+					Dim(element).Animate(at, _spec.Shift, Channel.Value(1), Easing.Move);
+			foreach (var visual in _edgeVisuals.Values)
+				foreach (var arrow in new[] { visual.Arrow, visual.ArrowStart })
+					if (arrow is not null && _byElement.ContainsKey((arrow, Property.Opacity)))
+						Dim(arrow).Animate(at, _spec.Shift, Channel.Value(1), Easing.Move);
+			_dimmed = false;
+			end = at + _spec.Shift;
+		}
+		if (_zoomed)
+		{
+			Camera().Animate(at, _spec.Camera, Channel.Transform(0, 0, 1), Easing.Move);
+			_zoomed = false;
+			end = at + _spec.Camera;
+		}
+		return end;
+	}
+
+	private double Zoom(Box box, double at)
+	{
+		if (box.IsEmpty)
+			return at;
+		const double pad = 40;
+		var scale = Math.Min(_spec.MaxZoom, Math.Min(_stage.Width / (box.Width + (2 * pad)), _stage.Height / (box.Height + (2 * pad))));
+		scale = Math.Max(1, scale);
+		var c = box.Center;
+		var tx = _stage.X + (_stage.Width / 2) - (scale * c.X);
+		var ty = _stage.Y + (_stage.Height / 2) - (scale * c.Y);
+		// never pan past the diagram's own edges
+		tx = Math.Min(_stage.X * (1 - scale), Math.Max(tx, _stage.Right - (scale * _stage.Right)));
+		ty = Math.Min(_stage.Y * (1 - scale), Math.Max(ty, _stage.Bottom - (scale * _stage.Bottom)));
+		Camera().Animate(at, _spec.Camera, Channel.Transform(tx, ty, scale), Easing.Move);
+		_zoomed = true;
+		return at + _spec.Camera;
+	}
+
+	// ---- marks ----------------------------------------------------------------------------------------------------
+
+	private double MarkAll(MarkStatement statement, double at)
+	{
+		foreach (var target in Resolve(statement.Targets))
+			Mark(target.Id, target.Box, null, statement.Role, at);
+		foreach (var edge in ResolveEdges(statement.Edges))
+			Mark($"{edge.From}->{edge.To}#{edge.Index}", Box.Empty, edge, statement.Role, at);
+		return at + _spec.Shift;
+	}
+
+	private void Mark(string key, Box box, SceneEdge? edge, Role? role, double at)
+	{
+		foreach (var existing in _marks.Where(m => m.Key.Item1 == key && m.Key.Item2 != role))
+			Opacity(existing.Value, ReducedMotion.Cut, 0).Animate(at, _spec.Shift, Channel.Value(0), Easing.Exit);
+		if (role is not { } r)
+			return;
+		if (!_marks.TryGetValue((key, r), out var mark))
+		{
+			var color = _colors.For(r);
+			mark = edge is null ? Overlay.Ring(box, color, 2, 4, color, 0.14) : Overlay.Stroke(edge.Path, color, 3.5, round: true);
+			_overlay.AddFirst(mark);
+			_marks[(key, r)] = mark;
+		}
+		Opacity(mark, ReducedMotion.Cut, 0).Animate(at, _spec.Shift, Channel.Value(1), Easing.Enter);
+	}
+
+	// ---- edges ----------------------------------------------------------------------------------------------------
+
+	private EdgeVisual Drawable(SceneEdge edge)
+	{
+		if (!_edgeVisuals.TryGetValue(edge, out var visual))
+		{
+			visual = new EdgeVisual();
+			_edgeVisuals[edge] = visual;
+		}
+		if (visual.Drawable)
+			return visual;
+
+		var stroke = edge.Stroke ?? edge.Element;
+		var id = NextId("m");
+		var region = _stage.Inflate(Math.Max(_stage.Width, _stage.Height));
+		var maskPath = new XElement(
+			SvgScene.Ns + "path",
+			new XAttribute("d", edge.Path.ToPathData()),
+			new XAttribute("fill", "none"),
+			new XAttribute("stroke", "#fff"),
+			new XAttribute("stroke-width", edge.Thick ? "18" : "14"),
+			new XAttribute("pathLength", "1"),
+			new XAttribute("stroke-dasharray", "1 1")
+		);
+		_defs.Add(
+			new XElement(
+				SvgScene.Ns + "mask",
+				new XAttribute("id", id),
+				new XAttribute("maskUnits", "userSpaceOnUse"),
+				new XAttribute("x", Num.F(region.X)),
+				new XAttribute("y", Num.F(region.Y)),
+				new XAttribute("width", Num.F(region.Width)),
+				new XAttribute("height", Num.F(region.Height)),
+				maskPath
+			)
+		);
+		stroke.SetAttributeValue("mask", $"url(#{id})");
+		visual.Mask = maskPath;
+
+		// arrowheads become shapes of their own, so they land when the line arrives
+		var wrapper = Outer(edge.Element);
+		if (MarkerFor(stroke, "marker-end") is { } end)
+		{
+			stroke.SetAttributeValue("marker-end", null);
+			visual.Arrow = new XElement(SvgScene.Ns + "g", Overlay.Arrowhead(end, edge.Path.End, edge.Path.EndAngle()));
+			wrapper.Add(visual.Arrow);
+		}
+		if (MarkerFor(stroke, "marker-start") is { } start)
+		{
+			stroke.SetAttributeValue("marker-start", null);
+			var p = edge.Path.Points;
+			var angle = Math.Atan2(p[1].Y - p[0].Y, p[1].X - p[0].X) * 180 / Math.PI;
+			visual.ArrowStart = new XElement(SvgScene.Ns + "g", Overlay.Arrowhead(start, edge.Path.Start, angle));
+			wrapper.Add(visual.ArrowStart);
+		}
+		return visual;
+	}
+
+	private XElement? MarkerFor(XElement stroke, string attribute)
+	{
+		var value = (string?)stroke.Attribute(attribute);
+		if (value is null || !value.StartsWith("url(#", StringComparison.Ordinal))
+			return null;
+		var id = value[5..^1];
+		return _scene.Root.Descendants(SvgScene.Ns + "marker").FirstOrDefault(m => (string?)m.Attribute("id") == id);
+	}
+
+	private Channel Ink(EdgeVisual visual) => ChannelFor(visual.Mask!, Property.DashOffset, Channel.Value(0), ReducedMotion.Cut);
+
+	private bool IsDrawn(SceneEdge edge, double at)
+	{
+		if (_byElement.TryGetValue((Outer(edge.Element), Property.Opacity), out var vis) && vis.ValueAt(at)[0] < 0.5)
+			return false;
+		return !_edgeVisuals.TryGetValue(edge, out var visual) || !visual.Drawable || Math.Abs(Ink(visual).ValueAt(at)[0]) < 0.5;
+	}
+
+	private double Draw(SceneEdge edge, double at)
+	{
+		if (IsDrawn(edge, at) && _edgeVisuals.TryGetValue(edge, out var existing) && existing.Drawable)
+			return at;
+		var visual = Drawable(edge);
+		var ink = Ink(visual);
+		var firstUse = !ink.IsAnimated;
+		if (firstUse)
+			ink.Initial[0] = 1;
+		var visibility = Visibility(edge.Element);
+		if (visibility.ValueAt(at)[0] < 1)
+			visibility.Set(at, Channel.Value(1));
+
+		var duration = _spec.DrawTime(edge.Path.Length);
+		if (Math.Abs(ink.ValueAt(at)[0]) > 0.5)
+			ink.Set(at, Channel.Value(1));
+		ink.Animate(at, duration, Channel.Value(0), Easing.Move);
+
+		var arrive = at + (duration * 0.85);
+		foreach (var arrow in new[] { visual.Arrow, visual.ArrowStart })
+		{
+			if (arrow is null)
+				continue;
+			var channel = Opacity(arrow, ReducedMotion.Cut, firstUse ? 0 : 1);
+			channel.Animate(arrow == visual.ArrowStart ? at : arrive, _spec.Shift * 0.5, Channel.Value(1), Easing.Enter);
+		}
+		foreach (var label in edge.Labels)
+		{
+			var channel = Visibility(label);
+			if (firstUse && !channel.IsAnimated)
+				channel.Initial[0] = 0;
+			channel.Animate(arrive, _spec.Enter, Channel.Value(1), Easing.Enter);
+		}
+		return at + duration;
+	}
+
+	private double Erase(SceneEdge edge, double at)
+	{
+		var visual = Drawable(edge);
+		var ink = Ink(visual);
+		var duration = _spec.DrawTime(edge.Path.Length);
+		foreach (var arrow in new[] { visual.Arrow, visual.ArrowStart })
+			if (arrow is not null)
+				Opacity(arrow, ReducedMotion.Cut).Animate(at, _spec.Exit * 0.6, Channel.Value(0), Easing.Exit);
+		foreach (var label in edge.Labels)
+			Visibility(label).Animate(at, _spec.Exit, Channel.Value(0), Easing.Exit);
+		ink.Animate(at, duration, Channel.Value(-1), Easing.Move);
+		return at + duration;
+	}
+
+	private double Cut(SceneEdge edge, double at, bool cut)
+	{
+		if (!_edgeVisuals.TryGetValue(edge, out var visual))
+		{
+			visual = new EdgeVisual();
+			_edgeVisuals[edge] = visual;
+		}
+		if (visual.Cross is null)
+		{
+			visual.Cross = Overlay.Cross(edge.Path.At(0.5), _colors.Fail);
+			_overlay.Add(visual.Cross);
+		}
+		Opacity(State(edge.Element), ReducedMotion.Cut).Animate(at, _spec.Shift, Channel.Value(cut ? 0.28 : 1), Easing.Move);
+		foreach (var label in edge.Labels)
+			Opacity(State(label), ReducedMotion.Cut).Animate(at, _spec.Shift, Channel.Value(cut ? 0.28 : 1), Easing.Move);
+		Opacity(visual.Cross, ReducedMotion.Cut, 0).Animate(at, _spec.Shift, Channel.Value(cut ? 1 : 0), cut ? Easing.Enter : Easing.Exit);
+		return at + _spec.Shift;
+	}
+
+	// ---- tokens ---------------------------------------------------------------------------------------------------
+
+	private double SendAll(SendStatement send, double at)
+	{
+		TokenDeclaration? declared = null;
+		if (send.Token is not null)
+			_ = _score.Tokens.TryGetValue(send.Token, out declared);
+		var from = ResolveNode(send.From, send.Line);
+		var end = at;
+		for (var i = 0; i < send.To.Count; i++)
+		{
+			var to = ResolveNode(send.To[i], send.Line);
+			if (from is null || to is null)
+				continue;
+			var route = Route(from.Id, to.Id, send.Line);
+			if (route is null)
+				continue;
+			var start = at + (send.Each ? i * _spec.Stagger : 0);
+			var label = send.Label ?? declared?.Label;
+			var role = send.Role ?? declared?.Role;
+			end = Math.Max(end, Send(route.Value.Edge, route.Value.Reverse, start, label, role, send.Becomes, send.Speed, send.Fate, to));
+		}
+		return end;
+	}
+
+	/// <summary>The edge a token takes from one node to another: the edge between them, or against an edge for a reply.</summary>
+	private (SceneEdge Edge, bool Reverse)? Route(string from, string to, int line)
+	{
+		var forward = _scene.Edges.FirstOrDefault(e => e.From == from && e.To == to);
+		if (forward is not null)
+			return (forward, false);
+		var backward = _scene.Edges.FirstOrDefault(e => e.From == to && e.To == from);
+		if (backward is not null)
+			return (backward, true);
+		var leaving = _scene.Edges.Where(e => e.From == from).Select(e => e.To).Distinct().ToList();
+		_diagnostics.Add(
+			new(
+				line,
+				leaving.Count == 0
+					? $"There is no edge between {from} and {to}, and {from} has no edges leaving it."
+					: $"There is no edge between {from} and {to}. From {from} the diagram goes to: {string.Join(", ", leaving)}."
+			)
+		);
+		return null;
+	}
+
+	private double Send(SceneEdge edge, bool reverse, double at, string? label, Role? role, string? becomes, Speed speed, Fate fate, SceneTarget? arrival)
+	{
+		// bring in what the token needs: its edge drawn, its ends visible
+		if (_scene.Target(reverse ? edge.To : edge.From) is { } origin && !IsVisible(origin, at))
+			at = Show(origin, at);
+		if (!IsDrawn(edge, at))
+			at = Draw(edge, at) + _spec.Beat;
+
+		var path = reverse ? edge.Path.Reversed() : edge.Path;
+		var color = role is { } r ? _colors.For(r) : "var(--accent, #3b82f6)";
+		var hollow = reverse || (_scene.Kind == SceneKind.Sequence && edge.Dotted);
+		var radius = edge.Thick ? 6.5 : 5;
+		var token = Overlay.Token(hollow ? "var(--bg)" : color, hollow ? color : "var(--bg)", radius, label, out var labelElement);
+		_overlay.Add(token);
+
+		var duration = _spec.TravelTime(path.Length, speed);
+		var travel = fate == Fate.Arrives ? 1.0 : 0.5;
+		var move = ChannelFor(token, Property.Transform, Channel.Transform(path.Start.X, path.Start.Y, 1), ReducedMotion.Off);
+		var opacity = ChannelFor(token, Property.Opacity, Channel.Value(0), ReducedMotion.Off);
+		opacity.Animate(at, 140, Channel.Value(1), Easing.Enter);
+		Travel(move, path, at, duration * travel, travel);
+		var arrive = at + (duration * travel);
+
+		if (becomes is not null && labelElement is not null)
+		{
+			var next = Overlay.Label(becomes, hollow ? color : color, -radius - 14);
+			next.SetAttributeValue("opacity", "0");
+			token.Add(next);
+			var swap = at + (duration * travel * 0.5);
+			ChannelFor(labelElement, Property.Opacity, Channel.Value(1), ReducedMotion.Off).Animate(swap, 160, Channel.Value(0), Easing.Exit);
+			ChannelFor(next, Property.Opacity, Channel.Value(0), ReducedMotion.Off).Animate(swap + 80, 200, Channel.Value(1), Easing.Enter);
+		}
+
+		switch (fate)
+		{
+			case Fate.Lost:
+				opacity.Animate(arrive - 60, 320, Channel.Value(0), Easing.Exit);
+				return arrive + 260;
+			case Fate.Stalls:
+				_stepEnd.Add(stepEnd => opacity.Animate(stepEnd, _spec.Exit, Channel.Value(0), Easing.Exit));
+				return arrive;
+			default:
+				opacity.Animate(arrive - 40, 160, Channel.Value(0), Easing.Exit);
+				if (arrival is not null)
+				{
+					if (!IsVisible(arrival, arrive))
+						_ = Show(arrival, arrive - 80);
+					else
+						_ = Pulse(arrival, arrive - 40, 1 + ((_spec.PulseScale - 1) * 0.6));
+				}
+				return arrive;
+		}
+	}
+
+	/// <summary>Moves a token along a path with the move easing applied to the whole trip, at constant speed between samples, through every corner.</summary>
+	private void Travel(Channel move, Polyline path, double at, double duration, double upTo)
+	{
+		var times = new SortedSet<double>();
+		const int samples = 18;
+		for (var i = 1; i <= samples; i++)
+			_ = times.Add((double)i / samples);
+		foreach (var corner in path.CornerFractions())
+			if (corner < upTo)
+				_ = times.Add(Easing.Move.Inverse(corner / upTo));
+		var previous = 0.0;
+		foreach (var t in times)
+		{
+			var point = path.At(Easing.Move.Evaluate(t) * upTo);
+			move.Animate(at + (previous * duration), (t - previous) * duration, Channel.Transform(point.X, point.Y, 1), Easing.Linear);
+			previous = t;
+		}
+	}
+
+	private double StreamAll(StreamStatement stream, double at)
+	{
+		for (var i = 0; i + 1 < stream.Path.Count; i++)
+		{
+			var from = ResolveNode(stream.Path[i], stream.Line);
+			var to = ResolveNode(stream.Path[i + 1], stream.Line);
+			if (from is null || to is null || Route(from.Id, to.Id, stream.Line) is not { } route)
+				continue;
+			if (!IsDrawn(route.Edge, at))
+				_ = Draw(route.Edge, at);
+			Stream(route.Edge, route.Reverse, stream.Rate, stream.Always, at);
+		}
+		return at + _spec.StreamHold;
+	}
+
+	private void Stream(SceneEdge edge, bool reverse, StreamRate rate, bool always, double at)
+	{
+		var path = reverse ? edge.Path.Reversed() : edge.Path;
+		var (gap, pace) = rate switch
+		{
+			StreamRate.Trickle => (34.0, 0.7),
+			StreamRate.Busy => (11.0, 1.5),
+			_ => (19.0, 1.0),
+		};
+		var dash = edge.Dotted ? $"6 {Num.F(gap)}" : $"0.1 {Num.F(gap)}";
+		var stroke = Overlay.Stroke(path, "var(--accent, #3b82f6)", edge.Thick ? 5.5 : 4.2, dash, round: !edge.Dotted);
+		_overlay.AddFirst(stroke);
+		var opacity = ChannelFor(stroke, Property.Opacity, Channel.Value(0), ReducedMotion.Off);
+		var offset = ChannelFor(stroke, Property.DashOffset, Channel.Value(0), ReducedMotion.Off);
+		opacity.Animate(at, _spec.Enter, Channel.Value(0.9), Easing.Enter);
+
+		void Stop(double end)
+		{
+			opacity.Animate(end, _spec.Exit, Channel.Value(0), Easing.Exit);
+			var distance = _spec.StreamSpeed * pace * ((end + _spec.Exit - at) / 1000);
+			offset.Animate(at, end + _spec.Exit - at, Channel.Value(-distance), Easing.Linear);
+		}
+
+		if (always)
+			_scoreEnd.Add(Stop);
+		else
+			_stepEnd.Add(Stop);
+	}
+
+	private double Tour(TourStatement tour, double at)
+	{
+		TokenDeclaration? declared = null;
+		if (tour.Token is not null)
+			_ = _score.Tokens.TryGetValue(tour.Token, out declared);
+		var t = at;
+		for (var i = 0; i + 1 < tour.Path.Count; i++)
+		{
+			var from = ResolveNode(tour.Path[i], tour.Line);
+			var to = ResolveNode(tour.Path[i + 1], tour.Line);
+			if (from is null || to is null || Route(from.Id, to.Id, tour.Line) is not { } route)
+				continue;
+			_ = Focus([from, to], close: false, t);
+			t = Send(
+				route.Edge,
+				route.Reverse,
+				t + (_spec.Shift * 0.5),
+				tour.Label ?? declared?.Label,
+				tour.Role ?? declared?.Role,
+				null,
+				Speed.Normal,
+				Fate.Arrives,
+				to
+			) + _spec.Beat;
+		}
+		return t;
+	}
+
+	private double Ping(PingStatement ping, double at)
+	{
+		var from = ResolveNode(ping.From, ping.Line);
+		var to = ResolveNode(ping.To, ping.Line);
+		if (from is null || to is null || Route(from.Id, to.Id, ping.Line) is not { } route)
+			return at;
+		var t = Send(route.Edge, route.Reverse, at, ping.Request, null, null, Speed.Normal, Fate.Arrives, to) + _spec.Beat;
+		return Send(route.Edge, !route.Reverse, t, ping.Reply, null, null, Speed.Normal, Fate.Arrives, from);
+	}
+
+	// ---- resolution -----------------------------------------------------------------------------------------------
+
+	private List<SceneTarget> Resolve(IReadOnlyList<TargetRef> targets)
+	{
+		var result = new List<SceneTarget>();
+		foreach (var target in targets)
+		{
+			var resolved = target.IsGroup ? _scene.Group(target.Id) : ResolveNode(target.Id, target.Line, groups: true);
+			if (resolved is not null)
+				result.Add(resolved);
+			else if (target.IsGroup)
+				_diagnostics.Add(new(target.Line, $"There is no group '{target.Id}' in the diagram.{Known(_scene.Groups.Select(g => g.Id))}"));
+		}
+		return result;
+	}
+
+	private SceneTarget? ResolveNode(string id, int line, bool groups = false)
+	{
+		var mapped = MapStateId(id, line);
+		if (_scene.Target(mapped) is { } target)
+			return target;
+		if (groups && _scene.Group(mapped) is { } group)
+			return group;
+		_diagnostics.Add(new(line, $"There is no node '{id}' in the diagram.{Known(_scene.Targets.Select(t => t.Id).Where(t => !t.StartsWith('_')))}"));
+		return null;
+	}
+
+	private string MapStateId(string id, int line)
+	{
+		_ = line;
+		return id == "[*]" ? "_start" : id;
+	}
+
+	private List<SceneEdge> ResolveEdges(IReadOnlyList<EdgeRef> edges)
+	{
+		var result = new List<SceneEdge>();
+		foreach (var edge in edges)
+		{
+			var candidates = _scene.Edges.Where(e => e.From == MapStateId(edge.From, edge.Line) && e.To == MapStateId(edge.To, edge.Line)).ToList();
+			if (candidates.Count == 0)
+			{
+				_ = Route(edge.From, edge.To, edge.Line);
+				continue;
+			}
+			if (edge.Index is { } index)
+			{
+				if (index > candidates.Count)
+					_diagnostics.Add(new(edge.Line, $"There are {candidates.Count} edges {edge.From} -> {edge.To}, so there is no #{index}."));
+				else
+					result.Add(candidates[index - 1]);
+			}
+			else
+				result.AddRange(candidates);
+		}
+		return result;
+	}
+
+	private static string Known(IEnumerable<string> ids)
+	{
+		var list = ids.Take(13).ToList();
+		if (list.Count == 0)
+			return "";
+		return " Known: " + string.Join(", ", list.Take(12)) + (list.Count > 12 ? ", …" : "") + ".";
+	}
+}

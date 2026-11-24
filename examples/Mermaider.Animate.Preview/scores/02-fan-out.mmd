@@ -1,0 +1,21 @@
+flowchart LR
+  %% Data flow: one order fans out, billing rejects it into the dead-letter queue, the topic backs up
+  src[Producers] --> topic[[orders topic]]
+  topic --> c1[Billing]
+  topic --> c2[Shipping]
+  topic --> c3[Search]
+  c1 -.-> dlq[(Dead letters)]
+
+animate
+  token o = "order #42"
+  step "Orders stream into the topic"
+    stream src -> topic steady
+  step "One order fans out to every consumer"
+    send o topic -> c1, c2, c3 each
+  step "Billing rejects it"
+    mark c1 fail
+    send o c1 -> dlq becomes "order #42 ✗" as fail
+  step "The topic backs up"
+    stream src -> topic busy
+    mark topic warn
+    focus topic close
