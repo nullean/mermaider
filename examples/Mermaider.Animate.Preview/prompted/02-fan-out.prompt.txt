@@ -1,0 +1,1 @@
+Animate an order topic with three consumers (billing, shipping, search) and a dead-letter queue. Producers publish orders; one order reaches every consumer as its own copy; billing rejects it into the dead letters; then producers outpace consumers and the topic visibly backs up. About 15 seconds, looping, numbered captions.

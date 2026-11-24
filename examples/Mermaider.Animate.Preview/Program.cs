@@ -97,6 +97,9 @@ string Page(HttpRequest request, string title, string body)
 		  .error { color: #e15759; white-space: pre-wrap; font: 13px/1.5 ui-monospace, monospace; }
 		  textarea { width: 100%; min-height: 260px; font: 13px/1.45 ui-monospace, 'SF Mono', monospace; background: var(--page); color: var(--ink); border: 1px solid var(--rule); border-radius: 6px; padding: 10px; }
 		  button { font: inherit; padding: 6px 14px; border-radius: 6px; border: 1px solid var(--ink); background: var(--ink); color: var(--card); margin-top: 8px; }
+		  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+		  .pair h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--soft); margin: 0 0 8px; }
+		  @media (max-width: 900px) { .pair { grid-template-columns: 1fr; } }
 		  .spacer { height: 110vh; display: flex; align-items: center; justify-content: center; color: var(--soft); }
 		</style>
 		</head>
@@ -107,6 +110,7 @@ string Page(HttpRequest request, string title, string body)
 		  <span class="group">motion {{Link("motion", "", "calm")}} {{Link("motion", "crisp", "crisp")}} {{Link("motion", "still", "still")}}</span>
 		  <span class="group">mode {{Link("mode", "", "score")}} {{Link("mode", "loop", "loop")}} {{Link("mode", "once", "once")}}</span>
 		  <span class="group">view {{Link("view", "", "svg")}} {{Link("view", "player", "player")}}</span>
+		  <a class="chip" href="/compare{{WebUtility.HtmlEncode(Query(request))}}">compare with prompted</a>
 		  <a class="chip" href="/play{{WebUtility.HtmlEncode(Query(request))}}">playground</a>
 		</header>
 		<main>
@@ -238,6 +242,49 @@ IResult Play(HttpRequest request, string? src)
 	_ = body.Append(Card(request, "playground", "Result", source));
 	return Results.Content(Page(request, "Playground", body.ToString()), "text/html; charset=utf-8");
 }
+
+var prompted = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(scores))!, "prompted");
+
+// Each score beside the animation I would hand-write for the same story from a prompt, with no score language.
+app.MapGet("/compare", (HttpRequest request) =>
+{
+	var body = new StringBuilder();
+	_ = body.Append(
+		"<section><h2>Score or prompt?</h2><p class=\"meta\">Left: the Mermaider.Animate score, rendered with the shared motion spec. " +
+			"Right: a bespoke animation of the same story, hand-directed the way an agent writes one from a prompt, with its own layout, " +
+			"palette and timing.</p></section>"
+	);
+	foreach (var (name, title, source) in Scores())
+	{
+		var svgPath = Path.Combine(prompted, name + ".svg");
+		if (!File.Exists(svgPath))
+			continue;
+		var promptPath = Path.Combine(prompted, name + ".prompt.txt");
+		var prompt = File.Exists(promptPath) ? File.ReadAllText(promptPath) : "";
+		string scored;
+		try
+		{
+			var animation = MermaidAnimator.Compile(source, Options(request));
+			scored = request.Query["view"] == "player" ? animation.RenderPlayer() : animation.Svg;
+		}
+		catch (Exception ex)
+		{
+			scored = $"<p class=\"error\">{WebUtility.HtmlEncode(ex.Message)}</p>";
+		}
+		var lines = source.Split('\n').Length;
+		var size = new FileInfo(svgPath).Length / 1024;
+		_ = body
+			.Append($"<section id=\"{name}\"><h2>{WebUtility.HtmlEncode(title)}</h2><div class=\"pair\">")
+			.Append(
+				$"<div><h3>Score</h3><div class=\"stage\">{scored}</div><details><summary>score ({lines} lines)</summary><pre>{WebUtility.HtmlEncode(source)}</pre></details></div>"
+			)
+			.Append(
+				$"<div><h3>Prompted</h3><div class=\"stage\">{File.ReadAllText(svgPath)}</div><details><summary>prompt (output: {size} KB of hand-placed SVG and keyframes)</summary><pre>{WebUtility.HtmlEncode(prompt)}</pre></details></div>"
+			)
+			.Append("</div></section>");
+	}
+	return Results.Content(Page(request, "Compare", body.ToString()), "text/html; charset=utf-8");
+});
 
 app.MapGet("/play", (HttpRequest request, string? src) => Play(request, src));
 app.MapPost("/play", async (HttpRequest request) =>
