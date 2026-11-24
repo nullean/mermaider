@@ -29,6 +29,13 @@ public static class MermaidAnimator
 	/// <exception cref="AnimationException">The animate block has problems; every one is listed.</exception>
 	public static string RenderSvg(string source, AnimateOptions? options = null) => Compile(source, options).Svg;
 
+	/// <summary>
+	/// Renders the animated SVG inside an HTML fragment with controls that need no script: Play, Pause and a chip per
+	/// step that jumps to it. Embed the fragment inline in a page.
+	/// </summary>
+	/// <exception cref="AnimationException">The animate block has problems; every one is listed.</exception>
+	public static string RenderPlayer(string source, AnimateOptions? options = null) => Compile(source, options).RenderPlayer();
+
 	/// <summary>Compiles the animation, keeping its timeline so frames and steps can be read back.</summary>
 	/// <exception cref="AnimationException">The animate block has problems; every one is listed.</exception>
 	public static AnimatedDiagram Compile(string source, AnimateOptions? options = null)
@@ -133,6 +140,24 @@ public sealed class AnimatedDiagram
 	public TimeSpan ScoreDuration { get; }
 
 	public IReadOnlyList<AnimationStep> Steps { get; }
+
+	/// <summary>The animated SVG inside an HTML fragment with CSS-only Play, Pause and step controls.</summary>
+	public string RenderPlayer() => _scene is null || Steps.Count == 0 ? $"<figure>\n{Svg}\n</figure>" : Player.Render(this, _scene.Prefix);
+
+	/// <summary>Every animated element's class and its declarations at <paramref name="time"/>, for a still state in CSS.</summary>
+	internal List<(string Class, string Declarations)> StylesAt(double time)
+	{
+		lock (_gate)
+		{
+			return _timeline!
+				.Channels
+				.Where(c => c.IsAnimated)
+				.GroupBy(c => c.Element)
+				.Where(g => _classes.ContainsKey(g.Key))
+				.Select(g => (_classes[g.Key], string.Join("; ", g.Select(c => c.Css(c.ValueAt(time))))))
+				.ToList();
+		}
+	}
 
 	/// <summary>The animation at <paramref name="time"/> as a static SVG with no stylesheet animation: for posters, print and tests.</summary>
 	public string RenderFrame(TimeSpan time) => _timeline is null ? Svg : FrameAt(time.TotalMilliseconds);

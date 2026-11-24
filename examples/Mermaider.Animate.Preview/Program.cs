@@ -106,6 +106,7 @@ string Page(HttpRequest request, string title, string body)
 		  <span class="group">theme {{Link("theme", "", "light")}} {{Link("theme", "dark", "dark")}}</span>
 		  <span class="group">motion {{Link("motion", "", "calm")}} {{Link("motion", "crisp", "crisp")}} {{Link("motion", "still", "still")}}</span>
 		  <span class="group">mode {{Link("mode", "", "score")}} {{Link("mode", "loop", "loop")}} {{Link("mode", "once", "once")}}</span>
+		  <span class="group">view {{Link("view", "", "svg")}} {{Link("view", "player", "player")}}</span>
 		  <a class="chip" href="/play{{WebUtility.HtmlEncode(Query(request))}}">playground</a>
 		</header>
 		<main>
@@ -134,7 +135,7 @@ string Card(HttpRequest request, string name, string title, string source)
 			.Append($" · <a href=\"/img/{name}{WebUtility.HtmlEncode(Query(request))}\">as img</a>")
 			.Append($" · <a href=\"/scrub/{name}{WebUtility.HtmlEncode(Query(request))}\">scrub</a>")
 			.Append($" · <a href=\"/play?src={WebUtility.UrlEncode(source)}&amp;{WebUtility.HtmlEncode(Query(request).TrimStart('?'))}\">edit</a></p>");
-		_ = sb.Append("<div class=\"stage\">").Append(animation.Svg).Append("</div>");
+		_ = sb.Append("<div class=\"stage\">").Append(request.Query["view"] == "player" ? animation.RenderPlayer() : animation.Svg).Append("</div>");
 		if (animation.Steps.Any(s => s.Caption is not null))
 		{
 			_ = sb.Append("<ol class=\"steps\">");

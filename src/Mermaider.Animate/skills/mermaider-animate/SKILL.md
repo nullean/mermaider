@@ -12,6 +12,9 @@ description: >-
 `using Mermaider.Animate;` One call: `MermaidAnimator.RenderSvg(source)`, or `MermaidAnimator.Compile(source)` for the
 steps and still frames.
 
+For readers who should step through it, `MermaidAnimator.RenderPlayer(source)` returns an HTML fragment with Play,
+Pause and a chip per step, without script.
+
 ## Write a score, never timing
 
 A score says what happens. It cannot say how long or how fast: durations, easings and rests come from the motion

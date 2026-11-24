@@ -98,6 +98,13 @@ string svg = animation.Svg;
 string poster = animation.RenderFrame(animation.ScoreDuration);   // the last frame, as a static SVG
 ```
 
+## A player without script
+
+`MermaidAnimator.RenderPlayer(source)` returns an HTML fragment: the animated SVG with Play, Pause and a chip per step.
+The controls are native radio buttons wired with `:has()`, so they work with the keyboard and need no JavaScript.
+Choosing a step shows that step's last frame; Play starts again from the beginning. The controls take the page's text
+colour; restyle them through `--mp-ink`, `--mp-soft` and `--mp-rule`.
+
 ## How it works
 
 The diagram renders as it always does. `Mermaider.Animate` reads it back through the `data-*` attributes every
