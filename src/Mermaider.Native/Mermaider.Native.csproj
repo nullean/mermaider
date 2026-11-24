@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- A native shared library, not a package: one TargetFramework, published ahead of time per runtime identifier
+         (`dotnet publish -r osx-arm64 -c Release`). The assembly is Mermaider.Native (not `mermaider`: assembly names are
+         compared without case, and the library's other assembly is Mermaider); publishing also names the library mermaider.* -->
+    <TargetFrameworks></TargetFrameworks>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Mermaider.Native</RootNamespace>
+    <Description>Mermaider as a native library with a C ABI: Mermaid text in, SVG out, for any language with a C FFI.</Description>
+    <IsPackable>false</IsPackable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PublishAot>true</PublishAot>
+    <NativeLib>Shared</NativeLib>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <UseSystemResourceKeys>true</UseSystemResourceKeys>
+    <StripSymbols>true</StripSymbols>
+    <OptimizationPreference>Size</OptimizationPreference>
+    <StackTraceSupport>false</StackTraceSupport>
+    <IlcGenerateStackTraceData>false</IlcGenerateStackTraceData>
+    <IlcFoldIdenticalMethodBodies>true</IlcFoldIdenticalMethodBodies>
+    <DebuggerSupport>false</DebuggerSupport>
+    <EventSourceSupport>false</EventSourceSupport>
+    <NoWarn>CS1591</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Mermaider.Native.Tests" PublicKey="00240000048000001401000006020000002400005253413100080000010001008b53f321cf48d3a717c1bb32ead77ea4ca7bc8bea84c85ca6257a88fe55b71afb52798bd16e273bde751135e0186c59de5aed41ec90533616b31baaa87ed2d1a35b72956df879a1a6d14deabf9c081a467eecd66f46dfed9da3959abc0ae27c8b11cb3b4848c549dc2ead8aed0a5516aef04cd48506db2f1f66bf638cfcadd3797a6d8d8586a3ffd6982b8afee832afb4f7e606a3ac2edf9dbee8edad79c2108136008049f435e7d39f1480b03958a11d2f23bb5518ed3668defc9e72cf1bc6f4fe6a8cb30d69ccdcf16a983118fb6e77e3f58e4c89fe370434be6d706dc13312dda8b589417b3ac7e5b8f5655ccfa094b94f72725793719ff4423a23dddbfa1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Mermaider/Mermaider.csproj" />
+  </ItemGroup>
+  <!-- The published library under the name hosts look for: mermaider.dylib, mermaider.so or mermaider.dll. -->
+  <Target Name="NameNativeLibrary" AfterTargets="Publish" Condition="'$(RuntimeIdentifier)' != ''">
+    <PropertyGroup>
+      <NativeExtension Condition="$(RuntimeIdentifier.StartsWith('osx'))">dylib</NativeExtension>
+      <NativeExtension Condition="$(RuntimeIdentifier.StartsWith('linux'))">so</NativeExtension>
+      <NativeExtension Condition="$(RuntimeIdentifier.StartsWith('win'))">dll</NativeExtension>
+    </PropertyGroup>
+    <Copy SourceFiles="$(PublishDir)Mermaider.Native.$(NativeExtension)" DestinationFiles="$(PublishDir)mermaider.$(NativeExtension)" />
+  </Target>
+</Project>

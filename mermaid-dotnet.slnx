@@ -17,12 +17,14 @@
     <Project Path="src/Sugiyama/Sugiyama.csproj" />
     <Project Path="src/Mermaider.Cli/Mermaider.Cli.csproj" />
     <Project Path="src/Mermaider.Layout.Msagl/Mermaider.Layout.Msagl.csproj" />
+    <Project Path="src/Mermaider.Native/Mermaider.Native.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <File Path="tests/Directory.Build.props" />
     <Project Path="tests/Sugiyama.Tests/Sugiyama.Tests.csproj" />
     <Project Path="tests/Mermaider.Benchmarks/Mermaider.Benchmarks.csproj" />
     <Project Path="tests/Mermaider.Tests/Mermaider.Tests.csproj" />
+    <Project Path="tests/Mermaider.Native.Tests/Mermaider.Native.Tests.csproj" />
   </Folder>
   <Folder Name="/examples/">
     <Project Path="examples/mermaid-aot-smoketest/mermaid-aot-smoketest.csproj" />

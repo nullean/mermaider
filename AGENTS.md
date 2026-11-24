@@ -117,6 +117,9 @@ Hosts may raise limits selectively or set `Limits = ResourceLimits.Unlimited` fo
 ## Public API
 
 - Library: `MermaidRenderer.RenderSvg(text, options?)`, `MermaidRenderer.RenderAscii(text, options?)` (flowchart, state and xychart, drawn as characters on a grid the Sugiyama layout is run in) and `MermaidRenderer.Parse(text)`
+- Native library: `Mermaider.Native` publishes `mermaider.dylib` / `.so` / `.dll` (NativeAOT, `dotnet publish -r <rid>`) with a C ABI in
+  `src/Mermaider.Native/mermaider.h`: `mermaider_render_svg(source, options_json)`, `mermaider_last_error`, `mermaider_free`,
+  `mermaider_abi_version`. Options are a strict JSON object. `scripts/native-smoke.sh` runs a C program against it. Not a NuGet package
 - CLI: `mermaid [options] [input-file]` — reads from stdin or file, writes SVG to stdout or file
   - `--theme <name>`, `--transparent`, `--list-themes`, `--output <file>`
   - `--style <quiet|blueprint|tonal>`, `--no-gradient`, `--tint <0.5-1.5>`, `--elevation <0|1|2>`
