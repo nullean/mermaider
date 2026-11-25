@@ -81,5 +81,6 @@ the one before it.
 - `scrub` needs the SVG inline in the page: as an `<img>` it shows the static diagram.
 - The host's `AnimateOptions.Motion` and `.Mode` override the score's header.
 - Supported diagram types: flowchart, state, sequence, architecture, class, ER, C4, block, kanban, mindmap, treeview,
-  gantt, timeline, git graph, xy chart, pie, radar, sankey. Others render, but a score on them has nothing to
+  gantt, timeline, git graph, xy chart, pie, radar, sankey, requirement, journey, quadrant, treemap, venn, packet:
+  every type Mermaider renders. Quadrant points, journey tasks and treemap tiles are named by label (`"Search"`). Others render, but a score on them has nothing to
   address.

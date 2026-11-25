@@ -15,6 +15,11 @@ internal enum SceneKind
 	Pie,
 	Radar,
 	Sankey,
+	Quadrant,
+	Treemap,
+	Venn,
+	Packet,
+	Journey,
 }
 
 internal enum TargetKind
@@ -200,6 +205,16 @@ internal sealed class SvgScene
 			return SceneKind.Radar;
 		if (head.StartsWith("sankey", StringComparison.OrdinalIgnoreCase))
 			return SceneKind.Sankey;
+		if (head.StartsWith("quadrantChart", StringComparison.OrdinalIgnoreCase))
+			return SceneKind.Quadrant;
+		if (head.StartsWith("treemap", StringComparison.OrdinalIgnoreCase))
+			return SceneKind.Treemap;
+		if (head.StartsWith("venn", StringComparison.OrdinalIgnoreCase))
+			return SceneKind.Venn;
+		if (head.StartsWith("packet", StringComparison.OrdinalIgnoreCase))
+			return SceneKind.Packet;
+		if (head.StartsWith("journey", StringComparison.OrdinalIgnoreCase))
+			return SceneKind.Journey;
 		return root.Descendants().Any(e => HasClass(e, "message")) ? SceneKind.Sequence : SceneKind.Graph;
 	}
 
@@ -284,6 +299,30 @@ internal sealed class SvgScene
 			case SceneKind.Sankey:
 				ReadSankey();
 				return;
+			case SceneKind.Quadrant:
+				ReadNumbered("quadrant-point", null);
+				return;
+			case SceneKind.Treemap:
+				ReadNumbered("treemap-section", null);
+				ReadNumbered("treemap-tile", null);
+				AttachLoose(below: false);
+				return;
+			case SceneKind.Venn:
+				ReadNumbered("venn-set", "data-set");
+				AttachLoose(below: false);
+				return;
+			case SceneKind.Packet:
+				ReadNumbered("packet-field", null);
+				return;
+			case SceneKind.Journey:
+				ReadNumbered("journey-task", null);
+				AttachLoose(below: true);
+				if (
+					Root.Descendants(Ns + "path").FirstOrDefault(e => HasClass(e, "journey-line")) is { } line &&
+					PathData.Flatten((string?)line.Attribute("d") ?? "") is { Count: >= 2 } points
+				)
+					Lines.Add((line, new Polyline(points), []));
+				return;
 		}
 		var edgeOrdinals = new Dictionary<(string, string), int>();
 		foreach (var element in Root.Descendants().ToList())
@@ -319,8 +358,11 @@ internal sealed class SvgScene
 			)
 				owner.Elements.Add(element);
 			else if (
-				name == "path" && (HasClass(element, "class-relationship") || HasClass(element, "c4-relation") || HasClass(element, "block-edge")) &&
-				(string?)element.Attribute("data-from") is { } relFrom && (string?)element.Attribute("data-to") is { } relTo
+				name == "path" &&
+				(HasClass(element, "class-relationship") || HasClass(element, "c4-relation") || HasClass(element, "block-edge") || HasClass(
+					element,
+					"req-relation"
+				)) && (string?)element.Attribute("data-from") is { } relFrom && (string?)element.Attribute("data-to") is { } relTo
 			)
 				AddEdge(
 					edgeOrdinals,
@@ -699,6 +741,67 @@ internal sealed class SvgScene
 			target.Elements.Add(curve);
 			target.Box = BoxOf(curve);
 			_targets[id] = target;
+		}
+	}
+
+	/// <summary>
+	/// Elements numbered by the renderer (data-index) become targets <c>#n</c>, named by their label too; an id attribute,
+	/// when the type has one, names them instead. A data-parent nests them.
+	/// </summary>
+	private void ReadNumbered(string cls, string? idAttribute)
+	{
+		foreach (var element in Root.Descendants(Ns + "g").Where(e => HasClass(e, cls)).ToList())
+		{
+			var index = (int)Num.Parse((string?)element.Attribute("data-index"));
+			var id = idAttribute is not null && (string?)element.Attribute(idAttribute) is { } named ? named : $"#{index}";
+			var target = new SceneTarget(id, TargetKind.Node, (string?)element.Attribute("data-label") ?? TextOf(element))
+			{
+				Index = index,
+				Parent = (string?)element.Attribute("data-parent") is { } parent ? $"#{parent}" : null,
+			};
+			target.Elements.Add(element);
+			target.Box = BoxOf(element);
+			_targets[id] = target;
+		}
+	}
+
+	/// <summary>
+	/// Renderers write some of a mark's parts as loose siblings: a treemap section's header, a venn label, a journey task's
+	/// face and drop-line. Each joins the mark it belongs to, so it appears with it: the latest-numbered mark whose box
+	/// holds it, or (<paramref name="below"/>) the mark it sits under.
+	/// </summary>
+	private void AttachLoose(bool below)
+	{
+		var marks = _targets.Values.Where(t => t.Index > 0 && !t.Box.IsEmpty).ToList();
+		if (marks.Count == 0)
+			return;
+		var owned = new HashSet<XElement>(marks.SelectMany(m => m.Elements));
+		var floor = marks.Max(m => m.Box.Bottom);
+		foreach (var loose in Root
+			.Elements()
+			.Where(e => e.Name.LocalName is "g" or "text" or "rect" or "path" or "line" or "circle" && !owned.Contains(e))
+			.ToList())
+		{
+			if (HasClass(loose, "subgraph") || HasClass(loose, "legend") || HasClass(loose, "journey-line"))
+				continue;
+			var box = BoxOf(loose);
+			if (box.IsEmpty && loose.Name.LocalName == "text")
+				box = new Box(Num.Parse((string?)loose.Attribute("x")), Num.Parse((string?)loose.Attribute("y")), 0, 0);
+			if (box.IsEmpty)
+				continue;
+			var c = box.Center;
+			var near = marks
+				.Where(m => m.Box.Inflate(8) is var b && c.X >= b.X && c.X <= b.Right && c.Y >= b.Y && c.Y <= b.Bottom)
+				.OrderByDescending(m => m.Index)
+				.FirstOrDefault();
+			var owner = below
+				? near ??
+					(c.Y > floor ? marks.Where(m => c.X >= m.Box.X && c.X <= m.Box.Right).OrderBy(m => Math.Abs(m.Box.Center.X - c.X)).FirstOrDefault() : null)
+				: marks
+					.Where(m => c.X >= m.Box.X && c.X <= m.Box.Right && c.Y >= m.Box.Y && c.Y <= m.Box.Bottom)
+					.OrderByDescending(m => m.Index)
+					.FirstOrDefault();
+			owner?.Elements.Add(loose);
 		}
 	}
 

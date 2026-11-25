@@ -205,3 +205,45 @@ internal sealed partial class Compiler
 		return on;
 	}
 }
+
+/// <summary>Diagrams whose marks have an order and nothing else: they arrive in it.</summary>
+internal sealed partial class Compiler
+{
+	/// <summary>
+	/// Marks arrive in their order: quadrant points pop onto the chart, treemap sections come before their tiles, venn
+	/// sets overlap one by one, packet fields fill left to right like bytes arriving, and a journey is walked task by task
+	/// as its line draws through them.
+	/// </summary>
+	private double BuildInOrder(double at)
+	{
+		var marks = _scene.Ordered;
+		var step = _scene.Kind switch
+		{
+			SceneKind.Packet => _spec.Stagger,
+			SceneKind.Journey or SceneKind.Venn => _spec.Enter,
+			_ => _spec.Stagger * 2,
+		};
+		var t = at;
+		var end = at;
+		for (var i = 0; i < marks.Count; i++)
+		{
+			var mark = marks[i];
+			// a treemap tile waits for its section
+			var start = mark.Parent is { } parent && _scene.Target(parent) is { } section && HasVisibility(section)
+				? Math.Max(t, Visibility(section.Elements[0]).Segments.LastOrDefault()?.End ?? t)
+				: t;
+			end = Math.Max(end, Show(mark, start));
+			if (_scene.Kind is SceneKind.Quadrant)
+				_ = Pulse(mark, start + (_spec.Enter * 0.5), _spec.PulseScale);
+			t = start + step;
+		}
+		foreach (var (line, path, _) in _scene.Lines)
+		{
+			var visual = Drawable(new SceneEdge("line", "line", line, path) { Stroke = line }, 14);
+			var ink = Ink(visual);
+			ink.Initial[0] = 1;
+			ink.Animate(at, Math.Max(_spec.DrawMin, t - at), Channel.Value(0), Easing.Linear);
+		}
+		return Math.Max(end, t);
+	}
+}

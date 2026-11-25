@@ -39,6 +39,8 @@ internal sealed partial class Compiler
 			return BuildTree(at);
 		if (_scene.Kind is SceneKind.XyChart or SceneKind.Pie or SceneKind.Radar)
 			return BuildChart(at);
+		if (_scene.Kind is SceneKind.Quadrant or SceneKind.Treemap or SceneKind.Venn or SceneKind.Packet or SceneKind.Journey)
+			return BuildInOrder(at);
 
 		var t = at;
 		var groups = _scene.Groups.OrderBy(Depth).ThenBy(g => g.Box.Y).ThenBy(g => g.Box.X).ToList();

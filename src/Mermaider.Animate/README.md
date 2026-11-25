@@ -53,7 +53,8 @@ flowchart or architecture diagram builds up along its flow, a state machine runs
 plays its messages in order, a gantt chart sweeps its playhead across the plan, a timeline's periods arrive along its
 axis, a git graph's commits land in order, a mindmap or treeview grows from its root, and a C4 dynamic diagram plays its
 numbered relations in order, an xy chart's bars grow and its lines draw, a pie's slices sweep round, a radar's curves grow out
-of the centre, and a sankey's flows run left to right.
+of the centre, a sankey's flows run left to right, and quadrant points, treemap sections and tiles, venn sets, packet
+fields and journey tasks arrive in their order, each with its labels.
 
 Names are diagram ids. Elements without an id are named by their label in quotes (`show "2020"`, `mark "Build" ok`) or
 by number: `#3` is the third message of a sequence diagram, and the third task, period or commit elsewhere.
@@ -135,4 +136,5 @@ can drift apart. Only `opacity`, `transform` and `stroke-dashoffset` animate. Th
 names and numbers, never text from the diagram or the score.
 
 Diagram types: flowchart, state, sequence, architecture, class, ER, C4 (dynamic diagrams play their numbered relations),
-block, kanban, mindmap, treeview, gantt, timeline, git graph, xy chart, pie, radar and sankey.
+block, requirement, kanban, mindmap, treeview, gantt, timeline, git graph, journey, xy chart, pie, radar, sankey, quadrant,
+treemap, venn and packet: every type Mermaider renders.

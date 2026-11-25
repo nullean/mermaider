@@ -1,0 +1,15 @@
+journey
+  %% Journey: a checkout walked step by step; the payment step is where it dips
+  title Checkout
+  section Shop
+    Browse: 5: Customer
+    Add to cart: 4: Customer
+  section Pay
+    Enter card: 2: Customer
+    Confirm: 4: Customer
+
+animate
+  build
+  step "Entering the card is where it hurts"
+    focus "Enter card"
+    badge "Enter card" "drop-off" as fail
