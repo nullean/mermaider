@@ -389,6 +389,8 @@ internal sealed partial class Compiler
 		PlayStatement s => Play(s, at),
 		SweepStatement s => Sweep(s, at),
 		MoveStatement s => Move(s, at),
+		SetStatement s => Set(s, at),
+		TraceStatement s => Trace(s, at),
 		ExpandStatement s => Expand(s, at),
 		FillStatement s => Fill(s, at),
 		BadgeStatement s => BadgeAll(s, at),
@@ -719,7 +721,7 @@ internal sealed partial class Compiler
 	{
 		if (IsDrawn(edge, at) && _edgeVisuals.TryGetValue(edge, out var existing) && existing.Drawable)
 			return at;
-		var visual = Drawable(edge);
+		var visual = Drawable(edge, edge.MaskWidth);
 		var ink = Ink(visual);
 		var firstUse = !ink.IsAnimated;
 		if (firstUse)

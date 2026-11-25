@@ -1,0 +1,14 @@
+sankey-beta
+  %% Sankey: where visitors go, then the paying path is traced
+  Ad,Landing,60
+  Search,Landing,40
+  Landing,Signup,45
+  Landing,Bounce,55
+  Signup,Paid,20
+  Signup,Trial,25
+
+animate
+  build
+  step "Where paying customers come from"
+    trace Ad -> Paid
+    badge Paid "20 paying" as ok
