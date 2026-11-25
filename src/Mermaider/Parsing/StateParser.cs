@@ -95,6 +95,32 @@ internal static partial class StateParser
 		var classAssignments = new Dictionary<string, string>();
 		var nodeStyles = new Dictionary<string, Dictionary<string, string>>();
 
+		void CloseComposite()
+		{
+			if (compositeStack.Count > 0)
+			{
+				var completed = compositeStack.Pop();
+				var sg = new MermaidSubgraph
+				{
+					Id = completed.Id,
+					Label = completed.Label,
+					NodeIds = completed.NodeIds,
+					Children = completed.Children,
+					Direction = completed.Dir
+				};
+				if (compositeStack.Count > 0)
+				{
+					var parent = compositeStack.Pop();
+					parent.Children.Add(sg);
+					compositeStack.Push(parent);
+				}
+				else
+				{
+					subgraphs.Add(sg);
+				}
+			}
+		}
+
 		for (var i = 1; i < lines.Length; i++)
 		{
 			var line = lines[i];
@@ -201,28 +227,7 @@ internal static partial class StateParser
 
 			if (line == "}")
 			{
-				if (compositeStack.Count > 0)
-				{
-					var completed = compositeStack.Pop();
-					var sg = new MermaidSubgraph
-					{
-						Id = completed.Id,
-						Label = completed.Label,
-						NodeIds = completed.NodeIds,
-						Children = completed.Children,
-						Direction = completed.Dir
-					};
-					if (compositeStack.Count > 0)
-					{
-						var parent = compositeStack.Pop();
-						parent.Children.Add(sg);
-						compositeStack.Push(parent);
-					}
-					else
-					{
-						subgraphs.Add(sg);
-					}
-				}
+				CloseComposite();
 				continue;
 			}
 
@@ -327,6 +332,10 @@ internal static partial class StateParser
 			var open = compositeStack.Peek();
 			throw new MermaidParseException($"composite state '{open.Id}' is never closed", $"state {open.Id} {{", "'}' to close the composite state");
 		}
+
+		// Lenient: an unclosed composite ends with the diagram
+		while (compositeStack.Count > 0)
+			CloseComposite();
 
 		if (classDefs.ContainsKey("default"))
 		{
