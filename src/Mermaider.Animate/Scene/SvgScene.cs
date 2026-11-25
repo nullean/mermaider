@@ -1,0 +1,417 @@
+using System.Xml.Linq;
+
+namespace Mermaider.Animate.Scene;
+
+internal enum SceneKind
+{
+	Graph,
+	State,
+	Sequence,
+	Architecture,
+}
+
+internal enum TargetKind
+{
+	Node,
+	Group,
+	Actor,
+}
+
+/// <summary>An animatable thing in the rendered diagram: its elements, and the box it occupies.</summary>
+internal sealed class SceneTarget(string id, TargetKind kind, string label)
+{
+	public string Id { get; } = id;
+	public TargetKind Kind { get; } = kind;
+	public string Label { get; } = label;
+	public List<XElement> Elements { get; } = [];
+	public Box Box { get; set; } = Box.Empty;
+
+	/// <summary>The id of the group this target sits in, when the diagram nests it.</summary>
+	public string? Parent { get; set; }
+}
+
+/// <summary>A connector: a graph or architecture edge, or a sequence message.</summary>
+internal sealed class SceneEdge(string from, string to, XElement element, Polyline path)
+{
+	public string From { get; } = from;
+	public string To { get; } = to;
+
+	/// <summary>The group (or path) the edge is drawn by.</summary>
+	public XElement Element { get; } = element;
+
+	/// <summary>The stroked element inside <see cref="Element"/> (the element itself for a bare path).</summary>
+	public XElement? Stroke { get; init; }
+
+	public List<XElement> Labels { get; } = [];
+	public Polyline Path { get; } = path;
+	public bool Dotted { get; init; }
+	public bool Thick { get; init; }
+	public bool ArrowEnd { get; init; }
+	public bool ArrowStart { get; init; }
+	public string? Label { get; init; }
+
+	/// <summary>Position among edges with the same endpoints (1-based), or among messages for a sequence.</summary>
+	public int Index { get; set; } = 1;
+
+	public override string ToString() => $"{From} -> {To}";
+}
+
+/// <summary>
+/// The rendered diagram, read back through the <c>data-*</c> attributes every renderer writes. Animation never changes
+/// how the diagram is laid out or painted: it only wraps elements and adds an overlay on top.
+/// </summary>
+internal sealed class SvgScene
+{
+	internal static readonly XNamespace Ns = "http://www.w3.org/2000/svg";
+
+	private readonly Dictionary<string, SceneTarget> _targets = [with(StringComparer.Ordinal)];
+	private readonly Dictionary<string, SceneTarget> _groups = [with(StringComparer.Ordinal)];
+
+	private SvgScene(XDocument document, SceneKind kind, string prefix)
+	{
+		Prefix = prefix;
+		Document = document;
+		Kind = kind;
+		Root = document.Root!;
+		var viewBox = ((string?)Root.Attribute("viewBox") ?? "0 0 0 0").Split([' ', ','], StringSplitOptions.RemoveEmptyEntries);
+		ViewBox = viewBox.Length == 4
+			? new Box(Num.Parse(viewBox[0]), Num.Parse(viewBox[1]), Num.Parse(viewBox[2]), Num.Parse(viewBox[3]))
+			: new Box(0, 0, 0, 0);
+	}
+
+	public XDocument Document { get; }
+	public XElement Root { get; }
+	public SceneKind Kind { get; }
+	public Box ViewBox { get; set; }
+
+	/// <summary>A prefix for the overlay's ids, classes and keyframes, unique per source and options so many animations share a page.</summary>
+	public string Prefix { get; }
+
+	/// <summary>The flow direction for a graph: LR, RL, TB or BT.</summary>
+	public string Direction { get; init; } = "TB";
+
+	public IReadOnlyCollection<SceneTarget> Targets => _targets.Values;
+	public IReadOnlyCollection<SceneTarget> Groups => _groups.Values;
+	public List<SceneEdge> Edges { get; } = [];
+
+	/// <summary>Sequence notes in reading order, played between the messages around them.</summary>
+	public List<(XElement Element, double Y)> Notes { get; } = [];
+
+	public SceneTarget? Target(string id) => _targets.TryGetValue(id, out var t) ? t : null;
+
+	public SceneTarget? Group(string id) => _groups.TryGetValue(id, out var t) ? t : null;
+
+	/// <summary>Every target, group and edge element, for focus to dim what it does not name.</summary>
+	public IEnumerable<XElement> AllElements =>
+		_groups
+			.Values
+			.SelectMany(g => g.Elements)
+			.Concat(_targets.Values.SelectMany(t => t.Elements))
+			.Concat(Edges.Select(e => e.Element))
+			.Concat(Edges.SelectMany(e => e.Labels))
+			.Concat(Notes.Select(n => n.Element));
+
+	internal static SvgScene Read(string svg, string diagramSource, string prefix)
+	{
+		var document = XDocument.Parse(svg, LoadOptions.PreserveWhitespace);
+		var root = document.Root!;
+		var kind = DetectKind(root, diagramSource);
+		var scene = new SvgScene(document, kind, prefix) { Direction = DetectDirection(diagramSource, kind) };
+		scene.ReadElements();
+		return scene;
+	}
+
+	private static SceneKind DetectKind(XElement root, string source)
+	{
+		var head = FirstLine(source);
+		if (head.StartsWith("sequenceDiagram", StringComparison.Ordinal))
+			return SceneKind.Sequence;
+		if (head.StartsWith("architecture", StringComparison.Ordinal))
+			return SceneKind.Architecture;
+		if (head.StartsWith("stateDiagram", StringComparison.Ordinal))
+			return SceneKind.State;
+		return root.Descendants().Any(e => HasClass(e, "message")) ? SceneKind.Sequence : SceneKind.Graph;
+	}
+
+	/// <summary>The first line that is not blank, a comment or front matter: the diagram's header.</summary>
+	private static string FirstLine(string source)
+	{
+		var inFrontMatter = false;
+		foreach (var raw in source.Split('\n'))
+		{
+			var line = raw.Trim();
+			if (line == "---")
+			{
+				inFrontMatter = !inFrontMatter;
+				continue;
+			}
+			if (inFrontMatter || line.Length == 0 || line.StartsWith("%%", StringComparison.Ordinal))
+				continue;
+			return line;
+		}
+		return "";
+	}
+
+	private static string DetectDirection(string source, SceneKind kind)
+	{
+		if (kind == SceneKind.Architecture)
+			return "LR";
+		foreach (var raw in source.Split('\n'))
+		{
+			var line = raw.Trim();
+			if (line.Length == 0 || line.StartsWith("%%", StringComparison.Ordinal) || line.StartsWith("---", StringComparison.Ordinal))
+				continue;
+			var words = line.Split([' ', '\t', ';'], StringSplitOptions.RemoveEmptyEntries);
+			if (words.Length >= 2 && words[0] is "flowchart" or "graph")
+				return words[1] switch
+				{
+					"LR" => "LR",
+					"RL" => "RL",
+					"BT" => "BT",
+					_ => "TB",
+				};
+			if (line.StartsWith("direction ", StringComparison.Ordinal))
+				return line[10..].Trim() is "LR" ? "LR" : "TB";
+			if (!line.StartsWith("stateDiagram", StringComparison.Ordinal))
+				break;
+		}
+		return "TB";
+	}
+
+	internal static bool HasClass(XElement element, string cls)
+	{
+		var value = (string?)element.Attribute("class");
+		if (value is null)
+			return false;
+		foreach (var part in value.Split(' '))
+			if (part == cls)
+				return true;
+		return false;
+	}
+
+	private void ReadElements()
+	{
+		var edgeOrdinals = new Dictionary<(string, string), int>();
+		foreach (var element in Root.Descendants().ToList())
+		{
+			if (element.Name.Namespace != Ns)
+				continue;
+			var id = (string?)element.Attribute("data-id");
+			var name = element.Name.LocalName;
+
+			if (name == "g" && id is not null && (HasClass(element, "node") || HasClass(element, "architecture-service")))
+				AddTarget(_targets, id, TargetKind.Node, element);
+			else if (name == "g" && id is not null && HasClass(element, "actor"))
+				AddTarget(_targets, id, TargetKind.Actor, element);
+			else if (
+				name == "g" && id is not null &&
+				(HasClass(element, "subgraph") || HasClass(element, "architecture-group") || HasClass(element, "architecture-group-title"))
+			)
+				AddTarget(_groups, id, TargetKind.Group, element);
+			else if (
+				name == "line" && HasClass(element, "lifeline") && (string?)element.Attribute("data-actor") is { } actor && _targets.TryGetValue(
+					actor,
+					out var owner
+				)
+			)
+				owner.Elements.Add(element);
+			else if (
+				name == "path" && HasClass(element, "edge") && (string?)element.Attribute("data-from") is { } from &&
+				(string?)element.Attribute("data-to") is { } to
+			)
+				AddEdge(
+					edgeOrdinals,
+					from,
+					to,
+					element,
+					element,
+					(string?)element.Attribute("data-style"),
+					(string?)element.Attribute("data-label"),
+					(string?)element.Attribute("data-arrow-end") != "false",
+					(string?)element.Attribute("data-arrow-start") == "true"
+				);
+			else if (
+				name == "path" && HasClass(element, "architecture-edge") && (string?)element.Attribute("data-source") is { } source &&
+				(string?)element.Attribute("data-target") is { } target
+			)
+				AddEdge(
+					edgeOrdinals,
+					source,
+					target,
+					element,
+					element,
+					null,
+					null,
+					element.Attribute("marker-end") is not null,
+					element.Attribute("marker-start") is not null
+				);
+			else if (
+				name == "g" && HasClass(element, "message") && (string?)element.Attribute("data-from") is { } mFrom &&
+				(string?)element.Attribute("data-to") is { } mTo
+			)
+			{
+				var stroke = element.Elements().FirstOrDefault(e => e.Name.LocalName is "line" or "path");
+				if (stroke is not null)
+					AddEdge(
+						edgeOrdinals,
+						mFrom,
+						mTo,
+						element,
+						stroke,
+						(string?)element.Attribute("data-line-style") == "dashed" ? "dotted" : "solid",
+						(string?)element.Attribute("data-label"),
+						stroke.Attribute("marker-end") is not null,
+						false
+					);
+				if (stroke is not null && Edges.Count > 0 && ReferenceEquals(Edges[^1].Element, element))
+					Edges[^1].Labels.AddRange(element.Elements().Where(e => !ReferenceEquals(e, stroke)));
+			}
+			else if (name == "g" && HasClass(element, "sequence-note"))
+				Notes.Add((element, BoxOf(element).Y));
+		}
+
+		// edge labels follow their edges (graph renderers write them as separate groups)
+		foreach (var label in Root.Descendants(Ns + "g").Where(e => HasClass(e, "edge-label")))
+		{
+			var from = (string?)label.Attribute("data-from");
+			var to = (string?)label.Attribute("data-to");
+			var edge = Edges.FirstOrDefault(e => e.From == from && e.To == to && e.Labels.Count == 0);
+			edge?.Labels.Add(label);
+		}
+
+		// nesting: a target whose box sits inside a group's box belongs to the smallest such group
+		foreach (var target in _targets.Values.Concat(_groups.Values))
+		{
+			SceneTarget? best = null;
+			foreach (var group in _groups.Values)
+			{
+				if (ReferenceEquals(group, target) || !Contains(group.Box, target.Box))
+					continue;
+				if (best is null || group.Box.Width * group.Box.Height < best.Box.Width * best.Box.Height)
+					best = group;
+			}
+			target.Parent = best?.Id;
+		}
+
+		if (Kind == SceneKind.Sequence)
+		{
+			var i = 1;
+			foreach (var edge in Edges)
+				edge.Index = i++;
+		}
+	}
+
+	private static bool Contains(Box outer, Box inner) =>
+		!outer.IsEmpty && !inner.IsEmpty && inner.X >= outer.X - 0.5 && inner.Y >= outer.Y - 0.5 && inner.Right <= outer.Right +
+			0.5 && inner.Bottom <= outer.Bottom + 0.5 && inner.Width * inner.Height < outer.Width * outer.Height;
+
+	private static void AddTarget(Dictionary<string, SceneTarget> into, string id, TargetKind kind, XElement element)
+	{
+		if (!into.TryGetValue(id, out var target))
+		{
+			target = new SceneTarget(id, kind, (string?)element.Attribute("data-label") ?? id);
+			into[id] = target;
+		}
+		target.Elements.Add(element);
+		// an architecture group's title sits on its frame; the frame is the group's box
+		if (!HasClass(element, "architecture-group-title") && !HasClass(element, "actor-bottom"))
+			target.Box = target.Box.Union(BoxOf(element));
+	}
+
+	private void AddEdge(
+		Dictionary<(string, string), int> ordinals,
+		string from,
+		string to,
+		XElement element,
+		XElement stroke,
+		string? style,
+		string? label,
+		bool arrowEnd,
+		bool arrowStart
+	)
+	{
+		List<Vec> points = stroke.Name.LocalName == "line"
+			? [
+				new Vec(Num.Parse((string?)stroke.Attribute("x1")), Num.Parse((string?)stroke.Attribute("y1"))),
+				new Vec(Num.Parse((string?)stroke.Attribute("x2")), Num.Parse((string?)stroke.Attribute("y2")))
+			]
+			: PathData.Flatten((string?)stroke.Attribute("d") ?? "");
+		if (points.Count < 2)
+			return;
+		var key = (from, to);
+		ordinals[key] = ordinals.TryGetValue(key, out var n) ? n + 1 : 1;
+		Edges.Add(new SceneEdge(from, to, element, new Polyline(points))
+		{
+			Stroke = stroke,
+			Dotted = style is "dotted" or "dashed",
+			Thick = style == "thick",
+			Label = label,
+			ArrowEnd = arrowEnd,
+			ArrowStart = arrowStart,
+			Index = ordinals[key],
+		});
+	}
+
+	/// <summary>The box a group of shapes covers: rects, circles, ellipses, lines, polygons and paths; text and icons do not count.</summary>
+	internal static Box BoxOf(XElement element)
+	{
+		var box = Box.Empty;
+		foreach (var shape in element.DescendantsAndSelf())
+		{
+			if (shape.Ancestors().TakeWhile(a => a != element).Any(a => a.Attribute("transform") is not null))
+				continue;
+			switch (shape.Name.LocalName)
+			{
+				case "rect":
+					box = box.Union(
+						new Box(
+							Num.Parse((string?)shape.Attribute("x") ?? "0"),
+							Num.Parse((string?)shape.Attribute("y") ?? "0"),
+							Num.Parse((string?)shape.Attribute("width")),
+							Num.Parse((string?)shape.Attribute("height"))
+						)
+					);
+					break;
+				case "circle":
+					{
+						var r = Num.Parse((string?)shape.Attribute("r"));
+						box = box.Union(new Box(Num.Parse((string?)shape.Attribute("cx")) - r, Num.Parse((string?)shape.Attribute("cy")) - r, 2 * r, 2 * r));
+						break;
+					}
+				case "ellipse":
+					{
+						var rx = Num.Parse((string?)shape.Attribute("rx"));
+						var ry = Num.Parse((string?)shape.Attribute("ry"));
+						box = box.Union(
+							new Box(Num.Parse((string?)shape.Attribute("cx")) - rx, Num.Parse((string?)shape.Attribute("cy")) - ry, 2 * rx, 2 * ry)
+						);
+						break;
+					}
+				case "line":
+					box = box.Include(new Vec(Num.Parse((string?)shape.Attribute("x1")), Num.Parse((string?)shape.Attribute("y1")))).Include(
+						new Vec(Num.Parse((string?)shape.Attribute("x2")), Num.Parse((string?)shape.Attribute("y2")))
+					);
+					break;
+				case "polygon":
+				case "polyline":
+					{
+						var numbers = ((string?)shape.Attribute("points") ?? "").Split([' ', ','], StringSplitOptions.RemoveEmptyEntries);
+						for (var i = 0; i + 1 < numbers.Length; i += 2)
+							box = box.Include(new Vec(Num.Parse(numbers[i]), Num.Parse(numbers[i + 1])));
+						break;
+					}
+				case "path":
+					foreach (var p in PathData.Flatten((string?)shape.Attribute("d") ?? ""))
+						box = box.Include(p);
+					break;
+			}
+		}
+		return box.IsEmpty || double.IsNaN(box.Width) ? Box.Empty : box;
+	}
+
+	public XElement? Marker(bool atStart)
+	{
+		var suffix = atStart ? "-mk-arrow-s" : "-mk-arrow";
+		return Root.Descendants(Ns + "marker").FirstOrDefault(m => (string?)m.Attribute("id") is { } id && id.EndsWith(suffix, StringComparison.Ordinal));
+	}
+}

@@ -1,0 +1,1 @@
+Animate a failover for a docs page. Client, balancer, two API nodes, one orders database. First a request takes the healthy path through API 1 and the 200 comes back. Then API 1 stops answering: the request hangs, times out, and the balancer retries on API 2, which answers. About 15 seconds, looping, with a numbered caption per beat.
