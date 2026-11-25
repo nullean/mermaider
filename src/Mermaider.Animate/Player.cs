@@ -28,8 +28,6 @@ internal static class Player
 		var p = prefix + "-p";
 		var animated = $"svg [class*=\"{prefix}-a\"]";
 		var steps = animation.Steps.Where(s => s.Caption is not null).ToList();
-		var twoClocks = timeline.Loops && timeline.StoryStart > 0;
-		var intro = timeline.StoryStart;
 		var band = timeline.CaptionBand > 0 && timeline.ViewBox.Height > 0 ? timeline.CaptionBand / timeline.ViewBox.Height * 100 : 0;
 
 		var sb = new StringBuilder();
@@ -77,15 +75,15 @@ internal static class Player
 				Rule(sb, $".{p}:has(#{still}:checked) svg .{cls}", declarations);
 
 			var at = steps[k].Start.TotalMilliseconds;
-			var perChannel = twoClocks ? $"{Ms(-at)}, {Ms(intro - at)}" : Ms(-at);
-			foreach (var group in classes.GroupBy(c => c.Channels))
-			{
-				var selectors = string.Join(
-					", ",
-					group.SelectMany(c => new[] { $".{p}:has(#{from}:checked) svg .{c.Class}", $".{p}:has(#{hold}:checked) svg .{c.Class}" })
-				);
-				Rule(sb, selectors, "animation-delay: " + string.Join(", ", Enumerable.Repeat(perChannel, group.Key)));
-			}
+			// each animation is put at step k on its own clock: the intro's starts at 0, the story's where the intro ends
+			string Selectors(IEnumerable<(string Class, string Starts)> group) =>
+				string.Join(", ", group.SelectMany(c => new[] { $".{p}:has(#{from}:checked) svg .{c.Class}", $".{p}:has(#{hold}:checked) svg .{c.Class}" }));
+
+			string Delays(string starts) =>
+				"animation-delay: " + string.Join(", ", starts.Split(',').Select(s => Ms(double.Parse(s, CultureInfo.InvariantCulture) - at)));
+
+			foreach (var group in classes.GroupBy(c => c.Starts))
+				Rule(sb, Selectors(group), Delays(group.Key));
 			Rule(sb, $".{p}:has(#{hold}:checked) {animated}", "animation-play-state: paused");
 			Rule(sb, $".{p}:has(#{still}:checked) .dot[for=\"{still}\"]", "background: var(--mp-ink)");
 		}

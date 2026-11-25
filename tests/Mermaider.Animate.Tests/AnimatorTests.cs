@@ -137,8 +137,8 @@ public partial class AnimatorTests
 
 		// the mark is a content change: it still happens, as a cut
 		var mark = doc.Descendants().Single(e => e.Name.LocalName == "rect" && (string?)e.Attribute("fill-opacity") == "0.14").Parent!;
-		reduced.Should().MatchRegex($@"\.{ClassOf(mark)} \{{ animation: ma[0-9a-f]{{8}}-k\d+r ");
-		var keyframes = Regex.Match(reduced + style, $@"\.{ClassOf(mark)} \{{ animation: (ma[0-9a-f]{{8}}-k\d+r) ").Groups[1].Value;
+		var keyframes = Regex.Match(reduced, $@"\.{ClassOf(mark)} \{{ animation: (ma[0-9a-f]{{8}}-k\d+) ").Groups[1].Value;
+		keyframes.Should().NotBeEmpty();
 		style.Should().MatchRegex($@"@keyframes {keyframes} \{{[^\n]*steps\(1, jump-start\)");
 	}
 
