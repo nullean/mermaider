@@ -37,15 +37,233 @@ internal static partial class C4Parser
 		public List<C4Node> Children { get; } = [];
 	}
 
-	internal static C4Diagram Parse(string[] lines)
+	[GeneratedRegex(@"^[A-Za-z_]\w*", RegexOptions.None, TimeoutMs)]
+	private static partial Regex StatementWordPattern();
+
+	[GeneratedRegex(@"^(?:title|accTitle|accDescr|accDescription)(?:\s|:|$)", RegexOptions.None, TimeoutMs)]
+	private static partial Regex DirectivePattern();
+
+	// Mermaid's statement keywords, case-sensitive; the value is how many leading arguments are bare ids
+	// (the rest must be quoted strings or $name="value"), and how many arguments are required.
+	private static readonly Dictionary<string, (int Ids, int Required)> Statements = BuildStatements();
+
+	private static Dictionary<string, (int Ids, int Required)> BuildStatements()
+	{
+		var map = new Dictionary<string, (int, int)>(StringComparer.Ordinal);
+		foreach (var kind in new[] { "Person", "System", "SystemDb", "SystemQueue", "Container", "ContainerDb", "ContainerQueue", "Component", "ComponentDb", "ComponentQueue", })
+		{
+			map[kind] = (1, 2);
+			map[kind + "_Ext"] = (1, 2);
+		}
+		foreach (var kind in new[] { "Boundary", "Enterprise_Boundary", "System_Boundary", "Container_Boundary", "Deployment_Node", "Node", "Node_L", "Node_R", })
+			map[kind] = (1, 2);
+		foreach (var kind in new[] { "Rel", "BiRel", "Rel_U", "Rel_Up", "Rel_D", "Rel_Down", "Rel_L", "Rel_Left", "Rel_R", "Rel_Right", "Rel_Back", })
+			map[kind] = (2, 3);
+		map["RelIndex"] = (3, 4);
+		map["UpdateElementStyle"] = (1, 2);
+		map["UpdateRelStyle"] = (2, 3);
+		map["UpdateLayoutConfig"] = (0, 1);
+		return map;
+	}
+
+	private static bool OpensBlock(string keyword) =>
+		keyword is "Boundary" or "Enterprise_Boundary" or "System_Boundary" or "Container_Boundary" or "Deployment_Node" or "Node" or "Node_L" or "Node_R";
+
+	internal static C4Diagram Parse(string[] lines, bool strict = true)
 	{
 		try
 		{
+			if (strict)
+				Validate(lines);
 			return ParseCore(lines);
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
 			throw new MermaidParseException($"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.", ex);
+		}
+	}
+
+	// Mermaid refuses what the lenient reading below would skip: an unknown statement, an argument list that is
+	// never closed (the first ')' outside quotes ends it, and Mermaid lets it run over several lines), too few arguments,
+	// an unquoted label, text after the ')', and '{ }' that do not pair up or enclose nothing.
+	private static void Validate(string[] lines)
+	{
+		var frames = new Stack<(string Text, int Statements)>();
+		(string Keyword, string Text)? pendingBlock = null;
+		var args = new System.Text.StringBuilder();
+		var inArgs = false;
+		var inQuote = false;
+		var keyword = "";
+		var statement = "";
+		var statementLine = 0;
+
+		for (var i = 1; i < lines.Length; i++)
+		{
+			var line = lines[i].Trim();
+			if (line.Length == 0)
+				continue;
+
+			var pos = 0;
+			if (!inArgs)
+			{
+				if (line == "{")
+				{
+					if (pendingBlock is null)
+						throw new MermaidParseException("'{' does not follow a boundary or node", line, "a Boundary(...) or Deployment_Node(...) before '{'", column: 1);
+					frames.Push((pendingBlock.Value.Text, 0));
+					pendingBlock = null;
+					continue;
+				}
+
+				if (pendingBlock is { } pending)
+					throw new MermaidParseException($"{pending.Keyword}() has no body", pending.Text, "'{' to open its body, with the elements it contains, then '}'", column: pending.Text.Length + 1);
+
+				if (line == "}")
+				{
+					if (frames.Count == 0)
+						throw new MermaidParseException("'}' has no matching '{'", line, "an open Boundary(...) { before '}'", column: 1);
+					var (text, count) = frames.Pop();
+					if (count == 0)
+						throw new MermaidParseException("boundary has no elements", text, "at least one element between '{' and '}'", column: text.Length + 1);
+					Count(frames);
+					continue;
+				}
+
+				if (DirectivePattern().IsMatch(line))
+					continue;
+
+				var word = StatementWordPattern().Match(line);
+				if (!word.Success || !Statements.ContainsKey(word.Value))
+					throw new MermaidParseException(
+						word.Success ? $"unknown statement '{word.Value}'" : $"unexpected text '{line}'",
+						line,
+						"a C4 statement such as Person(alias, \"Label\"), Rel(from, to, \"Label\") or Boundary(alias, \"Label\") {",
+						column: 1
+					);
+
+				keyword = word.Value;
+				if (line.Length == keyword.Length || line[keyword.Length] != '(')
+					throw new MermaidParseException($"{keyword} is not followed by '('", line, $"'(' straight after {keyword}, e.g. {keyword}(alias, \"Label\")", column: keyword.Length + 1);
+
+				statement = line;
+				statementLine = i;
+				args.Clear();
+				inArgs = true;
+				pos = keyword.Length + 1;
+			}
+
+			var closed = false;
+			for (; pos < line.Length; pos++)
+			{
+				var c = line[pos];
+				if (c == '"')
+					inQuote = !inQuote;
+				else if (c == ')' && !inQuote)
+				{
+					closed = true;
+					pos++;
+					break;
+				}
+
+				args.Append(c);
+			}
+
+			if (!closed)
+			{
+				// a quote does not run over the end of a line
+				inQuote = false;
+				args.Append('\n');
+				continue;
+			}
+
+			inArgs = false;
+			if (statementLine == i)
+				RequireArguments(keyword, args.ToString(), statement);
+
+			var rest = line[pos..].Trim();
+			if (rest.Length == 0)
+			{
+				if (OpensBlock(keyword))
+					pendingBlock = (keyword, statement);
+				else
+					Count(frames);
+			}
+			else if (rest == "{" && OpensBlock(keyword))
+				frames.Push((statement, 0));
+			else
+				throw new MermaidParseException(
+					$"unexpected text '{rest}' after the closing ')'",
+					line,
+					OpensBlock(keyword) ? "the end of the statement, or '{' to open its body" : "the end of the statement",
+					column: pos + 1 + (line.Length - pos - line[pos..].TrimStart().Length)
+				);
+		}
+
+		if (inArgs)
+			throw new MermaidParseException($"{keyword}( is never closed", statement, "')' to end the argument list", column: keyword.Length + 1);
+
+		if (pendingBlock is { } open)
+			throw new MermaidParseException($"{open.Keyword}() has no body", open.Text, "'{' to open its body, with the elements it contains, then '}'", column: open.Text.Length + 1);
+
+		if (frames.Count > 0)
+		{
+			var (text, _) = frames.Peek();
+			throw new MermaidParseException("boundary is never closed", text, "'}' to close the boundary", column: text.Length + 1);
+		}
+	}
+
+	// A finished statement is one more element in the boundary that encloses it
+	private static void Count(Stack<(string Text, int Statements)> frames)
+	{
+		if (frames.Count == 0)
+			return;
+		var (text, count) = frames.Pop();
+		frames.Push((text, count + 1));
+	}
+
+	private static void RequireArguments(string keyword, string argsRaw, string statement)
+	{
+		var (ids, required) = Statements[keyword];
+		var args = SplitArgs(argsRaw);
+		if (args.Count < required)
+		{
+			var missing = keyword switch
+			{
+				"Rel" or "BiRel" or "Rel_U" or "Rel_Up" or "Rel_D" or "Rel_Down" or "Rel_L" or "Rel_Left" or "Rel_R" or "Rel_Right" or "Rel_Back" =>
+					args.Count switch { 0 => "has no source", 1 => "has no target", _ => "has no label", },
+				"RelIndex" => args.Count switch { 0 => "has no index", 1 => "has no source", 2 => "has no target", _ => "has no label", },
+				"UpdateLayoutConfig" => "has no settings",
+				_ => args.Count == 0 ? "has no alias" : "has no label",
+			};
+			throw new MermaidParseException(
+				$"{keyword}() {missing}",
+				statement,
+				required switch
+				{
+					4 => "RelIndex(index, from, to, \"Label\")",
+					3 when keyword.StartsWith("Update", StringComparison.Ordinal) => "UpdateRelStyle(from, to, $lineColor=\"red\")",
+					3 => $"{keyword}(from, to, \"Label\")",
+					1 => "UpdateLayoutConfig($c4ShapeInRow=\"3\")",
+					_ when keyword.StartsWith("Update", StringComparison.Ordinal) => "UpdateElementStyle(alias, $fontColor=\"red\")",
+					_ => $"{keyword}(alias, \"Label\")",
+				},
+				column: Math.Min(statement.Length, keyword.Length + 1)
+			);
+		}
+
+		for (var a = 0; a < args.Count; a++)
+		{
+			var arg = args[a];
+			if (arg.StartsWith('$'))
+			{
+				var eq = arg.IndexOf('=');
+				if (eq < 0 || arg[(eq + 1)..].Trim().Length == 0)
+					throw new MermaidParseException($"argument '{arg}' has no value", statement, "$name=\"value\"", column: Math.Max(1, statement.IndexOf(arg, StringComparison.Ordinal) + 1));
+				continue;
+			}
+
+			if (a >= ids && !(arg.Length >= 2 && arg[0] == '"' && arg[^1] == '"'))
+				throw new MermaidParseException($"argument '{arg}' is not in double quotes", statement, "a \"quoted\" text", column: Math.Max(1, statement.IndexOf(arg, StringComparison.Ordinal) + 1));
 		}
 	}
 

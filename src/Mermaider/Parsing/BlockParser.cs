@@ -20,16 +20,131 @@ internal static partial class BlockParser
 	[GeneratedRegex(@"^([A-Za-z_][\w-]*)\s*(?:--\s*(?:""([^""]*)""|([^>""|]+?))\s*)?-->\s*(?:\|([^|]*)\|\s*)?([A-Za-z_][\w-]*)\s*$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex EdgePattern();
 
-	internal static BlockDiagram Parse(string[] lines)
+	[GeneratedRegex(@"^block(?::[^\s:]+(?::\d+)?)?$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex BlockOpenPattern();
+
+	[GeneratedRegex(@"^(?:title|class|classDef|style)(?:\s|$)", RegexOptions.None, TimeoutMs)]
+	private static partial Regex FreeTextStatementPattern();
+
+	[GeneratedRegex(@"-->\s*$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex DanglingArrowPattern();
+
+	// "A -" or "A --": the start of an arrow that never becomes '-->'
+	[GeneratedRegex(@"\s--?$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex PartialArrowPattern();
+
+	internal static BlockDiagram Parse(string[] lines, bool strict = true)
 	{
 		try
 		{
+			if (strict)
+				Validate(lines);
 			return ParseCore(lines);
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
 			throw new MermaidParseException($"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.", ex);
 		}
+	}
+
+	// Mermaid refuses what the lenient reading below would silently skip: a label or quote that is never closed,
+	// a colon that is not a column span, an arrow without a target, and block/end that do not pair up.
+	private static void Validate(string[] lines)
+	{
+		var inQuote = false;
+		var quoteLine = 0;
+		var quoteCol = 0;
+		var blocks = new Stack<(string Text, int Line)>();
+		var openers = new List<(char Char, int Col)>();
+
+		for (var i = 1; i < lines.Length; i++)
+		{
+			var raw = lines[i];
+			var line = raw.Trim();
+			var lead = raw.Length - raw.TrimStart().Length;
+			var startedInQuote = inQuote;
+
+			if (!startedInQuote && FreeTextStatementPattern().IsMatch(line))
+				continue;
+
+			if (!startedInQuote)
+			{
+				if (BlockOpenPattern().IsMatch(line))
+				{
+					blocks.Push((line, i));
+					continue;
+				}
+
+				if (line == "end")
+				{
+					if (blocks.Count == 0)
+						throw new MermaidParseException("'end' has no matching 'block'", line, "'block' to open a group before 'end'", column: 1);
+					blocks.Pop();
+					continue;
+				}
+
+				if (PartialArrowPattern().IsMatch(line))
+					throw new MermaidParseException("arrow is incomplete", line, "'-->' to finish the arrow", column: line.Length);
+
+				if (line.StartsWith("-->", StringComparison.Ordinal))
+					throw new MermaidParseException("arrow '-->' has no source block", line, "a block id before the arrow, e.g. 'A --> B'", column: 1);
+			}
+
+			openers.Clear();
+			for (var c = 0; c < raw.Length; c++)
+			{
+				var ch = raw[c];
+				if (ch == '"')
+				{
+					inQuote = !inQuote;
+					if (inQuote)
+					{
+						quoteLine = i;
+						quoteCol = c - lead + 1;
+					}
+					continue;
+				}
+
+				if (inQuote)
+					continue;
+
+				switch (ch)
+				{
+					case '[' or '(' or '{':
+						openers.Add((ch, c - lead + 1));
+						break;
+					case ']' or ')' or '}':
+						if (openers.Count > 0)
+							openers.RemoveAt(openers.Count - 1);
+						break;
+					case ':' when openers.Count == 0 && !startedInQuote && !(c + 1 < raw.Length && char.IsAsciiDigit(raw[c + 1])):
+						throw new MermaidParseException("':' is not followed by a column span", line, "a number after ':', e.g. 'A:2'", column: c - lead + 1);
+				}
+			}
+
+			if (!inQuote && openers.Count > 0)
+			{
+				var (open, col) = openers[0];
+				var close = open switch { '[' => ']', '(' => ')', _ => '}', };
+				throw new MermaidParseException($"block label opened with '{open}' is never closed", line, $"'{close}' to end the label", column: col);
+			}
+		}
+
+		if (inQuote)
+		{
+			var text = lines[quoteLine].Trim();
+			throw new MermaidParseException("quoted label is never closed", text, "a closing '\"'", column: quoteCol);
+		}
+
+		if (blocks.Count > 0)
+		{
+			var (text, _) = blocks.Peek();
+			throw new MermaidParseException($"'{text}' group is never closed", text, "'end' to close the group", column: 1);
+		}
+
+		var last = lines[^1].Trim();
+		if (lines.Length > 1 && DanglingArrowPattern().IsMatch(last))
+			throw new MermaidParseException("arrow has no target block", last, "a block id after the arrow, e.g. 'A --> B'", column: last.Length + 1);
 	}
 
 	private static BlockDiagram ParseCore(string[] lines)
