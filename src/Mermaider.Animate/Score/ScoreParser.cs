@@ -392,6 +392,15 @@ internal static class ScoreParser
 		var kind = reader.Accept("path") ? HighlightKind.Path : reader.Accept("flow") ? HighlightKind.Flow : HighlightKind.Node;
 		IReadOnlyList<TargetRef> targets = [];
 		IReadOnlyList<string> route = [];
+		// highlight biggest | lowest: the mark the data picks (the biggest slice, the lowest score)
+		var pick = kind == HighlightKind.Node ? reader.Accept("biggest") ? "biggest" : reader.Accept("lowest") ? "lowest" : null : null;
+		if (pick is not null)
+		{
+			Role? picked = null;
+			if (reader.Accept("as"))
+				picked = reader.Next() is { } first ? ParseRole(first, reader.Line, reader.Diagnostics) : null;
+			return new HighlightStatement(kind, [], [], picked, reader.Line) { Pick = pick };
+		}
 		if (kind == HighlightKind.Node)
 		{
 			targets = reader.Targets();

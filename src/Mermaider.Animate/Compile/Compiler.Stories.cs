@@ -8,10 +8,16 @@ namespace Mermaider.Animate.Compile;
 /// <summary>The verbs that tell a whole story at once (build, run, play) and the default animation for each diagram type.</summary>
 internal sealed partial class Compiler
 {
-	/// <summary>What a bare <c>animate</c> plays: a sequence plays its messages, a state machine runs, the rest build up.</summary>
+	/// <summary>
+	/// What a bare <c>animate</c> plays: where order is the content, the order (a sequence's messages, a git graph's commits,
+	/// a gantt's sweep, numbered C4 relations, a state machine's run, a timeline's eras); elsewhere the type's own highlight,
+	/// with no steps. Building a diagram up is not a story, so it is never the default.
+	/// </summary>
 	private List<ScoreStep> DefaultSteps()
 	{
 		var line = _score.Line;
+		if (DefaultHighlights())
+			return [];
 		Statement statement = _scene.Kind switch
 		{
 			SceneKind.Sequence or SceneKind.GitGraph => new PlayStatement(null, null, line),

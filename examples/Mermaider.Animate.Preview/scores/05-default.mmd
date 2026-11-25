@@ -1,5 +1,5 @@
 flowchart TD
-  %% A bare animate on a flowchart builds it along its flow
+  %% A bare animate on a flowchart runs its longest path
   start([Push to main]) --> build[Build]
   build --> test[Test]
   build --> lint[Lint]

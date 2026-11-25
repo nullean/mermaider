@@ -33,44 +33,44 @@
 </defs><g><g>
 
 
-<g class="ma5ee127d7-a0" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:340px 226px"><g class="treemap-section" data-label="Budget" data-index="1">
+<g class="treemap-section" data-label="Budget" data-index="1">
   <rect x="48" y="48" width="584" height="356" rx="12" ry="12" fill="url(#m1814eb8b-cw-d0-0)" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1.25" />
   <path d="M48,76 L48,60 Q48,48 60,48 L620,48 Q632,48 632,60 L632,76 Z" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" />
   <line x1="48" y1="76" x2="632" y2="76" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1.25" />
-</g></g>
-<g class="ma5ee127d7-a1" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:340px 226px"><text x="60" y="62" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.9">Budget</text></g>
-<g class="ma5ee127d7-a2" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:340px 226px"><rect x="590.92" y="54" width="31.08" height="16" rx="4" ry="4" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" /></g><g class="ma5ee127d7-a3" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:340px 226px"><text x="606.46" y="62" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.2">100</text></g>
-<g class="ma5ee127d7-a4" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:254.8px 240px"><g class="treemap-section" data-label="Engineering" data-index="2" data-parent="1">
+</g>
+<text x="60" y="62" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.9">Budget</text>
+<rect x="590.92" y="54" width="31.08" height="16" rx="4" ry="4" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" /><text x="606.46" y="62" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.2">100</text>
+<g class="treemap-section" data-label="Engineering" data-index="2" data-parent="1">
   <rect x="60" y="88" width="389.6" height="304" rx="12" ry="12" fill="url(#m1814eb8b-cw-d0-1)" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1.25" />
   <path d="M60,116 L60,100 Q60,88 72,88 L437.6,88 Q449.6,88 449.6,100 L449.6,116 Z" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" />
   <line x1="60" y1="116" x2="449.6" y2="116" stroke="color-mix(in srgb, #4e79a7 42%, var(--bg))" stroke-width="1.25" />
-</g></g>
-<g class="ma5ee127d7-a5" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:254.8px 240px"><text x="72" y="102" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.9">Engineering</text></g>
-<g class="ma5ee127d7-a6" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:254.8px 240px"><rect x="411.40000000000003" y="94" width="28.2" height="16" rx="4" ry="4" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" /></g><g class="ma5ee127d7-a7" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:254.8px 240px"><text x="425.5" y="102" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.2">70</text></g>
-<g class="ma5ee127d7-a8" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:174.75px 254px"><g class="treemap-tile" data-label="Platform" data-value="40" data-index="3" data-parent="2">
+</g>
+<text x="72" y="102" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.9">Engineering</text>
+<rect x="411.40000000000003" y="94" width="28.2" height="16" rx="4" ry="4" fill="color-mix(in srgb, #4e79a7 22%, var(--bg))" /><text x="425.5" y="102" text-anchor="middle" font-size="var(--fs-xs)" font-weight="600" fill="color-mix(in srgb, #4e79a7 44%, var(--fg))" dy="4.2">70</text>
+<g><g class="treemap-tile" data-label="Platform" data-value="40" data-index="3" data-parent="2">
   <rect x="72" y="128" width="205.49" height="252" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 36%, var(--bg))" />
   <text x="88" y="152" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Platform</text>
   <text x="88" y="354" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">40</text>
   <text x="261.49" y="356" text-anchor="end" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text)" dy="4.2">40%</text>
   <circle cx="261.49" cy="148" r="4.5" fill="var(--accent, var(--fg))" />
-</g></g>
-<g class="ma5ee127d7-a9" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:361.55px 254px"><g class="treemap-tile" data-label="Product" data-value="30" data-index="4" data-parent="2">
+</g><rect x="65" y="121" width="219.49" height="266" rx="11" fill="none" fill-opacity="0" stroke="var(--accent, #3b82f6)" stroke-width="6" stroke-opacity="0.22" class="ma27e79bad-a0" style="opacity:0.798;transform:translate(0px,0px) scale(1.041);transform-box:view-box;transform-origin:174.75px 254px" /><rect x="68" y="124" width="213.49" height="260" rx="11" fill="var(--accent, #3b82f6)" fill-opacity="0.1" stroke="var(--accent, #3b82f6)" stroke-width="2" /></g>
+<g class="treemap-tile" data-label="Product" data-value="30" data-index="4" data-parent="2">
   <rect x="285.49" y="128" width="152.11" height="252" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 29.5%, var(--bg))" />
   <text x="301.49" y="152" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Product</text>
   <text x="301.49" y="354" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">30</text>
   <text x="421.6" y="356" text-anchor="end" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text)" dy="4.2">30%</text>
-</g></g>
-<g class="ma5ee127d7-a10" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:538.8px 188px"><g class="treemap-tile" data-label="Sales" data-value="20" data-index="5" data-parent="1">
+</g>
+<g class="treemap-tile" data-label="Sales" data-value="20" data-index="5" data-parent="1">
   <rect x="457.6" y="88" width="162.4" height="200" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 23%, var(--bg))" />
   <text x="473.6" y="112" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Sales</text>
   <text x="473.6" y="262" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">20</text>
   <text x="604" y="264" text-anchor="end" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text)" dy="4.2">20%</text>
-</g></g>
-<g class="ma5ee127d7-a11" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:538.8px 344px"><g class="treemap-tile" data-label="Support" data-value="10" data-index="6" data-parent="1">
+</g>
+<g class="treemap-tile" data-label="Support" data-value="10" data-index="6" data-parent="1">
   <rect x="457.6" y="296" width="162.4" height="96" rx="6" ry="6" fill="color-mix(in srgb, #4e79a7 16.5%, var(--bg))" />
   <text x="473.6" y="320" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Support</text>
   <text x="473.6" y="366" text-anchor="start" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">10</text>
   <text x="604" y="368" text-anchor="end" font-size="var(--fs-xs)" font-weight="600" fill="var(--_text)" dy="4.2">10%</text>
-</g></g>
+</g>
 
 <g pointer-events="none" /></g></g><defs /></svg>

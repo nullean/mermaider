@@ -29,9 +29,9 @@ public partial class AnimatorTests
 	}
 
 	[Test]
-	public void A_bare_animate_builds_a_flowchart_in_flow_order()
+	public void Build_brings_a_flowchart_in_in_flow_order()
 	{
-		var animation = MermaidAnimator.Compile(Flow + "\nanimate once\n");
+		var animation = MermaidAnimator.Compile(Flow + "\nanimate once\n  build\n");
 		animation.Steps.Should().HaveCount(1);
 		XDocument.Parse(animation.Svg).Should().NotBeNull();
 

@@ -25,14 +25,14 @@ public partial class OrderedTypeTests
 	[Test]
 	public void Quadrant_points_arrive_in_order()
 	{
-		var animation = MermaidAnimator.Compile("quadrantChart\n  A: [0.2, 0.8]\n  B: [0.7, 0.3]\n  C: [0.5, 0.5]\n\nanimate once\n");
+		var animation = MermaidAnimator.Compile("quadrantChart\n  A: [0.2, 0.8]\n  B: [0.7, 0.3]\n  C: [0.5, 0.5]\n\nanimate once\n  build\n");
 		new[] { "A", "B", "C" }.Select(l => FirstSeen(animation, d => Text(d, l))).Should().BeInAscendingOrder().And.NotContain(double.MaxValue);
 	}
 
 	[Test]
 	public void A_treemap_section_and_its_header_come_before_its_tiles()
 	{
-		const string source = "treemap-beta\n\"Budget\"\n  \"Eng\"\n    \"Platform\": 40\n    \"Product\": 30\n  \"Sales\": 20\n\nanimate once\n";
+		const string source = "treemap-beta\n\"Budget\"\n  \"Eng\"\n    \"Platform\": 40\n    \"Product\": 30\n  \"Sales\": 20\n\nanimate once\n  build\n";
 		var animation = MermaidAnimator.Compile(source);
 		var header = FirstSeen(animation, d => Text(d, "Eng"));
 		var tile = FirstSeen(animation, d => Text(d, "Platform"));
@@ -43,7 +43,7 @@ public partial class OrderedTypeTests
 	[Test]
 	public void Venn_labels_arrive_with_their_sets_and_the_overlap_with_the_last()
 	{
-		var animation = MermaidAnimator.Compile("venn-beta\n  set A\n  set B\n  union A,B[\"Both\"]\n\nanimate once\n");
+		var animation = MermaidAnimator.Compile("venn-beta\n  set A\n  set B\n  union A,B[\"Both\"]\n\nanimate once\n  build\n");
 		var a = FirstSeen(animation, d => Text(d, "A"));
 		var b = FirstSeen(animation, d => Text(d, "B"));
 		var both = FirstSeen(animation, d => Text(d, "Both"));
@@ -54,7 +54,7 @@ public partial class OrderedTypeTests
 	[Test]
 	public void A_labelled_venn_overlap_lights_the_region_its_sets_share_after_them()
 	{
-		const string source = "venn-beta\n  set A\n  set B\n  union A,B[\"Both\"]\n\nanimate once\n";
+		const string source = "venn-beta\n  set A\n  set B\n  union A,B[\"Both\"]\n\nanimate once\n  build\n";
 		var animation = MermaidAnimator.Compile(source);
 		var doc = XDocument.Parse(animation.Svg);
 		// the region is a fill clipped by each set's circle in turn, after the circles and before the names
@@ -132,14 +132,14 @@ public partial class OrderedTypeTests
 	[Test]
 	public void Packet_fields_fill_in_bit_order()
 	{
-		var animation = MermaidAnimator.Compile("packet-beta\n  0-15: \"One\"\n  16-31: \"Two\"\n  32-63: \"Three\"\n\nanimate once\n");
+		var animation = MermaidAnimator.Compile("packet-beta\n  0-15: \"One\"\n  16-31: \"Two\"\n  32-63: \"Three\"\n\nanimate once\n  build\n");
 		new[] { "One", "Two", "Three" }.Select(l => FirstSeen(animation, d => Text(d, l))).Should().BeInAscendingOrder();
 	}
 
 	[Test]
 	public void A_journey_task_brings_its_face_and_the_line_draws_through()
 	{
-		var animation = MermaidAnimator.Compile("journey\n  section S\n    Browse: 5: Me\n    Pay: 1: Me\n\nanimate once\n");
+		var animation = MermaidAnimator.Compile("journey\n  section S\n    Browse: 5: Me\n    Pay: 1: Me\n\nanimate once\n  build\n");
 		var start = XDocument.Parse(animation.RenderFrame(TimeSpan.Zero));
 		start.Descendants().Where(e => ((string?)e.Attribute("class") ?? "") == "mouth").Should().OnlyContain(m => IsHidden(m));
 		start.Descendants().Single(e => ((string?)e.Attribute("class") ?? "").Contains("journey-line")).Attribute("mask").Should().NotBeNull();

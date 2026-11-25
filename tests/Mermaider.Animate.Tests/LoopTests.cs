@@ -67,7 +67,7 @@ public partial class LoopTests
 	[Test]
 	public void A_loop_with_nothing_after_its_build_plays_once()
 	{
-		var animation = MermaidAnimator.Compile(Flow + "\nanimate\n");
+		var animation = MermaidAnimator.Compile(Flow + "\nanimate\n  build\n");
 		StyleOf(animation.Svg).Should().NotContain("infinite");
 		animation.Intro.Should().Be(TimeSpan.Zero);
 	}
