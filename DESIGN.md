@@ -301,7 +301,7 @@ They are part of the output's contract: renaming or dropping one is a breaking c
 | sankey | `g.sankey-node[data-id]` | `path.sankey-link[data-from][data-to][data-value]` |
 | quadrant | `g.quadrant-point[data-index][data-label][data-x][data-y]` | — |
 | treemap | `g.treemap-section[data-index]`, `g.treemap-tile[data-index][data-value]`, both `[data-parent?]` | — |
-| venn | `g.venn-set[data-set][data-index]` | — |
+| venn | `g.venn-set[data-set][data-index]`, and a labelled overlap's `g.venn-union[data-sets]` (its sets, comma-separated) | — |
 | packet | `g.packet-field[data-index][data-start][data-end]` | — |
 | journey | `g.journey-task[data-index][data-section][data-score]` | — |
 | requirement | `g.req-node[data-id]` | `path.req-relation[data-from][data-to]` |
