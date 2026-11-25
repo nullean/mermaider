@@ -27,23 +27,23 @@ public class PlayerTests
 	private static string SvgOf(string html) => html[html.IndexOf("<svg", StringComparison.Ordinal)..(html.IndexOf("</svg>", StringComparison.Ordinal) + 6)];
 
 	[Test]
-	public void The_player_is_one_radio_group_with_play_pause_and_three_states_per_step()
+	public void The_player_is_one_radio_group_with_play_pause_and_two_states_per_step()
 	{
 		var html = MermaidAnimator.RenderPlayer(Source);
 		var radios = Regex.Matches(html, "<input type=\"radio\" name=\"([^\"]+)\" id=\"([^\"]+)\"( checked)?>").ToList();
-		radios.Should().HaveCount(2 + (3 * 3));
+		radios.Should().HaveCount(2 + (2 * 3));
 		radios.Select(r => r.Groups[1].Value).Distinct().Should().HaveCount(1);
 		radios.Where(r => r.Groups[3].Success).Select(r => r.Groups[2].Value).Should().ContainSingle().Which.Should().EndWith("-play");
-		// arrow keys walk the stills in order
-		radios.Skip(2).Take(3).Select(r => r.Groups[2].Value[^6..]).Should().Equal("still0", "still1", "still2");
+		// arrow keys walk the steps in order, playing from each
+		radios.Skip(2).Take(3).Select(r => r.Groups[2].Value[^5..]).Should().Equal("from0", "from1", "from2");
 		html.Should().NotContain("<script");
 	}
 
 	[Test]
-	public void The_contents_list_every_step_in_order_and_each_shows_its_still()
+	public void The_contents_list_every_step_in_order_and_each_jumps_there()
 	{
 		var html = MermaidAnimator.RenderPlayer(Source);
-		var rows = Regex.Matches(html, @"<label class=""ma[0-9a-f]{8}-p-row"" for=""ma[0-9a-f]{8}-p-still(\d)"".*?-c"">([^<]*)</span></label>").ToList();
+		var rows = Regex.Matches(html, @"<label class=""ma[0-9a-f]{8}-p-row"" for=""ma[0-9a-f]{8}-p-from(\d)"".*?-c"">([^<]*)</span></label>").ToList();
 		rows.Select(r => r.Groups[1].Value).Should().Equal("0", "1", "2");
 		rows.Select(r => r.Groups[2].Value).Should().Equal("First &lt;b&gt;bold&lt;/b&gt;", "Second", "Third");
 	}
@@ -88,20 +88,6 @@ public class PlayerTests
 	}
 
 	[Test]
-	public void A_still_is_the_frame_at_the_end_of_its_step()
-	{
-		var html = MermaidAnimator.RenderPlayer(Source);
-		var mark = Regex.Match(SvgOf(html), "<g opacity=\"0\" class=\"([^\"]+)\"><rect[^>]*fill-opacity=\"0.14\"").Groups[1].Value;
-		mark.Should().NotBeEmpty();
-		html.Should().MatchRegex($@"-still0:checked\) svg \.{mark} \{{ opacity:0; \}}");
-		html.Should().MatchRegex($@"-still1:checked\) svg \.{mark} \{{ opacity:1; \}}");
-		html.Should().MatchRegex(@"-still1:checked\) :is\(\.ma[0-9a-f]{8}-p svg \[class\*=""ma[0-9a-f]{8}-a""\], [^)]+\) \{ animation: none; \}");
-		// beside it: the second caption shows, the others do not
-		var lines = Regex.Matches(html, @"-p-line (ma[0-9a-f]{8}-p-h\d+)""").Select(m => m.Groups[1].Value).ToList();
-		html.Should().Contain($"-still1:checked) .{lines[1]} {{ opacity:1; }}").And.Contain($"-still1:checked) .{lines[0]} {{ opacity:0; }}");
-	}
-
-	[Test]
 	public void Play_from_a_step_starts_each_clock_at_that_step()
 	{
 		var animation = MermaidAnimator.Compile(Source);
@@ -140,7 +126,6 @@ public class PlayerTests
 
 		Buttons("play").Should().Equal("Pause>pause");
 		Buttons("pause").Should().Equal("Play>play");
-		Buttons("still1").Should().Equal("Play from this step>from1");
 		Buttons("from1").Should().Equal("Pause>hold1");
 		Buttons("hold1").Should().Equal("Play>from1");
 	}
@@ -161,10 +146,14 @@ public class PlayerTests
 			"flowchart LR\n  a --> b\nanimate once\n" + string.Concat(Enumerable.Range(1, steps).Select(k => $"  step \"Step {k}\"\n    pulse a\n"));
 
 		var short_ = MermaidAnimator.RenderPlayer(Story(3));
-		short_.Should().MatchRegex(@"-p-win"" style=""height: 90px""").And.NotMatchRegex(@"-p-list ma[0-9a-f]{8}-p-h");
+		short_
+			.Should()
+			.MatchRegex(@"-p-win"" style=""height: 96px""", "a list that fits shows every row whole, unfaded")
+			.And
+			.NotMatchRegex(@"-p-list ma[0-9a-f]{8}-p-h");
 
 		var long_ = MermaidAnimator.RenderPlayer(Story(20));
-		long_.Should().MatchRegex(@"-p-win"" style=""height: 258px""", "nine rows, however long the story");
+		long_.Should().MatchRegex(@"-p-win slides"" style=""height: 288px""", "nine rows, however long the story, faded where they slide");
 		var slide = Regex.Match(long_, @"-p-list (ma[0-9a-f]{8}-p-h\d+)").Groups[1].Value;
 		slide.Should().NotBeEmpty();
 		var offsets = Regex
@@ -173,6 +162,6 @@ public class PlayerTests
 			.ToList();
 		offsets.Should().BeInDescendingOrder("the list moves up as the story goes on");
 		offsets.First().Should().Be(0);
-		offsets.Last().Should().Be(-((20 * 28) - (9 * 28)), "the last step brings the end of the list into view, no further");
+		offsets.Last().Should().Be(-((20 * 32) - (9 * 32)), "the last step brings the end of the list into view, no further");
 	}
 }

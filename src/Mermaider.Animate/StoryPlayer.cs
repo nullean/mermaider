@@ -16,16 +16,17 @@ namespace Mermaider.Animate;
 /// window that follows the playback.</item>
 /// <item>Each ending is a unit of its own (its diagram, caption and contents), shown while its radio is checked; showing
 /// one starts it afresh, shared beginning included.</item>
-/// <item>A unit's radio group holds its state: play, pause, the still at the end of each step, and playing or holding
-/// from a step, which put every animation, in the SVG and beside it, at that step with a negative delay.</item>
+/// <item>A unit's radio group holds its state: play, pause, and playing or holding from a step. Clicking a step in the
+/// contents jumps there and plays on: a negative delay puts every animation, in the SVG and beside it, at that step.</item>
 /// <item>Below 640px the contents fold into one line under the caption, which opens them in place.</item>
 /// </list>
 /// The caption and the contents animate on the story's own clock, so they never drift from the diagram.
 /// </summary>
 internal static class StoryPlayer
 {
-	private const double RowHeight = 28;
-	private const double EndingHeight = 36;
+	// one rhythm: every row is 32px; an ending is a 28px box centred in its row
+	private const double RowHeight = 32;
+	private const double EndingHeight = 32;
 	private const int WindowRows = 9;
 
 	/// <summary>One ending (or the only story): its animation, name and role.</summary>
@@ -47,7 +48,7 @@ internal static class StoryPlayer
 		Rule(
 			sb,
 			$".{root}",
-			$"container-type: inline-size; font-family: {Font(first)}; color: var(--_text); margin: 0 auto; width: min(100%, {Px(first.Timeline.ViewBox.Width + 300)})"
+			$"container-type: inline-size; font-family: {Font(first)}; color: var(--_text); margin: 0 auto; width: min(100%, {Px(first.Timeline.ViewBox.Width + 284)})"
 		);
 		Rule(sb, $".{root} > input", "position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none");
 		if (endings.Count > 1)
@@ -223,16 +224,9 @@ internal static class StoryPlayer
 		var classes = animation.AnimatedClasses();
 		for (var k = 0; k < steps.Count; k++)
 		{
-			var still = $"{p}-still{k}";
 			var from = $"{p}-from{k}";
 			var hold = $"{p}-hold{k}";
 			var at = steps[k].Start.TotalMilliseconds;
-			Rule(sb, $".{p}:has(#{still}:checked) :is({all})", "animation: none");
-			var end = Math.Max(0, steps[k].End.TotalMilliseconds - 40);
-			foreach (var (cls, declarations) in animation.StylesAt(end))
-				Rule(sb, $".{p}:has(#{still}:checked) svg .{cls}", declarations);
-			foreach (var track in tracks)
-				Rule(sb, $".{p}:has(#{still}:checked) .{track.Class}", track.At(end - clockStart));
 			foreach (var group in classes.GroupBy(c => c.Starts))
 				Rule(
 					sb,
@@ -254,8 +248,6 @@ internal static class StoryPlayer
 		};
 		for (var k = 0; k < steps.Count; k++)
 		{
-			var still = $"{p}-still{k}";
-			buttons.Add((still, $"{p}-from{k}", "▶", "Play from this step"));
 			buttons.Add(($"{p}-from{k}", $"{p}-hold{k}", "❚❚", "Pause"));
 			buttons.Add(($"{p}-hold{k}", $"{p}-from{k}", "▶", "Play"));
 		}
@@ -264,13 +256,13 @@ internal static class StoryPlayer
 		foreach (var target in buttons.Select(b => b.Target).Distinct())
 			Rule(sb, $".{p}:has(#{target}:focus-visible) label[for=\"{target}\"]", "outline: 2px solid var(--accent); outline-offset: 2px");
 		for (var k = 0; k < steps.Count; k++)
-			Rule(sb, $".{p}:has(#{p}-still{k}:focus-visible) label[for=\"{p}-still{k}\"]", "outline: 2px solid var(--accent); outline-offset: 2px");
+			Rule(sb, $".{p}:has(#{p}-from{k}:focus-visible) label[for=\"{p}-from{k}\"]", "outline: 2px solid var(--accent); outline-offset: 2px");
 		_ = sb.Append("</style>\n");
 
-		// one radio group: play first and checked, the stills in order so arrow keys walk the steps
+		// one radio group: play first and checked, then playing from each step in order, so arrow keys walk the steps
 		var radios = new List<string> { $"{p}-play", $"{p}-pause" };
-		radios.AddRange(Enumerable.Range(0, steps.Count).Select(k => $"{p}-still{k}"));
-		radios.AddRange(Enumerable.Range(0, steps.Count).SelectMany(k => new[] { $"{p}-from{k}", $"{p}-hold{k}" }));
+		radios.AddRange(Enumerable.Range(0, steps.Count).Select(k => $"{p}-from{k}"));
+		radios.AddRange(Enumerable.Range(0, steps.Count).Select(k => $"{p}-hold{k}"));
 		foreach (var id in radios)
 			_ = sb
 				.Append("<input type=\"radio\" name=\"")
@@ -332,8 +324,9 @@ internal static class StoryPlayer
 		_ = sb
 			.Append("<div class=\"")
 			.Append(p)
-			.Append("-win\" style=\"height: ")
-			.Append(Px(window + 6))
+			.Append(slide is null ? "-win" : "-win slides")
+			.Append("\" style=\"height: ")
+			.Append(Px(window))
 			.Append("\"><div class=\"")
 			.Append(p)
 			.Append("-list")
@@ -356,9 +349,9 @@ internal static class StoryPlayer
 					.Append(onBranch ? " branch" : "")
 					.Append("\" for=\"")
 					.Append(p)
-					.Append("-still")
+					.Append("-from")
 					.Append(index)
-					.Append("\" title=\"Show step ")
+					.Append("\" title=\"Play from step ")
 					.Append(index + 1)
 					.Append("\">");
 				_ = sb.Append("<span class=\"").Append(p).Append("-dot\">");
@@ -421,36 +414,41 @@ internal static class StoryPlayer
 		_ = sb.Append("</div></div>\n</nav>\n</div>\n");
 	}
 
-	/// <summary>The unit's layout and paint, every colour from the diagram's tokens.</summary>
+	/// <summary>
+	/// The unit's layout and paint, every colour from the diagram's tokens. One spacing scale (4, 8, 12, 24) and one row
+	/// rhythm (32px). The figure's column is the diagram's own width, so the caption and its line share the diagram's
+	/// edges. The contents keep three columns: the trunk (x 14), the branch (x 44, the ending icons' centre) and the text
+	/// (x 60, step captions and ending names alike); a branch's steps indent their text by the same 30px.
+	/// </summary>
 	private static void Layout(StringBuilder sb, string p, double width)
 	{
 		Rule(sb, $".{p}", "position: relative");
 		Rule(sb, $".{p} > input", "position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none");
 		Rule(sb, $".{p}-fig", "margin: 0; min-width: 0");
-		Rule(sb, $".{p}-stage svg", $"display: block; width: 100%; max-width: {Px(width)}; height: auto; margin: 0 auto");
-		Rule(sb, $".{p}-cap", "display: flex; align-items: center; gap: 9px; margin-top: 6px; flex-wrap: wrap");
+		Rule(sb, $".{p}-stage svg", "display: block; width: 100%; height: auto");
+		Rule(sb, $".{p}-cap", "display: flex; align-items: center; gap: 8px; margin-top: 12px; flex-wrap: wrap");
 		Rule(sb, $".{p}-lines", "display: grid; flex: 1 1 auto; min-width: 0");
-		Rule(sb, $".{p}-line", "grid-area: 1 / 1; display: flex; align-items: center; gap: 9px; font-size: 15px; font-weight: 650; line-height: 21px");
+		Rule(sb, $".{p}-line", "grid-area: 1 / 1; display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 650; line-height: 20px");
 		Rule(
 			sb,
 			$".{p}-n",
-			"background: var(--_text); color: var(--bg); font-size: 11.5px; font-weight: 700; border-radius: 10.5px; padding: 0 8px; line-height: 19px; flex: none"
+			"background: var(--_text); color: var(--bg); font-size: 11.5px; font-weight: 700; border-radius: 10px; padding: 0 8px; line-height: 20px; flex: none"
 		);
 		Rule(
 			sb,
 			$".{p}-chip",
 			"font-size: 12px; font-weight: 600; color: color-mix(in srgb, var(--r) 78%, var(--fg)); background: color-mix(in srgb, var(--r) 12%, var(--bg)); " +
-				"border: 1px solid color-mix(in srgb, var(--r) 40%, var(--bg)); border-radius: 999px; padding: 1px 9px; line-height: 18px"
+				"border: 1px solid color-mix(in srgb, var(--r) 40%, var(--bg)); border-radius: 10px; padding: 0 8px; line-height: 18px"
 		);
-		Rule(sb, $".{p}-prog", "flex: 1 0 100%; height: 2px; background: var(--_line-soft); margin-top: 3px");
+		Rule(sb, $".{p}-prog", "flex: 1 0 100%; height: 2px; background: var(--_line-soft); margin-top: 4px");
 		Rule(sb, $".{p}-prog i", "display: block; height: 2px; background: var(--accent); transform-origin: 0 0");
-		Rule(sb, $".{p}-map", "font-size: 12.5px; margin-top: 14px");
-		Rule(sb, $".{p}-ctl", "display: flex; align-items: center; gap: 10px; margin-bottom: 8px");
+		Rule(sb, $".{p}-map", "font-size: 12.5px; margin-top: 24px");
+		Rule(sb, $".{p}-ctl", "display: flex; align-items: center; gap: 8px; height: 28px; margin-bottom: 12px");
 		Rule(
 			sb,
 			$".{p}-ctl .b",
-			"display: none; width: 26px; height: 26px; align-items: center; justify-content: center; border: 1.25px solid var(--_line-soft); " +
-				"border-radius: 50%; font-size: 10px; color: var(--_text-sec); cursor: pointer; flex: none"
+			"display: none; width: 28px; height: 28px; align-items: center; justify-content: center; border: 1.25px solid var(--_line-soft); " +
+				"border-radius: 50%; box-sizing: border-box; font-size: 10px; color: var(--_text-sec); cursor: pointer; flex: none"
 		);
 		Rule(
 			sb,
@@ -463,51 +461,59 @@ internal static class StoryPlayer
 		Rule(sb, $".{p}:has(#{p}-toc:checked) .{p}-more::after", "content: ' ▴'");
 		Rule(
 			sb,
-			$".{p}-win",
-			"overflow: hidden; -webkit-mask-image: linear-gradient(transparent, #000 14px, #000 calc(100% - 14px), transparent); " +
-				"mask-image: linear-gradient(transparent, #000 14px, #000 calc(100% - 14px), transparent); padding-top: 3px; box-sizing: border-box"
+			// the edges fade only where the list slides: a list that fits shows every row whole
+			$".{p}-win.slides",
+			"-webkit-mask-image: linear-gradient(transparent, #000 12px, #000 calc(100% - 12px), transparent); " +
+				"mask-image: linear-gradient(transparent, #000 12px, #000 calc(100% - 12px), transparent)"
 		);
-		Rule(sb, $".{p}-row, .{p}-ending", "display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--_text-sec)");
+		// a flex column, so the endings' margins never collapse into each other and every row keeps the rhythm
+		Rule(sb, $".{p}-list", "display: flex; flex-direction: column");
+		Rule(sb, $".{p}-win", "overflow: hidden");
+		Rule(sb, $".{p}-row, .{p}-ending", "display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--_text-sec); box-sizing: border-box");
 		Rule(sb, $".{p}-row", $"height: {Px(RowHeight)}");
 		Rule(sb, $".{p}-row.branch", "padding-left: 30px");
 		Rule(sb, $".{p}-dot", $"position: relative; width: 28px; height: {Px(RowHeight)}; flex: none");
+		var middle = RowHeight / 2;
 		Rule(
 			sb,
 			$".{p}-dot .d",
-			"position: absolute; left: 10px; top: 10px; width: 8px; height: 8px; border-radius: 50%; box-sizing: border-box; background: var(--bg); border: 1.5px solid var(--_line)"
+			$"position: absolute; left: 10px; top: {Px(middle - 4)}; width: 8px; height: 8px; border-radius: 50%; box-sizing: border-box; background: var(--bg); border: 1.5px solid var(--_line)"
 		);
 		Rule(sb, $".{p}-dot .d.lit", "background: var(--accent); border-color: var(--accent)");
-		Rule(sb, $".{p}-dot .t", $"position: absolute; left: 13.25px; top: 14px; width: 1.5px; height: {Px(RowHeight)}; background: var(--_line)");
+		Rule(sb, $".{p}-dot .t", $"position: absolute; left: 13.25px; top: {Px(middle)}; width: 1.5px; height: {Px(RowHeight)}; background: var(--_line)");
 		Rule(sb, $".{p}-dot .t.lit", "left: 12.75px; width: 2.5px; background: var(--accent)");
 		Rule(
 			sb,
 			$".{p}-dot .ring",
-			"position: absolute; left: 5px; top: 5px; width: 18px; height: 18px; border-radius: 50%; box-sizing: border-box; " +
+			$"position: absolute; left: 5px; top: {Px(middle - 9)}; width: 18px; height: 18px; border-radius: 50%; box-sizing: border-box; " +
 				"border: 2.25px solid var(--accent); background: color-mix(in srgb, var(--accent) 14%, transparent); box-shadow: inset 0 0 0 3px var(--bg)"
 		);
 		Rule(sb, $".{p}-i", "width: 16px; flex: none; text-align: right; color: var(--_text-muted); font-variant-numeric: tabular-nums");
 		Rule(sb, $".{p}-c", "white-space: nowrap; overflow: hidden; text-overflow: ellipsis");
+		// an ending: a 28px box in its 32px row; border 1.5 + padding 6 puts its icon's centre on the branch (x 44) and,
+		// with a 9px gap, its name on the text column (x 60)
 		Rule(
 			sb,
 			$".{p}-ending",
-			$"position: relative; height: 28px; margin: 4px 0 4px 30px; padding: 0 8px; border-radius: 8px; box-sizing: border-box; " +
-				"background: color-mix(in srgb, var(--r) 9%, var(--bg)); border: 1.25px solid color-mix(in srgb, var(--r) 40%, var(--bg))"
+			$"position: relative; height: 28px; margin: {Px((EndingHeight - 28) / 2)} 0 {Px((EndingHeight - 28) / 2)} 30px; padding: 0 8px 0 6px; gap: 9px; border-radius: 8px; " +
+				"background: color-mix(in srgb, var(--r) 9%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--r) 40%, var(--bg))"
 		);
 		Rule(
 			sb,
 			$".{p}-ending.open",
-			"background: color-mix(in srgb, var(--r) 16%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--r) 70%, var(--bg)); color: var(--_text); font-weight: 650"
+			"background: color-mix(in srgb, var(--r) 16%, var(--bg)); border-color: color-mix(in srgb, var(--r) 70%, var(--bg)); color: var(--_text); font-weight: 650"
 		);
-		// the branch to an ending leaves the trunk with the diagram's rounded corner
+		// the branch to an ending leaves the trunk (x 14) with the diagram's rounded corner and meets the box's edge
 		Rule(
 			sb,
 			$".{p}-ending .fork",
-			"position: absolute; left: -17.75px; bottom: calc(50% - 0.75px); width: 17px; box-sizing: border-box; border: solid var(--_line); border-width: 0 0 1.5px 1.5px; border-bottom-left-radius: 8px"
+			"position: absolute; left: -18.25px; bottom: calc(50% - 0.75px); width: 16.75px; box-sizing: border-box; border: solid var(--_line); " +
+				"border-width: 0 0 1.5px 1.5px; border-bottom-left-radius: 8px"
 		);
 		Rule(
 			sb,
 			$".{p}-ending .fork.lit",
-			"z-index: 1; left: -18.25px; bottom: calc(50% - 1.25px); border-color: var(--accent); border-width: 0 0 2.5px 2.5px"
+			"z-index: 1; left: -18.75px; bottom: calc(50% - 1.25px); width: 17.25px; border-color: var(--accent); border-width: 0 0 2.5px 2.5px"
 		);
 		Rule(sb, $".{p}-ending svg", "flex: none");
 		Rule(sb, $".{p}-name", "flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis");
@@ -516,11 +522,13 @@ internal static class StoryPlayer
 			$".{p}-count",
 			"font-size: 10.5px; font-weight: 600; color: var(--_text-sec); background: var(--_key-badge); border-radius: 8px; padding: 0 8px; line-height: 16px"
 		);
-		// wide: the contents beside the figure; narrow: folded into one line under it
+		// wide: the contents beside the figure, which takes the diagram's own width; narrow: folded under it
 		_ = sb
 			.Append("@container (min-width: 640px) { .")
 			.Append(p)
-			.Append(" { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 24px; align-items: start; } .")
+			.Append(" { display: grid; grid-template-columns: minmax(0, ")
+			.Append(Px(width))
+			.Append(") 260px; justify-content: center; gap: 24px; align-items: start; } .")
 			.Append(p)
 			.Append("-map { margin-top: 0; } }\n");
 		_ = sb

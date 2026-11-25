@@ -160,7 +160,7 @@ type:
   with endings forks there, each ending a box in its role's colours; the chosen one opens on its own branch, and
   choosing another plays it. Past nine steps the list is a window that follows the playback, so a long story takes no
   more room;
-- clicking a step shows its last frame; from there, play continues from that step. Pause and play head the list.
+- clicking a step jumps there and plays on; pause holds the frame. Pause and play head the list.
 
 The controls are radio buttons wired with `:has()`, so they work with the keyboard and screen readers. Below 640px the
 contents fold into one line under the caption, which opens them. Everything beside the figure animates on the story's
