@@ -1,0 +1,18 @@
+flowchart LR
+  %% becomes: the monolith splits into services, and the database is shared no more
+  web[Web] --> app[Monolith]
+  app --> db[(Database)]
+
+animate
+  step "One app does everything"
+    tour web -> app -> db "GET /orders"
+  step "Orders and billing become services of their own"
+    becomes app -> gw, orders, billing
+      flowchart LR
+        web[Web] --> gw[Gateway]
+        gw --> orders[Orders]
+        gw --> billing[Billing]
+        orders --> db[(Orders DB)]
+        billing --> bdb[(Billing DB)]
+  step "A request now goes through the gateway"
+    tour web -> gw -> orders -> db "GET /orders"

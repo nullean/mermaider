@@ -150,6 +150,18 @@ internal sealed record FailStatement(IReadOnlyList<TargetRef> Targets, string? R
 /// <summary>Failed nodes come back: their mark, badge, cuts and cascade clear, and they pulse.</summary>
 internal sealed record RecoverStatement(IReadOnlyList<TargetRef> Targets, int Line) : Statement(Line);
 
+/// <summary>
+/// The diagram moves into its next version, written under the statement: what both share moves to its new place, what
+/// left fades, what arrived comes in. <paramref name="FirstLine"/> is the source line of the diagram's first line. A
+/// split (<c>becomes app -> orders, billing</c>) brings the new nodes out of the old one; a merge
+/// (<c>becomes api1, api2 -> api</c>) takes the old nodes into the new one.
+/// </summary>
+internal sealed record BecomesStatement(string Source, int FirstLine, int Line) : Statement(Line)
+{
+	public IReadOnlyList<TargetRef> From { get; init; } = [];
+	public IReadOnlyList<TargetRef> Into { get; init; } = [];
+}
+
 /// <summary>A failure spreads from its cause along the edges, each node failing as it arrives.</summary>
 internal sealed record CascadeStatement(IReadOnlyList<string> Path, string? Reason, int Line) : Statement(Line);
 

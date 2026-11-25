@@ -83,7 +83,8 @@ public static class MermaidAnimator
 				motion == MotionPreset.None ? PlaybackMode.Once : mode,
 				RoleColors.From(options?.Render),
 				diagnostics,
-				drawCaptions
+				drawCaptions,
+				next => MermaidRenderer.RenderSvg(next, options?.Render)
 			);
 			var timeline = compiler.Compile();
 			return new AnimatedDiagram(

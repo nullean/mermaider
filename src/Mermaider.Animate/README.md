@@ -90,6 +90,7 @@ by number: `#3` is the third message of a sequence diagram, and the third task, 
 | `cut a -> b` · `restore a -> b` | a link breaks and comes back |
 | `fail a[, b] ["reason"]` | nodes fail: marked with a cross, the reason as a badge, and what leads into them cut (where the flow starts, what leaves them). After `hang a`, it is a timeout |
 | `cascade db -> api -> lb ["reason"]` | a failure spreads from its cause: the cause fails, then a line in the failure colour runs each edge in turn (along the arrow or against it), and each node fails as it arrives. The reason goes on the cause |
+| `becomes [a -> b, c \| a, b -> c]` + an indented diagram | the diagram moves into its next version; see [Becomes](#becomes) |
 | `recover a[, b]` | failed nodes come back: their mark, badge, cuts and any cascade along their edges clear, and they pulse |
 | `send [token] a -> b[, c] ["label"] [as role] [becomes "label"] [slow\|fast] [lost\|stall] [each]` | a token travels the edge and lights it for the rest of the step; against an edge's direction it travels as a reply |
 | `stream a -> b [trickle\|steady\|busy] [always]` | a continuous flow for the step, or for the whole score with `always` |
@@ -160,6 +161,36 @@ without moving. Use one or two: when everything is emphasised, nothing is.
 On a chart, let the data choose: `highlight biggest` singles out the largest slice, bar, tile, radar curve, packet field,
 venn overlap or the quadrant's top-right point, and `highlight lowest` the smallest slice or bar, or a journey's
 lowest-scored task. A pie slice pulls out of the pie and breathes; a venn overlap lights the region its sets share.
+
+## Becomes
+
+A diagram that changes shape, such as a monolith splitting into services or a migration, moves into its next version
+with `becomes`, followed by that version indented under it, in the diagram's own language:
+
+```
+animate
+  step "Orders and billing become services of their own"
+    becomes app -> gw, orders, billing
+      flowchart LR
+        web[Web] --> gw[Gateway]
+        gw --> orders[Orders]
+        gw --> billing[Billing]
+  step "A request now goes through the gateway"
+    tour web -> gw -> orders "GET /orders"
+```
+
+Each version is laid out on its own, as it would be without the animation, and the picture is sized to hold both. The
+morph runs in four beats:
+
+1. Whatever the next version does not have leaves, along with every edge (edges are routed anew).
+2. A node with the same id in both versions moves to its new place.
+3. The versions swap where the shared nodes stand, so a label or a shape that changed crossfades.
+4. What is new arrives: nodes fade in, then the edges draw.
+
+Name a split (`becomes app -> gw, orders, billing`) and the new nodes come out of the old one; name a merge
+(`becomes api1, api2 -> api`) and the old ones move into the new one. From then on the score names the next version's
+nodes. A version is the same diagram type. Under reduced motion the versions swap as a cut. A `highlight` holds for the
+whole animation, so it does not combine with `becomes`.
 
 ## Endings
 

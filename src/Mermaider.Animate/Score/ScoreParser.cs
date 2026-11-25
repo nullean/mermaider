@@ -101,6 +101,55 @@ internal static class ScoreParser
 				continue;
 
 			var indent = IndentOf(raw);
+
+			// becomes: the lines indented under it are the next version of the diagram, in the diagram's own language
+			if (trimmed == "becomes" || trimmed.StartsWith("becomes ", StringComparison.Ordinal))
+			{
+				// becomes [A -> B, C | A, B -> C]: a split or a merge, named so the morph can show it
+				IReadOnlyList<TargetRef> from = [], into = [];
+				if (trimmed != "becomes")
+				{
+					var reader = new Reader(Tokenize(raw, lineNo, diagnostics), lineNo, diagnostics);
+					_ = reader.Next();
+					from = ReadNames(reader);
+					if (!reader.Accept("->"))
+						_ = reader.Fail("becomes names a split or a merge: becomes app -> orders, billing, or becomes api1, api2 -> api.");
+					else
+						into = ReadNames(reader);
+					reader.ExpectEnd();
+					if (from.Count > 1 && into.Count > 1)
+						diagnostics.Add(new(lineNo, "becomes names one node splitting into several, or several merging into one, not both."));
+				}
+				var body = new List<string>();
+				var first = i + 2;
+				while (i + 1 < lines.Length && (lines[i + 1].Trim().Length == 0 || IndentOf(lines[i + 1]) > indent))
+					body.Add(lines[++i]);
+				while (body.Count > 0 && body[^1].Trim().Length == 0)
+					body.RemoveAt(body.Count - 1);
+				var leading = body.TakeWhile(l => l.Trim().Length == 0).Count();
+				first += leading;
+				body = [.. body.Skip(leading)];
+				if (body.Count == 0)
+				{
+					diagnostics.Add(new(lineNo, "becomes needs the next version of the diagram, indented under it."));
+					continue;
+				}
+				var margin = body.Where(l => l.Trim().Length > 0).Min(IndentOf);
+				var becomes = new BecomesStatement(
+					string.Join("\n", body.Select(l => l.Trim().Length == 0 ? "" : l[Math.Min(margin, l.Length - l.TrimStart().Length)..])),
+					first,
+					lineNo
+				)
+				{ From = from, Into = into, };
+				if (stepStatements is not null && indent <= stepIndent)
+					CloseStep();
+				if (stepStatements is not null)
+					stepStatements.Add(becomes);
+				else
+					steps.Add(new ScoreStep(null, [becomes], lineNo));
+				continue;
+			}
+
 			var words = Tokenize(raw, lineNo, diagnostics);
 			if (words.Count == 0)
 				continue;
@@ -180,6 +229,26 @@ internal static class ScoreParser
 		if (scenarios.Count == 1)
 			diagnostics.Add(new(scenarios[0].Line, "A score with one scenario tells one story: give it a second scenario, or write its steps without one."));
 		return new ScoreDocument(mode, motion, shared, tokens, start + 1) { Scenarios = scenarios, Contents = contents, Highlights = highlights };
+	}
+
+	/// <summary>Node names separated by commas, by id or by label in quotes; stops at '->' or the end.</summary>
+	private static List<TargetRef> ReadNames(Reader reader)
+	{
+		var names = new List<TargetRef>();
+		do
+		{
+			if (reader.Peek(0) is { Quoted: true })
+				names.Add(new TargetRef(reader.Quoted()!, IsGroup: false, reader.Line) { ByLabel = true });
+			else if (reader.Id() is { } id)
+				names.Add(new TargetRef(id, IsGroup: false, reader.Line));
+			else
+			{
+				_ = reader.Fail("Expected a node name.");
+				break;
+			}
+		}
+		while (reader.Accept(","));
+		return names;
 	}
 
 	private static int IndentOf(string line)
