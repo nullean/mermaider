@@ -134,7 +134,7 @@ public sealed class AnimatedDiagram
 
 	public PlaybackMode Mode { get; }
 
-	/// <summary>One full cycle, including the rest and the fade between loops.</summary>
+	/// <summary>One full cycle, including the rest and the settle between loops.</summary>
 	public TimeSpan Duration { get; }
 
 	/// <summary>

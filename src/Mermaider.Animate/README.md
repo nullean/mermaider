@@ -94,9 +94,13 @@ and what the diagram does have.
 
 | Mode | Behaviour |
 |---|---|
-| `loop` (default) | plays, rests, fades out and plays again |
+| `loop` (default) | plays, holds the last frame for a rest, then settles back to how the story began and plays again; nothing fades out. Leading `build` steps without a caption are the intro: they play once, and only the story after them repeats |
 | `once` | plays to the end and holds the last frame |
 | `scrub` | progress follows the diagram scrolling through the viewport (`animation-timeline: view()`); browsers without scroll-driven animations play it once, and an `<img>` shows the static diagram |
+
+In `loop` and `once` mode the animation waits until the diagram is on screen (30% of it in view), in browsers that support `timeline-trigger`; it shows its first frame until then. Elsewhere it starts when the page loads. A view timeline measures against the nearest scrolling ancestor, so a wrapper with `overflow: auto` (or `scroll`) makes the diagram count as always on screen. A wrapper that clips (`overflow: clip`) is not a scroll container and keeps the trigger working.
+
+When a story begins, the subject of its first statement pulses once (unless the step opens with `pulse` or `focus`), so the eye knows where to look. The score never asks for this; every animation opens the same way.
 
 Under `prefers-reduced-motion: reduce`, tokens, streams, pulses and rises stop; captions, marks, focus and lines
 still change, as cuts at the moment they would start.
