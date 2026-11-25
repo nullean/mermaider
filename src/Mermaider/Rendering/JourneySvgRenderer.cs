@@ -166,7 +166,14 @@ internal static class JourneySvgRenderer
 			var family = SectionFamily(ds, p.Section);
 			_ = sb.Append("\n<g class=\"node journey-task\" data-label=\"");
 			MultilineUtils.AppendEscapedAttr(sb, p.Task.Name.AsSpan());
-			_ = sb.Append("\" data-score=\"").Append(Score(p.Task).ToString(CultureInfo.InvariantCulture)).Append("\">\n  ");
+			_ = sb
+				.Append("\" data-score=\"")
+				.Append(Score(p.Task).ToString(CultureInfo.InvariantCulture))
+				.Append("\" data-index=\"")
+				.Append((i + 1).ToString(CultureInfo.InvariantCulture))
+				.Append("\" data-section=\"")
+				.Append(p.Section.ToString(CultureInfo.InvariantCulture))
+				.Append("\">\n  ");
 			ds.AppendBox(sb, p.X, taskY, taskW, taskH, family);
 			_ = sb.Append("\n  ");
 			ds.AppendText(sb, string.Join('\n', lines[i]), p.X + (taskW / 2), taskY + (taskH / 2), TypeRole.Label);

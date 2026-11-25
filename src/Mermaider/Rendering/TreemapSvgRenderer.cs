@@ -88,7 +88,11 @@ internal static class TreemapSvgRenderer
 		return sb;
 	}
 
-	private sealed record RenderState(DesignSystem Ds, double Total, double VMax, TreemapNode? Hottest, ResourceLimits Limits);
+	private sealed record RenderState(DesignSystem Ds, double Total, double VMax, TreemapNode? Hottest, ResourceLimits Limits)
+	{
+		/// <summary>The last index handed out: sections and tiles are numbered in drawing order (DESIGN.md §10).</summary>
+		public int Next { get; set; }
+	}
 
 	private readonly record struct Rect(double X, double Y, double W, double H);
 
@@ -109,27 +113,32 @@ internal static class TreemapSvgRenderer
 		}
 	}
 
-	private static void AppendNode(StringBuilder sb, RenderState state, TreemapNode node, Rect slot, ColorFamily family, int depth, double gap)
+	private static void AppendNode(StringBuilder sb, RenderState state, TreemapNode node, Rect slot, ColorFamily family, int depth, double gap, int parent = 0)
 	{
 		ResourceGuard.CheckRecursionDepth(depth, state.Limits);
 		var r = new Rect(slot.X + (gap / 2), slot.Y + (gap / 2), slot.W - gap, slot.H - gap);
 		if (r.W <= 1 || r.H <= 1)
 			return;
 
+		var index = ++state.Next;
 		if (node.Children.Count == 0)
 		{
-			AppendTile(sb, state, node, r, family);
+			AppendTile(sb, state, node, r, family, index, parent);
 			return;
 		}
 
-		AppendSection(sb, state, node, r, family, depth);
+		AppendSection(sb, state, node, r, family, depth, index, parent);
 	}
 
-	private static void AppendSection(StringBuilder sb, RenderState state, TreemapNode node, Rect r, ColorFamily family, int depth)
+	private static string Hooks(int index, int parent) =>
+		" data-index=\"" + index.ToString(CultureInfo.InvariantCulture) + "\"" +
+			(parent > 0 ? " data-parent=\"" + parent.ToString(CultureInfo.InvariantCulture) + "\"" : "");
+
+	private static void AppendSection(StringBuilder sb, RenderState state, TreemapNode node, Rect r, ColorFamily family, int depth, int index, int parent)
 	{
 		var ds = state.Ds;
 		var count = FormatValue(node.ComputedValue);
-		ds.AppendContainerBody(sb, r.X, r.Y, r.W, r.H, family, depth, "treemap-section", "data-label=\"" + Escape(node.Label) + "\"");
+		ds.AppendContainerBody(sb, r.X, r.Y, r.W, r.H, family, depth, "treemap-section", "data-label=\"" + Escape(node.Label) + "\"" + Hooks(index, parent));
 		ds.AppendContainerHeader(sb, r.X, r.Y, r.W, node.Label, family, count);
 
 		var inner = new Rect(
@@ -144,10 +153,10 @@ internal static class TreemapSvgRenderer
 		var children = node.Children.Where(c => c.ComputedValue > 0).ToList();
 		var rects = Squarify(children, inner.X, inner.Y, inner.W, inner.H);
 		for (var i = 0; i < children.Count; i++)
-			AppendNode(sb, state, children[i], rects[i], family, depth + 1, TileGap);
+			AppendNode(sb, state, children[i], rects[i], family, depth + 1, TileGap, index);
 	}
 
-	private static void AppendTile(StringBuilder sb, RenderState state, TreemapNode node, Rect r, ColorFamily family)
+	private static void AppendTile(StringBuilder sb, RenderState state, TreemapNode node, Rect r, ColorFamily family, int index, int parent)
 	{
 		var ds = state.Ds;
 		var value = node.ComputedValue;
@@ -162,7 +171,9 @@ internal static class TreemapSvgRenderer
 			.Append(Escape(node.Label))
 			.Append("\" data-value=\"")
 			.Append(FormatValue(value))
-			.Append("\">\n  <rect x=\"")
+			.Append('"')
+			.Append(Hooks(index, parent))
+			.Append(">\n  <rect x=\"")
 			.Append(r.X.SvgFormat())
 			.Append("\" y=\"")
 			.Append(r.Y.SvgFormat())

@@ -30,7 +30,7 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<path class="req-relation" data-type="satisfies" d="M130.3742,104 L130.3742,198" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-open)" />
+<path class="req-relation" data-type="satisfies" data-from="test_entity" data-to="test_req" d="M130.3742,104 L130.3742,198" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-open)" />
 <g class="req-node entity" data-id="test_req" data-kind="requirement">
   <rect x="24" y="198" width="212.7484" height="164" rx="8" ry="8" fill="var(--bg)" stroke="none" />
   <path d="M24,250 L24,206 Q24,198 32,198 L228.7484,198 Q236.7484,198 236.7484,206 L236.7484,250 Z" fill="url(#m1814eb8b-eb-p0)" />
