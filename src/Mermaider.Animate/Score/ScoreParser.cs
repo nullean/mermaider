@@ -200,12 +200,13 @@ internal static class ScoreParser
 			"build" => new BuildStatement(line),
 			"play" => ParsePlay(reader),
 			"fill" => ParseFill(reader),
+			"sweep" => ParseSweep(reader),
 			"badge" => ParseBadge(reader),
 			"hang" => new HangStatement(reader.Targets(), line),
 			"note" => ParseNote(reader),
 			_ =>
 				reader.Fail(
-					$"Unknown verb '{verb}'. The verbs are show, hide, focus, pulse, mark, badge, fill, hang, draw, erase, cut, restore, send, stream, tour, run, try, ping, play, note, caption and build."
+					$"Unknown verb '{verb}'. The verbs are show, hide, focus, pulse, mark, badge, fill, hang, draw, erase, cut, restore, send, stream, tour, run, try, ping, play, sweep, note, caption and build."
 				),
 		};
 		if (statement is null)
@@ -423,6 +424,17 @@ internal static class ScoreParser
 		if (capacity is { } c && count > c)
 			return reader.Fail($"{count} is more than the capacity of {c}.");
 		return new FillStatement(new TargetRef(id, IsGroup: false, reader.Line), count, capacity, reader.Line);
+	}
+
+	private static Statement? ParseSweep(Reader reader)
+	{
+		// sweep [to "date"]
+		if (!reader.Accept("to"))
+			return new SweepStatement(null, reader.Line);
+		var text = reader.Quoted();
+		if (text is null || !DateTime.TryParse(text, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out var date))
+			return reader.Fail("sweep to takes a quoted date: sweep to \"2024-03-01\".");
+		return new SweepStatement(date, reader.Line);
 	}
 
 	private static Statement? ParseBadge(Reader reader)
@@ -658,9 +670,10 @@ internal static class ScoreParser
 		public List<TargetRef> Targets()
 		{
 			var (targets, edges) = TargetsOrEdges();
-			if (edges.Count > 0)
+			if (edges.Any(e => !e.IsMessage))
 				_ = Fail("This verb takes nodes or groups, not edges.");
-			return targets;
+			// #n here names the n-th element: a gantt task, a commit, a timeline period
+			return [.. targets, .. edges.Where(e => e.IsMessage).Select(e => new TargetRef($"#{e.Index}", false, Line))];
 		}
 
 		public List<EdgeRef> Edges()
@@ -688,6 +701,12 @@ internal static class ScoreParser
 				}
 				if (Peek(0) is { } word && IsKeyword(word))
 					break;
+				if (Peek(0) is { Quoted: true } labelled)
+				{
+					_position++;
+					targets.Add(new TargetRef(labelled.Text, IsGroup: false, Line) { ByLabel = true });
+					continue;
+				}
 				if (Peek(0) is { Quoted: false } message && message.Text.StartsWith('#'))
 				{
 					_position++;

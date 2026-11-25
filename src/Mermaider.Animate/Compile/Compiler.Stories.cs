@@ -14,7 +14,8 @@ internal sealed partial class Compiler
 		var line = _score.Line;
 		Statement statement = _scene.Kind switch
 		{
-			SceneKind.Sequence => new PlayStatement(null, null, line),
+			SceneKind.Sequence or SceneKind.GitGraph => new PlayStatement(null, null, line),
+			SceneKind.Gantt => new SweepStatement(null, line),
 			SceneKind.State when CoverWalk() is { Count: >= 2 } walk => new RunStatement(walk, line),
 			_ => new BuildStatement(line),
 		};
@@ -29,8 +30,10 @@ internal sealed partial class Compiler
 	/// </summary>
 	private double Build(int line, double at)
 	{
-		if (_scene.Kind == SceneKind.Sequence)
+		if (_scene.Kind is SceneKind.Sequence or SceneKind.GitGraph)
 			return Play(new PlayStatement(null, null, line), at);
+		if (_scene.Kind == SceneKind.Gantt)
+			return Sweep(new SweepStatement(null, line), at);
 
 		var t = at;
 		var groups = _scene.Groups.OrderBy(Depth).ThenBy(g => g.Box.Y).ThenBy(g => g.Box.X).ToList();
@@ -333,9 +336,11 @@ internal sealed partial class Compiler
 	/// <summary>Plays messages in order: each draws from sender to receiver and a token makes the trip; notes appear in their place.</summary>
 	private double Play(PlayStatement play, double at)
 	{
+		if (_scene.Kind == SceneKind.GitGraph)
+			return PlayCommits(play, at);
 		if (_scene.Kind != SceneKind.Sequence)
 		{
-			_diagnostics.Add(new(play.Line, "play is for sequence diagrams. For other diagrams use build, send or tour."));
+			_diagnostics.Add(new(play.Line, "play is for sequence diagrams and git graphs. For other diagrams use build, send or tour."));
 			return at;
 		}
 		var messages = _scene.Edges;

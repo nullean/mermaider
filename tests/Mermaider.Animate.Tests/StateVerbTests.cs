@@ -84,7 +84,7 @@ public class StateVerbTests
 	public void Messages_are_checked_against_the_diagram()
 	{
 		Problems(Sequence + "\nanimate\n  mark #4 warn\n").Single().Message.Should().Be("The diagram has 3 messages, so there is no #4.");
-		Problems(Flow + "\nanimate\n  mark #1 warn\n").Single().Message.Should().Contain("not a sequence diagram");
+		Problems(Flow + "\nanimate\n  mark #1 warn\n").Single().Message.Should().Contain("names its elements by id");
 		Problems(Flow + "\nanimate\n  note #1 \"x\"\n").Single().Message.Should().Contain("use badge");
 		Problems(Sequence + "\nanimate\n  play\n  note #1..#3 \"total\"\n  mark #2 ok\n").Should().BeEmpty();
 	}

@@ -319,7 +319,40 @@ internal sealed partial class Compiler
 
 	// ---- statements -----------------------------------------------------------------------------------------------
 
-	private double CompileStatement(Statement statement, double at) => statement switch
+	private double CompileStatement(Statement statement, double at) => Dispatch(Numbered(statement), at);
+
+	/// <summary>Outside a sequence diagram, <c>#n</c> names the n-th element (a gantt task, a commit, a period), not a message.</summary>
+	private Statement Numbered(Statement statement)
+	{
+		if (_scene.Kind == SceneKind.Sequence)
+			return statement;
+
+		static (List<TargetRef>, List<EdgeRef>) Split(IReadOnlyList<TargetRef> targets, IReadOnlyList<EdgeRef> edges) =>
+			([.. targets, .. edges.Where(e => e.IsMessage).Select(e => new TargetRef($"#{e.Index}", false, e.Line))], [.. edges.Where(e => !e.IsMessage)]);
+
+		switch (statement)
+		{
+			case ShowStatement s when s.Edges.Any(e => e.IsMessage):
+				{
+					var (t, e) = Split(s.Targets, s.Edges);
+					return s with { Targets = t, Edges = e };
+				}
+			case HideStatement s when s.Edges.Any(e => e.IsMessage):
+				{
+					var (t, e) = Split(s.Targets, s.Edges);
+					return s with { Targets = t, Edges = e };
+				}
+			case MarkStatement s when s.Edges.Any(e => e.IsMessage):
+				{
+					var (t, e) = Split(s.Targets, s.Edges);
+					return s with { Targets = t, Edges = e };
+				}
+			default:
+				return statement;
+		}
+	}
+
+	private double Dispatch(Statement statement, double at) => statement switch
 	{
 		ShowStatement s => ShowAll(s.Targets, s.Edges, s.Each, at),
 		HideStatement s => HideAll(s.Targets, s.Edges, s.Each, at),
@@ -338,6 +371,7 @@ internal sealed partial class Compiler
 		PingStatement s => Ping(s, at),
 		BuildStatement s => Build(s.Line, at),
 		PlayStatement s => Play(s, at),
+		SweepStatement s => Sweep(s, at),
 		FillStatement s => Fill(s, at),
 		BadgeStatement s => BadgeAll(s, at),
 		HangStatement s => Each(Resolve(s.Targets), false, at, (t, a) => Hang(t, a)),
@@ -379,6 +413,16 @@ internal sealed partial class Compiler
 	}
 
 	private double Show(SceneTarget target, double at)
+	{
+		var end = ShowSelf(target, at);
+		if (target.Drop is { } drop)
+			end = Math.Max(end, Draw(drop, at + (_spec.Enter * 0.3)));
+		for (var i = 0; i < target.Followers.Count; i++)
+			end = Math.Max(end, ShowSelf(target.Followers[i], at + (_spec.Enter * 0.6) + (i * _spec.Stagger)));
+		return end;
+	}
+
+	private double ShowSelf(SceneTarget target, double at)
 	{
 		// an element no statement has touched yet is visible only as a still; showing it means it appears here
 		if (HasVisibility(target) && IsVisible(target, at))
@@ -563,7 +607,7 @@ internal sealed partial class Compiler
 
 	// ---- edges ----------------------------------------------------------------------------------------------------
 
-	private EdgeVisual Drawable(SceneEdge edge)
+	private EdgeVisual Drawable(SceneEdge edge, double? maskWidth = null)
 	{
 		if (!_edgeVisuals.TryGetValue(edge, out var visual))
 		{
@@ -581,7 +625,7 @@ internal sealed partial class Compiler
 			new XAttribute("d", edge.Path.ToPathData()),
 			new XAttribute("fill", "none"),
 			new XAttribute("stroke", "#fff"),
-			new XAttribute("stroke-width", edge.Thick ? "18" : "14"),
+			new XAttribute("stroke-width", Num.F(maskWidth ?? (edge.Thick ? 18 : 14))),
 			new XAttribute("pathLength", "1"),
 			new XAttribute("stroke-dasharray", "1 1")
 		);
@@ -954,7 +998,15 @@ internal sealed partial class Compiler
 			return target;
 		if (groups && _scene.Group(mapped) is { } group)
 			return group;
-		_diagnostics.Add(new(line, $"There is no node '{id}' in the diagram.{Known(_scene.Targets.Select(t => t.Id).Where(t => !t.StartsWith('_')))}"));
+		if (_scene.TargetByLabel(id) is { } labelled)
+			return labelled;
+		if (id.StartsWith('#') && !_scene.Targets.Any(t => t.Index > 0))
+		{
+			_diagnostics.Add(new(line, $"{id} numbers sequence messages, gantt tasks, timeline periods and commits; this diagram names its elements by id."));
+			return null;
+		}
+		var known = _scene.Targets.Where(t => !t.Id.StartsWith('_')).Select(t => t.Id.StartsWith('#') ? $"\"{t.Label}\"" : t.Id);
+		_diagnostics.Add(new(line, $"There is no node '{id}' in the diagram.{Known(known)}"));
 		return null;
 	}
 

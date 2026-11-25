@@ -101,7 +101,12 @@ internal sealed partial class Compiler
 			}
 			if (badge.Text is null)
 				continue;
-			var element = Overlay.Badge(badge.Text, badge.Role is { } role ? _colors.For(role) : "var(--accent, #3b82f6)", target.Box);
+			var element = Overlay.Badge(
+				badge.Text,
+				badge.Role is { } role ? _colors.For(role) : "var(--accent, #3b82f6)",
+				target.Box,
+				beside: _scene.Kind == SceneKind.Gantt
+			);
 			_overlay.Add(element);
 			_badges[target.Id] = element;
 			var opacity = Opacity(element, ReducedMotion.Cut, 0);
