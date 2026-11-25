@@ -105,7 +105,7 @@ internal static class GitGraphSvgRenderer
 		}
 
 		for (var i = 0; i < simulation.Commits.Count; i++)
-			AppendCommit(sb, ds, simulation.Commits[i], geo, i == simulation.HeadIndex);
+			AppendCommit(sb, ds, simulation.Commits[i], i + 1, BranchOf(simulation, simulation.Commits[i].Lane), geo, i == simulation.HeadIndex);
 
 		ds.Close(sb);
 		return sb;
@@ -117,6 +117,8 @@ internal static class GitGraphSvgRenderer
 
 		internal double Y(int lane) => Top + (lane * LaneSpacing);
 	}
+
+	private static string? BranchOf(SimulationResult sim, int lane) => sim.Branches.FirstOrDefault(b => b.Lane == lane)?.Name;
 
 	private static void AppendLink(StringBuilder sb, DesignSystem ds, CommitLink link, SimulationResult sim, Geometry geo, double radius)
 	{
@@ -151,7 +153,11 @@ internal static class GitGraphSvgRenderer
 		}
 
 		_ = sb
-			.Append("\" class=\"gitgraph-link\" data-kind=\"")
+			.Append("\" class=\"gitgraph-link\" data-from=\"")
+			.Append((link.FromIndex + 1).ToString(CultureInfo.InvariantCulture))
+			.Append("\" data-to=\"")
+			.Append((link.ToIndex + 1).ToString(CultureInfo.InvariantCulture))
+			.Append("\" data-kind=\"")
 			.Append(link.Kind.ToString().ToLowerInvariant())
 			.Append("\" fill=\"none\" stroke=\"")
 			.Append(family.Stroke)
@@ -160,7 +166,7 @@ internal static class GitGraphSvgRenderer
 			.Append("\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />");
 	}
 
-	private static void AppendCommit(StringBuilder sb, DesignSystem ds, CommitInfo commit, Geometry geo, bool isHead)
+	private static void AppendCommit(StringBuilder sb, DesignSystem ds, CommitInfo commit, int index, string? branch, Geometry geo, bool isHead)
 	{
 		var cx = geo.X(commit.Position);
 		var cy = geo.Y(commit.Lane);
@@ -168,8 +174,22 @@ internal static class GitGraphSvgRenderer
 		var color = family.Stroke;
 		var square = ds.Spec.Terminal == TerminalKind.Square;
 
+		// addressing: commits by their order in the history (links point at it), their id and their branch
+		_ = sb.Append("\n<g class=\"commit\" data-index=\"").Append(index.ToString(CultureInfo.InvariantCulture)).Append('"');
+		if (commit.Label is { Length: > 0 })
+		{
+			_ = sb.Append(" data-id=\"");
+			Text.MultilineUtils.AppendEscapedAttr(sb, commit.Label.AsSpan());
+			_ = sb.Append('"');
+		}
+		if (branch is not null)
+		{
+			_ = sb.Append(" data-branch=\"");
+			Text.MultilineUtils.AppendEscapedAttr(sb, branch.AsSpan());
+			_ = sb.Append('"');
+		}
 		_ = sb
-			.Append("\n<g class=\"commit\" data-type=\"")
+			.Append(" data-type=\"")
 			.Append(commit.Type.ToString().ToLowerInvariant())
 			.Append(commit.IsMerge ? "\" data-merge=\"true" : "")
 			.Append(isHead ? "\" data-head=\"true" : "")

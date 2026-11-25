@@ -139,7 +139,7 @@ internal static class KanbanSvgRenderer
 		foreach (var task in column.Tasks)
 		{
 			var cardH = CardHeight(task, cardW);
-			AppendCard(sb, ds, task, x + ColumnPad, cardY, cardW, cardH, family);
+			AppendCard(sb, ds, task, column.Id, x + ColumnPad, cardY, cardW, cardH, family);
 			cardY += cardH + CardGap;
 		}
 	}
@@ -148,11 +148,24 @@ internal static class KanbanSvgRenderer
 	private static string CardStroke(DesignSystem ds) =>
 		ds.Spec.OutlineWidth <= 0 ? "none" : ds.Spec.Fill == FillKind.Knockout ? "var(--_line)" : "var(--_line-soft)";
 
-	private static void AppendCard(StringBuilder sb, DesignSystem ds, KanbanTask task, double x, double y, double width, double height, ColorFamily family)
+	private static void AppendCard(
+		StringBuilder sb,
+		DesignSystem ds,
+		KanbanTask task,
+		string columnId,
+		double x,
+		double y,
+		double width,
+		double height,
+		ColorFamily family
+	)
 	{
 		// .kanban-card keeps the node elevation rule
 		_ = sb.Append("\n<g class=\"kanban-card\" data-id=\"");
 		MultilineUtils.AppendEscapedAttr(sb, task.Id.AsSpan());
+		// addressing: the column a card sits in, so a card can be moved from it
+		_ = sb.Append("\" data-column=\"");
+		MultilineUtils.AppendEscapedAttr(sb, columnId.AsSpan());
 		_ = sb.Append('"');
 		if (Priority(task) is { } p)
 			_ = sb.Append(" data-priority=\"").Append(p.Word.ToLowerInvariant().Replace(' ', '-')).Append('"');

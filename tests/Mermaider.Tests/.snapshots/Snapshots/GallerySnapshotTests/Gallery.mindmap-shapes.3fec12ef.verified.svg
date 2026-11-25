@@ -30,67 +30,67 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<path class="mindmap-link" d="M634.97,59.1 L690.97,59.1" fill="none" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-<path class="mindmap-link" d="M476.39,173.62 L496.39,173.62 Q504.39,173.62 504.39,165.62 L504.39,67.1 Q504.39,59.1 512.39,59.1 L532.39,59.1" fill="none" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-<path class="mindmap-link" d="M624.89,147.3 L680.89,147.3" fill="none" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-<path class="mindmap-link" d="M476.39,173.62 L496.39,173.62 Q504.39,173.62 504.39,165.62 L504.39,155.3 Q504.39,147.3 512.39,147.3 L532.39,147.3" fill="none" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-<path class="mindmap-link" d="M623.23,235.5 L679.23,235.5" fill="none" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-<path class="mindmap-link" d="M476.39,173.62 L496.39,173.62 Q504.39,173.62 504.39,181.62 L504.39,227.5 Q504.39,235.5 512.39,235.5 L532.39,235.5" fill="none" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-<path class="mindmap-link" d="M208.02,65.37 L152.02,65.37" fill="none" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-<path class="mindmap-link" d="M366.6,173.62 L346.6,173.62 Q338.6,173.62 338.6,165.62 L338.6,73.37 Q338.6,65.37 330.6,65.37 L310.6,65.37" fill="none" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-<path class="mindmap-link" d="M206.14,153.57 L150.14,153.57" fill="none" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-<path class="mindmap-link" d="M366.6,173.62 L346.6,173.62 Q338.6,173.62 338.6,165.62 L338.6,161.57 Q338.6,153.57 330.6,153.57 L310.6,153.57" fill="none" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-<path class="mindmap-link" d="M213.72,264.69 L157.71,264.69" fill="none" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-<path class="mindmap-link" d="M366.6,173.62 L346.6,173.62 Q338.6,173.62 338.6,181.62 L338.6,256.69 Q338.6,264.69 330.6,264.69 L310.6,264.69" fill="none" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-<g class="node mindmap-node" data-depth="0" data-label="Shapes">
+<path class="mindmap-link" d="M634.97,59.1 L690.97,59.1" fill="none" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-from="3" data-to="2" />
+<path class="mindmap-link" d="M476.39,173.62 L496.39,173.62 Q504.39,173.62 504.39,165.62 L504.39,67.1 Q504.39,59.1 512.39,59.1 L532.39,59.1" fill="none" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-from="1" data-to="3" />
+<path class="mindmap-link" d="M624.89,147.3 L680.89,147.3" fill="none" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-from="5" data-to="4" />
+<path class="mindmap-link" d="M476.39,173.62 L496.39,173.62 Q504.39,173.62 504.39,165.62 L504.39,155.3 Q504.39,147.3 512.39,147.3 L532.39,147.3" fill="none" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-from="1" data-to="5" />
+<path class="mindmap-link" d="M623.23,235.5 L679.23,235.5" fill="none" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-from="7" data-to="6" />
+<path class="mindmap-link" d="M476.39,173.62 L496.39,173.62 Q504.39,173.62 504.39,181.62 L504.39,227.5 Q504.39,235.5 512.39,235.5 L532.39,235.5" fill="none" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-from="1" data-to="7" />
+<path class="mindmap-link" d="M208.02,65.37 L152.02,65.37" fill="none" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-from="9" data-to="8" />
+<path class="mindmap-link" d="M366.6,173.62 L346.6,173.62 Q338.6,173.62 338.6,165.62 L338.6,73.37 Q338.6,65.37 330.6,65.37 L310.6,65.37" fill="none" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-from="1" data-to="9" />
+<path class="mindmap-link" d="M206.14,153.57 L150.14,153.57" fill="none" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-from="11" data-to="10" />
+<path class="mindmap-link" d="M366.6,173.62 L346.6,173.62 Q338.6,173.62 338.6,165.62 L338.6,161.57 Q338.6,153.57 330.6,153.57 L310.6,153.57" fill="none" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-from="1" data-to="11" />
+<path class="mindmap-link" d="M213.72,264.69 L157.71,264.69" fill="none" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-from="13" data-to="12" />
+<path class="mindmap-link" d="M366.6,173.62 L346.6,173.62 Q338.6,173.62 338.6,181.62 L338.6,256.69 Q338.6,264.69 330.6,264.69 L310.6,264.69" fill="none" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-from="1" data-to="13" />
+<g class="node mindmap-node" data-index="1" data-depth="0" data-label="Shapes">
 <circle cx="421.49" cy="173.62" r="54.89" fill="url(#m1814eb8b-ng-a)" stroke="color-mix(in srgb, var(--accent, var(--fg)) 74%, var(--fg))" stroke-width="1.75" />
 <text x="421.49" y="173.62" text-anchor="middle" font-size="var(--fs-m)" font-weight="700" fill="var(--_text)" dy="5.6">Shapes</text>
 </g>
-<g class="node mindmap-node" data-depth="2" data-label="Plain child">
+<g class="node mindmap-node" data-index="2" data-parent="3" data-depth="2" data-label="Plain child">
 <rect x="690.9660879507403" y="40" width="110.14" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
 <text x="746.04" y="59.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Plain child</text>
 </g>
-<g class="node mindmap-node" data-depth="1" data-label="Rounded">
+<g class="node mindmap-node" data-index="3" data-parent="1" data-depth="1" data-label="Rounded">
 <rect x="532.3860879507404" y="40" width="102.58" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
 <text x="583.68" y="59.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Rounded</text>
 </g>
-<g class="node mindmap-node" data-depth="2" data-label="Plain child">
+<g class="node mindmap-node" data-index="4" data-parent="5" data-depth="2" data-label="Plain child">
 <rect x="680.8860879507404" y="128.2" width="110.14" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
 <text x="735.96" y="147.3" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Plain child</text>
 </g>
-<g class="node mindmap-node" data-depth="1" data-label="Square">
+<g class="node mindmap-node" data-index="5" data-parent="1" data-depth="1" data-label="Square">
 <rect x="532.3860879507404" y="128.2" width="92.5" height="38.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
 <text x="578.64" y="147.3" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Square</text>
 </g>
-<g class="node mindmap-node" data-depth="2" data-label="Plain child">
+<g class="node mindmap-node" data-index="6" data-parent="7" data-depth="2" data-label="Plain child">
 <rect x="679.2282389600598" y="216.4" width="110.14" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
 <text x="734.3" y="235.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Plain child</text>
 </g>
-<g class="node mindmap-node" data-depth="1" data-label="Circle">
+<g class="node mindmap-node" data-index="7" data-parent="1" data-depth="1" data-label="Circle">
 <circle cx="577.81" cy="235.5" r="45.42" fill="url(#m1814eb8b-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
 <text x="577.81" y="235.5" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Circle</text>
 </g>
-<g class="node mindmap-node" data-depth="2" data-label="Plain child">
+<g class="node mindmap-node" data-index="8" data-parent="9" data-depth="2" data-label="Plain child">
 <rect x="41.88299999999998" y="46.26607550465975" width="110.14" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
 <text x="96.95" y="65.37" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Plain child</text>
 </g>
-<g class="node mindmap-node" data-depth="1" data-label="Hexagon">
+<g class="node mindmap-node" data-index="9" data-parent="1" data-depth="1" data-label="Hexagon">
 <polygon points="219.48,46.27 299.14,46.27 310.6,65.37 299.14,84.47 219.48,84.47 208.02,65.37" fill="url(#m1814eb8b-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" stroke-linejoin="round" />
 <text x="259.31" y="65.37" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Hexagon</text>
 </g>
-<g class="node mindmap-node" data-depth="2" data-label="Plain child">
+<g class="node mindmap-node" data-index="10" data-parent="11" data-depth="2" data-label="Plain child">
 <rect x="40" y="134.46607550465976" width="110.14" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p5)" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" />
 <text x="95.07" y="153.57" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Plain child</text>
 </g>
-<g class="node mindmap-node" data-depth="1" data-label="Bang">
+<g class="node mindmap-node" data-index="11" data-parent="1" data-depth="1" data-label="Bang">
 <polygon points="310.6,153.57 298.09,158.87 305.43,166.83 290.22,168.43 290.94,177.46 276.05,175.04 269.99,183.36 258.37,177.4 246.75,183.36 240.69,175.04 225.81,177.46 226.52,168.43 211.31,166.83 218.65,158.87 206.14,153.57 218.65,148.26 211.31,140.31 226.52,138.7 225.81,129.67 240.69,132.09 246.75,123.77 258.37,129.73 269.99,123.77 276.05,132.09 290.94,129.67 290.22,138.7 305.43,140.31 298.09,148.26 " fill="url(#m1814eb8b-ng-p5)" stroke="color-mix(in srgb, #bab0ac 74%, var(--fg))" stroke-width="1.25" stroke-linejoin="round" />
 <text x="258.37" y="153.57" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Bang</text>
 </g>
-<g class="node mindmap-node" data-depth="2" data-label="Plain child">
+<g class="node mindmap-node" data-index="12" data-parent="13" data-depth="2" data-label="Plain child">
 <rect x="47.57499999999999" y="245.58607550465976" width="110.14" height="38.2" rx="14" ry="14" fill="url(#m1814eb8b-ng-p6)" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.25" />
 <text x="102.65" y="264.69" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Plain child</text>
 </g>
-<g class="node mindmap-node" data-depth="1" data-label="Cloud">
+<g class="node mindmap-node" data-index="13" data-parent="1" data-depth="1" data-label="Cloud">
 <path d="M305.76,264.69 Q321.13,275.64 297.43,279.34 Q298.61,293.37 275.63,288.39 Q262.16,300.14 248.69,288.39 Q225.71,293.37 226.89,279.34 Q203.19,275.64 218.56,264.69 Q203.19,253.73 226.89,250.04 Q225.71,236.01 248.69,240.98 Q262.16,229.24 275.63,240.98 Q298.61,236.01 297.43,250.04 Q321.13,253.73 305.76,264.69 Z" fill="url(#m1814eb8b-ng-p6)" stroke="color-mix(in srgb, #86bcb6 74%, var(--fg))" stroke-width="1.25" />
 <text x="262.16" y="264.69" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">Cloud</text>
 </g>
