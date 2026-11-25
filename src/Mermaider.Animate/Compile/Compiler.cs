@@ -108,6 +108,10 @@ internal sealed partial class Compiler
 		{
 			ExtendStage(46);
 			_captionBand = 46;
+			var widest = source.SelectMany(s => s.Statements.OfType<CaptionStatement>().Select(c => c.Text).Prepend(s.Caption ?? "")).Max(c => c.Length);
+			var needed = 14 + 50 + (widest * 8.4) + 14;
+			if (needed > _scene.ViewBox.Width)
+				WidenStage(needed - _scene.ViewBox.Width);
 		}
 		_captionTotal = source.Count(s => s.Caption is not null || s.Statements.OfType<CaptionStatement>().Any());
 
@@ -202,9 +206,9 @@ internal sealed partial class Compiler
 	{
 		if (previous is not null)
 			Opacity(previous, ReducedMotion.Cut).Animate(at, _spec.Exit, Channel.Value(0), Easing.Exit);
-		var caption = Overlay.Caption(text, _captionNumber, _captionTotal, _stage.X + 14, y);
+		var caption = Overlay.Caption(text, _captionNumber, _captionTotal, _scene.ViewBox.X + 14, y);
 		// a thin line under the caption fills as the step plays: something is happening, and this is how long it lasts
-		_progress = Overlay.Progress(_stage.X + 14, _stage.Right - 14, y + 11);
+		_progress = Overlay.Progress(_scene.ViewBox.X + 14, _scene.ViewBox.Right - 14, y + 11);
 		caption.Add(_progress);
 		_sceneRoot.Add(caption);
 		var enter = at + (previous is null ? 0 : _spec.Exit * 0.6);
@@ -244,6 +248,18 @@ internal sealed partial class Compiler
 		PlayStatement s when _scene.Edges.Count > 0 => _scene.Edges[(s.First ?? 1) - 1].From,
 		_ => null,
 	};
+
+	/// <summary>Widens the view box on both sides, so a caption wider than a narrow diagram is not cut off.</summary>
+	private void WidenStage(double by)
+	{
+		var vb = _scene.ViewBox;
+		_scene.ViewBox = vb with { X = vb.X - (by / 2), Width = vb.Width + by };
+		var root = _scene.Root;
+		root.SetAttributeValue("viewBox", $"{Num.F(vb.X - (by / 2))} {Num.F(vb.Y)} {Num.F(vb.Width + by)} {Num.F(vb.Height)}");
+		var width = Num.Parse((string?)root.Attribute("width"));
+		if (!double.IsNaN(width))
+			root.SetAttributeValue("width", Num.F(width + by));
+	}
 
 	private void ExtendStage(double by)
 	{
@@ -372,6 +388,8 @@ internal sealed partial class Compiler
 		BuildStatement s => Build(s.Line, at),
 		PlayStatement s => Play(s, at),
 		SweepStatement s => Sweep(s, at),
+		MoveStatement s => Move(s, at),
+		ExpandStatement s => Expand(s, at),
 		FillStatement s => Fill(s, at),
 		BadgeStatement s => BadgeAll(s, at),
 		HangStatement s => Each(Resolve(s.Targets), false, at, (t, a) => Hang(t, a)),
@@ -488,6 +506,21 @@ internal sealed partial class Compiler
 						_ = keep.Add(element);
 				}
 		}
+		if (_scene.Tree)
+		{
+			var added = true;
+			while (added)
+			{
+				added = false;
+				foreach (var node in _scene.Targets.Where(n => n.Parent is not null && ids.Contains(n.Parent) && !ids.Contains(n.Id)).ToList())
+				{
+					_ = ids.Add(node.Id);
+					foreach (var element in node.Elements)
+						_ = keep.Add(element);
+					added = true;
+				}
+			}
+		}
 		foreach (var edge in _scene.Edges.Where(e => ids.Contains(e.From) && ids.Contains(e.To)))
 		{
 			_ = keep.Add(edge.Element);
@@ -572,13 +605,13 @@ internal sealed partial class Compiler
 	private double MarkAll(MarkStatement statement, double at)
 	{
 		foreach (var target in Resolve(statement.Targets))
-			Mark(target.Id, target.Box, null, statement.Role, at);
+			Mark(target.Id, target.Box, null, statement.Role, at, target.Elements.Count > 0 ? Outer(target.Elements[0]) : null);
 		foreach (var edge in ResolveEdges(statement.Edges))
 			Mark($"{edge.From}->{edge.To}#{edge.Index}", Box.Empty, edge, statement.Role, at);
 		return at + _spec.Shift;
 	}
 
-	private void Mark(string key, Box box, SceneEdge? edge, Role? role, double at)
+	private void Mark(string key, Box box, SceneEdge? edge, Role? role, double at, XElement? holder = null)
 	{
 		foreach (var existing in _marks.Where(m => m.Key.Item1 == key && m.Key.Item2 != role))
 			Opacity(existing.Value, ReducedMotion.Cut, 0).Animate(at, _spec.Shift, Channel.Value(0), Easing.Exit);
@@ -593,7 +626,8 @@ internal sealed partial class Compiler
 				var ring = Overlay.Ring(box, color, 2, 4, color, 0.14);
 				ring.SetAttributeValue("opacity", null);
 				mark = Overlay.Group(new XAttribute("opacity", "0"), ring, Overlay.MarkIcon(r, color, box.Inflate(4)));
-				_overlay.Add(mark);
+				// inside the node's wrapper, so a mark moves, pulses and appears with its node
+				(holder ?? _overlay).Add(mark);
 			}
 			else
 			{

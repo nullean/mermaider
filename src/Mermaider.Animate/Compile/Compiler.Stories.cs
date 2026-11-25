@@ -16,6 +16,7 @@ internal sealed partial class Compiler
 		{
 			SceneKind.Sequence or SceneKind.GitGraph => new PlayStatement(null, null, line),
 			SceneKind.Gantt => new SweepStatement(null, line),
+			SceneKind.Graph when _scene.Dynamic => new PlayStatement(null, null, line),
 			SceneKind.State when CoverWalk() is { Count: >= 2 } walk => new RunStatement(walk, line),
 			_ => new BuildStatement(line),
 		};
@@ -34,6 +35,8 @@ internal sealed partial class Compiler
 			return Play(new PlayStatement(null, null, line), at);
 		if (_scene.Kind == SceneKind.Gantt)
 			return Sweep(new SweepStatement(null, line), at);
+		if (_scene.Tree)
+			return BuildTree(at);
 
 		var t = at;
 		var groups = _scene.Groups.OrderBy(Depth).ThenBy(g => g.Box.Y).ThenBy(g => g.Box.X).ToList();
@@ -338,9 +341,11 @@ internal sealed partial class Compiler
 	{
 		if (_scene.Kind == SceneKind.GitGraph)
 			return PlayCommits(play, at);
+		if (_scene.Kind == SceneKind.Graph && _scene.Dynamic)
+			return PlayRelations(play, at);
 		if (_scene.Kind != SceneKind.Sequence)
 		{
-			_diagnostics.Add(new(play.Line, "play is for sequence diagrams and git graphs. For other diagrams use build, send or tour."));
+			_diagnostics.Add(new(play.Line, "play is for sequence diagrams, git graphs and C4 dynamic diagrams. For other diagrams use build, send or tour."));
 			return at;
 		}
 		var messages = _scene.Edges;

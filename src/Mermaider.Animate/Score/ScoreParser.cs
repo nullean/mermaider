@@ -201,12 +201,14 @@ internal static class ScoreParser
 			"play" => ParsePlay(reader),
 			"fill" => ParseFill(reader),
 			"sweep" => ParseSweep(reader),
+			"move" => ParseMove(reader),
+			"expand" => new ExpandStatement(reader.Targets(), line),
 			"badge" => ParseBadge(reader),
 			"hang" => new HangStatement(reader.Targets(), line),
 			"note" => ParseNote(reader),
 			_ =>
 				reader.Fail(
-					$"Unknown verb '{verb}'. The verbs are show, hide, focus, pulse, mark, badge, fill, hang, draw, erase, cut, restore, send, stream, tour, run, try, ping, play, sweep, note, caption and build."
+					$"Unknown verb '{verb}'. The verbs are show, hide, focus, pulse, mark, badge, fill, hang, draw, erase, cut, restore, send, stream, tour, run, try, ping, play, sweep, move, expand, note, caption and build."
 				),
 		};
 		if (statement is null)
@@ -424,6 +426,25 @@ internal static class ScoreParser
 		if (capacity is { } c && count > c)
 			return reader.Fail($"{count} is more than the capacity of {c}.");
 		return new FillStatement(new TargetRef(id, IsGroup: false, reader.Line), count, capacity, reader.Line);
+	}
+
+	private static Statement? ParseMove(Reader reader)
+	{
+		// move A[, B] to COLUMN [each]
+		var targets = new List<TargetRef>();
+		do
+		{
+			if (reader.Peek(0) is { Quoted: true })
+				targets.Add(new TargetRef(reader.Quoted()!, false, reader.Line) { ByLabel = true });
+			else if (reader.Id() is { } id && id != "to")
+				targets.Add(new TargetRef(id, false, reader.Line));
+			else
+				return reader.Fail("move takes cards, then to and a column: move t1 to Done.");
+		}
+		while (reader.Accept(","));
+		if (!reader.Accept("to") || (reader.Quoted() ?? reader.Id()) is not { } column)
+			return reader.Fail("move takes cards, then to and a column: move t1 to Done.");
+		return new MoveStatement(targets, column, reader.Flag("each"), reader.Line);
 	}
 
 	private static Statement? ParseSweep(Reader reader)

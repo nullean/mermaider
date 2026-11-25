@@ -8,7 +8,7 @@ internal enum Property
 {
 	Opacity,
 
-	/// <summary>translate(x, y) scale(s), as three values.</summary>
+	/// <summary>translate(x, y) scale(sx, sy), as four values.</summary>
 	Transform,
 
 	DashOffset,
@@ -90,10 +90,15 @@ internal sealed class Channel(XElement element, Property property, double[] init
 	{
 		Property.Opacity => $"opacity:{Num.F3(value[0])}",
 		Property.DashOffset => $"stroke-dashoffset:{Num.F3(value[0])}",
-		_ => $"transform:translate({Num.F(value[0])}px,{Num.F(value[1])}px) scale({Num.F3(value[2])})",
+		_ =>
+			value[2] == value[3]
+				? $"transform:translate({Num.F(value[0])}px,{Num.F(value[1])}px) scale({Num.F3(value[2])})"
+				: $"transform:translate({Num.F(value[0])}px,{Num.F(value[1])}px) scale({Num.F3(value[2])},{Num.F3(value[3])})",
 	};
 
 	public static double[] Value(double v) => [v];
 
-	public static double[] Transform(double x, double y, double scale) => [x, y, scale];
+	public static double[] Transform(double x, double y, double scale) => [x, y, scale, scale];
+
+	public static double[] Transform(double x, double y, double scaleX, double scaleY) => [x, y, scaleX, scaleY];
 }
