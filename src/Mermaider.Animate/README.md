@@ -83,7 +83,7 @@ by number: `#3` is the third message of a sequence diagram, and the third task, 
 | `set #2 75` | an xy chart's bar grows or shrinks to a new value from its baseline, and the number appears at its top |
 | `trace A -> B` | everything on a way from A to B stays lit and the rest dims for the step: in a graph the edges light up in waves outward from A; a sankey's ribbons already carry their colour |
 | `sweep [to "2024-03-01"]` | a gantt chart's playhead moves on; each task grows behind it from its start date, and its name appears when reached |
-| `note #4..#5 "38 ms" [as role]` | a bracket beside a span of sequence messages, with what it costs |
+| `note #4..#5 "38 ms" [as role]` | a bracket over a span of numbered things, with what it costs or means: beside sequence messages or gantt rows, under timeline periods, commits, journey tasks and bars |
 | `caption "…"` | changes the step's caption |
 
 Every name is checked against the diagram. A misspelt node, a `send` between nodes that share no edge or a `run`

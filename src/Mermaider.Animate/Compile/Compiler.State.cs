@@ -135,10 +135,7 @@ internal sealed partial class Compiler
 	private double Note(NoteStatement note, double at)
 	{
 		if (_scene.Kind != SceneKind.Sequence)
-		{
-			_diagnostics.Add(new(note.Line, "note brackets sequence messages. To label a node, use badge."));
-			return at;
-		}
+			return NoteMarks(note, at);
 		if (note.Last > _scene.Edges.Count)
 		{
 			_diagnostics.Add(new(note.Line, $"The diagram has {_scene.Edges.Count} messages, so there is no #{note.Last}."));
@@ -153,10 +150,62 @@ internal sealed partial class Compiler
 			y1 -= 6;
 			y2 += 6;
 		}
-		var bracket = Overlay.Bracket(x, y1, y2, note.Text, note.Role is { } role ? _colors.For(role) : "var(--accent, #3b82f6)");
+		return ShowBracket(Overlay.Bracket(x, y1, y2, note.Text, NoteColor(note)), at);
+	}
+
+	private string NoteColor(NoteStatement note) => note.Role is { } role ? _colors.For(role) : "var(--accent, #3b82f6)";
+
+	private double ShowBracket(XElement bracket, double at)
+	{
 		_overlay.Add(bracket);
-		var opacity = Opacity(bracket, ReducedMotion.Cut, 0);
-		opacity.Animate(at, _spec.Enter, Channel.Value(1), Easing.Enter);
+		Opacity(bracket, ReducedMotion.Cut, 0).Animate(at, _spec.Enter, Channel.Value(1), Easing.Enter);
 		return at + _spec.Enter;
+	}
+
+	/// <summary>
+	/// A bracket over a span of numbered marks (#2..#4: gantt tasks, timeline periods, commits, journey tasks, packet
+	/// fields, bars), with what the span costs or means. A span that runs down the page is bracketed on its right; one
+	/// that runs across, underneath (above, where underneath is off the diagram).
+	/// </summary>
+	private double NoteMarks(NoteStatement note, double at)
+	{
+		var marks = _scene.Ordered;
+		if (marks.Count == 0)
+		{
+			_diagnostics.Add(
+				new(
+					note.Line,
+					"note brackets a span of numbered things: sequence messages, gantt tasks, timeline periods, commits. To label a node, use badge."
+				)
+			);
+			return at;
+		}
+		if (note.Last > marks.Count)
+		{
+			_diagnostics.Add(new(note.Line, $"The diagram has {marks.Count} numbered marks, so there is no #{note.Last}."));
+			return at;
+		}
+		// a mark with what joined it (a period's events, a task's face) is one block
+		static Box Block(SceneTarget m) =>
+			m
+				.Elements
+				.Concat(m.Followers.SelectMany(f => f.Elements))
+				.Select(SvgScene.BoxOf)
+				.Where(b => !b.IsEmpty)
+				.Aggregate(m.Box, (a, b) => a.IsEmpty ? b : a.Union(b));
+
+		var span = marks.Skip(note.First - 1).Take(note.Last - note.First + 1).Select(Block).Where(b => !b.IsEmpty).ToList();
+		if (span.Count == 0)
+			return at;
+		var box = span.Aggregate((a, b) => a.Union(b));
+		// marks side by side (periods, commits, bars) run across; marks that share columns (gantt rows) run down
+		var across = span.Count == 1
+			? box.Width >= box.Height
+			: span.Skip(1).Select((next, i) => (Prev: span[i], Next: next)).All(p => p.Prev.Right <= p.Next.X + 1 || p.Next.Right <= p.Prev.X + 1);
+		var color = NoteColor(note);
+		if (!across)
+			return ShowBracket(Overlay.Bracket(box.Right + 14, box.Y, box.Bottom, note.Text, color), at);
+		var above = box.Bottom + 34 > _stage.Bottom;
+		return ShowBracket(Overlay.BracketAcross(box.X, box.Right, above ? box.Y - 8 : box.Bottom + 8, note.Text, color, above), at);
 	}
 }
