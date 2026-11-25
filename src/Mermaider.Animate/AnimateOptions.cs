@@ -30,6 +30,25 @@ public enum MotionPreset
 	None,
 }
 
+/// <summary>Whether the player lists the story's steps beside the figure.</summary>
+public enum PlayerContents
+{
+	/// <summary>
+	/// The list shows when there is something to find in it: three or more captioned steps, or endings to choose
+	/// between. Shorter stories show the figure and its caption alone.
+	/// </summary>
+	Auto,
+
+	/// <summary>The list always shows (<c>animate contents</c>).</summary>
+	Always,
+
+	/// <summary>
+	/// The figure and its caption alone, the controls at the caption's end (<c>animate compact</c>). A score with endings
+	/// still lists them: choosing one needs the list.
+	/// </summary>
+	Never,
+}
+
 /// <summary>Options for <see cref="MermaidAnimator"/>.</summary>
 public sealed record AnimateOptions
 {
@@ -41,6 +60,9 @@ public sealed record AnimateOptions
 
 	/// <summary>Overrides the playback mode the score names.</summary>
 	public PlaybackMode? Mode { get; init; }
+
+	/// <summary>Overrides whether the player lists the steps, which the score can name (<c>contents</c>, <c>compact</c>).</summary>
+	public PlayerContents? Contents { get; init; }
 
 	/// <summary>
 	/// The most steps a score may produce (default 64). A longer score is rejected rather than rendered, like any

@@ -29,6 +29,7 @@ internal static class ScoreParser
 		var header = Tokenize(lines[start], start + 1, diagnostics);
 		PlaybackMode? mode = null;
 		MotionPreset? motion = null;
+		PlayerContents? contents = null;
 		for (var i = 1; i < header.Count; i++)
 		{
 			var word = header[i].Text;
@@ -52,13 +53,24 @@ internal static class ScoreParser
 				case "still":
 					motion = MotionPreset.None;
 					break;
+				case "contents":
+					contents = PlayerContents.Always;
+					break;
+				case "compact":
+					contents = PlayerContents.Never;
+					break;
 				default:
-					diagnostics.Add(new(start + 1, $"Unknown option '{word}' after animate. Expected loop, once or scrub, and calm, crisp or still."));
+					diagnostics.Add(
+						new(start + 1, $"Unknown option '{word}' after animate. Expected loop, once or scrub; calm, crisp or still; and contents or compact.")
+					);
 					break;
 			}
 		}
 
-		var steps = new List<ScoreStep>();
+		// steps go to the shared beginning until a scenario line, then to that scenario
+		var shared = new List<ScoreStep>();
+		var steps = shared;
+		var scenarios = new List<ScoreScenario>();
 		var tokens = new Dictionary<string, TokenDeclaration>(StringComparer.Ordinal);
 		string? stepCaption = null;
 		var stepLine = 0;
@@ -101,6 +113,23 @@ internal static class ScoreParser
 				continue;
 			}
 
+			if (words[0].Is("scenario"))
+			{
+				CloseStep();
+				// scenario "Name" [as ROLE]
+				var named = words.Count > 1 && words[1].Quoted && words[1].Text.Trim().Length > 0;
+				var roled = words.Count == 4 && words[2].Is("as");
+				if (!named || (words.Count != 2 && !roled))
+					diagnostics.Add(new(lineNo, "A scenario line takes one quoted name, and how it ends if you like: scenario \"API 1 times out\" as fail."));
+				var name = words.Count > 1 ? words[1].Text.Trim() : "";
+				var role = roled ? ParseRole(words[3], lineNo, diagnostics) : null;
+				if (scenarios.Any(s => s.Name == name))
+					diagnostics.Add(new(lineNo, $"There is already a scenario called \"{name}\"."));
+				steps = [];
+				scenarios.Add(new ScoreScenario(name, steps, lineNo) { Role = role });
+				continue;
+			}
+
 			if (words[0].Is("token"))
 			{
 				CloseStep();
@@ -129,7 +158,11 @@ internal static class ScoreParser
 		}
 		CloseStep();
 
-		return new ScoreDocument(mode, motion, steps, tokens, start + 1);
+		foreach (var scenario in scenarios.Where(s => s.Steps.Count == 0))
+			diagnostics.Add(new(scenario.Line, $"The scenario \"{scenario.Name}\" has no steps. Indent its steps under it, or write them after it."));
+		if (scenarios.Count == 1)
+			diagnostics.Add(new(scenarios[0].Line, "A score with one scenario tells one story: give it a second scenario, or write its steps without one."));
+		return new ScoreDocument(mode, motion, shared, tokens, start + 1) { Scenarios = scenarios, Contents = contents };
 	}
 
 	private static int IndentOf(string line)

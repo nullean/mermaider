@@ -52,6 +52,7 @@ public class FuzzTests
 		"trace",
 		"note",
 		"caption",
+		"scenario",
 		"count",
 	];
 

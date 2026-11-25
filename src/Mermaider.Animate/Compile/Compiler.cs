@@ -8,6 +8,9 @@ namespace Mermaider.Animate.Compile;
 /// <summary>A step as it plays: its caption and when it starts and ends, in milliseconds.</summary>
 internal sealed record StepSpan(string? Caption, double Start, double End);
 
+/// <summary>A caption as it is shown: its text, its step's number among the captioned ones, and when it appears.</summary>
+internal sealed record CaptionSpan(string Text, int Number, double At);
+
 /// <summary>
 /// A compiled score. In a loop, <see cref="StoryStart"/> splits the timeline: everything before it (the intro, such as a
 /// build) plays once, and the story from there to <see cref="Duration"/> repeats, ending in a settle back to how it began.
@@ -26,6 +29,9 @@ internal sealed record CompiledTimeline(
 
 	/// <summary>The SVG's view box once the caption band is added.</summary>
 	public Box ViewBox { get; init; }
+
+	/// <summary>Every caption in the order shown, drawn in the SVG or not: what a player shows beside it.</summary>
+	public IReadOnlyList<CaptionSpan> Captions { get; init; } = [];
 }
 
 /// <summary>
@@ -74,8 +80,22 @@ internal sealed partial class Compiler
 		public bool Drawable => Mask is not null;
 	}
 
-	internal Compiler(SvgScene scene, ScoreDocument score, MotionSpec spec, PlaybackMode mode, RoleColors colors, List<AnimationDiagnostic> diagnostics)
+	private readonly bool _drawCaptions;
+	private readonly List<CaptionSpan> _captions = [];
+
+	// drawCaptions draws each step's caption in a band above the diagram; a player that shows the captions beside the
+	// figure leaves them out, and the band with them
+	internal Compiler(
+		SvgScene scene,
+		ScoreDocument score,
+		MotionSpec spec,
+		PlaybackMode mode,
+		RoleColors colors,
+		List<AnimationDiagnostic> diagnostics,
+		bool drawCaptions = true
+	)
 	{
+		_drawCaptions = drawCaptions;
 		_scene = scene;
 		_score = score;
 		_spec = spec;
@@ -104,7 +124,10 @@ internal sealed partial class Compiler
 		var source = _score.IsDefault ? DefaultSteps() : _score.Steps;
 		var captions = source.Any(s => s.Caption is not null || s.Statements.OfType<CaptionStatement>().Any());
 		var captionY = _stage.Y - 22;
-		if (captions)
+		// without the caption band, badges and marks over the top row still need room above it
+		if (captions && !_drawCaptions)
+			ExtendStage(26);
+		if (captions && _drawCaptions)
 		{
 			ExtendStage(46);
 			_captionBand = 46;
@@ -177,7 +200,8 @@ internal sealed partial class Compiler
 			return new CompiledTimeline(_channels, steps, scoreEnd + _spec.Hold, scoreEnd, 0, Loops: false)
 			{
 				CaptionBand = _captionBand,
-				ViewBox = _scene.ViewBox
+				ViewBox = _scene.ViewBox,
+				Captions = _captions,
 			};
 		}
 
@@ -199,11 +223,15 @@ internal sealed partial class Compiler
 		{
 			CaptionBand = _captionBand,
 			ViewBox = _scene.ViewBox,
+			Captions = _captions,
 		};
 	}
 
-	private XElement ShowCaption(string text, double at, double y, ref XElement? previous)
+	private XElement? ShowCaption(string text, double at, double y, ref XElement? previous)
 	{
+		_captions.Add(new CaptionSpan(text, _captionNumber, at));
+		if (!_drawCaptions)
+			return null;
 		if (previous is not null)
 			Opacity(previous, ReducedMotion.Cut).Animate(at, _spec.Exit, Channel.Value(0), Easing.Exit);
 		var caption = Overlay.Caption(text, _captionNumber, _captionTotal, _scene.ViewBox.X + 14, y);

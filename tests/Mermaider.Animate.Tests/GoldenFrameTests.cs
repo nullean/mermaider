@@ -10,9 +10,10 @@ namespace Mermaider.Animate.Tests;
 /// </summary>
 public class GoldenFrameTests
 {
-	public sealed record Frame(string Score, int Step, string Source)
+	/// <summary>A step's last frame; <see cref="Ending"/> picks one of a score's scenarios, when it has them.</summary>
+	public sealed record Frame(string Score, int Step, string Source, int? Ending = null)
 	{
-		public override string ToString() => $"{Score} step {Step + 1}";
+		public override string ToString() => Ending is { } e ? $"{Score} ending {e + 1} step {Step + 1}" : $"{Score} step {Step + 1}";
 	}
 
 	private static readonly string Scores = Path.Combine(AppContext.BaseDirectory, "scores");
@@ -22,9 +23,14 @@ public class GoldenFrameTests
 		foreach (var file in Directory.GetFiles(Scores, "*.mmd").Order(StringComparer.Ordinal))
 		{
 			var source = File.ReadAllText(file).Replace("\r\n", "\n");
-			var steps = MermaidAnimator.Compile(source).Steps.Count;
-			for (var k = 0; k < steps; k++)
-				yield return new Frame(Path.GetFileNameWithoutExtension(file), k, source);
+			var animation = MermaidAnimator.Compile(source);
+			var name = Path.GetFileNameWithoutExtension(file);
+			if (animation.Scenarios.Count == 0)
+				for (var k = 0; k < animation.Steps.Count; k++)
+					yield return new Frame(name, k, source);
+			for (var e = 0; e < animation.Scenarios.Count; e++)
+				for (var k = 0; k < animation.Scenarios[e].Animation.Steps.Count; k++)
+					yield return new Frame(name, k, source, e);
 		}
 	}
 
@@ -36,7 +42,10 @@ public class GoldenFrameTests
 	public void End_of_step(Frame frame)
 	{
 		var animation = MermaidAnimator.Compile(frame.Source);
+		if (frame.Ending is { } e)
+			animation = animation.Scenarios[e].Animation;
 		var step = animation.Steps[frame.Step];
-		animation.RenderFrame(step.End).Should().MatchSnapshot(SvgSnapshotFormat.Instance, $"{frame.Score}.{frame.Step + 1}");
+		var key = frame.Ending is { } ending ? $"{frame.Score}.e{ending + 1}.{frame.Step + 1}" : $"{frame.Score}.{frame.Step + 1}";
+		animation.RenderFrame(step.End).Should().MatchSnapshot(SvgSnapshotFormat.Instance, key);
 	}
 }

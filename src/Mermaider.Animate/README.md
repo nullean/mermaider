@@ -41,11 +41,12 @@ A source without an `animate` block renders exactly as `MermaidRenderer.RenderSv
 ## The score
 
 ```
-animate [loop|once|scrub] [calm|crisp|still]
+animate [loop|once|scrub] [calm|crisp|still] [contents|compact]
   token o = "order #42" [as ok|fail|warn|info]
   step "Caption"
     <statement>
     with <statement>          starts together with the statement before it
+  scenario "Name" [as role]   an ending: the steps after it, played after the steps before the first scenario
 ```
 
 A step's caption shows above the diagram, numbered ("2/3"). A statement outside any step is a step of its own. A bare `animate` plays the diagram type's default animation: a
@@ -121,18 +122,54 @@ string svg = animation.Svg;
 string poster = animation.RenderFrame(animation.ScoreDuration);   // the last frame, as a static SVG
 ```
 
+## Endings
+
+One diagram often has more than one story: the request that succeeds, the one that times out, the one that finds the
+database slow. Steps before the first `scenario` are the beginning every ending shares; each `scenario` names an ending
+and holds the steps after it:
+
+```
+animate
+  build
+  step "A request reaches API 1"
+    tour client -> lb -> api1 "GET /orders"
+
+  scenario "Happy path"
+    step "The database answers"
+      tour db -> api1 -> lb -> client "200 OK" as ok
+
+  scenario "API 1 times out"
+    step "API 1 stops answering"
+      hang api1
+      mark api1 fail
+```
+
+An ending can say how it turns out: `scenario "API 1 times out" as fail` (or `ok`, `warn`, `info`), and the player
+shows it in that role's colours with its mark. Each ending is a complete animation of its own (`animation.Scenarios`);
+the plain SVG plays the first. In the player, choosing an ending plays it from the start, shared beginning included. A
+screen reader hears the ending's name before its steps.
+
 ## A player without script
 
-`MermaidAnimator.RenderPlayer(source)` returns an HTML fragment: the animated SVG with step controls at the end of its
-caption band, and no JavaScript. The controls are one radio group wired with `:has()`, so they work with the keyboard:
+`MermaidAnimator.RenderPlayer(source)` returns an HTML fragment with no JavaScript, drawn in the diagram's own colours and
+type:
 
-- while playing: pause, and resume where it stopped;
-- a step dot shows that step's last frame, with buttons to step back, step forward, or play from that step;
-- playing from a step can be paused and resumed too.
+- the diagram as a figure, and what is happening now as its caption under it, with the step's number and a line that
+  fills as the step plays (the caption leaves the SVG's caption band; the plain SVG keeps it);
+- above it, the diagram's own title (its `title` front matter or `accTitle`), unless the diagram draws it already;
+- beside it, the story's contents: every step on a trunk that lights up as it plays, the current one ringed. A score
+  with endings reaches a junction there, the flowchart's decision diamond: a road runs across from it to a card per
+  ending, side by side in their roles' colours (more than three in rows of two), and the chosen ending's lane comes back
+  into the trunk where its steps go on. The chosen route lights up as the story reaches it; choosing another card plays
+  that ending. Past nine steps the list is a window that follows the playback, so a long story takes no more room. The
+  contents show when there is something to find in them: endings, or three steps and more. `animate contents` always
+  lists the steps, `animate compact` never does (the controls then end the caption line), and the host can decide for
+  every diagram with `AnimateOptions.Contents`;
+- clicking a step jumps there and plays on; pause holds the frame. Pause and play head the list.
 
-The player is as wide as the diagram, at most its container. Where the longest caption would run into the controls,
-they move under the diagram. They take the page's text colour; restyle them through `--mp-ink`, `--mp-soft` and
-`--mp-rule`.
+The controls are radio buttons wired with `:has()`, so they work with the keyboard and screen readers. Below 640px the
+contents fold into one line under the caption, which opens them. Everything beside the figure animates on the story's
+own clock and waits for the same on-screen trigger, so it never drifts from the diagram.
 
 ## How it works
 

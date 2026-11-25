@@ -15,7 +15,7 @@
 //   docs/screenshots/<style>/<theme>/<type>.svg           landing page gallery (every style x theme, opaque)
 //   docs/screenshots/hero.svg                             landing page hero (the code sample's diagram, transparent)
 //   docs/screenshots/animate/<score>.svg                  landing page animations: every preview score, animated, zinc-dark
-//   docs/screenshots/animate/player.html                  landing page player: the request-path score with its step controls
+//   docs/screenshots/animate/player.html                  landing page player: the endings score, with its story map
 
 using System.Text.RegularExpressions;
 using Mermaider;
@@ -174,7 +174,7 @@ Write(
 	<title>Mermaider.Animate player</title>
 	<style>html, body { margin: 0; background: #0D1013; color: #E9ECF1; font-family: Inter, system-ui, sans-serif; } body { padding: 12px; }</style>
 	</head><body>
-	{{MermaidAnimator.RenderPlayer(File.ReadAllText(Path.Combine(scores, "01-request-path.mmd")), new AnimateOptions { Render = Options("zinc-dark", DiagramStyle.Quiet, transparent: true) })}}
+	{{MermaidAnimator.RenderPlayer(File.ReadAllText(Path.Combine(scores, "24-endings.mmd")), new AnimateOptions { Render = Options("zinc-dark", DiagramStyle.Quiet, transparent: true) })}}
 	</body></html>
 	"""
 );

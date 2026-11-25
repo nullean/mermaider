@@ -141,6 +141,13 @@ internal sealed record TokenDeclaration(string Name, string Label, Role? Role, i
 
 internal sealed record ScoreStep(string? Caption, IReadOnlyList<Statement> Statements, int Line);
 
+/// <summary>One ending of a score: its own steps, played after the steps every ending shares.</summary>
+internal sealed record ScoreScenario(string Name, IReadOnlyList<ScoreStep> Steps, int Line)
+{
+	/// <summary>How the ending turns out (<c>as fail</c>), shown in its colour where the player offers it.</summary>
+	public Role? Role { get; init; }
+}
+
 internal sealed record ScoreDocument(
 	PlaybackMode? Mode,
 	MotionPreset? Motion,
@@ -149,6 +156,18 @@ internal sealed record ScoreDocument(
 	int Line
 )
 {
+	/// <summary>
+	/// The score's endings, in order; empty for a score with one story. <see cref="Steps"/> are then the steps every
+	/// ending begins with.
+	/// </summary>
+	public IReadOnlyList<ScoreScenario> Scenarios { get; init; } = [];
+
+	/// <summary>Whether the player lists the steps, when the header says (<c>contents</c>, <c>compact</c>).</summary>
+	public PlayerContents? Contents { get; init; }
+
 	/// <summary>A bare <c>animate</c>: the diagram type's default animation plays.</summary>
-	public bool IsDefault => Steps.Count == 0;
+	public bool IsDefault => Steps.Count == 0 && Scenarios.Count == 0;
+
+	/// <summary>The score of one ending: the shared steps, then its own, as a score with one story.</summary>
+	public ScoreDocument For(ScoreScenario scenario) => this with { Steps = [.. Steps, .. scenario.Steps], Scenarios = [] };
 }
