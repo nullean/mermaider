@@ -30,9 +30,9 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<path class="req-relation" data-type="satisfies" d="M223.98784,296 L473.41664000000003,296" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-open)" />
-<path class="req-relation" data-type="verifies" d="M184,426 L437.41664000000003,426 Q445.41664000000003,426 445.41664000000003,418 L445.41664000000003,345 Q445.41664000000003,337 453.41664000000003,337 L473.41664000000003,337" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-open)" />
-<path class="req-relation" data-type="derives" d="M324.09664000000004,115 L437.41664000000003,115 Q445.41664000000003,115 445.41664000000003,123 L445.41664000000003,247 Q445.41664000000003,255 453.41664000000003,255 L473.41664000000003,255" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="1.5 4.5" stroke-linecap="round" marker-end="url(#m1814eb8b-mk-open)" />
+<path class="req-relation" data-type="satisfies" data-from="auth_service" data-to="login" d="M223.98784,296 L473.41664000000003,296" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-open)" />
+<path class="req-relation" data-type="verifies" data-from="login_ui" data-to="login" d="M184,426 L437.41664000000003,426 Q445.41664000000003,426 445.41664000000003,418 L445.41664000000003,345 Q445.41664000000003,337 453.41664000000003,337 L473.41664000000003,337" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-open)" />
+<path class="req-relation" data-type="derives" data-from="latency" data-to="login" d="M324.09664000000004,115 L437.41664000000003,115 Q445.41664000000003,115 445.41664000000003,123 L445.41664000000003,247 Q445.41664000000003,255 453.41664000000003,255 L473.41664000000003,255" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="1.5 4.5" stroke-linecap="round" marker-end="url(#m1814eb8b-mk-open)" />
 <g class="req-node entity" data-id="login" data-kind="requirement">
   <rect x="473.41664000000003" y="214" width="294.48712" height="164" rx="8" ry="8" fill="var(--bg)" stroke="none" />
   <path d="M473.41664000000003,266 L473.41664000000003,222 Q473.41664000000003,214 481.41664000000003,214 L759.90376,214 Q767.90376,214 767.90376,222 L767.90376,266 Z" fill="url(#m1814eb8b-eb-p0)" />

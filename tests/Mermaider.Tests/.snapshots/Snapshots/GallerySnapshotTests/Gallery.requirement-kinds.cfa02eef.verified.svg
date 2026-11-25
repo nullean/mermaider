@@ -30,19 +30,19 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<path class="req-relation" data-type="contains" d="M651.7156866666666,188 L651.7156866666666,194 Q651.7156866666666,200 645.7156866666666,200 L154.4014,200 Q146.4014,200 146.4014,208 L146.4014,306" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="req-relation" data-type="contains" data-from="base_req" data-to="functional_req" d="M651.7156866666666,188 L651.7156866666666,194 Q651.7156866666666,200 645.7156866666666,200 L154.4014,200 Q146.4014,200 146.4014,208 L146.4014,306" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <circle cx="146.4014" cy="300" r="6" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
 <path d="M142.9014,300 L149.9014,300 M146.4014,296.5 L146.4014,303.5" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linecap="round" />
-<path class="req-relation" data-type="contains" d="M693.9853133333332,188 L693.9853133333332,199 Q693.9853133333332,207 685.9853133333332,207 L446.0225599999999,207 Q438.0225599999999,207 438.0225599999999,215 L438.0225599999999,306" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="req-relation" data-type="contains" data-from="base_req" data-to="interface_req" d="M693.9853133333332,188 L693.9853133333332,199 Q693.9853133333332,207 685.9853133333332,207 L446.0225599999999,207 Q438.0225599999999,207 438.0225599999999,215 L438.0225599999999,306" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <circle cx="438.0225599999999" cy="300" r="6" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
 <path d="M434.5225599999999,300 L441.5225599999999,300 M438.0225599999999,296.5 L438.0225599999999,303.5" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linecap="round" />
-<path class="req-relation" data-type="contains" d="M736.2549399999999,188 L736.2549399999999,200 L736.2549399999999,200 L736.2549399999999,306" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="req-relation" data-type="contains" data-from="base_req" data-to="performance_req" d="M736.2549399999999,188 L736.2549399999999,200 L736.2549399999999,200 L736.2549399999999,306" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <circle cx="736.2549399999999" cy="300" r="6" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
 <path d="M732.7549399999999,300 L739.7549399999999,300 M736.2549399999999,296.5 L736.2549399999999,303.5" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linecap="round" />
-<path class="req-relation" data-type="contains" d="M778.5245666666666,188 L778.5245666666666,194 Q778.5245666666666,200 784.5245666666666,200 L1024.8845999999999,200 Q1032.8845999999999,200 1032.8845999999999,208 L1032.8845999999999,306" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="req-relation" data-type="contains" data-from="base_req" data-to="physical_req" d="M778.5245666666666,188 L778.5245666666666,194 Q778.5245666666666,200 784.5245666666666,200 L1024.8845999999999,200 Q1032.8845999999999,200 1032.8845999999999,208 L1032.8845999999999,306" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <circle cx="1032.8845999999999" cy="300" r="6" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
 <path d="M1029.3845999999999,300 L1036.3845999999999,300 M1032.8845999999999,296.5 L1032.8845999999999,303.5" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linecap="round" />
-<path class="req-relation" data-type="contains" d="M820.7941933333333,188 L820.7941933333333,199 Q820.7941933333333,207 828.7941933333333,207 L1318.1084799999999,207 Q1326.1084799999999,207 1326.1084799999999,215 L1326.1084799999999,306" fill="none" stroke="var(--_line)" stroke-width="1.5" />
+<path class="req-relation" data-type="contains" data-from="base_req" data-to="design_constraint" d="M820.7941933333333,188 L820.7941933333333,199 Q820.7941933333333,207 828.7941933333333,207 L1318.1084799999999,207 Q1326.1084799999999,207 1326.1084799999999,215 L1326.1084799999999,306" fill="none" stroke="var(--_line)" stroke-width="1.5" />
 <circle cx="1326.1084799999999" cy="300" r="6" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" />
 <path d="M1322.6084799999999,300 L1329.6084799999999,300 M1326.1084799999999,296.5 L1326.1084799999999,303.5" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linecap="round" />
 <g class="req-node entity" data-id="base_req" data-kind="requirement">
