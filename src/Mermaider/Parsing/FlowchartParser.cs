@@ -337,6 +337,10 @@ internal static partial class FlowchartParser
 			var edge = edges[e];
 			var src = ResolveSubgraphRef(edge.Source, subgraphMap);
 			var tgt = ResolveSubgraphRef(edge.Target, subgraphMap);
+			// An edge into a subgraph that holds only empty subgraphs ends on one with no node of its own
+			EnsureEndpointNode(nodes, subgraphMap, src);
+			EnsureEndpointNode(nodes, subgraphMap, tgt);
+
 			if (src != edge.Source || tgt != edge.Target)
 			{
 				redirections[e] = (src != edge.Source ? edge.Source : null, tgt != edge.Target ? edge.Target : null);
@@ -692,6 +696,12 @@ internal static partial class FlowchartParser
 			map[sg.Id] = sg;
 			CollectSubgraphMap(sg.Children, map);
 		}
+	}
+
+	private static void EnsureEndpointNode(Dictionary<string, MermaidNode> nodes, Dictionary<string, MermaidSubgraph> subgraphMap, string id)
+	{
+		if (!nodes.ContainsKey(id) && subgraphMap.TryGetValue(id, out var sg))
+			nodes[id] = new MermaidNode(id, sg.Label, NodeShape.Rectangle);
 	}
 
 	private static string ResolveSubgraphRef(string id, Dictionary<string, MermaidSubgraph> sgMap)

@@ -382,6 +382,10 @@ internal static partial class StateParser
 				if (compositeMap.TryGetValue(tgt, out var tgtSg))
 					tgt = FindCompositeEntryNode(tgtSg, nodes) ?? tgt;
 
+				// A composite with no state inside it has no entry or exit node: the edge ends on a state standing in for it
+				EnsureCompositeEndpointNode(nodes, compositeMap, src);
+				EnsureCompositeEndpointNode(nodes, compositeMap, tgt);
+
 				if (src != edge.Source || tgt != edge.Target)
 				{
 					redirections[i] = (src != edge.Source ? edge.Source : null, tgt != edge.Target ? edge.Target : null);
@@ -403,6 +407,12 @@ internal static partial class StateParser
 			SubgraphEdgeRedirections = redirections,
 			NodeStyles = nodeStyles.ToDictionary(kvp => kvp.Key, kvp => (IReadOnlyDictionary<string, string>)kvp.Value),
 		};
+	}
+
+	private static void EnsureCompositeEndpointNode(Dictionary<string, MermaidNode> nodes, Dictionary<string, MermaidSubgraph> compositeMap, string id)
+	{
+		if (!nodes.ContainsKey(id) && compositeMap.TryGetValue(id, out var composite))
+			nodes[id] = new MermaidNode(id, composite.Label, NodeShape.Rounded);
 	}
 
 	private static void RegisterStateNode(
