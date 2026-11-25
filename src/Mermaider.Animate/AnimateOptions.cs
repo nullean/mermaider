@@ -3,7 +3,7 @@ namespace Mermaider.Animate;
 /// <summary>How an animation advances.</summary>
 public enum PlaybackMode
 {
-	/// <summary>Plays, rests, fades out and plays again.</summary>
+	/// <summary>Plays, rests on the last frame, settles back to how the story began and plays again.</summary>
 	Loop,
 
 	/// <summary>Plays to the end and holds the last frame.</summary>

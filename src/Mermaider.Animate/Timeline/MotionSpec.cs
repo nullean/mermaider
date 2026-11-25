@@ -122,9 +122,10 @@ internal sealed record MotionSpec
 
 	public double ReadMin { get; init; }
 
-	/// <summary>Before the first step, and after the last before a loop fades out.</summary>
+	/// <summary>Before the first step, and after a loop's settle before it plays again.</summary>
 	public double Lead { get; init; }
 
+	/// <summary>How long a loop holds its last frame before it settles.</summary>
 	public double Rest { get; init; }
 
 	/// <summary>The settle at the end of a loop, back to how the story began.</summary>
