@@ -149,7 +149,27 @@ public sealed class AnimatedDiagram
 	public IReadOnlyList<AnimationStep> Steps { get; }
 
 	/// <summary>The animated SVG inside an HTML fragment with CSS-only Play, Pause and step controls.</summary>
-	public string RenderPlayer() => _scene is null || Steps.Count == 0 ? $"<figure>\n{Svg}\n</figure>" : Player.Render(this, _scene.Prefix);
+	public string RenderPlayer() =>
+		_scene is null || Mode == PlaybackMode.Scrub || !Steps.Any(s => s.Caption is not null)
+			? $"<figure>\n{Svg}\n</figure>"
+			: Player.Render(this, _scene.Prefix);
+
+	internal CompiledTimeline? Timeline => _timeline;
+
+	/// <summary>Every animated element's class with how many channels it animates, in the order its animations are listed.</summary>
+	internal List<(string Class, int Channels)> AnimatedClasses()
+	{
+		lock (_gate)
+		{
+			return _timeline!
+				.Channels
+				.Where(c => c.IsAnimated)
+				.GroupBy(c => c.Element)
+				.Where(g => _classes.ContainsKey(g.Key))
+				.Select(g => (_classes[g.Key], g.Count()))
+				.ToList();
+		}
+	}
 
 	/// <summary>Every animated element's class and its declarations at <paramref name="time"/>, for a still state in CSS.</summary>
 	internal List<(string Class, string Declarations)> StylesAt(double time)

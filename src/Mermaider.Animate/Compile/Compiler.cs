@@ -19,7 +19,14 @@ internal sealed record CompiledTimeline(
 	double ScoreEnd,
 	double StoryStart,
 	bool Loops
-);
+)
+{
+	/// <summary>The height of the caption band above the diagram, in user units; zero without captions.</summary>
+	public double CaptionBand { get; init; }
+
+	/// <summary>The SVG's view box once the caption band is added.</summary>
+	public Box ViewBox { get; init; }
+}
 
 /// <summary>
 /// Turns a score into channels over the scene. Statements in a step run one after another; <c>with</c> starts one
@@ -53,6 +60,7 @@ internal sealed partial class Compiler
 	private int _captionNumber;
 	private XElement? _progress;
 	private bool _cued;
+	private double _captionBand;
 	private int _captionTotal;
 	private bool _dimmed;
 	private bool _zoomed;
@@ -97,7 +105,10 @@ internal sealed partial class Compiler
 		var captions = source.Any(s => s.Caption is not null || s.Statements.OfType<CaptionStatement>().Any());
 		var captionY = _stage.Y - 22;
 		if (captions)
+		{
 			ExtendStage(46);
+			_captionBand = 46;
+		}
 		_captionTotal = source.Count(s => s.Caption is not null || s.Statements.OfType<CaptionStatement>().Any());
 
 		XElement? previousCaption = null;
@@ -159,7 +170,11 @@ internal sealed partial class Compiler
 			// once, scrub, or a loop with nothing after its intro: the last frame holds, state and caption included
 			foreach (var action in _scoreEnd)
 				action(scoreEnd);
-			return new CompiledTimeline(_channels, steps, scoreEnd + _spec.Hold, scoreEnd, 0, Loops: false);
+			return new CompiledTimeline(_channels, steps, scoreEnd + _spec.Hold, scoreEnd, 0, Loops: false)
+			{
+				CaptionBand = _captionBand,
+				ViewBox = _scene.ViewBox
+			};
 		}
 
 		// the last frame holds for a rest, then everything settles back to how the story began: marks, trails, badges and
@@ -176,7 +191,11 @@ internal sealed partial class Compiler
 			if (!target.SequenceEqual(now))
 				channel.Animate(settle, _spec.Settle, target, Easing.Move);
 		}
-		return new CompiledTimeline(_channels, steps, settle + _spec.Settle + _spec.Lead, scoreEnd, introEnd, Loops: true);
+		return new CompiledTimeline(_channels, steps, settle + _spec.Settle + _spec.Lead, scoreEnd, introEnd, Loops: true)
+		{
+			CaptionBand = _captionBand,
+			ViewBox = _scene.ViewBox,
+		};
 	}
 
 	private XElement ShowCaption(string text, double at, double y, ref XElement? previous)

@@ -104,10 +104,16 @@ string poster = animation.RenderFrame(animation.ScoreDuration);   // the last fr
 
 ## A player without script
 
-`MermaidAnimator.RenderPlayer(source)` returns an HTML fragment: the animated SVG with Play, Pause and a chip per step.
-The controls are native radio buttons wired with `:has()`, so they work with the keyboard and need no JavaScript.
-Choosing a step shows that step's last frame; Play starts again from the beginning. The controls take the page's text
-colour; restyle them through `--mp-ink`, `--mp-soft` and `--mp-rule`.
+`MermaidAnimator.RenderPlayer(source)` returns an HTML fragment: the animated SVG with step controls at the end of its
+caption band, and no JavaScript. The controls are one radio group wired with `:has()`, so they work with the keyboard:
+
+- while playing: pause, and resume where it stopped;
+- a step dot shows that step's last frame, with buttons to step back, step forward, or play from that step;
+- playing from a step can be paused and resumed too.
+
+The player is as wide as the diagram, at most its container. Where the longest caption would run into the controls,
+they move under the diagram. They take the page's text colour; restyle them through `--mp-ink`, `--mp-soft` and
+`--mp-rule`.
 
 ## How it works
 
