@@ -119,6 +119,12 @@ internal sealed record BuildStatement(int Line) : Statement(Line);
 /// <summary>Cards slide into another kanban column; the cards below them in their old column close the gap.</summary>
 internal sealed record MoveStatement(IReadOnlyList<TargetRef> Targets, string Column, bool Each, int Line) : Statement(Line);
 
+/// <summary>A bar takes a new value.</summary>
+internal sealed record SetStatement(TargetRef Target, double Value, int Line) : Statement(Line);
+
+/// <summary>Every flow between the nodes of a path is lit.</summary>
+internal sealed record TraceStatement(IReadOnlyList<string> Path, int Line) : Statement(Line);
+
 /// <summary>A tree node's subtree grows out of it, level by level.</summary>
 internal sealed record ExpandStatement(IReadOnlyList<TargetRef> Targets, int Line) : Statement(Line);
 

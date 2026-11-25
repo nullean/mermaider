@@ -11,6 +11,10 @@ internal enum SceneKind
 	Gantt,
 	Timeline,
 	GitGraph,
+	XyChart,
+	Pie,
+	Radar,
+	Sankey,
 }
 
 internal enum TargetKind
@@ -51,6 +55,16 @@ internal sealed class SceneTarget(string id, TargetKind kind, string label)
 
 	/// <summary>A gitgraph commit's branch.</summary>
 	public string? Branch { get; set; }
+
+	/// <summary>A chart mark's value: a bar's height, a slice's share.</summary>
+	public double Value { get; set; }
+
+	/// <summary>A pie slice's circle and angles (degrees, clockwise from 3 o'clock), or a radar curve's centre.</summary>
+	public Vec Center { get; set; }
+
+	public double Radius { get; set; }
+	public double StartAngle { get; set; }
+	public double EndAngle { get; set; }
 }
 
 /// <summary>A connector: a graph or architecture edge, or a sequence message.</summary>
@@ -69,6 +83,9 @@ internal sealed class SceneEdge(string from, string to, XElement element, Polyli
 	public Polyline Path { get; } = path;
 	public bool Dotted { get; init; }
 	public bool Thick { get; init; }
+
+	/// <summary>How wide the mask that draws this connector is; ribbons and slices are wider than a line.</summary>
+	public double? MaskWidth { get; init; }
 	public bool ArrowEnd { get; init; }
 	public bool ArrowStart { get; init; }
 	public string? Label { get; init; }
@@ -175,6 +192,14 @@ internal sealed class SvgScene
 			return SceneKind.Timeline;
 		if (head.StartsWith("gitGraph", StringComparison.OrdinalIgnoreCase))
 			return SceneKind.GitGraph;
+		if (head.StartsWith("xychart", StringComparison.OrdinalIgnoreCase))
+			return SceneKind.XyChart;
+		if (head.StartsWith("pie", StringComparison.OrdinalIgnoreCase))
+			return SceneKind.Pie;
+		if (head.StartsWith("radar", StringComparison.OrdinalIgnoreCase))
+			return SceneKind.Radar;
+		if (head.StartsWith("sankey", StringComparison.OrdinalIgnoreCase))
+			return SceneKind.Sankey;
 		return root.Descendants().Any(e => HasClass(e, "message")) ? SceneKind.Sequence : SceneKind.Graph;
 	}
 
@@ -199,7 +224,7 @@ internal sealed class SvgScene
 
 	private static string DetectDirection(string source, SceneKind kind)
 	{
-		if (kind is SceneKind.Architecture or SceneKind.Timeline or SceneKind.GitGraph or SceneKind.Gantt)
+		if (kind is SceneKind.Architecture or SceneKind.Timeline or SceneKind.GitGraph or SceneKind.Gantt or SceneKind.Sankey)
 			return "LR";
 		foreach (var raw in source.Split('\n'))
 		{
@@ -246,6 +271,18 @@ internal sealed class SvgScene
 				return;
 			case SceneKind.GitGraph:
 				ReadGitGraph();
+				return;
+			case SceneKind.XyChart:
+				ReadXyChart();
+				return;
+			case SceneKind.Pie:
+				ReadPie();
+				return;
+			case SceneKind.Radar:
+				ReadRadar();
+				return;
+			case SceneKind.Sankey:
+				ReadSankey();
 				return;
 		}
 		var edgeOrdinals = new Dictionary<(string, string), int>();
@@ -554,6 +591,138 @@ internal sealed class SvgScene
 			var points = PathData.Flatten((string?)link.Attribute("d") ?? "");
 			if (points.Count >= 2)
 				Edges.Add(new SceneEdge(from.Id, to.Id, link, new Polyline(points)) { Stroke = link });
+		}
+	}
+
+	/// <summary>A chart's line series: the polyline, and the point markers along it.</summary>
+	public List<(XElement Line, Polyline Path, List<XElement> Points)> Lines { get; } = [];
+
+	/// <summary>Whether a bar chart's bars stand up (vertical) rather than lie along the x axis.</summary>
+	public bool Upright { get; private set; } = true;
+
+	private void ReadXyChart()
+	{
+		var bars = Root.Descendants().Where(e => HasClass(e, "xy-bar")).ToList();
+		var firstSeries = bars.Select(b => (string?)b.Parent?.Attribute("data-series")).FirstOrDefault();
+		foreach (var bar in bars)
+		{
+			var series = (string?)bar.Parent?.Attribute("data-series") ?? "0";
+			var index = (int)Num.Parse((string?)bar.Attribute("data-index"));
+			var id = series == firstSeries ? $"#{index}" : $"#{index}.{series}";
+			var target = new SceneTarget(id, TargetKind.Node, id)
+			{
+				Index = series == firstSeries ? index : 0,
+				Value = Num.Parse((string?)bar.Attribute("data-value")),
+				Mark = bar
+			};
+			target.Elements.Add(bar);
+			target.Box = BoxOf(bar);
+			_targets[id] = target;
+		}
+		// upright bars share their base; lying bars share their left edge
+		var boxes = _targets.Values.Select(t => t.Box).ToList();
+		if (boxes.Count > 1)
+			Upright = boxes.Select(b => Math.Round(b.Bottom)).Distinct().Count() <= boxes.Select(b => Math.Round(b.X)).Distinct().Count();
+		foreach (var group in Root.Descendants(Ns + "g").Where(e => HasClass(e, "xy-line")))
+		{
+			var line = group.Elements().FirstOrDefault(e => e.Name.LocalName is "polyline" or "path");
+			if (line is null)
+				continue;
+			List<Vec> points = line.Name.LocalName == "polyline"
+				? [.. Pairs((string?)line.Attribute("points") ?? "")]
+				: PathData.Flatten((string?)line.Attribute("d") ?? "");
+			if (points.Count >= 2)
+				Lines.Add((line, new Polyline(points), group.Elements().Where(e => !ReferenceEquals(e, line)).ToList()));
+		}
+	}
+
+	private static IEnumerable<Vec> Pairs(string points)
+	{
+		var numbers = points.Split([' ', ','], StringSplitOptions.RemoveEmptyEntries);
+		for (var i = 0; i + 1 < numbers.Length; i += 2)
+			yield return new Vec(Num.Parse(numbers[i]), Num.Parse(numbers[i + 1]));
+	}
+
+	private void ReadPie()
+	{
+		var slices = Root.Descendants(Ns + "g").Where(e => HasClass(e, "pie-slice")).ToList();
+		foreach (var slice in slices)
+		{
+			var index = (int)Num.Parse((string?)slice.Attribute("data-index"));
+			var target = new SceneTarget($"#{index}", TargetKind.Node, (string?)slice.Attribute("data-label") ?? $"#{index}")
+			{
+				Index = index,
+				Value = Num.Parse((string?)slice.Attribute("data-value")),
+				Center = new Vec(Num.Parse((string?)slice.Attribute("data-cx")), Num.Parse((string?)slice.Attribute("data-cy"))),
+				Radius = Num.Parse((string?)slice.Attribute("data-r")),
+				StartAngle = Num.Parse((string?)slice.Attribute("data-start")),
+				EndAngle = Num.Parse((string?)slice.Attribute("data-end")),
+			};
+			target.Elements.Add(slice);
+			target.Box = new Box(target.Center.X - target.Radius, target.Center.Y - target.Radius, 2 * target.Radius, 2 * target.Radius);
+			_targets[target.Id] = target;
+		}
+		// the percentages outside the circle: each belongs to the slice whose angle it sits at
+		foreach (var label in Root.Elements(Ns + "text").ToList())
+		{
+			var at = new Vec(Num.Parse((string?)label.Attribute("x")), Num.Parse((string?)label.Attribute("y")));
+			var owner = _targets.Values.FirstOrDefault(t =>
+			{
+				var d = at - t.Center;
+				if (d.Length < t.Radius * 0.9)
+					return false;
+				var angle = Math.Atan2(d.Y, d.X) * 180 / Math.PI;
+				while (angle < t.StartAngle)
+					angle += 360;
+				return angle <= t.EndAngle;
+			});
+			if (owner is not null)
+			{
+				var follower = new SceneTarget(owner.Id + ".label", TargetKind.Node, label.Value);
+				follower.Elements.Add(label);
+				follower.Box = BoxOf(label);
+				owner.Followers.Add(follower);
+			}
+		}
+	}
+
+	private void ReadRadar()
+	{
+		foreach (var curve in Root.Descendants(Ns + "g").Where(e => HasClass(e, "radar-curve")).ToList())
+		{
+			var id = (string?)curve.Attribute("data-curve") ?? "";
+			var target = new SceneTarget(id, TargetKind.Node, id)
+			{
+				Index = (int)Num.Parse((string?)curve.Attribute("data-index")),
+				Center = new Vec(Num.Parse((string?)curve.Attribute("data-cx")), Num.Parse((string?)curve.Attribute("data-cy"))),
+			};
+			target.Elements.Add(curve);
+			target.Box = BoxOf(curve);
+			_targets[id] = target;
+		}
+	}
+
+	private void ReadSankey()
+	{
+		foreach (var node in Root.Descendants(Ns + "g").Where(e => HasClass(e, "sankey-node")).ToList())
+			AddTarget(_targets, (string?)node.Attribute("data-id") ?? "", TargetKind.Node, node);
+		var ordinals = new Dictionary<(string, string), int>();
+		foreach (var link in Root.Descendants(Ns + "path").Where(e => HasClass(e, "sankey-link")).ToList())
+		{
+			var from = (string?)link.Attribute("data-from") ?? "";
+			var to = (string?)link.Attribute("data-to") ?? "";
+			var box = BoxOf(link);
+			// a ribbon flows left to right: it is revealed along its middle, as tall as it is
+			var path = new Polyline([new Vec(box.X - 1, box.Center.Y), new Vec(box.Right + 1, box.Center.Y)]);
+			var key = (from, to);
+			ordinals[key] = ordinals.TryGetValue(key, out var n) ? n + 1 : 1;
+			Edges.Add(new SceneEdge(from, to, link, path)
+			{
+				Stroke = link,
+				MaskWidth = box.Height + 8,
+				Label = (string?)link.Attribute("data-value"),
+				Index = ordinals[key]
+			});
 		}
 	}
 

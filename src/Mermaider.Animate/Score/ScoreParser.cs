@@ -202,13 +202,15 @@ internal static class ScoreParser
 			"fill" => ParseFill(reader),
 			"sweep" => ParseSweep(reader),
 			"move" => ParseMove(reader),
+			"set" => ParseSet(reader),
+			"trace" => new TraceStatement(reader.Chain(min: 2), line),
 			"expand" => new ExpandStatement(reader.Targets(), line),
 			"badge" => ParseBadge(reader),
 			"hang" => new HangStatement(reader.Targets(), line),
 			"note" => ParseNote(reader),
 			_ =>
 				reader.Fail(
-					$"Unknown verb '{verb}'. The verbs are show, hide, focus, pulse, mark, badge, fill, hang, draw, erase, cut, restore, send, stream, tour, run, try, ping, play, sweep, move, expand, note, caption and build."
+					$"Unknown verb '{verb}'. The verbs are show, hide, focus, pulse, mark, badge, fill, hang, draw, erase, cut, restore, send, stream, tour, run, try, ping, play, sweep, move, expand, set, trace, note, caption and build."
 				),
 		};
 		if (statement is null)
@@ -426,6 +428,19 @@ internal static class ScoreParser
 		if (capacity is { } c && count > c)
 			return reader.Fail($"{count} is more than the capacity of {c}.");
 		return new FillStatement(new TargetRef(id, IsGroup: false, reader.Line), count, capacity, reader.Line);
+	}
+
+	private static Statement? ParseSet(Reader reader)
+	{
+		// set BAR VALUE: a bar named #2, by id, or by label
+		var targets = reader.Targets();
+		var number = reader.Peek(0) is { Quoted: false } word ? reader.Next()!.Text : null;
+		if (
+			targets.Count != 1 || number is null ||
+			!double.TryParse(number, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var value)
+		)
+			return reader.Fail("set takes one bar and a number: set #2 75.");
+		return new SetStatement(targets[0], value, reader.Line);
 	}
 
 	private static Statement? ParseMove(Reader reader)

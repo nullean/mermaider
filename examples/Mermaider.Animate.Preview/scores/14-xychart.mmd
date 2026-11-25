@@ -1,0 +1,14 @@
+xychart-beta
+  %% XY chart: revenue grows quarter by quarter, then the forecast for Q4 is revised up
+  title "Revenue"
+  x-axis [Q1, Q2, Q3, Q4]
+  y-axis "k$" 0 --> 120
+  bar [30, 55, 70, 60]
+  line [25, 45, 65, 80]
+
+animate
+  build
+  step "Q4 looked flat"
+    focus #4
+  step "The forecast is revised up"
+    set #4 95

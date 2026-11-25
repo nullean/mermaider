@@ -37,6 +37,8 @@ internal sealed partial class Compiler
 			return Sweep(new SweepStatement(null, line), at);
 		if (_scene.Tree)
 			return BuildTree(at);
+		if (_scene.Kind is SceneKind.XyChart or SceneKind.Pie or SceneKind.Radar)
+			return BuildChart(at);
 
 		var t = at;
 		var groups = _scene.Groups.OrderBy(Depth).ThenBy(g => g.Box.Y).ThenBy(g => g.Box.X).ToList();
