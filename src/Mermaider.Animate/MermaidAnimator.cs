@@ -156,17 +156,19 @@ public sealed class AnimatedDiagram
 
 	internal CompiledTimeline? Timeline => _timeline;
 
-	/// <summary>Every animated element's class with how many channels it animates, in the order its animations are listed.</summary>
-	internal List<(string Class, int Channels)> AnimatedClasses()
+	/// <summary>
+	/// Every animated element's class with where each of its animations' clocks starts, in the order its <c>animation</c>
+	/// list names them. Under reduced motion an element runs the start of that list, so the same delays fit it.
+	/// </summary>
+	internal List<(string Class, string Starts)> AnimatedClasses()
 	{
 		lock (_gate)
 		{
-			return _timeline!
-				.Channels
-				.Where(c => c.IsAnimated)
-				.GroupBy(c => c.Element)
-				.Where(g => _classes.ContainsKey(g.Key))
-				.Select(g => (_classes[g.Key], g.Count()))
+			var t = _timeline!;
+			return CssEmitter
+				.Plan(t.Channels, t.Duration, t.StoryStart, t.Loops)
+				.Where(g => _classes.ContainsKey(g.Element))
+				.Select(g => (_classes[g.Element], Starts(g.Entries)))
 				.ToList();
 		}
 	}
@@ -185,6 +187,9 @@ public sealed class AnimatedDiagram
 				.ToList();
 		}
 	}
+
+	private static string Starts(IEnumerable<CssEmitter.Entry> entries) =>
+		string.Join(",", entries.Select(e => e.Start.ToString("R", System.Globalization.CultureInfo.InvariantCulture)));
 
 	/// <summary>The animation at <paramref name="time"/> as a static SVG with no stylesheet animation: for posters, print and tests.</summary>
 	public string RenderFrame(TimeSpan time) => _timeline is null ? Svg : FrameAt(time.TotalMilliseconds);

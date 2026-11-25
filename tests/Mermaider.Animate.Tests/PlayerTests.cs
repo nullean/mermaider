@@ -62,9 +62,21 @@ public class PlayerTests
 		var intro = animation.Intro.TotalMilliseconds;
 		intro.Should().BeGreaterThan(0);
 		var second = animation.Steps.Where(s => s.Caption is not null).ElementAt(1).Start.TotalMilliseconds;
-		// the intro clock is long finished (and holds), the story clock is at the step
-		html.Should().Contain($"animation-delay: {Ms(-second)}, {Ms(intro - second)}");
-		html.Should().MatchRegex(@"-from1:checked\) svg \.ma[0-9a-f]{8}-a\d+, [^{]*-hold1:checked\) svg \.ma[0-9a-f]{8}-a\d+");
+		// every animation an element runs is put at the step on its own clock: the intro's (it starts at 0, is long
+		// finished and holds) or the story's (it starts as the intro ends), in the order the element lists them
+		var lists = Regex.Matches(animation.Svg, @"(?m)^\.(ma[0-9a-f]{8}-a\d+) \{ animation: ([^;]+);").ToList();
+		lists.Should().NotBeEmpty();
+		var clocks = new HashSet<string>();
+		foreach (var list in lists)
+		{
+			var cls = list.Groups[1].Value;
+			var expected = list.Groups[2].Value.Split(", ").Select(a => a.Contains(" 0s 1 forwards") ? Ms(-second) : Ms(intro - second)).ToList();
+			clocks.UnionWith(expected);
+			var rule = Regex.Match(html, $@"-from1:checked\) svg \.{cls}[,\s][^{{]*\{{ animation-delay: ([^;}}]+)");
+			rule.Success.Should().BeTrue($"{cls} has a play-from delay");
+			rule.Groups[1].Value.Trim().Should().Be(string.Join(", ", expected), cls);
+		}
+		clocks.Should().BeEquivalentTo([Ms(-second), Ms(intro - second)], "the score has both an intro and a story");
 
 		var once = MermaidAnimator.Compile(Source.Replace("animate\n", "animate once\n"));
 		var start = once.Steps.Where(s => s.Caption is not null).ElementAt(1).Start.TotalMilliseconds;
