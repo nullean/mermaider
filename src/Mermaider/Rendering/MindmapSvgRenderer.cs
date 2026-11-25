@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 using Mermaider.Models;
 using Mermaider.Text;
@@ -71,15 +72,33 @@ internal static class MindmapSvgRenderer
 		StyleBlock.AppendSvgOpenTag(sb, width, height, context.Styles.Colors, context.Styles.Transparent, context.Accessibility, context.DiagramType);
 		StyleBlock.AppendStyleBlock(sb, context.Styles);
 
-		// links first: branches in their family stroke, rounded orthogonal like every other edge (the preset's bend radius)
-		foreach (var node in positioned)
+		// addressing: nodes by their place in the layout (1-based), each knowing its parent, links by the nodes they join
+		var parents = new int[positioned.Count];
+		for (var i = 0; i < positioned.Count; i++)
 		{
-			if (node.ParentCx is not null)
-				AppendLink(sb, ds, node, Family(ds, node), isVertical, context.EdgeRadius);
+			var node = positioned[i];
+			if (node.ParentCx is not { } px || node.ParentCy is not { } py)
+				continue;
+			for (var j = 0; j < positioned.Count; j++)
+			{
+				var candidate = positioned[j];
+				if (j != i && Math.Abs(candidate.X + (candidate.W / 2) - px) < 0.01 && Math.Abs(candidate.Y + (candidate.H / 2) - py) < 0.01)
+				{
+					parents[i] = j + 1;
+					break;
+				}
+			}
 		}
 
-		foreach (var node in positioned)
-			AppendNode(sb, ds, node, Family(ds, node));
+		// links first: branches in their family stroke, rounded orthogonal like every other edge (the preset's bend radius)
+		for (var i = 0; i < positioned.Count; i++)
+		{
+			if (positioned[i].ParentCx is not null)
+				AppendLink(sb, ds, positioned[i], parents[i], i + 1, Family(ds, positioned[i]), isVertical, context.EdgeRadius);
+		}
+
+		for (var i = 0; i < positioned.Count; i++)
+			AppendNode(sb, ds, positioned[i], i + 1, parents[i], Family(ds, positioned[i]));
 
 		ds.Close(sb);
 		return sb;
@@ -329,7 +348,16 @@ internal static class MindmapSvgRenderer
 	};
 
 	/// <summary>An elbow from the parent's edge to the child's near edge, bending halfway across the gap.</summary>
-	private static void AppendLink(StringBuilder sb, DesignSystem ds, PositionedMindmapNode node, ColorFamily family, bool vertical, double radius)
+	private static void AppendLink(
+		StringBuilder sb,
+		DesignSystem ds,
+		PositionedMindmapNode node,
+		int from,
+		int to,
+		ColorFamily family,
+		bool vertical,
+		double radius
+	)
 	{
 		var (pcx, pcy) = (node.ParentCx!.Value, node.ParentCy!.Value);
 		var (cx, cy) = (node.X + (node.W / 2), node.Y + (node.H / 2));
@@ -361,7 +389,11 @@ internal static class MindmapSvgRenderer
 			.Append(family.Stroke)
 			.Append("\" stroke-width=\"")
 			.Append(DesignSystem.Num(ds.Spec.EdgeWidth + 0.25))
-			.Append("\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />");
+			.Append("\" stroke-linecap=\"round\" stroke-linejoin=\"round\" data-from=\"")
+			.Append(from.ToString(CultureInfo.InvariantCulture))
+			.Append("\" data-to=\"")
+			.Append(to.ToString(CultureInfo.InvariantCulture))
+			.Append("\" />");
 	}
 
 	// A scalloped outline: bumps along an ellipse, each drawn as a quadratic bulging outwards.
@@ -386,14 +418,17 @@ internal static class MindmapSvgRenderer
 		_ = sb.Append(" Z\" ").Append(paint).Append(" />");
 	}
 
-	private static void AppendNode(StringBuilder sb, DesignSystem ds, PositionedMindmapNode node, ColorFamily family)
+	private static void AppendNode(StringBuilder sb, DesignSystem ds, PositionedMindmapNode node, int index, int parent, ColorFamily family)
 	{
 		var cx = node.X + (node.W / 2);
 		var cy = node.Y + (node.H / 2);
 		var sw = node.Depth == 0 ? ds.TerminalStrokeWidth : ds.NodeStrokeWidth;
 		var paint = $"fill=\"{ds.NodeFill(family)}\" stroke=\"{ds.NodeStroke(family)}\" stroke-width=\"{sw}\"";
 
-		_ = sb.Append("\n<g class=\"node mindmap-node\" data-depth=\"").Append(node.Depth).Append("\" data-label=\"");
+		_ = sb.Append("\n<g class=\"node mindmap-node\" data-index=\"").Append(index.ToString(CultureInfo.InvariantCulture)).Append('"');
+		if (parent > 0)
+			_ = sb.Append(" data-parent=\"").Append(parent.ToString(CultureInfo.InvariantCulture)).Append('"');
+		_ = sb.Append(" data-depth=\"").Append(node.Depth).Append("\" data-label=\"");
 		MultilineUtils.AppendEscapedAttr(sb, node.Label.AsSpan());
 		_ = sb.Append("\">");
 		switch (node.Shape)

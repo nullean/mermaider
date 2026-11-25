@@ -166,6 +166,7 @@ internal static class GanttSvgRenderer
 
 		var y = panelTop + PanelInsetTop;
 		var labelX = panelX + PanelInsetX;
+		var taskIndex = 0;
 		for (var s = 0; s < diagram.Sections.Count; s++)
 		{
 			var section = diagram.Sections[s];
@@ -208,7 +209,7 @@ internal static class GanttSvgRenderer
 
 			foreach (var task in section.Tasks)
 			{
-				AppendTaskRow(sb, ds, task, family, y, labelX, chartLeft, chartWidth, min, max);
+				AppendTaskRow(sb, ds, task, ++taskIndex, family, y, labelX, chartLeft, chartWidth, min, max);
 				y += RowHeight;
 			}
 
@@ -322,10 +323,16 @@ internal static class GanttSvgRenderer
 		_ = sb.Append("\n</g>");
 	}
 
+	private static string IsoDate(DateTime value) =>
+		value.TimeOfDay == TimeSpan.Zero
+			? value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)
+			: value.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture);
+
 	private static void AppendTaskRow(
 		StringBuilder sb,
 		DesignSystem ds,
 		GanttTask task,
+		int index,
 		ColorFamily sectionFamily,
 		double rowY,
 		double labelX,
@@ -357,7 +364,16 @@ internal static class GanttSvgRenderer
 		var (fill, stroke) = isDone ? (family.Soft, family.Stroke) : isActive ? (family.Base, "none") : (ds.MarkFill(family), ds.MarkStroke(family));
 
 		var state = isCrit ? "critical" : isActive ? "active" : isDone ? "done" : "planned";
-		_ = sb.Append("\n<g class=\"gantt-task\" data-state=\"").Append(state).Append(IsMilestone(task) ? "\" data-milestone=\"true\">" : "\">");
+		// addressing: the task's place in the source, its id when it has one, and the dates it spans (see DESIGN.md)
+		_ = sb.Append("\n<g class=\"gantt-task\" data-index=\"").Append(index.ToString(CultureInfo.InvariantCulture)).Append('"');
+		if (task.Id is { Length: > 0 })
+		{
+			_ = sb.Append(" data-id=\"");
+			MultilineUtils.AppendEscapedAttr(sb, task.Id.AsSpan());
+			_ = sb.Append('"');
+		}
+		_ = sb.Append(" data-start=\"").Append(IsoDate(task.Start)).Append("\" data-end=\"").Append(IsoDate(task.End)).Append('"');
+		_ = sb.Append(" data-state=\"").Append(state).Append(IsMilestone(task) ? "\" data-milestone=\"true\">" : "\">");
 
 		if (IsMilestone(task))
 		{

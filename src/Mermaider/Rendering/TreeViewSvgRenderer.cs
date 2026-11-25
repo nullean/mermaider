@@ -72,7 +72,7 @@ internal static class TreeViewSvgRenderer
 			var row = flatRows[i];
 			var y = Pad + (i * RowHeight);
 			var x = Pad + (row.Depth * IndentStep);
-			AppendRow(sb, ds, row, x, y);
+			AppendRow(sb, ds, row, i + 1, x, y);
 		}
 
 		ds.Close(sb);
@@ -156,13 +156,18 @@ internal static class TreeViewSvgRenderer
 			Point[] points = [new(connX, parentY + (IconSize / 2) + 2), new(connX, rowY), new(nodeX, rowY)];
 			_ = sb.Append("\n  <path d=\"");
 			SvgRenderer.BuildOrthogonalPath(sb, points, Math.Min(radius, 6));
-			_ = sb.Append("\" />");
+			_ = sb
+				.Append("\" data-from=\"")
+				.Append((row.ParentIndex + 1).ToString(System.Globalization.CultureInfo.InvariantCulture))
+				.Append("\" data-to=\"")
+				.Append((i + 1).ToString(System.Globalization.CultureInfo.InvariantCulture))
+				.Append("\" />");
 		}
 
 		_ = sb.Append("\n</g>");
 	}
 
-	private static void AppendRow(StringBuilder sb, DesignSystem ds, FlatRow row, double x, double y)
+	private static void AppendRow(StringBuilder sb, DesignSystem ds, FlatRow row, int index, double x, double y)
 	{
 		var node = row.Node;
 		var midY = y + (RowHeight / 2);
@@ -177,7 +182,17 @@ internal static class TreeViewSvgRenderer
 		_ = node.CssClass is { Length: > 0 }
 			? sb.Append("\n<g class=\"treeview-node ").Append(MultilineUtils.EscapeAttr(node.CssClass)).Append("\" data-depth=\"")
 			: sb.Append("\n<g class=\"treeview-node\" data-depth=\"");
-		_ = sb.Append(row.Depth.ToString(System.Globalization.CultureInfo.InvariantCulture)).Append("\">");
+		// addressing: rows by their place in the tree (1-based, top to bottom), each knowing its parent row
+		_ = sb
+			.Append(row.Depth.ToString(System.Globalization.CultureInfo.InvariantCulture))
+			.Append("\" data-index=\"")
+			.Append(index.ToString(System.Globalization.CultureInfo.InvariantCulture))
+			.Append('"');
+		if (row.ParentIndex >= 0)
+			_ = sb.Append(" data-parent=\"").Append((row.ParentIndex + 1).ToString(System.Globalization.CultureInfo.InvariantCulture)).Append('"');
+		_ = sb.Append(" data-label=\"");
+		MultilineUtils.AppendEscapedAttr(sb, node.Label.AsSpan());
+		_ = sb.Append("\">");
 
 		if (hasHighlight)
 		{
