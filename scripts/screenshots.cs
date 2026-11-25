@@ -1,5 +1,6 @@
 #:project ../src/Mermaider/Mermaider.csproj
 #:project ../examples/Mermaider.Examples/Mermaider.Examples.csproj
+#:project ../src/Mermaider.Animate/Mermaider.Animate.csproj
 
 // Regenerates every screenshot the README, the docs pages and the landing page use.
 //
@@ -13,9 +14,12 @@
 //   docs/images/styles/<style>.svg                        theming page style comparison (one flowchart per style)
 //   docs/screenshots/<style>/<theme>/<type>.svg           landing page gallery (every style x theme, opaque)
 //   docs/screenshots/hero.svg                             landing page hero (the code sample's diagram, transparent)
+//   docs/screenshots/animate/<score>.svg                  landing page animations: preview scores, animated, zinc-dark
+//   docs/screenshots/animate/player.html                  landing page player: the request-path score with its step controls
 
 using System.Text.RegularExpressions;
 using Mermaider;
+using Mermaider.Animate;
 using Mermaider.Examples;
 using Mermaider.Models;
 using Mermaider.Theming;
@@ -148,6 +152,25 @@ Write(
 			Strict = new StrictStylingOptions(),
 		}
 	)
+);
+
+// the landing page's animations: preview scores, so the landing page shows what the preview and the golden frames check
+var scores = Path.Combine(root, "examples/Mermaider.Animate.Preview/scores");
+string[] animated = ["01-request-path", "03-state-machine", "04-sequence", "07-gantt", "10-kanban", "17-sankey", "20-venn"];
+foreach (var name in animated)
+	Write($"docs/screenshots/animate/{name}.svg", MermaidAnimator.RenderSvg(File.ReadAllText(Path.Combine(scores, name + ".mmd")), new AnimateOptions { Render = Options("zinc-dark", DiagramStyle.Quiet, transparent: true) }));
+// the player is live HTML (its controls are radio buttons), so it is a page of its own the landing page frames
+Write(
+	"docs/screenshots/animate/player.html",
+	$$"""
+	<!doctype html>
+	<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Mermaider.Animate player</title>
+	<style>html, body { margin: 0; background: #0D1013; color: #E9ECF1; font-family: Inter, system-ui, sans-serif; } body { padding: 12px; }</style>
+	</head><body>
+	{{MermaidAnimator.RenderPlayer(File.ReadAllText(Path.Combine(scores, "01-request-path.mmd")), new AnimateOptions { Render = Options("zinc-dark", DiagramStyle.Quiet, transparent: true) })}}
+	</body></html>
+	"""
 );
 
 var readmeCount = RenderReadme();

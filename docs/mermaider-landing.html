@@ -229,6 +229,16 @@
   .card-body { font-size: 0.8rem; color: var(--muted); line-height: 1.75; }
   .card-more { font-size: 0.75rem; color: var(--cyan); display: inline-block; margin-top: 1rem; }
 
+  /* ─────────────────────────  ANIMATE  ───────────────────────── */
+  .anim-split { margin-bottom: 3rem; }
+  .anim-player iframe { width: 100%; height: 250px; border: 1px solid var(--line-soft); border-radius: 8px; background: var(--bg2); display: block; }
+  .anim-note { font-size: 0.75rem; color: var(--muted); margin-top: 0.75rem; }
+  .anim-grid { margin-bottom: 1.5rem; }
+  .anim-card img { display: block; width: 100%; height: 300px; object-fit: contain; margin: 0.25rem 0 1rem; }
+  /* the score is syntax to copy: show the characters, not ligatures */
+  .anim-split pre { font-variant-ligatures: none; }
+  #animate { scroll-margin-top: 4rem; }
+
   /* ─────────────────────────  DIAGRAM GALLERY  ───────────────────────── */
   .gallery-section { position: relative; }
   .gallery-section::before {
@@ -436,6 +446,7 @@
     <ul class="nav-links">
       <li><a href="#features">features</a></li>
       <li><a href="#diagrams">diagram types</a></li>
+      <li><a href="#animate">animations</a></li>
       <li><a href="getting-started/">docs</a></li>
     </ul>
     <a class="nav-cta" href="https://github.com/nullean/mermaider">github →</a>
@@ -675,6 +686,109 @@
       <div class="diagram-card" data-type="treeview" data-label="treeview" onclick="openDiagram(this)"><div class="diagram-card-name">treeview</div><div class="diagram-card-preview"><img data-type="treeview" src="screenshots/quiet/zinc-dark/treeview.svg" alt="treeview diagram" loading="lazy"/></div></div>
       <div class="diagram-card" data-type="packet" data-label="packet" onclick="openDiagram(this)"><div class="diagram-card-name">packet</div><div class="diagram-card-preview"><img data-type="packet" src="screenshots/quiet/zinc-dark/packet.svg" alt="packet diagram" loading="lazy"/></div></div>
       <div class="diagram-card" data-type="journey" data-label="journey" onclick="openDiagram(this)"><div class="diagram-card-name">journey</div><div class="diagram-card-preview"><img data-type="journey" src="screenshots/quiet/zinc-dark/journey.svg" alt="journey diagram" loading="lazy"/></div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- ══════════════  ANIMATE  ══════════════ -->
+<section class="section reveal" id="animate">
+  <div class="inner">
+    <p class="section-label">// mermaider.animate</p>
+    <h2 class="section-title">Diagrams that<br/>tell the story.</h2>
+    <p class="section-sub">
+      Add an <code>animate</code> block after any diagram and say what happens: a request travels, a node fails,
+      the balancer retries. The score never names a duration or an easing; one motion preset decides how everything
+      moves, so every animated diagram on a site moves the same way. It plays with CSS alone.
+    </p>
+
+    <div class="split anim-split">
+      <div class="code-panel">
+        <div class="code-panel-head">the score</div>
+<pre>flowchart LR
+  client[Client] --&gt; lb[Balancer]
+  lb --&gt; api1[API 1]
+  lb --&gt; api2[API 2]
+  api1 --&gt; db[(Orders DB)]
+  api2 --&gt; db
+
+<span class="c-kw">animate</span>
+  <span class="c-kw">build</span>
+  <span class="c-kw">step</span> <span class="c-str">"A request takes the healthy path"</span>
+    <span class="c-key">tour</span> client -&gt; lb -&gt; api1 -&gt; db <span class="c-str">"GET /orders"</span>
+    <span class="c-key">tour</span> db -&gt; api1 -&gt; lb -&gt; client <span class="c-str">"200 OK"</span> as ok
+  <span class="c-kw">step</span> <span class="c-str">"API 1 stops answering"</span>
+    <span class="c-key">send</span> lb -&gt; api1 <span class="c-str">"GET /orders"</span>
+    <span class="c-key">hang</span> api1
+    <span class="c-key">mark</span> api1 fail
+    <span class="c-kw">with</span> <span class="c-key">badge</span> api1 <span class="c-str">"timeout"</span> as fail
+    <span class="c-kw">with</span> <span class="c-key">cut</span> lb -&gt; api1
+  <span class="c-kw">step</span> <span class="c-str">"The balancer retries on API 2"</span>
+    <span class="c-key">tour</span> lb -&gt; api2 -&gt; db <span class="c-str">"retry"</span>
+    <span class="c-key">tour</span> db -&gt; api2 -&gt; lb -&gt; client <span class="c-str">"200 OK"</span> as ok</pre>
+      </div>
+      <div class="anim-player">
+        <iframe src="screenshots/animate/player.html" title="The failover score playing, with pause and step controls" loading="lazy"></iframe>
+        <p class="anim-note">Pause, step through, or play from any step: the controls are radio buttons and CSS, no JavaScript.</p>
+      </div>
+    </div>
+
+    <div class="grid-2 anim-grid">
+      <div class="card anim-card">
+        <div class="card-kicker">state</div>
+        <div class="card-title">A fetch that times out</div>
+        <img src="screenshots/animate/03-state-machine.svg" alt="Animated state diagram: a fetch that times out" loading="lazy"/>
+        <p class="card-body">run the machine through its states, then a transition it refuses</p>
+      </div>
+      <div class="card anim-card">
+        <div class="card-kicker">sequence</div>
+        <div class="card-title">A cache miss, then a hit</div>
+        <img src="screenshots/animate/04-sequence.svg" alt="Animated sequence diagram: a cache miss, then a hit" loading="lazy"/>
+        <p class="card-body">messages play in order; a bracket says what the round trip costs</p>
+      </div>
+      <div class="card anim-card">
+        <div class="card-kicker">gantt</div>
+        <div class="card-title">The release plan unfolds</div>
+        <img src="screenshots/animate/07-gantt.svg" alt="Animated gantt diagram: the release plan unfolds" loading="lazy"/>
+        <p class="card-body">a playhead sweeps the dates and tasks grow behind it</p>
+      </div>
+      <div class="card anim-card">
+        <div class="card-kicker">kanban</div>
+        <div class="card-title">Work flows across the board</div>
+        <img src="screenshots/animate/10-kanban.svg" alt="Animated kanban diagram: work flows across the board" loading="lazy"/>
+        <p class="card-body">cards move between columns and the counts follow</p>
+      </div>
+      <div class="card anim-card">
+        <div class="card-kicker">sankey</div>
+        <div class="card-title">Where visitors go</div>
+        <img src="screenshots/animate/17-sankey.svg" alt="Animated sankey diagram: where visitors go" loading="lazy"/>
+        <p class="card-body">flows run left to right, then the paying path is traced</p>
+      </div>
+      <div class="card anim-card">
+        <div class="card-kicker">venn</div>
+        <div class="card-title">The overlap is the role</div>
+        <img src="screenshots/animate/20-venn.svg" alt="Animated venn diagram: the overlap is the role" loading="lazy"/>
+        <p class="card-body">sets arrive, then the region they share lights up</p>
+      </div>
+    </div>
+
+    <div class="grid-3 anim-why">
+      <div class="card">
+        <div class="card-kicker">one motion language</div>
+        <div class="card-title">Say what happens,<br/>not how it moves</div>
+        <p class="card-body">Verbs like <code>tour</code>, <code>send</code>, <code>mark</code>, <code>trace</code> and <code>count</code> name the story. Timing, easing and colour come from the preset and the diagram's theme.</p>
+      </div>
+      <div class="card">
+        <div class="card-kicker blue">css only</div>
+        <div class="card-title">Plays anywhere<br/>an SVG does</div>
+        <p class="card-body">One self-contained SVG: no script, no runtime. It waits until it is on screen, loops without a fade, and under reduced motion turns movement into cuts. Printed, it shows how the story ends.</p>
+      </div>
+      <div class="card">
+        <div class="card-kicker blue">every diagram type</div>
+        <div class="card-title">Checked against<br/>the diagram</div>
+        <p class="card-body">Every name in a score is checked against the diagram, with each problem reported on its line. A bare <code>animate</code> plays the type's own default: flows build, state machines run, a gantt chart sweeps its plan.</p>
+      </div>
     </div>
   </div>
 </section>

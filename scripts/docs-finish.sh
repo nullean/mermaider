@@ -38,4 +38,6 @@ python3 -I "$root/scripts/docs-pages.py" "$out" "$root/docs" "$prefix" "$logo" "
 cp "$root/docs/mermaider-landing.html" "$out/index.html"
 # docs-builder copies images, not fonts; the theme needs these.
 mkdir -p "$out/fonts" && cp "$root"/docs/fonts/*.woff2 "$out/fonts/"
+# the landing page's animations and its player page (docs-builder copies images, not HTML)
+mkdir -p "$out/screenshots/animate" && cp "$root"/docs/screenshots/animate/* "$out/screenshots/animate/"
 echo "docs: finished $out (theme appended to ${css#"$out"/}, landing page applied)"
