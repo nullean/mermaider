@@ -67,6 +67,7 @@ by number: `#3` is the third message of a sequence diagram, and the third task, 
 | `pulse a` | a node draws attention once |
 | `mark a ok\|fail\|warn\|info\|clear` | a node takes a role colour with a check or a cross (a journey task's face too), an edge or a message (`#3`) its colour, until cleared |
 | `badge a "timeout" [as role]` · `badge a clear` | a short label pinned above a node, until cleared |
+| `count api [38 ->] 1200 ["ms"] [as role]` | a number on a node rolls to a new value through the ones between, from its last count (or 0), and stays until cleared (`badge api clear`) |
 | `fill queue 3/8` · `fill queue 8` | a meter of slots along a node fills or drains; its last quarter warns |
 | `hang a` | a node waits with no answer: the wait itself is shown |
 | `draw a -> b` · `erase a -> b` | a line draws from its source, and its arrowhead lands when the line arrives |

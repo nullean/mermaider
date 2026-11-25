@@ -52,6 +52,7 @@ public class FuzzTests
 		"trace",
 		"note",
 		"caption",
+		"count",
 	];
 
 	private static readonly string[] Words =
@@ -83,6 +84,7 @@ public class FuzzTests
 		"trace",
 		"note",
 		"caption",
+		"count",
 		"step",
 		"with",
 		"token",
