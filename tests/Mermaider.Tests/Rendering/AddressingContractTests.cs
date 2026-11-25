@@ -104,6 +104,72 @@ public class AddressingContractTests
 	}
 
 	[Test]
+	public void Xychart_bars_carry_their_category_and_value()
+	{
+		foreach (var doc in Documents(DiagramCategory.XyChart))
+		{
+			var bars = doc.Descendants().Where(e => HasClass(e, "xy-bar")).ToList();
+			bars.Should().OnlyContain(b => b.Parent != null && HasClass(b.Parent, "xy-bars"));
+			foreach (var series in doc.Descendants().Where(e => HasClass(e, "xy-bars")))
+				Indices(series.Elements().Where(e => HasClass(e, "xy-bar")))
+					.Should()
+					.Equal(Enumerable.Range(1, series.Elements().Count(e => HasClass(e, "xy-bar"))));
+			bars.Select(b => double.TryParse((string?)b.Attribute("data-value"), NumberStyles.Float, CultureInfo.InvariantCulture, out var value) ? value : double.NaN)
+				.Should().NotContain(double.NaN);
+		}
+	}
+
+	[Test]
+	public void Pie_slices_carry_value_angles_and_their_circle()
+	{
+		foreach (var doc in Documents(DiagramCategory.Pie))
+		{
+			var slices = doc.Descendants().Where(e => HasClass(e, "pie-slice")).ToList();
+			Indices(slices).Should().Equal(Enumerable.Range(1, slices.Count));
+
+			double D(XElement e, string name) => double.Parse((string)e.Attribute(name)!, CultureInfo.InvariantCulture);
+
+			for (var i = 1; i < slices.Count; i++)
+				D(slices[i], "data-start").Should().BeApproximately(D(slices[i - 1], "data-end"), 0.01, "slices follow each other round the circle");
+			if (slices.Count > 0)
+				(D(slices[^1], "data-end") - D(slices[0], "data-start")).Should().BeApproximately(360, 0.05);
+			slices
+				.Select(s => (string?)s.Attribute("data-cx") + "," + (string?)s.Attribute("data-cy") + "," + (string?)s.Attribute("data-r"))
+				.Distinct()
+				.Should()
+				.HaveCount(Math.Min(1, slices.Count));
+		}
+	}
+
+	[Test]
+	public void Radar_curves_are_numbered_and_share_a_centre()
+	{
+		foreach (var doc in Documents(DiagramCategory.Radar))
+		{
+			var curves = doc.Descendants().Where(e => HasClass(e, "radar-curve")).ToList();
+			Indices(curves).Should().Equal(Enumerable.Range(1, curves.Count));
+			curves
+				.Select(c => (string?)c.Attribute("data-cx") + "," + (string?)c.Attribute("data-cy"))
+				.Distinct()
+				.Should()
+				.HaveCount(Math.Min(1, curves.Count));
+		}
+	}
+
+	[Test]
+	public void Sankey_links_join_nodes_that_exist_and_carry_their_value()
+	{
+		foreach (var doc in Documents(DiagramCategory.Sankey))
+		{
+			var nodes = doc.Descendants().Where(e => HasClass(e, "sankey-node")).Select(n => (string)n.Attribute("data-id")!).ToHashSet();
+			var links = doc.Descendants().Where(e => HasClass(e, "sankey-link")).ToList();
+			links.Should().NotBeEmpty();
+			links.Should().OnlyContain(l => nodes.Contains((string)l.Attribute("data-from")!) && nodes.Contains((string)l.Attribute("data-to")!));
+			links.Should().OnlyContain(l => double.Parse((string)l.Attribute("data-value")!, CultureInfo.InvariantCulture) > 0);
+		}
+	}
+
+	[Test]
 	[Arguments(DiagramCategory.Flowchart)]
 	[Arguments(DiagramCategory.State)]
 	[Arguments(DiagramCategory.Block)]

@@ -171,14 +171,14 @@ internal static class XyChartSvgRenderer
 					var cy = CategoryPos(i, catCount, plotY, plotH) + offset;
 					var x0 = ValueToX(Baseline(vMin, vMax), vMin, vMax, plotX, plotW);
 					var x1 = ValueToX(v, vMin, vMax, plotX, plotW);
-					AppendBar(sb, ds, family, fill, horizontal: true, cy - (barThickness / 2), barThickness, x0, x1);
+					AppendBar(sb, ds, family, fill, horizontal: true, cy - (barThickness / 2), barThickness, x0, x1, Hooks(i, v));
 				}
 				else
 				{
 					var cx = CategoryPos(i, catCount, plotX, plotW) + offset;
 					var y0 = ValueToY(Baseline(vMin, vMax), vMin, vMax, plotY, plotH);
 					var y1 = ValueToY(v, vMin, vMax, plotY, plotH);
-					AppendBar(sb, ds, family, fill, horizontal: false, cx - (barThickness / 2), barThickness, y0, y1);
+					AppendBar(sb, ds, family, fill, horizontal: false, cx - (barThickness / 2), barThickness, y0, y1, Hooks(i, v));
 				}
 			}
 
@@ -254,7 +254,8 @@ internal static class XyChartSvgRenderer
 		double cross,
 		double thickness,
 		double from,
-		double to
+		double to,
+		string hooks
 	)
 	{
 		var len = Math.Abs(to - from);
@@ -280,7 +281,7 @@ internal static class XyChartSvgRenderer
 				.Append((horizontal ? thickness : len).SvgFormat())
 				.Append('"');
 			ds.AppendMarkPaint(sb, family, fill);
-			_ = sb.Append(" />");
+			_ = sb.Append(hooks).Append(" />");
 			return;
 		}
 
@@ -310,8 +311,12 @@ internal static class XyChartSvgRenderer
 			.Append(P(from, b))
 			.Append(" Z\"");
 		ds.AppendMarkPaint(sb, family, fill);
-		_ = sb.Append(" />");
+		_ = sb.Append(hooks).Append(" />");
 	}
+
+	/// <summary>Addressing (DESIGN.md §10): a bar's category, 1-based, and the value it stands for.</summary>
+	private static string Hooks(int index, double value) =>
+		$" class=\"xy-bar\" data-index=\"{(index + 1).ToString(CultureInfo.InvariantCulture)}\" data-value=\"{value.ToString(CultureInfo.InvariantCulture)}\"";
 
 	/// <summary>A series line: straight polyline, or a smooth Catmull-Rom curve for fat marks.</summary>
 	private static void AppendLine(StringBuilder sb, DesignSystem ds, List<(double X, double Y)> pts, string color)

@@ -295,9 +295,13 @@ They are part of the output's contract: renaming or dropping one is a breaking c
 | kanban | `g.kanban-column[data-id]`, `g.kanban-card[data-id][data-column]` | — |
 | mindmap | `g.mindmap-node[data-index][data-parent?]` | `path.mindmap-link[data-from][data-to]` |
 | treeview | `g.treeview-node[data-index][data-parent?]` | branch paths `[data-from][data-to]` |
+| xychart | bars `.xy-bar[data-index][data-value]` in `g.xy-bars[data-series]`; lines `g.xy-line[data-series]` | — |
+| pie | `g.pie-slice[data-index][data-value][data-start][data-end]` with their circle `[data-cx][data-cy][data-r]` | — |
+| radar | `g.radar-curve[data-index]` with the centre `[data-cx][data-cy]` | — |
+| sankey | `g.sankey-node[data-id]` | `path.sankey-link[data-from][data-to][data-value]` |
 
-`AddressingContractTests` checks the table against every example of each type. The other types (charts, sankey,
-quadrant, treemap, venn, radar, packet, journey) get their hooks with the animation work that needs them.
+`AddressingContractTests` checks the table against every example of each type. The other types (quadrant,
+treemap, venn, packet, journey, requirement) get their hooks with the animation work that needs them.
 
 ## Source of truth
 

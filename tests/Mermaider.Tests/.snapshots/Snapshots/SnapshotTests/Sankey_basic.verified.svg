@@ -30,48 +30,48 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<path class="sankey-link" d="M 54 258.37 C 302.5 258.37 302.5 352.98 551 352.98 L 551 377.79 C 302.5 377.79 302.5 287.96 54 287.96 Z" fill="url(#m1814eb8b-sankey-grad-0)" stroke="none" />
-<path class="sankey-link" d="M 54 287.96 C 302.5 287.96 302.5 391.79 551 391.79 L 551 400 C 302.5 400 302.5 297.76 54 297.76 Z" fill="url(#m1814eb8b-sankey-grad-1)" stroke="none" />
-<path class="sankey-link" d="M 54 297.76 C 302.5 297.76 302.5 158.6 551 158.6 L 551 244.29 C 302.5 244.29 302.5 400 54 400 Z" fill="url(#m1814eb8b-sankey-grad-2)" stroke="none" />
-<path class="sankey-link" d="M 54 40 C 302.5 40 302.5 258.29 551 258.29 L 551 293.05 C 302.5 293.05 302.5 81.48 54 81.48 Z" fill="url(#m1814eb8b-sankey-grad-3)" stroke="none" />
-<path class="sankey-link" d="M 54 81.48 C 302.5 81.48 302.5 40 551 40 L 551 144.6 C 302.5 144.6 302.5 206.27 54 206.27 Z" fill="url(#m1814eb8b-sankey-grad-4)" stroke="none" />
-<path class="sankey-link" d="M 54 206.27 C 302.5 206.27 302.5 307.05 551 307.05 L 551 338.98 C 302.5 338.98 302.5 244.37 54 244.37 Z" fill="url(#m1814eb8b-sankey-grad-5)" stroke="none" />
-<g class="sankey-node" data-node="Electricity grid">
+<path class="sankey-link" d="M 54 258.37 C 302.5 258.37 302.5 352.98 551 352.98 L 551 377.79 C 302.5 377.79 302.5 287.96 54 287.96 Z" fill="url(#m1814eb8b-sankey-grad-0)" stroke="none" data-from="Bio-conversion" data-to="Gas" data-value="81.144" />
+<path class="sankey-link" d="M 54 287.96 C 302.5 287.96 302.5 391.79 551 391.79 L 551 400 C 302.5 400 302.5 297.76 54 297.76 Z" fill="url(#m1814eb8b-sankey-grad-1)" stroke="none" data-from="Bio-conversion" data-to="Losses" data-value="26.862" />
+<path class="sankey-link" d="M 54 297.76 C 302.5 297.76 302.5 158.6 551 158.6 L 551 244.29 C 302.5 244.29 302.5 400 54 400 Z" fill="url(#m1814eb8b-sankey-grad-2)" stroke="none" data-from="Bio-conversion" data-to="Solid" data-value="280.322" />
+<path class="sankey-link" d="M 54 40 C 302.5 40 302.5 258.29 551 258.29 L 551 293.05 C 302.5 293.05 302.5 81.48 54 81.48 Z" fill="url(#m1814eb8b-sankey-grad-3)" stroke="none" data-from="Electricity grid" data-to="Heating and cooling - homes" data-value="113.726" />
+<path class="sankey-link" d="M 54 81.48 C 302.5 81.48 302.5 40 551 40 L 551 144.6 C 302.5 144.6 302.5 206.27 54 206.27 Z" fill="url(#m1814eb8b-sankey-grad-4)" stroke="none" data-from="Electricity grid" data-to="Industry" data-value="342.165" />
+<path class="sankey-link" d="M 54 206.27 C 302.5 206.27 302.5 307.05 551 307.05 L 551 338.98 C 302.5 338.98 302.5 244.37 54 244.37 Z" fill="url(#m1814eb8b-sankey-grad-5)" stroke="none" data-from="Electricity grid" data-to="Over generation / exports" data-value="104.453" />
+<g class="sankey-node" data-node="Electricity grid" data-id="Electricity grid">
   <rect x="40" y="40" width="14" height="204.37" rx="3" ry="3" fill="#4e79a7" />
   <text x="64" y="134.18" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Electricity grid</text>
   <text x="64" y="150.18" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">560.34</text>
 </g>
-<g class="sankey-node" data-node="Over generation / exports">
+<g class="sankey-node" data-node="Over generation / exports" data-id="Over generation / exports">
   <rect x="551" y="307.05" width="14" height="31.93" rx="3" ry="3" fill="#f28e2b" />
   <text x="575" y="315.02" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Over generation / exports</text>
   <text x="575" y="331.02" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">104.45</text>
 </g>
-<g class="sankey-node" data-node="Heating and cooling - homes">
+<g class="sankey-node" data-node="Heating and cooling - homes" data-id="Heating and cooling - homes">
   <rect x="551" y="258.29" width="14" height="34.76" rx="3" ry="3" fill="#e15759" />
   <text x="575" y="267.67" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Heating and cooling - homes</text>
   <text x="575" y="283.67" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">113.73</text>
 </g>
-<g class="sankey-node" data-node="Industry">
+<g class="sankey-node" data-node="Industry" data-id="Industry">
   <rect x="551" y="40" width="14" height="104.6" rx="3" ry="3" fill="#76b7b2" />
   <text x="575" y="84.3" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Industry</text>
   <text x="575" y="100.3" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">342.17</text>
 </g>
-<g class="sankey-node" data-node="Bio-conversion">
+<g class="sankey-node" data-node="Bio-conversion" data-id="Bio-conversion">
   <rect x="40" y="258.37" width="14" height="141.63" rx="3" ry="3" fill="#59a14f" />
   <text x="64" y="321.18" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Bio-conversion</text>
   <text x="64" y="337.18" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">388.33</text>
 </g>
-<g class="sankey-node" data-node="Losses">
+<g class="sankey-node" data-node="Losses" data-id="Losses">
   <rect x="551" y="391.79" width="14" height="8.21" rx="3" ry="3" fill="#edc948" />
   <text x="575" y="387.89" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Losses</text>
   <text x="575" y="403.89" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">26.86</text>
 </g>
-<g class="sankey-node" data-node="Solid">
+<g class="sankey-node" data-node="Solid" data-id="Solid">
   <rect x="551" y="158.6" width="14" height="85.69" rx="3" ry="3" fill="#b07aa1" />
   <text x="575" y="193.44" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Solid</text>
   <text x="575" y="209.44" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">280.32</text>
 </g>
-<g class="sankey-node" data-node="Gas">
+<g class="sankey-node" data-node="Gas" data-id="Gas">
   <rect x="551" y="352.98" width="14" height="24.8" rx="3" ry="3" fill="#ff9da7" />
   <text x="575" y="357.39" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Gas</text>
   <text x="575" y="373.39" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">81.14</text>
