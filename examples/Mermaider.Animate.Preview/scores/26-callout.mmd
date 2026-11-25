@@ -1,0 +1,19 @@
+flowchart LR
+  %% Callout: the caption says what happens, a callout says where
+  client[Client] --> lb[Balancer]
+  lb --> api1[API 1]
+  lb --> api2[API 2]
+  api1 --> db[(Orders DB)]
+  api2 --> db
+
+animate
+  step "Requests spread across both APIs"
+    tour client -> lb -> api1 -> db "GET /orders"
+    callout lb "round robin, no health checks"
+  step "API 2 stops answering"
+    send lb -> api2 "GET /orders"
+    hang api2
+    callout api2 "connection pool exhausted after 30 s" as fail
+  step "Half the traffic still goes to it"
+    send lb -> api2 lost
+    callout lb -> api2 "the balancer never notices" as warn

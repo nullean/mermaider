@@ -144,6 +144,12 @@ internal sealed record NoteStatement(int First, int Last, string Text, Role? Rol
 
 internal sealed record BuildStatement(int Line) : Statement(Line);
 
+/// <summary>
+/// A short label clear of the diagram, with a leader line to a node or an edge: where something happens, for the length
+/// of its step.
+/// </summary>
+internal sealed record CalloutStatement(TargetRef? Target, EdgeRef? Edge, string Text, Role? Role, int Line) : Statement(Line);
+
 /// <summary>Cards slide into another kanban column; the cards below them in their old column close the gap.</summary>
 internal sealed record MoveStatement(IReadOnlyList<TargetRef> Targets, string Column, bool Each, int Line) : Statement(Line);
 

@@ -260,9 +260,10 @@ internal static class ScoreParser
 			"count" => ParseCount(reader),
 			"hang" => new HangStatement(reader.Targets(), line),
 			"note" => ParseNote(reader),
+			"callout" => ParseCallout(reader),
 			_ =>
 				reader.Fail(
-					$"Unknown verb '{verb}'. The verbs are show, hide, focus, pulse, mark, badge, fill, hang, draw, erase, cut, restore, send, stream, tour, run, try, ping, play, sweep, move, expand, set, trace, note, count, highlight, caption and build."
+					$"Unknown verb '{verb}'. The verbs are show, hide, focus, pulse, mark, badge, fill, hang, draw, erase, cut, restore, send, stream, tour, run, try, ping, play, sweep, move, expand, set, trace, note, callout, count, highlight, caption and build."
 				),
 		};
 		if (statement is null)
@@ -581,6 +582,22 @@ internal static class ScoreParser
 		if (reader.Accept("as"))
 			role = reader.Next() is { } r ? ParseRole(r, reader.Line, reader.Diagnostics) : null;
 		return new BadgeStatement(targets, text, role, reader.Line);
+	}
+
+	private static Statement? ParseCallout(Reader reader)
+	{
+		// callout A "text" [as ROLE]  |  callout "Label" "text"  |  callout A -> B "text"  |  callout #3 "text"
+		const string usage = "callout takes one node or edge, then a quoted text: callout api \"this is where it times out\".";
+		var (targets, edges) = reader.TargetsOrEdges();
+		if (targets.Count + edges.Count != 1 || targets.Any(t => t.IsGroup))
+			return reader.Fail(usage);
+		var text = reader.Quoted();
+		if (text is null)
+			return reader.Fail(usage);
+		Role? role = null;
+		if (reader.Accept("as"))
+			role = reader.Next() is { } r ? ParseRole(r, reader.Line, reader.Diagnostics) : null;
+		return new CalloutStatement(targets.FirstOrDefault(), edges.FirstOrDefault(), text, role, reader.Line);
 	}
 
 	private static Statement? ParseCount(Reader reader)

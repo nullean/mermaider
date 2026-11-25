@@ -124,6 +124,7 @@ internal sealed partial class Compiler
 		var source = _score.IsDefault ? DefaultSteps() : _score.Steps;
 		var captions = source.Any(s => s.Caption is not null || s.Statements.OfType<CaptionStatement>().Any());
 		var captionY = _stage.Y - 22;
+		PlaceCallouts(source);
 		// without the caption band, badges and marks over the top row still need room above it
 		if (captions && !_drawCaptions)
 			ExtendStage(26);
@@ -276,6 +277,7 @@ internal sealed partial class Compiler
 		BadgeStatement s => s.Targets[0].Id,
 		CountStatement s => s.Target.Id,
 		HangStatement s => s.Targets[0].Id,
+		CalloutStatement { Target: { } t } => t.Id,
 		ShowStatement { Targets.Count: > 0 } s => s.Targets[0].Id,
 		PlayStatement s when _scene.Edges.Count > 0 => _scene.Edges[(s.First ?? 1) - 1].From,
 		_ => null,
@@ -429,6 +431,7 @@ internal sealed partial class Compiler
 		CountStatement s => Count(s, at),
 		HangStatement s => Each(Resolve(s.Targets), false, at, (t, a) => Hang(t, a)),
 		NoteStatement s => Note(s, at),
+		CalloutStatement s => Callout(s, at),
 		_ => at,
 	};
 

@@ -51,6 +51,7 @@ var svg = MermaidAnimator.RenderSvg("""
   recovery: `restore a -> b`, `mark x clear`, `badge x clear`
 - quantity: `fill queue 3/8`, later `fill queue 8`; a number that changes: `count api 38 -> 1200 "ms" as warn`; a fixed one: `badge dlq "1"`
 - attention: `focus x` (add `close` to zoom), `pulse x`
+- where something happens, in words: `callout x "pool exhausted after 30 s" as fail` (a node), `callout a -> b "…"` (an edge), `callout #3 "…"` (a message); the caption says what happens, the callout says where. One or two per step
 - what a diagram is about, without a story: `highlight flow a -> b -> c` (direction), `highlight x as fail` (a fatal state), `highlight path a -> b -> c as ok` (the happy path), `highlight biggest` / `highlight lowest` (let a chart's data pick); before the steps, one or two at most
 - several outcomes of the same start (success, timeout, slow): `scenario "Name" as ok|fail|warn` blocks after the shared steps; the player offers them on its story map
 - the player lists the steps from three captioned steps on, or with endings; `animate compact` keeps it to the figure and its caption, `animate contents` always lists them. Give the diagram a `title` (front matter) or `accTitle` and the player shows it above the figure
