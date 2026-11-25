@@ -134,6 +134,29 @@ public class ScenarioTests
 	}
 
 	[Test]
+	public void Endings_meet_at_one_junction_and_the_chosen_route_lights_when_the_story_reaches_it()
+	{
+		var html = MermaidAnimator.RenderPlayer(Endings);
+		// in each ending's unit: a junction, every branch leaving it, the chosen route drawn over them
+		var forks = Regex.Matches(html, @"<svg class=""ma[0-9a-f]{8}-p-forks""[^>]*>(.*?)</svg>").Select(m => m.Groups[1].Value).ToList();
+		forks.Should().HaveCount(2);
+		foreach (var fork in forks)
+		{
+			var branches = Regex.Matches(fork, @"<path d=""M14,([\d.]+) C").Select(m => m.Groups[1].Value).ToList();
+			branches.Should().HaveCount(2, "one per ending").And.OnlyContain(y => y == branches[0], "every branch leaves the same point");
+			fork.Should().Contain("rotate(45", "the junction is the flowchart's decision diamond");
+			Regex
+				.Match(fork, @"<path class=""(ma[0-9a-f]{8}-p-h\d+)"" d=""M14,[\d.]+ V[\d.]+ L14,")
+				.Success
+				.Should()
+				.BeTrue("the chosen route runs from the trunk through the junction");
+		}
+		html.Should().Contain("2 ways it can go");
+		// a compact score with endings still lists them: choosing one needs the list
+		MermaidAnimator.RenderPlayer(Endings.Replace("animate\n", "animate compact\n")).Should().Contain("-map\" aria-label=\"Story\"");
+	}
+
+	[Test]
 	[Arguments("as ok", "Ok")]
 	[Arguments("as fail", "Fail")]
 	[Arguments("", null)]

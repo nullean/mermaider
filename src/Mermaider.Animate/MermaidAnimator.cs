@@ -93,7 +93,12 @@ public static class MermaidAnimator
 				still: motion == MotionPreset.None,
 				scenario?.Name
 			)
-			{ ScenarioRole = scenario?.Role, SharedSteps = scenario is null ? 0 : score.Steps.Count, Colors = RoleColors.From(options?.Render), };
+			{
+				ScenarioRole = scenario?.Role,
+				SharedSteps = scenario is null ? 0 : score.Steps.Count,
+				Colors = RoleColors.From(options?.Render),
+				Contents = options?.Contents ?? score.Contents ?? PlayerContents.Auto,
+			};
 		}
 
 		if (score.Scenarios.Count == 0)
@@ -183,6 +188,9 @@ public sealed class AnimatedDiagram
 	internal Role? ScenarioRole { get; init; }
 
 	internal RoleColors? Colors { get; init; }
+
+	/// <summary>Whether the player lists the steps: the host's choice, else the score's, else automatic.</summary>
+	internal PlayerContents Contents { get; init; }
 
 	/// <summary>The same animation compiled for the player: captions beside the figure instead of in a band above it.</summary>
 	internal Func<AnimatedDiagram>? ForPlayer { get; set; }

@@ -162,6 +162,9 @@ internal sealed record ScoreDocument(
 	/// </summary>
 	public IReadOnlyList<ScoreScenario> Scenarios { get; init; } = [];
 
+	/// <summary>Whether the player lists the steps, when the header says (<c>contents</c>, <c>compact</c>).</summary>
+	public PlayerContents? Contents { get; init; }
+
 	/// <summary>A bare <c>animate</c>: the diagram type's default animation plays.</summary>
 	public bool IsDefault => Steps.Count == 0 && Scenarios.Count == 0;
 

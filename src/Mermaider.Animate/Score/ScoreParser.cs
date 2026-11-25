@@ -29,6 +29,7 @@ internal static class ScoreParser
 		var header = Tokenize(lines[start], start + 1, diagnostics);
 		PlaybackMode? mode = null;
 		MotionPreset? motion = null;
+		PlayerContents? contents = null;
 		for (var i = 1; i < header.Count; i++)
 		{
 			var word = header[i].Text;
@@ -52,8 +53,16 @@ internal static class ScoreParser
 				case "still":
 					motion = MotionPreset.None;
 					break;
+				case "contents":
+					contents = PlayerContents.Always;
+					break;
+				case "compact":
+					contents = PlayerContents.Never;
+					break;
 				default:
-					diagnostics.Add(new(start + 1, $"Unknown option '{word}' after animate. Expected loop, once or scrub, and calm, crisp or still."));
+					diagnostics.Add(
+						new(start + 1, $"Unknown option '{word}' after animate. Expected loop, once or scrub; calm, crisp or still; and contents or compact.")
+					);
 					break;
 			}
 		}
@@ -153,7 +162,7 @@ internal static class ScoreParser
 			diagnostics.Add(new(scenario.Line, $"The scenario \"{scenario.Name}\" has no steps. Indent its steps under it, or write them after it."));
 		if (scenarios.Count == 1)
 			diagnostics.Add(new(scenarios[0].Line, "A score with one scenario tells one story: give it a second scenario, or write its steps without one."));
-		return new ScoreDocument(mode, motion, shared, tokens, start + 1) { Scenarios = scenarios };
+		return new ScoreDocument(mode, motion, shared, tokens, start + 1) { Scenarios = scenarios, Contents = contents };
 	}
 
 	private static int IndentOf(string line)

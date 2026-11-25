@@ -164,4 +164,44 @@ public class PlayerTests
 		offsets.First().Should().Be(0);
 		offsets.Last().Should().Be(-((20 * 32) - (9 * 32)), "the last step brings the end of the list into view, no further");
 	}
+
+	private static string Steps(int count, string header = "") =>
+		$"flowchart LR\n  a --> b\nanimate{header}\n" + string.Concat(Enumerable.Range(1, count).Select(k => $"  step \"Step {k}\"\n    pulse a\n"));
+
+	private static bool HasContents(string html) => html.Contains("-map\" aria-label=\"Story\"", StringComparison.Ordinal);
+
+	[Test]
+	public void A_story_of_one_or_two_steps_is_a_figure_and_its_caption_with_the_controls_at_its_end()
+	{
+		var two = MermaidAnimator.RenderPlayer(Steps(2));
+		HasContents(two).Should().BeFalse("a list of two steps has nothing to find in it");
+		two.Should().MatchRegex(
+			@"(?s)<figcaption class=""ma[0-9a-f]{8}-p-cap"">.*<span class=""ma[0-9a-f]{8}-p-ctl""><label class=""b when-",
+			"the controls end the caption line"
+		);
+		HasContents(MermaidAnimator.RenderPlayer(Steps(3))).Should().BeTrue();
+	}
+
+	[Test]
+	public void The_score_and_the_host_choose_whether_the_steps_are_listed()
+	{
+		HasContents(MermaidAnimator.RenderPlayer(Steps(2, " contents"))).Should().BeTrue();
+		HasContents(MermaidAnimator.RenderPlayer(Steps(5, " compact"))).Should().BeFalse();
+		// the host overrides the score, as it does the motion and the mode
+		HasContents(MermaidAnimator.RenderPlayer(Steps(5), new AnimateOptions { Contents = PlayerContents.Never })).Should().BeFalse();
+		HasContents(MermaidAnimator.RenderPlayer(Steps(2, " compact"), new AnimateOptions { Contents = PlayerContents.Always })).Should().BeTrue();
+	}
+
+	[Test]
+	public void The_figure_takes_the_diagrams_title_unless_the_diagram_draws_it()
+	{
+		var titled = MermaidAnimator.RenderPlayer("---\ntitle: Failover <a>\n---\n" + Steps(3));
+		titled.Should().MatchRegex(@"<div class=""ma[0-9a-f]{8}-s-title"">Failover &lt;a&gt;</div>");
+		MermaidAnimator.RenderPlayer(Steps(3)).Should().NotContain("-s-title\">");
+		// a journey draws its title as its heading; the figure does not repeat it
+		var journey = MermaidAnimator.RenderPlayer(
+			"journey\n  title Checkout\n  section S\n    Pay: 2: Me\n\nanimate\n  step \"a\"\n    pulse #1\n  step \"b\"\n    pulse #1\n  step \"c\"\n    pulse #1\n"
+		);
+		journey.Should().NotContain("-s-title\">");
+	}
 }

@@ -52,6 +52,7 @@ var svg = MermaidAnimator.RenderSvg("""
 - quantity: `fill queue 3/8`, later `fill queue 8`; a number that changes: `count api 38 -> 1200 "ms" as warn`; a fixed one: `badge dlq "1"`
 - attention: `focus x` (add `close` to zoom), `pulse x`
 - several outcomes of the same start (success, timeout, slow): `scenario "Name" as ok|fail|warn` blocks after the shared steps; the player offers them on its story map
+- the player lists the steps from three captioned steps on, or with endings; `animate compact` keeps it to the figure and its caption, `animate contents` always lists them. Give the diagram a `title` (front matter) or `accTitle` and the player shows it above the figure
 - a state machine: `run A -> B -> C` (start with `[*]`), a refused transition: `try A -> C rejected "why"`
 - work moving (kanban): `move card to Column`; ideas branching (mindmap, treeview): `expand "Node"`; a numbered
   interaction (C4 dynamic): a bare `animate`, or `play #1..#2`

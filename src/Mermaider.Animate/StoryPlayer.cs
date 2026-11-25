@@ -42,13 +42,20 @@ internal static class StoryPlayer
 			return $"<figure>\n{first.Svg}\n</figure>";
 
 		var root = first.Prefix + "-s";
+		// the contents show when asked for, or when there is something to find: endings, or three steps and more
+		var captioned = first.Steps.Count(s => s.Caption is not null);
+		var contents = endings.Count > 1 || first.Contents == PlayerContents.Always || (first.Contents == PlayerContents.Auto && captioned >= 3);
+		// the diagram's own title, unless the diagram already draws it (a journey's heading)
+		var title = Between(first.Svg, "<title>", "</title>") is { Length: > 0 } named && !first.Svg.Contains(">" + named + "</text>", StringComparison.Ordinal)
+			? named
+			: null;
 		var sb = new StringBuilder();
 		_ = sb.Append("<div class=\"").Append(root).Append("\" style=\"").Append(Tokens(first)).Append("\">\n<style>\n");
 		// the container the units' layout asks about: beside the figure when wide, folded under it when narrow
 		Rule(
 			sb,
 			$".{root}",
-			$"container-type: inline-size; font-family: {Font(first)}; color: var(--_text); margin: 0 auto; width: min(100%, {Px(first.Timeline.ViewBox.Width + 284)})"
+			$"container-type: inline-size; font-family: {Font(first)}; color: var(--_text); margin: 0 auto; width: min(100%, {Px(first.Timeline.ViewBox.Width + (contents ? 284 : 0))})"
 		);
 		Rule(sb, $".{root} > input", "position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none");
 		if (endings.Count > 1)
@@ -57,7 +64,16 @@ internal static class StoryPlayer
 			for (var k = 0; k < endings.Count; k++)
 				Rule(sb, $".{root}:has(#{root}-{k}:checked) > .{root}-end-{k}", "display: block");
 		}
+		// the figure's title: the diagram's own (front matter title or accTitle), with the title mark the diagrams use
+		Rule(
+			sb,
+			$".{root}-title",
+			"display: flex; align-items: center; gap: 8px; margin: 0 0 12px; font-size: 18px; font-weight: 700; line-height: 24px; color: var(--_text)"
+		);
+		Rule(sb, $".{root}-title::before", "content: ''; width: 10px; height: 10px; border-radius: 2px; background: var(--accent); flex: none");
 		_ = sb.Append("</style>\n");
+		if (title is { Length: > 0 })
+			_ = sb.Append("<div class=\"").Append(root).Append("-title\">").Append(WebUtility.HtmlEncode(WebUtility.HtmlDecode(title))).Append("</div>\n");
 		if (endings.Count > 1)
 			for (var k = 0; k < endings.Count; k++)
 				_ = sb
@@ -73,7 +89,7 @@ internal static class StoryPlayer
 		for (var k = 0; k < endings.Count; k++)
 		{
 			_ = sb.Append("<div class=\"").Append(root).Append("-end ").Append(root).Append("-end-").Append(k).Append("\">\n");
-			Unit(sb, endings, k, root);
+			Unit(sb, endings, k, root, contents);
 			_ = sb.Append("</div>\n");
 		}
 		_ = sb.Append("</div>");
@@ -93,7 +109,7 @@ internal static class StoryPlayer
 		}
 	}
 
-	private static void Unit(StringBuilder sb, IReadOnlyList<Ending> endings, int chosen, string root)
+	private static void Unit(StringBuilder sb, IReadOnlyList<Ending> endings, int chosen, string root, bool contents)
 	{
 		var ending = endings[chosen];
 		var animation = ending.Animation;
@@ -159,6 +175,10 @@ internal static class StoryPlayer
 			rows.Add(("step", k, y));
 			y += RowHeight;
 		}
+		// the fork: one row where the shared steps end, a junction every ending leaves from
+		var junction = y + (RowHeight / 2);
+		if (endings.Count > 1)
+			y += RowHeight;
 		if (endings.Count > 1)
 			for (var e = 0; e < endings.Count; e++)
 			{
@@ -276,7 +296,8 @@ internal static class StoryPlayer
 
 		// the figure: the diagram, and what is happening now as its caption
 		_ = sb.Append("<figure class=\"").Append(p).Append("-fig\">\n<div class=\"").Append(p).Append("-stage\">\n").Append(animation.Svg).Append("\n</div>\n");
-		_ = sb.Append("<figcaption class=\"").Append(p).Append("-cap\" aria-hidden=\"true\">\n<span class=\"").Append(p).Append("-lines\">");
+		// the caption's lines are hidden from screen readers (the SVG's description tells the story); its controls are not
+		_ = sb.Append("<figcaption class=\"").Append(p).Append("-cap\">\n<span class=\"").Append(p).Append("-lines\" aria-hidden=\"true\">");
 		for (var i = 0; i < captions.Count; i++)
 			_ = sb
 				.Append("<span class=\"")
@@ -302,23 +323,41 @@ internal static class StoryPlayer
 				.Append("\">")
 				.Append(WebUtility.HtmlEncode(ending.Name))
 				.Append("</span>");
+
+		void Controls()
+		{
+			foreach (var (state, target, glyph, name) in buttons)
+				_ = sb
+					.Append("<label class=\"b when-")
+					.Append(state)
+					.Append("\" for=\"")
+					.Append(target)
+					.Append("\" title=\"")
+					.Append(name)
+					.Append("\" aria-label=\"")
+					.Append(name)
+					.Append("\">")
+					.Append(glyph)
+					.Append("</label>");
+		}
+
+		// compact: the controls end the caption line, and there is no list
+		if (!contents)
+		{
+			_ = sb.Append("<span class=\"").Append(p).Append("-ctl\">");
+			Controls();
+			_ = sb.Append("</span>");
+		}
 		_ = sb.Append("<span class=\"").Append(p).Append("-prog\"><i class=\"").Append(progress.Class).Append("\"></i></span>\n</figcaption>\n</figure>\n");
+		if (!contents)
+		{
+			_ = sb.Append("</div>\n");
+			return;
+		}
 
 		// the contents
 		_ = sb.Append("<nav class=\"").Append(p).Append("-map\" aria-label=\"Story\">\n<div class=\"").Append(p).Append("-ctl\">");
-		foreach (var (state, target, glyph, name) in buttons)
-			_ = sb
-				.Append("<label class=\"b when-")
-				.Append(state)
-				.Append("\" for=\"")
-				.Append(target)
-				.Append("\" title=\"")
-				.Append(name)
-				.Append("\" aria-label=\"")
-				.Append(name)
-				.Append("\">")
-				.Append(glyph)
-				.Append("</label>");
+		Controls();
 		_ = sb.Append("<span class=\"").Append(p).Append("-head\">Story</span>");
 		_ = sb.Append("<label class=\"").Append(p).Append("-more\" for=\"").Append(p).Append("-toc\">contents</label></div>\n");
 		_ = sb
@@ -332,9 +371,8 @@ internal static class StoryPlayer
 			.Append("-list")
 			.Append(slide is null ? "" : " " + slide.Class)
 			.Append("\">\n");
-		// a fork runs from the trunk (the last shared step, or the ending above) to its ending's middle
-		var trunk = rows.Where(r => r.Kind == "step" && r.Index < shared).Select(r => r.Y + (RowHeight / 2)).DefaultIfEmpty(0).Last();
-		var above = trunk;
+		if (endings.Count > 1)
+			Forks(sb, p, rows, chosen, junction, shared > 0 ? junction - RowHeight : junction, height, lit.Count > shared ? lit[shared].Class : null);
 		for (var r = 0; r < rows.Count; r++)
 		{
 			var (kind, index, rowY) = rows[r];
@@ -376,12 +414,12 @@ internal static class StoryPlayer
 			}
 			else
 			{
+				// the junction's own row: how many ways the story can go, beside the diamond
+				if (index == 0)
+					_ = sb.Append("<span class=\"").Append(p).Append("-junction\">").Append(endings.Count).Append(" ways it can go</span>\n");
 				var other = endings[index];
 				var open = index == chosen;
 				var count = other.Animation.Steps.Count(s => s.Caption is not null) - shared;
-				var middle = rowY + (EndingHeight / 2);
-				var reach = middle - (open ? trunk : above);
-				above = middle;
 				_ = sb
 					.Append("<label class=\"")
 					.Append(p)
@@ -394,11 +432,6 @@ internal static class StoryPlayer
 					.Append("\" style=\"--r: ")
 					.Append(RoleColor(other))
 					.Append("\" title=\"Play this ending\">")
-					.Append("<span class=\"fork")
-					.Append(open ? " lit" : "")
-					.Append("\" style=\"height: ")
-					.Append(Px(reach))
-					.Append("\"></span>")
 					.Append(Icon(other.Role))
 					.Append("<span class=\"")
 					.Append(p)
@@ -444,6 +477,8 @@ internal static class StoryPlayer
 		Rule(sb, $".{p}-prog i", "display: block; height: 2px; background: var(--accent); transform-origin: 0 0");
 		Rule(sb, $".{p}-map", "font-size: 12.5px; margin-top: 24px");
 		Rule(sb, $".{p}-ctl", "display: flex; align-items: center; gap: 8px; height: 28px; margin-bottom: 12px");
+		Rule(sb, $".{p}-cap .{p}-ctl", "margin: 0; height: 20px");
+		Rule(sb, $".{p}-cap .{p}-ctl .b", "width: 22px; height: 22px; font-size: 9px");
 		Rule(
 			sb,
 			$".{p}-ctl .b",
@@ -503,17 +538,13 @@ internal static class StoryPlayer
 			$".{p}-ending.open",
 			"background: color-mix(in srgb, var(--r) 16%, var(--bg)); border-color: color-mix(in srgb, var(--r) 70%, var(--bg)); color: var(--_text); font-weight: 650"
 		);
-		// the branch to an ending leaves the trunk (x 14) with the diagram's rounded corner and meets the box's edge
+		Rule(sb, $".{p}-list", "position: relative");
+		Rule(sb, $".{p}-forks", "position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none");
 		Rule(
 			sb,
-			$".{p}-ending .fork",
-			"position: absolute; left: -18.25px; bottom: calc(50% - 0.75px); width: 16.75px; box-sizing: border-box; border: solid var(--_line); " +
-				"border-width: 0 0 1.5px 1.5px; border-bottom-left-radius: 8px"
-		);
-		Rule(
-			sb,
-			$".{p}-ending .fork.lit",
-			"z-index: 1; left: -18.75px; bottom: calc(50% - 1.25px); width: 17.25px; border-color: var(--accent); border-width: 0 0 2.5px 2.5px"
+			$".{p}-junction",
+			$"height: {Px(RowHeight)}; padding-left: 30px; display: flex; align-items: center; font-size: 11px; font-weight: 700; " +
+				"letter-spacing: .06em; text-transform: uppercase; color: var(--_text-muted)"
 		);
 		Rule(sb, $".{p}-ending svg", "flex: none");
 		Rule(sb, $".{p}-name", "flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis");
@@ -526,7 +557,7 @@ internal static class StoryPlayer
 		_ = sb
 			.Append("@container (min-width: 640px) { .")
 			.Append(p)
-			.Append(" { display: grid; grid-template-columns: minmax(0, ")
+			.Append(":has(> nav) { display: grid; grid-template-columns: minmax(0, ")
 			.Append(Px(width))
 			.Append(") 260px; justify-content: center; gap: 24px; align-items: start; } .")
 			.Append(p)
@@ -542,6 +573,74 @@ internal static class StoryPlayer
 			.Append(p)
 			.Append("-win { display: none; } }\n");
 	}
+
+	/// <summary>
+	/// The fork in the road: the trunk runs on from the last shared step to a junction (the flowchart's decision diamond)
+	/// with how many ways the story can go, and every ending's branch leaves that one point, curving to its box. The
+	/// chosen route lights up in the accent when the story reaches it, on the same clock as the steps.
+	/// </summary>
+	private static void Forks(
+		StringBuilder sb,
+		string p,
+		List<(string Kind, int Index, double Y)> rows,
+		int chosen,
+		double junction,
+		double trunk,
+		double height,
+		string? litClass
+	)
+	{
+		const double X = 14;
+		const double Box = 30;
+		// each branch heads straight for its ending from the junction, so they spread like roads from a crossing, and
+		// settles level into the box's edge
+		string Branch(double to) =>
+			$"M{Num(X)},{Num(junction)} C{Num(X + ((Box - X) * 0.35))},{Num(junction + ((to - junction) * 0.35))} {Num(X + ((Box - X) * 0.7))},{Num(to)} {Num(Box)},{Num(to)}";
+
+		var ends = rows.Where(r => r.Kind == "ending").Select(r => (r.Index, Middle: r.Y + (EndingHeight / 2))).ToList();
+		var route = $"M{Num(X)},{Num(trunk)} V{Num(junction)} " + Branch(ends.Single(e => e.Index == chosen).Middle)[1..].Insert(0, "L");
+		_ = sb
+			.Append("<svg class=\"")
+			.Append(p)
+			.Append("-forks\" width=\"")
+			.Append(Num(Box))
+			.Append("\" height=\"")
+			.Append(Num(height))
+			.Append("\" viewBox=\"0 0 ")
+			.Append(Num(Box))
+			.Append(' ')
+			.Append(Num(height))
+			.Append("\" aria-hidden=\"true\">");
+		_ = sb
+			.Append("<path d=\"M")
+			.Append(Num(X))
+			.Append(',')
+			.Append(Num(trunk))
+			.Append(" V")
+			.Append(Num(junction))
+			.Append("\" stroke=\"var(--_line)\" stroke-width=\"1.5\" fill=\"none\"/>");
+		foreach (var (_, middle) in ends)
+			_ = sb.Append("<path d=\"").Append(Branch(middle)).Append("\" stroke=\"var(--_line)\" stroke-width=\"1.5\" fill=\"none\"/>");
+		_ = sb
+			.Append("<path class=\"")
+			.Append(litClass ?? "")
+			.Append("\" d=\"")
+			.Append(route)
+			.Append("\" stroke=\"var(--accent)\" stroke-width=\"2.5\" fill=\"none\" stroke-linecap=\"round\"/>");
+		_ = sb
+			.Append("<rect x=\"")
+			.Append(Num(X - 5))
+			.Append("\" y=\"")
+			.Append(Num(junction - 5))
+			.Append("\" width=\"10\" height=\"10\" rx=\"2\" transform=\"rotate(45 ")
+			.Append(Num(X))
+			.Append(' ')
+			.Append(Num(junction))
+			.Append(")\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"1.5\"/>");
+		_ = sb.Append("</svg>");
+	}
+
+	private static string Num(double value) => Math.Round(value, 2).ToString("0.##", CultureInfo.InvariantCulture);
 
 	/// <summary>The diagram's colour inputs and the tokens derived from them, as the SVG's style block derives them.</summary>
 	private static string Tokens(AnimatedDiagram animation)
