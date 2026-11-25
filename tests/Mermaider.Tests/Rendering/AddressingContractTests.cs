@@ -176,6 +176,59 @@ public class AddressingContractTests
 	}
 
 	[Test]
+	[Arguments(DiagramCategory.Quadrant, "quadrant-point")]
+	[Arguments(DiagramCategory.Venn, "venn-set")]
+	[Arguments(DiagramCategory.Packet, "packet-field")]
+	[Arguments(DiagramCategory.Journey, "journey-task")]
+	public void Marks_are_numbered_in_order(DiagramCategory category, string markClass)
+	{
+		foreach (var doc in Documents(category))
+		{
+			var marks = doc.Descendants().Where(e => HasClass(e, markClass)).ToList();
+			marks.Should().NotBeEmpty();
+			Indices(marks).Should().Equal(Enumerable.Range(1, marks.Count));
+		}
+	}
+
+	[Test]
+	public void Quadrant_points_carry_their_label_and_position()
+	{
+		foreach (var doc in Documents(DiagramCategory.Quadrant))
+			foreach (var point in doc.Descendants().Where(e => HasClass(e, "quadrant-point")))
+			{
+				point.Attribute("data-label").Should().NotBeNull();
+				var x = double.Parse((string)point.Attribute("data-x")!, CultureInfo.InvariantCulture);
+				var y = double.Parse((string)point.Attribute("data-y")!, CultureInfo.InvariantCulture);
+				x.Should().BeInRange(0, 1);
+				y.Should().BeInRange(0, 1);
+			}
+	}
+
+	[Test]
+	public void Treemap_sections_and_tiles_are_numbered_and_name_their_section()
+	{
+		foreach (var doc in Documents(DiagramCategory.Treemap))
+		{
+			var all = doc.Descendants().Where(e => HasClass(e, "treemap-section") || HasClass(e, "treemap-tile")).ToList();
+			Indices(all).Order().Should().Equal(Enumerable.Range(1, all.Count));
+			var sections = doc.Descendants().Where(e => HasClass(e, "treemap-section")).Select(e => (string)e.Attribute("data-index")!).ToHashSet();
+			all.Where(e => e.Attribute("data-parent") != null).Should().OnlyContain(e => sections.Contains((string)e.Attribute("data-parent")!));
+			doc.Descendants().Where(e => HasClass(e, "treemap-tile")).Should().OnlyContain(t => t.Attribute("data-parent") != null || !sections.Any());
+		}
+	}
+
+	[Test]
+	public void Requirement_relations_join_nodes_that_exist()
+	{
+		foreach (var doc in Documents(DiagramCategory.Requirement))
+		{
+			var ids = doc.Descendants().Select(e => (string?)e.Attribute("data-id")).Where(id => id != null).ToHashSet();
+			var relations = doc.Descendants().Where(e => HasClass(e, "req-relation")).ToList();
+			relations.Should().OnlyContain(r => ids.Contains((string)r.Attribute("data-from")!) && ids.Contains((string)r.Attribute("data-to")!));
+		}
+	}
+
+	[Test]
 	[Arguments(DiagramCategory.Flowchart)]
 	[Arguments(DiagramCategory.State)]
 	[Arguments(DiagramCategory.Block)]

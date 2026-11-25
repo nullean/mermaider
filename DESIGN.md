@@ -299,9 +299,14 @@ They are part of the output's contract: renaming or dropping one is a breaking c
 | pie | `g.pie-slice[data-index][data-value][data-start][data-end]` with their circle `[data-cx][data-cy][data-r]` | — |
 | radar | `g.radar-curve[data-index]` with the centre `[data-cx][data-cy]` | — |
 | sankey | `g.sankey-node[data-id]` | `path.sankey-link[data-from][data-to][data-value]` |
+| quadrant | `g.quadrant-point[data-index][data-label][data-x][data-y]` | — |
+| treemap | `g.treemap-section[data-index]`, `g.treemap-tile[data-index][data-value]`, both `[data-parent?]` | — |
+| venn | `g.venn-set[data-set][data-index]` | — |
+| packet | `g.packet-field[data-index][data-start][data-end]` | — |
+| journey | `g.journey-task[data-index][data-section][data-score]` | — |
+| requirement | `g.req-node[data-id]` | `path.req-relation[data-from][data-to]` |
 
-`AddressingContractTests` checks the table against every example of each type. The other types (quadrant,
-treemap, venn, packet, journey, requirement) get their hooks with the animation work that needs them.
+`AddressingContractTests` checks the table against every example of each type.
 
 ## Source of truth
 

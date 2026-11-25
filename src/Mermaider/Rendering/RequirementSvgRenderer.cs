@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 using Mermaider.Models;
 using Mermaider.Text;
@@ -408,7 +409,11 @@ internal static class RequirementSvgRenderer
 
 		var type = route.Relation.Type;
 		var contains = type == RequirementRelationType.Contains;
-		_ = sb.Append("\n<path class=\"req-relation\" data-type=\"").Append(FormatRelation(type)).Append("\" d=\"");
+		_ = sb.Append("\n<path class=\"req-relation\" data-type=\"").Append(FormatRelation(type)).Append("\" data-from=\"");
+		MultilineUtils.AppendEscapedAttr(sb, route.Relation.Source.AsSpan());
+		_ = sb.Append("\" data-to=\"");
+		MultilineUtils.AppendEscapedAttr(sb, route.Relation.Target.AsSpan());
+		_ = sb.Append("\" d=\"");
 		if (SvgRenderer.IsOrthogonal(route.Points))
 			SvgRenderer.BuildOrthogonalPath(sb, route.Points, cornerRadius);
 		else
