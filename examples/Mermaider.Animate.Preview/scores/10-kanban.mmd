@@ -1,0 +1,23 @@
+kanban
+  %% Kanban: work flows across the board; one card gets stuck in review
+  Todo
+    spec[Write the spec]
+    docs[Update the docs]
+  Doing
+    api[Build the API]
+  Review
+  Done
+    plan[Plan the release]
+
+animate
+  step "The API is built and goes to review"
+    move api to Review
+  step "The spec is picked up"
+    move spec to Doing
+  step "Review finds a problem"
+    mark api warn
+    badge api "changes requested" as warn
+  step "Fixed: both land in Done"
+    mark api clear
+    badge api clear
+    move api, spec to Done each

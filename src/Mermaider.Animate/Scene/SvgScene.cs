@@ -151,7 +151,11 @@ internal sealed class SvgScene
 		var document = XDocument.Parse(svg, LoadOptions.PreserveWhitespace);
 		var root = document.Root!;
 		var kind = DetectKind(root, diagramSource);
-		var scene = new SvgScene(document, kind, prefix) { Direction = DetectDirection(diagramSource, kind) };
+		var scene = new SvgScene(document, kind, prefix)
+		{
+			Dynamic = FirstLine(diagramSource).StartsWith("C4Dynamic", StringComparison.Ordinal),
+			Direction = DetectDirection(diagramSource, kind)
+		};
 		scene.ReadElements();
 		return scene;
 	}
@@ -252,13 +256,22 @@ internal sealed class SvgScene
 			var id = (string?)element.Attribute("data-id");
 			var name = element.Name.LocalName;
 
-			if (name == "g" && id is not null && (HasClass(element, "node") || HasClass(element, "architecture-service")))
+			if (
+				name == "g" && id is not null &&
+				(HasClass(element, "node") || HasClass(element, "architecture-service") || HasClass(element, "class-node") || HasClass(
+					element,
+					"entity"
+				) || HasClass(element, "kanban-card"))
+			)
 				AddTarget(_targets, id, TargetKind.Node, element);
 			else if (name == "g" && id is not null && HasClass(element, "actor"))
 				AddTarget(_targets, id, TargetKind.Actor, element);
 			else if (
 				name == "g" && id is not null &&
-				(HasClass(element, "subgraph") || HasClass(element, "architecture-group") || HasClass(element, "architecture-group-title"))
+				(HasClass(element, "subgraph") || HasClass(element, "architecture-group") || HasClass(element, "architecture-group-title") || HasClass(
+					element,
+					"kanban-column"
+				) || HasClass(element, "c4-boundary"))
 			)
 				AddTarget(_groups, id, TargetKind.Group, element);
 			else if (
@@ -268,6 +281,26 @@ internal sealed class SvgScene
 				)
 			)
 				owner.Elements.Add(element);
+			else if (
+				name == "path" && (HasClass(element, "class-relationship") || HasClass(element, "c4-relation") || HasClass(element, "block-edge")) &&
+				(string?)element.Attribute("data-from") is { } relFrom && (string?)element.Attribute("data-to") is { } relTo
+			)
+				AddEdge(
+					edgeOrdinals,
+					relFrom,
+					relTo,
+					element,
+					element,
+					null,
+					LabelOf(element, relFrom, relTo),
+					element.Attribute("marker-end") is not null,
+					element.Attribute("marker-start") is not null
+				);
+			else if (
+				name == "path" && HasClass(element, "er-relationship") && (string?)element.Attribute("data-entity1") is { } e1 &&
+				(string?)element.Attribute("data-entity2") is { } e2
+			)
+				AddEdge(edgeOrdinals, e1, e2, element, element, null, (string?)element.Attribute("data-label"), false, false);
 			else if (
 				name == "path" && HasClass(element, "edge") && (string?)element.Attribute("data-from") is { } from &&
 				(string?)element.Attribute("data-to") is { } to
@@ -323,14 +356,34 @@ internal sealed class SvgScene
 				Notes.Add((element, BoxOf(element).Y));
 		}
 
-		// edge labels follow their edges (graph renderers write them as separate groups)
+		// edge labels follow their edges (graph renderers write them as separate groups; ER ones carry only their text)
 		foreach (var label in Root.Descendants(Ns + "g").Where(e => HasClass(e, "edge-label")))
 		{
 			var from = (string?)label.Attribute("data-from");
 			var to = (string?)label.Attribute("data-to");
-			var edge = Edges.FirstOrDefault(e => e.From == from && e.To == to && e.Labels.Count == 0);
+			var text = (string?)label.Attribute("data-label");
+			var edge = from is not null
+				? Edges.FirstOrDefault(e => e.From == from && e.To == to && e.Labels.Count == 0)
+				: Edges.FirstOrDefault(e => e.Label == text && e.Labels.Count == 0);
 			edge?.Labels.Add(label);
 		}
+
+		// a kanban card knows its column; trees (mindmap, treeview) are read by index and parent
+		foreach (var card in _targets.Values.Where(t => t.Elements.Count > 0 && HasClass(t.Elements[0], "kanban-card")))
+			card.Parent = (string?)card.Elements[0].Attribute("data-column");
+		ReadTree("mindmap-node", "mindmap-link");
+		ReadTree("treeview-node", null);
+
+		// an ER relationship's cardinality marks are unclassed shapes at its ends: they belong to it, and appear with it
+		var er = Edges.Where(e => SvgScene.HasClass(e.Element, "er-relationship")).ToList();
+		if (er.Count > 0)
+			foreach (var mark in Root.Elements().Where(e => e.Name.LocalName is "path" or "circle" && e.Attribute("class") is null).ToList())
+			{
+				var c = BoxOf(mark).Center;
+				var owner = er.Select(e => (Edge: e, Distance: Math.Min((e.Path.Start - c).Length, (e.Path.End - c).Length))).OrderBy(p => p.Distance).First();
+				if (owner.Distance < 32)
+					owner.Edge.Labels.Add(mark);
+			}
 
 		// nesting: a target whose box sits inside a group's box belongs to the smallest such group
 		foreach (var target in _targets.Values.Concat(_groups.Values))
@@ -343,7 +396,9 @@ internal sealed class SvgScene
 				if (best is null || group.Box.Width * group.Box.Height < best.Box.Width * best.Box.Height)
 					best = group;
 			}
-			target.Parent = best?.Id;
+			// only a containing group sets a parent: trees and kanban cards already know theirs
+			if (best is not null)
+				target.Parent = best.Id;
 		}
 
 		if (Kind == SceneKind.Sequence)
@@ -353,6 +408,53 @@ internal sealed class SvgScene
 				edge.Index = i++;
 		}
 	}
+
+	private string? LabelOf(XElement edge, string from, string to) =>
+		(string?)edge.Attribute("data-label") ?? Root
+			.Descendants(Ns + "g")
+			.Where(e => HasClass(e, "edge-label") && (string?)e.Attribute("data-from") == from && (string?)e.Attribute("data-to") == to)
+			.Select(TextOf)
+			.FirstOrDefault();
+
+	/// <summary>Tree nodes become targets <c>#index</c> labelled by their text, with their parent; links join parent to child.</summary>
+	private void ReadTree(string nodeClass, string? linkClass)
+	{
+		var nodes = Root.Descendants(Ns + "g").Where(e => HasClass(e, nodeClass)).ToList();
+		foreach (var node in nodes)
+		{
+			var index = (int)Num.Parse((string?)node.Attribute("data-index"));
+			var target = new SceneTarget($"#{index}", TargetKind.Node, (string?)node.Attribute("data-label") ?? TextOf(node))
+			{
+				Index = index,
+				Parent = (string?)node.Attribute("data-parent") is { } parent ? $"#{parent}" : null,
+			};
+			target.Elements.Add(node);
+			target.Box = BoxOf(node);
+			_targets[target.Id] = target;
+		}
+		if (nodes.Count == 0)
+			return;
+		var links = Root
+			.Descendants(Ns + "path")
+			.Where(e => e.Attribute("data-from") is not null && (linkClass is null || HasClass(e, linkClass)) && !HasClass(e, "edge"))
+			.ToList();
+		foreach (var link in links)
+		{
+			var points = PathData.Flatten((string?)link.Attribute("d") ?? "");
+			if (points.Count >= 2)
+				Edges.Add(new SceneEdge($"#{(string?)link.Attribute("data-from")}", $"#{(string?)link.Attribute("data-to")}", link, new Polyline(points))
+				{
+					Stroke = link
+				});
+		}
+		Tree = true;
+	}
+
+	/// <summary>A C4 dynamic diagram: its numbered relations play in order.</summary>
+	public bool Dynamic { get; init; }
+
+	/// <summary>Whether the diagram is a tree (mindmap, treeview): its targets carry parents and build from the root.</summary>
+	public bool Tree { get; private set; }
 
 	private static string TextOf(XElement element) => string.Join(" ", element.Descendants(Ns + "text").Select(t => t.Value.Trim()).Where(v => v.Length > 0));
 

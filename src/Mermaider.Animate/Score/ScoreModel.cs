@@ -116,6 +116,12 @@ internal sealed record NoteStatement(int First, int Last, string Text, Role? Rol
 
 internal sealed record BuildStatement(int Line) : Statement(Line);
 
+/// <summary>Cards slide into another kanban column; the cards below them in their old column close the gap.</summary>
+internal sealed record MoveStatement(IReadOnlyList<TargetRef> Targets, string Column, bool Each, int Line) : Statement(Line);
+
+/// <summary>A tree node's subtree grows out of it, level by level.</summary>
+internal sealed record ExpandStatement(IReadOnlyList<TargetRef> Targets, int Line) : Statement(Line);
+
 /// <summary>A gantt chart's playhead moves on, to a date or to the end, growing every task it passes.</summary>
 internal sealed record SweepStatement(DateTime? To, int Line) : Statement(Line);
 

@@ -52,6 +52,8 @@ var svg = MermaidAnimator.RenderSvg("""
 - quantity: `fill queue 3/8`, later `fill queue 8`; a count or a lag: `badge dlq "1"`
 - attention: `focus x` (add `close` to zoom), `pulse x`
 - a state machine: `run A -> B -> C` (start with `[*]`), a refused transition: `try A -> C rejected "why"`
+- work moving (kanban): `move card to Column`; ideas branching (mindmap, treeview): `expand "Node"`; a numbered
+  interaction (C4 dynamic): a bare `animate`, or `play #1..#2`
 - a plan over time (gantt): `sweep to "2024-03-01"` per step, `sweep` to the end; tasks by id, `"label"` or `#n`
 - history (timeline): `show "2020"` per period, which brings its events; a git history: `play #1..#3` per step
 - a sequence diagram: a bare `animate`, or `play #1..#3` per step; point at a message with `mark #3 warn`, measure a
@@ -76,5 +78,6 @@ the one before it.
   comment after the header line.
 - `scrub` needs the SVG inline in the page: as an `<img>` it shows the static diagram.
 - The host's `AnimateOptions.Motion` and `.Mode` override the score's header.
-- Supported diagram types: flowchart, state, sequence, architecture, gantt, timeline, git graph. Others render, but a score on them has nothing to
+- Supported diagram types: flowchart, state, sequence, architecture, class, ER, C4, block, kanban, mindmap, treeview,
+  gantt, timeline, git graph. Others render, but a score on them has nothing to
   address.

@@ -51,7 +51,8 @@ animate [loop|once|scrub] [calm|crisp|still]
 A step's caption shows above the diagram, numbered ("2/3"). A statement outside any step is a step of its own. A bare `animate` plays the diagram type's default animation: a
 flowchart or architecture diagram builds up along its flow, a state machine runs every transition, a sequence diagram
 plays its messages in order, a gantt chart sweeps its playhead across the plan, a timeline's periods arrive along its
-axis, and a git graph's commits land in order.
+axis, a git graph's commits land in order, a mindmap or treeview grows from its root, and a C4 dynamic diagram plays its
+numbered relations in order.
 
 Names are diagram ids. Elements without an id are named by their label in quotes (`show "2020"`, `mark "Build" ok`) or
 by number: `#3` is the third message of a sequence diagram, and the third task, period or commit elsewhere.
@@ -75,6 +76,8 @@ by number: `#3` is the third message of a sequence diagram, and the third task, 
 | `run s1 -> s2 -> s3` | a state machine follows the path: a ring marks the current state, and each transition's event travels its edge |
 | `try a -> b rejected ["reason"]` | a refused transition: the token stops short, and the ring stays where it was |
 | `play [#n[..#m]]` | sequence messages draw in order, each arrow from sender to receiver; git commits land in order, the links into each drawing first |
+| `move card[, card] to Column [each]` | kanban cards slide to the bottom of another column; the cards below close up, the header counts change, and a full column grows |
+| `expand node` | a mindmap's or treeview's subtree grows out of the node, level by level (hidden until then); `focus` on a tree node keeps its subtree lit |
 | `sweep [to "2024-03-01"]` | a gantt chart's playhead moves on; each task grows behind it from its start date, and its name appears when reached |
 | `note #4..#5 "38 ms" [as role]` | a bracket beside a span of sequence messages, with what it costs |
 | `caption "…"` | changes the step's caption |
@@ -128,4 +131,5 @@ runs on one clock: each lasts the whole timeline, with its keyframes placed as p
 can drift apart. Only `opacity`, `transform` and `stroke-dashoffset` animate. The stylesheet holds generated class
 names and numbers, never text from the diagram or the score.
 
-Diagram types: flowchart, state, sequence, architecture, gantt, timeline and git graph.
+Diagram types: flowchart, state, sequence, architecture, class, ER, C4 (dynamic diagrams play their numbered relations),
+block, kanban, mindmap, treeview, gantt, timeline and git graph.

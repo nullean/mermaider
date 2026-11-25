@@ -107,7 +107,7 @@ internal sealed partial class Compiler
 				target.Box,
 				beside: _scene.Kind == SceneKind.Gantt
 			);
-			_overlay.Add(element);
+			(target.Elements.Count > 0 && target.Kind == TargetKind.Node ? Outer(target.Elements[0]) : _overlay).Add(element);
 			_badges[target.Id] = element;
 			var opacity = Opacity(element, ReducedMotion.Cut, 0);
 			opacity.Animate(at + (previous is null ? 0 : _spec.Exit * 0.5), _spec.Enter, Channel.Value(1), Easing.Enter);
