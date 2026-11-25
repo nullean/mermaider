@@ -139,6 +139,9 @@ internal sealed record MotionSpec
 	/// <summary>Stream dash travel per second.</summary>
 	public double StreamSpeed { get; init; }
 
+	/// <summary>How long a gantt playhead takes to cross the whole chart.</summary>
+	public double Sweep { get; init; }
+
 	/// <summary>How long a node is shown waiting.</summary>
 	public double Hang { get; init; }
 
@@ -174,6 +177,7 @@ internal sealed record MotionSpec
 		StreamSpeed = 46,
 		StreamHold = 1800,
 		Hang = 1400,
+		Sweep = 7000,
 	};
 
 	public static readonly MotionSpec Crisp = Calm with
@@ -200,6 +204,7 @@ internal sealed record MotionSpec
 		StreamSpeed = 70,
 		StreamHold = 1300,
 		Hang = 1000,
+		Sweep = 5000,
 	};
 
 	public static MotionSpec For(MotionPreset preset) => preset == MotionPreset.Crisp ? Crisp : Calm;

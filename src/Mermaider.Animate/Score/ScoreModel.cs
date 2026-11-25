@@ -34,7 +34,10 @@ internal enum StreamRate
 /// <summary>A node, service, actor or (with <see cref="IsGroup"/>) a group, named by its diagram id.</summary>
 internal sealed record TargetRef(string Id, bool IsGroup, int Line)
 {
-	public override string ToString() => IsGroup ? $"group {Id}" : Id;
+	/// <summary>Named by its label in quotes (<c>"Code"</c>), for elements whose source gives them no id.</summary>
+	public bool ByLabel { get; init; }
+
+	public override string ToString() => IsGroup ? $"group {Id}" : ByLabel ? $"\"{Id}\"" : Id;
 }
 
 /// <summary>
@@ -112,6 +115,9 @@ internal sealed record HangStatement(IReadOnlyList<TargetRef> Targets, int Line)
 internal sealed record NoteStatement(int First, int Last, string Text, Role? Role, int Line) : Statement(Line);
 
 internal sealed record BuildStatement(int Line) : Statement(Line);
+
+/// <summary>A gantt chart's playhead moves on, to a date or to the end, growing every task it passes.</summary>
+internal sealed record SweepStatement(DateTime? To, int Line) : Statement(Line);
 
 /// <summary>Plays sequence messages; null bounds mean from the first or to the last.</summary>
 internal sealed record PlayStatement(int? First, int? Last, int Line) : Statement(Line);

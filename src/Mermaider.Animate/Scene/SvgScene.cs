@@ -8,6 +8,9 @@ internal enum SceneKind
 	State,
 	Sequence,
 	Architecture,
+	Gantt,
+	Timeline,
+	GitGraph,
 }
 
 internal enum TargetKind
@@ -28,6 +31,26 @@ internal sealed class SceneTarget(string id, TargetKind kind, string label)
 
 	/// <summary>The id of the group this target sits in, when the diagram nests it.</summary>
 	public string? Parent { get; set; }
+
+	/// <summary>The 1-based place in the source, for elements addressed by number (#3).</summary>
+	public int Index { get; set; }
+
+	/// <summary>A gantt task's dates.</summary>
+	public DateTime Start { get; set; }
+
+	public DateTime End { get; set; }
+
+	/// <summary>The part of a gantt task that grows (its bar or milestone), or of a timeline period its moment.</summary>
+	public XElement? Mark { get; set; }
+
+	/// <summary>Things shown after this target when it appears: a timeline period's events, in order.</summary>
+	public List<SceneTarget> Followers { get; } = [];
+
+	/// <summary>A line drawn when this target appears: a timeline period's drop-line.</summary>
+	public SceneEdge? Drop { get; set; }
+
+	/// <summary>A gitgraph commit's branch.</summary>
+	public string? Branch { get; set; }
 }
 
 /// <summary>A connector: a graph or architecture edge, or a sequence message.</summary>
@@ -99,6 +122,18 @@ internal sealed class SvgScene
 
 	public SceneTarget? Target(string id) => _targets.TryGetValue(id, out var t) ? t : null;
 
+	/// <summary>A target named by its label, for elements whose source gives no id (gantt tasks, timeline periods).</summary>
+	public SceneTarget? TargetByLabel(string label) =>
+		_targets.Values.FirstOrDefault(t => string.Equals(t.Label, label, StringComparison.Ordinal)) ?? _targets.Values.FirstOrDefault(
+			t => string.Equals(t.Label, label, StringComparison.OrdinalIgnoreCase)
+		);
+
+	/// <summary>Targets in source order, for the types whose elements are numbered.</summary>
+	public List<SceneTarget> Ordered => [.. _targets.Values.Where(t => t.Index > 0).OrderBy(t => t.Index)];
+
+	/// <summary>For a gantt chart: the vertical extent of the plot and the x of a date.</summary>
+	public (double Top, double Bottom, Func<DateTime, double> X)? TimeAxis { get; private set; }
+
 	public SceneTarget? Group(string id) => _groups.TryGetValue(id, out var t) ? t : null;
 
 	/// <summary>Every target, group and edge element, for focus to dim what it does not name.</summary>
@@ -130,6 +165,12 @@ internal sealed class SvgScene
 			return SceneKind.Architecture;
 		if (head.StartsWith("stateDiagram", StringComparison.Ordinal))
 			return SceneKind.State;
+		if (head.StartsWith("gantt", StringComparison.OrdinalIgnoreCase))
+			return SceneKind.Gantt;
+		if (head.StartsWith("timeline", StringComparison.OrdinalIgnoreCase))
+			return SceneKind.Timeline;
+		if (head.StartsWith("gitGraph", StringComparison.OrdinalIgnoreCase))
+			return SceneKind.GitGraph;
 		return root.Descendants().Any(e => HasClass(e, "message")) ? SceneKind.Sequence : SceneKind.Graph;
 	}
 
@@ -154,7 +195,7 @@ internal sealed class SvgScene
 
 	private static string DetectDirection(string source, SceneKind kind)
 	{
-		if (kind == SceneKind.Architecture)
+		if (kind is SceneKind.Architecture or SceneKind.Timeline or SceneKind.GitGraph or SceneKind.Gantt)
 			return "LR";
 		foreach (var raw in source.Split('\n'))
 		{
@@ -191,6 +232,18 @@ internal sealed class SvgScene
 
 	private void ReadElements()
 	{
+		switch (Kind)
+		{
+			case SceneKind.Gantt:
+				ReadGantt();
+				return;
+			case SceneKind.Timeline:
+				ReadTimeline();
+				return;
+			case SceneKind.GitGraph:
+				ReadGitGraph();
+				return;
+		}
 		var edgeOrdinals = new Dictionary<(string, string), int>();
 		foreach (var element in Root.Descendants().ToList())
 		{
@@ -298,6 +351,107 @@ internal sealed class SvgScene
 			var i = 1;
 			foreach (var edge in Edges)
 				edge.Index = i++;
+		}
+	}
+
+	private static string TextOf(XElement element) => string.Join(" ", element.Descendants(Ns + "text").Select(t => t.Value.Trim()).Where(v => v.Length > 0));
+
+	private static DateTime? Date(string? value) =>
+		value is not null && DateTime.TryParse(value, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out var d)
+			? d
+			: null;
+
+	private void ReadGantt()
+	{
+		var tasks = Root.Descendants(Ns + "g").Where(e => HasClass(e, "gantt-task")).ToList();
+		foreach (var task in tasks)
+		{
+			var index = (int)Num.Parse((string?)task.Attribute("data-index"));
+			var id = (string?)task.Attribute("data-id") ?? $"#{index}";
+			var target = new SceneTarget(id, TargetKind.Node, TextOf(task))
+			{
+				Index = index,
+				Start = Date((string?)task.Attribute("data-start")) ?? DateTime.MinValue,
+				End = Date((string?)task.Attribute("data-end")) ?? DateTime.MinValue,
+				Mark = task.Elements().FirstOrDefault(e => e.Name.LocalName is "rect" or "path" or "polygon"),
+			};
+			target.Elements.Add(task);
+			target.Box = target.Mark is { } mark ? BoxOf(mark) : BoxOf(task);
+			_targets[id] = target;
+		}
+
+		// the date axis, fitted from two bars with different starts: x = a + b * days
+		var bars = _targets.Values.Where(t => t.Mark?.Name.LocalName == "rect" && !t.Box.IsEmpty).OrderBy(t => t.Start).ToList();
+		if (bars.Count == 0)
+			return;
+		var first = bars[0];
+		var other = bars.FirstOrDefault(b => b.Start != first.Start);
+		var perDay = other is not null
+			? (other.Box.X - first.Box.X) / (other.Start - first.Start).TotalDays
+			: (first.End - first.Start).TotalDays > 0 ? first.Box.Width / (first.End - first.Start).TotalDays : 1;
+		var originX = first.Box.X;
+		var origin = first.Start;
+		var grid = Root.Descendants(Ns + "line").Where(l => (string?)l.Attribute("x1") == (string?)l.Attribute("x2")).Select(BoxOf).ToList();
+		var top = grid.Count > 0 ? grid.Min(b => b.Y) : _targets.Values.Min(t => t.Box.Y) - 12;
+		var bottom = grid.Count > 0 ? grid.Max(b => b.Bottom) : _targets.Values.Max(t => t.Box.Bottom) + 12;
+		TimeAxis = (top, bottom, date => originX + ((date - origin).TotalDays * perDay));
+	}
+
+	private void ReadTimeline()
+	{
+		foreach (var period in Root.Descendants(Ns + "g").Where(e => HasClass(e, "timeline-period")).ToList())
+		{
+			var index = (int)Num.Parse((string?)period.Attribute("data-index"));
+			var key = index.ToString(System.Globalization.CultureInfo.InvariantCulture);
+			var target = new SceneTarget($"#{index}", TargetKind.Node, (string?)period.Attribute("data-label") ?? TextOf(period)) { Index = index };
+			target.Elements.Add(period);
+			target.Box = BoxOf(period);
+			target.Mark = Root.Descendants(Ns + "g").FirstOrDefault(e => HasClass(e, "timeline-moment") && (string?)e.Attribute("data-period") == key);
+			if (target.Mark is not null)
+				target.Elements.Add(target.Mark);
+			if (Root.Descendants(Ns + "line").FirstOrDefault(e => HasClass(e, "timeline-drop") && (string?)e.Attribute("data-period") == key) is { } drop)
+			{
+				var a = new Vec(Num.Parse((string?)drop.Attribute("x1")), Num.Parse((string?)drop.Attribute("y1")));
+				var b = new Vec(Num.Parse((string?)drop.Attribute("x2")), Num.Parse((string?)drop.Attribute("y2")));
+				target.Drop = new SceneEdge(target.Id, target.Id, drop, new Polyline([a, b])) { Stroke = drop, Dotted = true };
+			}
+			foreach (var evt in Root.Descendants(Ns + "g").Where(e => HasClass(e, "timeline-event") && (string?)e.Attribute("data-period") == key))
+			{
+				var follower = new SceneTarget($"#{index}.{(string?)evt.Attribute("data-index")}", TargetKind.Node, TextOf(evt));
+				follower.Elements.Add(evt);
+				follower.Box = BoxOf(evt);
+				target.Followers.Add(follower);
+			}
+			_targets[target.Id] = target;
+		}
+	}
+
+	private void ReadGitGraph()
+	{
+		var byIndex = new Dictionary<string, SceneTarget>(StringComparer.Ordinal);
+		foreach (var commit in Root.Descendants(Ns + "g").Where(e => HasClass(e, "commit")).ToList())
+		{
+			var indexText = (string?)commit.Attribute("data-index") ?? "0";
+			var index = (int)Num.Parse(indexText);
+			var id = (string?)commit.Attribute("data-id") ?? $"#{index}";
+			var target = new SceneTarget(id, TargetKind.Node, id) { Index = index, Branch = (string?)commit.Attribute("data-branch") };
+			target.Elements.Add(commit);
+			target.Box = BoxOf(commit);
+			_targets[id] = target;
+			byIndex[indexText] = target;
+		}
+		foreach (var badge in Root.Descendants(Ns + "g").Where(e => HasClass(e, "gitgraph-branch")).ToList())
+			AddTarget(_groups, (string?)badge.Attribute("data-branch") ?? "", TargetKind.Group, badge);
+		foreach (var link in Root.Descendants(Ns + "path").Where(e => HasClass(e, "gitgraph-link")).ToList())
+		{
+			if (
+				!byIndex.TryGetValue((string?)link.Attribute("data-from") ?? "", out var from) ||
+				!byIndex.TryGetValue((string?)link.Attribute("data-to") ?? "", out var to)
+			)
+				continue;
+			var points = PathData.Flatten((string?)link.Attribute("d") ?? "");
+			if (points.Count >= 2)
+				Edges.Add(new SceneEdge(from.Id, to.Id, link, new Polyline(points)) { Stroke = link });
 		}
 	}
 

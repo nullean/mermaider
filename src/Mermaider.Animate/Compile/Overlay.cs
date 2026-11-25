@@ -100,11 +100,13 @@ internal static class Overlay
 	}
 
 	/// <summary>A badge pinned above a node's top edge.</summary>
-	internal static XElement Badge(string text, string color, Box box)
+	internal static XElement Badge(string text, string color, Box box, bool beside = false)
 	{
 		var badge = Label(text, color, 0);
-		// clear of the node's top edge, where a mark's check or cross sits
-		badge.SetAttributeValue("transform", $"translate({Num.F(box.Center.X)} {Num.F(box.Y - 18)})");
+		// clear of the node's top edge, where a mark's check or cross sits; in dense rows (gantt), after the bar instead
+		var width = (text.Length * 6.9) + 18;
+		var at = beside ? new Vec(box.Right + 14 + (width / 2), box.Center.Y) : new Vec(box.Center.X, box.Y - 18);
+		badge.SetAttributeValue("transform", $"translate({Num.F(at.X)} {Num.F(at.Y)})");
 		return new XElement(N("g"), new XAttribute("opacity", "0"), badge);
 	}
 

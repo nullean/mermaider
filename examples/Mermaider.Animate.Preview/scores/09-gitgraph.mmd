@@ -1,0 +1,24 @@
+gitGraph
+  %% Git graph: a feature branch grows while a hotfix lands, then both meet in the release
+  commit id: "init"
+  commit id: "api"
+  branch feature
+  checkout feature
+  commit id: "ui"
+  commit id: "tests"
+  checkout main
+  commit id: "fix" type: HIGHLIGHT
+  merge feature id: "release"
+  commit id: "v1"
+
+animate
+  step "Main starts the project"
+    play #1..#2
+  step "A feature branch grows on its own"
+    play #3..#4
+  step "A hotfix lands on main meanwhile"
+    play #5
+    badge fix "hotfix" as warn
+  step "The feature merges back for the release"
+    play #6..#7
+    pulse release
