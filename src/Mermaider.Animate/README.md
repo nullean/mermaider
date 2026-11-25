@@ -46,6 +46,7 @@ animate [loop|once|scrub] [calm|crisp|still]
   step "Caption"
     <statement>
     with <statement>          starts together with the statement before it
+  scenario "Name"             an ending: the steps after it, played after the steps before the first scenario
 ```
 
 A step's caption shows above the diagram, numbered ("2/3"). A statement outside any step is a step of its own. A bare `animate` plays the diagram type's default animation: a
@@ -120,6 +121,32 @@ var animation = MermaidAnimator.Compile(source, new AnimateOptions
 string svg = animation.Svg;
 string poster = animation.RenderFrame(animation.ScoreDuration);   // the last frame, as a static SVG
 ```
+
+## Endings
+
+One diagram often has more than one story: the request that succeeds, the one that times out, the one that finds the
+database slow. Steps before the first `scenario` are the beginning every ending shares; each `scenario` names an ending
+and holds the steps after it:
+
+```
+animate
+  build
+  step "A request reaches API 1"
+    tour client -> lb -> api1 "GET /orders"
+
+  scenario "Happy path"
+    step "The database answers"
+      tour db -> api1 -> lb -> client "200 OK" as ok
+
+  scenario "API 1 times out"
+    step "API 1 stops answering"
+      hang api1
+      mark api1 fail
+```
+
+Each ending is a complete animation of its own (`animation.Scenarios`); the plain SVG plays the first. The player
+offers them as tabs: choosing one plays that ending from the start, shared beginning included, with no script. A
+screen reader hears the ending's name before its steps.
 
 ## A player without script
 

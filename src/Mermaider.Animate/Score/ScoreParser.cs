@@ -58,7 +58,10 @@ internal static class ScoreParser
 			}
 		}
 
-		var steps = new List<ScoreStep>();
+		// steps go to the shared beginning until a scenario line, then to that scenario
+		var shared = new List<ScoreStep>();
+		var steps = shared;
+		var scenarios = new List<ScoreScenario>();
 		var tokens = new Dictionary<string, TokenDeclaration>(StringComparer.Ordinal);
 		string? stepCaption = null;
 		var stepLine = 0;
@@ -101,6 +104,19 @@ internal static class ScoreParser
 				continue;
 			}
 
+			if (words[0].Is("scenario"))
+			{
+				CloseStep();
+				if (words.Count != 2 || !words[1].Quoted || words[1].Text.Trim().Length == 0)
+					diagnostics.Add(new(lineNo, "A scenario line takes one quoted name: scenario \"API 1 times out\"."));
+				var name = words.Count > 1 ? words[1].Text.Trim() : "";
+				if (scenarios.Any(s => s.Name == name))
+					diagnostics.Add(new(lineNo, $"There is already a scenario called \"{name}\"."));
+				steps = [];
+				scenarios.Add(new ScoreScenario(name, steps, lineNo));
+				continue;
+			}
+
 			if (words[0].Is("token"))
 			{
 				CloseStep();
@@ -129,7 +145,11 @@ internal static class ScoreParser
 		}
 		CloseStep();
 
-		return new ScoreDocument(mode, motion, steps, tokens, start + 1);
+		foreach (var scenario in scenarios.Where(s => s.Steps.Count == 0))
+			diagnostics.Add(new(scenario.Line, $"The scenario \"{scenario.Name}\" has no steps. Indent its steps under it, or write them after it."));
+		if (scenarios.Count == 1)
+			diagnostics.Add(new(scenarios[0].Line, "A score with one scenario tells one story: give it a second scenario, or write its steps without one."));
+		return new ScoreDocument(mode, motion, shared, tokens, start + 1) { Scenarios = scenarios };
 	}
 
 	private static int IndentOf(string line)

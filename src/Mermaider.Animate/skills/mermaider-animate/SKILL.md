@@ -51,6 +51,7 @@ var svg = MermaidAnimator.RenderSvg("""
   recovery: `restore a -> b`, `mark x clear`, `badge x clear`
 - quantity: `fill queue 3/8`, later `fill queue 8`; a number that changes: `count api 38 -> 1200 "ms" as warn`; a fixed one: `badge dlq "1"`
 - attention: `focus x` (add `close` to zoom), `pulse x`
+- several outcomes of the same start (success, timeout, slow): `scenario "Name"` blocks after the shared steps; the player offers them as tabs
 - a state machine: `run A -> B -> C` (start with `[*]`), a refused transition: `try A -> C rejected "why"`
 - work moving (kanban): `move card to Column`; ideas branching (mindmap, treeview): `expand "Node"`; a numbered
   interaction (C4 dynamic): a bare `animate`, or `play #1..#2`

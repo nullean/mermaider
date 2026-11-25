@@ -56,27 +56,45 @@ public static class MermaidAnimator
 		var diagnostics = new List<AnimationDiagnostic>();
 		var score = ScoreParser.Parse(lines, start, diagnostics);
 		var maxSteps = options?.MaxSteps ?? 64;
-		if (score.Steps.Count > maxSteps)
-			diagnostics.Add(new(score.Line, $"The score has {score.Steps.Count} steps; the limit is {maxSteps}."));
+		foreach (var story in score.Scenarios.Count == 0 ? [score] : score.Scenarios.Select(score.For))
+			if (story.Steps.Count > maxSteps)
+				diagnostics.Add(new(score.Line, $"The score has {story.Steps.Count} steps; the limit is {maxSteps}."));
 		if (diagnostics.Count > 0)
 			throw new AnimationException(diagnostics);
 
 		var motion = options?.Motion ?? score.Motion ?? MotionPreset.Calm;
 		var mode = options?.Mode ?? score.Mode ?? PlaybackMode.Loop;
-		var scene = SvgScene.Read(svg, diagramSource, Prefix(source, motion, mode));
-		var compiler = new Compiler(
-			scene,
-			score,
-			MotionSpec.For(motion),
-			motion == MotionPreset.None ? PlaybackMode.Once : mode,
-			RoleColors.From(options?.Render),
-			diagnostics
-		);
-		var timeline = compiler.Compile();
-		if (diagnostics.Count > 0)
-			throw new AnimationException(diagnostics);
 
-		return new AnimatedDiagram(scene, timeline, motion == MotionPreset.None ? PlaybackMode.Once : mode, still: motion == MotionPreset.None);
+		AnimatedDiagram One(ScoreDocument story, string prefix, string? scenario)
+		{
+			var scene = SvgScene.Read(svg, diagramSource, prefix);
+			var compiler = new Compiler(
+				scene,
+				story,
+				MotionSpec.For(motion),
+				motion == MotionPreset.None ? PlaybackMode.Once : mode,
+				RoleColors.From(options?.Render),
+				diagnostics
+			);
+			var timeline = compiler.Compile();
+			return new AnimatedDiagram(scene, timeline, motion == MotionPreset.None ? PlaybackMode.Once : mode, still: motion == MotionPreset.None, scenario);
+		}
+
+		if (score.Scenarios.Count == 0)
+		{
+			var animation = One(score, Prefix(source, motion, mode), null);
+			return diagnostics.Count > 0 ? throw new AnimationException(diagnostics) : animation;
+		}
+
+		// each ending is its own animation of the same diagram, with its own prefix so they can share a page; a problem in
+		// the shared beginning is reported once, not once per ending
+		var endings = score
+			.Scenarios
+			.Select((s, i) => new AnimatedScenario(s.Name, One(score.For(s), Prefix(source + "|scenario " + i, motion, mode), s.Name)))
+			.ToList();
+		if (diagnostics.Count > 0)
+			throw new AnimationException([.. diagnostics.Distinct()]);
+		return endings[0].Animation.WithScenarios(endings);
 	}
 
 	/// <summary>FNV-1a over the source and the options that change the output: stable across runs, distinct per diagram.</summary>
@@ -94,6 +112,9 @@ public static class MermaidAnimator
 	private static string[] SplitLines(string source) => source.Replace("\r\n", "\n").Split('\n');
 }
 
+/// <summary>One ending of a score with scenarios: its name and its animation, shared beginning included.</summary>
+public sealed record AnimatedScenario(string Name, AnimatedDiagram Animation);
+
 /// <summary>A step of a compiled animation: its caption and when it plays.</summary>
 public sealed record AnimationStep(string? Caption, TimeSpan Start, TimeSpan End);
 
@@ -109,8 +130,9 @@ public sealed class AnimatedDiagram
 #endif
 	private readonly Dictionary<XElement, string> _classes = [];
 
-	internal AnimatedDiagram(SvgScene scene, CompiledTimeline timeline, PlaybackMode mode, bool still)
+	internal AnimatedDiagram(SvgScene scene, CompiledTimeline timeline, PlaybackMode mode, bool still, string? scenario = null)
 	{
+		Scenario = scenario;
 		_scene = scene;
 		_timeline = timeline;
 		Mode = mode;
@@ -118,7 +140,7 @@ public sealed class AnimatedDiagram
 		ScoreDuration = TimeSpan.FromMilliseconds(timeline.ScoreEnd);
 		Intro = TimeSpan.FromMilliseconds(timeline.Loops ? timeline.StoryStart : 0);
 		Steps = timeline.Steps.Select(s => new AnimationStep(s.Caption, TimeSpan.FromMilliseconds(s.Start), TimeSpan.FromMilliseconds(s.End))).ToList();
-		Describe(scene.Root, Steps);
+		Describe(scene.Root, Steps, scenario);
 		Svg = still ? FrameAt(timeline.ScoreEnd) : Animated();
 	}
 
@@ -131,15 +153,31 @@ public sealed class AnimatedDiagram
 	internal static AnimatedDiagram Static(string svg) => new(svg);
 
 	/// <summary>
+	/// The score's endings, each a complete animation, when it has scenarios; empty otherwise. This animation is the
+	/// first of them: its <see cref="Svg"/> plays the first ending, and <see cref="RenderPlayer"/> offers every one.
+	/// </summary>
+	public IReadOnlyList<AnimatedScenario> Scenarios { get; private set; } = [];
+
+	/// <summary>The name of the ending this animation plays, when the score has scenarios.</summary>
+	public string? Scenario { get; }
+
+	internal AnimatedDiagram WithScenarios(IReadOnlyList<AnimatedScenario> scenarios)
+	{
+		Scenarios = scenarios;
+		return this;
+	}
+
+	/// <summary>
 	/// The story, told to a screen reader: the steps' captions in order, after the description the author gave with
 	/// <c>accDescr</c> if any. The diagram's own text stays readable as it is.
 	/// </summary>
-	private static void Describe(XElement root, IReadOnlyList<AnimationStep> steps)
+	private static void Describe(XElement root, IReadOnlyList<AnimationStep> steps, string? scenario)
 	{
 		var captions = steps.Select(s => s.Caption).OfType<string>().Where(c => c.Trim().Length > 0).ToList();
 		if (captions.Count == 0)
 			return;
-		var told = new System.Text.StringBuilder(captions.Count == 1 ? "" : $"In {captions.Count} steps: ");
+		var told = new System.Text.StringBuilder(scenario is null ? "" : scenario.TrimEnd('.') + ". ");
+		_ = told.Append(captions.Count == 1 ? "" : $"In {captions.Count} steps: ");
 		for (var i = 0; i < captions.Count; i++)
 		{
 			var caption = captions[i].Trim();
@@ -183,7 +221,10 @@ public sealed class AnimatedDiagram
 	public IReadOnlyList<AnimationStep> Steps { get; }
 
 	/// <summary>The animated SVG inside an HTML fragment with CSS-only Play, Pause and step controls.</summary>
-	public string RenderPlayer() =>
+	public string RenderPlayer() => Scenarios.Count > 1 ? Player.RenderScenarios(Scenarios, _scene!.Prefix) : RenderOwnPlayer();
+
+	/// <summary>This animation's player alone, without the tabs that choose between endings.</summary>
+	internal string RenderOwnPlayer() =>
 		_scene is null || Mode == PlaybackMode.Scrub || !Steps.Any(s => s.Caption is not null)
 			? $"<figure>\n{Svg}\n</figure>"
 			: Player.Render(this, _scene.Prefix);

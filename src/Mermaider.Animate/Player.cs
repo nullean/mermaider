@@ -161,6 +161,62 @@ internal static class Player
 		return sb.ToString();
 	}
 
+	/// <summary>
+	/// A score's endings behind one row of tabs: a radio group, one tab per ending, and each ending's own player, shown
+	/// only while its tab is chosen. Showing a player starts its animation afresh, so choosing an ending plays it from the
+	/// start, shared beginning included. No script: the tabs are labels for the radios, wired with <c>:has()</c>.
+	/// </summary>
+	internal static string RenderScenarios(IReadOnlyList<AnimatedScenario> scenarios, string prefix)
+	{
+		var s = prefix + "-s";
+		var sb = new StringBuilder();
+		_ = sb.Append("<div class=\"").Append(s).Append("\">\n<style>\n");
+		Rule(sb, $".{s} > input", "position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none");
+		Rule(sb, $".{s}-tabs", "display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 0 0 8px; font: 500 12px/1.2 system-ui, sans-serif");
+		Rule(
+			sb,
+			$".{s}-tabs label",
+			"padding: 5px 11px; border: 1px solid color-mix(in srgb, currentColor 22%, transparent); border-radius: 999px; cursor: pointer; " +
+				"color: color-mix(in srgb, currentColor 62%, transparent)"
+		);
+		Rule(sb, $".{s} > .{s}-end", "display: none");
+		for (var k = 0; k < scenarios.Count; k++)
+		{
+			Rule(sb, $".{s}:has(#{s}-{k}:checked) > .{s}-end-{k}", "display: block");
+			Rule(sb, $".{s}:has(#{s}-{k}:checked) .{s}-tabs label[for=\"{s}-{k}\"]", "color: currentColor; border-color: currentColor");
+			Rule(sb, $".{s}:has(#{s}-{k}:focus-visible) .{s}-tabs label[for=\"{s}-{k}\"]", "outline: 2px solid currentColor; outline-offset: 2px");
+		}
+		_ = sb.Append("</style>\n");
+		for (var k = 0; k < scenarios.Count; k++)
+			_ = sb
+				.Append("<input type=\"radio\" name=\"")
+				.Append(s)
+				.Append("\" id=\"")
+				.Append(s)
+				.Append('-')
+				.Append(k)
+				.Append('"')
+				.Append(k == 0 ? " checked" : "")
+				.Append(">\n");
+		_ = sb.Append("<div class=\"").Append(s).Append("-tabs\" role=\"group\" aria-label=\"Endings\">\n");
+		for (var k = 0; k < scenarios.Count; k++)
+			_ = sb.Append("<label for=\"").Append(s).Append('-').Append(k).Append("\">").Append(WebUtility.HtmlEncode(scenarios[k].Name)).Append("</label>\n");
+		_ = sb.Append("</div>\n");
+		for (var k = 0; k < scenarios.Count; k++)
+			_ = sb
+				.Append("<div class=\"")
+				.Append(s)
+				.Append("-end ")
+				.Append(s)
+				.Append("-end-")
+				.Append(k)
+				.Append("\">\n")
+				.Append(scenarios[k].Animation.RenderOwnPlayer())
+				.Append("\n</div>\n");
+		_ = sb.Append("</div>");
+		return sb.ToString();
+	}
+
 	private static void Rule(StringBuilder sb, string selector, string declarations) => sb.Append(selector).Append(" { ").Append(declarations).Append("; }\n");
 
 	private static string Ms(double ms) => Math.Round(ms).ToString(CultureInfo.InvariantCulture) + "ms";
