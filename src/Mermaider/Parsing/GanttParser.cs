@@ -47,11 +47,11 @@ internal static partial class GanttParser
 	[GeneratedRegex(@"^excludes\s+(.+)$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex ExcludesPattern();
 
-	internal static GanttDiagram Parse(string[] lines)
+	internal static GanttDiagram Parse(string[] lines, bool strict = true)
 	{
 		try
 		{
-			return ParseCore(lines);
+			return ParseCore(lines, strict);
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
@@ -71,7 +71,7 @@ internal static partial class GanttParser
 		}
 	}
 
-	private static GanttDiagram ParseCore(string[] lines)
+	private static GanttDiagram ParseCore(string[] lines, bool strict)
 	{
 		string? title = null;
 		var dateFormat = "YYYY-MM-DD";
@@ -146,7 +146,14 @@ internal static partial class GanttParser
 
 			var taskMatch = TaskPattern().Match(line);
 			if (!taskMatch.Success)
+			{
+				if (strict)
+					RejectStatement(line, i == lines.Length - 1);
 				continue;
+			}
+
+			if (strict)
+				RequireMetaBeyondTags(line, taskMatch.Groups[2]);
 
 			var name = taskMatch.Groups[1].Value.Trim();
 			var meta = taskMatch.Groups[2].Value.Trim();
@@ -165,6 +172,57 @@ internal static partial class GanttParser
 			sections.Add(new GanttSection(null, []));
 
 		return new GanttDiagram { Title = title, DateFormat = dateFormat, Sections = sections, };
+	}
+
+	private static readonly string[] BareKeywords =
+	[
+		"title", "section", "dateFormat", "axisFormat", "tickInterval", "excludes", "includes", "todayMarker", "weekday", "weekend",
+		"inclusiveEndDates", "topAxis",
+	];
+
+	/// <summary>
+	/// A statement that is neither a directive nor <c>name : data</c>. Mermaid's lexer lets a bare keyword
+	/// (<c>title</c>, <c>section</c>, <c>dateFormat</c>, …) take the next line as its value, so a bare keyword is only
+	/// refused at the very end; any other text without a colon is a syntax error.
+	/// </summary>
+	private static void RejectStatement(string line, bool isLast)
+	{
+		var word = line.Trim();
+		if (BareKeywords.Contains(word, StringComparer.OrdinalIgnoreCase))
+		{
+			if (isLast && word is not ("inclusiveEndDates" or "topAxis"))
+				throw new MermaidParseException($"'{word}' has no value", line, $"text after '{word}'", column: word.Length + 1);
+			return;
+		}
+		var first = word.Split((char[]?)null, 2, StringSplitOptions.RemoveEmptyEntries)[0];
+		if (BareKeywords.Contains(first, StringComparer.OrdinalIgnoreCase) || first.StartsWith("accTitle", StringComparison.OrdinalIgnoreCase) || first.StartsWith("accDescr", StringComparison.OrdinalIgnoreCase))
+			return;
+		if (word.StartsWith(':'))
+			throw new MermaidParseException("task has no name before ':'", line, "a task name, then ':' and its dates", column: 1);
+		if (word.Contains(':', StringComparison.Ordinal))
+			return;
+		throw new MermaidParseException(
+			$"task '{word}' has no start date or duration: a task needs ':' and its dates",
+			line,
+			"'<task name> : <id>, <start>, <end or duration>' or a directive such as 'section'",
+			column: word.Length + 1
+		);
+	}
+
+	/// <summary>Mermaid refuses metadata made only of tags (<c>done</c>, <c>crit</c>, …).</summary>
+	private static void RequireMetaBeyondTags(string line, Group data)
+	{
+		var parts = data.Value.Split(',');
+		var tags = 0;
+		while (tags < parts.Length && TryParseTag(parts[tags].Trim(), out _))
+			tags++;
+		if (tags > 0 && tags == parts.Length)
+			throw new MermaidParseException(
+				$"task has only tags ('{data.Value.Trim()}') and no start date, end date or duration",
+				line,
+				"a date, 'after <id>' or a duration such as '3d' after the tags",
+				column: data.Index + 1
+			);
 	}
 
 	/// <summary>
