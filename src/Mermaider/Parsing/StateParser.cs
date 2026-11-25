@@ -323,7 +323,7 @@ internal static partial class StateParser
 				continue;
 			}
 
-			if (strict && (line.Contains("-->", StringComparison.Ordinal) || PartialArrowPattern().IsMatch(line)) && IncompleteTransition(line) is { } incomplete)
+			if (strict && (line.Contains("-->", StringComparison.Ordinal) || (i == lines.Length - 1 && PartialArrowPattern().IsMatch(line))) && IncompleteTransition(line) is { } incomplete)
 				throw incomplete;
 		}
 

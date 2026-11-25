@@ -75,4 +75,27 @@ public class MalformedInputTests
 	[Arguments("stateDiagram-v2\n    [*] --> Still\n    Still --> [*]\n    Still --> Moving : go\n")]
 	public void Valid_input_stays_accepted(string source) =>
 		MermaidRenderer.RenderSvg(source).Should().StartWith("<svg");
+
+	/// <summary>Every diagram type reads <see cref="RenderOptions.ParseMode"/>: strict refuses, lenient renders.</summary>
+	[Test]
+	[Arguments("pie\n    \"Dogs\" :\n    \"Cats\" : 5\n")]
+	[Arguments("classDiagram\n    class Animal {\n    +name\n")]
+	[Arguments("erDiagram\n    CUSTOMER ||--o{\n    CUSTOMER { string name }\n")]
+	[Arguments("journey\n    title Day\n    Code 5 Me\n    Meet: 3: Me\n")]
+	[Arguments("packet\n0-7: \"A\"\n9-15: \"B\"\n")]
+	[Arguments("sankey-beta\nA,B\nA,C,3\n")]
+	[Arguments("mindmap\n  root\n  second root\n")]
+	[Arguments("gantt\n    title Plan\n    dateFormat YYYY-MM-DD\n    a task with no colon\n    Real : a1, 2026-01-01, 1d\n")]
+	[Arguments("kanban\n  Todo\n    t1[Unclosed\n")]
+	[Arguments("quadrantChart\n    A: [0.5]\n    B: [0.2, 0.3]\n")]
+	[Arguments("requirementDiagram\n    element e {\n    type: sim\n")]
+	[Arguments("architecture-beta\n    service a(server)[A]\n    service b(server)[B]\n    a -- b\n    a:R -- L:b\n")]
+	public void Every_diagram_type_honours_the_parse_mode(string source)
+	{
+		var strict = () => MermaidRenderer.RenderSvg(source);
+		strict.Should().Throw<MermaidParseException>();
+
+		var lenient = () => MermaidRenderer.RenderSvg(source, Lenient);
+		lenient.Should().NotThrow();
+	}
 }

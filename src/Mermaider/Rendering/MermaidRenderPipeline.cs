@@ -302,7 +302,7 @@ internal static class DiagramSvgStage
 				}
 			case DiagramType.Class:
 				{
-					var parsed = ClassParser.Parse(lines);
+					var parsed = ClassParser.Parse(lines, strictParse);
 					ResourceGuard.CheckElements(parsed.Classes.Count + parsed.Relationships.Count, limits);
 					ct.ThrowIfCancellationRequested();
 					sb = ClassSvgRenderer.RenderToBuilder(provider.LayoutClass(parsed), context);
@@ -310,7 +310,7 @@ internal static class DiagramSvgStage
 				}
 			case DiagramType.Er:
 				{
-					var parsed = ErParser.Parse(lines);
+					var parsed = ErParser.Parse(lines, strictParse);
 					ResourceGuard.CheckElements(parsed.Entities.Count + parsed.Relationships.Count, limits);
 					ct.ThrowIfCancellationRequested();
 					sb = ErSvgRenderer.RenderToBuilder(provider.LayoutEr(parsed), context);
@@ -318,93 +318,93 @@ internal static class DiagramSvgStage
 				}
 			case DiagramType.Pie:
 				{
-					var parsed = PieParser.Parse(lines);
+					var parsed = PieParser.Parse(lines, strictParse);
 					sb = PieSvgRenderer.RenderToBuilder(parsed, context);
 					break;
 				}
 			case DiagramType.Quadrant:
 				{
-					sb = QuadrantSvgRenderer.RenderToBuilder(QuadrantParser.Parse(lines), context);
+					sb = QuadrantSvgRenderer.RenderToBuilder(QuadrantParser.Parse(lines, strictParse), context);
 					break;
 				}
 			case DiagramType.Timeline:
 				{
-					sb = TimelineSvgRenderer.RenderToBuilder(TimelineParser.Parse(lines), context);
+					sb = TimelineSvgRenderer.RenderToBuilder(TimelineParser.Parse(lines, strictParse), context);
 					break;
 				}
 			case DiagramType.GitGraph:
 				{
-					sb = GitGraphSvgRenderer.RenderToBuilder(GitGraphParser.Parse(lines), context);
+					sb = GitGraphSvgRenderer.RenderToBuilder(GitGraphParser.Parse(lines, strictParse), context);
 					break;
 				}
 			case DiagramType.Radar:
 				{
-					sb = RadarSvgRenderer.RenderToBuilder(RadarParser.Parse(lines), context);
+					sb = RadarSvgRenderer.RenderToBuilder(RadarParser.Parse(lines, strictParse), context);
 					break;
 				}
 			case DiagramType.Treemap:
 				{
-					sb = TreemapSvgRenderer.RenderToBuilder(TreemapParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource)), context);
+					sb = TreemapSvgRenderer.RenderToBuilder(TreemapParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource), strictParse), context);
 					break;
 				}
 			case DiagramType.Venn:
 				{
-					var parsed = VennParser.Parse(lines);
+					var parsed = VennParser.Parse(lines, strictParse);
 					ResourceGuard.CheckElements(parsed.Sets.Count + parsed.Unions.Count, limits);
 					sb = VennSvgRenderer.RenderToBuilder(parsed, context);
 					break;
 				}
 			case DiagramType.Mindmap:
 				{
-					sb = MindmapSvgRenderer.RenderToBuilder(MindmapParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource)), context);
+					sb = MindmapSvgRenderer.RenderToBuilder(MindmapParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource), strictParse), context);
 					break;
 				}
 			case DiagramType.Gantt:
 				{
-					sb = GanttSvgRenderer.RenderToBuilder(GanttParser.Parse(lines), context);
+					sb = GanttSvgRenderer.RenderToBuilder(GanttParser.Parse(lines, strictParse), context);
 					break;
 				}
 			case DiagramType.Journey:
 				{
-					sb = JourneySvgRenderer.RenderToBuilder(JourneyParser.Parse(lines), context);
+					sb = JourneySvgRenderer.RenderToBuilder(JourneyParser.Parse(lines, strictParse), context);
 					break;
 				}
 			case DiagramType.C4:
 				{
-					sb = C4SvgRenderer.RenderToBuilder(C4Parser.Parse(lines), context);
+					sb = C4SvgRenderer.RenderToBuilder(C4Parser.Parse(lines, strictParse), context);
 					break;
 				}
 			case DiagramType.Sankey:
 				{
-					sb = SankeySvgRenderer.RenderToBuilder(SankeyParser.Parse(lines), context);
+					sb = SankeySvgRenderer.RenderToBuilder(SankeyParser.Parse(lines, strictParse), context);
 					break;
 				}
 			case DiagramType.XyChart:
 				{
-					sb = XyChartSvgRenderer.RenderToBuilder(XyChartParser.Parse(lines), context);
+					sb = XyChartSvgRenderer.RenderToBuilder(XyChartParser.Parse(lines, strictParse), context);
 					break;
 				}
 			case DiagramType.Requirement:
 				{
-					sb = RequirementSvgRenderer.RenderToBuilder(RequirementParser.Parse(lines), context);
+					sb = RequirementSvgRenderer.RenderToBuilder(RequirementParser.Parse(lines, strictParse), context);
 					break;
 				}
 			case DiagramType.Packet:
 				{
-					sb = PacketSvgRenderer.RenderToBuilder(PacketParser.Parse(lines), context);
+					sb = PacketSvgRenderer.RenderToBuilder(PacketParser.Parse(lines, strictParse), context);
 					break;
 				}
 			case DiagramType.Kanban:
 				{
 					sb = KanbanSvgRenderer.RenderToBuilder(
-						KanbanParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource, accessibility)),
+						KanbanParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource, accessibility), strictParse),
 						context
 					);
 					break;
 				}
 			case DiagramType.Architecture:
 				{
-					var parsed = ArchitectureParser.Parse(lines);
+					var parsed = ArchitectureParser.Parse(lines, strictParse);
 					ResourceGuard.CheckElements(parsed.Services.Count + parsed.Groups.Count + parsed.Edges.Count + parsed.Junctions.Count, limits);
 					ct.ThrowIfCancellationRequested();
 					sb = ArchitectureSvgRenderer.RenderToBuilder(ArchitectureLayout.Layout(parsed), context);
@@ -412,13 +412,13 @@ internal static class DiagramSvgStage
 				}
 			case DiagramType.Block:
 				{
-					sb = BlockSvgRenderer.RenderToBuilder(BlockParser.Parse(lines), context);
+					sb = BlockSvgRenderer.RenderToBuilder(BlockParser.Parse(lines, strictParse), context);
 					break;
 				}
 			case DiagramType.TreeView:
 				{
 					sb = TreeViewSvgRenderer.RenderToBuilder(
-						TreeViewParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource, accessibility)),
+						TreeViewParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource, accessibility), strictParse),
 						context
 					);
 					break;

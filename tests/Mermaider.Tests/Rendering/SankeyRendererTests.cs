@@ -56,7 +56,7 @@ public partial class SankeyRendererTests
 	[Test]
 	public void Renders_empty_diagram()
 	{
-		var svg = MermaidRenderer.RenderSvg("sankey-beta");
+		var svg = MermaidRenderer.RenderSvg("sankey-beta", new Mermaider.Models.RenderOptions { ParseMode = Mermaider.Models.ParseMode.Lenient });
 
 		svg.Should().StartWith("<svg");
 		svg.Should().EndWith("</svg>");

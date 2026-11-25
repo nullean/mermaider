@@ -74,7 +74,7 @@ public class XyChartParserTests
 	[Test]
 	public void Keeps_slot_for_invalid_numbers()
 	{
-		var chart = XyChartParser.Parse(["xychart", "bar [1, NaN, 3]",]);
+		var chart = XyChartParser.Parse(["xychart", "bar [1, NaN, 3]",], strict: false);
 
 		chart.Series[0].Values.Should().Equal(1, 0, 3);
 	}
@@ -82,7 +82,7 @@ public class XyChartParserTests
 	[Test]
 	public void Rejects_nan_axis_range()
 	{
-		var chart = XyChartParser.Parse(["xychart", "y-axis NaN --> Infinity", "bar [1, 2]",]);
+		var chart = XyChartParser.Parse(["xychart", "y-axis NaN --> Infinity", "bar [1, 2]",], strict: false);
 
 		chart.YMin.Should().BeNull();
 		chart.YMax.Should().BeNull();

@@ -123,7 +123,7 @@ internal static partial class SankeyParser
 				var quote = line.IndexOf('"', i, end - i);
 				if (quote >= 0)
 					throw new MermaidParseException($"quote inside the unquoted field {count}", line, "the whole field in quotes, or no quotes in it", column: quote + 1);
-				if (end == i)
+				if (end == i && count > 1)
 					throw new MermaidParseException(
 						count > 3 ? "row has more than three fields" : $"field {count} is empty",
 						line,

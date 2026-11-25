@@ -31,7 +31,7 @@ internal static partial class XyChartParser
 
 	// min --> max, with an optional title in front: "Revenue" 4000 --> 11000
 	[GeneratedRegex(
-		@"^(?:(?:""[^""]*""|(?:(?!-->).)+?)\s+)?[+-]?(?:\d+(?:\.\d+)?|\.\d+)\s*-->\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)$",
+		@"^(?:(?:""[^""]*""\s*|(?:(?!-->).)+?\s+))?[+-]?(?:\d+(?:\.\d+)?|\.\d+)\s*-->\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)$",
 		RegexOptions.None,
 		TimeoutMs
 	)]

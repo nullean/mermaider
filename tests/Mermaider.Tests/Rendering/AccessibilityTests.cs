@@ -282,7 +282,7 @@ public class AccessibilityTests
 			accTitle: Skill Assessment
 			accDescr: Developer skills radar
 			axis A, B, C
-			curve Team1: 3, 4, 5
+			curve Team1{3, 4, 5}
 			"""
 		);
 

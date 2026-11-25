@@ -20,7 +20,7 @@ internal static partial class ArchitectureParser
 	private static partial Regex JunctionPattern();
 
 	// A(:side)? (--|-->|<--|<-->) (side:)?B — braces around group endpoints are stripped before matching.
-	[GeneratedRegex(@"^(\S+?)(?::(L|R|T|B))?\s*(--|-->|<--|<-->)\s*(?:(L|R|T|B):)?(\S+)$", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^(\S+?)(?::(L|R|T|B))?\s*(<-->|-->|<--|--)\s*(?:(L|R|T|B):)?(\S+)$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex EdgePattern();
 
 	[GeneratedRegex(@"^(.+):(L|R|T|B)$", RegexOptions.None, TimeoutMs)]

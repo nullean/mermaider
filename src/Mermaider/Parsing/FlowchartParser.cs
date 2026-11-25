@@ -18,6 +18,13 @@ internal static partial class FlowchartParser
 	[GeneratedRegex(@"[\w\]\)\}"".]\s*(?:<?(?:-{2,}>?|={2,}>?|-\.+-?>?|~{3,})|--|==|\.->)\s*$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex DanglingLinkPattern();
 
+	// a closing quote then "]", with optional space between: the end of a quoted rectangle label
+	[GeneratedRegex(@"""\s*\]", RegexOptions.None, TimeoutMs)]
+	private static partial Regex QuoteBracketPattern();
+
+	[GeneratedRegex(@"\s(?:--|==)\s*$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex BareDashesPattern();
+
 	[GeneratedRegex(@"^(?:subgraph|end|classDef|class|style|linkStyle|click|direction)\b", RegexOptions.None, TimeoutMs)]
 	private static partial Regex StatementKeywordPattern();
 
@@ -84,7 +91,7 @@ internal static partial class FlowchartParser
 	[GeneratedRegex(@"^([\w-]+)\{\{(""[^""]*""|.+?)\}\}", RegexOptions.None, TimeoutMs)]
 	private static partial Regex HexagonPattern();
 
-	[GeneratedRegex(@"^([\w-]+)\[(""[^""]*""|.+?)\]", RegexOptions.Singleline, TimeoutMs)]
+	[GeneratedRegex(@"^([\w-]+)\[(""[^""]*""\s*(?=\])|.+?)\]", RegexOptions.Singleline, TimeoutMs)]
 	private static partial Regex RectanglePattern();
 
 	[GeneratedRegex(@"^([\w-]+)\((""[^""]*""|.+?)\)", RegexOptions.None, TimeoutMs)]
@@ -140,6 +147,9 @@ internal static partial class FlowchartParser
 			var line = lines[i];
 			while (i + 1 < lines.Length && i > 0 && DanglingLinkPattern().IsMatch(line) && !StatementKeywordPattern().IsMatch(lines[i + 1]))
 				line = line + " " + lines[++i];
+			// "A --" before a keyword line ("end", "subgraph") is accepted by Mermaid; only a link at the end of the input is not
+			if (i + 1 < lines.Length && i > 0 && StatementKeywordPattern().IsMatch(lines[i + 1]) && BareDashesPattern().Match(line) is { Success: true } dashes)
+				line = line[..dashes.Index].TrimEnd();
 			result.Add(line);
 		}
 		return result.ToArray();
@@ -151,12 +161,12 @@ internal static partial class FlowchartParser
 		for (var i = 0; i < lines.Length; i++)
 		{
 			var line = lines[i];
-			if (line.Contains("[\"") && !line.Contains("\"]"))
+			if (line.Contains("[\"") && !QuoteBracketPattern().IsMatch(line))
 			{
 				while (++i < lines.Length)
 				{
 					line = line + "\n" + lines[i];
-					if (lines[i].Contains("\"]"))
+					if (QuoteBracketPattern().IsMatch(lines[i]))
 						break;
 				}
 			}
@@ -515,6 +525,12 @@ internal static partial class FlowchartParser
 		if (text.Length == 0 || (text is "-" or ":" && statement.Length >= 2 && char.IsLetterOrDigit(statement[^2])))
 			return;
 
+		// "id- --> A", "A::cls --> B" and "A--B>" read as ids to Mermaid: a - or : right after the id belongs to it
+		var attached = statement.Length > remaining.Length && statement.EndsWith(remaining, StringComparison.Ordinal) && statement.Length - remaining.Length >= 1
+			&& char.IsLetterOrDigit(statement[statement.Length - remaining.Length - 1]);
+		if (attached && (text[0] == '-' || text[0] == ':'))
+			return;
+
 		throw new MermaidParseException(
 			$"unexpected text '{text}'",
 			statement,
@@ -573,6 +589,8 @@ internal static partial class FlowchartParser
 			{
 				id = match.Groups[1].Value;
 				var rawLabel = match.Groups[2].Value;
+				if (rawLabel.StartsWith('"'))
+					rawLabel = rawLabel.TrimEnd();
 				if (rawLabel.Length >= 2 && rawLabel[0] == '"' && rawLabel[^1] == '"')
 					rawLabel = rawLabel[1..^1];
 				if (strictStatement is not null && !match.Groups[2].Value.StartsWith('"') && rawLabel.Length > 0 && rawLabel[0] is '(' or '[' or '{')

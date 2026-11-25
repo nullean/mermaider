@@ -262,7 +262,7 @@ internal static partial class C4Parser
 				continue;
 			}
 
-			if (a >= ids && !(arg.Length >= 2 && arg[0] == '"' && arg[^1] == '"'))
+			if (a >= ids && arg.IndexOf('"') < 0)
 				throw new MermaidParseException($"argument '{arg}' is not in double quotes", statement, "a \"quoted\" text", column: Math.Max(1, statement.IndexOf(arg, StringComparison.Ordinal) + 1));
 		}
 	}

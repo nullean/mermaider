@@ -112,7 +112,7 @@ public sealed record RenderOptions
 	/// <summary>
 	/// How malformed input is handled. <see cref="Models.ParseMode.Strict"/> (default) throws a
 	/// <see cref="MermaidParseException"/> naming the line and what was expected; <see cref="Models.ParseMode.Lenient"/>
-	/// skips what it cannot read and renders the rest. Currently enforced for flowchart, state and sequence diagrams.
+	/// skips what it cannot read and renders the rest.
 	/// </summary>
 	public ParseMode ParseMode { get; init; } = ParseMode.Strict;
 
