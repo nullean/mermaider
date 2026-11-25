@@ -785,8 +785,9 @@ internal sealed class SvgScene
 			if (HasClass(loose, "subgraph") || HasClass(loose, "legend") || HasClass(loose, "journey-line"))
 				continue;
 			var box = BoxOf(loose);
-			if (box.IsEmpty && loose.Name.LocalName == "text")
-				box = new Box(Num.Parse((string?)loose.Attribute("x")), Num.Parse((string?)loose.Attribute("y")), 0, 0);
+			// a text, or a group holding only text (a venn overlap's label), is placed by where its text is anchored
+			if (box.IsEmpty && (loose.Name.LocalName == "text" ? loose : loose.Descendants(Ns + "text").FirstOrDefault()) is { } text)
+				box = new Box(Num.Parse((string?)text.Attribute("x")), Num.Parse((string?)text.Attribute("y")), 0, 0);
 			if (box.IsEmpty)
 				continue;
 			var c = box.Center;

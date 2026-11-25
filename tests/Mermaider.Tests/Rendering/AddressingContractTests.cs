@@ -218,6 +218,24 @@ public class AddressingContractTests
 	}
 
 	[Test]
+	public void Venn_overlap_labels_name_sets_that_exist()
+	{
+		var labelled = 0;
+		foreach (var doc in Documents(DiagramCategory.Venn))
+		{
+			var sets = doc.Descendants().Where(e => HasClass(e, "venn-set")).Select(e => (string)e.Attribute("data-set")!).ToHashSet();
+			foreach (var union in doc.Descendants().Where(e => HasClass(e, "venn-union")))
+			{
+				labelled++;
+				var members = ((string)union.Attribute("data-sets")!).Split(',');
+				members.Should().HaveCountGreaterThanOrEqualTo(2).And.OnlyContain(m => sets.Contains(m));
+				union.Descendants().Should().Contain(e => e.Name.LocalName == "text", "the label is inside its union");
+			}
+		}
+		labelled.Should().BePositive("some venn example labels an overlap");
+	}
+
+	[Test]
 	public void Requirement_relations_join_nodes_that_exist()
 	{
 		foreach (var doc in Documents(DiagramCategory.Requirement))
