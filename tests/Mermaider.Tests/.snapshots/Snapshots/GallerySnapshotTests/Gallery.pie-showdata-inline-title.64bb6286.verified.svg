@@ -34,13 +34,13 @@
   <rect x="40" y="35.5" width="9" height="9" rx="2" ry="2" fill="var(--accent, var(--fg))" />
   <text x="56" y="40" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">CI Pipeline Outcomes</text>
 </g>
-<g class="pie-slice" data-label="Success">
+<g class="pie-slice" data-label="Success" data-index="1" data-value="187" data-cx="232" data-cy="240" data-r="128" data-start="-90" data-end="217.4">
   <path d="M 232 240 L 232 112 A 128 128 0 1 1 130.31 162.26 Z" fill="url(#m1814eb8b-pie-d0)" stroke="color-mix(in srgb, #4e79a7 74%, var(--fg))" stroke-width="1.25" stroke-linejoin="round" />
 </g>
-<g class="pie-slice" data-label="Failed">
+<g class="pie-slice" data-label="Failed" data-index="2" data-value="23" data-cx="232" data-cy="240" data-r="128" data-start="217.4" data-end="255.21">
   <path d="M 232 240 L 130.31 162.26 A 128 128 0 0 1 199.31 116.24 Z" fill="url(#m1814eb8b-pie-d1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" stroke-linejoin="round" />
 </g>
-<g class="pie-slice" data-label="Cancelled">
+<g class="pie-slice" data-label="Cancelled" data-index="3" data-value="9" data-cx="232" data-cy="240" data-r="128" data-start="255.21" data-end="270">
   <path d="M 232 240 L 199.31 116.24 A 128 128 0 0 1 232 112 Z" fill="url(#m1814eb8b-pie-d2)" stroke="color-mix(in srgb, #e15759 74%, var(--fg))" stroke-width="1.25" stroke-linejoin="round" />
 </g>
 <path d="M 290.05 357.44 L 294.92 367.3" fill="none" stroke="var(--_line)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />

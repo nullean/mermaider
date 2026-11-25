@@ -30,31 +30,31 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<path class="sankey-link" d="M 54 40 C 152.83 40 152.83 40 251.67 40 L 251.67 400 C 152.83 400 152.83 400 54 400 Z" fill="url(#m1814eb8b-sankey-grad-0)" stroke="none" />
-<path class="sankey-link" d="M 265.67 40 C 364.5 40 364.5 148 463.33 148 L 463.33 292 C 364.5 292 364.5 400 265.67 400 Z" fill="url(#m1814eb8b-sankey-grad-1)" stroke="none" />
-<path class="sankey-link" d="M 477.33 148 C 576.17 148 576.17 143.8 675 143.8 L 675 240.68 C 576.17 240.68 576.17 248.8 477.33 248.8 Z" fill="url(#m1814eb8b-sankey-grad-2)" stroke="none" />
-<path class="sankey-link" d="M 477.33 248.8 C 576.17 248.8 576.17 254.68 675 254.68 L 675 296.2 C 576.17 296.2 576.17 292 477.33 292 Z" fill="url(#m1814eb8b-sankey-grad-3)" stroke="none" />
-<g class="sankey-node" data-node="Visitors">
+<path class="sankey-link" d="M 54 40 C 152.83 40 152.83 40 251.67 40 L 251.67 400 C 152.83 400 152.83 400 54 400 Z" fill="url(#m1814eb8b-sankey-grad-0)" stroke="none" data-from="Visitors" data-to="Signups" data-value="1000" />
+<path class="sankey-link" d="M 265.67 40 C 364.5 40 364.5 148 463.33 148 L 463.33 292 C 364.5 292 364.5 400 265.67 400 Z" fill="url(#m1814eb8b-sankey-grad-1)" stroke="none" data-from="Signups" data-to="Trials" data-value="400" />
+<path class="sankey-link" d="M 477.33 148 C 576.17 148 576.17 143.8 675 143.8 L 675 240.68 C 576.17 240.68 576.17 248.8 477.33 248.8 Z" fill="url(#m1814eb8b-sankey-grad-2)" stroke="none" data-from="Trials" data-to="Churned" data-value="280" />
+<path class="sankey-link" d="M 477.33 248.8 C 576.17 248.8 576.17 254.68 675 254.68 L 675 296.2 C 576.17 296.2 576.17 292 477.33 292 Z" fill="url(#m1814eb8b-sankey-grad-3)" stroke="none" data-from="Trials" data-to="Paid" data-value="120" />
+<g class="sankey-node" data-node="Visitors" data-id="Visitors">
   <rect x="40" y="40" width="14" height="360" rx="3" ry="3" fill="#4e79a7" />
   <text x="64" y="212" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Visitors</text>
   <text x="64" y="228" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">1000</text>
 </g>
-<g class="sankey-node" data-node="Signups">
+<g class="sankey-node" data-node="Signups" data-id="Signups">
   <rect x="251.67" y="40" width="14" height="360" rx="3" ry="3" fill="#f28e2b" />
   <text x="275.67" y="212" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Signups</text>
   <text x="275.67" y="228" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">1000</text>
 </g>
-<g class="sankey-node" data-node="Trials">
+<g class="sankey-node" data-node="Trials" data-id="Trials">
   <rect x="463.33" y="148" width="14" height="144" rx="3" ry="3" fill="#e15759" />
   <text x="487.33" y="212" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Trials</text>
   <text x="487.33" y="228" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">400</text>
 </g>
-<g class="sankey-node" data-node="Paid">
+<g class="sankey-node" data-node="Paid" data-id="Paid">
   <rect x="675" y="254.68" width="14" height="41.52" rx="3" ry="3" fill="#76b7b2" />
   <text x="699" y="267.44" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Paid</text>
   <text x="699" y="283.44" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">120</text>
 </g>
-<g class="sankey-node" data-node="Churned">
+<g class="sankey-node" data-node="Churned" data-id="Churned">
   <rect x="675" y="143.8" width="14" height="96.88" rx="3" ry="3" fill="#59a14f" />
   <text x="699" y="184.24" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Churned</text>
   <text x="699" y="200.24" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">280</text>

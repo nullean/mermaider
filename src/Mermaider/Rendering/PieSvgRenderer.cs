@@ -102,6 +102,22 @@ internal static class PieSvgRenderer
 			var family = ds.Series(i);
 			_ = sb.Append("\n<g class=\"pie-slice\" data-label=\"");
 			MultilineUtils.AppendEscapedAttr(sb, chart.Slices[i].Label);
+			// addressing: the slice's place and value, and the circle it is cut from with its angles (degrees, clockwise from 3 o'clock)
+			_ = sb
+				.Append("\" data-index=\"")
+				.Append((i + 1).ToString(CultureInfo.InvariantCulture))
+				.Append("\" data-value=\"")
+				.Append(chart.Slices[i].Value.ToString(CultureInfo.InvariantCulture))
+				.Append("\" data-cx=\"")
+				.Append(cx.SvgFormat())
+				.Append("\" data-cy=\"")
+				.Append(cy.SvgFormat())
+				.Append("\" data-r=\"")
+				.Append(Radius.SvgFormat())
+				.Append("\" data-start=\"")
+				.Append((startAngle * 180 / Math.PI).SvgFormat())
+				.Append("\" data-end=\"")
+				.Append(((startAngle + sweep) * 180 / Math.PI).SvgFormat());
 			_ = sb.Append("\">\n  ");
 			AppendSlice(sb, ds, family, cx, cy, startAngle, sweep, donut);
 			_ = sb.Append("\n</g>");

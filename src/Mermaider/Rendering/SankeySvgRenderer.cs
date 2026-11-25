@@ -358,7 +358,12 @@ internal static class SankeySvgRenderer
 			.Append('"');
 		if (!ds.Gradient)
 			_ = sb.Append(" fill-opacity=\"").Append(DesignSystem.Num(ds.RibbonOpacity)).Append('"');
-		_ = sb.Append(" stroke=\"none\" />");
+		// addressing: the nodes a link joins and the value it carries
+		_ = sb.Append(" stroke=\"none\" data-from=\"");
+		MultilineUtils.AppendEscapedAttr(sb, link.Source.Name);
+		_ = sb.Append("\" data-to=\"");
+		MultilineUtils.AppendEscapedAttr(sb, link.Target.Name);
+		_ = sb.Append("\" data-value=\"").Append(link.Value.ToString(CultureInfo.InvariantCulture)).Append("\" />");
 	}
 
 	private static void AppendNode(StringBuilder sb, DesignSystem ds, NodeLayout node)
@@ -372,6 +377,9 @@ internal static class SankeySvgRenderer
 		};
 		var rr = DesignSystem.Num(Math.Min(r, h / 2));
 		_ = sb.Append("\n<g class=\"sankey-node\" data-node=\"");
+		MultilineUtils.AppendEscapedAttr(sb, node.Name);
+		// addressing: a node's id is its name, as links name it
+		_ = sb.Append("\" data-id=\"");
 		MultilineUtils.AppendEscapedAttr(sb, node.Name);
 		_ = sb
 			.Append("\">\n  <rect x=\"")
