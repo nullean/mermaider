@@ -115,6 +115,70 @@ internal sealed partial class Compiler
 		return at + _spec.Enter;
 	}
 
+	private readonly Dictionary<string, double> _counted = [with(StringComparer.Ordinal)];
+
+	/// <summary>
+	/// A number on a node rolls to a new value: a badge whose number passes through the values between, eased like a
+	/// move, and stays at the last until cleared or replaced. It starts from the node's last count, or 0. Under reduced
+	/// motion the numbers between are skipped and the last appears as a cut.
+	/// </summary>
+	private double Count(CountStatement count, double at)
+	{
+		if (Resolve([count.Target]).FirstOrDefault() is not { } target)
+			return at;
+		var from = count.From ?? (_counted.TryGetValue(target.Id, out var last) ? last : 0);
+		var to = count.To;
+		_counted[target.Id] = to;
+		var decimals = Math.Max(Decimals(count.From ?? from), Decimals(to));
+
+		string Text(double value)
+		{
+			var number = Math.Round(value, decimals).ToString("F" + decimals, System.Globalization.CultureInfo.InvariantCulture);
+			return count.Unit is not { Length: > 0 } unit ? number : unit.StartsWith('%') ? number + unit : number + " " + unit;
+		}
+
+		// the values it passes through, each shown for its share of the roll; repeats (a small range) are skipped
+		const int steps = 10;
+		var duration = _spec.Camera * 1.6;
+		var frames = new List<(double At, string Text)>();
+		for (var k = 0; k <= steps; k++)
+		{
+			var text = Text(from + ((to - from) * k / steps));
+			if (frames.Count == 0 || frames[^1].Text != text)
+				frames.Add((at + (duration * Easing.Move.Inverse((double)k / steps)), text));
+		}
+
+		var color = count.Role is { } role ? _colors.For(role) : "var(--accent, #3b82f6)";
+		var holder = target.Elements.Count > 0 && target.Kind == TargetKind.Node ? Outer(target.Elements[0]) : _overlay;
+		if (_badges.TryGetValue(target.Id, out var previous))
+			Opacity(previous, ReducedMotion.Cut, 0).Animate(at, 1, Channel.Value(0), Easing.Linear);
+		for (var i = 0; i < frames.Count; i++)
+		{
+			var element = Overlay.Badge(frames[i].Text, color, target.Box, beside: _scene.Kind == SceneKind.Gantt);
+			holder.Add(element);
+			var final = i == frames.Count - 1;
+			// the numbers between are motion; the last is what the count says
+			var opacity = Opacity(element, final ? ReducedMotion.Cut : ReducedMotion.Off, 0);
+			if (i == 0 && previous is null)
+				opacity.Animate(frames[i].At, _spec.Enter * 0.6, Channel.Value(1), Easing.Enter);
+			else
+				opacity.Set(frames[i].At, Channel.Value(1));
+			// the number leaves just before the next arrives, so two are never shown at once
+			if (!final)
+				opacity.Set(frames[i + 1].At - 1, Channel.Value(0));
+			else
+				_badges[target.Id] = element;
+		}
+		return at + duration;
+	}
+
+	private static int Decimals(double value)
+	{
+		var text = value.ToString("R", System.Globalization.CultureInfo.InvariantCulture);
+		var dot = text.IndexOf('.');
+		return dot < 0 ? 0 : Math.Min(3, text.Length - dot - 1);
+	}
+
 	/// <summary>
 	/// A node that does not answer: a dash runs around it for the length of a wait. Waiting is the failure a timeout is
 	/// made of, so it is shown, not only its result.

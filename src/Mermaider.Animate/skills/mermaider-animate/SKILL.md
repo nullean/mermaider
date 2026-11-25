@@ -49,7 +49,7 @@ var svg = MermaidAnimator.RenderSvg("""
 - load or a continuous flow: `stream a -> b busy`
 - failure: `hang x` (the wait), then `mark x fail` and `badge x "timeout" as fail`, `cut a -> b`, `send … lost`;
   recovery: `restore a -> b`, `mark x clear`, `badge x clear`
-- quantity: `fill queue 3/8`, later `fill queue 8`; a count or a lag: `badge dlq "1"`
+- quantity: `fill queue 3/8`, later `fill queue 8`; a number that changes: `count api 38 -> 1200 "ms" as warn`; a fixed one: `badge dlq "1"`
 - attention: `focus x` (add `close` to zoom), `pulse x`
 - a state machine: `run A -> B -> C` (start with `[*]`), a refused transition: `try A -> C rejected "why"`
 - work moving (kanban): `move card to Column`; ideas branching (mindmap, treeview): `expand "Node"`; a numbered

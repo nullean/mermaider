@@ -144,4 +144,83 @@ public class StateVerbTests
 		double.Parse(viewBox[1], System.Globalization.CultureInfo.InvariantCulture).Should().BeLessThan(0, "the caption band is added above");
 		root.Descendants().Where(e => e.Name.LocalName == "text").Select(e => e.Value).Should().Contain(["1/2", "one", "2/2", "two"]);
 	}
+
+	[Test]
+	[Arguments("count b 3", null, 3.0, null)]
+	[Arguments("count b 38 -> 1200 \"ms\" as warn", 38.0, 1200.0, "ms")]
+	[Arguments("count \"Queue\" 0.5 -> 2.25 \"%\"", 0.5, 2.25, "%")]
+	public void Count_takes_a_node_a_number_and_what_it_counts(string line, double? from, double to, string? unit)
+	{
+		var lines = ("flowchart LR\n  a --> b[Queue]\nanimate\n  " + line + "\n").Split('\n');
+		var diagnostics = new List<AnimationDiagnostic>();
+		var score = ScoreParser.Parse(lines, ScoreParser.FindStart(lines), diagnostics);
+		diagnostics.Should().BeEmpty();
+		var count = score.Steps.Single().Statements.Single().Should().BeOfType<CountStatement>().Subject;
+		(count.From, count.To, count.Unit).Should().Be((from, to, unit));
+	}
+
+	[Test]
+	[Arguments("count b")]
+	[Arguments("count b ms")]
+	[Arguments("count b 3 ->")]
+	[Arguments("count 3")]
+	public void Count_without_a_number_says_how_it_is_written(string line) =>
+		Problems(Flow + "\nanimate\n  " + line + "\n").Should().ContainSingle().Which.Message.Should().StartWith("count takes a node and a number");
+
+	private static List<string> Badges(string svg) =>
+		[.. XDocument.Parse(svg).Descendants().Where(e => e.Name.LocalName == "text" && e.Value.EndsWith(" ms", StringComparison.Ordinal)).Select(e => e.Value)];
+
+	private static string? Shown(AnimatedDiagram animation, double t)
+	{
+		var frame = XDocument.Parse(animation.RenderFrame(TimeSpan.FromMilliseconds(t)));
+
+		static bool Visible(XElement e) =>
+			!e.AncestorsAndSelf().Any(a => System.Text.RegularExpressions.Regex.IsMatch((string?)a.Attribute("style") ?? "", "(^|;)opacity:0(;|$)"));
+
+		return frame
+			.Descendants()
+			.Where(e => e.Name.LocalName == "text" && e.Value.EndsWith(" ms", StringComparison.Ordinal) && Visible(e))
+			.Select(e => e.Value)
+			.SingleOrDefault();
+	}
+
+	[Test]
+	public void A_count_rolls_through_the_values_between_one_at_a_time_and_stays_at_the_last()
+	{
+		var animation = MermaidAnimator.Compile(Flow + "\nanimate once\n  count b 0 -> 100 \"ms\"\n  pulse a\n");
+		Badges(animation.Svg).Should().Equal("0 ms", "10 ms", "20 ms", "30 ms", "40 ms", "50 ms", "60 ms", "70 ms", "80 ms", "90 ms", "100 ms");
+		var seen = new List<string>();
+		for (var t = 0.0; t <= animation.ScoreDuration.TotalMilliseconds; t += 10)
+			if (Shown(animation, t) is { } text && (seen.Count == 0 || seen[^1] != text))
+				seen.Add(text);
+		seen.Should().Equal(Badges(animation.Svg), "never two at once, never out of order");
+		Shown(animation, animation.ScoreDuration.TotalMilliseconds).Should().Be("100 ms");
+	}
+
+	[Test]
+	public void A_second_count_rolls_on_from_the_first_and_badge_clear_removes_it()
+	{
+		var animation = MermaidAnimator.Compile(Flow + "\nanimate once\n  count b 40 \"ms\"\n  count b 50 \"ms\"\n  badge b clear\n  pulse a\n");
+		Badges(animation.Svg).Should().StartWith(["0 ms", "4 ms"]).And.Contain("40 ms").And.Contain("41 ms").And.EndWith("50 ms");
+		Shown(animation, animation.ScoreDuration.TotalMilliseconds).Should().BeNull();
+	}
+
+	[Test]
+	public void Under_reduced_motion_only_the_last_number_of_a_count_appears()
+	{
+		var svg = MermaidAnimator.RenderSvg(Flow + "\nanimate once\n  count b 0 -> 100 \"ms\"\n");
+		var style = svg[svg.IndexOf("@media (prefers-reduced-motion: reduce)", StringComparison.Ordinal)..];
+		var doc = XDocument.Parse(svg);
+
+		string ClassOf(string text) =>
+			doc
+				.Descendants()
+				.Single(e => e.Name.LocalName == "text" && e.Value == text)
+				.Ancestors()
+				.Select(a => (string?)a.Attribute("class"))
+				.First(c => c != null && System.Text.RegularExpressions.Regex.IsMatch(c, @"-a\d+"))!.Split(' ').Last();
+
+		style.Should().Contain($".{ClassOf("50 ms")} {{ animation: none; }}");
+		style.Should().NotContain($".{ClassOf("100 ms")} {{ animation: none; }}");
+	}
 }

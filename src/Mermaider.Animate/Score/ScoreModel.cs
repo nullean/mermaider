@@ -106,6 +106,9 @@ internal sealed record CaptionStatement(string Text, int Line) : Statement(Line)
 internal sealed record FillStatement(TargetRef Target, int Count, int? Capacity, int Line) : Statement(Line);
 
 /// <summary>A short label pinned above a node until cleared (<see cref="Text"/> null).</summary>
+/// <summary>A number on a node rolls from one value to another: <c>count api 38 -&gt; 1200 "ms"</c>.</summary>
+internal sealed record CountStatement(TargetRef Target, double? From, double To, string? Unit, Role? Role, int Line) : Statement(Line);
+
 internal sealed record BadgeStatement(IReadOnlyList<TargetRef> Targets, string? Text, Role? Role, int Line) : Statement(Line);
 
 /// <summary>A node waiting with no answer: the wait itself is shown.</summary>

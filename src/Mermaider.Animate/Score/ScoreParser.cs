@@ -206,11 +206,12 @@ internal static class ScoreParser
 			"trace" => new TraceStatement(reader.Chain(min: 2), line),
 			"expand" => new ExpandStatement(reader.Targets(), line),
 			"badge" => ParseBadge(reader),
+			"count" => ParseCount(reader),
 			"hang" => new HangStatement(reader.Targets(), line),
 			"note" => ParseNote(reader),
 			_ =>
 				reader.Fail(
-					$"Unknown verb '{verb}'. The verbs are show, hide, focus, pulse, mark, badge, fill, hang, draw, erase, cut, restore, send, stream, tour, run, try, ping, play, sweep, move, expand, set, trace, note, caption and build."
+					$"Unknown verb '{verb}'. The verbs are show, hide, focus, pulse, mark, badge, fill, hang, draw, erase, cut, restore, send, stream, tour, run, try, ping, play, sweep, move, expand, set, trace, note, count, caption and build."
 				),
 		};
 		if (statement is null)
@@ -501,6 +502,38 @@ internal static class ScoreParser
 			role = reader.Next() is { } r ? ParseRole(r, reader.Line, reader.Diagnostics) : null;
 		return new BadgeStatement(targets, text, role, reader.Line);
 	}
+
+	private static Statement? ParseCount(Reader reader)
+	{
+		// count A [FROM ->] TO ["unit"] [as ROLE]
+		const string usage = "count takes a node and a number, from another if given: count api 38 -> 1200 \"ms\".";
+		TargetRef? target = reader.Peek(0) is { Quoted: true }
+			? new TargetRef(reader.Quoted()!, IsGroup: false, reader.Line) { ByLabel = true }
+			: reader.Id() is { } id ? new TargetRef(id, IsGroup: false, reader.Line) : null;
+		if (target is null || Number(reader) is not { } first)
+			return reader.Fail(usage);
+		double? from = null;
+		var to = first;
+		if (reader.Accept("->"))
+		{
+			if (Number(reader) is not { } second)
+				return reader.Fail(usage);
+			(from, to) = (first, second);
+		}
+		var unit = reader.Peek(0) is { Quoted: true } ? reader.Quoted() : null;
+		Role? role = null;
+		if (reader.Accept("as"))
+			role = reader.Next() is { } r ? ParseRole(r, reader.Line, reader.Diagnostics) : null;
+		return new CountStatement(target, from, to, unit, role, reader.Line);
+	}
+
+	private static double? Number(Reader reader) =>
+		reader.Peek(0) is { Quoted: false } word && double.TryParse(
+			word.Text,
+			System.Globalization.NumberStyles.Float,
+			System.Globalization.CultureInfo.InvariantCulture,
+			out var value
+		) && !double.IsNaN(value) && !double.IsInfinity(value) ? (reader.Next() is not null ? value : null) : null;
 
 	private static Statement? ParseNote(Reader reader)
 	{
