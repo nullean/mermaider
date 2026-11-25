@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -46 800 486" width="800" height="486" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6"><style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
+</style><defs>
+  <linearGradient id="m1814eb8b-sankey-grad-0" gradientUnits="userSpaceOnUse" x1="54" y1="0" x2="260.333" y2="0"><stop offset="0" stop-color="#4e79a7" stop-opacity="0.4" /><stop offset="1" stop-color="#f28e2b" stop-opacity="0.4" /></linearGradient>
+  <linearGradient id="m1814eb8b-sankey-grad-1" gradientUnits="userSpaceOnUse" x1="54" y1="0" x2="260.333" y2="0"><stop offset="0" stop-color="#e15759" stop-opacity="0.4" /><stop offset="1" stop-color="#f28e2b" stop-opacity="0.4" /></linearGradient>
+  <linearGradient id="m1814eb8b-sankey-grad-2" gradientUnits="userSpaceOnUse" x1="274.333" y1="0" x2="480.667" y2="0"><stop offset="0" stop-color="#f28e2b" stop-opacity="0.4" /><stop offset="1" stop-color="#59a14f" stop-opacity="0.4" /></linearGradient>
+  <linearGradient id="m1814eb8b-sankey-grad-3" gradientUnits="userSpaceOnUse" x1="274.333" y1="0" x2="480.667" y2="0"><stop offset="0" stop-color="#f28e2b" stop-opacity="0.4" /><stop offset="1" stop-color="#76b7b2" stop-opacity="0.4" /></linearGradient>
+  <linearGradient id="m1814eb8b-sankey-grad-4" gradientUnits="userSpaceOnUse" x1="494.667" y1="0" x2="701" y2="0"><stop offset="0" stop-color="#76b7b2" stop-opacity="0.4" /><stop offset="1" stop-color="#edc948" stop-opacity="0.4" /></linearGradient>
+  <linearGradient id="m1814eb8b-sankey-grad-5" gradientUnits="userSpaceOnUse" x1="494.667" y1="0" x2="701" y2="0"><stop offset="0" stop-color="#76b7b2" stop-opacity="0.4" /><stop offset="1" stop-color="#b07aa1" stop-opacity="0.4" /></linearGradient>
+</defs><g><g>
+
+
+<g><path class="sankey-link maf6b6c7d3-a21" d="M 54 40 C 157.17 40 157.17 40 260.33 40 L 260.33 256 C 157.17 256 157.17 247.6 54 247.6 Z" fill="url(#m1814eb8b-sankey-grad-0)" stroke="none" data-from="Ad" data-to="Landing" data-value="60" mask="url(#maf6b6c7d3-m0)" style="opacity:1" /></g>
+<g><path class="sankey-link maf6b6c7d3-a22" d="M 54 261.6 C 157.17 261.6 157.17 256 260.33 256 L 260.33 400 C 157.17 400 157.17 400 54 400 Z" fill="url(#m1814eb8b-sankey-grad-1)" stroke="none" data-from="Search" data-to="Landing" data-value="40" mask="url(#maf6b6c7d3-m1)" style="opacity:0.22" /></g>
+<g><path class="sankey-link maf6b6c7d3-a23" d="M 274.33 40 C 377.5 40 377.5 40 480.67 40 L 480.67 230.3 C 377.5 230.3 377.5 238 274.33 238 Z" fill="url(#m1814eb8b-sankey-grad-2)" stroke="none" data-from="Landing" data-to="Bounce" data-value="55" mask="url(#maf6b6c7d3-m2)" style="opacity:0.22" /></g>
+<g><path class="sankey-link maf6b6c7d3-a24" d="M 274.33 238 C 377.5 238 377.5 244.3 480.67 244.3 L 480.67 400 C 377.5 400 377.5 400 274.33 400 Z" fill="url(#m1814eb8b-sankey-grad-3)" stroke="none" data-from="Landing" data-to="Signup" data-value="45" mask="url(#maf6b6c7d3-m3)" style="opacity:1" /></g>
+<g><path class="sankey-link maf6b6c7d3-a25" d="M 494.67 244.3 C 597.83 244.3 597.83 235.65 701 235.65 L 701 304.85 C 597.83 304.85 597.83 313.5 494.67 313.5 Z" fill="url(#m1814eb8b-sankey-grad-4)" stroke="none" data-from="Signup" data-to="Paid" data-value="20" mask="url(#maf6b6c7d3-m4)" style="opacity:1" /></g>
+<g><path class="sankey-link maf6b6c7d3-a26" d="M 494.67 313.5 C 597.83 313.5 597.83 135.15 701 135.15 L 701 221.65 C 597.83 221.65 597.83 400 494.67 400 Z" fill="url(#m1814eb8b-sankey-grad-5)" stroke="none" data-from="Signup" data-to="Trial" data-value="25" mask="url(#maf6b6c7d3-m5)" style="opacity:0.22" /></g>
+<g class="maf6b6c7d3-a0" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:47px 143.8px"><g class="sankey-node maf6b6c7d3-a14" data-node="Ad" data-id="Ad" style="opacity:1">
+  <rect x="40" y="40" width="14" height="207.6" rx="3" ry="3" fill="#4e79a7" />
+  <text x="64" y="135.8" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Ad</text>
+  <text x="64" y="151.8" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">60</text>
+</g></g>
+<g class="maf6b6c7d3-a4" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:267.33px 220px"><g class="sankey-node maf6b6c7d3-a15" data-node="Landing" data-id="Landing" style="opacity:1">
+  <rect x="260.33" y="40" width="14" height="360" rx="3" ry="3" fill="#f28e2b" />
+  <text x="284.33" y="212" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Landing</text>
+  <text x="284.33" y="228" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">100</text>
+</g></g>
+<g class="maf6b6c7d3-a1" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:47px 330.8px"><g class="sankey-node maf6b6c7d3-a16" data-node="Search" data-id="Search" style="opacity:0.22">
+  <rect x="40" y="261.6" width="14" height="138.4" rx="3" ry="3" fill="#e15759" />
+  <text x="64" y="322.8" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Search</text>
+  <text x="64" y="338.8" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">40</text>
+</g></g>
+<g class="maf6b6c7d3-a8" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:487.67px 322.15px"><g class="sankey-node maf6b6c7d3-a17" data-node="Signup" data-id="Signup" style="opacity:1">
+  <rect x="480.67" y="244.3" width="14" height="155.7" rx="3" ry="3" fill="#76b7b2" />
+  <text x="504.67" y="314.15" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Signup</text>
+  <text x="504.67" y="330.15" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">45</text>
+</g></g>
+<g class="maf6b6c7d3-a7" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:487.67px 135.15px"><g class="sankey-node maf6b6c7d3-a18" data-node="Bounce" data-id="Bounce" style="opacity:0.22">
+  <rect x="480.67" y="40" width="14" height="190.3" rx="3" ry="3" fill="#59a14f" />
+  <text x="504.67" y="127.15" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Bounce</text>
+  <text x="504.67" y="143.15" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">55</text>
+</g></g>
+<g class="maf6b6c7d3-a12" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:708px 270.25px"><g class="sankey-node maf6b6c7d3-a19" data-node="Paid" data-id="Paid" style="opacity:1">
+  <rect x="701" y="235.65" width="14" height="69.2" rx="3" ry="3" fill="#edc948" />
+  <text x="725" y="262.25" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Paid</text>
+  <text x="725" y="278.25" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">20</text>
+</g><g opacity="0" class="maf6b6c7d3-a27" style="opacity:1"><g transform="translate(708 217.65)"><rect x="-40.05" y="-10" width="80.1" height="20" rx="10" fill="#59a14f" stroke="#59a14f" stroke-width="1.5" /><text x="0" y="4" text-anchor="middle" font-size="11.5" font-weight="650" fill="#fff">20 paying</text></g></g></g>
+<g class="maf6b6c7d3-a11" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:708px 178.4px"><g class="sankey-node maf6b6c7d3-a20" data-node="Trial" data-id="Trial" style="opacity:0.22">
+  <rect x="701" y="135.15" width="14" height="86.5" rx="3" ry="3" fill="#b07aa1" />
+  <text x="725" y="170.4" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Trial</text>
+  <text x="725" y="186.4" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">25</text>
+</g></g>
+
+<g pointer-events="none" /></g><g opacity="0" class="maf6b6c7d3-a13" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:0px 0px"><text x="14" y="-21.5" font-size="15" font-weight="650" fill="var(--_text, var(--fg))">Where paying customers come from</text><path d="M14,-11 L786,-11" stroke="var(--accent, #3b82f6)" stroke-width="2" stroke-opacity="0.55" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" fill="none" class="maf6b6c7d3-a28" style="stroke-dashoffset:0" /></g></g><defs><mask id="maf6b6c7d3-m0" maskUnits="userSpaceOnUse" x="-800" y="-800" width="2400" height="2040"><path d="M53,148 L261.33,148" fill="none" stroke="#fff" stroke-width="224" pathLength="1" stroke-dasharray="1 1" class="maf6b6c7d3-a2" style="stroke-dashoffset:0" /></mask><mask id="maf6b6c7d3-m1" maskUnits="userSpaceOnUse" x="-800" y="-800" width="2400" height="2040"><path d="M53,328 L261.33,328" fill="none" stroke="#fff" stroke-width="152" pathLength="1" stroke-dasharray="1 1" class="maf6b6c7d3-a3" style="stroke-dashoffset:0" /></mask><mask id="maf6b6c7d3-m2" maskUnits="userSpaceOnUse" x="-800" y="-800" width="2400" height="2040"><path d="M273.33,139 L481.67,139" fill="none" stroke="#fff" stroke-width="206" pathLength="1" stroke-dasharray="1 1" class="maf6b6c7d3-a5" style="stroke-dashoffset:0" /></mask><mask id="maf6b6c7d3-m3" maskUnits="userSpaceOnUse" x="-800" y="-800" width="2400" height="2040"><path d="M273.33,319 L481.67,319" fill="none" stroke="#fff" stroke-width="170" pathLength="1" stroke-dasharray="1 1" class="maf6b6c7d3-a6" style="stroke-dashoffset:0" /></mask><mask id="maf6b6c7d3-m4" maskUnits="userSpaceOnUse" x="-800" y="-800" width="2400" height="2040"><path d="M493.67,274.57 L702,274.57" fill="none" stroke="#fff" stroke-width="85.85" pathLength="1" stroke-dasharray="1 1" class="maf6b6c7d3-a9" style="stroke-dashoffset:0" /></mask><mask id="maf6b6c7d3-m5" maskUnits="userSpaceOnUse" x="-800" y="-800" width="2400" height="2040"><path d="M493.67,267.58 L702,267.58" fill="none" stroke="#fff" stroke-width="272.85" pathLength="1" stroke-dasharray="1 1" class="maf6b6c7d3-a10" style="stroke-dashoffset:0" /></mask></defs></svg>

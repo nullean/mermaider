@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-139.08 -46 447.6 688.4" width="447.6" height="688.4" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6"><style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
+</style><defs>
+  <linearGradient id="m1814eb8b-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+</defs><g><g>
+
+
+<g><path class="er-relationship mabc8be200-a35" data-entity1="CUSTOMER" data-entity2="ORDER" data-cardinality1="one" data-cardinality2="zeromany" data-identifying="true" data-label="places" d="M84.72,64 L84.72,159.6" fill="none" stroke="var(--_line)" stroke-width="1.5" mask="url(#mabc8be200-m0)" style="opacity:1" /></g>
+<g><path class="er-relationship mabc8be200-a36" data-entity1="ORDER" data-entity2="LINE" data-cardinality1="one" data-cardinality2="many" data-identifying="true" data-label="contains" d="M84.72,203.6 L84.72,299.2" fill="none" stroke="var(--_line)" stroke-width="1.5" mask="url(#mabc8be200-m1)" style="opacity:0.22" /></g>
+<g><path class="er-relationship mabc8be200-a37" data-entity1="LINE" data-entity2="PRODUCT" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="references" d="M84.72,343.2 L84.72,438.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" mask="url(#mabc8be200-m2)" style="opacity:0.22" /></g>
+<g><path class="er-relationship mabc8be200-a38" data-entity1="PRODUCT" data-entity2="CATEGORY" data-cardinality1="zeromany" data-cardinality2="one" data-identifying="true" data-label="belongs to" d="M84.72,482.79999999999995 L84.72,578.4" fill="none" stroke="var(--_line)" stroke-width="1.5" mask="url(#mabc8be200-m3)" style="opacity:0.22" /></g>
+<g class="mabc8be200-a0" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:84.72px 42px"><g class="entity mabc8be200-a30" data-id="CUSTOMER" data-label="CUSTOMER" style="opacity:1">
+  <rect x="20" y="20" width="129.44" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="84.72" y="42" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">CUSTOMER</text>
+</g></g>
+<g class="mabc8be200-a7" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:84.72px 181.6px"><g class="entity mabc8be200-a31" data-id="ORDER" data-label="ORDER" style="opacity:1">
+  <rect x="24.72" y="159.6" width="120" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="84.72" y="181.6" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">ORDER</text>
+</g></g>
+<g class="mabc8be200-a14" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:84.72px 321.2px"><g class="entity mabc8be200-a32" data-id="LINE" data-label="LINE" style="opacity:0.22">
+  <rect x="24.72" y="299.2" width="120" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="84.72" y="321.2" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">LINE</text>
+</g></g>
+<g class="mabc8be200-a21" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:84.72px 460.8px"><g class="entity mabc8be200-a33" data-id="PRODUCT" data-label="PRODUCT" style="opacity:0.22">
+  <rect x="24.72" y="438.79999999999995" width="120" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="84.72" y="460.8" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">PRODUCT</text>
+</g></g>
+<g class="mabc8be200-a28" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:84.72px 600.4px"><g class="entity mabc8be200-a34" data-id="CATEGORY" data-label="CATEGORY" style="opacity:0.22">
+  <rect x="21.439999999999998" y="578.4" width="126.56" height="44" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="84.72" y="600.4" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">CATEGORY</text>
+</g></g>
+<g class="mabc8be200-a3" style="opacity:1"><path d="M91.22,73 L78.22,73" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" class="mabc8be200-a40" style="opacity:1" /></g>
+<g class="mabc8be200-a4" style="opacity:1"><path d="M91.22,78 L78.22,78" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" class="mabc8be200-a41" style="opacity:1" /></g>
+<g class="mabc8be200-a5" style="opacity:1"><path d="M77.22,159.6 L84.72,146.6 L92.22,159.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" class="mabc8be200-a42" style="opacity:1" /></g>
+<g class="mabc8be200-a6" style="opacity:1"><circle cx="84.72" cy="137.6" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" class="mabc8be200-a43" style="opacity:1" /></g>
+<g class="mabc8be200-a10" style="opacity:1"><path d="M91.22,212.6 L78.22,212.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" class="mabc8be200-a45" style="opacity:0.22" /></g>
+<g class="mabc8be200-a11" style="opacity:1"><path d="M91.22,217.6 L78.22,217.6" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" class="mabc8be200-a46" style="opacity:0.22" /></g>
+<g class="mabc8be200-a12" style="opacity:1"><path d="M77.22,299.2 L84.72,286.2 L92.22,299.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" class="mabc8be200-a47" style="opacity:0.22" /></g>
+<g class="mabc8be200-a13" style="opacity:1"><path d="M78.22,281.2 L91.22,281.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" class="mabc8be200-a48" style="opacity:0.22" /></g>
+<g class="mabc8be200-a17" style="opacity:1"><path d="M92.22,343.2 L84.72,356.2 L77.22,343.2" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" class="mabc8be200-a50" style="opacity:0.22" /></g>
+<g class="mabc8be200-a18" style="opacity:1"><circle cx="84.72" cy="365.2" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" class="mabc8be200-a51" style="opacity:0.22" /></g>
+<g class="mabc8be200-a19" style="opacity:1"><path d="M78.22,429.79999999999995 L91.22,429.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" class="mabc8be200-a52" style="opacity:0.22" /></g>
+<g class="mabc8be200-a20" style="opacity:1"><path d="M78.22,424.79999999999995 L91.22,424.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" class="mabc8be200-a53" style="opacity:0.22" /></g>
+<g class="mabc8be200-a24" style="opacity:1"><path d="M92.22,482.79999999999995 L84.72,495.79999999999995 L77.22,482.79999999999995" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" class="mabc8be200-a55" style="opacity:0.22" /></g>
+<g class="mabc8be200-a25" style="opacity:1"><circle cx="84.72" cy="504.79999999999995" r="4.5" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" class="mabc8be200-a56" style="opacity:0.22" /></g>
+<g class="mabc8be200-a26" style="opacity:1"><path d="M78.22,569.4 L91.22,569.4" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" class="mabc8be200-a57" style="opacity:0.22" /></g>
+<g class="mabc8be200-a27" style="opacity:1"><path d="M78.22,564.4 L91.22,564.4" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-linejoin="round" class="mabc8be200-a58" style="opacity:0.22" /></g>
+<g class="mabc8be200-a2" style="opacity:1"><g class="edge-label mabc8be200-a39" data-label="places" style="opacity:1">
+  <rect x="57.352000000000004" y="101" width="54.736" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="84.72" y="111.8" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">places</text>
+</g></g>
+<g class="mabc8be200-a9" style="opacity:1"><g class="edge-label mabc8be200-a44" data-label="contains" style="opacity:0.22">
+  <rect x="52.564" y="240.59999999999997" width="64.312" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="84.72" y="251.4" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">contains</text>
+</g></g>
+<g class="mabc8be200-a16" style="opacity:1"><g class="edge-label mabc8be200-a49" data-label="references" style="opacity:0.22">
+  <rect x="45.040000000000006" y="380.2" width="79.35999999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="84.72" y="391" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">references</text>
+</g></g>
+<g class="mabc8be200-a23" style="opacity:1"><g class="edge-label mabc8be200-a54" data-label="belongs to" style="opacity:0.22">
+  <rect x="48.117999999999995" y="519.8" width="73.20400000000001" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /> <text x="84.72" y="530.6" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">belongs to</text>
+</g></g>
+
+<g pointer-events="none"><path d="M84.72,482.8 L84.72,578.4" fill="none" stroke="var(--accent, #3b82f6)" stroke-width="3.5" opacity="0" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" class="mabc8be200-a69" style="stroke-dashoffset:1;opacity:0" /><path d="M84.72,343.2 L84.72,438.8" fill="none" stroke="var(--accent, #3b82f6)" stroke-width="3.5" opacity="0" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" class="mabc8be200-a65" style="stroke-dashoffset:1;opacity:0" /><path d="M84.72,203.6 L84.72,299.2" fill="none" stroke="var(--accent, #3b82f6)" stroke-width="3.5" opacity="0" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" class="mabc8be200-a63" style="stroke-dashoffset:1;opacity:0" /><path d="M84.72,64 L84.72,159.6" fill="none" stroke="var(--accent, #3b82f6)" stroke-width="3.5" opacity="0" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" class="mabc8be200-a59" style="stroke-dashoffset:0;opacity:0.85" /><g opacity="0" class="mabc8be200-a60" style="transform:translate(84.72px,159.6px) scale(1);opacity:0;transform-box:view-box;transform-origin:0px 0px"><circle r="11.5" fill="var(--accent, #3b82f6)" opacity="0.18" /><circle r="6.5" fill="var(--accent, #3b82f6)" stroke="var(--bg)" stroke-width="1.5" /><g><rect x="-29.7" y="-33.5" width="59.4" height="20" rx="10" fill="var(--accent, #3b82f6)" stroke="var(--accent, #3b82f6)" stroke-width="1.5" /><text x="0" y="-19.5" text-anchor="middle" font-size="11.5" font-weight="650" fill="#fff">places</text></g></g><g opacity="0" class="mabc8be200-a64" style="transform:translate(84.72px,203.6px) scale(1);opacity:0;transform-box:view-box;transform-origin:0px 0px"><circle r="11.5" fill="var(--accent, #3b82f6)" opacity="0.18" /><circle r="6.5" fill="var(--accent, #3b82f6)" stroke="var(--bg)" stroke-width="1.5" /></g><g opacity="0" class="mabc8be200-a66" style="transform:translate(84.72px,343.2px) scale(1);opacity:0;transform-box:view-box;transform-origin:0px 0px"><circle r="11.5" fill="var(--accent, #3b82f6)" opacity="0.18" /><circle r="6.5" fill="var(--accent, #3b82f6)" stroke="var(--bg)" stroke-width="1.5" /></g><g opacity="0" class="mabc8be200-a70" style="transform:translate(84.72px,482.8px) scale(1);opacity:0;transform-box:view-box;transform-origin:0px 0px"><circle r="11.5" fill="var(--accent, #3b82f6)" opacity="0.18" /><circle r="6.5" fill="var(--accent, #3b82f6)" stroke="var(--bg)" stroke-width="1.5" /><g><rect x="-43.5" y="-33.5" width="87" height="20" rx="10" fill="var(--accent, #3b82f6)" stroke="var(--accent, #3b82f6)" stroke-width="1.5" /><text x="0" y="-19.5" text-anchor="middle" font-size="11.5" font-weight="650" fill="#fff">belongs to</text></g></g></g></g><g opacity="0" class="mabc8be200-a29" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:0px 0px"><rect x="-125.08" y="-37" width="37" height="21" rx="10.5" fill="var(--_text, var(--fg))" /><text x="-107.08" y="-22" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--bg)">1/3</text><text x="-79.08" y="-21.5" font-size="15" font-weight="650" fill="var(--_text, var(--fg))">A customer places orders</text><path d="M-125.08,-11 L294.52,-11" stroke="var(--accent, #3b82f6)" stroke-width="2" stroke-opacity="0.55" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" fill="none" class="mabc8be200-a61" style="stroke-dashoffset:0" /></g><g opacity="0" class="mabc8be200-a62" style="opacity:0;transform:translate(0px,6px) scale(1);transform-box:view-box;transform-origin:0px 0px"><rect x="-125.08" y="-37" width="37" height="21" rx="10.5" fill="var(--_text, var(--fg))" /><text x="-107.08" y="-22" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--bg)">2/3</text><text x="-79.08" y="-21.5" font-size="15" font-weight="650" fill="var(--_text, var(--fg))">Each order has lines that reference products</text><path d="M-125.08,-11 L294.52,-11" stroke="var(--accent, #3b82f6)" stroke-width="2" stroke-opacity="0.55" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" fill="none" class="mabc8be200-a67" style="stroke-dashoffset:1" /></g><g opacity="0" class="mabc8be200-a68" style="opacity:0;transform:translate(0px,6px) scale(1);transform-box:view-box;transform-origin:0px 0px"><rect x="-125.08" y="-37" width="37" height="21" rx="10.5" fill="var(--_text, var(--fg))" /><text x="-107.08" y="-22" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--bg)">3/3</text><text x="-79.08" y="-21.5" font-size="15" font-weight="650" fill="var(--_text, var(--fg))">Products sit in a category</text><path d="M-125.08,-11 L294.52,-11" stroke="var(--accent, #3b82f6)" stroke-width="2" stroke-opacity="0.55" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" fill="none" class="mabc8be200-a71" style="stroke-dashoffset:1" /></g></g><defs><mask id="mabc8be200-m0" maskUnits="userSpaceOnUse" x="-642.4" y="-642.4" width="1454.24" height="1927.2"><path d="M84.72,64 L84.72,159.6" fill="none" stroke="#fff" stroke-width="14" pathLength="1" stroke-dasharray="1 1" class="mabc8be200-a1" style="stroke-dashoffset:0" /></mask><mask id="mabc8be200-m1" maskUnits="userSpaceOnUse" x="-642.4" y="-642.4" width="1454.24" height="1927.2"><path d="M84.72,203.6 L84.72,299.2" fill="none" stroke="#fff" stroke-width="14" pathLength="1" stroke-dasharray="1 1" class="mabc8be200-a8" style="stroke-dashoffset:0" /></mask><mask id="mabc8be200-m2" maskUnits="userSpaceOnUse" x="-642.4" y="-642.4" width="1454.24" height="1927.2"><path d="M84.72,343.2 L84.72,438.8" fill="none" stroke="#fff" stroke-width="14" pathLength="1" stroke-dasharray="1 1" class="mabc8be200-a15" style="stroke-dashoffset:0" /></mask><mask id="mabc8be200-m3" maskUnits="userSpaceOnUse" x="-642.4" y="-642.4" width="1454.24" height="1927.2"><path d="M84.72,482.8 L84.72,578.4" fill="none" stroke="#fff" stroke-width="14" pathLength="1" stroke-dasharray="1 1" class="mabc8be200-a22" style="stroke-dashoffset:0" /></mask></defs></svg>
