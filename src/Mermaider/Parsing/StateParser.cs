@@ -38,7 +38,7 @@ internal static partial class StateParser
 	[GeneratedRegex(@"^style\s+([\w,-]+)\s+(.+)$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex StylePattern();
 
-	[GeneratedRegex(@"^(\[\*\]|[\w-]+)(?::::([\w][\w-]*))?\s*(-->)\s*(\[\*\]|[\w-]+)(?::::([\w][\w-]*))?(?:\s*:\s*(.+))?$", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^(\[\*\]|[\w-]+)(?::::([\w][\w-]*))?\s*(-->)\s*(\[\*\]|[\w-]+)(?::::([\w][\w-]*))?(?:\s*:\s*(.*))?$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex TransitionWithClassPattern();
 
 	[GeneratedRegex(@"^([\w-]+):::([\w][\w-]*)\s*$", RegexOptions.None, TimeoutMs)]
@@ -56,8 +56,13 @@ internal static partial class StateParser
 		}
 	}
 
-	private static MermaidParseException IncompleteTransition(string line)
+	[GeneratedRegex(@"^(\[\*\]|[\w-]+)(?::::[\w-]+)?\s+-{1,2}$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex PartialArrowPattern();
+
+	private static MermaidParseException? IncompleteTransition(string line)
 	{
+		if (!line.Contains("-->", StringComparison.Ordinal))
+			return new MermaidParseException("transition arrow is incomplete", line, "'-->' followed by a target state", column: line.Length);
 		var arrow = line.IndexOf("-->", StringComparison.Ordinal);
 		var before = line[..arrow].Trim();
 		var after = line[(arrow + 3)..].Trim();
@@ -65,7 +70,7 @@ internal static partial class StateParser
 			return new MermaidParseException("transition '-->' has no source state", line, "a state id or '[*]' before '-->'", column: arrow + 1);
 		if (after.Length == 0 || after[0] == ':')
 			return new MermaidParseException("transition '-->' has no target state", line, "a state id or '[*]' after '-->', e.g. 'A --> B'", column: arrow + 4);
-		return new MermaidParseException($"cannot read transition '{line}'", line, "'source --> target' with an optional ': label'", column: arrow + 1);
+		return null;
 	}
 
 	private static MermaidGraph ParseCore(string[] lines, bool strict)
@@ -313,8 +318,14 @@ internal static partial class StateParser
 				continue;
 			}
 
-			if (strict && line.Contains("-->", StringComparison.Ordinal))
-				throw IncompleteTransition(line);
+			if (strict && (line.Contains("-->", StringComparison.Ordinal) || PartialArrowPattern().IsMatch(line)) && IncompleteTransition(line) is { } incomplete)
+				throw incomplete;
+		}
+
+		if (strict && compositeStack.Count > 0)
+		{
+			var open = compositeStack.Peek();
+			throw new MermaidParseException($"composite state '{open.Id}' is never closed", $"state {open.Id} {{", "'}' to close the composite state");
 		}
 
 		if (classDefs.ContainsKey("default"))

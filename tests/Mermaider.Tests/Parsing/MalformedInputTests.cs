@@ -19,6 +19,11 @@ public class MalformedInputTests
 	[Arguments("sequenceDiagram\n    Alice->>Bob: Hi\n    alt open\n    Bob->>Alice: Yo\n", 3, "'alt' block is never closed", "'end'")]
 	[Arguments("stateDiagram-v2\n    [*] -->\n", 2, "has no target state", "a state id")]
 	[Arguments("stateDiagram-v2\n    --> B\n", 2, "has no source state", "a state id")]
+	[Arguments("flowchart LR\n    subgraph one\n    A --> B\n", 2, "subgraph 'one' is never closed", "'end'")]
+	[Arguments("flowchart LR\n    A & --> B\n", 2, "'&' has no node", "a node id")]
+	[Arguments("flowchart LR\n    A --> b((B)\n", 2, "never closed", "')'")]
+	[Arguments("stateDiagram-v2\n    [*] --> A\n    A -\n", 3, "arrow is incomplete", "'-->'")]
+	[Arguments("stateDiagram-v2\n    state First {\n    [*] --> A\n", 2, "composite state 'First' is never closed", "'}'")]
 	public void Strict_by_default_throws_with_line_and_expectation(string source, int line, string problem, string expected)
 	{
 		var act = () => MermaidRenderer.RenderSvg(source);
@@ -65,6 +70,8 @@ public class MalformedInputTests
 	[Test]
 	[Arguments("flowchart LR\n    A[Start] --> B(Round) --> C{Pick};\n    A & B --> D\n    A -- text --> D\n    A -->|lbl| E[\"multi\nline\"]\n")]
 	[Arguments("sequenceDiagram\n    Alice->>+Bob: Hi\n    Bob-->>-Alice: Yo\n    loop every day\n    Alice->>Bob: Again\n    end\n")]
+	[Arguments("flowchart LR\n    A -->\n    B\n    E-\n")]
+	[Arguments("stateDiagram-v2\n    [*] --> A\n    A --> B: \n")]
 	[Arguments("stateDiagram-v2\n    [*] --> Still\n    Still --> [*]\n    Still --> Moving : go\n")]
 	public void Valid_input_stays_accepted(string source) =>
 		MermaidRenderer.RenderSvg(source).Should().StartWith("<svg");
