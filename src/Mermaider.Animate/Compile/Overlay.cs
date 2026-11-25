@@ -210,7 +210,7 @@ internal static class Overlay
 			)
 		);
 
-	internal static XElement Ring(Box box, string color, double width, double inflate, string? fill = null, double fillOpacity = 0)
+	internal static XElement Ring(Box box, string color, double width, double inflate, string? fill = null, double fillOpacity = 0, bool round = false)
 	{
 		var b = box.Inflate(inflate);
 		return new XElement(
@@ -219,7 +219,7 @@ internal static class Overlay
 			new XAttribute("y", Num.F(b.Y)),
 			new XAttribute("width", Num.F(b.Width)),
 			new XAttribute("height", Num.F(b.Height)),
-			new XAttribute("rx", "11"),
+			new XAttribute("rx", round ? Num.F(Math.Min(b.Width, b.Height) / 2) : "11"),
 			new XAttribute("fill", fill ?? "none"),
 			new XAttribute("fill-opacity", Num.F3(fillOpacity)),
 			new XAttribute("stroke", color),

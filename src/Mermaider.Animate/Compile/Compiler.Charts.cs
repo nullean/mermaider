@@ -237,6 +237,13 @@ internal sealed partial class Compiler
 				_ = Pulse(mark, start + (_spec.Enter * 0.5), _spec.PulseScale);
 			t = start + step;
 		}
+		// then each labelled overlap lights up: what the sets share is usually the point of the diagram
+		foreach (var (union, _) in _scene.Unions)
+		{
+			end = Math.Max(end, Show(union, t));
+			_ = Pulse(union, t + (_spec.Enter * 0.5), _spec.PulseScale);
+			t += step;
+		}
 		foreach (var (line, path, _) in _scene.Lines)
 		{
 			var visual = Drawable(new SceneEdge("line", "line", line, path) { Stroke = line }, 14);
@@ -245,5 +252,64 @@ internal sealed partial class Compiler
 			ink.Animate(at, Math.Max(_spec.DrawMin, t - at), Channel.Value(0), Easing.Linear);
 		}
 		return Math.Max(end, t);
+	}
+
+	private readonly Dictionary<SceneTarget, XElement> _regions = [];
+
+	/// <summary>
+	/// Lights a venn overlap's region, if <paramref name="target"/> is a labelled overlap: the region the overlap's sets
+	/// share, unlit until a score shows, builds or focuses the overlap. The still diagram never has it.
+	/// </summary>
+	private void Light(SceneTarget target, double at)
+	{
+		if (_scene.Unions.FirstOrDefault(u => u.Union == target) is not { Union: not null } union)
+			return;
+		if (!_regions.TryGetValue(target, out var region))
+		{
+			if (Region(union.Union, union.Sets) is not { } made)
+				return;
+			region = made;
+			_regions[target] = region;
+		}
+		var lit = Opacity(region, ReducedMotion.Cut, 0);
+		if (lit.ValueAt(at)[0] < 1)
+			lit.Animate(at, _spec.Enter, Channel.Value(1), Easing.Enter);
+	}
+
+	/// <summary>
+	/// The region every set of a venn overlap covers: an accent fill clipped by each set's circle in turn, placed after the
+	/// last circle so it paints over them and under the names. It becomes part of the overlap, so it dims and pulses with
+	/// its label.
+	/// </summary>
+	private XElement? Region(SceneTarget union, List<SceneTarget> sets)
+	{
+		var circles = sets.Select(s => s.Elements[0].Descendants(SvgScene.Ns + "circle").FirstOrDefault()).ToList();
+		if (circles.Any(c => c is null))
+			return null;
+		var bounds = sets.Select(s => s.Box).Aggregate((a, b) => a.Union(b));
+		XElement region = new(
+			SvgScene.Ns + "rect",
+			new XAttribute("x", Num.F(bounds.X)),
+			new XAttribute("y", Num.F(bounds.Y)),
+			new XAttribute("width", Num.F(bounds.Width)),
+			new XAttribute("height", Num.F(bounds.Height)),
+			new XAttribute("fill", "var(--accent, #3b82f6)"),
+			new XAttribute("fill-opacity", "0.32")
+		);
+		foreach (var circle in circles)
+		{
+			var id = NextId("c");
+			_defs.Add(new XElement(SvgScene.Ns + "clipPath", new XAttribute("id", id), new XElement(circle!)));
+			region = new XElement(SvgScene.Ns + "g", new XAttribute("clip-path", $"url(#{id})"), region);
+		}
+		// after the last circle, at the top level: a circle may already sit in the wrapper that shows it
+		var last = _scene
+			.Ordered
+			.Select(s => s.Elements[0].AncestorsAndSelf().First(a => a.Parent == _camera))
+			.OrderBy(e => e.ElementsBeforeSelf().Count())
+			.Last();
+		last.AddAfterSelf(region);
+		union.Elements.Insert(0, region);
+		return region;
 	}
 }
