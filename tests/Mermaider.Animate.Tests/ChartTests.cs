@@ -105,6 +105,57 @@ public partial class ChartTests
 	}
 
 	[Test]
+	public void Trace_on_a_flowchart_lights_every_way_in_waves_from_the_start()
+	{
+		const string flow = "flowchart LR\n  a --> b --> d\n  a --> c --> d\n  a --> x\n";
+		var animation = MermaidAnimator.Compile(flow + "\nanimate once\n  step \"t\"\n    trace a -> d\n");
+
+		// a trail is a stroke drawn along its edge: dash offset 1 is undrawn, 0 fully drawn
+		static List<XElement> Trails(XDocument d) =>
+			[
+				.. d.Descendants().Where(
+					e => e.Name.LocalName == "path" && (string?)e.Attribute("pathLength") == "1" && ((string?)e.Attribute("stroke") ?? "").Contains(
+						"--accent"
+					) && (string?)e.Attribute("stroke-width") is "3.5" or "5"
+				),
+			];
+
+		var count = Trails(XDocument.Parse(animation.Svg)).Count;
+		count.Should().Be(4, "a->b, a->c, b->d and c->d are on a way to d; a->x is not");
+		var started = new double?[count];
+		for (var t = 0.0; t <= animation.ScoreDuration.TotalMilliseconds; t += 20)
+		{
+			var trails = Trails(XDocument.Parse(animation.RenderFrame(TimeSpan.FromMilliseconds(t))));
+			for (var i = 0; i < count; i++)
+				if (
+					started[i] is null &&
+					Regex.Match((string?)trails[i].Attribute("style") ?? "", "stroke-dashoffset:([\\d.]+)") is { Success: true } m && double.Parse(
+						m.Groups[1].Value,
+						System.Globalization.CultureInfo.InvariantCulture
+					) < 0.98
+				)
+					started[i] = t;
+		}
+		started.Should().OnlyContain(s => s != null);
+		var waves = started.Select(s => s!.Value).Distinct().Order().ToList();
+		waves.Should().HaveCount(2, "the edges leaving a draw first, the ones into d after them");
+		started.Count(s => s == waves[0]).Should().Be(2);
+	}
+
+	[Test]
+	public void Trace_on_a_sankey_lights_no_trails_its_ribbons_carry_the_colour()
+	{
+		var svg = MermaidAnimator.RenderSvg("sankey-beta\n  A,B,10\n  B,C,10\n\nanimate once\n  trace A -> C\n");
+		XDocument
+			.Parse(svg)
+			.Descendants()
+			.Should()
+			.NotContain(
+				e => e.Name.LocalName == "path" && (string?)e.Attribute("pathLength") == "1" && ((string?)e.Attribute("stroke") ?? "").Contains("--accent")
+			);
+	}
+
+	[Test]
 	public void Trace_lights_every_flow_between_two_nodes_and_dims_the_rest()
 	{
 		const string flows = """

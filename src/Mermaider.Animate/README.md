@@ -81,7 +81,7 @@ by number: `#3` is the third message of a sequence diagram, and the third task, 
 | `move card[, card] to Column [each]` | kanban cards slide to the bottom of another column; the cards below close up, the header counts change, and a full column grows |
 | `expand node` | a mindmap's or treeview's subtree grows out of the node, level by level (hidden until then); `focus` on a tree node keeps its subtree lit |
 | `set #2 75` | an xy chart's bar grows or shrinks to a new value from its baseline, and the number appears at its top |
-| `trace A -> B` | every sankey flow on a way from A to B stays lit; the rest dims for the step |
+| `trace A -> B` | everything on a way from A to B stays lit and the rest dims for the step: in a graph the edges light up in waves outward from A; a sankey's ribbons already carry their colour |
 | `sweep [to "2024-03-01"]` | a gantt chart's playhead moves on; each task grows behind it from its start date, and its name appears when reached |
 | `note #4..#5 "38 ms" [as role]` | a bracket beside a span of sequence messages, with what it costs |
 | `caption "…"` | changes the step's caption |

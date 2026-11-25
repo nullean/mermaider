@@ -167,9 +167,41 @@ internal sealed partial class Compiler
 			}
 			keep.UnionWith(on);
 		}
-		// focus keeps the flows between the kept nodes; ribbons are already the colour of what they carry
+		// focus keeps the flows between the kept nodes; sankey ribbons are already the colour of what they carry
 		var end = Focus([.. _scene.Targets.Where(t => keep.Contains(t.Id))], close: false, at);
+		if (_scene.Kind != SceneKind.Sankey)
+			end = Math.Max(end, LightWays(stops[0]!.Id, keep, at));
 		return Math.Max(end, Pulse(stops[^1]!, end, _spec.PulseScale));
+	}
+
+	/// <summary>
+	/// Every edge on a way through <paramref name="keep"/> lights up as a trail, in waves outward from
+	/// <paramref name="from"/>: the edges leaving the start first, then the ones they lead to, so the eye follows the flow.
+	/// The trails stay for the step, as a tour's hops do.
+	/// </summary>
+	private double LightWays(string from, HashSet<string> keep, double at)
+	{
+		var edges = _scene.Edges.Where(e => keep.Contains(e.From) && keep.Contains(e.To) && e.From != e.To).ToList();
+		var level = new Dictionary<string, int>(StringComparer.Ordinal) { [from] = 0 };
+		var queue = new Queue<string>([from]);
+		while (queue.Count > 0)
+		{
+			var node = queue.Dequeue();
+			foreach (var edge in edges.Where(e => e.From == node && !level.ContainsKey(e.To)))
+			{
+				level[edge.To] = level[node] + 1;
+				queue.Enqueue(edge.To);
+			}
+		}
+		var end = at;
+		foreach (var edge in edges.Where(e => level.ContainsKey(e.From)))
+		{
+			var duration = Math.Max(_spec.DrawMin, _spec.DrawTime(edge.Path.Length));
+			var start = at + (_spec.Shift * 0.5) + (level[edge.From] * _spec.Enter);
+			Trail(edge.Path, "var(--accent, #3b82f6)", edge.Thick, start, duration, 1);
+			end = Math.Max(end, start + duration);
+		}
+		return end;
 	}
 
 	/// <summary>The nodes on any way from one node to another, both included; empty when there is none.</summary>
