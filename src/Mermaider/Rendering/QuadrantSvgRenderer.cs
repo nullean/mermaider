@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 using Mermaider.Models;
 using Mermaider.Text;
@@ -64,8 +65,8 @@ internal static class QuadrantSvgRenderer
 
 		AppendAxisLabels(sb, ds, chart, chartLeft, chartTop);
 
-		foreach (var point in chart.Points)
-			AppendPoint(sb, ds, point, chartLeft, chartTop);
+		for (var i = 0; i < chart.Points.Count; i++)
+			AppendPoint(sb, ds, chart.Points[i], i + 1, chartLeft, chartTop);
 
 		ds.Close(sb);
 		return sb;
@@ -173,13 +174,20 @@ internal static class QuadrantSvgRenderer
 		}
 	}
 
-	private static void AppendPoint(StringBuilder sb, DesignSystem ds, QuadrantPoint point, double chartLeft, double chartTop)
+	private static void AppendPoint(StringBuilder sb, DesignSystem ds, QuadrantPoint point, int index, double chartLeft, double chartTop)
 	{
 		var px = Math.Round(chartLeft + (Math.Clamp(point.X, 0, 1) * ChartSize), 3);
 		var py = Math.Round(chartTop + ((1 - Math.Clamp(point.Y, 0, 1)) * ChartSize), 3);
 
+		// addressing: the point's place, its label and where it sits (0-1 on each axis)
+		_ = sb.Append("\n<g class=\"quadrant-point\" data-index=\"").Append(index.ToString(CultureInfo.InvariantCulture)).Append("\" data-label=\"");
+		MultilineUtils.AppendEscapedAttr(sb, point.Label.AsSpan());
 		_ = sb
-			.Append("\n<g class=\"quadrant-point\">\n  <circle cx=\"")
+			.Append("\" data-x=\"")
+			.Append(point.X.ToString(CultureInfo.InvariantCulture))
+			.Append("\" data-y=\"")
+			.Append(point.Y.ToString(CultureInfo.InvariantCulture))
+			.Append("\">\n  <circle cx=\"")
 			.Append(px.SvgFormat())
 			.Append("\" cy=\"")
 			.Append(py.SvgFormat())

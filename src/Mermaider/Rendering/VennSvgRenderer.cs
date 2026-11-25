@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 using Mermaider.Models;
 using Mermaider.Text;
@@ -80,6 +81,8 @@ internal static class VennSvgRenderer
 			_ = sb.Append("\n<g class=\"venn-set\" data-set=\"");
 			MultilineUtils.AppendEscapedAttr(sb, set.Id);
 			_ = sb
+				.Append("\" data-index=\"")
+				.Append((i + 1).ToString(CultureInfo.InvariantCulture))
 				.Append("\">\n  <circle cx=\"")
 				.Append(px.SvgFormat())
 				.Append("\" cy=\"")

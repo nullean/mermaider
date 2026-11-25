@@ -215,6 +215,6 @@ public partial class ChartsDesignTests
 		return svg[start..end];
 	}
 
-	[GeneratedRegex("class=\"treemap-section\" data-label=\"Technology\">\\s*<rect x=\"[^\"]+\" y=\"([^\"]+)\"")]
+	[GeneratedRegex("class=\"treemap-section\" data-label=\"Technology\"[^>]*>\\s*<rect x=\"[^\"]+\" y=\"([^\"]+)\"")]
 	private static partial Regex MyRegex();
 }

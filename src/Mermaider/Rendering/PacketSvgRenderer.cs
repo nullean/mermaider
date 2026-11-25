@@ -63,11 +63,12 @@ internal static class PacketSvgRenderer
 		if (hasTitle)
 			ds.AppendTitle(sb, Pad, TitleCy, diagram.Title!);
 
+		var index = 0;
 		for (var row = 0; row < rows.Count; row++)
 		{
 			var cellY = top + (row * rowPitch) + BitLabelBand;
 			foreach (var seg in rows[row])
-				AppendSegment(sb, ds, seg, cellY);
+				AppendSegment(sb, ds, seg, ++index, cellY);
 		}
 
 		ds.Close(sb);
@@ -113,7 +114,7 @@ internal static class PacketSvgRenderer
 		return rows;
 	}
 
-	private static void AppendSegment(StringBuilder sb, DesignSystem ds, Segment seg, double cellY)
+	private static void AppendSegment(StringBuilder sb, DesignSystem ds, Segment seg, int index, double cellY)
 	{
 		var col = seg.Start % BitsPerRow;
 		var bitCount = seg.End - seg.Start + 1;
@@ -126,6 +127,8 @@ internal static class PacketSvgRenderer
 			.Append(seg.Start.ToString(CultureInfo.InvariantCulture))
 			.Append("\" data-end=\"")
 			.Append(seg.End.ToString(CultureInfo.InvariantCulture))
+			.Append("\" data-index=\"")
+			.Append(index.ToString(CultureInfo.InvariantCulture))
 			.Append("\">\n  ");
 		ds.AppendBox(sb, x, cellY, w, CellHeight, family, Math.Min(ds.Spec.NodeRadius, 10));
 		_ = sb.Append("\n  ");

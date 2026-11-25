@@ -30,8 +30,8 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<path class="req-relation" data-type="satisfies" d="M180.85987999999998,104 L180.85988,198" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-open)" />
-<path class="req-relation" data-type="satisfies" d="M538.57284,132 L538.57284,226" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-open)" />
+<path class="req-relation" data-type="satisfies" data-from="payment_service" data-to="checkout" d="M180.85987999999998,104 L180.85988,198" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-open)" />
+<path class="req-relation" data-type="satisfies" data-from="pager_rules" data-to="alerting" d="M538.57284,132 L538.57284,226" fill="none" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#m1814eb8b-mk-open)" />
 <g class="req-node entity" data-id="checkout" data-kind="requirement">
   <rect x="24" y="198" width="313.71976" height="164" rx="8" ry="8" fill="var(--bg)" stroke="none" />
   <path d="M24,250 L24,206 Q24,198 32,198 L329.71976,198 Q337.71976,198 337.71976,206 L337.71976,250 Z" fill="url(#m1814eb8b-eb-p0)" />
