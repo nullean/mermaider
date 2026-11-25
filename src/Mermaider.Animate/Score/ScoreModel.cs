@@ -144,6 +144,15 @@ internal sealed record NoteStatement(int First, int Last, string Text, Role? Rol
 
 internal sealed record BuildStatement(int Line) : Statement(Line);
 
+/// <summary>Nodes fail: marked, with the reason as a badge, and cut off from what leads into them.</summary>
+internal sealed record FailStatement(IReadOnlyList<TargetRef> Targets, string? Reason, int Line) : Statement(Line);
+
+/// <summary>Failed nodes come back: their mark, badge, cuts and cascade clear, and they pulse.</summary>
+internal sealed record RecoverStatement(IReadOnlyList<TargetRef> Targets, int Line) : Statement(Line);
+
+/// <summary>A failure spreads from its cause along the edges, each node failing as it arrives.</summary>
+internal sealed record CascadeStatement(IReadOnlyList<string> Path, string? Reason, int Line) : Statement(Line);
+
 /// <summary>
 /// A short label clear of the diagram, with a leader line to a node or an edge: where something happens, for the length
 /// of its step.
