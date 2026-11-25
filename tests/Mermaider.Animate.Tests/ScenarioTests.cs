@@ -111,20 +111,59 @@ public class ScenarioTests
 	}
 
 	[Test]
-	public void The_player_offers_every_ending_behind_one_row_of_tabs()
+	public void The_player_offers_every_ending_on_its_story_map()
 	{
-		var html = MermaidAnimator.RenderPlayer(Endings);
+		var html = MermaidAnimator.RenderPlayer(Endings.Replace("scenario \"API 1 is down\"", "scenario \"API 1 is down\" as fail"));
 		var radios = Regex.Matches(html, "<input type=\"radio\" name=\"(ma[0-9a-f]{8}-s)\" id=\"([^\"]+)\"( checked)?>").ToList();
-		radios.Should().HaveCount(2, "one tab per ending");
+		radios.Should().HaveCount(2, "one per ending");
 		radios.Where(r => r.Groups[3].Success).Should().ContainSingle().Which.Groups[2].Value.Should().EndWith("-s-0");
-		Regex.Matches(html, @"<label for=""ma[0-9a-f]{8}-s-\d"">([^<]+)</label>").Select(m => m.Groups[1].Value).Should().Equal("Happy path", "API 1 is down");
-
-		// each ending's own player, once, in its panel; a panel shows only while its tab is chosen
 		var s = radios[0].Groups[1].Value;
-		html.Should().Contain($".{s} > .{s}-end {{ display: none; }}");
-		html.Should().Contain($".{s}:has(#{s}-1:checked) > .{s}-end-1 {{ display: block; }}");
-		Regex.Matches(html, "<figure class=\"ma[0-9a-f]{8}-p\"").Count.Should().Be(2);
+
+		// each ending is a unit, shown while its radio is checked
+		html.Should().Contain($".{s} > .{s}-end {{ display: none; }}").And.Contain($".{s}:has(#{s}-1:checked) > .{s}-end-1 {{ display: block; }}");
+		Regex.Matches(html, $"<div class=\"{s}-end {s}-end-\\d\">").Count.Should().Be(2);
+
+		// every unit's map offers both endings, in their role's colours, with the chosen one open
+		var endings = Regex.Matches(html, $@"<label class=""ma[0-9a-f]{{8}}-p-ending( open)?"" for=""{s}-(\d)"" style=""--r: ([^""]+)""").ToList();
+		endings.Should().HaveCount(4);
+		endings
+			.Select(e => $"{e.Groups[2].Value}{(e.Groups[1].Success ? "*" : "")} {e.Groups[3].Value}")
+			.Should()
+			.Equal("0* var(--_line)", "1 var(--fail)", "0 var(--_line)", "1* var(--fail)");
 		html.Should().NotContain("<script");
+	}
+
+	[Test]
+	[Arguments("as ok", "Ok")]
+	[Arguments("as fail", "Fail")]
+	[Arguments("", null)]
+	public void A_scenario_can_say_how_it_ends(string role, string? expected)
+	{
+		var lines = Endings.Replace("scenario \"API 1 is down\"", $"scenario \"API 1 is down\" {role}").Split('\n');
+		var diagnostics = new List<AnimationDiagnostic>();
+		var score = ScoreParser.Parse(lines, ScoreParser.FindStart(lines), diagnostics);
+		diagnostics.Should().BeEmpty();
+		score.Scenarios[1].Role?.ToString().Should().Be(expected);
+		score.Scenarios[0].Role.Should().BeNull();
+	}
+
+	[Test]
+	public void An_unknown_ending_role_is_reported()
+	{
+		Problems(Endings.Replace("scenario \"API 1 is down\"", "scenario \"API 1 is down\" as doom"))
+			.Should()
+			.ContainSingle()
+			.Which
+			.Message
+			.Should()
+			.StartWith("Unknown role 'doom'");
+		Problems(Endings.Replace("scenario \"API 1 is down\"", "scenario \"API 1 is down\" fail"))
+			.Should()
+			.ContainSingle()
+			.Which
+			.Message
+			.Should()
+			.StartWith("A scenario line takes one quoted name");
 	}
 
 	[Test]

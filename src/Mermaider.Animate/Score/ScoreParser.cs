@@ -107,13 +107,17 @@ internal static class ScoreParser
 			if (words[0].Is("scenario"))
 			{
 				CloseStep();
-				if (words.Count != 2 || !words[1].Quoted || words[1].Text.Trim().Length == 0)
-					diagnostics.Add(new(lineNo, "A scenario line takes one quoted name: scenario \"API 1 times out\"."));
+				// scenario "Name" [as ROLE]
+				var named = words.Count > 1 && words[1].Quoted && words[1].Text.Trim().Length > 0;
+				var roled = words.Count == 4 && words[2].Is("as");
+				if (!named || (words.Count != 2 && !roled))
+					diagnostics.Add(new(lineNo, "A scenario line takes one quoted name, and how it ends if you like: scenario \"API 1 times out\" as fail."));
 				var name = words.Count > 1 ? words[1].Text.Trim() : "";
+				var role = roled ? ParseRole(words[3], lineNo, diagnostics) : null;
 				if (scenarios.Any(s => s.Name == name))
 					diagnostics.Add(new(lineNo, $"There is already a scenario called \"{name}\"."));
 				steps = [];
-				scenarios.Add(new ScoreScenario(name, steps, lineNo));
+				scenarios.Add(new ScoreScenario(name, steps, lineNo) { Role = role });
 				continue;
 			}
 

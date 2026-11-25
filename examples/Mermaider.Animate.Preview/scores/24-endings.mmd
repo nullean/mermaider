@@ -11,12 +11,12 @@ animate
   step "A request reaches API 1"
     tour client -> lb -> api1 "GET /orders"
 
-  scenario "Happy path"
+  scenario "Happy path" as ok
     step "The database answers"
       tour api1 -> db "query"
       tour db -> api1 -> lb -> client "200 OK" as ok
 
-  scenario "API 1 times out"
+  scenario "API 1 times out" as fail
     step "API 1 stops answering"
       hang api1
       mark api1 fail
@@ -25,7 +25,7 @@ animate
       tour lb -> api2 -> db "retry"
       tour db -> api2 -> lb -> client "200 OK" as ok
 
-  scenario "The database is slow"
+  scenario "The database is slow" as warn
     step "Queries pile up"
       tour api1 -> db "query"
       count db 40 -> 2400 "ms" as warn

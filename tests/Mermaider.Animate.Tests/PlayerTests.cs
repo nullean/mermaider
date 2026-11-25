@@ -1,9 +1,11 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 using AwesomeAssertions;
+using Mermaider.Models;
 
 namespace Mermaider.Animate.Tests;
 
+/// <summary>The player: the figure, its caption, and the story's contents beside it.</summary>
 public class PlayerTests
 {
 	private const string Source =
@@ -22,6 +24,8 @@ public class PlayerTests
 
 	private static string Ms(double ms) => Math.Round(ms).ToString(CultureInfo.InvariantCulture) + "ms";
 
+	private static string SvgOf(string html) => html[html.IndexOf("<svg", StringComparison.Ordinal)..(html.IndexOf("</svg>", StringComparison.Ordinal) + 6)];
+
 	[Test]
 	public void The_player_is_one_radio_group_with_play_pause_and_three_states_per_step()
 	{
@@ -36,22 +40,65 @@ public class PlayerTests
 	}
 
 	[Test]
-	public void Captions_are_encoded_in_the_step_dots()
+	public void The_contents_list_every_step_in_order_and_each_shows_its_still()
 	{
 		var html = MermaidAnimator.RenderPlayer(Source);
-		html.Should().Contain("aria-label=\"Step 1: First &lt;b&gt;bold&lt;/b&gt;\"");
+		var rows = Regex.Matches(html, @"<label class=""ma[0-9a-f]{8}-p-row"" for=""ma[0-9a-f]{8}-p-still(\d)"".*?-c"">([^<]*)</span></label>").ToList();
+		rows.Select(r => r.Groups[1].Value).Should().Equal("0", "1", "2");
+		rows.Select(r => r.Groups[2].Value).Should().Equal("First &lt;b&gt;bold&lt;/b&gt;", "Second", "Third");
+	}
+
+	[Test]
+	public void The_caption_is_under_the_figure_and_not_drawn_in_the_svg()
+	{
+		var animation = MermaidAnimator.Compile(Source);
+		var html = animation.RenderPlayer();
+		animation.Svg.Should().Contain(">Second</text>", "the plain SVG keeps its captions");
+		SvgOf(html).Should().NotContain(">Second</text>", "the player's figure leaves them to its caption");
+		Regex
+			.Matches(html, @"<span class=""ma[0-9a-f]{8}-p-line [^""]+""><span class=""ma[0-9a-f]{8}-p-n"">(\d)/3</span>([^<]*)</span>")
+			.Select(m => $"{m.Groups[1].Value} {m.Groups[2].Value}")
+			.Should()
+			.Equal("1 First &lt;b&gt;bold&lt;/b&gt;", "2 Second", "3 Third");
+	}
+
+	[Test]
+	public void Each_caption_shows_while_its_step_plays_on_the_story_clock()
+	{
+		var animation = MermaidAnimator.Compile(Source);
+		var html = animation.RenderPlayer();
+		var player = MermaidAnimator.Compile(Source).Steps; // same timing as the player's compile
+		var line = Regex.Match(html, @"-p-line (ma[0-9a-f]{8}-p-h\d+)""><span[^>]*>2/3").Groups[1].Value;
+		line.Should().NotBeEmpty();
+		var frames = Regex.Match(html, $@"@keyframes {line} \{{([^\n]*)\}}").Groups[1].Value;
+		var stops = Regex
+			.Matches(frames, @"([\d.]+)% \{ opacity:(\d)")
+			.Select(m => (Pct: double.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture), Opacity: m.Groups[2].Value))
+			.ToList();
+		stops.Select(s => s.Opacity).Should().Equal("0", "1", "0");
+
+		// the story clock starts where the intro ends and spans the rest of the loop
+		var clock = Regex.Match(html, $@"\.{line} \{{ opacity:0; animation: {line} (\d+)ms linear (\d+)ms infinite backwards").Groups;
+		clock[1].Success.Should().BeTrue();
+		var length = double.Parse(clock[1].Value, CultureInfo.InvariantCulture);
+		var start = double.Parse(clock[2].Value, CultureInfo.InvariantCulture);
+		var steps = player.Where(s => s.Caption is not null).ToList();
+		(stops[1].Pct / 100 * length).Should().BeApproximately(steps[1].Start.TotalMilliseconds - start, 2);
+		(stops[2].Pct / 100 * length).Should().BeApproximately(steps[2].Start.TotalMilliseconds - start, 2);
 	}
 
 	[Test]
 	public void A_still_is_the_frame_at_the_end_of_its_step()
 	{
-		var animation = MermaidAnimator.Compile(Source);
-		var html = animation.RenderPlayer();
-		var mark = Regex.Match(animation.Svg, "<g opacity=\"0\" class=\"([^\"]+)\"><rect[^>]*fill-opacity=\"0.14\"").Groups[1].Value;
+		var html = MermaidAnimator.RenderPlayer(Source);
+		var mark = Regex.Match(SvgOf(html), "<g opacity=\"0\" class=\"([^\"]+)\"><rect[^>]*fill-opacity=\"0.14\"").Groups[1].Value;
 		mark.Should().NotBeEmpty();
 		html.Should().MatchRegex($@"-still0:checked\) svg \.{mark} \{{ opacity:0; \}}");
 		html.Should().MatchRegex($@"-still1:checked\) svg \.{mark} \{{ opacity:1; \}}");
-		html.Should().MatchRegex(@"-still1:checked\) svg \[class\*=""ma[0-9a-f]{8}-a""\] \{ animation: none; \}");
+		html.Should().MatchRegex(@"-still1:checked\) :is\(\.ma[0-9a-f]{8}-p svg \[class\*=""ma[0-9a-f]{8}-a""\], [^)]+\) \{ animation: none; \}");
+		// beside it: the second caption shows, the others do not
+		var lines = Regex.Matches(html, @"-p-line (ma[0-9a-f]{8}-p-h\d+)""").Select(m => m.Groups[1].Value).ToList();
+		html.Should().Contain($"-still1:checked) .{lines[1]} {{ opacity:1; }}").And.Contain($"-still1:checked) .{lines[0]} {{ opacity:0; }}");
 	}
 
 	[Test]
@@ -59,40 +106,24 @@ public class PlayerTests
 	{
 		var animation = MermaidAnimator.Compile(Source);
 		var html = animation.RenderPlayer();
+		var svg = SvgOf(html);
 		var intro = animation.Intro.TotalMilliseconds;
 		intro.Should().BeGreaterThan(0);
 		var second = animation.Steps.Where(s => s.Caption is not null).ElementAt(1).Start.TotalMilliseconds;
 		// every animation an element runs is put at the step on its own clock: the intro's (it starts at 0, is long
 		// finished and holds) or the story's (it starts as the intro ends), in the order the element lists them
-		var lists = Regex.Matches(animation.Svg, @"(?m)^\.(ma[0-9a-f]{8}-a\d+) \{ animation: ([^;]+);").ToList();
+		var lists = Regex.Matches(svg, @"(?m)^\.(ma[0-9a-f]{8}-a\d+) \{ animation: ([^;]+);").ToList();
 		lists.Should().NotBeEmpty();
-		var clocks = new HashSet<string>();
 		foreach (var list in lists)
 		{
 			var cls = list.Groups[1].Value;
 			var expected = list.Groups[2].Value.Split(", ").Select(a => a.Contains(" 0s 1 forwards") ? Ms(-second) : Ms(intro - second)).ToList();
-			clocks.UnionWith(expected);
 			var rule = Regex.Match(html, $@"-from1:checked\) svg \.{cls}[,\s][^{{]*\{{ animation-delay: ([^;}}]+)");
 			rule.Success.Should().BeTrue($"{cls} has a play-from delay");
 			rule.Groups[1].Value.Trim().Should().Be(string.Join(", ", expected), cls);
 		}
-		clocks.Should().BeEquivalentTo([Ms(-second), Ms(intro - second)], "the score has both an intro and a story");
-
-		var once = MermaidAnimator.Compile(Source.Replace("animate\n", "animate once\n"));
-		var start = once.Steps.Where(s => s.Caption is not null).ElementAt(1).Start.TotalMilliseconds;
-		once.RenderPlayer().Should().Contain($"animation-delay: {Ms(-start)};").And.NotContain($"{Ms(-start)}, {Ms(0)}");
-	}
-
-	[Test]
-	public void The_controls_drop_below_only_where_they_would_overlap_the_longest_caption()
-	{
-		static AnimationStep Step(string caption) => new(caption, TimeSpan.Zero, TimeSpan.FromSeconds(1));
-
-		var shortCaptions = Player.Breakpoint([Step("Go"), Step("Stop")], 600);
-		var longCaptions = Player.Breakpoint([Step("Go"), Step("A much longer caption that fills the band")], 600);
-		longCaptions.Should().BeGreaterThan(shortCaptions);
-		shortCaptions.Should().BeLessThan(600, "short captions leave room at the diagram's own size");
-		Player.Breakpoint([Step(new string('x', 90))], 600).Should().BeGreaterThan(10000, "a caption as wide as the diagram always leaves the controls below");
+		// beside the figure everything is on the story clock
+		html.Should().MatchRegex($@"-from1:checked\) \[class\*=""ma[0-9a-f]{{8}}-p-h""\], [^{{]+\{{ animation-delay: {Ms(intro - second)}; \}}");
 	}
 
 	[Test]
@@ -109,10 +140,39 @@ public class PlayerTests
 
 		Buttons("play").Should().Equal("Pause>pause");
 		Buttons("pause").Should().Equal("Play>play");
-		Buttons("still0").Should().Equal("Play from this step>from0", "Next step>still1");
-		Buttons("still1").Should().Equal("Previous step>still0", "Play from this step>from1", "Next step>still2");
-		Buttons("still2").Should().Equal("Previous step>still1", "Play from this step>from2");
+		Buttons("still1").Should().Equal("Play from this step>from1");
 		Buttons("from1").Should().Equal("Pause>hold1");
 		Buttons("hold1").Should().Equal("Play>from1");
+	}
+
+	[Test]
+	public void The_player_takes_the_diagrams_colours_and_type()
+	{
+		var html = MermaidAnimator.RenderPlayer(Source, new AnimateOptions { Render = new RenderOptions { Bg = "#101418", Fg = "#e6e8ee", Font = "Lato" } });
+		var root = Regex.Match(html, "^<div class=\"(ma[0-9a-f]{8}-s)\" style=\"([^\"]*)\"").Groups;
+		root[2].Value.Should().Contain("--bg:#101418").And.Contain("--fg:#e6e8ee").And.Contain("--_text-sec:");
+		html.Should().MatchRegex($@"\.{root[1].Value} \{{ container-type: inline-size; font-family: [^;]*Lato");
+	}
+
+	[Test]
+	public void A_long_story_is_a_window_that_follows_the_playback()
+	{
+		static string Story(int steps) =>
+			"flowchart LR\n  a --> b\nanimate once\n" + string.Concat(Enumerable.Range(1, steps).Select(k => $"  step \"Step {k}\"\n    pulse a\n"));
+
+		var short_ = MermaidAnimator.RenderPlayer(Story(3));
+		short_.Should().MatchRegex(@"-p-win"" style=""height: 90px""").And.NotMatchRegex(@"-p-list ma[0-9a-f]{8}-p-h");
+
+		var long_ = MermaidAnimator.RenderPlayer(Story(20));
+		long_.Should().MatchRegex(@"-p-win"" style=""height: 258px""", "nine rows, however long the story");
+		var slide = Regex.Match(long_, @"-p-list (ma[0-9a-f]{8}-p-h\d+)").Groups[1].Value;
+		slide.Should().NotBeEmpty();
+		var offsets = Regex
+			.Matches(Regex.Match(long_, $@"@keyframes {slide} \{{([^\n]*)\}}").Groups[1].Value, @"translateY\((-?[\d.]+)px\)")
+			.Select(m => double.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture))
+			.ToList();
+		offsets.Should().BeInDescendingOrder("the list moves up as the story goes on");
+		offsets.First().Should().Be(0);
+		offsets.Last().Should().Be(-((20 * 28) - (9 * 28)), "the last step brings the end of the list into view, no further");
 	}
 }

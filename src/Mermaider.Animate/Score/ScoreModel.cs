@@ -142,7 +142,11 @@ internal sealed record TokenDeclaration(string Name, string Label, Role? Role, i
 internal sealed record ScoreStep(string? Caption, IReadOnlyList<Statement> Statements, int Line);
 
 /// <summary>One ending of a score: its own steps, played after the steps every ending shares.</summary>
-internal sealed record ScoreScenario(string Name, IReadOnlyList<ScoreStep> Steps, int Line);
+internal sealed record ScoreScenario(string Name, IReadOnlyList<ScoreStep> Steps, int Line)
+{
+	/// <summary>How the ending turns out (<c>as fail</c>), shown in its colour where the player offers it.</summary>
+	public Role? Role { get; init; }
+}
 
 internal sealed record ScoreDocument(
 	PlaybackMode? Mode,

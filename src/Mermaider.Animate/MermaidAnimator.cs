@@ -40,6 +40,14 @@ public static class MermaidAnimator
 	/// <exception cref="AnimationException">The animate block has problems; every one is listed.</exception>
 	public static AnimatedDiagram Compile(string source, AnimateOptions? options = null)
 	{
+		var animation = Compile(source, options, drawCaptions: true);
+		// the player shows captions beside the figure, so it plays a compile that leaves them out of the SVG
+		animation.ForPlayer = () => Compile(source, options, drawCaptions: false);
+		return animation;
+	}
+
+	internal static AnimatedDiagram Compile(string source, AnimateOptions? options, bool drawCaptions)
+	{
 #if NET8_0_OR_GREATER
 		ArgumentNullException.ThrowIfNull(source);
 #else
@@ -65,7 +73,7 @@ public static class MermaidAnimator
 		var motion = options?.Motion ?? score.Motion ?? MotionPreset.Calm;
 		var mode = options?.Mode ?? score.Mode ?? PlaybackMode.Loop;
 
-		AnimatedDiagram One(ScoreDocument story, string prefix, string? scenario)
+		AnimatedDiagram One(ScoreDocument story, string prefix, ScoreScenario? scenario)
 		{
 			var scene = SvgScene.Read(svg, diagramSource, prefix);
 			var compiler = new Compiler(
@@ -74,15 +82,23 @@ public static class MermaidAnimator
 				MotionSpec.For(motion),
 				motion == MotionPreset.None ? PlaybackMode.Once : mode,
 				RoleColors.From(options?.Render),
-				diagnostics
+				diagnostics,
+				drawCaptions
 			);
 			var timeline = compiler.Compile();
-			return new AnimatedDiagram(scene, timeline, motion == MotionPreset.None ? PlaybackMode.Once : mode, still: motion == MotionPreset.None, scenario);
+			return new AnimatedDiagram(
+				scene,
+				timeline,
+				motion == MotionPreset.None ? PlaybackMode.Once : mode,
+				still: motion == MotionPreset.None,
+				scenario?.Name
+			)
+			{ ScenarioRole = scenario?.Role, SharedSteps = scenario is null ? 0 : score.Steps.Count, Colors = RoleColors.From(options?.Render), };
 		}
 
 		if (score.Scenarios.Count == 0)
 		{
-			var animation = One(score, Prefix(source, motion, mode), null);
+			var animation = One(score, Prefix(source + (drawCaptions ? "" : "|player"), motion, mode), null);
 			return diagnostics.Count > 0 ? throw new AnimationException(diagnostics) : animation;
 		}
 
@@ -90,7 +106,9 @@ public static class MermaidAnimator
 		// the shared beginning is reported once, not once per ending
 		var endings = score
 			.Scenarios
-			.Select((s, i) => new AnimatedScenario(s.Name, One(score.For(s), Prefix(source + "|scenario " + i, motion, mode), s.Name)))
+			.Select(
+				(s, i) => new AnimatedScenario(s.Name, One(score.For(s), Prefix(source + "|scenario " + i + (drawCaptions ? "" : "|player"), motion, mode), s))
+			)
 			.ToList();
 		if (diagnostics.Count > 0)
 			throw new AnimationException([.. diagnostics.Distinct()]);
@@ -161,6 +179,14 @@ public sealed class AnimatedDiagram
 	/// <summary>The name of the ending this animation plays, when the score has scenarios.</summary>
 	public string? Scenario { get; }
 
+	/// <summary>How the ending turns out, when its scenario says (<c>as fail</c>).</summary>
+	internal Role? ScenarioRole { get; init; }
+
+	internal RoleColors? Colors { get; init; }
+
+	/// <summary>The same animation compiled for the player: captions beside the figure instead of in a band above it.</summary>
+	internal Func<AnimatedDiagram>? ForPlayer { get; set; }
+
 	internal AnimatedDiagram WithScenarios(IReadOnlyList<AnimatedScenario> scenarios)
 	{
 		Scenarios = scenarios;
@@ -221,13 +247,13 @@ public sealed class AnimatedDiagram
 	public IReadOnlyList<AnimationStep> Steps { get; }
 
 	/// <summary>The animated SVG inside an HTML fragment with CSS-only Play, Pause and step controls.</summary>
-	public string RenderPlayer() => Scenarios.Count > 1 ? Player.RenderScenarios(Scenarios, _scene!.Prefix) : RenderOwnPlayer();
+	public string RenderPlayer() => _scene is null ? $"<figure>\n{Svg}\n</figure>" : StoryPlayer.Render(ForPlayer?.Invoke() ?? this);
 
-	/// <summary>This animation's player alone, without the tabs that choose between endings.</summary>
-	internal string RenderOwnPlayer() =>
-		_scene is null || Mode == PlaybackMode.Scrub || !Steps.Any(s => s.Caption is not null)
-			? $"<figure>\n{Svg}\n</figure>"
-			: Player.Render(this, _scene.Prefix);
+	/// <summary>The prefix every class and keyframe of this animation starts with.</summary>
+	internal string Prefix => _scene?.Prefix ?? "";
+
+	/// <summary>For an ending: how many of its steps are the beginning every ending shares.</summary>
+	internal int SharedSteps { get; init; }
 
 	internal CompiledTimeline? Timeline => _timeline;
 

@@ -46,7 +46,7 @@ animate [loop|once|scrub] [calm|crisp|still]
   step "Caption"
     <statement>
     with <statement>          starts together with the statement before it
-  scenario "Name"             an ending: the steps after it, played after the steps before the first scenario
+  scenario "Name" [as role]   an ending: the steps after it, played after the steps before the first scenario
 ```
 
 A step's caption shows above the diagram, numbered ("2/3"). A statement outside any step is a step of its own. A bare `animate` plays the diagram type's default animation: a
@@ -144,22 +144,27 @@ animate
       mark api1 fail
 ```
 
-Each ending is a complete animation of its own (`animation.Scenarios`); the plain SVG plays the first. The player
-offers them as tabs: choosing one plays that ending from the start, shared beginning included, with no script. A
+An ending can say how it turns out: `scenario "API 1 times out" as fail` (or `ok`, `warn`, `info`), and the player
+shows it in that role's colours with its mark. Each ending is a complete animation of its own (`animation.Scenarios`);
+the plain SVG plays the first. In the player, choosing an ending plays it from the start, shared beginning included. A
 screen reader hears the ending's name before its steps.
 
 ## A player without script
 
-`MermaidAnimator.RenderPlayer(source)` returns an HTML fragment: the animated SVG with step controls at the end of its
-caption band, and no JavaScript. The controls are one radio group wired with `:has()`, so they work with the keyboard:
+`MermaidAnimator.RenderPlayer(source)` returns an HTML fragment with no JavaScript, drawn in the diagram's own colours and
+type:
 
-- while playing: pause, and resume where it stopped;
-- a step dot shows that step's last frame, with buttons to step back, step forward, or play from that step;
-- playing from a step can be paused and resumed too.
+- the diagram as a figure, and what is happening now as its caption under it, with the step's number and a line that
+  fills as the step plays (the caption leaves the SVG's caption band; the plain SVG keeps it);
+- beside it, the story's contents: every step on a trunk that lights up as it plays, the current one ringed. A score
+  with endings forks there, each ending a box in its role's colours; the chosen one opens on its own branch, and
+  choosing another plays it. Past nine steps the list is a window that follows the playback, so a long story takes no
+  more room;
+- clicking a step shows its last frame; from there, play continues from that step. Pause and play head the list.
 
-The player is as wide as the diagram, at most its container. Where the longest caption would run into the controls,
-they move under the diagram. They take the page's text colour; restyle them through `--mp-ink`, `--mp-soft` and
-`--mp-rule`.
+The controls are radio buttons wired with `:has()`, so they work with the keyboard and screen readers. Below 640px the
+contents fold into one line under the caption, which opens them. Everything beside the figure animates on the story's
+own clock and waits for the same on-screen trigger, so it never drifts from the diagram.
 
 ## How it works
 

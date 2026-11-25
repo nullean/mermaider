@@ -230,8 +230,7 @@
   .card-more { font-size: 0.75rem; color: var(--cyan); display: inline-block; margin-top: 1rem; }
 
   /* ─────────────────────────  ANIMATE  ───────────────────────── */
-  .anim-split { margin-bottom: 3rem; }
-  .anim-player iframe { width: 100%; height: 250px; border: 1px solid var(--line-soft); border-radius: 8px; background: var(--bg2); display: block; }
+  .anim-player iframe { width: 100%; height: 270px; border: 1px solid var(--line-soft); border-radius: 8px; background: var(--bg2); display: block; }
   .anim-note { font-size: 0.75rem; color: var(--muted); margin-top: 0.75rem; }
   .anim-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
   .anim-card { border: 1px solid var(--line); border-radius: 8px; background: #0D1013; cursor: pointer; overflow: hidden; transition: border-color .18s, transform .15s; }
@@ -239,7 +238,10 @@
   .anim-card img { display: block; width: 100%; height: 200px; object-fit: contain; padding: 10px; box-sizing: border-box; }
   .anim-card p { font-size: 0.72rem; color: var(--muted); line-height: 1.6; padding: 0 0.75rem 0.75rem; margin: 0; }
   /* the score is syntax to copy: show the characters, not ligatures */
-  .anim-split pre { font-variant-ligatures: none; }
+  .anim-score { margin: 1.5rem 0 3rem; }
+  /* narrow: the contents fold under the figure and open below it */
+  @media (max-width: 700px) { .anim-player iframe { height: 440px; } }
+  .anim-score pre { font-variant-ligatures: none; }
   #animate { scroll-margin-top: 4rem; }
 
   /* ─────────────────────────  DIAGRAM GALLERY  ───────────────────────── */
@@ -706,9 +708,14 @@
       moves, so every animated diagram on a site moves the same way. It plays with CSS alone.
     </p>
 
-    <div class="split anim-split">
-      <div class="code-panel">
-        <div class="code-panel-head">the score</div>
+    <div class="anim-player">
+      <iframe src="screenshots/animate/player.html" title="One request, three endings: the player with its story map" loading="lazy"></iframe>
+      <p class="anim-note">One request, three ways it can go. Click a step to see it, an ending to play it: the controls are
+        radio buttons and CSS, no JavaScript. The score below is all it takes; under it, every other preview example
+        (click one to enlarge it).</p>
+    </div>
+    <div class="code-panel anim-score">
+      <div class="code-panel-head">the score</div>
 <pre>flowchart LR
   client[Client] --&gt; lb[Balancer]
   lb --&gt; api1[API 1]
@@ -718,23 +725,29 @@
 
 <span class="c-kw">animate</span>
   <span class="c-kw">build</span>
-  <span class="c-kw">step</span> <span class="c-str">"A request takes the healthy path"</span>
-    <span class="c-key">tour</span> client -&gt; lb -&gt; api1 -&gt; db <span class="c-str">"GET /orders"</span>
-    <span class="c-key">tour</span> db -&gt; api1 -&gt; lb -&gt; client <span class="c-str">"200 OK"</span> as ok
-  <span class="c-kw">step</span> <span class="c-str">"API 1 stops answering"</span>
-    <span class="c-key">send</span> lb -&gt; api1 <span class="c-str">"GET /orders"</span>
-    <span class="c-key">hang</span> api1
-    <span class="c-key">mark</span> api1 fail
-    <span class="c-kw">with</span> <span class="c-key">badge</span> api1 <span class="c-str">"timeout"</span> as fail
-    <span class="c-kw">with</span> <span class="c-key">cut</span> lb -&gt; api1
-  <span class="c-kw">step</span> <span class="c-str">"The balancer retries on API 2"</span>
-    <span class="c-key">tour</span> lb -&gt; api2 -&gt; db <span class="c-str">"retry"</span>
-    <span class="c-key">tour</span> db -&gt; api2 -&gt; lb -&gt; client <span class="c-str">"200 OK"</span> as ok</pre>
-      </div>
-      <div class="anim-player">
-        <iframe src="screenshots/animate/player.html" title="The failover score playing, with pause and step controls" loading="lazy"></iframe>
-        <p class="anim-note">Pause, step through, or play from any step: the controls are radio buttons and CSS, no JavaScript. Below, every other preview example; click one to enlarge it.</p>
-      </div>
+  <span class="c-kw">step</span> <span class="c-str">"A request reaches API 1"</span>
+    <span class="c-key">tour</span> client -&gt; lb -&gt; api1 <span class="c-str">"GET /orders"</span>
+
+  <span class="c-kw">scenario</span> <span class="c-str">"Happy path"</span> <span class="c-kw">as</span> ok
+    <span class="c-kw">step</span> <span class="c-str">"The database answers"</span>
+      <span class="c-key">tour</span> api1 -&gt; db <span class="c-str">"query"</span>
+      <span class="c-key">tour</span> db -&gt; api1 -&gt; lb -&gt; client <span class="c-str">"200 OK"</span> <span class="c-kw">as</span> ok
+
+  <span class="c-kw">scenario</span> <span class="c-str">"API 1 times out"</span> <span class="c-kw">as</span> fail
+    <span class="c-kw">step</span> <span class="c-str">"API 1 stops answering"</span>
+      <span class="c-key">hang</span> api1
+      <span class="c-key">mark</span> api1 fail
+      <span class="c-kw">with</span> <span class="c-key">badge</span> api1 <span class="c-str">"timeout"</span> <span class="c-kw">as</span> fail
+    <span class="c-kw">step</span> <span class="c-str">"The balancer retries on API 2"</span>
+      <span class="c-key">tour</span> lb -&gt; api2 -&gt; db <span class="c-str">"retry"</span>
+      <span class="c-key">tour</span> db -&gt; api2 -&gt; lb -&gt; client <span class="c-str">"200 OK"</span> <span class="c-kw">as</span> ok
+
+  <span class="c-kw">scenario</span> <span class="c-str">"The database is slow"</span> <span class="c-kw">as</span> warn
+    <span class="c-kw">step</span> <span class="c-str">"Queries pile up"</span>
+      <span class="c-key">tour</span> api1 -&gt; db <span class="c-str">"query"</span>
+      <span class="c-key">count</span> db 40 -&gt; 2400 <span class="c-str">"ms"</span> <span class="c-kw">as</span> warn
+    <span class="c-kw">step</span> <span class="c-str">"The request fails"</span>
+      <span class="c-key">tour</span> db -&gt; api1 -&gt; lb -&gt; client <span class="c-str">"503"</span> <span class="c-kw">as</span> fail</pre>
     </div>
 
     <div class="anim-gallery">
