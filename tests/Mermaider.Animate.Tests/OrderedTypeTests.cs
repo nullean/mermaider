@@ -52,6 +52,84 @@ public partial class OrderedTypeTests
 	}
 
 	[Test]
+	public void A_labelled_venn_overlap_lights_the_region_its_sets_share_after_them()
+	{
+		const string source = "venn-beta\n  set A\n  set B\n  union A,B[\"Both\"]\n\nanimate once\n";
+		var animation = MermaidAnimator.Compile(source);
+		var doc = XDocument.Parse(animation.Svg);
+		// the region is a fill clipped by each set's circle in turn, after the circles and before the names
+		var region = doc.Descendants().Single(e => e.Name.LocalName == "rect" && (string?)e.Attribute("fill-opacity") == "0.32");
+		var clips = region.Ancestors().Select(g => (string?)g.Attribute("clip-path")).OfType<string>().ToList();
+		clips.Should().HaveCount(2);
+		var circles = clips
+			.Select(c => doc.Descendants().Single(e => e.Name.LocalName == "clipPath" && $"url(#{(string?)e.Attribute("id")})" == c))
+			.Select(c => c.Elements().Single())
+			.Select(c => ((string?)c.Attribute("cx"), (string?)c.Attribute("cy")))
+			.ToList();
+		var sets = doc
+			.Descendants()
+			.Where(e => e.Name.LocalName == "g" && ((string?)e.Attribute("class") ?? "").Contains("venn-set"))
+			.Select(g => g.Elements().Single(c => c.Name.LocalName == "circle"))
+			.Select(c => ((string?)c.Attribute("cx"), (string?)c.Attribute("cy")));
+		circles.Should().BeEquivalentTo(sets);
+		// painted over the circles and under every name: a sibling of the sets, before the labels
+		static bool IsSet(XElement e) => e.DescendantsAndSelf().Any(d => ((string?)d.Attribute("class") ?? "").Contains("venn-set"));
+
+		var outermost = region.Ancestors().First(a => a.Parent!.Elements().Any(IsSet));
+		var siblings = outermost.Parent!.Elements().ToList();
+		var setsAt = siblings.FindLastIndex(e => IsSet(e));
+		var namesAt = siblings.FindIndex(e => e.DescendantsAndSelf().Any(d => d.Name.LocalName == "text"));
+		siblings.IndexOf(outermost).Should().BeGreaterThan(setsAt).And.BeLessThan(namesAt);
+
+		// it arrives with its label, after both sets
+		XElement Region(XDocument d) => d.Descendants().Single(e => e.Name.LocalName == "rect" && (string?)e.Attribute("fill-opacity") == "0.32");
+
+		var lit = FirstSeen(animation, Region);
+		lit.Should().BeGreaterThan(FirstSeen(animation, d => Text(d, "B")));
+		FirstSeen(animation, d => Text(d, "Both")).Should().Be(lit);
+	}
+
+	[Test]
+	public void Focus_on_a_venn_overlap_keeps_its_region_lit()
+	{
+		var animation = MermaidAnimator.Compile("venn-beta\n  set A\n  set B\n  union A,B[\"Both\"]\n\nanimate once\n  focus \"Both\"\n");
+		var end = XDocument.Parse(animation.RenderFrame(animation.ScoreDuration));
+
+		double Opacity(XElement e) =>
+			e
+				.AncestorsAndSelf()
+				.Select(a => Regex.Match((string?)a.Attribute("style") ?? "", "opacity:([\\d.]+)"))
+				.Where(m => m.Success)
+				.Select(m => double.Parse(m.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture))
+				.Aggregate(1.0, (x, y) => x * y);
+
+		var region = end.Descendants().Single(e => e.Name.LocalName == "rect" && (string?)e.Attribute("fill-opacity") == "0.32");
+		Opacity(region).Should().Be(1);
+		Opacity(Text(end, "Both")).Should().Be(1);
+		Opacity(Text(end, "A")).Should().BeLessThan(0.5, "the sets dim around their overlap");
+	}
+
+	[Test]
+	public void A_marked_journey_task_marks_its_face_with_a_round_ring()
+	{
+		const string source = "journey\n  section S\n    Browse: 5: Me\n    Pay: 2: Me\n\nanimate once\n  mark \"Pay\" fail\n";
+		var doc = XDocument.Parse(MermaidAnimator.Compile(source).Svg);
+		var face = doc
+			.Descendants()
+			.Where(e => ((string?)e.Attribute("class") ?? "").Split(' ').Contains("face") && (string?)e.Attribute("data-score") == "2")
+			.Single();
+		// the mark sits beside the face in the face's wrapper, so it appears and moves with it
+		var ring = face.Parent!
+			.Elements()
+			.SelectMany(g => g.Elements())
+			.Single(r => r.Name.LocalName == "rect" && (string?)r.Attribute("fill-opacity") == "0.14");
+		double
+			.Parse((string)ring.Attribute("rx")!, System.Globalization.CultureInfo.InvariantCulture)
+			.Should()
+			.Be(double.Parse((string)ring.Attribute("width")!, System.Globalization.CultureInfo.InvariantCulture) / 2, "a face's ring is round");
+	}
+
+	[Test]
 	public void Packet_fields_fill_in_bit_order()
 	{
 		var animation = MermaidAnimator.Compile("packet-beta\n  0-15: \"One\"\n  16-31: \"Two\"\n  32-63: \"Three\"\n\nanimate once\n");

@@ -444,6 +444,7 @@ internal sealed partial class Compiler
 
 	private double ShowSelf(SceneTarget target, double at)
 	{
+		Light(target, at);
 		// an element no statement has touched yet is visible only as a still; showing it means it appears here
 		if (HasVisibility(target) && IsVisible(target, at))
 			return at;
@@ -495,6 +496,8 @@ internal sealed partial class Compiler
 		var ids = new HashSet<string>(targets.Select(t => t.Id), StringComparer.Ordinal);
 		foreach (var target in targets)
 		{
+			// focusing a venn overlap lights the region it names
+			Light(target, at);
 			foreach (var element in target.Elements)
 				_ = keep.Add(element);
 			for (var parent = target.Parent; parent is not null; parent = _scene.Group(parent)?.Parent)
@@ -607,13 +610,18 @@ internal sealed partial class Compiler
 	private double MarkAll(MarkStatement statement, double at)
 	{
 		foreach (var target in Resolve(statement.Targets))
+		{
 			Mark(target.Id, target.Box, null, statement.Role, at, target.Elements.Count > 0 ? Outer(target.Elements[0]) : null);
+			// a journey task's score is its face, so the face takes the mark too
+			foreach (var face in target.Elements.Where(e => SvgScene.HasClass(e, "face")))
+				Mark(target.Id + "/face", SvgScene.BoxOf(face), null, statement.Role, at, Outer(face), round: true);
+		}
 		foreach (var edge in ResolveEdges(statement.Edges))
 			Mark($"{edge.From}->{edge.To}#{edge.Index}", Box.Empty, edge, statement.Role, at);
 		return at + _spec.Shift;
 	}
 
-	private void Mark(string key, Box box, SceneEdge? edge, Role? role, double at, XElement? holder = null)
+	private void Mark(string key, Box box, SceneEdge? edge, Role? role, double at, XElement? holder = null, bool round = false)
 	{
 		foreach (var existing in _marks.Where(m => m.Key.Item1 == key && m.Key.Item2 != role))
 			Opacity(existing.Value, ReducedMotion.Cut, 0).Animate(at, _spec.Shift, Channel.Value(0), Easing.Exit);
@@ -625,7 +633,7 @@ internal sealed partial class Compiler
 			if (edge is null)
 			{
 				// a node mark is a ring with a check or a cross, so the role reads without colour too
-				var ring = Overlay.Ring(box, color, 2, 4, color, 0.14);
+				var ring = Overlay.Ring(box, color, 2, 4, color, 0.14, round);
 				ring.SetAttributeValue("opacity", null);
 				mark = Overlay.Group(new XAttribute("opacity", "0"), ring, Overlay.MarkIcon(r, color, box.Inflate(4)));
 				// inside the node's wrapper, so a mark moves, pulses and appears with its node

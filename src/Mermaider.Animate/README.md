@@ -54,7 +54,7 @@ plays its messages in order, a gantt chart sweeps its playhead across the plan, 
 axis, a git graph's commits land in order, a mindmap or treeview grows from its root, and a C4 dynamic diagram plays its
 numbered relations in order, an xy chart's bars grow and its lines draw, a pie's slices sweep round, a radar's curves grow out
 of the centre, a sankey's flows run left to right, and quadrant points, treemap sections and tiles, venn sets, packet
-fields and journey tasks arrive in their order, each with its labels.
+fields and journey tasks arrive in their order, each with its labels; a venn diagram's labelled overlaps then light up as the region their sets share.
 
 Names are diagram ids. Elements without an id are named by their label in quotes (`show "2020"`, `mark "Build" ok`) or
 by number: `#3` is the third message of a sequence diagram, and the third task, period or commit elsewhere.
@@ -63,9 +63,9 @@ by number: `#3` is the third message of a sequence diagram, and the third task, 
 |---|---|
 | `build` | the diagram appears along its flow: groups, then nodes column by column, each column's edges drawing first |
 | `show a, b [each]` · `hide …` | nodes, groups (`group x`) or edges (`a -> b`) appear or leave; `each` staggers them |
-| `focus a, b [close]` · `focus all` | everything else dims for the rest of the step; `close` also moves the camera in |
+| `focus a, b [close]` · `focus all` | everything else dims for the rest of the step; `close` also moves the camera in. Focusing a venn overlap (`focus "Both"`) lights its region |
 | `pulse a` | a node draws attention once |
-| `mark a ok\|fail\|warn\|info\|clear` | a node takes a role colour with a check or a cross, an edge or a message (`#3`) its colour, until cleared |
+| `mark a ok\|fail\|warn\|info\|clear` | a node takes a role colour with a check or a cross (a journey task's face too), an edge or a message (`#3`) its colour, until cleared |
 | `badge a "timeout" [as role]` · `badge a clear` | a short label pinned above a node, until cleared |
 | `fill queue 3/8` · `fill queue 8` | a meter of slots along a node fills or drains; its last quarter warns |
 | `hang a` | a node waits with no answer: the wait itself is shown |

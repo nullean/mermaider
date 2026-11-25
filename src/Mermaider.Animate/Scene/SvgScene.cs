@@ -153,6 +153,9 @@ internal sealed class SvgScene
 	/// <summary>Targets in source order, for the types whose elements are numbered.</summary>
 	public List<SceneTarget> Ordered => [.. _targets.Values.Where(t => t.Index > 0).OrderBy(t => t.Index)];
 
+	/// <summary>A venn diagram's labelled overlaps, in order, each with the sets it joins. Addressed by their label.</summary>
+	public List<(SceneTarget Union, List<SceneTarget> Sets)> Unions { get; } = [];
+
 	/// <summary>For a gantt chart: the vertical extent of the plot and the x of a date.</summary>
 	public (double Top, double Bottom, Func<DateTime, double> X)? TimeAxis { get; private set; }
 
@@ -309,6 +312,7 @@ internal sealed class SvgScene
 				return;
 			case SceneKind.Venn:
 				ReadNumbered("venn-set", "data-set");
+				ReadUnions();
 				AttachLoose(below: false);
 				return;
 			case SceneKind.Packet:
@@ -765,6 +769,28 @@ internal sealed class SvgScene
 		}
 	}
 
+	private void ReadUnions()
+	{
+		foreach (var element in Root.Descendants(Ns + "g").Where(e => HasClass(e, "venn-union")).ToList())
+		{
+			var names = ((string?)element.Attribute("data-sets") ?? "").Split(',');
+			var sets = names.Select(n => _targets.TryGetValue(n, out var set) ? set : null).OfType<SceneTarget>().ToList();
+			if (sets.Count < 2 || sets.Count != names.Length)
+				continue;
+			// the box both circles cover: where the overlap is, near enough to pulse and focus around
+			var box = sets.Select(s => s.Box).Aggregate((a, b) =>
+			{
+				var x = Math.Max(a.X, b.X);
+				var y = Math.Max(a.Y, b.Y);
+				return new Box(x, y, Math.Max(0, Math.Min(a.Right, b.Right) - x), Math.Max(0, Math.Min(a.Bottom, b.Bottom) - y));
+			});
+			var union = new SceneTarget("union:" + string.Join(",", names), TargetKind.Node, TextOf(element)) { Box = box };
+			union.Elements.Add(element);
+			_targets[union.Id] = union;
+			Unions.Add((union, sets));
+		}
+	}
+
 	/// <summary>
 	/// Renderers write some of a mark's parts as loose siblings: a treemap section's header, a venn label, a journey task's
 	/// face and drop-line. Each joins the mark it belongs to, so it appears with it: the latest-numbered mark whose box
@@ -782,7 +808,7 @@ internal sealed class SvgScene
 			.Where(e => e.Name.LocalName is "g" or "text" or "rect" or "path" or "line" or "circle" && !owned.Contains(e))
 			.ToList())
 		{
-			if (HasClass(loose, "subgraph") || HasClass(loose, "legend") || HasClass(loose, "journey-line"))
+			if (HasClass(loose, "subgraph") || HasClass(loose, "legend") || HasClass(loose, "journey-line") || HasClass(loose, "venn-union"))
 				continue;
 			var box = BoxOf(loose);
 			// a text, or a group holding only text (a venn overlap's label), is placed by where its text is anchored
