@@ -209,14 +209,6 @@ internal sealed partial class Compiler
 	{
 		Opacity(RingFor(state).Ring, ReducedMotion.Cut, 0).Animate(at, _spec.Shift, Channel.Value(1), Easing.Enter);
 		_ringAt = state.Id;
-		_scoreEnd.Add(end =>
-		{
-			foreach (var (ring, trail) in _rings.Values)
-			{
-				Opacity(ring, ReducedMotion.Cut, 0).Animate(end, _spec.Exit, Channel.Value(0), Easing.Exit);
-				Opacity(trail, ReducedMotion.Cut, 0).Animate(end, _spec.Exit, Channel.Value(0), Easing.Exit);
-			}
-		});
 	}
 
 	private void MoveRing(string fromId, SceneTarget to, double at)

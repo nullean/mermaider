@@ -8,7 +8,18 @@ namespace Mermaider.Animate.Compile;
 /// <summary>A step as it plays: its caption and when it starts and ends, in milliseconds.</summary>
 internal sealed record StepSpan(string? Caption, double Start, double End);
 
-internal sealed record CompiledTimeline(IReadOnlyList<Channel> Channels, IReadOnlyList<StepSpan> Steps, double Duration, double ScoreEnd);
+/// <summary>
+/// A compiled score. In a loop, <see cref="StoryStart"/> splits the timeline: everything before it (the intro, such as a
+/// build) plays once, and the story from there to <see cref="Duration"/> repeats, ending in a settle back to how it began.
+/// </summary>
+internal sealed record CompiledTimeline(
+	IReadOnlyList<Channel> Channels,
+	IReadOnlyList<StepSpan> Steps,
+	double Duration,
+	double ScoreEnd,
+	double StoryStart,
+	bool Loops
+);
 
 /// <summary>
 /// Turns a score into channels over the scene. Statements in a step run one after another; <c>with</c> starts one
@@ -40,6 +51,8 @@ internal sealed partial class Compiler
 	private int _ids;
 	private string? _ringAt;
 	private int _captionNumber;
+	private XElement? _progress;
+	private bool _cued;
 	private int _captionTotal;
 	private bool _dimmed;
 	private bool _zoomed;
@@ -77,7 +90,9 @@ internal sealed partial class Compiler
 	internal CompiledTimeline Compile()
 	{
 		var steps = new List<StepSpan>();
-		var cursor = _spec.Lead + (_mode == PlaybackMode.Loop ? _spec.LoopFade : 0);
+		var cursor = _spec.Lead;
+		var introEnd = 0.0;
+		var inIntro = true;
 		var source = _score.IsDefault ? DefaultSteps() : _score.Steps;
 		var captions = source.Any(s => s.Caption is not null || s.Statements.OfType<CaptionStatement>().Any());
 		var captionY = _stage.Y - 22;
@@ -117,30 +132,51 @@ internal sealed partial class Compiler
 			foreach (var action in _stepEnd)
 				action(stepEnd);
 			_stepEnd.Clear();
+			if (_progress is { } bar)
+			{
+				ChannelFor(bar, Property.DashOffset, Channel.Value(1), ReducedMotion.Off).Animate(start, stepEnd - start, Channel.Value(0), Easing.Linear);
+				_progress = null;
+			}
+
+			// leading caption-less build steps are the intro: in a loop they play once, and the story repeats after them
+			inIntro &= step.Caption is null && step.Statements.All(st => st is BuildStatement);
+			if (inIntro)
+				introEnd = stepEnd;
+			else if (!_cued)
+			{
+				Cue(step, start);
+				_cued = true;
+			}
 			steps.Add(new StepSpan(step.Caption, start, stepEnd));
 			cursor = stepEnd;
 			_ = caption;
 		}
 
-		if (previousCaption is not null)
-			Opacity(previousCaption, ReducedMotion.Cut).Animate(cursor, _spec.Exit, Channel.Value(0), Easing.Exit);
-
 		var scoreEnd = cursor;
-		foreach (var action in _scoreEnd)
-			action(scoreEnd);
-
-		double duration;
-		if (_mode == PlaybackMode.Loop)
+		var loops = _mode == PlaybackMode.Loop && scoreEnd > introEnd + 1;
+		if (!loops)
 		{
-			duration = scoreEnd + _spec.Rest + _spec.LoopFade;
-			var fade = Opacity(_sceneRoot, ReducedMotion.Cut, initial: 0);
-			fade.Animate(0, _spec.LoopFade, Channel.Value(1), Easing.Enter);
-			fade.Animate(duration - _spec.LoopFade, _spec.LoopFade, Channel.Value(0), Easing.Exit);
+			// once, scrub, or a loop with nothing after its intro: the last frame holds, state and caption included
+			foreach (var action in _scoreEnd)
+				action(scoreEnd);
+			return new CompiledTimeline(_channels, steps, scoreEnd + _spec.Hold, scoreEnd, 0, Loops: false);
 		}
-		else
-			duration = scoreEnd + _spec.Hold;
 
-		return new CompiledTimeline(_channels, steps, duration, scoreEnd);
+		// the last frame holds for a rest, then everything settles back to how the story began: marks, trails, badges and
+		// meters clear, cut edges heal, the camera returns. The diagram itself never leaves.
+		var settle = scoreEnd + _spec.Rest;
+		foreach (var action in _scoreEnd)
+			action(settle);
+		foreach (var channel in _channels.ToList())
+		{
+			if (!channel.IsAnimated)
+				continue;
+			var target = channel.ValueAt(introEnd);
+			var now = channel.ValueAt(settle);
+			if (!target.SequenceEqual(now))
+				channel.Animate(settle, _spec.Settle, target, Easing.Move);
+		}
+		return new CompiledTimeline(_channels, steps, settle + _spec.Settle + _spec.Lead, scoreEnd, introEnd, Loops: true);
 	}
 
 	private XElement ShowCaption(string text, double at, double y, ref XElement? previous)
@@ -148,11 +184,47 @@ internal sealed partial class Compiler
 		if (previous is not null)
 			Opacity(previous, ReducedMotion.Cut).Animate(at, _spec.Exit, Channel.Value(0), Easing.Exit);
 		var caption = Overlay.Caption(text, _captionNumber, _captionTotal, _stage.X + 14, y);
+		// a thin line under the caption fills as the step plays: something is happening, and this is how long it lasts
+		_progress = Overlay.Progress(_stage.X + 14, _stage.Right - 14, y + 11);
+		caption.Add(_progress);
 		_sceneRoot.Add(caption);
-		Opacity(caption, ReducedMotion.Cut, initial: 0).Animate(at + (previous is null ? 0 : _spec.Exit * 0.6), _spec.Enter, Channel.Value(1), Easing.Enter);
+		var enter = at + (previous is null ? 0 : _spec.Exit * 0.6);
+		Opacity(caption, ReducedMotion.Cut, initial: 0).Animate(enter, _spec.Enter, Channel.Value(1), Easing.Enter);
+		var rise = ChannelFor(caption, Property.Transform, Channel.Transform(0, _spec.Rise, 1), ReducedMotion.Off);
+		rise.Animate(enter, _spec.Enter, Channel.Transform(0, 0, 1), Easing.Enter);
 		previous = caption;
 		return caption;
 	}
+
+	/// <summary>
+	/// The first beat of the story draws the eye once: its subject pulses as the story begins. The score never asks for
+	/// this; every animation opens the same way.
+	/// </summary>
+	private void Cue(ScoreStep step, double at)
+	{
+		var subject = step.Statements.Select(SubjectOf).FirstOrDefault(id => id is not null);
+		if (subject is null || (step.Statements.Count > 0 && step.Statements[0] is PulseStatement or FocusStatement))
+			return;
+		if (_scene.Target(subject) is { } target && IsVisible(target, at))
+			_ = Pulse(target, at, _spec.PulseScale);
+	}
+
+	private string? SubjectOf(Statement statement) => statement switch
+	{
+		SendStatement s => s.From,
+		TourStatement s => s.Path[0],
+		RunStatement s => s.Path[0] == "[*]" ? "_start" : s.Path[0],
+		PingStatement s => s.From,
+		StreamStatement s => s.Path[0],
+		TryStatement s => s.From,
+		FillStatement s => s.Target.Id,
+		MarkStatement { Targets.Count: > 0 } s => s.Targets[0].Id,
+		BadgeStatement s => s.Targets[0].Id,
+		HangStatement s => s.Targets[0].Id,
+		ShowStatement { Targets.Count: > 0 } s => s.Targets[0].Id,
+		PlayStatement s when _scene.Edges.Count > 0 => _scene.Edges[(s.First ?? 1) - 1].From,
+		_ => null,
+	};
 
 	private void ExtendStage(double by)
 	{

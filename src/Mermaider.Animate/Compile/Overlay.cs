@@ -282,6 +282,20 @@ internal static class Overlay
 		return new XElement(N("g"), new XAttribute("transform", $"translate({Num.F(at.X)} {Num.F(at.Y)}) rotate({Num.F(angle)})"), inner);
 	}
 
+	/// <summary>The progress line under a caption: drawn from left to right over the step.</summary>
+	internal static XElement Progress(double x1, double x2, double y) =>
+		new(
+			N("path"),
+			new XAttribute("d", $"M{Num.F(x1)},{Num.F(y)} L{Num.F(x2)},{Num.F(y)}"),
+			new XAttribute("stroke", "var(--accent, #3b82f6)"),
+			new XAttribute("stroke-width", "2"),
+			new XAttribute("stroke-opacity", "0.55"),
+			new XAttribute("pathLength", "1"),
+			new XAttribute("stroke-dasharray", "1 1"),
+			new XAttribute("stroke-dashoffset", "1"),
+			new XAttribute("fill", "none")
+		);
+
 	/// <summary>A step's caption at the top left, with its number: "2/3  The balancer fails over".</summary>
 	internal static XElement Caption(string text, int number, int total, double x, double y)
 	{

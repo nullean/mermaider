@@ -54,7 +54,6 @@ internal sealed partial class Compiler
 			meter = new Meter(capacity, elements, track);
 			_meters[target.Id] = meter;
 			Opacity(track, ReducedMotion.Cut, 0).Animate(at, _spec.Enter, Channel.Value(1), Easing.Enter);
-			_scoreEnd.Add(end => Opacity(track, ReducedMotion.Cut, 0).Animate(end, _spec.Exit, Channel.Value(0), Easing.Exit));
 		}
 		else if (fill.Capacity is { } capacity && capacity != meter.Capacity)
 			_diagnostics.Add(new(fill.Line, $"{target.Id} was filled with a capacity of {meter.Capacity}, not {capacity}."));
@@ -86,13 +85,6 @@ internal sealed partial class Compiler
 				end = t + _spec.Shift;
 			}
 		}
-		if (meter.Shown == 0 && lit > 0)
-			_scoreEnd.Add(scoreEnd =>
-			{
-				foreach (var slot in meter.Slots)
-					if (_byElement.ContainsKey((slot, Property.Opacity)))
-						Opacity(slot, ReducedMotion.Cut, 0).Animate(scoreEnd, _spec.Exit, Channel.Value(0), Easing.Exit);
-			});
 		meter.Shown = lit;
 		return end;
 	}
@@ -114,7 +106,6 @@ internal sealed partial class Compiler
 			_badges[target.Id] = element;
 			var opacity = Opacity(element, ReducedMotion.Cut, 0);
 			opacity.Animate(at + (previous is null ? 0 : _spec.Exit * 0.5), _spec.Enter, Channel.Value(1), Easing.Enter);
-			_scoreEnd.Add(end => opacity.Animate(end, _spec.Exit, Channel.Value(0), Easing.Exit));
 		}
 		return at + _spec.Enter;
 	}
@@ -161,7 +152,6 @@ internal sealed partial class Compiler
 		_overlay.Add(bracket);
 		var opacity = Opacity(bracket, ReducedMotion.Cut, 0);
 		opacity.Animate(at, _spec.Enter, Channel.Value(1), Easing.Enter);
-		_scoreEnd.Add(end => opacity.Animate(end, _spec.Exit, Channel.Value(0), Easing.Exit));
 		return at + _spec.Enter;
 	}
 }

@@ -116,6 +116,7 @@ public sealed class AnimatedDiagram
 		Mode = mode;
 		Duration = TimeSpan.FromMilliseconds(timeline.Duration);
 		ScoreDuration = TimeSpan.FromMilliseconds(timeline.ScoreEnd);
+		Intro = TimeSpan.FromMilliseconds(timeline.Loops ? timeline.StoryStart : 0);
 		Steps = timeline.Steps.Select(s => new AnimationStep(s.Caption, TimeSpan.FromMilliseconds(s.Start), TimeSpan.FromMilliseconds(s.End))).ToList();
 		Svg = still ? FrameAt(timeline.ScoreEnd) : Animated();
 	}
@@ -135,6 +136,12 @@ public sealed class AnimatedDiagram
 
 	/// <summary>One full cycle, including the rest and the fade between loops.</summary>
 	public TimeSpan Duration { get; }
+
+	/// <summary>
+	/// How long the intro lasts: the leading caption-less <c>build</c> steps that a loop plays once before its story
+	/// repeats. Zero when the animation has no intro or does not loop.
+	/// </summary>
+	public TimeSpan Intro { get; }
 
 	/// <summary>When the last step ends.</summary>
 	public TimeSpan ScoreDuration { get; }
@@ -167,7 +174,7 @@ public sealed class AnimatedDiagram
 		lock (_gate)
 		{
 			var scene = _scene!;
-			var css = CssEmitter.Emit(_timeline!.Channels, _timeline.Duration, Mode, scene.Prefix, _classes);
+			var css = CssEmitter.Emit(_timeline!.Channels, _timeline.Duration, _timeline.StoryStart, _timeline.Loops, Mode, scene.Prefix, _classes);
 			var root = scene.Root;
 			var rootClass = (string?)root.Attribute("class");
 			var style = new XElement(SvgScene.Ns + "style", "\n" + css);
