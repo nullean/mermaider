@@ -15,6 +15,39 @@ public class ScoreTests
 	}
 
 	[Test]
+	[Arguments("a <- b", new[] { "a", "<-", "b" })]
+	[Arguments("a<-b", new[] { "a<-b" })]
+	[Arguments("<-", new[] { "<-" })]
+	[Arguments(".)<-@", new[] { ".)<-@" })]
+	[Arguments("a <-> b", new[] { "a", "<->", "b" })]
+	[Arguments("a<->b->c", new[] { "a", "<->", "b", "->", "c" })]
+	public void A_lone_left_arrow_is_part_of_a_word(string line, string[] expected)
+	{
+		// "<-" once ended a word before its first character without being a token, and the tokenizer never moved on
+		var tokenizing = Task.Run(() => ScoreParser.Tokenize(line, 1, []));
+		tokenizing.Wait(TimeSpan.FromSeconds(5)).Should().BeTrue("tokenizing a line always ends");
+		tokenizing.Result.Select(w => w.Text).Should().Equal(expected);
+	}
+
+	[Test]
+	public void A_left_arrow_in_a_score_is_reported_not_hung_on()
+	{
+		var compiling = Task.Run(() => MermaidAnimator.Compile("flowchart LR\n  a --> b\nanimate\n  send a <- b\n"));
+		Action wait = () => compiling.Wait(TimeSpan.FromSeconds(5)).Should().BeTrue("compiling a score always ends");
+		wait.Should().Throw<AggregateException>().WithInnerException<AnimationException>().Which.Diagnostics.Should().ContainSingle(d => d.Line == 4);
+	}
+
+	[Test]
+	public void With_outside_a_step_joins_the_statement_before_it()
+	{
+		// a statement outside a step is a step of its own; "with" on the next line once crashed adding to it
+		var (score, diagnostics) = Parse("flowchart LR\n  a --> b\nanimate\n  show a\n  with show b\n  show b\n");
+		diagnostics.Should().BeEmpty();
+		score.Steps.Select(s => s.Statements.Count).Should().Equal(2, 1);
+		MermaidAnimator.Compile("flowchart LR\n  a --> b\nanimate\n  show a\n  with show b\n").Steps.Should().ContainSingle();
+	}
+
+	[Test]
 	public void Finds_the_block_only_at_the_start_of_a_line()
 	{
 		ScoreParser.FindStart(["flowchart LR", "  animate --> b"]).Should().Be(-1);

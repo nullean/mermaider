@@ -123,7 +123,7 @@ internal static class ScoreParser
 			if (stepStatements is not null)
 				stepStatements.Add(statement);
 			else if (statement.With && steps.Count > 0 && steps[^1].Caption is null)
-				((List<Statement>)steps[^1].Statements).Add(statement);
+				steps[^1] = steps[^1] with { Statements = [.. steps[^1].Statements, statement] };
 			else
 				steps.Add(new ScoreStep(null, [statement], lineNo));
 		}
@@ -615,17 +615,22 @@ internal static class ScoreParser
 				i++;
 				continue;
 			}
+			// a word runs to the next space or token. It ends before "<->" only, which the branch above takes: a lone "<-" stays
+			// part of a word (a name the reader then reports), never a word of no characters, which would never end
 			var begin = i;
 			while (i < line.Length)
 			{
 				var ch = line[i];
 				if (
 					char.IsWhiteSpace(ch) || ch is ',' or '=' or '"' || (ch == '-' && i + 1 < line.Length && line[i + 1] == '>') ||
-					(ch == '<' && i + 1 < line.Length && line[i + 1] == '-')
+					(ch == '<' && i + 2 < line.Length && line[i + 1] == '-' && line[i + 2] == '>')
 				)
 					break;
 				i++;
 			}
+			// whatever the rules above say, every word takes a character, so no line can keep the tokenizer in place
+			if (i == begin)
+				i++;
 			words.Add(new Word(line[begin..i], false));
 		}
 		return words;
