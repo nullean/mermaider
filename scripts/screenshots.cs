@@ -158,7 +158,13 @@ Write(
 var scores = Path.Combine(root, "examples/Mermaider.Animate.Preview/scores");
 // every preview score: the first plays in the player, the rest fill the landing page's animation gallery
 foreach (var name in Directory.GetFiles(scores, "*.mmd").Select(Path.GetFileNameWithoutExtension).Order(StringComparer.Ordinal))
-	Write($"docs/screenshots/animate/{name}.svg", MermaidAnimator.RenderSvg(File.ReadAllText(Path.Combine(scores, name + ".mmd")), new AnimateOptions { Render = Options("zinc-dark", DiagramStyle.Quiet, transparent: true) }));
+	Write(
+		$"docs/screenshots/animate/{name}.svg",
+		MermaidAnimator.RenderSvg(
+			File.ReadAllText(Path.Combine(scores, name + ".mmd")),
+			new AnimateOptions { Render = Options("zinc-dark", DiagramStyle.Quiet, transparent: true) }
+		)
+	);
 // the player is live HTML (its controls are radio buttons), so it is a page of its own the landing page frames
 Write(
 	"docs/screenshots/animate/player.html",
