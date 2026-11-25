@@ -37,10 +37,17 @@ internal sealed record TargetRef(string Id, bool IsGroup, int Line)
 	public override string ToString() => IsGroup ? $"group {Id}" : Id;
 }
 
-/// <summary>An edge named by its endpoints; <see cref="Index"/> picks one of several parallel edges (1-based).</summary>
+/// <summary>
+/// An edge named by its endpoints; <see cref="Index"/> picks one of several parallel edges (1-based). A sequence message
+/// is named by its number alone (<c>#3</c>): <see cref="IsMessage"/>, with the number in <see cref="Index"/>.
+/// </summary>
 internal sealed record EdgeRef(string From, string To, int? Index, int Line)
 {
-	public override string ToString() => Index is { } i ? $"{From} -> {To} #{i}" : $"{From} -> {To}";
+	public bool IsMessage => From == "#";
+
+	public static EdgeRef Message(int number, int line) => new("#", "#", number, line);
+
+	public override string ToString() => IsMessage ? $"#{Index}" : Index is { } i ? $"{From} -> {To} #{i}" : $"{From} -> {To}";
 }
 
 internal abstract record Statement(int Line)
@@ -91,6 +98,18 @@ internal sealed record TryStatement(string From, string To, string? Reason, int 
 internal sealed record PingStatement(string From, string To, string? Request, string? Reply, int Line) : Statement(Line);
 
 internal sealed record CaptionStatement(string Text, int Line) : Statement(Line);
+
+/// <summary>A queue or buffer filling: <see cref="Count"/> of <see cref="Capacity"/> slots (capacity from an earlier fill when null).</summary>
+internal sealed record FillStatement(TargetRef Target, int Count, int? Capacity, int Line) : Statement(Line);
+
+/// <summary>A short label pinned above a node until cleared (<see cref="Text"/> null).</summary>
+internal sealed record BadgeStatement(IReadOnlyList<TargetRef> Targets, string? Text, Role? Role, int Line) : Statement(Line);
+
+/// <summary>A node waiting with no answer: the wait itself is shown.</summary>
+internal sealed record HangStatement(IReadOnlyList<TargetRef> Targets, int Line) : Statement(Line);
+
+/// <summary>A bracket beside a run of sequence messages, with a label: what that span costs or means.</summary>
+internal sealed record NoteStatement(int First, int Last, string Text, Role? Role, int Line) : Statement(Line);
 
 internal sealed record BuildStatement(int Line) : Statement(Line);
 

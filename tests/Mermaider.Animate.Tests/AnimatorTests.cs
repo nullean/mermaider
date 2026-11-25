@@ -136,7 +136,7 @@ public partial class AnimatorTests
 		reduced.Should().Contain($".{ClassOf(token)} {{ animation: none; }}");
 
 		// the mark is a content change: it still happens, as a cut
-		var mark = doc.Descendants().Single(e => e.Name.LocalName == "rect" && (string?)e.Attribute("fill-opacity") == "0.14");
+		var mark = doc.Descendants().Single(e => e.Name.LocalName == "rect" && (string?)e.Attribute("fill-opacity") == "0.14").Parent!;
 		reduced.Should().MatchRegex($@"\.{ClassOf(mark)} \{{ animation: ma[0-9a-f]{{8}}-k\d+r ");
 		var keyframes = Regex.Match(reduced + style, $@"\.{ClassOf(mark)} \{{ animation: (ma[0-9a-f]{{8}}-k\d+r) ").Groups[1].Value;
 		style.Should().MatchRegex($@"@keyframes {keyframes} \{{[^\n]*steps\(1, jump-start\)");
@@ -147,7 +147,11 @@ public partial class AnimatorTests
 	{
 		var svg = MermaidAnimator.RenderSvg(Flow + "\nanimate still\n  step \"go\"\n    mark api fail\n");
 		svg.Should().NotContain("@keyframes");
-		XDocument.Parse(svg).Descendants().Should().Contain(e => e.Name.LocalName == "rect" && (string?)e.Attribute("style") == "opacity:1");
+		XDocument
+			.Parse(svg)
+			.Descendants()
+			.Should()
+			.Contain(e => (string?)e.Attribute("style") == "opacity:1" && e.Elements().Any(r => (string?)r.Attribute("fill-opacity") == "0.14"));
 	}
 
 	[Test]

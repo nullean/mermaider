@@ -48,7 +48,7 @@ animate [loop|once|scrub] [calm|crisp|still]
     with <statement>          starts together with the statement before it
 ```
 
-A statement outside any step is a step of its own. A bare `animate` plays the diagram type's default animation: a
+A step's caption shows above the diagram, numbered ("2/3"). A statement outside any step is a step of its own. A bare `animate` plays the diagram type's default animation: a
 flowchart or architecture diagram builds up along its flow, a state machine runs every transition, and a sequence
 diagram plays its messages in order.
 
@@ -58,16 +58,20 @@ diagram plays its messages in order.
 | `show a, b [each]` · `hide …` | nodes, groups (`group x`) or edges (`a -> b`) appear or leave; `each` staggers them |
 | `focus a, b [close]` · `focus all` | everything else dims for the rest of the step; `close` also moves the camera in |
 | `pulse a` | a node draws attention once |
-| `mark a ok\|fail\|warn\|info\|clear` | a node or an edge takes a role colour, until cleared |
+| `mark a ok\|fail\|warn\|info\|clear` | a node takes a role colour with a check or a cross, an edge or a message (`#3`) its colour, until cleared |
+| `badge a "timeout" [as role]` · `badge a clear` | a short label pinned above a node, until cleared |
+| `fill queue 3/8` · `fill queue 8` | a meter of slots along a node fills or drains; its last quarter warns |
+| `hang a` | a node waits with no answer: the wait itself is shown |
 | `draw a -> b` · `erase a -> b` | a line draws from its source, and its arrowhead lands when the line arrives |
 | `cut a -> b` · `restore a -> b` | a link breaks and comes back |
-| `send [token] a -> b[, c] ["label"] [as role] [becomes "label"] [slow\|fast] [lost\|stall] [each]` | a token travels the edge; against an edge's direction it travels as a reply |
+| `send [token] a -> b[, c] ["label"] [as role] [becomes "label"] [slow\|fast] [lost\|stall] [each]` | a token travels the edge and lights it for the rest of the step; against an edge's direction it travels as a reply |
 | `stream a -> b [trickle\|steady\|busy] [always]` | a continuous flow for the step, or for the whole score with `always` |
-| `tour a -> b -> c ["label"]` | a token walks the path, with focus following it |
+| `tour a -> b -> c ["label"]` | a token walks the path; the route is in focus and every hop taken stays lit |
 | `ping a <-> b ["request"] ["reply"]` | a request out and a reply back |
 | `run s1 -> s2 -> s3` | a state machine follows the path: a ring marks the current state, and each transition's event travels its edge |
 | `try a -> b rejected ["reason"]` | a refused transition: the token stops short, and the ring stays where it was |
-| `play [#n[..#m]]` | sequence messages play in order |
+| `play [#n[..#m]]` | sequence messages draw in order, each arrow from sender to receiver |
+| `note #4..#5 "38 ms" [as role]` | a bracket beside a span of sequence messages, with what it costs |
 | `caption "…"` | changes the step's caption |
 
 Every name is checked against the diagram. A misspelt node, a `send` between nodes that share no edge or a `run`

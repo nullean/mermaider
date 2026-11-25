@@ -1,21 +1,22 @@
 flowchart LR
-  %% Architecture: a request walks the path, a node fails, the balancer fails over
+  %% Failover: a request times out on API 1 and the balancer retries on API 2
   client[Client] --> lb[Balancer]
   lb --> api1[API 1]
   lb --> api2[API 2]
-  api1 --> db[(Database)]
+  api1 --> db[(Orders DB)]
   api2 --> db
 
 animate
   build
-  step "A request takes the usual path"
+  step "A request takes the healthy path"
     tour client -> lb -> api1 -> db "GET /orders"
+    tour db -> api1 -> lb -> client "200 OK" as ok
   step "API 1 stops answering"
+    send lb -> api1 "GET /orders"
+    hang api1
     mark api1 fail
-    cut lb -> api1
-  step "The balancer fails over to API 2"
-    send lb -> api2 "GET /orders" as ok
-    send api2 -> db
-  step "Back to normal"
-    restore lb -> api1
-    mark api1 clear
+    with badge api1 "timeout" as fail
+    with cut lb -> api1
+  step "The balancer retries on API 2"
+    tour lb -> api2 -> db "retry"
+    tour db -> api2 -> lb -> client "200 OK" as ok

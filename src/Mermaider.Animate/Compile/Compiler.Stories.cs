@@ -255,7 +255,7 @@ internal sealed partial class Compiler
 			_stepEnd.Add(end => g.Animate(end, _spec.Exit, Channel.Value(0), Easing.Exit));
 		}
 
-		var token = Overlay.Token(_colors.Fail, "var(--bg)", 5, attempt.Reason, out _);
+		var token = Overlay.Token(_colors.Fail, false, 6.5, attempt.Reason, out _);
 		_overlay.Add(token);
 		var duration = _spec.TravelTime(path.Length, Speed.Normal) * 0.45;
 		var move = ChannelFor(token, Property.Transform, Channel.Transform(path.Start.X, path.Start.Y, 1), ReducedMotion.Off);
@@ -367,9 +367,8 @@ internal sealed partial class Compiler
 				_ = notesShown.Add(note.Element);
 				t += _spec.Enter + _spec.Beat;
 			}
-			var drawEnd = Draw(message, t);
-			t = Send(message, false, t + (_spec.DrawTime(message.Path.Length) * 0.2), null, null, null, Speed.Normal, Fate.Arrives, null);
-			t = Math.Max(t, drawEnd) + _spec.Beat;
+			// a message is its arrow: it draws from sender to receiver, and its head and label land on arrival
+			t = Draw(message, t) + _spec.Beat;
 		}
 		if (play.Last is null)
 			foreach (var note in _scene.Notes.Where(n => !notesShown.Contains(n.Element)))

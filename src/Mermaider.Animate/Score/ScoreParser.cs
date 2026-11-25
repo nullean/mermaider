@@ -199,9 +199,13 @@ internal static class ScoreParser
 			"caption" => reader.Quoted() is { } text ? new CaptionStatement(text, line) : reader.Fail("caption takes a quoted text: caption \"…\"."),
 			"build" => new BuildStatement(line),
 			"play" => ParsePlay(reader),
+			"fill" => ParseFill(reader),
+			"badge" => ParseBadge(reader),
+			"hang" => new HangStatement(reader.Targets(), line),
+			"note" => ParseNote(reader),
 			_ =>
 				reader.Fail(
-					$"Unknown verb '{verb}'. The verbs are show, hide, focus, pulse, mark, draw, erase, cut, restore, send, stream, tour, run, try, ping, caption, build and play."
+					$"Unknown verb '{verb}'. The verbs are show, hide, focus, pulse, mark, badge, fill, hang, draw, erase, cut, restore, send, stream, tour, run, try, ping, play, note, caption and build."
 				),
 		};
 		if (statement is null)
@@ -397,6 +401,70 @@ internal static class ScoreParser
 				first = last = ParseIndex(text, reader);
 		}
 		return new PlayStatement(first, last, reader.Line);
+	}
+
+	private static Statement? ParseFill(Reader reader)
+	{
+		// fill TARGET COUNT[/CAPACITY]
+		var id = reader.Id();
+		var amount = reader.Peek(0) is { Quoted: false } word ? reader.Next()!.Text : null;
+		if (id is null || amount is null)
+			return reader.Fail("fill takes a node and an amount: fill topic 3/8, or fill topic 5 after its capacity is known.");
+		var slash = amount.IndexOf('/');
+		var countText = slash >= 0 ? amount[..slash] : amount;
+		var capacityText = slash >= 0 ? amount[(slash + 1)..] : null;
+		if (
+			!int.TryParse(countText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var count) ||
+			(capacityText is not null &&
+				(!int.TryParse(capacityText, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var cap) || cap < 1))
+		)
+			return reader.Fail($"'{amount}' is not an amount. Write a count, or count/capacity: 3/8.");
+		int? capacity = capacityText is null ? null : int.Parse(capacityText, System.Globalization.CultureInfo.InvariantCulture);
+		if (capacity is { } c && count > c)
+			return reader.Fail($"{count} is more than the capacity of {c}.");
+		return new FillStatement(new TargetRef(id, IsGroup: false, reader.Line), count, capacity, reader.Line);
+	}
+
+	private static Statement? ParseBadge(Reader reader)
+	{
+		// badge A[, B] "text" [as ROLE]  |  badge A clear
+		var targets = new List<TargetRef>();
+		do
+		{
+			if (reader.Id() is { } id && id != "clear")
+				targets.Add(new TargetRef(id, IsGroup: false, reader.Line));
+			else
+				return reader.Fail("badge takes nodes, then a quoted text or clear: badge api \"timeout\" as fail.");
+		}
+		while (reader.Accept(","));
+		if (reader.Accept("clear"))
+			return new BadgeStatement(targets, null, null, reader.Line);
+		var text = reader.Quoted();
+		if (text is null)
+			return reader.Fail("badge needs a quoted text after its nodes, or clear.");
+		Role? role = null;
+		if (reader.Accept("as"))
+			role = reader.Next() is { } r ? ParseRole(r, reader.Line, reader.Diagnostics) : null;
+		return new BadgeStatement(targets, text, role, reader.Line);
+	}
+
+	private static Statement? ParseNote(Reader reader)
+	{
+		// note #FIRST[..#LAST] "text" [as ROLE]
+		if (reader.Peek(0) is not { Quoted: false } word || !word.Text.StartsWith('#'))
+			return reader.Fail("note takes a message range and a text: note #4..#5 \"38 ms\".");
+		_ = reader.Next();
+		var text = word.Text[1..];
+		var range = text.IndexOf("..", StringComparison.Ordinal);
+		var first = ParseIndex(range >= 0 ? text[..range] : text, reader);
+		var last = range >= 0 ? ParseIndex(text[(range + 2)..].TrimStart('#'), reader) : first;
+		var label = reader.Quoted();
+		if (first is null || last is null || label is null)
+			return reader.Fail("note takes a message range and a text: note #4..#5 \"38 ms\".");
+		Role? role = null;
+		if (reader.Accept("as"))
+			role = reader.Next() is { } r ? ParseRole(r, reader.Line, reader.Diagnostics) : null;
+		return new NoteStatement(Math.Min(first.Value, last.Value), Math.Max(first.Value, last.Value), label, role, reader.Line);
 	}
 
 	private static int? ParseIndex(string text, Reader reader)
@@ -620,6 +688,20 @@ internal static class ScoreParser
 				}
 				if (Peek(0) is { } word && IsKeyword(word))
 					break;
+				if (Peek(0) is { Quoted: false } message && message.Text.StartsWith('#'))
+				{
+					_position++;
+					var body = message.Text[1..];
+					var dots = body.IndexOf("..", StringComparison.Ordinal);
+					var first = Number(dots >= 0 ? body[..dots] : body);
+					var last = dots >= 0 ? Number(body[(dots + 2)..].TrimStart('#')) : first;
+					if (first is null || last is null)
+						_ = Fail($"'{message.Text}' is not a message number. Messages count from #1.");
+					else
+						for (var n = Math.Min(first.Value, last.Value); n <= Math.Max(first.Value, last.Value); n++)
+							edges.Add(EdgeRef.Message(n, Line));
+					continue;
+				}
 				var id = Id();
 				if (id is null)
 				{
@@ -663,6 +745,9 @@ internal static class ScoreParser
 		}
 
 		private static string Digits(string text) => text[1..];
+
+		private static int? Number(string text) =>
+			int.TryParse(text, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var n) && n >= 1 ? n : null;
 
 		private static bool IsKeyword(Word word) =>
 			!word.Quoted && word.Text is "each" or "close" or "ok" or "fail" or "warn" or "info" or "clear" or "success" or "failure" or "warning";

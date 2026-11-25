@@ -139,6 +139,9 @@ internal sealed record MotionSpec
 	/// <summary>Stream dash travel per second.</summary>
 	public double StreamSpeed { get; init; }
 
+	/// <summary>How long a node is shown waiting.</summary>
+	public double Hang { get; init; }
+
 	/// <summary>How long a step with a stream lasts at least, so the flow is seen moving.</summary>
 	public double StreamHold { get; init; }
 
@@ -170,6 +173,7 @@ internal sealed record MotionSpec
 		MaxZoom = 1.8,
 		StreamSpeed = 46,
 		StreamHold = 1800,
+		Hang = 1400,
 	};
 
 	public static readonly MotionSpec Crisp = Calm with
@@ -195,6 +199,7 @@ internal sealed record MotionSpec
 		LoopFade = 320,
 		StreamSpeed = 70,
 		StreamHold = 1300,
+		Hang = 1000,
 	};
 
 	public static MotionSpec For(MotionPreset preset) => preset == MotionPreset.Crisp ? Crisp : Calm;

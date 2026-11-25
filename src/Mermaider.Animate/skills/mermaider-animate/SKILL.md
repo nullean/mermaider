@@ -47,13 +47,23 @@ var svg = MermaidAnimator.RenderSvg("""
 - a request's path: `tour a -> b -> c "label"`
 - one message: `send a -> b "label"`; a reply: `send b -> a` along the same edge, or `ping a <-> b "req" "reply"`
 - load or a continuous flow: `stream a -> b busy`
-- failure: `mark x fail`, `cut a -> b`, `send … lost`; recovery: `restore a -> b`, `mark x clear`
+- failure: `hang x` (the wait), then `mark x fail` and `badge x "timeout" as fail`, `cut a -> b`, `send … lost`;
+  recovery: `restore a -> b`, `mark x clear`, `badge x clear`
+- quantity: `fill queue 3/8`, later `fill queue 8`; a count or a lag: `badge dlq "1"`
 - attention: `focus x` (add `close` to zoom), `pulse x`
 - a state machine: `run A -> B -> C` (start with `[*]`), a refused transition: `try A -> C rejected "why"`
-- a sequence diagram: a bare `animate`, or `play #1..#3` per step
+- a sequence diagram: a bare `animate`, or `play #1..#3` per step; point at a message with `mark #3 warn`, measure a
+  span with `note #4..#5 "38 ms"`
 
 Put each idea in a `step "Caption"`; captions are the story a reader follows. `with` starts a statement together with
 the one before it.
+
+## Tell the story, not the motion
+
+- One idea per step, in the order a reader should get it; the caption says it in words.
+- Show the cause before the result: `hang api` before `mark api fail`, the request before the reply.
+- A token lights the path it takes for its step, so the route stays readable; reach for `tour` to walk a route.
+- Show state with `fill`, `badge` and `mark` rather than describing it in a caption alone.
 
 ## Gotchas
 

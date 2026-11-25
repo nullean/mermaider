@@ -40,7 +40,7 @@ public class PlayerTests
 		var html = animation.RenderPlayer();
 
 		// the mark appears in step 2: still at 0 when step 1 is chosen, at 1 when step 2 is
-		var mark = Regex.Match(animation.Svg, "<rect[^>]*fill-opacity=\"0.14\"[^>]*class=\"([^\"]+)\"").Groups[1].Value;
+		var mark = Regex.Match(animation.Svg, "<g opacity=\"0\" class=\"([^\"]+)\"><rect[^>]*fill-opacity=\"0.14\"").Groups[1].Value;
 		mark.Should().NotBeEmpty();
 		html.Should().MatchRegex($@"-s0:checked\) svg \.{mark} \{{ opacity:0; \}}");
 		html.Should().MatchRegex($@"-s1:checked\) svg \.{mark} \{{ opacity:1; \}}");

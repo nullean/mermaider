@@ -1,5 +1,5 @@
 architecture-beta
-  %% architecture-beta: build it up, then send traffic through the groups
+  %% architecture-beta: build it up, then follow a request through the groups and back
   group edge(cloud)[Edge]
   group app(server)[App]
   service lb(internet)[Balancer] in edge
@@ -10,9 +10,7 @@ architecture-beta
 
 animate
   build
-  step "Traffic enters at the edge"
-    focus group edge
-    ping lb <-> api "request" "response"
-  step "The API reads from the database"
-    focus group app close
-    ping api <-> db "query" "rows"
+  step "A request enters at the edge and reaches the database"
+    tour lb -> api -> db "GET /orders"
+  step "The answer travels back the same way"
+    tour db -> api -> lb "200 OK" as ok

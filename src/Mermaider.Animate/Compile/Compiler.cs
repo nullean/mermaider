@@ -39,6 +39,8 @@ internal sealed partial class Compiler
 	private readonly Box _stage;
 	private int _ids;
 	private string? _ringAt;
+	private int _captionNumber;
+	private int _captionTotal;
 	private bool _dimmed;
 	private bool _zoomed;
 
@@ -78,15 +80,18 @@ internal sealed partial class Compiler
 		var cursor = _spec.Lead + (_mode == PlaybackMode.Loop ? _spec.LoopFade : 0);
 		var source = _score.IsDefault ? DefaultSteps() : _score.Steps;
 		var captions = source.Any(s => s.Caption is not null || s.Statements.OfType<CaptionStatement>().Any());
-		var captionY = _stage.Bottom + 26;
+		var captionY = _stage.Y - 22;
 		if (captions)
-			ExtendStage(40);
+			ExtendStage(46);
+		_captionTotal = source.Count(s => s.Caption is not null || s.Statements.OfType<CaptionStatement>().Any());
 
 		XElement? previousCaption = null;
 		foreach (var step in source)
 		{
 			var start = cursor;
 			XElement? caption = null;
+			if (step.Caption is not null || step.Statements.OfType<CaptionStatement>().Any())
+				_captionNumber++;
 			if (step.Caption is not null)
 				caption = ShowCaption(step.Caption, start, captionY, ref previousCaption);
 
@@ -142,7 +147,7 @@ internal sealed partial class Compiler
 	{
 		if (previous is not null)
 			Opacity(previous, ReducedMotion.Cut).Animate(at, _spec.Exit, Channel.Value(0), Easing.Exit);
-		var caption = Overlay.Caption(text, _stage.X + (_stage.Width / 2), y);
+		var caption = Overlay.Caption(text, _captionNumber, _captionTotal, _stage.X + 14, y);
 		_sceneRoot.Add(caption);
 		Opacity(caption, ReducedMotion.Cut, initial: 0).Animate(at + (previous is null ? 0 : _spec.Exit * 0.6), _spec.Enter, Channel.Value(1), Easing.Enter);
 		previous = caption;
@@ -151,10 +156,11 @@ internal sealed partial class Compiler
 
 	private void ExtendStage(double by)
 	{
+		// the band goes above the diagram, where a reader starts
 		var vb = _scene.ViewBox;
-		_scene.ViewBox = vb with { Height = vb.Height + by };
+		_scene.ViewBox = vb with { Y = vb.Y - by, Height = vb.Height + by };
 		var root = _scene.Root;
-		root.SetAttributeValue("viewBox", $"{Num.F(vb.X)} {Num.F(vb.Y)} {Num.F(vb.Width)} {Num.F(vb.Height + by)}");
+		root.SetAttributeValue("viewBox", $"{Num.F(vb.X)} {Num.F(vb.Y - by)} {Num.F(vb.Width)} {Num.F(vb.Height + by)}");
 		var height = Num.Parse((string?)root.Attribute("height"));
 		if (!double.IsNaN(height))
 			root.SetAttributeValue("height", Num.F(height + by));
@@ -241,6 +247,10 @@ internal sealed partial class Compiler
 		PingStatement s => Ping(s, at),
 		BuildStatement s => Build(s.Line, at),
 		PlayStatement s => Play(s, at),
+		FillStatement s => Fill(s, at),
+		BadgeStatement s => BadgeAll(s, at),
+		HangStatement s => Each(Resolve(s.Targets), false, at, (t, a) => Hang(t, a)),
+		NoteStatement s => Note(s, at),
 		_ => at,
 	};
 
@@ -361,7 +371,11 @@ internal sealed partial class Compiler
 		var end = at + _spec.Shift;
 		if (close)
 		{
+			// frame the targets with their neighbours, never a lone node
 			var box = targets.Aggregate(Box.Empty, (b, t) => b.Union(t.Box));
+			foreach (var edge in _scene.Edges.Where(e => ids.Contains(e.From) || ids.Contains(e.To)))
+				if (_scene.Target(ids.Contains(edge.From) ? edge.To : edge.From) is { } neighbour)
+					box = box.Union(neighbour.Box);
 			end = Math.Max(end, Zoom(box, at));
 		}
 		_stepEnd.Add(stepEnd => Unfocus(stepEnd));
@@ -438,8 +452,19 @@ internal sealed partial class Compiler
 		if (!_marks.TryGetValue((key, r), out var mark))
 		{
 			var color = _colors.For(r);
-			mark = edge is null ? Overlay.Ring(box, color, 2, 4, color, 0.14) : Overlay.Stroke(edge.Path, color, 3.5, round: true);
-			_overlay.AddFirst(mark);
+			if (edge is null)
+			{
+				// a node mark is a ring with a check or a cross, so the role reads without colour too
+				var ring = Overlay.Ring(box, color, 2, 4, color, 0.14);
+				ring.SetAttributeValue("opacity", null);
+				mark = Overlay.Group(new XAttribute("opacity", "0"), ring, Overlay.MarkIcon(r, color, box.Inflate(4)));
+				_overlay.Add(mark);
+			}
+			else
+			{
+				mark = Overlay.Stroke(edge.Path, color, 3.5, round: true);
+				_overlay.AddFirst(mark);
+			}
 			_marks[(key, r)] = mark;
 		}
 		Opacity(mark, ReducedMotion.Cut, 0).Animate(at, _spec.Shift, Channel.Value(1), Easing.Enter);
@@ -647,12 +672,13 @@ internal sealed partial class Compiler
 		var path = reverse ? edge.Path.Reversed() : edge.Path;
 		var color = role is { } r ? _colors.For(r) : "var(--accent, #3b82f6)";
 		var hollow = reverse || (_scene.Kind == SceneKind.Sequence && edge.Dotted);
-		var radius = edge.Thick ? 6.5 : 5;
-		var token = Overlay.Token(hollow ? "var(--bg)" : color, hollow ? color : "var(--bg)", radius, label, out var labelElement);
+		var radius = edge.Thick ? 8 : 6.5;
+		var token = Overlay.Token(color, hollow, radius, label, out var labelElement);
 		_overlay.Add(token);
 
 		var duration = _spec.TravelTime(path.Length, speed);
 		var travel = fate == Fate.Arrives ? 1.0 : 0.5;
+		Trail(path, color, edge.Thick, at, duration * travel, travel);
 		var move = ChannelFor(token, Property.Transform, Channel.Transform(path.Start.X, path.Start.Y, 1), ReducedMotion.Off);
 		var opacity = ChannelFor(token, Property.Opacity, Channel.Value(0), ReducedMotion.Off);
 		opacity.Animate(at, 140, Channel.Value(1), Easing.Enter);
@@ -661,7 +687,7 @@ internal sealed partial class Compiler
 
 		if (becomes is not null && labelElement is not null)
 		{
-			var next = Overlay.Label(becomes, hollow ? color : color, -radius - 14);
+			var next = Overlay.Label(becomes, color, -radius - 17, filled: !hollow);
 			next.SetAttributeValue("opacity", "0");
 			token.Add(next);
 			var swap = at + (duration * travel * 0.5);
@@ -688,6 +714,24 @@ internal sealed partial class Compiler
 				}
 				return arrive;
 		}
+	}
+
+	/// <summary>
+	/// Lights the path a token travels, drawn in step with it, and keeps it lit until the step ends: the route a request
+	/// took stays readable after the token has gone.
+	/// </summary>
+	private void Trail(Polyline path, string color, bool thick, double at, double duration, double upTo)
+	{
+		var trail = Overlay.Stroke(path, color, thick ? 5 : 3.5);
+		trail.SetAttributeValue("pathLength", "1");
+		trail.SetAttributeValue("stroke-dasharray", "1 1");
+		trail.SetAttributeValue("stroke-dashoffset", "1");
+		_overlay.AddFirst(trail);
+		var ink = ChannelFor(trail, Property.DashOffset, Channel.Value(1), ReducedMotion.Cut);
+		var opacity = Opacity(trail, ReducedMotion.Cut, 0);
+		opacity.Set(at, Channel.Value(0.85));
+		ink.Animate(at, duration, Channel.Value(1 - upTo), Easing.Move);
+		_stepEnd.Add(end => opacity.Animate(end, _spec.Exit, Channel.Value(0), Easing.Exit));
 	}
 
 	/// <summary>Moves a token along a path with the move easing applied to the whole trip, at constant speed between samples, through every corner.</summary>
@@ -733,6 +777,7 @@ internal sealed partial class Compiler
 			StreamRate.Busy => (11.0, 1.5),
 			_ => (19.0, 1.0),
 		};
+		gap = Math.Max(7, Math.Min(gap, path.Length / 3.5));
 		var dash = edge.Dotted ? $"6 {Num.F(gap)}" : $"0.1 {Num.F(gap)}";
 		var stroke = Overlay.Stroke(path, "var(--accent, #3b82f6)", edge.Thick ? 5.5 : 4.2, dash, round: !edge.Dotted);
 		_overlay.AddFirst(stroke);
@@ -758,18 +803,22 @@ internal sealed partial class Compiler
 		TokenDeclaration? declared = null;
 		if (tour.Token is not null)
 			_ = _score.Tokens.TryGetValue(tour.Token, out declared);
-		var t = at;
-		for (var i = 0; i + 1 < tour.Path.Count; i++)
+		// one focus on the whole route, so the hops already taken stay lit
+		var stops = tour.Path.Select(id => ResolveNode(id, tour.Line)).ToList();
+		if (stops.Any(s => s is null))
+			return at;
+		_ = Focus(stops!, close: false, at);
+		var t = at + (_spec.Shift * 0.5);
+		for (var i = 0; i + 1 < stops.Count; i++)
 		{
-			var from = ResolveNode(tour.Path[i], tour.Line);
-			var to = ResolveNode(tour.Path[i + 1], tour.Line);
-			if (from is null || to is null || Route(from.Id, to.Id, tour.Line) is not { } route)
+			var from = stops[i]!;
+			var to = stops[i + 1]!;
+			if (Route(from.Id, to.Id, tour.Line) is not { } route)
 				continue;
-			_ = Focus([from, to], close: false, t);
 			t = Send(
 				route.Edge,
 				route.Reverse,
-				t + (_spec.Shift * 0.5),
+				t,
 				tour.Label ?? declared?.Label,
 				tour.Role ?? declared?.Role,
 				null,
@@ -829,6 +878,16 @@ internal sealed partial class Compiler
 		var result = new List<SceneEdge>();
 		foreach (var edge in edges)
 		{
+			if (edge.IsMessage)
+			{
+				if (_scene.Kind != SceneKind.Sequence)
+					_diagnostics.Add(new(edge.Line, $"{edge} names a sequence message, but this is not a sequence diagram."));
+				else if (edge.Index is not { } n || n > _scene.Edges.Count)
+					_diagnostics.Add(new(edge.Line, $"The diagram has {_scene.Edges.Count} messages, so there is no {edge}."));
+				else
+					result.Add(_scene.Edges[n - 1]);
+				continue;
+			}
 			var candidates = _scene.Edges.Where(e => e.From == MapStateId(edge.From, edge.Line) && e.To == MapStateId(edge.To, edge.Line)).ToList();
 			if (candidates.Count == 0)
 			{
