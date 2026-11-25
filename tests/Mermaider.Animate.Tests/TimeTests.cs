@@ -162,4 +162,55 @@ public partial class TimeTests
 		var act = () => MermaidAnimator.Compile(unnamed + "\nanimate\n  mark \"Deploy\" ok\n");
 		act.Should().Throw<AnimationException>().Which.Diagnostics.Single().Message.Should().Contain("\"Design\"").And.Contain("\"Build\"");
 	}
+
+	private static XElement Bracket(string svg) =>
+		XDocument
+			.Parse(svg)
+			.Descendants()
+			.Single(e => e.Name.LocalName == "path" && Regex.IsMatch((string?)e.Attribute("d") ?? "", @"^M[\d.-]+,[\d.-]+ (h7 V|v-?7 H)"));
+
+	private static double[] Numbers(string d) =>
+		[.. Regex.Matches(d, @"-?[\d.]+").Select(m => double.Parse(m.Value, System.Globalization.CultureInfo.InvariantCulture))];
+
+	[Test]
+	public void A_note_on_gantt_tasks_brackets_their_rows_on_the_right()
+	{
+		const string gantt = "gantt\n  dateFormat YYYY-MM-DD\n  A :a, 2024-01-01, 5d\n  B :b, after a, 10d\n  C :c, after a, 7d\n  D :d, after b, 3d\n";
+		var animation = MermaidAnimator.Compile(gantt + "\nanimate once\n  note #2..#3 \"in parallel\"\n");
+		var d = (string)Bracket(animation.Svg).Attribute("d")!;
+		d.Should().Contain(" h7 V", "rows stacked down the page are bracketed beside them");
+		var doc = XDocument.Parse(animation.RenderFrame(TimeSpan.Zero));
+		var bars = doc.Descendants().Where(e => ((string?)e.Attribute("class") ?? "").Contains("gantt-task")).ToList();
+		var n = Numbers(d);
+		var (x, y1, y2) = (n[0], n[1], n[3]);
+		var b = bars.Select(Mermaider.Animate.Scene.SvgScene.BoxOf).ToList();
+		x.Should().BeGreaterThan(Math.Max(b[1].Right, b[2].Right));
+		y1.Should().BeApproximately(Math.Min(b[1].Y, b[2].Y), 0.5);
+		y2.Should().BeApproximately(Math.Max(b[1].Bottom, b[2].Bottom), 0.5);
+	}
+
+	[Test]
+	public void A_note_on_timeline_periods_brackets_them_and_their_events_underneath()
+	{
+		const string timeline = "timeline\n  2019 : First\n  2020 : Second : Third\n  2022 : Fourth\n";
+		var svg = MermaidAnimator.RenderSvg(timeline + "\nanimate once\n  note #1..#2 \"2 years\"\n");
+		var d = (string)Bracket(svg).Attribute("d")!;
+		d.Should().Contain(" v7 H", "periods side by side are bracketed underneath");
+		var y = Numbers(d)[1];
+		var events = XDocument.Parse(svg).Descendants().Where(e => e.Name.LocalName == "text" && e.Value is "First" or "Second" or "Third").ToList();
+		events.Should().HaveCount(3);
+		events.Should().OnlyContain(
+			t => double.Parse((string)t.Attribute("y")!, System.Globalization.CultureInfo.InvariantCulture) < y,
+			"the bracket is under the events, not across them"
+		);
+	}
+
+	[Test]
+	public void A_note_needs_numbered_marks_and_a_span_the_diagram_has()
+	{
+		var flow = () => MermaidAnimator.Compile("flowchart LR\n  a --> b\n\nanimate\n  note #1..#2 \"x\"\n");
+		flow.Should().Throw<AnimationException>().Which.Diagnostics.Single().Message.Should().StartWith("note brackets a span of numbered things");
+		var past = () => MermaidAnimator.Compile("timeline\n  2019 : a\n  2020 : b\n\nanimate\n  note #1..#5 \"x\"\n");
+		past.Should().Throw<AnimationException>().Which.Diagnostics.Single().Message.Should().Be("The diagram has 2 numbered marks, so there is no #5.");
+	}
 }

@@ -186,6 +186,31 @@ internal static class Overlay
 		);
 	}
 
+	/// <summary>A bracket under (or, <paramref name="above"/>, over) a span that runs across, with its label.</summary>
+	internal static XElement BracketAcross(double x1, double x2, double y, string text, string color, bool above) =>
+		new(
+			N("g"),
+			new XAttribute("opacity", "0"),
+			new XElement(
+				N("path"),
+				new XAttribute("d", $"M{Num.F(x1)},{Num.F(y)} v{(above ? "-7" : "7")} H{Num.F(x2)} v{(above ? "7" : "-7")}"),
+				new XAttribute("fill", "none"),
+				new XAttribute("stroke", color),
+				new XAttribute("stroke-width", "2"),
+				new XAttribute("stroke-linejoin", "round")
+			),
+			new XElement(
+				N("text"),
+				new XAttribute("x", Num.F((x1 + x2) / 2)),
+				new XAttribute("y", Num.F(above ? y - 13 : y + 22)),
+				new XAttribute("text-anchor", "middle"),
+				new XAttribute("font-size", "12"),
+				new XAttribute("font-weight", "700"),
+				new XAttribute("fill", color),
+				text
+			)
+		);
+
 	/// <summary>A bracket beside a span of messages, with its label.</summary>
 	internal static XElement Bracket(double x, double y1, double y2, string text, string color) =>
 		new(
