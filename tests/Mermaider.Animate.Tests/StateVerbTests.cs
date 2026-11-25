@@ -96,7 +96,10 @@ public class StateVerbTests
 		var trail = XDocument
 			.Parse(animation.Svg)
 			.Descendants()
-			.Single(e => e.Name.LocalName == "path" && (string?)e.Attribute("pathLength") == "1" && (string?)e.Attribute("stroke-dashoffset") == "1");
+			.Single(
+				e => e.Name.LocalName == "path" && (string?)e.Attribute("pathLength") == "1" && (string?)e.Attribute("stroke-dashoffset") ==
+					"1" && (string?)e.Attribute("stroke-width") == "3.5"
+			);
 		var cls = ((string)trail.Attribute("class")!).Split(' ').Last();
 
 		string StyleAt(TimeSpan t) =>

@@ -87,7 +87,7 @@ string Page(HttpRequest request, string title, string body)
 		  section { background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: 18px 20px; }
 		  section h2 { font-size: 15px; margin: 0 0 4px; }
 		  .meta { color: var(--soft); font-size: 13px; margin: 0 0 12px; }
-		  .stage { display: flex; justify-content: center; overflow-x: auto; }
+		  .stage { display: flex; justify-content: center; overflow-x: clip; }
 		  .stage svg { max-width: 100%; height: auto; }
 		  ol.steps { margin: 12px 0 0; padding-left: 20px; color: var(--soft); font-size: 13px; }
 		  .frames { display: flex; gap: 8px; overflow-x: auto; margin-top: 12px; }
@@ -285,6 +285,21 @@ app.MapGet("/compare", (HttpRequest request) =>
 	}
 	return Results.Content(Page(request, "Compare", body.ToString()), "text/html; charset=utf-8");
 });
+
+// The diagram below the fold, to see it wait for the reader where the browser supports scroll triggers.
+app.MapGet(
+	"/below/{name}",
+	(string name, HttpRequest request) => Find(name) is { } source
+		? Results.Content(
+			Page(
+				request,
+				name,
+				$"<div class=\"spacer\">scroll down: the animation starts when it is on screen ↓</div><section id=\"{name}\"><div class=\"stage\">{MermaidAnimator.RenderSvg(source, Options(request))}</div></section>"
+			),
+			"text/html; charset=utf-8"
+		)
+		: Results.NotFound()
+);
 
 app.MapGet("/play", (HttpRequest request, string? src) => Play(request, src));
 app.MapPost("/play", async (HttpRequest request) =>

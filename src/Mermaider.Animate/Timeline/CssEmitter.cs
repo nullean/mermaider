@@ -6,17 +6,32 @@ using Mermaider.Animate.Scene;
 namespace Mermaider.Animate.Timeline;
 
 /// <summary>
-/// Writes channels as one stylesheet on a single master clock: every animation lasts the whole timeline and starts at
-/// zero, its keyframes placed as percentages of it, so no two elements can drift apart. Classes and keyframe names are
-/// generated (<c>{prefix}-a{n}</c>); no text from the diagram or the score ever reaches the stylesheet.
+/// Writes channels as one stylesheet on shared clocks: every animation on a clock lasts its whole length and starts with
+/// it, keyframes placed as percentages, so no two elements can drift apart. A looping score with an intro has two
+/// clocks: the intro plays once and holds its last frame, and the story starts as the intro ends and repeats. Classes
+/// and keyframe names are generated (<c>{prefix}-a{n}</c>); no text from the diagram or the score reaches the stylesheet.
 /// </summary>
 internal static class CssEmitter
 {
-	internal static string Emit(IReadOnlyList<Channel> channels, double duration, PlaybackMode mode, string prefix, IDictionary<XElement, string> classes)
+	internal static string Emit(
+		IReadOnlyList<Channel> channels,
+		double duration,
+		double storyStart,
+		bool loops,
+		PlaybackMode mode,
+		string prefix,
+		IDictionary<XElement, string> classes
+	)
 	{
 		var sb = new StringBuilder();
-		var iterations = mode == PlaybackMode.Loop ? "infinite" : "1";
-		var total = Ms(duration);
+		// (suffix, window start, window end, timing): the intro holds with forwards, the story waits out the intro
+		var clocks = loops && storyStart > 0
+			? new[]
+			{
+				("i", 0.0, storyStart, $"{Ms(storyStart)} linear 0s 1 forwards"),
+				("", storyStart, duration, $"{Ms(duration - storyStart)} linear {Ms(storyStart)} infinite")
+			}
+			: [("", 0.0, duration, $"{Ms(duration)} linear 0s {(loops ? "infinite" : "1")} both")];
 		var byElement = channels.Where(c => c.IsAnimated).GroupBy(c => c.Element).ToList();
 		var keyframes = new StringBuilder();
 		var reduced = new StringBuilder();
@@ -31,21 +46,19 @@ internal static class CssEmitter
 			foreach (var channel in group)
 			{
 				var name = $"{prefix}-k{n++}";
-				names.Add(name);
-				WriteKeyframes(keyframes, name, channel, duration, cut: false);
-				if (channel.Reduced == ReducedMotion.Cut)
+				foreach (var (suffix, from, to, timing) in clocks)
 				{
-					reducedNames.Add(name + "r");
-					WriteKeyframes(keyframes, name + "r", channel, duration, cut: true);
+					names.Add($"{name}{suffix} {timing}");
+					WriteKeyframes(keyframes, name + suffix, channel, from, to, cut: false);
+					if (channel.Reduced == ReducedMotion.Cut)
+					{
+						reducedNames.Add($"{name}{suffix}r {timing}");
+						WriteKeyframes(keyframes, name + suffix + "r", channel, from, to, cut: true);
+					}
 				}
 			}
 
-			_ = sb
-				.Append('.')
-				.Append(cls)
-				.Append(" { animation: ")
-				.Append(string.Join(", ", names.Select(k => $"{k} {total} linear 0s {iterations} both")))
-				.Append(';');
+			_ = sb.Append('.').Append(cls).Append(" { animation: ").Append(string.Join(", ", names)).Append(';');
 			if (origin is not null)
 				_ = sb
 					.Append(" transform-box: view-box; transform-origin: ")
@@ -59,7 +72,7 @@ internal static class CssEmitter
 				.Append("  .")
 				.Append(cls)
 				.Append(" { animation: ")
-				.Append(reducedNames.Count == 0 ? "none" : string.Join(", ", reducedNames.Select(k => $"{k} {total} linear 0s {iterations} both")))
+				.Append(reducedNames.Count == 0 ? "none" : string.Join(", ", reducedNames))
 				.Append("; }\n");
 		}
 
@@ -84,6 +97,30 @@ internal static class CssEmitter
 				.Append("; animation-range: entry 90% exit 10%; }\n")
 				.Append("}\n");
 		}
+		else if (byElement.Count > 0)
+		{
+			// where supported, the animation waits until the diagram is on screen, so a reader below the fold sees it begin.
+			// animation-trigger is a list matched to the animations one by one, so every animation gets its own entry.
+			_ = sb
+				.Append("@supports (timeline-trigger: --t view()) {\n")
+				.Append("  .")
+				.Append(prefix)
+				.Append("-root { timeline-trigger: --")
+				.Append(prefix)
+				.Append(" view() entry 30% exit 0%; }\n");
+			// until it fires the animation has no effect, so the waiting diagram takes its first frame as plain styles
+			foreach (var group in byElement)
+				_ = sb.Append("  .").Append(classes[group.Key]).Append(" { ").Append(string.Join("; ", group.Select(c => c.Css(c.ValueAt(0))))).Append("; }\n");
+			var trigger = $"--{prefix} play-forwards";
+			foreach (var group in byElement.GroupBy(g => g.Count() * clocks.Length))
+				_ = sb
+					.Append("  ")
+					.Append(string.Join(", ", group.Select(g => "." + classes[g.Key])))
+					.Append(" { animation-trigger: ")
+					.Append(string.Join(", ", Enumerable.Repeat(trigger, group.Key)))
+					.Append("; }\n");
+			_ = sb.Append("}\n");
+		}
 		return sb.ToString();
 	}
 
@@ -99,26 +136,37 @@ internal static class CssEmitter
 		return cls;
 	}
 
-	private static void WriteKeyframes(StringBuilder sb, string name, Channel channel, double duration, bool cut)
+	/// <summary>
+	/// Keyframes for one channel over the window [<paramref name="from"/>, <paramref name="to"/>]: its value at the window's
+	/// start, every change inside it with that change's easing (a change the window cuts through goes linear), and its value
+	/// at the end.
+	/// </summary>
+	private static void WriteKeyframes(StringBuilder sb, string name, Channel channel, double from, double to, bool cut)
 	{
 		_ = sb.Append("@keyframes ").Append(name).Append(" {");
-		var frames = new List<(double Time, double[] Value, string Ease)> { (0, channel.Initial, "linear") };
+		var length = to - from;
+		var frames = new List<(double Time, double[] Value, string Ease)> { (from, channel.ValueAt(from), "linear") };
 		foreach (var segment in channel.Segments)
 		{
-			var ease = cut ? "steps(1, jump-start)" : segment.Ease.Css;
+			if (segment.End <= from || segment.Start >= to)
+				continue;
+			var start = Math.Max(from, segment.Start);
+			var end = Math.Min(to, segment.End);
+			var whole = start == segment.Start && end == segment.End;
+			var ease = cut ? "steps(1, jump-start)" : whole ? segment.Ease.Css : "linear";
 			var last = frames[^1];
-			if (segment.Start > last.Time + 0.5)
-				frames.Add((segment.Start, segment.From, ease));
+			if (start > last.Time + 0.5)
+				frames.Add((start, channel.ValueAt(start), ease));
 			else
-				frames[^1] = (last.Time, segment.From, ease);
-			frames.Add((Math.Min(duration, segment.End), segment.To, "linear"));
+				frames[^1] = (last.Time, last.Value, ease);
+			frames.Add((end, whole ? segment.To : channel.ValueAt(end), "linear"));
 		}
-		if (frames[^1].Time < duration)
-			frames.Add((duration, frames[^1].Value, "linear"));
+		if (frames[^1].Time < to)
+			frames.Add((to, frames[^1].Value, "linear"));
 
 		foreach (var (time, value, ease) in frames)
 		{
-			_ = sb.Append(' ').Append(Pct(time, duration)).Append(" { ").Append(channel.Css(value));
+			_ = sb.Append(' ').Append(Pct(time - from, length)).Append(" { ").Append(channel.Css(value));
 			if (ease != "linear")
 				_ = sb.Append("; animation-timing-function: ").Append(ease);
 			_ = sb.Append(" }");

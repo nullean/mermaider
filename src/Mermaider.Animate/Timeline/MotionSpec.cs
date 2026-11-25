@@ -127,8 +127,8 @@ internal sealed record MotionSpec
 
 	public double Rest { get; init; }
 
-	/// <summary>The fade out and back in between loops.</summary>
-	public double LoopFade { get; init; }
+	/// <summary>The settle at the end of a loop, back to how the story began.</summary>
+	public double Settle { get; init; }
 
 	/// <summary>The opacity of what a focus does not name.</summary>
 	public double Dim { get; init; }
@@ -168,7 +168,7 @@ internal sealed record MotionSpec
 		ReadMin = 1300,
 		Lead = 300,
 		Rest = 1600,
-		LoopFade = 450,
+		Settle = 520,
 		Dim = 0.22,
 		MaxZoom = 1.8,
 		StreamSpeed = 46,
@@ -196,7 +196,7 @@ internal sealed record MotionSpec
 		ReadPerWord = 200,
 		ReadMin = 1000,
 		Rest = 1100,
-		LoopFade = 320,
+		Settle = 380,
 		StreamSpeed = 70,
 		StreamHold = 1300,
 		Hang = 1000,
