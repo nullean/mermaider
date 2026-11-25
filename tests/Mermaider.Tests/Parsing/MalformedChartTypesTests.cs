@@ -105,9 +105,15 @@ public class MalformedChartTypesTests
 	{
 		var act = () => MermaidRenderer.RenderSvg("pie\n\"Dogs\" : abc\n");
 
-		act.Should().Throw<MermaidParseException>().Which.Message.Should().Be(
-			"Parse error on line 2: value 'abc' of slice 'Dogs' is not a number\n  \"Dogs\" : abc\n           ^\nExpecting a non-negative number such as 386 or 3.5."
-		);
+		act
+			.Should()
+			.Throw<MermaidParseException>()
+			.Which
+			.Message
+			.Should()
+			.Be(
+				"Parse error on line 2: value 'abc' of slice 'Dogs' is not a number\n  \"Dogs\" : abc\n           ^\nExpecting a non-negative number such as 386 or 3.5."
+			);
 	}
 
 	// What Mermaid's parser accepts is rendered, however unusual (checked against mermaid.parse 12.3).

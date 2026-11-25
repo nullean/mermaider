@@ -344,7 +344,10 @@ internal static class DiagramSvgStage
 				}
 			case DiagramType.Treemap:
 				{
-					sb = TreemapSvgRenderer.RenderToBuilder(TreemapParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource), strictParse), context);
+					sb = TreemapSvgRenderer.RenderToBuilder(
+						TreemapParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource), strictParse),
+						context
+					);
 					break;
 				}
 			case DiagramType.Venn:
@@ -356,7 +359,10 @@ internal static class DiagramSvgStage
 				}
 			case DiagramType.Mindmap:
 				{
-					sb = MindmapSvgRenderer.RenderToBuilder(MindmapParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource), strictParse), context);
+					sb = MindmapSvgRenderer.RenderToBuilder(
+						MindmapParser.Parse(MermaidRenderer.PreprocessLinesPreserveIndent(diagram.CleanedSource), strictParse),
+						context
+					);
 					break;
 				}
 			case DiagramType.Gantt:

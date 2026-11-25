@@ -73,7 +73,11 @@ internal static partial class SankeyParser
 		}
 
 		if (strict && records == 0)
-			throw new MermaidParseException("the sankey diagram has no links", header, "rows of 'source,target,value' after the opening line, e.g. 'Coal,Power,40'");
+			throw new MermaidParseException(
+				"the sankey diagram has no links",
+				header,
+				"rows of 'source,target,value' after the opening line, e.g. 'Coal,Power,40'"
+			);
 
 		return new SankeyDiagram { Links = links };
 	}
@@ -122,14 +126,14 @@ internal static partial class SankeyParser
 				var end = comma < 0 ? line.Length : comma;
 				var quote = line.IndexOf('"', i, end - i);
 				if (quote >= 0)
-					throw new MermaidParseException($"quote inside the unquoted field {count}", line, "the whole field in quotes, or no quotes in it", column: quote + 1);
-				if (end == i && count > 1)
 					throw new MermaidParseException(
-						count > 3 ? "row has more than three fields" : $"field {count} is empty",
+						$"quote inside the unquoted field {count}",
 						line,
-						Form,
-						column: i + 1
+						"the whole field in quotes, or no quotes in it",
+						column: quote + 1
 					);
+				if (end == i && count > 1)
+					throw new MermaidParseException(count > 3 ? "row has more than three fields" : $"field {count} is empty", line, Form, column: i + 1);
 				i = end;
 			}
 
@@ -139,7 +143,12 @@ internal static partial class SankeyParser
 		}
 
 		if (count < 3)
-			throw new MermaidParseException($"row has {count} field{(count == 1 ? "" : "s")}, but a link needs a source, a target and a value", line, Form, column: line.Length + 1);
+			throw new MermaidParseException(
+				$"row has {count} field{(count == 1 ? "" : "s")}, but a link needs a source, a target and a value",
+				line,
+				Form,
+				column: line.Length + 1
+			);
 		if (count > 3)
 			throw new MermaidParseException("row has more than three fields", line, Form, column: line.IndexOf(',', line.IndexOf(',') + 1) + 2);
 	}

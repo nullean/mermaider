@@ -69,7 +69,12 @@ internal static partial class StateParser
 		if (before.Length == 0)
 			return new MermaidParseException("transition '-->' has no source state", line, "a state id or '[*]' before '-->'", column: arrow + 1);
 		if (after.Length == 0 || after[0] == ':')
-			return new MermaidParseException("transition '-->' has no target state", line, "a state id or '[*]' after '-->', e.g. 'A --> B'", column: arrow + 4);
+			return new MermaidParseException(
+				"transition '-->' has no target state",
+				line,
+				"a state id or '[*]' after '-->', e.g. 'A --> B'",
+				column: arrow + 4
+			);
 		return null;
 	}
 
@@ -323,7 +328,10 @@ internal static partial class StateParser
 				continue;
 			}
 
-			if (strict && (line.Contains("-->", StringComparison.Ordinal) || (i == lines.Length - 1 && PartialArrowPattern().IsMatch(line))) && IncompleteTransition(line) is { } incomplete)
+			if (
+				strict && (line.Contains("-->", StringComparison.Ordinal) || (i == lines.Length - 1 && PartialArrowPattern().IsMatch(line))) &&
+				IncompleteTransition(line) is { } incomplete
+			)
 				throw incomplete;
 		}
 

@@ -39,9 +39,13 @@ public class MalformedInputTests
 	{
 		var act = () => MermaidRenderer.RenderSvg("flowchart LR\n    A[Unclosed --> B\n");
 
-		act.Should().Throw<MermaidParseException>().Which.Message.Should().Be(
-			"Parse error on line 2: node label opened with '[' is never closed\n  A[Unclosed --> B\n   ^\nExpecting ']' to end the label."
-		);
+		act
+			.Should()
+			.Throw<MermaidParseException>()
+			.Which
+			.Message
+			.Should()
+			.Be("Parse error on line 2: node label opened with '[' is never closed\n  A[Unclosed --> B\n   ^\nExpecting ']' to end the label.");
 	}
 
 	[Test]
@@ -50,8 +54,7 @@ public class MalformedInputTests
 	[Arguments("sequenceDiagram\n    Alice->>\n")]
 	[Arguments("sequenceDiagram\n    Alice->>Bob: Hi\n    alt open\n    Bob->>Alice: Yo\n")]
 	[Arguments("stateDiagram-v2\n    [*] -->\n")]
-	public void Lenient_renders_what_it_can(string source) =>
-		MermaidRenderer.RenderSvg(source, Lenient).Should().StartWith("<svg");
+	public void Lenient_renders_what_it_can(string source) => MermaidRenderer.RenderSvg(source, Lenient).Should().StartWith("<svg");
 
 	[Test]
 	public void Parse_api_honours_the_mode()
@@ -64,8 +67,12 @@ public class MalformedInputTests
 
 	[Test]
 	public void Critical_option_is_a_divider_not_an_opt_block() =>
-		MermaidRenderer.RenderSvg("sequenceDiagram\n    critical Connect\n    A->>B: Go\n    option Timeout\n    A->>A: Retry\n    end\n")
-			.Should().Contain("Timeout").And.NotContain(">ion Timeout<");
+		MermaidRenderer
+			.RenderSvg("sequenceDiagram\n    critical Connect\n    A->>B: Go\n    option Timeout\n    A->>A: Retry\n    end\n")
+			.Should()
+			.Contain("Timeout")
+			.And
+			.NotContain(">ion Timeout<");
 
 	[Test]
 	[Arguments("flowchart LR\n    A[Start] --> B(Round) --> C{Pick};\n    A & B --> D\n    A -- text --> D\n    A -->|lbl| E[\"multi\nline\"]\n")]
@@ -73,8 +80,7 @@ public class MalformedInputTests
 	[Arguments("flowchart LR\n    A -->\n    B\n    E-\n")]
 	[Arguments("stateDiagram-v2\n    [*] --> A\n    A --> B: \n")]
 	[Arguments("stateDiagram-v2\n    [*] --> Still\n    Still --> [*]\n    Still --> Moving : go\n")]
-	public void Valid_input_stays_accepted(string source) =>
-		MermaidRenderer.RenderSvg(source).Should().StartWith("<svg");
+	public void Valid_input_stays_accepted(string source) => MermaidRenderer.RenderSvg(source).Should().StartWith("<svg");
 
 	/// <summary>Every diagram type reads <see cref="RenderOptions.ParseMode"/>: strict refuses, lenient renders.</summary>
 	[Test]

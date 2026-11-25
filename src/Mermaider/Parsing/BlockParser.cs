@@ -125,7 +125,12 @@ internal static partial class BlockParser
 			if (!inQuote && openers.Count > 0)
 			{
 				var (open, col) = openers[0];
-				var close = open switch { '[' => ']', '(' => ')', _ => '}', };
+				var close = open switch
+				{
+					'[' => ']',
+					'(' => ')',
+					_ => '}',
+				};
 				throw new MermaidParseException($"block label opened with '{open}' is never closed", line, $"'{close}' to end the label", column: col);
 			}
 		}

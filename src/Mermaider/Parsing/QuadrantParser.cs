@@ -24,11 +24,7 @@ internal static partial class QuadrantParser
 	private static partial Regex QuadrantLabelPattern();
 
 	// Name[:::class]: [x, y] [radius: 12, color: #fff, ...]
-	[GeneratedRegex(
-		@"^(.+?)(?::::[\w-]+)?\s*:\s*\[\s*(-?[0-9]*\.?[0-9]+)\s*,\s*(-?[0-9]*\.?[0-9]+)\s*\](?:\s+[a-z-]+\s*:.*)?$",
-		RegexOptions.IgnoreCase,
-		TimeoutMs
-	)]
+	[GeneratedRegex(@"^(.+?)(?::::[\w-]+)?\s*:\s*\[\s*(-?[0-9]*\.?[0-9]+)\s*,\s*(-?[0-9]*\.?[0-9]+)\s*\](?:\s+[a-z-]+\s*:.*)?$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex PointPattern();
 
 	// quadrantChart [title <text>], as Mermaid reads the opening line
@@ -265,12 +261,7 @@ internal static partial class QuadrantParser
 	{
 		const string Form = "'quadrant-1', 'quadrant-2', 'quadrant-3' or 'quadrant-4' followed by a label";
 		if (line.Length < 10 || line[9] is < '1' or > '4')
-			throw new MermaidParseException(
-				line.Length < 10 ? "quadrant has no number" : $"there is no quadrant-{line[9]}",
-				line,
-				Form,
-				column: 10
-			);
+			throw new MermaidParseException(line.Length < 10 ? "quadrant has no number" : $"there is no quadrant-{line[9]}", line, Form, column: 10);
 
 		var label = line[10..].Trim();
 		if (label.Length == 0 || label[0] == ':')

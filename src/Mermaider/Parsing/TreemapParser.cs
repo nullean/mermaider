@@ -76,7 +76,12 @@ internal static partial class TreemapParser
 
 			var column = text.Length - rest.Length + 1;
 			if (rest[0] != ':')
-				throw new MermaidParseException($"unexpected text '{rest}' after the name", text, "': value' for a leaf, or nothing for a section", column: column);
+				throw new MermaidParseException(
+					$"unexpected text '{rest}' after the name",
+					text,
+					"': value' for a leaf, or nothing for a section",
+					column: column
+				);
 
 			var value = rest[1..].TrimStart();
 			var number = ValuePattern().Match(value);
@@ -91,7 +96,12 @@ internal static partial class TreemapParser
 
 			var tail = value[number.Length..].TrimStart();
 			if (tail.Length > 0 && tail[0] is not ('"' or '\'') && !tail.StartsWith(":::", StringComparison.Ordinal))
-				throw new MermaidParseException($"unexpected text '{tail}' after the value", text, "the end of the entry, or a ':::class'", column: valueColumn + value.Length - tail.Length);
+				throw new MermaidParseException(
+					$"unexpected text '{tail}' after the value",
+					text,
+					"the end of the entry, or a ':::class'",
+					column: valueColumn + value.Length - tail.Length
+				);
 		}
 	}
 

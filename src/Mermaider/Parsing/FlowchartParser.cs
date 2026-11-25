@@ -505,7 +505,12 @@ internal static partial class FlowchartParser
 		);
 	}
 
-	private static char CloserFor(char opener) => opener switch { '(' => ')', '[' => ']', _ => '}' };
+	private static char CloserFor(char opener) => opener switch
+	{
+		'(' => ')',
+		'[' => ']',
+		_ => '}'
+	};
 
 	private static void RequireTarget(string statement, string remaining, string arrowOp)
 	{
@@ -526,8 +531,8 @@ internal static partial class FlowchartParser
 			return;
 
 		// "id- --> A", "A::cls --> B" and "A--B>" read as ids to Mermaid: a - or : right after the id belongs to it
-		var attached = statement.Length > remaining.Length && statement.EndsWith(remaining, StringComparison.Ordinal) && statement.Length - remaining.Length >= 1
-			&& char.IsLetterOrDigit(statement[statement.Length - remaining.Length - 1]);
+		var attached = statement.Length > remaining.Length && statement.EndsWith(remaining, StringComparison.Ordinal) && statement.Length - remaining.Length >=
+			1 && char.IsLetterOrDigit(statement[statement.Length - remaining.Length - 1]);
 		if (attached && (text[0] == '-' || text[0] == ':'))
 			return;
 
@@ -561,7 +566,12 @@ internal static partial class FlowchartParser
 			if (nextId is null)
 			{
 				if (strictStatement is not null)
-					throw new MermaidParseException("'&' has no node after it", strictStatement, "a node id after '&', e.g. 'A & B --> C'", column: strictStatement.Length);
+					throw new MermaidParseException(
+						"'&' has no node after it",
+						strictStatement,
+						"a node id after '&', e.g. 'A & B --> C'",
+						column: strictStatement.Length
+					);
 				break;
 			}
 			ids.Add(nextId);

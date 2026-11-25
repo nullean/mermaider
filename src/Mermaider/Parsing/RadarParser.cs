@@ -358,7 +358,12 @@ internal static partial class RadarParser
 	private static void RequireValidAxes(string line, string body, int bodyStart)
 	{
 		if (body.Length == 0)
-			throw new MermaidParseException("axis has no ids", line, "axis ids separated by commas, e.g. 'axis speed[\"Speed\"], power'", column: line.Length + 1);
+			throw new MermaidParseException(
+				"axis has no ids",
+				line,
+				"axis ids separated by commas, e.g. 'axis speed[\"Speed\"], power'",
+				column: line.Length + 1
+			);
 
 		foreach (var (part, start) in SplitTopLevel(body))
 		{
@@ -378,7 +383,12 @@ internal static partial class RadarParser
 					column: column
 				);
 			if (!entry.EndsWith(']'))
-				throw new MermaidParseException($"label of axis '{entry[..bracket].Trim()}' is never closed", line, "']' after the label", column: column + bracket);
+				throw new MermaidParseException(
+					$"label of axis '{entry[..bracket].Trim()}' is never closed",
+					line,
+					"']' after the label",
+					column: column + bracket
+				);
 			if (!IdPattern().IsMatch(entry[..bracket].Trim()))
 				throw new MermaidParseException(
 					$"'{entry[..bracket].Trim()}' is not a valid axis id",
@@ -448,7 +458,12 @@ internal static partial class RadarParser
 			}
 
 			if (keyed != 0 && keyed != parts.Length)
-				throw new MermaidParseException($"curve '{id}' mixes plain values with 'axis: value' ones", line, "either all plain values or all 'axis: value'", column: column + entry.IndexOf('{'));
+				throw new MermaidParseException(
+					$"curve '{id}' mixes plain values with 'axis: value' ones",
+					line,
+					"either all plain values or all 'axis: value'",
+					column: column + entry.IndexOf('{')
+				);
 		}
 	}
 
@@ -459,7 +474,12 @@ internal static partial class RadarParser
 			throw new MermaidParseException($"curve '{entry}' has no values", line, "its values in braces, e.g. 'curve a{1, 2, 3}'", column: column);
 		var close = entry.IndexOf('}');
 		if (close < 0)
-			throw new MermaidParseException($"values of curve '{entry[..open].Trim()}' are never closed", line, "'}' after the last value", column: column + open);
+			throw new MermaidParseException(
+				$"values of curve '{entry[..open].Trim()}' are never closed",
+				line,
+				"'}' after the last value",
+				column: column + open
+			);
 		if (close < entry.Length - 1)
 			throw new MermaidParseException(
 				$"unexpected text after the values of curve '{entry[..open].Trim()}'",
@@ -475,6 +495,11 @@ internal static partial class RadarParser
 		var id = bracket < 0 ? head : head[..bracket].Trim();
 		if (!IdPattern().IsMatch(id))
 			throw new MermaidParseException($"'{id}' is not a valid curve id", line, "letters, digits, '_' or '-' starting with a letter", column: column);
-		throw new MermaidParseException($"label of curve '{id}' is not a quoted string", line, "the label in double quotes, e.g. a[\"Series A\"]{1, 2}", column: column + Math.Max(bracket, 0));
+		throw new MermaidParseException(
+			$"label of curve '{id}' is not a quoted string",
+			line,
+			"the label in double quotes, e.g. a[\"Series A\"]{1, 2}",
+			column: column + Math.Max(bracket, 0)
+		);
 	}
 }

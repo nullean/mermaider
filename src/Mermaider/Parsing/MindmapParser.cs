@@ -148,14 +148,24 @@ internal static partial class MindmapParser
 				RequireShape(rest.EndsWith('(') && rest.Length >= 2, inner.Length > 0, "')' ... '('", "'('", text, column);
 				break;
 			default:
-				throw new MermaidParseException($"unexpected '{rest[0]}' in node text", text, "a node text, or a shape such as '[text]', '(text)', '((text))', '{{text}}', ')text('", column: column);
+				throw new MermaidParseException(
+					$"unexpected '{rest[0]}' in node text",
+					text,
+					"a node text, or a shape such as '[text]', '(text)', '((text))', '{{text}}', ')text('",
+					column: column
+				);
 		}
 	}
 
 	private static void RequireShape(bool closed, bool hasLabel, string shape, string closer, string text, int column)
 	{
 		if (!closed)
-			throw new MermaidParseException($"node shape {shape} is never closed, or has text after it", text, $"{closer} at the end of the node", column: column);
+			throw new MermaidParseException(
+				$"node shape {shape} is never closed, or has text after it",
+				text,
+				$"{closer} at the end of the node",
+				column: column
+			);
 		if (!hasLabel)
 			throw new MermaidParseException($"node shape {shape} has an empty label", text, "a label between the delimiters", column: column);
 	}

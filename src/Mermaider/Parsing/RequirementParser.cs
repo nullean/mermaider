@@ -128,7 +128,15 @@ internal static partial class RequirementParser
 		return new RequirementDiagram { Title = title, Direction = direction, Requirements = requirements, Elements = elements, Relations = relations, };
 	}
 
-	private static int ParseRequirementBody(string[] lines, int start, string openLine, string name, RequirementKind kind, List<RequirementNode> requirements, bool strict)
+	private static int ParseRequirementBody(
+		string[] lines,
+		int start,
+		string openLine,
+		string name,
+		RequirementKind kind,
+		List<RequirementNode> requirements,
+		bool strict
+	)
 	{
 		string? id = null;
 		string? text = null;
@@ -272,7 +280,12 @@ internal static partial class RequirementParser
 			throw new MermaidParseException($"risk '{value}' is not a known level", line, "low, medium or high", column: valueColumn);
 
 		if (lower == "verifymethod" && ParseVerifyMethod(value) == RequirementVerifyMethod.Unspecified)
-			throw new MermaidParseException($"verifymethod '{value}' is not a known method", line, "analysis, demonstration, inspection or test", column: valueColumn);
+			throw new MermaidParseException(
+				$"verifymethod '{value}' is not a known method",
+				line,
+				"analysis, demonstration, inspection or test",
+				column: valueColumn
+			);
 	}
 
 	private static Direction ParseDirection(string value) => value.ToUpperInvariant() switch

@@ -124,12 +124,22 @@ if (string.IsNullOrWhiteSpace(input))
 	return 1;
 }
 
-var options = BuildOptions(themeName, transparent) with { Style = style, Gradient = gradient, Tint = tint, Elevation = elevation, ParseMode = lenient ? ParseMode.Lenient : ParseMode.Strict, };
+var options = BuildOptions(themeName, transparent) with
+{
+	Style = style,
+	Gradient = gradient,
+	Tint = tint,
+	Elevation = elevation,
+	ParseMode = lenient ? ParseMode.Lenient : ParseMode.Strict,
+};
 
 try
 {
 	var svg = ascii
-		? MermaidRenderer.RenderAscii(input, new AsciiOptions { ParseMode = lenient ? ParseMode.Lenient : ParseMode.Strict, Ascii = plain, Width = width < 20 ? 120 : width })
+		? MermaidRenderer.RenderAscii(
+			input,
+			new AsciiOptions { ParseMode = lenient ? ParseMode.Lenient : ParseMode.Strict, Ascii = plain, Width = width < 20 ? 120 : width }
+		)
 		: MermaidRenderer.RenderSvg(input, options);
 
 	if (outputFile != null)

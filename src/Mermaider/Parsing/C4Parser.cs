@@ -50,12 +50,34 @@ internal static partial class C4Parser
 	private static Dictionary<string, (int Ids, int Required)> BuildStatements()
 	{
 		var map = new Dictionary<string, (int, int)>(StringComparer.Ordinal);
-		foreach (var kind in new[] { "Person", "System", "SystemDb", "SystemQueue", "Container", "ContainerDb", "ContainerQueue", "Component", "ComponentDb", "ComponentQueue", })
+		foreach (var kind in new[]
+		{
+			"Person",
+			"System",
+			"SystemDb",
+			"SystemQueue",
+			"Container",
+			"ContainerDb",
+			"ContainerQueue",
+			"Component",
+			"ComponentDb",
+			"ComponentQueue",
+		})
 		{
 			map[kind] = (1, 2);
 			map[kind + "_Ext"] = (1, 2);
 		}
-		foreach (var kind in new[] { "Boundary", "Enterprise_Boundary", "System_Boundary", "Container_Boundary", "Deployment_Node", "Node", "Node_L", "Node_R", })
+		foreach (var kind in new[]
+		{
+			"Boundary",
+			"Enterprise_Boundary",
+			"System_Boundary",
+			"Container_Boundary",
+			"Deployment_Node",
+			"Node",
+			"Node_L",
+			"Node_R",
+		})
 			map[kind] = (1, 2);
 		foreach (var kind in new[] { "Rel", "BiRel", "Rel_U", "Rel_Up", "Rel_D", "Rel_Down", "Rel_L", "Rel_Left", "Rel_R", "Rel_Right", "Rel_Back", })
 			map[kind] = (2, 3);
@@ -109,14 +131,24 @@ internal static partial class C4Parser
 				if (line == "{")
 				{
 					if (pendingBlock is null)
-						throw new MermaidParseException("'{' does not follow a boundary or node", line, "a Boundary(...) or Deployment_Node(...) before '{'", column: 1);
+						throw new MermaidParseException(
+							"'{' does not follow a boundary or node",
+							line,
+							"a Boundary(...) or Deployment_Node(...) before '{'",
+							column: 1
+						);
 					frames.Push((pendingBlock.Value.Text, 0));
 					pendingBlock = null;
 					continue;
 				}
 
 				if (pendingBlock is { } pending)
-					throw new MermaidParseException($"{pending.Keyword}() has no body", pending.Text, "'{' to open its body, with the elements it contains, then '}'", column: pending.Text.Length + 1);
+					throw new MermaidParseException(
+						$"{pending.Keyword}() has no body",
+						pending.Text,
+						"'{' to open its body, with the elements it contains, then '}'",
+						column: pending.Text.Length + 1
+					);
 
 				if (line == "}")
 				{
@@ -143,7 +175,12 @@ internal static partial class C4Parser
 
 				keyword = word.Value;
 				if (line.Length == keyword.Length || line[keyword.Length] != '(')
-					throw new MermaidParseException($"{keyword} is not followed by '('", line, $"'(' straight after {keyword}, e.g. {keyword}(alias, \"Label\")", column: keyword.Length + 1);
+					throw new MermaidParseException(
+						$"{keyword} is not followed by '('",
+						line,
+						$"'(' straight after {keyword}, e.g. {keyword}(alias, \"Label\")",
+						column: keyword.Length + 1
+					);
 
 				statement = line;
 				statementLine = i;
@@ -203,7 +240,12 @@ internal static partial class C4Parser
 			throw new MermaidParseException($"{keyword}( is never closed", statement, "')' to end the argument list", column: keyword.Length + 1);
 
 		if (pendingBlock is { } open)
-			throw new MermaidParseException($"{open.Keyword}() has no body", open.Text, "'{' to open its body, with the elements it contains, then '}'", column: open.Text.Length + 1);
+			throw new MermaidParseException(
+				$"{open.Keyword}() has no body",
+				open.Text,
+				"'{' to open its body, with the elements it contains, then '}'",
+				column: open.Text.Length + 1
+			);
 
 		if (frames.Count > 0)
 		{
@@ -229,9 +271,19 @@ internal static partial class C4Parser
 		{
 			var missing = keyword switch
 			{
-				"Rel" or "BiRel" or "Rel_U" or "Rel_Up" or "Rel_D" or "Rel_Down" or "Rel_L" or "Rel_Left" or "Rel_R" or "Rel_Right" or "Rel_Back" =>
-					args.Count switch { 0 => "has no source", 1 => "has no target", _ => "has no label", },
-				"RelIndex" => args.Count switch { 0 => "has no index", 1 => "has no source", 2 => "has no target", _ => "has no label", },
+				"Rel" or "BiRel" or "Rel_U" or "Rel_Up" or "Rel_D" or "Rel_Down" or "Rel_L" or "Rel_Left" or "Rel_R" or "Rel_Right" or "Rel_Back" => args.Count switch
+				{
+					0 => "has no source",
+					1 => "has no target",
+					_ => "has no label",
+				},
+				"RelIndex" => args.Count switch
+				{
+					0 => "has no index",
+					1 => "has no source",
+					2 => "has no target",
+					_ => "has no label",
+				},
 				"UpdateLayoutConfig" => "has no settings",
 				_ => args.Count == 0 ? "has no alias" : "has no label",
 			};
@@ -258,12 +310,22 @@ internal static partial class C4Parser
 			{
 				var eq = arg.IndexOf('=');
 				if (eq < 0 || arg[(eq + 1)..].Trim().Length == 0)
-					throw new MermaidParseException($"argument '{arg}' has no value", statement, "$name=\"value\"", column: Math.Max(1, statement.IndexOf(arg, StringComparison.Ordinal) + 1));
+					throw new MermaidParseException(
+						$"argument '{arg}' has no value",
+						statement,
+						"$name=\"value\"",
+						column: Math.Max(1, statement.IndexOf(arg, StringComparison.Ordinal) + 1)
+					);
 				continue;
 			}
 
 			if (a >= ids && arg.IndexOf('"') < 0)
-				throw new MermaidParseException($"argument '{arg}' is not in double quotes", statement, "a \"quoted\" text", column: Math.Max(1, statement.IndexOf(arg, StringComparison.Ordinal) + 1));
+				throw new MermaidParseException(
+					$"argument '{arg}' is not in double quotes",
+					statement,
+					"a \"quoted\" text",
+					column: Math.Max(1, statement.IndexOf(arg, StringComparison.Ordinal) + 1)
+				);
 		}
 	}
 

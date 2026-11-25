@@ -167,7 +167,12 @@ internal static partial class GitGraphParser
 						if (pos < line.Length)
 							throw Unexpected(line, pos, "the end of the line");
 						if (!_heads.ContainsKey(name))
-							throw new MermaidParseException($"cannot {keyword} branch '{name}': it has not been created", line, $"an existing branch, or 'branch {name}' first", column: line.IndexOf(name, StringComparison.Ordinal) + 1);
+							throw new MermaidParseException(
+								$"cannot {keyword} branch '{name}': it has not been created",
+								line,
+								$"an existing branch, or 'branch {name}' first",
+								column: line.IndexOf(name, StringComparison.Ordinal) + 1
+							);
 						_current = name;
 						break;
 					}
@@ -213,17 +218,47 @@ internal static partial class GitGraphParser
 		{
 			var head = _heads[_current];
 			if (other == _current)
-				throw new MermaidParseException("cannot merge a branch into itself", line, "a different branch to merge", column: line.IndexOf(other, StringComparison.Ordinal) + 1);
+				throw new MermaidParseException(
+					"cannot merge a branch into itself",
+					line,
+					"a different branch to merge",
+					column: line.IndexOf(other, StringComparison.Ordinal) + 1
+				);
 			if (head is null)
-				throw new MermaidParseException($"cannot merge into branch '{_current}': it has no commits", line, "a commit on the current branch before 'merge'", column: 1);
+				throw new MermaidParseException(
+					$"cannot merge into branch '{_current}': it has no commits",
+					line,
+					"a commit on the current branch before 'merge'",
+					column: 1
+				);
 			if (!_heads.TryGetValue(other, out var otherHead))
-				throw new MermaidParseException($"cannot merge branch '{other}': it does not exist", line, "an existing branch", column: line.IndexOf(other, StringComparison.Ordinal) + 1);
+				throw new MermaidParseException(
+					$"cannot merge branch '{other}': it does not exist",
+					line,
+					"an existing branch",
+					column: line.IndexOf(other, StringComparison.Ordinal) + 1
+				);
 			if (otherHead is null)
-				throw new MermaidParseException($"cannot merge branch '{other}': it has no commits", line, "a branch that has commits", column: line.IndexOf(other, StringComparison.Ordinal) + 1);
+				throw new MermaidParseException(
+					$"cannot merge branch '{other}': it has no commits",
+					line,
+					"a branch that has commits",
+					column: line.IndexOf(other, StringComparison.Ordinal) + 1
+				);
 			if (otherHead == head)
-				throw new MermaidParseException($"cannot merge branch '{other}' into '{_current}': both are at the same commit", line, "a branch with commits the current branch lacks", column: 1);
+				throw new MermaidParseException(
+					$"cannot merge branch '{other}' into '{_current}': both are at the same commit",
+					line,
+					"a branch with commits the current branch lacks",
+					column: 1
+				);
 			if (customId is { Length: > 0 } && _commits.ContainsKey(customId))
-				throw new MermaidParseException($"a commit with id '{customId}' already exists", line, "a unique merge id", column: line.IndexOf(customId, StringComparison.Ordinal) + 1);
+				throw new MermaidParseException(
+					$"a commit with id '{customId}' already exists",
+					line,
+					"a unique merge id",
+					column: line.IndexOf(customId, StringComparison.Ordinal) + 1
+				);
 			AddCommit(customId, isMerge: true, otherHead);
 		}
 
@@ -237,13 +272,28 @@ internal static partial class GitGraphParser
 					column: id is null ? line.Length + 1 : line.IndexOf(id, StringComparison.Ordinal) + 1
 				);
 			if (source.IsMerge && string.IsNullOrEmpty(parent))
-				throw new MermaidParseException($"commit '{id}' is a merge commit: cherry-pick needs 'parent: \"<id>\"'", line, "a parent commit id", column: 1);
+				throw new MermaidParseException(
+					$"commit '{id}' is a merge commit: cherry-pick needs 'parent: \"<id>\"'",
+					line,
+					"a parent commit id",
+					column: 1
+				);
 			if (!string.IsNullOrEmpty(parent) && !source.Parents.Contains(parent))
-				throw new MermaidParseException($"'{parent}' is not an immediate parent of commit '{id}'", line, "one of the commit's parents", column: line.IndexOf(parent, StringComparison.Ordinal) + 1);
+				throw new MermaidParseException(
+					$"'{parent}' is not an immediate parent of commit '{id}'",
+					line,
+					"one of the commit's parents",
+					column: line.IndexOf(parent, StringComparison.Ordinal) + 1
+				);
 			if (source.Branch == _current)
 				throw new MermaidParseException($"commit '{id}' is already on branch '{_current}'", line, "a commit from another branch", column: 1);
 			if (_heads[_current] is null)
-				throw new MermaidParseException($"cannot cherry-pick onto branch '{_current}': it has no commits", line, "a commit on the current branch first", column: 1);
+				throw new MermaidParseException(
+					$"cannot cherry-pick onto branch '{_current}': it has no commits",
+					line,
+					"a commit on the current branch first",
+					column: 1
+				);
 			AddCommit(null, isMerge: false, otherHead: null);
 		}
 

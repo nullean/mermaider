@@ -20,8 +20,9 @@ public class MermaidParseException : Exception
 	/// <param name="expected">What the grammar accepts there, e.g. <c>a node id</c>.</param>
 	/// <param name="line">1-based line in the original text, when known.</param>
 	/// <param name="column">1-based column within <paramref name="sourceLine"/>, when known.</param>
-	public MermaidParseException(string problem, string sourceLine, string? expected = null, int? line = null, int? column = null)
-		: base(Format(problem, sourceLine, expected, line, column))
+	public MermaidParseException(string problem, string sourceLine, string? expected = null, int? line = null, int? column = null) : base(
+			Format(problem, sourceLine, expected, line, column)
+		)
 	{
 		Problem = problem;
 		SourceLine = sourceLine;

@@ -84,9 +84,13 @@ public class MalformedGanttJourneyTimelineGitKanbanTests
 	{
 		var act = () => MermaidRenderer.RenderSvg("kanban\n  Todo\n    task[Safe\n");
 
-		act.Should().Throw<MermaidParseException>().Which.Message.Should().Be(
-			"Parse error on line 3: label opened with '[' is never closed\n  task[Safe\n      ^\nExpecting ']' to end the label."
-		);
+		act
+			.Should()
+			.Throw<MermaidParseException>()
+			.Which
+			.Message
+			.Should()
+			.Be("Parse error on line 3: label opened with '[' is never closed\n  task[Safe\n      ^\nExpecting ']' to end the label.");
 	}
 
 	/// <summary>Inputs Mermaid accepts, quirks included. A stricter rule that refused any of them would be wrong.</summary>
@@ -107,8 +111,7 @@ public class MalformedGanttJourneyTimelineGitKanbanTests
 	[Arguments("kanban\n  todo[To Do]\n    t1[Multi\n    line]\n    t2[A]@{\n      assigned: 'a'\n    }\n")]
 	[Arguments("kanban\ntitle Board\n    a\n    b\n  c\n")]
 	[Arguments("kanban\n  Todo\n    a[A]@{ priority: \n    b[B]@{ ticket: 'y' }\n")]
-	public void Valid_input_stays_accepted(string source) =>
-		MermaidRenderer.RenderSvg(source).Should().StartWith("<svg");
+	public void Valid_input_stays_accepted(string source) => MermaidRenderer.RenderSvg(source).Should().StartWith("<svg");
 
 	[Test]
 	public void Lenient_parsers_skip_the_statements_strict_refuses()

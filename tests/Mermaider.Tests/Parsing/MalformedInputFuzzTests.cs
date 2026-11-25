@@ -94,8 +94,7 @@ public class MalformedInputFuzzTests
 
 	[Test]
 	public void Seeds_are_valid() =>
-		Seeds.Select(s => (Seed: s, Err: Try(s))).Where(x => x.Err is not null).Select(x => $"{x.Seed.Split('\n')[0]}: {x.Err}")
-			.Should().BeEmpty();
+		Seeds.Select(s => (Seed: s, Err: Try(s))).Where(x => x.Err is not null).Select(x => $"{x.Seed.Split('\n')[0]}: {x.Err}").Should().BeEmpty();
 
 	private static string? Try(string s)
 	{
@@ -111,8 +110,7 @@ public class MalformedInputFuzzTests
 	}
 
 	[Test]
-	public void Strict_mode_renders_or_throws_a_parse_exception() =>
-		GenMutant.Sample(source => AssertRendersOrRefuses(source, ParseMode.Strict), iter: 3_000);
+	public void Strict_mode_renders_or_throws_a_parse_exception() => GenMutant.Sample(source => AssertRendersOrRefuses(source, ParseMode.Strict), iter: 3_000);
 
 	[Test]
 	public void Lenient_mode_renders_or_throws_a_parse_exception() =>
@@ -120,13 +118,12 @@ public class MalformedInputFuzzTests
 
 	[Test]
 	public void Lenient_mode_never_refuses_flowchart_state_or_sequence() =>
-		Gen.Select(Gen.Int[0, 2], Gen.Int[0, 999], Gen.Int[0, 999], Gen.Int[0, 3], (seed, line, cut, kind) => Mutate(Seeds[seed], line, cut, kind))
-			.Sample(
-				source =>
-				{
-					var act = () => MermaidRenderer.RenderSvg(source, new RenderOptions { ParseMode = ParseMode.Lenient });
-					act.Should().NotThrow<MermaidParseException>($"lenient mode skips what it cannot read:\n{source}");
-				},
-				iter: 2_000
-			);
+		Gen.Select(Gen.Int[0, 2], Gen.Int[0, 999], Gen.Int[0, 999], Gen.Int[0, 3], (seed, line, cut, kind) => Mutate(Seeds[seed], line, cut, kind)).Sample(
+			source =>
+			{
+				var act = () => MermaidRenderer.RenderSvg(source, new RenderOptions { ParseMode = ParseMode.Lenient });
+				act.Should().NotThrow<MermaidParseException>($"lenient mode skips what it cannot read:\n{source}");
+			},
+			iter: 2_000
+		);
 }

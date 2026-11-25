@@ -30,11 +30,7 @@ internal static partial class XyChartParser
 	private static partial Regex NumberPattern();
 
 	// min --> max, with an optional title in front: "Revenue" 4000 --> 11000
-	[GeneratedRegex(
-		@"^(?:(?:""[^""]*""\s*|(?:(?!-->).)+?\s+))?[+-]?(?:\d+(?:\.\d+)?|\.\d+)\s*-->\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)$",
-		RegexOptions.None,
-		TimeoutMs
-	)]
+	[GeneratedRegex(@"^(?:(?:""[^""]*""\s*|(?:(?!-->).)+?\s+))?[+-]?(?:\d+(?:\.\d+)?|\.\d+)\s*-->\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex RangePattern();
 
 	[GeneratedRegex(@"^([^\[\]]*?)\s*\[([^\[\]]*)\]$", RegexOptions.None, TimeoutMs)]
@@ -317,12 +313,7 @@ internal static partial class XyChartParser
 	{
 		var keyword = KeywordPattern().Match(line);
 		if (!keyword.Success)
-			throw new MermaidParseException(
-				$"unexpected text '{line}'",
-				line,
-				"'title', 'x-axis', 'y-axis', 'bar' or 'line'",
-				column: 1
-			);
+			throw new MermaidParseException($"unexpected text '{line}'", line, "'title', 'x-axis', 'y-axis', 'bar' or 'line'", column: 1);
 
 		var name = keyword.Value.ToLowerInvariant();
 		var rest = line[keyword.Length..].Trim();
@@ -374,7 +365,12 @@ internal static partial class XyChartParser
 	private static void RequireValidAxis(string line, string name, string body, int column)
 	{
 		if (body.Length == 0)
-			throw new MermaidParseException($"{name} has no title or range", line, $"a title, categories '[a, b]' or a range '0 --> 100' after '{name}'", column: line.Length + 1);
+			throw new MermaidParseException(
+				$"{name} has no title or range",
+				line,
+				$"a title, categories '[a, b]' or a range '0 --> 100' after '{name}'",
+				column: line.Length + 1
+			);
 
 		var open = body.IndexOf('[');
 		if (open >= 0 || body.Contains(']', StringComparison.Ordinal))
@@ -390,7 +386,9 @@ internal static partial class XyChartParser
 			var categories = CategoriesPattern().Match(body);
 			if (!categories.Success)
 				throw new MermaidParseException(
-					body.Contains(']', StringComparison.Ordinal) && open >= 0 ? "unexpected text around the category list" : open < 0 ? "']' without a '['" : "category list is never closed",
+					body.Contains(']', StringComparison.Ordinal) && open >= 0
+						? "unexpected text around the category list"
+						: open < 0 ? "']' without a '['" : "category list is never closed",
 					line,
 					"categories in square brackets, e.g. 'x-axis [jan, feb, mar]'",
 					column: column + (open < 0 ? body.IndexOf(']') : open)
@@ -408,7 +406,12 @@ internal static partial class XyChartParser
 			{
 				var text = item.Trim();
 				if (text.Length == 0)
-					throw new MermaidParseException("category list has an empty entry", line, "a category between the commas", column: column + categories.Groups[2].Index);
+					throw new MermaidParseException(
+						"category list has an empty entry",
+						line,
+						"a category between the commas",
+						column: column + categories.Groups[2].Index
+					);
 				if (text[0] == '"' && !WholeQuotedPattern().IsMatch(text))
 					throw new MermaidParseException(
 						text.IndexOf('"', 1) < 0 ? "category opened with '\"' is never closed" : $"unexpected text after the quoted category {text}",
@@ -453,18 +456,30 @@ internal static partial class XyChartParser
 	{
 		var open = body.IndexOf('[');
 		if (open < 0)
-			throw new MermaidParseException($"{name} series has no values", line, $"values in square brackets, e.g. '{name} [10, 20, 30]'", column: line.Length + 1);
+			throw new MermaidParseException(
+				$"{name} series has no values",
+				line,
+				$"values in square brackets, e.g. '{name} [10, 20, 30]'",
+				column: line.Length + 1
+			);
 
 		var close = body.LastIndexOf(']');
 		if (close < open)
 			throw new MermaidParseException($"values of the {name} series are never closed", line, "']' after the last value", column: column + open);
 		if (close != body.Length - 1)
-			throw new MermaidParseException($"unexpected text after the values of the {name} series", line, "the end of the line after ']'", column: column + close + 1);
+			throw new MermaidParseException(
+				$"unexpected text after the values of the {name} series",
+				line,
+				"the end of the line after ']'",
+				column: column + close + 1
+			);
 
 		var title = body[..open].Trim();
 		if (title.Length > 0 && title[0] == '"' && !WholeQuotedPattern().IsMatch(title))
 			throw new MermaidParseException(
-				title.IndexOf('"', 1) < 0 ? $"name of the {name} series opened with '\"' is never closed" : $"unexpected text after the quoted name of the {name} series",
+				title.IndexOf('"', 1) < 0
+					? $"name of the {name} series opened with '\"' is never closed"
+					: $"unexpected text after the quoted name of the {name} series",
 				line,
 				"the name in double quotes, then the values in square brackets",
 				column: column

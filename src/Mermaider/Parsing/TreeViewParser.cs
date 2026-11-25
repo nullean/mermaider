@@ -76,12 +76,27 @@ internal static partial class TreeViewParser
 				{
 					// A line of only vertical rules is a continuation; a branch with nothing after it is not.
 					if (isBoxDrawing && BoxDrawingChar().IsMatch(text))
-						throw new MermaidParseException("node has no name after the branch", text, "a file or directory name after the box-drawing prefix", column: text.Length + 1);
+						throw new MermaidParseException(
+							"node has no name after the branch",
+							text,
+							"a file or directory name after the box-drawing prefix",
+							column: text.Length + 1
+						);
 					continue;
 				}
 
-				if (content.StartsWith("##", StringComparison.Ordinal) || content.StartsWith(":::", StringComparison.Ordinal) || content.StartsWith("icon(", StringComparison.Ordinal))
-					throw new MermaidParseException("node has no name, only an annotation", text, "a file or directory name before the annotation", column: offset + 1);
+				if (
+					content.StartsWith("##", StringComparison.Ordinal) || content.StartsWith(":::", StringComparison.Ordinal) || content.StartsWith(
+						"icon(",
+						StringComparison.Ordinal
+					)
+				)
+					throw new MermaidParseException(
+						"node has no name, only an annotation",
+						text,
+						"a file or directory name before the annotation",
+						column: offset + 1
+					);
 
 				body = content;
 				bodyOffset = offset;
@@ -115,7 +130,12 @@ internal static partial class TreeViewParser
 
 			var name = body[nameStart..closeParen];
 			if (name.Length > 0 && !IconName().IsMatch(name))
-				throw new MermaidParseException($"icon name '{name}' is not valid", text, "'icon(name)' or 'icon(pack:name)' with letters, digits, '_' and '-'", column: bodyOffset + nameStart + 1);
+				throw new MermaidParseException(
+					$"icon name '{name}' is not valid",
+					text,
+					"'icon(name)' or 'icon(pack:name)' with letters, digits, '_' and '-'",
+					column: bodyOffset + nameStart + 1
+				);
 		}
 
 		if (openQuote is not null)

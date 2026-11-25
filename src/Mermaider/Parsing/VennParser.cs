@@ -10,18 +10,10 @@ internal static partial class VennParser
 
 	private const string Statements = "'set <id>', 'union <id>, <id>', 'text ...', 'style ...' or 'title <text>'";
 
-	[GeneratedRegex(
-		@"^set\s+(?:""([^""]+)""|([^\s\[:]+))(?:\s*\[\s*(?:""([^""]*)""|'([^']*)'|([^\]""']+?))\s*\])?\s*(?::\s*(-?\d+(?:\.\d+)?))?\s*$",
-		RegexOptions.IgnoreCase,
-		TimeoutMs
-	)]
+	[GeneratedRegex(@"^set\s+(?:""([^""]+)""|([^\s\[:]+))(?:\s*\[\s*(?:""([^""]*)""|'([^']*)'|([^\]""']+?))\s*\])?\s*(?::\s*(-?\d+(?:\.\d+)?))?\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex SetPattern();
 
-	[GeneratedRegex(
-		@"^union\s+(.+?)\s*(?:\[\s*(?:""([^""]*)""|'([^']*)'|([^\]""']+?))\s*\])?\s*(?::\s*(-?\d+(?:\.\d+)?))?\s*$",
-		RegexOptions.IgnoreCase,
-		TimeoutMs
-	)]
+	[GeneratedRegex(@"^union\s+(.+?)\s*(?:\[\s*(?:""([^""]*)""|'([^']*)'|([^\]""']+?))\s*\])?\s*(?::\s*(-?\d+(?:\.\d+)?))?\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex UnionPattern();
 
 	[GeneratedRegex(@"^[A-Za-z_][\w-]*", RegexOptions.None, TimeoutMs)]

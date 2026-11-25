@@ -16,11 +16,7 @@ internal static partial class PacketParser
 
 	// Range: 0-15: "Label"  |  single bit: 106: "Label"  |  bit-count: +16: "Label"
 	// A label is double- or single-quoted; a backslash escapes the next character.
-	[GeneratedRegex(
-		@"^(?:\+\s*(\d+)|(\d+)(?:\s*-\s*(\d+))?)\s*:\s*(?:""((?:\\.|[^""\\])*)""|'((?:\\.|[^'\\])*)')\s*$",
-		RegexOptions.None,
-		TimeoutMs
-	)]
+	[GeneratedRegex(@"^(?:\+\s*(\d+)|(\d+)(?:\s*-\s*(\d+))?)\s*:\s*(?:""((?:\\.|[^""\\])*)""|'((?:\\.|[^'\\])*)')\s*$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex FieldPattern();
 
 	[GeneratedRegex(@"^(?:\+\s*\d+|\d+(?:\s*-\s*\d+)?)$", RegexOptions.None, TimeoutMs)]
@@ -186,7 +182,9 @@ internal static partial class PacketParser
 
 			if (start != expectedStart)
 				throw new MermaidParseException(
-					expectedStart == 0 ? $"the first field starts at bit {start}" : $"field starts at bit {start}, but the previous field ended at bit {expectedStart - 1}",
+					expectedStart == 0
+						? $"the first field starts at bit {start}"
+						: $"field starts at bit {start}, but the previous field ended at bit {expectedStart - 1}",
 					line,
 					$"a field starting at bit {expectedStart} (or '+<count>', which continues from there)",
 					column: match.Groups[2].Index + 1
@@ -218,7 +216,12 @@ internal static partial class PacketParser
 
 		var label = line[(colon + 1)..].Trim();
 		if (label.Length == 0)
-			throw new MermaidParseException($"field '{bits}' has no label", line, "a quoted label after the colon, e.g. '0-15: \"Source port\"'", column: line.Length + 1);
+			throw new MermaidParseException(
+				$"field '{bits}' has no label",
+				line,
+				"a quoted label after the colon, e.g. '0-15: \"Source port\"'",
+				column: line.Length + 1
+			);
 
 		if (label[0] is not ('"' or '\''))
 			throw new MermaidParseException(

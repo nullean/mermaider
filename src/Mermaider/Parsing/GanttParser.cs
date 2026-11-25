@@ -176,8 +176,18 @@ internal static partial class GanttParser
 
 	private static readonly string[] BareKeywords =
 	[
-		"title", "section", "dateFormat", "axisFormat", "tickInterval", "excludes", "includes", "todayMarker", "weekday", "weekend",
-		"inclusiveEndDates", "topAxis",
+		"title",
+		"section",
+		"dateFormat",
+		"axisFormat",
+		"tickInterval",
+		"excludes",
+		"includes",
+		"todayMarker",
+		"weekday",
+		"weekend",
+		"inclusiveEndDates",
+		"topAxis",
 	];
 
 	/// <summary>
@@ -195,7 +205,12 @@ internal static partial class GanttParser
 			return;
 		}
 		var first = word.Split((char[]?)null, 2, StringSplitOptions.RemoveEmptyEntries)[0];
-		if (BareKeywords.Contains(first, StringComparer.OrdinalIgnoreCase) || first.StartsWith("accTitle", StringComparison.OrdinalIgnoreCase) || first.StartsWith("accDescr", StringComparison.OrdinalIgnoreCase))
+		if (
+			BareKeywords.Contains(first, StringComparer.OrdinalIgnoreCase) || first.StartsWith(
+				"accTitle",
+				StringComparison.OrdinalIgnoreCase
+			) || first.StartsWith("accDescr", StringComparison.OrdinalIgnoreCase)
+		)
 			return;
 		if (word.StartsWith(':'))
 			throw new MermaidParseException("task has no name before ':'", line, "a task name, then ':' and its dates", column: 1);

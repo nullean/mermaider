@@ -205,7 +205,8 @@ public class PacketRendererTests
 	public void Pathological_high_bit_does_not_crash_or_allocate_huge_svg()
 	{
 		// Parser rejects out-of-cap fields; render must stay bounded and succeed.
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			packet
 			2147483646: "x"
 			0-7: "Safe"
@@ -224,7 +225,8 @@ public class PacketRendererTests
 	[Test]
 	public void Pathological_huge_range_is_rejected()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			packet
 			0-2147483646: "Huge"
 			0-7: "Safe"

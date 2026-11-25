@@ -79,9 +79,15 @@ public class MalformedBlockC4TreeTests
 	{
 		var act = () => MermaidRenderer.RenderSvg("mindmap\n  root\n    child[open\n");
 
-		act.Should().Throw<MermaidParseException>().Which.Message.Should().Be(
-			"Parse error on line 3: node shape '[' ... ']' is never closed, or has text after it\n  child[open\n       ^\nExpecting ']' at the end of the node."
-		);
+		act
+			.Should()
+			.Throw<MermaidParseException>()
+			.Which
+			.Message
+			.Should()
+			.Be(
+				"Parse error on line 3: node shape '[' ... ']' is never closed, or has text after it\n  child[open\n       ^\nExpecting ']' at the end of the node."
+			);
 	}
 
 	// Each of these is accepted by mermaid 12.3, so strict parsing must accept it too.

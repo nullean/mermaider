@@ -89,7 +89,12 @@ internal static partial class ErParser
 					if (line.Length == 0)
 						continue;
 					if (strict && line[0] is '{' or '}')
-						throw new MermaidParseException($"unexpected '{line[0]}' after the closing '}}'", lines[i], "the end of the block, or a new statement", column: 2);
+						throw new MermaidParseException(
+							$"unexpected '{line[0]}' after the closing '}}'",
+							lines[i],
+							"the end of the block, or a new statement",
+							column: 2
+						);
 				}
 				else
 				{
@@ -107,7 +112,12 @@ internal static partial class ErParser
 			if (entityMatch.Success || (line.EndsWith('{') && IsBalancedHeader(line) && !RelationshipShapePattern().IsMatch(line)))
 			{
 				if (strict && entityMatch.Success && entityMatch.Groups[1].Value[0] != '"' && entityMatch.Groups[1].Value.IndexOfAny(['[', ']']) >= 0)
-					throw new MermaidParseException("entity alias is malformed", line, "an alias in square brackets, e.g. NAME[\"Display name\"], before '{'", column: line.IndexOf('[') + 1);
+					throw new MermaidParseException(
+						"entity alias is malformed",
+						line,
+						"an alias in square brackets, e.g. NAME[\"Display name\"], before '{'",
+						column: line.IndexOf('[') + 1
+					);
 
 				var id = entityMatch.Success ? Unquote(entityMatch.Groups[1].Value) : Unquote(line[..^1].Trim());
 				var alias = entityMatch.Groups[2].Success ? entityMatch.Groups[2].Value : entityMatch.Groups[3].Success ? entityMatch.Groups[3].Value : null;
@@ -136,7 +146,12 @@ internal static partial class ErParser
 		}
 
 		if (strict && currentEntity != null)
-			throw new MermaidParseException($"entity '{currentEntity.Id}' block is never closed", openLine!, "'}' to close the entity block", column: openLine!.Length + 1);
+			throw new MermaidParseException(
+				$"entity '{currentEntity.Id}' block is never closed",
+				openLine!,
+				"'}' to close the entity block",
+				column: openLine!.Length + 1
+			);
 
 		var entities = entityMap.Values.Select(v => v.Entity with { Attributes = v.Attrs }).ToList();
 
@@ -205,7 +220,12 @@ internal static partial class ErParser
 		}
 
 		if (line.EndsWith('{') && !IsBalancedHeader(line))
-			throw new MermaidParseException("entity block header is malformed", line, "an entity name, optionally followed by [alias], then '{'", column: line.Length);
+			throw new MermaidParseException(
+				"entity block header is malformed",
+				line,
+				"an entity name, optionally followed by [alias], then '{'",
+				column: line.Length
+			);
 
 		var bracket = line.IndexOf('[');
 		if (bracket > 0 && line.IndexOf(' ') is var space && (space < 0 || space > bracket) && !EntityAliasPattern().IsMatch(line))
@@ -217,7 +237,12 @@ internal static partial class ErParser
 		var b = shape.Groups["b"];
 		var cardEnd = shape.Groups["card"].Index + shape.Groups["card"].Length;
 		if (!b.Success || b.Length == 0)
-			throw new MermaidParseException("relationship has no target entity", line, "an entity name after the cardinalities, e.g. 'A ||--o{ B : places'", column: cardEnd + 1);
+			throw new MermaidParseException(
+				"relationship has no target entity",
+				line,
+				"an entity name after the cardinalities, e.g. 'A ||--o{ B : places'",
+				column: cardEnd + 1
+			);
 
 		var rest = shape.Groups["rest"].Value.Trim();
 		var restColumn = shape.Groups["rest"].Index + 1;
@@ -226,7 +251,12 @@ internal static partial class ErParser
 			return;
 
 		if (rest[0] != ':')
-			throw new MermaidParseException($"unexpected text '{rest}' after the target entity", line, "': label' after the target entity", column: restColumn + shape.Groups["rest"].Value.Length - shape.Groups["rest"].Value.TrimStart().Length);
+			throw new MermaidParseException(
+				$"unexpected text '{rest}' after the target entity",
+				line,
+				"': label' after the target entity",
+				column: restColumn + shape.Groups["rest"].Value.Length - shape.Groups["rest"].Value.TrimStart().Length
+			);
 
 		var label = rest[1..].Trim();
 		if (label.Length == 0)
@@ -253,7 +283,12 @@ internal static partial class ErParser
 
 		var name = m.Groups["name"];
 		if (!char.IsLetter(name.Value[0]) && name.Value[0] != '_' && name.Value[0] != '*')
-			throw new MermaidParseException($"attribute name '{name.Value}' is not valid", line, "a name starting with a letter or underscore", column: name.Index + 1);
+			throw new MermaidParseException(
+				$"attribute name '{name.Value}' is not valid",
+				line,
+				"a name starting with a letter or underscore",
+				column: name.Index + 1
+			);
 
 		var rest = m.Groups["rest"].Success ? m.Groups["rest"].Value : "";
 		var quote = rest.IndexOf('"');
@@ -272,7 +307,12 @@ internal static partial class ErParser
 		}
 
 		if (!KeyListPattern().IsMatch(keys))
-			throw new MermaidParseException($"'{keys}' is not a key list", line, "PK, FK or UK (comma separated, e.g. 'PK, FK'), then an optional \"comment\"", column: restColumn);
+			throw new MermaidParseException(
+				$"'{keys}' is not a key list",
+				line,
+				"PK, FK or UK (comma separated, e.g. 'PK, FK'), then an optional \"comment\"",
+				column: restColumn
+			);
 	}
 
 	private static (ErEntity Entity, List<ErAttributeInfo> Attrs) EnsureEntity(

@@ -134,7 +134,12 @@ internal static partial class KanbanParser
 
 			var rest = stripped[(close + 1)..];
 			if (rest.Length > 0 && !rest.StartsWith("@{", StringComparison.Ordinal))
-				throw new MermaidParseException($"unexpected text '{rest}' after the label", stripped, "the end of the line or '@{ … }' metadata", column: close + 2);
+				throw new MermaidParseException(
+					$"unexpected text '{rest}' after the label",
+					stripped,
+					"the end of the line or '@{ … }' metadata",
+					column: close + 2
+				);
 			metaSearchFrom = close + 1;
 		}
 
@@ -162,14 +167,26 @@ internal static partial class KanbanParser
 			if (!closed)
 				throw new MermaidParseException("metadata opened with '@{' is never closed", stripped, "'}' to end the metadata", column: meta + 1);
 			var valueOnOpener = opener.Length > 0 && !opener.EndsWith(':');
-			if (opener.Contains(',', StringComparison.Ordinal) || continuation.Contains(',', StringComparison.Ordinal)
-				|| (valueOnOpener && continuation.Length > 0) || (opener.Length == 0 && continuation.Length == 0))
-				throw new MermaidParseException("metadata opened with '@{' is not a valid key: value block before its '}'", stripped, "'@{ key: 'value', … }' closed on the same line", column: meta + 1);
+			if (
+				opener.Contains(',', StringComparison.Ordinal) || continuation.Contains(',', StringComparison.Ordinal) ||
+				(valueOnOpener && continuation.Length > 0) || (opener.Length == 0 && continuation.Length == 0)
+			)
+				throw new MermaidParseException(
+					"metadata opened with '@{' is not a valid key: value block before its '}'",
+					stripped,
+					"'@{ key: 'value', … }' closed on the same line",
+					column: meta + 1
+				);
 			return;
 		}
 
 		if (end + 1 < stripped.Length)
-			throw new MermaidParseException($"unexpected text '{stripped[(end + 1)..].Trim()}' after the metadata", stripped, "the end of the line", column: end + 2);
+			throw new MermaidParseException(
+				$"unexpected text '{stripped[(end + 1)..].Trim()}' after the metadata",
+				stripped,
+				"the end of the line",
+				column: end + 2
+			);
 
 		RequireFlowEntries(stripped, bodyStart, stripped[bodyStart..end]);
 	}
@@ -218,7 +235,12 @@ internal static partial class KanbanParser
 			if (pos >= body.Length)
 				return;
 			if (body[pos] != ',')
-				throw new MermaidParseException("metadata entries must be separated by ','", stripped, "',' between key: value pairs", column: bodyStart + pos + 1);
+				throw new MermaidParseException(
+					"metadata entries must be separated by ','",
+					stripped,
+					"',' between key: value pairs",
+					column: bodyStart + pos + 1
+				);
 			pos++;
 		}
 	}

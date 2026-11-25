@@ -113,7 +113,10 @@ internal static partial class ArchitectureParser
 
 			// Group endpoints are written as {id}; strip the braces — ids are unique across
 			// groups/services/junctions so the edge grammar doesn't need to distinguish them.
-			var edgeLine = ColonSpacingPattern().Replace(line.Replace("{group}", "", StringComparison.Ordinal), ":").Replace("{", "", StringComparison.Ordinal).Replace("}", "", StringComparison.Ordinal);
+			var edgeLine = ColonSpacingPattern()
+				.Replace(line.Replace("{group}", "", StringComparison.Ordinal), ":")
+				.Replace("{", "", StringComparison.Ordinal)
+				.Replace("}", "", StringComparison.Ordinal);
 			var edgeMatch = EdgePattern().Match(edgeLine);
 			// `a:R -- b:L` puts the target's side after its id; read it as `a:R -- L:b` rather than as an id containing a colon
 			var trailingSide = edgeMatch.Success && !edgeMatch.Groups[4].Success ? TrailingSidePattern().Match(edgeMatch.Groups[5].Value) : Match.Empty;
@@ -158,10 +161,20 @@ internal static partial class ArchitectureParser
 	private static void RequireNonEmpty(string line, Match match, string kind)
 	{
 		if (match.Groups[2].Success && match.Groups[2].Length == 0)
-			throw new MermaidParseException($"{kind} has an empty icon", line, "an icon name between the parentheses, e.g. (server), or no parentheses", column: match.Groups[2].Index + 1);
+			throw new MermaidParseException(
+				$"{kind} has an empty icon",
+				line,
+				"an icon name between the parentheses, e.g. (server), or no parentheses",
+				column: match.Groups[2].Index + 1
+			);
 
 		if (match.Groups[3].Success && match.Groups[3].Length == 0)
-			throw new MermaidParseException($"{kind} has an empty title", line, "a title between the brackets, e.g. [Web server], or no brackets", column: match.Groups[3].Index + 1);
+			throw new MermaidParseException(
+				$"{kind} has an empty title",
+				line,
+				"a title between the brackets, e.g. [Web server], or no brackets",
+				column: match.Groups[3].Index + 1
+			);
 	}
 
 	private static void RequireKnownStatement(string line, string edgeLine)
@@ -178,7 +191,9 @@ internal static partial class ArchitectureParser
 				"group" => "group id(icon)[Title], optionally followed by 'in parentGroup'",
 				_ => "junction id, optionally followed by 'in group'",
 			};
-			var problem = line.EndsWith(" in", StringComparison.Ordinal) ? $"{keyword.Value} has 'in' but no group name" : $"{keyword.Value} declaration is malformed";
+			var problem = line.EndsWith(" in", StringComparison.Ordinal)
+				? $"{keyword.Value} has 'in' but no group name"
+				: $"{keyword.Value} declaration is malformed";
 			throw new MermaidParseException(problem, line, form, column: line.Length + 1);
 		}
 
@@ -203,7 +218,12 @@ internal static partial class ArchitectureParser
 
 		var source = shape.Groups["src"].Value;
 		if (!shape.Groups["ss"].Success || shape.Groups["ss"].Length == 0)
-			throw new MermaidParseException($"edge has no side on '{source}'", line, $"a side after the source, e.g. '{source}:R' (L, R, T or B)", column: arrowColumn);
+			throw new MermaidParseException(
+				$"edge has no side on '{source}'",
+				line,
+				$"a side after the source, e.g. '{source}:R' (L, R, T or B)",
+				column: arrowColumn
+			);
 
 		if (shape.Groups["ss"].Value is not ("L" or "R" or "T" or "B"))
 			throw new MermaidParseException($"side '{shape.Groups["ss"].Value}' is not valid", line, "L, R, T or B", column: line.IndexOf(':') + 2);
@@ -213,24 +233,42 @@ internal static partial class ArchitectureParser
 			throw new MermaidParseException("edge has no target", line, "a side and a target id after the arrow, e.g. 'a:R -- L:b'", column: line.Length + 1);
 
 		if (!shape.Groups["ts"].Success)
-			throw new MermaidParseException($"edge has no side on '{target}'", line, $"a side before the target, e.g. 'L:{target}' (L, R, T or B)", column: arrowColumn + arrow.Length);
+			throw new MermaidParseException(
+				$"edge has no side on '{target}'",
+				line,
+				$"a side before the target, e.g. 'L:{target}' (L, R, T or B)",
+				column: arrowColumn + arrow.Length
+			);
 
 		if (shape.Groups["ts"].Value is not ("L" or "R" or "T" or "B"))
 			throw new MermaidParseException($"side '{shape.Groups["ts"].Value}' is not valid", line, "L, R, T or B", column: arrowColumn + arrow.Length);
 
 		var rest = shape.Groups["rest"].Value.Trim();
 		if (rest.Length > 0)
-			throw new MermaidParseException($"unexpected text '{rest}' after the edge", line, "the end of the edge", column: line.LastIndexOf(rest, StringComparison.Ordinal) + 1);
+			throw new MermaidParseException(
+				$"unexpected text '{rest}' after the edge",
+				line,
+				"the end of the edge",
+				column: line.LastIndexOf(rest, StringComparison.Ordinal) + 1
+			);
 	}
 
 	/// <summary>Ids are shared by groups, services and junctions; parents must be groups; edges join ids that exist.</summary>
-	private static void RequireConsistentIds(List<(string Kind, string Id, string? Parent, string Line)> declarations, List<(string Source, string Target, string Line)> edgeRefs)
+	private static void RequireConsistentIds(
+		List<(string Kind, string Id, string? Parent, string Line)> declarations,
+		List<(string Source, string Target, string Line)> edgeRefs
+	)
 	{
 		var kinds = new Dictionary<string, string>(StringComparer.Ordinal);
 		foreach (var (kind, id, _, line) in declarations)
 		{
 			if (!kinds.TryAdd(id, kind))
-				throw new MermaidParseException($"{kind} id '{id}' is already used by a {kinds[id]}", line, "a unique id for every group, service and junction", column: line.IndexOf(id, StringComparison.Ordinal) + 1);
+				throw new MermaidParseException(
+					$"{kind} id '{id}' is already used by a {kinds[id]}",
+					line,
+					"a unique id for every group, service and junction",
+					column: line.IndexOf(id, StringComparison.Ordinal) + 1
+				);
 		}
 
 		foreach (var (kind, id, parent, line) in declarations)
@@ -242,9 +280,19 @@ internal static partial class ArchitectureParser
 			if (parent == id)
 				throw new MermaidParseException($"{kind} '{id}' cannot be placed in itself", line, "a different group after 'in'", column: column);
 			if (!kinds.TryGetValue(parent, out var parentKind))
-				throw new MermaidParseException($"{kind} '{id}' is in group '{parent}', which is not declared", line, "the id of a declared group after 'in'", column: column);
+				throw new MermaidParseException(
+					$"{kind} '{id}' is in group '{parent}', which is not declared",
+					line,
+					"the id of a declared group after 'in'",
+					column: column
+				);
 			if (parentKind != "group")
-				throw new MermaidParseException($"{kind} '{id}' is in '{parent}', which is a {parentKind} and not a group", line, "the id of a group after 'in'", column: column);
+				throw new MermaidParseException(
+					$"{kind} '{id}' is in '{parent}', which is a {parentKind} and not a group",
+					line,
+					"the id of a group after 'in'",
+					column: column
+				);
 		}
 
 		foreach (var (source, target, line) in edgeRefs)
@@ -252,7 +300,12 @@ internal static partial class ArchitectureParser
 			foreach (var endpoint in new[] { source, target })
 			{
 				if (!kinds.ContainsKey(endpoint))
-					throw new MermaidParseException($"edge refers to '{endpoint}', which is not declared", line, "the id of a declared group, service or junction", column: line.IndexOf(endpoint, StringComparison.Ordinal) + 1);
+					throw new MermaidParseException(
+						$"edge refers to '{endpoint}', which is not declared",
+						line,
+						"the id of a declared group, service or junction",
+						column: line.IndexOf(endpoint, StringComparison.Ordinal) + 1
+					);
 			}
 		}
 	}

@@ -9,8 +9,7 @@ namespace Mermaider.Tests.Parsing;
 /// </summary>
 public class MalformedClassErReqArchTests
 {
-	private static string[] Lines(string source) =>
-		source.Split('\n').Select(l => l.Trim()).Where(l => l.Length > 0).ToArray();
+	private static string[] Lines(string source) => source.Split('\n').Select(l => l.Trim()).Where(l => l.Length > 0).ToArray();
 
 	[Test]
 	// class
@@ -100,9 +99,15 @@ public class MalformedClassErReqArchTests
 	{
 		var act = () => MermaidRenderer.RenderSvg("erDiagram\n    A ||==o{ B : x\n");
 
-		act.Should().Throw<MermaidParseException>().Which.Message.Should().Be(
-			"Parse error on line 2: relationship has no line between its cardinalities\n  A ||==o{ B : x\n      ^\nExpecting '--' (identifying) or '..' (non-identifying) between the cardinalities, e.g. 'A ||--o{ B : places'."
-		);
+		act
+			.Should()
+			.Throw<MermaidParseException>()
+			.Which
+			.Message
+			.Should()
+			.Be(
+				"Parse error on line 2: relationship has no line between its cardinalities\n  A ||==o{ B : x\n      ^\nExpecting '--' (identifying) or '..' (non-identifying) between the cardinalities, e.g. 'A ||--o{ B : places'."
+			);
 	}
 
 	[Test]
@@ -169,8 +174,7 @@ public class MalformedClassErReqArchTests
 	[Arguments("requirementDiagram\n    direction LR\n    requirement \"my req\" { %% a comment\n        id: 1\n    }\n    a-verifies->b\n    classDef c fill:#f00\n")]
 	[Arguments("architecture-beta\n    group g(cloud)[G]\n    group h(cloud)[H] in g\n    service a(server)[A] in h\n    service b(server)[B]\n    junction j\n    a:R -- L:j\n    j:R --> L:b %% note\n    a :B <-- T : b\n")]
 	[Arguments("architecture-beta\n    service a[A]\n    service b(server)\n    service c\n    a:R -- L:b\n    b:R -- L:c\n")]
-	public void Valid_input_stays_accepted(string source) =>
-		MermaidRenderer.RenderSvg(source).Should().StartWith("<svg");
+	public void Valid_input_stays_accepted(string source) => MermaidRenderer.RenderSvg(source).Should().StartWith("<svg");
 
 	[Test]
 	public void ER_relationship_without_a_label_is_still_rendered() =>
