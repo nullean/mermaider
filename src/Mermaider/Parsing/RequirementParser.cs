@@ -10,7 +10,7 @@ internal static partial class RequirementParser
 	[GeneratedRegex(@"^title\s+(.+)$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex TitlePattern();
 
-	[GeneratedRegex(@"^direction\s+(TB|BT|LR|RL)\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	[GeneratedRegex(@"^direction\s+(TB|BT|LR|RL)\b", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex DirectionPattern();
 
 	[GeneratedRegex(@"^(requirement|functionalRequirement|interfaceRequirement|performanceRequirement|physicalRequirement|designConstraint)\s+(.+?)\s*\{\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
@@ -23,18 +23,25 @@ internal static partial class RequirementParser
 	private static partial Regex PropertyPattern();
 
 	// A - type -> B
-	[GeneratedRegex(@"^(.+?)\s+-\s+(contains|copies|derives|satisfies|verifies|refines|traces)\s+->\s+(.+)$", RegexOptions.IgnoreCase, TimeoutMs)]
+	[GeneratedRegex(@"^(.+?)\s*-\s*(contains|copies|derives|satisfies|verifies|refines|traces)\s*->\s*(.+)$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex ForwardRelationPattern();
 
 	// B <- type - A
-	[GeneratedRegex(@"^(.+?)\s+<-\s+(contains|copies|derives|satisfies|verifies|refines|traces)\s+-\s+(.+)$", RegexOptions.IgnoreCase, TimeoutMs)]
+	[GeneratedRegex(@"^(.+?)\s*<-\s*(contains|copies|derives|satisfies|verifies|refines|traces)\s*-\s*(.+)$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex ReverseRelationPattern();
 
-	internal static RequirementDiagram Parse(string[] lines)
+	// statements that are valid at the top level but carry nothing this parser renders
+	[GeneratedRegex(@"^(?:classDef|class|style|accTitle|accDescr)\b|:::", RegexOptions.None, TimeoutMs)]
+	private static partial Regex StylingPattern();
+
+	[GeneratedRegex(@"^direction(?!\s+(?:TB|BT|LR|RL)\b)", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex DirectionKeywordPattern();
+
+	internal static RequirementDiagram Parse(string[] lines, bool strict = true)
 	{
 		try
 		{
-			return ParseCore(lines);
+			return ParseCore(lines, strict);
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
@@ -42,7 +49,7 @@ internal static partial class RequirementParser
 		}
 	}
 
-	private static RequirementDiagram ParseCore(string[] lines)
+	private static RequirementDiagram ParseCore(string[] lines, bool strict)
 	{
 		string? title = null;
 		var direction = Direction.TB;
@@ -52,7 +59,7 @@ internal static partial class RequirementParser
 
 		for (var i = 1; i < lines.Length; i++)
 		{
-			var line = lines[i];
+			var line = StripTrailingComment(lines[i]);
 
 			var titleMatch = TitlePattern().Match(line);
 			if (titleMatch.Success)
@@ -68,12 +75,20 @@ internal static partial class RequirementParser
 				continue;
 			}
 
+			if (strict && DirectionKeywordPattern().IsMatch(line))
+				throw new MermaidParseException(
+					"direction is not TB, BT, LR or RL",
+					line,
+					"'direction' followed by TB, BT, LR or RL",
+					column: line.Length > 9 ? 11 : line.Length + 1
+				);
+
 			var reqMatch = RequirementOpenPattern().Match(line);
 			if (reqMatch.Success)
 			{
 				var kind = ParseKind(reqMatch.Groups[1].Value);
 				var name = Unquote(reqMatch.Groups[2].Value.Trim());
-				i = ParseRequirementBody(lines, i + 1, name, kind, requirements);
+				i = ParseRequirementBody(lines, i + 1, line, name, kind, requirements, strict);
 				continue;
 			}
 
@@ -81,7 +96,7 @@ internal static partial class RequirementParser
 			if (elemMatch.Success)
 			{
 				var name = Unquote(elemMatch.Groups[1].Value.Trim());
-				i = ParseElementBody(lines, i + 1, name, elements);
+				i = ParseElementBody(lines, i + 1, line, name, elements, strict);
 				continue;
 			}
 
@@ -103,13 +118,17 @@ internal static partial class RequirementParser
 				var relType = ParseRelationType(revMatch.Groups[2].Value);
 				var src = Unquote(revMatch.Groups[3].Value.Trim());
 				relations.Add(new RequirementRelation(src, dst, relType));
+				continue;
 			}
+
+			if (strict)
+				RequireKnownStatement(line);
 		}
 
 		return new RequirementDiagram { Title = title, Direction = direction, Requirements = requirements, Elements = elements, Relations = relations, };
 	}
 
-	private static int ParseRequirementBody(string[] lines, int start, string name, RequirementKind kind, List<RequirementNode> requirements)
+	private static int ParseRequirementBody(string[] lines, int start, string openLine, string name, RequirementKind kind, List<RequirementNode> requirements, bool strict)
 	{
 		string? id = null;
 		string? text = null;
@@ -124,6 +143,8 @@ internal static partial class RequirementParser
 				break;
 
 			var prop = PropertyPattern().Match(line);
+			if (strict)
+				RequireProperty(line, prop, RequirementKeys, "id, text, risk or verifymethod", "requirement");
 			if (!prop.Success)
 				continue;
 
@@ -140,11 +161,14 @@ internal static partial class RequirementParser
 				verify = ParseVerifyMethod(value);
 		}
 
+		if (strict && i >= lines.Length)
+			throw UnclosedBlock(openLine);
+
 		requirements.Add(new RequirementNode(name, kind, id, text, risk, verify));
 		return i;
 	}
 
-	private static int ParseElementBody(string[] lines, int start, string name, List<RequirementElement> elements)
+	private static int ParseElementBody(string[] lines, int start, string openLine, string name, List<RequirementElement> elements, bool strict)
 	{
 		string? type = null;
 		string? docRef = null;
@@ -157,6 +181,8 @@ internal static partial class RequirementParser
 				break;
 
 			var prop = PropertyPattern().Match(line);
+			if (strict)
+				RequireProperty(line, prop, ElementKeys, "type or docref", "element");
 			if (!prop.Success)
 				continue;
 
@@ -169,8 +195,84 @@ internal static partial class RequirementParser
 				docRef = value;
 		}
 
+		if (strict && i >= lines.Length)
+			throw UnclosedBlock(openLine);
+
 		elements.Add(new RequirementElement(name, type, docRef));
 		return i;
+	}
+
+	private static readonly string[] RequirementKeys = ["id", "text", "risk", "verifymethod"];
+	private static readonly string[] ElementKeys = ["type", "docref"];
+
+	// `requirement r { %% note`: a comment may follow a statement, unless the `%%` sits inside a quoted name
+	private static string StripTrailingComment(string line)
+	{
+		var comment = line.IndexOf("%%", StringComparison.Ordinal);
+		if (comment <= 0)
+			return line;
+
+		var before = line[..comment];
+		return before.Count(c => c == '"') % 2 == 0 ? before.TrimEnd() : line;
+	}
+
+	private static MermaidParseException UnclosedBlock(string openLine) =>
+		new($"block '{openLine.TrimEnd('{', ' ')}' is never closed", openLine, "'}' to close the block", column: openLine.Length + 1);
+
+	private static void RequireKnownStatement(string line)
+	{
+		if (StylingPattern().IsMatch(line) || TitlePattern().IsMatch(line))
+			return;
+
+		var arrow = line.IndexOf("->", StringComparison.Ordinal);
+		if (arrow < 0)
+			arrow = line.IndexOf("<-", StringComparison.Ordinal);
+		if (arrow >= 0)
+			throw new MermaidParseException(
+				"relationship is incomplete or has an unknown type",
+				line,
+				"'<source> - <type> -> <target>' where type is contains, copies, derives, satisfies, verifies, refines or traces",
+				column: arrow + 1
+			);
+
+		throw new MermaidParseException(
+			$"unexpected text '{line}'",
+			line,
+			"a requirement or element block, a relationship such as 'a - satisfies -> b', or 'direction'",
+			column: 1
+		);
+	}
+
+	private static void RequireProperty(string line, Match prop, string[] keys, string keyList, string blockKind)
+	{
+		if (!prop.Success)
+			throw new MermaidParseException(
+				$"'{line}' is not a {blockKind} property",
+				line,
+				$"'key: value' with a key of {keyList}, or '}}' to close the block",
+				column: 1
+			);
+
+		var key = prop.Groups[1].Value;
+		if (Array.IndexOf(keys, key.ToLowerInvariant()) < 0)
+			throw new MermaidParseException($"unknown {blockKind} property '{key}'", line, $"a key of {keyList}", column: 1);
+
+		var value = prop.Groups[2].Value.Trim();
+		var valueColumn = prop.Groups[2].Index + 1;
+		if (value[0] == '"' && (value.Length < 3 || value[^1] != '"' || value.IndexOf('"', 1) != value.Length - 1))
+			throw new MermaidParseException(
+				$"quoted value for '{key}' is malformed",
+				line,
+				"a non-empty value in matching double quotes, e.g. \"some text\"",
+				column: valueColumn
+			);
+
+		var lower = key.ToLowerInvariant();
+		if (lower == "risk" && ParseRisk(value) == RequirementRisk.Unspecified)
+			throw new MermaidParseException($"risk '{value}' is not a known level", line, "low, medium or high", column: valueColumn);
+
+		if (lower == "verifymethod" && ParseVerifyMethod(value) == RequirementVerifyMethod.Unspecified)
+			throw new MermaidParseException($"verifymethod '{value}' is not a known method", line, "analysis, demonstration, inspection or test", column: valueColumn);
 	}
 
 	private static Direction ParseDirection(string value) => value.ToUpperInvariant() switch
