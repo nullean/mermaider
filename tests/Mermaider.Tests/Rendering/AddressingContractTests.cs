@@ -114,8 +114,14 @@ public class AddressingContractTests
 				Indices(series.Elements().Where(e => HasClass(e, "xy-bar")))
 					.Should()
 					.Equal(Enumerable.Range(1, series.Elements().Count(e => HasClass(e, "xy-bar"))));
-			bars.Select(b => double.TryParse((string?)b.Attribute("data-value"), NumberStyles.Float, CultureInfo.InvariantCulture, out var value) ? value : double.NaN)
-				.Should().NotContain(double.NaN);
+			bars
+				.Select(
+					b => double.TryParse((string?)b.Attribute("data-value"), NumberStyles.Float, CultureInfo.InvariantCulture, out var value)
+						? value
+						: double.NaN
+				)
+				.Should()
+				.NotContain(double.NaN);
 		}
 	}
 
