@@ -29,16 +29,16 @@ internal static partial class DiagramDetector
 	[GeneratedRegex(@"^timeline(?:\s|$)", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex TimelineHeader();
 
-	[GeneratedRegex(@"^gitGraph\s*(LR:|TB:|BT:)?\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	[GeneratedRegex(@"^gitGraph\s*(?:(?:LR|TB|BT)?:)?\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex GitGraphHeader();
 
-	[GeneratedRegex(@"^radar-beta\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	[GeneratedRegex(@"^radar-beta(?:\s+title\s+\S.*)?\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex RadarHeader();
 
-	[GeneratedRegex(@"^treemap-beta\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	[GeneratedRegex(@"^treemap(?:-beta)?(?:\s+title\s+\S.*)?\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex TreemapHeader();
 
-	[GeneratedRegex(@"^venn-beta\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	[GeneratedRegex(@"^venn-beta(?:\s+title\s+\S.*)?\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex VennHeader();
 
 	[GeneratedRegex(@"^mindmap\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
