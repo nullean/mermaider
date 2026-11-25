@@ -197,6 +197,7 @@ internal sealed partial class Compiler
 			// once, scrub, or a loop with nothing after its intro: the last frame holds, state and caption included
 			foreach (var action in _scoreEnd)
 				action(scoreEnd);
+			ApplyHighlights(0, scoreEnd + _spec.Hold);
 			return new CompiledTimeline(_channels, steps, scoreEnd + _spec.Hold, scoreEnd, 0, Loops: false)
 			{
 				CaptionBand = _captionBand,
@@ -219,6 +220,8 @@ internal sealed partial class Compiler
 			if (!target.SequenceEqual(now))
 				channel.Animate(settle, _spec.Settle, target, Easing.Move);
 		}
+		// after the settle, which must not touch them: highlights run the story's whole clock
+		ApplyHighlights(introEnd, settle + _spec.Settle + _spec.Lead);
 		return new CompiledTimeline(_channels, steps, settle + _spec.Settle + _spec.Lead, scoreEnd, introEnd, Loops: true)
 		{
 			CaptionBand = _captionBand,

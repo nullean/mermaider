@@ -1,0 +1,11 @@
+flowchart LR
+  %% Highlight: no story, just what the diagram is about: where requests flow, and the node that is failing
+  client[Client] --> lb[Balancer]
+  lb --> api1[API 1]
+  lb --> api2[API 2]
+  api1 --> db[(Orders DB)]
+  api2 --> db
+
+animate
+  highlight flow client -> lb -> api1 -> db
+  highlight api2 as fail

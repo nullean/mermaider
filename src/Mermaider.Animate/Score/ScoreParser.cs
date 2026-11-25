@@ -72,6 +72,8 @@ internal static class ScoreParser
 		var steps = shared;
 		var scenarios = new List<ScoreScenario>();
 		var tokens = new Dictionary<string, TokenDeclaration>(StringComparer.Ordinal);
+		var highlights = new List<HighlightStatement>();
+		var misplaced = false;
 		string? stepCaption = null;
 		var stepLine = 0;
 		var stepIndent = -1;
@@ -81,8 +83,10 @@ internal static class ScoreParser
 		{
 			if (stepStatements is null)
 				return;
-			if (stepStatements.Count == 0)
+			// a step whose only line was a misplaced highlight already has its problem reported
+			if (stepStatements.Count == 0 && !misplaced)
 				diagnostics.Add(new(stepLine, "This step is empty. Indent the statements that belong to it under the step line."));
+			misplaced = false;
 			steps.Add(new ScoreStep(stepCaption, stepStatements, stepLine));
 			stepStatements = null;
 			stepIndent = -1;
@@ -149,6 +153,19 @@ internal static class ScoreParser
 			if (statement is null)
 				continue;
 
+			// a highlight holds for the whole animation, so it belongs to the score, not to a step
+			if (statement is HighlightStatement highlight)
+			{
+				if (stepStatements is not null)
+				{
+					diagnostics.Add(new(lineNo, "highlight holds for the whole animation: write it before the steps, not inside one."));
+					misplaced = true;
+				}
+				else
+					highlights.Add(highlight);
+				continue;
+			}
+
 			if (stepStatements is not null)
 				stepStatements.Add(statement);
 			else if (statement.With && steps.Count > 0 && steps[^1].Caption is null)
@@ -162,7 +179,7 @@ internal static class ScoreParser
 			diagnostics.Add(new(scenario.Line, $"The scenario \"{scenario.Name}\" has no steps. Indent its steps under it, or write them after it."));
 		if (scenarios.Count == 1)
 			diagnostics.Add(new(scenarios[0].Line, "A score with one scenario tells one story: give it a second scenario, or write its steps without one."));
-		return new ScoreDocument(mode, motion, shared, tokens, start + 1) { Scenarios = scenarios, Contents = contents };
+		return new ScoreDocument(mode, motion, shared, tokens, start + 1) { Scenarios = scenarios, Contents = contents, Highlights = highlights };
 	}
 
 	private static int IndentOf(string line)
@@ -225,6 +242,7 @@ internal static class ScoreParser
 			"restore" => new RestoreStatement(reader.Edges(), line),
 			"send" => ParseSend(reader, tokens),
 			"stream" => ParseStream(reader),
+			"highlight" => ParseHighlight(reader),
 			"tour" => ParseTour(reader, tokens),
 			"run" => new RunStatement(reader.Chain(min: 2), line),
 			"try" => ParseTry(reader),
@@ -244,7 +262,7 @@ internal static class ScoreParser
 			"note" => ParseNote(reader),
 			_ =>
 				reader.Fail(
-					$"Unknown verb '{verb}'. The verbs are show, hide, focus, pulse, mark, badge, fill, hang, draw, erase, cut, restore, send, stream, tour, run, try, ping, play, sweep, move, expand, set, trace, note, count, caption and build."
+					$"Unknown verb '{verb}'. The verbs are show, hide, focus, pulse, mark, badge, fill, hang, draw, erase, cut, restore, send, stream, tour, run, try, ping, play, sweep, move, expand, set, trace, note, count, highlight, caption and build."
 				),
 		};
 		if (statement is null)
@@ -366,6 +384,26 @@ internal static class ScoreParser
 				break;
 		}
 		return new SendStatement(token, from, to, label, role, becomes, speed, fate, each, reader.Line);
+	}
+
+	private static Statement? ParseHighlight(Reader reader)
+	{
+		// highlight path A -> B -> C [as ROLE]  |  highlight flow A -> B -> C  |  highlight A[, B] [as ROLE]
+		var kind = reader.Accept("path") ? HighlightKind.Path : reader.Accept("flow") ? HighlightKind.Flow : HighlightKind.Node;
+		IReadOnlyList<TargetRef> targets = [];
+		IReadOnlyList<string> route = [];
+		if (kind == HighlightKind.Node)
+		{
+			targets = reader.Targets();
+			if (targets.Count == 0)
+				return reader.Fail("highlight takes nodes, or a route: highlight api as fail, highlight path a -> b -> c, highlight flow a -> b.");
+		}
+		else
+			route = reader.Chain(min: 2);
+		Role? role = null;
+		if (reader.Accept("as"))
+			role = reader.Next() is { } r ? ParseRole(r, reader.Line, reader.Diagnostics) : null;
+		return new HighlightStatement(kind, targets, route, role, reader.Line);
 	}
 
 	private static Statement? ParseStream(Reader reader)
