@@ -11,9 +11,10 @@ namespace Mermaider.Animate;
 /// <c>:has()</c> applies the state.
 /// <list type="bullet">
 /// <item>The contents are a story map: the steps on a trunk, lit in the accent as they play, the current one ringed as
-/// <c>run</c> rings a state. A score with endings forks: each ending is a node in its role's colours with the mark icon,
-/// and the chosen one opens on its own branch. The list keeps its height however long the story: past nine rows it is a
-/// window that follows the playback.</item>
+/// <c>run</c> rings a state. A score with endings reaches a junction (the decision diamond): a road runs across to a
+/// card per ending in its role's colours with the mark icon, and the chosen ending's lane comes back into the trunk
+/// where its steps go on. The list keeps its height however long the story: past nine rows it is a window that follows
+/// the playback.</item>
 /// <item>Each ending is a unit of its own (its diagram, caption and contents), shown while its radio is checked; showing
 /// one starts it afresh, shared beginning included.</item>
 /// <item>A unit's radio group holds its state: play, pause, and playing or holding from a step. Clicking a step in the
@@ -24,9 +25,8 @@ namespace Mermaider.Animate;
 /// </summary>
 internal static class StoryPlayer
 {
-	// one rhythm: every row is 32px; an ending is a 28px box centred in its row
+	// one rhythm: every row is 32px
 	private const double RowHeight = 32;
-	private const double EndingHeight = 32;
 	private const int WindowRows = 9;
 
 	/// <summary>One ending (or the only story): its animation, name and role.</summary>
@@ -175,22 +175,19 @@ internal static class StoryPlayer
 			rows.Add(("step", k, y));
 			y += RowHeight;
 		}
-		// the fork: one row where the shared steps end, a junction every ending leaves from
-		var junction = y + (RowHeight / 2);
+		// the fork: one block where the shared steps end, then the chosen ending's steps go on along the trunk
+		ForkLayout? fork = null;
 		if (endings.Count > 1)
-			y += RowHeight;
-		if (endings.Count > 1)
-			for (var e = 0; e < endings.Count; e++)
+		{
+			fork = Fork(endings, chosen, shared > 0);
+			rows.Add(("fork", 0, y));
+			y += fork.Height;
+			for (var k = shared; k < steps.Count; k++)
 			{
-				rows.Add(("ending", e, y));
-				y += EndingHeight;
-				if (e == chosen)
-					for (var k = shared; k < steps.Count; k++)
-					{
-						rows.Add(("step", k, y));
-						y += RowHeight;
-					}
+				rows.Add(("step", k, y));
+				y += RowHeight;
 			}
+		}
 		var height = y;
 		var window = Math.Min(height, WindowRows * RowHeight);
 		Track? slide = null;
@@ -371,78 +368,45 @@ internal static class StoryPlayer
 			.Append("-list")
 			.Append(slide is null ? "" : " " + slide.Class)
 			.Append("\">\n");
-		if (endings.Count > 1)
-			Forks(sb, p, rows, chosen, junction, shared > 0 ? junction - RowHeight : junction, height, lit.Count > shared ? lit[shared].Class : null);
 		for (var r = 0; r < rows.Count; r++)
 		{
-			var (kind, index, rowY) = rows[r];
-			if (kind == "step")
+			var (kind, index, _) = rows[r];
+			if (kind == "fork")
 			{
-				var onBranch = endings.Count > 1 && index >= shared;
-				var after = r + 1 < rows.Count && rows[r + 1].Kind == "step" && (endings.Count == 1 || (rows[r + 1].Index >= shared) == onBranch);
-				_ = sb
-					.Append("<label class=\"")
-					.Append(p)
-					.Append("-row")
-					.Append(onBranch ? " branch" : "")
-					.Append("\" for=\"")
-					.Append(p)
-					.Append("-from")
-					.Append(index)
-					.Append("\" title=\"Play from step ")
-					.Append(index + 1)
-					.Append("\">");
-				_ = sb.Append("<span class=\"").Append(p).Append("-dot\">");
-				if (after)
-					_ = sb.Append("<i class=\"t\"></i><i class=\"t lit ").Append(lit[index + 1].Class).Append("\"></i>");
-				_ = sb
-					.Append("<i class=\"d\"></i><i class=\"d lit ")
-					.Append(lit[index].Class)
-					.Append("\"></i><i class=\"ring ")
-					.Append(rings[index].Class)
-					.Append("\"></i></span>");
-				_ = sb
-					.Append("<span class=\"")
-					.Append(p)
-					.Append("-i\">")
-					.Append(index + 1)
-					.Append("</span><span class=\"")
-					.Append(p)
-					.Append("-c\">")
-					.Append(WebUtility.HtmlEncode(steps[index].Caption!))
-					.Append("</span></label>\n");
+				Forks(sb, p, root, endings, chosen, shared, fork!, lit.Count > shared ? lit[shared].Class : null);
+				continue;
 			}
-			else
-			{
-				// the junction's own row: how many ways the story can go, beside the diamond
-				if (index == 0)
-					_ = sb.Append("<span class=\"").Append(p).Append("-junction\">").Append(endings.Count).Append(" ways it can go</span>\n");
-				var other = endings[index];
-				var open = index == chosen;
-				var count = other.Animation.Steps.Count(s => s.Caption is not null) - shared;
-				_ = sb
-					.Append("<label class=\"")
-					.Append(p)
-					.Append("-ending")
-					.Append(open ? " open" : "")
-					.Append("\" for=\"")
-					.Append(root)
-					.Append('-')
-					.Append(index)
-					.Append("\" style=\"--r: ")
-					.Append(RoleColor(other))
-					.Append("\" title=\"Play this ending\">")
-					.Append(Icon(other.Role))
-					.Append("<span class=\"")
-					.Append(p)
-					.Append("-name\">")
-					.Append(WebUtility.HtmlEncode(other.Name!))
-					.Append("</span><span class=\"")
-					.Append(p)
-					.Append("-count\">")
-					.Append(count)
-					.Append("</span></label>\n");
-			}
+			// the trunk runs on to the next step on the same side of the fork
+			var after = r + 1 < rows.Count && rows[r + 1].Kind == "step" && (rows[r + 1].Index >= shared) == (index >= shared);
+			_ = sb
+				.Append("<label class=\"")
+				.Append(p)
+				.Append("-row\" for=\"")
+				.Append(p)
+				.Append("-from")
+				.Append(index)
+				.Append("\" title=\"Play from step ")
+				.Append(index + 1)
+				.Append("\">");
+			_ = sb.Append("<span class=\"").Append(p).Append("-dot\">");
+			if (after)
+				_ = sb.Append("<i class=\"t\"></i><i class=\"t lit ").Append(lit[index + 1].Class).Append("\"></i>");
+			_ = sb
+				.Append("<i class=\"d\"></i><i class=\"d lit ")
+				.Append(lit[index].Class)
+				.Append("\"></i><i class=\"ring ")
+				.Append(rings[index].Class)
+				.Append("\"></i></span>");
+			_ = sb
+				.Append("<span class=\"")
+				.Append(p)
+				.Append("-i\">")
+				.Append(index + 1)
+				.Append("</span><span class=\"")
+				.Append(p)
+				.Append("-c\">")
+				.Append(WebUtility.HtmlEncode(steps[index].Caption!))
+				.Append("</span></label>\n");
 		}
 		_ = sb.Append("</div></div>\n</nav>\n</div>\n");
 	}
@@ -450,8 +414,8 @@ internal static class StoryPlayer
 	/// <summary>
 	/// The unit's layout and paint, every colour from the diagram's tokens. One spacing scale (4, 8, 12, 24) and one row
 	/// rhythm (32px). The figure's column is the diagram's own width, so the caption and its line share the diagram's
-	/// edges. The contents keep three columns: the trunk (x 14), the branch (x 44, the ending icons' centre) and the text
-	/// (x 60, step captions and ending names alike); a branch's steps indent their text by the same 30px.
+	/// edges. The contents keep two columns, the trunk (x 14) and the text (x 60); the fork lays its cards across the
+	/// list's width and the chosen ending's steps go on along the trunk.
 	/// </summary>
 	private static void Layout(StringBuilder sb, string p, double width)
 	{
@@ -504,9 +468,8 @@ internal static class StoryPlayer
 		// a flex column, so the endings' margins never collapse into each other and every row keeps the rhythm
 		Rule(sb, $".{p}-list", "display: flex; flex-direction: column");
 		Rule(sb, $".{p}-win", "overflow: hidden");
-		Rule(sb, $".{p}-row, .{p}-ending", "display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--_text-sec); box-sizing: border-box");
+		Rule(sb, $".{p}-row", "display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--_text-sec); box-sizing: border-box");
 		Rule(sb, $".{p}-row", $"height: {Px(RowHeight)}");
-		Rule(sb, $".{p}-row.branch", "padding-left: 30px");
 		Rule(sb, $".{p}-dot", $"position: relative; width: 28px; height: {Px(RowHeight)}; flex: none");
 		var middle = RowHeight / 2;
 		Rule(
@@ -525,33 +488,38 @@ internal static class StoryPlayer
 		);
 		Rule(sb, $".{p}-i", "width: 16px; flex: none; text-align: right; color: var(--_text-muted); font-variant-numeric: tabular-nums");
 		Rule(sb, $".{p}-c", "white-space: nowrap; overflow: hidden; text-overflow: ellipsis");
-		// an ending: a 28px box in its 32px row; border 1.5 + padding 6 puts its icon's centre on the branch (x 44) and,
-		// with a 9px gap, its name on the text column (x 60)
-		Rule(
-			sb,
-			$".{p}-ending",
-			$"position: relative; height: 28px; margin: {Px((EndingHeight - 28) / 2)} 0 {Px((EndingHeight - 28) / 2)} 30px; padding: 0 8px 0 6px; gap: 9px; border-radius: 8px; " +
-				"background: color-mix(in srgb, var(--r) 9%, var(--bg)); border: 1.5px solid color-mix(in srgb, var(--r) 40%, var(--bg))"
-		);
-		Rule(
-			sb,
-			$".{p}-ending.open",
-			"background: color-mix(in srgb, var(--r) 16%, var(--bg)); border-color: color-mix(in srgb, var(--r) 70%, var(--bg)); color: var(--_text); font-weight: 650"
-		);
-		Rule(sb, $".{p}-list", "position: relative");
-		Rule(sb, $".{p}-forks", "position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none");
+		// the fork block: its roads drawn under the cards, which sit where the layout put them
+		Rule(sb, $".{p}-fork", "position: relative");
+		Rule(sb, $".{p}-roads", "position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none");
 		Rule(
 			sb,
 			$".{p}-junction",
-			$"height: {Px(RowHeight)}; padding-left: 30px; display: flex; align-items: center; font-size: 11px; font-weight: 700; " +
-				"letter-spacing: .06em; text-transform: uppercase; color: var(--_text-muted)"
+			"position: absolute; left: 30px; height: 20px; display: flex; align-items: center; font-size: 10.5px; font-weight: 700; " +
+				"letter-spacing: .07em; text-transform: uppercase; color: var(--_text-muted)"
 		);
-		Rule(sb, $".{p}-ending svg", "flex: none");
-		Rule(sb, $".{p}-name", "flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis");
+		Rule(
+			sb,
+			$".{p}-card",
+			"position: absolute; box-sizing: border-box; border-radius: 8px; cursor: pointer; color: var(--_text-sec); " +
+				"background: color-mix(in srgb, var(--r) 8%, var(--bg)); border: 1.25px solid color-mix(in srgb, var(--r) 38%, var(--bg))"
+		);
+		Rule(
+			sb,
+			$".{p}-card.open",
+			"color: var(--_text); font-weight: 650; background: color-mix(in srgb, var(--r) 16%, var(--bg)); border: 1.75px solid color-mix(in srgb, var(--r) 72%, var(--bg))"
+		);
+		Rule(sb, $".{p}-card svg", "position: absolute; left: 7px; top: 7px");
 		Rule(
 			sb,
 			$".{p}-count",
-			"font-size: 10.5px; font-weight: 600; color: var(--_text-sec); background: var(--_key-badge); border-radius: 8px; padding: 0 8px; line-height: 16px"
+			"position: absolute; right: 7px; top: 7px; font-size: 10.5px; font-weight: 600; color: var(--_text-sec); background: var(--_key-badge); " +
+				"border-radius: 8px; padding: 0 7px; line-height: 16px"
+		);
+		Rule(
+			sb,
+			$".{p}-name",
+			"position: absolute; left: 8px; right: 8px; top: 29px; font-size: 11.5px; line-height: 15px; overflow: hidden; display: -webkit-box; " +
+				"-webkit-line-clamp: 3; -webkit-box-orient: vertical"
 		);
 		// wide: the contents beside the figure, which takes the diagram's own width; narrow: folded under it
 		_ = sb
@@ -571,73 +539,177 @@ internal static class StoryPlayer
 			.Append(p)
 			.Append("-toc:checked)) .")
 			.Append(p)
-			.Append("-win { display: none; } }\n");
+			// folded, not removed: display none would stop the list's animations, and showing it would restart them out of
+			// step with the diagram
+			.Append("-win { height: 0 !important; visibility: hidden; } }\n");
+	}
+
+	private const double MapWidth = 260;
+	private const double Trunk = 14;
+
+	/// <summary>One ending's card in the fork, in the fork block's coordinates.</summary>
+	private sealed record Card(int Index, double X, double Top, double Width, double Height)
+	{
+		public double Centre => X + (Width / 2);
+
+		public double Bottom => Top + Height;
+	}
+
+	/// <summary>Where the fork's parts go: the junction, the cards, every road in grey, and the chosen route and lane.</summary>
+	private sealed record ForkLayout(double Height, double Junction, List<Card> Cards, List<string> Roads, string Route);
+
+	/// <summary>
+	/// The fork in the road, laid out the way the diagrams draw connectors: the trunk reaches a junction (the flowchart's
+	/// decision diamond), a road runs across from it and drops to each ending's card, three at most side by side, more in
+	/// rows of two beside a lane that carries the trunk down. The chosen ending's lane leaves its card and turns back into
+	/// the trunk, where its steps go on.
+	/// </summary>
+	private static ForkLayout Fork(IReadOnlyList<Ending> endings, int chosen, bool fromStep)
+	{
+		const double Junction = 28;
+		const double Gap = 8;
+		var n = endings.Count;
+		var perRow = n <= 3 ? n : 2;
+		var left = n <= 3 ? 0 : 30;
+		var width = (MapWidth - left - (Gap * (perRow - 1))) / perRow;
+		// a name wraps to at most three lines at 11.5px; every card is as tall as the tallest
+		var perLine = Math.Max(4, (int)((width - 18) / (11.5 * 0.56)));
+		var lines = Math.Min(3, endings.Max(e => Lines(e.Name!, perLine)));
+		var height = 34 + (15 * lines);
+
+		var cards = new List<Card>();
+		var buses = new List<double>();
+		var bus = Junction + 18;
+		for (var i = 0; i < n; i++)
+		{
+			var column = i % perRow;
+			if (i > 0 && column == 0)
+				bus = cards[^1].Bottom + 12;
+			if (column == 0)
+				buses.Add(bus);
+			cards.Add(new Card(i, left + (column * (width + Gap)), bus + 22, width, height));
+		}
+		var bottom = cards.Max(c => c.Bottom);
+		var blockHeight = bottom + 14;
+		var start = fromStep ? -(RowHeight / 2) : 0;
+
+		static string Drop(Card card, double road) =>
+			$"V{Num(road - 8)} Q{Num(Trunk)},{Num(road)} {Num(Trunk + 8)},{Num(road)} H{Num(card.Centre - 8)} Q{Num(card.Centre)},{Num(road)} {Num(card.Centre)},{Num(road + 8)} V{Num(card.Top)}";
+
+		var roads = new List<string> { $"M{Num(Trunk)},{Num(start)} V{Num(Junction)}" };
+		if (buses.Count > 1)
+			roads.Add($"M{Num(Trunk)},{Num(Junction)} V{Num(buses[^1] - 8)}");
+		var roadOf = new Dictionary<int, double>();
+		foreach (var card in cards)
+		{
+			roadOf[card.Index] = buses[card.Index / perRow];
+			roads.Add($"M{Num(Trunk)},{Num(Junction)} " + Drop(card, roadOf[card.Index]));
+		}
+
+		// the chosen route: down the trunk, across to its card; then its lane back into the trunk
+		var taken = cards[chosen];
+		var route = $"M{Num(Trunk)},{Num(start)} V{Num(Junction)} " + Drop(taken, roadOf[chosen]);
+		var turn = n <= 3 ? bottom + 16 : taken.Bottom + 6;
+		route += $" M{Num(taken.Centre)},{Num(taken.Bottom)} V{Num(turn - 8)} Q{Num(taken.Centre)},{Num(turn)} {Num(taken.Centre - 8)},{Num(turn)} H{Num(Trunk + 8)} " +
+			$"Q{Num(Trunk)},{Num(turn)} {Num(Trunk)},{Num(turn + 8)} V{Num(blockHeight + (RowHeight / 2))}";
+		return new ForkLayout(blockHeight, Junction, cards, roads, route);
+	}
+
+	private static int Lines(string text, int perLine)
+	{
+		var lines = 1;
+		var used = 0;
+		foreach (var word in text.Split(' '))
+		{
+			if (used > 0 && used + 1 + word.Length > perLine)
+			{
+				lines++;
+				used = word.Length;
+			}
+			else
+				used += (used > 0 ? 1 : 0) + word.Length;
+		}
+		return lines;
 	}
 
 	/// <summary>
-	/// The fork in the road: the trunk runs on from the last shared step to a junction (the flowchart's decision diamond)
-	/// with how many ways the story can go, and every ending's branch leaves that one point, curving to its box. The
-	/// chosen route lights up in the accent when the story reaches it, on the same clock as the steps.
+	/// The fork as the player draws it: the roads in the line colour, the chosen route over them in the accent (lit when
+	/// the story reaches it, on the same clock as the steps), the junction, how many ways the story can go, and a card per
+	/// ending in its role's colours. A card is a label: choosing it plays that ending.
 	/// </summary>
-	private static void Forks(
-		StringBuilder sb,
-		string p,
-		List<(string Kind, int Index, double Y)> rows,
-		int chosen,
-		double junction,
-		double trunk,
-		double height,
-		string? litClass
-	)
+	private static void Forks(StringBuilder sb, string p, string root, IReadOnlyList<Ending> endings, int chosen, int shared, ForkLayout fork, string? litClass)
 	{
-		const double X = 14;
-		const double Box = 30;
-		// each branch heads straight for its ending from the junction, so they spread like roads from a crossing, and
-		// settles level into the box's edge
-		string Branch(double to) =>
-			$"M{Num(X)},{Num(junction)} C{Num(X + ((Box - X) * 0.35))},{Num(junction + ((to - junction) * 0.35))} {Num(X + ((Box - X) * 0.7))},{Num(to)} {Num(Box)},{Num(to)}";
-
-		var ends = rows.Where(r => r.Kind == "ending").Select(r => (r.Index, Middle: r.Y + (EndingHeight / 2))).ToList();
-		var route = $"M{Num(X)},{Num(trunk)} V{Num(junction)} " + Branch(ends.Single(e => e.Index == chosen).Middle)[1..].Insert(0, "L");
+		_ = sb.Append("<div class=\"").Append(p).Append("-fork\" style=\"height: ").Append(Px(fork.Height)).Append("\">");
 		_ = sb
 			.Append("<svg class=\"")
 			.Append(p)
-			.Append("-forks\" width=\"")
-			.Append(Num(Box))
+			.Append("-roads\" width=\"")
+			.Append(Num(MapWidth))
 			.Append("\" height=\"")
-			.Append(Num(height))
-			.Append("\" viewBox=\"0 0 ")
-			.Append(Num(Box))
-			.Append(' ')
-			.Append(Num(height))
+			.Append(Num(fork.Height))
 			.Append("\" aria-hidden=\"true\">");
-		_ = sb
-			.Append("<path d=\"M")
-			.Append(Num(X))
-			.Append(',')
-			.Append(Num(trunk))
-			.Append(" V")
-			.Append(Num(junction))
-			.Append("\" stroke=\"var(--_line)\" stroke-width=\"1.5\" fill=\"none\"/>");
-		foreach (var (_, middle) in ends)
-			_ = sb.Append("<path d=\"").Append(Branch(middle)).Append("\" stroke=\"var(--_line)\" stroke-width=\"1.5\" fill=\"none\"/>");
+		foreach (var road in fork.Roads)
+			_ = sb.Append("<path d=\"").Append(road).Append("\" stroke=\"var(--_line)\" stroke-width=\"1.5\" fill=\"none\"/>");
 		_ = sb
 			.Append("<path class=\"")
 			.Append(litClass ?? "")
 			.Append("\" d=\"")
-			.Append(route)
+			.Append(fork.Route)
 			.Append("\" stroke=\"var(--accent)\" stroke-width=\"2.5\" fill=\"none\" stroke-linecap=\"round\"/>");
 		_ = sb
 			.Append("<rect x=\"")
-			.Append(Num(X - 5))
+			.Append(Num(Trunk - 5))
 			.Append("\" y=\"")
-			.Append(Num(junction - 5))
+			.Append(Num(fork.Junction - 5))
 			.Append("\" width=\"10\" height=\"10\" rx=\"2\" transform=\"rotate(45 ")
-			.Append(Num(X))
+			.Append(Num(Trunk))
 			.Append(' ')
-			.Append(Num(junction))
-			.Append(")\" fill=\"var(--bg)\" stroke=\"var(--_line)\" stroke-width=\"1.5\"/>");
-		_ = sb.Append("</svg>");
+			.Append(Num(fork.Junction))
+			.Append(")\" fill=\"var(--bg)\" stroke=\"var(--accent)\" stroke-width=\"1.75\"/></svg>");
+		_ = sb
+			.Append("<span class=\"")
+			.Append(p)
+			.Append("-junction\" style=\"top: ")
+			.Append(Px(fork.Junction - 10))
+			.Append("\">")
+			.Append(endings.Count)
+			.Append(" ways it can go</span>");
+		foreach (var card in fork.Cards)
+		{
+			var ending = endings[card.Index];
+			var count = ending.Animation.Steps.Count(s => s.Caption is not null) - shared;
+			_ = sb
+				.Append("<label class=\"")
+				.Append(p)
+				.Append("-card")
+				.Append(card.Index == chosen ? " open" : "")
+				.Append("\" for=\"")
+				.Append(root)
+				.Append('-')
+				.Append(card.Index)
+				.Append("\" title=\"Play this ending\" style=\"--r: ")
+				.Append(RoleColor(ending))
+				.Append("; left: ")
+				.Append(Px(card.X))
+				.Append("; top: ")
+				.Append(Px(card.Top))
+				.Append("; width: ")
+				.Append(Px(card.Width))
+				.Append("; height: ")
+				.Append(Px(card.Height))
+				.Append("\">")
+				.Append(Icon(ending.Role))
+				.Append("<span class=\"")
+				.Append(p)
+				.Append("-count\">")
+				.Append(count)
+				.Append("</span><span class=\"")
+				.Append(p)
+				.Append("-name\">")
+				.Append(WebUtility.HtmlEncode(ending.Name))
+				.Append("</span></label>");
+		}
+		_ = sb.Append("</div>\n");
 	}
 
 	private static string Num(double value) => Math.Round(value, 2).ToString("0.##", CultureInfo.InvariantCulture);

@@ -204,4 +204,13 @@ public class PlayerTests
 		);
 		journey.Should().NotContain("-s-title\">");
 	}
+
+	[Test]
+	public void Folded_contents_keep_their_clock()
+	{
+		// display: none would stop the list's animations, and opening it would restart them out of step with the diagram
+		var html = MermaidAnimator.RenderPlayer(Steps(5));
+		var narrow = Regex.Match(html, @"@container \(max-width: 639\.98px\) \{([^\n]*)\}").Groups[1].Value;
+		narrow.Should().Contain("-win { height: 0 !important; visibility: hidden; }").And.NotContain("display: none");
+	}
 }

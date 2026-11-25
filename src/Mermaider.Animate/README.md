@@ -158,9 +158,10 @@ type:
   fills as the step plays (the caption leaves the SVG's caption band; the plain SVG keeps it);
 - above it, the diagram's own title (its `title` front matter or `accTitle`), unless the diagram draws it already;
 - beside it, the story's contents: every step on a trunk that lights up as it plays, the current one ringed. A score
-  with endings reaches a junction there, the flowchart's decision diamond, and every ending's branch leaves it, each
-  ending a box in its role's colours; the chosen route lights up as the story reaches it, and choosing another ending
-  plays it. Past nine steps the list is a window that follows the playback, so a long story takes no more room. The
+  with endings reaches a junction there, the flowchart's decision diamond: a road runs across from it to a card per
+  ending, side by side in their roles' colours (more than three in rows of two), and the chosen ending's lane comes back
+  into the trunk where its steps go on. The chosen route lights up as the story reaches it; choosing another card plays
+  that ending. Past nine steps the list is a window that follows the playback, so a long story takes no more room. The
   contents show when there is something to find in them: endings, or three steps and more. `animate contents` always
   lists the steps, `animate compact` never does (the controls then end the caption line), and the host can decide for
   every diagram with `AnimateOptions.Contents`;

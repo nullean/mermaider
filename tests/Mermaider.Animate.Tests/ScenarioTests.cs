@@ -124,7 +124,10 @@ public class ScenarioTests
 		Regex.Matches(html, $"<div class=\"{s}-end {s}-end-\\d\">").Count.Should().Be(2);
 
 		// every unit's map offers both endings, in their role's colours, with the chosen one open
-		var endings = Regex.Matches(html, $@"<label class=""ma[0-9a-f]{{8}}-p-ending( open)?"" for=""{s}-(\d)"" style=""--r: ([^""]+)""").ToList();
+		var endings = Regex.Matches(
+			html,
+			$@"<label class=""ma[0-9a-f]{{8}}-p-card( open)?"" for=""{s}-(\d)"" title=""Play this ending"" style=""--r: ([^;]+);"
+		).ToList();
 		endings.Should().HaveCount(4);
 		endings
 			.Select(e => $"{e.Groups[2].Value}{(e.Groups[1].Success ? "*" : "")} {e.Groups[3].Value}")
@@ -137,23 +140,38 @@ public class ScenarioTests
 	public void Endings_meet_at_one_junction_and_the_chosen_route_lights_when_the_story_reaches_it()
 	{
 		var html = MermaidAnimator.RenderPlayer(Endings);
-		// in each ending's unit: a junction, every branch leaving it, the chosen route drawn over them
-		var forks = Regex.Matches(html, @"<svg class=""ma[0-9a-f]{8}-p-forks""[^>]*>(.*?)</svg>").Select(m => m.Groups[1].Value).ToList();
+		// in each ending's unit: every road leaves the junction, the chosen route is drawn over them, a diamond marks it
+		var forks = Regex.Matches(html, @"<svg class=""ma[0-9a-f]{8}-p-roads""[^>]*>(.*?)</svg>").Select(m => m.Groups[1].Value).ToList();
 		forks.Should().HaveCount(2);
 		foreach (var fork in forks)
 		{
-			var branches = Regex.Matches(fork, @"<path d=""M14,([\d.]+) C").Select(m => m.Groups[1].Value).ToList();
-			branches.Should().HaveCount(2, "one per ending").And.OnlyContain(y => y == branches[0], "every branch leaves the same point");
-			fork.Should().Contain("rotate(45", "the junction is the flowchart's decision diamond");
-			Regex
-				.Match(fork, @"<path class=""(ma[0-9a-f]{8}-p-h\d+)"" d=""M14,[\d.]+ V[\d.]+ L14,")
-				.Success
-				.Should()
-				.BeTrue("the chosen route runs from the trunk through the junction");
+			var junction = Regex.Match(fork, @"rotate\(45 14 ([\d.]+)\)").Groups[1].Value;
+			junction.Should().NotBeEmpty("the junction is the flowchart's decision diamond");
+			var roads = Regex.Matches(fork, $@"<path d=""M14,{Regex.Escape(junction)} V").Count;
+			roads.Should().Be(2, "a road from the junction to each ending");
+			// the chosen route runs down the trunk, across to its card, and its lane comes back into the trunk
+			var route = Regex.Match(fork, @"<path class=""(ma[0-9a-f]{8}-p-h\d+)"" d=""([^""]+)""");
+			route.Success.Should().BeTrue("the route lights on the story's clock");
+			route.Groups[2].Value.Should().StartWith("M14,").And.Contain($"V{junction} ").And.MatchRegex(@" M[\d.]+,[\d.]+ V.* V[\d.]+$");
 		}
 		html.Should().Contain("2 ways it can go");
 		// a compact score with endings still lists them: choosing one needs the list
 		MermaidAnimator.RenderPlayer(Endings.Replace("animate\n", "animate compact\n")).Should().Contain("-map\" aria-label=\"Story\"");
+	}
+
+	[Test]
+	public void Four_endings_sit_in_rows_of_two_beside_the_trunk_lane()
+	{
+		var four = Endings + "\n  scenario \"c\"\n    step \"c\"\n      send lb -> api1\n  scenario \"d\"\n    step \"d\"\n      send lb -> api2\n";
+		var html = MermaidAnimator.RenderPlayer(four);
+		var unit = html[..html.IndexOf("-end-1\">", StringComparison.Ordinal)];
+		var cards = Regex
+			.Matches(unit, @"-p-card[^""]*"" for=""[^""]+"" title=""Play this ending"" style=""--r: [^;]+; left: ([\d.]+)px; top: ([\d.]+)px")
+			.Select(m => (Left: m.Groups[1].Value, Top: m.Groups[2].Value))
+			.ToList();
+		cards.Should().HaveCount(4);
+		cards.Select(c => c.Top).Distinct().Should().HaveCount(2, "two rows");
+		cards.Select(c => c.Left).Distinct().Should().HaveCount(2, "two columns").And.NotContain("0", "the trunk keeps its lane on the left");
 	}
 
 	[Test]
