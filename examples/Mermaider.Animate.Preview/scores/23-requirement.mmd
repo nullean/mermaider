@@ -1,0 +1,23 @@
+requirementDiagram
+  %% Requirement: what satisfies and verifies a checkout requirement
+  requirement checkout {
+    id: SHOP-1
+    text: Customers can pay by card
+    risk: high
+    verifymethod: test
+  }
+  element payments {
+    type: service
+  }
+  element e2e {
+    type: test suite
+  }
+  payments - satisfies -> checkout
+  e2e - verifies -> checkout
+
+animate
+  build
+  step "The payment service satisfies it"
+    send payments -> checkout "satisfies"
+  step "The end-to-end suite verifies it"
+    send e2e -> checkout "verifies" as ok

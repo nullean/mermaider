@@ -479,7 +479,13 @@ internal static class ScoreParser
 		var targets = new List<TargetRef>();
 		do
 		{
-			if (reader.Id() is { } id && id != "clear")
+			// a label in quotes names a target when the badge text, clear or another target follows it
+			if (
+				reader.Peek(0) is { Quoted: true } &&
+				(reader.Peek(1) is { Quoted: true } || reader.Peek(1)?.Is("clear") == true || reader.Peek(1)?.Is(",") == true)
+			)
+				targets.Add(new TargetRef(reader.Quoted()!, IsGroup: false, reader.Line) { ByLabel = true });
+			else if (reader.Id() is { } id && id != "clear")
 				targets.Add(new TargetRef(id, IsGroup: false, reader.Line));
 			else
 				return reader.Fail("badge takes nodes, then a quoted text or clear: badge api \"timeout\" as fail.");
