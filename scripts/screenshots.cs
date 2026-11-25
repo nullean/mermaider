@@ -14,7 +14,7 @@
 //   docs/images/styles/<style>.svg                        theming page style comparison (one flowchart per style)
 //   docs/screenshots/<style>/<theme>/<type>.svg           landing page gallery (every style x theme, opaque)
 //   docs/screenshots/hero.svg                             landing page hero (the code sample's diagram, transparent)
-//   docs/screenshots/animate/<score>.svg                  landing page animations: preview scores, animated, zinc-dark
+//   docs/screenshots/animate/<score>.svg                  landing page animations: every preview score, animated, zinc-dark
 //   docs/screenshots/animate/player.html                  landing page player: the request-path score with its step controls
 
 using System.Text.RegularExpressions;
@@ -156,8 +156,8 @@ Write(
 
 // the landing page's animations: preview scores, so the landing page shows what the preview and the golden frames check
 var scores = Path.Combine(root, "examples/Mermaider.Animate.Preview/scores");
-string[] animated = ["01-request-path", "03-state-machine", "04-sequence", "07-gantt", "10-kanban", "17-sankey", "20-venn"];
-foreach (var name in animated)
+// every preview score: the first plays in the player, the rest fill the landing page's animation gallery
+foreach (var name in Directory.GetFiles(scores, "*.mmd").Select(Path.GetFileNameWithoutExtension).Order(StringComparer.Ordinal))
 	Write($"docs/screenshots/animate/{name}.svg", MermaidAnimator.RenderSvg(File.ReadAllText(Path.Combine(scores, name + ".mmd")), new AnimateOptions { Render = Options("zinc-dark", DiagramStyle.Quiet, transparent: true) }));
 // the player is live HTML (its controls are radio buttons), so it is a page of its own the landing page frames
 Write(
