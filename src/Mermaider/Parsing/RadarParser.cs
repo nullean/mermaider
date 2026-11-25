@@ -10,6 +10,10 @@ internal static partial class RadarParser
 
 	private const string Statements = "'title', 'axis', 'curve', 'max', 'min', 'ticks', 'graticule' or 'showLegend'";
 
+	// "radar-beta title Skills": the title may sit on the header line
+	[GeneratedRegex(@"^radar-beta\s+title\s+(\S.*?)\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex HeaderTitlePattern();
+
 	[GeneratedRegex(@"^title\s+(.+)$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex TitlePattern();
 
@@ -72,7 +76,8 @@ internal static partial class RadarParser
 
 	private static RadarChart ParseCore(string[] lines, bool strict)
 	{
-		string? title = null;
+		var headerTitle = HeaderTitlePattern().Match(lines[0]);
+		string? title = headerTitle.Success ? headerTitle.Groups[1].Value : null;
 		var axes = new List<RadarAxis>();
 		var pending = new List<PendingCurve>();
 		var min = 0.0;
