@@ -55,6 +55,10 @@ internal static class MermaidRenderPipeline
 			{
 				rawSvg = DiagramSvgStage.Render(request);
 			}
+			catch (MermaidParseException ex)
+			{
+				throw ParseDiagnostics.Locate(ex, text);
+			}
 			catch (Exception ex) when (ex is not (MermaidParseException or MermaidSvgException or MermaidRenderException or OperationCanceledException or NotSupportedException))
 			{
 				throw new MermaidRenderException(prepared.DiagramType, ex);
@@ -273,6 +277,7 @@ internal static class DiagramSvgStage
 		var styles = configuration.Styles;
 		var lines = diagram.FilteredLines;
 		var strict = styles.Strict;
+		var strictParse = request.Options?.ParseMode != ParseMode.Lenient;
 		var accessibility = diagram.Accessibility;
 		var diagramType = diagram.DiagramType;
 		var provider = configuration.LayoutProvider;
@@ -290,7 +295,7 @@ internal static class DiagramSvgStage
 		{
 			case DiagramType.Sequence:
 				{
-					var parsed = SequenceParser.Parse(lines);
+					var parsed = SequenceParser.Parse(lines, strictParse);
 					ResourceGuard.CheckElements(parsed.Actors.Count + parsed.Messages.Count + parsed.Notes.Count, limits);
 					sb = SequenceSvgRenderer.RenderToBuilder(SequenceLayout.Layout(parsed), context);
 					break;
@@ -421,7 +426,7 @@ internal static class DiagramSvgStage
 			default:
 				{
 					// Flowchart, State — primary Sugiyama path, most DoS-critical
-					var parsed = MermaidRenderer.ParseInternal(lines, diagramType);
+					var parsed = MermaidRenderer.ParseInternal(lines, diagramType, strictParse);
 					ResourceGuard.CheckElements(parsed.Nodes.Count + parsed.Edges.Count, limits);
 					ct.ThrowIfCancellationRequested();
 

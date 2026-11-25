@@ -3,6 +3,9 @@ namespace Mermaider.Models;
 /// <summary>How a diagram is drawn as text.</summary>
 public sealed record AsciiOptions
 {
+	/// <summary>How malformed input is handled; see <see cref="Models.ParseMode"/>. Default: strict.</summary>
+	public ParseMode ParseMode { get; init; } = ParseMode.Strict;
+
 	public static readonly AsciiOptions Default = new();
 
 	/// <summary>Plain ASCII rather than box-drawing characters, for a terminal or a log that cannot be trusted with Unicode.</summary>

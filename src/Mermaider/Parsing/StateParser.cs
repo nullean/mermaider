@@ -44,11 +44,11 @@ internal static partial class StateParser
 	[GeneratedRegex(@"^([\w-]+):::([\w][\w-]*)\s*$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex ClassShorthandPattern();
 
-	internal static MermaidGraph Parse(string[] lines)
+	internal static MermaidGraph Parse(string[] lines, bool strict = true)
 	{
 		try
 		{
-			return ParseCore(lines);
+			return ParseCore(lines, strict);
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
@@ -56,7 +56,19 @@ internal static partial class StateParser
 		}
 	}
 
-	private static MermaidGraph ParseCore(string[] lines)
+	private static MermaidParseException IncompleteTransition(string line)
+	{
+		var arrow = line.IndexOf("-->", StringComparison.Ordinal);
+		var before = line[..arrow].Trim();
+		var after = line[(arrow + 3)..].Trim();
+		if (before.Length == 0)
+			return new MermaidParseException("transition '-->' has no source state", line, "a state id or '[*]' before '-->'", column: arrow + 1);
+		if (after.Length == 0 || after[0] == ':')
+			return new MermaidParseException("transition '-->' has no target state", line, "a state id or '[*]' after '-->', e.g. 'A --> B'", column: arrow + 4);
+		return new MermaidParseException($"cannot read transition '{line}'", line, "'source --> target' with an optional ': label'", column: arrow + 1);
+	}
+
+	private static MermaidGraph ParseCore(string[] lines, bool strict)
 	{
 		var direction = Direction.TD;
 		var nodes = new Dictionary<string, MermaidNode>();
@@ -298,7 +310,11 @@ internal static partial class StateParser
 				var id = stateDescMatch.Groups[1].Value;
 				var label = MultilineUtils.NormalizeBrTags(stateDescMatch.Groups[2].Value.Trim());
 				RegisterStateNode(nodes, compositeStack, new MermaidNode(id, label, NodeShape.Rounded));
+				continue;
 			}
+
+			if (strict && line.Contains("-->", StringComparison.Ordinal))
+				throw IncompleteTransition(line);
 		}
 
 		if (classDefs.ContainsKey("default"))

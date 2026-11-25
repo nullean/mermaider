@@ -31,6 +31,7 @@ var plain = false;
 var width = 120;
 var style = DiagramStyle.Quiet;
 var gradient = true;
+var lenient = false;
 double? tint = null;
 int? elevation = null;
 
@@ -66,6 +67,9 @@ for (var i = 0; i < args.Length; i++)
 		case "--style":
 			if (i + 1 >= args.Length || !TryParseStyle(args[++i], out style))
 				return UsageError("--style expects one of: quiet, blueprint, tonal");
+			break;
+		case "--lenient":
+			lenient = true;
 			break;
 		case "--gradient":
 			gradient = true;
@@ -120,12 +124,12 @@ if (string.IsNullOrWhiteSpace(input))
 	return 1;
 }
 
-var options = BuildOptions(themeName, transparent) with { Style = style, Gradient = gradient, Tint = tint, Elevation = elevation, };
+var options = BuildOptions(themeName, transparent) with { Style = style, Gradient = gradient, Tint = tint, Elevation = elevation, ParseMode = lenient ? ParseMode.Lenient : ParseMode.Strict, };
 
 try
 {
 	var svg = ascii
-		? MermaidRenderer.RenderAscii(input, new AsciiOptions { Ascii = plain, Width = width < 20 ? 120 : width })
+		? MermaidRenderer.RenderAscii(input, new AsciiOptions { ParseMode = lenient ? ParseMode.Lenient : ParseMode.Strict, Ascii = plain, Width = width < 20 ? 120 : width })
 		: MermaidRenderer.RenderSvg(input, options);
 
 	if (outputFile != null)
@@ -145,7 +149,7 @@ try
 }
 catch (MermaidParseException ex)
 {
-	Console.Error.WriteLine($"Parse error: {ex.Message}");
+	Console.Error.WriteLine(ex.Message.StartsWith("Parse error", StringComparison.Ordinal) ? ex.Message : $"Parse error: {ex.Message}");
 	return 1;
 }
 catch (MermaidSvgException ex)
@@ -235,6 +239,7 @@ static void PrintHelp() =>
 		  --transparent           Transparent background (default)
 		  --no-transparent        Opaque background (uses --bg color)
 		  --style <name>          Style preset: quiet (default), blueprint, tonal
+		  --lenient               Skip statements that cannot be read instead of failing (default: fail with the line and what was expected)
 		  --no-gradient           Flat fills instead of the top-to-bottom gradient
 		  --tint <0.5-1.5>        Strength of colour-family tints (default 1)
 		  --elevation <0|1|2>     Shadows: 0 none, 1 default, 2 adds ambient

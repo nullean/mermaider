@@ -112,11 +112,11 @@ internal static partial class FlowchartParser
 	// Parse entry point
 	// ========================================================================
 
-	internal static MermaidGraph Parse(string[] lines)
+	internal static MermaidGraph Parse(string[] lines, bool strict = true)
 	{
 		try
 		{
-			return ParseCore(JoinMultilineLabels(lines));
+			return ParseCore(JoinMultilineLabels(lines), strict);
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
@@ -144,7 +144,7 @@ internal static partial class FlowchartParser
 		return result.ToArray();
 	}
 
-	private static MermaidGraph ParseCore(string[] lines)
+	private static MermaidGraph ParseCore(string[] lines, bool strict)
 	{
 		var headerMatch = HeaderPattern().Match(lines[0]);
 		if (!headerMatch.Success)
@@ -288,7 +288,7 @@ internal static partial class FlowchartParser
 				continue;
 			}
 
-			ParseEdgeLine(line, nodes, edges, classAssignments, subgraphStack);
+			ParseEdgeLine(line, nodes, edges, classAssignments, subgraphStack, strict);
 		}
 
 		var subgraphMap = new Dictionary<string, MermaidSubgraph>();
@@ -374,16 +374,20 @@ internal static partial class FlowchartParser
 		Dictionary<string, MermaidNode> nodes,
 		List<MermaidEdge> edges,
 		Dictionary<string, string> classAssignments,
-		Stack<(string Id, string Label, List<string> NodeIds, List<MermaidSubgraph> Children, Direction? Dir)> subgraphStack
+		Stack<(string Id, string Label, List<string> NodeIds, List<MermaidSubgraph> Children, Direction? Dir)> subgraphStack,
+		bool strict
 	)
 	{
 		var remaining = line.Trim();
+		var statement = remaining;
 
 		var (firstIds, rest) = ConsumeNodeGroup(remaining, nodes, classAssignments, subgraphStack);
 		if (firstIds.Count == 0)
 			return;
 
 		remaining = rest.Trim();
+		if (strict)
+			RequireNoUnclosedBracket(statement, remaining);
 		var prevGroupIds = firstIds;
 
 		while (remaining.Length > 0)
@@ -406,7 +410,11 @@ internal static partial class FlowchartParser
 			{
 				var arrowMatch = ArrowPattern().Match(remaining);
 				if (!arrowMatch.Success)
+				{
+					if (strict)
+						RequireNothingLeft(statement, remaining);
 					break;
+				}
 
 				hasArrowStart = arrowMatch.Groups[1].Success;
 				arrowOp = arrowMatch.Groups[2].Value;
@@ -423,9 +431,15 @@ internal static partial class FlowchartParser
 
 			var (nextIds, nextRest) = ConsumeNodeGroup(remaining, nodes, classAssignments, subgraphStack);
 			if (nextIds.Count == 0)
+			{
+				if (strict)
+					RequireTarget(statement, remaining, arrowOp);
 				break;
+			}
 
 			remaining = nextRest.Trim();
+			if (strict)
+				RequireNoUnclosedBracket(statement, remaining);
 
 			foreach (var sourceId in prevGroupIds)
 			{
@@ -437,6 +451,46 @@ internal static partial class FlowchartParser
 
 			prevGroupIds = nextIds;
 		}
+	}
+
+	// A node id directly followed by an opening bracket that no shape pattern closed, e.g. "A[Unclosed --> B"
+	private static void RequireNoUnclosedBracket(string statement, string remaining)
+	{
+		if (remaining.Length == 0 || remaining[0] is not ('[' or '(' or '{'))
+			return;
+
+		var closer = remaining[0] switch { '[' => "']'", '(' => "')'", _ => "'}'" };
+		throw new MermaidParseException(
+			$"node label opened with '{remaining[0]}' is never closed",
+			statement,
+			$"{closer} to end the label",
+			column: statement.Length - remaining.Length + 1
+		);
+	}
+
+	private static void RequireTarget(string statement, string remaining, string arrowOp)
+	{
+		var atEnd = remaining.Length == 0;
+		throw new MermaidParseException(
+			atEnd ? $"link '{arrowOp}' has no target node" : $"link '{arrowOp}' is followed by something that is not a node",
+			statement,
+			"a node id after the link, e.g. 'A --> B'",
+			column: atEnd ? statement.Length : statement.Length - remaining.Length + 1
+		);
+	}
+
+	private static void RequireNothingLeft(string statement, string remaining)
+	{
+		var text = remaining.TrimEnd(';', ' ');
+		if (text.Length == 0)
+			return;
+
+		throw new MermaidParseException(
+			$"unexpected text '{text}'",
+			statement,
+			"a link ('-->', '---', '-.->', '==>') or the end of the statement",
+			column: statement.Length - remaining.Length + 1
+		);
 	}
 
 	private static (List<string> Ids, string Remaining) ConsumeNodeGroup(
