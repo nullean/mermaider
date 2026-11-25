@@ -98,9 +98,10 @@ public static class MermaidRenderer
 	/// Parse Mermaid diagram text into a logical graph structure without rendering.
 	/// </summary>
 	/// <param name="text">Mermaid source text.</param>
+	/// <param name="mode">Strict (default) throws on malformed statements; Lenient skips what it cannot read.</param>
 	/// <returns>The parsed graph model.</returns>
 	/// <exception cref="MermaidParseException">Thrown when the input cannot be parsed.</exception>
-	public static MermaidGraph Parse(string text)
+	public static MermaidGraph Parse(string text, ParseMode mode = ParseMode.Strict)
 	{
 		var (cleaned, _) = DiagramPreprocessor.Process(text);
 
@@ -110,7 +111,14 @@ public static class MermaidRenderer
 
 		var diagramType = DiagramDetector.Detect(cleaned.AsSpan());
 
-		return ParseInternal(lines, diagramType);
+		try
+		{
+			return ParseInternal(lines, diagramType, mode == ParseMode.Strict);
+		}
+		catch (MermaidParseException ex)
+		{
+			throw ParseDiagnostics.Locate(ex, text);
+		}
 	}
 
 	/// <summary>
@@ -138,16 +146,28 @@ public static class MermaidRenderer
 		var settings = options ?? AsciiOptions.Default;
 		return diagramType switch
 		{
-			DiagramType.Flowchart or DiagramType.State => AsciiFlowchartRenderer.Render(ParseInternal(lines, diagramType), settings),
+			DiagramType.Flowchart or DiagramType.State => AsciiFlowchartRenderer.Render(ParseAscii(lines, diagramType, settings, text), settings),
 			DiagramType.XyChart => AsciiXyChartRenderer.Render(XyChartParser.Parse(lines), settings),
 			_ => throw new NotSupportedException($"Diagram type '{diagramType}' has no text rendering; RenderSvg does."),
 		};
 	}
 
-	internal static MermaidGraph ParseInternal(string[] lines, DiagramType diagramType) => diagramType switch
+	private static MermaidGraph ParseAscii(string[] lines, DiagramType diagramType, AsciiOptions settings, string text)
 	{
-		DiagramType.Flowchart => FlowchartParser.Parse(lines),
-		DiagramType.State => StateParser.Parse(lines),
+		try
+		{
+			return ParseInternal(lines, diagramType, settings.ParseMode == ParseMode.Strict);
+		}
+		catch (MermaidParseException ex)
+		{
+			throw ParseDiagnostics.Locate(ex, text);
+		}
+	}
+
+	internal static MermaidGraph ParseInternal(string[] lines, DiagramType diagramType, bool strict = true) => diagramType switch
+	{
+		DiagramType.Flowchart => FlowchartParser.Parse(lines, strict),
+		DiagramType.State => StateParser.Parse(lines, strict),
 		_ => throw new MermaidParseException($"Diagram type '{diagramType}' is not yet supported.")
 	};
 

@@ -20,16 +20,126 @@ internal static partial class TreeViewParser
 	[GeneratedRegex(@"[├└┣┗]", RegexOptions.None, TimeoutMs)]
 	private static partial Regex BoxDrawingChar();
 
-	internal static TreeViewDiagram Parse(string[] lines)
+	[GeneratedRegex(@"(?:^|\s)icon\(", RegexOptions.None, TimeoutMs)]
+	private static partial Regex IconOpen();
+
+	[GeneratedRegex(@"^(?:[\w-]*:)?[\w-]+$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex IconName();
+
+	internal static TreeViewDiagram Parse(string[] lines, bool strict = true)
 	{
 		try
 		{
+			if (strict)
+				Validate(lines);
 			return ParseCore(lines);
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
 			throw new MermaidParseException($"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.", ex);
 		}
+	}
+
+	// Mermaid refuses what the lenient reading below would drop or fold into a label: a node with no name, a quote
+	// that is never closed, and an icon(...) that is unclosed or has an invalid name.
+	private static void Validate(string[] lines)
+	{
+		var isBoxDrawing = DetectBoxDrawingMode(lines);
+		string? openQuote = null;
+		var openQuoteColumn = 0;
+
+		for (var i = 1; i < lines.Length; i++)
+		{
+			var raw = ExpandTabs(lines[i]);
+			var text = raw.Trim();
+			if (text.Length == 0)
+				continue;
+
+			string body;
+			var bodyOffset = 0;
+
+			if (openQuote is not null)
+			{
+				// A quoted name may run over several lines; the node carries on after the closing quote.
+				var close = raw.IndexOf('"');
+				if (close < 0)
+					continue;
+				openQuote = null;
+				body = raw[(close + 1)..];
+				bodyOffset = close + 1;
+			}
+			else
+			{
+				var content = isBoxDrawing ? StripBoxDrawingPrefix(text) : text;
+				var offset = text.Length - content.Length;
+				if (content.Length == 0)
+				{
+					// A line of only vertical rules is a continuation; a branch with nothing after it is not.
+					if (isBoxDrawing && BoxDrawingChar().IsMatch(text))
+						throw new MermaidParseException(
+							"node has no name after the branch",
+							text,
+							"a file or directory name after the box-drawing prefix",
+							column: text.Length + 1
+						);
+					continue;
+				}
+
+				if (
+					content.StartsWith("##", StringComparison.Ordinal) || content.StartsWith(":::", StringComparison.Ordinal) || content.StartsWith(
+						"icon(",
+						StringComparison.Ordinal
+					)
+				)
+					throw new MermaidParseException(
+						"node has no name, only an annotation",
+						text,
+						"a file or directory name before the annotation",
+						column: offset + 1
+					);
+
+				body = content;
+				bodyOffset = offset;
+				if (content[0] == '"')
+				{
+					var close = content.IndexOf('"', 1);
+					if (close < 0)
+					{
+						openQuote = text;
+						openQuoteColumn = offset + 1;
+						continue;
+					}
+					body = content[(close + 1)..];
+					bodyOffset += close + 1;
+				}
+			}
+
+			var descAt = body.IndexOf("##", StringComparison.Ordinal);
+			if (descAt >= 0)
+				body = body[..descAt];
+
+			var open = IconOpen().Match(body);
+			if (!open.Success)
+				continue;
+
+			var nameStart = open.Index + open.Length;
+			var closeParen = body.IndexOf(')', nameStart);
+			var iconColumn = bodyOffset + open.Index + (open.Value[0] == 'i' ? 0 : 1) + 1;
+			if (closeParen < 0)
+				throw new MermaidParseException("icon( is never closed", text, "')' to end 'icon(name)'", column: iconColumn);
+
+			var name = body[nameStart..closeParen];
+			if (name.Length > 0 && !IconName().IsMatch(name))
+				throw new MermaidParseException(
+					$"icon name '{name}' is not valid",
+					text,
+					"'icon(name)' or 'icon(pack:name)' with letters, digits, '_' and '-'",
+					column: bodyOffset + nameStart + 1
+				);
+		}
+
+		if (openQuote is not null)
+			throw new MermaidParseException("quoted name is never closed", openQuote, "a closing '\"'", column: openQuoteColumn);
 	}
 
 	private static TreeViewDiagram ParseCore(string[] lines)

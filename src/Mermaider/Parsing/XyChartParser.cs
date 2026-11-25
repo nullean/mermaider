@@ -23,11 +23,33 @@ internal static partial class XyChartParser
 	[GeneratedRegex(@"^(bar|line|box)(?:\s+(.+?))?\s*\[(.+)\]\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex SeriesPattern();
 
-	internal static XyChart Parse(string[] lines)
+	[GeneratedRegex(@"^(title|x-axis|y-axis|bar|line|box)(?=[\s\[]|$)", RegexOptions.IgnoreCase, TimeoutMs)]
+	private static partial Regex KeywordPattern();
+
+	[GeneratedRegex(@"^[+-]?(?:\d+(?:\.\d+)?|\.\d+)$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex NumberPattern();
+
+	// min --> max, with an optional title in front: "Revenue" 4000 --> 11000
+	[GeneratedRegex(@"^(?:(?:""[^""]*""\s*|(?:(?!-->).)+?\s+))?[+-]?(?:\d+(?:\.\d+)?|\.\d+)\s*-->\s*[+-]?(?:\d+(?:\.\d+)?|\.\d+)$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex RangePattern();
+
+	[GeneratedRegex(@"^([^\[\]]*?)\s*\[([^\[\]]*)\]$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex CategoriesPattern();
+
+	[GeneratedRegex(@"^[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:\s+""[^""]*"")?$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex ValuePattern();
+
+	[GeneratedRegex(@"""[^""]*""", RegexOptions.None, TimeoutMs)]
+	private static partial Regex QuotedPattern();
+
+	[GeneratedRegex(@"^""[^""]*""$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex WholeQuotedPattern();
+
+	internal static XyChart Parse(string[] lines, bool strict = true)
 	{
 		try
 		{
-			return ParseCore(lines);
+			return ParseCore(lines, strict);
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
@@ -35,7 +57,7 @@ internal static partial class XyChartParser
 		}
 	}
 
-	private static XyChart ParseCore(string[] lines)
+	private static XyChart ParseCore(string[] lines, bool strict)
 	{
 		var horizontal = false;
 		string? title = null;
@@ -45,7 +67,21 @@ internal static partial class XyChartParser
 		double? xMin = null, xMax = null, yMin = null, yMax = null;
 		var series = new List<XySeries>();
 
-		var header = HeaderPattern().Match(lines[0]);
+		var header = HeaderPattern().Match(lines[0].Trim());
+		if (strict)
+		{
+			var text = lines[0].Trim();
+			if (!header.Success)
+				throw new MermaidParseException(
+					"unexpected text after 'xychart-beta'",
+					text,
+					"'horizontal' or 'vertical', then an optional 'title <text>'",
+					column: text.IndexOf(' ') + 2
+				);
+			if (header.Groups[2].Success)
+				RequireValidTitle(text, header.Groups[2].Value.Trim(), header.Groups[2].Index + 1);
+		}
+
 		if (header.Success)
 		{
 			if (header.Groups[1].Success)
@@ -57,6 +93,9 @@ internal static partial class XyChartParser
 		for (var i = 1; i < lines.Length; i++)
 		{
 			var line = lines[i];
+
+			if (strict)
+				RequireValidStatement(line);
 
 			var titleMatch = TitlePattern().Match(line);
 			if (titleMatch.Success)
@@ -267,6 +306,224 @@ internal static partial class XyChartParser
 				result.Add(0);
 		}
 		return result;
+	}
+
+	/// <summary>Throw for the first thing wrong with a statement, judged by what Mermaid accepts.</summary>
+	private static void RequireValidStatement(string line)
+	{
+		var keyword = KeywordPattern().Match(line);
+		if (!keyword.Success)
+			throw new MermaidParseException($"unexpected text '{line}'", line, "'title', 'x-axis', 'y-axis', 'bar' or 'line'", column: 1);
+
+		var name = keyword.Value.ToLowerInvariant();
+		var rest = line[keyword.Length..].Trim();
+		var column = line.Length - line[keyword.Length..].TrimStart().Length + 1;
+		switch (name)
+		{
+			case "title":
+				if (rest.Length == 0)
+					throw new MermaidParseException("title has no text", line, "a title after 'title', e.g. 'title \"Sales\"'", column: line.Length + 1);
+				RequireValidTitle(line, rest, column);
+				break;
+			case "x-axis" or "y-axis":
+				RequireValidAxis(line, name, rest, column);
+				break;
+			default:
+				RequireValidSeries(line, name, rest, column);
+				break;
+		}
+	}
+
+	/// <summary>A title is one quoted string, or plain text with no quote in it.</summary>
+	private static void RequireValidTitle(string line, string title, int column)
+	{
+		if (title[0] == '"')
+		{
+			if (title.Length == 1 || title.IndexOf('"', 1) < 0)
+				throw new MermaidParseException("title opened with '\"' is never closed", line, "a closing '\"' after the title", column: column);
+			if (title == "\"\"")
+				throw new MermaidParseException("title is empty", line, "some text in the quotes", column: column);
+			if (!WholeQuotedPattern().IsMatch(title))
+				throw new MermaidParseException(
+					"unexpected text after the quoted title",
+					line,
+					"the end of the line after the closing '\"'",
+					column: column + title.IndexOf('"', 1) + 1
+				);
+		}
+		else if (title.Contains('"', StringComparison.Ordinal))
+		{
+			throw new MermaidParseException(
+				"unexpected '\"' in the title",
+				line,
+				"the whole title in double quotes, or no quotes in it",
+				column: column + title.IndexOf('"')
+			);
+		}
+	}
+
+	private static void RequireValidAxis(string line, string name, string body, int column)
+	{
+		if (body.Length == 0)
+			throw new MermaidParseException(
+				$"{name} has no title or range",
+				line,
+				$"a title, categories '[a, b]' or a range '0 --> 100' after '{name}'",
+				column: line.Length + 1
+			);
+
+		var open = body.IndexOf('[');
+		if (open >= 0 || body.Contains(']', StringComparison.Ordinal))
+		{
+			if (name == "y-axis")
+				throw new MermaidParseException(
+					"the y-axis cannot list categories",
+					line,
+					"a title and/or a numeric range '0 --> 100'; categories belong on the x-axis",
+					column: column + Math.Max(open, 0)
+				);
+
+			var categories = CategoriesPattern().Match(body);
+			if (!categories.Success)
+				throw new MermaidParseException(
+					body.Contains(']', StringComparison.Ordinal) && open >= 0
+						? "unexpected text around the category list"
+						: open < 0 ? "']' without a '['" : "category list is never closed",
+					line,
+					"categories in square brackets, e.g. 'x-axis [jan, feb, mar]'",
+					column: column + (open < 0 ? body.IndexOf(']') : open)
+				);
+
+			var title = categories.Groups[1].Value.Trim();
+			if (title.Length > 0)
+				RequireValidAxisTitle(line, title, column);
+
+			var list = categories.Groups[2].Value;
+			if (list.Trim().Length == 0)
+				throw new MermaidParseException("category list is empty", line, "at least one category, e.g. [jan, feb]", column: column + open);
+
+			foreach (var item in SplitList(list))
+			{
+				var text = item.Trim();
+				if (text.Length == 0)
+					throw new MermaidParseException(
+						"category list has an empty entry",
+						line,
+						"a category between the commas",
+						column: column + categories.Groups[2].Index
+					);
+				if (text[0] == '"' && !WholeQuotedPattern().IsMatch(text))
+					throw new MermaidParseException(
+						text.IndexOf('"', 1) < 0 ? "category opened with '\"' is never closed" : $"unexpected text after the quoted category {text}",
+						line,
+						"a category in double quotes, or plain text",
+						column: column + Math.Max(body.IndexOf(text, StringComparison.Ordinal), 0)
+					);
+			}
+			return;
+		}
+
+		if (QuotedPattern().Replace(body, "\"\"").Contains("-->", StringComparison.Ordinal))
+		{
+			if (!RangePattern().IsMatch(body))
+				throw new MermaidParseException(
+					"range is not 'min --> max' with two numbers",
+					line,
+					"a title (optional), then 'min --> max', e.g. '\"Revenue\" 4000 --> 11000'",
+					column: column + Math.Max(body.IndexOf("-->", StringComparison.Ordinal), 0)
+				);
+			return;
+		}
+
+		RequireValidAxisTitle(line, body, column);
+	}
+
+	/// <summary>An axis title that opens with a quote must be that one quoted string; plain text is taken as written.</summary>
+	private static void RequireValidAxisTitle(string line, string title, int column)
+	{
+		if (title[0] != '"' || WholeQuotedPattern().IsMatch(title))
+			return;
+		var close = title.IndexOf('"', 1);
+		throw new MermaidParseException(
+			close < 0 ? "axis title opened with '\"' is never closed" : "unexpected text after the quoted axis title",
+			line,
+			close < 0 ? "a closing '\"' after the title" : "the end of the line after the closing '\"'",
+			column: close < 0 ? column : column + close + 1
+		);
+	}
+
+	private static void RequireValidSeries(string line, string name, string body, int column)
+	{
+		var open = body.IndexOf('[');
+		if (open < 0)
+			throw new MermaidParseException(
+				$"{name} series has no values",
+				line,
+				$"values in square brackets, e.g. '{name} [10, 20, 30]'",
+				column: line.Length + 1
+			);
+
+		var close = body.LastIndexOf(']');
+		if (close < open)
+			throw new MermaidParseException($"values of the {name} series are never closed", line, "']' after the last value", column: column + open);
+		if (close != body.Length - 1)
+			throw new MermaidParseException(
+				$"unexpected text after the values of the {name} series",
+				line,
+				"the end of the line after ']'",
+				column: column + close + 1
+			);
+
+		var title = body[..open].Trim();
+		if (title.Length > 0 && title[0] == '"' && !WholeQuotedPattern().IsMatch(title))
+			throw new MermaidParseException(
+				title.IndexOf('"', 1) < 0
+					? $"name of the {name} series opened with '\"' is never closed"
+					: $"unexpected text after the quoted name of the {name} series",
+				line,
+				"the name in double quotes, then the values in square brackets",
+				column: column
+			);
+
+		var list = body[(open + 1)..close];
+		if (list.Trim().Length == 0)
+			throw new MermaidParseException($"{name} series has no values", line, $"at least one number, e.g. '{name} [10, 20, 30]'", column: column + open);
+
+		var offset = column + open + 1;
+		foreach (var item in SplitList(list))
+		{
+			var value = item.Trim();
+			if (value.Length == 0)
+				throw new MermaidParseException($"the {name} series has an empty value", line, "a number between the commas", column: offset);
+			if (!ValuePattern().IsMatch(value))
+				throw new MermaidParseException(
+					$"value '{value}' of the {name} series is not a number",
+					line,
+					"numbers such as 12, -3.5 or .5, separated by commas",
+					column: offset + (item.Length - item.TrimStart().Length)
+				);
+			offset += item.Length + 1;
+		}
+	}
+
+	/// <summary>Split a list on commas outside double quotes.</summary>
+	private static List<string> SplitList(string list)
+	{
+		var items = new List<string>();
+		var start = 0;
+		var quoted = false;
+		for (var i = 0; i < list.Length; i++)
+		{
+			if (list[i] == '"')
+				quoted = !quoted;
+			else if (list[i] == ',' && !quoted)
+			{
+				items.Add(list[start..i]);
+				start = i + 1;
+			}
+		}
+		items.Add(list[start..]);
+		return items;
 	}
 
 	private static string Unquote(string value)

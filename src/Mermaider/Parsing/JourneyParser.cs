@@ -23,11 +23,11 @@ internal static partial class JourneyParser
 	[GeneratedRegex(@"^(.+?)\s*:\s*(\d+)\s*(?::\s*(.*))?$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex TaskPattern();
 
-	internal static JourneyDiagram Parse(string[] lines)
+	internal static JourneyDiagram Parse(string[] lines, bool strict = true)
 	{
 		try
 		{
-			return ParseCore(lines);
+			return ParseCore(lines, strict);
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
@@ -35,7 +35,7 @@ internal static partial class JourneyParser
 		}
 	}
 
-	private static JourneyDiagram ParseCore(string[] lines)
+	private static JourneyDiagram ParseCore(string[] lines, bool strict)
 	{
 		string? title = null;
 		var sections = new List<JourneySection>();
@@ -68,7 +68,11 @@ internal static partial class JourneyParser
 
 			var taskMatch = TaskPattern().Match(line);
 			if (!taskMatch.Success)
+			{
+				if (strict)
+					RejectStatement(lines, i);
 				continue;
+			}
 
 			var name = taskMatch.Groups[1].Value.Trim();
 			if (!int.TryParse(taskMatch.Groups[2].Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var score))
@@ -85,6 +89,40 @@ internal static partial class JourneyParser
 			sections.Add(new JourneySection(null, []));
 
 		return new JourneyDiagram { Title = title, Sections = sections };
+	}
+
+	/// <summary>
+	/// A statement that is not <c>title</c>, <c>section</c> or <c>name: score: actors</c>. Mermaid's lexer lets a bare
+	/// <c>title</c>/<c>section</c> take the next line as its text (a <c>section</c> cannot take a line holding ':'),
+	/// so those are only refused where that fails; a line with a colon but no usable score is accepted by Mermaid.
+	/// </summary>
+	private static void RejectStatement(string[] lines, int index)
+	{
+		var line = lines[index];
+		var word = line.Trim();
+		var isLast = index == lines.Length - 1;
+		if (word.Equals("title", StringComparison.OrdinalIgnoreCase))
+		{
+			if (isLast)
+				throw new MermaidParseException("'title' has no text", line, "text after 'title'", column: word.Length + 1);
+			return;
+		}
+		if (word.Equals("section", StringComparison.OrdinalIgnoreCase))
+		{
+			if (isLast || lines[index + 1].Contains(':', StringComparison.Ordinal))
+				throw new MermaidParseException("'section' has no name", line, "a section name after 'section'", column: word.Length + 1);
+			return;
+		}
+		if (word.StartsWith(':'))
+			throw new MermaidParseException("task has no name before ':'", line, "a task name, then ': <score>: <actors>'", column: 1);
+		if (word.Contains(':', StringComparison.Ordinal))
+			return;
+		throw new MermaidParseException(
+			$"task '{word}' has no score: a task needs ':' and a score",
+			line,
+			"'<task name>: <score>: <actors>' or 'section <name>'",
+			column: word.Length + 1
+		);
 	}
 
 	private static void FlushSection(List<JourneySection> sections, string? name, List<JourneyTask> tasks)

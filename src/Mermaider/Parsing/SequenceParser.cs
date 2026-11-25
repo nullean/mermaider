@@ -15,14 +15,18 @@ internal static partial class SequenceParser
 	[GeneratedRegex(@"^Note\s+(left of|right of|over)\s+([^:]+):\s*(.+)$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex NotePattern();
 
-	[GeneratedRegex(@"^(loop|alt|opt|par|critical|break|rect)\s*(.*)$", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^(loop|alt|opt|par|critical|break|rect)(?:\s+(.*))?$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex BlockStartPattern();
 
-	[GeneratedRegex(@"^(else|and)\s*(.*)$", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^(else|and|option)(?:\s+(.*))?$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex DividerPattern();
 
-	[GeneratedRegex(@"^(\S+?)\s*(->>|-->>|-\)|--\)|-x|--x|->|-->)\s*([+-]?)(\S+?)\s*:\s*(.+)$", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^(\S+?)\s*(->>|-->>|-\)|--\)|-x|--x|->|-->)\s*([+-]?)(?!>)(\S+?)\s*:\s*(.+)$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex MessagePattern();
+
+	// An arrow with a missing target ("Alice->>", "Alice->>: Hello") or a missing ": text"
+	[GeneratedRegex(@"^(\S+?)\s*(->>|-->>|-\)|--\)|-x|--x|->|-->)\s*(?:[+-]?\s*(\S+?)?\s*(:.*)?)?$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex IncompleteMessagePattern();
 
 	[GeneratedRegex(@"^autonumber(?:\s+(\d+))?(?:\s+(\d+))?\s*$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex AutonumberPattern();
@@ -39,11 +43,11 @@ internal static partial class SequenceParser
 	[GeneratedRegex(@"^destroy\s+(\S+)\s*$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex DestroyPattern();
 
-	internal static SequenceDiagram Parse(string[] lines)
+	internal static SequenceDiagram Parse(string[] lines, bool strict = true)
 	{
 		try
 		{
-			return ParseCore(lines);
+			return ParseCore(lines, strict);
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
@@ -51,7 +55,7 @@ internal static partial class SequenceParser
 		}
 	}
 
-	private static SequenceDiagram ParseCore(string[] lines)
+	private static SequenceDiagram ParseCore(string[] lines, bool strict)
 	{
 		var actors = new List<SequenceActor>();
 		var messages = new List<SequenceMessage>();
@@ -255,7 +259,22 @@ internal static partial class SequenceParser
 					destroys.Add(new SequenceDestroy(pendingDestroy, messages.Count - 1));
 					pendingDestroy = null;
 				}
+				continue;
 			}
+
+			if (strict)
+				RequireCompleteMessage(line);
+		}
+
+		if (strict && blockStack.Count > 0)
+		{
+			var open = blockStack.Peek();
+			var keyword = open.Type.ToString().ToLowerInvariant();
+			throw new MermaidParseException(
+				$"'{keyword}' block is never closed",
+				string.IsNullOrEmpty(open.Label) ? keyword : $"{keyword} {open.Label}",
+				$"'end' to close the '{keyword}' block"
+			);
 		}
 
 		return new SequenceDiagram
@@ -268,6 +287,33 @@ internal static partial class SequenceParser
 			Creates = creates,
 			Destroys = destroys,
 		};
+	}
+
+	private static void RequireCompleteMessage(string line)
+	{
+		var m = IncompleteMessagePattern().Match(line);
+		if (!m.Success)
+			return;
+
+		var arrow = m.Groups[2].Value;
+		var hasTarget = m.Groups[3].Success && m.Groups[3].Length > 0;
+		var hasText = m.Groups[4].Success;
+
+		if (!hasTarget)
+			throw new MermaidParseException(
+				$"message '{arrow}' has no target participant",
+				line,
+				"a participant after the arrow, e.g. 'Alice->>Bob: Hello'",
+				column: m.Groups[2].Index + arrow.Length + 1
+			);
+
+		if (!hasText)
+			throw new MermaidParseException(
+				$"message to '{m.Groups[3].Value}' has no text",
+				line,
+				"': message text' after the target, e.g. 'Alice->>Bob: Hello'",
+				column: line.Length + 1
+			);
 	}
 
 	private static void EnsureActor(List<SequenceActor> actors, HashSet<string> actorIds, string id)

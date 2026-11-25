@@ -170,6 +170,7 @@ public class PacketRendererTests
 		// Single field 24-40 crosses the row boundary at bit 31/32 → two rects, repeated label.
 		var svg = MermaidRenderer.RenderSvg("""
 			packet
+			0-23: "Before"
 			24-40: "Spans rows"
 			""");
 
@@ -196,18 +197,22 @@ public class PacketRendererTests
 			rectCount++;
 			idx += 5;
 		}
-		rectCount.Should().Be(2);
+		// the 0-23 field the diagram must start with, plus the two row segments of 24-40
+		rectCount.Should().Be(3);
 	}
 
 	[Test]
 	public void Pathological_high_bit_does_not_crash_or_allocate_huge_svg()
 	{
 		// Parser rejects out-of-cap fields; render must stay bounded and succeed.
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			packet
 			2147483646: "x"
 			0-7: "Safe"
-			""");
+			""",
+			new Mermaider.Models.RenderOptions { ParseMode = Mermaider.Models.ParseMode.Lenient }
+		);
 
 		svg.Should().StartWith("<svg");
 		svg.Should().EndWith("</svg>");
@@ -220,11 +225,14 @@ public class PacketRendererTests
 	[Test]
 	public void Pathological_huge_range_is_rejected()
 	{
-		var svg = MermaidRenderer.RenderSvg("""
+		var svg = MermaidRenderer.RenderSvg(
+			"""
 			packet
 			0-2147483646: "Huge"
 			0-7: "Safe"
-			""");
+			""",
+			new Mermaider.Models.RenderOptions { ParseMode = Mermaider.Models.ParseMode.Lenient }
+		);
 
 		svg.Should().StartWith("<svg");
 		svg.Should().Contain("Safe");

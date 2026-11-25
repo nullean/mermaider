@@ -38,7 +38,7 @@ public class SankeyParserTests
 	[Test]
 	public void Skips_empty_and_invalid_rows()
 	{
-		var diagram = SankeyParser.Parse(["sankey-beta", "", "A,B,0", "A,B,-1", "onlytwo,fields", "A,B,notanumber", "A,B,3",]);
+		var diagram = SankeyParser.Parse(["sankey-beta", "", "A,B,0", "A,B,-1", "onlytwo,fields", "A,B,notanumber", "A,B,3",], strict: false);
 
 		diagram.Links.Should().HaveCount(1);
 		diagram.Links[0].Value.Should().Be(3);
