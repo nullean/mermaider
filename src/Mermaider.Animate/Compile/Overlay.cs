@@ -52,7 +52,8 @@ internal static class Overlay
 	/// <summary>A token: a dot with a soft halo, and a filled label pill above it so a moving thing says what it is.</summary>
 	internal static XElement Token(string color, bool hollow, double radius, string? label, out XElement? labelElement)
 	{
-		var token = new XElement(N("g"), new XAttribute("opacity", "0"));
+		// a token exists only in motion (reduced motion never shows it), so a screen reader skips it; the captions tell it
+		var token = new XElement(N("g"), new XAttribute("opacity", "0"), new XAttribute("aria-hidden", "true"));
 		token.Add(new XElement(N("circle"), new XAttribute("r", Num.F(radius + 5)), new XAttribute("fill", color), new XAttribute("opacity", "0.18")));
 		token.Add(
 			new XElement(
@@ -301,7 +302,8 @@ internal static class Overlay
 	/// <summary>A step's caption at the top left, with its number: "2/3  The balancer fails over".</summary>
 	internal static XElement Caption(string text, int number, int total, double x, double y)
 	{
-		var caption = new XElement(N("g"), new XAttribute("opacity", "0"));
+		// screen readers hear the captions once, in order, from the diagram's description; the drawn ones would repeat them
+		var caption = new XElement(N("g"), new XAttribute("opacity", "0"), new XAttribute("aria-hidden", "true"));
 		if (total > 1)
 		{
 			var counter = $"{number}/{total}";

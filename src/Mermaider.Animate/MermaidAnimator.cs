@@ -118,6 +118,7 @@ public sealed class AnimatedDiagram
 		ScoreDuration = TimeSpan.FromMilliseconds(timeline.ScoreEnd);
 		Intro = TimeSpan.FromMilliseconds(timeline.Loops ? timeline.StoryStart : 0);
 		Steps = timeline.Steps.Select(s => new AnimationStep(s.Caption, TimeSpan.FromMilliseconds(s.Start), TimeSpan.FromMilliseconds(s.End))).ToList();
+		Describe(scene.Root, Steps);
 		Svg = still ? FrameAt(timeline.ScoreEnd) : Animated();
 	}
 
@@ -128,6 +129,39 @@ public sealed class AnimatedDiagram
 	}
 
 	internal static AnimatedDiagram Static(string svg) => new(svg);
+
+	/// <summary>
+	/// The story, told to a screen reader: the steps' captions in order, after the description the author gave with
+	/// <c>accDescr</c> if any. The diagram's own text stays readable as it is.
+	/// </summary>
+	private static void Describe(XElement root, IReadOnlyList<AnimationStep> steps)
+	{
+		var captions = steps.Select(s => s.Caption).OfType<string>().Where(c => c.Trim().Length > 0).ToList();
+		if (captions.Count == 0)
+			return;
+		var told = new System.Text.StringBuilder(captions.Count == 1 ? "" : $"In {captions.Count} steps: ");
+		for (var i = 0; i < captions.Count; i++)
+		{
+			var caption = captions[i].Trim();
+			if (captions.Count > 1)
+				_ = told.Append(i + 1).Append(". ");
+			_ = told.Append(caption);
+			if (caption[^1] is not ('.' or '!' or '?'))
+				_ = told.Append('.');
+			if (i < captions.Count - 1)
+				_ = told.Append(' ');
+		}
+		var ns = root.Name.Namespace;
+		if (root.Element(ns + "desc") is { } desc)
+		{
+			var given = desc.Value.TrimEnd();
+			desc.Value = given.Length == 0 ? told.ToString() : given + (given[^1] is '.' or '!' or '?' ? " " : ". ") + told;
+		}
+		else if (root.Element(ns + "title") is { } title)
+			title.AddAfterSelf(new XElement(ns + "desc", told.ToString()));
+		else
+			root.AddFirst(new XElement(ns + "desc", told.ToString()));
+	}
 
 	/// <summary>The animated SVG.</summary>
 	public string Svg { get; }
@@ -194,7 +228,7 @@ public sealed class AnimatedDiagram
 		lock (_gate)
 		{
 			var scene = _scene!;
-			var css = CssEmitter.Emit(_timeline!.Channels, _timeline.Duration, _timeline.StoryStart, _timeline.Loops, Mode, scene.Prefix, _classes);
+			var css = CssEmitter.Emit(_timeline!.Channels, _timeline.Duration, _timeline.StoryStart, _timeline.Loops, Mode, scene.Prefix, _classes) + Print();
 			var root = scene.Root;
 			var rootClass = (string?)root.Attribute("class");
 			var style = new XElement(SvgScene.Ns + "style", "\n" + css);
@@ -210,6 +244,24 @@ public sealed class AnimatedDiagram
 				root.SetAttributeValue("class", rootClass);
 			}
 		}
+	}
+
+	/// <summary>
+	/// On paper the diagram shows how the story ends, the frame a poster shows, not whichever frame was playing when the
+	/// page was printed.
+	/// </summary>
+	private string Print()
+	{
+		var end = _timeline!.ScoreEnd;
+		var sb = new System.Text.StringBuilder("@media print {\n");
+		foreach (var group in _timeline.Channels.Where(c => c.IsAnimated).GroupBy(c => c.Element).Where(g => _classes.ContainsKey(g.Key)))
+			_ = sb
+				.Append("  .")
+				.Append(_classes[group.Key])
+				.Append(" { animation: none; ")
+				.Append(string.Join("; ", group.Select(c => c.Css(c.ValueAt(end)))))
+				.Append("; }\n");
+		return sb.Append("}\n").ToString();
 	}
 
 	private string FrameAt(double time)

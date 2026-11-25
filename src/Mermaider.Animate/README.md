@@ -101,6 +101,8 @@ and what the diagram does have.
 Under `prefers-reduced-motion: reduce`, tokens, streams, pulses and rises stop; captions, marks, focus and lines
 still change, as cuts at the moment they would start.
 
+A screen reader hears the story once, in order: the steps' captions are the diagram's description (`<desc>`), after the one the author gave with `accDescr`, if any. The drawn captions and the travelling tokens are hidden from it, since they would repeat the captions or exist only in motion; the diagram's own labels and lasting marks such as badges stay readable. Printed, the diagram shows how the story ends, the frame `RenderFrame(animation.ScoreDuration)` shows, not whichever frame was playing.
+
 The host can override the score's choices with `AnimateOptions.Motion` and `AnimateOptions.Mode`, as it sets colours
 with `RenderOptions`:
 
