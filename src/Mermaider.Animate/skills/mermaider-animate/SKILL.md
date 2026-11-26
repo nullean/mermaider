@@ -47,7 +47,7 @@ var svg = MermaidAnimator.RenderSvg("""
 - a request's path: `tour a -> b -> c "label"`
 - one message: `send a -> b "label"`; a reply: `send b -> a` along the same edge, or `ping a <-> b "req" "reply"`
 - load or a continuous flow: `stream a -> b busy`
-- failure: `hang x` (the wait), then `mark x fail` and `badge x "timeout" as fail`, `cut a -> b`, `send … lost`;
+- failure: `fail x "reason"` (marked, badged, cut off; `hang x` first for a timeout), `cascade db -> api -> lb` (it spreads from the cause), `recover x` (all of it undone); finer grained: `mark x fail`, `badge x "timeout" as fail`, `cut a -> b`, `send … lost`;
   recovery: `restore a -> b`, `mark x clear`, `badge x clear`
 - quantity: `fill queue 3/8`, later `fill queue 8`; a number that changes: `count api 38 -> 1200 "ms" as warn`; a fixed one: `badge dlq "1"`
 - attention: `focus x` (add `close` to zoom), `pulse x`

@@ -88,6 +88,9 @@ by number: `#3` is the third message of a sequence diagram, and the third task, 
 | `hang a` | a node waits with no answer: the wait itself is shown |
 | `draw a -> b` · `erase a -> b` | a line draws from its source, and its arrowhead lands when the line arrives |
 | `cut a -> b` · `restore a -> b` | a link breaks and comes back |
+| `fail a[, b] ["reason"]` | nodes fail: marked with a cross, the reason as a badge, and what leads into them cut (where the flow starts, what leaves them). After `hang a`, it is a timeout |
+| `cascade db -> api -> lb ["reason"]` | a failure spreads from its cause: the cause fails, then a line in the failure colour runs each edge in turn (along the arrow or against it), and each node fails as it arrives. The reason goes on the cause |
+| `recover a[, b]` | failed nodes come back: their mark, badge, cuts and any cascade along their edges clear, and they pulse |
 | `send [token] a -> b[, c] ["label"] [as role] [becomes "label"] [slow\|fast] [lost\|stall] [each]` | a token travels the edge and lights it for the rest of the step; against an edge's direction it travels as a reply |
 | `stream a -> b [trickle\|steady\|busy] [always]` | a continuous flow for the step, or for the whole score with `always` |
 | `tour a -> b -> c ["label"]` | a token walks the path; the route is in focus and every hop taken stays lit |

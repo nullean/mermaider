@@ -261,9 +261,12 @@ internal static class ScoreParser
 			"hang" => new HangStatement(reader.Targets(), line),
 			"note" => ParseNote(reader),
 			"callout" => ParseCallout(reader),
+			"fail" => new FailStatement(reader.Targets(), reader.Quoted(), line),
+			"recover" => new RecoverStatement(reader.Targets(), line),
+			"cascade" => new CascadeStatement(reader.Chain(min: 2), reader.Quoted(), line),
 			_ =>
 				reader.Fail(
-					$"Unknown verb '{verb}'. The verbs are show, hide, focus, pulse, mark, badge, fill, hang, draw, erase, cut, restore, send, stream, tour, run, try, ping, play, sweep, move, expand, set, trace, note, callout, count, highlight, caption and build."
+					$"Unknown verb '{verb}'. The verbs are show, hide, focus, pulse, mark, badge, fill, hang, draw, erase, cut, restore, send, stream, tour, run, try, ping, play, sweep, move, expand, set, trace, note, callout, fail, recover, cascade, count, highlight, caption and build."
 				),
 		};
 		if (statement is null)

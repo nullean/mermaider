@@ -1,0 +1,14 @@
+flowchart LR
+  %% Fail, cascade, recover: an outage told in the words people use for one
+  client[Client] --> lb[Balancer]
+  lb --> api[Orders API]
+  api --> db[(Orders DB)]
+  api --> cache[(Cache)]
+
+animate
+  step "The database runs out of disk"
+    fail db "disk full"
+  step "Every caller waits on it, and fails in turn"
+    cascade db -> api -> lb -> client
+  step "Disk freed: everything comes back"
+    recover db, api, lb, client

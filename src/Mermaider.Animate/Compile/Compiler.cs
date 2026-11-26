@@ -278,6 +278,9 @@ internal sealed partial class Compiler
 		CountStatement s => s.Target.Id,
 		HangStatement s => s.Targets[0].Id,
 		CalloutStatement { Target: { } t } => t.Id,
+		FailStatement s => s.Targets[0].Id,
+		RecoverStatement s => s.Targets[0].Id,
+		CascadeStatement s => s.Path[0],
 		ShowStatement { Targets.Count: > 0 } s => s.Targets[0].Id,
 		PlayStatement s when _scene.Edges.Count > 0 => _scene.Edges[(s.First ?? 1) - 1].From,
 		_ => null,
@@ -432,6 +435,9 @@ internal sealed partial class Compiler
 		HangStatement s => Each(Resolve(s.Targets), false, at, (t, a) => Hang(t, a)),
 		NoteStatement s => Note(s, at),
 		CalloutStatement s => Callout(s, at),
+		FailStatement s => Fail(s, at),
+		RecoverStatement s => Recover(s, at),
+		CascadeStatement s => Cascade(s, at),
 		_ => at,
 	};
 
