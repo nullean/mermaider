@@ -258,5 +258,9 @@ internal sealed partial class Compiler
 		_counted.Clear();
 		_failCuts.Clear();
 		_cascaded.Clear();
+		foreach (var outline in _ghosts.Values.Select(g => g.Outline))
+			Opacity(outline, ReducedMotion.Cut).Animate(at, _spec.Exit, Channel.Value(0), Easing.Exit);
+		_ghosts.Clear();
+		_replicas.Clear();
 	}
 }
