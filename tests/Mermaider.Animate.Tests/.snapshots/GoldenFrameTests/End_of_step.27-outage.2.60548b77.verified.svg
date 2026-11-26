@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -46 553.42 226.4" width="553.4159999999999" height="226.4" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6"><desc>In 3 steps: 1. The database runs out of disk. 2. Every caller waits on it, and fails in turn. 3. Disk freed: everything comes back.</desc><style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
+</style><defs>
+  <linearGradient id="m1814eb8b-ng-n" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, var(--_line) 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, var(--_line) 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+  <marker id="m1814eb8b-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
+  </marker>
+</defs><g><g>
+
+
+<path class="edge" data-from="client" data-to="lb" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M93.212,90.19999999999999 L133.212,90.19999999999999" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<path class="edge" data-from="lb" data-to="api" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M234.36399999999998,90.19999999999999 L274.364,90.2" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<g><g class="mad53782dd-a3" style="opacity:0.28"><path class="edge" data-from="api" data-to="db" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M387.486,83.16666666666667 L399.486,83.16666666666667 Q407.486,83.16666666666667 407.486,75.16666666666667 L407.486,52.1 Q407.486,44.1 415.486,44.1 L427.486,44.1" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" /></g></g>
+<path class="edge" data-from="api" data-to="cache" data-style="solid" data-arrow-start="false" data-arrow-end="true" d="M387.486,97.23333333333333 L399.486,97.23333333333333 Q407.486,97.23333333333333 407.486,105.23333333333333 L407.486,128.3 Q407.486,136.3 415.486,136.3 L427.486,136.3" fill="none" stroke="var(--_line)" stroke-width="1.5" marker-end="url(#m1814eb8b-mk-arrow)" />
+<g class="mad53782dd-a18" style="transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:54.61px 90.2px"><g class="node" data-id="client" data-label="Client" data-shape="rectangle">
+  <rect x="16" y="69.1" width="77.212" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="54.61" y="90.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Client</text>
+</g><g opacity="0" class="mad53782dd-a13" style="opacity:1"><rect x="12" y="65.1" width="85.21" height="50.2" rx="11" fill="#e15759" fill-opacity="0.14" stroke="#e15759" stroke-width="2" /><g><circle cx="95.21" cy="67.1" r="9" fill="#e15759" stroke="var(--bg)" stroke-width="1.5" /><path d="M91.71,63.6 l7,7 M98.71,63.6 l-7,7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" /></g></g></g>
+<g class="mad53782dd-a17" style="transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:183.79px 90.2px"><g class="node" data-id="lb" data-label="Balancer" data-shape="rectangle">
+  <rect x="133.212" y="69.1" width="101.15199999999999" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="183.79" y="90.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Balancer</text>
+</g><g opacity="0" class="mad53782dd-a11" style="opacity:1"><rect x="129.21" y="65.1" width="109.15" height="50.2" rx="11" fill="#e15759" fill-opacity="0.14" stroke="#e15759" stroke-width="2" /><g><circle cx="236.36" cy="67.1" r="9" fill="#e15759" stroke="var(--bg)" stroke-width="1.5" /><path d="M232.86,63.6 l7,7 M239.86,63.6 l-7,7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" /></g></g></g>
+<g class="mad53782dd-a16" style="transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:330.92px 90.2px"><g class="node" data-id="api" data-label="Orders API" data-shape="rectangle">
+  <rect x="274.364" y="69.1" width="113.122" height="42.2" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="330.93" y="90.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Orders API</text>
+</g><g opacity="0" class="mad53782dd-a9" style="opacity:1"><rect x="270.36" y="65.1" width="121.12" height="50.2" rx="11" fill="#e15759" fill-opacity="0.14" stroke="#e15759" stroke-width="2" /><g><circle cx="389.49" cy="67.1" r="9" fill="#e15759" stroke="var(--bg)" stroke-width="1.5" /><path d="M385.99,63.6 l7,7 M392.99,63.6 l-7,7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" /></g></g></g>
+<g class="mad53782dd-a6" style="transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:482.45px 44.1px"><g class="node" data-id="db" data-label="Orders DB" data-shape="cylinder">
+  <rect x="427.486" y="23" width="109.92999999999999" height="42.2" fill="url(#m1814eb8b-ng-n)" stroke="none" />
+<line x1="427.486" y1="23" x2="427.486" y2="65.2" stroke="color-mix(in srgb, var(--_line) 74%, var(--fg))" stroke-width="1.25" />
+<line x1="537.4159999999999" y1="23" x2="537.4159999999999" y2="65.2" stroke="color-mix(in srgb, var(--_line) 74%, var(--fg))" stroke-width="1.25" />
+<ellipse cx="482.45099999999996" cy="65.2" rx="54.964999999999996" ry="7" fill="url(#m1814eb8b-ng-n)" stroke="color-mix(in srgb, var(--_line) 74%, var(--fg))" stroke-width="1.25" />
+<ellipse cx="482.45099999999996" cy="23" rx="54.964999999999996" ry="7" fill="url(#m1814eb8b-ng-n)" stroke="color-mix(in srgb, var(--_line) 74%, var(--fg))" stroke-width="1.25" />
+  <text x="482.45" y="44.1" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Orders DB</text>
+</g><g opacity="0" class="mad53782dd-a1" style="opacity:1"><rect x="423.49" y="12" width="117.93" height="64.2" rx="11" fill="#e15759" fill-opacity="0.14" stroke="#e15759" stroke-width="2" /><g><circle cx="539.42" cy="14" r="9" fill="#e15759" stroke="var(--bg)" stroke-width="1.5" /><path d="M535.92,10.5 l7,7 M542.92,10.5 l-7,7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" /></g></g><g opacity="0" class="mad53782dd-a2" style="opacity:1"><g transform="translate(482.45 -2)"><rect x="-40.05" y="-10" width="80.1" height="20" rx="10" fill="#e15759" stroke="#e15759" stroke-width="1.5" /><text x="0" y="4" text-anchor="middle" font-size="11.5" font-weight="650" fill="#fff">disk full</text></g></g></g>
+<g class="node" data-id="cache" data-label="Cache" data-shape="cylinder">
+  <rect x="427.486" y="115.2" width="83.596" height="42.2" fill="url(#m1814eb8b-ng-n)" stroke="none" />
+<line x1="427.486" y1="115.2" x2="427.486" y2="157.4" stroke="color-mix(in srgb, var(--_line) 74%, var(--fg))" stroke-width="1.25" />
+<line x1="511.082" y1="115.2" x2="511.082" y2="157.4" stroke="color-mix(in srgb, var(--_line) 74%, var(--fg))" stroke-width="1.25" />
+<ellipse cx="469.284" cy="157.4" rx="41.798" ry="7" fill="url(#m1814eb8b-ng-n)" stroke="color-mix(in srgb, var(--_line) 74%, var(--fg))" stroke-width="1.25" />
+<ellipse cx="469.284" cy="115.2" rx="41.798" ry="7" fill="url(#m1814eb8b-ng-n)" stroke="color-mix(in srgb, var(--_line) 74%, var(--fg))" stroke-width="1.25" />
+  <text x="469.28" y="136.3" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Cache</text>
+</g>
+
+<g pointer-events="none"><path d="M133.21,90.2 L93.21,90.2" fill="none" stroke="#e15759" stroke-width="3.5" stroke-linecap="round" pathLength="1" stroke-dasharray="1 1" class="mad53782dd-a12" style="opacity:1;stroke-dashoffset:0" /><path d="M274.36,90.2 L234.36,90.2" fill="none" stroke="#e15759" stroke-width="3.5" stroke-linecap="round" pathLength="1" stroke-dasharray="1 1" class="mad53782dd-a10" style="opacity:1;stroke-dashoffset:0" /><path d="M427.49,44.1 L415.49,44.1 L413.61,44.23 L411.99,44.6 L410.61,45.23 L409.49,46.1 L408.61,47.23 L407.99,48.6 L407.61,50.23 L407.49,52.1 L407.49,75.17 L407.36,77.04 L406.99,78.67 L406.36,80.04 L405.49,81.17 L404.36,82.04 L402.99,82.67 L401.36,83.04 L399.49,83.17 L387.49,83.17" fill="none" stroke="#e15759" stroke-width="3.5" stroke-linecap="round" pathLength="1" stroke-dasharray="1 1" class="mad53782dd-a8" style="opacity:1;stroke-dashoffset:0" /><g opacity="0" class="mad53782dd-a4" style="opacity:0"><circle cx="407.49" cy="63.63" r="10" fill="var(--bg)" stroke="#e15759" stroke-width="1.5" /><path d="M402.49,58.63 L412.49,68.63 M412.49,58.63 L402.49,68.63" stroke="#e15759" stroke-width="2" stroke-linecap="round" /></g></g></g><g opacity="0" aria-hidden="true" class="mad53782dd-a0" style="opacity:0;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:0px 0px"><rect x="14" y="-37" width="37" height="21" rx="10.5" fill="var(--_text, var(--fg))" /><text x="32" y="-22" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--bg)">1/3</text><text x="60" y="-21.5" font-size="15" font-weight="650" fill="var(--_text, var(--fg))">The database runs out of disk</text><path d="M14,-11 L539.42,-11" stroke="var(--accent, #3b82f6)" stroke-width="2" stroke-opacity="0.55" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" fill="none" class="mad53782dd-a5" style="stroke-dashoffset:0" /></g><g opacity="0" aria-hidden="true" class="mad53782dd-a7" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:0px 0px"><rect x="14" y="-37" width="37" height="21" rx="10.5" fill="var(--_text, var(--fg))" /><text x="32" y="-22" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--bg)">2/3</text><text x="60" y="-21.5" font-size="15" font-weight="650" fill="var(--_text, var(--fg))">Every caller waits on it, and fails in turn</text><path d="M14,-11 L539.42,-11" stroke="var(--accent, #3b82f6)" stroke-width="2" stroke-opacity="0.55" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" fill="none" class="mad53782dd-a14" style="stroke-dashoffset:0" /></g><g opacity="0" aria-hidden="true" class="mad53782dd-a15" style="opacity:0;transform:translate(0px,6px) scale(1);transform-box:view-box;transform-origin:0px 0px"><rect x="14" y="-37" width="37" height="21" rx="10.5" fill="var(--_text, var(--fg))" /><text x="32" y="-22" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--bg)">3/3</text><text x="60" y="-21.5" font-size="15" font-weight="650" fill="var(--_text, var(--fg))">Disk freed: everything comes back</text><path d="M14,-11 L539.42,-11" stroke="var(--accent, #3b82f6)" stroke-width="2" stroke-opacity="0.55" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" fill="none" class="mad53782dd-a19" style="stroke-dashoffset:1" /></g></g><defs /></svg>

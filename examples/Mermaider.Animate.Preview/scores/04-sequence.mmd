@@ -1,0 +1,29 @@
+sequenceDiagram
+  %% Sequence: a cache miss pays for the database once; the next request hits the cache
+  participant B as Browser
+  participant A as API
+  participant C as Cache
+  participant D as Database
+  B->>A: GET /orders
+  A->>C: lookup
+  C-->>A: miss
+  A->>D: SELECT orders
+  D-->>A: rows
+  A->>C: store
+  A-->>B: 200 OK
+  B->>A: GET /orders
+  A->>C: lookup
+  C-->>A: hit
+  A-->>B: 200 OK
+
+animate
+  step "The first request misses the cache"
+    play #1..#3
+    mark #3 warn
+  step "The database answers, and the cache keeps a copy"
+    play #4..#7
+    note #4..#5 "38 ms" as warn
+  step "The next request never reaches the database"
+    play #8..#11
+    mark #10 ok
+    note #9..#10 "2 ms" as ok

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 483 340" width="483" height="340" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6"><style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
+</style><g><g>
+
+
+<g class="venn-set" data-set="Design" data-index="1">
+  <circle cx="170" cy="170" r="130" fill="#4e79a7" fill-opacity="0.2" stroke="#4e79a7" stroke-width="2" />
+</g>
+<g class="venn-set" data-set="Code" data-index="2">
+  <circle cx="313" cy="170" r="130" fill="#f28e2b" fill-opacity="0.2" stroke="#f28e2b" stroke-width="2" />
+</g><g clip-path="url(#maaedefeae-c1)" class="maaedefeae-a0" style="opacity:0.724"><g clip-path="url(#maaedefeae-c0)"><rect x="40" y="40" width="403" height="260" fill="var(--accent, #3b82f6)" fill-opacity="0.32" /></g></g>
+<text x="98.5" y="170" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Design</text>
+<text x="384.5" y="170" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Code</text>
+<g class="venn-union" data-sets="Design,Code">
+<text x="241.5" y="170" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="241.5" dy="-4.2">Design</tspan><tspan x="241.5" dy="18.2">engineers</tspan></text>
+</g>
+<g pointer-events="none" /></g></g><defs><clipPath id="maaedefeae-c0"><circle cx="170" cy="170" r="130" fill="#4e79a7" fill-opacity="0.2" stroke="#4e79a7" stroke-width="2" /></clipPath><clipPath id="maaedefeae-c1"><circle cx="313" cy="170" r="130" fill="#f28e2b" fill-opacity="0.2" stroke="#f28e2b" stroke-width="2" /></clipPath></defs></svg>

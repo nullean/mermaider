@@ -34,7 +34,7 @@ jobs:
       with:
         persist-credentials: false
 
-    - uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
+    - uses: jdx/mise-action@236a21c3b91f5db6d4e174b348674a0f0caac06d # v5.2.9
       with:
         cache: false # this workflow publishes what these jobs build; never restore a cache a PR could have written
       env:
@@ -63,7 +63,7 @@ jobs:
         git fetch --prune --unshallow --tags
         echo exit code $?
         git tag --list
-    - uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
+    - uses: jdx/mise-action@236a21c3b91f5db6d4e174b348674a0f0caac06d # v5.2.9
       with:
         cache: false # this workflow publishes what these jobs build; never restore a cache a PR could have written
       env:
@@ -100,7 +100,7 @@ jobs:
     permissions:
       actions: read # read main's ci.yml runs
     steps:
-      - uses: nullean/.github/actions/require-green-main@f9eb30d28e48b3f6b8ff1f4e7dae1d2b7b2d544b # v1.6.0
+      - uses: nullean/.github/actions/require-green-main@e21d5f59405aa7078e51825cd4c407191e28562f # v1.6.1
 
   # main's build job tested this commit; pack it again (the tag gives the version), validate, and publish to nuget.org.
   release:
@@ -119,7 +119,7 @@ jobs:
         git fetch --prune --unshallow --tags
         echo exit code $?
         git tag --list
-    - uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
+    - uses: jdx/mise-action@236a21c3b91f5db6d4e174b348674a0f0caac06d # v5.2.9
       with:
         cache: false # a release never restores a cache PR builds could have written
       env:
@@ -183,7 +183,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up .NET
-        uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
+        uses: jdx/mise-action@236a21c3b91f5db6d4e174b348674a0f0caac06d # v5.2.9
         with:
           cache: false # docs.yml publishes what this job builds; never restore a cache a PR could have written
         env:
@@ -193,7 +193,7 @@ jobs:
         run: dotnet run scripts/screenshots.cs
 
       - name: Build documentation
-        uses: elastic/docs-builder@b9a0947ff47feb910cb073400f0de44cde41ca17 # 1.75.0
+        uses: elastic/docs-builder@c0667fd20b3e74a2a81fcae5e358583d3da9f18b # 1.80.0
         env:
           FEATURE_NAVIGATION_PREVIEW: true
 

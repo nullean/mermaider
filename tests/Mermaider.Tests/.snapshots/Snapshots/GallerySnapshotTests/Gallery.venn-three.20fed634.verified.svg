@@ -30,19 +30,25 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<g class="venn-set" data-set="A">
+<g class="venn-set" data-set="A" data-index="1">
   <circle cx="244.98" cy="170" r="130" fill="#4e79a7" fill-opacity="0.2" stroke="#4e79a7" stroke-width="2" />
 </g>
-<g class="venn-set" data-set="B">
+<g class="venn-set" data-set="B" data-index="2">
   <circle cx="319.96" cy="299.87" r="130" fill="#f28e2b" fill-opacity="0.2" stroke="#f28e2b" stroke-width="2" />
 </g>
-<g class="venn-set" data-set="C">
+<g class="venn-set" data-set="C" data-index="3">
   <circle cx="170" cy="299.87" r="130" fill="#e15759" fill-opacity="0.2" stroke="#e15759" stroke-width="2" />
 </g>
 <text x="244.98" y="98.5" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Design</text>
 <text x="381.88" y="335.62" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Engineering</text>
 <text x="108.08" y="335.62" text-anchor="middle" font-size="var(--fs-m)" font-weight="600" fill="var(--_text)" dy="5.6">Product</text>
+<g class="venn-union" data-sets="A,B">
 <text x="304.99" y="221.94" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="304.99" dy="-4.2">Design</tspan><tspan x="304.99" dy="18.2">Systems</tspan></text>
+</g>
+<g class="venn-union" data-sets="B,C">
 <text x="244.98" y="325.87" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="244.98" dy="-4.2">Technical</tspan><tspan x="244.98" dy="18.2">PM</tspan></text>
+</g>
+<g class="venn-union" data-sets="A,C">
 <text x="184.97" y="221.94" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)"><tspan x="184.97" dy="-4.2">UX</tspan><tspan x="184.97" dy="18.2">Research</tspan></text>
+</g>
 </svg>

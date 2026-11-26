@@ -1,0 +1,1 @@
+Animate a read-through cache as a sequence diagram (Browser, API, Cache, DB). The first request misses the cache and pays for the database round trip; the cache keeps a copy; the next request is answered from the cache without touching the database. Make the cost difference visible. About 17 seconds, looping, numbered captions.

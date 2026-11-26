@@ -15,6 +15,19 @@ internal static partial class FlowchartParser
 	[GeneratedRegex(@"^(?:graph|flowchart)\s+(TD|TB|LR|BT|RL)\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex HeaderPattern();
 
+	[GeneratedRegex(@"[\w\]\)\}"".]\s*(?:<?(?:-{2,}>?|={2,}>?|-\.+-?>?|~{3,})|--|==|\.->)\s*$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex DanglingLinkPattern();
+
+	// a closing quote then "]", with optional space between: the end of a quoted rectangle label
+	[GeneratedRegex(@"""\s*\]", RegexOptions.None, TimeoutMs)]
+	private static partial Regex QuoteBracketPattern();
+
+	[GeneratedRegex(@"\s(?:--|==)\s*$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex BareDashesPattern();
+
+	[GeneratedRegex(@"^(?:subgraph|end|classDef|class|style|linkStyle|click|direction)\b", RegexOptions.None, TimeoutMs)]
+	private static partial Regex StatementKeywordPattern();
+
 	[GeneratedRegex(@"^classDef\s+(\w+)\s+(.+)$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex ClassDefPattern();
 
@@ -78,7 +91,7 @@ internal static partial class FlowchartParser
 	[GeneratedRegex(@"^([\w-]+)\{\{(""[^""]*""|.+?)\}\}", RegexOptions.None, TimeoutMs)]
 	private static partial Regex HexagonPattern();
 
-	[GeneratedRegex(@"^([\w-]+)\[(""[^""]*""|.+?)\]", RegexOptions.Singleline, TimeoutMs)]
+	[GeneratedRegex(@"^([\w-]+)\[(""[^""]*""\s*(?=\])|.+?)\]", RegexOptions.Singleline, TimeoutMs)]
 	private static partial Regex RectanglePattern();
 
 	[GeneratedRegex(@"^([\w-]+)\((""[^""]*""|.+?)\)", RegexOptions.None, TimeoutMs)]
@@ -112,16 +125,34 @@ internal static partial class FlowchartParser
 	// Parse entry point
 	// ========================================================================
 
-	internal static MermaidGraph Parse(string[] lines)
+	internal static MermaidGraph Parse(string[] lines, bool strict = true)
 	{
 		try
 		{
-			return ParseCore(JoinMultilineLabels(lines));
+			return ParseCore(strict ? JoinDanglingLinks(JoinMultilineLabels(lines)) : JoinMultilineLabels(lines), strict);
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
 			throw new MermaidParseException($"Parsing timed out after {ex.MatchTimeout.TotalSeconds}s — input may contain pathological patterns.", ex);
 		}
+	}
+
+	// A link left dangling at the end of a line continues on the next line ("A -->\n B"), as it does in Mermaid.
+	// Only a link at the very end of the input is an error.
+	private static string[] JoinDanglingLinks(string[] lines)
+	{
+		var result = new List<string>(lines.Length);
+		for (var i = 0; i < lines.Length; i++)
+		{
+			var line = lines[i];
+			while (i + 1 < lines.Length && i > 0 && DanglingLinkPattern().IsMatch(line) && !StatementKeywordPattern().IsMatch(lines[i + 1]))
+				line = line + " " + lines[++i];
+			// "A --" before a keyword line ("end", "subgraph") is accepted by Mermaid; only a link at the end of the input is not
+			if (i + 1 < lines.Length && i > 0 && StatementKeywordPattern().IsMatch(lines[i + 1]) && BareDashesPattern().Match(line) is { Success: true } dashes)
+				line = line[..dashes.Index].TrimEnd();
+			result.Add(line);
+		}
+		return result.ToArray();
 	}
 
 	private static string[] JoinMultilineLabels(string[] lines)
@@ -130,12 +161,12 @@ internal static partial class FlowchartParser
 		for (var i = 0; i < lines.Length; i++)
 		{
 			var line = lines[i];
-			if (line.Contains("[\"") && !line.Contains("\"]"))
+			if (line.Contains("[\"") && !QuoteBracketPattern().IsMatch(line))
 			{
 				while (++i < lines.Length)
 				{
 					line = line + "\n" + lines[i];
-					if (lines[i].Contains("\"]"))
+					if (QuoteBracketPattern().IsMatch(lines[i]))
 						break;
 				}
 			}
@@ -144,7 +175,7 @@ internal static partial class FlowchartParser
 		return result.ToArray();
 	}
 
-	private static MermaidGraph ParseCore(string[] lines)
+	private static MermaidGraph ParseCore(string[] lines, bool strict)
 	{
 		var headerMatch = HeaderPattern().Match(lines[0]);
 		if (!headerMatch.Success)
@@ -288,7 +319,13 @@ internal static partial class FlowchartParser
 				continue;
 			}
 
-			ParseEdgeLine(line, nodes, edges, classAssignments, subgraphStack);
+			ParseEdgeLine(line, nodes, edges, classAssignments, subgraphStack, strict);
+		}
+
+		if (strict && subgraphStack.Count > 0)
+		{
+			var open = subgraphStack.Peek();
+			throw new MermaidParseException($"subgraph '{open.Id}' is never closed", $"subgraph {open.Label}", "'end' to close the subgraph");
 		}
 
 		var subgraphMap = new Dictionary<string, MermaidSubgraph>();
@@ -300,6 +337,10 @@ internal static partial class FlowchartParser
 			var edge = edges[e];
 			var src = ResolveSubgraphRef(edge.Source, subgraphMap);
 			var tgt = ResolveSubgraphRef(edge.Target, subgraphMap);
+			// An edge into a subgraph that holds only empty subgraphs ends on one with no node of its own
+			EnsureEndpointNode(nodes, subgraphMap, src);
+			EnsureEndpointNode(nodes, subgraphMap, tgt);
+
 			if (src != edge.Source || tgt != edge.Target)
 			{
 				redirections[e] = (src != edge.Source ? edge.Source : null, tgt != edge.Target ? edge.Target : null);
@@ -374,16 +415,20 @@ internal static partial class FlowchartParser
 		Dictionary<string, MermaidNode> nodes,
 		List<MermaidEdge> edges,
 		Dictionary<string, string> classAssignments,
-		Stack<(string Id, string Label, List<string> NodeIds, List<MermaidSubgraph> Children, Direction? Dir)> subgraphStack
+		Stack<(string Id, string Label, List<string> NodeIds, List<MermaidSubgraph> Children, Direction? Dir)> subgraphStack,
+		bool strict
 	)
 	{
 		var remaining = line.Trim();
+		var statement = remaining;
 
-		var (firstIds, rest) = ConsumeNodeGroup(remaining, nodes, classAssignments, subgraphStack);
+		var (firstIds, rest) = ConsumeNodeGroup(remaining, nodes, classAssignments, subgraphStack, strict ? statement : null);
 		if (firstIds.Count == 0)
 			return;
 
 		remaining = rest.Trim();
+		if (strict)
+			RequireNoUnclosedBracket(statement, remaining);
 		var prevGroupIds = firstIds;
 
 		while (remaining.Length > 0)
@@ -406,7 +451,11 @@ internal static partial class FlowchartParser
 			{
 				var arrowMatch = ArrowPattern().Match(remaining);
 				if (!arrowMatch.Success)
+				{
+					if (strict)
+						RequireNothingLeft(statement, remaining);
 					break;
+				}
 
 				hasArrowStart = arrowMatch.Groups[1].Success;
 				arrowOp = arrowMatch.Groups[2].Value;
@@ -421,11 +470,17 @@ internal static partial class FlowchartParser
 			var hasArrowEnd = arrowOp.EndsWith('>');
 			var minLength = 1; // mermaid.js v12: extra dashes (----> vs -->) are visual-only, not layout rank
 
-			var (nextIds, nextRest) = ConsumeNodeGroup(remaining, nodes, classAssignments, subgraphStack);
+			var (nextIds, nextRest) = ConsumeNodeGroup(remaining, nodes, classAssignments, subgraphStack, strict ? statement : null);
 			if (nextIds.Count == 0)
+			{
+				if (strict)
+					RequireTarget(statement, remaining, arrowOp);
 				break;
+			}
 
 			remaining = nextRest.Trim();
+			if (strict)
+				RequireNoUnclosedBracket(statement, remaining);
 
 			foreach (var sourceId in prevGroupIds)
 			{
@@ -439,14 +494,69 @@ internal static partial class FlowchartParser
 		}
 	}
 
+	// A node id directly followed by an opening bracket that no shape pattern closed, e.g. "A[Unclosed --> B"
+	private static void RequireNoUnclosedBracket(string statement, string remaining)
+	{
+		if (remaining.Length == 0 || remaining[0] is not ('[' or '(' or '{'))
+			return;
+
+		var closer = $"'{CloserFor(remaining[0])}'";
+		throw new MermaidParseException(
+			$"node label opened with '{remaining[0]}' is never closed",
+			statement,
+			$"{closer} to end the label",
+			column: statement.Length - remaining.Length + 1
+		);
+	}
+
+	private static char CloserFor(char opener) => opener switch
+	{
+		'(' => ')',
+		'[' => ']',
+		_ => '}'
+	};
+
+	private static void RequireTarget(string statement, string remaining, string arrowOp)
+	{
+		var atEnd = remaining.Length == 0;
+		throw new MermaidParseException(
+			atEnd ? $"link '{arrowOp}' has no target node" : $"link '{arrowOp}' is followed by something that is not a node",
+			statement,
+			"a node id after the link, e.g. 'A --> B'",
+			column: atEnd ? statement.Length : statement.Length - remaining.Length + 1
+		);
+	}
+
+	private static void RequireNothingLeft(string statement, string remaining)
+	{
+		var text = remaining.TrimEnd(';', ' ');
+		// "A-" and "A:" are node ids to Mermaid
+		if (text.Length == 0 || (text is "-" or ":" && statement.Length >= 2 && char.IsLetterOrDigit(statement[^2])))
+			return;
+
+		// "id- --> A", "A::cls --> B" and "A--B>" read as ids to Mermaid: a - or : right after the id belongs to it
+		var attached = statement.Length > remaining.Length && statement.EndsWith(remaining, StringComparison.Ordinal) && statement.Length - remaining.Length >=
+			1 && char.IsLetterOrDigit(statement[statement.Length - remaining.Length - 1]);
+		if (attached && (text[0] == '-' || text[0] == ':'))
+			return;
+
+		throw new MermaidParseException(
+			$"unexpected text '{text}'",
+			statement,
+			"a link ('-->', '---', '-.->', '==>') or the end of the statement",
+			column: statement.Length - remaining.Length + 1
+		);
+	}
+
 	private static (List<string> Ids, string Remaining) ConsumeNodeGroup(
 		string text,
 		Dictionary<string, MermaidNode> nodes,
 		Dictionary<string, string> classAssignments,
-		Stack<(string Id, string Label, List<string> NodeIds, List<MermaidSubgraph> Children, Direction? Dir)> subgraphStack
+		Stack<(string Id, string Label, List<string> NodeIds, List<MermaidSubgraph> Children, Direction? Dir)> subgraphStack,
+		string? strictStatement = null
 	)
 	{
-		var (firstId, rest) = ConsumeNode(text, nodes, classAssignments, subgraphStack);
+		var (firstId, rest) = ConsumeNode(text, nodes, classAssignments, subgraphStack, strictStatement);
 		if (firstId is null)
 			return ([], text);
 
@@ -456,9 +566,18 @@ internal static partial class FlowchartParser
 		while (remaining.StartsWith('&'))
 		{
 			remaining = remaining[1..].Trim();
-			var (nextId, nextRest) = ConsumeNode(remaining, nodes, classAssignments, subgraphStack);
+			var (nextId, nextRest) = ConsumeNode(remaining, nodes, classAssignments, subgraphStack, strictStatement);
 			if (nextId is null)
+			{
+				if (strictStatement is not null)
+					throw new MermaidParseException(
+						"'&' has no node after it",
+						strictStatement,
+						"a node id after '&', e.g. 'A & B --> C'",
+						column: strictStatement.Length
+					);
 				break;
+			}
 			ids.Add(nextId);
 			remaining = nextRest.Trim();
 		}
@@ -470,7 +589,8 @@ internal static partial class FlowchartParser
 		string text,
 		Dictionary<string, MermaidNode> nodes,
 		Dictionary<string, string> classAssignments,
-		Stack<(string Id, string Label, List<string> NodeIds, List<MermaidSubgraph> Children, Direction? Dir)> subgraphStack
+		Stack<(string Id, string Label, List<string> NodeIds, List<MermaidSubgraph> Children, Direction? Dir)> subgraphStack,
+		string? strictStatement = null
 	)
 	{
 		string? id = null;
@@ -483,8 +603,17 @@ internal static partial class FlowchartParser
 			{
 				id = match.Groups[1].Value;
 				var rawLabel = match.Groups[2].Value;
+				if (rawLabel.StartsWith('"'))
+					rawLabel = rawLabel.TrimEnd();
 				if (rawLabel.Length >= 2 && rawLabel[0] == '"' && rawLabel[^1] == '"')
 					rawLabel = rawLabel[1..^1];
+				if (strictStatement is not null && !match.Groups[2].Value.StartsWith('"') && rawLabel.Length > 0 && rawLabel[0] is '(' or '[' or '{')
+					throw new MermaidParseException(
+						$"node label opened with '{rawLabel[0]}' is never closed",
+						strictStatement,
+						$"'{CloserFor(rawLabel[0])}' to end the label",
+						column: Math.Max(1, strictStatement.IndexOf(rawLabel, StringComparison.Ordinal))
+					);
 				var isMarkdown = rawLabel.StartsWith('`') && rawLabel.EndsWith('`');
 				var label = isMarkdown
 					? MultilineUtils.DecodeEntities(rawLabel[1..^1].Trim().Replace("\\n", "\n"))
@@ -567,6 +696,12 @@ internal static partial class FlowchartParser
 			map[sg.Id] = sg;
 			CollectSubgraphMap(sg.Children, map);
 		}
+	}
+
+	private static void EnsureEndpointNode(Dictionary<string, MermaidNode> nodes, Dictionary<string, MermaidSubgraph> subgraphMap, string id)
+	{
+		if (!nodes.ContainsKey(id) && subgraphMap.TryGetValue(id, out var sg))
+			nodes[id] = new MermaidNode(id, sg.Label, NodeShape.Rectangle);
 	}
 
 	private static string ResolveSubgraphRef(string id, Dictionary<string, MermaidSubgraph> sgMap)

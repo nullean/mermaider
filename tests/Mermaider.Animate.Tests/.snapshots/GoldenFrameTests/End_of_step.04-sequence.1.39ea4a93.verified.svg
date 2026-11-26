@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -46 572.35 824" width="572.354" height="824" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6"><desc>In 3 steps: 1. The first request misses the cache. 2. The database answers, and the cache keeps a copy. 3. The next request never reaches the database.</desc><style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
+</style><defs>
+  <linearGradient id="m1814eb8b-ng-p0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #64748b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #64748b 7%, var(--bg))" /></linearGradient>
+  <marker id="m1814eb8b-mk-arrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="12" refX="10" refY="6" orient="auto">
+    <polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" />
+  </marker>
+</defs><g><g>
+
+
+<line class="lifeline" data-actor="B" x1="74.97999999999999" y1="70" x2="74.97999999999999" y2="708" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
+<line class="lifeline" data-actor="A" x1="214.98" y1="70" x2="214.98" y2="708" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
+<line class="lifeline" data-actor="C" x1="354.98" y1="70" x2="354.98" y2="708" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
+<line class="lifeline" data-actor="D" x1="494.98" y1="70" x2="494.98" y2="708" stroke="var(--_line-soft)" stroke-width="1.25" stroke-dasharray="4 4" />
+<g><g class="message" data-from="B" data-to="A" data-label="GET /orders" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="74.97999999999999" y1="114" x2="214.98" y2="114" stroke="var(--_line)" stroke-width="1.5" mask="url(#ma44831e33-m0)" />
+  <g class="ma44831e33-a3" style="opacity:1"><rect x="101.88" y="89.2" width="86.19999999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /></g> <g class="ma44831e33-a4" style="opacity:1"><text x="144.98" y="100" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">GET /orders</text></g>
+</g><g class="ma44831e33-a2" style="opacity:1"><g transform="translate(214.98 114) rotate(0)"><g transform="translate(-10 -6)"><polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" /></g></g></g></g>
+<g><g class="message" data-from="A" data-to="C" data-label="lookup" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="214.98" y1="164" x2="354.98" y2="164" stroke="var(--_line)" stroke-width="1.5" mask="url(#ma44831e33-m1)" />
+  <g class="ma44831e33-a7" style="opacity:1"><rect x="257.612" y="139.2" width="54.736" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /></g> <g class="ma44831e33-a8" style="opacity:1"><text x="284.98" y="150" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">lookup</text></g>
+</g><g class="ma44831e33-a6" style="opacity:1"><g transform="translate(354.98 164) rotate(0)"><g transform="translate(-10 -6)"><polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" /></g></g></g></g>
+<g><g class="message" data-from="C" data-to="A" data-label="miss" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="354.98" y1="214" x2="214.98" y2="214" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" mask="url(#ma44831e33-m2)" />
+  <g class="ma44831e33-a11" style="opacity:1"><rect x="263.76800000000003" y="189.2" width="42.424" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /></g> <g class="ma44831e33-a12" style="opacity:1"><text x="284.98" y="200" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">miss</text></g>
+</g><g class="ma44831e33-a10" style="opacity:1"><g transform="translate(214.98 214) rotate(180)"><g transform="translate(-10 -6)"><polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" /></g></g></g></g>
+<g><g class="message" data-from="A" data-to="D" data-label="SELECT orders" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="214.98" y1="264" x2="494.98" y2="264" stroke="var(--_line)" stroke-width="1.5" mask="url(#ma44831e33-m3)" />
+  <g class="ma44831e33-a20" style="opacity:0"><rect x="301.278" y="239.2" width="107.404" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /></g> <g class="ma44831e33-a21" style="opacity:0"><text x="354.98" y="250" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">SELECT orders</text></g>
+</g><g class="ma44831e33-a19" style="opacity:0"><g transform="translate(494.98 264) rotate(0)"><g transform="translate(-10 -6)"><polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" /></g></g></g></g>
+<g><g class="message" data-from="D" data-to="A" data-label="rows" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="494.98" y1="314" x2="214.98" y2="314" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" mask="url(#ma44831e33-m4)" />
+  <g class="ma44831e33-a24" style="opacity:0"><rect x="332.40000000000003" y="289.2" width="45.16" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /></g> <g class="ma44831e33-a25" style="opacity:0"><text x="354.98" y="300" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">rows</text></g>
+</g><g class="ma44831e33-a23" style="opacity:0"><g transform="translate(214.98 314) rotate(180)"><g transform="translate(-10 -6)"><polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" /></g></g></g></g>
+<g><g class="message" data-from="A" data-to="C" data-label="store" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="214.98" y1="364" x2="354.98" y2="364" stroke="var(--_line)" stroke-width="1.5" mask="url(#ma44831e33-m5)" />
+  <g class="ma44831e33-a28" style="opacity:0"><rect x="261.716" y="339.2" width="46.528000000000006" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /></g> <g class="ma44831e33-a29" style="opacity:0"><text x="284.98" y="350" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">store</text></g>
+</g><g class="ma44831e33-a27" style="opacity:0"><g transform="translate(354.98 364) rotate(0)"><g transform="translate(-10 -6)"><polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" /></g></g></g></g>
+<g><g class="message" data-from="A" data-to="B" data-label="200 OK" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="214.98" y1="414" x2="74.97999999999999" y2="414" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" mask="url(#ma44831e33-m6)" />
+  <g class="ma44831e33-a32" style="opacity:0"><rect x="116.58599999999998" y="389.2" width="56.788" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /></g> <g class="ma44831e33-a33" style="opacity:0"><text x="144.98" y="400" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">200 OK</text></g>
+</g><g class="ma44831e33-a31" style="opacity:0"><g transform="translate(74.98 414) rotate(180)"><g transform="translate(-10 -6)"><polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" /></g></g></g></g>
+<g><g class="message" data-from="B" data-to="A" data-label="GET /orders" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="74.97999999999999" y1="464" x2="214.98" y2="464" stroke="var(--_line)" stroke-width="1.5" mask="url(#ma44831e33-m7)" />
+  <g class="ma44831e33-a39" style="opacity:0"><rect x="101.88" y="439.2" width="86.19999999999999" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /></g> <g class="ma44831e33-a40" style="opacity:0"><text x="144.98" y="450" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">GET /orders</text></g>
+</g><g class="ma44831e33-a38" style="opacity:0"><g transform="translate(214.98 464) rotate(0)"><g transform="translate(-10 -6)"><polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" /></g></g></g></g>
+<g><g class="message" data-from="A" data-to="C" data-label="lookup" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="214.98" y1="514" x2="354.98" y2="514" stroke="var(--_line)" stroke-width="1.5" mask="url(#ma44831e33-m8)" />
+  <g class="ma44831e33-a43" style="opacity:0"><rect x="257.612" y="489.2" width="54.736" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /></g> <g class="ma44831e33-a44" style="opacity:0"><text x="284.98" y="500" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">lookup</text></g>
+</g><g class="ma44831e33-a42" style="opacity:0"><g transform="translate(354.98 514) rotate(0)"><g transform="translate(-10 -6)"><polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" /></g></g></g></g>
+<g><g class="message" data-from="C" data-to="A" data-label="hit" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="354.98" y1="564" x2="214.98" y2="564" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" mask="url(#ma44831e33-m9)" />
+  <g class="ma44831e33-a47" style="opacity:0"><rect x="269.92400000000004" y="539.2" width="30.112" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /></g> <g class="ma44831e33-a48" style="opacity:0"><text x="284.98" y="550" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">hit</text></g>
+</g><g class="ma44831e33-a46" style="opacity:0"><g transform="translate(214.98 564) rotate(180)"><g transform="translate(-10 -6)"><polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" /></g></g></g></g>
+<g><g class="message" data-from="A" data-to="B" data-label="200 OK" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="214.98" y1="614" x2="74.97999999999999" y2="614" stroke="var(--_line)" stroke-width="1.5" stroke-dasharray="5 4" mask="url(#ma44831e33-m10)" />
+  <g class="ma44831e33-a51" style="opacity:0"><rect x="116.58599999999998" y="589.2" width="56.788" height="21.6" rx="10.8" ry="10.8" fill="var(--bg)" stroke="var(--_line)" stroke-width="1.5" /></g> <g class="ma44831e33-a52" style="opacity:0"><text x="144.98" y="600" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text)" dy="4.2">200 OK</text></g>
+</g><g class="ma44831e33-a50" style="opacity:0"><g transform="translate(74.98 614) rotate(180)"><g transform="translate(-10 -6)"><polygon points="0,1.5 10,6 0,10.5" fill="var(--_line)" stroke="var(--_line)" stroke-width="1" stroke-linejoin="miter" /></g></g></g></g>
+<g class="ma44831e33-a15" style="transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:74.98px 50px"><g class="actor" data-id="B" data-label="Browser" data-type="participant">
+  <rect x="29.999999999999993" y="30" width="89.96" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="74.98" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Browser</text>
+</g></g>
+<g class="actor" data-id="A" data-label="API" data-type="participant">
+  <rect x="174.98" y="30" width="80" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="214.98" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">API</text>
+</g>
+<g class="actor" data-id="C" data-label="Cache" data-type="participant">
+  <rect x="314.98" y="30" width="80" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="354.98" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Cache</text>
+</g>
+<g class="actor" data-id="D" data-label="Database" data-type="participant">
+  <rect x="447.606" y="30" width="94.74799999999999" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="494.98" y="50" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Database</text>
+</g>
+<g class="ma44831e33-a16" style="transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:74.98px 728px"><g class="actor actor-bottom" data-id="B" data-label="Browser" data-type="participant">
+  <rect x="29.999999999999993" y="708" width="89.96" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="74.98" y="728" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Browser</text>
+</g></g>
+<g class="actor actor-bottom" data-id="A" data-label="API" data-type="participant">
+  <rect x="174.98" y="708" width="80" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="214.98" y="728" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">API</text>
+</g>
+<g class="actor actor-bottom" data-id="C" data-label="Cache" data-type="participant">
+  <rect x="314.98" y="708" width="80" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="354.98" y="728" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Cache</text>
+</g>
+<g class="actor actor-bottom" data-id="D" data-label="Database" data-type="participant">
+  <rect x="447.606" y="708" width="94.74799999999999" height="40" rx="8" ry="8" fill="url(#m1814eb8b-ng-p0)" stroke="color-mix(in srgb, #64748b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="494.98" y="728" text-anchor="middle" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" dy="4.9">Database</text>
+</g>
+
+<g pointer-events="none"><path d="M354.98,564 L214.98,564" fill="none" stroke="#59a14f" stroke-width="3.5" opacity="0" stroke-linecap="round" class="ma44831e33-a53" style="opacity:0" /><path d="M354.98,214 L214.98,214" fill="none" stroke="#edc948" stroke-width="3.5" opacity="0" stroke-linecap="round" class="ma44831e33-a13" style="opacity:1" /><g opacity="0" class="ma44831e33-a34" style="opacity:0"><path d="M508.98,264 h7 V314 h-7" fill="none" stroke="#edc948" stroke-width="2" stroke-linejoin="round" /><text x="521.98" y="293" font-size="12" font-weight="700" fill="#edc948">38 ms</text></g><g opacity="0" class="ma44831e33-a54" style="opacity:0"><path d="M368.98,514 h7 V564 h-7" fill="none" stroke="#59a14f" stroke-width="2" stroke-linejoin="round" /><text x="381.98" y="543" font-size="12" font-weight="700" fill="#59a14f">2 ms</text></g></g></g><g opacity="0" aria-hidden="true" class="ma44831e33-a0" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:0px 0px"><rect x="14" y="-37" width="37" height="21" rx="10.5" fill="var(--_text, var(--fg))" /><text x="32" y="-22" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--bg)">1/3</text><text x="60" y="-21.5" font-size="15" font-weight="650" fill="var(--_text, var(--fg))">The first request misses the cache</text><path d="M14,-11 L558.35,-11" stroke="var(--accent, #3b82f6)" stroke-width="2" stroke-opacity="0.55" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" fill="none" class="ma44831e33-a14" style="stroke-dashoffset:0" /></g><g opacity="0" aria-hidden="true" class="ma44831e33-a17" style="opacity:0;transform:translate(0px,6px) scale(1);transform-box:view-box;transform-origin:0px 0px"><rect x="14" y="-37" width="37" height="21" rx="10.5" fill="var(--_text, var(--fg))" /><text x="32" y="-22" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--bg)">2/3</text><text x="60" y="-21.5" font-size="15" font-weight="650" fill="var(--_text, var(--fg))">The database answers, and the cache keeps a copy</text><path d="M14,-11 L558.35,-11" stroke="var(--accent, #3b82f6)" stroke-width="2" stroke-opacity="0.55" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" fill="none" class="ma44831e33-a35" style="stroke-dashoffset:1" /></g><g opacity="0" aria-hidden="true" class="ma44831e33-a36" style="opacity:0;transform:translate(0px,6px) scale(1);transform-box:view-box;transform-origin:0px 0px"><rect x="14" y="-37" width="37" height="21" rx="10.5" fill="var(--_text, var(--fg))" /><text x="32" y="-22" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--bg)">3/3</text><text x="60" y="-21.5" font-size="15" font-weight="650" fill="var(--_text, var(--fg))">The next request never reaches the database</text><path d="M14,-11 L558.35,-11" stroke="var(--accent, #3b82f6)" stroke-width="2" stroke-opacity="0.55" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" fill="none" class="ma44831e33-a55" style="stroke-dashoffset:1" /></g></g><defs><mask id="ma44831e33-m0" maskUnits="userSpaceOnUse" x="-778" y="-778" width="2128.35" height="2334"><path d="M74.98,114 L214.98,114" fill="none" stroke="#fff" stroke-width="14" pathLength="1" stroke-dasharray="1 1" class="ma44831e33-a1" style="stroke-dashoffset:0" /></mask><mask id="ma44831e33-m1" maskUnits="userSpaceOnUse" x="-778" y="-778" width="2128.35" height="2334"><path d="M214.98,164 L354.98,164" fill="none" stroke="#fff" stroke-width="14" pathLength="1" stroke-dasharray="1 1" class="ma44831e33-a5" style="stroke-dashoffset:0" /></mask><mask id="ma44831e33-m2" maskUnits="userSpaceOnUse" x="-778" y="-778" width="2128.35" height="2334"><path d="M354.98,214 L214.98,214" fill="none" stroke="#fff" stroke-width="14" pathLength="1" stroke-dasharray="1 1" class="ma44831e33-a9" style="stroke-dashoffset:0" /></mask><mask id="ma44831e33-m3" maskUnits="userSpaceOnUse" x="-778" y="-778" width="2128.35" height="2334"><path d="M214.98,264 L494.98,264" fill="none" stroke="#fff" stroke-width="14" pathLength="1" stroke-dasharray="1 1" class="ma44831e33-a18" style="stroke-dashoffset:1" /></mask><mask id="ma44831e33-m4" maskUnits="userSpaceOnUse" x="-778" y="-778" width="2128.35" height="2334"><path d="M494.98,314 L214.98,314" fill="none" stroke="#fff" stroke-width="14" pathLength="1" stroke-dasharray="1 1" class="ma44831e33-a22" style="stroke-dashoffset:1" /></mask><mask id="ma44831e33-m5" maskUnits="userSpaceOnUse" x="-778" y="-778" width="2128.35" height="2334"><path d="M214.98,364 L354.98,364" fill="none" stroke="#fff" stroke-width="14" pathLength="1" stroke-dasharray="1 1" class="ma44831e33-a26" style="stroke-dashoffset:1" /></mask><mask id="ma44831e33-m6" maskUnits="userSpaceOnUse" x="-778" y="-778" width="2128.35" height="2334"><path d="M214.98,414 L74.98,414" fill="none" stroke="#fff" stroke-width="14" pathLength="1" stroke-dasharray="1 1" class="ma44831e33-a30" style="stroke-dashoffset:1" /></mask><mask id="ma44831e33-m7" maskUnits="userSpaceOnUse" x="-778" y="-778" width="2128.35" height="2334"><path d="M74.98,464 L214.98,464" fill="none" stroke="#fff" stroke-width="14" pathLength="1" stroke-dasharray="1 1" class="ma44831e33-a37" style="stroke-dashoffset:1" /></mask><mask id="ma44831e33-m8" maskUnits="userSpaceOnUse" x="-778" y="-778" width="2128.35" height="2334"><path d="M214.98,514 L354.98,514" fill="none" stroke="#fff" stroke-width="14" pathLength="1" stroke-dasharray="1 1" class="ma44831e33-a41" style="stroke-dashoffset:1" /></mask><mask id="ma44831e33-m9" maskUnits="userSpaceOnUse" x="-778" y="-778" width="2128.35" height="2334"><path d="M354.98,564 L214.98,564" fill="none" stroke="#fff" stroke-width="14" pathLength="1" stroke-dasharray="1 1" class="ma44831e33-a45" style="stroke-dashoffset:1" /></mask><mask id="ma44831e33-m10" maskUnits="userSpaceOnUse" x="-778" y="-778" width="2128.35" height="2334"><path d="M214.98,614 L74.98,614" fill="none" stroke="#fff" stroke-width="14" pathLength="1" stroke-dasharray="1 1" class="ma44831e33-a49" style="stroke-dashoffset:1" /></mask></defs></svg>

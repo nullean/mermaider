@@ -1,0 +1,16 @@
+stateDiagram-v2
+  %% State machine: run a trace, then show a refused transition
+  [*] --> Idle
+  Idle --> Loading : fetch
+  Loading --> Ready : ok
+  Loading --> Error : timeout
+  Error --> Idle : retry
+  Ready --> Idle : refresh
+
+animate
+  step "A fetch that times out"
+    run [*] -> Idle -> Loading -> Error
+  step "Retry, and this time it loads"
+    run Error -> Idle -> Loading -> Ready
+  step "Ready cannot go straight to Error"
+    try Ready -> Error rejected "no transition"

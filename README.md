@@ -260,6 +260,7 @@ var svg = MermaidRenderer.RenderSvg(input, new RenderOptions
 | `DataPalette` | `string[]?` | theme default | Categorical colors for pie, sankey, timeline, gitgraph, radar, mindmap, venn, journey, packet, xychart, treemap; flowchart/state/ER/class auto colouring uses it minus the role hues |
 | `Default` | `string?` | theme's default box colour (slate in the zinc themes), else the first non-role palette colour | Colour of an ordinary box (first cluster of nodes, entities, classes) |
 | `Success` / `Failure` / `Warning` / `Info` | `string?` | palette green / red / yellow / blue | Semantic role colours (class `success`, `failure`, `warning`, `info`); auto colouring avoids the first three |
+| `ParseMode` | `ParseMode` | `Strict` | `Strict` throws `MermaidParseException` (with `Line`, `SourceLine`, `Expected`) for malformed statements in every diagram type; `Lenient` skips what it cannot read |
 | `AllowedDiagrams` | `DiagramTypes` | `DiagramTypes.All` | Allowlist of accepted diagram types; diagrams outside this set throw `MermaidParseException` |
 | `Style` | `DiagramStyle` | `Quiet` | Style preset: `Quiet`, `Blueprint` or `Tonal`. Paint only; layout is the same |
 | `Gradient` | `bool` | `true` | Gradient fills on boxes, containers and bars; `false` = flat fills |

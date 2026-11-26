@@ -111,7 +111,7 @@ public class QuadrantParserTests
 	{
 		var lines = new[] { "quadrantChart", "Over: [1.5, -0.2]", };
 
-		var chart = QuadrantParser.Parse(lines);
+		var chart = QuadrantParser.Parse(lines, strict: false);
 
 		chart.Points[0].X.Should().Be(1.0);
 		chart.Points[0].Y.Should().Be(0.0);

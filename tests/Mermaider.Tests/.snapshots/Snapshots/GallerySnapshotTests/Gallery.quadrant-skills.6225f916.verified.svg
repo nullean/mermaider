@@ -55,27 +55,27 @@
 <text x="558" y="600" text-anchor="end" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Expert</text>
 <g transform="translate(56 84) rotate(-90)"><text x="0" y="0" text-anchor="end" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">High Demand</text></g>
 <g transform="translate(56 564) rotate(-90)"><text x="0" y="0" text-anchor="start" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">Low Demand</text></g>
-<g class="quadrant-point">
+<g class="quadrant-point" data-index="1" data-label="Kubernetes" data-x="0.4" data-y="0.9">
   <circle cx="270" cy="132" r="11" fill="color-mix(in srgb, var(--accent, var(--fg)) 26%, var(--bg))" fill-opacity="0.7" />
   <circle cx="270" cy="132" r="5.5" fill="var(--accent, var(--fg))" stroke="var(--bg)" stroke-width="1.5" />
   <text x="286" y="132" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Kubernetes</text>
 </g>
-<g class="quadrant-point">
+<g class="quadrant-point" data-index="2" data-label="React" data-x="0.7" data-y="0.8">
   <circle cx="414" cy="180" r="11" fill="color-mix(in srgb, var(--accent, var(--fg)) 26%, var(--bg))" fill-opacity="0.7" />
   <circle cx="414" cy="180" r="5.5" fill="var(--accent, var(--fg))" stroke="var(--bg)" stroke-width="1.5" />
   <text x="430" y="180" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">React</text>
 </g>
-<g class="quadrant-point">
+<g class="quadrant-point" data-index="3" data-label="COBOL" data-x="0.3" data-y="0.1">
   <circle cx="222" cy="516" r="11" fill="color-mix(in srgb, var(--accent, var(--fg)) 26%, var(--bg))" fill-opacity="0.7" />
   <circle cx="222" cy="516" r="5.5" fill="var(--accent, var(--fg))" stroke="var(--bg)" stroke-width="1.5" />
   <text x="238" y="516" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">COBOL</text>
 </g>
-<g class="quadrant-point">
+<g class="quadrant-point" data-index="4" data-label="Rust" data-x="0.3" data-y="0.7">
   <circle cx="222" cy="228" r="11" fill="color-mix(in srgb, var(--accent, var(--fg)) 26%, var(--bg))" fill-opacity="0.7" />
   <circle cx="222" cy="228" r="5.5" fill="var(--accent, var(--fg))" stroke="var(--bg)" stroke-width="1.5" />
   <text x="238" y="228" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Rust</text>
 </g>
-<g class="quadrant-point">
+<g class="quadrant-point" data-index="5" data-label="Python" data-x="0.8" data-y="0.9">
   <circle cx="462" cy="132" r="11" fill="color-mix(in srgb, var(--accent, var(--fg)) 26%, var(--bg))" fill-opacity="0.7" />
   <circle cx="462" cy="132" r="5.5" fill="var(--accent, var(--fg))" stroke="var(--bg)" stroke-width="1.5" />
   <text x="478" y="132" text-anchor="start" font-size="var(--fs-s)" font-weight="500" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Python</text>

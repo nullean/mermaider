@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 using Mermaider.Models;
 using Mermaider.Text;
@@ -174,6 +175,14 @@ internal static class RadarSvgRenderer
 
 		_ = sb.Append("\n<g class=\"radar-curve\" data-curve=\"");
 		MultilineUtils.AppendEscapedAttr(sb, curve.Id);
+		// addressing: the curve's place, and the centre it grows from
+		_ = sb
+			.Append("\" data-index=\"")
+			.Append((index + 1).ToString(CultureInfo.InvariantCulture))
+			.Append("\" data-cx=\"")
+			.Append(cx.SvgFormat())
+			.Append("\" data-cy=\"")
+			.Append(cy.SvgFormat());
 		_ = sb.Append("\">\n  <polygon points=\"");
 		for (var i = 0; i < n; i++)
 		{

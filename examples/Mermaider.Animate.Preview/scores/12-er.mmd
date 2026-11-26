@@ -1,0 +1,16 @@
+erDiagram
+  %% ER: an order's data, followed through its relationships
+  CUSTOMER ||--o{ ORDER : places
+  ORDER ||--|{ LINE : contains
+  LINE }o--|| PRODUCT : references
+  PRODUCT }o--|| CATEGORY : "belongs to"
+
+animate
+  build
+  step "A customer places orders"
+    tour CUSTOMER -> ORDER "places"
+  step "Each order has lines that reference products"
+    tour ORDER -> LINE -> PRODUCT
+  step "Products sit in a category"
+    focus PRODUCT, CATEGORY
+    send PRODUCT -> CATEGORY "belongs to"

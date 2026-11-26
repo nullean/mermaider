@@ -110,6 +110,13 @@ public sealed record RenderOptions
 	public DiagramTypes AllowedDiagrams { get; init; } = DiagramTypes.All;
 
 	/// <summary>
+	/// How malformed input is handled. <see cref="Models.ParseMode.Strict"/> (default) throws a
+	/// <see cref="MermaidParseException"/> naming the line and what was expected; <see cref="Models.ParseMode.Lenient"/>
+	/// skips what it cannot read and renders the rest.
+	/// </summary>
+	public ParseMode ParseMode { get; init; } = ParseMode.Strict;
+
+	/// <summary>
 	/// Override the categorical data palette used by color-encoded diagram types
 	/// (pie, sankey, timeline, radar, gitgraph, mindmap, venn, journey, packet, xychart, treemap).
 	/// When null, the theme's built-in data palette is used (dark themes ship a brighter variant).

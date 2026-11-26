@@ -1,0 +1,25 @@
+flowchart LR
+  %% Fan-out: an order reaches every consumer, billing rejects it, then the topic backs up
+  src[Producers] --> topic[[orders topic]]
+  topic --> c1[Billing]
+  topic --> c2[Shipping]
+  topic --> c3[Search]
+  c1 -.-> dlq[(Dead letters)]
+
+animate
+  token o = "#42"
+  step "Producers publish orders to the topic"
+    stream src -> topic steady
+    with fill topic 3/8
+  step "Every consumer gets its own copy of #42"
+    send o topic -> c1, c2, c3
+    with fill topic 2
+    mark c2, c3 ok
+  step "Billing rejects it into the dead letters"
+    mark c1 fail
+    send o c1 -> dlq becomes "#42 rejected" as fail
+    badge dlq "1" as fail
+  step "Producers outpace consumers: the topic backs up"
+    stream src -> topic busy
+    with fill topic 8
+    badge topic "lag 8/8" as warn

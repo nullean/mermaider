@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 using Mermaider.Models;
 using Mermaider.Text;
@@ -139,11 +140,14 @@ internal static class TimelineSvgRenderer
 			ds.AppendContainerHeader(sb, sx, top, sw, name, family);
 
 		// drop-lines through each moment, under everything else
-		foreach (var c in columns)
+		for (var ci = 0; ci < columns.Count; ci++)
 		{
+			var c = columns[ci];
 			var cx = c.X + (PeriodWidth / 2);
 			_ = sb
-				.Append("\n<line x1=\"")
+				.Append("\n<line class=\"timeline-drop\" data-period=\"")
+				.Append((ci + 1).ToString(CultureInfo.InvariantCulture))
+				.Append("\" x1=\"")
 				.Append(cx.SvgFormat())
 				.Append("\" y1=\"")
 				.Append((periodTop + periodH).SvgFormat())
@@ -164,7 +168,7 @@ internal static class TimelineSvgRenderer
 		ds.AppendStoryArrow(sb, axisEnd, axisY);
 
 		for (var i = 0; i < columns.Count; i++)
-			AppendPeriod(sb, ds, columns[i], periodLines[i], periodTop, periodH, axisY, eventTop);
+			AppendPeriod(sb, ds, i + 1, columns[i], periodLines[i], periodTop, periodH, axisY, eventTop);
 
 		ds.Close(sb);
 		return sb;
@@ -175,6 +179,7 @@ internal static class TimelineSvgRenderer
 	private static void AppendPeriod(
 		StringBuilder sb,
 		DesignSystem ds,
+		int index,
 		Column column,
 		List<string> labelLines,
 		double periodTop,
@@ -186,7 +191,9 @@ internal static class TimelineSvgRenderer
 		var cx = column.X + (PeriodWidth / 2);
 		var family = column.Family;
 
-		_ = sb.Append("\n<g class=\"node timeline-period\" data-label=\"");
+		// addressing: periods by their place in the source; a period's moment, drop-line and events carry data-period
+		var period = index.ToString(CultureInfo.InvariantCulture);
+		_ = sb.Append("\n<g class=\"node timeline-period\" data-index=\"").Append(period).Append("\" data-label=\"");
 		MultilineUtils.AppendEscapedAttr(sb, column.Period.Label.AsSpan());
 		_ = sb.Append("\">\n  ");
 		ds.AppendBox(sb, column.X, periodTop, PeriodWidth, periodH, family);
@@ -194,13 +201,21 @@ internal static class TimelineSvgRenderer
 		ds.AppendText(sb, string.Join('\n', labelLines), cx, periodTop + (periodH / 2), TypeRole.Label, weight: ds.Spec.HeadingWeight);
 		_ = sb.Append("\n</g>");
 
+		_ = sb.Append("\n<g class=\"timeline-moment\" data-period=\"").Append(period).Append("\">");
 		ds.AppendMoment(sb, cx, axisY, family, MomentRadius);
+		_ = sb.Append("\n</g>");
 
 		var eventY = eventTop;
+		var eventIndex = 0;
 		foreach (var evt in column.Period.Events)
 		{
 			var boxH = EventHeight(evt);
-			_ = sb.Append("\n<g class=\"node timeline-event\">\n  ");
+			_ = sb
+				.Append("\n<g class=\"node timeline-event\" data-period=\"")
+				.Append(period)
+				.Append("\" data-index=\"")
+				.Append((++eventIndex).ToString(CultureInfo.InvariantCulture))
+				.Append("\">\n  ");
 			ds.AppendBox(sb, column.X, eventY, PeriodWidth, boxH, family);
 			_ = sb.Append("\n  ");
 			ds.AppendText(sb, string.Join('\n', EventLines(evt)), cx, eventY + (boxH / 2), TypeRole.Body);

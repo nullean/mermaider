@@ -1,0 +1,23 @@
+gantt
+  %% Gantt: the release plan unfolds; testing on the critical path decides the launch
+  title Release plan
+  dateFormat YYYY-MM-DD
+  section Build
+  Design :d1, 2024-01-01, 5d
+  Build API :b1, after d1, 10d
+  Build UI :b2, after d1, 7d
+  section Ship
+  Test :crit, t1, after b1, 6d
+  Launch :milestone, l1, after t1, 0d
+
+animate
+  step "Design starts the release"
+    sweep to "2024-01-06"
+  step "API and UI are built in parallel; the UI finishes early"
+    sweep to "2024-01-16"
+    badge b2 "early" as ok
+  step "Testing is on the critical path"
+    sweep to "2024-01-22"
+    mark t1 warn
+  step "Launch"
+    sweep

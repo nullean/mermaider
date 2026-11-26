@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 using Mermaider.Models;
 using Mermaider.Text;
@@ -80,6 +81,8 @@ internal static class VennSvgRenderer
 			_ = sb.Append("\n<g class=\"venn-set\" data-set=\"");
 			MultilineUtils.AppendEscapedAttr(sb, set.Id);
 			_ = sb
+				.Append("\" data-index=\"")
+				.Append((i + 1).ToString(CultureInfo.InvariantCulture))
 				.Append("\">\n  <circle cx=\"")
 				.Append(px.SvgFormat())
 				.Append("\" cy=\"")
@@ -115,8 +118,12 @@ internal static class VennSvgRenderer
 			if (members.Count < n)
 				(mx, my) = Outward(mx, my, centroid, PairLabelPush * Radius);
 
-			_ = sb.Append('\n');
+			// the label names its sets, so an animation can light the region they share
+			_ = sb.Append("\n<g class=\"venn-union\" data-sets=\"");
+			MultilineUtils.AppendEscapedAttr(sb, string.Join(",", union.SetIds));
+			_ = sb.Append("\">\n");
 			ds.AppendChartText(sb, Wrap(union.Label, Radius * 0.55, TypeRole.Label), mx, my, TypeRole.Label);
+			_ = sb.Append("\n</g>");
 		}
 
 		ds.Close(sb);

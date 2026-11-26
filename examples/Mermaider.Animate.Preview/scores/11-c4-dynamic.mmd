@@ -1,0 +1,14 @@
+C4Dynamic
+  %% C4 dynamic: a sign-in, numbered step by step through the containers
+  title Signing in
+  Person(user, "Customer")
+  Container(spa, "Web app", "React")
+  Container(api, "API", ".NET")
+  ContainerDb(db, "Accounts", "Postgres")
+  Container(idp, "Identity provider", "OIDC")
+  Rel(user, spa, "1. enters credentials")
+  Rel(spa, idp, "2. authenticates")
+  Rel(spa, api, "3. calls with token")
+  Rel(api, db, "4. loads account")
+
+animate

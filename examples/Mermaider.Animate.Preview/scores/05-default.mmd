@@ -1,0 +1,10 @@
+flowchart TD
+  %% A bare animate on a flowchart runs its longest path
+  start([Push to main]) --> build[Build]
+  build --> test[Test]
+  build --> lint[Lint]
+  test --> pack[Pack]
+  lint --> pack
+  pack --> publish([Publish])
+
+animate

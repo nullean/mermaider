@@ -229,6 +229,21 @@
   .card-body { font-size: 0.8rem; color: var(--muted); line-height: 1.75; }
   .card-more { font-size: 0.75rem; color: var(--cyan); display: inline-block; margin-top: 1rem; }
 
+  /* ─────────────────────────  ANIMATE  ───────────────────────── */
+  .anim-player iframe { width: 100%; height: 270px; border: 1px solid var(--line-soft); border-radius: 8px; background: var(--bg2); display: block; }
+  .anim-note { font-size: 0.75rem; color: var(--muted); margin-top: 0.75rem; }
+  .anim-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
+  .anim-card { border: 1px solid var(--line); border-radius: 8px; background: #0D1013; cursor: pointer; overflow: hidden; transition: border-color .18s, transform .15s; }
+  .anim-card:hover { border-color: rgba(127,224,255,0.32); transform: translateY(-2px); }
+  .anim-card img { display: block; width: 100%; height: 200px; object-fit: contain; padding: 10px; box-sizing: border-box; }
+  .anim-card p { font-size: 0.72rem; color: var(--muted); line-height: 1.6; padding: 0 0.75rem 0.75rem; margin: 0; }
+  /* the score is syntax to copy: show the characters, not ligatures */
+  .anim-score { margin: 1.5rem 0 3rem; }
+  /* narrow: the contents fold under the figure and open below it */
+  @media (max-width: 700px) { .anim-player iframe { height: 440px; } }
+  .anim-score pre { font-variant-ligatures: none; }
+  #animate { scroll-margin-top: 4rem; }
+
   /* ─────────────────────────  DIAGRAM GALLERY  ───────────────────────── */
   .gallery-section { position: relative; }
   .gallery-section::before {
@@ -436,6 +451,7 @@
     <ul class="nav-links">
       <li><a href="#features">features</a></li>
       <li><a href="#diagrams">diagram types</a></li>
+      <li><a href="#animate">animations</a></li>
       <li><a href="getting-started/">docs</a></li>
     </ul>
     <a class="nav-cta" href="https://github.com/nullean/mermaider">github →</a>
@@ -681,6 +697,224 @@
 
 <hr class="divider"/>
 
+<!-- ══════════════  ANIMATE  ══════════════ -->
+<section class="section reveal" id="animate">
+  <div class="inner">
+    <p class="section-label">// mermaider.animate</p>
+    <h2 class="section-title">Diagrams that<br/>tell the story.</h2>
+    <p class="section-sub">
+      Add an <code>animate</code> block after any diagram and say what happens: a request travels, a node fails,
+      the balancer retries. The score never names a duration or an easing; one motion preset decides how everything
+      moves, so every animated diagram on a site moves the same way. It plays with CSS alone.
+    </p>
+
+    <div class="anim-player">
+      <iframe src="screenshots/animate/player.html" title="One request, three endings: the player with its story map" loading="lazy"></iframe>
+      <p class="anim-note">One request, three ways it can go. Click a step to see it, an ending to play it: the controls are
+        radio buttons and CSS, no JavaScript. The score below is all it takes; under it, every other preview example
+        (click one to enlarge it).</p>
+    </div>
+    <div class="code-panel anim-score">
+      <div class="code-panel-head">the score</div>
+<pre>flowchart LR
+  client[Client] --&gt; lb[Balancer]
+  lb --&gt; api1[API 1]
+  lb --&gt; api2[API 2]
+  api1 --&gt; db[(Orders DB)]
+  api2 --&gt; db
+
+<span class="c-kw">animate</span>
+  <span class="c-kw">build</span>
+  <span class="c-kw">step</span> <span class="c-str">"A request reaches API 1"</span>
+    <span class="c-key">tour</span> client -&gt; lb -&gt; api1 <span class="c-str">"GET /orders"</span>
+
+  <span class="c-kw">scenario</span> <span class="c-str">"Happy path"</span> <span class="c-kw">as</span> ok
+    <span class="c-kw">step</span> <span class="c-str">"The database answers"</span>
+      <span class="c-key">tour</span> api1 -&gt; db <span class="c-str">"query"</span>
+      <span class="c-key">tour</span> db -&gt; api1 -&gt; lb -&gt; client <span class="c-str">"200 OK"</span> <span class="c-kw">as</span> ok
+
+  <span class="c-kw">scenario</span> <span class="c-str">"API 1 times out"</span> <span class="c-kw">as</span> fail
+    <span class="c-kw">step</span> <span class="c-str">"API 1 stops answering"</span>
+      <span class="c-key">hang</span> api1
+      <span class="c-key">mark</span> api1 fail
+      <span class="c-kw">with</span> <span class="c-key">badge</span> api1 <span class="c-str">"timeout"</span> <span class="c-kw">as</span> fail
+    <span class="c-kw">step</span> <span class="c-str">"The balancer retries on API 2"</span>
+      <span class="c-key">tour</span> lb -&gt; api2 -&gt; db <span class="c-str">"retry"</span>
+      <span class="c-key">tour</span> db -&gt; api2 -&gt; lb -&gt; client <span class="c-str">"200 OK"</span> <span class="c-kw">as</span> ok
+
+  <span class="c-kw">scenario</span> <span class="c-str">"The database is slow"</span> <span class="c-kw">as</span> warn
+    <span class="c-kw">step</span> <span class="c-str">"Queries pile up"</span>
+      <span class="c-key">tour</span> api1 -&gt; db <span class="c-str">"query"</span>
+      <span class="c-key">count</span> db 40 -&gt; 2400 <span class="c-str">"ms"</span> <span class="c-kw">as</span> warn
+    <span class="c-kw">step</span> <span class="c-str">"The request fails"</span>
+      <span class="c-key">tour</span> db -&gt; api1 -&gt; lb -&gt; client <span class="c-str">"503"</span> <span class="c-kw">as</span> fail</pre>
+    </div>
+
+    <div class="anim-gallery">
+      <div class="anim-card" data-src="screenshots/animate/02-fan-out.svg" data-label="fan-out" onclick="openDiagram(this)">
+        <div class="diagram-card-name">fan-out</div>
+        <img src="screenshots/animate/02-fan-out.svg" alt="Animated fan-out diagram: an order reaches every consumer, billing rejects it, then the topic backs up" loading="lazy"/>
+        <p>An order reaches every consumer, billing rejects it, then the topic backs up</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/03-state-machine.svg" data-label="state machine" onclick="openDiagram(this)">
+        <div class="diagram-card-name">state machine</div>
+        <img src="screenshots/animate/03-state-machine.svg" alt="Animated state machine diagram: run a trace, then show a refused transition" loading="lazy"/>
+        <p>Run a trace, then show a refused transition</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/04-sequence.svg" data-label="sequence" onclick="openDiagram(this)">
+        <div class="diagram-card-name">sequence</div>
+        <img src="screenshots/animate/04-sequence.svg" alt="Animated sequence diagram: a cache miss pays for the database once; the next request hits the cache" loading="lazy"/>
+        <p>A cache miss pays for the database once; the next request hits the cache</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/05-default.svg" data-label="flowchart" onclick="openDiagram(this)">
+        <div class="diagram-card-name">flowchart</div>
+        <img src="screenshots/animate/05-default.svg" alt="Animated flowchart diagram: a bare animate flows along the longest path" loading="lazy"/>
+        <p>A bare animate flows along the longest path</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/25-highlight.svg" data-label="highlight" onclick="openDiagram(this)">
+        <div class="diagram-card-name">highlight</div>
+        <img src="screenshots/animate/25-highlight.svg" alt="Animated flowchart diagram: no story, just where requests flow and the node that is failing" loading="lazy"/>
+        <p>No story: where requests flow, and the node that is failing</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/26-callout.svg" data-label="callout" onclick="openDiagram(this)">
+        <div class="diagram-card-name">callout</div>
+        <img src="screenshots/animate/26-callout.svg" alt="Animated flowchart diagram: an outage told with callouts, the caption says what happens and the callout says where" loading="lazy"/>
+        <p>The caption says what happens; a callout says where</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/27-outage.svg" data-label="outage" onclick="openDiagram(this)">
+        <div class="diagram-card-name">outage</div>
+        <img src="screenshots/animate/27-outage.svg" alt="Animated flowchart diagram: the database fails, the failure cascades to every caller, then everything recovers" loading="lazy"/>
+        <p>fail, cascade, recover: an outage in the words people use for one</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/28-becomes.svg" data-label="becomes" onclick="openDiagram(this)">
+        <div class="diagram-card-name">becomes</div>
+        <img src="screenshots/animate/28-becomes.svg" alt="Animated flowchart diagram: a monolith splits into a gateway and two services, each with its own database" loading="lazy"/>
+        <p>becomes: the monolith splits into services</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/29-plan.svg" data-label="plan" onclick="openDiagram(this)">
+        <div class="diagram-card-name">ghost · group</div>
+        <img src="screenshots/animate/29-plan.svg" alt="Animated flowchart diagram: a planned queue shown as a ghost, then built and grouped" loading="lazy"/>
+        <p>ghost and group: what is planned, and what belongs together</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/30-load.svg" data-label="load" onclick="openDiagram(this)">
+        <div class="diagram-card-name">retry · because · scale</div>
+        <img src="screenshots/animate/30-load.svg" alt="Animated flowchart diagram: retries back off, a report's locks are the cause, the API scales to three" loading="lazy"/>
+        <p>retry, because and scale: a load spike, its cause and the fix</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/06-architecture.svg" data-label="architecture" onclick="openDiagram(this)">
+        <div class="diagram-card-name">architecture</div>
+        <img src="screenshots/animate/06-architecture.svg" alt="Animated architecture diagram: build it up, then follow a request through the groups and back" loading="lazy"/>
+        <p>Build it up, then follow a request through the groups and back</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/07-gantt.svg" data-label="gantt" onclick="openDiagram(this)">
+        <div class="diagram-card-name">gantt</div>
+        <img src="screenshots/animate/07-gantt.svg" alt="Animated gantt diagram: the release plan unfolds; testing on the critical path decides the launch" loading="lazy"/>
+        <p>The release plan unfolds; testing on the critical path decides the launch</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/08-timeline.svg" data-label="timeline" onclick="openDiagram(this)">
+        <div class="diagram-card-name">timeline</div>
+        <img src="screenshots/animate/08-timeline.svg" alt="Animated timeline diagram: an api&#x27;s history, one era at a time" loading="lazy"/>
+        <p>An API&#x27;s history, one era at a time</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/09-gitgraph.svg" data-label="git graph" onclick="openDiagram(this)">
+        <div class="diagram-card-name">git graph</div>
+        <img src="screenshots/animate/09-gitgraph.svg" alt="Animated git graph diagram: a feature branch grows while a hotfix lands, then both meet in the release" loading="lazy"/>
+        <p>A feature branch grows while a hotfix lands, then both meet in the release</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/10-kanban.svg" data-label="kanban" onclick="openDiagram(this)">
+        <div class="diagram-card-name">kanban</div>
+        <img src="screenshots/animate/10-kanban.svg" alt="Animated kanban diagram: work flows across the board; one card gets stuck in review" loading="lazy"/>
+        <p>Work flows across the board; one card gets stuck in review</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/11-c4-dynamic.svg" data-label="c4 dynamic" onclick="openDiagram(this)">
+        <div class="diagram-card-name">c4 dynamic</div>
+        <img src="screenshots/animate/11-c4-dynamic.svg" alt="Animated c4 dynamic diagram: a sign-in, numbered step by step through the containers" loading="lazy"/>
+        <p>A sign-in, numbered step by step through the containers</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/12-er.svg" data-label="er" onclick="openDiagram(this)">
+        <div class="diagram-card-name">er</div>
+        <img src="screenshots/animate/12-er.svg" alt="Animated er diagram: an order&#x27;s data, followed through its relationships" loading="lazy"/>
+        <p>An order&#x27;s data, followed through its relationships</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/13-mindmap.svg" data-label="mindmap" onclick="openDiagram(this)">
+        <div class="diagram-card-name">mindmap</div>
+        <img src="screenshots/animate/13-mindmap.svg" alt="Animated mindmap diagram: a platform&#x27;s areas branch out, then one area opens up" loading="lazy"/>
+        <p>A platform&#x27;s areas branch out, then one area opens up</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/14-xychart.svg" data-label="xy chart" onclick="openDiagram(this)">
+        <div class="diagram-card-name">xy chart</div>
+        <img src="screenshots/animate/14-xychart.svg" alt="Animated xy chart diagram: revenue grows quarter by quarter, then the forecast for q4 is revised up" loading="lazy"/>
+        <p>Revenue grows quarter by quarter, then the forecast for Q4 is revised up</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/15-pie.svg" data-label="pie" onclick="openDiagram(this)">
+        <div class="diagram-card-name">pie</div>
+        <img src="screenshots/animate/15-pie.svg" alt="Animated pie diagram: where the time goes, slice by slice, then the biggest share is called out" loading="lazy"/>
+        <p>Where the time goes, slice by slice, then the biggest share is called out</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/16-radar.svg" data-label="radar" onclick="openDiagram(this)">
+        <div class="diagram-card-name">radar</div>
+        <img src="screenshots/animate/16-radar.svg" alt="Animated radar diagram: two releases compared skill by skill" loading="lazy"/>
+        <p>Two releases compared skill by skill</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/17-sankey.svg" data-label="sankey" onclick="openDiagram(this)">
+        <div class="diagram-card-name">sankey</div>
+        <img src="screenshots/animate/17-sankey.svg" alt="Animated sankey diagram: where visitors go, then the paying path is traced" loading="lazy"/>
+        <p>Where visitors go, then the paying path is traced</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/18-quadrant.svg" data-label="quadrant" onclick="openDiagram(this)">
+        <div class="diagram-card-name">quadrant</div>
+        <img src="screenshots/animate/18-quadrant.svg" alt="Animated quadrant diagram: features land on the chart, then the one worth doing first is called out" loading="lazy"/>
+        <p>Features land on the chart, then the one worth doing first is called out</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/19-treemap.svg" data-label="treemap" onclick="openDiagram(this)">
+        <div class="diagram-card-name">treemap</div>
+        <img src="screenshots/animate/19-treemap.svg" alt="Animated treemap diagram: the biggest line in the budget glows" loading="lazy"/>
+        <p>The biggest line in the budget glows</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/20-venn.svg" data-label="venn" onclick="openDiagram(this)">
+        <div class="diagram-card-name">venn</div>
+        <img src="screenshots/animate/20-venn.svg" alt="Animated venn diagram: two skill sets, and the overlap that makes the role" loading="lazy"/>
+        <p>Two skill sets, and the overlap that makes the role</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/21-packet.svg" data-label="packet" onclick="openDiagram(this)">
+        <div class="diagram-card-name">packet</div>
+        <img src="screenshots/animate/21-packet.svg" alt="Animated packet diagram: the widest field of a TCP header glows" loading="lazy"/>
+        <p>The widest field of a TCP header glows</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/22-journey.svg" data-label="journey" onclick="openDiagram(this)">
+        <div class="diagram-card-name">journey</div>
+        <img src="screenshots/animate/22-journey.svg" alt="Animated journey diagram: a checkout walked step by step; the payment step is where it dips" loading="lazy"/>
+        <p>A checkout walked step by step; the payment step is where it dips</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/23-requirement.svg" data-label="requirement" onclick="openDiagram(this)">
+        <div class="diagram-card-name">requirement</div>
+        <img src="screenshots/animate/23-requirement.svg" alt="Animated requirement diagram: what satisfies and verifies a checkout requirement" loading="lazy"/>
+        <p>What satisfies and verifies a checkout requirement</p>
+      </div>
+    </div>
+
+    <div class="grid-3 anim-why">
+      <div class="card">
+        <div class="card-kicker">one motion language</div>
+        <div class="card-title">Say what happens,<br/>not how it moves</div>
+        <p class="card-body">Verbs like <code>tour</code>, <code>send</code>, <code>mark</code>, <code>trace</code> and <code>count</code> name the story. Timing, easing and colour come from the preset and the diagram's theme.</p>
+      </div>
+      <div class="card">
+        <div class="card-kicker blue">css only</div>
+        <div class="card-title">Plays anywhere<br/>an SVG does</div>
+        <p class="card-body">One self-contained SVG: no script, no runtime. It waits until it is on screen, loops without a fade, and under reduced motion turns movement into cuts. Printed, it shows how the story ends.</p>
+      </div>
+      <div class="card">
+        <div class="card-kicker blue">every diagram type</div>
+        <div class="card-title">Checked against<br/>the diagram</div>
+        <p class="card-body">Every name in a score is checked against the diagram, with each problem reported on its line. A bare <code>animate</code> plays the type's own default: a flow's longest path runs, a pie's biggest slice pulls out, state machines run, a gantt chart sweeps its plan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
 <!-- ══════════════  QUICK START  ══════════════ -->
 <section class="section reveal" id="quickstart">
   <div class="inner">
@@ -839,7 +1073,8 @@ Response.<span class="c-key">Write</span>(svg);</pre>
   document.getElementById('variantTheme').addEventListener('change', function(e) { variant.family = e.target.value; applyVariant(); });
 
   function openDiagram(card) {
-    var src = variantSrc(card.getAttribute('data-type'));
+    // an animation card names its own file; a gallery card follows the chosen style and theme
+    var src = card.getAttribute('data-src') || variantSrc(card.getAttribute('data-type'));
     var label = card.getAttribute('data-label');
     document.getElementById('popupImg').src = src;
     document.getElementById('popupImg').alt = label + ' diagram';

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="TUnit" />
+    <PackageReference Include="AwesomeAssertions" />
+    <PackageReference Include="CsCheck" />
+    <PackageReference Include="Nullean.Snapshots.AwesomeAssertions" />
+    <PackageReference Include="Nullean.Snapshots.TUnit" />
+    <!-- the net11.0 build Nullean.Snapshots 0.12 does not ask for yet: see Directory.Packages.props -->
+    <PackageReference Include="Nullean.ScopedFileSystem" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- the preview's scores are the golden frames' sources: every diagram type, every verb the examples use -->
+    <None Include="../../examples/Mermaider.Animate.Preview/scores/*.mmd" LinkBase="scores" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/Mermaider/Mermaider.csproj" />
+    <ProjectReference Include="../../src/Mermaider.Animate/Mermaider.Animate.csproj" />
+  </ItemGroup>
+</Project>

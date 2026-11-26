@@ -14,10 +14,10 @@ internal static partial class ClassParser
 	[GeneratedRegex(@"^direction\s+(TD|TB|LR|BT|RL)\s*$", RegexOptions.IgnoreCase, TimeoutMs)]
 	private static partial Regex DirectionPattern();
 
-	[GeneratedRegex(@"^class\s+(\S+?)(?:\s*~(\w+)~)?\s*\{$", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^class\s+(\S+?)(?:\s*~(\w+)~)?(?:\s*\[(?:""([^""]*)""|([^\]""]*))\])?\s*\{$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex ClassBlockPattern();
 
-	[GeneratedRegex(@"^class\s+(\S+?)(?:\s*~(\w+)~)?\s*$", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^class\s+(\S+?)(?:\s*~(\w+)~)?(?:\s*\[(?:""([^""]*)""|([^\]""]*))\])?\s*$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex ClassOnlyPattern();
 
 	[GeneratedRegex(@"^class\s+(\S+?)\s*\{\s*<<(\w+)>>\s*\}$", RegexOptions.None, TimeoutMs)]
@@ -50,11 +50,34 @@ internal static partial class ClassParser
 	[GeneratedRegex(@"^(\S+?)\s+(--\(\)|\.\.?\(\)|\(\)--|\.?\(\)\.\.)\s+(\S+?)(?:\s*:\s*(.+))?$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex LollipopPattern();
 
-	internal static ClassDiagram Parse(string[] lines)
+	// the marker at either end of a relationship line: `<|--`, `*--`, `o--`, `<--`, `()--`, `--|>`, `--*`, `--o`, `-->`, `--()`
+	private const string LeftMarker = @"(?:<\||\*|o|<|>|\(\)|\|>)";
+	private const string RightMarker = @"(?:\|>|\*|o|>|\(\)|<)";
+
+	[GeneratedRegex("^" + LeftMarker + @"?(?:--|\.\.)" + RightMarker + @"?$|^" + LeftMarker + @"?---$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex ValidArrowPattern();
+
+	// anything that is clearly meant as a relationship line, valid or not: made of marker and line characters only
+	[GeneratedRegex(@"^[<>|*o()]*[-.]+[<>|*o()]*$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex ArrowLikePattern();
+
+	[GeneratedRegex(@"""[^""]*""|\S+", RegexOptions.None, TimeoutMs)]
+	private static partial Regex TokenPattern();
+
+	[GeneratedRegex(@"^note(?:\s+for\s+(\S+?))?\s*""[^""]+""$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex NoteShapePattern();
+
+	[GeneratedRegex(@"^namespace\b", RegexOptions.None, TimeoutMs)]
+	private static partial Regex NamespaceKeywordPattern();
+
+	[GeneratedRegex(@"^note(?:\s|$)", RegexOptions.None, TimeoutMs)]
+	private static partial Regex NoteKeywordPattern();
+
+	internal static ClassDiagram Parse(string[] lines, bool strict = true)
 	{
 		try
 		{
-			return ParseCore(lines);
+			return ParseCore(lines, strict);
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
@@ -62,7 +85,7 @@ internal static partial class ClassParser
 		}
 	}
 
-	private static ClassDiagram ParseCore(string[] lines)
+	private static ClassDiagram ParseCore(string[] lines, bool strict)
 	{
 		var classMap = new Dictionary<string, (ClassNode Node, List<ClassMember> Attrs, List<ClassMember> Methods)>();
 		var relationships = new List<ClassRelationship>();
@@ -77,13 +100,20 @@ internal static partial class ClassParser
 
 		string? currentNsName = null;
 		List<string>? currentNsClassIds = null;
+		string? openLine = null;
+		string? nsOpenLine = null;
+		var nsStatements = 0;
+		var unknownOpeners = 0;
 
 		for (var i = 1; i < lines.Length; i++)
 		{
-			var line = lines[i];
+			var line = StripTrailingComment(lines[i]);
 
 			if (currentClass != null && braceDepth > 0)
 			{
+				if (strict && line != "}")
+					RequireClassBodyLine(line, currentClass.Id, openLine!);
+
 				if (line == "}")
 				{
 					braceDepth--;
@@ -116,6 +146,9 @@ internal static partial class ClassParser
 				continue;
 			}
 
+			if (strict && currentNsName != null && line != "}")
+				RequireAllowedInNamespace(line);
+
 			var dirMatch = DirectionPattern().Match(line);
 			if (dirMatch.Success)
 			{
@@ -126,18 +159,45 @@ internal static partial class ClassParser
 			var nsMatch = NamespaceStartPattern().Match(line);
 			if (nsMatch.Success)
 			{
+				if (strict && currentNsName != null)
+					throw new MermaidParseException(
+						"a namespace cannot be declared inside another namespace",
+						line,
+						"the closing '}' of the namespace first",
+						column: 1
+					);
+
+				nsOpenLine = line;
+				nsStatements = 0;
 				currentNsName = nsMatch.Groups[1].Value;
 				currentNsClassIds = [];
 				continue;
 			}
 
+			if (strict && !nsMatch.Success && NamespaceKeywordPattern().IsMatch(line))
+				throw new MermaidParseException("namespace declaration is malformed", line, "'namespace Name {' on one line", column: line.Length + 1);
+
+			if (line == "}" && currentNsName == null)
+			{
+				if (strict && unknownOpeners == 0)
+					throw new MermaidParseException("'}' closes no class or namespace", line, "a class or namespace block opened with '{'", column: 1);
+				unknownOpeners--;
+				continue;
+			}
+
 			if (line == "}" && currentNsName != null)
 			{
+				if (strict && nsStatements == 0)
+					throw new MermaidParseException($"namespace '{currentNsName}' is empty", line, "at least one class inside the namespace", column: 1);
+
 				namespaces.Add(new ClassNamespace(currentNsName, currentNsClassIds!));
 				currentNsName = null;
 				currentNsClassIds = null;
 				continue;
 			}
+
+			if (strict && ClassKeywordPattern().IsMatch(line))
+				RequireClassDeclaration(line);
 
 			var classBlockMatch = ClassBlockPattern().Match(line);
 			if (classBlockMatch.Success)
@@ -150,6 +210,13 @@ internal static partial class ClassParser
 					node = node with { Label = $"{id}<{generic}>" };
 					classMap[id] = (node, attrs, methods);
 				}
+				if (ExplicitLabel(classBlockMatch) is { } blockLabel)
+				{
+					node = node with { Label = blockLabel };
+					classMap[id] = (node, attrs, methods);
+				}
+				openLine = line;
+				nsStatements++;
 				currentClass = node;
 				currentAttrs = attrs;
 				currentMethods = methods;
@@ -169,6 +236,12 @@ internal static partial class ClassParser
 					node = node with { Label = $"{id}<{generic}>" };
 					classMap[id] = (node, attrs, methods);
 				}
+				if (ExplicitLabel(classOnlyMatch) is { } onlyLabel)
+				{
+					node = node with { Label = onlyLabel };
+					classMap[id] = (node, attrs, methods);
+				}
+				nsStatements++;
 				currentNsClassIds?.Add(id);
 				continue;
 			}
@@ -200,14 +273,21 @@ internal static partial class ClassParser
 				}
 			}
 
+			if (strict && NoteKeywordPattern().IsMatch(line))
+				RequireNote(line);
+
 			var noteMatch = NotePattern().Match(line);
 			if (noteMatch.Success)
 			{
+				nsStatements++;
 				var targetClass = noteMatch.Groups[1].Success ? noteMatch.Groups[1].Value : null;
 				var text = noteMatch.Groups[2].Value;
 				notes.Add(new ClassNote(targetClass, text));
 				continue;
 			}
+
+			if (strict)
+				RequireValidRelationship(line);
 
 			var lollipopMatch = LollipopPattern().Match(line);
 			if (lollipopMatch.Success)
@@ -225,12 +305,270 @@ internal static partial class ClassParser
 				var from = EnsureClassRef(classMap, rel.From).Node.Id;
 				var to = EnsureClassRef(classMap, rel.To).Node.Id;
 				relationships.Add(rel with { From = from, To = to });
+				continue;
 			}
+
+			if (line.EndsWith('{'))
+				unknownOpeners++;
+		}
+
+		if (strict)
+		{
+			if (currentClass != null && braceDepth > 0)
+				throw new MermaidParseException(
+					$"class '{currentClass.Id}' body is never closed",
+					openLine!,
+					"'}' to close the class",
+					column: openLine!.Length + 1
+				);
+
+			if (currentNsName != null)
+				throw new MermaidParseException(
+					$"namespace '{currentNsName}' is never closed",
+					nsOpenLine!,
+					"'}' to close the namespace",
+					column: nsOpenLine!.Length + 1
+				);
 		}
 
 		var classes = classMap.Values.Select(v => v.Node with { Attributes = v.Attrs, Methods = v.Methods }).ToList();
 
 		return new ClassDiagram { Classes = classes, Relationships = relationships, Namespaces = namespaces, Direction = direction, Notes = notes };
+	}
+
+	private static string? ExplicitLabel(Match m) => m.Groups[3].Success ? m.Groups[3].Value : m.Groups[4].Success ? m.Groups[4].Value.Trim() : null;
+
+	// `A <|-- B %% note`: a comment may follow a statement, unless the `%%` sits inside quotes
+	private static string StripTrailingComment(string line)
+	{
+		var comment = line.IndexOf("%%", StringComparison.Ordinal);
+		if (comment <= 0)
+			return line;
+
+		var before = line[..comment];
+		return before.Count(c => c == '"') % 2 == 0 ? before.TrimEnd() : line;
+	}
+
+	// a class body holds members and `<<annotations>>`; a brace in it means the class before was never closed, or a stray one
+	private static void RequireClassBodyLine(string line, string classId, string openLine)
+	{
+		var brace = line.IndexOfAny(['{', '}']);
+		if (brace < 0)
+			return;
+
+		if (ClassBlockPattern().IsMatch(line))
+			throw new MermaidParseException(
+				$"class '{classId}' is never closed before the next class starts",
+				openLine,
+				$"'}}' to close the class before '{line}'",
+				column: openLine.Length + 1
+			);
+
+		throw new MermaidParseException(
+			$"unexpected '{line[brace]}' inside the body of class '{classId}'",
+			line,
+			"a member without braces, or '}' on a line of its own to close the class",
+			column: brace + 1
+		);
+	}
+
+	private static bool IsArrowLike(string token)
+	{
+		// the halves of an arrow left on their own: `A <|`, `A * B`, `A o B`
+		if (token == "o" || (token.Length > 0 && token.All(c => c is '<' or '>' or '|' or '*' or '(' or ')')))
+			return true;
+
+		if (token.Length == 0 || !ArrowLikePattern().IsMatch(token))
+			return false;
+
+		var lineChars = token.Count(c => c is '-' or '.');
+		return lineChars >= 2 || token.IndexOfAny(['<', '>', '|', '*', '(', ')']) >= 0;
+	}
+
+	// statements whose quotes mean something else, and that never contain a relationship
+	[GeneratedRegex(@"^(?:note|title|accTitle|accDescr|click|link|callback|style|classDef|cssClass|class)\b", RegexOptions.None, TimeoutMs)]
+	private static partial Regex StatementKeywordPattern();
+
+	[GeneratedRegex(@"^class(?:\s|$)", RegexOptions.None, TimeoutMs)]
+	private static partial Regex ClassKeywordPattern();
+
+	private static void RequireClassDeclaration(string line)
+	{
+		if (line.Trim() == "class")
+			throw new MermaidParseException("class has no name", line, "a class name after 'class', e.g. 'class Animal'", column: line.Length + 1);
+
+		RequireClosedGenerics(line, line);
+	}
+
+	// `List~int~` is a generic; an odd number of `~` leaves one open
+	private static void RequireClosedGenerics(string text, string line)
+	{
+		if (text.Count(c => c == '~') % 2 != 0)
+			throw new MermaidParseException("generic type is not closed", line, "a closing '~', e.g. List~int~", column: line.LastIndexOf('~') + 1);
+	}
+
+	private static void RequireNote(string line)
+	{
+		if (NoteShapePattern().IsMatch(line))
+			return;
+
+		var quotes = line.Count(c => c == '"');
+		var problem = quotes % 2 != 0 ? "note text is not closed" : line.Contains("\"\"", StringComparison.Ordinal) ? "note has no text" : "note is malformed";
+		throw new MermaidParseException(
+			problem,
+			line,
+			"'note \"text\"' or 'note for ClassName \"text\"'",
+			column: quotes % 2 != 0 ? line.LastIndexOf('"') + 1 : 1
+		);
+	}
+
+	// inside `namespace N { ... }` only class declarations (and notes) are accepted
+	private static void RequireAllowedInNamespace(string line)
+	{
+		var colon = FindLabelColon(line);
+		var head = colon < 0 ? line : line[..colon];
+		foreach (Match token in TokenPattern().Matches(head))
+		{
+			if (!token.Value.StartsWith('"') && IsArrowLike(token.Value))
+				throw new MermaidParseException(
+					"a relationship cannot be declared inside a namespace",
+					line,
+					"only class declarations inside the namespace, with relationships after its closing '}'",
+					column: token.Index + 1
+				);
+		}
+
+		if (DirectionPattern().IsMatch(line))
+			throw new MermaidParseException("'direction' cannot be set inside a namespace", line, "only class declarations inside the namespace", column: 1);
+
+		if (InlineAttrPattern().IsMatch(line) && !line.StartsWith("class", StringComparison.Ordinal) && !line.StartsWith("note", StringComparison.Ordinal))
+			throw new MermaidParseException(
+				"a member cannot be declared inside a namespace",
+				line,
+				"only class declarations inside the namespace, with members in the class body",
+				column: 1
+			);
+	}
+
+	// the first ':' outside double quotes starts a label (or a member)
+	private static int FindLabelColon(string line)
+	{
+		var inQuotes = false;
+		for (var i = 0; i < line.Length; i++)
+		{
+			if (line[i] == '"')
+				inQuotes = !inQuotes;
+			else if (line[i] == ':' && !inQuotes)
+				return i;
+		}
+		return -1;
+	}
+
+	/// <summary>Rejects relationship lines that are shaped like one but cannot be read as one.</summary>
+	private static void RequireValidRelationship(string line)
+	{
+		var colon = FindLabelColon(line);
+		var head = colon < 0 ? line : line[..colon];
+		var tokens = TokenPattern().Matches(head).Cast<Match>().ToList();
+		var arrows = tokens.Where(t => !t.Value.StartsWith('"') && IsArrowLike(t.Value)).ToList();
+		if (arrows.Count == 0)
+		{
+			// `Customer "1"` and `Student "0..*`: a class name and a cardinality, with no arrow after them
+			if (colon < 0 && tokens.Count > 0 && !StatementKeywordPattern().IsMatch(line))
+			{
+				if (head.Count(c => c == '"') % 2 != 0)
+					throw new MermaidParseException("quoted text is not closed", line, "a closing '\"'", column: head.LastIndexOf('"') + 1);
+
+				if (tokens.Count == 2 && tokens[1].Value.StartsWith('"'))
+					throw new MermaidParseException(
+						"a cardinality needs an arrow and a second class",
+						line,
+						"an arrow after the cardinality, e.g. 'Customer \"1\" --> \"*\" Order'",
+						column: line.Length + 1
+					);
+
+				if (tokens.Count == 2 && tokens[1].Value == ".")
+					throw new MermaidParseException(
+						"relationship arrow is incomplete",
+						line,
+						"an arrow such as '..' or '..>' and a target class",
+						column: tokens[1].Index + 1
+					);
+			}
+			return;
+		}
+
+		if (head.Count(c => c == '"') % 2 != 0)
+			throw new MermaidParseException(
+				"quoted cardinality is not closed",
+				line,
+				"a closing '\"', e.g. \"1\" or \"0..*\"",
+				column: head.LastIndexOf('"') + 1
+			);
+
+		var arrow = arrows[0];
+		if (!ValidArrowPattern().IsMatch(arrow.Value))
+			throw new MermaidParseException(
+				$"relationship arrow '{arrow.Value}' is not valid",
+				line,
+				"an arrow such as '<|--', '*--', 'o--', '-->', '..>', '..|>', '--', '..' or '()--'",
+				column: arrow.Index + 1
+			);
+
+		if (arrows.Count > 1)
+			throw new MermaidParseException(
+				$"a second arrow '{arrows[1].Value}' follows the first",
+				line,
+				"one relationship per line: 'A --> B'",
+				column: arrows[1].Index + 1
+			);
+
+		var k = tokens.IndexOf(arrow);
+		var before = tokens.Take(k).ToList();
+		var after = tokens.Skip(k + 1).ToList();
+		if (before.Count == 0)
+			throw new MermaidParseException(
+				$"relationship '{arrow.Value}' has no source class",
+				line,
+				"a class name before the arrow, e.g. 'Animal <|-- Dog'",
+				column: 1
+			);
+
+		if (before[0].Value.StartsWith('"'))
+			throw new MermaidParseException("a quoted cardinality comes after the class name, not before it", line, "a class name before the arrow", column: 1);
+
+		if (before.Count(t => t.Value.StartsWith('"')) > 1)
+			throw new MermaidParseException(
+				"only one cardinality can precede the arrow",
+				line,
+				"a class name and at most one quoted cardinality before the arrow",
+				column: before[^1].Index + 1
+			);
+
+		var targetIndex = after.Count > 0 && after[0].Value.StartsWith('"') ? 1 : 0;
+		if (after.Count <= targetIndex)
+			throw new MermaidParseException(
+				$"relationship '{arrow.Value}' has no target class",
+				line,
+				"a class name after the arrow, e.g. 'Animal <|-- Dog'",
+				column: line.Length + 1
+			);
+
+		var target = after[targetIndex];
+		if (target.Value.StartsWith('"'))
+			throw new MermaidParseException("only one cardinality can follow the arrow", line, "a class name after the arrow", column: target.Index + 1);
+
+		var extra = after.Skip(targetIndex + 1).FirstOrDefault(t => t.Value.StartsWith('"'));
+		if (extra != null)
+			throw new MermaidParseException(
+				$"unexpected {extra.Value} after the target class",
+				line,
+				"an optional ': label' after the target class",
+				column: extra.Index + 1
+			);
+
+		RequireClosedGenerics(before[0].Value, line);
+		RequireClosedGenerics(target.Value, line);
 	}
 
 	private static (ClassNode Node, List<ClassMember> Attrs, List<ClassMember> Methods) EnsureClass(

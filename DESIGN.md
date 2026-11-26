@@ -265,10 +265,48 @@ will look flat next to the others. `RendererStylesheetAllowlist` accepts exactly
 - [ ] Titled diagrams: `ds.AppendTitle` (left aligned); accent only where the design says "look here"
 - [ ] Layout uses the shared geometry and **never** branches on the preset
 - [ ] Boxes wrapped in an elevation class (`<g class="node">`, `subgraph`, …); `data-*` attributes kept
+- [ ] Addressing hooks per §10: `data-id` or `data-index` on every element, `data-from`/`data-to` on every connector,
+      and a row in the §10 table with a case in `AddressingContractTests`
 - [ ] Non-strict author styling still wins; strict mode lets no diagram-source value reach paint
 - [ ] Looks right in Quiet, Blueprint and Tonal, light and dark, gradient on and off
 - [ ] Contract tests (`DesignContract` helpers) and snapshots for the new type
 - [ ] `[GeneratedRegex(..., matchTimeoutMilliseconds: 2000)]` on every regex; no wall-clock in parse / layout
+
+## 10 · Addressing
+
+A host, a test or an animation finds things in the SVG through `data-*` attributes, never through geometry or paint.
+They are part of the output's contract: renaming or dropping one is a breaking change.
+
+- **Elements** carry `data-id` when the source gives them an id. Elements without one carry `data-index`, 1-based in
+  source or layout order. Both stay stable as long as the source does.
+- **Connectors** carry `data-from` and `data-to`, holding the `data-id` or `data-index` of the elements they join.
+- **Nesting** is `data-parent` (mindmap, treeview), `data-column` (kanban cards) or `data-period` (timeline moments,
+  drop-lines and events).
+- **Time** is `data-start` and `data-end` in ISO 8601 (gantt tasks).
+
+| Type | Elements | Connectors |
+|---|---|---|
+| flowchart, state, block | `g.node[data-id]`, `g.subgraph[data-id]` | `path.edge[data-from][data-to]` |
+| sequence | `g.actor[data-id]` | `g.message[data-from][data-to]`, in order |
+| architecture | `g.architecture-service[data-id]`, `g.architecture-group[data-id]` | `path.architecture-edge[data-source][data-target]` |
+| gantt | `g.gantt-task[data-index][data-id?][data-start][data-end]` | — |
+| timeline | `g.timeline-period[data-index]`, `g.timeline-event[data-period][data-index]` | — |
+| gitgraph | `g.commit[data-index][data-id?][data-branch]` | `path.gitgraph-link[data-from][data-to]` (commit indices) |
+| kanban | `g.kanban-column[data-id]`, `g.kanban-card[data-id][data-column]` | — |
+| mindmap | `g.mindmap-node[data-index][data-parent?]` | `path.mindmap-link[data-from][data-to]` |
+| treeview | `g.treeview-node[data-index][data-parent?]` | branch paths `[data-from][data-to]` |
+| xychart | bars `.xy-bar[data-index][data-value]` in `g.xy-bars[data-series]`; lines `g.xy-line[data-series]` | — |
+| pie | `g.pie-slice[data-index][data-value][data-start][data-end]` with their circle `[data-cx][data-cy][data-r]` | — |
+| radar | `g.radar-curve[data-index]` with the centre `[data-cx][data-cy]` | — |
+| sankey | `g.sankey-node[data-id]` | `path.sankey-link[data-from][data-to][data-value]` |
+| quadrant | `g.quadrant-point[data-index][data-label][data-x][data-y]` | — |
+| treemap | `g.treemap-section[data-index]`, `g.treemap-tile[data-index][data-value]`, both `[data-parent?]` | — |
+| venn | `g.venn-set[data-set][data-index]`, and a labelled overlap's `g.venn-union[data-sets]` (its sets, comma-separated) | — |
+| packet | `g.packet-field[data-index][data-start][data-end]` | — |
+| journey | `g.journey-task[data-index][data-section][data-score]` | — |
+| requirement | `g.req-node[data-id]` | `path.req-relation[data-from][data-to]` |
+
+`AddressingContractTests` checks the table against every example of each type.
 
 ## Source of truth
 

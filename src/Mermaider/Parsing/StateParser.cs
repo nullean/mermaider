@@ -38,17 +38,17 @@ internal static partial class StateParser
 	[GeneratedRegex(@"^style\s+([\w,-]+)\s+(.+)$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex StylePattern();
 
-	[GeneratedRegex(@"^(\[\*\]|[\w-]+)(?::::([\w][\w-]*))?\s*(-->)\s*(\[\*\]|[\w-]+)(?::::([\w][\w-]*))?(?:\s*:\s*(.+))?$", RegexOptions.None, TimeoutMs)]
+	[GeneratedRegex(@"^(\[\*\]|[\w-]+)(?::::([\w][\w-]*))?\s*(-->)\s*(\[\*\]|[\w-]+)(?::::([\w][\w-]*))?(?:\s*:\s*(.*))?$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex TransitionWithClassPattern();
 
 	[GeneratedRegex(@"^([\w-]+):::([\w][\w-]*)\s*$", RegexOptions.None, TimeoutMs)]
 	private static partial Regex ClassShorthandPattern();
 
-	internal static MermaidGraph Parse(string[] lines)
+	internal static MermaidGraph Parse(string[] lines, bool strict = true)
 	{
 		try
 		{
-			return ParseCore(lines);
+			return ParseCore(lines, strict);
 		}
 		catch (RegexMatchTimeoutException ex)
 		{
@@ -56,7 +56,29 @@ internal static partial class StateParser
 		}
 	}
 
-	private static MermaidGraph ParseCore(string[] lines)
+	[GeneratedRegex(@"^(\[\*\]|[\w-]+)(?::::[\w-]+)?\s+-{1,2}$", RegexOptions.None, TimeoutMs)]
+	private static partial Regex PartialArrowPattern();
+
+	private static MermaidParseException? IncompleteTransition(string line)
+	{
+		if (!line.Contains("-->", StringComparison.Ordinal))
+			return new MermaidParseException("transition arrow is incomplete", line, "'-->' followed by a target state", column: line.Length);
+		var arrow = line.IndexOf("-->", StringComparison.Ordinal);
+		var before = line[..arrow].Trim();
+		var after = line[(arrow + 3)..].Trim();
+		if (before.Length == 0)
+			return new MermaidParseException("transition '-->' has no source state", line, "a state id or '[*]' before '-->'", column: arrow + 1);
+		if (after.Length == 0 || after[0] == ':')
+			return new MermaidParseException(
+				"transition '-->' has no target state",
+				line,
+				"a state id or '[*]' after '-->', e.g. 'A --> B'",
+				column: arrow + 4
+			);
+		return null;
+	}
+
+	private static MermaidGraph ParseCore(string[] lines, bool strict)
 	{
 		var direction = Direction.TD;
 		var nodes = new Dictionary<string, MermaidNode>();
@@ -77,6 +99,32 @@ internal static partial class StateParser
 		var classDefs = new Dictionary<string, IReadOnlyDictionary<string, string>>();
 		var classAssignments = new Dictionary<string, string>();
 		var nodeStyles = new Dictionary<string, Dictionary<string, string>>();
+
+		void CloseComposite()
+		{
+			if (compositeStack.Count > 0)
+			{
+				var completed = compositeStack.Pop();
+				var sg = new MermaidSubgraph
+				{
+					Id = completed.Id,
+					Label = completed.Label,
+					NodeIds = completed.NodeIds,
+					Children = completed.Children,
+					Direction = completed.Dir
+				};
+				if (compositeStack.Count > 0)
+				{
+					var parent = compositeStack.Pop();
+					parent.Children.Add(sg);
+					compositeStack.Push(parent);
+				}
+				else
+				{
+					subgraphs.Add(sg);
+				}
+			}
+		}
 
 		for (var i = 1; i < lines.Length; i++)
 		{
@@ -184,28 +232,7 @@ internal static partial class StateParser
 
 			if (line == "}")
 			{
-				if (compositeStack.Count > 0)
-				{
-					var completed = compositeStack.Pop();
-					var sg = new MermaidSubgraph
-					{
-						Id = completed.Id,
-						Label = completed.Label,
-						NodeIds = completed.NodeIds,
-						Children = completed.Children,
-						Direction = completed.Dir
-					};
-					if (compositeStack.Count > 0)
-					{
-						var parent = compositeStack.Pop();
-						parent.Children.Add(sg);
-						compositeStack.Push(parent);
-					}
-					else
-					{
-						subgraphs.Add(sg);
-					}
-				}
+				CloseComposite();
 				continue;
 			}
 
@@ -298,8 +325,25 @@ internal static partial class StateParser
 				var id = stateDescMatch.Groups[1].Value;
 				var label = MultilineUtils.NormalizeBrTags(stateDescMatch.Groups[2].Value.Trim());
 				RegisterStateNode(nodes, compositeStack, new MermaidNode(id, label, NodeShape.Rounded));
+				continue;
 			}
+
+			if (
+				strict && (line.Contains("-->", StringComparison.Ordinal) || (i == lines.Length - 1 && PartialArrowPattern().IsMatch(line))) &&
+				IncompleteTransition(line) is { } incomplete
+			)
+				throw incomplete;
 		}
+
+		if (strict && compositeStack.Count > 0)
+		{
+			var open = compositeStack.Peek();
+			throw new MermaidParseException($"composite state '{open.Id}' is never closed", $"state {open.Id} {{", "'}' to close the composite state");
+		}
+
+		// Lenient: an unclosed composite ends with the diagram
+		while (compositeStack.Count > 0)
+			CloseComposite();
 
 		if (classDefs.ContainsKey("default"))
 		{
@@ -338,6 +382,10 @@ internal static partial class StateParser
 				if (compositeMap.TryGetValue(tgt, out var tgtSg))
 					tgt = FindCompositeEntryNode(tgtSg, nodes) ?? tgt;
 
+				// A composite with no state inside it has no entry or exit node: the edge ends on a state standing in for it
+				EnsureCompositeEndpointNode(nodes, compositeMap, src);
+				EnsureCompositeEndpointNode(nodes, compositeMap, tgt);
+
 				if (src != edge.Source || tgt != edge.Target)
 				{
 					redirections[i] = (src != edge.Source ? edge.Source : null, tgt != edge.Target ? edge.Target : null);
@@ -359,6 +407,12 @@ internal static partial class StateParser
 			SubgraphEdgeRedirections = redirections,
 			NodeStyles = nodeStyles.ToDictionary(kvp => kvp.Key, kvp => (IReadOnlyDictionary<string, string>)kvp.Value),
 		};
+	}
+
+	private static void EnsureCompositeEndpointNode(Dictionary<string, MermaidNode> nodes, Dictionary<string, MermaidSubgraph> compositeMap, string id)
+	{
+		if (!nodes.ContainsKey(id) && compositeMap.TryGetValue(id, out var composite))
+			nodes[id] = new MermaidNode(id, composite.Label, NodeShape.Rounded);
 	}
 
 	private static void RegisterStateNode(

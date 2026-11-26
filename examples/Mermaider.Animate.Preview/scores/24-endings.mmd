@@ -1,0 +1,36 @@
+---
+title: One request, three ways it can go
+---
+flowchart LR
+  %% Endings: one request, three ways it can go
+  client[Client] --> lb[Balancer]
+  lb --> api1[API 1]
+  lb --> api2[API 2]
+  api1 --> db[(Orders DB)]
+  api2 --> db
+
+animate
+  build
+  step "A request reaches API 1"
+    tour client -> lb -> api1 "GET /orders"
+
+  scenario "Happy path" as ok
+    step "The database answers"
+      tour api1 -> db "query"
+      tour db -> api1 -> lb -> client "200 OK" as ok
+
+  scenario "API 1 times out" as fail
+    step "API 1 stops answering"
+      hang api1
+      mark api1 fail
+      with badge api1 "timeout" as fail
+    step "The balancer retries on API 2"
+      tour lb -> api2 -> db "retry"
+      tour db -> api2 -> lb -> client "200 OK" as ok
+
+  scenario "The database is slow" as warn
+    step "Queries pile up"
+      tour api1 -> db "query"
+      count db 40 -> 2400 "ms" as warn
+    step "The request fails"
+      tour db -> api1 -> lb -> client "503" as fail

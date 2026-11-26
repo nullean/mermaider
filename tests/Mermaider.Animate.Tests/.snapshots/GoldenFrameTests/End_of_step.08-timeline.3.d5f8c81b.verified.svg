@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -46 792 378.4" width="792" height="378.4" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6"><desc>In 3 steps: 1. It launched in 2019. 2. 2020 made it production grade. 3. 2022 and 2024 opened it up to new clients.</desc><style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
+</style><defs>
+  <linearGradient id="m1814eb8b-ng-p1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #f28e2b 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #f28e2b 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #76b7b2 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #76b7b2 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #b07aa1 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #b07aa1 7%, var(--bg))" /></linearGradient>
+  <linearGradient id="m1814eb8b-ng-p4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="color-mix(in srgb, #9c755f 15%, var(--bg))" /><stop offset="1" stop-color="color-mix(in srgb, #9c755f 7%, var(--bg))" /></linearGradient>
+</defs><g><g>
+
+
+<g class="diagram-title">
+  <rect x="40" y="35.5" width="9" height="9" rx="2" ry="2" fill="var(--accent, var(--fg))" />
+  <text x="56" y="40" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">History of the API</text>
+</g>
+<g><line class="timeline-drop" data-period="1" x1="120" y1="108" x2="120" y2="276.4" stroke="color-mix(in srgb, #f28e2b 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="5 4" mask="url(#ma213d919e-m0)" /></g>
+<g><line class="timeline-drop" data-period="2" x1="304" y1="108" x2="304" y2="276.4" stroke="color-mix(in srgb, #76b7b2 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="5 4" mask="url(#ma213d919e-m1)" /></g>
+<g><line class="timeline-drop" data-period="3" x1="488" y1="108" x2="488" y2="276.4" stroke="color-mix(in srgb, #b07aa1 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="5 4" mask="url(#ma213d919e-m2)" /></g>
+<g><line class="timeline-drop" data-period="4" x1="672" y1="108" x2="672" y2="276.4" stroke="color-mix(in srgb, #9c755f 42%, var(--bg))" stroke-width="1.25" stroke-dasharray="5 4" mask="url(#ma213d919e-m3)" /></g>
+<path class="timeline-axis" d="M40,148 L754,148" fill="none" stroke="var(--accent, var(--fg))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<polygon points="760,148 751,143.5 751,152.5" fill="var(--accent, var(--fg))" stroke="var(--accent, var(--fg))" stroke-width="1.5" stroke-linejoin="round" />
+<g class="ma213d919e-a1" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:120px 90px"><g class="node timeline-period" data-index="1" data-label="2019">
+  <rect x="40" y="72" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="120" y="90" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">2019</text>
+</g></g>
+<g class="ma213d919e-a2" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:120px 90px"><g class="timeline-moment" data-period="1">
+<circle cx="120" cy="148" r="6" fill="var(--bg)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="2" />
+</g></g>
+<g class="ma213d919e-a4" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:120px 198px"><g class="node timeline-event" data-period="1" data-index="1">
+  <rect x="40" y="180" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p1)" stroke="color-mix(in srgb, #f28e2b 74%, var(--fg))" stroke-width="1.25" />
+  <text x="120" y="198" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">First public release</text>
+</g></g>
+<g class="ma213d919e-a7" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:304px 90px"><g class="node timeline-period" data-index="2" data-label="2020">
+  <rect x="224" y="72" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="304" y="90" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">2020</text>
+</g></g>
+<g class="ma213d919e-a8" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:304px 90px"><g class="timeline-moment" data-period="2">
+<circle cx="304" cy="148" r="6" fill="var(--bg)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="2" />
+</g></g>
+<g class="ma213d919e-a10" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:304px 198px"><g class="node timeline-event" data-period="2" data-index="1">
+  <rect x="224" y="180" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="304" y="198" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Versioned endpoints</text>
+</g></g>
+<g class="ma213d919e-a11" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:304px 242px"><g class="node timeline-event" data-period="2" data-index="2">
+  <rect x="224" y="224" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p2)" stroke="color-mix(in srgb, #76b7b2 74%, var(--fg))" stroke-width="1.25" />
+  <text x="304" y="242" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Rate limits</text>
+</g></g>
+<g class="ma213d919e-a14" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:488px 90px"><g class="node timeline-period" data-index="3" data-label="2022">
+  <rect x="408" y="72" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
+  <text x="488" y="90" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">2022</text>
+</g></g>
+<g class="ma213d919e-a15" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:488px 90px"><g class="timeline-moment" data-period="3">
+<circle cx="488" cy="148" r="6" fill="var(--bg)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="2" />
+</g></g>
+<g class="ma213d919e-a17" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:488px 198px"><g class="node timeline-event" data-period="3" data-index="1">
+  <rect x="408" y="180" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p3)" stroke="color-mix(in srgb, #b07aa1 74%, var(--fg))" stroke-width="1.25" />
+  <text x="488" y="198" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">GraphQL gateway</text>
+</g></g>
+<g class="ma213d919e-a18" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:672px 90px"><g class="node timeline-period" data-index="4" data-label="2024">
+  <rect x="592" y="72" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
+  <text x="672" y="90" text-anchor="middle" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" dy="4.9">2024</text>
+</g></g>
+<g class="ma213d919e-a19" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:672px 90px"><g class="timeline-moment" data-period="4">
+<circle cx="672" cy="148" r="6" fill="var(--bg)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="2" />
+</g></g>
+<g class="ma213d919e-a21" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:672px 206.2px"><g class="node timeline-event" data-period="4" data-index="1">
+  <rect x="592" y="180" width="160" height="52.4" rx="8" ry="8" fill="url(#m1814eb8b-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
+  <text x="672" y="206.2" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)"><tspan x="672" dy="-4.2">Streaming</tspan><tspan x="672" dy="18.2">responses</tspan></text>
+</g></g>
+<g class="ma213d919e-a22" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:672px 258.4px"><g class="node timeline-event" data-period="4" data-index="2">
+  <rect x="592" y="240.4" width="160" height="36" rx="8" ry="8" fill="url(#m1814eb8b-ng-p4)" stroke="color-mix(in srgb, #9c755f 74%, var(--fg))" stroke-width="1.25" />
+  <text x="672" y="258.4" text-anchor="middle" font-size="var(--fs-s)" font-weight="400" fill="var(--_text)" dy="4.9">Webhooks v2</text>
+</g></g>
+
+<g pointer-events="none" /></g><g opacity="0" aria-hidden="true" class="ma213d919e-a0" style="opacity:0;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:0px 0px"><rect x="14" y="-37" width="37" height="21" rx="10.5" fill="var(--_text, var(--fg))" /><text x="32" y="-22" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--bg)">1/3</text><text x="60" y="-21.5" font-size="15" font-weight="650" fill="var(--_text, var(--fg))">It launched in 2019</text><path d="M14,-11 L778,-11" stroke="var(--accent, #3b82f6)" stroke-width="2" stroke-opacity="0.55" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" fill="none" class="ma213d919e-a5" style="stroke-dashoffset:0" /></g><g opacity="0" aria-hidden="true" class="ma213d919e-a6" style="opacity:0;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:0px 0px"><rect x="14" y="-37" width="37" height="21" rx="10.5" fill="var(--_text, var(--fg))" /><text x="32" y="-22" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--bg)">2/3</text><text x="60" y="-21.5" font-size="15" font-weight="650" fill="var(--_text, var(--fg))">2020 made it production grade</text><path d="M14,-11 L778,-11" stroke="var(--accent, #3b82f6)" stroke-width="2" stroke-opacity="0.55" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" fill="none" class="ma213d919e-a12" style="stroke-dashoffset:0" /></g><g opacity="0" aria-hidden="true" class="ma213d919e-a13" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:0px 0px"><rect x="14" y="-37" width="37" height="21" rx="10.5" fill="var(--_text, var(--fg))" /><text x="32" y="-22" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--bg)">3/3</text><text x="60" y="-21.5" font-size="15" font-weight="650" fill="var(--_text, var(--fg))">2022 and 2024 opened it up to new clients</text><path d="M14,-11 L778,-11" stroke="var(--accent, #3b82f6)" stroke-width="2" stroke-opacity="0.55" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" fill="none" class="ma213d919e-a23" style="stroke-dashoffset:0" /></g></g><defs><mask id="ma213d919e-m0" maskUnits="userSpaceOnUse" x="-792" y="-792" width="2376" height="1916.4"><path d="M120,108 L120,276.4" fill="none" stroke="#fff" stroke-width="14" pathLength="1" stroke-dasharray="1 1" class="ma213d919e-a3" style="stroke-dashoffset:0" /></mask><mask id="ma213d919e-m1" maskUnits="userSpaceOnUse" x="-792" y="-792" width="2376" height="1916.4"><path d="M304,108 L304,276.4" fill="none" stroke="#fff" stroke-width="14" pathLength="1" stroke-dasharray="1 1" class="ma213d919e-a9" style="stroke-dashoffset:0" /></mask><mask id="ma213d919e-m2" maskUnits="userSpaceOnUse" x="-792" y="-792" width="2376" height="1916.4"><path d="M488,108 L488,276.4" fill="none" stroke="#fff" stroke-width="14" pathLength="1" stroke-dasharray="1 1" class="ma213d919e-a16" style="stroke-dashoffset:0" /></mask><mask id="ma213d919e-m3" maskUnits="userSpaceOnUse" x="-792" y="-792" width="2376" height="1916.4"><path d="M672,108 L672,276.4" fill="none" stroke="#fff" stroke-width="14" pathLength="1" stroke-dasharray="1 1" class="ma213d919e-a20" style="stroke-dashoffset:0" /></mask></defs></svg>

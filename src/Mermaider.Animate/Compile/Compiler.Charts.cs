@@ -1,0 +1,347 @@
+using System.Xml.Linq;
+using Mermaider.Animate.Scene;
+using Mermaider.Animate.Score;
+using Mermaider.Animate.Timeline;
+
+namespace Mermaider.Animate.Compile;
+
+/// <summary>
+/// Charts: bars grow from their baseline and lines draw through their points, pie slices sweep round, radar curves grow
+/// out of the centre, and a sankey's flows run left to right. <c>set</c> changes a bar's value with the number shown;
+/// <c>trace</c> lights every flow between two sankey nodes.
+/// </summary>
+internal sealed partial class Compiler
+{
+	private readonly Dictionary<SceneTarget, XElement> _values = [];
+
+	private double BuildChart(double at) => _scene.Kind switch
+	{
+		SceneKind.XyChart => GrowBars(at),
+		SceneKind.Pie => SweepPie(at),
+		SceneKind.Radar => GrowCurves(at),
+		_ => at,
+	};
+
+	/// <summary>The bar's scale channel: it grows from its baseline, so the origin is its base edge.</summary>
+	private Channel BarScale(SceneTarget bar)
+	{
+		var box = bar.Box;
+		var origin = _scene.Upright
+			? (bar.Value >= 0 ? new Vec(box.X, box.Bottom) : new Vec(box.X, box.Y))
+			: (bar.Value >= 0 ? new Vec(box.X, box.Y) : new Vec(box.Right, box.Y));
+		var channel = ChannelFor(Outer(bar.Elements[0]), Property.Transform, Channel.Transform(0, 0, 1, 1), ReducedMotion.Cut);
+		channel.Origin = new Vec(origin.X - _stage.X, origin.Y - _stage.Y);
+		return channel;
+	}
+
+	private static double[] Scaled(bool upright, double s) => upright ? Channel.Transform(0, 0, 1, s) : Channel.Transform(0, 0, s, 1);
+
+	/// <summary>Each series' bars grow from the baseline one after another, then each line draws through its points.</summary>
+	private double GrowBars(double at)
+	{
+		var t = at;
+		var series = _scene.Targets.Where(b => b.Mark is not null).GroupBy(b => b.Id.Contains('.') ? b.Id[(b.Id.IndexOf('.') + 1)..] : "").ToList();
+		foreach (var group in series)
+		{
+			var bars = group.OrderBy(b => _scene.Upright ? b.Box.X : b.Box.Y).ToList();
+			var end = t;
+			for (var i = 0; i < bars.Count; i++)
+			{
+				var scale = BarScale(bars[i]);
+				if (!scale.IsAnimated)
+				{
+					scale.Initial[2] = _scene.Upright ? 1 : 0;
+					scale.Initial[3] = _scene.Upright ? 0 : 1;
+				}
+				var start = t + (i * _spec.Stagger);
+				scale.Animate(start, _spec.Enter * 1.4, Scaled(_scene.Upright, 1), Easing.Enter);
+				end = Math.Max(end, start + (_spec.Enter * 1.4));
+			}
+			t = end - (_spec.Enter * 0.5);
+		}
+		foreach (var (line, path, points) in _scene.Lines)
+		{
+			var edge = new SceneEdge("line", "line", line, path) { Stroke = line };
+			var duration = Math.Max(_spec.DrawMin, _spec.DrawTime(path.Length) * 1.5);
+			var visual = Drawable(edge, 14);
+			var ink = Ink(visual);
+			ink.Initial[0] = 1;
+			ink.Animate(t, duration, Channel.Value(0), Easing.Linear);
+			// a point lands as the line reaches it
+			foreach (var point in points)
+			{
+				var x = SvgScene.BoxOf(point).Center.X;
+				var reach = path.Length <= 0 ? 0 : Math.Max(0, Math.Min(1, (x - path.Start.X) / Math.Max(1, path.End.X - path.Start.X)));
+				var opacity = Opacity(Outer(point), ReducedMotion.Cut, 0);
+				opacity.Animate(t + (duration * reach), _spec.Shift * 0.6, Channel.Value(1), Easing.Enter);
+			}
+			t += duration;
+		}
+		return t;
+	}
+
+	/// <summary>
+	/// A bar takes a new value: it grows or shrinks from its baseline, and the number appears at its new top. The value
+	/// stays until set again.
+	/// </summary>
+	private double Set(SetStatement set, double at)
+	{
+		if (_scene.Kind != SceneKind.XyChart)
+		{
+			_diagnostics.Add(new(set.Line, "set changes a bar's value in an xy chart."));
+			return at;
+		}
+		if (Resolve([set.Target]).FirstOrDefault() is not { } bar || bar.Mark is null || bar.Value == 0)
+			return at;
+		var scale = BarScale(bar);
+		scale.Animate(at, _spec.Camera, Scaled(_scene.Upright, set.Value / bar.Value), Easing.Move);
+
+		var box = bar.Box;
+		var length = (_scene.Upright ? box.Height : box.Width) * set.Value / bar.Value;
+		var tip = _scene.Upright ? new Vec(box.Center.X, box.Bottom - length - 14) : new Vec(box.X + length + 24, box.Center.Y);
+		var text = set.Value.ToString(System.Globalization.CultureInfo.InvariantCulture);
+		var label = Overlay.Label(text, "var(--accent, #3b82f6)", 0);
+		label.SetAttributeValue("transform", $"translate({Num.F(tip.X)} {Num.F(tip.Y)})");
+		var holder = new XElement(SvgScene.Ns + "g", new XAttribute("opacity", "0"), label);
+		_overlay.Add(holder);
+		if (_values.TryGetValue(bar, out var previous))
+			Opacity(previous, ReducedMotion.Cut, 0).Animate(at, _spec.Exit, Channel.Value(0), Easing.Exit);
+		Opacity(holder, ReducedMotion.Cut, 0).Animate(at + (_spec.Camera * 0.6), _spec.Enter, Channel.Value(1), Easing.Enter);
+		_values[bar] = holder;
+		return at + _spec.Camera;
+	}
+
+	/// <summary>Slices sweep in clockwise, each through a mask along its own arc; its percentage lands with it.</summary>
+	private double SweepPie(double at)
+	{
+		var t = at;
+		foreach (var slice in _scene.Ordered)
+		{
+			var points = new List<Vec>();
+			var span = Math.Max(1, slice.EndAngle - slice.StartAngle);
+			var steps = Math.Max(4, (int)Math.Ceiling(span / 6));
+			for (var i = 0; i <= steps; i++)
+			{
+				var angle = (slice.StartAngle + (span * i / steps)) * Math.PI / 180;
+				points.Add(new Vec(slice.Center.X + (slice.Radius / 2 * Math.Cos(angle)), slice.Center.Y + (slice.Radius / 2 * Math.Sin(angle))));
+			}
+			var edge = new SceneEdge(slice.Id, slice.Id, slice.Elements[0], new Polyline(points)) { Stroke = slice.Elements[0], MaskWidth = slice.Radius + 8 };
+			edge.Labels.AddRange(slice.Followers.SelectMany(f => f.Elements));
+			t = Draw(edge, t);
+		}
+		return t;
+	}
+
+	/// <summary>Curves grow out of the centre one after another.</summary>
+	private double GrowCurves(double at)
+	{
+		var t = at;
+		foreach (var curve in _scene.Ordered)
+		{
+			var growth = Movement(curve.Elements[0], curve.Center);
+			if (!growth.IsAnimated)
+			{
+				growth.Initial[2] = 0;
+				growth.Initial[3] = 0;
+			}
+			growth.Animate(t, _spec.Enter * 1.6, Channel.Transform(0, 0, 1), Easing.Enter);
+			t += _spec.Enter * 1.1;
+		}
+		return t + (_spec.Enter * 0.5);
+	}
+
+	/// <summary>Every flow on a way from the first node to the last is lit; the rest dims for the step.</summary>
+	private double Trace(TraceStatement trace, double at)
+	{
+		var stops = trace.Path.Select(id => ResolveNode(id, trace.Line)).ToList();
+		if (stops.Any(s => s is null))
+			return at;
+		var keep = new HashSet<string>(StringComparer.Ordinal);
+		for (var i = 0; i + 1 < stops.Count; i++)
+		{
+			var on = Between(stops[i]!.Id, stops[i + 1]!.Id);
+			if (on.Count == 0)
+			{
+				_diagnostics.Add(new(trace.Line, $"Nothing flows from {stops[i]!.Id} to {stops[i + 1]!.Id}."));
+				return at;
+			}
+			keep.UnionWith(on);
+		}
+		// focus keeps the flows between the kept nodes; sankey ribbons are already the colour of what they carry
+		var end = Focus([.. _scene.Targets.Where(t => keep.Contains(t.Id))], close: false, at);
+		if (_scene.Kind != SceneKind.Sankey)
+			end = Math.Max(end, LightWays(stops[0]!.Id, keep, at));
+		return Math.Max(end, Pulse(stops[^1]!, end, _spec.PulseScale));
+	}
+
+	/// <summary>
+	/// Every edge on a way through <paramref name="keep"/> lights up as a trail, in waves outward from
+	/// <paramref name="from"/>: the edges leaving the start first, then the ones they lead to, so the eye follows the flow.
+	/// The trails stay for the step, as a tour's hops do.
+	/// </summary>
+	private double LightWays(string from, HashSet<string> keep, double at)
+	{
+		var edges = _scene.Edges.Where(e => keep.Contains(e.From) && keep.Contains(e.To) && e.From != e.To).ToList();
+		var level = new Dictionary<string, int>(StringComparer.Ordinal) { [from] = 0 };
+		var queue = new Queue<string>([from]);
+		while (queue.Count > 0)
+		{
+			var node = queue.Dequeue();
+			foreach (var edge in edges.Where(e => e.From == node && !level.ContainsKey(e.To)))
+			{
+				level[edge.To] = level[node] + 1;
+				queue.Enqueue(edge.To);
+			}
+		}
+		var end = at;
+		foreach (var edge in edges.Where(e => level.ContainsKey(e.From)))
+		{
+			var duration = Math.Max(_spec.DrawMin, _spec.DrawTime(edge.Path.Length));
+			var start = at + (_spec.Shift * 0.5) + (level[edge.From] * _spec.Enter);
+			Trail(edge.Path, "var(--accent, #3b82f6)", edge.Thick, start, duration, 1);
+			end = Math.Max(end, start + duration);
+		}
+		return end;
+	}
+
+	/// <summary>The nodes on any way from one node to another, both included; empty when there is none.</summary>
+	private HashSet<string> Between(string from, string to)
+	{
+		var reaches = new Dictionary<string, bool>(StringComparer.Ordinal);
+
+		bool Reaches(string node)
+		{
+			if (node == to)
+				return true;
+			if (reaches.TryGetValue(node, out var known))
+				return known;
+			reaches[node] = false;
+			var result = false;
+			foreach (var edge in _scene.Edges.Where(e => e.From == node))
+				result |= Reaches(edge.To);
+			reaches[node] = result;
+			return result;
+		}
+
+		var on = new HashSet<string>(StringComparer.Ordinal);
+
+		void Walk(string node)
+		{
+			if (!Reaches(node) || !on.Add(node))
+				return;
+			foreach (var edge in _scene.Edges.Where(e => e.From == node))
+				Walk(edge.To);
+		}
+
+		Walk(from);
+		return on;
+	}
+}
+
+/// <summary>Diagrams whose marks have an order and nothing else: they arrive in it.</summary>
+internal sealed partial class Compiler
+{
+	/// <summary>
+	/// Marks arrive in their order: quadrant points pop onto the chart, treemap sections come before their tiles, venn
+	/// sets overlap one by one, packet fields fill left to right like bytes arriving, and a journey is walked task by task
+	/// as its line draws through them.
+	/// </summary>
+	private double BuildInOrder(double at)
+	{
+		var marks = _scene.Ordered;
+		var step = _scene.Kind switch
+		{
+			SceneKind.Packet => _spec.Stagger,
+			SceneKind.Journey or SceneKind.Venn => _spec.Enter,
+			_ => _spec.Stagger * 2,
+		};
+		var t = at;
+		var end = at;
+		for (var i = 0; i < marks.Count; i++)
+		{
+			var mark = marks[i];
+			// a treemap tile waits for its section
+			var start = mark.Parent is { } parent && _scene.Target(parent) is { } section && HasVisibility(section)
+				? Math.Max(t, Visibility(section.Elements[0]).Segments.LastOrDefault()?.End ?? t)
+				: t;
+			end = Math.Max(end, Show(mark, start));
+			if (_scene.Kind is SceneKind.Quadrant)
+				_ = Pulse(mark, start + (_spec.Enter * 0.5), _spec.PulseScale);
+			t = start + step;
+		}
+		// then each labelled overlap lights up: what the sets share is usually the point of the diagram
+		foreach (var (union, _) in _scene.Unions)
+		{
+			end = Math.Max(end, Show(union, t));
+			_ = Pulse(union, t + (_spec.Enter * 0.5), _spec.PulseScale);
+			t += step;
+		}
+		foreach (var (line, path, _) in _scene.Lines)
+		{
+			var visual = Drawable(new SceneEdge("line", "line", line, path) { Stroke = line }, 14);
+			var ink = Ink(visual);
+			ink.Initial[0] = 1;
+			ink.Animate(at, Math.Max(_spec.DrawMin, t - at), Channel.Value(0), Easing.Linear);
+		}
+		return Math.Max(end, t);
+	}
+
+	private readonly Dictionary<SceneTarget, XElement> _regions = [];
+
+	/// <summary>
+	/// Lights a venn overlap's region, if <paramref name="target"/> is a labelled overlap: the region the overlap's sets
+	/// share, unlit until a score shows, builds or focuses the overlap. The still diagram never has it.
+	/// </summary>
+	private void Light(SceneTarget target, double at)
+	{
+		if (_scene.Unions.FirstOrDefault(u => u.Union == target) is not { Union: not null } union)
+			return;
+		if (!_regions.TryGetValue(target, out var region))
+		{
+			if (Region(union.Union, union.Sets) is not { } made)
+				return;
+			region = made;
+			_regions[target] = region;
+		}
+		var lit = Opacity(region, ReducedMotion.Cut, 0);
+		if (lit.ValueAt(at)[0] < 1)
+			lit.Animate(at, _spec.Enter, Channel.Value(1), Easing.Enter);
+	}
+
+	/// <summary>
+	/// The region every set of a venn overlap covers: an accent fill clipped by each set's circle in turn, placed after the
+	/// last circle so it paints over them and under the names. It becomes part of the overlap, so it dims and pulses with
+	/// its label.
+	/// </summary>
+	private XElement? Region(SceneTarget union, List<SceneTarget> sets)
+	{
+		var circles = sets.Select(s => s.Elements[0].Descendants(SvgScene.Ns + "circle").FirstOrDefault()).ToList();
+		if (circles.Any(c => c is null))
+			return null;
+		var bounds = sets.Select(s => s.Box).Aggregate((a, b) => a.Union(b));
+		XElement region = new(
+			SvgScene.Ns + "rect",
+			new XAttribute("x", Num.F(bounds.X)),
+			new XAttribute("y", Num.F(bounds.Y)),
+			new XAttribute("width", Num.F(bounds.Width)),
+			new XAttribute("height", Num.F(bounds.Height)),
+			new XAttribute("fill", "var(--accent, #3b82f6)"),
+			new XAttribute("fill-opacity", "0.32")
+		);
+		foreach (var circle in circles)
+		{
+			var id = NextId("c");
+			_defs.Add(new XElement(SvgScene.Ns + "clipPath", new XAttribute("id", id), new XElement(circle!)));
+			region = new XElement(SvgScene.Ns + "g", new XAttribute("clip-path", $"url(#{id})"), region);
+		}
+		// after the last circle, at the top level: a circle may already sit in the wrapper that shows it
+		var last = _scene
+			.Ordered
+			.Select(s => s.Elements[0].AncestorsAndSelf().First(a => a.Parent == _camera))
+			.OrderBy(e => e.ElementsBeforeSelf().Count())
+			.Last();
+		last.AddAfterSelf(region);
+		union.Elements.Insert(0, region);
+		return region;
+	}
+}

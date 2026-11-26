@@ -1,0 +1,1 @@
+Animate a fetch state machine (Idle, Loading, Ready, Error; fetch, ok, timeout, retry, refresh). Show the current state, each transition firing, and a running log of events: a fetch times out, the retry loads, then show that Ready cannot jump straight to Error. About 17 seconds, looping, numbered captions.

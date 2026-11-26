@@ -30,26 +30,26 @@
   .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
 </style>
 
-<path class="sankey-link" d="M 54 40 C 288.5 40 288.5 308.13 523 308.13 L 523 395.9 C 288.5 395.9 288.5 127.77 54 127.77 Z" fill="url(#m1814eb8b-sankey-grad-0)" stroke="none" />
-<path class="sankey-link" d="M 54 127.77 C 288.5 127.77 288.5 40 523 40 L 523 279.72 C 288.5 279.72 288.5 367.49 54 367.49 Z" fill="url(#m1814eb8b-sankey-grad-1)" stroke="none" />
-<path class="sankey-link" d="M 54 381.49 C 288.5 381.49 288.5 395.9 523 395.9 L 523 400 C 288.5 400 288.5 385.59 54 385.59 Z" fill="url(#m1814eb8b-sankey-grad-2)" stroke="none" />
-<path class="sankey-link" d="M 54 385.59 C 288.5 385.59 288.5 279.72 523 279.72 L 523 294.13 C 288.5 294.13 288.5 400 54 400 Z" fill="url(#m1814eb8b-sankey-grad-3)" stroke="none" />
-<g class="sankey-node" data-node="Pumped heat">
+<path class="sankey-link" d="M 54 40 C 288.5 40 288.5 308.13 523 308.13 L 523 395.9 C 288.5 395.9 288.5 127.77 54 127.77 Z" fill="url(#m1814eb8b-sankey-grad-0)" stroke="none" data-from="Pumped heat" data-to="Heating and cooling, commercial" data-value="70.672" />
+<path class="sankey-link" d="M 54 127.77 C 288.5 127.77 288.5 40 523 40 L 523 279.72 C 288.5 279.72 288.5 367.49 54 367.49 Z" fill="url(#m1814eb8b-sankey-grad-1)" stroke="none" data-from="Pumped heat" data-to="Heating and cooling, homes" data-value="193.026" />
+<path class="sankey-link" d="M 54 381.49 C 288.5 381.49 288.5 395.9 523 395.9 L 523 400 C 288.5 400 288.5 385.59 54 385.59 Z" fill="url(#m1814eb8b-sankey-grad-2)" stroke="none" data-from="Solar thermal" data-to="Heating and cooling, commercial" data-value="3.3" />
+<path class="sankey-link" d="M 54 385.59 C 288.5 385.59 288.5 279.72 523 279.72 L 523 294.13 C 288.5 294.13 288.5 400 54 400 Z" fill="url(#m1814eb8b-sankey-grad-3)" stroke="none" data-from="Solar thermal" data-to="Heating and cooling, homes" data-value="11.606" />
+<g class="sankey-node" data-node="Pumped heat" data-id="Pumped heat">
   <rect x="40" y="40" width="14" height="327.49" rx="3" ry="3" fill="#4e79a7" />
   <text x="64" y="195.74" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Pumped heat</text>
   <text x="64" y="211.74" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">263.7</text>
 </g>
-<g class="sankey-node" data-node="Heating and cooling, homes">
+<g class="sankey-node" data-node="Heating and cooling, homes" data-id="Heating and cooling, homes">
   <rect x="523" y="40" width="14" height="254.13" rx="3" ry="3" fill="#f28e2b" />
   <text x="547" y="159.07" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Heating and cooling, homes</text>
   <text x="547" y="175.07" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">204.63</text>
 </g>
-<g class="sankey-node" data-node="Heating and cooling, commercial">
+<g class="sankey-node" data-node="Heating and cooling, commercial" data-id="Heating and cooling, commercial">
   <rect x="523" y="308.13" width="14" height="91.87" rx="3" ry="3" fill="#e15759" />
   <text x="547" y="346.07" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Heating and cooling, commercial</text>
   <text x="547" y="362.07" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">73.97</text>
 </g>
-<g class="sankey-node" data-node="Solar thermal">
+<g class="sankey-node" data-node="Solar thermal" data-id="Solar thermal">
   <rect x="40" y="381.49" width="14" height="18.51" rx="3" ry="3" fill="#76b7b2" />
   <text x="64" y="382.74" text-anchor="start" font-size="var(--fs-s)" font-weight="600" fill="var(--_text)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.9">Solar thermal</text>
   <text x="64" y="398.74" text-anchor="start" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" stroke="var(--bg)" stroke-width="4" stroke-linejoin="round" paint-order="stroke" dy="4.2">14.91</text>

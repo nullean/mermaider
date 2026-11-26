@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -46 760 546" width="760" height="546" style="--bg:#FFFFFF;--fg:#27272A;--line:#546072;--accent:#3b82f6"><desc>In 2 steps: 1. Q4 looked flat. 2. The forecast is revised up.</desc><style>
+  text { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  .mono { font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace; }
+  svg {
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 72%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 64%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 30%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_line-soft:     color-mix(in srgb, var(--fg) 14%, var(--bg));
+    --_line-strong:   color-mix(in srgb, var(--fg) 68%, var(--bg));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 70%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 10%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 22%, var(--bg)));
+    --_group-fill:    color-mix(in srgb, var(--fg) 4%, var(--bg));
+    --_group-hdr:     color-mix(in srgb, var(--accent, var(--fg)) 15%, var(--bg));
+    --_group-stroke:  color-mix(in srgb, var(--fg) 10%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 9%, var(--bg));
+    --_accent-fill:   color-mix(in srgb, var(--accent, var(--fg)) 8%, var(--bg));
+    --_accent-stroke: color-mix(in srgb, var(--accent, var(--fg)) 20%, var(--bg));
+    --_accent-text:   color-mix(in srgb, var(--accent, var(--fg)) 65%, var(--bg));
+    --fs-xs: 0.75rem;
+    --fs-s:  0.875rem;
+    --fs-m:  1rem;
+    --fs-l:  1.125rem;
+  }
+  .node, .actor, .entity, .class-node, .architecture-service, .kanban-card { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 12%, transparent)); }
+  .subgraph, .kanban-column { filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--fg) 7%, transparent)); }
+</style><defs>
+  <linearGradient id="m1814eb8b-bg-d0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4e79a7" /><stop offset="1" stop-color="color-mix(in srgb, #4e79a7 62%, var(--bg))" /></linearGradient>
+</defs><g><g>
+
+
+<g class="diagram-title">
+  <rect x="40" y="35.5" width="9" height="9" rx="2" ry="2" fill="var(--accent, var(--fg))" />
+  <text x="56" y="40" text-anchor="start" font-size="var(--fs-l)" font-weight="700" fill="var(--_text)" dy="6.3">Revenue</text>
+</g>
+<g class="xy-grid">
+  <line x1="100" y1="440" x2="720" y2="440" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="88" y="440" text-anchor="end" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">0</text>
+  <line x1="100" y1="370.4" x2="720" y2="370.4" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="88" y="370.4" text-anchor="end" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">24</text>
+  <line x1="100" y1="300.8" x2="720" y2="300.8" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="88" y="300.8" text-anchor="end" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">48</text>
+  <line x1="100" y1="231.2" x2="720" y2="231.2" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="88" y="231.2" text-anchor="end" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">72</text>
+  <line x1="100" y1="161.6" x2="720" y2="161.6" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="88" y="161.6" text-anchor="end" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">96</text>
+  <line x1="100" y1="92" x2="720" y2="92" stroke="var(--_line-soft)" stroke-width="1" />
+  <text x="88" y="92" text-anchor="end" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">120</text>
+  <text x="177.5" y="460" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">Q1</text>
+  <text x="332.5" y="460" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">Q2</text>
+  <text x="487.5" y="460" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">Q3</text>
+  <text x="642.5" y="460" text-anchor="middle" font-size="var(--fs-xs)" font-weight="400" fill="var(--_text-muted)" dy="4.2">Q4</text>
+</g>
+<g transform="translate(46 266) rotate(-90)"><text x="0" y="0" text-anchor="middle" font-size="var(--fs-xs)" font-weight="500" fill="var(--_text-sec)" dy="4.2">k$</text></g>
+<g class="xy-bars" data-series="0">
+  <g class="maaba9dacf-a0" style="transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:132.55px 440px"><path d="M 132.55 440 L 132.55 358 Q 132.55 353 137.55 353 L 217.45 353 Q 222.45 353 222.45 358 L 222.45 440 Z" fill="url(#m1814eb8b-bg-d0)" class="xy-bar maaba9dacf-a10" data-index="1" data-value="30" style="opacity:0.22" /></g>
+  <g class="maaba9dacf-a1" style="transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:287.55px 440px"><path d="M 287.55 440 L 287.55 285.5 Q 287.55 280.5 292.55 280.5 L 372.45 280.5 Q 377.45 280.5 377.45 285.5 L 377.45 440 Z" fill="url(#m1814eb8b-bg-d0)" class="xy-bar maaba9dacf-a11" data-index="2" data-value="55" style="opacity:0.22" /></g>
+  <g class="maaba9dacf-a2" style="transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:442.55px 440px"><path d="M 442.55 440 L 442.55 242 Q 442.55 237 447.55 237 L 527.45 237 Q 532.45 237 532.45 242 L 532.45 440 Z" fill="url(#m1814eb8b-bg-d0)" class="xy-bar maaba9dacf-a12" data-index="3" data-value="70" style="opacity:0.22" /></g>
+  <g class="maaba9dacf-a3" style="transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:597.55px 440px"><path d="M 597.55 440 L 597.55 271 Q 597.55 266 602.55 266 L 682.45 266 Q 687.45 266 687.45 271 L 687.45 440 Z" fill="url(#m1814eb8b-bg-d0)" class="xy-bar maaba9dacf-a13" data-index="4" data-value="60" style="opacity:1" /></g>
+</g>
+<line x1="100" y1="440" x2="720" y2="440" stroke="var(--_line)" stroke-width="1.25" />
+<g class="xy-line" data-series="1">
+  <g><polyline points="177.5,367.5 332.5,309.5 487.5,251.5 642.5,208" fill="none" stroke="#f28e2b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" mask="url(#maaba9dacf-m0)" /></g>
+  <g class="maaba9dacf-a5" style="opacity:1"><circle cx="177.5" cy="367.5" r="3.5" fill="#f28e2b" stroke="var(--bg)" stroke-width="1.5" /></g>
+  <g class="maaba9dacf-a6" style="opacity:1"><circle cx="332.5" cy="309.5" r="3.5" fill="#f28e2b" stroke="var(--bg)" stroke-width="1.5" /></g>
+  <g class="maaba9dacf-a7" style="opacity:1"><circle cx="487.5" cy="251.5" r="3.5" fill="#f28e2b" stroke="var(--bg)" stroke-width="1.5" /></g>
+  <g class="maaba9dacf-a8" style="opacity:1"><circle cx="642.5" cy="208" r="3.5" fill="#f28e2b" stroke="var(--bg)" stroke-width="1.5" /></g>
+</g>
+
+<g pointer-events="none"><g opacity="0" class="maaba9dacf-a16" style="opacity:0"><g transform="translate(642.5 150.5)"><rect x="-15.9" y="-10" width="31.8" height="20" rx="10" fill="var(--accent, #3b82f6)" stroke="var(--accent, #3b82f6)" stroke-width="1.5" /><text x="0" y="4" text-anchor="middle" font-size="11.5" font-weight="650" fill="#fff">95</text></g></g></g></g><g opacity="0" aria-hidden="true" class="maaba9dacf-a9" style="opacity:1;transform:translate(0px,0px) scale(1);transform-box:view-box;transform-origin:0px 0px"><rect x="14" y="-37" width="37" height="21" rx="10.5" fill="var(--_text, var(--fg))" /><text x="32" y="-22" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--bg)">1/2</text><text x="60" y="-21.5" font-size="15" font-weight="650" fill="var(--_text, var(--fg))">Q4 looked flat</text><path d="M14,-11 L746,-11" stroke="var(--accent, #3b82f6)" stroke-width="2" stroke-opacity="0.55" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" fill="none" class="maaba9dacf-a14" style="stroke-dashoffset:0" /></g><g opacity="0" aria-hidden="true" class="maaba9dacf-a15" style="opacity:0;transform:translate(0px,6px) scale(1);transform-box:view-box;transform-origin:0px 0px"><rect x="14" y="-37" width="37" height="21" rx="10.5" fill="var(--_text, var(--fg))" /><text x="32" y="-22" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--bg)">2/2</text><text x="60" y="-21.5" font-size="15" font-weight="650" fill="var(--_text, var(--fg))">The forecast is revised up</text><path d="M14,-11 L746,-11" stroke="var(--accent, #3b82f6)" stroke-width="2" stroke-opacity="0.55" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" fill="none" class="maaba9dacf-a17" style="stroke-dashoffset:1" /></g></g><defs><mask id="maaba9dacf-m0" maskUnits="userSpaceOnUse" x="-760" y="-760" width="2280" height="2020"><path d="M177.5,367.5 L332.5,309.5 L487.5,251.5 L642.5,208" fill="none" stroke="#fff" stroke-width="14" pathLength="1" stroke-dasharray="1 1" class="maaba9dacf-a4" style="stroke-dashoffset:0" /></mask></defs></svg>

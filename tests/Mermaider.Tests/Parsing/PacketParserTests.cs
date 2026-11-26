@@ -29,7 +29,7 @@ public class PacketParserTests
 	{
 		var lines = new[] { "packet", "106: \"URG\"", };
 
-		var diagram = PacketParser.Parse(lines);
+		var diagram = PacketParser.Parse(lines, strict: false);
 
 		diagram.Fields.Should().HaveCount(1);
 		diagram.Fields[0].Start.Should().Be(106);
@@ -109,7 +109,7 @@ public class PacketParserTests
 	{
 		var lines = new[] { "packet", "+0: \"Bad\"", "+8: \"OK\"", };
 
-		var diagram = PacketParser.Parse(lines);
+		var diagram = PacketParser.Parse(lines, strict: false);
 
 		diagram.Fields.Should().HaveCount(1);
 		diagram.Fields[0].Label.Should().Be("OK");
@@ -122,7 +122,7 @@ public class PacketParserTests
 	{
 		var lines = new[] { "packet", "0-999999: \"Huge\"", "0-7: \"OK\"", };
 
-		var diagram = PacketParser.Parse(lines);
+		var diagram = PacketParser.Parse(lines, strict: false);
 
 		diagram.Fields.Should().HaveCount(1);
 		diagram.Fields[0].Label.Should().Be("OK");
@@ -135,7 +135,7 @@ public class PacketParserTests
 	{
 		var lines = new[] { "packet", "2147483646: \"x\"", "0: \"OK\"", };
 
-		var diagram = PacketParser.Parse(lines);
+		var diagram = PacketParser.Parse(lines, strict: false);
 
 		diagram.Fields.Should().HaveCount(1);
 		diagram.Fields[0].Label.Should().Be("OK");
@@ -160,7 +160,7 @@ public class PacketParserTests
 	{
 		var lines = new[] { "packet", "15-0: \"Bad\"", "0-7: \"OK\"", };
 
-		var diagram = PacketParser.Parse(lines);
+		var diagram = PacketParser.Parse(lines, strict: false);
 
 		diagram.Fields.Should().HaveCount(1);
 		diagram.Fields[0].Label.Should().Be("OK");
@@ -172,7 +172,7 @@ public class PacketParserTests
 		var max = Mermaider.Models.PacketDiagram.MaxBitIndex;
 		var lines = new[] { "packet", $"{max}: \"Last\"", };
 
-		var diagram = PacketParser.Parse(lines);
+		var diagram = PacketParser.Parse(lines, strict: false);
 
 		diagram.Fields.Should().HaveCount(1);
 		diagram.Fields[0].Start.Should().Be(max);
