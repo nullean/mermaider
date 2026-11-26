@@ -43,7 +43,7 @@ var svg = MermaidAnimator.RenderSvg("""
 
 ## Pick the verb by what the diagram should say
 
-- the system appearing: `build` (or a bare `animate`)
+- the system appearing: `build`. A bare `animate` does not build: it plays the type's own highlight (the longest path flows, the biggest slice pulls out), or its order for sequences, state machines, gantt, timelines, git graphs and C4 dynamic
 - a request's path: `tour a -> b -> c "label"`
 - one message: `send a -> b "label"`; a reply: `send b -> a` along the same edge, or `ping a <-> b "req" "reply"`
 - load or a continuous flow: `stream a -> b busy`
@@ -51,13 +51,13 @@ var svg = MermaidAnimator.RenderSvg("""
   recovery: `restore a -> b`, `mark x clear`, `badge x clear`
 - quantity: `fill queue 3/8`, later `fill queue 8`; a number that changes: `count api 38 -> 1200 "ms" as warn`; a fixed one: `badge dlq "1"`
 - attention: `focus x` (add `close` to zoom), `pulse x`
-- what a diagram is about, without a story: `highlight flow a -> b -> c` (direction), `highlight x as fail` (a fatal state), `highlight path a -> b -> c as ok` (the happy path); before the steps, one or two at most
+- what a diagram is about, without a story: `highlight flow a -> b -> c` (direction), `highlight x as fail` (a fatal state), `highlight path a -> b -> c as ok` (the happy path), `highlight biggest` / `highlight lowest` (let a chart's data pick); before the steps, one or two at most
 - several outcomes of the same start (success, timeout, slow): `scenario "Name" as ok|fail|warn` blocks after the shared steps; the player offers them on its story map
 - the player lists the steps from three captioned steps on, or with endings; `animate compact` keeps it to the figure and its caption, `animate contents` always lists them. Give the diagram a `title` (front matter) or `accTitle` and the player shows it above the figure
 - a state machine: `run A -> B -> C` (start with `[*]`), a refused transition: `try A -> C rejected "why"`
 - work moving (kanban): `move card to Column`; ideas branching (mindmap, treeview): `expand "Node"`; a numbered
   interaction (C4 dynamic): a bare `animate`, or `play #1..#2`
-- numbers (xy chart, pie, radar, sankey): a bare `animate` builds them; `set #2 75` changes a bar, `trace A -> B`
+- numbers (xy chart, pie, radar, sankey): a bare `animate` singles out the biggest (`build` grows them all); `set #2 75` changes a bar, `trace A -> B`
   lights a sankey path, `focus "Slice"` singles out a slice or curve
 - a plan over time (gantt): `sweep to "2024-03-01"` per step, `sweep` to the end; tasks by id, `"label"` or `#n`
 - history (timeline): `show "2020"` per period, which brings its events; a git history: `play #1..#3` per step

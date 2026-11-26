@@ -10,7 +10,10 @@ namespace Mermaider.Animate.Tests;
 /// </summary>
 public class GoldenFrameTests
 {
-	/// <summary>A step's last frame; <see cref="Ending"/> picks one of a score's scenarios, when it has them.</summary>
+	/// <summary>
+	/// A step's last frame; <see cref="Ending"/> picks one of a score's scenarios, when it has them. A score of highlights
+	/// alone has no steps, and has one frame, a moment into its loop (step -1).
+	/// </summary>
 	public sealed record Frame(string Score, int Step, string Source, int? Ending = null)
 	{
 		public override string ToString() => Ending is { } e ? $"{Score} ending {e + 1} step {Step + 1}" : $"{Score} step {Step + 1}";
@@ -25,6 +28,8 @@ public class GoldenFrameTests
 			var source = File.ReadAllText(file).Replace("\r\n", "\n");
 			var animation = MermaidAnimator.Compile(source);
 			var name = Path.GetFileNameWithoutExtension(file);
+			if (animation.Scenarios.Count == 0 && animation.Steps.Count == 0)
+				yield return new Frame(name, -1, source);
 			if (animation.Scenarios.Count == 0)
 				for (var k = 0; k < animation.Steps.Count; k++)
 					yield return new Frame(name, k, source);
@@ -44,8 +49,8 @@ public class GoldenFrameTests
 		var animation = MermaidAnimator.Compile(frame.Source);
 		if (frame.Ending is { } e)
 			animation = animation.Scenarios[e].Animation;
-		var step = animation.Steps[frame.Step];
+		var at = frame.Step < 0 ? animation.Intro + TimeSpan.FromMilliseconds(600) : animation.Steps[frame.Step].End;
 		var key = frame.Ending is { } ending ? $"{frame.Score}.e{ending + 1}.{frame.Step + 1}" : $"{frame.Score}.{frame.Step + 1}";
-		animation.RenderFrame(step.End).Should().MatchSnapshot(SvgSnapshotFormat.Instance, key);
+		animation.RenderFrame(at).Should().MatchSnapshot(SvgSnapshotFormat.Instance, key);
 	}
 }

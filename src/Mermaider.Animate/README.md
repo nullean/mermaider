@@ -49,13 +49,24 @@ animate [loop|once|scrub] [calm|crisp|still] [contents|compact]
   scenario "Name" [as role]   an ending: the steps after it, played after the steps before the first scenario
 ```
 
-A step's caption shows above the diagram, numbered ("2/3"). A statement outside any step is a step of its own. A bare `animate` plays the diagram type's default animation: a
-flowchart or architecture diagram builds up along its flow, a state machine runs every transition, a sequence diagram
-plays its messages in order, a gantt chart sweeps its playhead across the plan, a timeline's periods arrive along its
-axis, a git graph's commits land in order, a mindmap or treeview grows from its root, and a C4 dynamic diagram plays its
-numbered relations in order, an xy chart's bars grow and its lines draw, a pie's slices sweep round, a radar's curves grow out
-of the centre, a sankey's flows run left to right, and quadrant points, treemap sections and tiles, venn sets, packet
-fields and journey tasks arrive in their order, each with its labels; a venn diagram's labelled overlaps then light up as the region their sets share.
+A step's caption shows above the diagram, numbered ("2/3"). A statement outside any step is a step of its own. A bare `animate` plays the diagram type's default. Where the order is
+the content, that is the order: a state machine runs every transition, a sequence diagram plays its messages, a gantt
+chart sweeps its playhead across the plan, a timeline's periods arrive along its axis, a git graph's commits land, and a C4
+dynamic diagram plays its numbered relations. Every other type gets its own [highlight](#highlights) and no steps:
+building a diagram up tells no story, so it is never the default (`build` still does it when you ask).
+
+| Type | A bare `animate` highlights |
+|---|---|
+| flowchart, architecture, class, ER, block | the longest path from a starting node, flowing |
+| mindmap, treeview | the root |
+| kanban | the busiest column |
+| xy chart, pie, treemap | the biggest bar, slice or tile |
+| radar | the widest curve |
+| venn | the labelled overlap, else the biggest set |
+| packet | the widest field |
+| quadrant | the point furthest top right |
+| sankey | the biggest flow, from the source sending most |
+| journey | the lowest-scored task, as a failure |
 
 Names are diagram ids. Elements without an id are named by their label in quotes (`show "2020"`, `mark "Build" ok`) or
 by number: `#3` is the third message of a sequence diagram, and the third task, period or commit elsewhere.
@@ -69,6 +80,7 @@ by number: `#3` is the third message of a sequence diagram, and the third task, 
 | `highlight a, b [as role]` | the nodes glow for the whole animation: a ring in the role's colour (else the accent), its halo breathing |
 | `highlight path a -> b -> c [as role]` | the route stays lit for the whole animation, a sheen running along it |
 | `highlight flow a -> b -> c [as role]` | the route's edges flow in the direction of travel, without end |
+| `highlight biggest [as role]`, `highlight lowest [as role]` | the mark the data picks glows: a pie's slice pulls out, a radar curve breathes, a venn overlap lights |
 | `mark a ok\|fail\|warn\|info\|clear` | a node takes a role colour with a check or a cross (a journey task's face too), an edge or a message (`#3`) its colour, until cleared |
 | `badge a "timeout" [as role]` · `badge a clear` | a short label pinned above a node, until cleared |
 | `count api [38 ->] 1200 ["ms"] [as role]` | a number on a node rolls to a new value through the ones between, from its last count (or 0), and stays until cleared (`badge api clear`) |
@@ -140,6 +152,10 @@ animate
 Each moves in whole cycles over the loop, so it never jumps when the loop starts again, and the settle at the end of a
 story leaves it alone. Under reduced motion a highlight holds still: the ring, the lit route and the flow's dashes stay,
 without moving. Use one or two: when everything is emphasised, nothing is.
+
+On a chart, let the data choose: `highlight biggest` singles out the largest slice, bar, tile, radar curve, packet field,
+venn overlap or the quadrant's top-right point, and `highlight lowest` the smallest slice or bar, or a journey's
+lowest-scored task. A pie slice pulls out of the pie and breathes; a venn overlap lights the region its sets share.
 
 ## Endings
 

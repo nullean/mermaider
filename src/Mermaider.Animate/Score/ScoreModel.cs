@@ -109,7 +109,11 @@ internal enum HighlightKind
 /// </summary>
 internal sealed record HighlightStatement(HighlightKind Kind, IReadOnlyList<TargetRef> Targets, IReadOnlyList<string> Route, Role? Role, int Line) : Statement(
 	Line
-);
+)
+{
+	/// <summary>A mark the diagram picks by its data: <c>biggest</c> or <c>lowest</c>.</summary>
+	public string? Pick { get; init; }
+}
 
 internal sealed record StreamStatement(IReadOnlyList<string> Path, StreamRate Rate, bool Always, int Line) : Statement(Line);
 

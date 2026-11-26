@@ -142,4 +142,146 @@ public class HighlightTests
 		breath.First().Should().Be(breath.Last());
 		breath.Count(v => v == 1).Should().BeGreaterThan(1, "it breathes the whole story long, not once");
 	}
+
+	private static XElement Pulled(string svg, string label) =>
+		XDocument.Parse(svg).Descendants().Single(e => (string?)e.Attribute("data-label") == label && SvgClass(e).Contains("pie-slice"));
+
+	private static string SvgClass(XElement e) => (string?)e.Attribute("class") ?? "";
+
+	private static string? Moved(XElement slice) => (string?)slice.Parent?.Attribute("style") is { } style && style.Contains("translate(") ? style : null;
+
+	[Test]
+	public void A_bare_animate_highlights_the_type_instead_of_building_it()
+	{
+		var animation = MermaidAnimator.Compile(Flow + "\nanimate\n");
+		animation.Steps.Should().BeEmpty("a bare animate on a flowchart is a highlight, not a story");
+
+		// nothing waits to appear: the first frame already shows every node
+		var first = XDocument.Parse(animation.RenderFrame(TimeSpan.Zero));
+		first.Descendants().Where(e => SvgClass(e).Split(' ').Contains("node")).Should().HaveCount(5);
+		first.Descendants().Should().NotContain(e => ((string?)e.Attribute("style") ?? "").Contains("opacity:0;"));
+
+		// the longest path from where the flow starts runs: client -> lb -> api1 -> db, three edges of dashes
+		var dashes = Regex.Matches(animation.Svg, @"stroke-dasharray=""9 [\d.]+""").Count;
+		dashes.Should().Be(3);
+
+		// a shortcut does not win: a -> d is found first, a -> b -> c -> d is longer
+		var shortcut = MermaidAnimator.RenderSvg("flowchart LR\n  a --> d\n  a --> b\n  b --> c\n  c --> d\n\nanimate\n");
+		Regex.Matches(shortcut, @"stroke-dasharray=""9 [\d.]+""").Count.Should().Be(3);
+
+		foreach (var ordered in new[] { "sequenceDiagram\n  A->>B: hi\n\nanimate\n", "stateDiagram-v2\n  [*] --> A\n  A --> B\n\nanimate\n" })
+			MermaidAnimator.Compile(ordered).Steps.Should().ContainSingle("where order is the content, a bare animate plays it");
+	}
+
+	[Test]
+	public void Biggest_pulls_the_largest_slice_out_of_the_pie_and_lowest_the_smallest()
+	{
+		const string pie = "pie\n  \"A\" : 20\n  \"B\" : 50\n  \"C\" : 30\n\nanimate\n";
+		var biggest = MermaidAnimator.Compile(pie);
+		var frame = biggest.RenderFrame(biggest.Intro + TimeSpan.FromMilliseconds(600));
+		Moved(Pulled(frame, "B")).Should().NotBeNull("a bare animate on a pie singles out its biggest slice");
+		Moved(Pulled(frame, "A")).Should().BeNull();
+		Moved(Pulled(frame, "C")).Should().BeNull();
+		var peak = biggest.RenderFrame(biggest.Intro + TimeSpan.FromMilliseconds(1200));
+		Moved(Pulled(peak, "B")).Should().NotBe(Moved(Pulled(frame, "B")), "out of the pie, it breathes further out and back");
+
+		var lowest = MermaidAnimator.Compile(pie + "  highlight lowest\n");
+		frame = lowest.RenderFrame(lowest.Intro + TimeSpan.FromMilliseconds(600));
+		Moved(Pulled(frame, "A")).Should().NotBeNull();
+		Moved(Pulled(frame, "B")).Should().BeNull("a written highlight replaces the type's default");
+	}
+
+	[Test]
+	public void A_journey_glows_its_lowest_moment_as_a_failure()
+	{
+		var svg = MermaidAnimator.RenderSvg("journey\n  section S\n    Browse: 5: Me\n    Pay: 1: Me\n    Leave: 3: Me\n\nanimate\n");
+		var halo = XDocument.Parse(svg).Descendants().Single(e => (string?)e.Attribute("stroke-opacity") == "0.22");
+		var pay = XDocument
+			.Parse(svg)
+			.Descendants()
+			.First(e => e.Name.LocalName == "text" && e.Value == "Pay")
+			.Ancestors()
+			.First(a => a.Attribute("data-score") != null);
+		var box =
+			(x: double.Parse((string)halo.Attribute("x")!, CultureInfo.InvariantCulture), w: double.Parse(
+				(string)halo.Attribute("width")!,
+				CultureInfo.InvariantCulture
+			));
+		var text = XDocument.Parse(svg).Descendants().First(e => e.Name.LocalName == "text" && e.Value == "Pay");
+		var x = double.Parse((string)text.Attribute("x")!, CultureInfo.InvariantCulture);
+		x.Should().BeInRange(box.x, box.x + box.w, "the halo is round Pay, the task scored 1");
+		((string)halo.Attribute("stroke")!).Should().NotContain("accent", "it glows in the failure colour");
+		pay.Should().NotBeNull();
+	}
+
+	[Test]
+	public void A_sankey_runs_its_biggest_flow_inside_the_bands()
+	{
+		var svg = MermaidAnimator.RenderSvg("sankey-beta\nA,X,10\nB,X,30\nX,Y,25\nX,Z,15\n\nanimate\n");
+		var doc = XDocument.Parse(svg);
+		var pulses = doc.Descendants().Where(e => e.Attribute("clip-path") != null && e.Attribute("stroke-dasharray") != null).ToList();
+		pulses.Should().HaveCount(2, "B -> X -> Y: from the source sending most, along the biggest link at each node");
+		var clipped = pulses.Select(p => ((string)p.Attribute("clip-path")!)[5..^1]).Select(
+			id => doc.Descendants().Single(e => (string?)e.Attribute("id") == id).Elements().Single().Attribute("d")!.Value
+		);
+		var bands = doc
+			.Descendants()
+			.Where(e => SvgClass(e) == "sankey-link")
+			.ToDictionary(e => $"{e.Attribute("data-from")!.Value}{e.Attribute("data-to")!.Value}", e => e.Attribute("d")!.Value);
+		clipped.Should().BeEquivalentTo([bands["BX"], bands["XY"]], "each pulse keeps to its band");
+	}
+
+	[Test]
+	public void A_pick_on_a_diagram_without_data_says_where_it_works()
+	{
+		var problems = Problems(Flow + "\nanimate\n  highlight biggest\n");
+		problems.Should().ContainSingle().Which.Message.Should().StartWith("highlight biggest picks by the diagram's data");
+		Problems("journey\n  section S\n    Pay: 1: Me\n\nanimate\n  highlight biggest\n").Should().ContainSingle();
+	}
+
+	public static IEnumerable<string> Defaults() =>
+		[
+			Flow,
+			"pie\n  \"A\" : 20\n  \"B\" : 50\n  \"C\" : 30\n",
+			"journey\n  section S\n    Browse: 5: Me\n    Pay: 1: Me\n",
+			"sankey-beta\nA,X,10\nB,X,30\nX,Y,25\n",
+			"radar-beta\n  axis a[\"A\"], b[\"B\"], c[\"C\"]\n  curve x[\"X\"]{3, 4, 2}\n",
+			"venn-beta\n  set A\n  set B\n  union A,B[\"Both\"]\n",
+			"mindmap\n  root((R))\n    a\n    b\n",
+			"xychart-beta\n  x-axis [a, b, c]\n  bar [3, 9, 4]\n",
+			"packet-beta\n  0-15: \"One\"\n  16-63: \"Two\"\n",
+		];
+
+	/// <summary>
+	/// A frame as the eye sees it: a dash offset counts within its dash pattern (a flow moved by whole patterns looks
+	/// unmoved), and values are rounded, so one a hair from its end (the last frame is a moment before the loop restarts)
+	/// compares equal.
+	/// </summary>
+	private static string Settled(string frame)
+	{
+		var doc = XDocument.Parse(frame);
+		foreach (var e in doc.Descendants().Where(e => e.Attribute("stroke-dasharray") != null && e.Attribute("style") != null))
+		{
+			var pattern = ((string)e.Attribute("stroke-dasharray")!).Split(' ').Sum(v => double.Parse(v, CultureInfo.InvariantCulture));
+			e.SetAttributeValue("style", Regex.Replace((string)e.Attribute("style")!, @"stroke-dashoffset:(-?[\d.]+)", m =>
+			{
+				var within = ((double.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture) % pattern) + pattern) % pattern;
+				return $"stroke-dashoffset:{Num(Math.Min(within, pattern - within) < 0.5 ? 0 : within)}";
+			}));
+		}
+		return Regex.Replace(doc.ToString(), @"-?\d+\.\d+", m => Num(double.Parse(m.Value, CultureInfo.InvariantCulture)));
+
+		static string Num(double v) => Math.Round(v, 1).ToString(CultureInfo.InvariantCulture);
+	}
+
+	[Test]
+	[MethodDataSource(nameof(Defaults))]
+	public void A_default_highlight_loops_without_a_seam(string diagram)
+	{
+		var animation = MermaidAnimator.Compile(diagram + "\nanimate\n");
+		animation.Steps.Should().BeEmpty();
+		Settled(animation.RenderFrame(animation.Duration - TimeSpan.FromMilliseconds(1)))
+			.Should()
+			.Be(Settled(animation.RenderFrame(TimeSpan.Zero)), "the loop ends where it starts, so nothing jumps when it begins again");
+	}
 }

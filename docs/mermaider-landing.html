@@ -766,10 +766,15 @@
         <img src="screenshots/animate/04-sequence.svg" alt="Animated sequence diagram: a cache miss pays for the database once; the next request hits the cache" loading="lazy"/>
         <p>A cache miss pays for the database once; the next request hits the cache</p>
       </div>
-      <div class="anim-card" data-src="screenshots/animate/05-build.svg" data-label="flowchart" onclick="openDiagram(this)">
+      <div class="anim-card" data-src="screenshots/animate/05-default.svg" data-label="flowchart" onclick="openDiagram(this)">
         <div class="diagram-card-name">flowchart</div>
-        <img src="screenshots/animate/05-build.svg" alt="Animated flowchart diagram: a bare animate builds the diagram along its flow" loading="lazy"/>
-        <p>A bare animate builds the diagram along its flow</p>
+        <img src="screenshots/animate/05-default.svg" alt="Animated flowchart diagram: a bare animate flows along the longest path" loading="lazy"/>
+        <p>A bare animate flows along the longest path</p>
+      </div>
+      <div class="anim-card" data-src="screenshots/animate/25-highlight.svg" data-label="highlight" onclick="openDiagram(this)">
+        <div class="diagram-card-name">highlight</div>
+        <img src="screenshots/animate/25-highlight.svg" alt="Animated flowchart diagram: no story, just where requests flow and the node that is failing" loading="lazy"/>
+        <p>No story: where requests flow, and the node that is failing</p>
       </div>
       <div class="anim-card" data-src="screenshots/animate/06-architecture.svg" data-label="architecture" onclick="openDiagram(this)">
         <div class="diagram-card-name">architecture</div>
@@ -838,8 +843,8 @@
       </div>
       <div class="anim-card" data-src="screenshots/animate/19-treemap.svg" data-label="treemap" onclick="openDiagram(this)">
         <div class="diagram-card-name">treemap</div>
-        <img src="screenshots/animate/19-treemap.svg" alt="Animated treemap diagram: where the budget goes, section by section" loading="lazy"/>
-        <p>Where the budget goes, section by section</p>
+        <img src="screenshots/animate/19-treemap.svg" alt="Animated treemap diagram: the biggest line in the budget glows" loading="lazy"/>
+        <p>The biggest line in the budget glows</p>
       </div>
       <div class="anim-card" data-src="screenshots/animate/20-venn.svg" data-label="venn" onclick="openDiagram(this)">
         <div class="diagram-card-name">venn</div>
@@ -848,8 +853,8 @@
       </div>
       <div class="anim-card" data-src="screenshots/animate/21-packet.svg" data-label="packet" onclick="openDiagram(this)">
         <div class="diagram-card-name">packet</div>
-        <img src="screenshots/animate/21-packet.svg" alt="Animated packet diagram: a tcp header arrives field by field" loading="lazy"/>
-        <p>A TCP header arrives field by field</p>
+        <img src="screenshots/animate/21-packet.svg" alt="Animated packet diagram: the widest field of a TCP header glows" loading="lazy"/>
+        <p>The widest field of a TCP header glows</p>
       </div>
       <div class="anim-card" data-src="screenshots/animate/22-journey.svg" data-label="journey" onclick="openDiagram(this)">
         <div class="diagram-card-name">journey</div>
@@ -877,7 +882,7 @@
       <div class="card">
         <div class="card-kicker blue">every diagram type</div>
         <div class="card-title">Checked against<br/>the diagram</div>
-        <p class="card-body">Every name in a score is checked against the diagram, with each problem reported on its line. A bare <code>animate</code> plays the type's own default: flows build, state machines run, a gantt chart sweeps its plan.</p>
+        <p class="card-body">Every name in a score is checked against the diagram, with each problem reported on its line. A bare <code>animate</code> plays the type's own default: a flow's longest path runs, a pie's biggest slice pulls out, state machines run, a gantt chart sweeps its plan.</p>
       </div>
     </div>
   </div>

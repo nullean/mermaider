@@ -53,7 +53,7 @@ public partial class ChartTests
 	[Test]
 	public void A_line_draws_and_its_points_land_as_it_reaches_them()
 	{
-		var animation = MermaidAnimator.Compile(Bars + "\nanimate once\n");
+		var animation = MermaidAnimator.Compile(Bars + "\nanimate once\n  build\n");
 		var points = XDocument
 			.Parse(animation.RenderFrame(TimeSpan.Zero))
 			.Descendants()
@@ -72,7 +72,7 @@ public partial class ChartTests
 	[Test]
 	public void Pie_slices_sweep_in_order_with_their_percentages()
 	{
-		var animation = MermaidAnimator.Compile("pie\n  \"A\" : 50\n  \"B\" : 30\n  \"C\" : 20\n\nanimate once\n");
+		var animation = MermaidAnimator.Compile("pie\n  \"A\" : 50\n  \"B\" : 30\n  \"C\" : 20\n\nanimate once\n  build\n");
 
 		double Revealed(TimeSpan t, string label)
 		{
@@ -99,7 +99,7 @@ public partial class ChartTests
 	[Test]
 	public void Radar_curves_grow_out_of_the_centre()
 	{
-		var animation = MermaidAnimator.Compile("radar-beta\n  axis a[\"A\"], b[\"B\"], c[\"C\"]\n  curve x[\"X\"]{3, 4, 2}\n\nanimate once\n");
+		var animation = MermaidAnimator.Compile("radar-beta\n  axis a[\"A\"], b[\"B\"], c[\"C\"]\n  curve x[\"X\"]{3, 4, 2}\n\nanimate once\n  build\n");
 		var curve = XDocument.Parse(animation.RenderFrame(TimeSpan.Zero)).Descendants().Single(e => (string?)e.Attribute("data-curve") == "x");
 		ScaleY(curve).Should().Be(0);
 	}
