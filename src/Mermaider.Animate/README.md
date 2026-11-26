@@ -101,6 +101,7 @@ by number: `#3` is the third message of a sequence diagram, and the third task, 
 | `trace A -> B` | everything on a way from A to B stays lit and the rest dims for the step: in a graph the edges light up in waves outward from A; a sankey's ribbons already carry their colour |
 | `sweep [to "2024-03-01"]` | a gantt chart's playhead moves on; each task grows behind it from its start date, and its name appears when reached |
 | `note #4..#5 "38 ms" [as role]` | a bracket over a span of numbered things, with what it costs or means: beside sequence messages or gantt rows, under timeline periods, commits, journey tasks and bars |
+| `callout api "where it times out" [as role]` | a short label clear of the diagram, with a leader line to a node, an edge (`callout a -> b "…"`) or a message (`callout #3 "…"`), for the rest of its step. It takes the side (right, left or below) its leader reaches without crossing another node, long texts wrap, and callouts in one step stack clear of each other |
 | `caption "…"` | changes the step's caption |
 
 Every name is checked against the diagram. A misspelt node, a `send` between nodes that share no edge or a `run`

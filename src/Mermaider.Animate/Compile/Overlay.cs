@@ -235,6 +235,71 @@ internal static class Overlay
 			)
 		);
 
+	/// <summary>
+	/// A callout: a dot on its subject, a leader out to the side (or down) and on to the label, and the label in the
+	/// diagram's text colour. <paramref name="side"/> is 0 right, 1 left, 2 below.
+	/// </summary>
+	internal static XElement Callout(Vec anchor, Vec stub, int side, double x, double y, IReadOnlyList<string> lines, string color, double lineHeight)
+	{
+		var width = lines.Max(l => l.Length) * 6.9;
+		var middle = y + (lines.Count * lineHeight / 2) - 3;
+		// the leader leaves its subject (stepping off an edge it would otherwise run along), goes straight out, then turns
+		// once towards the label
+		var start = $"M{Num.F(anchor.X)},{Num.F(anchor.Y)} L{Num.F(stub.X)},{Num.F(stub.Y)}";
+		var path = side switch
+		{
+			0 => $"{start} H{Num.F(x - 14)} L{Num.F(x - 5)},{Num.F(middle)}",
+			1 => $"{start} H{Num.F(x + width + 14)} L{Num.F(x + width + 5)},{Num.F(middle)}",
+			_ => $"{start} V{Num.F(y - 14)} L{Num.F(x + (width / 2))},{Num.F(y - 5)}",
+		};
+		var text = new XElement(
+			N("text"),
+			new XAttribute("font-size", "12"),
+			new XAttribute("font-weight", "600"),
+			new XAttribute("fill", "var(--_text, var(--fg))"),
+			new XAttribute(
+				"text-anchor",
+				side switch
+				{
+					1 => "end",
+					2 => "middle",
+					_ => "start",
+				}
+			)
+		);
+		var tx = side switch
+		{
+			1 => x + width,
+			2 => x + (width / 2),
+			_ => x,
+		};
+		for (var i = 0; i < lines.Count; i++)
+			text.Add(new XElement(N("tspan"), new XAttribute("x", Num.F(tx)), new XAttribute("y", Num.F(y + 12 + (i * lineHeight))), lines[i]));
+		return new XElement(
+			N("g"),
+			new XAttribute("opacity", "0"),
+			new XElement(
+				N("path"),
+				new XAttribute("d", path),
+				new XAttribute("fill", "none"),
+				new XAttribute("stroke", color),
+				new XAttribute("stroke-width", "1.5"),
+				new XAttribute("stroke-linecap", "round"),
+				new XAttribute("stroke-linejoin", "round")
+			),
+			new XElement(
+				N("circle"),
+				new XAttribute("cx", Num.F(anchor.X)),
+				new XAttribute("cy", Num.F(anchor.Y)),
+				new XAttribute("r", "3.5"),
+				new XAttribute("fill", color),
+				new XAttribute("stroke", "var(--bg, #fff)"),
+				new XAttribute("stroke-width", "1.5")
+			),
+			text
+		);
+	}
+
 	internal static XElement Ring(Box box, string color, double width, double inflate, string? fill = null, double fillOpacity = 0, bool round = false)
 	{
 		var b = box.Inflate(inflate);
