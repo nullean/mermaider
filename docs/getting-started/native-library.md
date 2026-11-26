@@ -43,6 +43,7 @@ typo is never a silently unthemed diagram.
 | `style` | `"quiet"`, `"blueprint"` or `"tonal"`. |
 | `gradient` `transparent` `roundedEdges` | Booleans. |
 | `tint` `padding` `nodeSpacing` `layerSpacing` | Numbers. `elevation` is 0 to 2. |
+| `motion` `mode` | For a diagram with an [`animate` block](https://github.com/nullean/mermaider/tree/main/src/Mermaider.Animate): `"calm"`, `"crisp"` or `"still"`; `"loop"`, `"once"` or `"scrub"`. |
 
 ## From C
 
@@ -55,6 +56,13 @@ char *svg = render("graph TD\n  A-->B", "{\"theme\":\"tokyo-night\"}");
 /* ... draw it ... */
 release(svg);
 ```
+
+## Animated diagrams
+
+A source with an `animate` block comes back animated: the SVG plays it with CSS `@keyframes`, no script. The keyframes
+animate only `opacity`, `transform` (`translate`, `scale`, `rotate`) and `stroke-dashoffset` (a line drawing itself), each
+stop with a `cubic-bezier` easing, so a host that draws SVG itself can play it by evaluating them at a time. A source without
+an `animate` block is exactly what it was.
 
 ## What the SVG has for a host that draws it itself
 

@@ -20,7 +20,8 @@ extern "C" {
 /* The version of this interface the library implements. */
 int mermaider_abi_version(void);
 
-/* Renders `source` (Mermaid text) to a self-contained SVG. `options_json` is a JSON object or NULL for the defaults:
+/* Renders `source` (Mermaid text) to a self-contained SVG. A diagram with an `animate` block (see Mermaider.Animate) is
+ * animated: the SVG plays it with CSS keyframes, no script. One without renders exactly as it always did. `options_json` is a JSON object or NULL for the defaults:
  *   theme       a built-in theme name (the base of the colours; e.g. "tokyo-night")
  *   bg fg line accent muted surface border default success failure warning info    colours (CSS colours, "#rrggbb")
  *   dataPalette an array of colours for charts
@@ -29,6 +30,8 @@ int mermaider_abi_version(void);
  *   gradient transparent roundedEdges               booleans
  *   tint padding nodeSpacing layerSpacing           numbers
  *   elevation   0 to 2
+ *   motion      "calm" | "crisp" | "still"          for a diagram with an `animate` block
+ *   mode        "loop" | "once" | "scrub"
  * An unknown option or a value of the wrong type is an error. Returns the SVG, to be given back with mermaider_free, or
  * NULL (see mermaider_last_error). */
 char *mermaider_render_svg(const char *source, const char *options_json);

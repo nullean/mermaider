@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Mermaider.Animate;
 using Mermaider.Models;
 using Mermaider.Theming;
 
@@ -14,7 +15,8 @@ namespace Mermaider.Native;
 /// (<c>bg fg line accent muted surface border default success failure warning info</c>), <c>dataPalette</c> (an array
 /// of colours), <c>font monoFont fontSize</c> (strings), <c>style</c> (<c>quiet blueprint tonal</c>), <c>gradient</c>
 /// <c>transparent</c> <c>roundedEdges</c> (booleans), <c>tint</c> <c>padding</c> <c>nodeSpacing</c> <c>layerSpacing</c>
-/// (numbers) and <c>elevation</c> (0 to 2).
+/// (numbers) and <c>elevation</c> (0 to 2); for a diagram with an <c>animate</c> block, <c>motion</c> (<c>calm</c>,
+/// <c>crisp</c>, <c>still</c>) and <c>mode</c> (<c>loop</c>, <c>once</c>, <c>scrub</c>).
 /// </remarks>
 internal static class NativeOptions
 {
@@ -39,6 +41,38 @@ internal static class NativeOptions
 				throw new ArgumentException("options must be a JSON object");
 			return Apply(new RenderOptions(), document.RootElement);
 		}
+	}
+
+	/// <summary>The options for a diagram that may have an <c>animate</c> block: the render options, and its motion and mode.</summary>
+	public static AnimateOptions ParseAnimate(string? json)
+	{
+		var render = Parse(json);
+		if (string.IsNullOrWhiteSpace(json))
+			return new AnimateOptions { Render = render };
+		using var document = JsonDocument.Parse(json);
+		MotionPreset? motion = null;
+		PlaybackMode? mode = null;
+		if (document.RootElement.TryGetProperty("motion", out var m))
+		{
+			motion = Text(m, "motion").ToLowerInvariant() switch
+			{
+				"calm" => MotionPreset.Calm,
+				"crisp" => MotionPreset.Crisp,
+				"still" or "none" => MotionPreset.None,
+				_ => throw new ArgumentException($"unknown motion '{Text(m, "motion")}' (calm, crisp or still)"),
+			};
+		}
+		if (document.RootElement.TryGetProperty("mode", out var p))
+		{
+			mode = Text(p, "mode").ToLowerInvariant() switch
+			{
+				"loop" => PlaybackMode.Loop,
+				"once" => PlaybackMode.Once,
+				"scrub" => PlaybackMode.Scrub,
+				_ => throw new ArgumentException($"unknown mode '{Text(p, "mode")}' (loop, once or scrub)"),
+			};
+		}
+		return new AnimateOptions { Render = render, Motion = motion, Mode = mode };
 	}
 
 	private static RenderOptions Apply(RenderOptions options, JsonElement? root)
@@ -77,6 +111,7 @@ internal static class NativeOptions
 			options = property.Name switch
 			{
 				"theme" => options,
+				"motion" or "mode" => options, // read by ParseAnimate
 				"bg" => options with { Bg = Text(value, "bg") },
 				"fg" => options with { Fg = Text(value, "fg") },
 				"line" => options with { Line = Text(value, "line") },

@@ -27,6 +27,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../Mermaider/Mermaider.csproj" />
+    <ProjectReference Include="../Mermaider.Animate/Mermaider.Animate.csproj" />
   </ItemGroup>
   <!-- The published library under the name hosts look for: mermaider.dylib, mermaider.so or mermaider.dll. -->
   <Target Name="NameNativeLibrary" AfterTargets="Publish" Condition="'$(RuntimeIdentifier)' != ''">

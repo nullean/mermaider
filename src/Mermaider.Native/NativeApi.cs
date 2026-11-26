@@ -1,3 +1,5 @@
+using Mermaider.Animate;
+
 namespace Mermaider.Native;
 
 /// <summary>
@@ -12,8 +14,11 @@ public static class NativeApi
 	/// </summary>
 	public const int AbiVersion = 1;
 
-	/// <summary>Renders <paramref name="source"/> to a self-contained SVG string.</summary>
+	/// <summary>
+	/// Renders <paramref name="source"/> to a self-contained SVG string. A diagram with an <c>animate</c> block is animated (the
+	/// SVG plays it with CSS keyframes); one without renders exactly as <c>MermaidRenderer.RenderSvg</c> does.
+	/// </summary>
 	/// <exception cref="ArgumentException">The options are not valid.</exception>
 	/// <exception cref="MermaidParseException">The diagram cannot be parsed.</exception>
-	public static string RenderSvg(string source, string? optionsJson) => MermaidRenderer.RenderSvg(source, NativeOptions.Parse(optionsJson));
+	public static string RenderSvg(string source, string? optionsJson) => MermaidAnimator.RenderSvg(source, NativeOptions.ParseAnimate(optionsJson));
 }

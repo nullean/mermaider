@@ -33,6 +33,18 @@ int main(int argc, char **argv)
 	CHECK(render("not a diagram at all", NULL) == NULL, "text that is no diagram rendered");
 	CHECK(last_error() != NULL, "no reason for the parse failure");
 
+	/* A diagram with an animate block is animated: the SVG plays it with CSS keyframes. */
+	svg = render("flowchart LR\n  client[Client] --> lb[Balancer] --> api[API]\n\nanimate\n  step \"A request\"\n    tour client -> lb -> api \"GET\"\n  step \"It fails\"\n    mark api fail\n", "{\"motion\":\"crisp\",\"mode\":\"loop\"}");
+	if (svg == NULL) { fprintf(stderr, "FAILED: animate failed: %s\n", last_error() ? last_error() : "(no reason)"); return 1; }
+	CHECK(strstr(svg, "@keyframes") != NULL && strstr(svg, "animation:") != NULL, "the animated diagram has no keyframes");
+	release(svg);
+	CHECK(render("graph LR\n  A-->B", "{\"motion\":\"jerky\"}") == NULL, "an unknown motion was accepted");
+	CHECK(last_error() != NULL && strstr(last_error(), "jerky") != NULL, "no reason for the unknown motion");
+	/* Without an animate block nothing moves. */
+	svg = render("graph LR\n  A-->B", NULL);
+	CHECK(svg != NULL && strstr(svg, "@keyframes") == NULL, "a still diagram has keyframes");
+	release(svg);
+
 	svg = render("graph LR\n  X-->Y", NULL);
 	CHECK(svg != NULL, "a render after failures failed");
 	release(svg);

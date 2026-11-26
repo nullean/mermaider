@@ -22,7 +22,8 @@ void  mermaider_free(void *memory);                                  /* give bac
 
 `options_json` is a JSON object or NULL. Keys: `theme` (a built-in theme name, the base), colours `bg fg line accent muted
 surface border default success failure warning info`, `dataPalette`, `font monoFont fontSize`, `style`
-(`quiet blueprint tonal`), `gradient transparent roundedEdges`, `tint padding nodeSpacing layerSpacing`, `elevation` 0 to 2.
+(`quiet blueprint tonal`), `gradient transparent roundedEdges`, `tint padding nodeSpacing layerSpacing`, `elevation` 0 to 2, and for a diagram with an
+`animate` block `motion` (`calm crisp still`) and `mode` (`loop once scrub`).
 
 ## Gotchas
 
@@ -30,5 +31,7 @@ surface border default success failure warning info`, `dataPalette`, `font monoF
 - `mermaider_last_error` is per thread and valid until that thread's next call. Copy it if you keep it.
 - The assembly is `Mermaider.Native` and the published file is renamed to `mermaider.*` by the publish step; a build that
   produces a different file name did not go through `dotnet publish -r`.
+- A source with an `animate` block comes back animated with CSS keyframes (`opacity`, `transform`, `stroke-dashoffset` only); a host
+  that draws SVG itself evaluates them at a time to play it. Without the block nothing moves.
 - Output is the same SVG `MermaidRenderer.RenderSvg` makes: colours are CSS variables and `color-mix()`, so a host that draws
   SVG itself needs to resolve those. Every diagram element has `data-id` (and `data-from`/`data-to` on edges) for hit-testing.

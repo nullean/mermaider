@@ -27,4 +27,25 @@ public class NativeApiTests
 		var act = () => NativeApi.RenderSvg("this is not mermaid", null);
 		act.Should().Throw<MermaidParseException>();
 	}
+
+	private const string Animated =
+		"flowchart LR\n  client[Client] --> lb[Balancer] --> api[API]\n\nanimate\n  step \"A request\"\n    tour client -> lb -> api \"GET\"\n  step \"It fails\"\n    mark api fail\n";
+
+	[Test]
+	public void A_diagram_with_an_animate_block_plays_with_css_keyframes_and_one_without_does_not()
+	{
+		var animated = NativeApi.RenderSvg(Animated, null);
+		animated.Should().Contain("@keyframes").And.Contain("animation:");
+		NativeApi.RenderSvg("graph LR\n  A-->B", null).Should().NotContain("@keyframes");
+	}
+
+	[Test]
+	public void The_motion_and_the_mode_are_options_and_a_mistake_in_them_is_an_error()
+	{
+		NativeApi.RenderSvg(Animated, """{"motion":"still","mode":"once"}""").Should().NotBeNullOrEmpty();
+		var act = () => NativeApi.RenderSvg(Animated, """{"motion":"jerky"}""");
+		act.Should().Throw<ArgumentException>().Which.Message.Should().Contain("unknown motion 'jerky'");
+		var mode = () => NativeApi.RenderSvg(Animated, """{"mode":"sideways"}""");
+		mode.Should().Throw<ArgumentException>().Which.Message.Should().Contain("unknown mode 'sideways'");
+	}
 }
