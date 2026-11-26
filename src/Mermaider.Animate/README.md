@@ -66,6 +66,9 @@ by number: `#3` is the third message of a sequence diagram, and the third task, 
 | `show a, b [each]` · `hide …` | nodes, groups (`group x`) or edges (`a -> b`) appear or leave; `each` staggers them |
 | `focus a, b [close]` · `focus all` | everything else dims for the rest of the step; `close` also moves the camera in. Focusing a venn overlap (`focus "Both"`) lights its region |
 | `pulse a` | a node draws attention once |
+| `highlight a, b [as role]` | the nodes glow for the whole animation: a ring in the role's colour (else the accent), its halo breathing |
+| `highlight path a -> b -> c [as role]` | the route stays lit for the whole animation, a sheen running along it |
+| `highlight flow a -> b -> c [as role]` | the route's edges flow in the direction of travel, without end |
 | `mark a ok\|fail\|warn\|info\|clear` | a node takes a role colour with a check or a cross (a journey task's face too), an edge or a message (`#3`) its colour, until cleared |
 | `badge a "timeout" [as role]` · `badge a clear` | a short label pinned above a node, until cleared |
 | `count api [38 ->] 1200 ["ms"] [as role]` | a number on a node rolls to a new value through the ones between, from its last count (or 0), and stays until cleared (`badge api clear`) |
@@ -121,6 +124,22 @@ var animation = MermaidAnimator.Compile(source, new AnimateOptions
 string svg = animation.Svg;
 string poster = animation.RenderFrame(animation.ScoreDuration);   // the last frame, as a static SVG
 ```
+
+## Highlights
+
+A highlight is a standing emphasis: it holds for the whole animation and moves gently and without end, so a single
+diagram can carry its point without a story. Write highlights before the steps; with no steps at all, the diagram simply
+loops with them:
+
+```
+animate
+  highlight flow client -> lb -> api1 -> db
+  highlight api2 as fail
+```
+
+Each moves in whole cycles over the loop, so it never jumps when the loop starts again, and the settle at the end of a
+story leaves it alone. Under reduced motion a highlight holds still: the ring, the lit route and the flow's dashes stay,
+without moving. Use one or two: when everything is emphasised, nothing is.
 
 ## Endings
 

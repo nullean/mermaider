@@ -90,6 +90,27 @@ internal sealed record SendStatement(
 	int Line
 ) : Statement(Line);
 
+/// <summary>What a highlight emphasises.</summary>
+internal enum HighlightKind
+{
+	/// <summary>Nodes: a soft ring that breathes, in the role's colour.</summary>
+	Node,
+
+	/// <summary>A route that stays lit, a sheen running along it.</summary>
+	Path,
+
+	/// <summary>A route whose edges flow in the direction of travel.</summary>
+	Flow,
+}
+
+/// <summary>
+/// A standing emphasis for the whole animation, with or without steps: <c>highlight api as fail</c>,
+/// <c>highlight path a -> b -> c as ok</c>, <c>highlight flow a -> b -> c</c>.
+/// </summary>
+internal sealed record HighlightStatement(HighlightKind Kind, IReadOnlyList<TargetRef> Targets, IReadOnlyList<string> Route, Role? Role, int Line) : Statement(
+	Line
+);
+
 internal sealed record StreamStatement(IReadOnlyList<string> Path, StreamRate Rate, bool Always, int Line) : Statement(Line);
 
 internal sealed record TourStatement(string? Token, IReadOnlyList<string> Path, string? Label, Role? Role, int Line) : Statement(Line);
@@ -165,8 +186,11 @@ internal sealed record ScoreDocument(
 	/// <summary>Whether the player lists the steps, when the header says (<c>contents</c>, <c>compact</c>).</summary>
 	public PlayerContents? Contents { get; init; }
 
+	/// <summary>Standing emphases for the whole animation, in the order written.</summary>
+	public IReadOnlyList<HighlightStatement> Highlights { get; init; } = [];
+
 	/// <summary>A bare <c>animate</c>: the diagram type's default animation plays.</summary>
-	public bool IsDefault => Steps.Count == 0 && Scenarios.Count == 0;
+	public bool IsDefault => Steps.Count == 0 && Scenarios.Count == 0 && Highlights.Count == 0;
 
 	/// <summary>The score of one ending: the shared steps, then its own, as a score with one story.</summary>
 	public ScoreDocument For(ScoreScenario scenario) => this with { Steps = [.. Steps, .. scenario.Steps], Scenarios = [] };
