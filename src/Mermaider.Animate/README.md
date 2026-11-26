@@ -91,6 +91,11 @@ by number: `#3` is the third message of a sequence diagram, and the third task, 
 | `fail a[, b] ["reason"]` | nodes fail: marked with a cross, the reason as a badge, and what leads into them cut (where the flow starts, what leaves them). After `hang a`, it is a timeout |
 | `cascade db -> api -> lb ["reason"]` | a failure spreads from its cause: the cause fails, then a line in the failure colour runs each edge in turn (along the arrow or against it), and each node fails as it arrives. The reason goes on the cause |
 | `becomes [a -> b, c \| a, b -> c]` + an indented diagram | the diagram moves into its next version; see [Becomes](#becomes) |
+| `ghost a[, b -> c] [clear]` | planned, missing or removed: nodes and edges fade, with a dashed outline, until cleared |
+| `group a, b "Payments" [as role]` | a labelled outline round nodes the diagram does not group, for the rest of its step |
+| `because a -> b "reason" [as role]` | a cause and its effect where there is no edge: a curved line draws from one to the other, its reason beside the bend where it covers no node, for the rest of its step |
+| `retry a -> b 3 [backoff] [succeeds]` | attempts along an edge, numbered 1/3, 2/3…, each lost on the way; with backoff the wait doubles; with succeeds the last arrives |
+| `scale api to 3` · `scale api to 1` | a node runs as several: replicas stack out behind it with a ×3 badge, and fold back |
 | `recover a[, b]` | failed nodes come back: their mark, badge, cuts and any cascade along their edges clear, and they pulse |
 | `send [token] a -> b[, c] ["label"] [as role] [becomes "label"] [slow\|fast] [lost\|stall] [each]` | a token travels the edge and lights it for the rest of the step; against an edge's direction it travels as a reply |
 | `stream a -> b [trickle\|steady\|busy] [always]` | a continuous flow for the step, or for the whole score with `always` |

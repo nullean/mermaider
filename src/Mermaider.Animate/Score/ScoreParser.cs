@@ -332,10 +332,15 @@ internal static class ScoreParser
 			"callout" => ParseCallout(reader),
 			"fail" => new FailStatement(reader.Targets(), reader.Quoted(), line),
 			"recover" => new RecoverStatement(reader.Targets(), line),
+			"ghost" => ParseGhost(reader),
+			"group" => ParseGroup(reader),
+			"because" => ParseBecause(reader),
+			"retry" => ParseRetry(reader),
+			"scale" => ParseScale(reader),
 			"cascade" => new CascadeStatement(reader.Chain(min: 2), reader.Quoted(), line),
 			_ =>
 				reader.Fail(
-					$"Unknown verb '{verb}'. The verbs are show, hide, focus, pulse, mark, badge, fill, hang, draw, erase, cut, restore, send, stream, tour, run, try, ping, play, sweep, move, expand, set, trace, note, callout, fail, recover, cascade, count, highlight, caption and build."
+					$"Unknown verb '{verb}'. The verbs are show, hide, focus, pulse, mark, badge, fill, hang, draw, erase, cut, restore, send, stream, tour, run, try, ping, play, sweep, move, expand, set, trace, note, callout, fail, recover, cascade, ghost, group, because, retry, scale, count, highlight, caption and build."
 				),
 		};
 		if (statement is null)
@@ -655,6 +660,88 @@ internal static class ScoreParser
 			role = reader.Next() is { } r ? ParseRole(r, reader.Line, reader.Diagnostics) : null;
 		return new BadgeStatement(targets, text, role, reader.Line);
 	}
+
+	private static Statement? ParseGhost(Reader reader)
+	{
+		// ghost A[, B -> C] [clear]
+		var (targets, edges) = reader.TargetsOrEdges();
+		return new GhostStatement(targets, edges, reader.Accept("clear"), reader.Line);
+	}
+
+	private static Statement? ParseGroup(Reader reader)
+	{
+		// group A, B "Label" [as ROLE]
+		var targets = new List<TargetRef>();
+		do
+		{
+			if (reader.Peek(0) is { Quoted: true } && (reader.Peek(1) is { Quoted: true } || reader.Peek(1)?.Is(",") == true))
+				targets.Add(new TargetRef(reader.Quoted()!, IsGroup: false, reader.Line) { ByLabel = true });
+			else if (reader.Peek(0) is { Quoted: false } && reader.Id() is { } id)
+				targets.Add(new TargetRef(id, IsGroup: false, reader.Line));
+			else
+				break;
+		}
+		while (reader.Accept(","));
+		var label = reader.Quoted();
+		if (targets.Count == 0 || label is null)
+			return reader.Fail("group takes nodes and a quoted label: group api, db \"Payments\".");
+		Role? role = null;
+		if (reader.Accept("as"))
+			role = reader.Next() is { } r ? ParseRole(r, reader.Line, reader.Diagnostics) : null;
+		return new GroupStatement(targets, label, role, reader.Line);
+	}
+
+	private static Statement? ParseBecause(Reader reader)
+	{
+		// because A -> B "reason" [as ROLE]
+		const string usage = "because takes a cause, an effect and the reason: because db -> api \"pool exhausted\".";
+		var chain = reader.Chain(min: 2);
+		if (chain.Count != 2)
+			return reader.Fail(usage);
+		var reason = reader.Quoted();
+		if (reason is null)
+			return reader.Fail(usage);
+		Role? role = null;
+		if (reader.Accept("as"))
+			role = reader.Next() is { } r ? ParseRole(r, reader.Line, reader.Diagnostics) : null;
+		return new BecauseStatement(chain[0], chain[1], reason, role, reader.Line);
+	}
+
+	private static Statement? ParseRetry(Reader reader)
+	{
+		// retry A -> B N [backoff] [succeeds|fails]
+		const string usage = "retry takes an edge and how many attempts: retry lb -> api 3 backoff succeeds.";
+		var chain = reader.Chain(min: 2);
+		if (chain.Count != 2)
+			return reader.Fail(usage);
+		if (Count(reader.Next()) is not { } attempts)
+			return reader.Fail("retry makes 1 to 9 attempts: retry lb -> api 3.");
+		var backoff = reader.Accept("backoff");
+		var succeeds = reader.Accept("succeeds");
+		if (!succeeds)
+			_ = reader.Accept("fails");
+		return new RetryStatement(chain[0], chain[1], attempts, backoff, succeeds, reader.Line);
+	}
+
+	private static Statement? ParseScale(Reader reader)
+	{
+		// scale A to N
+		TargetRef? target = reader.Peek(0) is { Quoted: true }
+			? new TargetRef(reader.Quoted()!, IsGroup: false, reader.Line) { ByLabel = true }
+			: reader.Id() is { } id ? new TargetRef(id, IsGroup: false, reader.Line) : null;
+		if (target is null || !reader.Accept("to") || Count(reader.Next()) is not { } count)
+			return reader.Fail("scale takes a node and 1 to 9 replicas: scale api to 3, and scale api to 1 to fold them back.");
+		return new ScaleStatement(target, count, reader.Line);
+	}
+
+	/// <summary>A small whole number, 1 to 9: attempts, replicas.</summary>
+	private static int? Count(Word? word) =>
+		word is { Quoted: false } && int.TryParse(
+			word.Text,
+			System.Globalization.NumberStyles.None,
+			System.Globalization.CultureInfo.InvariantCulture,
+			out var n
+		) && n is >= 1 and <= 9 ? n : null;
 
 	private static Statement? ParseCallout(Reader reader)
 	{

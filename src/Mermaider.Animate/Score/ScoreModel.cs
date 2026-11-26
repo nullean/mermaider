@@ -162,6 +162,21 @@ internal sealed record BecomesStatement(string Source, int FirstLine, int Line) 
 	public IReadOnlyList<TargetRef> Into { get; init; } = [];
 }
 
+/// <summary>Nodes or edges shown as planned, missing or removed: faded, with a dashed outline, until cleared.</summary>
+internal sealed record GhostStatement(IReadOnlyList<TargetRef> Targets, IReadOnlyList<EdgeRef> Edges, bool Clear, int Line) : Statement(Line);
+
+/// <summary>A labelled outline round nodes that are no group in the diagram, for the length of its step.</summary>
+internal sealed record GroupStatement(IReadOnlyList<TargetRef> Targets, string Label, Role? Role, int Line) : Statement(Line);
+
+/// <summary>A cause and its effect, linked where the diagram has no edge, with the reason, for the length of its step.</summary>
+internal sealed record BecauseStatement(string From, string To, string Reason, Role? Role, int Line) : Statement(Line);
+
+/// <summary>Attempts along an edge that are lost, further apart with backoff, the last arriving if it succeeds.</summary>
+internal sealed record RetryStatement(string From, string To, int Attempts, bool Backoff, bool Succeeds, int Line) : Statement(Line);
+
+/// <summary>A node fans out into replicas, stacked behind it, or folds back.</summary>
+internal sealed record ScaleStatement(TargetRef Target, int Count, int Line) : Statement(Line);
+
 /// <summary>A failure spreads from its cause along the edges, each node failing as it arrives.</summary>
 internal sealed record CascadeStatement(IReadOnlyList<string> Path, string? Reason, int Line) : Statement(Line);
 

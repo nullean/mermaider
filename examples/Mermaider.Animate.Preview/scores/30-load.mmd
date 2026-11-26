@@ -1,0 +1,15 @@
+flowchart LR
+  %% retry, because and scale: a load spike, a slow database, and the fix
+  web[Web] --> lb[Balancer]
+  lb --> api[Orders API]
+  api --> db[(Orders DB)]
+  cron[Nightly report] --> db
+
+animate
+  step "Under load, calls to the database time out"
+    retry api -> db 3 backoff
+  step "The nightly report holds the locks"
+    because cron -> api "table locks during the report" as fail
+  step "Three API replicas, and the report moves off-peak"
+    scale api to 3
+    retry api -> db 2 succeeds

@@ -1,0 +1,16 @@
+flowchart LR
+  %% ghost and group: what is planned, and what belongs together
+  web[Web] --> api[Orders API]
+  api --> db[(Orders DB)]
+  api --> queue[[Queue]]
+  queue --> worker[Worker]
+  worker --> db
+
+animate
+  step "Today: the API writes straight to the database"
+    ghost queue, worker, api -> queue, queue -> worker, worker -> db
+    tour web -> api -> db "POST /orders"
+  step "Next quarter: writes go through a queue"
+    ghost queue, worker, api -> queue, queue -> worker, worker -> db clear
+    group queue, worker "Async writes"
+    tour web -> api -> queue -> worker -> db "POST /orders"
