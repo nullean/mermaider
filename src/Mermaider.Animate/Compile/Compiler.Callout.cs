@@ -35,11 +35,17 @@ internal sealed partial class Compiler
 	{
 		var stage = _stage;
 		double right = 0, left = 0, below = 0;
+		// a callout after becomes points into the next version
+		var shown = _scene;
 		foreach (var step in steps)
 		{
 			var taken = new List<Box>();
-			foreach (var callout in step.Statements.OfType<CalloutStatement>())
+			foreach (var statement in step.Statements)
 			{
+				if (statement is BecomesStatement becomes && _versions.TryGetValue(becomes, out var version))
+					_scene = version;
+				if (statement is not CalloutStatement callout)
+					continue;
 				if (Subject(callout, quiet: true, out var along) is not { } subject)
 					continue;
 				var lines = Wrap(callout.Text);
@@ -86,6 +92,7 @@ internal sealed partial class Compiler
 				}
 			}
 		}
+		_scene = shown;
 		if (right + left + below > 0)
 			GrowStage(left, right, below);
 	}

@@ -41,7 +41,8 @@ internal sealed record CompiledTimeline(
 /// </summary>
 internal sealed partial class Compiler
 {
-	private readonly SvgScene _scene;
+	// the version of the diagram on show: becomes moves to the next
+	private SvgScene _scene;
 	private readonly MotionSpec _spec;
 	private readonly ScoreDocument _score;
 	private readonly List<AnimationDiagnostic> _diagnostics;
@@ -60,7 +61,7 @@ internal sealed partial class Compiler
 	private readonly XElement _camera;
 	private readonly XElement _sceneRoot;
 	private readonly XElement _defs;
-	private readonly Box _stage;
+	private Box _stage;
 	private int _ids;
 	private string? _ringAt;
 	private int _captionNumber;
@@ -92,10 +93,12 @@ internal sealed partial class Compiler
 		PlaybackMode mode,
 		RoleColors colors,
 		List<AnimationDiagnostic> diagnostics,
-		bool drawCaptions = true
+		bool drawCaptions = true,
+		Func<string, string>? render = null
 	)
 	{
 		_drawCaptions = drawCaptions;
+		_render = render;
 		_scene = scene;
 		_score = score;
 		_spec = spec;
@@ -124,6 +127,7 @@ internal sealed partial class Compiler
 		var source = _score.IsDefault ? DefaultSteps() : _score.Steps;
 		var captions = source.Any(s => s.Caption is not null || s.Statements.OfType<CaptionStatement>().Any());
 		var captionY = _stage.Y - 22;
+		PrepareVersions(source);
 		PlaceCallouts(source);
 		// without the caption band, badges and marks over the top row still need room above it
 		if (captions && !_drawCaptions)
@@ -435,6 +439,7 @@ internal sealed partial class Compiler
 		HangStatement s => Each(Resolve(s.Targets), false, at, (t, a) => Hang(t, a)),
 		NoteStatement s => Note(s, at),
 		CalloutStatement s => Callout(s, at),
+		BecomesStatement s => Becomes(s, at),
 		FailStatement s => Fail(s, at),
 		RecoverStatement s => Recover(s, at),
 		CascadeStatement s => Cascade(s, at),
