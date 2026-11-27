@@ -1,7 +1,7 @@
 module Program
 
 open System.IO
-open Nullean.Make.Fs
+open Nullean.Runna.Fs
 open Proc.Fs
 
 /// The build's targets; `./build.sh --help` lists them with these descriptions
@@ -34,7 +34,7 @@ let private packages () =
 
 [<EntryPoint>]
 let main argv =
-    let app = MakeApp<Target>("./build.sh", None)
+    let app = RunnaApp<Target>("./build.sh", None)
     let port = app.Option<int>("--port", desc = "Port to use when serving documentation (default: 8000)", defaultValue = 8000)
 
     // `-s` skips what a target `requires`, never what it `composes`: build always cleans first
